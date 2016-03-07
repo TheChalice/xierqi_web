@@ -1,0 +1,34 @@
+{
+  "name": "angular-seed",
+  "version": "1.0.0",
+  "description": "angular seed",
+  "main": "index.js",
+  "scripts": {
+    "start": "./node_modules/.bin/http-server -a localhost -p 8080 -c-1",
+    "test": "./node_modules/.bin/karma start conf/karma.conf.js",
+    "update-webdriver": "./node_modules/.bin/webdriver-manager update",
+    "protractor": "./node_modules/.bin/protractor conf/protractor.conf.js",
+    "build": "node node_modules/.bin/r.js -o conf/build.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lanyuechen/angular-seed.git"
+  },
+  "author": "lanyuechen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lanyuechen/angular-seed/issues"
+  },
+  "homepage": "https://github.com/lanyuechen/angular-seed#readme",
+  "devDependencies": {
+    "http-server": "^0.8.5",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.19",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-jasmine": "^0.3.6",
+    "karma-junit-reporter": "^0.3.8",
+    "karma-requirejs": "^0.2.3",
+    "protractor": "^3.0.0",
+    "requirejs": "^2.1.22"
+  }
+}
