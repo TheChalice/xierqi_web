@@ -6,6 +6,7 @@ define([
     'uiBootstrap',
     'angularAnimate',
     'router',
+    'resource',
     'pub/controller',
     'pub/service',
     'pub/directive',
@@ -17,7 +18,8 @@ define([
         'oc.lazyLoad',
         'ui.bootstrap',
         'ngAnimate',
-        'myApp.router',   //路由模块
+        'myApp.router',     //路由模块
+        'myApp.resource',   //资源模块
         'myApp.controller',
         'myApp.service',
         'myApp.directive',
