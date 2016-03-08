@@ -9,7 +9,7 @@ define([
     return angular.module('myApp.router', ['ui.router', 'oc.lazyLoad'])
         .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
-            $urlRouterProvider.otherwise("home/view1");
+            $urlRouterProvider.otherwise("console/build");
             $stateProvider
                 .state('console', {
                     url: '/console',
@@ -39,6 +39,16 @@ define([
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/build_create/build_create.js')
+                        }]
+                    }
+                })
+                .state('console.build_detail', {
+                    url: '/build/:name',
+                    templateUrl: 'views/build_detail/build_detail.html',
+                    controller: 'BuildDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/build_detail/build_detail.js')
                         }]
                     }
                 })
