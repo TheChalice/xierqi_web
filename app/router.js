@@ -32,6 +32,16 @@ define([
                         }]
                     }
                 })
+                .state('console.build_create', {
+                    url: '/build/create',
+                    templateUrl: 'views/build_create/build_create.html',
+                    controller: 'BuildCreateCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/build_create/build_create.js')
+                        }]
+                    }
+                })
                 .state('home', {
                     url: '/home',
                     templateUrl: 'views/home/home.html',

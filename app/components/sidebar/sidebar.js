@@ -6,7 +6,10 @@ angular.module("console.sidebar", [])
         return {
             restrict: 'EA',
             replace: true,
-            templateUrl: 'components/sidebar/sidebar.html'
+            templateUrl: 'components/sidebar/sidebar.html',
+            controller: ['$state', '$scope', function($state, $scope){
+                $scope.$state = $state;
+            }]
         }
     }]);
 

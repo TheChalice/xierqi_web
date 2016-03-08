@@ -3,7 +3,7 @@
         <li ui-sref-active="active">
             <a ui-sref="console.dashboard">仪表盘</a>
         </li>
-        <li ui-sref-active="active">
+        <li ui-sref-active="active" ng-class="{'active':$state.includes('console.build_create')}">
             <a ui-sref="console.build">代码构建</a>
         </li>
         <li ui-sref-active="active">
