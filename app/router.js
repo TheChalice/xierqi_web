@@ -11,6 +11,27 @@ define([
 
             $urlRouterProvider.otherwise("home/view1");
             $stateProvider
+                .state('console', {
+                    url: '/console',
+                    templateUrl: 'views/console/console.html',
+                    controller: 'ConsoleCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/console/console.js')
+                        }]
+                    },
+                    abstract: true
+                })
+                .state('console.build', {
+                    url: '/build',
+                    templateUrl: 'views/build/build.html',
+                    controller: 'BuildCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/build/build.js')
+                        }]
+                    }
+                })
                 .state('home', {
                     url: '/home',
                     templateUrl: 'views/home/home.html',
