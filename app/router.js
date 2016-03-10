@@ -11,6 +11,11 @@ define([
 
             $urlRouterProvider.otherwise("console/build");
             $stateProvider
+                .state('oauth', {
+                    url: '/oauth',
+                    templateUrl: 'views/oauth.html',
+                    controller: 'OauthCtrl'
+                })
                 .state('console', {
                     url: '/console',
                     templateUrl: 'views/console/console.html',

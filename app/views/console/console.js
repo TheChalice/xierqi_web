@@ -8,8 +8,16 @@ angular.module('console', [
         ]
     }
 ])
-    .controller('ConsoleCtrl', ['$scope', '$log', function ($scope, $log) {
+    .controller('ConsoleCtrl', ['$rootScope', '$scope', '$log', 'AuthService', 'AUTH_EVENTS', function ($rootScope, $scope, $log, AuthService, AUTH_EVENTS) {
         $log.info('Console');
+
+        if(!$rootScope.user){
+            AuthService.withUser().then(function(user) {
+                $rootScope.user = user;
+            }, function(){
+
+            });
+        }
 
     }]);
 

@@ -43,8 +43,9 @@ define([
         httpForbidden: 'auth-http-forbidden'
     })
     .constant('AUTH_CFG', {
-        oauth_authorize_uri: "https://localhost:8443/oauth/authorize",
-        oauth_redirect_base: "https://localhost:9000",
+        oauth_authorize_uri: "https://lab.asiainfodata.com:8443/oauth/authorize",
+        //oauth_redirect_base: "http://localhost:8080/console",
+        oauth_redirect_base: "https://lab.asiainfodata.com:8443/console",
         oauth_client_id: "openshift-web-console",
         logout_uri: ""
     })
@@ -55,10 +56,9 @@ define([
         AuthServiceProvider.LogoutService('DeleteTokenLogoutService');
         AuthServiceProvider.UserStore('LocalStorageUserStore');
 
-        RedirectLoginServiceProvider.OAuthClientID(AUTH_CFG.oauth_client_id);
+        //RedirectLoginServiceProvider.OAuthClientID(AUTH_CFG.oauth_client_id);
         RedirectLoginServiceProvider.OAuthAuthorizeURI(AUTH_CFG.oauth_authorize_uri);
-        //RedirectLoginServiceProvider.OAuthRedirectURI(URI(AUTH_CFG.oauth_redirect_base).segment("oauth").toString());
-
+        RedirectLoginServiceProvider.OAuthRedirectURI(URI(AUTH_CFG.oauth_redirect_base).segment("oauth").toString());
     })
 
     .run(['$rootScope', function ($rootScope) {
