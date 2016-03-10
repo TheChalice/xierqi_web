@@ -52,6 +52,16 @@ define([
                         }]
                     }
                 })
+                .state('console.image',{
+                    url: '/image',
+                    templateUrl: 'views/image/image.html',
+                    controller: 'ImageCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad)  {
+                            return $ocLazyLoad.load(['views/image/image.js', 'views/image/image.css'])
+                        }]
+                    }
+                })
                 .state('home', {
                     url: '/home',
                     templateUrl: 'views/home/home.html',
