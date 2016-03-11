@@ -8,15 +8,15 @@ angular.module('console.image', [
             files: ['components/searchbar/searchbar.js']
         }
     ])
-    .controller('ImageCtrl', ['$scope', '$log','Image', function ($scope, $log, Image) {
+    .controller('ImageCtrl', ['$scope', '$log','ImageStreamTag', function ($scope, $log, ImageStreamTag) {
         $log.info('ImageCtrl');
 
-        var loadImages = function() {
-            Image.get(function(data){
+        var loadImageStream = function() {
+            ImageStreamTag.get(function(data){
                 $log.info('data',data);
                 $scope.data = data;
             })
         };
 
-        loadImages();
+        loadImageStream();
     }]);

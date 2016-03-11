@@ -5,9 +5,9 @@
                 <div class="col-sm-7">
                     <c-search></c-search>
                 </div>
-                <div class="col-sm-12" ng-repeat="(key,value) in data">
-                    <p ><a ui-sref="console.image_detail"></a></p>
-                    <span id="updateTime">更新时间: 2分钟以前</span>
+                <div class="col-sm-12" ng-repeat="item in data.items">
+                    <p><a ui-sref="console.image_detail">{{item.metadata.name}}</a></p>
+                    <span id="updateTime">{{item.metadata.creationTimestamp}}</span>
                     <p id="releaseVersion">最新版本: release-23fd78787</p>
                     <span><button id="deployLastest">部署最新版本</button></span>
                 </div>

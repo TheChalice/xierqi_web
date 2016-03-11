@@ -16,12 +16,16 @@ define([
             });
             return Build;
         }])
-        .factory('Image', ['$resource', function($resource){
-            var Image =$resource(HOST + '/images/:name',{name: '@name'},{
-                create: {method:'POST'}
+        //.factory('ImageStream', ['$resource', function($resource){
+        //    var ImageStream = $resource(HOST + '/namespaces/'+ NAMESPACE + '/imagestreams/:name',{name: '@name'},{
+        //        create: {method: 'POST'}
+        //    });
+        //    return ImageStream;
+        //}]);
+        .factory('ImageStreamTag', ['$resource', function($resource){
+            var ImageStreamTag= $resource(HOST + '/namespaces/'+ NAMESPACE  + '/imagestreamtags/:name', {name: '@name'},{
+                create: {method: 'POST'}
             });
-            return Image;
+            return ImageStreamTag;
         }]);
-
-
 });
