@@ -8,10 +8,15 @@ angular.module('console', [
         ]
     }
 ])
-    .controller('ConsoleCtrl', ['$rootScope', '$scope', '$log', 'AUTH_EVENTS', function ($rootScope, $scope, $log, AUTH_EVENTS) {
+    .controller('ConsoleCtrl', ['$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', function ($rootScope, $scope, $log, AUTH_EVENTS, User) {
         $log.info('Console');
 
-
+        if(!$rootScope.user){
+            User.get({name: 'admin'}, function(data){
+                console.log("user", data);
+                $rootScope.user = data;
+            });
+        }
 
     }]);
 
