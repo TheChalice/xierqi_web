@@ -1,3 +1,13 @@
 <div>
-    timeline
+    <ul>
+        <li ng-repeat="item in data.items">
+            <label>{{item.status.startTimestamp | dateRelative}}</label>
+            <div>
+                <span>{{item.status.phase}}</span>
+                <span>release-{{item.spec.revision.git.commit}}</span>
+                <span>构建时长:{{item.status.duration | duration}}</span>
+                <span>op</span>
+            </div>
+        </li>
+    </ul>
 </div>

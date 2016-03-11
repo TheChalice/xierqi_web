@@ -6,6 +6,9 @@ angular.module("console.timeline", [])
         return {
             restrict: 'EA',
             replace: true,
+            scope: {
+                data: '='
+            },
             templateUrl: 'components/timeline/timeline.html'
         }
     }]);

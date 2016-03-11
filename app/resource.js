@@ -16,6 +16,12 @@ define([
             });
             return Build;
         }])
+        .factory('BuildConfig', ['$resource', function($resource){
+            var BuildConfig = $resource(HOST + '/namespaces/' + NAMESPACE + '/buildconfigs/:name', {name: '@name'}, {
+                create: { method: 'POST'}
+            });
+            return BuildConfig;
+        }])
         //.factory('ImageStream', ['$resource', function($resource){
         //    var ImageStream = $resource(HOST + '/namespaces/'+ NAMESPACE + '/imagestreams/:name',{name: '@name'},{
         //        create: {method: 'POST'}
