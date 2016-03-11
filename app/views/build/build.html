@@ -16,30 +16,16 @@
                 <th>构建类型</th>
                 <th>操作</th>
             </tr>
-            <tr>
+            <tr ng-repeat="build in data.items">
                 <td>
-                    <a ui-sref="console.build_detail({name: 'datahub_repository'})">datahub_repository</a>
+                    <a ui-sref="console.build_detail({name: build.metadata.name})">{{build.metadata.name}}</a>
                 </td>
-                <td>正在构建</td>
-                <td>1分钟以前</td>
-                <td>3分25秒</td>
+                <td>{{build.status.phase}}</td>
+                <td>{{build.status.startTimestamp | dateRelative}}</td>
+                <td>{{build.status.duration | duration}}</td>
                 <td>手动</td>
                 <td>
-                    <a href="javascript:;" target="_blank">查看源代码</a>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <a ui-sref="console.build_detail({name: 'datahub_repository'})">datahub_repository</a>
-                </td>
-                <td>正在构建</td>
-                <td>1分钟以前</td>
-                <td>3分25秒</td>
-                <td>手动</td>
-                <td>
-                    <a href="javascript:;" target="_blank">查看源代码</a>
-                    <a href="javascript:;">查看镜像</a>
-                    <a href="javascript:;">构建</a>
+                    <a href="{{build.spec.source.git.uri}}" target="_blank">查看源代码</a>
                 </td>
             </tr>
         </table>

@@ -20,6 +20,7 @@ require.config({
     baseUrl: window.__karma__ ? '/base/app' : './',
     paths: {
         jquery: '../bower_components/jquery/dist/jquery.min',
+        moment: '../bower_components/moment/min/moment-with-locales.min',
         angular: '../bower_components/angular/angular.min',
         ngResource: '../bower_components/angular-resource/angular-resource.min',
         ngFileUpload: '../bower_components/ng-file-upload/ng-file-upload-all.min',

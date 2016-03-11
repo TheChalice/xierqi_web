@@ -10,6 +10,7 @@ define([
     'pub/controller',
     'pub/service',
     'pub/directive',
+    'pub/filter',
     'components/version/version'
 ], function (angular) {
 
@@ -23,6 +24,7 @@ define([
         'myApp.controller',
         'myApp.service',
         'myApp.directive',
+        'myApp.filter',
         'myApp.version'
     ]);
 

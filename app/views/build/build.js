@@ -6,16 +6,17 @@ angular.module('console.build', [
     }
 ])
     .controller('BuildCtrl', ['$scope', '$log', '$stateParams', 'Build', function ($scope, $log, $stateParams, Build) {
-        $scope.namespace = $stateParams.namespace || 'default';
 
         var loadBuilds = function() {
-            Build.get({namespace: $scope.namespace}, function(data){
+            Build.get(function(data){
                 $log.info('data', data);
-            })
+                $scope.data = data;
+            }, function(res) {
+                //错误处理
+            });
         };
 
         loadBuilds();
-
 
     }]);
 
