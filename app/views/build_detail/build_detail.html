@@ -1,19 +1,41 @@
 <div>
     <div>
-        <h2>datahub_repository_private</h2>
+        <h2>{{data.metadata.name}}</h2>
         <button class="btn btn-primary btn-sm">构建</button>
         <button class="btn btn-danger btn-sm">删除构建</button>
     </div>
     <div>
-        info
+        创建时间:{{data.metadata.creationTimestamp}}<br>
+        代码URL:{{data.spec.source.git.uri}}<br>
+        镜像:{{data.spec.output.to}}
     </div>
     <div>
         <uib-tabset>
             <uib-tab index="1" heading="构建记录">
-                <c-timeline></c-timeline>
+                <c-timeline data="history"></c-timeline>
             </uib-tab>
             <uib-tab index="2" heading="配置信息">
-                配置信息
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">自动构建触发条件</label>
+                        <div class="col-sm-8">
+                            <label>
+                                <input type="checkbox">基础镜像变化触发持续集成
+                            </label>
+                            <div>
+                                当代码仓库发生以下变化触发持续集成
+                                <label><input type="checkbox">提交Tag</label>
+                                <label><input type="checkbox">提交代码到分支</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">是否持续集成</label>
+                        <div class="col-sm-8">
+                            radio
+                        </div>
+                    </div>
+                </form>
             </uib-tab>
         </uib-tabset>
     </div>
