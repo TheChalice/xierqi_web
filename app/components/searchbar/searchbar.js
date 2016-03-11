@@ -6,7 +6,9 @@ angular.module("console.search", [])
         return {
             restrict: 'EA',
             replace: true,
-            templateUrl: 'components/searchbar/searchbar.html'
+            templateUrl: 'components/searchbar/searchbar.html',
+            controller:[function () {
+            }]
         }
     }]);
 

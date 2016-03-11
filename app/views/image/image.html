@@ -2,18 +2,17 @@
     <uib-tab index="1" heading="用户私有镜像仓库">
         <div class="page">
             <div class="row">
-                <div class="col-sm-3">
+                <div class="col-sm-7">
                     <c-search></c-search>
                 </div>
-                <div class="col-sm-12">
-                    <p id="imageName"><a href="">sdfsdfs</a></p>
+                <div class="col-sm-12" ng-repeat="(key,value) in data">
+                    <p ><a ui-sref="console.image_detail"></a></p>
                     <span id="updateTime">更新时间: 2分钟以前</span>
                     <p id="releaseVersion">最新版本: release-23fd78787</p>
                     <span><button id="deployLastest">部署最新版本</button></span>
                 </div>
             </div>
         </div>
-
     </uib-tab>
     <uib-tab index="2" heading="平台共有镜像">
         <div>

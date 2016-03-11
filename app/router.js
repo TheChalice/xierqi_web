@@ -72,5 +72,15 @@ define([
                         }]
                     }
                 })
+                .state('console.image_detail',{
+                    url: '/image/detail',
+                    templateUrl: 'views/image_detail/image_detail.html',
+                    controller: 'ImageDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad)  {
+                            return $ocLazyLoad.load(['views/image_detail/image_detail.js'])
+                        }]
+                    }
+                })
         }]);
 });

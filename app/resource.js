@@ -14,6 +14,13 @@ define([
                 create: { method: 'POST'}
             });
             return Build;
+        }])
+        .factory('Image', ['$resource', function($resource){
+            var Image =$resource(HOST + '/images/:name',{name: '@name'},{
+                create: {method:'POST'}
+            });
+            return Image;
         }]);
+
 
 });
