@@ -38,10 +38,12 @@ define([
         oauth_authorize_uri: "https://lab.asiainfodata.com:8443/oauth/authorize",
         //oauth_redirect_base: "http://localhost:8080/console",
         oauth_redirect_base: "https://lab.asiainfodata.com:8443/console",
-        oauth_client_id: "openshift-web-console",
+        oauth_client_id: "openshift-challenging-client",
         logout_uri: ""
     })
     .config(['$httpProvider', function ($httpProvider) {
+        $httpProvider.defaults.headers.common["Authorization"] = "Bearer 2r7S4Lo35Vur69J_S0S_ryzzyteONuEGlMJLXtOjkB0";
+
         $httpProvider.interceptors.push([
             '$injector',
             function ($injector) {

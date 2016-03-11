@@ -2,7 +2,7 @@
 
 define(['angular'], function (angular) {
     return angular.module('myApp.controller', [])
-        .controller('AppCtrl', ['$rootScope', '$state', '$log', '$window', 'AUTH_EVENTS', 'AUTH_CFG', function ($rootScope, $state, $log, $window, AUTH_EVENTS, AUTH_CFG) {
+        .controller('AppCtrl', ['$rootScope', '$state', '$log', 'AUTH_EVENTS', 'AUTH_CFG', function ($rootScope, $state, $log, AUTH_EVENTS, AUTH_CFG) {
             $rootScope.$on(AUTH_EVENTS.loginNeeded, function () {
                 $log.info(AUTH_EVENTS.loginNeeded);
             });

@@ -11,6 +11,8 @@ define(['angular'], function (angular) {
             };
             return {
                 request: function (config) {
+                    //console.log($httpProvider.default.headers.common["Authorization"]);
+
                     $rootScope.loading = true;
                     return config
                 },

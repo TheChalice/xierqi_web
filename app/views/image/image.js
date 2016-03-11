@@ -1,7 +1,7 @@
+'use strict';
 /**
  * Created by sabrinaxue on 3/8/16.
  */
-'use strict';
 
 angular.module('console.image', [
         {
