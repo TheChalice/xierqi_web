@@ -11,18 +11,21 @@ angular.module('console.image', [
             ImageStreamTag.get(function(data){
                 $log.info('data', data);
                 $scope.data = data;
-                for (var i=0; i < data.length; i++){
+                loadBuild();
+                }), function (res) {
+                //错误处理
+                };
+            }
 
-
-                }
-            })
-        };
 
         var loadBuild = function() {
-            Build.get(function(data){
-                $log.info('Build', data);
-            })
+            var labelSelector = '';
+            for (var i = 0; i < items.length; i++) {
+            }
+                Build.get(function (data) {
+                    $log.info('Build', data);
+                });
+            loadImageStream();
+            fillImageStreamTag(data.item);
         };
-        loadImageStream();
-        loadBuild();
     }]);
