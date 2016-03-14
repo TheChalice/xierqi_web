@@ -6,15 +6,15 @@
                     <c-search></c-search>
                 </div>
                 <div class="col-sm-12" ng-repeat="item in data.items">
-                    <p><a ui-sref="console.image_detail">{{item.metadata.name}}</a></p>
+                    <p><a ui-sref="console.image_detail({name: item.metadata.name})">{{item.metadata.name}}</a></p>
                     <span id="updateTime">{{item.metadata.creationTimestamp}}</span>
-                    <p id="releaseVersion">最新版本: release-23fd78787</p>
+                    <p id="releaseVersion">{{revision.git.commit}}</p>
                     <span><button id="deployLastest">部署最新版本</button></span>
                 </div>
             </div>
         </div>
     </uib-tab>
-    <uib-tab index="2" heading="平台共有镜像">
+    <uib-tab index="2" heading="平台公有镜像">
         <div>
             <div class="pull-left">
                 <c-search></c-search>

@@ -6,7 +6,7 @@ define([
 ], function (angular) {
 
     var HOST = 'https://lab.asiainfodata.com:8443/oapi/v1';
-    var NAMESPACE = 'default';
+    var NAMESPACE = 'liujie15';
 
     return angular.module('myApp.resource', ['ngResource'])
         .factory('User', ['$resource', function($resource){
