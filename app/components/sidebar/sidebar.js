@@ -1,6 +1,10 @@
 'use strict';
 
-angular.module("console.sidebar", [])
+angular.module("console.sidebar", [
+    {
+        files: ['components/sidebar/sidebar.css']
+    }
+])
 
     .directive('cSidebar', [function () {
         return {

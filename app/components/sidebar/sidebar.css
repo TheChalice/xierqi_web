@@ -1,0 +1,69 @@
+#sidebar {
+    background: #e6e9f2;
+}
+#sidebar ul > li {
+    margin: 0;
+}
+#sidebar ul > li > a {
+    color: #5a6378;
+    border-radius: 0;
+}
+#sidebar ul > li.active > a {
+    background: #dde0e9;
+}
+.sidebar-icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    vertical-align: bottom;
+}
+
+.sidebar-icon-dashboard {
+    background-image: url(img/dashboard.png);
+}
+#sidebar ul > li > a:hover .sidebar-icon-dashboard {
+    background-image: url(img/dashboard-active.png);
+}
+
+.sidebar-icon-build {
+    background-image: url(img/build.png);
+}
+#sidebar ul > li > a:hover .sidebar-icon-build {
+    background-image: url(img/build-active.png);
+}
+
+.sidebar-icon-repository {
+    background-image: url(img/repository.png);
+}
+#sidebar ul > li > a:hover .sidebar-icon-repository {
+    background-image: url(img/repository-active.png);
+}
+
+.sidebar-icon-deployment {
+    background-image: url(img/deployment.png);
+}
+#sidebar ul > li > a:hover .sidebar-icon-deployment {
+    background-image: url(img/deployment-active.png);
+}
+
+.sidebar-icon-service {
+    background-image: url(img/service.png);
+}
+#sidebar ul > li > a:hover .sidebar-icon-service {
+    background-image: url(img/service-active.png);
+}
+
+.sidebar-icon-make {
+    background-image: url(img/make.png);
+}
+#sidebar ul > li > a:hover .sidebar-icon-make {
+    background-image: url(img/make-active.png);
+}
+
+.sidebar-icon-resource {
+    background-image: url(img/resource.png);
+}
+#sidebar ul > li > a:hover .sidebar-icon-resource {
+    background-image: url(img/resource-active.png);
+}

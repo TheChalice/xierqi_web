@@ -1,38 +1,41 @@
-<div>
+<div id="sidebar">
     <ul class="nav nav-pills nav-stacked">
         <li ui-sref-active="active">
             <a ui-sref="console.dashboard">
-                <span class="sidebar-icon sidebar-icon-dashboard"></span>
-                仪表盘
+                <span class="sidebar-icon sidebar-icon-dashboard"></span>&nbsp;&nbsp;仪表盘
             </a>
         </li>
         <li ui-sref-active="active"
             ng-class="{'active':$state.includes('console.build_create')||$state.includes('console.build_detail')}">
-            <a ui-sref="console.build">代码构建</a>
+            <a ui-sref="console.build">
+                <span class="sidebar-icon sidebar-icon-build"></span>&nbsp;&nbsp;代码构建
+            </a>
         </li>
         <li ui-sref-active="active">
-            <a ui-sref="console.image">镜像仓库</a>
+            <a ui-sref="console.image">
+                <span class="sidebar-icon sidebar-icon-repository"></span>&nbsp;&nbsp;镜像仓库
+            </a>
         </li>
         <li ui-sref-active="active">
-            <a ui-sref="console.service">服务部署</a>
+            <a ui-sref="console.service">
+                <span class="sidebar-icon sidebar-icon-deployment"></span>&nbsp;&nbsp;服务部署
+            </a>
         </li>
         <li ui-sref-active="active">
-            <a ui-sref="console.service">外部服务市场</a>
+            <a ui-sref="console.service">
+                <span class="sidebar-icon sidebar-icon-service"></span>&nbsp;&nbsp;外部服务市场
+            </a>
         </li>
         <li ui-sref-active="active">
-            <a ui-sref="console.service">应用编排</a>
+            <a ui-sref="console.service">
+                <span class="sidebar-icon sidebar-icon-make"></span>&nbsp;&nbsp;应用编排
+            </a>
         </li>
         <li ui-sref-active="active">
-            <a ui-sref="console.service">资源管理</a>
+            <a ui-sref="console.service">
+                <span class="sidebar-icon sidebar-icon-resource"></span>&nbsp;&nbsp;资源管理
+            </a>
         </li>
     </ul>
-    <style>
-        .sidebar-icon {
-            display: inline-block;
-            width: 24px;
-            height: 24px;
-            background: #00b3ee;
-        }
-    </style>
 </div>
 

@@ -4,7 +4,8 @@ angular.module('console', [
     {
         files:[
             'components/header/header.js',
-            'components/sidebar/sidebar.js'
+            'components/sidebar/sidebar.js',
+            'views/console/console.css'
         ]
     }
 ])
