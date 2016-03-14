@@ -1,0 +1,100 @@
+/*绿色：*/
+/*默认：#55c45f*/
+/*hover：#469450*/
+/*点击：#68d472*/
+
+/*蓝色：*/
+/*默认：#4eb7cd*/
+/*hover：#418b9e*/
+/*点击：#57d1eb*/
+
+/*橙色：*/
+/*默认：#f6a540*/
+/*hover：#e5993a*/
+/*点击：#f8b551*/
+
+/*灰色删除：*/
+/*默认：#9fa7b7*/
+/*hover：#3c4251*/
+/*点击：#5a6378*/
+
+/*灰色按钮：*/
+/*默认：#e6e9f2*/
+/*hover：#5a6378*/
+
+
+/*文字：*/
+/*#5a6378*/
+
+/*图标：*/
+/*默认：#9fa7b7*/
+/*hover：#3c4251*/
+
+/*线框：1px；*/
+/*圆角：2px；*/
+/*#c9c9c9*/
+
+/*红色：*/
+/*#ec6941*/
+
+
+
+
+.navbar-default {
+    background: #f6a540;
+    border: none;
+    box-shadow: none;
+}
+.navbar-nav>li>a {
+    padding-top: 11px;
+    padding-bottom: 11px;
+}
+#header-title {
+    padding: 25px 15px 25px 40px;
+    font-size: 18px;
+    color: #5a6378;
+}
+.navbar-default .navbar-toggle {
+    margin-top: 18px;
+}
+.navbar-brand {
+    width: 200px;
+    height: 70px;
+    padding: 0;
+}
+#header-msg, #header-guide {
+    overflow: hidden;
+    margin: 23px 25px;
+    padding: 0;
+    display: block;
+    width: 24px;
+    height: 24px;
+    text-indent: 9999px;
+}
+#header-msg {
+    background-image: url(img/icon-msg.png);
+}
+#header-msg:hover {
+    background-image: url(img/icon-msg-hover.png);
+}
+#header-guide {
+    background-image: url(img/icon-guide.png);
+}
+#header-guide:hover {
+    background-image: url(img/icon-guide-hover.png);
+}
+#header-msg-new {
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    background: red;
+    position: absolute;
+    right: 17px;
+    top: 17px;
+}
+#header-user-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 24px;
+    margin-right: 15px;
+}

@@ -1,14 +1,24 @@
 <div>
     <c-header></c-header>
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-sm-2">
-                <c-sidebar></c-sidebar>
-            </div>
-            <div class="col-sm-10">
-                <div ui-view></div>
-            </div>
+    <div>
+        <div id="sidebar-container">
+            <c-sidebar></c-sidebar>
+        </div>
+
+        <div id="sidebar-right-fixed">
+            <div ui-view></div>
         </div>
     </div>
+
+    <style>
+        #sidebar-container {
+            width: 200px;
+            float: left;
+        }
+        #sidebar-right-fixed {
+            overflow: hidden;
+            padding: 20px 40px;
+        }
+    </style>
 </div>

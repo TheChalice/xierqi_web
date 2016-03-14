@@ -1,6 +1,10 @@
 'use strict';
 
-angular.module("console.header", [])
+angular.module("console.header", [
+    {
+        files: ['components/header/header.css']
+    }
+])
 
     .directive('cHeader', [function () {
         return {
