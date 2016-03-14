@@ -1,10 +1,54 @@
+/*按钮*/
 .btn-green {
     border-radius: 2px;
     background-color: #55c45f;
+    color: #fff;
+}
+.btn-green:hover {
+    background-color: #469450;
     color: #fff;
 }
 .btn-skyblue {
     border-radius: 2px;
     background-color: #4eb7cd;
     color: #fff;
+}
+.btn-skyblue:hover {
+    background-color: #418b9e;
+    color: #fff;
+}
+
+/*表格*/
+.table-default {
+    overflow: hidden;
+    border: 1px solid #e5e5e5;
+    border-top: none;
+    border-radius: 2px;
+    border-collapse: separate;
+}
+.table-default > tbody > tr > th,
+.table-default > tbody > tr > td {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color: #5a6378;
+}
+.table-default > tbody > tr > th {
+    background: #e6e9f2;
+    color: #393f4f;
+}
+.table-default > tbody > tr > td > a {
+    color: #f6a540;
+    text-decoration: none;
+}
+.table-default > tbody > tr > td > a:hover {
+    color: #e5993a;
+}
+
+/*图标*/
+.icon25 {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    background-size: contain;
+    vertical-align: bottom;
 }

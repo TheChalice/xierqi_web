@@ -12,59 +12,52 @@
 #sidebar ul > li.active > a {
     background: #dde0e9;
 }
-.sidebar-icon {
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    background-size: contain;
-    vertical-align: bottom;
-}
 
-.sidebar-icon-dashboard {
+.icon25-dashboard {
     background-image: url(img/dashboard.png);
 }
-#sidebar ul > li > a:hover .sidebar-icon-dashboard {
+#sidebar ul > li > a:hover .icon25-dashboard {
     background-image: url(img/dashboard-active.png);
 }
 
-.sidebar-icon-build {
+.icon25-build {
     background-image: url(img/build.png);
 }
-#sidebar ul > li > a:hover .sidebar-icon-build {
+#sidebar ul > li > a:hover .icon25-build {
     background-image: url(img/build-active.png);
 }
 
-.sidebar-icon-repository {
+.icon25-repository {
     background-image: url(img/repository.png);
 }
-#sidebar ul > li > a:hover .sidebar-icon-repository {
+#sidebar ul > li > a:hover .icon25-repository {
     background-image: url(img/repository-active.png);
 }
 
-.sidebar-icon-deployment {
+.icon25-deployment {
     background-image: url(img/deployment.png);
 }
-#sidebar ul > li > a:hover .sidebar-icon-deployment {
+#sidebar ul > li > a:hover .icon25-deployment {
     background-image: url(img/deployment-active.png);
 }
 
-.sidebar-icon-service {
+.icon25-service {
     background-image: url(img/service.png);
 }
-#sidebar ul > li > a:hover .sidebar-icon-service {
+#sidebar ul > li > a:hover .icon25-service {
     background-image: url(img/service-active.png);
 }
 
-.sidebar-icon-make {
+.icon25-make {
     background-image: url(img/make.png);
 }
-#sidebar ul > li > a:hover .sidebar-icon-make {
+#sidebar ul > li > a:hover .icon25-make {
     background-image: url(img/make-active.png);
 }
 
-.sidebar-icon-resource {
+.icon25-resource {
     background-image: url(img/resource.png);
 }
-#sidebar ul > li > a:hover .sidebar-icon-resource {
+#sidebar ul > li > a:hover .icon25-resource {
     background-image: url(img/resource-active.png);
 }

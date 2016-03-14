@@ -2,7 +2,10 @@
 
 angular.module('console.build', [
     {
-        files: ['components/searchbar/searchbar.js']
+        files: [
+            'components/searchbar/searchbar.js',
+            'views/build/build.css'
+        ]
     }
 ])
     .controller('BuildCtrl', ['$scope', '$log', '$stateParams', 'BuildConfig', 'Build', function ($scope, $log, $stateParams, BuildConfig, Build) {
@@ -21,12 +24,14 @@ angular.module('console.build', [
 
         //根据buildConfig标签获取build列表
         var loadBuilds = function(items){
-            var labelSelector = '';
-            for (var i = 0; i < items.length; i++) {
-                labelSelector += 'buildconfig=' + items[i].metadata.name + ','
-            }
-            labelSelector = labelSelector.substring(0, labelSelector.length - 1);
-            Build.get({labelSelector: labelSelector}, function (data) {
+            //todo 通过labelSelector筛选builds,现在无法拿到数据
+            //var labelSelector = '';
+            //for (var i = 0; i < items.length; i++) {
+            //    labelSelector += 'buildconfig=' + items[i].metadata.name + ','
+            //}
+            //labelSelector = labelSelector.substring(0, labelSelector.length - 1);
+            //Build.get({labelSelector: labelSelector}, function (data) {
+            Build.get(function (data) {
                 $log.info("builds", data);
 
                 fillBuildConfigs(data.items);

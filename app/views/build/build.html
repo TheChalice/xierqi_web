@@ -1,15 +1,17 @@
 <div>
     <div>
-        <button class="btn btn-green" ui-sref="console.build_create">
-            新建构建
-        </button>
-        <button class="btn btn-skyblue" ng-click="refresh()">刷新</button>
+        <a class="btn btn-green" ui-sref="console.build_create">
+            <img src="views/build/img/add.png" alt="+" style="vertical-align: text-top"> 新建构建
+        </a>
+        <a class="btn btn-skyblue" style="margin-left:15px;padding: 6px;" ng-click="refresh()">
+            <img src="views/build/img/refresh.png" alt="refresh" style="vertical-align: text-bottom;">
+        </a>
         <div class="pull-right">
             <c-search></c-search>
         </div>
     </div>
-    <div class="table-responsive">
-        <table class="table table-hover">
+    <div class="table-responsive" style="margin-top: 20px;">
+        <table class="table table-hover table-default">
             <tr>
                 <th>构建名称</th>
                 <th>最近构建状态</th>
@@ -28,6 +30,29 @@
                 <td>手动</td>
                 <td>
                     <a href="{{build.spec.source.git.uri}}" target="_blank">查看源代码</a>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <a ui-sref="console.build_detail({name: build.metadata.name})">lalalalala</a>
+                </td>
+                <td>已完成</td>
+                <td>10分钟前</td>
+                <td>1年</td>
+                <td>手动</td>
+                <td>
+                    <a href="{{build.spec.source.git.uri}}" uib-tooltip="查看代码源" target="_blank">
+                        <span class="icon25 icon25-source"></span>
+                    </a>
+                    <a href="###" uib-tooltip="查看镜像" target="_blank">
+                        <span class="icon25 icon25-image"></span>
+                    </a>
+                    <a href="{{build.spec.source.git.uri}}" uib-tooltip="构建" target="_blank">
+                        <span class="icon25 icon25-start"></span>
+                    </a>
+                    <a href="{{build.spec.source.git.uri}}" uib-tooltip="构建" target="_blank">
+                        <span class="icon25 icon25-stop"></span>
+                    </a>
                 </td>
             </tr>
         </table>
