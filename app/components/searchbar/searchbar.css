@@ -1,0 +1,9 @@
+.searchbar .form-control {
+    border-radius: 2px;
+    box-shadow: none;
+    border: 1px solid #c9c9c9;
+    /*font-size: 12px;*/
+    color: #5a6378;
+    width: 300px;
+    background: url(img/search.png) no-repeat 275px;
+}

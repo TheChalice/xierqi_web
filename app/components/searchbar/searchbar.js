@@ -1,6 +1,10 @@
 'use strict';
 
-angular.module("console.search", [])
+angular.module("console.search", [
+    {
+        files: ['components/searchbar/searchbar.css']
+    }
+])
 
     .directive('cSearch', [function () {
         return {
