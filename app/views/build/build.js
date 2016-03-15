@@ -4,6 +4,7 @@ angular.module('console.build', [
     {
         files: [
             'components/searchbar/searchbar.js',
+            'components/pagination/pagination.js',
             'views/build/build.css'
         ]
     }

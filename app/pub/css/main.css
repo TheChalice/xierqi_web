@@ -25,6 +25,7 @@
     border-top: none;
     border-radius: 2px;
     border-collapse: separate;
+    margin-bottom: 0;
 }
 .table-default > tbody > tr > th,
 .table-default > tbody > tr > td {
