@@ -12,6 +12,15 @@
 .btn-green:hover {
     background-color: #469450;
 }
+.btn-grey {
+    border-radius: 2px;
+    background-color: #9fa7b7;
+    color: #fff;
+}
+.btn-grey:hover {
+    background-color: #3c4251;
+    color: #fff;
+}
 .btn-skyblue {
     background-color: #4eb7cd;
 }
