@@ -1,15 +1,29 @@
 <div>
-    <div>
-        <h2>{{data.metadata.name}}</h2>
-        <button class="btn btn-primary btn-sm">构建</button>
-        <button class="btn btn-danger btn-sm">删除构建</button>
+    <div class="tableTitle">
+        <span id = "header_img"><img src="views/build_detail/img/images_113.png"></span>
+        <span id = "buildName">{{data.metadata.name}}</span>
+        <span id = "buildButton"><button class="btn btn-primary btn-sm">构建</button></span>
+        <span id = "deleteButton"><button class="btn btn-danger btn-sm">删除构建</button></span>
     </div>
-    <div>
-        创建时间:{{data.metadata.creationTimestamp}}<br>
-        代码URL:{{data.spec.source.git.uri}}<br>
-        镜像:{{data.spec.output.to}}
+    <div class="row">
+        <div class = "col-sm-4">
+            <img src="views/build_detail/img/images_104.png">
+            <p class = "firstLine">创建时间</p>
+            <p class = "secondLine">{{data.metadata.creationTimestamp}}</p>
+        </div>
+        <div class = "col-sm-4">
+            <img src="views/build_detail/img/images_106.png">
+            <p class = "firstLine">代码URL</p>
+            <p class = "secondLine">{{data.spec.source.git.uri}}</p>
+        </div>
+
+        <div class = "col-sm-4">
+            <img src="views/build_detail/img/images_108.png">
+            <p class = "firstLine">镜像</p>
+            <p class = "secondLine">{{data.spec.output.to}}</p>
+        </div>
     </div>
-    <div>
+    <div class=" ">
         <uib-tabset>
             <uib-tab index="1" heading="构建记录">
                 <c-timeline data="history"></c-timeline>

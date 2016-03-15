@@ -1,0 +1,66 @@
+.tableTitle{
+    float: left;
+    border: 1px solid #c9c9c9;
+    width:1000px;
+    height:60px;
+    margin-top: 20px;
+    margin-right: 40px;
+    background-color: #e6e9f2;
+}
+#header_img{
+    float: left;
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    margin-right: 10px;
+}
+
+#buildName{
+    float: left;
+    margin-top: 22px;
+    margin-right: 10px;
+    font: 16px bold;
+    font-color: #393f4f;
+}
+
+#buildButton{
+    float: left;
+    margin-top: 10px;
+    margin-left: 720px;
+}
+#deleteButton{
+    float: right;
+    margin-top: 10px;
+    margin-right: 20px;
+}
+.row{
+    float: left;
+    margin-left: 0px;
+    border-left : 1px solid #c9c9c9;
+    border-bottom: 1px solid #c9c9c9;
+    border-right: 1px solid #c9c9c9;
+    width: 1000px;
+    height: 80px;
+}
+.col-sm-4{
+    margin-top: 25px;
+
+}
+img.col-sm-4{
+    margin-right: 10px;
+
+}
+.firstLine{
+    font-size: 14px;
+    font-weight: bold;
+    color: #393f4f;
+    margin-top: -28px;
+    margin-left: 35px;
+}
+.secondLine{
+    font-size: 12px;
+    font-weight: bold;
+    color: #5a6378;
+    margin-top: -10px;
+    margin-left: 35px;
+}
