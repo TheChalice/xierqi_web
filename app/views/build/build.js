@@ -69,5 +69,16 @@ angular.module('console.build', [
         $scope.refresh = function(){
             loadBuilds();
         };
-    }]);
+    }])
+    .filter('buildPhaseFilter', function() {
+        return function(phase) {
+            if (phase == "Complete") {
+                return "构建成功"
+            } else if (phase == "") {
+
+            } else {
+                return "-"
+            }
+        };
+    });
 

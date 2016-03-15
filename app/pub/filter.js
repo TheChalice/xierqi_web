@@ -7,7 +7,7 @@ define(['angular', 'moment'], function (angular, moment) {
             // dropSuffix will tell moment whether to include the "ago" text
             return function(timestamp, dropSuffix) {
                 if (!timestamp) {
-                    return timestamp;
+                    return "-";
                 }
                 return moment(timestamp).fromNow(dropSuffix);
             };
@@ -15,7 +15,7 @@ define(['angular', 'moment'], function (angular, moment) {
         .filter('duration', function() {
             return function(timestampLhs, timestampRhs, omitSingle) {
                 if (!timestampLhs) {
-                    return timestampLhs;
+                    return "-";
                 }
                 timestampRhs = timestampRhs || new Date(); // moment expects either an ISO format string or a Date object
 

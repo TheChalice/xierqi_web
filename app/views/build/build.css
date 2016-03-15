@@ -1,3 +1,6 @@
+.icon25 {
+    margin-right: 15px;
+}
 .icon25-source {
     background-image: url(img/source.png);
 }
@@ -24,4 +27,12 @@
 }
 .icon25-stop:hover {
     background-image: url(img/stop-hover.png);
+}
+
+.icon12-Complete {
+    background-image: url(img/complete.png);
+}
+
+.icon12-Failed {
+    background-image: url(img/fail.png);
 }
