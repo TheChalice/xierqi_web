@@ -1,29 +1,38 @@
 <div>
-    <div class="tableTitle">
-        <span id = "header_img"><img src="views/build_detail/img/images_113.png"></span>
-        <span id = "buildName">{{data.metadata.name}}</span>
-        <button class="btn btn-green">构建</button>
-        <button class="btn btn-grey"><img src="views/build_detail/img/images_141.png" ></button>
-    </div>
-    <div class="row">
-        <div class = "col-sm-4">
-            <img src="views/build_detail/img/images_104.png">
-            <p class = "firstLine">创建时间</p>
-            <p class = "secondLine">{{data.metadata.creationTimestamp}}</p>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="panel-title" id = "buildName"><img  id = "header_img" src="views/build_detail/img/images_113.png"> {{data.metadata.name}}</span>
+            <button class="btn btn-grey pull-right" id = "delButton"><img src="views/build_detail/img/images_141.png" ></button>
+            <button class="btn btn-green pull-right" id = "biildButton">构建</button>
         </div>
-        <div class = "col-sm-4">
-            <img src="views/build_detail/img/images_106.png">
-            <p class = "firstLine">代码URL</p>
-            <p class = "secondLine">{{data.spec.source.git.uri}}</p>
-        </div>
+        <div class="panel-body">
+            <div class = "row">
+                <div class = "col-sm-4">
+                    <img src="views/build_detail/img/images_104.png">
+                    <p class = "firstLine">创建时间</p>
+                    <p class = "secondLine">{{data.metadata.creationTimestamp}}</p>
+                </div>
+                <div class = "col-sm-4">
+                    <img src="views/build_detail/img/images_106.png">
+                    <p class = "firstLine">代码URL</p>
+                    <p class = "secondLine">{{data.spec.source.git.uri}}</p>
+                </div>
 
-        <div class = "col-sm-4">
-            <img src="views/build_detail/img/images_108.png">
-            <p class = "firstLine">镜像</p>
-            <p class = "secondLine">{{data.spec.output.to}}</p>
+                <div class = "col-sm-4">
+                    <img src="views/build_detail/img/images_108.png">
+                    <p class = "firstLine">镜像</p>
+                    <p class = "secondLine">{{data.spec.output.to}}</p>
+                </div>
+            </div>
         </div>
     </div>
-    <div class=" ">
+
+
+
+
+
+
+
         <uib-tabset>
             <uib-tab index="1" heading="构建记录">
                 <c-timeline data="history"></c-timeline>
@@ -52,5 +61,4 @@
                 </form>
             </uib-tab>
         </uib-tabset>
-    </div>
 </div>
