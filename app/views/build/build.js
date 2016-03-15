@@ -71,7 +71,7 @@ angular.module('console.build', [
             loadBuilds();
         };
     }])
-    .filter('buildPhaseFilter', function() {
+    .filter('buildPhaseFilter', [function() {
         return function(phase) {
             if (phase == "Complete") {
                 return "构建成功"
@@ -81,5 +81,5 @@ angular.module('console.build', [
                 return "-"
             }
         };
-    });
+    }]);
 

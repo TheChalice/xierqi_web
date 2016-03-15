@@ -3,6 +3,9 @@
 define(['angular'], function (angular) {
     return angular.module('myApp.controller', [])
         .controller('AppCtrl', ['$rootScope', '$state', '$log', 'AUTH_EVENTS', 'AUTH_CFG', function ($rootScope, $state, $log, AUTH_EVENTS, AUTH_CFG) {
+            //console相关全局变量
+            $rootScope.console = {};
+
             $rootScope.$on(AUTH_EVENTS.loginNeeded, function () {
                 $log.info(AUTH_EVENTS.loginNeeded);
             });

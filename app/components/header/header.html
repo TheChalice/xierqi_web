@@ -13,7 +13,8 @@
             <ul class="nav navbar-nav">
                 <li>
                     <a id="header-title">
-                        构建代码
+                        <span style="cursor: pointer" ng-click="back()" class="icon25 icon25-back" ng-if="hasBack()"></span>
+                        <span>{{console.state | stateTitleFilter}}</span>
                     </a>
                 </li>
             </ul>

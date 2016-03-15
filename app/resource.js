@@ -6,6 +6,7 @@ define([
 ], function (angular) {
 
     var HOST = 'https://lab.asiainfodata.com:8443/oapi/v1';
+    var HOST_GIT = 'https://api.github.com';
     var NAMESPACE = 'liujie15';
 
     return angular.module('myApp.resource', ['ngResource'])
@@ -39,5 +40,10 @@ define([
                 create: {method: 'POST'}
             });
             return ImageStreamTag;
+        }])
+        .factory('Git', ['$resource', function($resource){
+            var Git = {};
+            Git.readme = $resource(HOST_GIT + '/repos/:owner/:repo/readme', {owner: '@owner', repo: '@repo'});
+            return Git;
         }]);
 });

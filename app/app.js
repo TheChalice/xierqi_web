@@ -58,7 +58,9 @@ define([
         $rootScope.$on('$stateChangeStart', function () {
             $rootScope.transfering = true;
         });
-        $rootScope.$on('$stateChangeSuccess', function () {
+        $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+            //更新header标题
+            $rootScope.console.state = toState.name;
             $rootScope.transfering = false;
         });
     }]);

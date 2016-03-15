@@ -1,21 +1,28 @@
 /*按钮*/
-.btn-green {
+.btn {
     border-radius: 2px;
-    background-color: #55c45f;
     color: #fff;
+}
+.btn:hover {
+    color: #fff;
+}
+.btn-green {
+    background-color: #55c45f;
 }
 .btn-green:hover {
     background-color: #469450;
-    color: #fff;
 }
 .btn-skyblue {
-    border-radius: 2px;
     background-color: #4eb7cd;
-    color: #fff;
 }
 .btn-skyblue:hover {
     background-color: #418b9e;
-    color: #fff;
+}
+.btn-orange {
+    background-color: #f6a540;
+}
+.btn-orange:hover {
+    background-color: #e5993a;
 }
 
 /*表格*/
@@ -60,4 +67,44 @@
     height: 12px;
     background-size: contain;
     vertical-align: middle;
+}
+
+/*输入框*/
+.form-control {
+    border: 1px solid #c9c9c9;
+    border-radius: 2px;
+    box-shadow: none;
+    color: #5a6378;
+}
+.form-control:focus {
+    box-shadow: none;
+    border: 1px solid #c9c9c9;
+    border-radius: 2px 2px 0 0;
+}
+
+/*tab默认样式*/
+.tab-default .nav-tabs {
+    border-bottom: 1px solid #c9c9c9;
+}
+.tab-default li .nav-link {
+    border: none;
+    color: #333;
+}
+.tab-default li .nav-link:hover {
+    background: transparent;
+    color: #e5993a;
+}
+.tab-default li.active .nav-link,
+.tab-default li.active .nav-link:focus,
+.tab-default li.active .nav-link:hover {
+    border: 1px solid #c9c9c9;
+    border-bottom: none;
+    border-radius: 2px 2px 0 0;
+    color: #e5993a;
+}
+.tab-default .tab-content {
+    border: 1px solid #c9c9c9;
+    border-top: none;
+    border-radius: 0 0 2px 2px;
+    padding: 50px;
 }
