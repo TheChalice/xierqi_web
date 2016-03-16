@@ -1,0 +1,26 @@
+.left_line ul {
+    list-style: none;
+    border-left: 2px solid #c9c9c9;
+}
+.dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: #f6a540;
+    border-radius: 4px;
+    margin-right: 32px;
+    margin-top: 50px;
+}
+#time_display {
+    padding: 15px;
+    border: 1px solid #000000;
+    overflow: hidden;
+}
+.left_line ul > li {
+    left: -45px;
+    top: -55px;
+    position: relative;
+}
+.left_line ul > li .row {
+    margin-left: 45px;
+}
