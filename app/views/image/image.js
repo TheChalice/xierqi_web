@@ -1,7 +1,11 @@
 'use strict';
 angular.module('console.image', [
         {
-            files: ['components/searchbar/searchbar.js']
+            files: [
+                'components/searchbar/searchbar.js',
+                'components/card/card.js',
+                'views/image/image.css'
+            ]
         }
     ])
     .controller('ImageCtrl', ['$scope', '$log','ImageStreamTag', 'Build', 'GLOBAL', function ($scope, $log, ImageStreamTag, Build, GLOBAL) {

@@ -96,14 +96,18 @@ body {
 .icon12-tip {
     background-image: url(../img/tip.png);
 }
+.icon12-time {
+    background-image: url(../img/time.png);
+}
+.icon12-flag {
+    background-image: url(../img/flag.png);
+}
 .icon12-Complete {
     background-image: url(../img/complete.png);
 }
-
 .icon12-Failed {
     background-image: url(../img/fail.png);
 }
-
 .icon12-Running {
     background-image: url(../img/pending.png);
 }
@@ -165,6 +169,7 @@ body {
 /*单行文本溢出*/
 .text-overflow {
     overflow: hidden;
+    display: block;
     white-space: nowrap;
     text-overflow: ellipsis;
     -o-text-overflow: ellipsis;

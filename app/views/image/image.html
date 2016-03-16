@@ -1,53 +1,53 @@
-<uib-tabset>
-    <uib-tab index="1" heading="用户私有镜像仓库">
-        <div class="page">
-            <div class="row">
-                <div class="col-sm-7">
+<div id="image">
+    <uib-tabset class="tab-default">
+        <uib-tab index="1" heading="用户私有镜像仓库">
+            <div class="row" style="margin-bottom: 30px;">
+                <div class="col-sm-4 col-sm-offset-8">
                     <c-search></c-search>
                 </div>
-                <div class="col-sm-12" ng-repeat="item in items">
-                    <p><a ui-sref="console.image_detail({name: item.metadata.name})">{{item.metadata.name}}</a></p>
-                    <span id="updateTime">{{item.metadata.creationTimestamp}}</span>
-                    <p id="releaseVersion">{{revision.git.commit}}</p>
-                    <span><button id="deployLastest">部署最新版本</button></span>
+            </div>
+            <div class="row">
+                <div class="col-sm-3" ng-repeat="item in items">
+                    <c-card item="item"></c-card>
                 </div>
             </div>
-        </div>
-        <div class="text-right">
-            <uib-pagination
-                    ng-model="grid.page"
-                    total-items="grid.total"
-                    items-per-page="grid.size"
-                    class="pagination-sm"
-                    boundary-links="true"
-                    max-size="12"
-                    rotate="true"
-                    previous-text="上一页"
-                    next-text="下一页"
-                    first-text="首页"
-                    last-text="末页">
-            </uib-pagination>
-        </div>
-    </uib-tab>
-    <uib-tab index="2" heading="平台公有镜像">
-        <div>
-            <div class="pull-left">
-                <c-search></c-search>
+            <div class="text-right">
+                <uib-pagination
+                        ng-model="grid.page"
+                        total-items="grid.total"
+                        items-per-page="grid.size"
+                        class="pagination-sm"
+                        boundary-links="true"
+                        max-size="12"
+                        rotate="true"
+                        previous-text="上一页"
+                        next-text="下一页"
+                        first-text="首页"
+                        last-text="末页">
+                </uib-pagination>
             </div>
+        </uib-tab>
+        <uib-tab index="2" heading="平台公有镜像">
             <div>
-                <img src="" alt="">
-                <p>更新时间: 2分钟以前</p>
-                <p>最新版本: release-23fd78787</p>
-                <button>部署最新版本</button>
+                <div class="row" style="margin-bottom: 30px;">
+                    <div class="col-sm-4 col-sm-offset-8">
+                        <c-search></c-search>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-3" ng-repeat="item in [1]">
+                        <c-card item="item"></c-card>
+                    </div>
+                </div>
             </div>
-        </div>
-    </uib-tab>
-    <uib-tab index="3" heading="DockerHub镜像">
-        <div>
-            <p>Docker镜像,一键搜索</p>
-            <div class="pull-middle">
-                <c-search></c-search>
+        </uib-tab>
+        <uib-tab index="3" heading="DockerHub镜像">
+            <div>
+                <p>Docker镜像,一键搜索</p>
+                <div class="pull-middle">
+                    <c-search></c-search>
+                </div>
             </div>
-        </div>
-    </uib-tab>
-</uib-tabset>
+        </uib-tab>
+    </uib-tabset>
+</div>

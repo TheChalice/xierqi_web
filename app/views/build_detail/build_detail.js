@@ -2,7 +2,10 @@
 
 angular.module('console.build.detail', [
     {
-        files: ['components/timeline/timeline.js','views/build_detail/build_detail.css']
+        files: [
+            'components/timeline/timeline.js',
+            'views/build_detail/build_detail.css'
+        ]
     }
 ])
     .controller('BuildDetailCtrl', ['$scope', '$log', '$stateParams', 'BuildConfig', 'Build', 'Confirm', function ($scope, $log, $stateParams, BuildConfig, Build, Confirm) {
