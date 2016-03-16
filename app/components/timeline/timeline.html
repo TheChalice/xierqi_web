@@ -1,24 +1,33 @@
-<div class="left_line">
+<div class="timeline">
     <ul>
         <li ng-repeat="item in data.items">
             <label>
-                <span class="dot"></span>
+                <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
                 {{item.status.startTimestamp | dateRelative}}
             </label>
-            <div class="row" id="time_display">
-                <div class="col-sm-3">
-                    <p>{{item.status.phase}}</p>
-                </div>
-                <div class="col-sm-3">
-                    <p>release-{{item.spec.revision.git.commit}}</p>
-                </div>
-                <div class="col-sm-3">
-                    <p>构建时长:{{item.status.duration | duration}}</p>
-                </div>
-                <div class="col-sm-3">
-                    <p>op</p>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <span class="icon12 icon12-{{item.status.phase}}"></span>
+                        {{item.status.phase | phaseFilter}}
+                    </div>
+                    <div class="col-sm-3">
+                        master-{{item.spec.revision.git.commit | limitTo: 7}}
+                    </div>
+                    <div class="col-sm-4">
+                        构建时长:{{item.status.duration | duration}}
+                    </div>
+                    <div class="col-sm-3">
+                        <a class="icon25" data-toggle="collapse" data-target="#timeline-log-{{$index}}" aria-expanded="false" href="javascript:;">展开</a>
+                    </div>
                 </div>
             </div>
+            <div id="timeline-log-{{$index}}" class="collapse">
+                <div class="well">
+                    hahaha
+                </div>
+            </div>
+
         </li>
     </ul>
 </div>

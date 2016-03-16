@@ -27,11 +27,11 @@
             </tr>
             <tr ng-repeat="build in items">
                 <td>
-                    <a ui-sref="console.build_detail({name: build.metadata.name})">{{build.metadata.name}}</a>
+                    <a class="href-orange" ui-sref="console.build_detail({name: build.metadata.name})">{{build.metadata.name}}</a>
                 </td>
                 <td>
                     <span class="icon12 icon12-{{build.status.phase}}"></span>
-                    {{build.status.phase | buildPhaseFilter}}
+                    {{build.status.phase | phaseFilter}}
                 </td>
                 <td>{{build.status.startTimestamp | dateRelative}}</td>
                 <td>{{build.status.duration | duration}}</td>

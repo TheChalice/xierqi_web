@@ -3,7 +3,7 @@
 define(['angular', 'moment'], function (angular, moment) {
     moment.locale('zh-cn');
     return angular.module('myApp.filter', [])
-        .filter('dateRelative', function() {
+        .filter('dateRelative', [function() {
             // dropSuffix will tell moment whether to include the "ago" text
             return function(timestamp, dropSuffix) {
                 if (!timestamp) {
@@ -11,8 +11,8 @@ define(['angular', 'moment'], function (angular, moment) {
                 }
                 return moment(timestamp).fromNow(dropSuffix);
             };
-        })
-        .filter('duration', function() {
+        }])
+        .filter('duration', [function() {
             return function(timestampLhs, timestampRhs, omitSingle) {
                 if (!timestampLhs) {
                     return "-";
@@ -58,5 +58,18 @@ define(['angular', 'moment'], function (angular, moment) {
 
                 return humanizedDuration.join(", ");
             };
-        });
+        }])
+        .filter('phaseFilter', [function() {
+            return function(phase) {
+                if (phase == "Complete") {
+                    return "构建成功"
+                } else if (phase == "Running") {
+                    return "正在构建"
+                } else if (phase == "Failed") {
+                    return "构建失败"
+                } else {
+                    return "-"
+                }
+            };
+        }]);
 });

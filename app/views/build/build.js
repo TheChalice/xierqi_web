@@ -128,16 +128,5 @@ angular.module('console.build', [
                 $log.info("[err]", res);
             });
         };
-    }])
-    .filter('buildPhaseFilter', [function() {
-        return function(phase) {
-            if (phase == "Complete") {
-                return "构建成功"
-            } else if (phase == "Running") {
-                return "正在构建"
-            } else {
-                return "-"
-            }
-        };
     }]);
 

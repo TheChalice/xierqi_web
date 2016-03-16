@@ -1,26 +1,36 @@
-.left_line ul {
-    list-style: none;
-    border-left: 2px solid #c9c9c9;
-}
 .dot {
     display: inline-block;
     width: 8px;
     height: 8px;
-    background: #f6a540;
     border-radius: 4px;
-    margin-right: 32px;
-    margin-top: 50px;
+    background: #f6a540;
 }
-#time_display {
-    padding: 15px;
-    border: 1px solid #000000;
-    overflow: hidden;
+.timeline ul {
+    list-style: none;
+    border-left: 2px solid #c9c9c9;
 }
-.left_line ul > li {
-    left: -45px;
-    top: -55px;
+.timeline ul > li {
     position: relative;
+    left: -45px;
+    top: -10px;
+    margin: 0 -45px 50px 0;
 }
-.left_line ul > li .row {
-    margin-left: 45px;
+.timeline ul > li > label {
+    color: #393f4f;
+}
+.timeline ul > li > div.container-fluid {
+    overflow: hidden;
+    padding: 10px 15px;
+    border: 1px solid #c9c9c9;
+    border-radius: 2px;
+    margin-left: 30px;
+    color: #5a6378;
+    font-size: 12px;
+    line-height: 25px;
+}
+.timeline ul > li .well {
+    border: none;
+    border-radius: 2px;
+    margin: 15px 0 0 30px;
+    background: #000;
 }

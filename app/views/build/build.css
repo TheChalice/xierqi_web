@@ -28,15 +28,3 @@
 .icon25-stop:hover {
     background-image: url(img/stop-hover.png);
 }
-
-.icon12-Complete {
-    background-image: url(img/complete.png);
-}
-
-.icon12-Failed {
-    background-image: url(img/fail.png);
-}
-
-.icon12-Running {
-    background-image: url(img/pending.png);
-}
