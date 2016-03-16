@@ -19,6 +19,7 @@ if (window.__karma__) {
 require.config({
     baseUrl: window.__karma__ ? '/base/app' : './',
     paths: {
+        bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min',
         jquery: '../bower_components/jquery/dist/jquery.min',
         moment: '../bower_components/moment/min/moment-with-locales.min',
         angular: '../bower_components/angular/angular.min',
@@ -56,6 +57,9 @@ require.config({
         },
         'ocLazyLoad': {
             deps: ['angular']
+        },
+        'bootstrap': {
+            deps: ['jquery']
         }
     },
     priority: [
@@ -68,8 +72,9 @@ require.config({
 require([
         'jquery',
         'angular',
+        'bootstrap',
         'app'
-    ], function ($, angular, app) {
+    ], function ($, angular) {
         var $html = angular.element(document.getElementsByTagName('html')[0]);
         angular.element().ready(function () {
             // bootstrap the app manually
