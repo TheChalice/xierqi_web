@@ -4,28 +4,56 @@ angular.module('console.image', [
             files: ['components/searchbar/searchbar.js']
         }
     ])
-    .controller('ImageCtrl', ['$scope', '$log','ImageStreamTag', 'Build', function ($scope, $log, ImageStreamTag, Build) {
-        $log.info('ImageCtrl');
+    .controller('ImageCtrl', ['$scope', '$log','ImageStreamTag', 'Build', 'GLOBAL', function ($scope, $log, ImageStreamTag, Build, GLOBAL) {
+
+        //分页
+        $scope.grid = {
+            page: 1,
+            size: GLOBAL.size
+        };
+
+        $scope.$watch('grid.page', function(newVal, oldVal){
+            if (newVal != oldVal) {
+                refresh(newVal);
+            }
+        });
+
+        var refresh = function(page) {
+            var skip = (page - 1) * $scope.grid.size;
+            $scope.items = $scope.data.items.slice(skip, skip + $scope.grid.size);
+        };
 
         var loadImageStream = function() {
             ImageStreamTag.get(function(data){
-                $log.info('data', data);
+                $log.info('imageStream', data);
                 $scope.data = data;
-                loadBuild();
-                }), function (res) {
+                $scope.grid.total = data.items.length;
+                refresh(1);
+
+                loadBuilds(data.items);
+            }, function (res) {
                 //错误处理
-                };
-            }
+            });
+        };
 
+        loadImageStream();
 
-        var loadBuild = function() {
-            var labelSelector = '';
-            for (var i = 0; i < items.length; i++) {
-            }
-                Build.get(function (data) {
-                    $log.info('Build', data);
-                });
-            loadImageStream();
-            fillImageStreamTag(data.item);
+        var loadBuilds = function(items){
+            //todo 通过labelSelector筛选builds,现在无法拿到数据
+            //var labelSelector = '';
+            //for (var i = 0; i < items.length; i++) {
+            //    labelSelector += 'buildconfig=' + items[i].metadata.name + ','
+            //}
+            //labelSelector = labelSelector.substring(0, labelSelector.length - 1);
+            //Build.get({labelSelector: labelSelector}, function (data) {
+            Build.get(function (data) {
+                $log.info("builds", data);
+
+                fillImageStreams(data.items);
+            });
+        };
+
+        var fillImageStreams = function(items) {
+
         };
     }]);

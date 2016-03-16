@@ -37,18 +37,10 @@
                 <td>{{build.status.duration | duration}}</td>
                 <td>手动</td>
                 <td>
-                    <a href="{{build.spec.source.git.uri}}" uib-tooltip="查看代码源" target="_blank">
-                        <span class="icon25 icon25-source"></span>
-                    </a>
-                    <a href="###" uib-tooltip="查看镜像">
-                        <span class="icon25 icon25-image"></span>
-                    </a>
-                    <a href="javascript:;" ng-click="startBuild()" uib-tooltip="构建">
-                        <span class="icon25 icon25-start"></span>
-                    </a>
-                    <a href="###" uib-tooltip="删除" target="_blank">
-                        <span class="icon25 icon25-stop"></span>
-                    </a>
+                    <a class="icon25 icon25-source" href="{{build.spec.source.git.uri}}" uib-tooltip="查看代码源" target="_blank"></a>
+                    <a class="icon25 icon25-image" ui-sref="console.image_detail({name: build.spec.output.to.name})" uib-tooltip="查看镜像"></a>
+                    <a class="icon25 icon25-start" href="javascript:;" ng-click="startBuild()" ng-if="build.status.phase != 'Running'" uib-tooltip="构建"></a>
+                    <a class="icon25 icon25-stop" href="javascript:;" ng-click="stopBuild()" ng-if="build.status.phase == 'Running'" uib-tooltip="停止"></a>
                 </td>
             </tr>
         </table>

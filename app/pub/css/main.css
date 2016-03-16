@@ -15,12 +15,12 @@ body {
 .btn-green:hover {
     background-color: #469450;
 }
-.btn-grey {
+.btn-gray {
     border-radius: 2px;
     background-color: #9fa7b7;
     color: #fff;
 }
-.btn-grey:hover {
+.btn-gray:hover {
     background-color: #3c4251;
     color: #fff;
 }
@@ -69,20 +69,32 @@ body {
 }
 
 /*图标*/
-.icon25 {
+.icon25, .icon20, .icon12 {
     display: inline-block;
-    width: 25px;
-    height: 25px;
     background-size: contain;
+    background-repeat: no-repeat;
     vertical-align: middle;
 }
-
+.icon25 {
+    width: 25px;
+    height: 25px;
+}
+.icon20 {
+    width: 20px;
+    height: 20px;
+}
 .icon12 {
-    display: inline-block;
     width: 12px;
     height: 12px;
-    background-size: contain;
-    vertical-align: middle;
+}
+.icon20-recycle {
+    background-image: url(../img/recycle.png);
+}
+.icon20-stop {
+    background-image: url(../img/stop.png);
+}
+.icon12-tip {
+    background-image: url(../img/tip.png);
 }
 .icon12-Complete {
     background-image: url(../img/complete.png);
@@ -156,6 +168,45 @@ body {
     white-space: nowrap;
     text-overflow: ellipsis;
     -o-text-overflow: ellipsis;
+}
+
+/*模态框默认样式*/
+.modal-default {
+    overflow: hidden;
+    width: 460px;
+}
+.modal-default .modal-content {
+    border-radius: 2px;
+    border: none;
+}
+.modal-default .modal-content .modal-header {
+    background-color: #e6e9f2;
+    border: none;
+    border-radius: 2px 2px 0 0;
+}
+.modal-default .modal-content .modal-body {
+    text-align: center;
+}
+.modal-default .modal-content .modal-body .modal-msg {
+    font-size: 16px;
+}
+.modal-default .modal-content .modal-body .modal-tip {
+    color: #ec6941;
+}
+.modal-default .modal-content .modal-body .modal-tip .icon12 {
+    position: relative;
+    top: -1px;
+    left: -5px;
+}
+.modal-default .modal-content .modal-footer {
+    border-top: none;
+    text-align: center;
+    padding-top: 0;
+}
+.modal-default .modal-content .modal-footer .btn {
+    padding-left: 30px;
+    padding-right: 30px;
+    margin: 0 30px;
 }
 
 @media (max-width: 758px) {

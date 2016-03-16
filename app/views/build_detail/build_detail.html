@@ -2,7 +2,7 @@
     <div class="panel panel-default" style="margin-bottom: 50px">
         <div class="panel-heading">
             <span class="panel-title" id = "buildName"><img  id = "header_img" src="views/build_detail/img/images_113.png"> {{data.metadata.name}}</span>
-            <button class="btn btn-grey pull-right" id = "delButton"><img src="views/build_detail/img/images_141.png" ></button>
+            <button ng-click="delete()" class="btn btn-grey pull-right" id = "delButton"><img src="views/build_detail/img/images_141.png" ></button>
             <button class="btn btn-green pull-right" id = "biildButton">构建</button>
         </div>
         <div class="panel-body">

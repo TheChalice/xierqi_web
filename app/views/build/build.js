@@ -128,5 +128,9 @@ angular.module('console.build', [
                 $log.info("[err]", res);
             });
         };
+
+        $scope.stopBuild = function() {
+            $log.info("stop build");
+        };
     }]);
 

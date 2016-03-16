@@ -35,23 +35,21 @@ define(['angular'], function (angular) {
             };
         }])
         .service('Confirm', ['$uibModal', function ($uibModal) {
-            this.open = function (txt) {
+            this.open = function (title, txt, tip, tp) {
                 return $uibModal.open({
-                    templateUrl: 'tpl/confirm.html',
-                    size: 'sm',
-                    controller: function ($scope, $uibModalInstance, txt) {
+                    templateUrl: 'pub/tpl/confirm.html',
+                    size: 'default',
+                    controller: function ($scope, $uibModalInstance) {
+                        $scope.title = title;
                         $scope.txt = txt;
+                        $scope.tip = tip;
+                        $scope.tp = tp;
                         $scope.ok = function () {
                             $uibModalInstance.close(true);
                         };
                         $scope.cancel = function () {
                             $uibModalInstance.dismiss();
                         };
-                    },
-                    resolve: {
-                        txt: function () {
-                            return txt;
-                        }
                     }
                 }).result;
             };
