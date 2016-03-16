@@ -19,7 +19,6 @@
     color: #393f4f;
 }
 .timeline ul > li > div.container-fluid {
-    overflow: hidden;
     padding: 10px 15px;
     border: 1px solid #c9c9c9;
     border-radius: 2px;
@@ -33,4 +32,18 @@
     border-radius: 2px;
     margin: 15px 0 0 30px;
     background: #000;
+}
+
+.icon25-collapse {
+    background-image: url(img/images_200.png);
+}
+.icon25-collapse:hover {
+    background-image: url(img/images_201.png);
+}
+.icon25-stop {
+    background-image: url(img/images_50.png);
+    margin-right: 20px;
+}
+.icon25-stop:hover {
+background-image: url(img/images_52.png);
 }

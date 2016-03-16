@@ -14,11 +14,12 @@
                     <div class="col-sm-3">
                         master-{{item.spec.revision.git.commit | limitTo: 7}}
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-5">
                         构建时长:{{item.status.duration | duration}}
                     </div>
-                    <div class="col-sm-3">
-                        <a class="icon25" data-toggle="collapse" data-target="#timeline-log-{{$index}}" aria-expanded="false" href="javascript:;">展开</a>
+                    <div class="col-sm-2">
+                        <a class="icon25 icon25-stop" uib-tooltip="停止" href="javascript:;"></a>
+                        <a class="icon25 icon25-collapse" uib-tooltip="查看" data-toggle="collapse" data-target="#timeline-log-{{$index}}" aria-expanded="false" href="javascript:;"></a>
                     </div>
                 </div>
             </div>
