@@ -29,7 +29,7 @@ define([
     ]);
 
     myApp.constant('GLOBAL', {
-        host: 'http://localhost:3002'
+        size: 10
     })
     .constant('AUTH_EVENTS', {
         loginNeeded: 'auth-login-needed',

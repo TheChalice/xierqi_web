@@ -7,7 +7,7 @@ define([
 
     var HOST = 'https://lab.asiainfodata.com:8443/oapi/v1';
     var HOST_GIT = 'https://api.github.com';
-    var NAMESPACE = 'datafoundry-test';
+    var NAMESPACE = 'liujie15';
 
     return angular.module('myApp.resource', ['ngResource'])
         .factory('User', ['$resource', function($resource){

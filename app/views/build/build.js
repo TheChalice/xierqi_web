@@ -4,22 +4,40 @@ angular.module('console.build', [
     {
         files: [
             'components/searchbar/searchbar.js',
-            'components/pagination/pagination.js',
             'views/build/build.css'
         ]
     }
 ])
-    .controller('BuildCtrl', ['$scope', '$log', '$stateParams', 'BuildConfig', 'Build', function ($scope, $log, $stateParams, BuildConfig, Build) {
+    .controller('BuildCtrl', ['$scope', '$log', '$stateParams', 'BuildConfig', 'Build', 'GLOBAL', function ($scope, $log, $stateParams, BuildConfig, Build, GLOBAL) {
+
+        //分页
+        $scope.grid = {
+            page: 1,
+            size: GLOBAL.size
+        };
+
+        $scope.$watch('grid.page', function(newVal, oldVal){
+            if (newVal != oldVal) {
+                refresh(newVal);
+            }
+        });
+
+        var refresh = function(page) {
+            var skip = (page - 1) * $scope.grid.size;
+            $scope.items = $scope.data.items.slice(skip, skip + $scope.grid.size);
+        };
 
         //获取buildConfig列表
         var loadBuildConfigs = function() {
             BuildConfig.get(function(data){
                 $log.info('buildConfigs', data);
                 $scope.data = data;
+                $scope.grid.total = data.items.length;
+                refresh(1);
 
                 loadBuilds($scope.data.items);
             }, function(res) {
-                //错误处理
+                //todo 错误处理
             });
         };
 

@@ -25,7 +25,7 @@
                 <th>构建类型</th>
                 <th>操作</th>
             </tr>
-            <tr ng-repeat="build in data.items">
+            <tr ng-repeat="build in items">
                 <td>
                     <a ui-sref="console.build_detail({name: build.metadata.name})">{{build.metadata.name}}</a>
                 </td>
@@ -52,6 +52,20 @@
                 </td>
             </tr>
         </table>
-        <c-pagination></c-pagination>
+        <div class="text-right">
+            <uib-pagination
+                    ng-model="grid.page"
+                    total-items="grid.total"
+                    items-per-page="grid.size"
+                    class="pagination-sm"
+                    boundary-links="true"
+                    max-size="12"
+                    rotate="true"
+                    previous-text="上一页"
+                    next-text="下一页"
+                    first-text="首页"
+                    last-text="末页">
+            </uib-pagination>
+        </div>
     </div>
 </div>
