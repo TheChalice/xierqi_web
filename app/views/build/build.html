@@ -1,13 +1,18 @@
 <div id="build">
-    <div>
-        <a class="btn btn-green" ui-sref="console.build_create">
-            <img src="views/build/img/add.png" alt="+" style="vertical-align: text-top"> 新建构建
-        </a>
-        <a class="btn btn-skyblue" style="margin-left:15px;padding: 6px;" ng-click="refresh()">
-            <img src="views/build/img/refresh.png" alt="refresh" style="vertical-align: text-bottom;">
-        </a>
-        <div class="pull-right">
-            <c-search></c-search>
+    <div class="row">
+        <div class="col-sm-6 col-xs-4">
+            <a class="btn btn-green" ui-sref="console.build_create">
+                <img src="views/build/img/add.png" alt="+" style="vertical-align: text-top">
+                <span class="hidden-xs"> 新建构建</span>
+            </a>
+            <a class="btn btn-skyblue" style="margin-left:15px;padding: 6px;" ng-click="refresh()">
+                <img src="views/build/img/refresh.png" alt="refresh" style="vertical-align: text-bottom;">
+            </a>
+        </div>
+        <div class="col-sm-6 col-xs-8" style="padding-left: 0;">
+            <div class="pull-right">
+                <c-search></c-search>
+            </div>
         </div>
     </div>
     <div class="table-responsive" style="margin-top: 20px;">
@@ -35,10 +40,10 @@
                     <a href="{{build.spec.source.git.uri}}" uib-tooltip="查看代码源" target="_blank">
                         <span class="icon25 icon25-source"></span>
                     </a>
-                    <a href="###" uib-tooltip="查看镜像" target="_blank">
+                    <a href="###" uib-tooltip="查看镜像">
                         <span class="icon25 icon25-image"></span>
                     </a>
-                    <a href="###" uib-tooltip="构建" target="_blank">
+                    <a href="javascript:;" ng-click="startBuild()" uib-tooltip="构建">
                         <span class="icon25 icon25-start"></span>
                     </a>
                     <a href="###" uib-tooltip="删除" target="_blank">

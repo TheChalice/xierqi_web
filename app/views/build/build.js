@@ -43,6 +43,9 @@ angular.module('console.build', [
         var fillBuildConfigs = function(items) {
             var buildMap = {};
             for (var i = 0; i < items.length; i++) {
+                if (!items[i].metadata.labels) {
+                    continue;
+                }
                 var label = items[i].metadata.labels.buildconfig;
                 if (!buildMap[label]) {
                     buildMap[label] = items[i];
@@ -68,15 +71,52 @@ angular.module('console.build', [
         loadBuildConfigs();
 
         $scope.refresh = function(){
-            loadBuilds();
+            loadBuildConfigs();
+        };
+
+        $scope.build = {
+            metadata: {
+                name: 'build-2',
+                labels: {
+                    buildconfig: 'build-config-1'
+                }
+            },
+            spec: {
+                strategy: {
+                    type: 'Docker',
+                    dockerStrategy: {
+                        from: {
+                            kind: 'ImageStreamTag',
+                            name: 'golang:1.5'
+                        }
+                    }
+                },
+                source: {
+                    type: 'Git',
+                    git: {
+                        uri: 'https://github.com/dragon9783/docker-2048.git',
+                        ref: 'master'
+                    }
+                }
+            }
+        };
+
+        //开始构建
+        $scope.startBuild = function() {
+            Build.create({}, $scope.build, function(res){
+                $log.info("build", res);
+            }, function(res){
+                //todo 错误处理代码
+                $log.info("[err]", res);
+            });
         };
     }])
     .filter('buildPhaseFilter', [function() {
         return function(phase) {
             if (phase == "Complete") {
                 return "构建成功"
-            } else if (phase == "") {
-
+            } else if (phase == "Running") {
+                return "正在构建"
             } else {
                 return "-"
             }

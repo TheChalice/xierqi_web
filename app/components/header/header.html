@@ -1,48 +1,28 @@
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" ng-click="isCollapse=!isCollapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#"></a>
+<div id="header" class="navbar-fixed-top">
+    <a id="header-brand" href="#">
+        <img src="components/header/img/logo.png" alt="logo">
+    </a>
+    <div id="header-title" class="hidden-xs">
+        <span style="cursor: pointer" ng-click="back()" class="icon25 icon25-back" ng-if="hasBack()"></span>
+        <span>{{console.state | stateTitleFilter}}</span>
+    </div>
+    <div id="header-menu">
+        <a class="icon25 icon25-msg" href="javascript:;" uib-tooltip="消息" tooltip-placement="bottom">
+            <div class="header-dot"></div>
+        </a>
+        <a class="icon25 icon25-guide" href="javascript:;" uib-tooltip="指南" tooltip-placement="bottom"></a>
 
-            <ul class="nav navbar-nav">
-                <li>
-                    <a id="header-title">
-                        <span style="cursor: pointer" ng-click="back()" class="icon25 icon25-back" ng-if="hasBack()"></span>
-                        <span>{{console.state | stateTitleFilter}}</span>
-                    </a>
-                </li>
+        <span uib-dropdown on-toggle="toggled(open)">
+            <a href="javascript:;" id="user-menu" uib-dropdown-toggle>
+                <img src="" alt="icon" class="hidden-xs">
+                <span>{{user.metadata.name}} </span>
+                <span class="caret"></span>
+            </a>
+            <ul uib-dropdown-menu aria-labelledby="user-menu">
+                <li><a href="#">Action</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="logout">退出</a></li>
             </ul>
-        </div>
-
-        <div class="collapse navbar-collapse" uib-collapse="isCollapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li uib-dropdown on-toggle="toggled(open)">
-                    <a href="" id="user-menu" uib-dropdown-toggle>
-                        <img id="header-user-icon" alt="icon">
-                        <span>{{user.metadata.name}} </span>
-                        <span class="caret"></span>
-                    </a>
-                    <ul uib-dropdown-menu aria-labelledby="user-menu">
-                        <li><a href="#">Action</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="logout">退出</a></li>
-                    </ul>
-                </li>
-            </ul>
-
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <div id="header-msg-new"></div>
-                    <a id="header-msg" href="javascript:;" uib-tooltip="消息" tooltip-placement="bottom">消息</a>
-                </li>
-                <li><a id="header-guide" href="javascript:;" uib-tooltip="指南" tooltip-placement="bottom">指南</a></li>
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
+        </span>
+    </div>
+</div>

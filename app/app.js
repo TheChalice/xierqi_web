@@ -44,7 +44,7 @@ define([
         logout_uri: ""
     })
     .config(['$httpProvider', function ($httpProvider) {
-        $httpProvider.defaults.headers.common["Authorization"] = "Bearer jIas2SeTA9IxU4j5p0U00wwjlIPVVFN_saCKsvFGi7k";
+        $httpProvider.defaults.headers.common["Authorization"] = "Bearer y-gUuH7cjPzz_MALumnBIt_EYku3Pr8WsTNQVM-CCs8";
 
         $httpProvider.interceptors.push([
             '$injector',

@@ -36,3 +36,7 @@
 .icon12-Failed {
     background-image: url(img/fail.png);
 }
+
+.icon12-Running {
+    background-image: url(img/pending.png);
+}
