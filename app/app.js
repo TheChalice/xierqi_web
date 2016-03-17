@@ -11,6 +11,7 @@ define([
     'pub/service',
     'pub/directive',
     'pub/filter',
+    'pub/ws',
     'components/version/version'
 ], function (angular) {
 
@@ -25,6 +26,7 @@ define([
         'myApp.service',
         'myApp.directive',
         'myApp.filter',
+        'myApp.webSocket',
         'myApp.version'
     ]);
 

@@ -122,10 +122,10 @@ body {
 .icon12-Complete {
     background-image: url(../img/complete.png);
 }
-.icon12-Failed {
+.icon12-Failed, .icon12-Error {
     background-image: url(../img/fail.png);
 }
-.icon12-Running {
+.icon12-Running, .icon12-Pending {
     background-image: url(../img/pending.png);
 }
 

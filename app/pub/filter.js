@@ -13,16 +13,11 @@ define(['angular', 'moment'], function (angular, moment) {
             };
         }])
         .filter('duration', [function() {
-            return function(timestampLhs, timestampRhs, omitSingle) {
-                if (!timestampLhs) {
+            return function(um) {
+                if (!um) {
                     return "-";
                 }
-                timestampRhs = timestampRhs || new Date(); // moment expects either an ISO format string or a Date object
-
-                var ms = moment(timestampRhs).diff(timestampLhs);
-                var duration = moment.duration(ms);
-                // the out of the box humanize in moment.js rounds to the nearest time unit
-                // but we need more details
+                var duration = moment.duration(um / 1000000);
                 var humanizedDuration = [];
                 var years = duration.years();
                 var months = duration.months();
@@ -33,11 +28,7 @@ define(['angular', 'moment'], function (angular, moment) {
 
                 function add(count, singularText, pluralText) {
                     if (count > 0) {
-                        if (omitSingle && count === 1) {
-                            humanizedDuration.push(singularText);
-                        } else {
-                            humanizedDuration.push(count + ' ' + (count === 1 ? singularText : pluralText));
-                        }
+                        humanizedDuration.push(count + (count === 1 ? singularText : pluralText));
                     }
                 }
 
@@ -49,14 +40,14 @@ define(['angular', 'moment'], function (angular, moment) {
                 add(seconds, "second", "秒");
 
                 if (humanizedDuration.length === 0) {
-                    humanizedDuration.push("0 秒");
+                    humanizedDuration.push("0秒");
                 }
 
                 if (humanizedDuration.length > 2) {
                     humanizedDuration.length = 2;
                 }
 
-                return humanizedDuration.join(", ");
+                return humanizedDuration.join("");
             };
         }])
         .filter('phaseFilter', [function() {
@@ -67,6 +58,10 @@ define(['angular', 'moment'], function (angular, moment) {
                     return "正在构建"
                 } else if (phase == "Failed") {
                     return "构建失败"
+                } else if (phase == "Pending") {
+                    return "正在拉取代码"
+                } else if (phase == "Error") {
+                    return "构建错误"
                 } else {
                     return "-"
                 }

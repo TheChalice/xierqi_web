@@ -8,7 +8,7 @@ angular.module('console.build', [
         ]
     }
 ])
-    .controller('BuildCtrl', ['$scope', '$log', '$stateParams', 'BuildConfig', 'Build', 'GLOBAL', function ($scope, $log, $stateParams, BuildConfig, Build, GLOBAL) {
+    .controller('BuildCtrl', ['$scope', '$log', '$stateParams', 'BuildConfig', 'Build', 'GLOBAL', '$ws', function ($scope, $log, $stateParams, BuildConfig, Build, GLOBAL, $ws) {
 
         //分页
         $scope.grid = {
@@ -69,8 +69,8 @@ angular.module('console.build', [
                     buildMap[label] = items[i];
                     continue;
                 }
-                var st = (new Date(items[i].status.startTimestamp)).getTime();
-                if ((new Date(buildMap[label].status.startTimestamp)).getTime() < st) {
+                var st = (new Date(items[i].metadata.creationTimestamp)).getTime();
+                if ((new Date(buildMap[label].metadata.creationTimestamp)).getTime() < st) {
                     buildMap[label] = items[i];
                 }
             }
@@ -80,12 +80,35 @@ angular.module('console.build', [
                     return;
                 }
                 item.status.phase = buildMap[label].status.phase;
-                item.status.startTimestamp = buildMap[label].status.startTimestamp;
+                item.status.startTimestamp = buildMap[label].metadata.creationTimestamp;
                 item.status.duration = buildMap[label].status.duration;
                 //todo 构建类型
             });
         };
 
+        var watchBuildConfigs = function(){
+            if (!$ws.available()) {
+                $log.info("webSocket is not available");
+                return;
+            }
+            $ws({
+                method: "WATCH",
+                url: 'wss://lab.asiainfodata.com:8443/oapi/v1/namespaces/datafoundry-test/buildconfigs?watch=true&resourceVersion=8196719&access_token=HlqyWwA-2DuJ4x9Kb2kNQD5nDCGkJRBjkh_sx8MEOug',
+                onclose:   function(){
+                    $log.info("webSocket close");
+                },
+                onmessage: function(){
+                    $log.info("webSocket message");
+                },
+                onopen:    function(){
+                    $log.info("webSocket open");
+                }
+            }).then(function(ws) {
+                $log.info("finish ws=", ws);
+            });
+        };
+
+        //watchBuildConfigs();
         loadBuildConfigs();
 
         $scope.refresh = function(){
