@@ -57,12 +57,12 @@
         <uib-tab index="2" heading="配置信息">
             <form class="form-horizontal">
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" id="autobuild">自动构建触发条件</label>
+                    <label class="col-sm-2 text-left" id="autobuild">自动构建触发条件</label>
                     <div class="font12 col-sm-10">
-                        <label id="condition">当代码仓库发生以下变化触发持续集成</label><br>
-                        <label id="pushtag"><input type="checkbox" style="margin-right:15px">提交Tag</label>
+                        <label id="condition" style="margin-left: 60px">当代码仓库发生以下变化触发持续集成</label><br>
+                        <label id="pushtag" style="margin-left: 60px"><input type="checkbox" style="margin-right:15px">提交Tag</label>
                         <div>
-                            <label id="pushbranch">
+                            <label id="pushbranch" style="margin-left: 60px">
                                 <input type="checkbox" style="margin-right: 15px">提交代码到分支
                                 <input type="text" class="form-line" id="branchname" placeholder="请输入分支名称" style="margin-left: 15px">
                                 <a class="icon12 icon-edit" style="margin-left: 15px" href="javascript:;"></a>
@@ -73,22 +73,22 @@
             </form>
             <form class="form-horizontal" id="cigroup">
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">是否持续集成</label>
+                    <label class="col-sm-2 text-left">是否持续集成</label>
                     <div class="col-sm-5">
-                        <button class="btn btn-orange pull-right" id = "ci">持续集成配置</button>
+                        <button class="btn btn-orange pull-right" id = "ci" style="margin-left: 60px">持续集成配置</button>
                     </div>
                 </div>
             </form>
             <form class="form-horizontal" id="buildingtime">
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">构建超时时长</label>
+                    <label class="col-sm-2 text-left">构建超时时长</label>
                     <div class="col-sm-6">
-                        <select name="" id="choosentime" style="margin-left: 60px"></select>
-                        <label>构建时长请不要超过30mins.</label>
-                        <label><img src="" alt="">您设置的时长超过了最大限制,请重新设置.</label>
+                        <label class="font12"><select name="selectmins" id="choosentime" style="margin-left: 60px; margin-right: 10px"></select>mins</label>
+                        <label class="font12"><img src="views/build_detail/img/images_131.png" style="margin-left: 15px; margin-right :20px;">构建时长请不要超过30mins.</label>
+                        <label class="font12" style="margin-left: 60px; margin-top: 12px; color: red"><img style="margin-right: 10px; margin-top: -4px" src="views/build_detail/img/images_131.png">您设置的时长超过了最大限制,请重新设置.</label>
                     </div>
                     <div class="col-sm-4">
-                        <label><input type="text" class="form-line" id="time" style="margin-right:15px;">mins</label>
+                        <label class="font12"><input type="text" class="form-line" id="time" style="margin-right:15px;">mins</label>
                     </div>
                 </div>
             </form>
