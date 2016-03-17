@@ -38,5 +38,6 @@ angular.module('console.build.detail', [
             });
         }
 
+
     }]);
 

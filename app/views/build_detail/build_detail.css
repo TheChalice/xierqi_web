@@ -1,6 +1,6 @@
 .form-group {
     padding-bottom: 40px;
-    border-bottom: 1px solid #c9c9c9;
+    border-bottom: 1px solid;
 }
 .icon-edit {
     background-image: url(img/images_134.png);
