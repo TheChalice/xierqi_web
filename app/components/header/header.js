@@ -16,7 +16,7 @@ angular.module("console.header", [
                     $window.history.back();
                 };
                 $scope.hasBack = function(){
-                    if ($state.current.name == "console.build") {
+                    if ($state.current.name == "console.build" || $state.current.name == "console.image" ) {
                         return false
                     }
                     return true;
@@ -33,6 +33,10 @@ angular.module("console.header", [
                     return "新建构建";
                 case "console.build_detail":
                     return "构建详情";
+                case "console.image":
+                    return "镜像仓库";
+                case "console.image_detail":
+                    return "镜像仓库";
                 default:
                     return ""
             }

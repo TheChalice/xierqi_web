@@ -66,6 +66,13 @@ body {
 .panel-default .panel-heading {
     background: #e6e9f2;
     border-radius: 0;
+    line-height: 34px;
+}
+
+.panel-default .panel-heading .panel-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #393f4f;
 }
 
 /*图标*/
@@ -87,6 +94,15 @@ body {
 .icon12 {
     width: 12px;
     height: 12px;
+}
+.icon25-panel {
+    background-image: url(../img/panel.png);
+}
+.icon25-panel-repository {
+    background-image: url(../img/panel-repository.png);
+}
+.icon25-time {
+    background-image: url(../img/panel-repository.png);
 }
 .icon20-recycle {
     background-image: url(../img/recycle.png);
@@ -213,6 +229,19 @@ body {
     padding-left: 30px;
     padding-right: 30px;
     margin: 0 30px;
+}
+
+/*媒体对象小*/
+.media-sm .media-left img {
+    width: 27px;
+    /*height: 30px;*/
+}
+.media-sm .media-body .media-heading {
+    font-size: 14px;
+    color: #393f4f;
+}
+.media-sm .media-body small {
+    color: #5a6378;
 }
 
 @media (max-width: 758px) {
