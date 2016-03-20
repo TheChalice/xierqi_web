@@ -1,28 +1,44 @@
 <div>
-    <form class="form-horizontal">
-        <div class="form-group">
-            <label class="col-sm-2 control-label">构建名称</label>
-            <div class="col-sm-10">
-                <input ng-model="buildConfig.metadata.name" type="text" class="form-control">
+    <form class="form-horizontal" name="frm">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="panel-title">新建构建</span>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">构建名称</label>
+                    <div class="col-sm-10">
+                        <input ng-model="buildConfig.metadata.name" type="text" class="form-control" required>
+                    </div>
+                </div>
+                <hr>
+                <!--<div class="form-group">-->
+                    <!--<label class="col-sm-2 control-label">代码URL</label>-->
+                    <!--<div class="col-sm-10">-->
+                        <!--<uib-tabset class="tab-default">-->
+                            <!--<uib-tab index="1" heading="代码仓库">-->
+                                <!--haha-->
+                            <!--</uib-tab>-->
+                            <!--<uib-tab index="2" heading="GitHub">-->
+                                <!--heihei-->
+                            <!--</uib-tab>-->
+                            <!--<uib-tab index="3" heading="Gitlab">-->
+                                <!--xixi-->
+                            <!--</uib-tab>-->
+                        <!--</uib-tabset>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<hr>-->
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">代码URL</label>
+                    <div class="col-sm-10">
+                        <input ng-model="buildConfig.spec.source.git.uri" type="text" class="form-control" required>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">代码URL</label>
-            <div class="col-sm-10">
-                <input ng-model="buildConfig.spec.source.git.uri" type="text" class="form-control">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">构建时长</label>
-            <div class="col-sm-10">
-                <input type="number"> <span>Min</span>
-                <span>构建超时时长请不要超过30Min。</span>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="button" class="btn btn-default" ng-click="create()">开始构建</button>
-            </div>
-        </div>
+
+        <a class="btn btn-block" ng-class="{'btn-orange':frm.$valid, 'btn-disabled': frm.$invalid}" ng-disabled="frm.$invalid" ng-click="frm.$valid && create()">开始构建</a>
     </form>
 </div>

@@ -8,7 +8,7 @@ angular.module('console.build', [
         ]
     }
 ])
-    .controller('BuildCtrl', ['$scope', '$log', '$stateParams', 'BuildConfig', 'Build', 'GLOBAL', '$ws', function ($scope, $log, $stateParams, BuildConfig, Build, GLOBAL, $ws) {
+    .controller('BuildCtrl', ['$scope', '$log', '$state', '$stateParams', 'BuildConfig', 'Build', 'GLOBAL', '$ws', function ($scope, $log, $state, $stateParams, BuildConfig, Build, GLOBAL, $ws) {
 
         //分页
         $scope.grid = {
@@ -115,40 +115,19 @@ angular.module('console.build', [
             loadBuildConfigs();
         };
 
-        $scope.build = {
-            metadata: {
-                name: 'build-2',
-                labels: {
-                    buildconfig: 'build-config-1'
-                }
-            },
-            spec: {
-                strategy: {
-                    type: 'Docker',
-                    dockerStrategy: {
-                        from: {
-                            kind: 'ImageStreamTag',
-                            name: 'golang:1.5'
-                        }
-                    }
-                },
-                source: {
-                    type: 'Git',
-                    git: {
-                        uri: 'https://github.com/dragon9783/docker-2048.git',
-                        ref: 'master'
-                    }
-                }
-            }
-        };
-
         //开始构建
-        $scope.startBuild = function() {
-            Build.create({}, $scope.build, function(res){
-                $log.info("build", res);
+        $scope.startBuild = function(idx) {
+            var name = $scope.items[idx].metadata.name;
+            var buildRequest = {
+                metadata: {
+                    name: name
+                }
+            };
+            BuildConfig.instantiate.create({name: name}, buildRequest, function(){
+                $log.info("build instantiate success");
+                $state.go('console.build_detail', {name: name})
             }, function(res){
-                //todo 错误处理代码
-                $log.info("[err]", res);
+                //todo 错误处理
             });
         };
 

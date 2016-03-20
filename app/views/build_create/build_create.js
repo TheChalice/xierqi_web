@@ -6,92 +6,43 @@ angular.module('console.build.create', [])
 
         $scope.buildConfig = {
             metadata: {
-                name: 'build-config-2'
+                name: ''
             },
             spec: {
-                triggers: [
-                    //{
-                    //    type: 'GitHub',
-                    //    github: {secret: 'uZqdAJzfCk_kiBxcc5HP'}
-                    //},
-                    //{
-                    //    type: 'Generic',
-                    //    generic: {secret: 'H-PE0qZxQRl8t0OnqMdv'}
-                    //},
-                    //{
-                    //    type: 'ConfigChange'
-                    //},
-                    //{
-                    //    type: 'ImageChange',
-                    //    imageChange: {lastTriggeredImageID: 'library/golang@sha256:13d12e6cc7b066e26288915cbee72d44ff74482ab4810a2fb218801b3ed8c56e'}
-                    //}
-                ],
+                triggers: [],
                 source: {
                     type: 'Git',
                     git: {
-                        uri: 'https://github.com/dragon9783/docker-2049.git'
-                        //ref: 'master'
+                        uri: ''
                     }
                 },
-                //revision: {
-                //    type: 'Git',
-                //    git: {
-                //        commit: ''
-                //    }
-                //},
                 strategy: {
-                    type: 'Docker',
-                    dockerStrategy: {
-                        from: {
-                            kind: 'ImageStreamTag',
-                            name: 'golang:1.5'
-                        }
-                    }
+                    type: 'Docker'
                 }
-                //output: {
-                //    to: {
-                //        kind: 'ImageStreamTag',
-                //        name: 'build-config-2:latest'
-                //    }
-                //}
-                //resources: {
-                //
-                //}
-            },
-            status: {
-                lastVersion: 1
             }
         };
 
         $scope.create = function() {
             BuildConfig.create({}, $scope.buildConfig, function(res){
                 $log.info("buildConfig", res);
-                createBuild(res);
+                createBuild(res.metadata.name);
             }, function(res){
                 //todo 错误处理代码
                 $log.info("[err]", res);
             });
         };
 
-        var createBuild = function(buildConfig) {
-            var build = {
+        var createBuild = function(name) {
+            var buildRequest = {
                 metadata: {
-                    name: buildConfig.metadata.name + '-1',
-                    labels: {
-                        buildconfig: buildConfig.metadata.name
-                    }
-                },
-                spec: {
-                    strategy: buildConfig.spec.strategy,
-                    source: buildConfig.spec.source
+                    name: name
                 }
             };
-            Build.create({}, build, function(res){
-                $log.info("build", res);
-                $state.go('console.build_detail', {name: buildConfig.metadata.name})
+            BuildConfig.instantiate.create({name: name}, buildRequest, function(){
+                $log.info("build instantiate success");
+                $state.go('console.build_detail', {name: name})
             }, function(res){
-                //todo 错误处理代码
-                $log.info("[err]", res);
+                //todo 错误处理
             });
         };
     }]);

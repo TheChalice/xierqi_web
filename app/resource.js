@@ -5,9 +5,9 @@ define([
     'ngResource'
 ], function (angular) {
 
-    var HOST = 'https://lab.asiainfodata.com:8443/oapi/v1';
+    var HOST = 'https://192.168.99.100:8443/oapi/v1';
     var HOST_GIT = 'https://api.github.com';
-    var NAMESPACE = 'datafoundry-test';
+    var NAMESPACE = 'foundry';
 
     return angular.module('myApp.resource', ['ngResource'])
         .factory('User', ['$resource', function($resource){
@@ -21,10 +21,14 @@ define([
             var Build = $resource(HOST + '/namespaces/' + NAMESPACE + '/builds/:name', {name: '@name'}, {
                 create: { method: 'POST'}
             });
+            Build.log = $resource(HOST + '/namespaces/' + NAMESPACE + '/builds/:name/log', {name: '@name'});
             return Build;
         }])
         .factory('BuildConfig', ['$resource', function($resource){
             var BuildConfig = $resource(HOST + '/namespaces/' + NAMESPACE + '/buildconfigs/:name', {name: '@name'}, {
+                create: { method: 'POST'}
+            });
+            BuildConfig.instantiate = $resource(HOST + '/namespaces/' + NAMESPACE + '/buildconfigs/:name/instantiate', {name: '@name'}, {
                 create: { method: 'POST'}
             });
             return BuildConfig;

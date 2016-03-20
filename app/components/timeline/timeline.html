@@ -3,7 +3,7 @@
         <li ng-repeat="item in data.items">
             <label>
                 <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                {{item.status.startTimestamp | dateRelative}}
+                {{item.metadata.creationTimestamp | dateRelative}}
             </label>
             <div class="container-fluid">
                 <div class="row">
@@ -18,12 +18,12 @@
                         构建时长:{{item.status.duration | duration}}
                     </div>
                     <div class="col-sm-2">
-                        <a class="icon25 icon25-stop" uib-tooltip="停止" href="javascript:;"></a>
-                        <a class="icon25 icon25-collapse" uib-tooltip="查看" data-toggle="collapse" data-target="#timeline-log-{{$index}}" aria-expanded="false" href="javascript:;"></a>
+                        <a class="icon25 icon25-stop" ng-click="delete($index)" uib-tooltip="停止" href="javascript:;"></a>
+                        <a class="icon25 icon25-collapse" ng-click="getLog($index)" uib-tooltip="查看"href="javascript:;"></a>
                     </div>
                 </div>
             </div>
-            <div id="timeline-log-{{$index}}" class="collapse">
+            <div uib-collapse="!collapseLog[item.metadata.name]">
                 <div class="well">
                     hahaha
                 </div>

@@ -9,6 +9,10 @@ body {
 .btn:hover {
     color: #fff;
 }
+.btn-disabled, .btn-disabled:hover {
+    background: #e6e9f2;
+    color: #5a6378;
+}
 .btn-green {
     background-color: #55c45f;
 }
@@ -16,13 +20,10 @@ body {
     background-color: #469450;
 }
 .btn-gray {
-    border-radius: 2px;
     background-color: #9fa7b7;
-    color: #fff;
 }
 .btn-gray:hover {
     background-color: #3c4251;
-    color: #fff;
 }
 .btn-skyblue {
     background-color: #4eb7cd;
@@ -62,6 +63,7 @@ body {
     overflow: hidden;
     border: 1px solid #e5e5e5;
     border-radius: 2px;
+    color: #5a6378;
 }
 .panel-default .panel-heading {
     background: #e6e9f2;
@@ -127,6 +129,12 @@ body {
 }
 .icon12-Running, .icon12-Pending {
     background-image: url(../img/pending.png);
+}
+.icon12-Cancelled {
+    background-image: url(../img/stop.png);
+}
+.icon12-New {
+    background-image: url(../img/refresh.png);
 }
 
 /*输入框*/

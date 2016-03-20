@@ -32,12 +32,5 @@ angular.module('console.build.detail', [
 
         loadBuildConfig();
 
-        $scope.delete = function(){
-            Confirm.open("删除构建", "您确定要删除项目吗?", "删除项目将清除项目的所有历史数据以及相关的镜像该操作不能被恢复", 'recycle').then(function(){
-                $log.info("confirm")
-            });
-        }
-
-
     }]);
 
