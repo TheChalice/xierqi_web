@@ -76,5 +76,19 @@ define(['angular'], function (angular) {
                     }
                 }).result;
             };
+        }])
+        .service('Sort', [function(){
+            this.sort = function (items, reverse) {
+                if (!reverse || reverse == 0) {
+                    reverse = 1;
+                }
+                items.sort(function(a, b){
+                    if (!a.metadata) {
+                        return 0;
+                    }
+                    return reverse * ((new Date(a.metadata.creationTimestamp)).getTime() - (new Date(b.metadata.creationTimestamp)).getTime());
+                });
+                return items;
+            };
         }]);
 });

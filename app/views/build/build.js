@@ -8,7 +8,7 @@ angular.module('console.build', [
         ]
     }
 ])
-    .controller('BuildCtrl', ['$scope', '$log', '$state', '$stateParams', 'BuildConfig', 'Build', 'GLOBAL', '$ws', function ($scope, $log, $state, $stateParams, BuildConfig, Build, GLOBAL, $ws) {
+    .controller('BuildCtrl', ['$scope', '$log', '$state', '$stateParams', 'BuildConfig', 'Build', 'GLOBAL', '$ws', 'Sort', function ($scope, $log, $state, $stateParams, BuildConfig, Build, GLOBAL, $ws, Sort) {
 
         //分页
         $scope.grid = {
@@ -31,6 +31,7 @@ angular.module('console.build', [
         var loadBuildConfigs = function() {
             BuildConfig.get(function(data){
                 $log.info('buildConfigs', data);
+                data.items = Sort.sort(data.items, -1); //排序
                 $scope.data = data;
                 $scope.grid.total = data.items.length;
                 refresh(1);
