@@ -13,6 +13,15 @@
     background: #dde0e9;
 }
 
+#sidebar ul > li > a > i {
+    display: none;
+}
+#sidebar ul > li.active > a > i {
+    position: absolute;
+    right: 0;
+    display: inline-block;
+    color: white;
+}
 .icon25-dashboard {
     background-image: url(img/dashboard.png);
 }
