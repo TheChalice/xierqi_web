@@ -87,29 +87,6 @@ angular.module('console.build', [
             });
         };
 
-        var watchBuildConfigs = function(){
-            if (!$ws.available()) {
-                $log.info("webSocket is not available");
-                return;
-            }
-            $ws({
-                method: "WATCH",
-                url: 'wss://lab.asiainfodata.com:8443/oapi/v1/namespaces/datafoundry-test/buildconfigs?watch=true&resourceVersion=8196719&access_token=HlqyWwA-2DuJ4x9Kb2kNQD5nDCGkJRBjkh_sx8MEOug',
-                onclose:   function(){
-                    $log.info("webSocket close");
-                },
-                onmessage: function(){
-                    $log.info("webSocket message");
-                },
-                onopen:    function(){
-                    $log.info("webSocket open");
-                }
-            }).then(function(ws) {
-                $log.info("finish ws=", ws);
-            });
-        };
-
-        //watchBuildConfigs();
         loadBuildConfigs();
 
         $scope.refresh = function(){

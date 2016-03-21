@@ -6,6 +6,7 @@ define([
 ], function (angular) {
 
     var HOST = 'https://192.168.99.100:8443/oapi/v1';
+    var HOST_WSS = 'wss://192.168.99.100:8443/oapi/v1';
     var HOST_GIT = 'https://api.github.com';
     var NAMESPACE = 'foundry';
 
@@ -16,12 +17,26 @@ define([
             });
             return User;
         }])
-        .factory('Build', ['$resource', function($resource){
+        .factory('Build', ['$resource', '$ws', '$log', function($resource, $ws, $log){
             //GET /oapi/v1/namespaces/{namespace}/builds
             var Build = $resource(HOST + '/namespaces/' + NAMESPACE + '/builds/:name', {name: '@name'}, {
                 create: { method: 'POST'}
             });
             Build.log = $resource(HOST + '/namespaces/' + NAMESPACE + '/builds/:name/log', {name: '@name'});
+            Build.watch = function(onmessage, onopen, onclose){
+                if (!$ws.available()) {
+                    return;
+                }
+                $ws({
+                    method: "WATCH",
+                    url: HOST_WSS + '/namespaces/' + NAMESPACE + '/builds?watch=true&resourceVersion=8196719&access_token=KQCQOU1vNW-IcndGiho-SVG-q0OkDSQwXObz1lyl6mk',
+                    onclose:   onclose,
+                    onmessage: onmessage,
+                    onopen:    onopen
+                }).then(function(ws) {
+                    $log.info("finish ws=", ws);
+                });
+            };
             return Build;
         }])
         .factory('BuildConfig', ['$resource', function($resource){
