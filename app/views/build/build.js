@@ -21,7 +21,7 @@ angular.module('console.build', [
                 refresh(newVal);
             }
         });
-
+        
         var refresh = function(page) {
             var skip = (page - 1) * $scope.grid.size;
             $scope.items = $scope.data.items.slice(skip, skip + $scope.grid.size);
