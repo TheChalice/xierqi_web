@@ -41,7 +41,8 @@ define([
         }])
         .factory('BuildConfig', ['$resource', function($resource){
             var BuildConfig = $resource(HOST + '/namespaces/' + NAMESPACE + '/buildconfigs/:name', {name: '@name'}, {
-                create: { method: 'POST'}
+                create: { method: 'POST'},
+                put: { method: 'PUT'}
             });
             BuildConfig.instantiate = $resource(HOST + '/namespaces/' + NAMESPACE + '/buildconfigs/:name/instantiate', {name: '@name'}, {
                 create: { method: 'POST'}

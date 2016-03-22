@@ -252,6 +252,11 @@ body {
     color: #5a6378;
 }
 
+/*图标颜色*/
+.fa-orange {
+    color: #f6a540;
+}
+
 @media (max-width: 758px) {
     body {
         padding-top: 50px;

@@ -1,6 +1,9 @@
 .build-detail .form-group {
-    padding-bottom: 40px;
-    border-bottom: 1px solid;
+    padding-bottom: 30px;
+    border-bottom: 1px solid #c9c9c9;
+}
+.build-detail .form-group:last-child {
+    border-bottom: none;
 }
 .icon-edit {
     background-image: url(img/images_134.png);
@@ -20,14 +23,6 @@
 .text-left {
     font-weight: normal;
 }
-#cigroup {
-    padding-top: 20px;
-}
-#buildingtime {
-    padding-top: 20px;
-    border-bottom-color: #fff;
-}
-
 .icon20-log {
     background-image: url(img/log.png);
 }

@@ -62,13 +62,15 @@
                 <span class="icon20 icon20-paper"></span> 配置信息
             </uib-tab-heading>
             <form class="form-horizontal">
-                <div class="form-group" style="border-bottom-color: #c9c9c9">
+                <div class="form-group">
                     <!--<label class="col-sm-2 text-left" id="autobuild">自动构建触发条件</label>-->
-                    <label class="col-sm-2 text-left" id="autobuild">是否自动构建</label>
-                    <div class="font12 col-sm-10">
-                        <label class="font12" id="URL" style="margin-left: 60px;">Payload URL : </label>
-                        <label class="font12" id="address" style="margin-left: 60px;">example</label><br>
-                        <label class="font12" id="paste" style="margin-left: 60px;">请去代码仓库创建Webhook</label>
+                    <label class="col-sm-3 text-left">是否自动构建</label>
+                    <div class="col-sm-9">
+                        <small>Payload URL : </small>
+                        <small ng-repeat="trigger in data.spec.triggers" ng-if="trigger.type == 'GitHub'">
+                            {{trigger.github}}
+                        </small><br>
+                        <small>请去代码仓库创建Webhook</small>
 
                         <!--<label id="condition" style="margin-left: 60px">当代码仓库发生以下变化触发持续集成</label><br>-->
                         <!--<label id="pushtag" style="margin-left: 60px"><input type="checkbox" style="margin-right:15px">提交Tag</label>-->
@@ -82,27 +84,28 @@
                         <!--</div>-->
                     </div>
                 </div>
-            </form>
-            <form class="form-horizontal" id="cigroup">
-                <div class="form-group" style="border-bottom-color: #c9c9c9">
-                    <label class="col-sm-2 text-left">是否持续集成</label>
-                    <div class="col-sm-5">
-                        <label class="font12" style="margin-left: 60px;"><input type="checkbox" style="margin-right: 30px" >点击按钮,进行持续集成配置</label>
+
+                <div class="form-group">
+                    <label class="col-sm-3 text-left">是否持续集成</label>
+                    <div class="col-sm-2">
+                        <c-checkbox checked="checked"></c-checkbox>
                     </div>
-                    <div class="col-sm-5">
-                        <button class="btn btn-orange" id = "ci">持续集成配置</button>
+                    <div class="col-sm-7" ng-if="checked">
+                        <small>点击按钮,进行持续集成配置</small>
+                        <a class="btn btn-orange">持续集成配置</a>
                     </div>
                 </div>
-            </form>
-            <form class="form-horizontal" id="buildingtime">
-                <div class="form-group" style="border-bottom-color: #fff; padding-bottom: 10px">
-                    <label class="col-sm-3 text-left" ng-model="setmaxduration">构建超时时长</label>
+
+                <div class="form-group">
+                    <label class="col-sm-3 text-left">构建超时时长</label>
                     <div class="col-sm-9">
-                        <label class="font12" style="margin-right: 20px"><input ng-disabled="!chosentime" ng-model="set" type="text" style="margin-left: -10px; margin-right:10px ">mins
-                            <a ng-click="chosentime = true" class="icon12 icon-edit" style="margin-left: 15px;" href="javascript:;"></a>
-                            <a ng-if="chosentime" ng-click="chosentime" class="icon12 icon-edit" style="margin-left: 15px; display: none;" href="javascript:;"></a></label>
-                        <label class="font12" style="display:none"><img style="margin-left: -10px" src="views/build_detail/img/images_131.png" >构建时长请不要超过30mins.</label>
-                        <label class="font12" style="margin-left: 60px; margin-top: 12px; color: red; display: none">您设置的时长超过了最大限制,请重新设置.</label>
+                        <input ng-model="grid.completionDeadlineMinutes" ng-disabled="!deadlineMinutesEnable" style="width: 80px;display: inline-block;" type="number" class="form-control">
+                        <span style="display: inline-block;">&nbsp;mins&nbsp;</span>
+                        <a href="javascript:;" style="text-decoration: none" ng-click="save()">
+                            <span class="fa fa-orange" ng-class="{'fa-pencil': !deadlineMinutesEnable, 'fa-check-circle': deadlineMinutesEnable}"></span>
+                        </a>
+                        <span>&nbsp;&nbsp;构建超时时长请不要超过30Mins</span>
+                        <small ng-if="completionDeadlineMinutes > 30 || completionDeadlineMinutes <= 0" class="fa fa-exclamation-circle" style="font-size: 12px;color: #ec6941;">&nbsp;您设置的时长超过了最大限制,请重新设置</small>
                     </div>
                 </div>
             </form>

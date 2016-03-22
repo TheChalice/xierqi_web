@@ -4,16 +4,19 @@ angular.module('console.build.detail', [
     {
         files: [
             'components/timeline/timeline.js',
+            'components/checkbox/checkbox.js',
             'views/build_detail/build_detail.css'
         ]
     }
 ])
     .controller('BuildDetailCtrl', ['$scope', '$log', '$stateParams', '$state', 'BuildConfig', 'Build', 'Sort', 'Confirm', function ($scope, $log, $stateParams, $state, BuildConfig, Build, Sort, Confirm) {
+        $scope.grid = {};
 
         var loadBuildConfig = function() {
             BuildConfig.get({name: $stateParams.name}, function(data){
                 $log.info('data', data);
                 $scope.data = data;
+                $scope.grid.completionDeadlineMinutes = parseInt(data.spec.completionDeadlineSeconds / 60);
 
                 loadBuildHistory();
             }, function(res) {
@@ -62,6 +65,22 @@ angular.module('console.build.detail', [
                 }, function(res){
                     //todo 错误处理
                 });
+            });
+        };
+
+        $scope.save = function(){
+            if (!$scope.deadlineMinutesEnable) {
+                $scope.deadlineMinutesEnable = true;
+                return;
+            }
+            var name = $scope.data.metadata.name;
+            $scope.data.spec.completionDeadlineSeconds = $scope.grid.completionDeadlineMinutes * 60;
+            BuildConfig.put({name: name}, $scope.data, function (res) {
+                $log.info("put success", res);
+                $scope.deadlineMinutesEnable = false;
+            }, function(res) {
+                //todo 错误处理
+                $log.info("put failed");
             });
         };
 
