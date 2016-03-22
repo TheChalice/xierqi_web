@@ -18,7 +18,7 @@
                         构建时长:{{item.status.duration | duration}}
                     </div>
                     <div class="col-sm-2">
-                        <a ng-if ="item.status.phase !== 'Pending' || item.status.phase !== 'Running'" class="icon25 icon25-stop" uib-tooltip="删除" href="javascript:;"></a>
+                        <a ng-if ="item.status.phase !== 'Pending' && item.status.phase !== 'Running'" class="icon25 icon25-stop" uib-tooltip="删除" href="javascript:;"></a>
                         <a ng-if="item.status.phase == 'Pending' || item.status.phase == 'Running'"  class="icon25 icon25-delete" uib-tooltip="停止" href="javascript:;"></a>
                         <a class="icon25 icon25-collapse" uib-tooltip="查看" data-toggle="collapse" data-target="#timeline-log-{{$index}}" aria-expanded="false" href="javascript:;"></a>
                     </div>

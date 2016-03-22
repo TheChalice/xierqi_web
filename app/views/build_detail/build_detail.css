@@ -15,6 +15,10 @@
 .font12 {
     font-size: 12px;
     color: #5a6378;
+    font-weight:normal;
+}
+.text-left {
+    font-weight: normal;
 }
 #cigroup {
     padding-top: 20px;

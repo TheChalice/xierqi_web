@@ -63,18 +63,23 @@
             </uib-tab-heading>
             <form class="form-horizontal">
                 <div class="form-group" style="border-bottom-color: #c9c9c9">
-                    <label class="col-sm-2 text-left" id="autobuild">自动构建触发条件</label>
+                    <!--<label class="col-sm-2 text-left" id="autobuild">自动构建触发条件</label>-->
+                    <label class="col-sm-2 text-left" id="autobuild">是否自动构建</label>
                     <div class="font12 col-sm-10">
-                        <label id="condition" style="margin-left: 60px">当代码仓库发生以下变化触发持续集成</label><br>
-                        <label id="pushtag" style="margin-left: 60px"><input type="checkbox" style="margin-right:15px">提交Tag</label>
-                        <div>
-                            <label id="pushbranch" style="margin-left: 60px">
-                                <input type="checkbox" style="margin-right: 15px">提交代码到分支
-                                <input ng-disabled="!chosenbranch" type="text" class="form-line" id="branchname" placeholder="请输入分支名称" style="margin-left: 15px">
-                                <a ng-click="chosenbranch = true" class="icon12 icon-edit" id="edit-branch" style="margin-left: 15px" href="javascript:;"></a>
-                                <a ng-if="chosenbranch" ng-click="chosenbranch = false" class="icon12 icon-save" id="save-branch" style="margin-left: 15px; display: none;" href="javascript:;"></a>
-                            </label>
-                        </div>
+                        <label class="font12" id="URL" style="margin-left: 60px;">Payload URL : </label>
+                        <label class="font12" id="address" style="margin-left: 60px;">example</label><br>
+                        <label class="font12" id="paste" style="margin-left: 60px;">请去代码仓库创建Webhook</label>
+
+                        <!--<label id="condition" style="margin-left: 60px">当代码仓库发生以下变化触发持续集成</label><br>-->
+                        <!--<label id="pushtag" style="margin-left: 60px"><input type="checkbox" style="margin-right:15px">提交Tag</label>-->
+                        <!--<div>-->
+                            <!--<label id="pushbranch" style="margin-left: 60px">-->
+                                <!--<input type="checkbox" style="margin-right: 15px">提交代码到分支-->
+                                <!--<input ng-disabled="!chosenbranch" type="text" class="form-line" id="branchname" placeholder="请输入分支名称" style="margin-left: 15px">-->
+                                <!--<a ng-click="chosenbranch = true" class="icon12 icon-edit" id="edit-branch" style="margin-left: 15px" href="javascript:;"></a>-->
+                                <!--<a ng-if="chosenbranch" ng-click="chosenbranch = false" class="icon12 icon-save" id="save-branch" style="margin-left: 15px; display: none;" href="javascript:;"></a>-->
+                            <!--</label>-->
+                        <!--</div>-->
                     </div>
                 </div>
             </form>
@@ -91,9 +96,9 @@
             </form>
             <form class="form-horizontal" id="buildingtime">
                 <div class="form-group" style="border-bottom-color: #fff; padding-bottom: 10px">
-                    <label class="col-sm-3 text-left">构建超时时长</label>
+                    <label class="col-sm-3 text-left" ng-model="setmaxduration">构建超时时长</label>
                     <div class="col-sm-9">
-                        <label class="font12" style="margin-right: 20px"><input ng-disabled="!chosentime" type="text" style="margin-left: -10px; margin-right:10px ">mins
+                        <label class="font12" style="margin-right: 20px"><input ng-disabled="!chosentime" ng-model="set" type="text" style="margin-left: -10px; margin-right:10px ">mins
                             <a ng-click="chosentime = true" class="icon12 icon-edit" style="margin-left: 15px;" href="javascript:;"></a>
                             <a ng-if="chosentime" ng-click="chosentime" class="icon12 icon-edit" style="margin-left: 15px; display: none;" href="javascript:;"></a></label>
                         <label class="font12" style="display:none"><img style="margin-left: -10px" src="views/build_detail/img/images_131.png" >构建时长请不要超过30mins.</label>
