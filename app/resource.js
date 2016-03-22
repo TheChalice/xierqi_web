@@ -29,7 +29,7 @@ define([
                 }
                 $ws({
                     method: "WATCH",
-                    url: HOST_WSS + '/namespaces/' + NAMESPACE + '/builds?watch=true&resourceVersion=8196719&access_token=KQCQOU1vNW-IcndGiho-SVG-q0OkDSQwXObz1lyl6mk',
+                    url: HOST_WSS + '/namespaces/' + NAMESPACE + '/builds?watch=true&resourceVersion=1922&access_token=BF-Cg8BFC58vdwXGREdPEWWWJUU85A16u43_PzZ2LPI',
                     onclose:   onclose,
                     onmessage: onmessage,
                     onopen:    onopen

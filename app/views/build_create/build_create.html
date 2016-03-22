@@ -7,8 +7,8 @@
             </div>
             <div class="panel-body">
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">构建名称</label>
-                    <div class="col-sm-10">
+                    <label class="col-sm-3 control-label">构建名称</label>
+                    <div class="col-sm-9">
                         <input ng-model="buildConfig.metadata.name" type="text" class="form-control" required>
                     </div>
                 </div>
@@ -31,9 +31,19 @@
                 <!--</div>-->
                 <!--<hr>-->
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">代码URL</label>
-                    <div class="col-sm-10">
+                    <label class="col-sm-3 control-label">代码URL</label>
+                    <div class="col-sm-9">
                         <input ng-model="buildConfig.spec.source.git.uri" type="text" class="form-control" required>
+                    </div>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">构建超时时长</label>
+                    <div class="col-sm-9">
+                        <input ng-model="completionDeadlineMinutes" style="width: 80px;display: inline-block;" type="number" class="form-control" required>
+                        <span style="display: inline-block;">mins</span>
+                        <span>&nbsp;&nbsp;构建超时时长请不要超过30Mins</span>
+                        <small ng-if="completionDeadlineMinutes > 30 || completionDeadlineMinutes <= 0" class="fa fa-exclamation-circle" style="font-size: 12px;color: #ec6941;">&nbsp;您设置的时长超过了最大限制,请重新设置</small>
                     </div>
                 </div>
             </div>

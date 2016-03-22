@@ -18,11 +18,14 @@ angular.module('console.build.create', [])
                 },
                 strategy: {
                     type: 'Docker'
-                }
+                },
+                completionDeadlineSeconds: 1800
             }
         };
+        $scope.completionDeadlineMinutes = 30;
 
         $scope.create = function() {
+            $scope.buildConfig.spec.completionDeadlineSeconds = $scope.completionDeadlineMinutes * 60;
             BuildConfig.create({}, $scope.buildConfig, function(res){
                 $log.info("buildConfig", res);
                 createBuild(res.metadata.name);

@@ -53,7 +53,13 @@ angular.module("console.timeline", [
                             $log.info("err", res);
                         });
                     });
-                }
+                };
+
+                $scope.stop = function(idx){
+                    var name = $scope.data.items[idx].metadata.name;
+
+                    $log.info("stop build" + name);
+                };
             }]
         }
     }]);

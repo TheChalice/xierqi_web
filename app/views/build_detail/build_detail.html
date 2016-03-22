@@ -1,11 +1,11 @@
-<div>
+<div class="build-detail">
     <div class="panel panel-default" style="margin-bottom: 50px">
         <div class="panel-heading">
             <span class="panel-title">
                 <span class="icon25 icon25-panel"></span>&nbsp;&nbsp;{{data.metadata.name}}
             </span>
-            <button style="padding: 5px 10px;margin-left: 15px;" ng-click="delete()" class="btn btn-grey pull-right"><img src="views/build_detail/img/images_141.png" ></button>
-            <button class="btn btn-green pull-right">构建</button>
+            <a class="btn btn-gray pull-right" style="padding: 5px 10px;margin-left: 15px;" ng-click="delete()"><img src="views/build_detail/img/images_141.png" ></a>
+            <a class="btn btn-green pull-right" ng-click="startBuild()">构建</a>
         </div>
         <div class="panel-body">
             <div class="row">
@@ -33,7 +33,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-4" ng-if="data.spec.output && data.spec.output.to && data.spec.output.to.name">
                     <div class="media media-sm">
                         <div class="media-left">
                             <img class="media-object" src="views/build_detail/img/images_108.png">
