@@ -8,7 +8,7 @@ angular.module('console.build', [
         ]
     }
 ])
-    .controller('BuildCtrl', ['$scope', '$log', '$state', '$stateParams', 'BuildConfig', 'Build', 'GLOBAL', '$ws', 'Sort', function ($scope, $log, $state, $stateParams, BuildConfig, Build, GLOBAL, $ws, Sort) {
+    .controller('BuildCtrl', ['$scope', '$log', '$state', '$stateParams', 'BuildConfig', 'Build', 'GLOBAL', 'Sort', function ($scope, $log, $state, $stateParams, BuildConfig, Build, GLOBAL, Sort) {
 
         //分页
         $scope.grid = {

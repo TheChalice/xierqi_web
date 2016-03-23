@@ -39,7 +39,7 @@ define(['angular'], function (angular) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/confirm.html',
                     size: 'default',
-                    controller: function ($scope, $uibModalInstance) {
+                    controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
                         $scope.title = title;
                         $scope.txt = txt;
                         $scope.tip = tip;
@@ -50,7 +50,7 @@ define(['angular'], function (angular) {
                         $scope.cancel = function () {
                             $uibModalInstance.dismiss();
                         };
-                    }
+                    }]
                 }).result;
             };
         }])
@@ -59,13 +59,13 @@ define(['angular'], function (angular) {
                 return $uibModal.open({
                     templateUrl: 'tpl/alert.html',
                     size: 'sm',
-                    controller: function ($scope, $uibModalInstance, txt) {
+                    controller: ['$scope', '$uibModalInstance', 'txt', function ($scope, $uibModalInstance, txt) {
                         $scope.txt = txt;
                         $scope.err = err;
                         $scope.ok = function () {
                             $uibModalInstance.close();
                         };
-                    },
+                    }],
                     resolve: {
                         txt: function () {
                             return txt;

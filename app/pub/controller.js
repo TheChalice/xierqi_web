@@ -2,7 +2,7 @@
 
 define(['angular'], function (angular) {
     return angular.module('myApp.controller', [])
-        .controller('AppCtrl', ['$rootScope', '$state', '$log', 'AUTH_EVENTS', 'AUTH_CFG', function ($rootScope, $state, $log, AUTH_EVENTS, AUTH_CFG) {
+        .controller('AppCtrl', ['$rootScope', '$state', '$log', 'AUTH_EVENTS', function ($rootScope, $state, $log, AUTH_EVENTS) {
             //console相关全局变量
             $rootScope.console = {};
 

@@ -23,7 +23,7 @@
                 <th>最近构建时间</th>
                 <th>最近构建时长</th>
                 <th>构建类型</th>
-                <th>操作</th>
+                <th class="text-center">操作</th>
             </tr>
             <tr ng-repeat="build in items">
                 <td>
@@ -35,8 +35,11 @@
                 </td>
                 <td>{{build.status.startTimestamp | dateRelative}}</td>
                 <td>{{build.status.duration | duration}}</td>
-                <td><img src="img/auto.png" alt="">手动</td>
                 <td>
+                    <i ng-if="true" class="fa fa-hand-pointer-o">&nbsp;手动</i>
+                    <i ng-if="false" class="fa fa-television">&nbsp;自动</i>
+                </td>
+                <td class="text-center">
                     <a class="icon25 icon25-source" href="{{build.spec.source.git.uri}}" uib-tooltip="查看代码源" target="_blank"></a>
                     <a class="icon25 icon25-image" ng-if="build.spec.output && build.spec.output.to && build.spec.output.to.name" ui-sref="console.image_detail({name: build.spec.output.to.name})" uib-tooltip="查看镜像"></a>
                     <a class="icon25 icon25-start" href="javascript:;" ng-click="startBuild($index)" ng-if="build.status.phase != 'Running'" uib-tooltip="构建"></a>

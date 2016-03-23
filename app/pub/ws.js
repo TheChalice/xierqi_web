@@ -12,10 +12,10 @@
 //   returns true if WebSockets are available to use
 define(['angular'], function (angular) {
     return angular.module('myApp.webSocket', [])
-        .provider('$ws', function($httpProvider) {
+        .provider('$ws', ['$httpProvider', function($httpProvider) {
 
             // $get method is called to build the $ws service
-            this.$get = function($q, $injector) {
+            this.$get = ['$q', '$injector', function($q, $injector) {
                 // Build list of interceptors from $httpProvider when constructing the $ws service
                 // Build in reverse-order, so the last interceptor added gets to handle the request first
                 var _interceptors = [];
@@ -71,7 +71,7 @@ define(['angular'], function (angular) {
                 };
 
                 return $ws;
-            };
-        });
+            }];
+        }]);
 });
 

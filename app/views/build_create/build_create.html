@@ -42,13 +42,16 @@
                     <div class="col-sm-9">
                         <input ng-model="completionDeadlineMinutes" style="width: 80px;display: inline-block;" type="number" class="form-control" required>
                         <span style="display: inline-block; margin-right: 20px">mins</span>
-                        <span class="font12">&nbsp;&nbsp;构建超时时长请不要超过60Mins</span>
+                        <span class="font12">&nbsp;&nbsp;构建超时时长请不要超过60Mins</span><br>
                         <small ng-if="completionDeadlineMinutes > 60 || completionDeadlineMinutes <= 0" class="fa fa-exclamation-circle" style="font-size: 12px;color: #ec6941; margin-top: 10px">&nbsp;您设置的时长超过了最大限制,请重新设置</small>
                     </div>
                 </div>
             </div>
         </div>
 
-        <a class="btn btn-block" ui-sref="console.build_detail" ng-class="{'btn-orange':frm.$valid, 'btn-disabled': frm.$invalid}" ng-disabled="frm.$invalid" ng-click="frm.$valid && create()">开始构建</a>
+        <a class="btn btn-block"
+           ng-class="{'btn-orange':frm.$valid && completionDeadlineMinutes <= 60 && completionDeadlineMinutes > 0, 'btn-disabled': frm.$invalid || completionDeadlineMinutes > 60 || completionDeadlineMinutes <= 0}"
+           ng-disabled="frm.$invalid || completionDeadlineMinutes > 60 || completionDeadlineMinutes <= 0"
+           ng-click="frm.$valid && completionDeadlineMinutes <= 60 && completionDeadlineMinutes > 0 && create()">开始构建</a>
     </form>
 </div>

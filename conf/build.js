@@ -11,6 +11,9 @@
     }
 ],
     paths: {
+        bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min',
+        jquery: '../bower_components/jquery/dist/jquery.min',
+        moment: '../bower_components/moment/min/moment-with-locales.min',
         angular: '../bower_components/angular/angular.min',
         ngResource: '../bower_components/angular-resource/angular-resource.min',
         ngFileUpload: '../bower_components/ng-file-upload/ng-file-upload-all.min',
@@ -58,6 +61,11 @@
         'ocLazyLoad': {
             deps: [
                 'angular'
+            ]
+        },
+        'bootstrap': {
+            deps: [
+                'jquery'
             ]
         }
     }
