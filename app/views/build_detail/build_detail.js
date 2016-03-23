@@ -16,8 +16,9 @@ angular.module('console.build.detail', [
             BuildConfig.get({name: $stateParams.name}, function(data){
                 $log.info('data', data);
                 $scope.data = data;
-                $scope.grid.completionDeadlineMinutes = parseInt(data.spec.completionDeadlineSeconds / 60);
-
+                if (data.spec && data.spec.completionDeadlineSeconds){
+                    $scope.grid.completionDeadlineMinutes = parseInt(data.spec.completionDeadlineSeconds / 60);
+                }
                 loadBuildHistory();
             }, function(res) {
                 //错误处理
@@ -58,7 +59,7 @@ angular.module('console.build.detail', [
 
         $scope.delete = function(){
             var name = $scope.data.metadata.name;
-            Confirm.open("删除构建", "您确定要删除项目吗?", "删除项目将清除项目的所有历史数据以及相关的镜像该操作不能被恢复", 'recycle').then(function() {
+            Confirm.open("删除构建", "您确定要删除构建吗?", "删除构建将清除构建的所有历史数据以及相关的镜像该操作不能被恢复", 'recycle').then(function() {
                 BuildConfig.remove({name: name}, {}, function(){
                     $log.info("remove buildConfig success");
                     $state.go("console.build");

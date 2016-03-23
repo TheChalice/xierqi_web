@@ -49,11 +49,13 @@ body {
 }
 .table-default > tbody > tr > th,
 .table-default > tbody > tr > td {
+    padding-left: 20px;
     padding-top: 20px;
     padding-bottom: 20px;
     color: #5a6378;
 }
 .table-default > tbody > tr > th {
+    padding-left: 20px;
     background: #e6e9f2;
     color: #393f4f;
 }

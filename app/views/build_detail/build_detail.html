@@ -4,7 +4,7 @@
             <span class="panel-title">
                 <span class="icon25 icon25-panel"></span>&nbsp;&nbsp;{{data.metadata.name}}
             </span>
-            <a class="btn btn-gray pull-right" style="padding: 5px 10px;margin-left: 15px;" ng-click="delete()"><img src="views/build_detail/img/images_141.png" ></a>
+            <a class="btn btn-gray pull-right" style=" padding: 5px 10px; margin-left: 15px; height:34px; width:36px" ng-click="delete()"><i class="fa fa-trash-o"></i></a>
             <a class="btn btn-green pull-right" ng-click="startBuild()">构建</a>
         </div>
         <div class="panel-body">
@@ -16,7 +16,7 @@
                         </div>
                         <div class="media-body">
                             <h4 class="media-heading">创建时间</h4>
-                            <small>{{data.metadata.creationTimestamp | dateRelative}}</small>
+                            <small style="color: #5a6378;">{{data.metadata.creationTimestamp | dateRelative}}</small>
                         </div>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                         <div class="media-body">
                             <h4 class="media-heading">镜像</h4>
                             <small>
-                                <a class="href-orange" ui-sref="console.image_detail({name: data.spec.output.to.name})">{{data.spec.output.to.name}}</a>
+                                <a class="href-orange" style="color: #5a6378;" ui-sref="console.image_detail({name: data.spec.output.to.name})">{{data.spec.output.to.name}}</a>
                             </small>
                         </div>
                     </div>
@@ -65,7 +65,10 @@
                 <div class="form-group">
                     <!--<label class="col-sm-2 text-left" id="autobuild">自动构建触发条件</label>-->
                     <label class="col-sm-3 text-left">是否自动构建</label>
-                    <div class="col-sm-9">
+                    <div class="col-sm-2">
+                        <c-checkbox checked="checkedfirst"></c-checkbox>
+                    </div>
+                    <div class="col-sm-7" ng-if="checkedfirst">
                         <small>Payload URL : </small>
                         <small ng-repeat="trigger in data.spec.triggers" ng-if="trigger.type == 'GitHub'">
                             {{trigger.github}}
@@ -85,18 +88,18 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" style="padding-top: 30px">
                     <label class="col-sm-3 text-left">是否持续集成</label>
                     <div class="col-sm-2">
                         <c-checkbox checked="checked"></c-checkbox>
                     </div>
                     <div class="col-sm-7" ng-if="checked">
-                        <small>点击按钮,进行持续集成配置</small>
+                        <small style="margin-right: 20px">点击按钮,进行持续集成配置</small>
                         <a class="btn btn-orange">持续集成配置</a>
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group" style="padding-top: 50px">
                     <label class="col-sm-3 text-left">构建超时时长</label>
                     <div class="col-sm-9">
                         <input ng-model="grid.completionDeadlineMinutes" ng-disabled="!deadlineMinutesEnable" style="width: 80px;display: inline-block;" type="number" class="form-control">
@@ -104,8 +107,8 @@
                         <a href="javascript:;" style="text-decoration: none" ng-click="save()">
                             <span class="fa fa-orange" ng-class="{'fa-pencil': !deadlineMinutesEnable, 'fa-check-circle': deadlineMinutesEnable}"></span>
                         </a>
-                        <span>&nbsp;&nbsp;构建超时时长请不要超过30Mins</span>
-                        <small ng-if="completionDeadlineMinutes > 30 || completionDeadlineMinutes <= 0" class="fa fa-exclamation-circle" style="font-size: 12px;color: #ec6941;">&nbsp;您设置的时长超过了最大限制,请重新设置</small>
+                        <span class="font12">&nbsp;&nbsp;构建超时时长请不要超过60Mins</span>
+                        <small ng-if="grid.completionDeadlineMinutes > 60 || grid.completionDeadlineMinutes <= 0" class="fa fa-exclamation-circle" style="font-size: 12px;color: #ec6941;">&nbsp;您设置的时长超过了最大限制,请重新设置</small>
                     </div>
                 </div>
             </form>

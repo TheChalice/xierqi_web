@@ -26,12 +26,17 @@ angular.module("console.timeline", [
                     if (o.status.phase == "Pending") {
                         return;
                     }
+                    //存储已经调取过的log
                     if ($scope.buildLog[name]) {
                         return;
                     }
                     Build.log.get({name: name}, function(res){
-                        $log.info("log", res);
-                        $scope.buildLog[name] = res;
+                        var result = "";
+                        for(var k in res){
+                            result += res[k];
+                        }
+                        $log.info("log", result);
+                        $scope.buildLog[name] = result;
                     }, function(res){
                         //todo 错误处理
                         $log.info("err", res);

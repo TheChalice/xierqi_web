@@ -5,8 +5,9 @@ define([
     'ngResource'
 ], function (angular) {
 
-    var HOST = 'https://192.168.99.100:8443/oapi/v1';
-    var HOST_WSS = 'wss://192.168.99.100:8443/oapi/v1';
+    var HOST = 'https://54.222.199.235:8443/oapi/v1';
+    //var HOST = 'https://192.168.99.100:8443/oapi/v1';
+    var HOST_WSS = 'wss://54.222.199.235:8443/oapi/v1';
     var HOST_GIT = 'https://api.github.com';
     var NAMESPACE = 'foundry';
 
@@ -22,7 +23,9 @@ define([
             var Build = $resource(HOST + '/namespaces/' + NAMESPACE + '/builds/:name', {name: '@name'}, {
                 create: { method: 'POST'}
             });
-            Build.log = $resource(HOST + '/namespaces/' + NAMESPACE + '/builds/:name/log', {name: '@name'});
+            Build.log = $resource(HOST + '/namespaces/' + NAMESPACE + '/builds/:name/log', {name: '@name'}, {
+                get: {method: 'GET', responseType: 'text'}
+            });
             Build.watch = function(onmessage, onopen, onclose){
                 if (!$ws.available()) {
                     return;
