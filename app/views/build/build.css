@@ -1,8 +1,5 @@
 #build .icon25 {
-    margin-right: 15px;
-}
-#build .icon25:last-child {
-    margin-right: 0;
+    margin: 0 8px;
 }
 .icon25-source {
     background-image: url(img/source.png);

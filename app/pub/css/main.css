@@ -205,7 +205,12 @@ body {
 /*模态框默认样式*/
 .modal-default {
     overflow: hidden;
+    position: fixed;
     width: 460px;
+    top: 50%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -230px;
 }
 .modal-default .modal-content {
     border-radius: 2px;

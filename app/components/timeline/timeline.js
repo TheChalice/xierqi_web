@@ -14,7 +14,7 @@ angular.module("console.timeline", [
                 data: '='
             },
             templateUrl: 'components/timeline/timeline.html',
-            controller: ['$scope', '$log', 'Build', 'Confirm', function($scope, $log, Build, Confirm){
+            controller: ['$scope', '$log', 'Build', 'Confirm', '$stateParams', function($scope, $log, Build, Confirm, $stateParams){
                 $scope.buildLog = {};
                 $scope.collapseLog = {};
 
@@ -35,7 +35,6 @@ angular.module("console.timeline", [
                         for(var k in res){
                             result += res[k];
                         }
-                        $log.info("log", result);
                         $scope.buildLog[name] = result;
                     }, function(res){
                         //todo 错误处理

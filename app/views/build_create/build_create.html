@@ -9,7 +9,9 @@
                 <div class="form-group">
                     <label class="col-sm-3 control-label">构建名称</label>
                     <div class="col-sm-9">
-                        <input ng-model="buildConfig.metadata.name" type="text" class="form-control" required>
+                        <input ng-model="buildConfig.metadata.name" type="text" name="name" class="form-control" required
+                               ng-pattern="/^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/">
+                        <small ng-if="frm.name.$viewValue != '' && frm.name.$invalid">名称只能包括小写字母/数字/短线,短线不能在开头或结尾位置</small>
                     </div>
                 </div>
                 <hr>

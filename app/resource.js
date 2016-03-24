@@ -52,12 +52,12 @@ define([
             });
             return BuildConfig;
         }])
-        //.factory('ImageStream', ['$resource', function($resource){
-        //    var ImageStream = $resource(HOST + '/namespaces/'+ NAMESPACE + '/imagestreams/:name',{name: '@name'},{
-        //        create: {method: 'POST'}
-        //    });
-        //    return ImageStream;
-        //}]);
+        .factory('ImageStream', ['$resource', function($resource){
+            var ImageStream = $resource(HOST + '/namespaces/'+ NAMESPACE + '/imagestreams/:name', {name: '@name'}, {
+                create: {method: 'POST'}
+            });
+            return ImageStream;
+        }])
         .factory('ImageStreamTag', ['$resource', function($resource){
             var ImageStreamTag= $resource(HOST + '/namespaces/'+ NAMESPACE  + '/imagestreamtags/:name', {name: '@name'},{
                 create: {method: 'POST'}

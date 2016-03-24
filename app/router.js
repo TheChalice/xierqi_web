@@ -54,6 +54,9 @@ define([
                 })
                 .state('console.build_detail', {
                     url: '/build/:name',
+                    params: {
+                        from: null
+                    },
                     templateUrl: 'views/build_detail/build_detail.html',
                     controller: 'BuildDetailCtrl',
                     resolve: {

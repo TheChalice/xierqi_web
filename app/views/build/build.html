@@ -47,7 +47,7 @@
                 </td>
             </tr>
         </table>
-        <div class="text-right" ng-if="items>=10">
+        <div class="text-right" ng-if="grid.total > 10">
             <uib-pagination
                     ng-model="grid.page"
                     total-items="grid.total"
