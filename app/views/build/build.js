@@ -13,7 +13,8 @@ angular.module('console.build', [
         //分页
         $scope.grid = {
             page: 1,
-            size: GLOBAL.size
+            size: GLOBAL.size,
+            txt: ''
         };
 
         $scope.$watch('grid.page', function(newVal, oldVal){
@@ -25,6 +26,35 @@ angular.module('console.build', [
         var refresh = function(page) {
             var skip = (page - 1) * $scope.grid.size;
             $scope.items = $scope.data.items.slice(skip, skip + $scope.grid.size);
+        };
+
+        $scope.search = function (key, txt) {
+            if (txt == "") {
+                return;
+            }
+            $scope.items = [];
+
+            txt = txt.replace(/\//g, '\\/');
+            var reg = eval('/' + txt + '/');
+
+            angular.forEach($scope.data.items, function(item){
+                if (key == 'all') {
+                    if (reg.test(item.metadata.name) || reg.test(item.spec.source.git.uri)) {
+                        $scope.items.push(item);
+                    }
+                } else if (key == 'metadata.name') {
+                    if (reg.test(item.metadata.name)) {
+                        $scope.items.push(item);
+                    }
+                } else if ('label') {
+
+                } else if ('spec.source.git.uri') {
+                    if (reg.test(item.spec.source.git.uri)) {
+                        $scope.items.push(item);
+                    }
+                }
+            });
+            $scope.grid.total = $scope.items.length;
         };
 
         //获取buildConfig列表

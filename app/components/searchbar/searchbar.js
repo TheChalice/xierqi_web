@@ -11,7 +11,14 @@ angular.module("console.search", [
             restrict: 'EA',
             replace: true,
             templateUrl: 'components/searchbar/searchbar.html',
-            controller:[function () {
+            scope: {
+                search: '='
+            },
+            controller:['$scope', function ($scope) {
+                $scope.doSearch = function(tp, txt){
+                    $scope.showTip = false;
+                    $scope.search(tp, txt);
+                }
             }]
         }
     }]);
