@@ -71,3 +71,6 @@
 #sidebar ul > li > a:hover .icon25-resource {
     background-image: url(img/resource-active.png);
 }
+.icon25 {
+    color: #5a6378;
+}

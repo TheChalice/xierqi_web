@@ -40,15 +40,15 @@
                     <i ng-if="false" class="fa fa-television">&nbsp;自动</i>
                 </td>
                 <td class="text-center">
-                    <a class="icon25 icon25-source" href="{{build.spec.source.git.uri}}" uib-tooltip="查看代码源" target="_blank"></a>
+                    <a class="icon25 icon25-source" style="float: left" href="{{build.spec.source.git.uri}}" uib-tooltip="查看代码源" target="_blank"></a>
                     <a class="icon25 icon25-image" ng-if="build.spec.output && build.spec.output.to && build.spec.output.to.name" ui-sref="console.image_detail({name: build.spec.output.to.name})" uib-tooltip="查看镜像"></a>
-                    <a class="icon25 icon25-start" href="javascript:;" ng-click="startBuild($index)" ng-if="build.status.phase != 'Running'" uib-tooltip="构建"></a>
-                    <a class="icon25 icon25-stop" href="javascript:;" ng-click="stopBuild()" ng-if="build.status.phase == 'Running'" uib-tooltip="停止"></a>
+                    <a class="icon25 icon25-start" style="float: right" href="javascript:;" ng-click="startBuild($index)" ng-if="build.status.phase != 'Running'" uib-tooltip="构建"></a>
+                    <a class="icon25 icon25-stop" style="float: right; margin-right: 20px" href="javascript:;" ng-click="stopBuild()" ng-if="build.status.phase == 'Running'" uib-tooltip="停止"></a>
                 </td>
             </tr>
         </table>
         <div class="text-right" ng-if="grid.total > 10">
-            <uib-pagination
+            <uib-pagination class="pagination"
                     ng-model="grid.page"
                     total-items="grid.total"
                     items-per-page="grid.size"

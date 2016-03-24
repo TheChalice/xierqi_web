@@ -264,6 +264,16 @@ body {
     color: #f6a540;
 }
 
+.pagination>.active>a,
+.pagination>.active>a:focus,
+.pagination>.active>a:hover,
+.pagination>.active>span,
+.pagination>.active>span:focus,
+.pagination>.active>span:hover{
+    background-color:#f6a540;
+    border-color:#f6a540;
+}
+
 @media (max-width: 758px) {
     body {
         padding-top: 50px;

@@ -1,5 +1,5 @@
 <div>
-    <form class="form-horizontal" name="frm">
+    <form class="form-horizontal" name="frm" style="margin-right: 90px; margin-left: 90px; margin-top: 40px">
 
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -7,9 +7,9 @@
             </div>
             <div class="panel-body">
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">构建名称</label>
-                    <div class="col-sm-9">
-                        <input ng-model="buildConfig.metadata.name" type="text" name="name" class="form-control" required
+                    <label class="col-sm-3 control-label" style="color: #5a6378; font-size:14px; font-weight: bold">构建名称</label>
+                    <div class="col-sm-9" style="padding-right: 40px">
+                        <input  ng-model="buildConfig.metadata.name" type="text" name="name" class="form-control" required
                                ng-pattern="/^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/">
                         <small ng-if="frm.name.$viewValue != '' && frm.name.$invalid">名称只能包括小写字母/数字/短线,短线不能在开头或结尾位置</small>
                     </div>
@@ -33,14 +33,14 @@
                 <!--</div>-->
                 <!--<hr>-->
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">代码URL</label>
-                    <div class="col-sm-9">
+                    <label class="col-sm-3 control-label" style="color: #5a6378; font-size:14px; font-weight: bold">代码URL</label>
+                    <div class="col-sm-9" style="padding-right: 40px">
                         <input ng-model="buildConfig.spec.source.git.uri" type="text" class="form-control" required>
                     </div>
                 </div>
                 <hr>
                 <div class="form-group">
-                    <label class="col-sm-3 control-label">构建超时时长</label>
+                    <label class="col-sm-3 control-label" style="color: #5a6378; font-size:14px; font-weight: bold">构建超时时长</label>
                     <div class="col-sm-9">
                         <input ng-model="completionDeadlineMinutes" style="width: 80px;display: inline-block;" type="number" class="form-control" required>
                         <span style="display: inline-block; margin-right: 20px">mins</span>
