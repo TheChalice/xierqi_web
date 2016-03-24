@@ -1,9 +1,10 @@
-FROM kitematic/hello-world-nginx
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY start.sh /start.sh
+# This is a local-build docker image for p2p-dl test
 
-RUN mkdir -p /datafoundry/raw/main/webapp
-ADD ./webapp /datafoundry/raw/main/webapp
-WORKDIR /datafoundry/raw/main/webapp
+FROM alpine
 
-CMD ["/start.sh"]
+ADD ./app /
+ADD ./www /bin/
+WORKDIR /app
+
+ENTRYPOINT ["/bin/www"]
+

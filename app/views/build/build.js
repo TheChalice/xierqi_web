@@ -30,6 +30,7 @@ angular.module('console.build', [
 
         $scope.search = function (key, txt) {
             if (txt == "") {
+                refresh(1);
                 return;
             }
             $scope.items = [];
