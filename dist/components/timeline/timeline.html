@@ -1,0 +1,36 @@
+<div class="timeline">
+    <ul>
+        <li ng-repeat="item in data.items">
+            <label>
+                <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                {{item.metadata.creationTimestamp | dateRelative}}
+            </label>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <span class="icon12 icon12-{{item.status.phase}}"></span>
+                        {{item.status.phase | phaseFilter}}
+                    </div>
+                    <div class="col-sm-3">
+                        master-{{item.spec.revision.git.commit | limitTo: 7}}
+                    </div>
+                    <div class="col-sm-4">
+                        构建时长:{{item.status.duration | duration}}
+                    </div>
+                    <div class="col-sm-3 text-right">
+                        <a ng-if="item.status.phase !== 'Pending' && item.status.phase !== 'Running'" ng-click="delete($index)" class="icon25 icon25-stop" uib-tooltip="删除" href="javascript:;"></a>
+                        <a ng-if="item.status.phase == 'Pending' || item.status.phase == 'Running'" ng-click="stop($index)" class="icon25 icon25-stop" uib-tooltip="停止" href="javascript:;"></a>
+                        <a class="icon25 icon25-collapse" uib-tooltip="查看" ng-click="getLog($index)" href="javascript:;"></a>
+                    </div>
+                </div>
+            </div>
+            <div uib-collapse="!collapseLog[item.metadata.name]">
+                <div class="well">
+                    <pre>{{buildLog[item.metadata.name]}}</pre>
+                </div>
+            </div>
+
+        </li>
+    </ul>
+</div>
+

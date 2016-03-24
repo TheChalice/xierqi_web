@@ -1,0 +1,24 @@
+<div class="thumbnail">
+    <div class="thumb-content">
+        <div class="thumb-slide">
+            <div class="thumb-op">
+                <p><span class="icon12 icon12-time"></span>&nbsp;{{item.metadata.creationTimestamp | dateRelative}}</p>
+                <p><span class="icon12 icon12-flag"></span>&nbsp;master-{{revision.git.commit | limitTo: 7}}</p>
+                <p class="thumb-btn">
+                    <a class="btn btn-green" href="javascript:;">部署最新版本</a>
+                </p>
+            </div>
+            <img src="components/card/img/image.png" alt="image">
+        </div>
+    </div>
+    <div class="caption">
+        <a class="href-orange" ui-sref="console.image_detail({name: item.metadata.name})">{{item.metadata.name}}</a>
+    </div>
+    <!--<div>-->
+        <!--<p></p>-->
+        <!--<span id="updateTime"></span>-->
+        <!--<p id="releaseVersion"></p>-->
+        <!--<span><button id="deployLastest">部署最新版本</button></span>-->
+    <!--</div>-->
+</div>
+

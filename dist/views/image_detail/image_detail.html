@@ -1,0 +1,57 @@
+<div>
+    <div class="panel panel-default" style="margin-bottom: 50px">
+        <div class="panel-heading">
+            <span class="panel-title">
+                <span class="icon25 icon25-panel-repository"></span>&nbsp;&nbsp;{{data.metadata.name}}
+            </span>
+            <a class="btn btn-green pull-right">部署最新版本</a>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="media media-sm">
+                        <div class="media-left">
+                            <img class="media-object" src="pub/img/panel-repository.png" alt="icon">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">更新时间</h4>
+                            <small>{{data.metadata.creationTimestamp | dateRelative}}</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="media media-sm">
+                        <div class="media-left">
+                            <img class="media-object" src="pub/img/panel-repository.png" alt="icon">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">最新版本</h4>
+                            <small>master - {{data.spec.revision.git.commit}}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <uib-tabset class="tab-default">
+            <uib-tab index="1" heading="概览">
+                <div>
+                    <p>wwwwwwwwwwwwwwwwwwww</p>
+                </div>
+            </uib-tab>
+            <uib-tab index="2" heading="镜像版本">
+                <div>
+                    <p>5秒以前</p>
+                    <p>master-23455556666</p>
+                    <img src="" alt="">
+                    <img src="" alt="">
+                    <img src="" alt="">
+                </div>
+            </uib-tab>
+    </div>
+
+</div>
+
+

@@ -1,0 +1,1 @@
+define(["angularMocks"],function(){describe("myApp.version module",function(){beforeEach(module("myApp.version")),describe("app-version directive",function(){it("should print current version",function(){module(function(e){e.value("version","TEST_VER")}),inject(function(e,t){var n=e("<span app-version></span>")(t);expect(n.text()).toEqual("TEST_VER")})})})})});

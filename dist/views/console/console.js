@@ -1,0 +1,1 @@
+angular.module("console",[{files:["components/header/header.js","components/sidebar/sidebar.js","views/console/console.css"]}]).controller("ConsoleCtrl",["$rootScope","$scope","$log","AUTH_EVENTS","User",function(e,t,n,r,i){n.info("Console"),e.user||i.get({name:"admin"},function(t){console.log("user",t),e.user=t})}]);
