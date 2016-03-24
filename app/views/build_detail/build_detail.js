@@ -30,12 +30,28 @@ angular.module('console.build.detail', [
                 $log.info("history", data);
                 data.items = Sort.sort(data.items, -1); //排序
                 $scope.history = data;
+                $scope.imageEnable = imageEnable();
             }, function(res){
                 //错误处理
             });
         };
 
         loadBuildConfig();
+
+        var imageEnable = function(){
+            if (!$scope.data || !$scope.data.spec.output || !$scope.data.spec.output.to || !$scope.data.spec.output.to.name) {
+                return false;
+            }
+            if (!$scope.history || $scope.history.items.length == 0) {
+                return false;
+            }
+            if ($scope.history.items.length == 1) {
+                if ($scope.history.items[0].status.phase != 'Complete' ) {
+                    return false;
+                }
+            }
+            return true;
+        };
 
         //开始构建
         $scope.startBuild = function() {
@@ -62,6 +78,7 @@ angular.module('console.build.detail', [
             Confirm.open("删除构建", "您确定要删除构建吗?", "删除构建将清除构建的所有历史数据以及相关的镜像该操作不能被恢复", 'recycle').then(function() {
                 BuildConfig.remove({name: name}, {}, function(){
                     $log.info("remove buildConfig success");
+                    $scope.imageEnable = imageEnable();
                     $state.go("console.build");
                 }, function(res){
                     //todo 错误处理

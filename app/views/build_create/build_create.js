@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('console.build.create', [])
-    .controller('BuildCreateCtrl', ['$scope', '$state', '$log', 'BuildConfig', 'Build', 'ImageStream', function ($scope, $state, $log, BuildConfig, Build, ImageStream) {
+    .controller('BuildCreateCtrl', ['$scope', '$state', '$log', 'BuildConfig', 'Build', 'ImageStream', 'UUID', 'Alert', function ($scope, $state, $log, BuildConfig, Build, ImageStream, UUID, Alert) {
         $log.info('BuildCreate');
 
         $scope.buildConfig = {
@@ -49,7 +49,7 @@ angular.module('console.build.create', [])
                 if (res.data.code == 409) {
                     createBuildConfig($scope.buildConfig.metadata.name);
                 } else {
-                    //todo 错误处理
+                    Alert.open('错误', res.data.message, true);
                 }
             });
         };
@@ -57,12 +57,23 @@ angular.module('console.build.create', [])
         var createBuildConfig = function (imageStreamTag) {
             $scope.buildConfig.spec.completionDeadlineSeconds = $scope.completionDeadlineMinutes * 60;
             $scope.buildConfig.spec.output.to.name = imageStreamTag + ':latest';
+            $scope.buildConfig.spec.triggers = [
+                {
+                    type: 'GitHub',
+                    github: {
+                        secret: UUID.guid().replace(/-/g, "")
+                    }
+                }
+            ];
             BuildConfig.create({}, $scope.buildConfig, function(res){
                 $log.info("buildConfig", res);
                 createBuild(res.metadata.name);
             }, function(res){
-                //todo 错误处理代码
-                $log.info("[err]", res);
+                if (res.data.code == 409) {
+                    Alert.open('错误', "构建名称重复", true);
+                } else {
+                    Alert.open('错误', res.data.message, true);
+                }
             });
         };
 

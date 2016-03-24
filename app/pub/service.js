@@ -55,25 +55,21 @@ define(['angular'], function (angular) {
             };
         }])
         .service('Alert', ['$uibModal', function ($uibModal) {
-            this.open = function (txt, err) {
+            this.open = function (title, txt, err) {
                 return $uibModal.open({
-                    templateUrl: 'tpl/alert.html',
-                    size: 'sm',
-                    controller: ['$scope', '$uibModalInstance', 'txt', function ($scope, $uibModalInstance, txt) {
+                    templateUrl: 'pub/tpl/alert.html',
+                    size: 'default',
+                    controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+                        $scope.title = title;
                         $scope.txt = txt;
                         $scope.err = err;
                         $scope.ok = function () {
                             $uibModalInstance.close();
                         };
-                    }],
-                    resolve: {
-                        txt: function () {
-                            return txt;
-                        },
-                        err: function () {
-                            return err;
-                        }
-                    }
+                        $scope.cancel = function () {
+                            $uibModalInstance.dismiss();
+                        };
+                    }]
                 }).result;
             };
         }])
@@ -89,6 +85,14 @@ define(['angular'], function (angular) {
                     return reverse * ((new Date(a.metadata.creationTimestamp)).getTime() - (new Date(b.metadata.creationTimestamp)).getTime());
                 });
                 return items;
+            };
+        }])
+        .service('UUID', [function(){
+            var S4 = function () {
+                return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+            };
+            this.guid = function () {
+                return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
             };
         }]);
 });

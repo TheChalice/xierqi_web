@@ -8,19 +8,19 @@ angular.module('login', [
 ])
     .controller('LoginCtrl', ['$scope', 'AuthService', function($scope, AuthService){
         $scope.credentials = {
-            username: 'admin',
-            password: 'Ouhl9eHv83yuyhdifJwpk4XXIkrbG1YwI'
+            username: 'test',
+            password: 'test'
         };
         $scope.login = function(){
             AuthService.login($scope.credentials);
         }
     }])
-    .service('AuthService', ['$http', '$base64', 'AUTH_CFG', function($http, $base64, AUTH_CFG){
+    .service('AuthService', ['$http', '$base64', 'AUTH_CFG', 'GLOBAL', function($http, $base64, AUTH_CFG, GLOBAL){
         this.login = function(credentials) {
             console.log("login");
             var req = {
                 method: 'POST',
-                url: 'https://lab.asiainfodata.com:8443/oauth/authorize?response_type=token&client_id=' + AUTH_CFG.oauth_client_id,
+                url: 'https://54.222.199.235:8443/oauth/authorize?response_type=token&client_id=' + AUTH_CFG.oauth_client_id,
                 headers: {
                     'X-CSRF-Token': 1,
                     'Authorization': 'Basic ' + $base64.encode(credentials.username + ':' + credentials.password)

@@ -33,7 +33,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4" ng-if="data.spec.output && data.spec.output.to && data.spec.output.to.name">
+                <div class="col-sm-4" ng-if="imageEnable">
                     <div class="media media-sm">
                         <div class="media-left">
                             <img class="media-object" src="views/build_detail/img/images_108.png">
@@ -68,11 +68,9 @@
                     <div class="col-sm-2">
                         <c-checkbox checked="checkedfirst"></c-checkbox>
                     </div>
-                    <div class="col-sm-7" ng-if="checkedfirst">
+                    <div class="col-sm-7" ng-if="checkedfirst" style="overflow: hidden;word-wrap: break-word;word-break: break-all;">
                         <small>Payload URL : </small>
-                        <small ng-repeat="trigger in data.spec.triggers" ng-if="trigger.type == 'GitHub'">
-                            {{trigger.github}}
-                        </small><br>
+                        <small>{{data | webhooks}}</small><br>
                         <small>请去代码仓库创建Webhook</small>
 
                         <!--<label id="condition" style="margin-left: 60px">当代码仓库发生以下变化触发持续集成</label><br>-->
