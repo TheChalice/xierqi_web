@@ -70,11 +70,8 @@ require.config({
 });
 
 require([
-        'jquery',
-        'angular',
-        'bootstrap',
         'app'
-    ], function ($, angular) {
+    ], function (app) {
         var $html = angular.element(document.getElementsByTagName('html')[0]);
         angular.element().ready(function () {
             // bootstrap the app manually

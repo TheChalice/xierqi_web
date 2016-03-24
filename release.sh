@@ -4,12 +4,16 @@ echo "[build]"
 npm run build > /dev/null
 
 echo "[prepare]"
-mkdir -p $dist/bower_components
+mkdir -p $dist/vendor
 
 echo "[copy files]"
-cp -r bower_components/bootstrap $dist/bower_components/
-cp -r bower_components/font-awesome $dist/bower_components/
-cp -r bower_components/html5-boilerplate $dist/bower_components/
-cp -r bower_components/requirejs $dist/bower_components/
+cp -r app/index_dist.html $dist/index.html
+cp -r bower_components/bootstrap $dist/vendor/
+cp -r bower_components/font-awesome $dist/vendor/
+cp -r bower_components/html5-boilerplate $dist/vendor/
+cp -r bower_components/requirejs $dist/vendor/
+
+echo "[remove unconcerned files]"
+rm $dist/index_dist.html
 
 echo "[end]"
