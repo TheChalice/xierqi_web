@@ -5,6 +5,5 @@ COPY start.sh /start.sh
 RUN mkdir -p /datafoundry/raw/main/webapp
 ADD ./webapp /datafoundry/raw/main/webapp
 WORKDIR /datafoundry/raw/main/webapp
-RUN
 
 CMD ["/start.sh"]
