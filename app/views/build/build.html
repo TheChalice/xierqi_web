@@ -25,25 +25,25 @@
                 <th>构建类型</th>
                 <th class="text-center">操作</th>
             </tr>
-            <tr ng-repeat="build in items">
+            <tr ng-repeat="bc in items">
                 <td>
-                    <a class="href-orange" ui-sref="console.build_detail({name: build.metadata.name})">{{build.metadata.name}}</a>
+                    <a class="href-orange" ui-sref="console.build_detail({name: bc.metadata.name})">{{bc.metadata.name}}</a>
                 </td>
                 <td>
-                    <span class="icon12 icon12-{{build.status.phase}}"></span>
-                    {{build.status.phase | phaseFilter}}
+                    <span class="icon12 icon12-{{bc.build.status.phase}}"></span>
+                    {{bc.build.status.phase | phaseFilter}}
                 </td>
-                <td>{{build.status.startTimestamp | dateRelative}}</td>
-                <td>{{build.status.duration | duration}}</td>
+                <td>{{bc.build.metadata.creationTimestamp | dateRelative}}</td>
+                <td>{{bc.build.status.duration | duration}}</td>
                 <td>
                     <i ng-if="true" class="fa fa-hand-pointer-o">&nbsp;手动</i>
                     <i ng-if="false" class="fa fa-television">&nbsp;自动</i>
                 </td>
                 <td class="text-center" style="padding-right: 30px">
-                    <a class="icon25 icon25-source" style="float: left" href="{{build.spec.source.git.uri}}" uib-tooltip="查看代码源" target="_blank"></a>
-                    <a class="icon25 icon25-image" style="margin-left: 20px;" ng-if="build.spec.output && build.spec.output.to && build.spec.output.to.name" ui-sref="console.image_detail({name: build.spec.output.to.name})" uib-tooltip="查看镜像"></a>
-                    <a class="icon25 icon25-start" style="float: right" ng-click="startBuild($index)" ng-if="build.status.phase != 'Running'" uib-tooltip="构建"></a>
-                    <a class="icon25 icon25-stop" style="float: right;" href="javascript:;" ng-click="stopBuild($index)" ng-if="build.status.phase == 'Pendding' || build.status.phase == 'Running' || item.status.phase == 'New'" uib-tooltip="停止"></a>
+                    <a class="icon25 icon25-source" style="float: left" href="{{bc.spec.source.git.uri}}" uib-tooltip="查看代码源" target="_blank"></a>
+                    <a class="icon25 icon25-image" style="margin-left: 20px;" ng-if="bc.spec.output && bc.spec.output.to && bc.spec.output.to.name" ui-sref="console.image_detail({name: bc.spec.output.to.name})" uib-tooltip="查看镜像"></a>
+                    <a class="icon25 icon25-start" style="float: right" href="javascript:;" ng-click="startBuild($index)" ng-if="bc.status.phase != 'Running'" uib-tooltip="构建"></a>
+                    <a class="icon25 icon25-stop" style="float: right;" href="javascript:;" ng-click="stop($index)" ng-if="bc.status.phase == 'Pendding' || bc.status.phase == 'Running' || item.status.phase == 'New'" uib-tooltip="停止"></a>
                 </td>
             </tr>
         </table>

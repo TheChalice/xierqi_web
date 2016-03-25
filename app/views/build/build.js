@@ -8,7 +8,7 @@ angular.module('console.build', [
         ]
     }
 ])
-    .controller('BuildCtrl', ['$scope', '$log', '$state', '$stateParams', 'BuildConfig', 'Build', 'GLOBAL', 'Sort', function ($scope, $log, $state, $stateParams, BuildConfig, Build, GLOBAL, Sort) {
+    .controller('BuildCtrl', ['$scope', '$log', '$state', '$stateParams', 'BuildConfig', 'Build', 'GLOBAL', 'Confirm', 'Sort', function ($scope, $log, $state, $stateParams, BuildConfig, Build, GLOBAL, Confirm, Sort) {
 
         //分页
         $scope.grid = {
@@ -113,10 +113,7 @@ angular.module('console.build', [
                 if (!buildMap[label]) {
                     return;
                 }
-                item.status.phase = buildMap[label].status.phase;
-                item.status.startTimestamp = buildMap[label].metadata.creationTimestamp;
-                item.status.duration = buildMap[label].status.duration;
-                item.buildName= buildMap[label];
+                item.build= buildMap[label];
                 //todo 构建类型
             });
         };
@@ -143,36 +140,19 @@ angular.module('console.build', [
             });
         };
 
-        //$scope.stopBuild = function(idx) {
-        //    $log.info("stop build");
-        //    var o = $scope.data.items[idx];
-        //    o.status.cancelled = true;
-        //    var stopRequest = {
-        //        status: {
-        //            cancelled: true,
-        //        }
-        //    };
-        //    Build.put({name: o.buildName}, stopRequest, function() {
-        //        $log.info("stopBuild");
-        //        o.status.cancelled = true;
-        //    }, function(res){
-        //        if(res.data.code== 409){
-        //            Confirm.open("提示信息","当数据正在New的时候,构建不能停止,请等到正在构建时,在请求停止.");
-        //        }
-        //    });
-        //};
         $scope.stop = function(idx){
-            var o = $scope.data.items[idx];
-            o.status.cancelled = true;
-            Build.put({name: o.metadata.name}, o, function(res){
-                $log.info("stop build success");
-                $scope.data.items[idx] = res;
+            Confirm.open("提示信息","您确定要终止本次构建吗?").then(function(){
+                var build = $scope.items[idx].build;
+                build.status.cancelled = true;
+                Build.put({name: build.metadata.name}, build, function(res){
+                    $log.info("stop build success");
+                    $scope.items[idx].build = res;
                 }, function(res){
                     if(res.data.code== 409){
                         Confirm.open("提示信息","当数据正在New的时候,构建不能停止,请等到正在构建时,在请求停止.");
                     }
                 });
-
+            });
         };
     }]);
 
