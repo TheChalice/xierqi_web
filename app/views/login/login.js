@@ -1,10 +1,7 @@
 'use strict';
 
 angular.module('login', [
-    'base64',
-    {
-        files: ['../bower_components/angular-base64/angular-base64.min.js']
-    }
+    'base64'
 ])
     .controller('LoginCtrl', ['$scope', 'AuthService', function($scope, AuthService){
         $scope.credentials = {

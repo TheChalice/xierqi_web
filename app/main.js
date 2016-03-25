@@ -29,7 +29,8 @@ require.config({
         uiRouter: '../bower_components/angular-ui-router/release/angular-ui-router.min',
         angularAnimate: '../bower_components/angular-animate/angular-animate.min',
         angularMocks: '../bower_components/angular-mocks/angular-mocks',
-        ocLazyLoad: '../bower_components/oclazyload/dist/ocLazyLoad.min'
+        ocLazyLoad: '../bower_components/oclazyload/dist/ocLazyLoad.min',
+        angularBase64: '../bower_components/angular-base64/angular-base64.min'
     },
     shim: {
         'angular': {
@@ -60,6 +61,9 @@ require.config({
         },
         'bootstrap': {
             deps: ['jquery']
+        },
+        'angularBase64': {
+            deps: ['angular']
         }
     },
     priority: [

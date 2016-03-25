@@ -3,6 +3,7 @@
 define([
     'angular',
     'bootstrap',
+    'angularBase64',
     'ocLazyLoad',
     'uiBootstrap',
     'angularAnimate',
@@ -50,7 +51,7 @@ define([
         logout_uri: ""
     })
     .config(['$httpProvider', function ($httpProvider) {
-        $httpProvider.defaults.headers.common["Authorization"] = "Bearer n4YC--YHysyvbTrTi0qqq6cpsTuYP0rqpcynK75O2J4";
+        $httpProvider.defaults.headers.common["Authorization"] = "Bearer cbvH2YBSJfoVxfpQCCyKvkYbpEU4GGKF1gijbe1nFm4";
 
         $httpProvider.interceptors.push([
             '$injector',
