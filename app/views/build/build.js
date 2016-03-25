@@ -40,16 +40,18 @@ angular.module('console.build', [
 
             angular.forEach($scope.data.items, function(item){
                 if (key == 'all') {
-                    if (reg.test(item.metadata.name) || reg.test(item.spec.source.git.uri)) {
+                    if (reg.test(item.metadata.name) || reg.test(item.spec.source.git.uri) || (items.metadata.labels && reg.test(items.metadata.labels.build))) {
                         $scope.items.push(item);
                     }
                 } else if (key == 'metadata.name') {
                     if (reg.test(item.metadata.name)) {
                         $scope.items.push(item);
                     }
-                } else if ('label') {
-
-                } else if ('spec.source.git.uri') {
+                } else if (key == 'metadata.labels.build') {
+                    if (items.metadata.labels && reg.test(items.metadata.labels.build)) {
+                        $scope.items.push(item);
+                    }
+                } else if (key == 'spec.source.git.uri') {
                     if (reg.test(item.spec.source.git.uri)) {
                         $scope.items.push(item);
                     }

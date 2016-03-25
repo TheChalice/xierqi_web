@@ -2,6 +2,7 @@
 
 define([
     'angular',
+    'bootstrap',
     'ocLazyLoad',
     'uiBootstrap',
     'angularAnimate',

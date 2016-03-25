@@ -3,7 +3,7 @@
     baseUrl: "./",
     dir: "../dist",
     optimize: "uglify",
-    optimizeCss: "standard.keepLines",
+    optimizeCss: "standard",
     removeCombined: true,
     modules: [
     {
