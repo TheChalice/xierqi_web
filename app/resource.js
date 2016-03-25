@@ -21,18 +21,16 @@ define([
             Build.log = $resource(GLOBAL.host + '/namespaces/' + GLOBAL.namespace + '/builds/:name/log', {name: '@name'}, {
                 get: {method: 'GET', responseType: 'text'}
             });
-            Build.watch = function(onmessage, onopen, onclose){
+            Build.watch = function(onmessage, onopen, onclose, resourceVersion){
                 if (!$ws.available()) {
                     return;
                 }
                 $ws({
                     method: "WATCH",
-                    url: GLOBAL.host_wss + '/namespaces/' + GLOBAL.namespace + '/builds?watch=true&resourceVersion=1922&access_token=BF-Cg8BFC58vdwXGREdPEWWWJUU85A16u43_PzZ2LPI',
+                    url: GLOBAL.host_wss + '/namespaces/' + GLOBAL.namespace + '/builds?watch=true&resourceVersion='+ resourceVersion +'&access_token=' + GLOBAL.token,
                     onclose:   onclose,
                     onmessage: onmessage,
                     onopen:    onopen
-                }).then(function(ws) {
-                    $log.info("finish ws=", ws);
                 });
             };
             return Build;

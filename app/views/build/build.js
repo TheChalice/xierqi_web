@@ -137,7 +137,7 @@ angular.module('console.build', [
             };
             BuildConfig.instantiate.create({name: name}, buildRequest, function(){
                 $log.info("build instantiate success");
-                $state.go('console.build_detail', {name: name})
+                $state.go('console.build_detail', {name: name, from: 'create'})
             }, function(res){
                 //todo 错误处理
             });

@@ -10,32 +10,38 @@ angular.module("console.timeline", [
         return {
             restrict: 'EA',
             replace: true,
-            scope: {
-                data: '='
-            },
-            templateUrl: 'components/timeline/timeline.html',
             controller: ['$scope', '$log', 'Build', 'Confirm', '$stateParams', function($scope, $log, Build, Confirm, $stateParams){
                 $scope.buildLog = {};
                 $scope.collapseLog = {};
 
+                //如果是新创建的打开第一个日志,并监控
+                if ($stateParams.from == "create") {
+                    $scope.$watch("data", function(newVal, oldVal){
+                        if (newVal != oldVal) {
+                            if (newVal.items.length > 0) {
+                                $scope.getLog(0);
+                            }
+                        }
+                    });
+                }
+
                 $scope.getLog = function(idx){
                     var o = $scope.data.items[idx];
-                    var name = o.metadata.name;
-                    $scope.collapseLog[name] = !$scope.collapseLog[name];
+                    o.showLog = !o.showLog;
 
                     if (o.status.phase == "Pending") {
                         return;
                     }
                     //存储已经调取过的log
-                    if ($scope.buildLog[name]) {
+                    if (o.buildLog) {
                         return;
                     }
-                    Build.log.get({name: name}, function(res){
+                    Build.log.get({name: o.metadata.name}, function(res){
                         var result = "";
                         for(var k in res){
                             result += res[k];
                         }
-                        $scope.buildLog[name] = result;
+                        o.buildLog = result;
                     }, function(res){
                         //todo 错误处理
                         $log.info("err", res);
@@ -73,8 +79,11 @@ angular.module("console.timeline", [
                         });
                     });
                 };
-
-            }]
+            }],
+            scope: {
+                data: '='
+            },
+            templateUrl: 'components/timeline/timeline.html'
         }
     }]);
 

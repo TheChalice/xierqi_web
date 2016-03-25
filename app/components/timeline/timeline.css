@@ -33,11 +33,15 @@
     margin: 15px 0 0 30px;
     background: #000;
 }
-.well pre{
-    background-color: #0f0f0f;
-    border-color: #0f0f0f;
+.timeline .well pre{
+    font-size: 12px;
+    background: none;
+    border: none;
     color: #3e8f3e;
     height:300px;
+    word-break: break-all;
+    word-wrap: break-word;
+    white-space: pre-wrap;
 }
 .icon25-collapse {
     background-image: url(img/images_200.png);

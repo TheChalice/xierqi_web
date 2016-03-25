@@ -36,7 +36,8 @@ define([
         size: 10,
         host: 'https://54.222.199.235:8443/oapi/v1',
         host_wss: 'wss://54.222.199.235:8443/oapi/v1',
-        namespace: 'foundry'
+        namespace: 'foundry',
+        token: 'cbvH2YBSJfoVxfpQCCyKvkYbpEU4GGKF1gijbe1nFm4'
     })
     .constant('AUTH_EVENTS', {
         loginNeeded: 'auth-login-needed',
@@ -44,14 +45,10 @@ define([
         httpForbidden: 'auth-http-forbidden'
     })
     .constant('AUTH_CFG', {
-        oauth_authorize_uri: "https://lab.asiainfodata.com:8443/oauth/authorize",
-        //oauth_redirect_base: "http://localhost:8080/console",
-        oauth_redirect_base: "https://lab.asiainfodata.com:8443/console",
-        oauth_client_id: "openshift-challenging-client",
-        logout_uri: ""
+        oauth_client_id: "openshift-challenging-client"
     })
-    .config(['$httpProvider', function ($httpProvider) {
-        $httpProvider.defaults.headers.common["Authorization"] = "Bearer AUslPrIrWGbI24euQaDa3cdw8rQ1ugPna981zQLOV4w";
+    .config(['$httpProvider', 'GLOBAL', function ($httpProvider, GLOBAL) {
+        $httpProvider.defaults.headers.common["Authorization"] = "Bearer " + GLOBAL.token;
 
         $httpProvider.interceptors.push([
             '$injector',

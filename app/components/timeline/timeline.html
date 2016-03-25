@@ -24,9 +24,9 @@
                     </div>
                 </div>
             </div>
-            <div uib-collapse="!collapseLog[item.metadata.name]">
+            <div uib-collapse="!item.showLog">
                 <div class="well">
-                    <pre>{{buildLog[item.metadata.name]}}</pre>
+                    <pre>{{item.buildLog}}</pre>
                 </div>
             </div>
 

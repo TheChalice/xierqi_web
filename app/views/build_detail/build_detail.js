@@ -30,6 +30,8 @@ angular.module('console.build.detail', [
                 $log.info("history", data);
                 data.items = Sort.sort(data.items, -1); //排序
                 $scope.history = data;
+                watchBuilds(data.metadata.resourceVersion);
+
                 $scope.imageEnable = imageEnable();
             }, function(res){
                 //错误处理
@@ -37,6 +39,40 @@ angular.module('console.build.detail', [
         };
 
         loadBuildConfig();
+
+        var watchBuilds = function(resourceVersion) {
+            Build.watch(function(res){
+                var data = JSON.parse(res.data);
+                updateBuilds(data);
+            }, function(){
+                $log.info("webSocket start");
+            }, function(){
+                $log.info("webSocket stop");
+            }, resourceVersion)
+        };
+
+        var updateBuilds = function (data) {
+            if (data.type == 'ADDED') {
+
+            } else if (data.type == "MODIFIED") {
+                //todo  这种方式非常不好,尽快修改
+                angular.forEach($scope.history.items, function(item, i){
+                    if (item.metadata.name == data.object.metadata.name) {
+                        data.object.showLog = $scope.history.items[i].showLog;
+                        Build.log.get({name: data.object.metadata.name}, function(res){
+                            var result = "";
+                            for(var k in res){
+                                result += res[k];
+                            }
+                            data.object.buildLog = result;
+                            $scope.history.items[i] = data.object;
+                        }, function(){
+                            $scope.history.items[i] = data.object;
+                        });
+                    }
+                });
+            }
+        };
 
         var imageEnable = function(){
             if (!$scope.data || !$scope.data.spec.output || !$scope.data.spec.output.to || !$scope.data.spec.output.to.name) {
@@ -64,6 +100,7 @@ angular.module('console.build.detail', [
             BuildConfig.instantiate.create({name: name}, buildRequest, function(res){
                 $log.info("build instantiate success");
                 if ($scope.history.items) {
+                    res.showLog = true;
                     $scope.history.items.unshift(res);
                 } else {
                     $scope.history.items = [res];
