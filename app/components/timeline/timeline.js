@@ -60,10 +60,20 @@ angular.module("console.timeline", [
                 };
 
                 $scope.stop = function(idx){
-                    var name = $scope.data.items[idx].metadata.name;
-
-                    $log.info("stop build" + name);
+                    var o = $scope.data.items[idx];
+                    o.status.cancelled = true;
+                    Confirm.open("提示信息","您确定要终止本次构建吗?").then(function(){
+                        Build.put({name: o.metadata.name}, o, function(res){
+                            $log.info("stop build success");
+                            $scope.data.items[idx] = res;
+                        }, function(res){
+                            if(res.data.code== 409){
+                                Confirm.open("提示信息","当数据正在New的时候,构建不能停止,请等到正在构建时,在请求停止.");
+                            }
+                        });
+                    });
                 };
+
             }]
         }
     }]);

@@ -116,6 +116,7 @@ angular.module('console.build', [
                 item.status.phase = buildMap[label].status.phase;
                 item.status.startTimestamp = buildMap[label].metadata.creationTimestamp;
                 item.status.duration = buildMap[label].status.duration;
+                item.buildName= buildMap[label];
                 //todo 构建类型
             });
         };
@@ -142,8 +143,36 @@ angular.module('console.build', [
             });
         };
 
-        $scope.stopBuild = function() {
-            $log.info("stop build");
+        //$scope.stopBuild = function(idx) {
+        //    $log.info("stop build");
+        //    var o = $scope.data.items[idx];
+        //    o.status.cancelled = true;
+        //    var stopRequest = {
+        //        status: {
+        //            cancelled: true,
+        //        }
+        //    };
+        //    Build.put({name: o.buildName}, stopRequest, function() {
+        //        $log.info("stopBuild");
+        //        o.status.cancelled = true;
+        //    }, function(res){
+        //        if(res.data.code== 409){
+        //            Confirm.open("提示信息","当数据正在New的时候,构建不能停止,请等到正在构建时,在请求停止.");
+        //        }
+        //    });
+        //};
+        $scope.stop = function(idx){
+            var o = $scope.data.items[idx];
+            o.status.cancelled = true;
+            Build.put({name: o.metadata.name}, o, function(res){
+                $log.info("stop build success");
+                $scope.data.items[idx] = res;
+                }, function(res){
+                    if(res.data.code== 409){
+                        Confirm.open("提示信息","当数据正在New的时候,构建不能停止,请等到正在构建时,在请求停止.");
+                    }
+                });
+
         };
     }]);
 

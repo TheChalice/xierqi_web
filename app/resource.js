@@ -15,7 +15,8 @@ define([
         .factory('Build', ['$resource', '$ws', '$log', 'GLOBAL', function($resource, $ws, $log, GLOBAL){
             //GET /oapi/v1/namespaces/{namespace}/builds
             var Build = $resource(GLOBAL.host + '/namespaces/' + GLOBAL.namespace + '/builds/:name', {name: '@name'}, {
-                create: { method: 'POST'}
+                create: { method: 'POST'},
+                put: { method: 'PUT'}
             });
             Build.log = $resource(GLOBAL.host + '/namespaces/' + GLOBAL.namespace + '/builds/:name/log', {name: '@name'}, {
                 get: {method: 'GET', responseType: 'text'}
