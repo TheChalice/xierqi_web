@@ -1,6 +1,12 @@
-# This is a local-build docker image for p2p-dl test
-FROM alpine
-RUN apk add --update nginx nodejs && rm -rf /var/cache/apk/*
-COPY dist /usr/share/nginx/html
-EXPOSE  80
-CMD ["nginx", "-g", "daemon off;"]
+# Pull base image.
+FROM library/node
+
+# Install Bower & Grunt
+RUN npm install -g bower grunt-cli
+RUN echo '{ "allow_root": true }' > /root/.bowerrc
+
+# Define working directory.
+WORKDIR /data
+
+# Define default command.
+CMD ["bash"]
