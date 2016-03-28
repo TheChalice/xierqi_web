@@ -12,6 +12,8 @@ cp -r bower_components/bootstrap $dist/vendor/
 cp -r bower_components/font-awesome $dist/vendor/
 cp -r bower_components/html5-boilerplate $dist/vendor/
 cp -r bower_components/requirejs $dist/vendor/
+cp -r bower_components/jquery $dist/vendor/
+cp -r bower_components/uri.js $dist/vendor/
 
 echo "[remove unconcerned files]"
 rm $dist/index_dist.html

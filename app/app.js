@@ -45,17 +45,22 @@ define([
         httpForbidden: 'auth-http-forbidden'
     })
     .constant('AUTH_CFG', {
-        oauth_client_id: "openshift-challenging-client"
+        oauth_authorize_uri: "https://54.222.199.235:8443/oauth/authorize",
+        oauth_redirect_base: "http://localhost:9000",
+        oauth_client_id: "openshift-web-console",
+        logout_uri: ""
     })
-    .config(['$httpProvider', 'GLOBAL', function ($httpProvider, GLOBAL) {
-        $httpProvider.defaults.headers.common["Authorization"] = "Bearer " + GLOBAL.token;
+    .config(['$httpProvider', 'AuthServiceProvider', 'RedirectLoginServiceProvider', 'AUTH_CFG', function($httpProvider, AuthServiceProvider, RedirectLoginServiceProvider, AUTH_CFG) {
+        $httpProvider.interceptors.push('AuthInterceptor');
 
-        $httpProvider.interceptors.push([
-            '$injector',
-            function ($injector) {
-                return $injector.get('AuthInterceptor');
-            }
-        ]);
+        AuthServiceProvider.LoginService('RedirectLoginService');
+        AuthServiceProvider.LogoutService('DeleteTokenLogoutService');
+        AuthServiceProvider.UserStore('LocalStorageUserStore');
+
+        RedirectLoginServiceProvider.OAuthClientID(AUTH_CFG.oauth_client_id);
+        RedirectLoginServiceProvider.OAuthAuthorizeURI(AUTH_CFG.oauth_authorize_uri);
+        RedirectLoginServiceProvider.OAuthRedirectURI(URI(AUTH_CFG.oauth_redirect_base).segment("app/oauth.html").toString());
+
     }])
 
     .run(['$rootScope', function ($rootScope) {
