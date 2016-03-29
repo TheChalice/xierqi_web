@@ -29,7 +29,7 @@ angular.module('console.build', [
         };
 
         $scope.search = function (key, txt) {
-            if (txt == "") {
+            if (!txt) {
                 refresh(1);
                 return;
             }
@@ -40,7 +40,7 @@ angular.module('console.build', [
 
             angular.forEach($scope.data.items, function(item){
                 if (key == 'all') {
-                    if (reg.test(item.metadata.name) || reg.test(item.spec.source.git.uri) || (items.metadata.labels && reg.test(items.metadata.labels.build))) {
+                    if (reg.test(item.metadata.name) || reg.test(item.spec.source.git.uri) || (item.metadata.labels && reg.test(item.metadata.labels.build))) {
                         $scope.items.push(item);
                     }
                 } else if (key == 'metadata.name') {
@@ -48,7 +48,7 @@ angular.module('console.build', [
                         $scope.items.push(item);
                     }
                 } else if (key == 'metadata.labels.build') {
-                    if (items.metadata.labels && reg.test(items.metadata.labels.build)) {
+                    if (item.metadata.labels && reg.test(item.metadata.labels.build)) {
                         $scope.items.push(item);
                     }
                 } else if (key == 'spec.source.git.uri') {
