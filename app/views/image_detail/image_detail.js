@@ -17,12 +17,10 @@ angular.module('console.image_detail', [
         };
 
         loadImageDetail();
-
-        var laodGit = function(){
-            var list = new array("owner", "repo", "path");
-            Git.get(function(list){
-                $log.info(list);
+        var laodGit = function(owner,repo){
+            Git.get({owner: owner, repo: repo, path:"readme.md"})(function(data){
+                $log.info('data',data);
+                $scope.data = data;
             })
         };
-        laodGit();
     }]);
