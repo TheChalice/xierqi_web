@@ -3,7 +3,7 @@
         <div class="thumb-slide">
             <div class="thumb-op">
                 <p><span class="icon12 icon12-time"></span>&nbsp;{{item.metadata.creationTimestamp | dateRelative}}</p>
-                <p><span class="icon12 icon12-flag"></span>&nbsp;master-{{revision.git.commit | limitTo: 7}}</p>
+                <p><span class="icon12 icon12-flag"></span> &nbsp;{{gitStore[item.metadata.name]["io.openshift.build.commit.ref"]}} - {{gitStore[item.metadata.name]["io.openshift.build.commit.id"] | limitTo: 7}}</p>
                 <p class="thumb-btn">
                     <a class="btn btn-green" href="javascript:;">部署最新版本</a>
                 </p>

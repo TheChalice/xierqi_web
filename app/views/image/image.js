@@ -8,7 +8,7 @@ angular.module('console.image', [
             ]
         }
     ])
-    .controller('ImageCtrl', ['$scope', '$log','ImageStreamTag', 'Build', 'GLOBAL', function ($scope, $log, ImageStreamTag, Build, GLOBAL) {
+    .controller('ImageCtrl', ['$scope', '$log','ImageStreamTag', 'Build', 'GLOBAL', '$state', '$stateParams', function ($scope, $log, ImageStreamTag, Build, GLOBAL, $state, $stateParams) {
 
         //分页
         $scope.grid = {
@@ -25,6 +25,7 @@ angular.module('console.image', [
         var refresh = function(page) {
             var skip = (page - 1) * $scope.grid.size;
             $scope.items = $scope.data.items.slice(skip, skip + $scope.grid.size);
+            fillImageStreams($scope.items);
         };
 
         var loadImageStream = function() {
@@ -53,11 +54,22 @@ angular.module('console.image', [
             Build.get(function (data) {
                 $log.info("builds", data);
 
-                fillImageStreams(data.items);
             });
         };
 
+        $scope.gitStore = {};
         var fillImageStreams = function(items) {
+            angular.forEach(items, function(item, i){
+                //ImageStreamTag需要参数name
+                ImageStreamTag.get({name: item.metadata.name}, function (data) {
+                    $scope.gitStore[item.metadata.name] = data.image.dockerImageMetadata.Config.Labels
+                    $log.info("imageStreamTag", i, data);
+                });
 
+            });
         };
+
+        $scope.$state = $state;
+
+
     }]);

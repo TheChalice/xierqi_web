@@ -10,10 +10,8 @@ angular.module("console.card", [
         return {
             restrict: 'EA',
             replace: true,
-            scope: {
-                item: '='
-            },
-            templateUrl: 'components/card/card.html'
-        }
+            templateUrl: 'components/card/card.html',
+
+        };
     }]);
 

@@ -5,7 +5,7 @@ angular.module('console.image_detail', [
             files: ['components/searchbar/searchbar.js']
         }
     ])
-    .controller('ImageDetailCtrl', ['$scope', '$log', 'ImageStreamTag', '$stateParams', function ($scope, $log, ImageStreamTag, $stateParams) {
+    .controller('ImageDetailCtrl', ['$scope', '$log', 'ImageStreamTag', '$stateParams', 'Git', function ($scope, $log, ImageStreamTag, $stateParams, Git) {
         $log.info('ImageDetailCtrl');
 
         var loadImageDetail = function(){
@@ -17,4 +17,12 @@ angular.module('console.image_detail', [
         };
 
         loadImageDetail();
+
+        var laodGit = function(){
+            var list = new array("owner", "repo", "path");
+            Git.get(function(list){
+                $log.info(list);
+            })
+        };
+        laodGit();
     }]);

@@ -26,7 +26,7 @@
                         </div>
                         <div class="media-body">
                             <h4 class="media-heading">最新版本</h4>
-                            <small>master - {{data.spec.revision.git.commit}}</small>
+                            <small style="display: inline-block">{{data.image.dockerImageMetadata.Config.Labels["io.openshift.build.commit.ref"]}} - <span>{{data.image.dockerImageMetadata.Config.Labels["io.openshift.build.commit.id"]}}</span></small>
                         </div>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
         <uib-tabset class="tab-default">
             <uib-tab index="1" heading="概览">
                 <div>
-                    <p>wwwwwwwwwwwwwwwwwwww</p>
+                    <p>{{data.image.dockerImageMetadata.Config.Labels["io.openshift.build.source-location"]}}</p>
                 </div>
             </uib-tab>
             <uib-tab index="2" heading="镜像版本">

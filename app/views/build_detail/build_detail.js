@@ -31,7 +31,6 @@ angular.module('console.build.detail', [
                 data.items = Sort.sort(data.items, -1); //排序
                 $scope.history = data;
                 watchBuilds(data.metadata.resourceVersion);
-
                 $scope.imageEnable = imageEnable();
             }, function(res){
                 //错误处理

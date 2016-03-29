@@ -37,7 +37,7 @@ define([
         host: 'https://54.222.199.235:8443/oapi/v1',
         host_wss: 'wss://54.222.199.235:8443/oapi/v1',
         namespace: 'foundry',
-        token: 'cbvH2YBSJfoVxfpQCCyKvkYbpEU4GGKF1gijbe1nFm4'
+        token: 'L6PDA3dxiZgcThxh8YiNn1pVyPIxnl-qoxSw-lnBks0'
     })
     .constant('AUTH_EVENTS', {
         loginNeeded: 'auth-login-needed',
