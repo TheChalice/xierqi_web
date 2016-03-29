@@ -4,7 +4,7 @@
   "description": "angular seed",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/.bin/http-server -a localhost -p 8080 -c-1",
+    "start": "./node_modules/.bin/http-server -a localhost -p 9000 -c-1",
     "test": "./node_modules/.bin/karma start conf/karma.conf.js",
     "update-webdriver": "./node_modules/.bin/webdriver-manager update",
     "protractor": "./node_modules/.bin/protractor conf/protractor.conf.js",
