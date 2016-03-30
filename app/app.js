@@ -51,6 +51,9 @@ define([
         logout_uri: ""
     })
     .config(['$httpProvider', 'AuthServiceProvider', 'RedirectLoginServiceProvider', 'AUTH_CFG', function($httpProvider, AuthServiceProvider, RedirectLoginServiceProvider, AUTH_CFG) {
+        //todo oauth_redirect_base强制为location.origin
+        var oauth_redirect_base = location.origin;
+
         $httpProvider.interceptors.push('AuthInterceptor');
 
         AuthServiceProvider.LoginService('RedirectLoginService');
@@ -59,7 +62,7 @@ define([
 
         RedirectLoginServiceProvider.OAuthClientID(AUTH_CFG.oauth_client_id);
         RedirectLoginServiceProvider.OAuthAuthorizeURI(AUTH_CFG.oauth_authorize_uri);
-        RedirectLoginServiceProvider.OAuthRedirectURI(URI(AUTH_CFG.oauth_redirect_base).segment("app/oauth.html").toString());
+        RedirectLoginServiceProvider.OAuthRedirectURI(URI(oauth_redirect_base).segment("app/oauth.html").toString());
 
     }])
 

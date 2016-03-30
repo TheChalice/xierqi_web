@@ -1,1 +1,0 @@
-angular.module("components.nav",[]).directive("myNav",[function(){return{restrict:"EA",replace:!0,templateUrl:"components/nav/nav.html"}}]);

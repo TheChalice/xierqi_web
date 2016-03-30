@@ -1,24 +1,24 @@
-# Pull base image.
-FROM library/node
+FROM alpine
 
-# Install Bower & Grunt
-RUN npm install -g bower
-RUN echo '{ "allow_root": true }' > /root/.bowerrc
+# Install nginx & node
+RUN apk add --update nginx nodejs git && \
+    rm -rf /var/cache/apk/*
 
-COPY app /data/datafoundry/app
-COPY conf /data/datafoundry/conf
-COPY bower.json /data/datafoundry/bower.json
-COPY package.json /data/datafoundry/package.json
-COPY release.sh /data/datafoundry/release.sh
+# Install Bower
+# Set bower root allow
+RUN npm install -g bower && \
+    echo '{ "allow_root": true }' > /root/.bowerrc && \
+    git config --global url."https://".insteadOf git://
+
+# Copy code
+COPY ./* /data/datafoundry/
 
 # Install node & bower depends
 WORKDIR /data/datafoundry
-RUN npm install
-RUN bower install
-RUN ./release.sh
+RUN cp nginx.conf /etc/nginx/nginx.conf && \
+    npm install && \
+    bower install && \
+    ./release.sh
 
-# Define working directory.
-WORKDIR /data/datafoundry/app
-
-# Define default command.
-CMD ["bash"]
+EXPOSE  80 8080
+CMD ["nginx", "-g", "daemon off;"]

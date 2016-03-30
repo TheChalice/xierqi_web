@@ -1,1 +1,0 @@
-angular.module("console.sidebar",[{files:["components/sidebar/sidebar.css"]}]).directive("cSidebar",[function(){return{restrict:"EA",replace:!0,templateUrl:"components/sidebar/sidebar.html",controller:["$state","$scope",function(e,t){t.$state=e}]}}]);
