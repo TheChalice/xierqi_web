@@ -30,7 +30,8 @@
                     <a class="href-orange" ui-sref="console.build_detail({name: bc.metadata.name})">{{bc.metadata.name}}</a>
                 </td>
                 <td>
-                    <span class="icon12 icon12-{{bc.build.status.phase}}"></span>
+                    <span class="icon12 icon12-{{bc.build.status.phase}}"
+                          ng-class="{'fa-spin': bc.build.status.phase == 'Running' || bc.build.status.phase == 'Pending'}"></span>
                     {{bc.build.status.phase | phaseFilter}}
                 </td>
                 <td>{{bc.build.metadata.creationTimestamp | dateRelative}}</td>

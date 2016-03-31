@@ -262,6 +262,12 @@ body {
 .fa-orange {
     color: #f6a540;
 }
+.fa-green {
+    color: #55c45f;
+}
+.fa-red {
+    color: #e81021;
+}
 
 .pagination>.active>a,
 .pagination>.active>a:focus,
