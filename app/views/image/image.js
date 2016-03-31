@@ -62,8 +62,7 @@ angular.module('console.image', [
             angular.forEach(items, function(item, i){
                 //ImageStreamTag需要参数name
                 ImageStreamTag.get({name: item.metadata.name}, function (data) {
-                    $scope.gitStore[item.metadata.name] = data.image.dockerImageMetadata.Config.Labels
-                    $log.info("imageStreamTag", i, data);
+                    $scope.gitStore[item.metadata.name] = data.image.dockerImageMetadata.Config.Labels;
                 });
 
             });

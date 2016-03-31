@@ -11,7 +11,8 @@ angular.module("console.card", [
             restrict: 'EA',
             replace: true,
             scope: {
-                item: '='
+                item: '=',
+                gitStore: '='
             },
             templateUrl: 'components/card/card.html',
 

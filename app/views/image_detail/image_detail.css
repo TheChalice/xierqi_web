@@ -1,0 +1,15 @@
+.icon20-view {
+    background-image: url(img/view.png);
+}
+.icon20-log:hover {
+    background-image: url(img/view-active.png);
+}
+.icon20-version{
+    background-image: url(img/version.png);
+}
+.icon20-log:hover {
+    background-image: url(img/version-active.png);
+}
+.thesize{
+    width:100px;
+}

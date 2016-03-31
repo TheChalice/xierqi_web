@@ -1,9 +1,12 @@
 'use strict';
 
 angular.module('console.image_detail', [
-        'base64',
         {
-            files: ['components/searchbar/searchbar.js']
+            files: [
+                'components/searchbar/searchbar.js',
+                'components/imageVersion/imageVersion.js',
+                'views/image_detail/image_detail.css'
+            ]
         }
     ])
     .controller('ImageDetailCtrl', ['$scope', '$log', 'ImageStreamTag', '$stateParams', function ($scope, $log, ImageStreamTag, $stateParams) {
@@ -37,4 +40,17 @@ angular.module('console.image_detail', [
                 $scope.$apply();
             });
         };
+
+        var loadBuildHistory = function () {
+            Build.get({fieldSelector:'buildconfig=' + data.spec.output.to.name}, function(data){
+                $log.info("history", data);
+                data.items = Sort.sort(data.items, -1); //排序
+                $scope.history = data;
+                watchBuilds(data.metadata.resourceVersion);
+                $scope.imageEnable = imageEnable();
+            }, function(res){
+                //错误处理
+            });
+        };
+        loadBuildHistory();
     }]);

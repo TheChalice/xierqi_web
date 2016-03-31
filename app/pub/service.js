@@ -88,6 +88,8 @@ define(['angular'], function (angular) {
                     //    return config;
                     //}
 
+                    //config.headers["User-Agent"] = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36';
+
                     // If we could add auth info, we can continue
                     if (AuthService.addAuthToRequest(config)) {
                         //console.log("Auth added", config.url);
