@@ -14,7 +14,8 @@ define([
     'pub/directive',
     'pub/filter',
     'pub/ws',
-    'components/version/version'
+    'components/version/version',
+    'angularMd'
 ], function (angular) {
 
     // 声明应用及其依赖
@@ -29,7 +30,8 @@ define([
         'myApp.directive',
         'myApp.filter',
         'myApp.webSocket',
-        'myApp.version'
+        'myApp.version',
+        'hc.marked'
     ]);
 
     myApp.constant('GLOBAL', {

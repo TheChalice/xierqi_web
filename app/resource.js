@@ -56,9 +56,5 @@ define([
                 create: {method: 'POST'}
             });
             return ImageStreamTag;
-        }])
-        .factory('Git', ['$resource', function($resource){
-            var Git = $resource('https://api.github.com/repos/:owner/:repo/contents/:path', {owner: '@owner', repo: '@repo', path: '@path'});
-            return Git;
         }]);
 });

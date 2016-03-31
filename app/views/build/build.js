@@ -77,14 +77,12 @@ angular.module('console.build', [
 
         //根据buildConfig标签获取build列表
         var loadBuilds = function(items){
-            //todo 通过labelSelector筛选builds,现在无法拿到数据
-            //var labelSelector = '';
-            //for (var i = 0; i < items.length; i++) {
-            //    labelSelector += 'buildconfig=' + items[i].metadata.name + ','
-            //}
-            //labelSelector = labelSelector.substring(0, labelSelector.length - 1);
-            //Build.get({labelSelector: labelSelector}, function (data) {
-            Build.get(function (data) {
+            var labelSelector = 'buildconfig in (';
+            for (var i = 0; i < items.length; i++) {
+                labelSelector += items[i].metadata.name + ','
+            }
+            labelSelector = labelSelector.substring(0, labelSelector.length - 1) + ')';
+            Build.get({labelSelector: labelSelector}, function (data) {
                 $log.info("builds", data);
 
                 fillBuildConfigs(data.items);
