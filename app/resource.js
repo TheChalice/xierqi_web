@@ -12,7 +12,7 @@ define([
             });
             return User;
         }])
-        .factory('Build', ['$resource', '$ws', '$log', 'GLOBAL', function($resource, $ws, $log, GLOBAL){
+        .factory('Build', ['$resource', '$ws', '$log', 'Cookie', 'GLOBAL', function($resource, $ws, $log, Cookie, GLOBAL){
             //GET /oapi/v1/namespaces/{namespace}/builds
             var Build = $resource(GLOBAL.host + '/namespaces/' + GLOBAL.namespace + '/builds/:name', {name: '@name'}, {
                 create: { method: 'POST'},
@@ -27,7 +27,7 @@ define([
                 }
                 $ws({
                     method: "WATCH",
-                    url: GLOBAL.host_wss + '/namespaces/' + GLOBAL.namespace + '/builds?watch=true&resourceVersion='+ resourceVersion +'&access_token=' + GLOBAL.token,
+                    url: GLOBAL.host_wss + '/namespaces/' + GLOBAL.namespace + '/builds?watch=true&resourceVersion='+ resourceVersion +'&access_token=' + Cookie.get("df_access_token"),
                     onclose:   onclose,
                     onmessage: onmessage,
                     onopen:    onopen
