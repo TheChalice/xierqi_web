@@ -17,7 +17,8 @@
     "moment": "2.12.0",
     "font-awesome": "Font-Awesome#^4.5.0",
     "uri.js": "1.14.1",
-    "jquery": "*"
+    "jquery": "*",
+    "angular-marked": "*"
   },
   "description": "angular seed",
   "main": "index.js",

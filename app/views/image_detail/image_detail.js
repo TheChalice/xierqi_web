@@ -9,7 +9,7 @@ angular.module('console.image_detail', [
             ]
         }
     ])
-    .controller('ImageDetailCtrl', ['$scope', '$log', 'ImageStreamTag', '$stateParams', function ($scope, $log, ImageStreamTag, $stateParams) {
+    .controller('ImageDetailCtrl', ['$scope', '$log', 'ImageStreamTag', '$stateParams', 'BuildConfig', 'Build', function ($scope, $log, ImageStreamTag, $stateParams, BuildConfig, Build) {
         $log.info('ImageDetailCtrl');
 
         var loadImageDetail = function(){
@@ -40,17 +40,4 @@ angular.module('console.image_detail', [
                 $scope.$apply();
             });
         };
-
-        var loadBuildHistory = function () {
-            Build.get({fieldSelector:'buildconfig=' + data.spec.output.to.name}, function(data){
-                $log.info("history", data);
-                data.items = Sort.sort(data.items, -1); //排序
-                $scope.history = data;
-                watchBuilds(data.metadata.resourceVersion);
-                $scope.imageEnable = imageEnable();
-            }, function(res){
-                //错误处理
-            });
-        };
-        loadBuildHistory();
     }]);

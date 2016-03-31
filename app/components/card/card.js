@@ -10,11 +10,7 @@ angular.module("console.card", [
         return {
             restrict: 'EA',
             replace: true,
-            scope: {
-                item: '=',
-                gitStore: '='
-            },
-            templateUrl: 'components/card/card.html',
+            templateUrl: 'components/card/card.html'
 
         };
     }]);

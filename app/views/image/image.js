@@ -8,13 +8,15 @@ angular.module('console.image', [
             ]
         }
     ])
-    .controller('ImageCtrl', ['$scope', '$log','ImageStreamTag', 'Build', 'GLOBAL', '$state', '$stateParams', function ($scope, $log, ImageStreamTag, Build, GLOBAL, $state, $stateParams) {
+    .controller('ImageCtrl', ['$scope', '$log','ImageStreamTag', 'Build', 'GLOBAL', function ($scope, $log, ImageStreamTag, Build, GLOBAL) {
 
         //分页
         $scope.grid = {
             page: 1,
             size: GLOBAL.size
         };
+
+        $scope.gitStore = {};   //存储commit id 和 分支,angular修改数组内元素属性不能触发刷新
 
         $scope.$watch('grid.page', function(newVal, oldVal){
             if (newVal != oldVal) {
@@ -35,7 +37,6 @@ angular.module('console.image', [
                 $scope.grid.total = data.items.length;
                 refresh(1);
 
-                loadBuilds(data.items);
             }, function (res) {
                 //错误处理
             });
@@ -43,32 +44,21 @@ angular.module('console.image', [
 
         loadImageStream();
 
-        var loadBuilds = function(items){
-            //todo 通过labelSelector筛选builds,现在无法拿到数据
-            //var labelSelector = '';
-            //for (var i = 0; i < items.length; i++) {
-            //    labelSelector += 'buildconfig=' + items[i].metadata.name + ','
-            //}
-            //labelSelector = labelSelector.substring(0, labelSelector.length - 1);
-            //Build.get({labelSelector: labelSelector}, function (data) {
-            Build.get(function (data) {
-                $log.info("builds", data);
-
-            });
-        };
-
-        $scope.gitStore = {};
         var fillImageStreams = function(items) {
-            angular.forEach(items, function(item, i){
-                //ImageStreamTag需要参数name
+            angular.forEach(items, function(item){
+                if ($scope.gitStore[item.metadata.name]) {
+                    return;
+                }
                 ImageStreamTag.get({name: item.metadata.name}, function (data) {
-                    $scope.gitStore[item.metadata.name] = data.image.dockerImageMetadata.Config.Labels;
+                    var labels = data.image.dockerImageMetadata.Config.Labels;
+                    if (!labels) {
+                        return;
+                    }
+                    $scope.gitStore[item.metadata.name] = {
+                        id: labels["io.openshift.build.commit.id"],
+                        ref: labels["io.openshift.build.commit.ref"]
+                    };
                 });
-
             });
         };
-
-        $scope.$state = $state;
-
-
     }]);
