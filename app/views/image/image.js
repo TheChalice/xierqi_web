@@ -61,4 +61,25 @@ angular.module('console.image', [
                 });
             });
         };
+
+        $scope.doSearch = function(txt){
+            $scope.showTip = false;
+            $scope.search(txt);
+        }
+        $scope.search = function (key, txt) {
+            if (!txt) {
+                refresh(1);
+                return;
+            }
+            $scope.items = [];
+            txt = txt.replace(/\//g, '\\/');
+            var reg = eval('/' + txt + '/');
+            for(var i=0;i<$scope.data.items.length; i++){
+                if (reg.test($scope.data.items[i].metadata.name)) {
+                    $scope.items.push($scope.data.items[i]);
+                }
+            }
+            $log.info($scope.items);
+            $log.info($scope.data.items[0].metadata.name);
+        }
     }]);
