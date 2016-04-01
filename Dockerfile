@@ -17,14 +17,14 @@ COPY . /data/datafoundry/
 WORKDIR /data/datafoundry
 
 RUN cp nginx.conf /etc/nginx/nginx.conf && \
+    echo search home > /etc/resolv.conf && \
+    echo nameserver 223.5.5.5 >> /etc/resolv.conf && \
+    echo nameserver 223.6.6.6 >> /etc/resolv.conf && \
     npm install && \
     bower install && \
     ./release.sh && \
     apk del nodejs git --purge && \
-    rm -rf bower_components node_modules && \
-    echo search home > /etc/resolv.conf && \
-    echo nameserver 223.5.5.5 >> /etc/resolv.conf && \
-    echo nameserver 223.6.6.6 >> /etc/resolv.conf
+    rm -rf bower_components node_modules 
 
 
 EXPOSE 80 
