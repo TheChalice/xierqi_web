@@ -20,7 +20,7 @@ RUN cp nginx.conf /etc/nginx/nginx.conf && \
     npm install && \
     bower install && \
     ./release.sh && \
-    apk del nginx nodejs git --purge && \
+    apk del nodejs git --purge && \
     rm -rf bower_components node_modules
 
 EXPOSE 80 
