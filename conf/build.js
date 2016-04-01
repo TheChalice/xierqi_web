@@ -22,7 +22,8 @@
         angularAnimate: '../bower_components/angular-animate/angular-animate.min',
         angularMocks: '../bower_components/angular-mocks/angular-mocks',
         ocLazyLoad: '../bower_components/oclazyload/dist/ocLazyLoad.min',
-        angularBase64: '../bower_components/angular-base64/angular-base64.min'
+        angularBase64: '../bower_components/angular-base64/angular-base64.min',
+        angularMd: '../bower_components/angular-marked/dist/angular-marked.min'
 },
     shim: {
         'angular': {

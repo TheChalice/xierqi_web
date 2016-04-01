@@ -14,6 +14,7 @@ cp -r bower_components/html5-boilerplate $dist/vendor/
 cp -r bower_components/requirejs $dist/vendor/
 cp -r bower_components/jquery $dist/vendor/
 cp -r bower_components/uri.js $dist/vendor/
+cp -r bower_components/marked $dist/vendor/
 
 echo "[I know this is not good, but I ...]"
 mkdir -p $dist/app

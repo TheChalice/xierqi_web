@@ -11,7 +11,7 @@ RUN npm install -g bower && \
     git config --global url."https://".insteadOf git://
 
 # Copy code
-COPY ./* /data/datafoundry/
+COPY . /data/datafoundry/
 
 # Install node & bower depends
 WORKDIR /data/datafoundry
@@ -19,7 +19,10 @@ RUN cp nginx.conf /etc/nginx/nginx.conf && \
     npm install && \
     bower install && \
     ./release.sh && \
-    ./oauthServer
+    rm -rf bower_components node_modules
 
 EXPOSE  80 9090
-CMD ["nginx", "-g", "daemon off;"]
+
+RUN ./oauthServer &
+
+ENTRYPOINT ["nginx", "-g", "daemon off;"]

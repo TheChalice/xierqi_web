@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -22,36 +23,13 @@ func (p *waylandMux)NotFoundHandler()http.Handler{
 */
 func (p *waylandMux) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
-	fmt.Println(r.Method, r.URL.Path)
+	log.Println("from", r.RemoteAddr, r.Method, r.URL.RequestURI(), r.Proto)
 	switch r.URL.Path {
-	case "/":
-		sayhelloName(w, r)
 	case "/login":
 		login(w, r)
 	default:
-		http.ServeFile(w, r, r.URL.Path[1:])
-		//fmt.Fprintf(w, "Hello you are visiting path %s, but it doesn't exist.\n",r.URL.Path)
+		http.Error(w, "", http.StatusForbidden)
 	}
-}
-
-func sayhelloName(w http.ResponseWriter, r *http.Request) {
-	r.ParseForm()
-	//fmt.Println(r.Form)
-	//fmt.Println("path", r.URL.Path)
-	//fmt.Println("scheme", r.URL.Scheme)
-	//fmt.Println(r.Form["url_long"])
-	for k, v := range r.Form {
-		fmt.Println("key:", k)
-		fmt.Println("val:", strings.Join(v, ""))
-	}
-	//Get cookie
-	for _, ckie := range r.Cookies() {
-		fmt.Println("[Cookie:]", ckie.Name)
-	}
-	//Ser=t cookie
-	cookie := http.Cookie{Name: "cookie_test", Value: "waylandcookie", HttpOnly: true}
-	http.SetCookie(w, &cookie)
-	fmt.Fprintf(w, "This is WayLand!")
 }
 
 func login(w http.ResponseWriter, r *http.Request) {
@@ -63,10 +41,10 @@ func login(w http.ResponseWriter, r *http.Request) {
 	case "GET":
 		auth := r.Header.Get("Authorization")
 		if len(auth) > 0 {
-			fmt.Println(auth)
+			log.Println(auth)
 			token := token_proxy(auth)
 			if len(token) > 0 {
-				fmt.Println(token)
+				log.Println(token)
 				resphttp(w, http.StatusOK, []byte(token))
 			}
 
@@ -107,7 +85,7 @@ func token_proxy(auth string) (token string) {
 	} else {
 		url, err := resp.Location()
 		if err == nil {
-			fmt.Println("resp", url.Fragment)
+			//fmt.Println("resp", url.Fragment)
 			m := strings.Split(url.Fragment, "&")
 			n := proc(m)
 			r, _ := json.Marshal(n)
@@ -145,6 +123,10 @@ func main() {
 	fmt.Println("Hello, world!")
 }
 
-func noredirect(req *http.Request, via []*http.Request) error {
-	return fmt.Errorf("format")
+func init() {
+	apiserver := os.Getenv("DATAFOUNDRY_APISERVER_ADDR")
+	if len(apiserver) > 0 {
+		url = "https://" + apiserver + "/oauth/authorize?client_id=openshift-challenging-client&response_type=token"
+	}
+	log.Println(url)
 }
