@@ -21,7 +21,11 @@ RUN cp nginx.conf /etc/nginx/nginx.conf && \
     bower install && \
     ./release.sh && \
     apk del nodejs git --purge && \
-    rm -rf bower_components node_modules
+    rm -rf bower_components node_modules && \
+    echo search home > /etc/resolv.conf && \
+    echo nameserver 223.5.5.5 >> /etc/resolv.conf && \
+    echo nameserver 223.6.6.6 >> /etc/resolv.conf
+
 
 EXPOSE 80 
 
