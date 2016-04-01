@@ -64,16 +64,57 @@ define(['angular'], function (angular) {
             };
         }])
         .service('Cookie', [function(){
+            this.set = function (key, val, expires) {
+                var date = new Date();
+                date.setTime(date.getTime() + expires);
+                document.cookie = key + "=" + val + "; expires="+date.toUTCString();
+            };
             this.get = function (key) {
                 var reg = new RegExp("(^| )" + key + "=([^;]*)(;|$)");
                 var arr = document.cookie.match(reg);
                 if (arr) {
-                    return (arr[2])
+                    return (arr[2]);
                 }
                 return null
             };
         }])
-        .factory('AuthInterceptor', ['$q', 'AuthService', function($q, AuthService) {
+        .factory('AuthInterceptor', ['$rootScope', '$q', 'AUTH_EVENTS', 'Cookie', function ($rootScope, $q, AUTH_EVENTS, Cookie) {
+            var CODE_MAPPING = {
+                401: AUTH_EVENTS.loginNeeded,
+                403: AUTH_EVENTS.httpForbidden,
+                419: AUTH_EVENTS.loginNeeded,
+                440: AUTH_EVENTS.loginNeeded
+            };
+            return {
+                request: function (config) {
+                    //console.log($httpProvider.default.headers.common["Authorization"]);
+                    var token = Cookie.get('df_access_token');
+                    if (config.headers && token) {
+                        config.headers["Authorization"] = "Bearer " + token;
+                    }
+
+                    $rootScope.loading = true;
+                    return config
+                },
+                requestError: function (rejection) {
+                    $rootScope.loading = false;
+                    return $q.reject(rejection);
+                },
+                response: function (res) {
+                    $rootScope.loading = false;
+                    return res;
+                },
+                responseError: function (response) {
+                    $rootScope.loading = false;
+                    var val = CODE_MAPPING[response.status];
+                    if (val) {
+                        $rootScope.$broadcast(val, response);
+                    }
+                    return $q.reject(response);
+                }
+            };
+        }])
+        .factory('AuthInterceptor2', ['$q', 'AuthService', function($q, AuthService) {
             var pendingRequestConfigs = [];
             // TODO: subscribe to user change events to empty the saved configs
             // TODO: subscribe to login events to retry the saved configs

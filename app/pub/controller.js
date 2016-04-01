@@ -8,12 +8,14 @@ define(['angular'], function (angular) {
 
             $rootScope.$on(AUTH_EVENTS.loginNeeded, function () {
                 $log.info(AUTH_EVENTS.loginNeeded);
+                $state.go('login');
             });
             $rootScope.$on(AUTH_EVENTS.loginSuccess, function () {
                 $log.info(AUTH_EVENTS.loginSuccess);
             });
             $rootScope.$on(AUTH_EVENTS.httpForbidden, function () {
                 $log.info(AUTH_EVENTS.httpForbidden);
+                $state.go('login');
             });
         }]);
 });
