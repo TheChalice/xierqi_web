@@ -107,6 +107,30 @@ body {
 .icon25-time {
     background-image: url(../img/panel-repository.png);
 }
+.icon25-start {
+    background-image: url(../img/start.png);
+}
+.icon25-start:hover {
+    background-image: url(../img/start-hover.png);
+}
+.icon25-stop {
+    background-image: url(../img/stop2.png);
+}
+.icon25-stop:hover {
+    background-image: url(../img/stop2-hover.png);
+}
+.icon25-delete {
+    background-image: url(../img/delete.png);
+}
+.icon25-delete:hover {
+    background-image: url(../img/delete-hover.png);
+}
+.icon25-download {
+    background-image: url(../img/download.png);
+}
+.icon25-download:hover {
+    background-image: url(../img/download-hover.png);
+}
 .icon20-recycle {
     background-image: url(../img/recycle.png);
 }

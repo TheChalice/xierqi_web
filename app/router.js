@@ -66,7 +66,7 @@ define([
                     }
                 })
                 .state('console.image_detail',{
-                    url: '/image/:name',
+                    url: '/image/:bc/:name',
                     templateUrl: 'views/image_detail/image_detail.html',
                     controller: 'ImageDetailCtrl',
                     resolve: {

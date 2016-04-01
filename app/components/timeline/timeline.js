@@ -10,7 +10,12 @@ angular.module("console.timeline", [
         return {
             restrict: 'EA',
             replace: true,
-            controller: ['$scope', '$log', 'Build', 'Confirm', '$stateParams', function($scope, $log, Build, Confirm, $stateParams){
+
+            scope: {
+                data: '=',
+                type: '@'
+            },
+            controller: ['$scope', '$log', 'BuildConfig', 'Build', 'Confirm', '$stateParams', function($scope, $log, BuildConfig, Build, Confirm, $stateParams){
                 $scope.buildLog = {};
                 $scope.collapseLog = {};
 
@@ -48,9 +53,23 @@ angular.module("console.timeline", [
                     });
                 };
 
+                $scope.pull = function(idx){
+                    var name = $scope.data.items[idx].spec.output.to.name;
+                    $log.info("pull image", name);
+                };
+
                 $scope.delete = function(idx){
+                    var title = "删除构建";
+                    var msg = "您确定要删除构建吗?";
+                    var tip = "删除构建将清除构建的所有历史数据以及相关的镜像,该操作不能被恢复";
+                    if ($scope.type == 'image') {
+                        title = "删除镜像版本";
+                        msg = "您确定要删除该镜像版本吗?";
+                        tip = "";
+                    }
+
                     var name = $scope.data.items[idx].metadata.name;
-                    Confirm.open("删除构建", "您确定要删除项目吗?", "删除项目将清除项目的所有历史数据以及相关的镜像该操作不能被恢复", 'recycle').then(function(){
+                    Confirm.open(title, msg, tip, 'recycle').then(function(){
                         Build.remove({name: name}, function(){
                             $log.info("deleted");
                             for (var i = 0; i < $scope.data.items.length; i++) {
@@ -80,9 +99,6 @@ angular.module("console.timeline", [
                     });
                 };
             }],
-            scope: {
-                data: '='
-            },
             templateUrl: 'components/timeline/timeline.html'
         }
     }]);

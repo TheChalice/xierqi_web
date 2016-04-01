@@ -8,7 +8,7 @@ angular.module('console.image', [
             ]
         }
     ])
-    .controller('ImageCtrl', ['$scope', '$log','ImageStreamTag', 'Build', 'GLOBAL', function ($scope, $log, ImageStreamTag, Build, GLOBAL) {
+    .controller('ImageCtrl', ['$scope', '$log', 'ImageStreamTag', 'BuildConfig', 'Build', 'GLOBAL', 'Sort', function ($scope, $log, ImageStreamTag, BuildConfig, Build, GLOBAL, Sort) {
 
         //分页
         $scope.grid = {
@@ -27,37 +27,51 @@ angular.module('console.image', [
         var refresh = function(page) {
             var skip = (page - 1) * $scope.grid.size;
             $scope.items = $scope.data.items.slice(skip, skip + $scope.grid.size);
-            fillImageStreams($scope.items);
         };
 
-        var loadImageStream = function() {
-            ImageStreamTag.get(function(data){
-                $log.info('imageStream', data);
+        //获取buildConfig列表
+        var loadBuildConfigs = function() {
+            BuildConfig.get(function(data){
+                $log.info('buildConfigs', data);
                 $scope.data = data;
+                $scope.data.items = Sort.sort(data.items, -1);
                 $scope.grid.total = data.items.length;
+
+                fillImageStreams();
+
                 refresh(1);
 
-            }, function (res) {
-                //错误处理
+            }, function(res) {
+                //todo 错误处理
             });
         };
 
-        loadImageStream();
+        loadBuildConfigs();
 
-        var fillImageStreams = function(items) {
+        var fillImageStreams = function() {
+            var items = angular.copy($scope.data.items);
+
+            $scope.data.items = [];
+            $scope.grid.total = 0;
             angular.forEach(items, function(item){
-                if ($scope.gitStore[item.metadata.name]) {
+                if (!item.spec.output.to) {
                     return;
                 }
-                ImageStreamTag.get({name: item.metadata.name}, function (data) {
+                ImageStreamTag.get({name: item.spec.output.to.name}, function (data) {
+                    item.metadata.creationTimestamp = data.metadata.creationTimestamp;
+                    $scope.data.items.push(item);
+                    $scope.grid.total++;
+                    refresh(1);
+
                     var labels = data.image.dockerImageMetadata.Config.Labels;
                     if (!labels) {
                         return;
                     }
-                    $scope.gitStore[item.metadata.name] = {
+                    $scope.gitStore[item.spec.output.to.name] = {
                         id: labels["io.openshift.build.commit.id"],
                         ref: labels["io.openshift.build.commit.ref"]
                     };
+
                 });
             });
         };

@@ -15,13 +15,6 @@
     background-image: url(img/image-hover.png);
 }
 
-.icon25-start {
-    background-image: url(img/start.png);
-}
-.icon25-start:hover {
-    background-image: url(img/start-hover.png);
-}
-
 .icon25-stop {
     background-image: url(img/stop.png);
 }
