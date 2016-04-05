@@ -26,13 +26,13 @@ define([
             Build.log = $resource(GLOBAL.host + '/namespaces/:namespace/builds/:name/log', {name: '@name', namespace: '@namespace'}, {
                 get: {method: 'GET', responseType: 'text'}
             });
-            Build.watch = function(onmessage, onopen, onclose, resourceVersion){
+            Build.watch = function(onmessage, onopen, onclose, resourceVersion, namespace){
                 if (!$ws.available()) {
                     return;
                 }
                 $ws({
                     method: "WATCH",
-                    url: GLOBAL.host_wss + '/namespaces/' + $rootScope.namespace + '/builds?watch=true&resourceVersion='+ resourceVersion +'&access_token=' + Cookie.get("df_access_token"),
+                    url: GLOBAL.host_wss + '/namespaces/' + namespace + '/builds?watch=true&resourceVersion='+ resourceVersion +'&access_token=' + Cookie.get("df_access_token"),
                     onclose:   onclose,
                     onmessage: onmessage,
                     onopen:    onopen

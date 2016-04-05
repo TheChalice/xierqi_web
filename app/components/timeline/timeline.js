@@ -15,7 +15,7 @@ angular.module("console.timeline", [
                 name: '=',
                 type: '@'
             },
-            controller: ['$rootScope', '$scope', '$log', 'BuildConfig', 'Build', 'Confirm', '$stateParams', 'ImageStreamTag', 'Sort', 'ModalPullImage', function($rootScope, $scope, $log, BuildConfig, Build, Confirm, $stateParams, ImageStreamTag, Sort, ModalPullImage){
+            controller: ['$rootScope', '$scope', '$state', '$log', 'BuildConfig', 'Build', 'Confirm', '$stateParams', 'ImageStreamTag', 'Sort', 'ModalPullImage', function($rootScope, $scope, $state, $log, BuildConfig, Build, Confirm, $stateParams, ImageStreamTag, Sort, ModalPullImage){
                 console.log("$scope.name", $scope.name);
                 $scope.gitStore = {};
 
@@ -81,7 +81,7 @@ angular.module("console.timeline", [
                         $log.info("webSocket start");
                     }, function(){
                         $log.info("webSocket stop");
-                    }, resourceVersion)
+                    }, resourceVersion, $rootScope.namespece);
                 };
 
                 var updateBuilds = function (data) {

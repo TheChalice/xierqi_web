@@ -11,8 +11,8 @@ angular.module('console', [
 ])
     .controller('ConsoleCtrl', ['$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', 'user', 'Project', function ($rootScope, $scope, $log, AUTH_EVENTS, User, user, Project) {
         $log.info('Console');
-        $rootScope.namespece = 'foundry';
-        return;
+        $rootScope.user = user;
+        $rootScope.namespece = user.metadata.name;
 
         var loadProject = function(name){
             $log.info("load project");
