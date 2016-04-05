@@ -100,6 +100,9 @@ define(['angular'], function (angular) {
                 }
                 return null
             };
+            this.clear = function (key) {
+                this.set(key, "", -1);
+            };
         }])
         .factory('AuthInterceptor', ['$rootScope', '$q', 'AUTH_EVENTS', 'Cookie', function ($rootScope, $q, AUTH_EVENTS, Cookie) {
             var CODE_MAPPING = {
