@@ -9,13 +9,13 @@ angular.module('console.image_detail', [
             ]
         }
     ])
-    .controller('ImageDetailCtrl', ['$scope', '$log', 'ImageStreamTag', '$stateParams', 'Build', 'Sort', function ($scope, $log, ImageStreamTag, $stateParams, Build, Sort) {
+    .controller('ImageDetailCtrl', ['$rootScope', '$scope', '$log', 'ImageStreamTag', '$stateParams', function ($rootScope, $scope, $log, ImageStreamTag, $stateParams) {
         $log.info('ImageDetailCtrl');
         $scope.bcName = $stateParams.bc;
 
         var loadImageDetail = function(){
             //传imagename的参数
-            ImageStreamTag.get({name: $stateParams["name"]}, function(data){
+            ImageStreamTag.get({namespace: $rootScope.namespece, name: $stateParams["name"]}, function(data){
                 $log.info('data',data);
                 $scope.data = data;
 

@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('console.build.create', [])
-    .controller('BuildCreateCtrl', ['$scope', '$state', '$log', 'BuildConfig', 'Build', 'ImageStream', 'UUID', 'Alert', function ($scope, $state, $log, BuildConfig, Build, ImageStream, UUID, Alert) {
+    .controller('BuildCreateCtrl', ['$rootScope', '$scope', '$state', '$log', 'BuildConfig', 'Build', 'ImageStream', 'UUID', 'Alert', function ($rootScope, $scope, $state, $log, BuildConfig, Build, ImageStream, UUID, Alert) {
         $log.info('BuildCreate');
 
         $scope.buildConfig = {
@@ -41,7 +41,7 @@ angular.module('console.build.create', [])
                     ]
                 }
             };
-            ImageStream.create({}, imageStream, function (res) {
+            ImageStream.create({namespace: $rootScope.namespece}, imageStream, function (res) {
                 $log.info("imageStream", res);
                 createBuildConfig(res.metadata.name);
             }, function(res){
@@ -65,7 +65,7 @@ angular.module('console.build.create', [])
                     }
                 }
             ];
-            BuildConfig.create({}, $scope.buildConfig, function(res){
+            BuildConfig.create({namespace: $rootScope.namespece}, $scope.buildConfig, function(res){
                 $log.info("buildConfig", res);
                 createBuild(res.metadata.name);
             }, function(res){
@@ -83,7 +83,7 @@ angular.module('console.build.create', [])
                     name: name
                 }
             };
-            BuildConfig.instantiate.create({name: name}, buildRequest, function(){
+            BuildConfig.instantiate.create({namespace: $rootScope.namespece, name: name}, buildRequest, function(){
                 $log.info("build instantiate success");
                 $state.go('console.build_detail', {name: name, from: 'create'})
             }, function(res){

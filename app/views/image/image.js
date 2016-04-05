@@ -8,7 +8,7 @@ angular.module('console.image', [
             ]
         }
     ])
-    .controller('ImageCtrl', ['$scope', '$log', 'ImageStreamTag', 'BuildConfig', 'Build', 'GLOBAL', 'Sort', function ($scope, $log, ImageStreamTag, BuildConfig, Build, GLOBAL, Sort) {
+    .controller('ImageCtrl', ['$rootScope', '$scope', '$log', 'ImageStreamTag', 'BuildConfig', 'Build', 'GLOBAL', 'Sort', function ($rootScope, $scope, $log, ImageStreamTag, BuildConfig, Build, GLOBAL, Sort) {
 
         //分页
         $scope.grid = {
@@ -31,7 +31,7 @@ angular.module('console.image', [
 
         //获取buildConfig列表
         var loadBuildConfigs = function() {
-            BuildConfig.get(function(data){
+            BuildConfig.get({namespace: $rootScope.namespece}, function(data){
                 $log.info('buildConfigs', data);
                 $scope.data = data;
                 $scope.data.items = Sort.sort(data.items, -1);
@@ -57,7 +57,7 @@ angular.module('console.image', [
                 if (!item.spec.output.to) {
                     return;
                 }
-                ImageStreamTag.get({name: item.spec.output.to.name}, function (data) {
+                ImageStreamTag.get({namespace: $rootScope.namespece, name: item.spec.output.to.name}, function (data) {
                     item.metadata.creationTimestamp = data.metadata.creationTimestamp;
                     $scope.data.items.push(item);
                     $scope.grid.total++;

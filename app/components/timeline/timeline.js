@@ -15,7 +15,7 @@ angular.module("console.timeline", [
                 name: '=',
                 type: '@'
             },
-            controller: ['$scope', '$log', 'BuildConfig', 'Build', 'Confirm', '$stateParams', 'ImageStreamTag', 'Sort', 'ModalPullImage', function($scope, $log, BuildConfig, Build, Confirm, $stateParams, ImageStreamTag, Sort, ModalPullImage){
+            controller: ['$rootScope', '$scope', '$log', 'BuildConfig', 'Build', 'Confirm', '$stateParams', 'ImageStreamTag', 'Sort', 'ModalPullImage', function($rootScope, $scope, $log, BuildConfig, Build, Confirm, $stateParams, ImageStreamTag, Sort, ModalPullImage){
                 console.log("$scope.name", $scope.name);
                 $scope.gitStore = {};
 
@@ -30,7 +30,7 @@ angular.module("console.timeline", [
 
                 //获取build记录
                 var loadBuildHistory = function (name) {
-                    Build.get({labelSelector: 'buildconfig=' + name}, function(data){
+                    Build.get({namespace: $rootScope.namespece, labelSelector: 'buildconfig=' + name}, function(data){
                         $log.info("history", data);
                         data.items = Sort.sort(data.items, -1); //排序
                         $scope.data = data;
@@ -60,7 +60,7 @@ angular.module("console.timeline", [
                 };
 
                 var loadImageStreamTag = function(name){
-                    ImageStreamTag.get({name: name}, function(data){
+                    ImageStreamTag.get({namespace: $rootScope.namespece, name: name}, function(data){
                         $log.info('imageStreamTag', data);
 
                         $scope.gitStore[name] = {
@@ -92,7 +92,7 @@ angular.module("console.timeline", [
                         angular.forEach($scope.data.items, function(item, i){
                             if (item.metadata.name == data.object.metadata.name) {
                                 data.object.showLog = $scope.data.items[i].showLog;
-                                Build.log.get({name: data.object.metadata.name}, function(res){
+                                Build.log.get({namespace: $rootScope.namespece, name: data.object.metadata.name}, function(res){
                                     var result = "";
                                     for(var k in res){
                                         result += res[k];
@@ -132,7 +132,7 @@ angular.module("console.timeline", [
                     if (o.buildLog) {
                         return;
                     }
-                    Build.log.get({name: o.metadata.name}, function(res){
+                    Build.log.get({namespace: $rootScope.namespece, name: o.metadata.name}, function(res){
                         var result = "";
                         for(var k in res){
                             result += res[k];
@@ -166,7 +166,7 @@ angular.module("console.timeline", [
                         return;
                     }
                     Confirm.open(title, msg, tip, 'recycle').then(function(){
-                        Build.remove({name: name}, function(){
+                        Build.remove({namespace: $rootScope.namespece, name: name}, function(){
                             $log.info("deleted");
                             for (var i = 0; i < $scope.data.items.length; i++) {
                                 if (name == $scope.data.items[i].metadata.name) {
@@ -184,7 +184,7 @@ angular.module("console.timeline", [
                     var o = $scope.data.items[idx];
                     o.status.cancelled = true;
                     Confirm.open("提示信息","您确定要终止本次构建吗?").then(function(){
-                        Build.put({name: o.metadata.name}, o, function(res){
+                        Build.put({namespace: $rootScope.namespece, name: o.metadata.name}, o, function(res){
                             $log.info("stop build success");
                             $scope.data.items[idx] = res;
                         }, function(res){

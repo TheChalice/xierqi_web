@@ -28,6 +28,12 @@ define([
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/console/console.js')
+                        }],
+                        user: ['$rootScope', 'User', function($rootScope, User){
+                            if($rootScope.user){
+                                return $rootScope.user;
+                            }
+                            return User.get({name: '~'}).$promise;
                         }]
                     },
                     abstract: true
