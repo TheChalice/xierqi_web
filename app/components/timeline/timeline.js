@@ -15,7 +15,7 @@ angular.module("console.timeline", [
                 data: '=',
                 type: '@'
             },
-            controller: ['$scope', '$log', 'BuildConfig', 'Build', 'Confirm', '$stateParams', function($scope, $log, BuildConfig, Build, Confirm, $stateParams){
+            controller: ['$scope', '$log', 'BuildConfig', 'Build', 'Confirm', '$stateParams', '$state', function($scope, $log, BuildConfig, Build, Confirm, $stateParams, $state){
                 $scope.buildLog = {};
                 $scope.collapseLog = {};
 
@@ -97,6 +97,12 @@ angular.module("console.timeline", [
                             }
                         });
                     });
+                };
+
+                $scope.forward = function(idx){
+                    var o = $scope.data.items[idx];
+                    $state.go('console.image_detail', {bc: o.metadata.labels.buildConfig, name: o.spec.output.to.name});
+
                 };
             }],
             templateUrl: 'components/timeline/timeline.html'

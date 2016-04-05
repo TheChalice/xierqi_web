@@ -131,6 +131,12 @@ body {
 .icon25-download:hover {
     background-image: url(../img/download-hover.png);
 }
+.icon25-forward {
+    background-image: url(../img/arrow.png);
+}
+.icon25-forward:hover {
+    background-image: url(../img/arrow_active.png);
+}
 .icon20-recycle {
     background-image: url(../img/recycle.png);
 }
