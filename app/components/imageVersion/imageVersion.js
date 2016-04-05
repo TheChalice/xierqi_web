@@ -43,8 +43,11 @@ angular.module("console.imageVersion", [
                 };
 
                 $scope.pull = function(idx){
-                    //var name = $scope.data.items[idx].metadata.name;
-                    comfirm.open("拉取镜像版本:","拉取命令","").then(function(){
+                    var name = $scope.data.items[idx].metadata.name;
+                    Confirm.open("拉取镜像版本:","拉取命令","").then(function(){
+                        Build.pull({name: name}, function(){
+
+                        })
 
                     })
                 }

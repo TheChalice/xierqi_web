@@ -9,7 +9,7 @@ angular.module('console.build.detail', [
         ]
     }
 ])
-    .controller('BuildDetailCtrl', ['$scope', '$log', '$stateParams', '$state', 'BuildConfig', 'Build', 'Sort', 'Confirm', function ($scope, $log, $stateParams, $state, BuildConfig, Build, Sort, Confirm) {
+    .controller('BuildDetailCtrl', ['$scope', '$log', '$stateParams', '$state', 'BuildConfig', 'Build', 'Sort', 'Confirm','ImageStreamTag', function ($scope, $log, $stateParams, $state, BuildConfig, Build, Sort, Confirm, ImageStreamTag) {
         $scope.grid = {};
 
         var loadBuildConfig = function() {
@@ -32,8 +32,24 @@ angular.module('console.build.detail', [
                 $scope.history = data;
                 watchBuilds(data.metadata.resourceVersion);
                 $scope.imageEnable = imageEnable();
+                var arrs= [];
+                if ($scope.data.spec.output.to){
+                    if ($scope.data.spec.output.to.name){
+                        arrs.push($scope.data);
+                    }
+                    $log.info('store',arrs);
+                }
             }, function(res){
                 //错误处理
+            });
+            loadImageStreamTag();
+        };
+        var loadImageStreamTag = function() {
+            var name = $scope.data.spec.output.to.name;
+            ImageStreamTag.get({name: name}, function(data){
+                $log.info('list',data);
+                if ($scope.data.spec.output.to){
+                }
             });
         };
 
