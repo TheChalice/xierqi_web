@@ -11,6 +11,7 @@ angular.module('console.image_detail', [
     ])
     .controller('ImageDetailCtrl', ['$scope', '$log', 'ImageStreamTag', '$stateParams', 'Build', 'Sort', function ($scope, $log, ImageStreamTag, $stateParams, Build, Sort) {
         $log.info('ImageDetailCtrl');
+        $scope.bcName = $stateParams.bc;
 
         var loadImageDetail = function(){
             //传imagename的参数
@@ -32,26 +33,6 @@ angular.module('console.image_detail', [
         };
 
         loadImageDetail();
-
-        var loadBuildHistory = function () {
-            console.log("bc", $stateParams.bc);
-            Build.get({labelSelector: 'buildconfig=' + $stateParams['bc']}, function(data){
-                $log.info("history", data);
-                var items = [];
-                for (var i = 0; i < data.items.length; i++) {
-                    if (data.items[i].status.phase == 'Complete') {
-                        items.push(data.items[i]);
-                    }
-                }
-
-                $scope.history = {items: Sort.sort(items, -1)}; //排序
-                console.log('===', $scope.history)
-            }, function(res){
-                //错误处理
-            });
-        };
-
-        loadBuildHistory();
 
         var loadReadme = function(owner, repo, ref) {
             var url = 'https://raw.githubusercontent.com/'+ owner +'/'+ repo +'/'+ ref +'/README.md';

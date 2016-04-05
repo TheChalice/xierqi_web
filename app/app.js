@@ -15,7 +15,8 @@ define([
     'pub/filter',
     'pub/ws',
     'components/version/version',
-    'angularMd'
+    'angularMd',
+    'angularClipboard'
 ], function (angular) {
 
     // 声明应用及其依赖

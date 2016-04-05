@@ -12,12 +12,103 @@ angular.module("console.timeline", [
             replace: true,
 
             scope: {
-                data: '=',
+                name: '=',
                 type: '@'
             },
-            controller: ['$scope', '$log', 'BuildConfig', 'Build', 'Confirm', '$stateParams', '$state', function($scope, $log, BuildConfig, Build, Confirm, $stateParams, $state){
-                $scope.buildLog = {};
-                $scope.collapseLog = {};
+            controller: ['$scope', '$log', 'BuildConfig', 'Build', 'Confirm', '$stateParams', 'ImageStreamTag', 'Sort', 'ModalPullImage', function($scope, $log, BuildConfig, Build, Confirm, $stateParams, ImageStreamTag, Sort, ModalPullImage){
+                console.log("$scope.name", $scope.name);
+                $scope.gitStore = {};
+
+                $scope.$on('timeline', function(e, type, data){
+                    $scope.data.items = $scope.data.items || [];
+                    console.log("type", type, "data", data);
+                    if (type == 'add') {
+                        data.showLog = true;
+                        $scope.data.items.unshift(data);
+                    }
+                });
+
+                //获取build记录
+                var loadBuildHistory = function (name) {
+                    Build.get({labelSelector: 'buildconfig=' + name}, function(data){
+                        $log.info("history", data);
+                        data.items = Sort.sort(data.items, -1); //排序
+                        $scope.data = data;
+
+                        fillHistory(data.items);
+
+                        watchBuilds(data.metadata.resourceVersion);
+                    }, function(res){
+                        //todo 错误处理
+                    });
+                };
+
+                var fillHistory = function(items){
+                    var tags = [];
+                    for (var i = 0; i < items.length; i++) {
+                        if (!items[i].spec.output || !items[i].spec.output.to || !items[i].spec.output.to.name) {
+                            continue;
+                        }
+                        if (tags.indexOf(items[i].spec.output.to.name) != -1) {
+                            continue;
+                        }
+                        tags.push(items[i].spec.output.to.name);
+                    }
+                    angular.forEach(tags, function(tag){
+                        loadImageStreamTag(tag);
+                    });
+                };
+
+                var loadImageStreamTag = function(name){
+                    ImageStreamTag.get({name: name}, function(data){
+                        $log.info('imageStreamTag', data);
+
+                        $scope.gitStore[name] = {
+                            id: data.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'],
+                            ref: data.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref']
+                        }
+
+                    }, function(res){
+                        //todo 错误处理
+                    });
+                };
+
+                var watchBuilds = function(resourceVersion) {
+                    Build.watch(function(res){
+                        var data = JSON.parse(res.data);
+                        updateBuilds(data);
+                    }, function(){
+                        $log.info("webSocket start");
+                    }, function(){
+                        $log.info("webSocket stop");
+                    }, resourceVersion)
+                };
+
+                var updateBuilds = function (data) {
+                    if (data.type == 'ADDED') {
+
+                    } else if (data.type == "MODIFIED") {
+                        //todo  这种方式非常不好,尽快修改
+                        angular.forEach($scope.data.items, function(item, i){
+                            if (item.metadata.name == data.object.metadata.name) {
+                                data.object.showLog = $scope.data.items[i].showLog;
+                                Build.log.get({name: data.object.metadata.name}, function(res){
+                                    var result = "";
+                                    for(var k in res){
+                                        result += res[k];
+                                    }
+                                    data.object.buildLog = result;
+                                    $scope.data.items[i] = data.object;
+                                }, function(){
+                                    $scope.data.items[i] = data.object;
+                                });
+                            }
+                        });
+                    }
+                };
+
+                loadBuildHistory($scope.name);
+
 
                 //如果是新创建的打开第一个日志,并监控
                 if ($stateParams.from == "create") {
@@ -55,7 +146,9 @@ angular.module("console.timeline", [
 
                 $scope.pull = function(idx){
                     var name = $scope.data.items[idx].spec.output.to.name;
-                    $log.info("pull image", name);
+                    ModalPullImage.open(name).then(function(res){
+                        console.log("cmd", res);
+                    });
                 };
 
                 $scope.delete = function(idx){
@@ -69,6 +162,9 @@ angular.module("console.timeline", [
                     }
 
                     var name = $scope.data.items[idx].metadata.name;
+                    if (!name) {
+                        return;
+                    }
                     Confirm.open(title, msg, tip, 'recycle').then(function(){
                         Build.remove({name: name}, function(){
                             $log.info("deleted");

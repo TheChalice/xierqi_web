@@ -1,6 +1,6 @@
 <div class="timeline">
     <ul>
-        <li ng-repeat="item in data.items">
+        <li ng-repeat="item in data.items" ng-if="type=='build' || (type=='image' && item.status.phase=='Complete')">
             <label>
                 <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
                 {{item.metadata.creationTimestamp | dateRelative}}
@@ -14,7 +14,7 @@
                         {{item.status.phase | phaseFilter}}
                     </div>
                     <div class="col-sm-3">
-                        <i class="fa fa-flag-o"></i>&nbsp;{{item.spec.revision.git.ref}}-{{item.spec.revision.git.commit | limitTo: 7}}
+                        <i class="fa fa-flag-o"></i>&nbsp;{{gitStore[item.spec.output.to.name].ref}} - {{gitStore[item.spec.output.to.name].id | limitTo: 7}}
                     </div>
                     <!--<div class="col-sm-2" ng-if="type=='image'"></div>-->
                     <div class="col-sm-3">

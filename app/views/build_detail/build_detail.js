@@ -9,8 +9,9 @@ angular.module('console.build.detail', [
         ]
     }
 ])
-    .controller('BuildDetailCtrl', ['$scope', '$log', '$stateParams', '$state', 'BuildConfig', 'Build', 'Sort', 'Confirm','ImageStreamTag', function ($scope, $log, $stateParams, $state, BuildConfig, Build, Sort, Confirm, ImageStreamTag) {
+    .controller('BuildDetailCtrl', ['$scope', '$log', '$stateParams', '$state', 'BuildConfig', 'Build', 'Confirm', function ($scope, $log, $stateParams, $state, BuildConfig, Build, Confirm) {
         $scope.grid = {};
+        $scope.bcName = $stateParams.name;
 
         var loadBuildConfig = function() {
             BuildConfig.get({name: $stateParams.name}, function(data){
@@ -19,75 +20,13 @@ angular.module('console.build.detail', [
                 if (data.spec && data.spec.completionDeadlineSeconds){
                     $scope.grid.completionDeadlineMinutes = parseInt(data.spec.completionDeadlineSeconds / 60);
                 }
-                loadBuildHistory();
+                imageEnable();
             }, function(res) {
                 //错误处理
             });
         };
 
-        var loadBuildHistory = function () {
-            Build.get({labelSelector: 'buildconfig=' + $scope.data.metadata.name}, function(data){
-                $log.info("history", data);
-                data.items = Sort.sort(data.items, -1); //排序
-                $scope.history = data;
-                watchBuilds(data.metadata.resourceVersion);
-                $scope.imageEnable = imageEnable();
-                var arrs= [];
-                if ($scope.data.spec.output.to){
-                    if ($scope.data.spec.output.to.name){
-                        arrs.push($scope.data);
-                    }
-                    $log.info('store',arrs);
-                }
-            }, function(res){
-                //错误处理
-            });
-            loadImageStreamTag();
-        };
-        var loadImageStreamTag = function() {
-            var name = $scope.data.spec.output.to.name;
-            ImageStreamTag.get({name: name}, function(data){
-                $log.info('list',data);
-                if ($scope.data.spec.output.to){
-                }
-            });
-        };
-
         loadBuildConfig();
-
-        var watchBuilds = function(resourceVersion) {
-            Build.watch(function(res){
-                var data = JSON.parse(res.data);
-                updateBuilds(data);
-            }, function(){
-                $log.info("webSocket start");
-            }, function(){
-                $log.info("webSocket stop");
-            }, resourceVersion)
-        };
-
-        var updateBuilds = function (data) {
-            if (data.type == 'ADDED') {
-
-            } else if (data.type == "MODIFIED") {
-                //todo  这种方式非常不好,尽快修改
-                angular.forEach($scope.history.items, function(item, i){
-                    if (item.metadata.name == data.object.metadata.name) {
-                        data.object.showLog = $scope.history.items[i].showLog;
-                        Build.log.get({name: data.object.metadata.name}, function(res){
-                            var result = "";
-                            for(var k in res){
-                                result += res[k];
-                            }
-                            data.object.buildLog = result;
-                            $scope.history.items[i] = data.object;
-                        }, function(){
-                            $scope.history.items[i] = data.object;
-                        });
-                    }
-                });
-            }
-        };
 
         var imageEnable = function(){
             if (!$scope.data || !$scope.data.spec.output || !$scope.data.spec.output.to || !$scope.data.spec.output.to.name) {
@@ -114,12 +53,8 @@ angular.module('console.build.detail', [
             };
             BuildConfig.instantiate.create({name: name}, buildRequest, function(res){
                 $log.info("build instantiate success");
-                if ($scope.history.items) {
-                    res.showLog = true;
-                    $scope.history.items.unshift(res);
-                } else {
-                    $scope.history.items = [res];
-                }
+                $scope.active = 1;  //打开记录标签
+                $scope.$broadcast('timeline', 'add', res);
             }, function(res){
                 //todo 错误处理
             });
@@ -130,11 +65,21 @@ angular.module('console.build.detail', [
             Confirm.open("删除构建", "您确定要删除构建吗?", "删除构建将清除构建的所有历史数据以及相关的镜像该操作不能被恢复", 'recycle').then(function() {
                 BuildConfig.remove({name: name}, {}, function(){
                     $log.info("remove buildConfig success");
-                    $scope.imageEnable = imageEnable();
+
+                    removeBuilds($scope.data.metadata.name);
+
                     $state.go("console.build");
                 }, function(res){
                     //todo 错误处理
                 });
+            });
+        };
+
+        var removeBuilds = function (bcName) {
+            Build.remove({}, {labelSelector: 'buildconfig=' + bcName}, function(){
+                $log.info("remove builds of " + bcName + " success");
+            }, function(res){
+                $log.info("remove builds of " + bcName + " error");
             });
         };
 
