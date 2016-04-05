@@ -36,7 +36,7 @@ define([
 
     myApp.constant('GLOBAL', {
         size: 10,
-        host: '/oapi/v1',
+        host: 'https://54.222.199.235:8443/oapi/v1',
         host_wss: 'wss://54.222.199.235:8443/oapi/v1',
         namespace: 'foundry',
         token: 'L6PDA3dxiZgcThxh8YiNn1pVyPIxnl-qoxSw-lnBks0'
