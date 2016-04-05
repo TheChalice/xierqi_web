@@ -37,7 +37,7 @@ define([
 
     myApp.constant('GLOBAL', {
         size: 10,
-        host: 'https://54.222.199.235:8443/oapi/v1',
+        host: '/oapi/v1',
         host_wss: 'wss://54.222.199.235:8443/oapi/v1'
     })
     .constant('AUTH_EVENTS', {
