@@ -43,8 +43,12 @@ angular.module("console.header", [
                     return "镜像仓库";
                 case "console.image_detail":
                     return "镜像仓库";
-                default:
-                    return ""
+                case "console.service":
+                    return "服务部署";
+                case "console.service_detail":
+                    return "服务详情";
+                case "console.service_create":
+                    return "新建服务";
             }
         };
     }]);

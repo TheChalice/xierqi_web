@@ -91,5 +91,35 @@ define([
                         }]
                     }
                 })
+                .state('console.service',{
+                    url: '/service',
+                    templateUrl: 'views/service/service.html',
+                    controller: 'ServiceCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad)  {
+                            return $ocLazyLoad.load(['views/service/service.js', 'views/service/service.css'])
+                        }]
+                    }
+                })
+                .state('console.service_create',{
+                    url: '/service_create',
+                    templateUrl: 'views/service_create/service_create.html',
+                    controller: 'ServiceCreateCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad)  {
+                            return $ocLazyLoad.load(['views/service_create/service_create.js'])
+                        }]
+                    }
+                })
+                .state('console.service_detail',{
+                    url: '/service_detail',
+                    templateUrl: 'views/service_detail/service_detail.html',
+                    controller: 'ServiceDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad)  {
+                            return $ocLazyLoad.load(['views/service_detail/service_detail.js'])
+                        }]
+                    }
+                })
         }]);
 });
