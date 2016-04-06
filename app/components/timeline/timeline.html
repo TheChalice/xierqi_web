@@ -16,8 +16,8 @@
                     <div class="col-sm-3">
                         <i class="fa fa-flag-o"></i>&nbsp;{{gitStore[item.spec.output.to.name].ref}} - {{gitStore[item.spec.output.to.name].id | limitTo: 7}}
                     </div>
-                    <!--<div class="col-sm-2" ng-if="type=='image'"></div>-->
-                    <div class="col-sm-3">
+                    <div class="col-sm-2" ng-if="type=='image'"></div>
+                    <div class="col-sm-4">
                         <span ng-if="type=='build'">
                             构建时长:{{item.status.duration | duration}}
                         </span>
@@ -28,7 +28,7 @@
                         <a ng-if="item.status.phase == 'Pending' || item.status.phase == 'Running' || item.status.phase == 'New'" ng-click="stop($index)" class="icon25 icon25-stop" uib-tooltip="停止" href="javascript:;"></a>
                         <a class="icon25 icon25-collapse" uib-tooltip="查看" ng-click="getLog($index)" href="javascript:;"></a>
                     </div>
-                    <div class="col-sm-2 text-right" ng-if="type=='image'">
+                    <div class="col-sm-3 text-right" ng-if="type=='image'">
                         <a class="icon25 icon25-download" uib-tooltip="拉取" href="javascript:;" ng-click="pull($index)"></a>
                         <a class="icon25 icon25-start" uib-tooltip="部署" href="javascript:;"></a>
                         <a class="icon25 icon25-delete" uib-tooltip="删除" href="javascript:;" ng-click="delete($index)"></a>
