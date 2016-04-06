@@ -11,7 +11,7 @@ angular.module("console.header", [
             restrict: 'EA',
             replace: true,
             templateUrl: 'components/header/header.html',
-            controller: ['$scope', '$window', '$state', 'Cookie', function($scope, $window, $state, Cookie){
+            controller: ['$rootScope', '$scope', '$window', '$state', 'Cookie', function($rootScope, $scope, $window, $state, Cookie){
                 $scope.back = function(){
                     $window.history.back();
                 };
@@ -23,6 +23,8 @@ angular.module("console.header", [
                 };
                 $scope.logout = function(){
                     Cookie.clear('df_access_token');
+                    $rootScope.user = null;
+                    $rootScope.namespece = "";
                     $state.go('login');
                 };
             }]
