@@ -23,7 +23,7 @@
                         </span>
                     </div>
                     <div class="col-sm-3 text-right" ng-if="type=='build'">
-                        <a ng-if="item.status.phase == 'Complete'" ng-click="forward($index)" class="icon25 icon25-forward" uib-tooltip="跳转" href="javascript:;"></a>
+                        <a ng-if="item.status.phase == 'Complete'" ui-sref="console.image_detail({bc: item.metadata.labels.buildconfig, name: item.spec.output.to.name})" class="icon25 icon25-forward" uib-tooltip="跳转"></a>
                         <a ng-if="item.status.phase !== 'Pending' && item.status.phase !== 'Running' && item.status.phase !== 'New'" ng-click="delete($index)" class="icon25 icon25-delete" uib-tooltip="删除" href="javascript:;"></a>
                         <a ng-if="item.status.phase == 'Pending' || item.status.phase == 'Running' || item.status.phase == 'New'" ng-click="stop($index)" class="icon25 icon25-stop" uib-tooltip="停止" href="javascript:;"></a>
                         <a class="icon25 icon25-collapse" uib-tooltip="查看" ng-click="getLog($index)" href="javascript:;"></a>

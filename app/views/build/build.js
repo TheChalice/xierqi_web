@@ -8,7 +8,7 @@ angular.module('console.build', [
         ]
     }
 ])
-    .controller('BuildCtrl', ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'BuildConfig', 'Build', 'GLOBAL', 'Confirm', 'Sort', function ($rootScope, $scope, $log, $state, $stateParams, BuildConfig, Build, GLOBAL, Confirm, Sort) {
+    .controller('BuildCtrl', ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'BuildConfig', 'Build', 'GLOBAL', 'Confirm', 'Sort', 'Ws', function ($rootScope, $scope, $log, $state, $stateParams, BuildConfig, Build, GLOBAL, Confirm, Sort, Ws) {
 
         //分页
         $scope.grid = {
@@ -22,7 +22,7 @@ angular.module('console.build', [
                 refresh(newVal);
             }
         });
-        
+
         var refresh = function(page) {
             var skip = (page - 1) * $scope.grid.size;
             $scope.items = $scope.data.items.slice(skip, skip + $scope.grid.size);
@@ -88,8 +88,48 @@ angular.module('console.build', [
             Build.get({namespace: $rootScope.namespece, labelSelector: labelSelector}, function (data) {
                 $log.info("builds", data);
 
+                $scope.resourceVersion = data.metadata.resourceVersion;
+                watchBuilds(data.metadata.resourceVersion);
+
                 fillBuildConfigs(data.items);
             });
+        };
+
+        var watchBuilds = function(resourceVersion){
+            Ws.watch({
+                resourceVersion: resourceVersion,
+                namespace: $rootScope.namespece,
+                type: 'builds',
+                name: ''
+            }, function(res){
+                var data = JSON.parse(res.data);
+                $scope.resourceVersion = data.object.metadata.resourceVersion;
+                updateBuildConfigs(data);
+            }, function(){
+                $log.info("webSocket start");
+            }, function(){
+                $log.info("webSocket stop");
+                var key = Ws.key($rootScope.namespece, 'builds', '');
+                if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
+                    return;
+                }
+                watchBuilds($scope.resourceVersion);
+            });
+        };
+
+        var updateBuildConfigs = function(data){
+            if (data.type == 'ADDED') {
+
+            } else if (data.type == "MODIFIED") {
+                angular.forEach($scope.items, function(item, i){
+                    if (!item.build) {
+                        return;
+                    }
+                    if (item.build.metadata.name == data.object.metadata.name) {
+                        $scope.items[i].build = data.object;
+                    }
+                });
+            }
         };
 
         //填充buildConfig列表
@@ -155,5 +195,9 @@ angular.module('console.build', [
                 });
             });
         };
+
+        $scope.$on('$destroy', function(){
+            Ws.clear();
+        });
     }]);
 

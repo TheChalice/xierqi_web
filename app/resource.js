@@ -6,6 +6,44 @@ define([
 ], function (angular) {
 
     return angular.module('myApp.resource', ['ngResource'])
+        .factory('Ws', ['$rootScope', '$ws', '$log', 'GLOBAL', 'Cookie', function($rootScope, $ws, $log, GLOBAL, Cookie){
+            var Ws = {};
+            $rootScope.watches = $rootScope.watches || {};
+
+            Ws.watch = function(params, onmessage, onopen, onclose){
+                if (!$ws.available()) {
+                    $log.info('webSocket is not available');
+                    return;
+                }
+                params.name = params.name ? '/' + params.name : '';
+                var url = GLOBAL.host_wss + '/namespaces/' + params.namespace + '/'+ params.type + params.name +
+                          '?watch=true' +
+                          '&resourceVersion='+ params.resourceVersion +
+                          '&access_token=' + Cookie.get("df_access_token");
+                $ws({
+                    method: 'WATCH',
+                    url: url,
+                    onclose: onclose,
+                    onmessage: onmessage,
+                    onopen: onopen
+                }).then(function(ws){
+                    $rootScope.watches[Ws.key(params.namespace, params.type, params.name)] = ws;
+                });
+            };
+
+            Ws.key = function(namespace, type, name){
+                return namespace + '-' + type + '-' + name;
+            };
+
+            Ws.clear = function(){
+                for (var k in $rootScope.watches) {
+                    $rootScope.watches[k].shouldClose = true;
+                    $rootScope.watches[k].close();
+                }
+                $rootScope.watches = {};
+            };
+            return Ws;
+        }])
         .factory('User', ['$resource', 'GLOBAL', function($resource, GLOBAL){
             var User = $resource(GLOBAL.host + '/users/:name', {name: '@name'}, {
                 create: { method: 'POST'}
@@ -26,18 +64,6 @@ define([
             Build.log = $resource(GLOBAL.host + '/namespaces/:namespace/builds/:name/log', {name: '@name', namespace: '@namespace'}, {
                 get: {method: 'GET', responseType: 'text'}
             });
-            Build.watch = function(onmessage, onopen, onclose, resourceVersion, namespace){
-                if (!$ws.available()) {
-                    return;
-                }
-                $ws({
-                    method: "WATCH",
-                    url: GLOBAL.host_wss + '/namespaces/' + namespace + '/builds?watch=true&resourceVersion='+ resourceVersion +'&access_token=' + Cookie.get("df_access_token"),
-                    onclose:   onclose,
-                    onmessage: onmessage,
-                    onopen:    onopen
-                });
-            };
             return Build;
         }])
         .factory('BuildConfig', ['$resource', 'GLOBAL', function($resource, GLOBAL){

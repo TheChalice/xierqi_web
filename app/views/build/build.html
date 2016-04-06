@@ -42,7 +42,7 @@
                 </td>
                 <td class="text-center" style="padding-right: 30px">
                     <a class="icon25 icon25-source pull-left" href="{{bc.spec.source.git.uri}}" uib-tooltip="查看代码源" target="_blank"></a>
-                    <a class="icon25 icon25-image" ng-if="bc.spec.output && bc.spec.output.to && bc.spec.output.to.name" ui-sref="console.image_detail({name: bc.spec.output.to.name})" uib-tooltip="查看镜像"></a>
+                    <a class="icon25 icon25-image" ng-if="bc.spec.output && bc.spec.output.to && bc.spec.output.to.name" ui-sref="console.image_detail({bc: bc.metadata.name, name: bc.spec.output.to.name})" uib-tooltip="查看镜像"></a>
                     <a class="icon25 icon25-start pull-right" href="javascript:;" ng-click="startBuild($index)" ng-if="bc.build.status.phase != 'Running'" uib-tooltip="构建"></a>
                     <a class="icon25 icon25-stop pull-right" href="javascript:;" ng-click="stop($index)" ng-if="bc.build.status.phase == 'Pendding' || bc.build.status.phase == 'Running' || bc.build.status.phase == 'New'" uib-tooltip="停止"></a>
                 </td>

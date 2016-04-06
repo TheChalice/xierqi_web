@@ -13,6 +13,10 @@ angular.module('console.build.detail', [
         $scope.grid = {};
         $scope.bcName = $stateParams.name;
 
+        $scope.$on('image-enable', function(e, enable){
+            $scope.imageEnable = enable;
+        });
+
         var loadBuildConfig = function() {
             BuildConfig.get({namespace: $rootScope.namespece, name: $stateParams.name}, function(data){
                 $log.info('data', data);
@@ -20,28 +24,12 @@ angular.module('console.build.detail', [
                 if (data.spec && data.spec.completionDeadlineSeconds){
                     $scope.grid.completionDeadlineMinutes = parseInt(data.spec.completionDeadlineSeconds / 60);
                 }
-                imageEnable();
             }, function(res) {
                 //错误处理
             });
         };
 
         loadBuildConfig();
-
-        var imageEnable = function(){
-            if (!$scope.data || !$scope.data.spec.output || !$scope.data.spec.output.to || !$scope.data.spec.output.to.name) {
-                return false;
-            }
-            if (!$scope.history || $scope.history.items.length == 0) {
-                return false;
-            }
-            if ($scope.history.items.length == 1) {
-                if ($scope.history.items[0].status.phase != 'Complete' ) {
-                    return false;
-                }
-            }
-            return true;
-        };
 
         //开始构建
         $scope.startBuild = function() {

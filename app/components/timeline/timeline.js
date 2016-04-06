@@ -15,7 +15,7 @@ angular.module("console.timeline", [
                 name: '=',
                 type: '@'
             },
-            controller: ['$rootScope', '$scope', '$state', '$log', 'BuildConfig', 'Build', 'Confirm', '$stateParams', 'ImageStreamTag', 'Sort', 'ModalPullImage', function($rootScope, $scope, $state, $log, BuildConfig, Build, Confirm, $stateParams, ImageStreamTag, Sort, ModalPullImage){
+            controller: ['$rootScope', '$scope', '$state', '$log', 'BuildConfig', 'Build', 'Confirm', '$stateParams', 'ImageStreamTag', 'Sort', 'ModalPullImage', 'Ws', function($rootScope, $scope, $state, $log, BuildConfig, Build, Confirm, $stateParams, ImageStreamTag, Sort, ModalPullImage, Ws){
                 console.log("$scope.name", $scope.name);
                 $scope.gitStore = {};
 
@@ -37,6 +37,9 @@ angular.module("console.timeline", [
 
                         fillHistory(data.items);
 
+                        emit(imageEnable(data.items));
+
+                        $scope.resourceVersion = data.metadata.resourceVersion;
                         watchBuilds(data.metadata.resourceVersion);
                     }, function(res){
                         //todo 错误处理
@@ -73,15 +76,42 @@ angular.module("console.timeline", [
                     });
                 };
 
+                var emit = function(enable){
+                    $scope.$emit('image-enable', enable);
+                };
+
+                var imageEnable = function(items){
+                    if (!items || items.length == 0) {
+                        return false;
+                    }
+                    for (var i = 0; i < items.length; i++) {
+                        if (items[i].status.phase == 'Complete') {
+                            return true;
+                        }
+                    }
+                    return false;
+                };
+
                 var watchBuilds = function(resourceVersion) {
-                    Build.watch(function(res){
+                    Ws.watch({
+                        resourceVersion: resourceVersion,
+                        namespace: $rootScope.namespece,
+                        type: 'builds',
+                        name: ''
+                    }, function(res){
                         var data = JSON.parse(res.data);
+                        $scope.resourceVersion = data.object.metadata.resourceVersion;
                         updateBuilds(data);
                     }, function(){
                         $log.info("webSocket start");
                     }, function(){
                         $log.info("webSocket stop");
-                    }, resourceVersion, $rootScope.namespece);
+                        var key = Ws.key($rootScope.namespece, 'builds', '');
+                        if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
+                            return;
+                        }
+                        watchBuilds($scope.resourceVersion);
+                    });
                 };
 
                 var updateBuilds = function (data) {
@@ -92,6 +122,9 @@ angular.module("console.timeline", [
                         angular.forEach($scope.data.items, function(item, i){
                             if (item.metadata.name == data.object.metadata.name) {
                                 data.object.showLog = $scope.data.items[i].showLog;
+                                if (data.object.status.phase == 'Complete') {
+                                    emit(true);
+                                }
                                 Build.log.get({namespace: $rootScope.namespece, name: data.object.metadata.name}, function(res){
                                     var result = "";
                                     for(var k in res){
@@ -195,11 +228,9 @@ angular.module("console.timeline", [
                     });
                 };
 
-                $scope.forward = function(idx){
-                    var o = $scope.data.items[idx];
-                    $state.go('console.image_detail', {bc: o.metadata.labels.buildConfig, name: o.spec.output.to.name});
-
-                };
+                $scope.$on('$destroy', function(){
+                    Ws.clear();
+                });
             }],
             templateUrl: 'components/timeline/timeline.html'
         }

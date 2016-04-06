@@ -58,7 +58,7 @@ define(['angular', 'moment'], function (angular, moment) {
                     return "正在构建"
                 } else if (phase == "Failed") {
                     return "构建失败"
-                } else if (phase == "Pending" || phase == "Running") {
+                } else if (phase == "Pending" || phase == "New") {
                     return "正在拉取代码"
                 } else if (phase == "Error") {
                     return "构建错误"
