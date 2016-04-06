@@ -113,7 +113,9 @@ define(['angular'], function (angular) {
             };
             return {
                 request: function (config) {
-                    //console.log($httpProvider.default.headers.common["Authorization"]);
+                    if (/login/.test(config.url)) {
+                        return config;
+                    }
                     var token = Cookie.get('df_access_token');
                     if (config.headers && token) {
                         config.headers["Authorization"] = "Bearer " + token;

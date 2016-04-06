@@ -4,20 +4,17 @@ angular.module('login', [
         'base64'
     ])
     .controller('LoginCtrl', ['$scope', 'AuthService', function($scope, AuthService){
-        $scope.credentials = {
-            username: 'test',
-            password: 'test'
-        };
+        $scope.credentials = {};
         $scope.login = function(){
             AuthService.login($scope.credentials);
         }
     }])
-    .service('AuthService', ['$http', '$base64', 'Cookie', '$state', function($http, $base64, Cookie, $state){
+    .service('AuthService', ['$http', '$base64', 'Cookie', '$state', 'GLOBAL', function($http, $base64, Cookie, $state, GLOBAL){
         this.login = function(credentials) {
             console.log("login");
             var req = {
                 method: 'GET',
-                url: '/login',
+                url: GLOBAL.login_uri,
                 headers: {
                     'Authorization': 'Basic ' + $base64.encode(credentials.username + ':' + credentials.password)
                 }
