@@ -31,7 +31,7 @@ angular.module('console.image', [
 
         //获取buildConfig列表
         var loadBuildConfigs = function() {
-            BuildConfig.get({namespace: $rootScope.namespece}, function(data){
+            BuildConfig.get({namespace: $rootScope.namespace}, function(data){
                 $log.info('buildConfigs', data);
                 $scope.data = data;
                 $scope.data.items = Sort.sort(data.items, -1);
@@ -57,7 +57,7 @@ angular.module('console.image', [
                 if (!item.spec.output.to) {
                     return;
                 }
-                ImageStreamTag.get({namespace: $rootScope.namespece, name: item.spec.output.to.name}, function (data) {
+                ImageStreamTag.get({namespace: $rootScope.namespace, name: item.spec.output.to.name}, function (data) {
                     item.metadata.creationTimestamp = data.metadata.creationTimestamp;
                     $scope.data.items.push(item);
                     $scope.grid.total++;

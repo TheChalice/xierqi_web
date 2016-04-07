@@ -41,7 +41,7 @@ angular.module('console.build.create', [])
                     ]
                 }
             };
-            ImageStream.create({namespace: $rootScope.namespece}, imageStream, function (res) {
+            ImageStream.create({namespace: $rootScope.namespace}, imageStream, function (res) {
                 $log.info("imageStream", res);
                 createBuildConfig(res.metadata.name);
             }, function(res){
@@ -65,7 +65,7 @@ angular.module('console.build.create', [])
                     }
                 }
             ];
-            BuildConfig.create({namespace: $rootScope.namespece}, $scope.buildConfig, function(res){
+            BuildConfig.create({namespace: $rootScope.namespace}, $scope.buildConfig, function(res){
                 $log.info("buildConfig", res);
                 createBuild(res.metadata.name);
             }, function(res){
@@ -83,7 +83,7 @@ angular.module('console.build.create', [])
                     name: name
                 }
             };
-            BuildConfig.instantiate.create({namespace: $rootScope.namespece, name: name}, buildRequest, function(){
+            BuildConfig.instantiate.create({namespace: $rootScope.namespace, name: name}, buildRequest, function(){
                 $log.info("build instantiate success");
                 $state.go('console.build_detail', {name: name, from: 'create'})
             }, function(res){

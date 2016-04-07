@@ -69,8 +69,10 @@
                         <c-checkbox checked="checkedfirst"></c-checkbox>
                     </div>
                     <div class="col-sm-7" ng-if="checkedfirst" style="overflow: hidden;word-wrap: break-word;word-break: break-all;">
-                        <small>Payload URL : </small>
+                        <small><strong>Payload URL : </strong></small>
                         <small>{{data | webhooks}}</small><br>
+                        <small><strong>Secret : </strong></small>
+                        <small>{{data | secret}}</small><br>
                         <small>请去代码仓库创建Webhook</small>
 
                         <!--<label id="condition" style="margin-left: 60px">当代码仓库发生以下变化触发持续集成</label><br>-->

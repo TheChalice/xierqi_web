@@ -24,7 +24,7 @@ angular.module("console.header", [
                 $scope.logout = function(){
                     Cookie.clear('df_access_token');
                     $rootScope.user = null;
-                    $rootScope.namespece = "";
+                    $rootScope.namespace = "";
                     $state.go('login');
                 };
             }]

@@ -15,7 +15,7 @@ angular.module('console.image_detail', [
 
         var loadImageDetail = function(){
             //传imagename的参数
-            ImageStreamTag.get({namespace: $rootScope.namespece, name: $stateParams["name"]}, function(data){
+            ImageStreamTag.get({namespace: $rootScope.namespace, name: $stateParams["name"]}, function(data){
                 $log.info('data',data);
                 $scope.data = data;
 

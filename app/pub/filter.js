@@ -69,12 +69,23 @@ define(['angular', 'moment'], function (angular, moment) {
                 }
             };
         }])
-        .filter('webhooks', ['GLOBAL', function(GLOBAL) {
+        .filter('webhooks', ['$rootScope', 'GLOBAL', function($rootScope, GLOBAL) {
             return function(buildConfig) {
                 var triggers = buildConfig.spec.triggers;
                 for (var k in triggers) {
                     if (triggers[k].type == 'GitHub') {
-                        return GLOBAL.host + '/namespaces/'+ GLOBAL.namespace +'/buildconfigs/' + buildConfig.metadata.name + '/webhooks/' + triggers[k].github.secret + '/github'
+                        return GLOBAL.host_webhooks + '/namespaces/'+ $rootScope.namespace +'/buildconfigs/' + buildConfig.metadata.name + '/webhooks/' + triggers[k].github.secret + '/github'
+                    }
+                }
+                return "";
+            }
+        }])
+        .filter('secret', [function() {
+            return function(buildConfig) {
+                var triggers = buildConfig.spec.triggers;
+                for (var k in triggers) {
+                    if (triggers[k].type == 'GitHub') {
+                        return triggers[k].github.secret
                     }
                 }
                 return "";

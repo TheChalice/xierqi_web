@@ -54,6 +54,9 @@ define([
             var Project = $resource(GLOBAL.host + '/projects/:name', {name: '@name'}, {
                 create: { method: 'POST'}
             });
+            Project.request = $resource(GLOBAL.host + '/projectrequests', {}, {
+                create: {method: 'POST'}
+            });
             return Project;
         }])
         .factory('Build', ['$resource', '$rootScope', '$ws', '$log', 'Cookie', 'GLOBAL', function($resource, $rootScope, $ws, $log, Cookie, GLOBAL){
@@ -87,5 +90,11 @@ define([
                 create: {method: 'POST'}
             });
             return ImageStreamTag;
+        }])
+        .factory('DeploymentConfig', ['$resource', 'GLOBAL', function($resource, GLOBAL){
+            var DeploymentConfig= $resource(GLOBAL.host + '/namespaces/:namespace/deploymentconfigs/:name', {name: '@name', namespace: '@namespace'},{
+                create: {method: 'POST'}
+            });
+            return DeploymentConfig;
         }]);
 });
