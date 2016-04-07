@@ -30,7 +30,7 @@ angular.module("console.timeline", [
 
                 //获取build记录
                 var loadBuildHistory = function (name) {
-                    Build.get({namespace: $rootScope.namespece, labelSelector: 'buildconfig=' + name}, function(data){
+                    Build.get({namespace: $rootScope.namespace, labelSelector: 'buildconfig=' + name}, function(data){
                         $log.info("history", data);
                         data.items = Sort.sort(data.items, -1); //排序
                         $scope.data = data;
@@ -63,7 +63,7 @@ angular.module("console.timeline", [
                 };
 
                 var loadImageStreamTag = function(name){
-                    ImageStreamTag.get({namespace: $rootScope.namespece, name: name}, function(data){
+                    ImageStreamTag.get({namespace: $rootScope.namespace, name: name}, function(data){
                         $log.info('imageStreamTag', data);
 
                         $scope.gitStore[name] = {
@@ -95,7 +95,7 @@ angular.module("console.timeline", [
                 var watchBuilds = function(resourceVersion) {
                     Ws.watch({
                         resourceVersion: resourceVersion,
-                        namespace: $rootScope.namespece,
+                        namespace: $rootScope.namespace,
                         type: 'builds',
                         name: ''
                     }, function(res){
@@ -106,7 +106,7 @@ angular.module("console.timeline", [
                         $log.info("webSocket start");
                     }, function(){
                         $log.info("webSocket stop");
-                        var key = Ws.key($rootScope.namespece, 'builds', '');
+                        var key = Ws.key($rootScope.namespace, 'builds', '');
                         if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
                             return;
                         }
@@ -125,7 +125,7 @@ angular.module("console.timeline", [
                                 if (data.object.status.phase == 'Complete') {
                                     emit(true);
                                 }
-                                Build.log.get({namespace: $rootScope.namespece, name: data.object.metadata.name}, function(res){
+                                Build.log.get({namespace: $rootScope.namespace, name: data.object.metadata.name}, function(res){
                                     var result = "";
                                     for(var k in res){
                                         result += res[k];
@@ -165,7 +165,7 @@ angular.module("console.timeline", [
                     if (o.buildLog) {
                         return;
                     }
-                    Build.log.get({namespace: $rootScope.namespece, name: o.metadata.name}, function(res){
+                    Build.log.get({namespace: $rootScope.namespace, name: o.metadata.name}, function(res){
                         var result = "";
                         for(var k in res){
                             result += res[k];
@@ -199,7 +199,7 @@ angular.module("console.timeline", [
                         return;
                     }
                     Confirm.open(title, msg, tip, 'recycle').then(function(){
-                        Build.remove({namespace: $rootScope.namespece, name: name}, function(){
+                        Build.remove({namespace: $rootScope.namespace, name: name}, function(){
                             $log.info("deleted");
                             for (var i = 0; i < $scope.data.items.length; i++) {
                                 if (name == $scope.data.items[i].metadata.name) {
@@ -217,7 +217,7 @@ angular.module("console.timeline", [
                     var o = $scope.data.items[idx];
                     o.status.cancelled = true;
                     Confirm.open("提示信息","您确定要终止本次构建吗?").then(function(){
-                        Build.put({namespace: $rootScope.namespece, name: o.metadata.name}, o, function(res){
+                        Build.put({namespace: $rootScope.namespace, name: o.metadata.name}, o, function(res){
                             $log.info("stop build success");
                             $scope.data.items[idx] = res;
                         }, function(res){

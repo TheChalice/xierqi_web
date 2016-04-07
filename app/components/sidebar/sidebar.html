@@ -20,26 +20,27 @@
                 <span class="icon25 icon25-repository"></span>&nbsp;&nbsp;镜像仓库
             </a>
         </li>
-        <li ui-sref-active="active">
+        <li ui-sref-active="active"
+            ng-class="{'active':$state.includes('console.service_create')||$state.includes('console.service_detail')}">
             <a ui-sref="console.service">
                 <i class="fa fa-caret-left"></i>
                 <span class="icon25 icon25-deployment"></span>&nbsp;&nbsp;服务部署
             </a>
         </li>
         <li ui-sref-active="active">
-            <a ui-sref="console.service">
+            <a ui-sref="console.foobar">
                 <i class="fa fa-caret-left"></i>
                 <span class="icon25 icon25-service"></span>&nbsp;&nbsp;外部服务市场
             </a>
         </li>
         <li ui-sref-active="active">
-            <a ui-sref="console.service">
+            <a ui-sref="console.foobar">
                 <i class="fa fa-caret-left"></i>
                 <span class="icon25 icon25-make"></span>&nbsp;&nbsp;应用编排
             </a>
         </li>
         <li ui-sref-active="active">
-            <a ui-sref="console.service">
+            <a ui-sref="console.foobar">
                 <i class="fa fa-caret-left"></i>
                 <span class="icon25 icon25-resource"></span>&nbsp;&nbsp;资源管理
             </a>

@@ -102,7 +102,7 @@ define([
                     }
                 })
                 .state('console.service_create',{
-                    url: '/service_create',
+                    url: '/service/create',
                     templateUrl: 'views/service_create/service_create.html',
                     controller: 'ServiceCreateCtrl',
                     resolve: {
@@ -112,7 +112,7 @@ define([
                     }
                 })
                 .state('console.service_detail',{
-                    url: '/service_detail',
+                    url: '/service/detail',
                     templateUrl: 'views/service_detail/service_detail.html',
                     controller: 'ServiceDetailCtrl',
                     resolve: {

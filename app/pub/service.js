@@ -41,14 +41,14 @@ define(['angular'], function (angular) {
                 }).result;
             };
         }])
-        .service('ModalPullImage', ['$uibModal', 'clipboard', function ($uibModal, clipboard) {
+        .service('ModalPullImage', ['$rootScope', '$uibModal', 'clipboard', function ($rootScope, $uibModal, clipboard) {
             this.open = function (name) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/modal_pull_image.html',
                     size: 'default',
                     controller: ['$scope', '$uibModalInstance', '$log', function ($scope, $uibModalInstance, $log) {
                         $scope.name = name;
-                        $scope.cmd = 'docker pull ' + name;
+                        $scope.cmd = 'docker pull docker-registry-default.app.asiainfodata.com/'+ $rootScope.namespace +'/' + name;
                         $scope.cancel = function () {
                             $uibModalInstance.dismiss();
                         };

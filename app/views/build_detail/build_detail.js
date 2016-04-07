@@ -18,7 +18,7 @@ angular.module('console.build.detail', [
         });
 
         var loadBuildConfig = function() {
-            BuildConfig.get({namespace: $rootScope.namespece, name: $stateParams.name}, function(data){
+            BuildConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function(data){
                 $log.info('data', data);
                 $scope.data = data;
                 if (data.spec && data.spec.completionDeadlineSeconds){
@@ -39,7 +39,7 @@ angular.module('console.build.detail', [
                     name: name
                 }
             };
-            BuildConfig.instantiate.create({namespace: $rootScope.namespece, name: name}, buildRequest, function(res){
+            BuildConfig.instantiate.create({namespace: $rootScope.namespace, name: name}, buildRequest, function(res){
                 $log.info("build instantiate success");
                 $scope.active = 1;  //打开记录标签
                 $scope.$broadcast('timeline', 'add', res);
@@ -51,7 +51,7 @@ angular.module('console.build.detail', [
         $scope.delete = function(){
             var name = $scope.data.metadata.name;
             Confirm.open("删除构建", "您确定要删除构建吗?", "删除构建将清除构建的所有历史数据以及相关的镜像该操作不能被恢复", 'recycle').then(function() {
-                BuildConfig.remove({namespace: $rootScope.namespece, name: name}, {}, function(){
+                BuildConfig.remove({namespace: $rootScope.namespace, name: name}, {}, function(){
                     $log.info("remove buildConfig success");
 
                     removeBuilds($scope.data.metadata.name);
@@ -64,7 +64,7 @@ angular.module('console.build.detail', [
         };
 
         var removeBuilds = function (bcName) {
-            Build.remove({namespace: $rootScope.namespece}, {labelSelector: 'buildconfig=' + bcName}, function(){
+            Build.remove({namespace: $rootScope.namespace}, {labelSelector: 'buildconfig=' + bcName}, function(){
                 $log.info("remove builds of " + bcName + " success");
             }, function(res){
                 $log.info("remove builds of " + bcName + " error");
@@ -78,7 +78,7 @@ angular.module('console.build.detail', [
             }
             var name = $scope.data.metadata.name;
             $scope.data.spec.completionDeadlineSeconds = $scope.grid.completionDeadlineMinutes * 60;
-            BuildConfig.put({namespace: $rootScope.namespece, name: name}, $scope.data, function (res) {
+            BuildConfig.put({namespace: $rootScope.namespace, name: name}, $scope.data, function (res) {
                 $log.info("put success", res);
                 $scope.deadlineMinutesEnable = false;
             }, function(res) {
