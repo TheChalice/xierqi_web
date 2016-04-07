@@ -11,7 +11,7 @@ angular.module("console.header", [
             restrict: 'EA',
             replace: true,
             templateUrl: 'components/header/header.html',
-            controller: ['$scope', '$window', '$state', function($scope, $window, $state){
+            controller: ['$rootScope', '$scope', '$window', '$state', 'Cookie', function($rootScope, $scope, $window, $state, Cookie){
                 $scope.back = function(){
                     $window.history.back();
                 };
@@ -20,7 +20,13 @@ angular.module("console.header", [
                         return false
                     }
                     return true;
-                }
+                };
+                $scope.logout = function(){
+                    Cookie.clear('df_access_token');
+                    $rootScope.user = null;
+                    $rootScope.namespece = "";
+                    $state.go('login');
+                };
             }]
         }
     }])
@@ -37,8 +43,12 @@ angular.module("console.header", [
                     return "镜像仓库";
                 case "console.image_detail":
                     return "镜像仓库";
-                default:
-                    return ""
+                case "console.service":
+                    return "服务部署";
+                case "console.service_detail":
+                    return "服务详情";
+                case "console.service_create":
+                    return "新建服务";
             }
         };
     }]);

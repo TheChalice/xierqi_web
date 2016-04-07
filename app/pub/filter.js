@@ -26,18 +26,18 @@ define(['angular', 'moment'], function (angular, moment) {
                 var minutes = duration.minutes();
                 var seconds = duration.seconds();
 
-                function add(count, singularText, pluralText) {
+                function add(count, pluralText) {
                     if (count > 0) {
-                        humanizedDuration.push(count + (count === 1 ? singularText : pluralText));
+                        humanizedDuration.push(count + pluralText);
                     }
                 }
 
-                add(years, "year", "年");
-                add(months, "month", "月");
-                add(days, "day", "日");
-                add(hours, "hour", "时");
-                add(minutes, "minute", "分");
-                add(seconds, "second", "秒");
+                add(years, "年");
+                add(months, "月");
+                add(days, "日");
+                add(hours, "时");
+                add(minutes, "分");
+                add(seconds, "秒");
 
                 if (humanizedDuration.length === 0) {
                     humanizedDuration.push("0秒");
@@ -58,7 +58,7 @@ define(['angular', 'moment'], function (angular, moment) {
                     return "正在构建"
                 } else if (phase == "Failed") {
                     return "构建失败"
-                } else if (phase == "Pending") {
+                } else if (phase == "Pending" || phase == "New") {
                     return "正在拉取代码"
                 } else if (phase == "Error") {
                     return "构建错误"
@@ -68,5 +68,16 @@ define(['angular', 'moment'], function (angular, moment) {
                     return phase || "-"
                 }
             };
+        }])
+        .filter('webhooks', ['GLOBAL', function(GLOBAL) {
+            return function(buildConfig) {
+                var triggers = buildConfig.spec.triggers;
+                for (var k in triggers) {
+                    if (triggers[k].type == 'GitHub') {
+                        return GLOBAL.host + '/namespaces/'+ GLOBAL.namespace +'/buildconfigs/' + buildConfig.metadata.name + '/webhooks/' + triggers[k].github.secret + '/github'
+                    }
+                }
+                return "";
+            }
         }]);
 });

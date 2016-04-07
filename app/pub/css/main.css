@@ -49,11 +49,13 @@ body {
 }
 .table-default > tbody > tr > th,
 .table-default > tbody > tr > td {
+    padding-left: 20px;
     padding-top: 20px;
     padding-bottom: 20px;
     color: #5a6378;
 }
 .table-default > tbody > tr > th {
+    padding-left: 20px;
     background: #e6e9f2;
     color: #393f4f;
 }
@@ -83,7 +85,6 @@ body {
     background-size: contain;
     background-repeat: no-repeat;
     vertical-align: middle;
-
 }
 .icon25 {
     width: 25px;
@@ -105,6 +106,36 @@ body {
 }
 .icon25-time {
     background-image: url(../img/panel-repository.png);
+}
+.icon25-start {
+    background-image: url(../img/start.png);
+}
+.icon25-start:hover {
+    background-image: url(../img/start-hover.png);
+}
+.icon25-stop {
+    background-image: url(../img/stop2.png);
+}
+.icon25-stop:hover {
+    background-image: url(../img/stop2-hover.png);
+}
+.icon25-delete {
+    background-image: url(../img/delete.png);
+}
+.icon25-delete:hover {
+    background-image: url(../img/delete-hover.png);
+}
+.icon25-download {
+    background-image: url(../img/download.png);
+}
+.icon25-download:hover {
+    background-image: url(../img/download-hover.png);
+}
+.icon25-forward {
+    background-image: url(../img/arrow.png);
+}
+.icon25-forward:hover {
+    background-image: url(../img/arrow_active.png);
 }
 .icon20-recycle {
     background-image: url(../img/recycle.png);
@@ -201,9 +232,20 @@ body {
 }
 
 /*模态框默认样式*/
+.modal-open {
+    overflow: auto;
+}
+.modal-open .modal {
+    position: fixed;
+}
 .modal-default {
     overflow: hidden;
+    position: fixed;
     width: 460px;
+    top: 50%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -230px;
 }
 .modal-default .modal-content {
     border-radius: 2px;
@@ -250,6 +292,27 @@ body {
 }
 .media-sm .media-body small {
     color: #5a6378;
+}
+
+/*图标颜色*/
+.fa-orange {
+    color: #f6a540;
+}
+.fa-green {
+    color: #55c45f;
+}
+.fa-red {
+    color: #e81021;
+}
+
+.pagination>.active>a,
+.pagination>.active>a:focus,
+.pagination>.active>a:hover,
+.pagination>.active>span,
+.pagination>.active>span:focus,
+.pagination>.active>span:hover{
+    background-color:#f6a540;
+    border-color:#f6a540;
 }
 
 @media (max-width: 758px) {

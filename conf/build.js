@@ -3,7 +3,7 @@
     baseUrl: "./",
     dir: "../dist",
     optimize: "uglify",
-    optimizeCss: "standard.keepLines",
+    optimizeCss: "standard",
     removeCombined: true,
     modules: [
     {
@@ -11,6 +11,9 @@
     }
 ],
     paths: {
+        bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min',
+        jquery: '../bower_components/jquery/dist/jquery.min',
+        moment: '../bower_components/moment/min/moment-with-locales.min',
         angular: '../bower_components/angular/angular.min',
         ngResource: '../bower_components/angular-resource/angular-resource.min',
         ngFileUpload: '../bower_components/ng-file-upload/ng-file-upload-all.min',
@@ -18,7 +21,10 @@
         uiRouter: '../bower_components/angular-ui-router/release/angular-ui-router.min',
         angularAnimate: '../bower_components/angular-animate/angular-animate.min',
         angularMocks: '../bower_components/angular-mocks/angular-mocks',
-        ocLazyLoad: '../bower_components/oclazyload/dist/ocLazyLoad.min'
+        ocLazyLoad: '../bower_components/oclazyload/dist/ocLazyLoad.min',
+        angularBase64: '../bower_components/angular-base64/angular-base64.min',
+        angularMd: '../bower_components/angular-marked/dist/angular-marked.min',
+        angularClipboard: '../bower_components/angular-clipboard/angular-clipboard'
 },
     shim: {
         'angular': {
@@ -58,6 +64,11 @@
         'ocLazyLoad': {
             deps: [
                 'angular'
+            ]
+        },
+        'bootstrap': {
+            deps: [
+                'jquery'
             ]
         }
     }

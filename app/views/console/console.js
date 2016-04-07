@@ -9,15 +9,38 @@ angular.module('console', [
         ]
     }
 ])
-    .controller('ConsoleCtrl', ['$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', function ($rootScope, $scope, $log, AUTH_EVENTS, User) {
+    .controller('ConsoleCtrl', ['$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', 'user', 'Project', function ($rootScope, $scope, $log, AUTH_EVENTS, User, user, Project) {
         $log.info('Console');
+        $rootScope.user = user;
+        $rootScope.namespece = user.metadata.name;
 
-        if(!$rootScope.user){
-            User.get({name: 'admin'}, function(data){
-                console.log("user", data);
-                $rootScope.user = data;
+        var loadProject = function(name){
+            $log.info("load project");
+            Project.get({name: name}, function(data){
+                $log.info("load project success", data.metadata.name);
+                $rootScope.namespece = data.metadata.name;
+            }, function(res){
+                $log.info("find project err", res);
+                buildProject(name);
             });
-        }
+        };
+
+        loadProject($rootScope.namespece);
+
+        var buildProject = function(name){
+            $log.info("build project");
+            var project = {
+                metadata: {
+                    name: name
+                }
+            };
+            Project.create({}, project, function(data){
+                $log.info("create project success", data.metadata.name);
+                $rootScope.namespece = data.metadata.name;
+            }, function(res){
+                $log.info("build project err", res);
+            });
+        };
 
     }]);
 

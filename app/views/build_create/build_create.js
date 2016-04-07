@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('console.build.create', [])
-    .controller('BuildCreateCtrl', ['$scope', '$state', '$log', 'BuildConfig', 'Build', function ($scope, $state, $log, BuildConfig, Build) {
+    .controller('BuildCreateCtrl', ['$rootScope', '$scope', '$state', '$log', 'BuildConfig', 'Build', 'ImageStream', 'UUID', 'Alert', function ($rootScope, $scope, $state, $log, BuildConfig, Build, ImageStream, UUID, Alert) {
         $log.info('BuildCreate');
 
         $scope.buildConfig = {
@@ -18,17 +18,62 @@ angular.module('console.build.create', [])
                 },
                 strategy: {
                     type: 'Docker'
-                }
+                },
+                output: {
+                    to: {
+                        kind: 'ImageStreamTag',
+                        name: ''    //镜像名指定为buildonfig名
+                    }
+                },
+                completionDeadlineSeconds: 1800
             }
         };
+        $scope.completionDeadlineMinutes = 30;
 
         $scope.create = function() {
-            BuildConfig.create({}, $scope.buildConfig, function(res){
+            var imageStream = {
+                metadata: {
+                    name: $scope.buildConfig.metadata.name
+                },
+                spec: {
+                    tags: [
+                        {name: 'latest'}
+                    ]
+                }
+            };
+            ImageStream.create({namespace: $rootScope.namespece}, imageStream, function (res) {
+                $log.info("imageStream", res);
+                createBuildConfig(res.metadata.name);
+            }, function(res){
+                $log.info("err", res);
+                if (res.data.code == 409) {
+                    createBuildConfig($scope.buildConfig.metadata.name);
+                } else {
+                    Alert.open('错误', res.data.message, true);
+                }
+            });
+        };
+
+        var createBuildConfig = function (imageStreamTag) {
+            $scope.buildConfig.spec.completionDeadlineSeconds = $scope.completionDeadlineMinutes * 60;
+            $scope.buildConfig.spec.output.to.name = imageStreamTag + ':latest';
+            $scope.buildConfig.spec.triggers = [
+                {
+                    type: 'GitHub',
+                    github: {
+                        secret: UUID.guid().replace(/-/g, "")
+                    }
+                }
+            ];
+            BuildConfig.create({namespace: $rootScope.namespece}, $scope.buildConfig, function(res){
                 $log.info("buildConfig", res);
                 createBuild(res.metadata.name);
             }, function(res){
-                //todo 错误处理代码
-                $log.info("[err]", res);
+                if (res.data.code == 409) {
+                    Alert.open('错误', "构建名称重复", true);
+                } else {
+                    Alert.open('错误', res.data.message, true);
+                }
             });
         };
 
@@ -38,9 +83,9 @@ angular.module('console.build.create', [])
                     name: name
                 }
             };
-            BuildConfig.instantiate.create({name: name}, buildRequest, function(){
+            BuildConfig.instantiate.create({namespace: $rootScope.namespece, name: name}, buildRequest, function(){
                 $log.info("build instantiate success");
-                $state.go('console.build_detail', {name: name})
+                $state.go('console.build_detail', {name: name, from: 'create'})
             }, function(res){
                 //todo 错误处理
             });

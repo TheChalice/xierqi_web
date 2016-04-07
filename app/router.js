@@ -9,7 +9,7 @@ define([
     return angular.module('myApp.router', ['ui.router', 'oc.lazyLoad'])
         .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
-            $urlRouterProvider.otherwise("console/build");
+            $urlRouterProvider.otherwise("/console/build");
             $stateProvider
                 .state('login', {
                     url: '/login',
@@ -28,6 +28,12 @@ define([
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/console/console.js')
+                        }],
+                        user: ['$rootScope', 'User', function($rootScope, User){
+                            if($rootScope.user){
+                                return $rootScope.user;
+                            }
+                            return User.get({name: '~'}).$promise;
                         }]
                     },
                     abstract: true
@@ -54,6 +60,9 @@ define([
                 })
                 .state('console.build_detail', {
                     url: '/build/:name',
+                    params: {
+                        from: null
+                    },
                     templateUrl: 'views/build_detail/build_detail.html',
                     controller: 'BuildDetailCtrl',
                     resolve: {
@@ -73,12 +82,42 @@ define([
                     }
                 })
                 .state('console.image_detail',{
-                    url: '/image/:name',
+                    url: '/image/:bc/:name',
                     templateUrl: 'views/image_detail/image_detail.html',
                     controller: 'ImageDetailCtrl',
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad)  {
                             return $ocLazyLoad.load(['views/image_detail/image_detail.js'])
+                        }]
+                    }
+                })
+                .state('console.service',{
+                    url: '/service',
+                    templateUrl: 'views/service/service.html',
+                    controller: 'ServiceCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad)  {
+                            return $ocLazyLoad.load(['views/service/service.js', 'views/service/service.css'])
+                        }]
+                    }
+                })
+                .state('console.service_create',{
+                    url: '/service_create',
+                    templateUrl: 'views/service_create/service_create.html',
+                    controller: 'ServiceCreateCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad)  {
+                            return $ocLazyLoad.load(['views/service_create/service_create.js'])
+                        }]
+                    }
+                })
+                .state('console.service_detail',{
+                    url: '/service_detail',
+                    templateUrl: 'views/service_detail/service_detail.html',
+                    controller: 'ServiceDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad)  {
+                            return $ocLazyLoad.load(['views/service_detail/service_detail.js'])
                         }]
                     }
                 })
