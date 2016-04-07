@@ -16,7 +16,7 @@ angular.module("console.header", [
                     $window.history.back();
                 };
                 $scope.hasBack = function(){
-                    if ($state.current.name == "console.build" || $state.current.name == "console.image" ) {
+                    if ($state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name== "console.service") {
                         return false
                     }
                     return true;
@@ -49,6 +49,8 @@ angular.module("console.header", [
                     return "服务详情";
                 case "console.service_create":
                     return "新建服务";
+                default:
+                    return""
             }
         };
     }]);

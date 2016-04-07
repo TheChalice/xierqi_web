@@ -41,3 +41,6 @@
     padding: 15px 0;
     text-align: center;
 }
+.href-orange:hover {
+    color: #5a6378;
+}

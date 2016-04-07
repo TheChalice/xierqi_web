@@ -20,7 +20,8 @@
                 <span class="icon25 icon25-repository"></span>&nbsp;&nbsp;镜像仓库
             </a>
         </li>
-        <li ui-sref-active="active">
+        <li ui-sref-active="active"
+            ng-class="{'active':$state.includes('console.service_create')||$state.includes('console.service_detail')}">
             <a ui-sref="console.service">
                 <i class="fa fa-caret-left"></i>
                 <span class="icon25 icon25-deployment"></span>&nbsp;&nbsp;服务部署

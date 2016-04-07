@@ -52,3 +52,9 @@
 .timeline .icon25 {
     margin: 0 10px;
 }
+.icon25-delete {
+    background-image: url(img/images_03.png);
+}
+.icon25-delete:hover {
+    background-image: url(img/images_05.png);
+}

@@ -45,3 +45,6 @@
 .searchbar .tip-board > li > a > div:first-child {
     background: #e6e9f2;
 }
+.searchbar .tip-board > li > a:hover > div:first-child{
+    background: #c9d0e3;
+}
