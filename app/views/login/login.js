@@ -14,7 +14,7 @@ angular.module('login', [
             console.log("login");
             var req = {
                 method: 'GET',
-                url: 'http://localhost:9090/login',
+                url: GLOBAL.login_uri,
                 headers: {
                     'Authorization': 'Basic ' + $base64.encode(credentials.username + ':' + credentials.password)
                 }
