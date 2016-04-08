@@ -37,9 +37,10 @@ define([
 
     myApp.constant('GLOBAL', {
         size: 10,
-        host: '/oapi/v1',
+        host: 'https://54.222.199.235:8443/oapi/v1',
+        host_k8s: 'https://54.222.199.235:8443/api/v1',
         host_wss: 'wss://54.222.199.235:8443/oapi/v1',
-        login_uri: '/login',
+        login_uri: 'http://localhost:9090/login',
         host_webhooks: 'https://54.222.199.235:8443'
     })
     .constant('AUTH_EVENTS', {

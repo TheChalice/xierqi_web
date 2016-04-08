@@ -95,6 +95,13 @@ define([
             var DeploymentConfig= $resource(GLOBAL.host + '/namespaces/:namespace/deploymentconfigs/:name', {name: '@name', namespace: '@namespace'},{
                 create: {method: 'POST'}
             });
+            DeploymentConfig.log = $resource(GLOBAL.host + '/namespaces/:namespace/deploymentconfigs/:name/log');
             return DeploymentConfig;
+        }])
+        .factory('ReplicationController', ['$resource', 'GLOBAL', function($resource, GLOBAL){
+            var ReplicationController= $resource(GLOBAL.host_k8s + '/namespaces/:namespace/replicationcontrollers/:name', {name: '@name', namespace: '@namespace'},{
+                create: {method: 'POST'}
+            });
+            return ReplicationController;
         }]);
 });

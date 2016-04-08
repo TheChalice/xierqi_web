@@ -2,10 +2,10 @@
     <div class="panel panel-default" style="margin-bottom: 50px">
         <div class="panel-heading">
             <span class="panel-title">
-                <span class="icon25 icon25-panel"></span>&nbsp;&nbsp;{{data.metadata.name}}
+                <span class="icon25 icon25-panel"></span>&nbsp;&nbsp;{{dc.metadata.name}}
             </span>
             <a class="btn btn-gray pull-right" style=" padding: 5px 10px; margin-left: 15px; height:34px; width:36px" ng-click="delete()"><i class="fa fa-trash-o fa-lg"></i></a>
-            <a class="btn btn-green pull-right" ng-click="startBuild()">构建</a>
+            <a class="btn btn-green pull-right" ng-click="startBuild()">启动</a>
         </div>
         <div class="panel-body">
             <div class="row">
@@ -16,7 +16,7 @@
                         </div>
                         <div class="media-body">
                             <h4 class="media-heading">创建时间</h4>
-                            <small style="color: #5a6378;">{{data.metadata.creationTimestamp | dateRelative}}</small>
+                            <small style="color: #5a6378;">{{dc.metadata.creationTimestamp | dateRelative}}</small>
                         </div>
                     </div>
                 </div>
@@ -26,23 +26,21 @@
                             <img class="media-object" src="views/build_detail/img/images_106.png">
                         </div>
                         <div class="media-body">
-                            <h4 class="media-heading">代码URL</h4>
+                            <h4 class="media-heading">路由URL</h4>
                             <small>
                                 <a class="href-orange text-overflow" href="{{data.spec.source.git.uri}}" target="_blank">{{data.spec.source.git.uri}}</a>
                             </small>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4" ng-if="imageEnable">
+                <div class="col-sm-4">
                     <div class="media media-sm">
                         <div class="media-left">
                             <img class="media-object" src="views/build_detail/img/images_108.png">
                         </div>
                         <div class="media-body">
-                            <h4 class="media-heading">镜像</h4>
-                            <small>
-                                <a class="href-orange" style="color: #f6a540;" ui-sref="console.image_detail({name: data.spec.output.to.name})">{{data.spec.output.to.name}}</a>
-                            </small>
+                            <h4 class="media-heading">正常pod个数/期望pod个数</h4>
+                            <small>2/6</small>
                         </div>
                     </div>
                 </div>
@@ -53,63 +51,21 @@
     <uib-tabset class="tab-default" active="active">
         <uib-tab index="1">
             <uib-tab-heading>
-                <span class="icon20 icon20-log"></span> 构建记录
+                <i class="fa fa-file-o"></i> 部署记录
             </uib-tab-heading>
-            <c-timeline name="bcName" type="build"></c-timeline>
+            <div ng-include="'views/service_detail/history.html'"></div>
         </uib-tab>
         <uib-tab index="2">
             <uib-tab-heading>
-                <span class="icon20 icon20-paper"></span> 配置信息
+                <i class="fa fa-file-o"></i> 服务监控
             </uib-tab-heading>
-            <form class="form-horizontal" name="frm">
-                <div class="form-group">
-                    <!--<label class="col-sm-2 text-left" id="autobuild">自动构建触发条件</label>-->
-                    <label class="col-sm-3 text-left">是否自动构建</label>
-                    <div class="col-sm-2">
-                        <c-checkbox checked="checkedfirst"></c-checkbox>
-                    </div>
-                    <div class="col-sm-7" ng-if="checkedfirst" style="overflow: hidden;word-wrap: break-word;word-break: break-all;">
-                        <small>Payload URL : </small>
-                        <small>{{data | webhooks}}</small><br>
-                        <small>请去代码仓库创建Webhook</small>
-
-                        <!--<label id="condition" style="margin-left: 60px">当代码仓库发生以下变化触发持续集成</label><br>-->
-                        <!--<label id="pushtag" style="margin-left: 60px"><input type="checkbox" style="margin-right:15px">提交Tag</label>-->
-                        <!--<div>-->
-                        <!--<label id="pushbranch" style="margin-left: 60px">-->
-                        <!--<input type="checkbox" style="margin-right: 15px">提交代码到分支-->
-                        <!--<input ng-disabled="!chosenbranch" type="text" class="form-line" id="branchname" placeholder="请输入分支名称" style="margin-left: 15px">-->
-                        <!--<a ng-click="chosenbranch = true" class="icon12 icon-edit" id="edit-branch" style="margin-left: 15px" href="javascript:;"></a>-->
-                        <!--<a ng-if="chosenbranch" ng-click="chosenbranch = false" class="icon12 icon-save" id="save-branch" style="margin-left: 15px; display: none;" href="javascript:;"></a>-->
-                        <!--</label>-->
-                        <!--</div>-->
-                    </div>
-                </div>
-
-                <div class="form-group" style="padding-top: 30px">
-                    <label class="col-sm-3 text-left">是否持续集成</label>
-                    <div class="col-sm-2">
-                        <c-checkbox checked="checked"></c-checkbox>
-                    </div>
-                    <div class="col-sm-7" ng-if="checked">
-                        <small style="margin-right: 20px">点击按钮,进行持续集成配置</small>
-                        <a class="btn btn-orange">持续集成配置</a>
-                    </div>
-                </div>
-
-                <div class="form-group" style="padding-top: 50px">
-                    <label class="col-sm-3 text-left">构建超时时长</label>
-                    <div class="col-sm-9">
-                        <input ng-model="grid.completionDeadlineMinutes" name="cdm" min="1" max="60" ng-disabled="!deadlineMinutesEnable" style="width: 80px;display: inline-block;" type="number" class="form-control">
-                        <span style="display: inline-block;">&nbsp;mins&nbsp;</span>
-                        <a href="javascript:;" style="text-decoration: none" ng-click="frm.cdm.$valid && save()">
-                            <span class="fa fa-orange" ng-class="{'fa-pencil': !deadlineMinutesEnable, 'fa-check-circle': deadlineMinutesEnable}"></span>
-                        </a>
-                        <span class="font12">&nbsp;&nbsp;构建超时时长请不要超过60Mins</span><br>
-                        <small ng-if="frm.cdm.$invalid" class="fa fa-exclamation-circle" style="font-size: 12px;color: #ec6941;">&nbsp;您设置的时长超过了限制,请重新设置</small>
-                    </div>
-                </div>
-            </form>
+            服务监控
+        </uib-tab>
+        <uib-tab index="3">
+            <uib-tab-heading>
+                <i class="fa fa-file-o"></i> 配置信息
+            </uib-tab-heading>
+            配置信息
         </uib-tab>
     </uib-tabset>
 </div>
