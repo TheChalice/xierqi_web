@@ -2,13 +2,16 @@
     <uib-tabset class="tab-default">
         <uib-tab index="1" heading="用户私有镜像仓库">
             <div class="row" style="margin-bottom: 30px;">
-                <div class="col-sm-4 col-sm-offset-8">
-                    <c-search></c-search>
+                <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
+                    <input type="text" class="form-control" ng-model="txt" ng-focus="showTip=true;" placeholder="搜索镜像">
+                    <span class="input-group-btn">
+                        <a class="btn" ng-click="search('all', txt)"></a>
+                    </span>
                 </div>
             </div>
             <div class="row">
-                <div class="col-sm-3 col-xs-6" ng-repeat="item in items">
-                    <c-card item="item"></c-card>
+                <div class="col-md-3 col-sm-4 col-xs-6" ng-repeat="item in items">
+                    <c-card></c-card>
                 </div>
             </div>
             <div class="text-right">
@@ -27,7 +30,7 @@
                 </uib-pagination>
             </div>
         </uib-tab>
-        <uib-tab index="2" heading="平台公有镜像">
+        <uib-tab index="2" heading="平台公有镜像" ng-if="false">
             <div>
                 <div class="row" style="margin-bottom: 30px;">
                     <div class="col-sm-4 col-sm-offset-8">
@@ -36,12 +39,12 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-3 col-xs-6" ng-repeat="item in [1]">
-                        <c-card item="item"></c-card>
+                        <c-card item="item" gitStore="gitStore"></c-card>
                     </div>
                 </div>
             </div>
         </uib-tab>
-        <uib-tab index="3" heading="DockerHub镜像">
+        <uib-tab index="3" heading="DockerHub镜像" ng-if="false">
             <div class="text-center" style="padding: 130px 0 200px 0;">
                 <p style="font-size: 16px;color: #5a6378;">Docker镜像 一键搜索</p>
 

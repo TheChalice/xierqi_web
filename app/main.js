@@ -29,16 +29,22 @@ require.config({
         uiRouter: '../bower_components/angular-ui-router/release/angular-ui-router.min',
         angularAnimate: '../bower_components/angular-animate/angular-animate.min',
         angularMocks: '../bower_components/angular-mocks/angular-mocks',
-        ocLazyLoad: '../bower_components/oclazyload/dist/ocLazyLoad.min'
+        ocLazyLoad: '../bower_components/oclazyload/dist/ocLazyLoad.min',
+        angularBase64: '../bower_components/angular-base64/angular-base64.min',
+        angularMd: '../bower_components/angular-marked/dist/angular-marked.min',
+        angularClipboard: '../bower_components/angular-clipboard/angular-clipboard'
     },
     shim: {
         'angular': {
-            'dep': ['jquery'],
-            'exports': 'angular'
+            deps: ['jquery'],
+            exports: 'angular'
+        },
+        'angularMd': {
+            deps: ['angular']
         },
         'angularMocks': {
             deps: ['angular'],
-            'exports': 'angular.mock'
+            exports: 'angular.mock'
         },
         'angularAnimate': {
             deps: ['angular']
@@ -60,6 +66,12 @@ require.config({
         },
         'bootstrap': {
             deps: ['jquery']
+        },
+        'angularBase64': {
+            deps: ['angular']
+        },
+        'angularClipboard': {
+            deps: ['angular']
         }
     },
     priority: [
@@ -70,11 +82,8 @@ require.config({
 });
 
 require([
-        'jquery',
-        'angular',
-        'bootstrap',
         'app'
-    ], function ($, angular) {
+    ], function (app) {
         var $html = angular.element(document.getElementsByTagName('html')[0]);
         angular.element().ready(function () {
             // bootstrap the app manually

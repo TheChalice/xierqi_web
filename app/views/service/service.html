@@ -1,0 +1,57 @@
+<div id="service">
+    <div class="row">
+        <div class="col-sm-6 col-xs-4">
+            <a class="btn btn-green" ui-sref="console.service_create" style="margin-right:20px;">
+                <i class="fa fa-plus fa-lg"></i>
+                <span class="hidden-xs"> 新建服务</span>
+            </a>
+            <a class="btn btn-skyblue" ng-click="refresh()" style="height: 34px; width: 36px; padding: 5px 5px;">
+                <i class="fa fa-refresh fa-lg"></i>
+            </a>
+        </div>
+        <div class="col-sm-6 col-xs-8" style="padding-left: 0;">
+            <div class="pull-right">
+                <c-search search="search"></c-search>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive" style="margin-top: 20px;">
+        <table class="table table-hover table-default">
+            <tr>
+                <th>服务名称</th>
+                <th>最近部署时间</th>
+                <th>状态</th>
+                <th>pod个数<br>正常/期望</th>
+                <th>路由URL</th>
+                <th>后端服务</th>
+                <th class="text-center">操作</th>
+            </tr>
+            <!--<tr ng-repeat="bc in items">-->
+            <tr>
+                <td><a ui-sref="console.service_detail">datafactory_service_testing</a>
+                </td>
+                <td>1分钟以前</td>
+                <td>正常</td>
+                <td>6/6</td>
+                <td>www.abc.com</td>
+                <td>已绑定</td>
+                <td>停止</td>
+            </tr>
+        </table>
+        <div class="text-right" ng-if="grid.total > 10">
+            <uib-pagination class="pagination"
+                            ng-model="grid.page"
+                            total-items="grid.total"
+                            items-per-page="grid.size"
+                            class="pagination-sm"
+                            boundary-links="true"
+                            max-size="12"
+                            rotate="true"
+                            previous-text="上一页"
+                            next-text="下一页"
+                            first-text="首页"
+                            last-text="末页">
+            </uib-pagination>
+        </div>
+    </div>
+</div>

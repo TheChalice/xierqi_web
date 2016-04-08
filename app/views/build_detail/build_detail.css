@@ -1,6 +1,9 @@
-.form-group {
-    padding-bottom: 40px;
-    border-bottom: 1px solid;
+.build-detail .form-group {
+    padding-bottom: 30px;
+    border-bottom: 1px solid #c9c9c9;
+}
+.build-detail .form-group:last-child {
+    border-bottom: none;
 }
 .icon-edit {
     background-image: url(img/images_134.png);
@@ -15,15 +18,11 @@
 .font12 {
     font-size: 12px;
     color: #5a6378;
+    font-weight:normal;
 }
-#cigroup {
-    padding-top: 20px;
+.text-left {
+    font-weight: normal;
 }
-#buildingtime {
-    padding-top: 20px;
-    border-bottom-color: #fff;
-}
-
 .icon20-log {
     background-image: url(img/log.png);
 }
@@ -42,3 +41,15 @@
 .uib-tab.active .icon20-paper, .tab-default li .nav-link:hover .icon20-paper {
     background-image: url(img/paper-active.png);
 }
+/*.href-orange{*/
+    /*color: #f6a540;*/
+    /*text-decoration: none;*/
+/*}*/
+/*.href-orange:hover {*/
+    /*color: #e5993a;*/
+    /*text-decoration: none;*/
+/*}*/
+/*.href-orange:active {*/
+    /*color: #e5993a;*/
+    /*text-decoration: none;*/
+/*}*/

@@ -11,16 +11,22 @@ angular.module("console.header", [
             restrict: 'EA',
             replace: true,
             templateUrl: 'components/header/header.html',
-            controller: ['$scope', '$window', '$state', function($scope, $window, $state){
+            controller: ['$rootScope', '$scope', '$window', '$state', 'Cookie', function($rootScope, $scope, $window, $state, Cookie){
                 $scope.back = function(){
                     $window.history.back();
                 };
                 $scope.hasBack = function(){
-                    if ($state.current.name == "console.build" || $state.current.name == "console.image" ) {
+                    if ($state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name== "console.service") {
                         return false
                     }
                     return true;
-                }
+                };
+                $scope.logout = function(){
+                    Cookie.clear('df_access_token');
+                    $rootScope.user = null;
+                    $rootScope.namespace = "";
+                    $state.go('login');
+                };
             }]
         }
     }])
@@ -37,8 +43,14 @@ angular.module("console.header", [
                     return "镜像仓库";
                 case "console.image_detail":
                     return "镜像仓库";
+                case "console.service":
+                    return "服务部署";
+                case "console.service_detail":
+                    return "服务详情";
+                case "console.service_create":
+                    return "新建服务";
                 default:
-                    return ""
+                    return""
             }
         };
     }]);

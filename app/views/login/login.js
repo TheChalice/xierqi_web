@@ -1,35 +1,69 @@
 'use strict';
 
 angular.module('login', [
-    'base64',
-    {
-        files: ['../bower_components/angular-base64/angular-base64.min.js']
-    }
-])
+        'base64'
+    ])
     .controller('LoginCtrl', ['$scope', 'AuthService', function($scope, AuthService){
-        $scope.credentials = {
-            username: 'admin',
-            password: 'Ouhl9eHv83yuyhdifJwpk4XXIkrbG1YwI'
-        };
+        $scope.credentials = {};
         $scope.login = function(){
             AuthService.login($scope.credentials);
         }
     }])
-    .service('AuthService', ['$http', '$base64', 'AUTH_CFG', function($http, $base64, AUTH_CFG){
+    .service('AuthService', ['$rootScope', '$http', '$base64', 'Cookie', '$state', '$log', 'Project', 'GLOBAL', function($rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL){
         this.login = function(credentials) {
             console.log("login");
             var req = {
-                method: 'POST',
-                url: 'https://lab.asiainfodata.com:8443/oauth/authorize?response_type=token&client_id=' + AUTH_CFG.oauth_client_id,
+                method: 'GET',
+                url: 'http://localhost:9090/login',
                 headers: {
-                    'X-CSRF-Token': 1,
                     'Authorization': 'Basic ' + $base64.encode(credentials.username + ':' + credentials.password)
                 }
             };
 
-            $http(req).success(function(data, status, headers, config){
-            }).error(function(data, status, headers, config){
-                console.log("fail", headers(), config)
+            var loadProject = function(name){
+                $log.info("load project");
+                Project.get(function(data){
+                    $log.info("load project success", data);
+                    for(var i = 0; i < data.items.length; i++) {
+                        if(data.items[i].metadata.name == name){
+                            $rootScope.namespace = name;
+                            $state.go('console.build');
+                            return;
+                        }
+                    }
+                    buildProject(name);
+                }, function(res){
+                    $log.info("find project err", res);
+                    buildProject(name);
+                });
+            };
+
+            var buildProject = function(name){
+                $log.info("build project");
+                var project = {
+                    kind: 'ProjectRequest',
+                    apiVersion: 'v1',
+                    metadata: {
+                        name: name
+                    }
+                };
+                Project.request.create({}, project, function(data){
+                    $log.info("create project success", data.metadata.name);
+                    $rootScope.namespace = data.metadata.name;
+                    $state.go('console.build');
+                }, function(res){
+                    $log.info("build project err", res);
+                });
+            };
+
+            $http(req).success(function(data){
+                console.log(data);
+                Cookie.set('df_access_token', data.access_token, 10 * 365 * 24 * 3600 * 1000);
+
+                loadProject(credentials.username);
+
+            }).error(function(data){
+                //todo 错误处理
             });
         };
     }]);

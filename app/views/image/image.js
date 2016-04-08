@@ -8,13 +8,15 @@ angular.module('console.image', [
             ]
         }
     ])
-    .controller('ImageCtrl', ['$scope', '$log','ImageStreamTag', 'Build', 'GLOBAL', function ($scope, $log, ImageStreamTag, Build, GLOBAL) {
+    .controller('ImageCtrl', ['$rootScope', '$scope', '$log', 'ImageStreamTag', 'BuildConfig', 'Build', 'GLOBAL', 'Sort', function ($rootScope, $scope, $log, ImageStreamTag, BuildConfig, Build, GLOBAL, Sort) {
 
         //分页
         $scope.grid = {
             page: 1,
             size: GLOBAL.size
         };
+
+        $scope.gitStore = {};   //存储commit id 和 分支,angular修改数组内元素属性不能触发刷新
 
         $scope.$watch('grid.page', function(newVal, oldVal){
             if (newVal != oldVal) {
@@ -27,37 +29,71 @@ angular.module('console.image', [
             $scope.items = $scope.data.items.slice(skip, skip + $scope.grid.size);
         };
 
-        var loadImageStream = function() {
-            ImageStreamTag.get(function(data){
-                $log.info('imageStream', data);
+        //获取buildConfig列表
+        var loadBuildConfigs = function() {
+            BuildConfig.get({namespace: $rootScope.namespace}, function(data){
+                $log.info('buildConfigs', data);
                 $scope.data = data;
+                $scope.data.items = Sort.sort(data.items, -1);
                 $scope.grid.total = data.items.length;
+
+                fillImageStreams();
+
                 refresh(1);
 
-                loadBuilds(data.items);
-            }, function (res) {
-                //错误处理
+            }, function(res) {
+                //todo 错误处理
             });
         };
 
-        loadImageStream();
+        loadBuildConfigs();
 
-        var loadBuilds = function(items){
-            //todo 通过labelSelector筛选builds,现在无法拿到数据
-            //var labelSelector = '';
-            //for (var i = 0; i < items.length; i++) {
-            //    labelSelector += 'buildconfig=' + items[i].metadata.name + ','
-            //}
-            //labelSelector = labelSelector.substring(0, labelSelector.length - 1);
-            //Build.get({labelSelector: labelSelector}, function (data) {
-            Build.get(function (data) {
-                $log.info("builds", data);
+        var fillImageStreams = function() {
+            var items = angular.copy($scope.data.items);
 
-                fillImageStreams(data.items);
+            $scope.data.items = [];
+            $scope.grid.total = 0;
+            angular.forEach(items, function(item){
+                if (!item.spec.output.to) {
+                    return;
+                }
+                ImageStreamTag.get({namespace: $rootScope.namespace, name: item.spec.output.to.name}, function (data) {
+                    item.metadata.creationTimestamp = data.metadata.creationTimestamp;
+                    $scope.data.items.push(item);
+                    $scope.grid.total++;
+                    refresh(1);
+
+                    var labels = data.image.dockerImageMetadata.Config.Labels;
+                    if (!labels) {
+                        return;
+                    }
+                    $scope.gitStore[item.spec.output.to.name] = {
+                        id: labels["io.openshift.build.commit.id"],
+                        ref: labels["io.openshift.build.commit.ref"]
+                    };
+
+                });
             });
         };
 
-        var fillImageStreams = function(items) {
-
-        };
+        $scope.doSearch = function(txt){
+            $scope.showTip = false;
+            $scope.search(txt);
+        }
+        $scope.search = function (key, txt) {
+            if (!txt) {
+                refresh(1);
+                return;
+            }
+            $scope.items = [];
+            txt = txt.replace(/\//g, '\\/');
+            var reg = eval('/' + txt + '/');
+            for(var i=0;i<$scope.data.items.length; i++){
+                if (reg.test($scope.data.items[i].metadata.name)) {
+                    $scope.items.push($scope.data.items[i]);
+                }
+            }
+            $log.info($scope.items);
+            $log.info($scope.data.items[0].metadata.name);
+        }
     }]);

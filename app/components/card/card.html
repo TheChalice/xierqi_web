@@ -2,8 +2,8 @@
     <div class="thumb-content">
         <div class="thumb-slide">
             <div class="thumb-op">
-                <p><span class="icon12 icon12-time"></span>&nbsp;{{item.metadata.creationTimestamp | dateRelative}}</p>
-                <p><span class="icon12 icon12-flag"></span>&nbsp;master-{{revision.git.commit | limitTo: 7}}</p>
+                <p><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{item.metadata.creationTimestamp | dateRelative}}</p>
+                <p><i class="fa fa-flag-o"></i>&nbsp;&nbsp;{{gitStore[item.spec.output.to.name]["ref"]}} - {{gitStore[item.spec.output.to.name]["id"] | limitTo: 7}}</p>
                 <p class="thumb-btn">
                     <a class="btn btn-green" href="javascript:;">部署最新版本</a>
                 </p>
@@ -12,7 +12,7 @@
         </div>
     </div>
     <div class="caption">
-        <a class="href-orange" ui-sref="console.image_detail({name: item.metadata.name})">{{item.metadata.name}}</a>
+        <a class="href-orange" ui-sref="console.image_detail({name: item.spec.output.to.name, bc: item.metadata.name})">{{item.spec.output.to.name}}</a>
     </div>
     <!--<div>-->
         <!--<p></p>-->

@@ -1,5 +1,5 @@
 #build .icon25 {
-    margin-right: 15px;
+    margin: 0 8px;
 }
 .icon25-source {
     background-image: url(img/source.png);
@@ -13,13 +13,6 @@
 }
 .icon25-image:hover {
     background-image: url(img/image-hover.png);
-}
-
-.icon25-start {
-    background-image: url(img/start.png);
-}
-.icon25-start:hover {
-    background-image: url(img/start-hover.png);
 }
 
 .icon25-stop {

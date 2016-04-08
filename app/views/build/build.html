@@ -1,17 +1,17 @@
 <div id="build">
     <div class="row">
-        <div class="col-sm-8 col-xs-4">
-            <a class="btn btn-green" ui-sref="console.build_create">
-                <i class="fa fa-plus"></i>
+        <div class="col-sm-7 col-xs-4">
+            <a class="btn btn-green" ui-sref="console.build_create" style="margin-right:20px;">
+                <i class="fa fa-plus fa-lg"></i>
                 <span class="hidden-xs"> 新建构建</span>
             </a>
-            <a class="btn btn-skyblue" ng-click="refresh()">
+            <a class="btn btn-skyblue" ng-click="refresh()" style="height: 34px; width: 36px; padding: 5px 5px;">
                 <i class="fa fa-refresh fa-lg"></i>
             </a>
         </div>
-        <div class="col-sm-4 col-xs-8" style="padding-left: 0;">
+        <div class="col-sm-5 col-xs-8" style="padding-left: 0;">
             <div class="pull-right">
-                <c-search></c-search>
+                <c-search search="search"></c-search>
             </div>
         </div>
     </div>
@@ -23,29 +23,33 @@
                 <th>最近构建时间</th>
                 <th>最近构建时长</th>
                 <th>构建类型</th>
-                <th>操作</th>
+                <th class="text-center">操作</th>
             </tr>
-            <tr ng-repeat="build in items">
+            <tr ng-repeat="bc in items">
                 <td>
-                    <a class="href-orange" ui-sref="console.build_detail({name: build.metadata.name})">{{build.metadata.name}}</a>
+                    <a class="href-orange" ui-sref="console.build_detail({name: bc.metadata.name})">{{bc.metadata.name}}</a>
                 </td>
                 <td>
-                    <span class="icon12 icon12-{{build.status.phase}}"></span>
-                    {{build.status.phase | phaseFilter}}
+                    <span class="icon12 icon12-{{bc.build.status.phase}}"
+                          ng-class="{'fa-spin': bc.build.status.phase == 'Running' || bc.build.status.phase == 'Pending'}"></span>
+                    {{bc.build.status.phase | phaseFilter}}
                 </td>
-                <td>{{build.status.startTimestamp | dateRelative}}</td>
-                <td>{{build.status.duration | duration}}</td>
-                <td>手动</td>
+                <td>{{bc.build.metadata.creationTimestamp | dateRelative}}</td>
+                <td>{{bc.build.status.duration | duration}}</td>
                 <td>
-                    <a class="icon25 icon25-source" href="{{build.spec.source.git.uri}}" uib-tooltip="查看代码源" target="_blank"></a>
-                    <a class="icon25 icon25-image" ui-sref="console.image_detail({name: build.spec.output.to.name})" uib-tooltip="查看镜像"></a>
-                    <a class="icon25 icon25-start" href="javascript:;" ng-click="startBuild($index)" ng-if="build.status.phase != 'Running'" uib-tooltip="构建"></a>
-                    <a class="icon25 icon25-stop" href="javascript:;" ng-click="stopBuild()" ng-if="build.status.phase == 'Running'" uib-tooltip="停止"></a>
+                    <i ng-if="true" class="fa fa-hand-pointer-o">&nbsp;手动</i>
+                    <i ng-if="false" class="fa fa-television">&nbsp;自动</i>
+                </td>
+                <td class="text-center" style="padding-right: 30px">
+                    <a class="icon25 icon25-source pull-left" href="{{bc.spec.source.git.uri}}" uib-tooltip="查看代码源" target="_blank"></a>
+                    <a class="icon25 icon25-image" ng-if="bc.spec.output && bc.spec.output.to && bc.spec.output.to.name" ui-sref="console.image_detail({bc: bc.metadata.name, name: bc.spec.output.to.name})" uib-tooltip="查看镜像"></a>
+                    <a class="icon25 icon25-start pull-right" href="javascript:;" ng-click="startBuild($index)" ng-if="bc.build.status.phase != 'Running'" uib-tooltip="构建"></a>
+                    <a class="icon25 icon25-stop pull-right" href="javascript:;" ng-click="stop($index)" ng-if="bc.build.status.phase == 'Pendding' || bc.build.status.phase == 'Running' || bc.build.status.phase == 'New'" uib-tooltip="停止"></a>
                 </td>
             </tr>
         </table>
-        <div class="text-right">
-            <uib-pagination
+        <div class="text-right" ng-if="grid.total > 10">
+            <uib-pagination class="pagination"
                     ng-model="grid.page"
                     total-items="grid.total"
                     items-per-page="grid.size"
