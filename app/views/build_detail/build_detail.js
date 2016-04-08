@@ -9,7 +9,7 @@ angular.module('console.build.detail', [
         ]
     }
 ])
-    .controller('BuildDetailCtrl', ['$rootScope', '$scope', '$log', '$stateParams', '$state', 'BuildConfig', 'Build', 'Confirm', function ($rootScope, $scope, $log, $stateParams, $state, BuildConfig, Build, Confirm) {
+    .controller('BuildDetailCtrl', ['$rootScope', '$scope', '$log', '$stateParams', '$state', 'BuildConfig', 'Build', 'Confirm', 'UUID', function ($rootScope, $scope, $log, $stateParams, $state, BuildConfig, Build, Confirm, UUID) {
         $scope.grid = {};
         $scope.bcName = $stateParams.name;
 
@@ -23,6 +23,10 @@ angular.module('console.build.detail', [
                 $scope.data = data;
                 if (data.spec && data.spec.completionDeadlineSeconds){
                     $scope.grid.completionDeadlineMinutes = parseInt(data.spec.completionDeadlineSeconds / 60);
+                }
+                if (data.spec.triggers.length) {
+                    $scope.grid.checked = 'start';
+                    $scope.grid.checkedLocal = true;
                 }
             }, function(res) {
                 //错误处理
@@ -71,6 +75,40 @@ angular.module('console.build.detail', [
             });
         };
 
+        $scope.$watch('grid.checked', function(newVal, oldVal){
+            if (newVal == "start") {
+                return;
+            }
+            if (newVal != oldVal){
+                $scope.saveTrigger();
+            }
+        });
+
+        $scope.saveTrigger = function(){
+            var name = $scope.data.metadata.name;
+            if($scope.grid.checked){
+                $scope.data.spec.triggers = [
+                    {
+                        type: 'GitHub',
+                        github: {
+                            secret: UUID.guid().replace(/-/g, "")
+                        }
+                    }
+                ];
+            } else {
+                $scope.data.spec.triggers = [];
+            }
+            BuildConfig.put({namespace: $rootScope.namespace, name: name}, $scope.data, function (res) {
+                $log.info("put success", res);
+                $scope.data = res;
+                $scope.deadlineMinutesEnable = false;
+                $scope.grid.checkedLocal = $scope.grid.checked;
+            }, function(res) {
+                //todo 错误处理
+                $log.info("put failed");
+            });
+        };
+
         $scope.save = function(){
             if (!$scope.deadlineMinutesEnable) {
                 $scope.deadlineMinutesEnable = true;
@@ -80,6 +118,7 @@ angular.module('console.build.detail', [
             $scope.data.spec.completionDeadlineSeconds = $scope.grid.completionDeadlineMinutes * 60;
             BuildConfig.put({namespace: $rootScope.namespace, name: name}, $scope.data, function (res) {
                 $log.info("put success", res);
+                $scope.data = res;
                 $scope.deadlineMinutesEnable = false;
             }, function(res) {
                 //todo 错误处理
