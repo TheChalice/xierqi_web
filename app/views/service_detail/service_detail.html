@@ -2,7 +2,8 @@
     <div class="panel panel-default" style="margin-bottom: 50px">
         <div class="panel-heading">
             <span class="panel-title">
-                <span class="icon25 icon25-panel"></span>&nbsp;&nbsp;{{dc.metadata.name}}
+                <i class="faa faa-cmd"></i>&nbsp;&nbsp;{{dc.metadata.name}}&nbsp;&nbsp;
+                <span style="color: #55c45f;">启动中</span>
             </span>
             <a class="btn btn-gray pull-right" style=" padding: 5px 10px; margin-left: 15px; height:34px; width:36px" ng-click="delete()"><i class="fa fa-trash-o fa-lg"></i></a>
             <a class="btn btn-green pull-right" ng-click="startBuild()">启动</a>
@@ -12,7 +13,7 @@
                 <div class="col-sm-4">
                     <div class="media media-sm">
                         <div class="media-left">
-                            <img class="media-object" src="views/build_detail/img/images_104.png">
+                            <i class="faa faa-clock"></i>
                         </div>
                         <div class="media-body">
                             <h4 class="media-heading">创建时间</h4>
@@ -23,12 +24,12 @@
                 <div class="col-sm-4">
                     <div class="media media-sm">
                         <div class="media-left">
-                            <img class="media-object" src="views/build_detail/img/images_106.png">
+                            <i class="faa faa-code"></i>
                         </div>
                         <div class="media-body">
                             <h4 class="media-heading">路由URL</h4>
-                            <small>
-                                <a class="href-orange text-overflow" href="{{data.spec.source.git.uri}}" target="_blank">{{data.spec.source.git.uri}}</a>
+                            <small ng-repeat="service in dc.services">
+                                <a class="href-orange text-overflow" href="service.route.spec.host" target="_blank">{{service.route.spec.host}}</a>
                             </small>
                         </div>
                     </div>
@@ -36,11 +37,11 @@
                 <div class="col-sm-4">
                     <div class="media media-sm">
                         <div class="media-left">
-                            <img class="media-object" src="views/build_detail/img/images_108.png">
+                            <i class="faa faa-pod"></i>
                         </div>
                         <div class="media-body">
-                            <h4 class="media-heading">正常pod个数/期望pod个数</h4>
-                            <small>2/6</small>
+                            <h4 class="media-heading">pod个数(正常/期望)</h4>
+                            <small>1/{{dc.spec.replicas}}</small>
                         </div>
                     </div>
                 </div>
@@ -51,19 +52,19 @@
     <uib-tabset class="tab-default" active="active">
         <uib-tab index="1">
             <uib-tab-heading>
-                <i class="fa fa-file-o"></i> 部署记录
+                <i class="faa faa-edit"></i> 部署记录
             </uib-tab-heading>
             <div ng-include="'views/service_detail/history.html'"></div>
         </uib-tab>
         <uib-tab index="2">
             <uib-tab-heading>
-                <i class="fa fa-file-o"></i> 服务监控
+                <i class="faa faa-target"></i> 服务监控
             </uib-tab-heading>
-            服务监控
+            <div ng-include="'views/service_detail/service_ctrl.html'"></div>
         </uib-tab>
         <uib-tab index="3">
             <uib-tab-heading>
-                <i class="fa fa-file-o"></i> 配置信息
+                <i class="faa faa-text"></i> 配置信息
             </uib-tab-heading>
             配置信息
         </uib-tab>

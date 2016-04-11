@@ -1,7 +1,11 @@
 'use strict';
-angular.module('console.service.detail', [])
-    .controller('ServiceDetailCtrl', ['$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Sort', 'Confirm',
-        function($rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Sort, Confirm) {
+angular.module('console.service.detail', [
+    {
+        files: ['views/service_detail/service_detail.css']
+    }
+])
+    .controller('ServiceDetailCtrl', ['$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Service', 'Route', 'BackingServiceInstance', 'Sort', 'Confirm',
+        function($rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Service, Route, BackingServiceInstance, Sort, Confirm) {
         //获取服务列表
         var loadDc = function (name) {
             DeploymentConfig.get({namespace: $rootScope.namespace, name: name}, function(res){
@@ -9,6 +13,8 @@ angular.module('console.service.detail', [])
                 $scope.dc = res;
 
                 loadRcs(res.metadata.name);
+                loadServices();
+                loadBsi();
 
             }, function(res){
                 //todo 错误处理
@@ -27,6 +33,66 @@ angular.module('console.service.detail', [])
                 $scope.rcs = res;
             }, function(res){
                 //todo 错误处理
+            });
+        };
+
+        var loadServices = function () {
+            Service.get({namespace: $rootScope.namespace}, function(res){
+                $log.info("services", res);
+                $scope.dc.services = [];
+                for (var i = 0; i < res.items.length; i++) {
+                    if (res.items[i].spec.selector.deploymentconfig == $scope.dc.metadata.name) {
+                        $scope.dc.services.push(res.items[i]);
+                    }
+                }
+
+                loadRoutes();
+
+            }, function(res){
+                //todo 错误处理
+                $log.info("loadServices err", res);
+            });
+        };
+
+        var loadRoutes = function () {
+            Route.get({namespace: $rootScope.namespace}, function(res){
+                $log.info("routes", res);
+
+                var services = $scope.dc.services;
+
+                for (var j = 0; j < services.length; j++) {
+                    for (var i = 0; i < res.items.length; i++) {
+                        if (res.items[i].spec.to.kind != 'Service') {
+                            continue;
+                        }
+                        if (res.items[i].spec.to.name == services[i].metadata.name) {
+                            $scope.dc.services[i].route = res.items[j];
+                        }
+                    }
+                }
+            }, function(res){
+                //todo 错误处理
+                $log.info("loadRoutes err", res);
+            });
+        };
+
+        var loadBsi = function () {
+            BackingServiceInstance.get({namespace: $rootScope.namespace}, function(res){
+                $log.info("backingServiceInstance", res);
+
+                $scope.dc.bsi = [];
+
+                for (var i = 0; i < res.items.length; i++) {
+                    for (var j = 0; j < res.items[i].spec.binding.length; i++) {
+                        if (res.items[i].spec.binding[j].bind_deploymentconfig == $scope.dc.metadata.name) {
+                            $scope.dc.bsi.push(res.items[i].metadata.name);
+                        }
+                    }
+                }
+
+            }, function(res){
+                //todo 错误处理
+                $log.info("loadBsi err", res);
             });
         };
 

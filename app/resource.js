@@ -103,5 +103,23 @@ define([
                 create: {method: 'POST'}
             });
             return ReplicationController;
+        }])
+        .factory('Service', ['$resource', 'GLOBAL', function($resource, GLOBAL){
+            var Service= $resource(GLOBAL.host_k8s + '/namespaces/:namespace/services/:name', {name: '@name', namespace: '@namespace'},{
+                create: {method: 'POST'}
+            });
+            return Service;
+        }])
+        .factory('Route', ['$resource', 'GLOBAL', function($resource, GLOBAL){
+            var Route= $resource(GLOBAL.host + '/namespaces/:namespace/routes/:name', {name: '@name', namespace: '@namespace'},{
+                create: {method: 'POST'}
+            });
+            return Route;
+        }])
+        .factory('BackingServiceInstance', ['$resource', 'GLOBAL', function($resource, GLOBAL){
+            var BackingServiceInstance= $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances/:name', {name: '@name', namespace: '@namespace'},{
+                create: {method: 'POST'}
+            });
+            return BackingServiceInstance;
         }]);
 });

@@ -8,8 +8,8 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-2">
-                        <span class="icon12 icon12-{{item.status.phase}}"
-                              ng-class="{'fa-spin': item.status.phase == 'Running' || item.status.phase == 'Pending'}"></span>
+                        <span class="icon12 icon12-{{item.metadata.annotations['openshift.io/deployment.phase']}}"
+                              ng-class="{'fa-spin': item.metadata.annotations['openshift.io/deployment.phase'] == 'Running' || item.metadata.annotations['openshift.io/deployment.phase'] == 'Pending'}"></span>
                         <!--switch to Chinese-->
                         {{item.metadata.annotations['openshift.io/deployment.phase'] | rcStatusFilter}}
                     </div>
@@ -34,7 +34,7 @@
                     </div>
                     <div class="col-sm-3 text-right">
                         <a class="icon25 icon25-collapse" ng-click="getLog($index)" uib-tooltip="查看" href="javascript:;"></a>
-                        <a class="icon25 icon25-forward" ng-click="getConfig($index)" uib-tooltip="配置" href="javascript:;"></a>
+                        <a class="faa faa-cogs" ng-click="getConfig($index)" uib-tooltip="配置" href="javascript:;"></a>
                         <a class="icon25 icon25-start" uib-tooltip="重新部署" href="javascript:;"></a>
                         <!--<a class="icon25 icon25-stop" uib-tooltip="停止" href="javascript:;"></a>-->
                     </div>
