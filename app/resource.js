@@ -16,10 +16,10 @@ define([
                     return;
                 }
 
-                var host = location.host + '/oapi/v1';
+                var host = location.host + '/ws/oapi/v1';
 
                 params.name = params.name ? '/' + params.name : '';
-                var url = 'wss://' + host + '/namespaces/' + params.namespace + '/'+ params.type + params.name +
+                var url = 'ws://' + host + '/namespaces/' + params.namespace + '/'+ params.type + params.name +
                           '?watch=true' +
                           '&resourceVersion='+ params.resourceVersion +
                           '&access_token=' + Cookie.get("df_access_token");
