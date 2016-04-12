@@ -40,6 +40,7 @@ define([
         host: 'https://54.222.143.70:8443/oapi/v1',
         host_k8s: 'https://54.222.143.70:8443/api/v1',
         host_wss: 'wss://54.222.143.70:8443/oapi/v1',
+        host_wss_k8s: 'wss://54.222.143.70:8443/api/v1',
         login_uri: 'http://localhost:9090/login',
         host_webhooks: 'https://54.222.143.70:8443'
     })
