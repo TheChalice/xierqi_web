@@ -41,6 +41,21 @@ define(['angular'], function (angular) {
                 }).result;
             };
         }])
+        .service('Toast', ['$uibModal', function ($uibModal) {
+            this.open = function (txt, timeout) {
+                return $uibModal.open({
+                    template: '<p>{{txt}}</p>',
+                    size: 'toast',
+                    controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+                        $scope.txt = txt;
+                        timeout = timeout || 1500;
+                        setTimeout(function(){
+                            $uibModalInstance.dismiss();
+                        }, timeout);
+                    }]
+                }).result;
+            }
+        }])
         .service('ModalPullImage', ['$rootScope', '$uibModal', 'clipboard', function ($rootScope, $uibModal, clipboard) {
             this.open = function (name) {
                 return $uibModal.open({
