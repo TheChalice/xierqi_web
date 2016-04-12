@@ -112,7 +112,7 @@ define([
                     }
                 })
                 .state('console.service_detail',{
-                    url: '/service/detail',
+                    url: '/service/:name',
                     templateUrl: 'views/service_detail/service_detail.html',
                     controller: 'ServiceDetailCtrl',
                     resolve: {
