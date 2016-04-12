@@ -2,7 +2,7 @@
 
     <div uib-dropdown auto-close="disabled">
         <input class="form-control" uib-dropdown-toggle value="{{dt | date: 'yyyy-MM-dd hh:mm:ss'}}" />
-        <span></span>
+        <span style="color: #c9c9c9;"> — </span>
         <input class="form-control" uib-dropdown-toggle value="{{dt | date: 'yyyy-MM-dd hh:mm:ss'}}" />
         <ul uib-dropdown-menu>
             <li>
@@ -16,10 +16,21 @@
 
         }
         .date-pick .form-control {
-            width: 130px;
+            width: 150px;
             display: inline-block;
             color: #c9c9c9;
             font-size: 12px;
+        }
+        .date-pick ul {
+            border: 1px solid #c9c9c9;
+            border-radius: 2px;
+            padding: 20px;
+        }
+        .date-pick .btn {
+            color: #666;
+        }
+        .date-pick .uib-left, .date-pick .uib-right {
+
         }
     </style>
 
