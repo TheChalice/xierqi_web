@@ -1,0 +1,63 @@
+<div class="service-config">
+    <h2>Pod</h2>
+    <div class="row">
+        <div class="col-md-10">
+            <div class="panel panel-default sub-panel" ng-repeat="container in item.spec.template.spec.containers">
+                <div class="panel-heading">
+                    {{container.name}}
+                </div>
+                <div class="panel-body">
+                    <h3>镜像信息</h3>
+                    <p>镜像名称:{{container.image}}</p>
+                    <p>镜像版本:{{}}</p>
+                    <hr>
+
+                    <h3>挂载secret卷</h3>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <input value="secret名称" type="text" class="form-control" disabled>
+                        </div>
+                        <div class="col-md-5">
+                            <input value="路径" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <hr>
+
+                    <h3>端口信息</h3>
+                    <div class="row">
+                        <div class="col-md-5" ng-repeat="port in container.ports">
+                            <span class="tag">{{port.protocol}}</span>
+                            <span class="tag">{{port.containerPort}}</span>
+                            <span class="tag">&nbsp;</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <h2>服务高可用</h2>
+    <div class="row">
+        <div class="col-md-2">
+            服务数量:&nbsp;{{dc.services.length}}
+        </div>
+        <div class="col-md-2">
+            重启策略:&nbsp;{{item.spec.template.spec.restartPolicy}}
+        </div>
+    </div>
+    <hr>
+
+    <h2 ng-if="dc.bsi.length">后端服务绑定</h2>
+    <div class="row" ng-if="dc.bsi.length">
+        <div class="col-md-2" ng-repeat="bsi in dc.bsi">
+            {{bsi}}
+        </div>
+    </div>
+    <hr ng-if="dc.bsi.length">
+
+    <h2>自动部署</h2>
+    <div>
+        <input type="checkbox">&nbsp;&nbsp;镜像变化触发自动部署
+    </div>
+</div>

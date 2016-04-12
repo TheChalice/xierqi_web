@@ -1,6 +1,9 @@
 body {
     padding-top: 70px;
 }
+hr {
+    border-top: 1px solid #c9c9c9;
+}
 /*按钮*/
 .btn {
     border-radius: 2px;
@@ -41,7 +44,7 @@ body {
 /*表格*/
 .table-default {
     overflow: hidden;
-    border: 1px solid #e5e5e5;
+    border: 1px solid #c9c9c9;
     border-top: none;
     border-radius: 2px;
     border-collapse: separate;
@@ -58,21 +61,26 @@ body {
     padding-left: 20px;
     background: #e6e9f2;
     color: #393f4f;
+    border-top: 1px solid #c9c9c9;
 }
 
 /*面板默认*/
 .panel-default {
     overflow: hidden;
-    border: 1px solid #e5e5e5;
+    border: 1px solid #c9c9c9;
     border-radius: 2px;
     color: #5a6378;
 }
 .panel-default .panel-heading {
     background: #e6e9f2;
     border-radius: 0;
+    border-bottom: none;
     line-height: 34px;
 }
-
+.panel-default.sub-panel .panel-heading {
+    line-height: 25px;
+    height: 45px;
+}
 .panel-default .panel-heading .panel-title {
     font-size: 16px;
     font-weight: bold;
@@ -323,6 +331,128 @@ body {
 .pagination>.active>span:hover{
     background-color:#f6a540;
     border-color:#f6a540;
+}
+
+
+/* timeline */
+.dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    background: #f6a540;
+}
+.timeline ul {
+    list-style: none;
+    border-left: 2px solid #c9c9c9;
+}
+.timeline ul > li {
+    position: relative;
+    left: -45px;
+    top: -10px;
+    margin: 0 -45px 50px 0;
+}
+.timeline ul > li > label {
+    color: #393f4f;
+}
+.timeline ul > li > div.container-fluid {
+    padding: 10px 15px;
+    border: 1px solid #c9c9c9;
+    border-radius: 2px;
+    margin-left: 30px;
+    color: #5a6378;
+    font-size: 12px;
+    line-height: 25px;
+}
+.timeline ul > li .well {
+    border: none;
+    border-radius: 2px;
+    margin: 15px 0 0 30px;
+    background: #000;
+}
+.timeline .well pre{
+    font-size: 12px;
+    background: none;
+    border: none;
+    color: #3e8f3e;
+    height:300px;
+    word-break: break-all;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+.icon25-collapse {
+    background-image: url(../img/images_200.png);
+}
+.icon25-collapse:hover {
+    background-image: url(../img/images_201.png);
+}
+.timeline .icon25 {
+    margin: 0 10px;
+}
+.icon25-delete {
+    background-image: url(../img/images_03.png);
+}
+.icon25-delete:hover {
+    background-image: url(../img/images_05.png);
+}
+
+.faa {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    background: url(../img/icon.png);
+}
+.faa-code {
+    background-position: -101px -173px;
+    width: 21px;
+    height: 25px;
+}
+.faa-cmd {
+    background-position: -16px -176px;
+    width: 26px;
+    height: 21px;
+}
+.faa-clock {
+    background-position: -57px -173px;
+    width: 26px;
+    height: 26px;
+}
+.faa-edit {
+    background-position: -46px -684px;
+    width: 18px;
+    height: 22px;
+}
+.faa-pod {
+    background-position: -246px -738px;
+    width: 25px;
+    height: 25px;
+}
+.faa-cogs {
+    background-position: -46px -737px;
+    width: 25px;
+    height: 25px;
+}
+.faa-cogs:hover {
+    background-position: -81px -737px;
+}
+.faa-edit:hover, .faa-edit.active, .active .faa-edit, .nav-link:hover .faa-edit {
+    background-position: -74px -684px;
+}
+.faa-target {
+    background-position: -106px -684px;
+    width: 22px;
+    height: 22px;
+}
+.faa-target:hover, .faa-target.active, .active .faa-target, .nav-link:hover .faa-target {
+    background-position: -132px -684px;
+}
+.faa-text {
+    background-position: -209px -172px;
+    width: 19px;
+    height: 22px;
+}
+.faa-text:hover, .faa-text.active, .active .faa-text, .nav-link:hover .faa-text {
+    background-position: -240px -172px;
 }
 
 @media (max-width: 758px) {
