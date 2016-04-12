@@ -15,8 +15,14 @@ define([
                     $log.info('webSocket is not available');
                     return;
                 }
+
+                var host = GLOBAL.host_wss;
+                if (params.api == 'k8s') {
+                    host = GLOBAL.host_wss_k8s;
+                }
+
                 params.name = params.name ? '/' + params.name : '';
-                var url = GLOBAL.host_wss + '/namespaces/' + params.namespace + '/'+ params.type + params.name +
+                var url = host + '/namespaces/' + params.namespace + '/'+ params.type + params.name +
                           '?watch=true' +
                           '&resourceVersion='+ params.resourceVersion +
                           '&access_token=' + Cookie.get("df_access_token");
@@ -85,6 +91,10 @@ define([
             });
             return ImageStream;
         }])
+        .factory('ImageStreamImage', ['$resource', 'GLOBAL', function($resource, GLOBAL){
+            var ImageStreamImage = $resource(GLOBAL.host + '/namespaces/:namespace/imagestreamimages/:name', {name: '@name', namespace: '@namespace'});
+            return ImageStreamImage;
+        }])
         .factory('ImageStreamTag', ['$resource', 'GLOBAL', function($resource, GLOBAL){
             var ImageStreamTag= $resource(GLOBAL.host + '/namespaces/:namespace/imagestreamtags/:name', {name: '@name', namespace: '@namespace'},{
                 create: {method: 'POST'}
@@ -93,14 +103,16 @@ define([
         }])
         .factory('DeploymentConfig', ['$resource', 'GLOBAL', function($resource, GLOBAL){
             var DeploymentConfig= $resource(GLOBAL.host + '/namespaces/:namespace/deploymentconfigs/:name', {name: '@name', namespace: '@namespace'},{
-                create: {method: 'POST'}
+                create: {method: 'POST'},
+                put: {method: 'PUT'}
             });
             DeploymentConfig.log = $resource(GLOBAL.host + '/namespaces/:namespace/deploymentconfigs/:name/log');
             return DeploymentConfig;
         }])
         .factory('ReplicationController', ['$resource', 'GLOBAL', function($resource, GLOBAL){
             var ReplicationController= $resource(GLOBAL.host_k8s + '/namespaces/:namespace/replicationcontrollers/:name', {name: '@name', namespace: '@namespace'},{
-                create: {method: 'POST'}
+                create: {method: 'POST'},
+                put: {method: 'PUT'}
             });
             return ReplicationController;
         }])
@@ -121,5 +133,18 @@ define([
                 create: {method: 'POST'}
             });
             return BackingServiceInstance;
+        }])
+        .factory('Pod', ['$resource', 'GLOBAL', function($resource, GLOBAL){
+            var Pod= $resource(GLOBAL.host_k8s + '/namespaces/:namespace/pods/:name', {name: '@name', namespace: '@namespace'},{
+                create: {method: 'POST'}
+            });
+            Pod.log = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/pods/:name/log', {name: '@name', namespace: '@namespace'});
+            return Pod;
+        }])
+        .factory('Event', ['$resource', 'GLOBAL', function($resource, GLOBAL){
+            var Event= $resource(GLOBAL.host_k8s + '/namespaces/:namespace/events/:name', {name: '@name', namespace: '@namespace'},{
+                create: {method: 'POST'}
+            });
+            return Event;
         }]);
 });

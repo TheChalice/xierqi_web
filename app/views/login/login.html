@@ -2,6 +2,8 @@
     <div class="text-center">
         <h1>Data Foundry</h1>
     </div>
+
+    <date-pick></date-pick>
     <form name="frm" class="form-horizontal" role="form" ng-submit="login()">
         <div class="form-group" ng-class="{'has-error': frm.username.$dirty && frm.username.$invalid}">
             <input name="username" class="form-control" placeholder="邮箱/手机号/用户名" ng-model="credentials.username" required>
