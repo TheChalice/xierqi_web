@@ -168,8 +168,8 @@ angular.module("console.timeline", [])
                         }
                         o.buildLog = result;
                     }, function(res){
-                        //todo 错误处理
-                        $log.info("err", res);
+                        console.log("res", res);
+                        o.buildLog = res.data.message;
                     });
                 };
 
