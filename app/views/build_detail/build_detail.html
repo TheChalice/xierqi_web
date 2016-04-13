@@ -66,9 +66,9 @@
                     <!--<label class="col-sm-2 text-left" id="autobuild">自动构建触发条件</label>-->
                     <label class="col-sm-3 text-left">是否自动构建</label>
                     <div class="col-sm-2">
-                        <c-checkbox checked="checkedfirst"></c-checkbox>
+                        <c-checkbox checked="grid.checked"></c-checkbox>
                     </div>
-                    <div class="col-sm-7" ng-if="checkedfirst" style="overflow: hidden;word-wrap: break-word;word-break: break-all;">
+                    <div class="col-sm-7" ng-if="grid.checkedLocal" style="overflow: hidden;word-wrap: break-word;word-break: break-all;">
                         <small><strong>Payload URL : </strong></small>
                         <small>{{data | webhooks}}</small><br>
                         <small><strong>Secret : </strong></small>

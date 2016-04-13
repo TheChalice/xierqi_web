@@ -1,10 +1,6 @@
 'use strict';
 
-angular.module("console.timeline", [
-    {
-        files: ['components/timeline/timeline.css']
-    }
-])
+angular.module("console.timeline", [])
 
     .directive('cTimeline', [function () {
         return {
