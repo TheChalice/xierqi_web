@@ -208,6 +208,24 @@ body {
     padding: 50px;
 }
 
+.tab-cube {
+    border: 1px solid #5a6378;
+    padding: 10px 100px;
+    border-radius: 2px;
+
+}
+.tab-cube:active {
+    border: 1px solid #55c45f;
+    font-color: #55c45f;
+}
+.tab-cube:hover {
+    border: 1px solid #55c45f;
+    font-color: #55c45f;
+}
+.tab-sm {
+    border: 1px solid #5a6378;
+    border-radius: 2px;
+}
 /*a标签默认样式*/
 .href-orange {
     color: #f6a540;
@@ -323,6 +341,16 @@ body {
 .pagination>.active>span:hover{
     background-color:#f6a540;
     border-color:#f6a540;
+}
+/*service_create advantage_config.html tabandimage*/
+.tabandimage {
+    border:1px solid #c9c9c9;
+    font-size: 12px;
+    width: 310px;
+    height: 60px;
+}
+.tabandimage:active{
+    border: 1px solid #f6a540;
 }
 
 @media (max-width: 758px) {

@@ -1,0 +1,110 @@
+<div class="config">
+    <div class="panel panel-default" style="margin-top: 30px; margin-bottom: 20px">
+        <div class="panel-heading">
+            <span class="panel-title">高级配置</span>
+        </div>
+        <div class="panel-body">
+            <div class="form-group" style="overflow:hidden;">
+                <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size:14px; text-align: left; margin-top: 30px">服务高可用</label>
+                <div class="col-sm-10" style=" margin-bottom: 30px; margin-left: -10px">
+                    <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">POD数量</label>
+                    <input name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control">
+                    <hr>
+                    <label style="font-size: 12px; font-weight: normal; float: left; margin-top: 20px; margin-right: 30px">自动伸缩</label>
+                    <c-checkbox checked="checkedfirst" style="margin-top: 15px"></c-checkbox>
+                    <br>
+                    <div ng-if="checkedfirst">
+                        <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">资源阈值</label>
+                        <span style="font-size: 12px">POD最小数量  <input name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control"></span>
+                        <span style="font-size: 12px">POD最大数量  <input name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control"></span>
+                        <span style="font-size: 12px">CPU平均利用率 <input name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control"></span>
+                        <hr>
+                    </div>
+
+                    <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">重启策略</label>
+                    <input name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control">
+                </div>
+            </div>
+            <hr>
+            <div class="form-group" style="overflow:hidden;">
+                <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size:14px; text-align: left;">路由设置</label>
+                <c-checkbox checked="checkedfirst"></c-checkbox>
+                <br>
+                <div class="col-sm-10" ng-if="checkedfirst" style="overflow: hidden; margin-left: 120px">
+                    <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size:12px;  text-align: left;">服务端口</label>
+                    <input name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control">
+                    <span>域名<input type="text">lab.asiainfodata.com</span>
+                    <hr>
+                </div>
+            </div>
+            <div class="form-group" style="overflow:hidden;">
+                <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size:14px; text-align: left;">后端服务绑定</label>
+                <a href="" style="text-decoration: none"><i class=" fa fa-green fa-plus-circle"></i >创建</a>
+                <div class="panel panel-default" style="margin-top: 20px; margin-left: 145px; margin-right: 20px">
+                    <div class="panel-heading">
+                        <span class="panel-title-o" style="font-size: 12px; margin-left: 5px">后端服务设置</span>
+                        <i class="fa fa-times-circle pull-right" style="margin-top: 10px"></i>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group" style="overflow:hidden">
+                            <div class="tabandimage col-md-6">
+                                <img style="float: left; margin-left: -15px" src="views/service_create/img/images_60.png" >
+                                <p style="float: left; margin-left: 10px; margin-top: 10px">后端服务实例</p><br>
+                                <p style="margin-top: 15px; margin-left: -72px; float: left">后端服务名</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group" style="overflow:hidden">
+                <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size: 14px; text-align: left">环境变量设置</label>
+                <a href="" style="text-decoration: none"><i class=" fa fa-green fa-plus-circle"></i >创建环境变量</a>
+                <div class="panel panel-default" style="margin-top: 20px; margin-left: 145px; margin-right: 20px">
+                    <div class="panel-heading">
+                        <span class="panel-title-o" style="font-size: 12px; margin-left: 5px">环境变量设置</span>
+                        <i class="fa fa-times-circle pull-right" style="margin-top: 10px"></i>
+                    </div>
+                    <div class="panel-body">
+                        <div class="form-group" style="overflow:hidden">
+                            <label>健</label>
+                            <input type="text">
+                            <label>值</label>
+                            <input type="text">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group" style="overflow:hidden">
+                <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size: 14px; text-align: left">自动部署</label>
+                <input type="checkbox">
+                <labe>镜像变化触发自动部署</labe>
+            </div>
+            <hr>
+            <div class="form-group" style="overflow:hidden">
+                <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size: 14px; text-align: left">性能监控</label>
+                <c-checkbox checked="checkedfirst" style="float: left"></c-checkbox>
+                <div class="col-sm-7" ng-if="checkedfirst" style="overflow: hidden;word-wrap: break-word;word-break: break-all;">
+                    <a class="btn btn-orange col-md-3">性能监测配置</a>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group" style="overflow:hidden">
+                <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size: 14px; text-align: left">警告服务</label>
+                <c-checkbox checked="checkedfirst" style="float: left"></c-checkbox>
+                <div class="col-sm-7" ng-if="checkedfirst" style="overflow: hidden;word-wrap: break-word;word-break: break-all;">
+                    <a class="btn btn-orange col-md-3">告警服务配置</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="margin-top: 25px">
+        <input type="checkbox">
+        <label style="">自动运行</label>
+    </div>
+    <div style="margin-top: 15px;">
+        <a class="btn btn-orange col-md-5">返回基础配置</a>
+        <a class="btn btn-orange col-md-5" href="" style="margin-left: 80px; margin-right: 0px">创建服务</a>
+    </div>
+</div>

@@ -61,7 +61,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 
 }
 
-var url = "https://54.222.199.235:8443/oauth/authorize?client_id=openshift-challenging-client&response_type=token"
+var url = "https://54.222.143.70:8443/oauth/authorize?client_id=openshift-challenging-client&response_type=token"
 
 func token_proxy(auth string) (token string) {
 	//fmt.Println("prepear to get token from", url, "with", auth)

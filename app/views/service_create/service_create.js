@@ -2,7 +2,8 @@
 angular.module('console.service.create', [
         {
             files: [
-                'components/searchbar/searchbar.js'
+                'components/searchbar/searchbar.js',
+                'components/checkbox/checkbox.js',
             ]
         }
     ])
