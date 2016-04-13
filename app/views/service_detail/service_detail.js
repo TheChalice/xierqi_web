@@ -1,11 +1,14 @@
 'use strict';
 angular.module('console.service.detail', [
     {
-        files: ['views/service_detail/service_detail.css']
+        files: [
+            'views/service_detail/service_detail.css',
+            'components/datepick/datepick.js'
+        ]
     }
 ])
-    .controller('ServiceDetailCtrl', ['$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Service', 'Route', 'BackingServiceInstance', 'Sort', 'Confirm',
-        function($rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Service, Route, BackingServiceInstance, Sort, Confirm) {
+    .controller('ServiceDetailCtrl', ['$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamImage', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal',
+        function($rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamImage, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal) {
         //获取服务列表
         var loadDc = function (name) {
             DeploymentConfig.get({namespace: $rootScope.namespace, name: name}, function(res){
@@ -13,7 +16,7 @@ angular.module('console.service.detail', [
                 $scope.dc = res;
 
                 loadRcs(res.metadata.name);
-                loadServices();
+                loadRoutes();
                 loadBsi();
 
             }, function(res){
@@ -30,27 +33,24 @@ angular.module('console.service.detail', [
 
                 res.items = Sort.sort(res.items, -1);
 
-                $scope.rcs = res;
-            }, function(res){
-                //todo 错误处理
-            });
-        };
-
-        var loadServices = function () {
-            Service.get({namespace: $rootScope.namespace}, function(res){
-                $log.info("services", res);
-                $scope.dc.services = [];
                 for (var i = 0; i < res.items.length; i++) {
-                    if (res.items[i].spec.selector.deploymentconfig == $scope.dc.metadata.name) {
-                        $scope.dc.services.push(res.items[i]);
+                    res.items[i].dc = JSON.parse(res.items[i].metadata.annotations['openshift.io/encoded-deployment-config']);
+                    if (res.items[i].metadata.name == $scope.dc.metadata.name + '-' + $scope.dc.status.latestVersion) {
+                        $scope.dc.status.replicas = res.items[i].status.replicas;
+                        $scope.dc.status.phase = res.items[i].metadata.annotations['openshift.io/deployment.phase'];
+                    }
+                    if (res.items[i].metadata.annotations['openshift.io/deployment.cancelled'] == 'true') {
+                        res.items[i].metadata.annotations['openshift.io/deployment.phase'] = 'Cancelled';
                     }
                 }
 
-                loadRoutes();
+                $scope.resourceVersion = res.metadata.resourceVersion;
 
+                $scope.rcs = res;
+
+                watchRcs(res.metadata.resourceVersion);
             }, function(res){
                 //todo 错误处理
-                $log.info("loadServices err", res);
             });
         };
 
@@ -58,16 +58,12 @@ angular.module('console.service.detail', [
             Route.get({namespace: $rootScope.namespace}, function(res){
                 $log.info("routes", res);
 
-                var services = $scope.dc.services;
-
-                for (var j = 0; j < services.length; j++) {
-                    for (var i = 0; i < res.items.length; i++) {
-                        if (res.items[i].spec.to.kind != 'Service') {
-                            continue;
-                        }
-                        if (res.items[i].spec.to.name == services[i].metadata.name) {
-                            $scope.dc.services[i].route = res.items[j];
-                        }
+                for (var i = 0; i < res.items.length; i++) {
+                    if (res.items[i].spec.to.kind != 'Service') {
+                        continue;
+                    }
+                    if (res.items[i].spec.to.name == $scope.dc.metadata.name) {
+                        $scope.dc.route = res.items[i];
                     }
                 }
             }, function(res){
@@ -83,7 +79,7 @@ angular.module('console.service.detail', [
                 $scope.dc.bsi = [];
 
                 for (var i = 0; i < res.items.length; i++) {
-                    for (var j = 0; j < res.items[i].spec.binding.length; i++) {
+                    for (var j = 0; j < res.items[i].spec.binding.length; j++) {
                         if (res.items[i].spec.binding[j].bind_deploymentconfig == $scope.dc.metadata.name) {
                             $scope.dc.bsi.push(res.items[i].metadata.name);
                         }
@@ -96,20 +92,156 @@ angular.module('console.service.detail', [
             });
         };
 
-        $scope.delete = function(){
-            Confirm.open("删除服务", "您确定要删除服务吗?", "删除服务将清除构建的所有历史数据该操作不能被恢复", 'recycle').then(function() {
-                DeploymentConfig.remove({
-                    namespace: $rootScope.namespace,
-                    name: $scope.dc.metadata.name
-                }, function () {
-                    $log.info("remove deploymentConfig success");
+        var watchRcs = function(resourceVersion) {
+            Ws.watch({
+                api: 'k8s',
+                resourceVersion: resourceVersion,
+                namespace: $rootScope.namespace,
+                type: 'replicationcontrollers',
+                name: ''
+            }, function(res){
+                var data = JSON.parse(res.data);
+                $scope.resourceVersion = data.object.metadata.resourceVersion;
+                updateRcs(data);
+            }, function(){
+                $log.info("webSocket start");
+            }, function(){
+                $log.info("webSocket stop");
+                var key = Ws.key($rootScope.namespace, 'replicationcontrollers', '');
+                if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
+                    return;
+                }
+                watchRcs($scope.resourceVersion);
+            });
+        };
 
-                    $state.go("console.service");
+        var updateRcs = function(data){
+            $scope.dc.status.phase = data.object.metadata.annotations['openshift.io/deployment.phase'];
 
-                }, function (res) {
-                    $log.info("remove deploymentConfig fail", res);
-                    //todo 错误处理
+            data.object.dc = JSON.parse(data.object.metadata.annotations['openshift.io/encoded-deployment-config']);
+            if (data.object.metadata.name == $scope.dc.metadata.name + '-' + $scope.dc.status.latestVersion) {
+                $scope.dc.status.replicas = data.object.status.replicas;
+            }
+            if (data.object.metadata.annotations['openshift.io/deployment.cancelled'] == 'true') {
+                data.object.metadata.annotations['openshift.io/deployment.phase'] = 'Cancelled';
+            }
+
+            DeploymentConfig.log.get({namespace: $rootScope.namespace, name: $scope.dc.metadata.name}, function(res){
+                var result = "";
+                for(var k in res){
+                    result += res[k];
+                }
+                data.object.log = result;
+            }, function(res){
+                //todo 错误处理
+                data.object.log = res.data.message;
+            });
+
+            if (data.type == 'ADDED') {
+                data.object.showLog = true;
+                if ($scope.rcs.items.length > 0) {
+                    $scope.rcs.items.unshift(data.object);
+                } else {
+                    $scope.rcs.items = [data.object];
+                }
+            } else if (data.type == "MODIFIED") {
+                angular.forEach($scope.rcs.items, function(item, i){
+                    if (item.metadata.name == data.object.metadata.name) {
+                        data.object.showLog = item.showLog;
+                        $scope.rcs.items[i] = data.object;
+                    }
                 });
+            }
+        };
+
+        $scope.startDc = function(){
+            $scope.dc.status.latestVersion++;
+            DeploymentConfig.put({namespace: $rootScope.namespace, name: $scope.dc.metadata.name}, $scope.dc, function(res){
+                $log.info("start dc success", res);
+                res.bsi = $scope.dc.bsi;
+                res.status.replicas = $scope.dc.status.replicas;
+                res.route = $scope.dc.route;
+                $scope.dc = res;
+            }, function(res){
+                //todo 错误处理
+                $log.info("start dc err", res);
+            });
+        };
+
+        $scope.stopDc = function(){
+            $scope.stopRc(0);
+        };
+
+        $scope.startRc = function(idx){
+            var o = $scope.rcs.items[idx];
+            if (!o.dc) {
+                return;
+            }
+            o.dc.metadata.resourceVersion = $scope.dc.metadata.resourceVersion;
+            o.dc.status.latestVersion = $scope.dc.status.latestVersion + 1;
+            DeploymentConfig.put({namespace: $rootScope.namespace, name: o.dc.metadata.name}, o.dc, function(res){
+                $log.info("start rc success", res);
+
+            }, function(res){
+                //todo 错误处理
+                $log.info("start rc err", res);
+            });
+        };
+
+        $scope.stopRc = function(idx){
+            var o = $scope.rcs.items[idx];
+            Confirm.open("终止部署", "您确定要终止本次部署吗?", "", 'stop').then(function() {
+                o.metadata.annotations['openshift.io/deployment.cancelled'] = 'true';
+                ReplicationController.put({namespace: $rootScope.namespace, name: o.metadata.name}, o, function(res){
+                    $log.info("stop rc success", res);
+
+                    Toast.open('本部署已经终止');
+
+                }, function(res){
+                    //todo 错误处理
+                    $log.info("stop rc err", res);
+                });
+            });
+        };
+
+        var rmRcs = function (dc) {
+            if (!dc) {
+                return;
+            }
+            var labelSelector = 'openshift.io/deployment-config.name=' + dc;
+            ReplicationController.remove({namespace: $rootScope.namespace, labelSelector: labelSelector}, function(res){
+                $log.info("remove rcs success", res);
+                rmDc(dc)
+            }, function(res){
+                $log.info("remove rcs err", res);
+            });
+        };
+
+        var rmDc = function (dc) {
+            if (!dc) {
+                return;
+            }
+            DeploymentConfig.remove({
+                namespace: $rootScope.namespace,
+                name: dc
+            }, function () {
+                $log.info("remove deploymentConfig success");
+
+                $state.go("console.service");
+
+            }, function (res) {
+                $log.info("remove deploymentConfig fail", res);
+                //todo 错误处理
+            });
+        };
+
+        $scope.delete = function(){
+            Confirm.open("删除服务", "您确定要删除服务吗?", "删除服务将解绑持久化卷和外部服务,此操作不能被撤销", 'recycle').then(function() {
+                if ($scope.rcs.items.length > 0) {
+                    rmRcs($scope.dc.metadata.name);
+                } else {
+                    rmDc($scope.dc.metadata.name)
+                }
             });
         };
 
@@ -130,7 +262,7 @@ angular.module('console.service.detail', [
                 o.log = result;
             }, function(res){
                 //todo 错误处理
-                $log.info("err", res);
+                o.log = res.data.message;
             });
         };
 
@@ -142,13 +274,111 @@ angular.module('console.service.detail', [
             //todo 获取更多的配置
         };
 
+        var loadPods = function (dc) {
+            var labelSelector = '';//'deploymentconfig=' + dc;
+            Pod.get({namespace: $scope.namespace, labelSelector: labelSelector}, function(res){
+                $log.info("pods", res);
+                $scope.pods = res;
+
+                loadEvents(res.items);
+
+            }, function(res){
+                //todo 错误处理
+                $log.info("loadPods err", res);
+            });
+        };
+        loadPods('test');
+
+        var loadEvents = function (pods) {
+            var podNames = [];
+            for (var i = 0; i < pods.length; i++) {
+                podNames.push(pods[i].metadata.name);
+            }
+            Event.get({namespace: $rootScope.namespace}, function(res){
+                $log.info("events", res);
+
+                var events = [];
+                for (var i = 0; i < res.items.length; i++) {
+                    if (podNames.indexOf(res.items[i].involvedObject.name) != -1) {
+                        events.push(res.items[i]);
+                    }
+                }
+                res.items = Sort.sort(events, -1);
+                $scope.events = res;
+            }, function(res){
+                //todo 错误处理
+                $log.info("loadEvents err", res)
+            });
+        };
+
+        $scope.logModal = function (idx) {
+            var o = $scope.pods.items[idx];
+            LogModal.open(o.metadata.name);
+        };
+
+        $scope.containerModal = function (idx) {
+            var o = $scope.pods.items[idx];
+            ContainerModal.open(o);
+        };
+    }])
+    .service('LogModal', ['$uibModal', function ($uibModal) {
+        this.open = function (pod) {
+            return $uibModal.open({
+                templateUrl: 'views/service_detail/logModal.html',
+                size: 'default modal-lg',
+                controller: ['$rootScope', '$scope', '$uibModalInstance', 'Pod', function ($rootScope, $scope, $uibModalInstance, Pod) {
+                    $scope.pod = pod;
+                    $scope.ok = function () {
+                        $uibModalInstance.close(true);
+                    };
+                    $scope.cancel = function () {
+                        $uibModalInstance.dismiss();
+                    };
+
+                    $scope.getLog = function (pod) {
+                        var params = {
+                            namespace: $rootScope.namespace,
+                            name: pod
+                            //sinceTime: ''
+                        };
+                        Pod.log.get(params, function(res){
+                            var result = "";
+                            for(var k in res){
+                                result += res[k];
+                            }
+                            $scope.log = result;
+                        }, function(res){
+                            $scope.log = res.data.message;
+                        });
+                    };
+                    $scope.getLog(pod);
+                }]
+            }).result;
+        };
+    }])
+    .service('ContainerModal', ['$uibModal', function ($uibModal) {
+        this.open = function (pod) {
+            return $uibModal.open({
+                templateUrl: 'views/service_detail/containerModal.html',
+                size: 'default modal-lg',
+                controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+                    $scope.pod = pod;
+                    $scope.ok = function () {
+                        $uibModalInstance.close(true);
+                    };
+                    $scope.cancel = function () {
+                        $uibModalInstance.dismiss();
+                    };
+                }]
+            }).result;
+        };
     }])
     .filter('rcStatusFilter', [function() {
         return function(phase) {
-            if (phase == "Complete") {
-                return "部署成功"
-            } else if (phase == "Running") {
+            if (phase == "New" || phase == "Pending" || phase == "Running") {
                 return "正在部署"
+            } else if (phase == "Complete") {
+                return "部署成功"
             } else if (phase == "Failed") {
                 return "部署失败"
             } else if (phase == "Error") {

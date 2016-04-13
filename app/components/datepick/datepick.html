@@ -1,0 +1,26 @@
+<div class="date-pick">
+
+    <div uib-dropdown auto-close="disabled">
+        <input class="form-control" uib-dropdown-toggle value="{{dt | date: 'yyyy-MM-dd hh:mm:ss'}}" />
+        <span></span>
+        <input class="form-control" uib-dropdown-toggle value="{{dt | date: 'yyyy-MM-dd hh:mm:ss'}}" />
+        <ul uib-dropdown-menu>
+            <li>
+                <uib-datepicker ng-model="dt"></uib-datepicker>
+            </li>
+        </ul>
+    </div>
+
+    <style>
+        .date-pick {
+
+        }
+        .date-pick .form-control {
+            width: 130px;
+            display: inline-block;
+            color: #c9c9c9;
+            font-size: 12px;
+        }
+    </style>
+
+</div>
