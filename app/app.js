@@ -37,12 +37,12 @@ define([
 
     myApp.constant('GLOBAL', {
         size: 10,
-        host: 'https://54.222.143.70:8443/oapi/v1',
-        host_k8s: 'https://54.222.143.70:8443/api/v1',
-        host_wss: 'wss://54.222.143.70:8443/oapi/v1',
-        host_wss_k8s: 'wss://54.222.143.70:8443/api/v1',
+        host: 'https://54.222.158.233:8443/oapi/v1',
+        host_k8s: 'https://54.222.158.233:8443/api/v1',
+        host_wss: 'wss://54.222.158.233:8443/oapi/v1',
+        host_wss_k8s: 'wss://54.222.158.233:8443/api/v1',
         login_uri: 'http://localhost:9090/login',
-        host_webhooks: 'https://54.222.143.70:8443'
+        host_webhooks: 'https://54.222.158.233:8443'
     })
     .constant('AUTH_EVENTS', {
         loginNeeded: 'auth-login-needed',
@@ -50,7 +50,7 @@ define([
         httpForbidden: 'auth-http-forbidden'
     })
     .constant('AUTH_CFG', {
-        oauth_authorize_uri: "https://54.222.143.70:8443/oauth/authorize",
+        oauth_authorize_uri: "https://54.222.158.233:8443/oauth/authorize",
         oauth_redirect_base: "http://localhost:9000",
         oauth_client_id: "openshift-web-console",
         logout_uri: ""
