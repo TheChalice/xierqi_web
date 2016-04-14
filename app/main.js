@@ -32,7 +32,9 @@ require.config({
         ocLazyLoad: '../bower_components/oclazyload/dist/ocLazyLoad.min',
         angularBase64: '../bower_components/angular-base64/angular-base64.min',
         angularMd: '../bower_components/angular-marked/dist/angular-marked.min',
-        angularClipboard: '../bower_components/angular-clipboard/angular-clipboard'
+        angularClipboard: '../bower_components/angular-clipboard/angular-clipboard',
+        kubernetesUI: 'pub/terminal',
+        term: '../bower_components/term.js/src/term'
     },
     shim: {
         'angular': {
@@ -72,6 +74,9 @@ require.config({
         },
         'angularClipboard': {
             deps: ['angular']
+        },
+        'kubernetesUI': {
+            deps: ['angular', 'term']
         }
     },
     priority: [

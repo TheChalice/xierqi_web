@@ -1,3 +1,6 @@
+:focus, :active, .active {
+    outline: none!important;
+}
 body {
     padding-top: 70px;
 }
@@ -55,6 +58,11 @@ hr {
     padding-left: 20px;
     padding-top: 20px;
     padding-bottom: 20px;
+    color: #5a6378;
+}
+.table-default.sub-table > tbody > tr > th,
+.table-default.sub-table > tbody > tr > td {
+    padding: 12px 20px;
     color: #5a6378;
 }
 .table-default > tbody > tr > th {
@@ -317,6 +325,26 @@ hr {
     color: #5a6378;
 }
 
+/*toast*/
+.modal-toast {
+    overflow: hidden;
+    position: fixed;
+    width: 300px;
+    height: 100px;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -150px;
+}
+.modal-toast .modal-content {
+    height: 100%;
+    border-radius: 2px;
+    border: 1px solid #e6e9f2;
+    text-align: center;
+    font-size: 16px;
+    line-height: 100px;
+}
+
 /*媒体对象小*/
 .media-sm .media-left img {
     width: 27px;
@@ -392,13 +420,13 @@ hr {
     font-size: 12px;
     line-height: 25px;
 }
-.timeline ul > li .well {
+.well.well-log {
     border: none;
     border-radius: 2px;
     margin: 15px 0 0 30px;
     background: #000;
 }
-.timeline .well pre{
+.well.well-log pre{
     font-size: 12px;
     background: none;
     border: none;
@@ -465,6 +493,14 @@ hr {
 }
 .faa-edit:hover, .faa-edit.active, .active .faa-edit, .nav-link:hover .faa-edit {
     background-position: -74px -684px;
+}
+.faa-back {
+    background-position: -16px -317px;
+    width: 25px;
+    height: 25px;
+}
+.faa-back:hover {
+    background-position: -50px -317px;
 }
 .faa-target {
     background-position: -106px -684px;

@@ -50,6 +50,45 @@ define(['angular', 'moment'], function (angular, moment) {
                 return humanizedDuration.join("");
             };
         }])
+        .filter('duration2', [function() {
+            return function(um) {
+                if (!um) {
+                    return "-";
+                }
+                um = (new Date()).getTime() - (new Date(um)).getTime();
+                var duration = moment.duration(um / 1000);
+                var humanizedDuration = [];
+                var years = duration.years();
+                var months = duration.months();
+                var days = duration.days();
+                var hours = duration.hours();
+                var minutes = duration.minutes();
+                var seconds = duration.seconds();
+
+                function add(count, pluralText) {
+                    if (count > 0) {
+                        humanizedDuration.push(count + pluralText);
+                    }
+                }
+
+                add(years, "年");
+                add(months, "月");
+                add(days, "日");
+                add(hours, "时");
+                add(minutes, "分");
+                add(seconds, "秒");
+
+                if (humanizedDuration.length === 0) {
+                    humanizedDuration.push("0秒");
+                }
+
+                if (humanizedDuration.length > 2) {
+                    humanizedDuration.length = 2;
+                }
+
+                return humanizedDuration.join("");
+            };
+        }])
         .filter('phaseFilter', [function() {
             return function(phase) {
                 if (phase == "Complete") {
@@ -90,5 +129,45 @@ define(['angular', 'moment'], function (angular, moment) {
                 }
                 return "";
             }
-        }]);
+        }])
+        .filter('imageStreamName', function() {
+            return function(image) {
+                if (!image) {
+                    return "";
+                }
+                // TODO move this parsing method into a utility method
+
+                // remove @sha256:....
+                var imageWithoutID = image.split("@")[0];
+
+                var slashSplit = imageWithoutID.split("/");
+                var semiColonSplit;
+                if (slashSplit.length === 3) {
+                    semiColonSplit = slashSplit[2].split(":");
+                    return slashSplit[1] + '/' + semiColonSplit[0];
+                }
+                else if (slashSplit.length === 2) {
+                    // TODO umm tough... this could be registry/imageName or imageRepo/imageName
+                    // have to check if the first bit matches a registry pattern, will handle this later...
+                    return imageWithoutID;
+                }
+                else if (slashSplit.length === 1) {
+                    semiColonSplit = imageWithoutID.split(":");
+                    return semiColonSplit[0];
+                }
+            };
+        })
+        .filter("stripSHAPrefix", function() {
+            return function(id) {
+                if (!id) {
+                    return id;
+                }
+
+                if (!/sha256:/.test(id)) {
+                    return ""
+                }
+
+                return id.replace(/.*sha256:/, "");
+            };
+        });
 });

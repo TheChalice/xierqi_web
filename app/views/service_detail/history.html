@@ -13,17 +13,14 @@
                         <!--switch to Chinese-->
                         {{item.metadata.annotations['openshift.io/deployment.phase'] | rcStatusFilter}}
                     </div>
-                    <div class="col-sm-1">
+                    <div class="col-sm-3">
                         #{{item.metadata.annotations['openshift.io/deployment-config.latest-version']}}
                     </div>
-                    <div class="col-sm-3">
-                        部署时长:
-                    </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-4">
                         触发类型:
-                        <span ng-if="!item.causes.length">未知</span>
-                        <span ng-if="item.causes.length">
-                            <span ng-repeat="cause in deployment.causes">
+                        <span ng-if="!item.dc.status.details.causes.length">未知</span>
+                        <span ng-if="item.dc.status.details.causes.length">
+                            <span ng-repeat="cause in item.dc.status.details.causes">
                               <span ng-switch="cause.type">
                                 <span ng-switch-when="ImageChange">镜像变化</span>
                                 <span ng-switch-when="ConfigChange">配置变化</span>
@@ -35,13 +32,13 @@
                     <div class="col-sm-3 text-right">
                         <a class="icon25 icon25-collapse" ng-click="getLog($index)" uib-tooltip="查看" href="javascript:;"></a>
                         <a class="faa faa-cogs" ng-click="getConfig($index)" uib-tooltip="配置" href="javascript:;"></a>
-                        <a class="icon25 icon25-start" uib-tooltip="重新部署" href="javascript:;"></a>
-                        <!--<a class="icon25 icon25-stop" uib-tooltip="停止" href="javascript:;"></a>-->
+                        <a class="icon25 icon25-start" ng-click="startRc($index)" ng-if="item.metadata.annotations['openshift.io/deployment.phase'] != 'Running'" uib-tooltip="重新部署" href="javascript:;"></a>
+                        <a class="icon25 icon25-stop" ng-click="stopRc($index)" ng-if="item.metadata.annotations['openshift.io/deployment.phase'] == 'Running'" uib-tooltip="停止" href="javascript:;"></a>
                     </div>
                 </div>
             </div>
             <div uib-collapse="!item.showLog">
-                <div class="well">
+                <div class="well well-log">
                     <pre>{{item.log}}</pre>
                 </div>
             </div>
