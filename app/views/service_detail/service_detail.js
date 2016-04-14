@@ -361,7 +361,7 @@ angular.module('console.service.detail', [
             return $uibModal.open({
                 templateUrl: 'views/service_detail/containerModal.html',
                 size: 'default modal-lg',
-                controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+                controller: ['$rootScope', '$scope', '$uibModalInstance', 'Pod', function ($rootScope, $scope, $uibModalInstance, Pod) {
                     $scope.pod = pod;
                     $scope.grid = {
                         show: false
@@ -377,10 +377,28 @@ angular.module('console.service.detail', [
                         var o = pod.spec.containers[idx];
                         $scope.grid.show = true;
                         $scope.container = o;
+                        $scope.getLog(o.name);
                     };
 
                     $scope.back = function(){
                         $scope.grid.show = false;
+                    };
+
+                    $scope.getLog = function (container) {
+                        var params = {
+                            namespace: $rootScope.namespace,
+                            name: pod.metadata.name,
+                            container: container
+                        };
+                        Pod.log.get(params, function(res){
+                            var result = "";
+                            for(var k in res){
+                                result += res[k];
+                            }
+                            $scope.log = result;
+                        }, function(res){
+                            $scope.log = res.data.message;
+                        });
                     };
                 }]
             }).result;
