@@ -15,8 +15,11 @@ define([
                     $log.info('webSocket is not available');
                     return;
                 }
+
+                var host = location.host + '/ws/oapi/v1';
+
                 params.name = params.name ? '/' + params.name : '';
-                var url = GLOBAL.host_wss + '/namespaces/' + params.namespace + '/'+ params.type + params.name +
+                var url = 'ws://' + host + '/namespaces/' + params.namespace + '/'+ params.type + params.name +
                           '?watch=true' +
                           '&resourceVersion='+ params.resourceVersion +
                           '&access_token=' + Cookie.get("df_access_token");
