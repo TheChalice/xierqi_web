@@ -16,7 +16,8 @@ define([
     'pub/ws',
     'components/version/version',
     'angularMd',
-    'angularClipboard'
+    'angularClipboard',
+    'kubernetesUI'
 ], function (angular) {
 
     // 声明应用及其依赖

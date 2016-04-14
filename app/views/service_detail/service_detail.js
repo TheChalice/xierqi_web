@@ -1,5 +1,6 @@
 'use strict';
 angular.module('console.service.detail', [
+    'kubernetesUI',
     {
         files: [
             'views/service_detail/service_detail.css',
@@ -361,14 +362,78 @@ angular.module('console.service.detail', [
             return $uibModal.open({
                 templateUrl: 'views/service_detail/containerModal.html',
                 size: 'default modal-lg',
-                controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+                controller: ['$rootScope', '$scope', '$log', '$uibModalInstance', 'Pod', 'Ws', function ($rootScope, $scope, $log, $uibModalInstance, Pod, Ws) {
                     $scope.pod = pod;
+                    $scope.grid = {
+                        show: false
+                    };
                     $scope.ok = function () {
                         $uibModalInstance.close(true);
                     };
                     $scope.cancel = function () {
                         $uibModalInstance.dismiss();
                     };
+
+                    $scope.containerDetail = function(idx){
+                        var o = pod.spec.containers[idx];
+                        $scope.grid.show = true;
+                        $scope.container = o;
+                        $scope.getLog(o.name);
+                        //terminal(o.name);
+                    };
+
+                    $scope.back = function(){
+                        $scope.grid.show = false;
+                    };
+
+                    $scope.getLog = function (container) {
+                        var params = {
+                            namespace: $rootScope.namespace,
+                            name: pod.metadata.name,
+                            container: container
+                        };
+                        Pod.log.get(params, function(res){
+                            var result = "";
+                            for(var k in res){
+                                result += res[k];
+                            }
+                            $scope.log = result;
+                        }, function(res){
+                            $scope.log = res.data.message;
+                        });
+                    };
+
+                    $scope.terminalTabWasSelected = false;
+
+
+                    //var terminal = function(container) {
+                    //    console.log("pods", pod.metadata.name);
+                    //    Ws.terminal({
+                    //        api: 'k8s',
+                    //        namespace: $rootScope.namespace,
+                    //        type: 'pods',
+                    //        name: pod.metadata.name,
+                    //        container: container
+                    //    }, function(res){
+                    //        console.log('data======', res);
+                    //
+                    //        //var data = JSON.parse(res.data);
+                    //
+                    //    }, function(){
+                    //        $log.info("webSocket start");
+                    //    }, function(){
+                    //        $log.info("webSocket stop");
+                    //        var key = Ws.key($rootScope.namespace, 'pods', container);
+                    //        if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
+                    //            return;
+                    //        }
+                    //        terminal(container);
+                    //    });
+                    //};
+
+                    //$scope.$on('$destroy', function(){
+                    //    Ws.clear();
+                    //});
                 }]
             }).result;
         };

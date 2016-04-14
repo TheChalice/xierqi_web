@@ -9,7 +9,7 @@
 </div>
 <div class="modal-body" style="padding: 25px 40px;text-align: left;">
 
-    <div class="table-responsive">
+    <div class="table-responsive" ng-if="!grid.show">
         <table class="table table-hover table-default sub-table">
             <tr>
                 <th>容器名称</th>
@@ -19,7 +19,7 @@
                 <th>镜像版本</th>
             </tr>
             <tr ng-repeat="container in pod.spec.containers">
-                <td>{{container.name}}</td>
+                <td><a href="javascript:;" ng-click="containerDetail($index)" class="href-orange">{{container.name}}</a></td>
                 <td>
 
                 </td>
@@ -29,5 +29,61 @@
             </tr>
         </table>
     </div>
+
+    <div ng-if="grid.show" class="container-detail">
+        <h2><a href="javascript:;" ng-click="back()" class="faa faa-back"></a>&nbsp;&nbsp;{{container.name}}</h2>
+        <uib-tabset class="tab-default" active="active" ng-init="active=3">
+            <uib-tab index="1" heading="日志">
+                <div style="margin-bottom: 15px;" class="row">
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" placeholder="关键字" style="margin-right: 20px;">
+                    </div>
+                    <div class="col-md-8">
+                        <date-pick st="st" et="et"></date-pick>
+                        <a style="margin-left: 15px;" href="javascript:;" class="btn btn-orange">搜索</a>
+                    </div>
+                </div>
+
+                <div class="well well-log" style="margin: 0;">
+                    <pre>{{log}}</pre>
+                </div>
+            </uib-tab>
+            <uib-tab index="2" heading="性能监控">
+                <div>
+                    2222222222
+                </div>
+            </uib-tab>
+            <uib-tab index="3" heading="Terminal">
+                <kubernetes-container-terminal pod="pod" container="container.name" prevent="!terminalTabWasSelected">
+                </kubernetes-container-terminal>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+
+    <style>
+        .container-detail > h2 {
+            font-size: 14px;
+            font-weight: normal;
+            color: #5a6378;
+            margin: 0 0 25px 0;
+        }
+        .container-detail .tab-default .tab-content {
+            padding: 15px 10px;
+        }
+        .container-detail .tab-default li .nav-link {
+            padding: 5px 15px;
+        }
+        .container-detail .terminal-wrapper, .container-detail .terminal-wrapper .terminal {
+            width: 100%;
+        }
+        .container-detail .terminal-actions {
+            position: absolute;
+        }
+        .container-detail .terminal-actions .btn {
+            background: none;
+            border: none;
+            box-shadow: none;
+        }
+    </style>
 
 </div>
