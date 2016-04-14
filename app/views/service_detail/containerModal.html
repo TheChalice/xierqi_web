@@ -1,0 +1,33 @@
+<div class="modal-header">
+    <h5 class="modal-title">
+        <i class="faa faa-pod"></i>
+        {{pod.metadata.name}} - 容器详情
+        <a ng-click="cancel()" href="javascript:;" class="modal-close">
+            <i class="fa fa-times-circle pull-right"></i>
+        </a>
+    </h5>
+</div>
+<div class="modal-body" style="padding: 25px 40px;text-align: left;">
+
+    <div class="table-responsive">
+        <table class="table table-hover table-default sub-table">
+            <tr>
+                <th>容器名称</th>
+                <th>运行状态</th>
+                <th>容器资源</th>
+                <th>镜像名称</th>
+                <th>镜像版本</th>
+            </tr>
+            <tr ng-repeat="container in pod.spec.containers">
+                <td>{{container.name}}</td>
+                <td>
+
+                </td>
+                <td>{{container.resources}}</td>
+                <td>{{container.image | imageStreamName}}</td>
+                <td>{{container.image | stripSHAPrefix | limitTo: 7}}</td>
+            </tr>
+        </table>
+    </div>
+
+</div>

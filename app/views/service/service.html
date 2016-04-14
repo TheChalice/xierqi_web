@@ -27,15 +27,15 @@
                 <th class="text-center">操作</th>
             </tr>
             <!--<tr ng-repeat="bc in items">-->
-            <tr>
-                <td><a ui-sref="console.service_detail({name: 'concurrent'})">concurrent</a>
+            <tr ng-repeat="dc in items">
+                <td><a ui-sref="console.service_detail({name: 'concurrent'})">{{dc.metadata.name}}</a>
                 </td>
-                <td>1分钟以前</td>
-                <td>正常</td>
-                <td>6/6</td>
-                <td>www.abc.com</td>
-                <td>已绑定</td>
-                <td>停止</td>
+                <td>{{dc.metadata.creationTimestamp | dateRelative}}</td>
+                <td>{{dc.ismn}}</td>
+                <td>{{dc.rc.status.replicas || 0}} /{{dc.spec.replicas}}</td>
+                <td>{{dc.route}}</td>
+                <td>{{dc.bsi || '未绑定'}}</td>
+                <td><a ng-if="dc.ismn=='未启动'" ng-click="startDc($index)">启动</a><a ng-if="dc.ismn!='未启动'" ng-click="stopDc($index)">停止</a></td>
             </tr>
         </table>
         <div class="text-right" ng-if="grid.total > 10">
