@@ -1,3 +1,6 @@
+:focus, :active, .active {
+    outline: none!important;
+}
 body {
     padding-top: 70px;
 }
