@@ -22,9 +22,43 @@ define([
                 }
 
                 params.name = params.name ? '/' + params.name : '';
+
                 var url = host + '/namespaces/' + params.namespace + '/'+ params.type + params.name +
                           '?watch=true' +
                           '&resourceVersion='+ params.resourceVersion +
+                          '&access_token=' + Cookie.get("df_access_token");
+                $ws({
+                    method: 'WATCH',
+                    url: url,
+                    onclose: onclose,
+                    onmessage: onmessage,
+                    onopen: onopen
+                }).then(function(ws){
+                    $rootScope.watches[Ws.key(params.namespace, params.type, params.name)] = ws;
+                });
+            };
+
+            Ws.terminal = function(params, onmessage, onopen, onclose){
+                if (!$ws.available()) {
+                    $log.info('webSocket is not available');
+                    return;
+                }
+
+                var host = GLOBAL.host_wss;
+                if (params.api == 'k8s') {
+                    host = GLOBAL.host_wss_k8s;
+                }
+
+                params.name = params.name ? '/' + params.name : '';
+
+                var url = host + '/namespaces/' + params.namespace + '/' + params.type + params.name + '/exec' +
+                          '?stdout=1' +
+                          '&stdin=1' +
+                          '&stderr=1' +
+                          '&tty=1' +
+                          '&container='+ params.container +
+                          '&command=%2Fbin%2Fsh' +
+                          '&command=-i' +
                           '&access_token=' + Cookie.get("df_access_token");
                 $ws({
                     method: 'WATCH',
