@@ -1,10 +1,7 @@
 'use strict';
 
 angular.module('login', [
-        'base64',
-        {
-            files: ['components/datepick/datepick.js']
-        }
+        'base64'
     ])
     .controller('LoginCtrl', ['$scope', 'AuthService', function($scope, AuthService){
         $scope.credentials = {};
