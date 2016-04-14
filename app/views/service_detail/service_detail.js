@@ -363,11 +363,24 @@ angular.module('console.service.detail', [
                 size: 'default modal-lg',
                 controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
                     $scope.pod = pod;
+                    $scope.grid = {
+                        show: false
+                    };
                     $scope.ok = function () {
                         $uibModalInstance.close(true);
                     };
                     $scope.cancel = function () {
                         $uibModalInstance.dismiss();
+                    };
+
+                    $scope.containerDetail = function(idx){
+                        var o = pod.spec.containers[idx];
+                        $scope.grid.show = true;
+                        $scope.container = o;
+                    };
+
+                    $scope.back = function(){
+                        $scope.grid.show = false;
                     };
                 }]
             }).result;
