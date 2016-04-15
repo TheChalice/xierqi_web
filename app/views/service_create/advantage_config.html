@@ -28,9 +28,9 @@
             <hr>
             <div class="form-group" style="overflow:hidden;">
                 <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size:14px; text-align: left;">路由设置</label>
-                <c-checkbox checked="checkedfirst"></c-checkbox>
+                <c-checkbox checked="checkedsecond"></c-checkbox>
                 <br>
-                <div class="col-sm-10" ng-if="checkedfirst" style="overflow: hidden; margin-left: 120px">
+                <div class="col-sm-10" ng-if="checkedsecond" style="overflow: hidden; margin-left: 120px">
                     <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size:12px;  text-align: left;">服务端口</label>
                     <input name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control">
                     <span>域名<input type="text">lab.asiainfodata.com</span>
@@ -84,16 +84,16 @@
             <hr>
             <div class="form-group" style="overflow:hidden">
                 <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size: 14px; text-align: left">性能监控</label>
-                <c-checkbox checked="checkedfirst" style="float: left"></c-checkbox>
-                <div class="col-sm-7" ng-if="checkedfirst" style="overflow: hidden;word-wrap: break-word;word-break: break-all;">
+                <c-checkbox checked="checkedthird" style="float: left"></c-checkbox>
+                <div class="col-sm-7" ng-if="checkedthird" style="overflow: hidden;word-wrap: break-word;word-break: break-all;">
                     <a class="btn btn-orange col-md-3">性能监测配置</a>
                 </div>
             </div>
             <hr>
             <div class="form-group" style="overflow:hidden">
                 <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size: 14px; text-align: left">警告服务</label>
-                <c-checkbox checked="checkedfirst" style="float: left"></c-checkbox>
-                <div class="col-sm-7" ng-if="checkedfirst" style="overflow: hidden;word-wrap: break-word;word-break: break-all;">
+                <c-checkbox checked="checkedforth" style="float: left"></c-checkbox>
+                <div class="col-sm-7" ng-if="checkedforth" style="overflow: hidden;word-wrap: break-word;word-break: break-all;">
                     <a class="btn btn-orange col-md-3">告警服务配置</a>
                 </div>
             </div>

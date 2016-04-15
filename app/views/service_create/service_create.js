@@ -7,6 +7,26 @@ angular.module('console.service.create', [
             ]
         }
     ])
-    .controller('ServiceCreateCtrl', [ '$log', function ($log) {
-        $log.info('ServiceCreateCtrl');
+    .controller('ServiceCreateCtrl', [ '$scope', '$log', 'DeploymentConfig',
+        function ($scope, $log, DeploymentConfig) {
+        $log.info('ServiceCreate');
+        $scope.deploymentConfig = {
+            metadata: {
+                name: ''
+            },
+            spec: {
+               containers: {
+                   name: '',
+                   image: '',
+                   ports: {
+                       containerPort: '',
+                       protocol: ''
+                   }
+               }
+            }
+        }
+           var createDC = function(){
+
+           }
+
     }]);
