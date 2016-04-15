@@ -28,7 +28,7 @@
             </tr>
             <!--<tr ng-repeat="bc in items">-->
             <tr ng-repeat="dc in items">
-                <td><a ui-sref="console.service_detail({name: 'concurrent'})">{{dc.metadata.name}}</a>
+                <td><a ui-sref="console.service_detail({name: dc.metadata.name})">{{dc.metadata.name}}</a>
                 </td>
                 <td>{{dc.metadata.creationTimestamp | dateRelative}}</td>
                 <td>{{dc.ismn}}</td>
