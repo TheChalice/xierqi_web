@@ -16,7 +16,8 @@ define([
     'pub/ws',
     'components/version/version',
     'angularMd',
-    'angularClipboard'
+    'angularClipboard',
+    'kubernetesUI'
 ], function (angular) {
 
     // 声明应用及其依赖
@@ -37,9 +38,11 @@ define([
 
     myApp.constant('GLOBAL', {
         size: 10,
-        host: 'https://54.222.158.233:8443/oapi/v1',
-        host_wss: 'wss://54.222.158.233:8443/oapi/v1',
-        login_uri: 'http://localhost:9090/login',
+        host: '/oapi/v1',
+        host_k8s: '/api/v1',
+        host_wss: '/ws/oapi/v1',
+        host_wss_k8s: '/ws/api/v1',
+        login_uri: '/login',
         host_webhooks: 'https://54.222.158.233:8443'
     })
     .constant('AUTH_EVENTS', {

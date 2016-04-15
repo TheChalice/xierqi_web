@@ -1,12 +1,14 @@
 <div class="build-detail">
+
     <div class="panel panel-default" style="margin-bottom: 50px">
         <div class="panel-heading">
             <span class="panel-title">
                 <i class="faa faa-cmd"></i>&nbsp;&nbsp;{{dc.metadata.name}}&nbsp;&nbsp;
-                <span style="color: #55c45f;">启动中</span>
+                <span ng-if="dc.status.phase == 'New' || dc.status.phase == 'Pending' || dc.status.phase == 'Running'" style="color: #55c45f;">启动中</span>
             </span>
             <a class="btn btn-gray pull-right" style=" padding: 5px 10px; margin-left: 15px; height:34px; width:36px" ng-click="delete()"><i class="fa fa-trash-o fa-lg"></i></a>
-            <a class="btn btn-green pull-right" ng-click="startBuild()">启动</a>
+            <a class="btn btn-green pull-right" ng-if="dc.status.phase != 'New' && dc.status.phase != 'Pending' && dc.status.phase != 'Running'" ng-click="startDc()">启动</a>
+            <a class="btn btn-green pull-right" ng-if="dc.status.phase == 'New' || dc.status.phase == 'Pending' || dc.status.phase == 'Running'" ng-click="stopDc()">停止</a>
         </div>
         <div class="panel-body">
             <div class="row">
@@ -28,8 +30,8 @@
                         </div>
                         <div class="media-body">
                             <h4 class="media-heading">路由URL</h4>
-                            <small ng-repeat="service in dc.services">
-                                <a class="href-orange text-overflow" href="service.route.spec.host" target="_blank">{{service.route.spec.host}}</a>
+                            <small>
+                                <a class="href-orange text-overflow" href="dc.route.spec.host" target="_blank">{{dc.route.spec.host}}</a>
                             </small>
                         </div>
                     </div>
@@ -41,7 +43,7 @@
                         </div>
                         <div class="media-body">
                             <h4 class="media-heading">pod个数(正常/期望)</h4>
-                            <small>1/{{dc.spec.replicas}}</small>
+                            <small><span style="color: #f6a540">{{dc.status.replicas}}</span>/{{dc.spec.replicas}}</small>
                         </div>
                     </div>
                 </div>
@@ -49,7 +51,7 @@
         </div>
     </div>
 
-    <uib-tabset class="tab-default" active="active">
+    <uib-tabset class="tab-default" active="active" ng-init="active=2">
         <uib-tab index="1">
             <uib-tab-heading>
                 <i class="faa faa-edit"></i> 部署记录
@@ -66,7 +68,7 @@
             <uib-tab-heading>
                 <i class="faa faa-text"></i> 配置信息
             </uib-tab-heading>
-            配置信息
+            <div ng-include="'views/service_detail/service_config.html'"></div>
         </uib-tab>
     </uib-tabset>
 </div>
