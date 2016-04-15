@@ -38,20 +38,12 @@ define([
 
     myApp.constant('GLOBAL', {
         size: 10,
-/*
-        hh = location.host,
         host: '/oapi/v1',
-        host_wss: 'ws://' + hh + '/oapi/v1',//TODO chenge to ws://$window.location.host/ws/oapi/v1
+        host_k8s: '/api/v1',
+        host_wss: '/ws/oapi/v1',
+        host_wss_k8s: '/ws/api/v1',
         login_uri: '/login',
-        host_webhooks: 'https://54.222.199.235:8443/oapi/v1'
-=======*/
-        host: 'https://54.222.158.233:8443/oapi/v1',
-        host_k8s: 'https://54.222.158.233:8443/api/v1',
-        host_wss: 'wss://54.222.158.233:8443/oapi/v1',
-        host_wss_k8s: 'wss://54.222.158.233:8443/api/v1',
-        login_uri: 'http://localhost:9090/login',
         host_webhooks: 'https://54.222.158.233:8443'
-//>>>>>>> 0e39c509d5f995368c83840f7b349532b86fddbd
     })
     .constant('AUTH_EVENTS', {
         loginNeeded: 'auth-login-needed',

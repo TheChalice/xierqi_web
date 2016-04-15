@@ -16,20 +16,15 @@ define([
                     return;
                 }
 
-/*<<<<<<< HEAD
-                var host = location.host + '/ws/oapi/v1';
-
-                params.name = params.name ? '/' + params.name : '';
-                var url = 'ws://' + host + '/namespaces/' + params.namespace + '/'+ params.type + params.name +
-=======*/
-                var host = GLOBAL.host_wss;
+                var host = 'ws://' + location.host;
                 if (params.api == 'k8s') {
-                    host = GLOBAL.host_wss_k8s;
+                    host = host + GLOBAL.host_wss_k8s;
+                } else {
+                    host = host + GLOBAL.host_wss;
                 }
 
                 params.name = params.name ? '/' + params.name : '';
                 var url = host + '/namespaces/' + params.namespace + '/'+ params.type + params.name +
-//>>>>>>> 0e39c509d5f995368c83840f7b349532b86fddbd
                           '?watch=true' +
                           '&resourceVersion='+ params.resourceVersion +
                           '&access_token=' + Cookie.get("df_access_token");
