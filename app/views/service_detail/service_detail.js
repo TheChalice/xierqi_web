@@ -348,6 +348,11 @@ angular.module('console.service.detail', [
             var o = $scope.pods.items[idx];
             ContainerModal.open(o);
         };
+
+        $scope.addContainer = function () {
+            console.log("addContainer");
+            $scope.dc.spec.template.spec.containers.push({});
+        }
     }])
     .service('LogModal', ['$uibModal', function ($uibModal) {
         this.open = function (pod) {

@@ -452,6 +452,32 @@ hr {
     background-image: url(../img/images_05.png);
 }
 
+/*自定义下拉框*/
+.dropdown-select {
+    display: inline-block;
+    vertical-align: bottom;
+}
+.dropdown-select > .btn {
+    width: 100%;
+    text-align: left;
+    background: #fff;
+    border: 1px solid #c9c9c9;
+    border-radius: 2px;
+    color: #5a6378;
+    font-size: 12px;
+    padding-top: 8px;
+    padding-bottom: 7px;
+}
+.dropdown-select > .btn .caret {
+    float: right;
+    position: relative;
+    top: 8px;
+}
+.dropdown-select > ul {
+    width: 100%;
+    border-radius: 2px;
+}
+
 .faa {
     overflow: hidden;
     display: inline-block;
