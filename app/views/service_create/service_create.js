@@ -7,8 +7,8 @@ angular.module('console.service.create', [
             ]
         }
     ])
-    .controller('ServiceCreateCtrl', [ '$scope', '$log', 'DeploymentConfig',
-        function ($scope, $log, DeploymentConfig) {
+    .controller('ServiceCreateCtrl', [ '$rootScope', '$scope', '$log', 'DeploymentConfig',
+        function ($rootScope, $scope, $log, DeploymentConfig) {
         $log.info('ServiceCreate');
         $scope.deploymentConfig = {
             metadata: {
@@ -21,12 +21,24 @@ angular.module('console.service.create', [
                    ports: {
                        containerPort: '',
                        protocol: ''
+                   },
+                   VolumeMounts: {
+
                    }
-               }
+               },
+                Volumes: {
+                    name:'',
+                    secret:'',
+                    secretName:'',
+                }
             }
         }
-           var createDC = function(){
+           var createDC = function() {
+               console.log("deploymentConfig", $scope.deploymentConfig);
+               DeploymentConfig.create({namespace: $rootScope.namespace}, $scope.deploymentConfig, function (res) {
+                   $log.info("newservice", res);
 
+               })
            }
-
+            createDC();
     }]);
