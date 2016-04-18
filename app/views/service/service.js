@@ -137,13 +137,13 @@ angular.module('console.service', [
                 if(servicedata[i].rc){
                     var rcpsr = servicedata[i].rc.spec.replicas;
                     var rcstr = servicedata[i].rc.status.replicas;
-                    if(rcpsr == rcstr && dcspr > 0 || rcpsr == dcspr && rcstr == 0){
+                    if(rcpsr == rcstr && dcspr > 0 && rcstr == 0 || rcpsr == dcspr && rcstr == 0){
                         servicedata[i].ismn = '未启动';
                     }else if(rcstr == dcspr && dcspr > 0 && rcpsr == 0){
                         servicedata[i].ismn = '异常';
-                    }else if(rcstr == dcspr && rcspr == dcspr && dcspr > 0){
+                    }else if(rcstr == dcspr && rcpsr == dcspr && dcspr > 0){
                         servicedata[i].ismn = '正常';
-                    }else if(rcspr < dcspr && dcspr == rcstr){
+                    }else if(rcpsr < dcspr && dcspr == rcstr){
                         servicedata[i].ismn = '警告';
                     }
                 }else{
