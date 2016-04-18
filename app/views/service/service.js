@@ -133,18 +133,21 @@ angular.module('console.service', [
         var isNormal = function(servicedata){
             $log.info('servicedata---test',servicedata)
             for(var i = 0;i<servicedata.length;i++){
+                var dcspr = servicedata[i].spec.replicas;
                 if(servicedata[i].rc){
-                    if(servicedata[i].rc.spec.replicas == servicedata[i].rc.status.replicas == 0 &&  servicedata[i].spec.replicas > 0 || servicedata[i].rc.spec.replicas == servicedata[i].spec.replicas && servicedata[i].rc.status.replicas == 0){
+                    var rcpsr = servicedata[i].rc.spec.replicas;
+                    var rcstr = servicedata[i].rc.status.replicas;
+                    if(rcpsr == rcstr && dcspr > 0 && rcstr == 0 || rcpsr == dcspr && rcstr == 0){
                         servicedata[i].ismn = '未启动';
-                    }else if(servicedata[i].rc.spec.replicas == servicedata[i].spec.replicas && servicedata[i].rc.status.replicas == 0 && servicedata[i].spec.replicas > 0){
+                    }else if(rcstr == dcspr && dcspr > 0 && rcpsr == 0){
                         servicedata[i].ismn = '异常';
-                    }else if(servicedata[i].rc.spec.replicas == servicedata[i].rc.status.replicas == servicedata[i].spec.replicas){
+                    }else if(rcstr == dcspr && rcpsr == dcspr && dcspr > 0){
                         servicedata[i].ismn = '正常';
-                    }else if(servicedata[i].rc.status.replicas < servicedata[i].spec.replicas && servicedata[i].rc.spec.replicas == servicedata[i].spec.replicas){
+                    }else if(rcpsr < dcspr && dcspr == rcstr){
                         servicedata[i].ismn = '警告';
                     }
                 }else{
-                    if(servicedata[i].spec.replicas > 0){
+                    if(dcspr > 0){
                         servicedata[i].ismn = '未启动';
                     }
 
@@ -186,29 +189,26 @@ angular.module('console.service', [
             }
         }
         $scope.startDc = function(idx){
-            //$scope.data.items[idx].spec.replicas = 1;
-            if($scope.data.items[idx].status.latestVersion){
-                $scope.data.items[idx].status.latestVersion++;
-            }else{
-                $scope.data.items[idx].status.latestVersion = 1;
-            }
+             var thisRc = $scope.data.items[idx].rc;
+             var thisDc = $scope.data.items[idx];
+             thisRc.spec.replicas = thisDc.spec.replicas;
+            ReplicationController.put({namespace: $rootScope.namespace, name: thisRc.metadata.name}, thisRc, function(res){
+                $log.info("startDc dc success", res);
 
-            DeploymentConfig.put({namespace: $rootScope.namespace, name: $scope.data.items[idx].metadata.name}, $scope.data.items[idx], function(res){
-                $log.info("start dc success", res);
             }, function(res){
                 //todo 错误处理
-                $log.info("start dc err", res);
+                $log.info("startDc dc err", res);
             });
         };
         $scope.stopDc = function(idx){
             var thisRc =  $scope.data.items[idx].rc
             thisRc.spec.replicas = 0;
             ReplicationController.put({namespace: $rootScope.namespace, name: thisRc.metadata.name}, thisRc, function(res){
-                $log.info("start dc success", res);
+                $log.info("stopDc dc success", res);
 
             }, function(res){
                 //todo 错误处理
-                $log.info("start dc err", res);
+                $log.info("stopDc dc err", res);
             });
         };
         /////绑定
