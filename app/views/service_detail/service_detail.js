@@ -27,6 +27,22 @@ angular.module('console.service.detail', [
 
         loadDc($stateParams.name);
 
+        var serviceState = function () {
+            if ($scope.dc.spec.replicas == 0) {
+                return 'ready'; //未启动
+            }
+            if ($scope.dc.status.replicas == 0) {
+                return 'ready'; //未启动
+            }
+            if ($scope.dc.status.replicas == 0) {
+                return 'abnormal';  //异常
+            }
+            if ($scope.dc.status.replicas == $scope.dc.spec.replicas ) {
+                return 'normal';    //正常
+            }
+            return 'warning';   //告警
+        };
+
         var loadRcs = function (name) {
             var labelSelector = 'openshift.io/deployment-config.name=' + name;
             ReplicationController.get({namespace: $rootScope.namespace, labelSelector: labelSelector}, function(res){
@@ -44,6 +60,7 @@ angular.module('console.service.detail', [
                         res.items[i].metadata.annotations['openshift.io/deployment.phase'] = 'Cancelled';
                     }
                 }
+                $scope.dc.state = serviceState();
 
                 $scope.resourceVersion = res.metadata.resourceVersion;
 
@@ -118,6 +135,7 @@ angular.module('console.service.detail', [
 
         var updateRcs = function(data){
             $scope.dc.status.phase = data.object.metadata.annotations['openshift.io/deployment.phase'];
+            $scope.dc.state = serviceState();
 
             data.object.dc = JSON.parse(data.object.metadata.annotations['openshift.io/encoded-deployment-config']);
             if (data.object.metadata.name == $scope.dc.metadata.name + '-' + $scope.dc.status.latestVersion) {
