@@ -156,21 +156,48 @@ angular.module('console.service.detail', [
         };
 
         $scope.startDc = function(){
-            $scope.dc.status.latestVersion++;
-            DeploymentConfig.put({namespace: $rootScope.namespace, name: $scope.dc.metadata.name}, $scope.dc, function(res){
-                $log.info("start dc success", res);
-                res.bsi = $scope.dc.bsi;
-                res.status.replicas = $scope.dc.status.replicas;
-                res.route = $scope.dc.route;
-                $scope.dc = res;
-            }, function(res){
-                //todo 错误处理
-                $log.info("start dc err", res);
-            });
+            var rcName = $scope.dc.metadata.name + '-' + $scope.dc.status.latestVersion;
+            var items = $scope.rcs.items;
+            var item = null;
+            for (var i = 0; i < items.length; i++) {
+                if (rcName == items[i].metadata.name) {
+                    item = items[i]
+                }
+            }
+            if (item) {
+                item.spec.replicas = $scope.dc.spec.replicas;
+                ReplicationController.put({namespace: $rootScope.namespace, name: item.metadata.name}, item, function(res){
+                    $log.info("start dc success", res);
+                    item = res;
+                }, function(res){
+                    //todo 错误处理
+                    $log.info("start rc err", res);
+                });
+            } else {
+                //todo 没有rc怎么办?
+            }
         };
 
         $scope.stopDc = function(){
-            $scope.stopRc(0);
+            var rcName = $scope.dc.metadata.name + '-' + $scope.dc.status.latestVersion;
+            var items = $scope.rcs.items;
+            var item = null;
+            for (var i = 0; i < items.length; i++) {
+                if (rcName == items[i].metadata.name) {
+                    item = items[i]
+                }
+            }
+            if (item) {
+                item.spec.replicas = 0;
+                ReplicationController.put({namespace: $rootScope.namespace, name: item.metadata.name}, item, function(res){
+                    $log.info("start dc success", res);
+                    item = res;
+
+                }, function(res){
+                    //todo 错误处理
+                    $log.info("start rc err", res);
+                });
+            }
         };
 
         $scope.startRc = function(idx){
