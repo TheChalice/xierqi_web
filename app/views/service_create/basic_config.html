@@ -7,7 +7,7 @@
             <div class="form-group" style="overflow:hidden;">
                 <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size:14px; text-align: left; margin-top: 35px;">服务名称</label>
                 <div class="col-sm-10" style="padding-right: 40px">
-                    <input name="servicename" type="text" class="form-control" style="margin-top: 30px; margin-left: -15px; margin-right: 20px" placeholder="创建一个服务名称">
+                    <input name="servicename" type="text" class="form-control" style="margin-top: 30px; margin-left: -15px; margin-right: 20px" placeholder="创建一个服务名称" ng-model="deploymentConfig.metadata.name">
                     <small>请创建一个服务名称</small>
                 </div>
             </div>
@@ -23,12 +23,12 @@
                     </div>
                     <div class="panel-body">
                         <div class="form-group" style="overflow:hidden">
-                            <input name="containername" type="text" class="form-control col-sm-12" placeholder="请设置容器名称" style="margin-left: 5px; width: 650px">
+                            <input name="containername" type="text" class="form-control col-sm-12" placeholder="请设置容器名称" style="margin-left: 5px; width: 650px;" ng-model="deploymentConfig.spec.containers.name">
                         </div>
                         <hr>
 
                         <div class="form-group" style="overflow:hidden; margin-left: 5px">
-                            <a class="btn btn-orange" ng-click="getImage" herf="javascript:;">
+                            <a class="btn btn-orange" ng-click="loadImageStream()" herf="javascript:;">
                                 <span class="hidden-xs">选择镜像</span>
                             </a>
                             <p style="font-size: 12px; margin-top:20px;">镜像名称:</p>
@@ -85,7 +85,7 @@
                                 release- 23fd0bfd910</td>
                             <td>
                                 <div class="row">
-                                    <div class="col-md-3">协议</div>
+                                    <div class="col-md-3" ng-click="">协议</div>
                                     <div class="col-md-3">容器端口</div>
                                     <div class="col-md-3">服务端口</div>
                                     <div class="col-md-3"></div>
@@ -104,5 +104,5 @@
         </div>
     </div>
     <a class="btn btn-orange col-md-5">进入高级配置</a>
-    <a class="btn btn-orange col-md-5" href="" style="margin-left: 80px; margin-right: 0px">创建服务</a>
+    <a class="btn btn-orange col-md-5" href="javascript:;" style="margin-left: 80px; margin-right: 0px" ng-click="createDC()">创建服务</a>
 </div>

@@ -7,8 +7,8 @@ angular.module('console.service.create', [
             ]
         }
     ])
-    .controller('ServiceCreateCtrl', [ '$rootScope', '$scope', '$log', 'DeploymentConfig',
-        function ($rootScope, $scope, $log, DeploymentConfig) {
+    .controller('ServiceCreateCtrl', [ '$rootScope', '$scope', '$log', 'ImageStream', 'DeploymentConfig', 'ImageSelect',
+        function ($rootScope, $scope, $log, ImageStream, DeploymentConfig, ImageSelect) {
         $log.info('ServiceCreate');
         $scope.deploymentConfig = {
             metadata: {
@@ -29,16 +29,35 @@ angular.module('console.service.create', [
                 Volumes: {
                     name:'',
                     secret:'',
-                    secretName:'',
+                    secretName:''
                 }
             }
-        }
-           var createDC = function() {
-               console.log("deploymentConfig", $scope.deploymentConfig);
-               DeploymentConfig.create({namespace: $rootScope.namespace}, $scope.deploymentConfig, function (res) {
-                   $log.info("newservice", res);
+        };
+        $log.info("ImageStream");
+        $scope.loadImageStream = function() {
+            ImageSelect.open();
+        };
+        //ImageSelect.open();
+        $scope.createDC = function() {
+            console.log("deploymentConfig", $scope.deploymentConfig);
+       };
+       $scope.createDC();
+    }])
 
-               })
-           }
-            createDC();
+    .service('ImageSelect', ['$uibModal', function($uibModal){
+        this.open = function () {
+            return $uibModal.open({
+                templateUrl: 'pub/tpl/modal_choose_image.html',
+                size: 'default',
+                controller: ['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
+                    $scope.cancel = function() {
+                        $uibModalInstance.dismiss();
+                    };
+                    $scope.ok = function() {
+                        $uibModalInstance.close(true);
+                    };
+                }]
+            })
+        }
     }]);
+
