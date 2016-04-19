@@ -19,6 +19,7 @@ angular.module('console.service.detail', [
                 loadRcs(res.metadata.name);
                 loadRoutes();
                 loadBsi();
+                loadPods(res.metadata.name);
 
             }, function(res){
                 //todo 错误处理
@@ -333,7 +334,6 @@ angular.module('console.service.detail', [
                 $log.info("loadPods err", res);
             });
         };
-        loadPods('test');
 
         var loadEvents = function (pods) {
             var podNames = [];
