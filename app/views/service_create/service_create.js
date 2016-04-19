@@ -36,6 +36,17 @@ angular.module('console.service.create', [
                 }
             }
         };
+
+        $scope.addContainer = function() {
+
+            var newContainer = {};
+            $scope.deploymentConfig.template.spec.containers.push(newContainer);
+            $scope.addCon = $scope.deploymentConfig.template.spec.containers;
+        }
+
+        $scope.delContainer = function(idx) {
+            $scope.deploymentConfig.template.spec.containers.splice(idx,1);
+        }
         $scope.envList = [
                 {
                     name:"DATAFOUNDRY_APISERVER_ADDR",
@@ -50,7 +61,7 @@ angular.module('console.service.create', [
         $scope.loadImageStream = function() {
             ImageSelect.open();
         };
-        //ImageSelect.open();
+
         $scope.createDC = function() {
             console.log("deploymentConfig", $scope.deploymentConfig);
        };
@@ -77,8 +88,8 @@ angular.module('console.service.create', [
     .service('ImageSelect', ['$uibModal', function($uibModal){
         this.open = function () {
             return $uibModal.open({
-                templateUrl: 'pub/tpl/modal_choose_image.html',
-                size: 'default',
+                templateUrl: 'views/service_create/modal_choose_image.html',
+                size: 'default modal-lg',
                 controller: ['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
                     $scope.cancel = function() {
                         $uibModalInstance.dismiss();
