@@ -4,7 +4,8 @@ angular.module('console.service.detail', [
     {
         files: [
             'views/service_detail/service_detail.css',
-            'components/datepick/datepick.js'
+            'components/datepick/datepick.js',
+            'components/checkbox/checkbox.js'
         ]
     }
 ])
