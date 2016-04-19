@@ -43,7 +43,7 @@
                             <span>{{vm.name || '请选择'}}</span>
                             <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <ul class="dropdown-menu">
                             <li ng-repeat="s in secrets.items">
                                 <a href="javascript:;" ng-click="vm.name = s.metadata.name">{{s.metadata.name}}</a>
                             </li>
@@ -203,8 +203,8 @@
                     环境变量设置
                 </div>
                 <div class="panel-body" style="padding-bottom: 0;">
-                    <div class="row" style="margin-bottom: 15px">
-                        <div class="col-md-6">
+                    <div class="row key-value-bar" style="margin-bottom: 15px">
+                        <div class="col-md-5">
                             <div style="float: left;line-height: 36px;">键&nbsp;&nbsp;</div>
                             <div style="overflow: hidden">
                                 <input type="text" class="form-control">
@@ -215,6 +215,9 @@
                             <div style="overflow: hidden">
                                 <input type="text" class="form-control">
                             </div>
+                        </div>
+                        <div class="col-md-1" style="line-height: 36px;">
+                            <a href="javascript:;" class="fa fa-lg fa-times-circle"></a>
                         </div>
                     </div>
                 </div>

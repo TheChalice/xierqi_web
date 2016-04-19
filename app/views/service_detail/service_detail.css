@@ -110,11 +110,13 @@
     color: red;
     vertical-align: sub;
 }
-.service-config .secret-bar .fa {
+.service-config .secret-bar .fa,
+.service-config .key-value-bar .fa {
     text-decoration: none;
     color: #9fa7b7;
 }
-.service-config .secret-bar .fa:hover {
+.service-config .secret-bar .fa:hover,
+.service-config .key-value-bar .fa:hover {
     color: #3c4251;
 }
 
