@@ -8,41 +8,49 @@
         </a>
     </h3>
 
-    <div ng-repeat="container in [1]" ng-class="{'bg-gray': true}">
+    <div ng-repeat="container in dc.spec.template.spec.containers" ng-class="{'bg-gray': true}">
         <div class="container-fluid container-bar">
             <div class="row">
                 <div class="col-sm-6">
-                     镜像名
+                     {{container.name}}
                 </div>
                 <div class="col-sm-6 text-right">
-                    <a class="icon25 icon25-collapse" uib-tooltip="查看" href="javascript:;"></a>
-                    <a class="icon25 icon25-stop" uib-tooltip="=删除" href="javascript:;"></a>
+                    <a class="icon25 icon25-collapse" ng-click="container.show = !container.show" uib-tooltip="查看" href="javascript:;"></a>
+                    <a class="faa faa-times" ng-click="rmContainer($index)" uib-tooltip="删除" href="javascript:;"></a>
                 </div>
             </div>
         </div>
 
-        <div uib-collapse="container.show" class="container-box">
+        <div uib-collapse="!container.show" class="container-box">
+            <div style="margin-bottom: 20px;" ng-if="container.new">
+                <h4>设置容器名称</h4>
+                <input ng-model="container.name" style="width: 300px;display: inline-block;" type="text" class="form-control" placeholder="请设置容器名称"><span class="require"></span>
+            </div>
             <div style="margin-bottom: 20px;">
                 <a href="javascript:;" class="btn btn-orange">选择镜像</a><span class="require"></span>
             </div>
             <div style="font-size: 12px;color: #5a6378;">
-                <p style="margin-bottom: 5px;">镜像名称:{{}}</p>
-                <p style="margin-bottom: 30px;">镜像版本:{{}}</p>
+                <div ng-if="container.image">
+                    <p style="margin-bottom: 5px;">镜像名称:&nbsp;{{container.image | imageStreamName}}</p>
+                    <p style="margin-bottom: 30px;">镜像版本:&nbsp;{{container.image | stripSHAPrefix | limitTo: 7}}</p>
+                </div>
+
                 <h4>挂载secret卷&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="fa fa-plus-circle fa-lg href-add">&nbsp;&nbsp;创建</a></h4>
-                <div class="secret-bar" ng-repeat="i in [1]">
+
+                <div class="secret-bar" ng-repeat="vm in container.volumeMounts">
                     <div class="dropdown dropdown-select" style="width: 200px;margin: 0 15px 15px 0;">
                         <button class="btn dropdown-toggle" data-toggle="dropdown">
-                            <span>secret卷名称</span>
+                            <span>{{vm.name || '请选择'}}</span>
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                            <li><a href="#">select1</a></li>
-                            <li><a href="#">select2</a></li>
-                            <li><a href="#">select3</a></li>
+                            <li ng-repeat="s in secrets.items">
+                                <a href="javascript:;" ng-click="vm.name = s.metadata.name">{{s.metadata.name}}</a>
+                            </li>
                         </ul>
                     </div>
-                    <input style="width: 300px;display: inline-block;margin: 0 15px 15px 0;" type="text" class="form-control">
-                    <a href="javascript:;" ng-click="addSecret($index, $last)" class="fa fa-lg" ng-class="{'fa-times-circle':!$last, 'fa-plus-circle':$last}"></a>
+                    <input ng-model="vm.mountPath" style="width: 300px;display: inline-block;margin: 0 15px 15px 0;" type="text" class="form-control">
+                    <a href="javascript:;" ng-click="addSecret(container.name, $index, $last)" class="fa fa-lg" ng-class="{'fa-times-circle':!$last, 'fa-plus-circle':$last}"></a>
                 </div>
 
                 <h4>容器资源限额</h4>
@@ -67,14 +75,14 @@
                 <th style="width: 30%">镜像</th>
                 <th style="width: 50%;">端口</th>
             </tr>
-            <tr ng-repeat="container in [1, 2]">
+            <tr ng-repeat="container in dc.spec.template.spec.containers">
                 <td style="vertical-align: middle;">
-                    容器名称
+                    {{container.name}}
                 </td>
                 <td style="vertical-align: middle;">
-                    <span ng-repeat="i in [1, 2]">
-                        <p>镜像名称</p>
-                        <p>sdflskdfjsodifs</p>
+                    <span>
+                        <p>{{container.image | imageStreamName}}</p>
+                        <p>{{container.image | stripSHAPrefix | limitTo: 7}}</p>
                     </span>
                 </td>
                 <td style="vertical-align: middle;">
@@ -84,9 +92,9 @@
                         <div class="col-sm-3">服务端口</div>
                         <div class="col-sm-3"></div>
                     </div>
-                    <div class="row" ng-repeat="i in [1, 2]" style="margin-top: 15px;">
-                        <div class="col-sm-3"><input type="text" class="input-small"></div>
-                        <div class="col-sm-3"><input type="text" class="input-small"></div>
+                    <div class="row" ng-repeat="port in container.ports" style="margin-top: 15px;">
+                        <div class="col-sm-3"><input type="text" readonly class="input-small" ng-model="port.protocol"></div>
+                        <div class="col-sm-3"><input type="text" readonly class="input-small" ng-model="port.containerPort"></div>
                         <div class="col-sm-3"><input type="text" class="input-small"></div>
                         <div class="col-sm-3"><input type="checkbox">&nbsp;开放</div>
                     </div>
@@ -189,6 +197,8 @@
             <a class="btn btn-orange col-md-3">告警服务配置</a>
         </div>
     </div>
+
+    <button class="btn btn-orange btn-block">更新(会自动触发重新部署)</button>
 
     <style>
         .input-small {

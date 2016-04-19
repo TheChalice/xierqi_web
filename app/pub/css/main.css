@@ -517,6 +517,14 @@ hr {
 .faa-cogs:hover {
     background-position: -81px -737px;
 }
+.faa-times {
+    width: 25px;
+    height: 25px;
+    background-position: -270px -123px;
+}
+.faa-times:hover {
+    background-position: -312px -123px;
+}
 .faa-edit:hover, .faa-edit.active, .active .faa-edit, .nav-link:hover .faa-edit {
     background-position: -74px -684px;
 }

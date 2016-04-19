@@ -9,13 +9,19 @@ angular.module('console.service.detail', [
         ]
     }
 ])
-    .controller('ServiceDetailCtrl', ['$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamImage', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal',
-        function($rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamImage, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal) {
+    .controller('ServiceDetailCtrl', ['$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamImage', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal', 'Secret',
+        function($rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamImage, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret) {
         //获取服务列表
         var loadDc = function (name) {
             DeploymentConfig.get({namespace: $rootScope.namespace, name: name}, function(res){
                 $log.info("deploymentConfigs", res);
                 $scope.dc = res;
+
+                angular.forEach($scope.dc.spec.template.spec.containers, function(item){
+                    if (!item.volumeMounts || item.volumeMounts.length == 0) {
+                        item.volumeMounts = [{}];
+                    }
+                });
 
                 loadRcs(res.metadata.name);
                 loadRoutes();
@@ -370,8 +376,42 @@ angular.module('console.service.detail', [
 
         $scope.addContainer = function () {
             console.log("addContainer");
-            $scope.dc.spec.template.spec.containers.push({});
-        }
+            $scope.dc.spec.template.spec.containers.push({volumeMounts:[{}], show: true, new: true});
+        };
+
+        $scope.rmContainer = function (idx) {
+            console.log("rmContainer");
+            $scope.dc.spec.template.spec.containers.splice(idx, 1);
+        };
+
+        var loadSecrets = function () {
+            Secret.get({namespace: $rootScope.namespace}, function(res){
+                $log.info("secrets", res);
+
+                $scope.secrets = res;
+            }, function(res){
+                $log.info("load secrets err", res);
+            });
+        };
+        loadSecrets();
+
+        $scope.addSecret = function (name, idx, last) {
+            var containers = $scope.dc.spec.template.spec.containers;
+            var container = null;
+            for (var i = 0; i < containers.length; i++) {
+                if (containers[i].name == name) {
+                    container = containers[i];
+                }
+            }
+            if (!container) {
+                return;
+            }
+            if (last) {     //添加
+                container.volumeMounts.push({});
+            } else {
+                container.volumeMounts.splice(idx, 1);
+            }
+        };
     }])
     .service('LogModal', ['$uibModal', function ($uibModal) {
         this.open = function (pod) {
