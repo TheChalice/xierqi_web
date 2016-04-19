@@ -73,6 +73,8 @@ angular.module('console.service', [
                 loadBsi(data.items);
                 refresh(1);
                 replicationcls($scope.data.items);
+                $scope.resourceVersion = data.metadata.resourceVersion;
+                watchRcs(data.metadata.resourceVersion);
 
             }, function(res) {
                 $log.info('serviceList', res);
@@ -179,13 +181,18 @@ angular.module('console.service', [
         };
         var updateRcs = function(data){
             if (data.type == 'ADDED') {
-                $scope.rcs.items.push([data.object]);
+                $scope.rcs.items.push(data.object);
             }else if (data.type == "MODIFIED") {
-                angular.forEach($scope.rcs.items, function(item, i){
-                    if (item.metadata.name == data.object.metadata.name) {
-                        $scope.rcs.items[i] = data.object;
+                angular.forEach($scope.items, function(item, i){
+                    if (item.rc.metadata.name == data.object.metadata.name) {
+                        $scope.items[i].rc = data.object;
+                        isNormal($scope.items);
+                        $scope.$apply();
                     }
                 });
+                console.log('updatedata',data);
+                console.log('$scope.items',$scope.items);
+
             }
         }
         $scope.startDc = function(idx){
@@ -193,6 +200,8 @@ angular.module('console.service', [
              var thisDc = $scope.data.items[idx];
              thisRc.spec.replicas = thisDc.spec.replicas;
             ReplicationController.put({namespace: $rootScope.namespace, name: thisRc.metadata.name}, thisRc, function(res){
+                $scope.data.items[idx].rc = res;
+                $log.info("$scope.data.items[idx].rc++++", $scope.data.items[idx]);
                 $log.info("startDc dc success", res);
 
             }, function(res){
@@ -204,6 +213,7 @@ angular.module('console.service', [
             var thisRc =  $scope.data.items[idx].rc
             thisRc.spec.replicas = 0;
             ReplicationController.put({namespace: $rootScope.namespace, name: thisRc.metadata.name}, thisRc, function(res){
+                $scope.data.items[idx].rc.spec.replicas = res.spec.replicas;
                 $log.info("stopDc dc success", res);
 
             }, function(res){
