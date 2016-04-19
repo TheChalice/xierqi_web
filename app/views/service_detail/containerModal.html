@@ -32,7 +32,7 @@
 
     <div ng-if="grid.show" class="container-detail">
         <h2><a href="javascript:;" ng-click="back()" class="faa faa-back"></a>&nbsp;&nbsp;{{container.name}}</h2>
-        <uib-tabset class="tab-default" active="active" ng-init="active=3">
+        <uib-tabset class="tab-default" active="active">
             <uib-tab index="1" heading="日志">
                 <div style="margin-bottom: 15px;" class="row">
                     <div class="col-md-4">
@@ -50,7 +50,9 @@
             </uib-tab>
             <uib-tab index="2" heading="性能监控">
                 <div>
-                    2222222222
+                    <highchart style="width:100%" config="chartConfigCpu"></highchart>
+                    <highchart style="width:100%" config="chartConfigMem"></highchart>
+                    <highchart style="width:100%" config="chartConfigIo"></highchart>
                 </div>
             </uib-tab>
             <uib-tab index="3" heading="Terminal">

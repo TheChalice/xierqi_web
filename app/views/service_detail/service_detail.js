@@ -455,35 +455,67 @@ angular.module('console.service.detail', [
 
                     $scope.terminalTabWasSelected = false;
 
+                    var setChart = function(name, data){
+                        return {
+                            options: {
+                                chart: {
+                                    type: 'areaspline'
+                                },
+                                title: {
+                                    text: name,
+                                        align: 'left',
+                                        x: 0,
+                                        style: {
+                                        fontSize: '12px'
+                                    }
+                                },
+                                tooltip: {
+                                    backgroundColor: '#666',
+                                        borderWidth: 0,
+                                        shadow: false,
+                                        style: {
+                                        color: '#fff'
+                                    },
+                                    formatter: function(){
+                                        return this.y;
+                                    }
+                                },
+                                legend: {
+                                    enabled: false
+                                }
+                            },
+                            series: [{
+                                color: '#f6a540',
+                                fillOpacity: 0.3,
+                                marker: {
+                                    enabled: false
+                                },
+                                data: data
+                            }],
+                            xAxis: {
+                                gridLineWidth: 1,
+                                currentMin: 0,
+                                currentMax: 20
+                            },
+                            yAxis: {
+                                gridLineDashStyle: 'ShortDash',
+                                    title: {
+                                    text: ''
+                                }
+                            },
+                            size: {
+                                width: 798,
+                                    height: 130
+                            },
+                            func: function (chart) {
+                                //setup some logic for the chart
+                            }
+                        };
+                    };
 
-                    //var terminal = function(container) {
-                    //    console.log("pods", pod.metadata.name);
-                    //    Ws.terminal({
-                    //        api: 'k8s',
-                    //        namespace: $rootScope.namespace,
-                    //        type: 'pods',
-                    //        name: pod.metadata.name,
-                    //        container: container
-                    //    }, function(res){
-                    //        console.log('data======', res);
-                    //
-                    //        //var data = JSON.parse(res.data);
-                    //
-                    //    }, function(){
-                    //        $log.info("webSocket start");
-                    //    }, function(){
-                    //        $log.info("webSocket stop");
-                    //        var key = Ws.key($rootScope.namespace, 'pods', container);
-                    //        if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
-                    //            return;
-                    //        }
-                    //        terminal(container);
-                    //    });
-                    //};
-
-                    //$scope.$on('$destroy', function(){
-                    //    Ws.clear();
-                    //});
+                    $scope.chartConfigCpu = setChart('CPU', [0.01, 0.02, 0.04, 0.01, 0.02, 0.02, 0.09, 0.04,0.05, 0.01, 0.09, 0.04, 0.02]);
+                    $scope.chartConfigMem = setChart('内存', []);
+                    $scope.chartConfigIo = setChart('网络IO', []);
                 }]
             }).result;
         };
