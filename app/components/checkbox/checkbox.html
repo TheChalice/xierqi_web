@@ -2,5 +2,5 @@
     <span class="checkbox-check" ng-class="{active: checked}" ng-click="checked = !checked">
         <span class="check-btn"></span>
     </span>
-    <span class="checkbox-text">{{text}}</span>
+    <span ng-if="text" class="checkbox-text">{{text}}</span>
 </span>

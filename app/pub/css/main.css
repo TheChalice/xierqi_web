@@ -380,10 +380,13 @@ hr {
 }
 /*service_create advantage_config.html tabandimage*/
 .tabandimage {
+    position: relative;
     border:1px solid #c9c9c9;
+    border-radius: 2px;
+    overflow: hidden;
     font-size: 12px;
-    width: 310px;
     height: 60px;
+    margin-bottom: 15px;
 }
 .tabandimage:active{
     border: 1px solid #f6a540;
@@ -551,6 +554,19 @@ hr {
 }
 .faa-text:hover, .faa-text.active, .active .faa-text, .nav-link:hover .faa-text {
     background-position: -240px -172px;
+}
+.faa-image {
+    background-position: -44px -789px;
+    width: 60px;
+    height: 60px;
+}
+.faa-image-mark {
+    background-position: -189px -737px;
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 
 @media (max-width: 758px) {
