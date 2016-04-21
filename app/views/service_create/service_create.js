@@ -44,11 +44,13 @@ angular.module('console.service.create', [
             var newContainer = {};
             $scope.deploymentConfig.template.spec.containers.push(newContainer);
             $scope.addCon = $scope.deploymentConfig.template.spec.containers;
+            $log.info($scope.addCon);
         }
 
         $scope.delContainer = function(idx) {
             $scope.deploymentConfig.template.spec.containers.splice(idx,1);
         }
+
         $scope.envList = [
                 {
                     name:"test",
@@ -128,7 +130,7 @@ angular.module('console.service.create', [
         this.open = function () {
             return $uibModal.open({
                 templateUrl: 'views/service_create/modal_choose_image.html',
-                size: 'default modal-lg',
+                size: 'modal-default modal-lg',
                 controller: ['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
                     $scope.cancel = function() {
                         $uibModalInstance.dismiss();

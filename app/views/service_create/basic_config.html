@@ -16,30 +16,31 @@
             </div>
             <hr>
 
-            <div class="form-group">
+            <div class="form-group" style="height: auto;float:left;width:100%;border-bottom: 1px solid #c9c9c9">
                 <label class="col-sm-2 control-label text-left"
-                       style="color: #5a6378; font-size:14px; text-align: left; font-weight: normal">POD配置</label>
-                <div class="col-sm-10">
+                       style="color: #5a6378; font-size:14px; text-align: left;">POD配置</label>
+                <div class="col-sm-10" style="float: left">
                     <div>
                         <a href="javascript:;" style="text-decoration:none;" ng-click="addContainer()"><i
                                 class="fa fa-green fa-plus-circle"></i>
                             <span>创建容器</span></a>
                     </div>
-                    <div class="panel panel-default" style="margin-top: 20px; margin-right: 20px">
+                    <div ng-repeat="item in addCon">
+                    <div class="panel panel-default" style="margin-top: 20px; margin-right: 20px;" >
                         <div class="panel-heading">
                             <span class="panel-title-o" style="font-size: 12px; margin-left: 5px">设置容器</span>
                             <i class="fa fa-times-circle pull-right" style="margin-top: 10px"
-                               ng-click="delContainer()"></i>
+                               ng-click="delContainer(index)"></i>
                         </div>
                         <div class="panel-body">
                             <div class="form-group" style="overflow:hidden">
                                 <input name="containername" type="text" class="form-control col-sm-12"
                                        placeholder="请设置容器名称" style="margin-left: 5px; width: 650px;"
-                                       ng-model="deploymentConfig.spec.containers.name">
+                                       ng-model="deploymentConfig.template.spec.containers.name">
                             </div>
                             <hr>
 
-                            <div class="form-group" style="overflow:hidden; margin-left: 5px">
+                            <div class="form-group" style="overflow:hidden; margin-left: 5px;">
                                 <a class="btn btn-orange" ng-click="loadImageStream()" herf="javascript:;">
                                     <span class="hidden-xs">选择镜像</span>
                                 </a>
@@ -47,9 +48,9 @@
                             </div>
                             <hr>
 
-                            <div class="form-group" style="margin-left: 5px; font-size: 12px">
+                            <div class="form-group" style="margin-left: 5px; font-size: 12px;">
                                 <p>挂载secret卷
-                                    <a href="" style="text-decoration: none"><i class="fa fa-green fa-plus-circle fn-lg" style="margin-left: 10px; margin-right: 10px"></i><span>创建</span></a>
+                                    <a style="text-decoration: none"><i class="fa fa-green fa-plus-circle fn-lg" style="margin-left: 10px; margin-right: 10px"></i><span>创建</span></a>
                                 </p>
                                 <div class="dropdownlist">
                                     <div class="dropdown col-md-6">
@@ -81,11 +82,11 @@
                             </div>
                         </div>
                     </div>
+                    </div>
                 </div>
             </div>
-            <hr>
 
-            <div class="form-group" style="margin-right: 20px">
+            <div class="form-group" style="margin-right: 20px; height: 30px;">
                 <label class="col-sm-2 control-label text-left"
                        style="color: #5a6378; font-size:14px; text-align: left;">端口开放</label>
                 <div class="col-sm-10 table-responsive" style="margin-top: 20px;">
