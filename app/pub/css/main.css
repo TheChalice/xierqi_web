@@ -579,6 +579,14 @@ hr {
     left: 0;
     top: 0;
 }
+.faa-check {
+    background-position: -16px -220px;
+    width: 15px;
+    height: 15px;
+}
+.active .faa-check {
+    background-position: -41px -220px;
+}
 
 @media (max-width: 758px) {
     body {

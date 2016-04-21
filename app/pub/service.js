@@ -79,6 +79,59 @@ define(['angular'], function (angular) {
                 }).result;
             };
         }])
+        .service('ImageSelect', ['$uibModal', function($uibModal){
+            this.open = function () {
+                return $uibModal.open({
+                    templateUrl: 'pub/tpl/modal_choose_image.html',
+                    size: 'default modal-lg',
+                    controller: ['$rootScope', '$scope', '$uibModalInstance', 'images', 'ImageStreamTag', function($rootScope, $scope, $uibModalInstance, images, ImageStreamTag) {
+                        console.log('images', images);
+
+                        $scope.grid = {
+                            cat: 0,
+                            image: null,
+                            version: null
+                        };
+
+                        $scope.images = images;
+
+                        $scope.selectCat = function(idx){
+                            $scope.grid.cat = idx;
+
+                        };
+
+                        $scope.selectImage = function(idx){
+                            $scope.grid.image = idx;
+                            var image = $scope.images.items[idx];
+                            angular.forEach(image.status.tags, function(item){
+                                ImageStreamTag.get({namespace: $rootScope.namespace, name: image.metadata.name + ':' + item.tag}, function(res){
+                                    item.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
+                                }, function(res){
+                                    console.log("get image stream tag err", res);
+                                });
+                            });
+                            $scope.imageTags = image.status.tags;
+                        };
+
+                        $scope.selectVersion = function(idx){
+                            $scope.grid.version = idx;
+                        };
+
+                        $scope.cancel = function() {
+                            $uibModalInstance.dismiss();
+                        };
+                        $scope.ok = function() {
+                            $uibModalInstance.close(true);
+                        };
+                    }],
+                    resolve: {
+                        images: ['$rootScope', 'ImageStream', function ($rootScope, ImageStream) {
+                            return ImageStream.get({namespace: $rootScope.namespace}).$promise;
+                        }]
+                    }
+                })
+            }
+        }])
         .service('Sort', [function(){
             this.sort = function (items, reverse) {
                 if (!reverse || reverse == 0) {
