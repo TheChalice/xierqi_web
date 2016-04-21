@@ -325,6 +325,17 @@ hr {
     color: #5a6378;
 }
 
+.modal-default.modal-lg {
+    width: 900px;
+    top: 50%;
+    left: 50%;
+    margin-top: -300px;
+    margin-left: -450px;
+}
+.modal-default.modal-lg .modal-content {
+    height: 100%;
+}
+
 /*toast*/
 .modal-toast {
     overflow: hidden;
