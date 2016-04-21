@@ -20,27 +20,29 @@
                 <div class="col-xs-6">
                     <h2>镜像</h2>
                     <div class="is-box-search">
-                        <input type="text" class="form-control" placeholder="镜像名称">
+                        <input type="text" class="form-control" ng-model="imageName" placeholder="镜像名称">
                     </div>
-                    <ul>
-                        <li ng-repeat="image in images.items">
-                            <a href="javascript:;" ng-class="{'active': grid.image == $index}" ng-click="selectImage($index)">
-                                <i class="faa faa-check"></i>&nbsp;&nbsp;{{image.metadata.name}}
-                            </a>
-                        </li>
-                    </ul>
+                    <div class="is-box-wrap">
+                        <ul>
+                            <li ng-repeat="image in images.items" ng-show="!image.hide">
+                                <a href="javascript:;" ng-class="{'active': grid.image == $index}" ng-click="selectImage($index)">
+                                    <i class="faa faa-check"></i>&nbsp;&nbsp;{{image.metadata.name}}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="col-xs-6">
                     <h2>镜像版本</h2>
                     <div class="is-box-search">
-                        <input type="text" class="form-control" placeholder="commit id">
+                        <input type="text" class="form-control" ng-model="imageVersion" placeholder="commit id">
                     </div>
                     <div class="is-box-wrap">
-                        <ul ng-repeat="tag in imageTags">
-                            <li ng-repeat="o in tag.items">
-                                <a href="javascript:;" ng-class="{'active': grid.version == $index}" ng-click="selectVersion($index)">
+                        <ul ng-repeat="(k, tag) in imageTags" ng-show="!tag.hide">
+                            <li ng-repeat="(j, o) in tag.items" ng-show="j < 1">
+                                <a href="javascript:;" ng-class="{'active': grid.version_x == k && grid.version_y == j}" ng-click="selectVersion(k, j)">
                                     <i class="faa faa-check"></i>&nbsp;&nbsp;
-                                    <span ng-if="tag.ref">{{tag.ref}} - </span>{{o.image | stripSHAPrefix | limitTo: 7}}
+                                    <span ng-if="tag.ref">{{tag.ref}} - </span>{{tag.commitId | limitTo: 7}}
                                 </a>
                             </li>
                         </ul>

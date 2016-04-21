@@ -418,7 +418,9 @@ angular.module('console.service.detail', [
 
         $scope.selectImage = function(idx){
             var container =  $scope.dc.spec.template.spec.containers[idx];
-            ImageSelect.open();
+            ImageSelect.open().then(function(res){
+                console.log("res===", res);
+            });
         };
     }])
     .service('LogModal', ['$uibModal', function ($uibModal) {

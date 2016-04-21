@@ -90,14 +90,32 @@ define(['angular'], function (angular) {
                         $scope.grid = {
                             cat: 0,
                             image: null,
-                            version: null
+                            version_x: null,
+                            version_y: null
                         };
+
+                        $scope.$watch('imageName', function(newVal, oldVal){
+                            if (newVal != oldVal) {
+                                newVal = newVal.replace(/\\/g);
+                                angular.forEach($scope.images.items, function(image){
+                                    image.hide = !(new RegExp(newVal)).test(image.metadata.name);
+                                });
+                            }
+                        });
+
+                        $scope.$watch('imageVersion', function(newVal, oldVal){
+                            if (newVal != oldVal) {
+                                newVal = newVal.replace(/\\/g);
+                                angular.forEach($scope.imageTags, function(tag){
+                                    tag.hide = !(new RegExp(newVal)).test(tag.commitId);
+                                });
+                            }
+                        });
 
                         $scope.images = images;
 
                         $scope.selectCat = function(idx){
                             $scope.grid.cat = idx;
-
                         };
 
                         $scope.selectImage = function(idx){
@@ -106,6 +124,8 @@ define(['angular'], function (angular) {
                             angular.forEach(image.status.tags, function(item){
                                 ImageStreamTag.get({namespace: $rootScope.namespace, name: image.metadata.name + ':' + item.tag}, function(res){
                                     item.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
+                                    item.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
+                                    item.ist = res;
                                 }, function(res){
                                     console.log("get image stream tag err", res);
                                 });
@@ -113,15 +133,16 @@ define(['angular'], function (angular) {
                             $scope.imageTags = image.status.tags;
                         };
 
-                        $scope.selectVersion = function(idx){
-                            $scope.grid.version = idx;
+                        $scope.selectVersion = function(x, y){
+                            $scope.grid.version_x = x;
+                            $scope.grid.version_y = y;
                         };
 
                         $scope.cancel = function() {
                             $uibModalInstance.dismiss();
                         };
                         $scope.ok = function() {
-                            $uibModalInstance.close(true);
+                            $uibModalInstance.close($scope.imageTags[$scope.grid.version_x].ist);
                         };
                     }],
                     resolve: {
@@ -129,7 +150,7 @@ define(['angular'], function (angular) {
                             return ImageStream.get({namespace: $rootScope.namespace}).$promise;
                         }]
                     }
-                })
+                }).result;
             }
         }])
         .service('Sort', [function(){
