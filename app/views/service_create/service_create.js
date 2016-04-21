@@ -7,8 +7,8 @@ angular.module('console.service.create', [
             ]
         }
     ])
-    .controller('ServiceCreateCtrl', [ '$rootScope', '$scope', '$log', 'ImageStream', 'DeploymentConfig', 'ImageSelect','BackingServiceInstance','BackingServiceInstanceBd',
-        function ($rootScope, $scope, $log, ImageStream, DeploymentConfig, ImageSelect,BackingServiceInstance,BackingServiceInstanceBd) {
+    .controller('ServiceCreateCtrl', [ '$rootScope', '$scope', '$log', 'ImageStream', 'DeploymentConfig', 'ImageSelect','BackingServiceInstance','BackingServiceInstanceBd','ReplicationController',
+        function ($rootScope, $scope, $log, ImageStream, DeploymentConfig, ImageSelect,BackingServiceInstance,BackingServiceInstanceBd,ReplicationController) {
         $log.info('ServiceCreate');
 
         $scope.grid = {};
@@ -61,14 +61,32 @@ angular.module('console.service.create', [
         $scope.loadImageStream = function() {
             ImageSelect.open();
         };
+
+        //创建rc
+        var creatRc = function(dcData){
+            var rcobj = {
+                metadata:{
+                    name : dcData.metadata.name+dcData.status.latestVersion
+                },
+
+                spec : dcData.spec
+
+            }
+            ReplicationController.create({namespace: $rootScope.namespace},rcobj, function (data) {
+
+            });
+        }
         //创建dc
         $scope.createDC = function() {
             $scope.deploymentConfig.template.spec.containers.env = $scope.envList;
             //DeploymentConfig.create({namespace: $rootScope.namespace},$scope.deploymentConfig, function (data) {
             //     $log.info('createDC-data',data);
+            //if($scope.grid.isautoRun){creatRc(data)}
+            //if($scope.grid.isautoDeploy){autoDeploy()}
             //});
             console.log($scope.grid.isautoDeploy)
             console.log("deploymentConfig", $scope.deploymentConfig);
+            //bindService();
        };
        var bsiList = function() {
            BackingServiceInstance.get({namespace: $rootScope.namespace}, function (data) {
@@ -76,20 +94,36 @@ angular.module('console.service.create', [
                $scope.BsiList = data.items;
            });
        }
+       $scope.addBuildFun = function(idx){
+           var bsi = $scope.BsiList[idx];
+           bsi.selected = !bsi.selected;
+       }
             //绑定服务
        var bindService = function(){
-           $scope.dcname = 'test';
+           var bsiarr = [];
+           for(var i = 0;i<$scope.BsiList.length;i++){
+               if($scope.BsiList[i].selected == true){
+                   bsiarr.push($scope.BsiList[i]);
+               }
+           }
+           console.log(bsiarr);
            var bindserviceobj = {
-               resourceName : $scope.dcname,
+               resourceName : $scope.deploymentConfig.metadata.name,
                bindResourceVersion : {},
-               bindKind : 'DeploymentConfig',
+               bindKind : 'DeploymentConfig'
 
            }
-           BackingServiceInstanceBd.create({namespace: $rootScope.namespace,name:$scope.dcname}, bindserviceobj, function (data) {
+           for(var j = 0;j<bsiarr.length;j++){
+               BackingServiceInstanceBd.create({namespace: $rootScope.namespace,name:bsiarr[i].metadata.name}, bindserviceobj, function (data) {
+                        $log.info('BackingServiceInstanceBd',data);
+               });
+           }
 
-           });
        }
+            // 自动部署
        $scope.grid.isautoDeploy = false;
+            //自动发布
+       $scope.grid.isautoRun = false;
        var autoDeploy = function(){
            $scope.triggers = [];
            var conTn = $scope.deploymentConfig.template.spec.containers;
@@ -105,7 +139,6 @@ angular.module('console.service.create', [
                            "kind":"ImageStreamTag",
                            "name":"datafoundryweb:latest"
                        },
-                       "lastTriggeredImage":""
                    }
                }
                $scope.triggers.push(thisobj);
@@ -115,15 +148,12 @@ angular.module('console.service.create', [
        $scope.addEnv = function(){
            var newenv = {};
            $scope.envList.push(newenv);
-
-
        };
 
        $scope.delEnv = function(idx){
            $scope.envList.splice(idx,1);
        }
        bsiList ();
-       //$scope.createDC();
     }])
 
     .service('ImageSelect', ['$uibModal', function($uibModal){

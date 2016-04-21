@@ -399,11 +399,13 @@ hr {
     height: 60px;
     margin-bottom: 15px;
 }
-.tabandimage:active{
+/*.tabandimage:active{*/
+    /*border: 1px solid #f6a540;*/
+/*}*/
+
+.tabandimagecur{
     border: 1px solid #f6a540;
 }
-
-
 /* timeline */
 .dot {
     display: inline-block;
@@ -481,11 +483,12 @@ hr {
     font-size: 12px;
     padding-top: 8px;
     padding-bottom: 7px;
+    position: relative;
 }
 .dropdown-select > .btn .caret {
-    float: right;
-    position: relative;
-    top: 8px;
+    right:10px;
+    position: absolute;
+    top: 15px;
 }
 .dropdown-select > ul {
     width: 100%;
