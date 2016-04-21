@@ -40,10 +40,6 @@ angular.module('console.service.create', [
                 {
                     name:"DATAFOUNDRY_APISERVER_ADDR",
                     value:"lab-test.dataos.io:8443"
-                },
-                {
-                    name:"DATAFOUNDRY_APISERVER_ADDR",
-                    value:"lab-test.dataos.io:8443"
                 }
             ];
         $log.info("ImageStream");
@@ -57,9 +53,42 @@ angular.module('console.service.create', [
        var bsiList = function(){
            BackingServiceInstance.get({namespace: $rootScope.namespace}, function (data) {
                $log.info("bsiList", data);
-               $scope.BsiList = data.items;
+               //$scope.BsiList = data.items;
+               $scope.BsiList = [
+                   {
+                       metadata:
+                   {name : 'test'},
+                       spec :{
+                           provisioning : {
+                               backingservice_name : 'test1'
+                           }
+                       }
+                   }
+               ]
 
            });
+       }
+       $scope.autoDeploy = function(){
+           $scope.triggers = [];
+           var conTn = $scope.deploymentConfig.template.spec.containers;
+           for(var i = 0; i< conTn.length;i++){
+               var thisobj = {
+                   "type":"ImageChange",
+                   "imageChangeParams":{
+                       "automatic":true,
+                       "containerNames":[
+                           "datafoundryweb"
+                       ],
+                       "from":{
+                           "kind":"ImageStreamTag",
+                           "name":"datafoundryweb:latest"
+                       },
+                       "lastTriggeredImage":""
+                   }
+               }
+               $scope.triggers.push(thisobj);
+
+           }
        }
        $scope.addEnv = function(){
            var newenv = {};
