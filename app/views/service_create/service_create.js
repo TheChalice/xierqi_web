@@ -7,9 +7,12 @@ angular.module('console.service.create', [
             ]
         }
     ])
-    .controller('ServiceCreateCtrl', [ '$rootScope', '$scope', '$log', 'ImageStream', 'DeploymentConfig', 'ImageSelect','BackingServiceInstance',
-        function ($rootScope, $scope, $log, ImageStream, DeploymentConfig, ImageSelect,BackingServiceInstance) {
+    .controller('ServiceCreateCtrl', [ '$rootScope', '$scope', '$log', 'ImageStream', 'DeploymentConfig', 'ImageSelect','BackingServiceInstance','BackingServiceInstanceBd',
+        function ($rootScope, $scope, $log, ImageStream, DeploymentConfig, ImageSelect,BackingServiceInstance,BackingServiceInstanceBd) {
         $log.info('ServiceCreate');
+
+        $scope.grid = {};
+
         $scope.deploymentConfig = {
             metadata: {
                 name: ''
@@ -38,7 +41,6 @@ angular.module('console.service.create', [
         };
 
         $scope.addContainer = function() {
-
             var newContainer = {};
             $scope.deploymentConfig.template.spec.containers.push(newContainer);
             $scope.addCon = $scope.deploymentConfig.template.spec.containers;
@@ -49,37 +51,44 @@ angular.module('console.service.create', [
         }
         $scope.envList = [
                 {
-                    name:"DATAFOUNDRY_APISERVER_ADDR",
-                    value:"lab-test.dataos.io:8443"
+                    name:"test",
+                    value:"lab-test"
                 }
             ];
         $log.info("ImageStream");
         $scope.loadImageStream = function() {
             ImageSelect.open();
         };
-
+        //创建dc
         $scope.createDC = function() {
+            $scope.deploymentConfig.template.spec.containers.env = $scope.envList;
+            //DeploymentConfig.create({namespace: $rootScope.namespace},$scope.deploymentConfig, function (data) {
+            //     $log.info('createDC-data',data);
+            //});
+            console.log($scope.grid.isautoDeploy)
             console.log("deploymentConfig", $scope.deploymentConfig);
        };
-       var bsiList = function(){
+       var bsiList = function() {
            BackingServiceInstance.get({namespace: $rootScope.namespace}, function (data) {
                $log.info("bsiList", data);
-               //$scope.BsiList = data.items;
-               $scope.BsiList = [
-                   {
-                       metadata:
-                   {name : 'test'},
-                       spec :{
-                           provisioning : {
-                               backingservice_name : 'test1'
-                           }
-                       }
-                   }
-               ]
+               $scope.BsiList = data.items;
+           });
+       }
+            //绑定服务
+       var bindService = function(){
+           $scope.dcname = 'test';
+           var bindserviceobj = {
+               resourceName : $scope.dcname,
+               bindResourceVersion : {},
+               bindKind : 'DeploymentConfig',
+
+           }
+           BackingServiceInstanceBd.create({namespace: $rootScope.namespace,name:$scope.dcname}, bindserviceobj, function (data) {
 
            });
        }
-       $scope.autoDeploy = function(){
+       $scope.grid.isautoDeploy = false;
+       var autoDeploy = function(){
            $scope.triggers = [];
            var conTn = $scope.deploymentConfig.template.spec.containers;
            for(var i = 0; i< conTn.length;i++){
@@ -107,11 +116,12 @@ angular.module('console.service.create', [
 
 
        };
+
        $scope.delEnv = function(idx){
            $scope.envList.splice(idx,1);
        }
        bsiList ();
-       $scope.createDC();
+       //$scope.createDC();
     }])
 
     .service('ImageSelect', ['$uibModal', function($uibModal){

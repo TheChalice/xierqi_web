@@ -169,6 +169,12 @@ define([
             });
             return BackingServiceInstance;
         }])
+        .factory('BackingServiceInstanceBd', ['$resource', 'GLOBAL', function($resource, GLOBAL){
+            var BackingServiceInstanceBd= $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances/:name/binding', {name: '@name', namespace: '@namespace'},{
+                create: {method: 'POST'}
+            });
+            return BackingServiceInstanceBd;
+        }])
         .factory('Pod', ['$resource', 'GLOBAL', function($resource, GLOBAL){
             var Pod= $resource(GLOBAL.host_k8s + '/namespaces/:namespace/pods/:name', {name: '@name', namespace: '@namespace'},{
                 create: {method: 'POST'}

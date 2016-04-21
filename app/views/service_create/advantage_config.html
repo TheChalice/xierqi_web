@@ -4,7 +4,7 @@
             <span class="panel-title">高级配置</span>
         </div>
         <div class="panel-body">
-            <div class="form-group" style="overflow:hidden;">
+            <div class="form-group">
                 <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size:14px; text-align: left; margin-top: 30px">服务高可用</label>
                 <div class="col-sm-10" style=" margin-bottom: 30px; margin-left: -10px">
                     <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">POD数量</label>
@@ -23,14 +23,21 @@
 
                     <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">重启策略</label>
                     <!--<input name="cdm"   style="width: 80px;display: inline-block;" type="text" class="form-control">-->
-                    <select ng-model="deploymentConfig.template.spec.restartPolicy">
-                        <option value="Always">Always</option>
-                        <option value="Never">Never</option>
-                        <option value="Onfailure">Onfailure</option>
-                    </select>
+                    <div class="dropdown dropdown-select" style="width: 200px;">
+                        <button class="btn dropdown-toggle" data-toggle="dropdown">
+                            <span>Onfailure</span>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li ng-repeat="i in ['Always', 2]">
+                                <a href="javascript:;">{{i}}</a>
+                            </li>
+                        </ul>
+                    </div>
 
                 </div>
             </div>
+            <div style="clear: both"></div>
             <hr>
             <div class="form-group" style="overflow:hidden;">
                 <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size:14px; text-align: left;">路由设置</label>
@@ -53,10 +60,13 @@
                     </div>
                     <div class="panel-body">
                         <div class="form-group" style="overflow:hidden" ng-repeat="item in BsiList">
-                            <div class="tabandimage col-md-6">
-                                <!--<img style="float: left; margin-left: -15px" src="views/service_create/img/images_60.png" >-->
-                                <p style="">{{item.metadata.name}}</p>
-                                <p style="">{{item.spec.provisioning.backingservice_name}}</p>
+                            <div class="col-md-6">
+                                <div class="tabandimage">
+                                    <i class="faa faa-image" style="float: left;margin-right: 10px;"></i>
+                                    <i class="faa faa-image-mark"></i>
+                                    <p style="margin: 10px 0 5px 0;">{{item.metadata.name}}</p>
+                                    <p>{{item.spec.provisioning.backingservice_name}}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -71,20 +81,23 @@
                         <span class="panel-title-o" style="font-size: 12px; margin-left: 5px">环境变量设置</span>
                         <i class="fa fa-times-circle pull-right" style="margin-top: 10px" ng-click="delEnv($index)"></i>
                     </div>
-                    <div class="panel-body" >
-                        <div class="form-group" style="overflow:hidden">
-                            <label>健</label>
-                            <input type="text" ng-model="envL.name">
-                            <label>值</label>
-                            <input type="text" ng-model="envL.value">
+                    <form name="frm">
+                        <div class="panel-body" >
+                            <div class="form-group" style="overflow:hidden">
+                                <label>键</label>
+                                <input type="text" ng-model="envL.name" name="envName" ng-pattern="/^[a-zA-Z_]{1}[a-zA-Z_0-9]*$/">
+                                {{frm.envName.$valid}}
+                                <label>值</label>
+                                <input type="text" ng-model="envL.value">
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
             <hr>
             <div class="form-group" style="overflow:hidden">
                 <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size: 14px; text-align: left">自动部署</label>
-                <input type="checkbox">
+                <input type="checkbox" ng-model="grid.isautoDeploy">{{grid.isautoDeploy}}
                 <labe>镜像变化触发自动部署</labe>
             </div>
             <hr>
@@ -111,6 +124,6 @@
     </div>
     <div style="margin-top: 15px;">
         <a class="btn btn-orange col-md-5">返回基础配置</a>
-        <a class="btn btn-orange col-md-5" href="" style="margin-left: 80px; margin-right: 0px">创建服务</a>
+        <a class="btn btn-orange col-md-5" href="" style="margin-left: 80px; margin-right: 0px" ng-click="createDC()">创建服务</a>
     </div>
 </div>
