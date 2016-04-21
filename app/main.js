@@ -34,7 +34,9 @@ require.config({
         angularMd: '../bower_components/angular-marked/dist/angular-marked.min',
         angularClipboard: '../bower_components/angular-clipboard/angular-clipboard',
         kubernetesUI: 'pub/terminal',
-        term: '../bower_components/term.js/src/term'
+        term: '../bower_components/term.js/src/term',
+        highcharts: '../bower_components/highcharts/highcharts',
+        highchartsNg: '../bower_components/highcharts-ng/dist/highcharts-ng.min'
     },
     shim: {
         'angular': {
@@ -77,6 +79,9 @@ require.config({
         },
         'kubernetesUI': {
             deps: ['angular', 'term']
+        },
+        'highchartsNg': {
+            deps: ['angular', 'highcharts']
         }
     },
     priority: [

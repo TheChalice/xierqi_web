@@ -64,7 +64,7 @@
     font-size: 16px;
     margin: 0 0 5px 0;
 }
-.service-config hr {
+.service-config > hr {
     margin: 0 0 30px 0;
 }
 .service-config h3 {
@@ -110,10 +110,18 @@
     color: red;
     vertical-align: sub;
 }
-.service-config .secret-bar .fa {
+.service-config .secret-bar .fa,
+.service-config .key-value-bar .fa {
     text-decoration: none;
     color: #9fa7b7;
 }
-.service-config .secret-bar .fa:hover {
+.service-config .secret-bar .fa:hover,
+.service-config .key-value-bar .fa:hover {
     color: #3c4251;
+}
+
+.input-small {
+    width: 70px;
+    border: 1px solid #c9c9c9;
+    border-radius: 2px;
 }

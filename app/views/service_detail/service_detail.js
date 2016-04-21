@@ -4,17 +4,24 @@ angular.module('console.service.detail', [
     {
         files: [
             'views/service_detail/service_detail.css',
-            'components/datepick/datepick.js'
+            'components/datepick/datepick.js',
+            'components/checkbox/checkbox.js'
         ]
     }
 ])
-    .controller('ServiceDetailCtrl', ['$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamImage', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal',
-        function($rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamImage, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal) {
+    .controller('ServiceDetailCtrl', ['$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamImage', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal', 'Secret',
+        function($rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamImage, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret) {
         //获取服务列表
         var loadDc = function (name) {
             DeploymentConfig.get({namespace: $rootScope.namespace, name: name}, function(res){
                 $log.info("deploymentConfigs", res);
                 $scope.dc = res;
+
+                angular.forEach($scope.dc.spec.template.spec.containers, function(item){
+                    if (!item.volumeMounts || item.volumeMounts.length == 0) {
+                        item.volumeMounts = [{}];
+                    }
+                });
 
                 loadRcs(res.metadata.name);
                 loadRoutes();
@@ -369,8 +376,42 @@ angular.module('console.service.detail', [
 
         $scope.addContainer = function () {
             console.log("addContainer");
-            $scope.dc.spec.template.spec.containers.push({});
-        }
+            $scope.dc.spec.template.spec.containers.push({volumeMounts:[{}], show: true, new: true});
+        };
+
+        $scope.rmContainer = function (idx) {
+            console.log("rmContainer");
+            $scope.dc.spec.template.spec.containers.splice(idx, 1);
+        };
+
+        var loadSecrets = function () {
+            Secret.get({namespace: $rootScope.namespace}, function(res){
+                $log.info("secrets", res);
+
+                $scope.secrets = res;
+            }, function(res){
+                $log.info("load secrets err", res);
+            });
+        };
+        loadSecrets();
+
+        $scope.addSecret = function (name, idx, last) {
+            var containers = $scope.dc.spec.template.spec.containers;
+            var container = null;
+            for (var i = 0; i < containers.length; i++) {
+                if (containers[i].name == name) {
+                    container = containers[i];
+                }
+            }
+            if (!container) {
+                return;
+            }
+            if (last) {     //添加
+                container.volumeMounts.push({});
+            } else {
+                container.volumeMounts.splice(idx, 1);
+            }
+        };
     }])
     .service('LogModal', ['$uibModal', function ($uibModal) {
         this.open = function (pod) {
@@ -455,35 +496,67 @@ angular.module('console.service.detail', [
 
                     $scope.terminalTabWasSelected = false;
 
+                    var setChart = function(name, data){
+                        return {
+                            options: {
+                                chart: {
+                                    type: 'areaspline'
+                                },
+                                title: {
+                                    text: name,
+                                        align: 'left',
+                                        x: 0,
+                                        style: {
+                                        fontSize: '12px'
+                                    }
+                                },
+                                tooltip: {
+                                    backgroundColor: '#666',
+                                        borderWidth: 0,
+                                        shadow: false,
+                                        style: {
+                                        color: '#fff'
+                                    },
+                                    formatter: function(){
+                                        return this.y;
+                                    }
+                                },
+                                legend: {
+                                    enabled: false
+                                }
+                            },
+                            series: [{
+                                color: '#f6a540',
+                                fillOpacity: 0.3,
+                                marker: {
+                                    enabled: false
+                                },
+                                data: data
+                            }],
+                            xAxis: {
+                                gridLineWidth: 1,
+                                currentMin: 0,
+                                currentMax: 20
+                            },
+                            yAxis: {
+                                gridLineDashStyle: 'ShortDash',
+                                    title: {
+                                    text: ''
+                                }
+                            },
+                            size: {
+                                width: 798,
+                                    height: 130
+                            },
+                            func: function (chart) {
+                                //setup some logic for the chart
+                            }
+                        };
+                    };
 
-                    //var terminal = function(container) {
-                    //    console.log("pods", pod.metadata.name);
-                    //    Ws.terminal({
-                    //        api: 'k8s',
-                    //        namespace: $rootScope.namespace,
-                    //        type: 'pods',
-                    //        name: pod.metadata.name,
-                    //        container: container
-                    //    }, function(res){
-                    //        console.log('data======', res);
-                    //
-                    //        //var data = JSON.parse(res.data);
-                    //
-                    //    }, function(){
-                    //        $log.info("webSocket start");
-                    //    }, function(){
-                    //        $log.info("webSocket stop");
-                    //        var key = Ws.key($rootScope.namespace, 'pods', container);
-                    //        if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
-                    //            return;
-                    //        }
-                    //        terminal(container);
-                    //    });
-                    //};
-
-                    //$scope.$on('$destroy', function(){
-                    //    Ws.clear();
-                    //});
+                    $scope.chartConfigCpu = setChart('CPU', [0.01, 0.02, 0.04, 0.01, 0.02, 0.02, 0.09, 0.04,0.05, 0.01, 0.09, 0.04, 0.02]);
+                    $scope.chartConfigMem = setChart('内存', []);
+                    $scope.chartConfigIo = setChart('网络IO', []);
                 }]
             }).result;
         };

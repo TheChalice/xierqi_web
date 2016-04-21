@@ -17,7 +17,8 @@ define([
     'components/version/version',
     'angularMd',
     'angularClipboard',
-    'kubernetesUI'
+    'kubernetesUI',
+    'highchartsNg'
 ], function (angular) {
 
     // 声明应用及其依赖
@@ -33,7 +34,8 @@ define([
         'myApp.filter',
         'myApp.webSocket',
         'myApp.version',
-        'hc.marked'
+        'hc.marked',
+        'highcharts-ng'
     ]);
 
     myApp.constant('GLOBAL', {

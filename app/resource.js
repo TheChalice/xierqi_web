@@ -181,5 +181,11 @@ define([
                 create: {method: 'POST'}
             });
             return Event;
+        }])
+        .factory('Secret', ['$resource', 'GLOBAL', function($resource, GLOBAL){
+            var Secret= $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets/:name', {name: '@name', namespace: '@namespace'},{
+                create: {method: 'POST'}
+            });
+            return Secret;
         }]);
 });

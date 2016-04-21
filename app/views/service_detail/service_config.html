@@ -8,41 +8,49 @@
         </a>
     </h3>
 
-    <div ng-repeat="container in [1]" ng-class="{'bg-gray': true}">
+    <div ng-repeat="container in dc.spec.template.spec.containers" ng-class="{'bg-gray': true}">
         <div class="container-fluid container-bar">
             <div class="row">
                 <div class="col-sm-6">
-                     镜像名
+                     {{container.name}}
                 </div>
                 <div class="col-sm-6 text-right">
-                    <a class="icon25 icon25-collapse" uib-tooltip="查看" href="javascript:;"></a>
-                    <a class="icon25 icon25-stop" uib-tooltip="=删除" href="javascript:;"></a>
+                    <a class="icon25 icon25-collapse" ng-click="container.show = !container.show" uib-tooltip="查看" href="javascript:;"></a>
+                    <a class="faa faa-times" ng-click="rmContainer($index)" uib-tooltip="删除" href="javascript:;"></a>
                 </div>
             </div>
         </div>
 
-        <div uib-collapse="container.show" class="container-box">
+        <div uib-collapse="!container.show" class="container-box">
+            <div style="margin-bottom: 20px;" ng-if="container.new">
+                <h4>设置容器名称</h4>
+                <input ng-model="container.name" style="width: 300px;display: inline-block;" type="text" class="form-control" placeholder="请设置容器名称"><span class="require"></span>
+            </div>
             <div style="margin-bottom: 20px;">
                 <a href="javascript:;" class="btn btn-orange">选择镜像</a><span class="require"></span>
             </div>
             <div style="font-size: 12px;color: #5a6378;">
-                <p style="margin-bottom: 5px;">镜像名称:{{}}</p>
-                <p style="margin-bottom: 30px;">镜像版本:{{}}</p>
+                <div ng-if="container.image">
+                    <p style="margin-bottom: 5px;">镜像名称:&nbsp;{{container.image | imageStreamName}}</p>
+                    <p style="margin-bottom: 30px;">镜像版本:&nbsp;{{container.image | stripSHAPrefix | limitTo: 7}}</p>
+                </div>
+
                 <h4>挂载secret卷&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="fa fa-plus-circle fa-lg href-add">&nbsp;&nbsp;创建</a></h4>
-                <div class="secret-bar" ng-repeat="i in [1]">
+
+                <div class="secret-bar" ng-repeat="vm in container.volumeMounts">
                     <div class="dropdown dropdown-select" style="width: 200px;margin: 0 15px 15px 0;">
                         <button class="btn dropdown-toggle" data-toggle="dropdown">
-                            <span>secret卷名称</span>
+                            <span>{{vm.name || '请选择'}}</span>
                             <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                            <li><a href="#">select1</a></li>
-                            <li><a href="#">select2</a></li>
-                            <li><a href="#">select3</a></li>
+                        <ul class="dropdown-menu">
+                            <li ng-repeat="s in secrets.items">
+                                <a href="javascript:;" ng-click="vm.name = s.metadata.name">{{s.metadata.name}}</a>
+                            </li>
                         </ul>
                     </div>
-                    <input style="width: 300px;display: inline-block;margin: 0 15px 15px 0;" type="text" class="form-control">
-                    <a href="javascript:;" ng-click="addSecret($index, $last)" class="fa fa-lg" ng-class="{'fa-times-circle':!$last, 'fa-plus-circle':$last}"></a>
+                    <input ng-model="vm.mountPath" style="width: 300px;display: inline-block;margin: 0 15px 15px 0;" type="text" class="form-control">
+                    <a href="javascript:;" ng-click="addSecret(container.name, $index, $last)" class="fa fa-lg" ng-class="{'fa-times-circle':!$last, 'fa-plus-circle':$last}"></a>
                 </div>
 
                 <h4>容器资源限额</h4>
@@ -67,14 +75,14 @@
                 <th style="width: 30%">镜像</th>
                 <th style="width: 50%;">端口</th>
             </tr>
-            <tr ng-repeat="container in [1, 2]">
+            <tr ng-repeat="container in dc.spec.template.spec.containers">
                 <td style="vertical-align: middle;">
-                    容器名称
+                    {{container.name}}
                 </td>
                 <td style="vertical-align: middle;">
-                    <span ng-repeat="i in [1, 2]">
-                        <p>镜像名称</p>
-                        <p>sdflskdfjsodifs</p>
+                    <span>
+                        <p>{{container.image | imageStreamName}}</p>
+                        <p>{{container.image | stripSHAPrefix | limitTo: 7}}</p>
                     </span>
                 </td>
                 <td style="vertical-align: middle;">
@@ -84,9 +92,9 @@
                         <div class="col-sm-3">服务端口</div>
                         <div class="col-sm-3"></div>
                     </div>
-                    <div class="row" ng-repeat="i in [1, 2]" style="margin-top: 15px;">
-                        <div class="col-sm-3"><input type="text" class="input-small"></div>
-                        <div class="col-sm-3"><input type="text" class="input-small"></div>
+                    <div class="row" ng-repeat="port in container.ports" style="margin-top: 15px;">
+                        <div class="col-sm-3"><input type="text" readonly class="input-small" ng-model="port.protocol"></div>
+                        <div class="col-sm-3"><input type="text" readonly class="input-small" ng-model="port.containerPort"></div>
                         <div class="col-sm-3"><input type="text" class="input-small"></div>
                         <div class="col-sm-3"><input type="checkbox">&nbsp;开放</div>
                     </div>
@@ -98,12 +106,158 @@
     <h2>高级配置</h2>
     <hr>
 
-    <style>
-        .input-small {
-            width: 70px;
-            border: 1px solid #c9c9c9;
-            border-radius: 2px;
-        }
-    </style>
+    <div class="row">
+        <div class="col-md-2" style="padding-top: 10px;">
+            <h3>服务高可用</h3>
+        </div>
+        <div class="col-md-10">
+            <label style="font-size: 12px; font-weight: normal;">POD数量&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <input name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control">
+            <hr>
+            <label style="font-size: 12px; font-weight: normal;">自动伸缩&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <c-checkbox checked="rubustCheck"></c-checkbox>
+            <br>
+            <div ng-if="rubustCheck">
+                <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">资源阈值&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <span style="font-size: 12px">POD最小数量  <input name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control"></span>
+                <span style="font-size: 12px">POD最大数量  <input name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control"></span>
+                <span style="font-size: 12px">CPU平均利用率 <input name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control"></span>
+            </div>
+            <hr>
+            <label style="font-size: 12px; font-weight: normal;">重启策略&nbsp;&nbsp;&nbsp;&nbsp;</label>
+            <div class="dropdown dropdown-select" style="width: 200px;">
+                <button class="btn dropdown-toggle" data-toggle="dropdown">
+                    <span>onfailure</span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li ng-repeat="i in [1, 2]">
+                        <a href="javascript:;">{{i}}</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <hr style="margin-top: 20px;">
+
+    <div class="row">
+        <div class="col-md-2" style="padding-top: 5px">
+            <h3>路由设置</h3>
+        </div>
+        <div class="col-md-10">
+            <c-checkbox checked="routeCheck"></c-checkbox>
+            <br>
+            <div ng-if="routeCheck">
+                <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">服务端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <input name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control">
+                <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">域名&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <input name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control">
+            </div>
+        </div>
+    </div>
+    <hr style="margin-top: 20px;">
+
+    <div class="row">
+        <div class="col-md-2">
+            <h3>后端服务绑定</h3>
+        </div>
+        <div class="col-md-10">
+            <a href="javascript:;" class="href-add">
+                <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;创建
+            </a>
+        </div>
+        <div class="col-md-9 col-md-offset-2">
+            <div class="panel panel-default sub-panel">
+                <div class="panel-heading">
+                    后端服务设置
+                </div>
+                <div class="panel-body" style="padding-bottom: 0;">
+                    <div class="row">
+                        <div class="col-md-6" ng-repeat="i in [1,2,3]">
+                            <div class="tabandimage">
+                                <i class="faa faa-image" style="float: left;margin-right: 10px;"></i>
+                                <i class="faa faa-image-mark"></i>
+                                <p style="margin: 10px 0 5px 0;">后端服务实例</p>
+                                <p>后端服务名</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-2">
+            <h3>环境变量设置</h3>
+        </div>
+        <div class="col-md-10">
+            <a href="javascript:;" class="href-add">
+                <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;创建环境变量
+            </a>
+        </div>
+        <div class="col-md-9 col-md-offset-2">
+            <div class="panel panel-default sub-panel">
+                <div class="panel-heading">
+                    环境变量设置
+                </div>
+                <div class="panel-body" style="padding-bottom: 0;">
+                    <div class="row key-value-bar" style="margin-bottom: 15px">
+                        <div class="col-md-5">
+                            <div style="float: left;line-height: 36px;">键&nbsp;&nbsp;</div>
+                            <div style="overflow: hidden">
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div style="float: left;line-height: 36px;">值&nbsp;&nbsp;</div>
+                            <div style="overflow: hidden">
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-md-1" style="line-height: 36px;">
+                            <a href="javascript:;" class="fa fa-lg fa-times-circle"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-2">
+            <h3>自动部署</h3>
+        </div>
+        <div class="col-md-10">
+            <labe><input type="checkbox">&nbsp;镜像变化触发自动部署</labe>
+        </div>
+    </div>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-2" style="padding-top: 5px;">
+            <h3>性能监控</h3>
+        </div>
+        <div class="col-md-10">
+            <c-checkbox checked="checkedthird"></c-checkbox>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a ng-if="checkedthird" class="btn btn-orange">性能监测配置</a>
+        </div>
+    </div>
+    <hr style="margin-top: 20px;">
+
+    <div class="row">
+        <div class="col-md-2" style="padding-top: 5px;">
+            <h3>警告服务</h3>
+        </div>
+        <div class="col-md-10">
+            <c-checkbox checked="checkedforth"></c-checkbox>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a ng-if="checkedforth" class="btn btn-orange">告警服务配置</a>
+        </div>
+    </div>
+    <hr style="margin-top: 20px;">
+
+    <button class="btn btn-orange btn-block">更新(会自动触发重新部署)</button>
 
 </div>
