@@ -93,12 +93,6 @@
 .service-config .bg-gray {
     background: #f7f8fb;
 }
-.service-config .require:after {
-    content: '*';
-    margin: 0 5px 0 3px;
-    color: red;
-    vertical-align: sub;
-}
 .service-config .secret-bar .fa,
 .service-config .key-value-bar .fa {
     text-decoration: none;

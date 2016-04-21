@@ -5,13 +5,13 @@
         </div>
         <div class="panel-body">
             <div class="form-group" style="overflow:hidden;">
-                <label class="col-sm-2 control-label text-left"
+                <label class="col-sm-2 control-label text-left require"
                        style="color: #5a6378; font-size:14px; text-align: left; margin-top: 35px;">服务名称</label>
+
                 <div class="col-sm-10" style="padding-right: 40px">
                     <input name="servicename" type="text" class="form-control"
                            style="margin-top: 30px;  margin-right: 20px" placeholder="创建一个服务名称"
                            ng-model="deploymentConfig.metadata.name">
-                    <small>请创建一个服务名称</small>
                 </div>
             </div>
             <hr>
@@ -23,10 +23,10 @@
                     <div>
                         <a href="javascript:;" style="text-decoration:none;" ng-click="addContainer()"><i
                                 class="fa fa-green fa-plus-circle"></i>
-                            <span>创建容器</span></a>
+                            <span class="font12">创建容器</span></a>
                     </div>
-                    <div ng-repeat="item in addCon">
-                    <div class="panel panel-default" style="margin-top: 20px; margin-right: 20px;" >
+
+                    <div class="panel panel-default" style="margin-top: 20px; margin-right: 20px; overflow: inherit;" ng-repeat="item in addCon">
                         <div class="panel-heading">
                             <span class="panel-title-o" style="font-size: 12px; margin-left: 5px">设置容器</span>
                             <i class="fa fa-times-circle pull-right" style="margin-top: 10px"
@@ -37,6 +37,7 @@
                                 <input name="containername" type="text" class="form-control col-sm-12"
                                        placeholder="请设置容器名称" style="margin-left: 5px; width: 650px;"
                                        ng-model="deploymentConfig.template.spec.containers.name">
+                                <span class="require"></span>
                             </div>
                             <hr>
 
@@ -44,45 +45,39 @@
                                 <a class="btn btn-orange" ng-click="loadImageStream()" herf="javascript:;">
                                     <span class="hidden-xs">选择镜像</span>
                                 </a>
-                                <p style="font-size: 12px; margin-top:20px;">镜像名称:</p>
+                                <span class="require"></span>
+                                <p class="font12" style="margin-top:20px;">镜像名称:&nbsp;&nbsp;{{container.image | imageStreamName}}</p>
+                                <p class="font12" style="margin-top:20px;">镜像版本:&nbsp;&nbsp;{{container.image | stripSHAPrefix | limitTo: 7}}</p>
                             </div>
                             <hr>
 
                             <div class="form-group" style="margin-left: 5px; font-size: 12px;">
-                                <p>挂载secret卷
-                                    <a style="text-decoration: none"><i class="fa fa-green fa-plus-circle fn-lg" style="margin-left: 10px; margin-right: 10px"></i><span>创建</span></a>
+                                <p class="font12">挂载secret卷
+                                    <a style="text-decoration: none"><i class="fa fa-green fa-plus-circle fn-lg" style="margin-left: 10px; margin-right: 10px"></i><span class="font12">创建</span></a>
                                 </p>
-                                <div class="dropdownlist">
-                                    <div class="dropdown col-md-6">
-                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                            Dropdown
-                                            <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                            <li><a href="#">Action</a></li>
-                                            <li><a href="#">Another action</a></li>
-                                            <li><a href="#">Something else here</a></li>
-                                        </ul>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="dropdown dropdown-select" style="width: 200px;">
+                                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                                <span>onfailure</span>
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li ng-repeat="i in [1, 2]">
+                                                    <a href="javascript:;">{{i}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
-                                    <div class="dropdown col-md-6">
-                                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu2"
-                                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                            Dropdown
-                                            <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                            <li><a href="#">Action</a></li>
-                                            <li><a href="#">Another action</a></li>
-                                            <li><a href="#">Something else here</a></li>
-                                        </ul>
+                                    <div class="col-md-5">
+                                        <input value="挂载路径" type="text" class="form-control">
                                     </div>
-                                    <span><i class="fa fa-times-circle pull-right" style="margin-top: -20px"></i></span>
                                 </div>
+                                    <!--<span><i class="fa fa-times-circle pull-right" style="margin-top: -20px"></i></span>-->
                             </div>
                         </div>
                     </div>
-                    </div>
+
                 </div>
             </div>
 
@@ -111,9 +106,10 @@
                                     <div class="col-md-3"></div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-3 tab-sm">TCP</div>
-                                    <div class="col-md-3 tab-sm">234</div>
-                                    <div class="col-md-3 tab-sm">234</div>
+                                    <div class="col-md-3 tab-sm">{{}}</div>
+                                    <div class="col-md-3 tab-sm">{{}}</div>
+                                    <div class="col-md-3 tab-sm">{{}}</div>
+                                    <checkbox></checkbox>
                                     <div class="col-md-3">开放</div>
                                 </div>
                             </td>
@@ -123,7 +119,14 @@
             </div>
         </div>
     </div>
-    <a class="btn btn-orange ">进入高级配置</a>
-    <a class="btn btn-orange " href="javascript:;" style="margin-left: 80px; margin-right: 0px; width: 200px;"
-       ng-click="createDC()">创建服务</a>
+    <div><checkbox>自动运行</checkbox></div>
+
+    <div class="row">
+        <div class="col-md-5">
+            <a class="btn btn-orange btn-block" href="javascript:;" ng-click="$state.go.">进入高级配置</a>
+        </div>
+        <div class="col-md-5 col-md-offset-2">
+            <a class="btn btn-orange btn-block" href="javascript:;" ng-click="createDC()">创建服务</a>
+        </div>
+    </div>
 </div>
