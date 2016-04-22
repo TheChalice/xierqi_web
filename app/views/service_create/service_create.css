@@ -1,46 +1,17 @@
-.panel-default  .panel-headingtem{
-    padding-bottom: 10px;
-    padding-top: 10px;
+.service-create .tab-cube {
+    display: inline-block;
+    width: 300px;
     height: 40px;
+    line-height: 40px;
     text-align: center;
-    font-size:14px;
-    font-weight: bold;
-    background-color: #f5f6fa;
-    border-bottom:1px solid #c9c9c9;
-}
-.modal-default.modal-lg {
-    width: 800px;
-    height:500px;
-    top: 50%;
-    left: 50%;
-    margin-left: -400px;
-    margin-top: -100px;
-
-}
-.modal-default.modal-lg .modal-content {
-    height: 100%;
-}
-.classify {
-    border-right: 1px solid #c9c9c9;
-}
-.imageline {
-    height:40px;
-    font-size: 12px;
-    color: #f6a540;
-}
-.imageline:active {
-    color: #5a6378;
-    background-color: #f5f6fa;
-}
-
-.imageline a {
+    font-size: 14px;
+    border: 1px solid #5a6378;
+    border-radius: 2px;
     text-decoration: none;
+    color: #5a6378;
+    cursor: pointer;
 }
-
-.imagecol {
-    border-right: 1px solid #c9c9c9;
-}
-
-.linedisplay {
-    height: 40px;
+.service-create .tab-cube:active, .service-create .tab-cube:hover, .service-create .tab-cube.active {
+    border: 1px solid #55c45f;
+    color: #55c45f;
 }

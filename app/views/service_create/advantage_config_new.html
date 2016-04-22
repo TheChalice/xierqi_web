@@ -1,0 +1,158 @@
+<div class="service-config">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            高级配置
+        </div>
+        <div class="panel-body" style="padding: 30px 40px;">
+            <div class="row">
+                <div class="col-md-2" style="padding-top: 8px;">
+                    <h3>服务高可用</h3>
+                </div>
+                <div class="col-md-10">
+                    <label style="font-size: 12px; font-weight: normal;">POD数量&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    <input ng-model="dc.spec.replicas" name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control">
+                    <hr>
+                    <div ng-if="false">
+                        <label style="font-size: 12px; font-weight: normal;">自动伸缩&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <c-checkbox checked="rubustCheck"></c-checkbox>
+                        <br>
+                        <div ng-if="rubustCheck">
+                            <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">资源阈值&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <span style="font-size: 12px">POD最小数量  <input name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control"></span>
+                            <span style="font-size: 12px">POD最大数量  <input name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control"></span>
+                            <span style="font-size: 12px">CPU平均利用率 <input name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control"></span>
+                        </div>
+                        <hr>
+                    </div>
+                    <label style="font-size: 12px; font-weight: normal;">重启策略&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    <div class="dropdown dropdown-select" style="width: 200px;">
+                        <button class="btn dropdown-toggle" data-toggle="dropdown">
+                            <span>{{dc.spec.template.spec.restartPolicy}}</span>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Always'">Always</a>
+                                <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'OnFailure'">OnFailure</a>
+                                <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Never'">Never</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <hr style="margin-top: 20px;">
+
+            <div class="row">
+                <div class="col-md-2" style="padding-top: 5px">
+                    <h3>路由设置</h3>
+                </div>
+                <div class="col-md-10">
+                    <c-checkbox checked="routeCheck"></c-checkbox>
+                    <br>
+                    <div ng-if="routeCheck">
+                        <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">服务端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <div class="dropdown dropdown-select" style="width: 80px;">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                <span>{{grid.port || '请选择'}}</span>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li ng-repeat="port in grid.ports">
+                                    <a href="javascript:;" ng-click="grid.port = port">{{port}}</a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">域名&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <input style="width: 160px;display: inline-block;" type="text" class="form-control">
+                        <span style="font-size: 12px;">lab.asiainfodata.com</span>
+                    </div>
+                </div>
+            </div>
+            <hr style="margin-top: 20px;">
+
+            <div class="row">
+                <div class="col-md-2">
+                    <h3>后端服务绑定</h3>
+                </div>
+                <div class="col-md-10">
+                    <a href="javascript:;" class="href-add">
+                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;创建
+                    </a>
+                </div>
+                <div class="col-md-9 col-md-offset-2">
+                    <div class="panel panel-default sub-panel">
+                        <div class="panel-heading">
+                            后端服务设置
+                        </div>
+                        <div class="panel-body" style="padding-bottom: 0;">
+                            <div class="row">
+                                <div class="col-md-6" ng-repeat="item in bsi.items">
+                                    <div class="tabandimage" ng-class="{'selected': item.bind}" ng-click="item.bind = !item.bind">
+                                        <i class="faa faa-image" style="float: left;margin-right: 10px;"></i>
+                                        <i class="faa faa-image-mark" ng-show="item.bind"></i>
+                                        <p style="margin: 10px 0 5px 0;">{{item.metadata.name}}</p>
+                                        <p>{{item.spec.provisioning.backingservice_name}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <h3>环境变量设置</h3>
+                </div>
+                <div class="col-md-10">
+                    <a href="javascript:;" class="href-add" ng-click="addEnv('', 0, true)">
+                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;创建环境变量
+                    </a>
+                </div>
+                <div class="col-md-9 col-md-offset-2">
+                    <div class="panel panel-default sub-panel">
+                        <div class="panel-heading">
+                            环境变量设置
+                        </div>
+                        <div class="panel-body" style="padding-bottom: 0;">
+                    <span ng-if="envs.length > 0">
+                        <div class="row key-value-bar" style="margin-bottom: 15px" ng-repeat="env in envs">
+                            <div class="col-md-5">
+                                <div style="float: left;line-height: 36px;">键&nbsp;&nbsp;</div>
+                                <div style="overflow: hidden">
+                                    <input ng-model="env.name" type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div style="float: left;line-height: 36px;">值&nbsp;&nbsp;</div>
+                                <div style="overflow: hidden">
+                                    <input ng-model="env.value" type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-1" style="line-height: 36px;">
+                                <a href="javascript:;" ng-click="addEnv(env.name, $index, $last)" class="fa fa-lg" ng-class="{'fa-times-circle':!$last, 'fa-plus-circle':$last}"></a>
+                            </div>
+                        </div>
+                    </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <h3>自动部署</h3>
+                </div>
+                <div class="col-md-5">
+                    <labe><input type="checkbox" ng-model="grid.imageChange">&nbsp;&nbsp;镜像变化触发自动部署</labe>
+                </div>
+                <div class="col-md-5">
+                    <labe><input type="checkbox" ng-model="grid.configChange">&nbsp;&nbsp;配置变化触发自动部署</labe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

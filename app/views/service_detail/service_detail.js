@@ -18,15 +18,45 @@ angular.module('console.service.detail', [
             port: 0
         };
 
+        var getEnvs = function(containers){
+            $scope.envs = [];
+            for (var i = 0; i < containers.length; i++) {
+                var envs = containers[i].env || [];
+                for (var j = 0; j < envs.length; j++) {
+                    if (!inEnvs(envs[j].name)) {
+                        $scope.envs.push(envs[j]);
+                    }
+                }
+            }
+        };
+
+        var inEnvs = function(name){
+            for (var i = 0; i < $scope.envs.length; i++) {
+                if ($scope.envs[i].name == name) {
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        var getIst = function(name){
+            var triggers = $scope.dc.spec.triggers || [];
+            for (var j = 0; j < triggers.length; j++) {
+                if (triggers[j].type == "ImageChange") {
+                    if (triggers[j].imageChangeParams.containerNames.indexOf(name) != -1) {
+                        return triggers[j].imageChangeParams.from.name;
+                    }
+                }
+            }
+            return null;
+        };
+
         var loadDc = function (name) {
             DeploymentConfig.get({namespace: $rootScope.namespace, name: name}, function(res){
                 $log.info("deploymentConfigs", res);
                 $scope.dc = res;
 
-                $scope.envs = [];
-                if (res.spec.template.spec.containers.length > 0) {
-                    $scope.envs = res.spec.template.spec.containers[0].env;
-                }
+                getEnvs(res.spec.template.spec.containers);
 
                 angular.forEach($scope.dc.spec.triggers, function(trigger){
                     if (trigger.type == 'ImageChange') {
@@ -41,10 +71,15 @@ angular.module('console.service.detail', [
                     if (!item.volumeMounts || item.volumeMounts.length == 0) {
                         item.volumeMounts = [{}];
                     }
-                    ImageStreamTag.get({namespace: $rootScope.namespace, name: item.image}, function(res){
-                        item.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
-                        item.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
-                    });
+                    var name = getIst(item.name);
+                    console.log("====",name, item.name);
+                    if (name) {
+                        ImageStreamTag.get({namespace: $rootScope.namespace, name: name}, function(res){
+                            item.image = name;
+                            item.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
+                            item.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
+                        });
+                    }
                 });
 
                 loadRcs(res.metadata.name);
@@ -547,31 +582,29 @@ angular.module('console.service.detail', [
             }
         };
 
-        //todo 无法确定imageStreamTag
         var prepareTrigger = function(dc){
             var triggers = [];
             if ($scope.grid.configChange) {
                 triggers.push({type: 'ConfigChange'});
             }
 
-            var containerNames = [];
-            var containers = dc.spec.template.spec.containers;
-            for (var i = 0; i < containers.length; i++) {
-                containerNames.push(containers[i].name);
-            }
             if ($scope.grid.imageChange) {
-                triggers.push({
-                    type: 'ImageChange',
-                    imageChangeParams: {
-                        automatic: true,
-                        containerNames: containerNames,
-                        from: {
-                            kind: '',
-                            name: ''
+                var containers = dc.spec.template.spec.containers;
+                for (var i = 0; i < containers.length; i++) {
+                    triggers.push({
+                        type: 'ImageChange',
+                        imageChangeParams: {
+                            "automatic": true,
+                            "containerNames": [containers[i].name],
+                            "from": {
+                                "kind": "ImageStreamTag",
+                                "name": containers[i].image
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
+            dc.spec.triggers = triggers;
         };
 
         var isBind = function(bsi, dc){

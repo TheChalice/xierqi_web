@@ -55,8 +55,8 @@
                     <a href="javascript:;" ng-click="addSecret(container.name, $index, $last)" class="fa fa-lg" ng-class="{'fa-times-circle':!$last, 'fa-plus-circle':$last}"></a>
                 </div>
 
-                <h4>容器资源限额</h4>
-                <div>
+                <h4 ng-if="false">容器资源限额</h4>
+                <div ng-if="false">
                     CPU<=&nbsp;&nbsp;
                     <input type="text" class="form-control" style="width: 100px;display: inline-block;font-size: 12px;">
                     &nbsp;&nbsp;X&nbsp;&nbsp;&nbsp;
@@ -139,7 +139,7 @@
                 <ul class="dropdown-menu">
                     <li>
                         <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Always'">Always</a>
-                        <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Onfailure'">Onfailure</a>
+                        <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'OnFailure'">OnFailure</a>
                         <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Never'">Never</a>
                     </li>
                 </ul>
@@ -213,7 +213,7 @@
             <h3>环境变量设置</h3>
         </div>
         <div class="col-md-10">
-            <a href="javascript:;" class="href-add">
+            <a href="javascript:;" class="href-add" ng-click="addEnv('', 0, true)">
                 <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;创建环境变量
             </a>
         </div>
