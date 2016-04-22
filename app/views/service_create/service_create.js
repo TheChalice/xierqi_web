@@ -162,26 +162,5 @@ angular.module('console.service.create', [
             //get port and tcp from imagestreamtag
             var loadport = function() {
             }
-    }])
-
-
-
-
-
-    .service('ImageSelect', ['$uibModal', function($uibModal){
-        this.open = function () {
-            return $uibModal.open({
-                templateUrl: 'views/service_create/modal_choose_image.html',
-                size: 'modal-default modal-lg',
-                controller: ['$scope', '$uibModalInstance', function($scope, $uibModalInstance) {
-                    $scope.cancel = function() {
-                        $uibModalInstance.dismiss();
-                    };
-                    $scope.ok = function() {
-                        $uibModalInstance.close(true);
-                    };
-                }]
-            })
-        }
     }]);
 
