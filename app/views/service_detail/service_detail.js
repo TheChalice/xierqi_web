@@ -14,7 +14,8 @@ angular.module('console.service.detail', [
         //获取服务列表
 
         $scope.grid = {
-            ports: []
+            ports: [],
+            port: 0
         };
 
         var loadDc = function (name) {
