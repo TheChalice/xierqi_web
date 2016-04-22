@@ -11,7 +11,9 @@ angular.module('console.service.create', [
         function ($rootScope, $scope, $log, ImageStream, DeploymentConfig, ImageSelect,BackingServiceInstance,BackingServiceInstanceBd,ReplicationController,Route) {
             $log.info('ServiceCreate');
 
-            $scope.grid = {};
+            $scope.grid = {
+                'checkedsecond' : false
+            };
 
             $scope.deploymentConfig = {
                 metadata: {
@@ -24,7 +26,7 @@ angular.module('console.service.create', [
                             image: '',
                             VolumeMounts: {}
                         }],
-                        replicas: 5,
+                        replicas: 0,
                         restartPolicy: "Always",
                         Volumes: {
                             name: '',
@@ -34,10 +36,12 @@ angular.module('console.service.create', [
                     }
                 }
             };
+
             $scope.service = {
                 spec: {
                     ports: [
                         {
+                            name : '',//port-protocol
                             protocol: '', // 协议
                             port: '', //服务端口
                             targetPort: '' //container port can't change 容器端口
@@ -45,7 +49,6 @@ angular.module('console.service.create', [
                     ]
                 }
             };
-
             //environment
             $scope.serviceport = $scope.service.spec.ports;
             $scope.envList = [];
@@ -75,6 +78,7 @@ angular.module('console.service.create', [
                 //     $log.info('createDC-data',data);
                 //if($scope.grid.isautoRun){creatRc(data)}
                 //if($scope.grid.isautoDeploy){autoDeploy()}
+                //if($scope.grid.checkedsecond){setRoute()}
                 //});
                 console.log($scope.grid.isautoDeploy)
                 console.log("deploymentConfig", $scope.deploymentConfig);
@@ -96,7 +100,7 @@ angular.module('console.service.create', [
                     name : $scope.deploymentConfig.metadata.name
                 },
                 spec : {
-                    host : '1223434',
+                    host : '',
                     to : {
                         kind : "Service",
                         name : $scope.deploymentConfig.metadata.name
@@ -112,10 +116,10 @@ angular.module('console.service.create', [
                  var copyrtb = angular.copy($scope.routeobj);
                  copyrtb.spec.host = copyrtb.spec.host+'lab.asiainfodata.com';
                  Route.create({namespace: $rootScope.namespace},copyrtb, function (data) {
-                     $log.info("bsiList", data);
-                     $scope.BsiList = data.items;
+                     $log.info("Route.create", data);
+
                  });
-                 console.log('copyrtb.spec.host'+copyrtb.spec.host);
+                 console.log('copyrtb----',copyrtb);
              }
             //绑定服务
             var bindService = function(){
