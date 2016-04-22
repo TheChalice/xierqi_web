@@ -398,6 +398,10 @@ hr {
     font-size: 12px;
     height: 60px;
     margin-bottom: 15px;
+    cursor: pointer;
+}
+.tabandimage.selected {
+    border: 1px solid #f6a540;
 }
 /*.tabandimage:active{*/
     /*border: 1px solid #f6a540;*/
@@ -607,4 +611,8 @@ hr {
 /*font12*/
 .font12 {
     font-size: 12px;
+}
+
+.input-error {
+    border: 1px solid red!important;
 }

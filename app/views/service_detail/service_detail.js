@@ -9,28 +9,64 @@ angular.module('console.service.detail', [
         ]
     }
 ])
-    .controller('ServiceDetailCtrl', ['$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamImage', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal', 'Secret', 'ImageSelect',
-        function($rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamImage, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret, ImageSelect) {
+    .controller('ServiceDetailCtrl', ['$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamTag', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal', 'Secret', 'ImageSelect',
+        function($rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamTag, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret, ImageSelect) {
         //获取服务列表
         var loadDc = function (name) {
             DeploymentConfig.get({namespace: $rootScope.namespace, name: name}, function(res){
                 $log.info("deploymentConfigs", res);
                 $scope.dc = res;
 
+                $scope.envs = [];
+                if (res.spec.template.spec.containers.length > 0) {
+                    $scope.envs = res.spec.template.spec.containers[0].env;
+                }
+
                 angular.forEach($scope.dc.spec.template.spec.containers, function(item){
                     if (!item.volumeMounts || item.volumeMounts.length == 0) {
                         item.volumeMounts = [{}];
                     }
+                    ImageStreamTag.get({namespace: $rootScope.namespace, name: item.image}, function(res){
+                        item.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
+                        item.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
+                    });
                 });
 
                 loadRcs(res.metadata.name);
                 loadRoutes();
-                loadBsi();
+                loadBsi($scope.dc.metadata.name);
                 loadPods(res.metadata.name);
+                isConflict();   //判断端口是否冲突
 
             }, function(res){
                 //todo 错误处理
             });
+        };
+
+        var isConflict = function(){
+            var containers = $scope.dc.spec.template.spec.containers;
+            for (var i = 0; i < containers.length; i++) {
+                var ports = containers[i].ports;
+                for (var j = 0; j < ports.length; j++) {
+                    ports[j].conflict = portConflict(ports[j].containerPort, i, j)
+                }
+            }
+        };
+
+        var portConflict = function(port, x, y){
+            var containers = $scope.dc.spec.template.spec.containers;
+            for (var i = 0; i < containers.length; i++) {
+                var ports = containers[i].ports;
+                for (var j = 0; j < ports.length; j++) {
+                    if (i == x && j == y) {
+                        continue;
+                    }
+                    if (ports[j].containerPort == port) {
+                        return true;
+                    }
+                }
+            }
+            return false;
         };
 
         loadDc($stateParams.name);
@@ -98,22 +134,22 @@ angular.module('console.service.detail', [
             });
         };
 
-        var loadBsi = function () {
+        var loadBsi = function (dc) {
             BackingServiceInstance.get({namespace: $rootScope.namespace}, function(res){
                 $log.info("backingServiceInstance", res);
-
-                $scope.dc.bsi = [];
 
                 for (var i = 0; i < res.items.length; i++) {
                     if (!res.items[i].spec.binding) {
                         continue;
                     }
                     for (var j = 0; j < res.items[i].spec.binding.length; j++) {
-                        if (res.items[i].spec.binding[j].bind_deploymentconfig == $scope.dc.metadata.name) {
-                            $scope.dc.bsi.push(res.items[i].metadata.name);
+                        if (res.items[i].spec.binding[j].bind_deploymentconfig == dc) {
+                            res.items[i].bind = true;
                         }
                     }
                 }
+
+                $scope.bsi = res;
 
             }, function(res){
                 //todo 错误处理
@@ -416,12 +452,39 @@ angular.module('console.service.detail', [
             }
         };
 
+        $scope.addEnv = function (name, idx, last) {
+            if (last) {     //添加
+                $scope.envs.push({name:'', value: ''});
+            } else {
+                for (var i = 0; i < $scope.envs.length; i++) {
+                    if ($scope.envs[i].name == name) {
+                        $scope.envs.splice(i, 1);
+                    }
+                }
+            }
+        };
+
         $scope.selectImage = function(idx){
             var container =  $scope.dc.spec.template.spec.containers[idx];
             ImageSelect.open().then(function(res){
                 console.log("imageStreamTag", res);
                 container.image = res.metadata.name;
                 container.name = res.metadata.name.replace(/:.*/, '');
+                container.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
+                container.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
+
+                container.ports = [];
+                var exposedPorts = res.image.dockerImageMetadata.Config.ExposedPorts;
+                for (var k in exposedPorts) {
+                    var arr = k.split('/');
+                    if (arr.length == 2) {
+                        container.ports.push({
+                            containerPort: parseInt(arr[0]),
+                            protocol: arr[1]
+                        })
+                    }
+                }
+                isConflict();
             });
         };
     }])

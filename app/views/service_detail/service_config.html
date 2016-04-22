@@ -31,8 +31,10 @@
             </div>
             <div style="font-size: 12px;color: #5a6378;">
                 <div ng-if="container.image">
-                    <p style="margin-bottom: 5px;">镜像名称:&nbsp;{{container.image | imageStreamName}}</p>
-                    <p style="margin-bottom: 30px;">镜像版本:&nbsp;{{container.image | stripSHAPrefix | limitTo: 7}}</p>
+                    <p style="margin-bottom: 5px;">镜像名称:&nbsp;&nbsp;{{container.image}}</p>
+                    <p style="margin-bottom: 30px;">
+                        镜像版本:&nbsp;&nbsp;<span ng-if="container.ref">{{container.ref}} - </span>{{container.commitId | limitTo: 7}}
+                    </p>
                 </div>
 
                 <h4>挂载secret卷&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="fa fa-plus-circle fa-lg href-add">&nbsp;&nbsp;创建</a></h4>
@@ -82,7 +84,7 @@
                 <td style="vertical-align: middle;">
                     <span>
                         <p>{{container.image | imageStreamName}}</p>
-                        <p>{{container.image | stripSHAPrefix | limitTo: 7}}</p>
+                        <p><span ng-if="container.ref">{{container.ref}} - </span>{{container.commitId | limitTo: 7}}</p>
                     </span>
                 </td>
                 <td style="vertical-align: middle;">
@@ -94,7 +96,9 @@
                     </div>
                     <div class="row" ng-repeat="port in container.ports" style="margin-top: 15px;">
                         <div class="col-sm-3"><input type="text" readonly class="input-small" ng-model="port.protocol"></div>
-                        <div class="col-sm-3"><input type="text" readonly class="input-small" ng-model="port.containerPort"></div>
+                        <div class="col-sm-3">
+                            <input type="text" readonly class="input-small" ng-class="{'input-error':port.conflict}" ng-model="port.containerPort">
+                        </div>
                         <div class="col-sm-3"><input type="text" class="input-small"></div>
                         <div class="col-sm-3"><input type="checkbox">&nbsp;开放</div>
                     </div>
@@ -112,27 +116,31 @@
         </div>
         <div class="col-md-10">
             <label style="font-size: 12px; font-weight: normal;">POD数量&nbsp;&nbsp;&nbsp;&nbsp;</label>
-            <input name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control">
+            <input ng-model="dc.spec.replicas" name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control">
             <hr>
-            <label style="font-size: 12px; font-weight: normal;">自动伸缩&nbsp;&nbsp;&nbsp;&nbsp;</label>
-            <c-checkbox checked="rubustCheck"></c-checkbox>
-            <br>
-            <div ng-if="rubustCheck">
-                <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">资源阈值&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                <span style="font-size: 12px">POD最小数量  <input name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control"></span>
-                <span style="font-size: 12px">POD最大数量  <input name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control"></span>
-                <span style="font-size: 12px">CPU平均利用率 <input name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control"></span>
+            <div ng-if="false">
+                <label style="font-size: 12px; font-weight: normal;">自动伸缩&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <c-checkbox checked="rubustCheck"></c-checkbox>
+                <br>
+                <div ng-if="rubustCheck">
+                    <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">资源阈值&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                    <span style="font-size: 12px">POD最小数量  <input name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control"></span>
+                    <span style="font-size: 12px">POD最大数量  <input name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control"></span>
+                    <span style="font-size: 12px">CPU平均利用率 <input name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control"></span>
+                </div>
+                <hr>
             </div>
-            <hr>
             <label style="font-size: 12px; font-weight: normal;">重启策略&nbsp;&nbsp;&nbsp;&nbsp;</label>
             <div class="dropdown dropdown-select" style="width: 200px;">
                 <button class="btn dropdown-toggle" data-toggle="dropdown">
-                    <span>onfailure</span>
+                    <span>{{dc.spec.template.spec.restartPolicy}}</span>
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
-                    <li ng-repeat="i in [1, 2]">
-                        <a href="javascript:;">{{i}}</a>
+                    <li>
+                        <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Always'">Always</a>
+                        <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Onfailure'">Onfailure</a>
+                        <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Never'">Never</a>
                     </li>
                 </ul>
             </div>
@@ -173,12 +181,12 @@
                 </div>
                 <div class="panel-body" style="padding-bottom: 0;">
                     <div class="row">
-                        <div class="col-md-6" ng-repeat="i in [1,2,3]">
-                            <div class="tabandimage">
+                        <div class="col-md-6" ng-repeat="item in bsi.items">
+                            <div class="tabandimage" ng-class="{'selected': item.bind}" ng-click="item.bind = !item.bind">
                                 <i class="faa faa-image" style="float: left;margin-right: 10px;"></i>
-                                <i class="faa faa-image-mark"></i>
-                                <p style="margin: 10px 0 5px 0;">后端服务实例</p>
-                                <p>后端服务名</p>
+                                <i class="faa faa-image-mark" ng-show="item.bind"></i>
+                                <p style="margin: 10px 0 5px 0;">{{item.metadata.name}}</p>
+                                <p>{{item.spec.provisioning.backingservice_name}}</p>
                             </div>
                         </div>
                     </div>
@@ -203,23 +211,25 @@
                     环境变量设置
                 </div>
                 <div class="panel-body" style="padding-bottom: 0;">
-                    <div class="row key-value-bar" style="margin-bottom: 15px">
-                        <div class="col-md-5">
-                            <div style="float: left;line-height: 36px;">键&nbsp;&nbsp;</div>
-                            <div style="overflow: hidden">
-                                <input type="text" class="form-control">
+                    <span ng-if="envs.length > 0">
+                        <div class="row key-value-bar" style="margin-bottom: 15px" ng-repeat="env in envs">
+                            <div class="col-md-5">
+                                <div style="float: left;line-height: 36px;">键&nbsp;&nbsp;</div>
+                                <div style="overflow: hidden">
+                                    <input ng-model="env.name" type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div style="float: left;line-height: 36px;">值&nbsp;&nbsp;</div>
+                                <div style="overflow: hidden">
+                                    <input ng-model="env.value" type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-1" style="line-height: 36px;">
+                                <a href="javascript:;" ng-click="addEnv(env.name, $index, $last)" class="fa fa-lg" ng-class="{'fa-times-circle':!$last, 'fa-plus-circle':$last}"></a>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div style="float: left;line-height: 36px;">值&nbsp;&nbsp;</div>
-                            <div style="overflow: hidden">
-                                <input type="text" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-md-1" style="line-height: 36px;">
-                            <a href="javascript:;" class="fa fa-lg fa-times-circle"></a>
-                        </div>
-                    </div>
+                    </span>
                 </div>
             </div>
         </div>
@@ -230,13 +240,16 @@
         <div class="col-md-2">
             <h3>自动部署</h3>
         </div>
-        <div class="col-md-10">
-            <labe><input type="checkbox">&nbsp;镜像变化触发自动部署</labe>
+        <div class="col-md-5">
+            <labe><input type="checkbox">&nbsp;&nbsp;镜像变化触发自动部署</labe>
+        </div>
+        <div class="col-md-5">
+            <labe><input type="checkbox">&nbsp;&nbsp;配置变化触发自动部署</labe>
         </div>
     </div>
     <hr>
 
-    <div class="row">
+    <div class="row" ng-if="false">
         <div class="col-md-2" style="padding-top: 5px;">
             <h3>性能监控</h3>
         </div>
@@ -245,9 +258,9 @@
             <a ng-if="checkedthird" class="btn btn-orange">性能监测配置</a>
         </div>
     </div>
-    <hr style="margin-top: 20px;">
+    <hr style="margin-top: 20px;" ng-if="false">
 
-    <div class="row">
+    <div class="row" ng-if="false">
         <div class="col-md-2" style="padding-top: 5px;">
             <h3>警告服务</h3>
         </div>
@@ -256,7 +269,7 @@
             <a ng-if="checkedforth" class="btn btn-orange">告警服务配置</a>
         </div>
     </div>
-    <hr style="margin-top: 20px;">
+    <hr style="margin-top: 20px;" ng-if="false">
 
     <button class="btn btn-orange btn-block">更新(会自动触发重新部署)</button>
 
