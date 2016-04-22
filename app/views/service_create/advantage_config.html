@@ -25,12 +25,14 @@
 
                     <div class="dropdown dropdown-select" style="width: 200px;">
                         <button class="btn dropdown-toggle" data-toggle="dropdown">
-                            <span>Onfailure</span>
+                            <span>{{deploymentConfig.template.spec.restartPolicy}}</span>
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
-                            <li ng-repeat="i in ['Always', 2]">
-                                <a href="javascript:;">{{i}}</a>
+                            <li>
+                                <a href="javascript:;" ng-click="deploymentConfig.template.spec.restartPolicy = 'Always'">Always</a>
+                                <a href="javascript:;" ng-click="deploymentConfig.template.spec.restartPolicy = 'Onfailure'">Onfailure</a>
+                                <a href="javascript:;" ng-click="deploymentConfig.template.spec.restartPolicy = 'Never'">Never</a>
                             </li>
                         </ul>
                     </div>
@@ -48,16 +50,16 @@
                     <label class="font12" style="margin-right: 15px">服务端口</label>
                     <div class="dropdown dropdown-select" style="width: 200px; margin-right: 25px">
                         <button class="btn dropdown-toggle" data-toggle="dropdown">
-                            <span>&nbsp;</span>
+                            <span>{{routeobj.spec.port.targetPort || '请选择'}}</span>
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
                             <li ng-repeat="i in serviceport">
-                                <a href="javascript:;">{{i.port}}</a>
+                                <a href="javascript:;" ng-click="routeobj.spec.port.targetPort = i.port">{{i.port}}</a>
                             </li>
                         </ul>
                     </div>
-                    <span class="font12">域名<input type="text" style="margin-left:15px; margin-right: 10px; height: 35px; width: 250px; margin-top: 5px;"></span>
+                    <span class="font12">域名<input type="text" style="margin-left:15px; margin-right: 10px; height: 35px; width: 250px; margin-top: 5px;" ng-model="routeobj.spec.host"></span>
                     <span class="font12">lab.asiainfodata.com</span>
                 </div>
             </div>
@@ -140,7 +142,7 @@
     </div>
     <div class="row" style="margin-bottom: 15px">
         <div  class="col-md-5 col-md-offset-7"  ng-model="grid.isautoRun"{{grid.isautoRun}}>
-            <i class="faa faa-check"></i>&nbsp;&nbsp;自动运行
+            <input type="checkbox" ng-model="grid.isautoRun" style="margin-right: 15px">{{grid.isautoRun}}&nbsp;自动运行
         </div>
     </div>
     <div class="row">

@@ -7,8 +7,8 @@ angular.module('console.service.create', [
             ]
         }
     ])
-    .controller('ServiceCreateCtrl', [ '$rootScope', '$scope', '$log', 'ImageStream', 'DeploymentConfig', 'ImageSelect','BackingServiceInstance','BackingServiceInstanceBd','ReplicationController',
-        function ($rootScope, $scope, $log, ImageStream, DeploymentConfig, ImageSelect,BackingServiceInstance,BackingServiceInstanceBd,ReplicationController) {
+    .controller('ServiceCreateCtrl', [ '$rootScope', '$scope', '$log', 'ImageStream', 'DeploymentConfig', 'ImageSelect','BackingServiceInstance','BackingServiceInstanceBd','ReplicationController','Route',
+        function ($rootScope, $scope, $log, ImageStream, DeploymentConfig, ImageSelect,BackingServiceInstance,BackingServiceInstanceBd,ReplicationController,Route) {
             $log.info('ServiceCreate');
 
             $scope.grid = {};
@@ -39,12 +39,7 @@ angular.module('console.service.create', [
                     ports: [
                         {
                             protocol: '', // 协议
-                            port: '111', //服务端口
-                            targetPort: '' //container port can't change 容器端口
-                        },
-                        {
-                            protocol: '', // 协议
-                            port: '222', //服务端口
+                            port: '', //服务端口
                             targetPort: '' //container port can't change 容器端口
                         }
                     ]
@@ -95,6 +90,33 @@ angular.module('console.service.create', [
                 var bsi = $scope.BsiList[idx];
                 bsi.selected = !bsi.selected;
             }
+            // 路由设置
+            $scope.routeobj = {
+                metadata : {
+                    name : $scope.deploymentConfig.metadata.name
+                },
+                spec : {
+                    host : '1223434',
+                    to : {
+                        kind : "Service",
+                        name : $scope.deploymentConfig.metadata.name
+                    },
+                    port : {
+                        targetPort : ''
+                    }
+                }
+            }
+
+
+             var setRoute = function(){
+                 var copyrtb = angular.copy($scope.routeobj);
+                 copyrtb.spec.host = copyrtb.spec.host+'lab.asiainfodata.com';
+                 Route.create({namespace: $rootScope.namespace},copyrtb, function (data) {
+                     $log.info("bsiList", data);
+                     $scope.BsiList = data.items;
+                 });
+                 console.log('copyrtb.spec.host'+copyrtb.spec.host);
+             }
             //绑定服务
             var bindService = function(){
                 var bsiarr = [];
