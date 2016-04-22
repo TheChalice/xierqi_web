@@ -169,5 +169,10 @@ define(['angular', 'moment'], function (angular, moment) {
 
                 return id.replace(/.*sha256:/, "");
             };
+        })
+        .filter("trimTag", function() {
+            return function(id) {
+                return id.replace(/:.*/, "");
+            };
         });
 });

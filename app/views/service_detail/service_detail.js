@@ -419,7 +419,9 @@ angular.module('console.service.detail', [
         $scope.selectImage = function(idx){
             var container =  $scope.dc.spec.template.spec.containers[idx];
             ImageSelect.open().then(function(res){
-                console.log("res===", res);
+                console.log("imageStreamTag", res);
+                container.image = res.metadata.name;
+                container.name = res.metadata.name.replace(/:.*/, '');
             });
         };
     }])
