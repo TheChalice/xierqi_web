@@ -36,15 +36,23 @@ angular.module('console.service.create', [
             };
             $scope.service = {
                 spec: {
-                    ports: [{
-                        protocol: '',
-                        port: '',
-                        targetPort: '' //container port can't change
-                    }]
+                    ports: [
+                        {
+                        protocol: '', // 协议
+                        port: '111', //服务端口
+                        targetPort: '' //container port can't change 容器端口
+                    },
+                        {
+                            protocol: '', // 协议
+                            port: '222', //服务端口
+                            targetPort: '' //container port can't change 容器端口
+                        }
+                    ]
                 }
             };
 
         //environment
+        $scope.serviceport = $scope.service.spec.ports;
         $scope.envList = [];
         $log.info("ImageStream");
         $scope.loadImageStream = function() {
@@ -116,13 +124,14 @@ angular.module('console.service.create', [
        var autoDeploy = function(){
            $scope.triggers = [];
            var conTn = $scope.deploymentConfig.template.spec.containers;
+           var serviceLi =  $scope.service.spec;
            for(var i = 0; i< conTn.length;i++){
                var thisobj = {
                    "type":"ImageChange",
                    "imageChangeParams":{
                        "automatic":true,
                        "containerNames":[
-                           "datafoundryweb" // 容器名字
+                           conTn[i].name // 容器名字
                        ],
                        "from":{
                            "kind":"ImageStreamTag",
@@ -133,6 +142,7 @@ angular.module('console.service.create', [
                $scope.triggers.push(thisobj);
 
            }
+           $scope.deploymentConfig.spec.triggers = $scope.triggers;
        }
        $scope.addEnv = function(){
            var newenv = {};
