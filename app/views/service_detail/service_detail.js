@@ -9,8 +9,8 @@ angular.module('console.service.detail', [
         ]
     }
 ])
-    .controller('ServiceDetailCtrl', ['$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamImage', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal', 'Secret',
-        function($rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamImage, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret) {
+    .controller('ServiceDetailCtrl', ['$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamImage', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal', 'Secret', 'ImageSelect',
+        function($rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamImage, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret, ImageSelect) {
         //获取服务列表
         var loadDc = function (name) {
             DeploymentConfig.get({namespace: $rootScope.namespace, name: name}, function(res){
@@ -105,6 +105,9 @@ angular.module('console.service.detail', [
                 $scope.dc.bsi = [];
 
                 for (var i = 0; i < res.items.length; i++) {
+                    if (!res.items[i].spec.binding) {
+                        continue;
+                    }
                     for (var j = 0; j < res.items[i].spec.binding.length; j++) {
                         if (res.items[i].spec.binding[j].bind_deploymentconfig == $scope.dc.metadata.name) {
                             $scope.dc.bsi.push(res.items[i].metadata.name);
@@ -411,6 +414,13 @@ angular.module('console.service.detail', [
             } else {
                 container.volumeMounts.splice(idx, 1);
             }
+        };
+
+        $scope.selectImage = function(idx){
+            var container =  $scope.dc.spec.template.spec.containers[idx];
+            ImageSelect.open().then(function(res){
+                console.log("res===", res);
+            });
         };
     }])
     .service('LogModal', ['$uibModal', function ($uibModal) {

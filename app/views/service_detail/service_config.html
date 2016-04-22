@@ -27,7 +27,7 @@
                 <input ng-model="container.name" style="width: 300px;display: inline-block;" type="text" class="form-control" placeholder="请设置容器名称"><span class="require"></span>
             </div>
             <div style="margin-bottom: 20px;">
-                <a href="javascript:;" class="btn btn-orange">选择镜像</a><span class="require"></span>
+                <a href="javascript:;" class="btn btn-orange" ng-click="selectImage($index)">选择镜像</a><span class="require"></span>
             </div>
             <div style="font-size: 12px;color: #5a6378;">
                 <div ng-if="container.image">

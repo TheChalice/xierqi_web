@@ -1,0 +1,136 @@
+<div class="modal-header">
+    <h5 class="modal-title">
+        <span><img src="views/service_create/img/images_03.png"></span>
+        镜像仓库
+        <a ng-click="cancel()" class="close"><span aria-hidden="true">&times;</span></a>
+    </h5>
+</div>
+<div class="modal-body" style="padding: 20px;">
+    <div class="is-box">
+        <div class="box-fix-left">
+            <h2>镜像分类</h2>
+            <ul>
+                <li><a class="href-orange" ng-class="{'active': grid.cat == 0}" ng-click="selectCat(0)" href="javascript:;">用户私有镜像仓库</a></li>
+                <li><a class="href-orange" ng-class="{'active': grid.cat == 1}" ng-click="selectCat(1)" href="javascript:;">平台共有镜像</a></li>
+                <li><a class="href-orange" ng-class="{'active': grid.cat == 2}" ng-click="selectCat(2)" href="javascript:;">DockerHub镜像</a></li>
+            </ul>
+        </div>
+        <div class="box-right">
+            <div class="row">
+                <div class="col-xs-6">
+                    <h2>镜像</h2>
+                    <div class="is-box-search">
+                        <input type="text" class="form-control" ng-model="imageName" placeholder="镜像名称">
+                    </div>
+                    <div class="is-box-wrap">
+                        <ul>
+                            <li ng-repeat="image in images.items" ng-show="!image.hide">
+                                <a href="javascript:;" ng-class="{'active': grid.image == $index}" ng-click="selectImage($index)">
+                                    <i class="faa faa-check"></i>&nbsp;&nbsp;{{image.metadata.name}}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <h2>镜像版本</h2>
+                    <div class="is-box-search">
+                        <input type="text" class="form-control" ng-model="imageVersion" placeholder="commit id">
+                    </div>
+                    <div class="is-box-wrap">
+                        <ul ng-repeat="(k, tag) in imageTags" ng-show="!tag.hide">
+                            <li ng-repeat="(j, o) in tag.items" ng-show="j < 1">
+                                <a href="javascript:;" ng-class="{'active': grid.version_x == k && grid.version_y == j}" ng-click="selectVersion(k, j)">
+                                    <i class="faa faa-check"></i>&nbsp;&nbsp;
+                                    <span ng-if="tag.ref">{{tag.ref}} - </span>{{tag.commitId | limitTo: 7}}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-gray" ng-click="cancel()">取消</button>
+    <button class="btn btn-orange" ng-click="ok()">确认</button>
+</div>
+
+<style>
+    .is-box {
+        overflow: hidden;
+        border: 1px solid #c9c9c9;
+        border-radius: 2px;
+        position: relative;
+        height: 280px;
+    }
+    .is-box .box-fix-left,
+    .is-box .box-right,
+    .is-box .box-right .row,
+    .is-box .box-right .row .col-xs-6,
+    .is-box .is-box-wrap {
+        height: 100%;
+    }
+    .is-box h2 {
+        font-size: 14px;
+        background: #f5f6fa;
+        margin: 0;
+        padding: 10px;
+        color: #393f4f;
+    }
+    .is-box .box-fix-left {
+        float: left;
+        border-right: 1px solid #c9c9c9;
+    }
+    .is-box .box-right {
+        overflow: hidden;
+    }
+    .is-box .box-right .row {
+        margin: 0;
+    }
+    .is-box .box-right .row .col-xs-6 {
+        padding: 0;
+    }
+    .is-box .box-right .row .col-xs-6:first-child {
+        border-right: 1px solid #c9c9c9;
+    }
+    .is-box ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    .is-box ul li a {
+        display: block;
+        padding: 12px 30px;
+        text-align: left;
+    }
+    .is-box ul li a:active {
+        color: #5a6378;
+    }
+    .is-box ul li a:focus {
+        text-decoration: none;
+    }
+    .is-box ul li a.active {
+        background: #e5e6ea;
+        color: #5a6378;
+    }
+    .is-box .box-right ul li a {
+        color: #5a6378;
+        text-decoration: none;
+    }
+    .is-box .box-right ul li a.active {
+        background: #f5f6fa;
+    }
+    .is-box .is-box-wrap {
+        height: 199px;
+        overflow: scroll;
+    }
+    .is-box .is-box-search {
+        padding: 5px 15px;
+        background: #e6e9f2;
+    }
+    .is-box .is-box-search input {
+        background: #f5f6fa;
+    }
+</style>
