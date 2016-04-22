@@ -154,7 +154,8 @@ define([
         }])
         .factory('Service', ['$resource', 'GLOBAL', function($resource, GLOBAL){
             var Service= $resource(GLOBAL.host_k8s + '/namespaces/:namespace/services/:name', {name: '@name', namespace: '@namespace'},{
-                create: {method: 'POST'}
+                create: {method: 'POST'},
+                put: {method: 'PUT'}
             });
             return Service;
         }])

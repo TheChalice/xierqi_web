@@ -9,12 +9,13 @@ angular.module('console.service.detail', [
         ]
     }
 ])
-    .controller('ServiceDetailCtrl', ['$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamTag', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal', 'Secret', 'ImageSelect',
-        function($rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamTag, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret, ImageSelect) {
+    .controller('ServiceDetailCtrl', ['$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamTag', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal', 'Secret', 'ImageSelect', 'Service',
+        function($rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamTag, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret, ImageSelect, Service) {
         //获取服务列表
 
         $scope.grid = {
-            ports: []
+            ports: [],
+            port: 0
         };
 
         var loadDc = function (name) {
@@ -44,22 +45,47 @@ angular.module('console.service.detail', [
                         item.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
                         item.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
                     });
-                    angular.forEach(item.ports, function(port){
-                        port.servicePort = port.containerPort;
-                        if ($scope.grid.ports.indexOf(port.servicePort) == -1) {
-                            $scope.grid.ports.push(port.servicePort);
-                        }
-                    });
                 });
 
                 loadRcs(res.metadata.name);
                 loadRoutes();
                 loadBsi($scope.dc.metadata.name);
                 loadPods(res.metadata.name);
+                loadService(res.metadata.name);
                 isConflict();   //判断端口是否冲突
 
             }, function(res){
                 //todo 错误处理
+            });
+        };
+
+        var loadService = function(dc){
+            Service.get({namespace: $rootScope.namespace, name: dc}, function(res){
+                $log.info("service", res);
+                $scope.service = res;
+                $scope.portMap = {};
+
+                for (var i = 0; i < res.spec.ports.length; i++) {
+                    var port = res.spec.ports[i];
+                    $scope.portMap[port.targetPort + ''] = port.port;
+                }
+
+                updatePorts();
+
+            }, function(res){
+                $log.info("load service err", res);
+            });
+        };
+
+        var updatePorts = function(){
+            angular.forEach($scope.dc.spec.template.spec.containers, function(item){
+                angular.forEach(item.ports, function(port){
+                    port.open = !!$scope.portMap[port.containerPort];
+                    port.servicePort = $scope.portMap[port.containerPort] || port.containerPort;
+                    if ($scope.grid.ports.indexOf(port.servicePort) == -1) {
+                        $scope.grid.ports.push(port.servicePort);
+                    }
+                });
             });
         };
 
@@ -504,6 +530,7 @@ angular.module('console.service.detail', [
                         })
                     }
                 }
+                updatePorts();
                 isConflict();
             });
         };
@@ -589,6 +616,32 @@ angular.module('console.service.detail', [
             });
         };
 
+        var updateService = function(dc) {
+            var ps = [];
+            var containers = dc.spec.template.spec.containers;
+            for (var i = 0; i < containers.length; i++) {
+                var ports = containers[i].ports;
+                for (var j = 0; j < ports.length; j++) {
+                    if (!ports[j].open) {
+                        continue;
+                    }
+                    ps.push({
+                        name: ports[j].servicePort + '-' + ports[j].protocol.toLowerCase(),
+                        port: ports[j].servicePort,
+                        protocol: ports[j].protocol,
+                        targetPort: ports[j].containerPort
+                    });
+                }
+            }
+            $scope.service.spec.ports = ps;
+            Service.put({namespace: $rootScope.namespace, name: $scope.service.metadata.name}, $scope.service, function(res){
+                $log.info("update service success", res);
+                $scope.service = res;
+            }, function(res){
+                $log.info("update service fail", res);
+            });
+        };
+
         $scope.updateDc = function(){
             var dc = angular.copy($scope.dc);
 
@@ -596,6 +649,7 @@ angular.module('console.service.detail', [
 
             prepareVolume(dc);
             prepareTrigger(dc);
+            updateService(dc);
 
             $log.info("update dc", dc);
 

@@ -142,7 +142,18 @@ angular.module('console.service.create', [
                     });
                 }
 
-            }
+       }
+            //go to advantage
+       $scope.isValid = function() {
+           if($scope.deploymentConfig.metadata.name && $scope.deploymentConfig.template.spec.containers.name) {
+               $scope.grid.checked = true;
+           }
+       }
+       //back to basic
+       $scope.notVaild = function() {
+           $scope.grid.checked = false;
+       }
+
             // 自动部署
             $scope.grid.isautoDeploy = false;
             //自动发布
@@ -191,7 +202,6 @@ angular.module('console.service.create', [
                 $scope.deploymentConfig.template.spec.containers.splice(idx,1);
             }
             //choose image
-            $log.info("ImageStream");
             $scope.loadImageStream = function() {
                 ImageSelect.open();
             };

@@ -100,7 +100,7 @@
                             <input type="text" readonly class="input-small" ng-class="{'input-error':port.conflict}" ng-model="port.containerPort">
                         </div>
                         <div class="col-sm-3"><input type="text" ng-model="port.servicePort" class="input-small"></div>
-                        <div class="col-sm-3"><input type="checkbox">&nbsp;开放</div>
+                        <div class="col-sm-3"><input type="checkbox" ng-model="port.open">&nbsp;开放</div>
                     </div>
                 </td>
             </tr>
@@ -159,15 +159,13 @@
                 <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">服务端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
                 <div class="dropdown dropdown-select" style="width: 80px;">
                     <button class="btn dropdown-toggle" data-toggle="dropdown">
-                        <span>{{foo || '请选择'}}</span>
+                        <span>{{grid.port || '请选择'}}</span>
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <div ng-repeat="container in dc.spec.template.spec.containers">
-                            <li ng-repeat="port in container.ports">
-                                <a href="javascript:;" ng-click="foo = port.servicePort">{{port.servicePort}}</a>
-                            </li>
-                        </div>
+                        <li ng-repeat="port in grid.ports">
+                            <a href="javascript:;" ng-click="grid.port = port">{{port}}</a>
+                        </li>
                     </ul>
                 </div>
 
