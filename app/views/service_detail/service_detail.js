@@ -564,7 +564,7 @@ angular.module('console.service.detail', [
                 };
 
                 if (isBind(bsi, dc) && !bsi.bind) {  //绑定设置为不绑定
-                    BackingServiceInstance.bind.remove({namespace: $rootScope.namespace, name: bsi.metadata.name}, bindObj, function(res){
+                    BackingServiceInstance.bind.put({namespace: $rootScope.namespace, name: bsi.metadata.name}, bindObj, function(res){
                         $log.info("unbind service success", res);
                     }, function(res){
                         $log.info("unbind service fail", res);
@@ -590,9 +590,6 @@ angular.module('console.service.detail', [
             prepareTrigger(dc);
 
             $log.info("update dc", dc);
-
-            bindService(dc);
-            return;
 
             DeploymentConfig.put({namespace: $rootScope.namespace, name: dc.metadata.name}, dc, function(res){
                 $log.info("update dc success", res);
