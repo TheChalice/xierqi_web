@@ -143,7 +143,7 @@ angular.module('console.service.create', [
            $scope.envList.splice(idx,1);
        }
        bsiList ();
-            //add container panel
+            //add container panel and port panel
             $scope.addCon = $scope.deploymentConfig.template.spec.containers;
             $scope.addContainer = function() {
                 var newContainer = {};

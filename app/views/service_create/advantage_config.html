@@ -6,8 +6,8 @@
         <div class="panel-body">
             <div class="form-group">
                 <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size:14px; text-align: left; margin-top: 30px">服务高可用</label>
-                <div class="col-sm-10" style=" margin-bottom: 30px; margin-left: -10px">
-                    <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">POD数量</label>
+                <div class="col-sm-10" style=" margin-bottom: 30px;">
+                    <label style="font-size: 12px; font-weight: normal;  margin-top: 35px; margin-right: 40px">POD数量</label>
                     <input name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control" ng-model="deploymentConfig.template.spec.replicas">
                     <hr>
                     <!--<label style="font-size: 12px; font-weight: normal; float: left; margin-top: 20px; margin-right: 30px">自动伸缩</label>-->
@@ -21,8 +21,8 @@
                         <!--<hr>-->
                     <!--</div>-->
 
-                    <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">重启策略</label>
-                    <!--<input name="cdm"   style="width: 80px;display: inline-block;" type="text" class="form-control">-->
+                    <label style="font-size: 12px; font-weight: normal;  margin-top: 35px; margin-right: 30px">重启策略</label>
+
                     <div class="dropdown dropdown-select" style="width: 200px;">
                         <button class="btn dropdown-toggle" data-toggle="dropdown">
                             <span>Onfailure</span>
@@ -40,13 +40,13 @@
             <div style="clear: both"></div>
             <hr>
             <div class="form-group">
-                <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size:14px; text-align: left;">路由设置</label>
-                <c-checkbox checked="checkedsecond"></c-checkbox>
+                <label class="col-sm-2 control-label " style="color: #5a6378; font-size:14px;">路由设置</label>
+                <c-checkbox class="col-sm-10" checked="checkedsecond"></c-checkbox>
                 <br>
-                <div class="col-sm-10" ng-if="checkedsecond" style="margin-left: 120px">
-                    <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size:12px;margin-top:10px;  text-align: left;">服务端口</label>
-                    <!--<input name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control">-->
-                    <div class="dropdown dropdown-select" style="width: 200px;">
+                <div class="col-sm-2"></div>
+                <div ng-if="checkedsecond" class="col-sm-10" style="float:left; margin-top: 20px; margin-bottom: 30px">
+                    <label class="font12" style="margin-right: 15px">服务端口</label>
+                    <div class="dropdown dropdown-select" style="width: 200px; margin-right: 25px">
                         <button class="btn dropdown-toggle" data-toggle="dropdown">
                             <span>Onfailure</span>
                             <span class="caret"></span>
@@ -57,27 +57,31 @@
                             </li>
                         </ul>
                     </div>
-                    <span>域名<input type="text">lab.asiainfodata.com</span>
-                    <hr>
+                    <span class="font12">域名<input type="text" style="margin-left:15px; margin-right: 10px; height: 35px; width: 250px; margin-top: 5px;"></span>
+                    <span class="font12">lab.asiainfodata.com</span>
                 </div>
             </div>
             <div style="clear: both"></div>
-            <div class="form-group" style="overflow:hidden;">
+            <hr>
+
+            <div class="form-group">
                 <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size:14px; text-align: left;">后端服务绑定</label>
-                <a href="" style="text-decoration: none"><i class=" fa fa-green fa-plus-circle"></i >创建</a>
-                <div class="panel panel-default" style="margin-top: 20px; margin-left: 145px; margin-right: 20px">
-                    <div class="panel-heading">
-                        <span class="panel-title-o" style="font-size: 12px; margin-left: 5px">后端服务设置</span>
-                        <!--<i class="fa fa-times-circle pull-right" style="margin-top: 10px"></i>-->
-                    </div>
-                    <div class="panel-body">
-                        <div class="form-group" style="overflow:hidden">
-                            <div class="col-md-6" ng-repeat="item in BsiList">
-                                <div class="tabandimage" ng-class="{'tabandimagecur': item.selected}" ng-click="addBuildFun($index)">
-                                    <i class="faa faa-image" style="float: left;margin-right: 10px;"></i>
-                                    <i class="faa faa-image-mark"></i>
-                                    <p style="margin: 10px 0 5px 0;">{{item.metadata.name}}</p>
-                                    <p>{{item.spec.provisioning.backingservice_name}}</p>
+                <a style="text-decoration: none" class="col-sm-10"><i class=" fa fa-green fa-plus-circle" style="margin-right: 10px"></i >创建</a>
+                <div class="col-sm-2"></div>
+                <div class="col-sm-10">
+                    <div class=" panel-default" style="margin-top: 20px;">
+                        <div class="panel-heading">
+                            <span class="panel-title-o" style="font-size: 12px; margin-left: 5px">后端服务设置</span>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group" style="overflow:hidden">
+                                <div class="col-md-6" ng-repeat="item in BsiList">
+                                    <div class="tabandimage" ng-class="{'tabandimagecur': item.selected}" ng-click="addBuildFun($index)">
+                                        <i class="faa faa-image" style="float: left;margin-right: 10px;"></i>
+                                        <i class="faa faa-image-mark"></i>
+                                        <p style="margin: 10px 0 5px 0;">{{item.metadata.name}}</p>
+                                        <p>{{item.spec.provisioning.backingservice_name}}</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -108,34 +112,46 @@
             </div>
             <hr>
             <div class="form-group" style="overflow:hidden">
-                <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size: 14px; text-align: left">自动部署</label>
-                <input type="checkbox" ng-model="grid.isautoDeploy">{{grid.isautoDeploy}}
-                <labe>镜像变化触发自动部署</labe>
+                <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size: 14px; text-align: left; font-weight: normal">自动部署</label>
+                <div class="col-sm-10 font12">
+                    <input type="checkbox" ng-model="grid.isautoDeploy" style="margin-right: 15px">{{grid.isautoDeploy}}
+                    <labe>镜像变化触发自动部署</labe>
+                </div>
             </div>
             <hr>
             <div class="form-group" style="overflow:hidden">
                 <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size: 14px; text-align: left">性能监控</label>
-                <c-checkbox checked="checkedthird" style="float: left"></c-checkbox>
-                <div class="col-sm-7" ng-if="checkedthird" style="overflow: hidden;word-wrap: break-word;word-break: break-all;">
-                    <a class="btn btn-orange col-md-3">性能监测配置</a>
+                <div class="col-sm-10">
+                    <c-checkbox checked="checkedthird" style="float: left"></c-checkbox>
+                    <div class="col-sm-7" ng-if="checkedthird" style="overflow: hidden;word-wrap: break-word;word-break: break-all;">
+                        <a class="btn btn-orange col-md-3">性能监测配置</a>
+                    </div>
                 </div>
             </div>
             <hr>
+
             <div class="form-group" style="overflow:hidden">
                 <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size: 14px; text-align: left">警告服务</label>
-                <c-checkbox checked="checkedforth" style="float: left"></c-checkbox>
-                <div class="col-sm-7" ng-if="checkedforth" style="overflow: hidden;word-wrap: break-word;word-break: break-all;">
-                    <a class="btn btn-orange col-md-3">告警服务配置</a>
+                 <div class="col-sm-10">
+                    <c-checkbox checked="checkedforth" style="float: left"></c-checkbox>
+                    <div class="col-sm-7" ng-if="checkedforth" style="overflow: hidden;word-wrap: break-word;word-break: break-all;">
+                        <a class="btn btn-orange col-md-3">告警服务配置</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div style="margin-top: 25px">
-        <input type="checkbox" ng-model="grid.isautoRun">{{grid.isautoRun}}
-        <label style="">自动运行</label>
+    <div class="row" style="margin-bottom: 15px">
+        <div  class="col-md-5 col-md-offset-7"  ng-model="grid.isautoRun"{{grid.isautoRun}}>
+            <i class="faa faa-check"></i>&nbsp;&nbsp;自动运行
+        </div>
     </div>
-    <div style="margin-top: 15px;">
-        <a class="btn btn-orange col-md-5" href="javascript:;" ng-click="grid.checked=true">返回基础配置</a>
-        <a class="btn btn-orange col-md-5" href="" style="margin-left: 80px; margin-right: 0px" ng-click="createDC()">创建服务</a>
+    <div class="row">
+        <div class="col-md-5">
+            <a class="btn btn-orange btn-block" href="javascript:;" ng-click="grid.checked=true">返回基础配置</a>
+        </div>
+        <div class="col-md-5 col-md-offset-2">
+            <a class="btn btn-orange btn-block" href="javascript:;" ng-click="createDC()">创建服务</a>
+        </div>
     </div>
 </div>
