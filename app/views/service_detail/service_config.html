@@ -99,7 +99,7 @@
                         <div class="col-sm-3">
                             <input type="text" readonly class="input-small" ng-class="{'input-error':port.conflict}" ng-model="port.containerPort">
                         </div>
-                        <div class="col-sm-3"><input type="text" class="input-small"></div>
+                        <div class="col-sm-3"><input type="text" ng-model="port.servicePort" class="input-small"></div>
                         <div class="col-sm-3"><input type="checkbox">&nbsp;开放</div>
                     </div>
                 </td>
@@ -157,9 +157,23 @@
             <br>
             <div ng-if="routeCheck">
                 <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">服务端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                <input name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control">
+                <div class="dropdown dropdown-select" style="width: 80px;">
+                    <button class="btn dropdown-toggle" data-toggle="dropdown">
+                        <span>{{foo || '请选择'}}</span>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <div ng-repeat="container in dc.spec.template.spec.containers">
+                            <li ng-repeat="port in container.ports">
+                                <a href="javascript:;" ng-click="foo = port.servicePort">{{port.servicePort}}</a>
+                            </li>
+                        </div>
+                    </ul>
+                </div>
+
                 <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">域名&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                <input name="cdm" min="1" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control">
+                <input style="width: 160px;display: inline-block;" type="text" class="form-control">
+                <span style="font-size: 12px;">lab.asiainfodata.com</span>
             </div>
         </div>
     </div>

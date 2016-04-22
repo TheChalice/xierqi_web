@@ -614,5 +614,6 @@ hr {
 }
 
 .input-error {
-    border: 1px solid red!important;
+    border: 1px solid #ec6941!important;
+    background: #fbe1d9;
 }
