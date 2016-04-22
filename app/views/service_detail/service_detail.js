@@ -12,6 +12,9 @@ angular.module('console.service.detail', [
     .controller('ServiceDetailCtrl', ['$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamTag', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal', 'Secret', 'ImageSelect',
         function($rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamTag, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret, ImageSelect) {
         //获取服务列表
+
+        $scope.grid = {};
+
         var loadDc = function (name) {
             DeploymentConfig.get({namespace: $rootScope.namespace, name: name}, function(res){
                 $log.info("deploymentConfigs", res);
@@ -21,6 +24,15 @@ angular.module('console.service.detail', [
                 if (res.spec.template.spec.containers.length > 0) {
                     $scope.envs = res.spec.template.spec.containers[0].env;
                 }
+
+                angular.forEach($scope.dc.spec.triggers, function(trigger){
+                    if (trigger.type == 'ImageChange') {
+                        $scope.grid.imageChange = true;
+                    }
+                    if (trigger.type == 'ConfigChange') {
+                        $scope.grid.configChange = true;
+                    }
+                });
 
                 angular.forEach($scope.dc.spec.template.spec.containers, function(item){
                     if (!item.volumeMounts || item.volumeMounts.length == 0) {
@@ -368,7 +380,7 @@ angular.module('console.service.detail', [
         };
 
         var loadPods = function (dc) {
-            var labelSelector = '';//'deploymentconfig=' + dc;
+            var labelSelector = 'deploymentconfig=' + dc;
             Pod.get({namespace: $scope.namespace, labelSelector: labelSelector}, function(res){
                 $log.info("pods", res);
                 $scope.pods = res;
@@ -485,6 +497,109 @@ angular.module('console.service.detail', [
                     }
                 }
                 isConflict();
+            });
+        };
+
+        var prepareVolume = function(dc){
+            var containers = dc.spec.template.spec.containers;
+            for (var i = 0; i < containers.length; i++) {
+                var container = containers[i];
+                for (var j = 0; j < container.volumeMounts.length; j++) {
+                    if (!container.volumeMounts[j].name || !container.volumeMounts[j].mountPath) {
+                        container.volumeMounts.splice(j, 1);
+                    }
+                }
+            }
+        };
+
+        //todo 无法确定imageStreamTag
+        var prepareTrigger = function(dc){
+            var triggers = [];
+            if ($scope.grid.configChange) {
+                triggers.push({type: 'ConfigChange'});
+            }
+
+            var containerNames = [];
+            var containers = dc.spec.template.spec.containers;
+            for (var i = 0; i < containers.length; i++) {
+                containerNames.push(containers[i].name);
+            }
+            if ($scope.grid.imageChange) {
+                triggers.push({
+                    type: 'ImageChange',
+                    imageChangeParams: {
+                        automatic: true,
+                        containerNames: containerNames,
+                        from: {
+                            kind: '',
+                            name: ''
+                        }
+                    }
+                });
+            }
+        };
+
+        var isBind = function(bsi, dc){
+            var bindings = bsi.spec.binding;
+            if (!bindings) {
+                return false;
+            }
+            for (var j = 0; j < bindings.length; j++) {
+                if (bindings[j].bind_deploymentconfig == dc.metadata.name) {
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        var bindService = function(dc){
+            angular.forEach($scope.bsi.items, function(bsi){
+                var bindObj = {
+                    metadata: {
+                        name: bsi.metadata.name
+                    },
+                    resourceName : dc.metadata.name,
+                    bindResourceVersion : '',
+                    bindKind : 'DeploymentConfig'
+                };
+
+                if (isBind(bsi, dc) && !bsi.bind) {  //绑定设置为不绑定
+                    BackingServiceInstance.bind.remove({namespace: $rootScope.namespace, name: bsi.metadata.name}, bindObj, function(res){
+                        $log.info("unbind service success", res);
+                    }, function(res){
+                        $log.info("unbind service fail", res);
+                    });
+                }
+
+                if (!isBind(bsi, dc) && bsi.bind) {  //未绑定设置为绑定
+                    BackingServiceInstance.bind.create({namespace: $rootScope.namespace, name: bsi.metadata.name}, bindObj, function(res){
+                        $log.info("bind service success", res);
+                    }, function(res){
+                        $log.info("bind service fail", res);
+                    });
+                }
+            });
+        };
+
+        $scope.updateDc = function(){
+            var dc = angular.copy($scope.dc);
+
+            dc.status.latestVersion += 1;
+
+            prepareVolume(dc);
+            prepareTrigger(dc);
+
+            $log.info("update dc", dc);
+
+            bindService(dc);
+            return;
+
+            DeploymentConfig.put({namespace: $rootScope.namespace, name: dc.metadata.name}, dc, function(res){
+                $log.info("update dc success", res);
+                bindService(dc);
+            }, function(res){
+                //todo 错误处理
+                $log.info("update dc fail", res);
             });
         };
     }])

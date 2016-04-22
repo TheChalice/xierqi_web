@@ -168,6 +168,10 @@ define([
             var BackingServiceInstance= $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances/:name', {name: '@name', namespace: '@namespace'},{
                 create: {method: 'POST'}
             });
+            BackingServiceInstance.bind = $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances/:name/binding', {name: '@name', namespace: '@namespace'},{
+                create: {method: 'POST'},
+                put: {method: 'PUT'}
+            });
             return BackingServiceInstance;
         }])
         .factory('BackingServiceInstanceBd', ['$resource', 'GLOBAL', function($resource, GLOBAL){

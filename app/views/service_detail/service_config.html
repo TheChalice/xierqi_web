@@ -241,10 +241,10 @@
             <h3>自动部署</h3>
         </div>
         <div class="col-md-5">
-            <labe><input type="checkbox">&nbsp;&nbsp;镜像变化触发自动部署</labe>
+            <labe><input type="checkbox" ng-model="grid.imageChange">&nbsp;&nbsp;镜像变化触发自动部署</labe>
         </div>
         <div class="col-md-5">
-            <labe><input type="checkbox">&nbsp;&nbsp;配置变化触发自动部署</labe>
+            <labe><input type="checkbox" ng-model="grid.configChange">&nbsp;&nbsp;配置变化触发自动部署</labe>
         </div>
     </div>
     <hr>
@@ -271,6 +271,6 @@
     </div>
     <hr style="margin-top: 20px;" ng-if="false">
 
-    <button class="btn btn-orange btn-block">更新(会自动触发重新部署)</button>
+    <button class="btn btn-orange btn-block" ng-click="updateDc()">更新(会自动触发重新部署)</button>
 
 </div>
