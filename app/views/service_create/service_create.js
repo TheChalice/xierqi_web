@@ -44,12 +44,7 @@ angular.module('console.service.create', [
         }
 
         //environment
-        $scope.envList = [
-                {
-                    name:"test",
-                    value:"lab-test"
-                }
-            ];
+        $scope.envList = [];
         $log.info("ImageStream");
         $scope.loadImageStream = function() {
             ImageSelect.open();
@@ -126,11 +121,11 @@ angular.module('console.service.create', [
                    "imageChangeParams":{
                        "automatic":true,
                        "containerNames":[
-                           "datafoundryweb"
+                           "datafoundryweb" // 容器名字
                        ],
                        "from":{
                            "kind":"ImageStreamTag",
-                           "name":"datafoundryweb:latest"
+                           "name":"datafoundryweb:latest" // 镜像名称 : 镜像版本
                        },
                    }
                }
@@ -147,50 +142,29 @@ angular.module('console.service.create', [
            $scope.envList.splice(idx,1);
        }
        bsiList ();
+            //add container panel
+            $scope.addCon = $scope.deploymentConfig.template.spec.containers;
+            $scope.addContainer = function() {
+                var newContainer = {};
+                $scope.deploymentConfig.template.spec.containers.push(newContainer);
+                $log.info($scope.addCon);
+            }
+            //delete container panel
+            $scope.delContainer = function(idx) {
+                $scope.deploymentConfig.template.spec.containers.splice(idx,1);
+            }
+            //choose image
+            $log.info("ImageStream");
+            $scope.loadImageStream = function() {
+                ImageSelect.open();
+            };
+            //get port and tcp from imagestreamtag
+            var loadport = function() {
+            }
     }])
-        var bsiList = function(){
-            BackingServiceInstance.get({namespace: $rootScope.namespace}, function (data) {
-            $log.info("bsiList", data);
-            $scope.BsiList = data.items;
-            });
-        }
-
-        $scope.addEnv = function(){
-            var newenv = {};
-            $scope.envList.push(newenv);
-        };
-        $scope.delEnv = function(idx){
-            $scope.envList.splice(idx,1);
-        }
-        bsiList ();
-        $scope.createDC();
-        }])
-
-        //add container panel
-        $scope.addCon = $scope.deploymentConfig.template.spec.containers;
-        $scope.addContainer = function() {
-            var newContainer = {};
-            $scope.deploymentConfig.template.spec.containers.push(newContainer);
-            $log.info($scope.addCon);
-        }
-        //delete container panel
-        $scope.delContainer = function(idx) {
-            $scope.deploymentConfig.template.spec.containers.splice(idx,1);
-        }
-        //choose image
-        $log.info("ImageStream");
-        $scope.loadImageStream = function() {
-            ImageSelect.open();
-        };
-        //get port and tcp from imagestreamtag
-        var loadport = function() {
 
 
-        }
-        //create DC
-        $scope.createDC = function() {
-            console.log("deploymentConfig", $scope.deploymentConfig);
-        }
+
 
 
     .service('ImageSelect', ['$uibModal', function($uibModal){
