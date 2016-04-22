@@ -13,7 +13,9 @@ angular.module('console.service.detail', [
         function($rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamTag, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret, ImageSelect) {
         //获取服务列表
 
-        $scope.grid = {};
+        $scope.grid = {
+            ports: []
+        };
 
         var loadDc = function (name) {
             DeploymentConfig.get({namespace: $rootScope.namespace, name: name}, function(res){
@@ -41,6 +43,12 @@ angular.module('console.service.detail', [
                     ImageStreamTag.get({namespace: $rootScope.namespace, name: item.image}, function(res){
                         item.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
                         item.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
+                    });
+                    angular.forEach(item.ports, function(port){
+                        port.servicePort = port.containerPort;
+                        if ($scope.grid.ports.indexOf(port.servicePort) == -1) {
+                            $scope.grid.ports.push(port.servicePort);
+                        }
                     });
                 });
 
