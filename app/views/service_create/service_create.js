@@ -11,37 +11,38 @@ angular.module('console.service.create', [
         function ($rootScope, $scope, $log, ImageStream, DeploymentConfig, ImageSelect,BackingServiceInstance,BackingServiceInstanceBd,ReplicationController) {
         $log.info('ServiceCreate');
 
-        $scope.grid = {};
+            $scope.grid = {};
 
-        $scope.deploymentConfig = {
-            metadata: {
-                name: ''
-            },
-            template: {
-                spec: {
-                    containers: [{
-                        name: '',
-                        image: '',
-                        VolumeMounts: {}
-                    }],
-                    replicas: 5,
-                    restartPolicy: "Always",
-                    Volumes: {
-                        name: '',
-                        secret: '',
-                        secretName: ''
+            $scope.deploymentConfig = {
+                metadata: {
+                    name: ''
+                },
+                template: {
+                    spec: {
+                        containers: [{
+                            name: '',
+                            image: '',
+                            VolumeMounts: {}
+                        }],
+                        replicas: 5,
+                        restartPolicy: "Always",
+                        Volumes: {
+                            name: '',
+                            secret: '',
+                            secretName: ''
+                        }
                     }
                 }
-            }
-        };
-        $scope.service = {
-            spec : {
-                ports: [{
-                    protocol: '',
-                    targetPort: '',
-                }]
-            }
-        }
+            };
+            $scope.service = {
+                spec: {
+                    ports: [{
+                        protocol: '',
+                        port: '',
+                        targetPort: '' //container port can't change
+                    }]
+                }
+            };
 
         //environment
         $scope.envList = [];

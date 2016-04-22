@@ -1,12 +1,12 @@
-<div>
+<div ng-init="grid={}">
     <div class="info" style="margin-top: 40px; margin-bottom: 30px">
         <p class="text-right" style="font-size:12px; margin-right: 110px">请填写配置,完成手动创建服务,您还可以</p>
         <a class="btn btn-skyblue pull-right" ng-click="" style="margin-top: -35px; margin-left: 40px">从模版创建</a>
     </div>
-    <a class="tab-cube" ng-click="checked=false" style="text-decoration:none; color: #5a6378;">基础配置</a>
-    <span> > </span>
-    <a class="tab-cube" ng-click="checked=true" style="text-decoration:none; color: #5a6378;">高级配置</a>
+    <a class="tab-cube" ng-click="grid.checked=false" style="text-decoration:none; color: #5a6378;">基础配置</a>
+    <span style="margin-left: 20px; margin-right: 20px"> > </span>
+    <a class="tab-cube" ng-click="grid.checked=true" style="text-decoration:none; color: #5a6378;">高级配置</a>
 
-    <div ng-if="!checked" ng-include="'views/service_create/basic_config.html'"></div>
-    <div ng-if="checked" ng-include="'views/service_create/advantage_config.html'"></div>
+    <div ng-show="!grid.checked" ng-include="'views/service_create/basic_config.html'"></div>
+    <div ng-show="grid.checked" ng-include="'views/service_create/advantage_config.html'"></div>
 </div>
