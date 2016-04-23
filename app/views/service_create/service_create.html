@@ -10,7 +10,7 @@
             <div class="col-md-12" style="padding-bottom: 30px;">
                 <a class="tab-cube" ng-class="{'active': !grid.checked}" ng-click="jump(false)">基础配置</a>
                 <span style="margin: 0 20px;"> > </span>
-                <a class="tab-cube" ng-class="{'active': grid.checked}" ng-click="jump(true)">高级配置</a>
+                <a class="tab-cube" ng-class="{'active': grid.checked}" ng-click="frm.$valid && jump(true)">高级配置</a>
             </div>
             <div class="col-md-12">
                 <div ng-show="!grid.checked" ng-include="'views/service_create/basic_config_new.html'"></div>
@@ -18,14 +18,14 @@
             </div>
             <div class="col-md-6 col-md-offset-6" style="padding: 0 0 15px 40px;">
                 <small style="color: #5a6378;"><input type="checkbox" ng-model="grid.auto">&nbsp;自动运行</small>
-                {{grid.auto}}
             </div>
             <div class="col-md-6" style="padding-right: 40px;">
                 <a href="javascript:;"
-                   class="btn btn-block" ng-click="frm.$valid && jump(true)"
+                   class="btn btn-block" ng-click="frm.$valid && jump(!grid.checked)"
                    ng-class="{'btn-orange':frm.$valid, 'btn-disabled': frm.$invalid}"
                    ng-disabled="frm.$invalid" >
-                    进入高级配置
+                    <span ng-if="!grid.checked">进入高级配置</span>
+                    <span ng-if="grid.checked">返回基础配置</span>
                 </a>
             </div>
             <div class="col-md-6" style="padding-left: 40px;">

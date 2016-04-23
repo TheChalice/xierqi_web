@@ -15,7 +15,9 @@ angular.module('console.service.detail', [
 
         $scope.grid = {
             ports: [],
-            port: 0
+            port: 0,
+            host: '',
+            suffix: 'app.dataos.io'
         };
 
         var getEnvs = function(containers){
@@ -105,18 +107,15 @@ angular.module('console.service.detail', [
                     $scope.portMap[port.targetPort + ''] = port.port;
                 }
 
-                updatePorts();
-
             }, function(res){
                 $log.info("load service err", res);
             });
         };
 
-        var updatePorts = function(){
+        $scope.updatePorts = function(){
+            $scope.grid.ports = [];
             angular.forEach($scope.dc.spec.template.spec.containers, function(item){
                 angular.forEach(item.ports, function(port){
-                    port.open = !!$scope.portMap[port.containerPort];
-                    port.servicePort = $scope.portMap[port.containerPort] || port.containerPort;
                     if ($scope.grid.ports.indexOf(port.servicePort) == -1) {
                         $scope.grid.ports.push(port.servicePort);
                     }
@@ -207,6 +206,10 @@ angular.module('console.service.detail', [
                     }
                     if (res.items[i].spec.to.name == $scope.dc.metadata.name) {
                         $scope.dc.route = res.items[i];
+
+                        $scope.grid.route = true;
+                        $scope.grid.host = $scope.dc.route.spec.host.replace($scope.grid.suffix, '');
+                        $scope.grid.port = parseInt($scope.dc.route.spec.port.targetPort.replace(/-.*/, ''));
                     }
                 }
             }, function(res){
@@ -561,11 +564,12 @@ angular.module('console.service.detail', [
                     if (arr.length == 2) {
                         container.ports.push({
                             containerPort: parseInt(arr[0]),
-                            protocol: arr[1]
+                            protocol: arr[1],
+                            servicePort: $scope.portMap[arr[0]] || arr[0],
+                            open: !!$scope.portMap[arr[0]]
                         })
                     }
                 }
-                updatePorts();
                 isConflict();
             });
         };
@@ -675,6 +679,63 @@ angular.module('console.service.detail', [
             });
         };
 
+        var prepareRoute = function(route, dc){
+            route.metadata.name = dc.metadata.name;
+            route.metadata.labels.app = dc.metadata.name;
+            route.spec.host = $scope.grid.host + $scope.grid.suffix;
+            route.spec.to.name = dc.metadata.name;
+            route.spec.port.targetPort = $scope.grid.port + '-tcp';
+        };
+
+        var prepareEnv = function(dc){
+            var containers = dc.spec.template.spec.containers;
+            for (var i = 0; i < containers.length; i++) {
+                containers[i].env = $scope.envs;
+            }
+        };
+
+        $scope.route = {
+            "kind": "Route",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "",
+                "labels": {
+                    "app": ""
+                }
+            },
+            "spec": {
+                "host": "",
+                "to": {
+                    "kind": "Service",
+                    "name": ""
+                },
+                "port": {
+                    "targetPort": ""
+                }
+            }
+        };
+
+        var updateRoute = function(dc) {
+            if (dc.route) {     //route存在,更新route
+                route.spec.host = $scope.grid.host + $scope.grid.suffix;
+                route.spec.port.targetPort = $scope.grid.port + '-tcp';
+                Route.put({namespace: $rootScope.namespace, name: dc.route.metadata.name}, dc.route, function(res){
+                    $log.info("create route success", res);
+                    $scope.route = res;
+                }, function(res){
+                    $log.info("create route fail", res);
+                });
+            } else {            //route不存在,创建route
+                prepareRoute($scope.route, dc);
+                Route.create({namespace: $rootScope.namespace}, $scope.route, function(res){
+                    $log.info("create route success", res);
+                    $scope.route = res;
+                }, function(res){
+                    $log.info("create route fail", res);
+                });
+            }
+        };
+
         $scope.updateDc = function(){
             var dc = angular.copy($scope.dc);
 
@@ -682,7 +743,9 @@ angular.module('console.service.detail', [
 
             prepareVolume(dc);
             prepareTrigger(dc);
+            prepareEnv(dc);
             updateService(dc);
+            updateRoute(dc);
 
             $log.info("update dc", dc);
 

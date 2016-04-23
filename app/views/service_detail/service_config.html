@@ -153,9 +153,9 @@
             <h3>路由设置</h3>
         </div>
         <div class="col-md-10">
-            <c-checkbox checked="routeCheck"></c-checkbox>
+            <c-checkbox checked="grid.route"></c-checkbox>
             <br>
-            <div ng-if="routeCheck">
+            <div ng-if="grid.route">
                 <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">服务端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
                 <div class="dropdown dropdown-select" style="width: 80px;">
                     <button class="btn dropdown-toggle" data-toggle="dropdown">
@@ -170,8 +170,8 @@
                 </div>
 
                 <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">域名&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                <input style="width: 160px;display: inline-block;" type="text" class="form-control">
-                <span style="font-size: 12px;">lab.asiainfodata.com</span>
+                <input style="width: 160px;display: inline-block;" ng-model="grid.host" type="text" class="form-control">
+                <span style="font-size: 12px;">{{grid.suffix}}</span>
             </div>
         </div>
     </div>

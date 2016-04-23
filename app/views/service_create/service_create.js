@@ -15,6 +15,8 @@ angular.module('console.service.create', [
             $scope.grid = {
                 ports: [],
                 port: 0,
+                host: '',
+                suffix: 'app.dataos.io',
                 imageChange: true,
                 configChange: true,
                 checkedsecond : false,
@@ -110,6 +112,27 @@ angular.module('console.service.create', [
                 }
             };
 
+            $scope.route = {
+                "kind": "Route",
+                "apiVersion": "v1",
+                "metadata": {
+                    "name": "",
+                    "labels": {
+                        "app": ""
+                    }
+                },
+                "spec": {
+                    "host": "",
+                    "to": {
+                        "kind": "Service",
+                        "name": ""
+                    },
+                    "port": {
+                        "targetPort": ""
+                    }
+                }
+            };
+
             $scope.containerModal = function (idx) {
                 var o = $scope.pods.items[idx];
                 ContainerModal.open(o);
@@ -123,7 +146,6 @@ angular.module('console.service.create', [
             $scope.rmContainer = function (idx) {
                 console.log("rmContainer");
                 $scope.dc.spec.template.spec.containers.splice(idx, 1);
-                updatePorts();
                 isConflict();
             };
 
@@ -207,21 +229,20 @@ angular.module('console.service.create', [
                         if (arr.length == 2) {
                             container.ports.push({
                                 containerPort: parseInt(arr[0]),
-                                protocol: arr[1]
-                            })
+                                servicePort: parseInt(arr[0]),
+                                protocol: arr[1],
+                                open: true
+                            });
                         }
                     }
-                    updatePorts();
                     isConflict();
                 });
             };
 
-            $scope.portMap = {};
-            var updatePorts = function(){
+            $scope.updatePorts = function(){
+                $scope.grid.ports = [];
                 angular.forEach($scope.dc.spec.template.spec.containers, function(item){
                     angular.forEach(item.ports, function(port){
-                        port.open = true; //!!$scope.portMap[port.containerPort];
-                        port.servicePort = $scope.portMap[port.containerPort] || port.containerPort;
                         if ($scope.grid.ports.indexOf(port.servicePort) == -1) {
                             $scope.grid.ports.push(port.servicePort);
                         }
@@ -358,10 +379,18 @@ angular.module('console.service.create', [
                         });
                     }
                 }
-                $scope.service.spec.ports = ps;
+                if (ps.length > 0) {
+                    $scope.service.spec.ports = ps;
+                } else {
+                    $scope.service.spec.ports = null;
+                }
                 Service.create({namespace: $rootScope.namespace}, $scope.service, function(res){
                     $log.info("create service success", res);
                     $scope.service = res;
+
+                    if ($scope.route) {
+                        createRoute(res);
+                    }
                 }, function(res){
                     $log.info("create service fail", res);
                 });
@@ -390,6 +419,25 @@ angular.module('console.service.create', [
                 }
             };
 
+            var prepareRoute = function(route, service){
+                route.metadata.name = service.metadata.name;
+                route.metadata.labels.app = service.metadata.name;
+                route.spec.host = $scope.grid.host + $scope.grid.suffix;
+                route.spec.to.name = service.metadata.name;
+                route.spec.port.targetPort = $scope.grid.port + '-tcp';
+            };
+
+            var createRoute = function(service) {
+                prepareRoute($scope.route, service);
+
+                Route.create({namespace: $rootScope.namespace}, $scope.route, function(res){
+                    $log.info("create route success", res);
+                    $scope.route = res;
+                }, function(res){
+                    $log.info("create route fail", res);
+                });
+            };
+
             $scope.createDc = function(){
                 var dc = angular.copy($scope.dc);
 
@@ -399,7 +447,6 @@ angular.module('console.service.create', [
                 prepareEnv(dc);
 
                 if ($scope.grid.auto) {
-                    console.log("=====auto-=====", $scope.grid.auto);
                     dc.status.latestVersion = 1;
                 }
 
