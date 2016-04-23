@@ -25,6 +25,8 @@ angular.module('console.service.create', [
                 serviceConflict: false
             };
 
+            $scope.invalid = {};
+
             $scope.envs = [];
 
             $scope.containerTpl = {
@@ -143,6 +145,7 @@ angular.module('console.service.create', [
             $scope.addContainer = function () {
                 console.log("addContainer");
                 $scope.dc.spec.template.spec.containers.push(angular.copy($scope.containerTpl));
+                $scope.invalid.containerLength = false;
             };
 
             $scope.rmContainer = function (idx) {
@@ -291,8 +294,7 @@ angular.module('console.service.create', [
             };
 
             $scope.jump = function(d){
-                console.log("123");
-                if (isConflict()) {
+                if (!valid($scope.dc)) {
                     return;
                 }
                 $scope.grid.checked = d;
@@ -438,9 +440,23 @@ angular.module('console.service.create', [
             };
 
             var valid = function(dc){
-                if (!dc.spec.template.spec.containers.length) {
+                var containers = dc.spec.template.spec.containers;
+                if (!containers.length) {
+                    $scope.invalid.containerLength = true;
                     return false;
                 }
+
+                for (var i = 0; i < containers.length; i++) {
+                    if (!containers[i].name) {
+                        containers[i].emptyName = true;
+                        return false;
+                    }
+                    if (!containers[i].image) {
+                        containers[i].emptyImage = true;
+                        return false;
+                    }
+                }
+
                 if (isConflict()) {
                     return false;
                 }
