@@ -161,7 +161,8 @@ define([
         }])
         .factory('Route', ['$resource', 'GLOBAL', function($resource, GLOBAL){
             var Route= $resource(GLOBAL.host + '/namespaces/:namespace/routes/:name', {name: '@name', namespace: '@namespace'},{
-                create: {method: 'POST'}
+                create: {method: 'POST'},
+                put: {method: 'PUT'}
             });
             return Route;
         }])

@@ -707,6 +707,7 @@ angular.module('console.service.detail', [
                 }
             }
             $scope.service.spec.ports = ps;
+            $scope.service.metadata.name = $scope.dc.metadata.name;
             Service.put({namespace: $rootScope.namespace, name: $scope.service.metadata.name}, $scope.service, function(res){
                 $log.info("update service success", res);
                 $scope.service = res;
