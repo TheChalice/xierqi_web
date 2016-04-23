@@ -17,7 +17,30 @@ angular.module('console.service.detail', [
             ports: [],
             port: 0,
             host: '',
-            suffix: 'app.dataos.io'
+            suffix: '.app.dataos.io'
+        };
+        $scope.portMap = {};
+
+        $scope.service = {
+            "kind": "Service",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "",
+                "labels": {
+                    "app": ""
+                }
+            },
+            "spec": {
+                "ports": [],
+                "selector": {
+                    "app": "",
+                    "deploymentconfig": ""
+                },
+                //"portalIP": "172.30.189.230",
+                //"clusterIP": "172.30.189.230",
+                "type": "ClusterIP",
+                "sessionAffinity": "None"
+            }
         };
 
         var getEnvs = function(containers){
@@ -80,6 +103,7 @@ angular.module('console.service.detail', [
                             item.image = name;
                             item.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
                             item.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
+                            item.tag = res.tag.name;
                         });
                     }
                 });
@@ -96,19 +120,30 @@ angular.module('console.service.detail', [
             });
         };
 
+        var updatePorts = function(){
+            angular.forEach($scope.dc.spec.template.spec.containers, function(item){
+                angular.forEach(item.ports, function(port){
+                    port.servicePort = $scope.portMap[port.containerPort + ''] || port.containerPort;
+                    port.open = !!$scope.portMap[port.containerPort];
+                });
+            });
+        };
+
         var loadService = function(dc){
             Service.get({namespace: $rootScope.namespace, name: dc}, function(res){
                 $log.info("service", res);
                 $scope.service = res;
-                $scope.portMap = {};
 
                 for (var i = 0; i < res.spec.ports.length; i++) {
                     var port = res.spec.ports[i];
                     $scope.portMap[port.targetPort + ''] = port.port;
                 }
 
+                updatePorts();
+
             }, function(res){
                 $log.info("load service err", res);
+                updatePorts();
             });
         };
 
@@ -556,6 +591,7 @@ angular.module('console.service.detail', [
                 container.name = res.metadata.name.replace(/:.*/, '');
                 container.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
                 container.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
+                container.tag = res.tag.name;
 
                 container.ports = [];
                 var exposedPorts = res.image.dockerImageMetadata.Config.ExposedPorts;
@@ -717,8 +753,8 @@ angular.module('console.service.detail', [
 
         var updateRoute = function(dc) {
             if (dc.route) {     //route存在,更新route
-                route.spec.host = $scope.grid.host + $scope.grid.suffix;
-                route.spec.port.targetPort = $scope.grid.port + '-tcp';
+                dc.route.spec.host = $scope.grid.host + $scope.grid.suffix;
+                dc.route.spec.port.targetPort = $scope.grid.port + '-tcp';
                 Route.put({namespace: $rootScope.namespace, name: dc.route.metadata.name}, dc.route, function(res){
                     $log.info("create route success", res);
                     $scope.route = res;
@@ -745,7 +781,9 @@ angular.module('console.service.detail', [
             prepareTrigger(dc);
             prepareEnv(dc);
             updateService(dc);
-            updateRoute(dc);
+            if ($scope.grid.route) {
+                updateRoute(dc);
+            }
 
             $log.info("update dc", dc);
 

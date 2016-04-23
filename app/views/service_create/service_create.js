@@ -8,19 +8,21 @@ angular.module('console.service.create', [
             ]
         }
     ])
-    .controller('ServiceCreateCtrl', [ '$rootScope', '$scope', '$log', 'ImageStream', 'DeploymentConfig', 'ImageSelect','BackingServiceInstance','BackingServiceInstanceBd','ReplicationController','Route', 'Secret', 'Service',
-        function ($rootScope, $scope, $log, ImageStream, DeploymentConfig, ImageSelect,BackingServiceInstance,BackingServiceInstanceBd,ReplicationController,Route, Secret, Service) {
+    .controller('ServiceCreateCtrl', [ '$rootScope', '$state', '$scope', '$log', 'ImageStream', 'DeploymentConfig', 'ImageSelect','BackingServiceInstance','BackingServiceInstanceBd','ReplicationController','Route', 'Secret', 'Service',
+        function ($rootScope, $state, $scope, $log, ImageStream, DeploymentConfig, ImageSelect,BackingServiceInstance,BackingServiceInstanceBd,ReplicationController,Route, Secret, Service) {
             $log.info('ServiceCreate');
 
             $scope.grid = {
                 ports: [],
                 port: 0,
                 host: '',
-                suffix: 'app.dataos.io',
+                suffix: '.app.dataos.io',
                 imageChange: true,
                 configChange: true,
                 checkedsecond : false,
-                auto: true
+                auto: false,
+                conflict: false,
+                serviceConflict: false
             };
 
             $scope.envs = [];
@@ -221,6 +223,7 @@ angular.module('console.service.create', [
                     container.image = res.metadata.name;
                     container.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
                     container.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
+                    container.tag = res.tag.name;
 
                     container.ports = [];
                     var exposedPorts = res.image.dockerImageMetadata.Config.ExposedPorts;
@@ -251,16 +254,24 @@ angular.module('console.service.create', [
             };
 
             var isConflict = function(){
+                var conflict = false;
+                var serviceConflict = false;
                 var containers = $scope.dc.spec.template.spec.containers;
                 for (var i = 0; i < containers.length; i++) {
                     var ports = containers[i].ports;
                     for (var j = 0; j < ports.length; j++) {
-                        ports[j].conflict = portConflict(ports[j].containerPort, i, j)
+                        conflict = portConflict(ports[j].containerPort, i, j, 'containerPort');
+                        serviceConflict = portConflict(ports[j].servicePort, i, j, 'servicePort');
+                        ports[j].conflict = conflict;
+                        ports[j].serviceConflict = serviceConflict;
                     }
                 }
+                $scope.grid.conflict = conflict;
+                $scope.grid.serviceConflict = serviceConflict;
+                return conflict || serviceConflict;
             };
 
-            var portConflict = function(port, x, y){
+            var portConflict = function(port, x, y, tp){
                 var containers = $scope.dc.spec.template.spec.containers;
                 for (var i = 0; i < containers.length; i++) {
                     var ports = containers[i].ports;
@@ -268,7 +279,10 @@ angular.module('console.service.create', [
                         if (i == x && j == y) {
                             continue;
                         }
-                        if (ports[j].containerPort == port) {
+                        if (tp == 'containerPort' && ports[j].containerPort == port) {
+                            return true;
+                        }
+                        if (tp == 'servicePort' && ports[j].servicePort == port) {
                             return true;
                         }
                     }
@@ -277,6 +291,10 @@ angular.module('console.service.create', [
             };
 
             $scope.jump = function(d){
+                console.log("123");
+                if (isConflict()) {
+                    return;
+                }
                 $scope.grid.checked = d;
             };
 
@@ -317,19 +335,6 @@ angular.module('console.service.create', [
                 dc.spec.triggers = triggers;
             };
 
-            var isBind = function(bsi, dc){
-                var bindings = bsi.spec.binding;
-                if (!bindings) {
-                    return false;
-                }
-                for (var j = 0; j < bindings.length; j++) {
-                    if (bindings[j].bind_deploymentconfig == dc.metadata.name) {
-                        return true;
-                    }
-                }
-                return false;
-            };
-
             var bindService = function(dc){
                 angular.forEach($scope.bsi.items, function(bsi){
                     var bindObj = {
@@ -341,15 +346,7 @@ angular.module('console.service.create', [
                         bindKind : 'DeploymentConfig'
                     };
 
-                    if (isBind(bsi, dc) && !bsi.bind) {  //绑定设置为不绑定
-                        BackingServiceInstance.bind.put({namespace: $rootScope.namespace, name: bsi.metadata.name}, bindObj, function(res){
-                            $log.info("unbind service success", res);
-                        }, function(res){
-                            $log.info("unbind service fail", res);
-                        });
-                    }
-
-                    if (!isBind(bsi, dc) && bsi.bind) {  //未绑定设置为绑定
+                    if (bsi.bind) {  //未绑定设置为绑定
                         BackingServiceInstance.bind.create({namespace: $rootScope.namespace, name: bsi.metadata.name}, bindObj, function(res){
                             $log.info("bind service success", res);
                         }, function(res){
@@ -388,11 +385,13 @@ angular.module('console.service.create', [
                     $log.info("create service success", res);
                     $scope.service = res;
 
-                    if ($scope.route) {
+                    if ($scope.grid.route) {
                         createRoute(res);
                     }
+                    $state.go('console.service_detail', {name: dc.metadata.name});
                 }, function(res){
                     $log.info("create service fail", res);
+                    $state.go('console.service_detail', {name: dc.metadata.name});
                 });
             };
 
@@ -438,8 +437,22 @@ angular.module('console.service.create', [
                 });
             };
 
+            var valid = function(dc){
+                if (!dc.spec.template.spec.containers.length) {
+                    return false;
+                }
+                if (isConflict()) {
+                    return false;
+                }
+                return true;
+            };
+
             $scope.createDc = function(){
                 var dc = angular.copy($scope.dc);
+
+                if (!valid(dc)) {
+                    return;
+                }
 
                 prepareDc(dc);
                 prepareVolume(dc);
@@ -454,209 +467,12 @@ angular.module('console.service.create', [
 
                 DeploymentConfig.create({namespace: $rootScope.namespace}, dc, function(res){
                     $log.info("create dc success", res);
-                    bindService(dc);
                     createService(dc);
+                    bindService(dc);
                 }, function(res){
                     //todo 错误处理
                     $log.info("create dc fail", res);
                 });
             };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            $scope.deploymentConfig = {
-                metadata: {
-                    name: ''
-                },
-                template: {
-                    spec: {
-                        containers: [{
-                            name: '',
-                            image: '',
-                            VolumeMounts: {}
-                        }],
-                        replicas: 0,
-                        restartPolicy: "Always",
-                        Volumes: {
-                            name: '',
-                            secret: '',
-                            secretName: ''
-                        }
-                    }
-                }
-            };
-
-
-            //environment
-            $scope.serviceport = $scope.service.spec.ports;
-            $scope.envList = [];
-            $log.info("ImageStream");
-            $scope.loadImageStream = function() {
-                ImageSelect.open();
-            };
-
-            //创建rc
-            var creatRc = function(dcData){
-                var rcobj = {
-                    metadata:{
-                        name : dcData.metadata.name+dcData.status.latestVersion
-                    },
-
-                    spec : dcData.spec
-
-                }
-                ReplicationController.create({namespace: $rootScope.namespace},rcobj, function (data) {
-
-                });
-            }
-            //创建dc
-            $scope.createDC = function() {
-                $scope.deploymentConfig.template.spec.containers.env = $scope.envList;
-                //DeploymentConfig.create({namespace: $rootScope.namespace},$scope.deploymentConfig, function (data) {
-                //     $log.info('createDC-data',data);
-                //if($scope.grid.isautoRun){creatRc(data)}
-                //if($scope.grid.isautoDeploy){autoDeploy()}
-                //if($scope.grid.checkedsecond){setRoute()}
-                //});
-                console.log($scope.grid.isautoDeploy)
-                console.log("deploymentConfig", $scope.deploymentConfig);
-                //bindService();
-            };
-            var bsiList = function() {
-                BackingServiceInstance.get({namespace: $rootScope.namespace}, function (data) {
-                    $log.info("bsiList", data);
-                    $scope.BsiList = data.items;
-                });
-            }
-            $scope.addBuildFun = function(idx){
-                var bsi = $scope.BsiList[idx];
-                bsi.selected = !bsi.selected;
-            }
-            // 路由设置
-            $scope.routeobj = {
-                metadata : {
-                    name : $scope.deploymentConfig.metadata.name
-                },
-                spec : {
-                    host : '',
-                    to : {
-                        kind : "Service",
-                        name : $scope.deploymentConfig.metadata.name
-                    },
-                    port : {
-                        targetPort : ''
-                    }
-                }
-            }
-
-
-             var setRoute = function(){
-                 var copyrtb = angular.copy($scope.routeobj);
-                 copyrtb.spec.host = copyrtb.spec.host+'lab.asiainfodata.com';
-                 Route.create({namespace: $rootScope.namespace},copyrtb, function (data) {
-                     $log.info("Route.create", data);
-
-                 });
-                 console.log('copyrtb----',copyrtb);
-             }
-            //绑定服务
-            var bindService2 = function(){
-                var bsiarr = [];
-                for(var i = 0;i<$scope.BsiList.length;i++){
-                    if($scope.BsiList[i].selected == true){
-                        bsiarr.push($scope.BsiList[i]);
-                    }
-                }
-                console.log(bsiarr);
-                var bindserviceobj = {
-                    resourceName : $scope.deploymentConfig.metadata.name,
-                    bindResourceVersion : {},
-                    bindKind : 'DeploymentConfig'
-
-                }
-                for(var j = 0;j<bsiarr.length;j++){
-                    BackingServiceInstanceBd.create({namespace: $rootScope.namespace,name:bsiarr[i].metadata.name}, bindserviceobj, function (data) {
-                        $log.info('BackingServiceInstanceBd',data);
-                    });
-                }
-
-       }
-            //go to advantage
-       $scope.isValid = function() {
-           if($scope.deploymentConfig.metadata.name && $scope.deploymentConfig.template.spec.containers.name) {
-               $scope.grid.checked = true;
-           }
-       }
-       //back to basic
-       $scope.notVaild = function() {
-           $scope.grid.checked = false;
-       }
-
-            // 自动部署
-            $scope.grid.isautoDeploy = false;
-            //自动发布
-            $scope.grid.isautoRun = false;
-            var autoDeploy = function(){
-                $scope.triggers = [];
-                var conTn = $scope.deploymentConfig.template.spec.containers;
-                var serviceLi =  $scope.service.spec;
-                for(var i = 0; i< conTn.length;i++){
-                    var thisobj = {
-                        "type":"ImageChange",
-                        "imageChangeParams":{
-                            "automatic":true,
-                            "containerNames":[
-                                conTn[i].name // 容器名字
-                            ],
-                            "from":{
-                                "kind":"ImageStreamTag",
-                                "name":"datafoundryweb:latest" // 镜像名称 : 镜像版本
-                            },
-                        }
-                    }
-                    $scope.triggers.push(thisobj);
-
-                }
-                $scope.deploymentConfig.spec.triggers = $scope.triggers;
-            }
-            $scope.addEnv2 = function(){
-                var newenv = {};
-                $scope.envList.push(newenv);
-            };
-
-            $scope.delEnv = function(idx){
-                $scope.envList.splice(idx,1);
-            }
-            bsiList ();
-            //add container panel and port panel
-            $scope.addCon = $scope.deploymentConfig.template.spec.containers;
-
-            //delete container panel
-            $scope.delContainer = function(idx) {
-                $scope.deploymentConfig.template.spec.containers.splice(idx,1);
-            }
-            //choose image
-            $scope.loadImageStream = function() {
-                ImageSelect.open();
-            };
-            //get port and tcp from imagestreamtag
-            var loadport = function() {
-            }
         }]);
 

@@ -127,7 +127,7 @@ angular.module('console.service', [
                     if ($scope.routeMap[servicedata[i].metadata.name]) {
                         servicedata[i].route = $scope.routeMap[servicedata[i].metadata.name];
                     }else{
-                        servicedata[i].route = '---'
+                        servicedata[i].route = '-'
                     }
                 }
             });
@@ -221,25 +221,40 @@ angular.module('console.service', [
                 $log.info("stopDc dc err", res);
             });
         };
-        /////绑定
-        var loadBsi = function(servicedata){
-            BackingServiceInstance.get({namespace:$rootScope.namespace},function(res){
-                $log.info('BackingServiceInstance',res);
 
-                for(var g = 0;g<servicedata.length;g++){
-                    for (var i = 0; i < res.items.length; i++) {
-                        for (var j = 0; j < res.items[i].spec.binding.length; j++) {
-                            if (res.items[i].spec.binding[j].bind_deploymentconfig == servicedata[g].metadata.name) {
-                                servicedata[g].bsi = '已绑定';
-                            }
-                        }
+        var loadBsi = function (dcs) {
+            BackingServiceInstance.get({namespace: $rootScope.namespace}, function(res){
+                $log.info("backingServiceInstance", res);
+
+                var binds = [];
+
+                for (var i = 0; i < res.items.length; i++) {
+                    if (!res.items[i].spec.binding) {
+                        continue;
+                    }
+                    for (var j = 0; j < res.items[i].spec.binding.length; j++) {
+                        binds.push(res.items[i].spec.binding[j].bind_deploymentconfig);
                     }
                 }
+
+                console.log('===', binds)
+
+                for (var i = 0; i < dcs.length; i++) {
+                    if (binds.indexOf(dcs[i].metadata.name) != -1) {
+                        dcs[i].bsi = '已绑定';
+                    } else {
+                        dcs[i].bsi = '未绑定';
+                    }
+                }
+
+                $scope.bsi = res;
+
             }, function(res){
                 //todo 错误处理
                 $log.info("loadBsi err", res);
-            })
-        }
+            });
+        };
+
         $scope.$on('$destroy', function(){
             Ws.clear();
         });

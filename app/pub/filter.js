@@ -56,7 +56,7 @@ define(['angular', 'moment'], function (angular, moment) {
                     return "-";
                 }
                 um = (new Date()).getTime() - (new Date(um)).getTime();
-                var duration = moment.duration(um / 1000);
+                var duration = moment.duration(um);
                 var humanizedDuration = [];
                 var years = duration.years();
                 var months = duration.months();

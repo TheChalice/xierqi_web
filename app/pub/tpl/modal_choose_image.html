@@ -42,7 +42,8 @@
                             <li ng-repeat="(j, o) in tag.items" ng-show="j < 1">
                                 <a href="javascript:;" ng-class="{'active': grid.version_x == k && grid.version_y == j}" ng-click="selectVersion(k, j)">
                                     <i class="faa faa-check"></i>&nbsp;&nbsp;
-                                    <span ng-if="tag.ref">{{tag.ref}} - </span>{{tag.commitId | limitTo: 7}}
+                                    <span>{{tag.tag}}</span>
+                                    <!--<span ng-if="tag.ref">{{tag.ref}} - </span>{{tag.commitId | limitTo: 7}}-->
                                 </a>
                             </li>
                         </ul>

@@ -31,9 +31,9 @@
             </div>
             <div style="font-size: 12px;color: #5a6378;">
                 <div ng-if="container.image">
-                    <p style="margin-bottom: 5px;">镜像名称:&nbsp;&nbsp;{{container.image}}</p>
+                    <p style="margin-bottom: 5px;">镜像名称:&nbsp;&nbsp;{{container.image | imageStreamName}}</p>
                     <p style="margin-bottom: 30px;">
-                        镜像版本:&nbsp;&nbsp;<span ng-if="container.ref">{{container.ref}} - </span>{{container.commitId | limitTo: 7}}
+                        镜像版本:&nbsp;&nbsp;{{container.tag}}
                     </p>
                 </div>
 
@@ -84,7 +84,7 @@
                 <td style="vertical-align: middle;">
                     <span>
                         <p>{{container.image | imageStreamName}}</p>
-                        <p><span ng-if="container.ref">{{container.ref}} - </span>{{container.commitId | limitTo: 7}}</p>
+                        <p><span ng-if="container.ref">{{container.tag}}</p>
                     </span>
                 </td>
                 <td style="vertical-align: middle;">
@@ -157,7 +157,7 @@
             <br>
             <div ng-if="grid.route">
                 <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">服务端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                <div class="dropdown dropdown-select" style="width: 80px;">
+                <div class="dropdown dropdown-select" ng-click="updatePorts()" style="width: 80px;">
                     <button class="btn dropdown-toggle" data-toggle="dropdown">
                         <span>{{grid.port || '请选择'}}</span>
                         <span class="caret"></span>

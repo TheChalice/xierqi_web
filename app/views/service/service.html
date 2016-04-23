@@ -28,14 +28,22 @@
             </tr>
             <!--<tr ng-repeat="bc in items">-->
             <tr ng-repeat="dc in items">
-                <td><a ui-sref="console.service_detail({name: dc.metadata.name})">{{dc.metadata.name}}</a>
+                <td>
+                    <a class="href-orange" ui-sref="console.service_detail({name: dc.metadata.name})">
+                        {{dc.metadata.name}}
+                    </a>
                 </td>
                 <td>{{dc.metadata.creationTimestamp | dateRelative}}</td>
                 <td>{{dc.ismn}}</td>
-                <td>{{dc.rc.status.replicas || 0}} /{{dc.spec.replicas}}</td>
-                <td>{{dc.route}}</td>
+                <td><span style="color: #f6a540">{{dc.rc.status.replicas || 0}}</span>/{{dc.spec.replicas}}</td>
+                <td>
+                    <a class="href-orange" href="http://{{dc.route.spec.host}}" target="_blank">{{dc.route.spec.host}}</a>
+                </td>
                 <td>{{dc.bsi || '未绑定'}}</td>
-                <td><a ng-if="dc.ismn=='未启动'" ng-click="startDc($index)">启动</a><a ng-if="dc.ismn!='未启动'" ng-click="stopDc($index)">停止</a></td>
+                <td>
+                    <a class="icon25 icon25-start" ng-click="startDc($index)"  ng-if="dc.ismn=='未启动'" uib-tooltip="启动" href="javascript:;"></a>
+                    <a class="icon25 icon25-stop" ng-click="stopDc($index)" ng-if="dc.ismn!='未启动'" uib-tooltip="停止" href="javascript:;"></a>
+                </td>
             </tr>
         </table>
         <div class="text-right" ng-if="grid.total > 10">
