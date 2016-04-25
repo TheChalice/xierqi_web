@@ -837,7 +837,7 @@ angular.module('console.service.detail', [
             return $uibModal.open({
                 templateUrl: 'views/service_detail/containerModal.html',
                 size: 'default modal-lg',
-                controller: ['$rootScope', '$scope', '$log', '$uibModalInstance', 'Pod', 'Ws', function ($rootScope, $scope, $log, $uibModalInstance, Pod, Ws) {
+                controller: ['$rootScope', '$scope', '$log', '$uibModalInstance', 'ImageStream', 'Pod', 'Ws', function ($rootScope, $scope, $log, $uibModalInstance, ImageStream, Pod, Ws) {
                     $scope.pod = pod;
                     $scope.grid = {
                         show: false
@@ -848,6 +848,45 @@ angular.module('console.service.detail', [
                     $scope.cancel = function () {
                         $uibModalInstance.dismiss();
                     };
+
+                    var imageStreamName = function(image){
+                        if (!image) {
+                            return "";
+                        }
+                        var match = image.match(/\/([^/]*)@sha256/);
+                        if (!match) {
+                            return "";
+                        }
+                        return match[1];
+                    };
+
+                    var preparePod = function(pod){
+                        var status = pod.status.containerStatuses;
+                        var statusMap = {};
+                        for (var i = 0; i < status.length; i++) {
+                            statusMap[status[i].name] = status[i];
+                        }
+                        var containers = pod.spec.containers;
+                        angular.forEach(pod.spec.containers, function(container){
+                            if (statusMap[container.name]) {
+                                container.status = statusMap[container.name];
+                            }
+
+                            ImageStream.get({namespace: $rootScope.namespace, name: imageStreamName(container.image)}, function(res){
+                                if (res.kind == 'ImageStream') {
+                                    angular.forEach(res.status.tags, function (tag) {
+                                        angular.forEach(tag.items, function (item) {
+                                            if (container.image.indexOf(item.image)) {
+                                                container.tag = tag.tag;
+                                            }
+                                        });
+                                    });
+                                }
+                            });
+                        });
+                        console.log('====', $scope.pod)
+                    };
+                    preparePod($scope.pod);
 
                     $scope.containerDetail = function(idx){
                         var o = pod.spec.containers[idx];

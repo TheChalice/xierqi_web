@@ -21,11 +21,13 @@
             <tr ng-repeat="container in pod.spec.containers">
                 <td><a href="javascript:;" ng-click="containerDetail($index)" class="href-orange">{{container.name}}</a></td>
                 <td>
-
+                    <span ng-repeat="(k, v) in container.status.state">
+                        {{k}}
+                    </span>
                 </td>
                 <td>{{container.resources}}</td>
                 <td>{{container.image | imageStreamName}}</td>
-                <td>{{container.image | stripSHAPrefix | limitTo: 7}}</td>
+                <td>{{container.tag}}</td>
             </tr>
         </table>
     </div>
