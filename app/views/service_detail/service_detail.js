@@ -803,6 +803,7 @@ angular.module('console.service.detail', [
                 templateUrl: 'views/service_detail/logModal.html',
                 size: 'default modal-lg',
                 controller: ['$rootScope', '$scope', '$uibModalInstance', 'Pod', function ($rootScope, $scope, $uibModalInstance, Pod) {
+                    $scope.grid = {};
                     $scope.pod = pod;
                     $scope.ok = function () {
                         $uibModalInstance.close(true);
@@ -814,8 +815,8 @@ angular.module('console.service.detail', [
                     $scope.getLog = function (pod) {
                         var params = {
                             namespace: $rootScope.namespace,
-                            name: pod
-                            //sinceTime: ''
+                            name: pod,
+                            sinceTime: $scope.grid.st ? $scope.grid.st.toISOString(): (new Date(0)).toISOString()
                         };
                         Pod.log.get(params, function(res){
                             var result = "";
@@ -828,6 +829,9 @@ angular.module('console.service.detail', [
                         });
                     };
                     $scope.getLog(pod);
+                    $scope.search = function () {
+                        $scope.getLog($scope.pod);
+                    };
                 }]
             }).result;
         };
