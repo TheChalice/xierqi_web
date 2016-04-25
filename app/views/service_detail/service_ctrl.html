@@ -1,0 +1,55 @@
+<div class="service-ctrl">
+
+    <h2>POD信息</h2>
+    <hr>
+
+    <div class="table-responsive" style="margin-bottom: 30px;">
+        <table class="table table-hover table-default sub-table">
+            <tr>
+                <th>名称</th>
+                <th>运行状态</th>
+                <th>运行时长</th>
+                <th>重启策略</th>
+                <th>重启次数</th>
+                <th>容器个数</th>
+                <th class="text-center">操作</th>
+            </tr>
+            <tr ng-repeat="pod in pods.items">
+                <td>{{pod.metadata.name}}</td>
+                <td>
+                    <span class="text-{{pod.status.phase}}">{{pod.status.phase}}</span>
+                </td>
+                <td>{{pod.status.startTime | duration2}}</td>
+                <td>{{pod.spec.restartPolicy}}</td>
+                <td>0</td>
+                <td>{{pod.spec.containers.length}}</td>
+                <td class="text-center">
+                    <a class="btn btn-orange btn-xs" ng-click="containerModal($index)">查看容器</a>
+                    <a class="btn btn-orange btn-xs" ng-click="logModal($index)">查看日志</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+
+    <h2>告警信息 <a class="href-orange pull-right" href="javascript:;">查看更多告警详情</a></h2>
+    <hr>
+
+    <div class="timeline">
+        <ul>
+            <li ng-repeat="item in events.items">
+                <label>
+                    <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                    {{item.metadata.creationTimestamp | dateRelative}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span ng-if="item.type=='Error'">严重告警</span>
+                    <span ng-if="item.type=='Warning'">一般告警</span>
+                    <span ng-if="item.type=='Normal'">告警</span>
+                </label>
+                <div class="container-fluid">
+                    {{item.message}}
+                </div>
+            </li>
+        </ul>
+    </div>
+
+</div>

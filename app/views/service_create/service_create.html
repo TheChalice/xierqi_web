@@ -1,3 +1,43 @@
-<div>
-
+<div class="service-create">
+    <form name="frm">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="info" style="margin-top: 40px; margin-bottom: 30px">
+                    <p class="text-right" style="font-size:12px; margin-right: 110px">请填写配置,完成手动创建服务,您还可以</p>
+                    <a class="btn btn-skyblue pull-right" ng-click="" style="margin-top: -35px; margin-left: 40px">从模版创建</a>
+                </div>
+            </div>
+            <div class="col-md-12" style="padding-bottom: 30px;">
+                <a class="tab-cube" ng-class="{'active': !grid.checked}" ng-click="jump(false)">基础配置</a>
+                <span style="margin: 0 20px;"> > </span>
+                <a class="tab-cube" ng-class="{'active': grid.checked}" ng-click="frm.$valid && jump(true)">高级配置</a>
+            </div>
+            <div class="col-md-12">
+                <div ng-show="!grid.checked" ng-include="'views/service_create/basic_config_new.html'"></div>
+                <div ng-show="grid.checked" ng-include="'views/service_create/advantage_config_new.html'"></div>
+            </div>
+            <div class="col-md-6 col-md-offset-6" style="padding: 0 0 15px 40px;">
+                <a href="javascript:;" ng-class="{'active': grid.auto}" ng-click="grid.auto = !grid.auto" style="text-decoration: none;color: #5a6378;">
+                    <i class="faa faa-check"></i>&nbsp;自动运行
+                </a>
+            </div>
+            <div class="col-md-6" style="padding-right: 40px;">
+                <a href="javascript:;"
+                   class="btn btn-block" ng-click="frm.$valid && jump(!grid.checked)"
+                   ng-class="{'btn-orange':frm.$valid, 'btn-disabled': frm.$invalid}"
+                   ng-disabled="frm.$invalid" >
+                    <span ng-if="!grid.checked">进入高级配置</span>
+                    <span ng-if="grid.checked">返回基础配置</span>
+                </a>
+            </div>
+            <div class="col-md-6" style="padding-left: 40px;">
+                <a href="javascript:;" ng-click="frm.$valid && createDc()"
+                   class="btn btn-block"
+                   ng-class="{'btn-orange':frm.$valid, 'btn-disabled': frm.$invalid}"
+                   ng-disabled="frm.$invalid">
+                    创建服务
+                </a>
+            </div>
+        </div>
+    </form>
 </div>

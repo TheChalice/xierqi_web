@@ -1,0 +1,162 @@
+<div class="config">
+    <div class="panel panel-default" style="margin-top: 30px; margin-bottom: 20px;">
+        <div class="panel-heading">
+            <span class="panel-title">基础构建</span>
+        </div>
+        <div class="panel-body">
+            <form name="frm">
+
+                <div class="form-group" style="overflow:hidden;">
+                    <label class="col-sm-2 control-label text-left require"
+                           style="color: #5a6378; font-size:14px; text-align: left; margin-top: 35px;">服务名称
+                    </label>
+
+                    <div class="col-sm-10" style="padding-right: 40px">
+                        <input name="servicename" type="text" class="form-control"
+                               style="margin-top: 30px;  margin-right: 20px" placeholder="创建一个服务名称"
+                               ng-model="deploymentConfig.metadata.name" required>
+                        <small ng-show="frm.servicename.$dirty && frm.servicename.$invalid"
+                               style="margin-top: 20px; color: #e81021">
+                            <i class="fa fa-red fa-info-circle" style="margin-right: 10px;"></i>请创建一个服务名称
+                        </small>
+                    </div>
+                </div>
+                <hr>
+            </form>
+
+            <div class="form-group" style="height: auto;float:left;width:100%;border-bottom: 1px solid #c9c9c9">
+                <label class="col-sm-2 control-label text-left"
+                       style="color: #5a6378; font-size:14px; text-align: left; font-weight: normal">POD配置</label>
+                <div class="col-sm-10" style="float: left">
+                    <div>
+                        <a href="javascript:;" style="text-decoration:none;" ng-click="addContainer()">
+                            <i class="fa fa-green fa-plus-circle fa-lg"></i>
+                            <span class="font12">创建容器</span></a>
+                    </div>
+
+                    <div class="panel panel-default" style="margin-top: 20px; margin-right: 20px; overflow: inherit;"
+                         ng-repeat="item in addCon">
+                        <div class="panel-heading">
+                            <span class="panel-title-o" style="font-size: 12px; margin-left: 5px">设置容器</span>
+                            <i class="fa fa-times-circle pull-right" style="margin-top: 15px"
+                               ng-click="delContainer(index)"></i>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group" style="overflow:hidden">
+                                <input name="containername" type="text" class="form-control col-sm-12"
+                                       placeholder="请设置容器名称" style="margin-left: 5px; width: 650px;"
+                                       ng-model="deploymentConfig.template.spec.containers.name">
+                                <span class="require"></span>
+                                <small style="margin-top: 20px; color: #e81021;display: block;"><i class="fa fa-red fa-info-circle"
+                                                                                   style="margin-right: 10px;"></i>请设置容器名称
+                                </small>
+                            </div>
+                            <hr>
+
+                            <div class="form-group" style="overflow:hidden; margin-left: 5px;">
+                                <a class="btn btn-orange" ng-click="loadImageStream()" herf="javascript:;">
+                                    <span class="hidden-xs">选择镜像</span>
+                                </a>
+                                <span class="require"></span>
+                                <small style="display: none; margin-top: 20px; color: #e81021"><i
+                                        class="fa fa-red fa-info-circle" style="margin-right: 10px;"></i>请创选择镜像
+                                </small>
+                            </div>
+                            <hr>
+
+                            <div class="form-group" style="margin-left: 5px; font-size: 12px;">
+                                <p class="font12">挂载secret卷
+                                    <a style="text-decoration: none"><i class="fa fa-green fa-plus-circle fa-lg"
+                                                                        style="margin-left: 15px; margin-right: 10px"></i><span
+                                            class="font12">创建</span></a>
+                                </p>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <div class="dropdown dropdown-select" style="width: 200px;">
+                                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                                <span>onfailure</span>
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li ng-repeat="i in [1, 2]">
+                                                    <a href="javascript:;">{{i}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <input value="挂载路径" type="text" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" style="margin-right: 20px; height: 30px; margin-top: 20px;">
+                <label class="col-sm-2 control-label text-left"
+                       style="color: #5a6378; font-size:14px; text-align: left;">端口开放</label>
+                <div class="col-sm-10 table-responsive">
+                    <table class="table table-hover table-default sub-table" style="font-size: 12px">
+                        <tr>
+                            <th style="width: 20%;">容器名称</th>
+                            <th style="width: 30%;">镜像</th>
+                            <th style="width: 50%;">端口</th>
+                        </tr>
+                        <tr ng-repeat="container in deploymentConfig.spec.template.spec.containers">
+                            <td style="vertical-align: middle;">
+                                镜像名称
+                                <!--{{container.name}}-->
+                            </td>
+                            <td style="vertical-align: middle;">
+                                    <span>
+                                        镜像版本
+                                        <!--<p>{{container.image | imageStreamName}}</p>-->
+                                        <!--<p><span ng-if="container.ref">{{container.ref}} - </span>{{container.commitId | limitTo: 7}}</p>-->
+                                    </span>
+                            </td>
+                            <td style="vertical-align: middle;">
+                                <div class="row">
+                                    <div class="col-md-3">协议</div>
+                                    <div class="col-md-3">容器端口</div>
+                                    <div class="col-md-3">服务端口</div>
+                                    <div class="col-md-3"></div>
+                                </div>
+                                <div class="row" ng-repeat="port in container.ports">
+                                    <div class="col-md-3">
+                                        <input type="text" readonly class="input-small" ng-model="port.protocol">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input type="text" readonly class="input-small"
+                                               ng-class="{'input-error':port.conflict}" ng-model="port.containerPort">
+                                    </div>
+                                    <div class="col-md-3">{{}}
+                                        <input type="text" class="input-small">
+                                    </div>
+                                    <div class="col-md-3"><input type="checkbox">&nbsp;开放</div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row" style="margin-bottom: 15px">
+
+        <div class="col-md-5 col-md-offset-7" ng-model="grid.isautoRun" {{grid.isautoRun}}>
+            <input type="checkbox" style="margin-right: 15px">自动运行
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-5">
+            <a class="btn btn-orange btn-block" href="javascript:;" ng-click="isValid()">进入高级配置</a>
+        </div>
+        <div class="col-md-5 col-md-offset-2">
+            <a class="btn btn-orange btn-block" href="javascript:;" ng-click="createDC()">创建服务</a>
+        </div>
+    </div>
+</div>

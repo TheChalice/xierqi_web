@@ -1,5 +1,11 @@
+:focus, :active, .active {
+    outline: none!important;
+}
 body {
     padding-top: 70px;
+}
+hr {
+    border-top: 1px solid #c9c9c9;
 }
 /*按钮*/
 .btn {
@@ -41,7 +47,7 @@ body {
 /*表格*/
 .table-default {
     overflow: hidden;
-    border: 1px solid #e5e5e5;
+    border: 1px solid #c9c9c9;
     border-top: none;
     border-radius: 2px;
     border-collapse: separate;
@@ -54,25 +60,35 @@ body {
     padding-bottom: 20px;
     color: #5a6378;
 }
+.table-default.sub-table > tbody > tr > th,
+.table-default.sub-table > tbody > tr > td {
+    padding: 12px 20px;
+    color: #5a6378;
+}
 .table-default > tbody > tr > th {
     padding-left: 20px;
     background: #e6e9f2;
     color: #393f4f;
+    border-top: 1px solid #c9c9c9;
 }
 
 /*面板默认*/
 .panel-default {
     overflow: hidden;
-    border: 1px solid #e5e5e5;
+    border: 1px solid #c9c9c9;
     border-radius: 2px;
     color: #5a6378;
 }
 .panel-default .panel-heading {
     background: #e6e9f2;
     border-radius: 0;
+    border-bottom: none;
     line-height: 34px;
 }
-
+.panel-default.sub-panel .panel-heading {
+    line-height: 25px;
+    height: 45px;
+}
 .panel-default .panel-heading .panel-title {
     font-size: 16px;
     font-weight: bold;
@@ -208,6 +224,10 @@ body {
     padding: 50px;
 }
 
+.tab-sm {
+    border: 1px solid #5a6378;
+    border-radius: 2px;
+}
 /*a标签默认样式*/
 .href-orange {
     color: #f6a540;
@@ -291,6 +311,37 @@ body {
     color: #5a6378;
 }
 
+.modal-default.modal-lg {
+    width: 900px;
+    top: 50%;
+    left: 50%;
+    margin-top: -300px;
+    margin-left: -450px;
+}
+.modal-default.modal-lg .modal-content {
+    height: 100%;
+}
+
+/*toast*/
+.modal-toast {
+    overflow: hidden;
+    position: fixed;
+    width: 300px;
+    height: 100px;
+    top: 50%;
+    left: 50%;
+    margin-top: -50px;
+    margin-left: -150px;
+}
+.modal-toast .modal-content {
+    height: 100%;
+    border-radius: 2px;
+    border: 1px solid #e6e9f2;
+    text-align: center;
+    font-size: 16px;
+    line-height: 100px;
+}
+
 /*媒体对象小*/
 .media-sm .media-left img {
     width: 27px;
@@ -324,9 +375,350 @@ body {
     background-color:#f6a540;
     border-color:#f6a540;
 }
+/*service_create advantage_config.html tabandimage*/
+.tabandimage {
+    position: relative;
+    border:1px solid #c9c9c9;
+    border-radius: 2px;
+    overflow: hidden;
+    font-size: 12px;
+    height: 60px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+.tabandimage.selected {
+    border: 1px solid #f6a540;
+}
+/*.tabandimage:active{*/
+    /*border: 1px solid #f6a540;*/
+/*}*/
+
+.tabandimagecur{
+    border: 1px solid #f6a540;
+}
+/* timeline */
+.dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    background: #f6a540;
+}
+.timeline ul {
+    list-style: none;
+    border-left: 2px solid #c9c9c9;
+}
+.timeline ul > li {
+    position: relative;
+    left: -45px;
+    top: -10px;
+    margin: 0 -45px 50px 0;
+}
+.timeline ul > li > label {
+    color: #393f4f;
+}
+.timeline ul > li > div.container-fluid {
+    padding: 10px 15px;
+    border: 1px solid #c9c9c9;
+    border-radius: 2px;
+    margin-left: 30px;
+    color: #5a6378;
+    font-size: 12px;
+    line-height: 25px;
+}
+.well.well-log {
+    border: none;
+    border-radius: 2px;
+    margin: 15px 0 0 30px;
+    background: #000;
+}
+.well.well-log pre{
+    font-size: 12px;
+    background: none;
+    border: none;
+    color: #3e8f3e;
+    height:300px;
+    word-break: break-all;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+.icon25-collapse {
+    background-image: url(../img/images_200.png);
+}
+.icon25-collapse:hover {
+    background-image: url(../img/images_201.png);
+}
+.timeline .icon25 {
+    margin: 0 10px;
+}
+.icon25-delete {
+    background-image: url(../img/images_03.png);
+}
+.icon25-delete:hover {
+    background-image: url(../img/images_05.png);
+}
+
+/*自定义下拉框*/
+.dropdown-select {
+    display: inline-block;
+    vertical-align: bottom;
+}
+.dropdown-select > .btn {
+    width: 100%;
+    text-align: left;
+    background: #fff;
+    border: 1px solid #c9c9c9;
+    border-radius: 2px;
+    color: #5a6378;
+    font-size: 12px;
+    padding-top: 8px;
+    padding-bottom: 7px;
+    position: relative;
+}
+.dropdown-select > .btn .caret {
+    right:10px;
+    position: absolute;
+    top: 15px;
+}
+.dropdown-select > ul {
+    width: 100%;
+    border-radius: 2px;
+}
+
+.faa {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    background: url(../img/icon.png);
+}
+.faa-code {
+    background-position: -101px -173px;
+    width: 21px;
+    height: 25px;
+}
+.faa-cmd {
+    background-position: -16px -176px;
+    width: 26px;
+    height: 21px;
+}
+.faa-clock {
+    background-position: -57px -173px;
+    width: 26px;
+    height: 26px;
+}
+.faa-edit {
+    background-position: -46px -684px;
+    width: 18px;
+    height: 22px;
+}
+.faa-pod {
+    background-position: -246px -738px;
+    width: 25px;
+    height: 25px;
+}
+.faa-cogs {
+    background-position: -46px -737px;
+    width: 25px;
+    height: 25px;
+}
+.faa-cogs:hover {
+    background-position: -81px -737px;
+}
+.faa-times {
+    width: 25px;
+    height: 25px;
+    background-position: -270px -123px;
+}
+.faa-times:hover {
+    background-position: -312px -123px;
+}
+.faa-edit:hover, .faa-edit.active, .active .faa-edit, .nav-link:hover .faa-edit {
+    background-position: -74px -684px;
+}
+.faa-back {
+    background-position: -16px -317px;
+    width: 25px;
+    height: 25px;
+}
+.faa-back:hover {
+    background-position: -50px -317px;
+}
+.faa-target {
+    background-position: -106px -684px;
+    width: 22px;
+    height: 22px;
+}
+.faa-target:hover, .faa-target.active, .active .faa-target, .nav-link:hover .faa-target {
+    background-position: -132px -684px;
+}
+.faa-text {
+    background-position: -209px -172px;
+    width: 19px;
+    height: 22px;
+}
+.faa-text:hover, .faa-text.active, .active .faa-text, .nav-link:hover .faa-text {
+    background-position: -240px -172px;
+}
+.faa-image {
+    background-position: -44px -789px;
+    width: 60px;
+    height: 60px;
+}
+.faa-image-mark {
+    background-position: -189px -737px;
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.faa-check {
+    background-position: -16px -220px;
+    width: 15px;
+    height: 15px;
+}
+.active .faa-check {
+    background-position: -41px -220px;
+}
 
 @media (max-width: 758px) {
     body {
         padding-top: 50px;
     }
+}
+
+.require:after {
+    content: '*';
+    margin: 0 5px 0 3px;
+    color: red;
+    vertical-align: sub;
+}
+
+/*font12*/
+.font12 {
+    font-size: 12px;
+}
+
+.input-error {
+    border: 1px solid #ec6941!important;
+    background: #fbe1d9;
+}
+.input-small {
+    width: 70px;
+    border: 1px solid #c9c9c9;
+    border-radius: 2px;
+}
+.service-config {
+    color: #393f4f;
+}
+.service-config h2 {
+    color: #000;
+    font-size: 16px;
+    margin: 0 0 5px 0;
+}
+.service-config > hr {
+    margin: 0 0 30px 0;
+}
+.service-config h3 {
+    font-size: 14px;
+    font-weight: normal;
+    margin: 0 0 20px 0;
+}
+.service-config h4 {
+    font-size: 12px;
+    font-weight: normal;
+    margin: 0 0 20px 0;
+    color: #393f4f;
+}
+.service-config .container-bar {
+    padding: 10px 15px;
+    border: 1px solid #c9c9c9;
+    border-radius: 2px;
+    color: #5a6378;
+    font-size: 12px;
+    line-height: 25px;
+    margin-bottom: 15px;
+}
+.service-config a.icon25 {
+    margin: 0 5px;
+}
+.service-config .href-add {
+    color: #55c45f;
+    text-decoration: none;
+}
+.service-config .href-add:hover {
+    color: #469450;
+}
+.service-config .container-box {
+    margin: -15px 0 40px 0;
+    padding: 30px 15px 5px 15px;
+}
+.service-config .bg-gray {
+    background: #f7f8fb;
+}
+.service-config .secret-bar .fa,
+.service-config .key-value-bar .fa {
+    text-decoration: none;
+    color: #9fa7b7;
+}
+.service-config .secret-bar .fa:hover,
+.service-config .key-value-bar .fa:hover {
+    color: #3c4251;
+}
+
+.err-tip {
+    color: #ec6941;
+    font-size: 12px;
+}
+
+/*search bar样式*/
+.searchbar {
+    height: 36px;
+    border: 1px solid #c9c9c9;
+    border-radius: 2px;
+}
+.searchbar .form-control {
+    border: none;
+    box-shadow: none;
+    color: #5a6378;
+}
+.searchbar .btn {
+    height: 100%;
+    background: url(../img/search.png) no-repeat;
+    box-shadow: none;
+}
+
+.searchbar .btn:hover {
+    background-image: url(../img/search-focus.png);
+}
+.searchbar .tip-board {
+    border: 1px solid #c9c9c9;
+    background: #fff;
+    margin-top: 5px;
+    padding: 0;
+    list-style: none;
+    box-shadow: 1px 1px 3px #c9c9c9;
+}
+.searchbar .tip-board > li {
+    height: 30px;
+    line-height: 30px;
+    overflow: hidden;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+.searchbar .tip-board > li > a {
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: #5a6378;
+}
+.searchbar .tip-board > li > a:hover {
+    background: #e6e9f2;
+}
+.searchbar .tip-board > li > a > div:first-child {
+    background: #e6e9f2;
+}
+.searchbar .tip-board > li > a:hover > div:first-child{
+    background: #c9d0e3;
 }

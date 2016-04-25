@@ -11,7 +11,35 @@
         </div>
         <div class="col-sm-6 col-xs-8" style="padding-left: 0;">
             <div class="pull-right">
-                <c-search search="search"></c-search>
+                <div class="searchbar">
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="txt" ng-focus="showTip=true;" placeholder="搜索关键字">
+                        <span class="input-group-btn">
+                            <a class="btn" ng-click="search('all', txt)"></a>
+                        </span>
+                    </div>
+                    <ul class="tip-board" ng-show="txt && showTip">
+                        <li>
+                            <a href="javascript:;" ng-click="search('metadata.name', txt)">
+                                <div class="col-sm-4">服务名称: </div>
+                                <div class="col-sm-8">{{txt}}</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" ng-click="search('metadata.labels.build', txt)">
+                                <div class="col-sm-4">label: </div>
+                                <div class="col-sm-8">{{txt}}</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" ng-click="search('route', txt)">
+                                <div class="col-sm-4">路由URL: </div>
+                                <div class="col-sm-8">{{txt}}</div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
             </div>
         </div>
     </div>
@@ -27,15 +55,23 @@
                 <th class="text-center">操作</th>
             </tr>
             <!--<tr ng-repeat="bc in items">-->
-            <tr>
-                <td><a ui-sref="console.service_detail">datafactory_service_testing</a>
+            <tr ng-repeat="dc in items">
+                <td>
+                    <a class="href-orange" ui-sref="console.service_detail({name: dc.metadata.name})">
+                        {{dc.metadata.name}}
+                    </a>
                 </td>
-                <td>1分钟以前</td>
-                <td>正常</td>
-                <td>6/6</td>
-                <td>www.abc.com</td>
-                <td>已绑定</td>
-                <td>停止</td>
+                <td>{{dc.metadata.creationTimestamp | dateRelative}}</td>
+                <td>{{dc.ismn}}</td>
+                <td><span style="color: #f6a540">{{dc.rc.status.replicas || 0}}</span>/{{dc.spec.replicas}}</td>
+                <td>
+                    <a class="href-orange" href="http://{{dc.route.spec.host}}" target="_blank">{{dc.route.spec.host}}</a>
+                </td>
+                <td>{{dc.bsi || '未绑定'}}</td>
+                <td>
+                    <a class="icon25 icon25-start" ng-click="startDc($index)"  ng-if="dc.ismn=='未启动'" uib-tooltip="启动" href="javascript:;"></a>
+                    <a class="icon25 icon25-stop" ng-click="stopDc($index)" ng-if="dc.ismn!='未启动'" uib-tooltip="停止" href="javascript:;"></a>
+                </td>
             </tr>
         </table>
         <div class="text-right" ng-if="grid.total > 10">

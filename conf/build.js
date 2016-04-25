@@ -24,52 +24,56 @@
         ocLazyLoad: '../bower_components/oclazyload/dist/ocLazyLoad.min',
         angularBase64: '../bower_components/angular-base64/angular-base64.min',
         angularMd: '../bower_components/angular-marked/dist/angular-marked.min',
-        angularClipboard: '../bower_components/angular-clipboard/angular-clipboard'
+        angularClipboard: '../bower_components/angular-clipboard/angular-clipboard',
+        kubernetesUI: 'pub/terminal',
+        term: '../bower_components/term.js/src/term',
+        highcharts: '../bower_components/highcharts/highcharts',
+        highchartsNg: '../bower_components/highcharts-ng/dist/highcharts-ng.min'
 },
     shim: {
         'angular': {
-            'exports': 'angular'
+            deps: ['jquery'],
+                exports: 'angular'
+        },
+        'angularMd': {
+            deps: ['angular']
         },
         'angularMocks': {
-            deps: [
-                'angular'
-            ],
-                'exports': 'angular.mock'
+            deps: ['angular'],
+                exports: 'angular.mock'
         },
         'angularAnimate': {
-            deps: [
-                'angular'
-            ]
+            deps: ['angular']
         },
         'ngResource': {
-            deps: [
-                'angular'
-            ]
+            deps: ['angular']
         },
         'ngFileUpload': {
-            deps: [
-                'angular'
-            ]
+            deps: ['angular']
         },
         'uiBootstrap': {
-            deps: [
-                'angular'
-            ]
+            deps: ['angular']
         },
         'uiRouter': {
-            deps: [
-                'angular'
-            ]
+            deps: ['angular']
         },
         'ocLazyLoad': {
-            deps: [
-                'angular'
-            ]
+            deps: ['angular']
         },
         'bootstrap': {
-            deps: [
-                'jquery'
-            ]
+            deps: ['jquery']
+        },
+        'angularBase64': {
+            deps: ['angular']
+        },
+        'angularClipboard': {
+            deps: ['angular']
+        },
+        'kubernetesUI': {
+            deps: ['angular', 'term']
+        },
+        'highchartsNg': {
+            deps: ['angular', 'highcharts']
         }
     }
 }

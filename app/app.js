@@ -16,7 +16,9 @@ define([
     'pub/ws',
     'components/version/version',
     'angularMd',
-    'angularClipboard'
+    'angularClipboard',
+    'kubernetesUI',
+    'highchartsNg'
 ], function (angular) {
 
     // 声明应用及其依赖
@@ -32,15 +34,18 @@ define([
         'myApp.filter',
         'myApp.webSocket',
         'myApp.version',
-        'hc.marked'
+        'hc.marked',
+        'highcharts-ng'
     ]);
 
     myApp.constant('GLOBAL', {
         size: 10,
         host: '/oapi/v1',
-        host_wss: 'wss://54.222.199.235:8443/oapi/v1',
+        host_k8s: '/api/v1',
+        host_wss: '/ws/oapi/v1',
+        host_wss_k8s: '/ws/api/v1',
         login_uri: '/login',
-        host_webhooks: 'https://54.222.199.235:8443/oapi/v1'
+        host_webhooks: 'https://54.222.158.233:8443'
     })
     .constant('AUTH_EVENTS', {
         loginNeeded: 'auth-login-needed',
@@ -48,7 +53,7 @@ define([
         httpForbidden: 'auth-http-forbidden'
     })
     .constant('AUTH_CFG', {
-        oauth_authorize_uri: "https://54.222.199.235:8443/oauth/authorize",
+        oauth_authorize_uri: "https://54.222.158.233:8443/oauth/authorize",
         oauth_redirect_base: "http://localhost:9000",
         oauth_client_id: "openshift-web-console",
         logout_uri: ""

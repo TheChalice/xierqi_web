@@ -1,10 +1,6 @@
 'use strict';
 
-angular.module("console.timeline", [
-    {
-        files: ['components/timeline/timeline.css']
-    }
-])
+angular.module("console.timeline", [])
 
     .directive('cTimeline', [function () {
         return {
@@ -172,8 +168,8 @@ angular.module("console.timeline", [
                         }
                         o.buildLog = result;
                     }, function(res){
-                        //todo 错误处理
-                        $log.info("err", res);
+                        console.log("res", res);
+                        o.buildLog = res.data.message;
                     });
                 };
 
@@ -216,13 +212,13 @@ angular.module("console.timeline", [
                 $scope.stop = function(idx){
                     var o = $scope.data.items[idx];
                     o.status.cancelled = true;
-                    Confirm.open("提示信息","您确定要终止本次构建吗?").then(function(){
+                    Confirm.open("终止构建", "您确定要终止本次构建吗?", "", "stop").then(function(){
                         Build.put({namespace: $rootScope.namespace, name: o.metadata.name}, o, function(res){
                             $log.info("stop build success");
                             $scope.data.items[idx] = res;
                         }, function(res){
                             if(res.data.code== 409){
-                                Confirm.open("提示信息","当数据正在New的时候,构建不能停止,请等到正在构建时,在请求停止.");
+                                Confirm.open("提示信息","当数据正在New的时候,构建不能停止,请等到正在构建时,再请求停止.");
                             }
                         });
                     });

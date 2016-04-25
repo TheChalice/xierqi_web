@@ -14,7 +14,7 @@
                         {{item.status.phase | phaseFilter}}
                     </div>
                     <div class="col-sm-3">
-                        <i class="fa fa-flag-o"></i>&nbsp;{{gitStore[item.spec.output.to.name].ref}} - {{gitStore[item.spec.output.to.name].id | limitTo: 7}}
+                        <i class="fa fa-flag-o"></i>&nbsp;<span ng-if="item.spec.revision.git.ref">{{item.spec.revision.git.ref}} - </span>{{item.spec.revision.git.commit | limitTo: 7}}
                     </div>
                     <div class="col-sm-2" ng-if="type=='image'"></div>
                     <div class="col-sm-4">
@@ -36,7 +36,7 @@
                 </div>
             </div>
             <div uib-collapse="!item.showLog">
-                <div class="well">
+                <div class="well well-log">
                     <pre>{{item.buildLog}}</pre>
                 </div>
             </div>
