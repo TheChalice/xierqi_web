@@ -37,25 +37,23 @@ angular.module('console.service', [
             $scope.items = [];
 
             txt = txt.replace(/\//g, '\\/');
+            txt = txt.replace(/\./g, '\\.');
             var reg = eval('/' + txt + '/');
             angular.forEach($scope.data.items, function(item){
                 if (key == 'all') {
+                    if (reg.test(item.metadata.name) || (item.route && reg.test(item.route.spec.host)) || (item.metadata.labels && reg.test(item.metadata.labels.app))) {
+                        $scope.items.push(item);
+                    }
+                } else if (key == 'metadata.name') {
                     if (reg.test(item.metadata.name)) {
                         $scope.items.push(item);
                     }
-                }
-                else if (key == 'metadata.name') {
-                    if (reg.test(item.metadata.name)) {
+                } else if (key == 'metadata.labels.app') {
+                    if (item.metadata.labels && reg.test(item.metadata.labels.app)) {
                         $scope.items.push(item);
                     }
-                }
-                // else if (key == 'metadata.labels.build') {
-                //    if (item.metadata.labels && reg.test(item.metadata.labels.build)) {
-                //        $scope.items.push(item);
-                //    }
-                //}
-                else if (key == 'spec.source.git.uri') {
-                    if (reg.test(item.route)) {
+                } else if (key == 'route') {
+                    if (item.route && reg.test(item.route.spec.host)) {
                         $scope.items.push(item);
                     }
                 }
@@ -126,8 +124,6 @@ angular.module('console.service', [
                 for (var i = 0; i < servicedata.length; i++) {
                     if ($scope.routeMap[servicedata[i].metadata.name]) {
                         servicedata[i].route = $scope.routeMap[servicedata[i].metadata.name];
-                    }else{
-                        servicedata[i].route = '-'
                     }
                 }
             });

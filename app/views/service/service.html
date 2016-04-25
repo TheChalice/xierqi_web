@@ -11,7 +11,35 @@
         </div>
         <div class="col-sm-6 col-xs-8" style="padding-left: 0;">
             <div class="pull-right">
-                <c-search search="search"></c-search>
+                <div class="searchbar">
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="txt" ng-focus="showTip=true;" placeholder="搜索关键字">
+                        <span class="input-group-btn">
+                            <a class="btn" ng-click="search('all', txt)"></a>
+                        </span>
+                    </div>
+                    <ul class="tip-board" ng-show="txt && showTip">
+                        <li>
+                            <a href="javascript:;" ng-click="search('metadata.name', txt)">
+                                <div class="col-sm-4">服务名称: </div>
+                                <div class="col-sm-8">{{txt}}</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" ng-click="search('metadata.labels.build', txt)">
+                                <div class="col-sm-4">label: </div>
+                                <div class="col-sm-8">{{txt}}</div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" ng-click="search('route', txt)">
+                                <div class="col-sm-4">路由URL: </div>
+                                <div class="col-sm-8">{{txt}}</div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
             </div>
         </div>
     </div>
