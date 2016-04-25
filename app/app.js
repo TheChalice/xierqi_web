@@ -45,7 +45,7 @@ define([
         host_wss: '/ws/oapi/v1',
         host_wss_k8s: '/ws/api/v1',
         login_uri: '/login',
-        host_webhooks: 'https://54.222.158.233:8443'
+        host_webhooks: 'https://54.222.158.233:8443/oapi/v1'
     })
     .constant('AUTH_EVENTS', {
         loginNeeded: 'auth-login-needed',
