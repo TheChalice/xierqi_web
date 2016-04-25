@@ -861,11 +861,17 @@ angular.module('console.service.detail', [
                         $scope.grid.show = false;
                     };
 
+                    $scope.search = function(){
+                        console.log("sinceTime", $scope.grid.st);
+                        $scope.getLog($scope.container.name);
+                    };
+
                     $scope.getLog = function (container) {
                         var params = {
                             namespace: $rootScope.namespace,
                             name: pod.metadata.name,
-                            container: container
+                            container: container,
+                            sinceTime: $scope.grid.st ? $scope.grid.st.toISOString() : (new Date(0)).toISOString()
                         };
                         Pod.log.get(params, function(res){
                             var result = "";
@@ -873,6 +879,7 @@ angular.module('console.service.detail', [
                                 result += res[k];
                             }
                             $scope.log = result;
+                            console.log(result);
                         }, function(res){
                             $scope.log = res.data.message;
                         });
