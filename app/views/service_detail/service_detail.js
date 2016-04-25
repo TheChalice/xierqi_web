@@ -120,8 +120,8 @@ angular.module('console.service.detail', [
             });
         };
 
-        var updatePorts = function(){
-            angular.forEach($scope.dc.spec.template.spec.containers, function(item){
+        var updatePorts = function(containers){
+            angular.forEach(containers, function(item){
                 angular.forEach(item.ports, function(port){
                     port.servicePort = $scope.portMap[port.containerPort + ''] || port.containerPort;
                     port.open = !!$scope.portMap[port.containerPort];
@@ -139,11 +139,11 @@ angular.module('console.service.detail', [
                     $scope.portMap[port.targetPort + ''] = port.port;
                 }
 
-                updatePorts();
+                updatePorts($scope.dc.spec.template.spec.containers);
 
             }, function(res){
                 $log.info("load service err", res);
-                updatePorts();
+                updatePorts($scope.dc.spec.template.spec.containers);
             });
         };
 
@@ -481,6 +481,21 @@ angular.module('console.service.detail', [
         $scope.getConfig = function(idx){
             var o = $scope.rcs.items[idx];
             o.showConfig = !o.showConfig;
+
+            if (o.dc) {
+                updatePorts(o.dc.spec.template.spec.containers);
+            }
+
+            $scope.bindingBsi = [];
+            angular.forEach($scope.bsi.items, function(item){
+                angular.forEach(item.spec.binding, function(bind){
+                    console.log("============", bind.bind_deploymentconfig, o.dc.metadata.name);
+                    if (bind.bind_deploymentconfig == o.dc.metadata.name) {
+                        $scope.bindingBsi.push(o.dc.metadata.name);
+                    }
+                })
+            });
+
             o.showLog = false;
 
             //todo 获取更多的配置
