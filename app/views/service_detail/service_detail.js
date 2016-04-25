@@ -924,6 +924,10 @@ angular.module('console.service.detail', [
                         });
                     };
 
+                    $scope.terminalSelect = function(){
+                        $scope.terminalTabWasSelected = true;
+                    };
+
                     $scope.terminalTabWasSelected = false;
 
                     var setChart = function(name, data){

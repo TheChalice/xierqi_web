@@ -57,7 +57,7 @@
                     <highchart style="width:100%" config="chartConfigIo"></highchart>
                 </div>
             </uib-tab>
-            <uib-tab index="3" heading="Terminal">
+            <uib-tab index="3" heading="Terminal" ng-click="terminalSelect()">
                 <kubernetes-container-terminal pod="pod" container="container.name" prevent="!terminalTabWasSelected">
                 </kubernetes-container-terminal>
             </uib-tab>
