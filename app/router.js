@@ -124,5 +124,36 @@ define([
                         }]
                     }
                 })
+                .state('console.backing_service',{
+                    url: '/backing_service',
+                    templateUrl: 'views/backing_service/backing_service.html',
+                    controller: 'BackingServiceCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/backing_service/backing_service.js'])
+                        }]
+                    }
+
+                })
+                .state('console.backing_service_detail',{
+                    url: '/backing_service/:name',
+                    templateUrl: 'views/backing_service_detail/backing_service_detail.html',
+                    controller: 'BackingServiceInstanceCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/backing_service_detail/backing_service_detail.js'])
+                        }]
+                    }
+                })
+                .state('console.apply_instance',{
+                    url: '/apply_instance/:name',
+                    templateUrl: 'views/apply_instance/apply_instance.html',
+                    controller: 'ApplyInstanceCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return  $ocLazyLoad.load(['views/apply-instance/apply_instance.js'])
+                        }]
+                    }
+                })
         }]);
 });

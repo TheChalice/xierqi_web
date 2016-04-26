@@ -116,7 +116,9 @@
                                             <input type="text" readonly class="input-small" ng-class="{'input-error':port.conflict}" ng-model="port.containerPort">
                                         </div>
                                         <div class="col-sm-3"><input type="text" ng-model="port.servicePort" class="input-small" ng-class="{'input-error':port.serviceConflict}"></div>
-                                        <div class="col-sm-3"><input type="checkbox" ng-model="port.open">&nbsp;开放</div>
+                                        <div class="col-sm-3" style="cursor: pointer">
+                                            <label ng-class="{'active': port.open}" ng-click="port.open=!port.open"><i class="faa faa-check"></i>&nbsp;开放</label>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>

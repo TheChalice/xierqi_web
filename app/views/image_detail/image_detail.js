@@ -41,4 +41,5 @@ angular.module('console.image_detail', [
                 $scope.$apply();
             });
         };
+
     }]);
