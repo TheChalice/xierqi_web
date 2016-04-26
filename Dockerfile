@@ -17,9 +17,9 @@ RUN apk add --update nginx nodejs git && \
     npm install && \
     bower install && \
     ./release.sh && \
-    npm uninstall bower -g && \
+    npm uninstall -g bower && \
     apk del nodejs git --purge && \
-    rm -rf bower_components node_modules app /var/cache/apk/
+    rm -rf bower_components node_modules app /var/cache/apk/ /tmp/*
 
 EXPOSE 80 
 
