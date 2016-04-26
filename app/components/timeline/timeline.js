@@ -53,16 +53,18 @@ angular.module("console.timeline", [])
                         }
                         tags.push(items[i].spec.output.to.name);
                     }
-                    angular.forEach(tags, function(tag){
-                        loadImageStreamTag(tag);
+                    angular.forEach(items, function(item){
+                        loadImageStreamTag(item);
                     });
                 };
 
-                var loadImageStreamTag = function(name){
-                    ImageStreamTag.get({namespace: $rootScope.namespace, name: name}, function(data){
+                var loadImageStreamTag = function(item){
+                    ImageStreamTag.get({namespace: $rootScope.namespace, name: item.spec.output.to.name}, function(data){
                         $log.info('imageStreamTag', data);
 
-                        $scope.gitStore[name] = {
+                        item.bsi = data;
+
+                        $scope.gitStore[item.spec.output.to.name] = {
                             id: data.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'],
                             ref: data.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref']
                         }
