@@ -2,7 +2,7 @@
     <div class="thumb-content">
         <div class="thumb-slide">
             <div class="thumb-op">
-                <small>descriptionqwweeergjgo nmvonmlo kk</small>
+                <small>{{item.spec.description}}</small>
                 <p class="thumb-btn">
                     <a class="btn btn-skyblue" href="javascript:;">
                        <!--ui-sref="console.service_create({image: item.ist})">-->
@@ -13,7 +13,7 @@
         </div>
     </div>
     <div class="caption">
-        <p calss="bsname">后端服务名称</p>
+        <p calss="bsname">{{item.metadata.name}}{{item.spec.metadata.providerDisplayName}}</p>
         <a class="btn btn-orange apply" href="javascript:;">申请实例</a>
     </div>
 </div>

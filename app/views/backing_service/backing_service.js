@@ -12,20 +12,22 @@ angular.module('console.backing_service',[
         BackingService.get({namespace:'openshift'},function(data){
             $log.info('loadBs',data);
             $scope.items = data.items;
+            $scope.data = data.items;
         })
     }
     loadBs();
-    $scope.search = function (key, txt) {
-        $scope.items = [];
-        txt = txt.replace(/\//g, '\\/');
-        //txt = txt.replace(/\./g, '\\.');
-        var reg = eval('/' + txt + '/');
-        angular.forEach($scope.items, function(item) {
-            if (key == 'all' || key == 'metadata.name') {
+    $scope.search = function (txt) {
+        if(!txt){
+            $scope.items = $scope.data;
+        }else{
+            $scope.items = [];
+            txt = txt.replace(/\//g, '\\/');
+            var reg = eval('/' + txt + '/');
+            angular.forEach($scope.data, function(item) {
                 if (reg.test(item.metadata.name)) {
                     $scope.items.push(item);
                 }
-            }
-        })
+            })
+        }
     };
 }]);

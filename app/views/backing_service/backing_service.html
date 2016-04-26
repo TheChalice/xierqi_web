@@ -19,11 +19,11 @@
         <uib-tab index="1" heading="后端服务市场">
             <div class="row" style="margin-bottom: 30px;">
                 <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
-                    <input type="text" class="form-control" placeholder="搜索后端服务名称">
+                    <input type="text" class="form-control" placeholder="搜索后端服务名称" ng-model="txt">
                            <!--ng-model="txt" ng-focus="showTip=true;" -->
 
                     <span class="input-group-btn">
-                        <a class="btn" ng-click="search('all', txt)"></a>
+                        <a class="btn" ng-click="search(txt)"></a>
                     </span>
                 </div>
             </div>
@@ -31,7 +31,7 @@
                 <p>Devops</p>
                 <hr>
                 <div class="row">
-                    <div class="col-md-3 col-sm-4 col-xs-6">
+                    <div class="col-md-3 col-sm-4 col-xs-6" ng-repeat="item in items">
                         <bs-card></bs-card>
                     </div>
                 </div>
