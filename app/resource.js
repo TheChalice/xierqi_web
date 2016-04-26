@@ -150,7 +150,7 @@ define([
             return BackingServiceInstanceBd;
         }])
         .factory('BackingService', ['$resource', 'GLOBAL', function($resource, GLOBAL){
-            var BackingService= $resource(GLOBAL.host + '/namespaces/:namespace/backingservice/:name', {name: '@name', namespace: '@namespace'},{
+            var BackingService= $resource(GLOBAL.host + '/namespaces/:namespace/backingservices/:name', {name: '@name', namespace: '@namespace'},{
                 create: {method: 'POST'}
             });
             return BackingService;
