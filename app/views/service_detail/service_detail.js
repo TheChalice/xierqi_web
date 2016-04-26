@@ -603,9 +603,6 @@ angular.module('console.service.detail', [
             ImageSelect.open().then(function(res){
                 console.log("imageStreamTag", res);
                 container.image = res.metadata.name;
-                container.name = res.metadata.name.replace(/:.*/, '');
-                container.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
-                container.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
                 container.tag = res.tag.name;
 
                 container.ports = [];
