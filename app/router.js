@@ -105,6 +105,9 @@ define([
                     url: '/service/create',
                     templateUrl: 'views/service_create/service_create.html',
                     controller: 'ServiceCreateCtrl',
+                    params: {
+                        image: null
+                    },
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad)  {
                             return $ocLazyLoad.load(['views/service_create/service_create.js'])
