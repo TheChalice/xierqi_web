@@ -1,16 +1,45 @@
-<div class="backing-service">
-    <uib-tabset class="tab-default" active="active" ng-init="active=2">
-        <uib-tab index="1">
-            <uib-tab-heading>
-                <i class="fa fa-file-o fa-lg"></i>&nbsp;&nbsp;后端服务市场
-            </uib-tab-heading>
-            <div ng-include="'views/backing_service/backing_service_list.html'"></div>
+<div id="backingService">
+    <div class="tabs">
+        <div class="sc">
+            <label>服务分类</label>
+            <span>Devops</span>
+            <span>数据</span>
+            <span>分析</span>
+            <span>IOT</span>
+
+        </div>
+        <div class="sc">
+            <label>服务提供者</label>
+            <span>平台</span>
+            <span>HBase</span>
+            <span>第三方</span>
+        </div>
+    </div>
+    <uib-tabset class="tab-default">
+        <uib-tab index="1" heading="后端服务市场">
+            <div class="row" style="margin-bottom: 30px;">
+                <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
+                    <input type="text" class="form-control" placeholder="搜索后端服务名称">
+                           <!--ng-model="txt" ng-focus="showTip=true;" -->
+
+                    <span class="input-group-btn">
+                        <a class="btn" ng-click="search('all', txt)"></a>
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <p>Devops</p>
+                <hr>
+                <div class="row">
+                    <div class="col-md-3 col-sm-4 col-xs-6">
+                        <bs-card></bs-card>
+                    </div>
+                </div>
+            </div>
         </uib-tab>
-        <uib-tab index="2">
-            <uib-tab-heading>
-                <i class="fa fa-file-text-o fa-lg"></i>&nbsp;&nbsp;我的后端服务实例
-            </uib-tab-heading>
-            <div ng-include="'views/backing_service/backing_service_instance.html'"></div>
+
+        <uib-tab index="2" heading="我的后端服务实例">
+
         </uib-tab>
     </uib-tabset>
 </div>
