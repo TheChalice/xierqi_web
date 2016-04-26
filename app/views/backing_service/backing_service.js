@@ -8,6 +8,8 @@ angular.module('console.backing_service',[
     }
 ])
 .controller('BackingServiceCtrl',['$log', '$scope','BackingService',function ($log,$scope,BackingService){
+    $scope.status = {};
+    $scope.grid = {};
     var loadBs = function(){
         BackingService.get({namespace:'openshift'},function(data){
             $log.info('loadBs',data);
