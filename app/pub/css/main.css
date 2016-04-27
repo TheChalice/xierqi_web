@@ -869,3 +869,29 @@ a {
 .fa2-bsi:hover, .fa2-bsi.active, .active .fa2-bsi, .nav-link:hover .fa2-bsi {
     background-position: -412px -788px;
 }
+
+.plan p {
+    font-size: 12px;
+    color: #5a6378;
+    line-height: 20px;
+}
+.plan label {
+    font-size: 12px;
+    color: #9fa7b7;
+}
+.plan label .faa {
+    position: relative;
+    top: -1px;
+}
+.plan > h3 {
+    font-size: 14px;
+    color: #5a6378;
+    margin-top: 36px;
+}
+.plan .panel-heading {
+    background: #f7f7f7;
+}
+.plan .panel-heading .panel-title {
+    color: #5a6378;
+    font-size: 14px;
+}
