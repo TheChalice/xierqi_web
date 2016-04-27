@@ -1,16 +1,16 @@
-.backingService .tabs {
+.backing-service .tabs {
     margin-top: 40px;
     margin-bottom: 40px;
 }
-.backingService .sc {
+.backing-service .sc {
     margin-bottom: 20px;
 }
-.backingService .sc label {
+.backing-service .sc label {
     margin-right: 15px;
     width: 70px;
 }
 
-.backingService .sc .btn {
+.backing-service .sc .btn {
     font-size: 12px;
     background: #eaebef;
     width: 80px;
@@ -19,19 +19,8 @@
     border-radius: 2px;
     color: #333;
 }
-.backingService .sc .btn.active {
+.backing-service .sc .btn.active {
     border-color: #f6a540;
     font-weight: bold;
     background: url(../../views/backing_service/img/images_48.png) no-repeat #fff;
-}
-.backingService .row p {
-    font-size:16px;
-    font-weight: bold;
-    color: #5a6378;
-}
-.backingService .row hr {
-    margin-top: -20px;
-    margin-left: 70px;
-    margin-bottom: 25px;
-    border-top: 1px solid #c9c9c9;
 }
