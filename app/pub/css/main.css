@@ -760,6 +760,7 @@ a {
 .backing-service-instance .instance {
     border: 1px solid #c9c9c9;
     border-radius: 2px;
+    margin-bottom: 15px;
 }
 .backing-service-instance .instance .instance-bar {
     height: 60px;
