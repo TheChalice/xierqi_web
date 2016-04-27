@@ -18,10 +18,6 @@ angular.module('console.backing_service',[
         })
     }
     loadBs();
-    $scope.bsdetails = function(){
-        $state.go('backing_service_detail');
-    }
-
     $scope.search = function (txt) {
         if(!txt){
             $scope.items = $scope.data;
