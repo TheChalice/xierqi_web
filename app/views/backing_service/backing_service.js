@@ -7,7 +7,9 @@ angular.module('console.backing_service',[
         ]
     }
 ])
-.controller('BackingServiceCtrl',['$log', '$scope','$state','BackingService',function ($log,$scope,$state,BackingService){
+.controller('BackingServiceCtrl',['$log', '$scope','BackingService',function ($log,$scope,BackingService){
+    $scope.status = {};
+    $scope.grid = {};
     var loadBs = function(){
         BackingService.get({namespace:'openshift'},function(data){
             $log.info('loadBs',data);
@@ -17,7 +19,7 @@ angular.module('console.backing_service',[
     }
     loadBs();
     $scope.bsdetails = function(){
-        $state.go('console.backing_service_detail');
+        $state.go('backing_service_detail');
     }
 
     $scope.search = function (txt) {
