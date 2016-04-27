@@ -2,17 +2,21 @@
     <div class="tabs">
         <div class="sc">
             <label>服务分类</label>
-            <span>Devops</span>
-            <span>数据</span>
-            <span>分析</span>
-            <span>IOT</span>
+            <div class="btn-group">
+                <label class="btn" ng-model="grid.serviceCat" uib-btn-radio="'Devops'">Devops</label>
+                <label class="btn" ng-model="grid.serviceCat" uib-btn-radio="'数据'">数据</label>
+                <label class="btn" ng-model="grid.serviceCat" uib-btn-radio="'分析'">分析</label>
+                <label class="btn" ng-model="grid.serviceCat" uib-btn-radio="'IOT'">IOT</label>
+            </div>
 
         </div>
         <div class="sc">
             <label>服务提供者</label>
-            <span>平台</span>
-            <span>HBase</span>
-            <span>第三方</span>
+            <div class="btn-group">
+                <label class="btn" ng-model="grid.vendor" uib-btn-radio="'平台'">平台</label>
+                <label class="btn" ng-model="grid.vendor" uib-btn-radio="'HBase'">HBase</label>
+                <label class="btn" ng-model="grid.vendor" uib-btn-radio="'第三方'">第三方</label>
+            </div>
         </div>
     </div>
     <uib-tabset class="tab-default">
