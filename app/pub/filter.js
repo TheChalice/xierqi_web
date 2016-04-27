@@ -108,6 +108,21 @@ define(['angular', 'moment'], function (angular, moment) {
                 }
             };
         }])
+        .filter('bsiphaseFilter',[function(){
+            return function(phase){
+                if(phase == 'Bound'){
+                    return "绑定"
+                }else if(phase == 'UnBound'){
+                    return "未绑定"
+                }else if(phase == 'Provisioning'){
+                    return "正在创建"
+                }else if(phase == 'Deleted'){
+                    return "正在注销"
+                }else{
+                    return phase || "-"
+                }
+            };
+        }])
         .filter('webhooks', ['$rootScope', 'GLOBAL', function($rootScope, GLOBAL) {
             return function(buildConfig) {
                 var triggers = buildConfig.spec.triggers;

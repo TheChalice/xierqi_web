@@ -1,20 +1,20 @@
 <div class="backing-service-instance">
     <h2>Devops</h2>
 
-    <div class="instance">
+    <div class="instance" ng-repeat="item in bsi.items">
         <div class="instance-bar">
             <div class="row">
                 <div class="col-md-3">
-                    <h3>实例名称</h3>
-                    <p>后端服务名称</p>
+                    <h3>{{item.metadata.name}}</h3>
+                    <p>{{item.spec.provisioning.backingservice_name}}</p>
                 </div>
                 <div class="col-md-3">
-                    <p>状态: 创建</p>
-                    <p>创建时间: 2分钟以前</p>
+                    <p>状态: {{item.status.phase | bsiphaseFilter}}</p>
+                    <p>创建时间: {{item.metadata.creationTimestamp | dateRelative}}</p>
                 </div>
                 <div class="col-md-3">
-                    <p>套餐名称: <a href="javascript:;" class="href-orange">xdJDEDD</a></p>
-                    <p>绑定服务个数: 5</p>
+                    <p>套餐名称: <a href="javascript:;" class="href-orange">{{item.spec.provisioning.backingservice_plan_name}}</a></p>
+                    <p>绑定服务个数: {{item.spec.bound}}</p>
                 </div>
                 <div class="col-md-3">
                     <a href="javascript:;" ng-click="show=!show" class="fa2 fa2-link" uib-tooltip="服务绑定"></a>
@@ -32,24 +32,24 @@
                     <a href="javascript:;" class="btn btn-green">新增绑定</a>
                 </h2>
                 <uib-accordion close-others="true">
-                    <uib-accordion-group template-url="group-template.html">
+                    <uib-accordion-group template-url="group-template.html" ng-repeat="bsisv in item.spec.binding">
                         <div>
-                            <p><strong>Host:</strong><br>54.222.168.24</p>
-                            <p><strong>Name:</strong><br>sdfjowieksfsjdfoisdflkejliosdifsd</p>
-                            <p><strong>Password:</strong><br>sdfjowieksfsjdfoisdflkejliosdifsd</p>
-                            <p><strong>Port:</strong><br>3306</p>
-                            <p><strong>Uri:</strong><br>uri</p>
+                            <p><strong>Host:</strong><br>{{bsisv.credentials.Host}}</p>
+                            <p><strong>Name:</strong><br>{{bsisv.credentials.Name}}</p>
+                            <p><strong>Password:</strong><br>{{bsisv.credentials.Password}}</p>
+                            <p><strong>Port:</strong><br>{{bsisv.credentials.Port}}</p>
+                            <p><strong>Uri:</strong><br>{{bsisv.credentials.Uri}}</p>
                         </div>
                     </uib-accordion-group>
-                    <uib-accordion-group template-url="group-template.html">
-                        <div>
-                            <p><strong>Host:</strong><br>54.222.168.24</p>
-                            <p><strong>Name:</strong><br>sdfjowieksfsjdfoisdflkejliosdifsd</p>
-                            <p><strong>Password:</strong><br>sdfjowieksfsjdfoisdflkejliosdifsd</p>
-                            <p><strong>Port:</strong><br>3306</p>
-                            <p><strong>Uri:</strong><br>uri</p>
-                        </div>
-                    </uib-accordion-group>
+                    <!--<uib-accordion-group template-url="group-template.html">-->
+                        <!--<div>-->
+                            <!--<p><strong>Host:</strong><br>54.222.168.24</p>-->
+                            <!--<p><strong>Name:</strong><br>sdfjowieksfsjdfoisdflkejliosdifsd</p>-->
+                            <!--<p><strong>Password:</strong><br>sdfjowieksfsjdfoisdflkejliosdifsd</p>-->
+                            <!--<p><strong>Port:</strong><br>3306</p>-->
+                            <!--<p><strong>Uri:</strong><br>uri</p>-->
+                        <!--</div>-->
+                    <!--</uib-accordion-group>-->
                 </uib-accordion>
             </div>
         </div>
@@ -62,11 +62,11 @@
                         <i class="faa faa-check"></i>&nbsp;
                     </a>
                     <a href tabindex="0" class="accordion-toggle" ng-click="toggleOpen()" uib-accordion-transclude="heading">
-                        服务名称服务名称
+                        {{bsisv.bind_deploymentconfig}}
                         <i class="fa pull-right" ng-class="{'fa-caret-up': status.open, 'fa-caret-down': !status.open}" style="color: #5a6378;"></i>
                     </a>
                     <span class="label label-default" uib-tooltip="绑定时间">
-                        <i class="fa2 fa2-time"></i>&nbsp;5分钟以前
+                        <i class="fa2 fa2-time"></i>&nbsp;{{bsisv.bound_time}}
                     </span>
                 </h4>
             </div>

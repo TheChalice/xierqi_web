@@ -7,9 +7,11 @@ angular.module('console.backing_service',[
         ]
     }
 ])
-.controller('BackingServiceCtrl',['$log', '$scope','BackingService',function ($log,$scope,BackingService){
+.controller('BackingServiceCtrl',['$log','$rootScope', '$scope','BackingService','BackingServiceInstance','Service',function ($log,$rootScope,$scope,BackingService,BackingServiceInstance,Service){
     $scope.status = {};
-    $scope.grid = {};
+    $scope.grid = {
+        checked : false
+    };
     var loadBs = function(){
         BackingService.get({namespace:'openshift'},function(data){
             $log.info('loadBs',data);
@@ -18,10 +20,31 @@ angular.module('console.backing_service',[
         })
     }
     loadBs();
-    $scope.bsdetails = function(){
-        $state.go('backing_service_detail');
-    }
+    var loadBsi = function () {
+        BackingServiceInstance.get({namespace: $rootScope.namespace}, function(res){
+            $log.info("backingServiceInstance", res);
+            $scope.bsi = res;
 
+        }, function(res){
+            //todo 错误处理
+            $log.info("loadBsi err", res);
+        });
+    };
+    loadBsi();
+    $scope.delBing = function(){
+
+    }
+    var loadService = function(){
+        Service.get({namespace: $rootScope.namespace}, function(res){
+            $log.info("Service", res);
+
+
+        }, function(res){
+            //todo 错误处理
+            $log.info("loadBsi err", res);
+        });
+    }
+    loadService();
     $scope.search = function (txt) {
         if(!txt){
             $scope.items = $scope.data;
