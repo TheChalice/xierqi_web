@@ -7,7 +7,7 @@ angular.module('console.backing_service',[
         ]
     }
 ])
-.controller('BackingServiceCtrl',['$log','$rootScope','$scope','BackingService','BackingServiceInstance','Service',function ($log,$rootScope,$scope,BackingService,BackingServiceInstance,Service){
+.controller('BackingServiceCtrl',['$log','$rootScope','$scope','BackingService','BackingServiceInstance', 'ServiceSelect',function ($log,$rootScope,$scope,BackingService,BackingServiceInstance,ServiceSelect){
     $scope.status = {};
     $scope.grid = {
         serviceCat: 'all',
@@ -34,30 +34,61 @@ angular.module('console.backing_service',[
     loadBsi();
     $scope.delBing = function(){
 
-    }
-    var loadService = function(){
-        Service.get({namespace: $rootScope.namespace}, function(res){
-            $log.info("Service", res);
-
-
-        }, function(res){
-            //todo 错误处理
-            $log.info("loadBsi err", res);
-        });
-    }
-    loadService();
-    $scope.search = function (txt) {
-        if(!txt){
-            $scope.items = $scope.data;
-        }else{
-            $scope.items = [];
-            txt = txt.replace(/\//g, '\\/');
-            var reg = eval('/' + txt + '/');
-            angular.forEach($scope.data, function(item) {
-                if (reg.test(item.metadata.name)) {
-                    $scope.items.push(item);
-                }
-            })
-        }
     };
+
+    $scope.bindModal = function(){
+        ServiceSelect.open().then(function(res){
+            $log.info("bind modal", res);
+        });
+    };
+}])
+.service('ServiceSelect', ['$uibModal', function($uibModal){
+    this.open = function () {
+        return $uibModal.open({
+            templateUrl: 'views/backing_service/service_select.html',
+            size: 'default modal-foo',
+            controller: ['$rootScope', '$scope', '$uibModalInstance', 'data', function($rootScope, $scope, $uibModalInstance, data) {
+                $scope.data = data;
+                $scope.items = data.items;
+                $scope.cancel = function() {
+                    $uibModalInstance.dismiss();
+                };
+                $scope.ok = function() {
+                    var items = [];
+                    for (var i = 0; i < $scope.data.items.length; i++) {
+                        if ($scope.data.items[i].checked) {
+                            items.push($scope.data.items[i]);
+                        }
+                    }
+                    $uibModalInstance.close(items);
+                };
+
+                $scope.$watch('txt', function(newVal, oldVal){
+                   if (newVal != oldVal) {
+                       $scope.search(newVal);
+                   }
+                });
+
+                $scope.search = function (txt) {
+                    if(!txt){
+                        $scope.items = $scope.data.items;
+                    }else{
+                        $scope.items = [];
+                        txt = txt.replace(/\//g, '\\/');
+                        var reg = eval('/' + txt + '/');
+                        angular.forEach($scope.data.items, function(item) {
+                            if (reg.test(item.metadata.name)) {
+                                $scope.items.push(item);
+                            }
+                        })
+                    }
+                };
+            }],
+            resolve: {
+                data: ['$rootScope', 'Service', function ($rootScope, Service) {
+                    return Service.get({namespace: $rootScope.namespace}).$promise;
+                }]
+            }
+        }).result;
+    }
 }]);
