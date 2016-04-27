@@ -146,12 +146,12 @@ define([
                     }
                 })
                 .state('console.apply_instance',{
-                    url: '/apply_instance/:name',
+                    url: '/apply_instance',
                     templateUrl: 'views/apply_instance/apply_instance.html',
                     controller: 'ApplyInstanceCtrl',
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return  $ocLazyLoad.load(['views/apply-instance/apply_instance.js'])
+                            return  $ocLazyLoad.load(['views/apply_instance/apply_instance.js'])
                         }]
                     }
                 })

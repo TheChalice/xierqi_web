@@ -2,7 +2,7 @@
 angular.module('console.apply_instance', [
     {
         files: [
-
+            'views/apply_instance/apply_instance.css'
         ]
     }
 ])
