@@ -7,7 +7,7 @@ angular.module('console.backing_service',[
         ]
     }
 ])
-.controller('BackingServiceCtrl',['$log', '$scope','BackingService',function ($log,$scope,BackingService){
+.controller('BackingServiceCtrl',['$log','$rootScope','$scope','BackingService','BackingServiceInstance','Service',function ($log,$rootScope,$scope,BackingService,BackingServiceInstance,Service){
     $scope.status = {};
     $scope.grid = {
         serviceCat: 'all',
