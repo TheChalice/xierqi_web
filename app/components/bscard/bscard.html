@@ -6,8 +6,7 @@
             <div class="thumb-op">
                 <small>{{item.spec.description}}</small>
                 <p class="thumb-btn">
-                    <a class="btn btn-skyblue" href="javascript:;" ng-click="bsdetails()">
-                       <!--ui-sref="console.service_create({image: item.ist})">-->
+                    <a class="btn btn-skyblue" href="javascript:;" ui-sref="console.backing_service_detail({name: item.spec.metadata.name})">
                         查看详情</a>
                 </p>
             </div>

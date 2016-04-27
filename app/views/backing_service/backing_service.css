@@ -1,49 +1,26 @@
-.tabs {
+.backing-service .tabs {
     margin-top: 40px;
+    margin-bottom: 40px;
 }
-.sc {
+.backing-service .sc {
     margin-bottom: 20px;
 }
-.sc label {
+.backing-service .sc label {
     margin-right: 15px;
     width: 70px;
 }
-.sc span {
+
+.backing-service .sc .btn {
     font-size: 12px;
-    padding:5px 10px;
-    background-color: #eaebef;
+    background: #eaebef;
     width: 80px;
     text-align: center;
     border:1px solid #eaebef;
     border-radius: 2px;
-    margin-right: 20px;
-    cursor: pointer;
-    display: inline-block;
+    color: #333;
 }
-.sc span:active {
+.backing-service .sc .btn.active {
     border-color: #f6a540;
     font-weight: bold;
-    background-image: url(../../views/backing_service/img/images_48.png);
-    background-repeat: no-repeat;
-    background-color: #ffffff;
-}
-
-.sc span:hover {
-    border-color: #f6a540;
-    font-weight: bold;
-    background-image: url(../../views/backing_service/img/images_48.png);
-    background-repeat: no-repeat;
-    background-color: #ffffff;
-}
-.row p {
-    font-size:16px;
-    font-weight: bold;
-    color: #5a6378;
-}
-.row hr {
-    margin-top: -20px;
-    margin-left: 70px;
-    margin-bottom: 25px;
-    border: 1px solid #c9c9c9;
-
+    background: url(../../views/backing_service/img/images_48.png) no-repeat #fff;
 }

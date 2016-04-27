@@ -7,10 +7,11 @@ angular.module('console.backing_service',[
         ]
     }
 ])
-.controller('BackingServiceCtrl',['$log','$rootScope', '$scope','BackingService','BackingServiceInstance','Service',function ($log,$rootScope,$scope,BackingService,BackingServiceInstance,Service){
+.controller('BackingServiceCtrl',['$log', '$scope','BackingService',function ($log,$scope,BackingService){
     $scope.status = {};
     $scope.grid = {
-        checked : false
+        serviceCat: 'all',
+        vendor: 'all'
     };
     var loadBs = function(){
         BackingService.get({namespace:'openshift'},function(data){

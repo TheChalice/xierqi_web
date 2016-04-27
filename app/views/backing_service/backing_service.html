@@ -1,26 +1,30 @@
-<div id="backingService">
+<div class="backing-service">
     <div class="tabs">
         <div class="sc">
             <label>服务分类</label>
-            <span>Devops</span>
-            <span>数据</span>
-            <span>分析</span>
-            <span>IOT</span>
+            <div class="btn-group">
+                <label class="btn" ng-model="grid.serviceCat" uib-btn-radio="'Devops'">Devops</label>
+                <label class="btn" ng-model="grid.serviceCat" uib-btn-radio="'数据'">数据</label>
+                <label class="btn" ng-model="grid.serviceCat" uib-btn-radio="'分析'">分析</label>
+                <label class="btn" ng-model="grid.serviceCat" uib-btn-radio="'IOT'">IOT</label>
+            </div>
 
         </div>
         <div class="sc">
             <label>服务提供者</label>
-            <span>平台</span>
-            <span>HBase</span>
-            <span>第三方</span>
+            <div class="btn-group">
+                <label class="btn" ng-model="grid.vendor" uib-btn-radio="'平台'">平台</label>
+                <label class="btn" ng-model="grid.vendor" uib-btn-radio="'HBase'">HBase</label>
+                <label class="btn" ng-model="grid.vendor" uib-btn-radio="'第三方'">第三方</label>
+            </div>
         </div>
     </div>
     <uib-tabset class="tab-default">
         <uib-tab index="1">
-            <uib-tab-heading>
-            <i class="faa faa-edit"></i>后端服务市场
+            <uib-tab-heading style="width:468px">
+                <i class="fa2 fa2-bs"></i>&nbsp;&nbsp;后端服务市场
             </uib-tab-heading>
-            <div class="row" style="margin-bottom: 30px;">
+            <div class="row">
                 <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
                     <input type="text" class="form-control" placeholder="搜索后端服务名称" ng-model="txt">
                            <!--ng-model="txt" ng-focus="showTip=true;" -->
@@ -31,8 +35,7 @@
                 </div>
             </div>
             <div class="row">
-                <p>Devops</p>
-                <hr>
+                <h2 class="h2-border" style="margin-bottom: 15px;">Devops</h2>
                 <div class="row">
                     <div class="col-md-3 col-sm-4 col-xs-6" ng-repeat="item in items">
                         <bs-card></bs-card>
@@ -43,7 +46,7 @@
 
         <uib-tab index="2">
             <uib-tab-heading>
-                <i class="faa faa-edit"></i>我的后端服务实例
+                <i class="fa2 fa2-bsi"></i>&nbsp;&nbsp;我的后端服务实例
             </uib-tab-heading>
             <div ng-include="'views/backing_service/backing_service_instance.html'"></div>
         </uib-tab>

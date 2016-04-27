@@ -583,6 +583,22 @@ a {
 .active > .faa-check {
     background-position: -41px -220px;
 }
+.faa-price {
+    background: url(../img/price_icon.png);
+    width: 20px;
+    height: 20px;
+}
+.faa-content {
+    background: url(../img/content_icon.png);
+    width: 20px;
+    height: 20px;
+}
+
+.faa-description {
+    background: url(../img/description_icon.png);
+    width: 20px;
+    height: 20px;
+}
 
 @media (max-width: 758px) {
     body {
@@ -727,12 +743,12 @@ a {
 }
 
 /*backing service*/
-.backing-service-instance > h2 {
+.h2-border {
     font-size: 14px;
     overflow: hidden;
     color: #393f4f;
 }
-.backing-service-instance > h2:after {
+.h2-border:after {
     content: '';
     border-bottom: 1px solid #c9c9c9;
     display: block;
@@ -839,4 +855,16 @@ a {
     width: 16px;
     height: 16px;
     background-position: -49px -826px;
+}
+.fa2-bs {
+    background-position: -424px -826px;
+}
+.fa2-bs:hover, .fa2-bs.active, .active .fa2-bs, .nav-link:hover .fa2-bs {
+    background-position: -394px -826px;
+}
+.fa2-bsi {
+    background-position: -381px -787px;
+}
+.fa2-bsi:hover, .fa2-bsi.active, .active .fa2-bsi, .nav-link:hover .fa2-bsi {
+    background-position: -412px -788px;
 }
