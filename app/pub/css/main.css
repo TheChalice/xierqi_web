@@ -743,12 +743,12 @@ a {
 }
 
 /*backing service*/
-.backing-service-instance > h2 {
+.h2-border {
     font-size: 14px;
     overflow: hidden;
     color: #393f4f;
 }
-.backing-service-instance > h2:after {
+.h2-border:after {
     content: '';
     border-bottom: 1px solid #c9c9c9;
     display: block;
