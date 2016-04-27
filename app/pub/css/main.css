@@ -583,6 +583,22 @@ a {
 .active > .faa-check {
     background-position: -41px -220px;
 }
+.faa-price {
+    background: url(../img/price_icon.png);
+    width: 20px;
+    height: 20px;
+}
+.faa-content {
+    background: url(../img/content_icon.png);
+    width: 20px;
+    height: 20px;
+}
+
+.faa-description {
+    background: url(../img/description_icon.png);
+    width: 20px;
+    height: 20px;
+}
 
 @media (max-width: 758px) {
     body {
