@@ -10,7 +10,7 @@
                 </div>
                 <div class="col-md-10">
                     <input type="text" name="serviceName" ng-model="dc.metadata.name" class="form-control input-block" placeholder="创建一个服务名称" required>
-                    <small ng-show="frm.serviceName.$dirty && frm.serviceName.$invalid" class="fa fa-info-circle err-tip">&nbsp;请创建一个服务名</small>
+                    <small ng-show="frm.serviceName.$dirty && frm.serviceName.$invalid" class="fa fa-info-circle err-tip">&nbsp;请创建一个服务名,至少2个字符以上</small>
                 </div>
             </div>
             <hr>
@@ -40,7 +40,7 @@
                         <div class="container-box" style="margin-bottom: 0;">
                             <div style="margin-bottom: 20px;">
                                 <input ng-model="container.name" style="width: 95%;display: inline-block;" type="text" class="form-control" placeholder="请设置容器名称"><span class="require"></span>
-                                <small ng-show="!container.name && container.emptyName" class="fa fa-info-circle err-tip">&nbsp;请设置容器名</small>
+                                <small ng-show="!container.name && container.emptyName" class="fa fa-info-circle err-tip">&nbsp;请设置容器名,至少2个字符以上</small>
                             </div>
                             <hr>
                             <div style="margin-bottom: 20px;">
@@ -99,8 +99,10 @@
                                 </td>
                                 <td style="vertical-align: middle;">
                                     <span>
-                                        <p>{{container.image | imageStreamName}}</p>
-                                        <p>{{container.tag}}</p>
+                                        <p style="margin-top: 15px">镜像名称 :</p>
+                                        <p style="margin-top: -10px">{{container.image | imageStreamName}}</p>
+                                        <p style="margin-top: 15px">镜像版本 :</p>
+                                        <p style="margin-top: -10px">{{container.tag}}</p>
                                     </span>
                                 </td>
                                 <td style="vertical-align: middle;">
