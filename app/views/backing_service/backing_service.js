@@ -7,7 +7,7 @@ angular.module('console.backing_service',[
         ]
     }
 ])
-.controller('BackingServiceCtrl',['$log','$rootScope','$scope','BackingService','BackingServiceInstance', 'ServiceSelect',function ($log,$rootScope,$scope,BackingService,BackingServiceInstance,ServiceSelect){
+.controller('BackingServiceCtrl',['$log','$rootScope','$scope','BackingService','BackingServiceInstance','ServiceSelect','BackingServiceInstanceBd',function ($log,$rootScope,$scope,BackingService,BackingServiceInstance,ServiceSelect,BackingServiceInstanceBd){
     $scope.status = {};
     $scope.grid = {
         serviceCat: 'all',
@@ -32,7 +32,31 @@ angular.module('console.backing_service',[
         });
     };
     loadBsi();
-    $scope.delBing = function(){
+    $scope.delBing = function(idx){
+        $log.info('delBing$scope.bsi',$scope.bsi.items[idx]);
+        for(var i = 0 ;i < $scope.bsi.items[idx].spec.binding.length;i++){
+            if($scope.bsi.items[idx].spec.binding[i].checked == true){
+                var bindObj = {
+                    metadata: {
+                        name: $scope.bsi.items[idx].metadata.name
+                    },
+                    resourceName : $scope.bsi.items[idx].spec.binding[i].bind_deploymentconfig,
+                    bindResourceVersion : '',
+                    bindKind : 'DeploymentConfig'
+                };
+                var j = i;
+                BackingServiceInstanceBd.put({namespace: $rootScope.namespace,name : $scope.bsi.items[idx].metadata.name},bindObj, function(res){
+                    alert(j)
+                    $scope.bsi.items[idx].spec.binding.splice(j,1);
+                    console.log(res+'OK');
+                }, function(res){
+                    $log.info(curbsi);
+                    //todo 错误处理
+                    $log.info("err", res);
+                });
+
+            }
+        }
 
     };
 

@@ -28,7 +28,7 @@
             <div style="padding: 30px;">
                 <h2>
                     绑定服务
-                    <a href="javascript:;" class="btn btn-orange">解除绑定</a>
+                    <a href="javascript:;" class="btn btn-orange" ng-click="delBing($index)">解除绑定</a>
                     <a href="javascript:;" class="btn btn-green" ng-click="bindModal()">新增绑定</a>
                 </h2>
 
@@ -44,7 +44,7 @@
                                     <i class="fa pull-right" ng-class="{'fa-caret-up': status.open, 'fa-caret-down': !status.open}" style="color: #5a6378;"></i>
                                 </a>
                                 <span class="label label-default" uib-tooltip="绑定时间">
-                                    <i class="fa2 fa2-time"></i>&nbsp;{{bsisv.bound_time}}
+                                    <i class="fa2 fa2-time"></i>&nbsp;{{bsisv.bound_time | dateRelative}}
                                 </span>
                             </h4>
                         </div>
