@@ -20,7 +20,7 @@
                     <a href="javascript:;" ng-click="show=!show" class="fa2 fa2-link" uib-tooltip="服务绑定"></a>
                     <a href="javascript:;" class="fa2 fa2-update" uib-tooltip="升级套餐"></a>
                     <a href="javascript:;" class="fa2 fa2-dashboard" uib-tooltip="Dashboard"></a>
-                    <a href="javascript:;" class="faa faa-times" uib-tooltip="删除"></a>
+                    <a href="javascript:;" class="faa faa-times" uib-tooltip="删除" ng-click="delBsi($index)"></a>
                 </div>
             </div>
         </div>
@@ -29,7 +29,7 @@
                 <h2>
                     绑定服务
                     <a href="javascript:;" class="btn btn-orange" ng-click="delBing($index)">解除绑定</a>
-                    <a href="javascript:;" class="btn btn-green" ng-click="bindModal()">新增绑定</a>
+                    <a href="javascript:;" class="btn btn-green" ng-click="bindModal($index)">新增绑定</a>
                 </h2>
 
                 <div class="panel-group" role="tablist" aria-multiselectable="true" style="margin-bottom: 0;">
