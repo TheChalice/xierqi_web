@@ -340,6 +340,13 @@ angular.module('console.service.detail', [
         };
 
         $scope.startDc = function(){
+            if ($scope.dc.spec.replicas == 0) {
+                $scope.dc.spec.replicas = 1;
+                $scope.dc.status.latestVersion = 2;
+                $scope.updateDc();
+                return;
+            }
+
             var rcName = $scope.dc.metadata.name + '-' + $scope.dc.status.latestVersion;
             var items = $scope.rcs.items;
             var item = null;
@@ -788,7 +795,7 @@ angular.module('console.service.detail', [
         $scope.updateDc = function(){
             var dc = angular.copy($scope.dc);
 
-            dc.status.latestVersion += 1;
+            //dc.status.latestVersion += 1;
 
             prepareVolume(dc);
             prepareTrigger(dc);

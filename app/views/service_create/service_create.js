@@ -501,11 +501,9 @@ angular.module('console.service.create', [
                 prepareTrigger(dc);
                 prepareEnv(dc);
 
-                if ($scope.grid.auto) {
-                    dc.status.latestVersion = 1;
+                if (!$scope.grid.auto) {
+                    dc.spec.replicas = 0;
                 }
-
-                $log.info("update dc", dc);
 
                 DeploymentConfig.create({namespace: $rootScope.namespace}, dc, function(res){
                     $log.info("create dc success", res);
