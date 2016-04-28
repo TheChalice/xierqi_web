@@ -8,7 +8,7 @@
         </a>
     </h3>
 
-    <div ng-repeat="container in dc.spec.template.spec.containers" ng-class="{'bg-gray': true}">
+    <div ng-repeat="container in dc.spec.template.spec.containers" ng-class="{'bg-gray': container.show}">
         <div class="container-fluid container-bar">
             <div class="row">
                 <div class="col-sm-6">
@@ -83,8 +83,10 @@
                 </td>
                 <td style="vertical-align: middle;">
                     <span>
+                        <p>镜像名称:</p>
                         <p>{{container.image | imageStreamName}}</p>
-                        <p><span ng-if="container.ref">{{container.tag}}</p>
+                        <p>镜像版本:</p>
+                        <p><span ng-if="container.ref">{{container.tag}}</span></p>
                     </span>
                 </td>
                 <td style="vertical-align: middle;">

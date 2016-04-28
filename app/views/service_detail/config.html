@@ -19,7 +19,7 @@
                                 <input ng-model="vm.name" type="text" class="form-control" disabled>
                             </div>
                             <div class="col-md-5">
-                                <input ng-model="vm.mountPath" type="text" class="form-control">
+                                <input ng-model="vm.mountPath" type="text" class="form-control" readonly>
                             </div>
                         </div>
                         <hr>
@@ -42,7 +42,7 @@
     <h2>服务高可用</h2>
     <div class="row">
         <div class="col-md-2">
-            服务数量:&nbsp;{{item.dc.spec.replicas}}
+            POD数量:&nbsp;{{item.dc.spec.replicas}}
         </div>
         <div class="col-md-2">
             重启策略:&nbsp;{{item.dc.spec.template.spec.restartPolicy}}
