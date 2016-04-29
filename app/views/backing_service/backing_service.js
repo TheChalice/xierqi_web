@@ -36,14 +36,14 @@ angular.module('console.backing_service',[
         $log.info('del$scope.bsi.items[idx]',$scope.bsi.items[idx]);
         var curlength = $scope.bsi.items[idx].spec.binding.length;
         if(curlength > 0){
-            Confirm.open('删除后端服务实例','您确定要删除该实例吗?此操作不可恢复','','')
+            Confirm.open('删除后端服务实例','该实例已绑定服务,不能删除','','',true)
         }else{
-            Confirm.open('删除后端服务实例','您确定要删除该实例吗?此操作不可恢复','','').then(function(){
-                //BackingServiceInstance.del({namespace : $rootScope.namespace,name : $scope.bsi.items[idx].metadata.name},function(res){
-                //    $log.info('err',res);
-                //},function(res){
-                //    $log.info('err',res);
-                //})
+            Confirm.open('删除后端服务实例','您确定要删除该实例吗?此操作不可恢复','','',false).then(function(){
+                BackingServiceInstance.del({namespace : $rootScope.namespace,name : $scope.bsi.items[idx].metadata.name},function(res){
+                    $log.info('err',res);
+                },function(res){
+                    $log.info('err',res);
+                })
             });
 
         }

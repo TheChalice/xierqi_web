@@ -13,7 +13,10 @@
         <span class="icon12 icon12-tip"></span>{{tip}}
     </small>
 </div>
-<div class="modal-footer">
+<div class="modal-footer" ng-if="!iscf" >
     <button class="btn btn-gray" ng-click="cancel()">取消</button>
     <button class="btn btn-orange" ng-click="ok()">确认</button>
+</div>
+<div class="modal-footer" ng-if="iscf">
+    <button class="btn btn-Iknow" ng-click="cancel()">我知道了</button>
 </div>

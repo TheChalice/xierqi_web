@@ -3,7 +3,7 @@
 define(['angular'], function (angular) {
     return angular.module('myApp.service', ['angular-clipboard'])
         .service('Confirm', ['$uibModal', function ($uibModal) {
-            this.open = function (title, txt, tip, tp) {
+            this.open = function (title, txt, tip, tp, iscf) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/confirm.html',
                     size: 'default',
@@ -12,6 +12,7 @@ define(['angular'], function (angular) {
                         $scope.txt = txt;
                         $scope.tip = tip;
                         $scope.tp = tp;
+                        $scope.iscf = iscf;
                         $scope.ok = function () {
                             $uibModalInstance.close(true);
                         };
