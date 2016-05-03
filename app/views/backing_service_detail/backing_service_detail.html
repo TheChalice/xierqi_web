@@ -4,9 +4,9 @@
 
         </div>
         <div class="info-desc">
-            <h2>后端服务名称</h2>
+            <h2 ng-bind="data.metadata.name"></h2>
             <p>类型: Devops</p>
-            <p>提供者: 第三方</p>
+            <p>类型:{{data.spec.metadata.providerDisplayName}}</p>
             <p>版本: bete.sodsf.sdfe</p>
             <p>服务文档: <a href="" class="href-orange">www.heihei.com</a></p>
             <p>帮助文档: <a href="" class="href-orange">www.haha.com</a></p>
@@ -25,7 +25,7 @@
             <uib-tab-heading>
                 <i class="faa faa-edit"></i>&nbsp;&nbsp;已申请的实例
             </uib-tab-heading>
-            <div ng-include="'views/backing_service/backing_service_instance.html'"></div>
+            <div ng-include="'views/backing_service_detail/applied_instance.html'"></div>
         </uib-tab>
     </uib-tabset>
 </div>

@@ -65,7 +65,7 @@ angular.module('console.backing_service',[
                 var j = i;
                 BackingServiceInstanceBd.put({namespace: $rootScope.namespace,name : $scope.bsi.items[idx].metadata.name},bindObj, function(res){
                     $scope.bsi.items[idx].spec.binding.splice(j,1);
-                    console.log(res+'OK');
+                    $log.info('delbind',res);
                 }, function(res){
                     //todo 错误处理
                     $log.info("err", res);
@@ -73,7 +73,7 @@ angular.module('console.backing_service',[
 
             }
         }
-        loadBsi();
+        //loadBsi();
     };
     var bindService = function(idx,objarr){
         for(var i = 0; i<objarr.length;i++){
@@ -102,7 +102,7 @@ angular.module('console.backing_service',[
 .service('ServiceSelect', ['$uibModal', function($uibModal){
     this.open = function (c) {
         return $uibModal.open({
-            templateUrl: 'views/backing_service/service_select.html',
+            templateUrl: 'views/backing_service/applied_service_select.html',
             size: 'default modal-foo',
             controller: ['$log','$rootScope', '$scope', '$uibModalInstance', 'data', function($log,$rootScope, $scope, $uibModalInstance, data) {
                 var curdata = angular.copy(data);
