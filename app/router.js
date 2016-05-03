@@ -150,7 +150,7 @@ define([
                     }
                 })
                 .state('console.apply_instance',{
-                    url: '/apply_instance',
+                    url: '/apply_instance/:name',
                     templateUrl: 'views/apply_instance/apply_instance.html',
                     controller: 'ApplyInstanceCtrl',
                     resolve: {
