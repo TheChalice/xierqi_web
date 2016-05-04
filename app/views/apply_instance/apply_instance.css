@@ -1,7 +1,13 @@
-.listname p {
+.listname {
     font-size: 14px;
 }
 
 .subpanelname {
     font-weight: bold;
+}
+.panel-xxx.active {
+    border-color: #f6a540;
+    background: url(../../views/apply_instance/img/images_53.png) no-repeat;
+    width: 640px;
+    height: 162px;
 }

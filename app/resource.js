@@ -175,5 +175,11 @@ define([
                 create: {method: 'POST'}
             });
             return Secret;
+        }])
+        .factory('Metrics', ['$resource', function($resource){
+            var Metrics = {};
+            Metrics.mem = $resource('/hawkular/metrics/gauges/:gauges/data', {gauges: '@gauges', buckets: '@buckets', start: '@start'});
+            Metrics.cpu = $resource('/hawkular/metrics/counters/:counters/data', {counters: '@counters', buckets: '@buckets', start: '@start'});
+            return Metrics;
         }]);
 });

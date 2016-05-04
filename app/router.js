@@ -137,6 +137,10 @@ define([
                 })
                 .state('console.backing_service_detail',{
                     url: '/backing_service/:name',
+                    params: {
+                        plan: null,
+                        update: false
+                    },
                     templateUrl: 'views/backing_service_detail/backing_service_detail.html',
                     controller: 'BackingServiceInstanceCtrl',
                     resolve: {
@@ -146,7 +150,7 @@ define([
                     }
                 })
                 .state('console.apply_instance',{
-                    url: '/apply_instance',
+                    url: '/apply_instance/:name',
                     templateUrl: 'views/apply_instance/apply_instance.html',
                     controller: 'ApplyInstanceCtrl',
                     resolve: {

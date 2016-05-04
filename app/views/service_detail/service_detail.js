@@ -860,7 +860,7 @@ angular.module('console.service.detail', [
             return $uibModal.open({
                 templateUrl: 'views/service_detail/containerModal.html',
                 size: 'default modal-lg',
-                controller: ['$rootScope', '$scope', '$log', '$uibModalInstance', 'ImageStream', 'Pod', 'Ws', function ($rootScope, $scope, $log, $uibModalInstance, ImageStream, Pod, Ws) {
+                controller: ['$rootScope', '$scope', '$log', '$uibModalInstance', 'ImageStream', 'Pod', 'Ws', 'Metrics', function ($rootScope, $scope, $log, $uibModalInstance, ImageStream, Pod, Ws, Metrics) {
                     $scope.pod = pod;
                     $scope.grid = {
                         show: false
@@ -917,6 +917,7 @@ angular.module('console.service.detail', [
                         $scope.container = o;
                         $scope.getLog(o.name);
                         //terminal(o.name);
+                        getMetrics(pod, o);
                     };
 
                     $scope.back = function(){
@@ -954,6 +955,7 @@ angular.module('console.service.detail', [
                     $scope.terminalTabWasSelected = false;
 
                     var setChart = function(name, data){
+                        data = prepareData(name, data);
                         return {
                             options: {
                                 chart: {
@@ -969,13 +971,16 @@ angular.module('console.service.detail', [
                                 },
                                 tooltip: {
                                     backgroundColor: '#666',
-                                        borderWidth: 0,
-                                        shadow: false,
-                                        style: {
+                                    borderWidth: 0,
+                                    shadow: false,
+                                    style: {
                                         color: '#fff'
                                     },
                                     formatter: function(){
-                                        return this.y;
+                                        if (name == 'CPU') {
+                                            return this.y.toFixed(2);
+                                        }
+                                        return (this.y / 1000000).toFixed(2) + 'M';
                                     }
                                 },
                                 legend: {
@@ -988,12 +993,13 @@ angular.module('console.service.detail', [
                                 marker: {
                                     enabled: false
                                 },
-                                data: data
+                                data: data,
+                                pointStart: (new Date()).getTime() - 30 * 60 * 1000 + 8 * 3600 * 1000,
+                                pointInterval: 30000 //时间间隔
                             }],
                             xAxis: {
-                                gridLineWidth: 1,
-                                currentMin: 0,
-                                currentMax: 20
+                                type: 'datetime',
+                                gridLineWidth: 1
                             },
                             yAxis: {
                                 gridLineDashStyle: 'ShortDash',
@@ -1003,7 +1009,7 @@ angular.module('console.service.detail', [
                             },
                             size: {
                                 width: 798,
-                                    height: 130
+                                height: 130
                             },
                             func: function (chart) {
                                 //setup some logic for the chart
@@ -1011,8 +1017,78 @@ angular.module('console.service.detail', [
                         };
                     };
 
-                    $scope.chartConfigCpu = setChart('CPU', [0.01, 0.02, 0.04, 0.01, 0.02, 0.02, 0.09, 0.04,0.05, 0.01, 0.09, 0.04, 0.02]);
-                    $scope.chartConfigMem = setChart('内存', []);
+                    var prepareData = function(tp, data){
+                        var res = [];
+                        normalize(data, tp);
+                        for (var i = 0; i < data.length - 1; i++) {
+                            res.push(data[i].value);
+                        }
+                        return res;
+                    };
+
+                    var midTime = function (point) {
+                        return point.start + (point.end - point.start) / 2;
+                    };
+
+                    var millicoresUsed = function (point, lastValue) {
+                        if (!lastValue || !point.value) {
+                            return null;
+                        }
+
+                        if (lastValue > point.value) {
+                            return null;
+                        }
+
+                        var timeInMillis = point.end - point.start;
+                        var usageInMillis = (point.value - lastValue) / 1000000;
+                        return (usageInMillis / timeInMillis) * 1000;
+                    };
+
+                    function normalize(data, metric) {
+                        var lastValue;
+                        angular.forEach(data, function(point) {
+                            var value;
+
+                            if (!point.timestamp) {
+                                point.timestamp = midTime(point);
+                            }
+
+                            if (!point.value || point.value === "NaN") {
+                                var avg = point.avg;
+                                point.value = (avg && avg !== "NaN") ? avg : null;
+                            }
+
+                            if (metric === 'CPU') {
+                                value = point.value;
+                                point.value = millicoresUsed(point, lastValue);
+                                lastValue = value;
+                            }
+                        });
+
+                        data.shift();
+                        return data;
+                    }
+
+                    var getMetrics = function(pod, container){
+                        var st = (new Date()).getTime() - 30 * 60 * 1000;
+                        var gauges = container.name + '%2F' + pod.metadata.uid + '%2Fmemory%2Fusage';
+                        var counters = container.name + '%2F' + pod.metadata.uid + '%2Fcpu%2Fusage';
+                        Metrics.mem.get({gauges: gauges, buckets: 61, start: st}, function(res){
+                            $log.info("metrics mem", res);
+                            $scope.chartConfigMem = setChart('内存', res);
+                        }, function(res){
+                            $log.info("metrics mem err", res);
+                            $scope.chartConfigMem = setChart('内存', []);
+                        });
+                        Metrics.cpu.get({counters: counters, buckets: 61, start: st}, function(res){
+                            $log.info("metrics cpu", res);
+                            $scope.chartConfigCpu = setChart('CPU', res);
+                        }, function(res){
+                            $log.info("metrics cpu err", res);
+                            $scope.chartConfigCpu = setChart('CPU', []);
+                        });
+                    };
+
                     $scope.chartConfigIo = setChart('网络IO', []);
                 }]
             }).result;
