@@ -39,14 +39,13 @@ angular.module('console.apply_instance', [
 
      $scope.createInstance = function (name){
          var plan = $scope.data.spec.plans[$scope.grid.checked];
-
          $scope.bsi.spec.provisioning.backingservice_plan_guid = plan.id;
          $scope.bsi.spec.provisioning.backingservice_plan_name = plan.name;
 
          $log.info("BackingServiceInstance==",$scope.bsi);
          BackingServiceInstance.create({namespace: $rootScope.namespace}, $scope.bsi,function(){
              $log.info("build backing service instance success");
-             $state.go('console.backing_service_detail', {name: name, from: 'loadBs'})
+             $state.go('console.backing_service_detail', {name: $scope.data.metadata.name})
         })
 
     };
