@@ -31,7 +31,13 @@ angular.module('console.apply_instance', [
             $scope.data = data;
             $scope.bsi.spec.provisioning.backingservice_spec_id = data.spec.id;
             $scope.bsi.spec.provisioning.backingservice_name = data.metadata.name;
-
+            var plans = data.spec.plans;
+            for (var i = 0; i < plans.length; i++) {
+                if (plans[i].name == $stateParams.plan) {
+                    $scope.grid.checked = i;
+                    break;
+                }
+            }
     })
     };
     loadBs();

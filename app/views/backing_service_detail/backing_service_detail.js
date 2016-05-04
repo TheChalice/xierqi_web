@@ -6,7 +6,7 @@ angular.module('console.backing_service_detail', [
             ]
         }
     ])
-    .controller('BackingServiceInstanceCtrl',['$log','$scope','$rootScope','$stateParams','BackingService', 'BackingServiceInstance','ServiceSelect','Confirm','BackingServiceInstanceBd',function($log,$scope,$rootScope,$stateParams,BackingService,BackingServiceInstance,ServiceSelect,Confirm,BackingServiceInstanceBd){
+    .controller('BackingServiceInstanceCtrl',['$log','$scope','$rootScope','$stateParams','BackingService', 'BackingServiceInstance','ServiceSelect','Confirm','BackingServiceInstanceBd', '$state',function($log,$scope,$rootScope,$stateParams,BackingService,BackingServiceInstance,ServiceSelect,Confirm,BackingServiceInstanceBd, $state){
         var cuename = $stateParams.name;
         var loadBs = function(){
             BackingService.get({namespace:'openshift',name:cuename},function(data){
@@ -15,6 +15,23 @@ angular.module('console.backing_service_detail', [
 
             })
         }
+
+        $scope.grid = {};
+
+        $scope.$watch('grid.active', function(newVal, oldVal){
+            if (newVal != oldVal && newVal == 2) {
+                $scope.grid.update = false;
+            }
+        });
+
+        $scope.update = function(idx){
+            var item = $scope.bsi[idx];
+            $scope.grid.update = true;
+            $scope.grid.active = 1;
+
+            //$state.go('console.backing_service_detail', {name: item.spec.provisioning.backingservice_name, plan: item.spec.provisioning.backingservice_plan_name});
+        };
+
         loadBs();
         var loadBsi = function () {
             BackingServiceInstance.get({namespace: $rootScope.namespace}, function(res){

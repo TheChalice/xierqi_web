@@ -5,15 +5,15 @@
         </div>
         <div class="info-desc">
             <h2 ng-bind="data.metadata.name"></h2>
-            <p>类型: Devops</p>
-            <p>类型:{{data.spec.metadata.providerDisplayName}}</p>
-            <p>版本: bete.sodsf.sdfe</p>
-            <p>服务文档: <a href="" class="href-orange">www.heihei.com</a></p>
-            <p>帮助文档: <a href="" class="href-orange">www.haha.com</a></p>
+            <p>类型: </p>
+            <p>提供者: {{data.spec.metadata.providerDisplayName}}</p>
+            <p>版本: </p>
+            <p>服务文档: <a href="{{data.spec.metadata.supportUrl}}" class="href-orange">{{data.spec.metadata.supportUrl}}</a></p>
+            <p>帮助文档: <a href="{{data.spec.metadata.documentationUrl}}" class="href-orange">{{data.spec.metadata.documentationUrl}}</a></p>
         </div>
     </div>
 
-    <uib-tabset class="tab-default">
+    <uib-tabset class="tab-default" active="grid.active">
         <uib-tab index="1">
             <uib-tab-heading>
                 <i class="faa faa-edit"></i>&nbsp;&nbsp;服务信息

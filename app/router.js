@@ -153,6 +153,9 @@ define([
                     url: '/apply_instance/:name',
                     templateUrl: 'views/apply_instance/apply_instance.html',
                     controller: 'ApplyInstanceCtrl',
+                    params: {
+                        plan: ''
+                    },
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return  $ocLazyLoad.load(['views/apply_instance/apply_instance.js'])
