@@ -7,16 +7,24 @@ angular.module('console.backing_service_detail', [
         }
     ])
     .controller('BackingServiceInstanceCtrl',['$log','$scope','$rootScope','$stateParams','BackingService', 'BackingServiceInstance','ServiceSelect','Confirm','BackingServiceInstanceBd', '$state',function($log,$scope,$rootScope,$stateParams,BackingService,BackingServiceInstance,ServiceSelect,Confirm,BackingServiceInstanceBd, $state){
+        $scope.grid = {};
+
         var cuename = $stateParams.name;
         var loadBs = function(){
             BackingService.get({namespace:'openshift',name:cuename},function(data){
                 $log.info('loadBs=====',data);
                 $scope.data = data;
 
-            })
-        }
+                var plans = data.spec.plans;
+                for (var i = 0; i < plans.length; i++) {
+                    if (plans[i].name == $stateParams.plan) {
+                        $scope.grid.checked = i;
+                        break;
+                    }
+                }
 
-        $scope.grid = {};
+            })
+        };
 
         $scope.$watch('grid.active', function(newVal, oldVal){
             if (newVal != oldVal && newVal == 2) {
@@ -28,6 +36,21 @@ angular.module('console.backing_service_detail', [
             var item = $scope.bsi[idx];
             $scope.grid.update = true;
             $scope.grid.active = 1;
+
+            //$state.go('console.backing_service_detail', {name: item.spec.provisioning.backingservice_name, plan: item.spec.provisioning.backingservice_plan_name});
+        };
+
+        $scope.jump = function(idx){
+            var item = $scope.bsi[idx];
+            $scope.grid.active = 1;
+
+            var plans = $scope.data.spec.plans;
+            for (var i = 0; i < plans.length; i++) {
+                if (plans[i].name == item.spec.provisioning.backingservice_plan_name) {
+                    $scope.grid.checked = i;
+                    break;
+                }
+            }
 
             //$state.go('console.backing_service_detail', {name: item.spec.provisioning.backingservice_name, plan: item.spec.provisioning.backingservice_plan_name});
         };

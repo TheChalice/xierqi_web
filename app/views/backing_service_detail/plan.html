@@ -5,7 +5,7 @@
 
     <h3>套餐列表</h3>
 
-    <div class="panel panel-default" ng-repeat="item in data.spec.plans">
+    <div class="panel panel-default panel-xxx" ng-repeat="item in data.spec.plans" ng-class="{'active': grid.checked == $index}"  ng-click="grid.checked = $index">
         <div class="panel-heading">
             <span class="panel-title">{{item.name}}</span>
             <button ng-if="!grid.update" class="btn btn-orange pull-right" ui-sref="console.apply_instance({name: data.metadata.name})">申请实例</button>
@@ -34,4 +34,9 @@
             </table>
         </div>
     </div>
+    <style>
+        .plan .panel-xxx.active {
+            border-color: #f6a540;
+        }
+    </style>
 </div>
