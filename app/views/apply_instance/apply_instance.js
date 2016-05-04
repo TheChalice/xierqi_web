@@ -6,7 +6,7 @@ angular.module('console.apply_instance', [
         ]
     }
 ])
-.controller('ApplyInstanceCtrl',['$log','$rootScope','$scope','BackingService', 'BackingServiceInstance', '$stateParams', function($log, $rootScope, $scope, BackingService, BackingServiceInstance, $stateParams){
+.controller('ApplyInstanceCtrl',['$log','$rootScope','$scope','BackingService', 'BackingServiceInstance', '$stateParams', '$state', function($log, $rootScope, $scope, BackingService, BackingServiceInstance, $stateParams, $state){
 
     $scope.grid = {
         checked: 0
@@ -46,6 +46,7 @@ angular.module('console.apply_instance', [
          $log.info("BackingServiceInstance==",$scope.bsi);
          BackingServiceInstance.create({namespace: $rootScope.namespace}, $scope.bsi,function(){
              $log.info("build backing service instance success");
+             $state.go('console.backing_service_detail', {name: name, from: 'loadBs'})
         })
 
     };
