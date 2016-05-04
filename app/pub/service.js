@@ -270,6 +270,10 @@ define(['angular'], function (angular) {
                         config.headers["Authorization"] = "Bearer " + token;
                     }
 
+                    if (/hawkular/.test(config.url)) {
+                        config.headers["Hawkular-Tenant"] = $rootScope.namespace;
+                    }
+
                     $rootScope.loading = true;
                     return config
                 },

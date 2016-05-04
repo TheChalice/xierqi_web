@@ -863,7 +863,9 @@ angular.module('console.service.detail', [
                 controller: ['$rootScope', '$scope', '$log', '$uibModalInstance', 'ImageStream', 'Pod', 'Ws', 'Metrics', function ($rootScope, $scope, $log, $uibModalInstance, ImageStream, Pod, Ws, Metrics) {
                     $scope.pod = pod;
                     $scope.grid = {
-                        show: false
+                        show: false,
+                        mem: false,
+                        cpu: false
                     };
                     $scope.ok = function () {
                         $uibModalInstance.close(true);
@@ -1071,21 +1073,25 @@ angular.module('console.service.detail', [
 
                     var getMetrics = function(pod, container){
                         var st = (new Date()).getTime() - 30 * 60 * 1000;
-                        var gauges = container.name + '%2F' + pod.metadata.uid + '%2Fmemory%2Fusage';
-                        var counters = container.name + '%2F' + pod.metadata.uid + '%2Fcpu%2Fusage';
+                        var gauges = container.name + '/' + pod.metadata.uid + '/memory/usage';
+                        var counters = container.name + '/' + pod.metadata.uid + '/cpu/usage';
                         Metrics.mem.get({gauges: gauges, buckets: 61, start: st}, function(res){
                             $log.info("metrics mem", res);
                             $scope.chartConfigMem = setChart('内存', res);
+                            $scope.grid.mem = true;
                         }, function(res){
                             $log.info("metrics mem err", res);
                             $scope.chartConfigMem = setChart('内存', []);
+                            $scope.grid.mem = false;
                         });
                         Metrics.cpu.get({counters: counters, buckets: 61, start: st}, function(res){
                             $log.info("metrics cpu", res);
                             $scope.chartConfigCpu = setChart('CPU', res);
+                            $scope.grid.cpu = true;
                         }, function(res){
                             $log.info("metrics cpu err", res);
                             $scope.chartConfigCpu = setChart('CPU', []);
+                            $scope.grid.cpu = false;
                         });
                     };
 
