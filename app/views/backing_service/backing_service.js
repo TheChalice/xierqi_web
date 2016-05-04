@@ -32,6 +32,20 @@ angular.module('console.backing_service',[
         });
     };
     loadBsi();
+    $scope.search = function (txt) {
+        if(!txt){
+            $scope.items = $scope.data;
+        }else{
+            $scope.items = [];
+            txt = txt.replace(/\//g, '\\/');
+            var reg = eval('/' + txt + '/ig');
+            angular.forEach($scope.data, function(item) {
+                if (reg.test(item.metadata.name)) {
+                    $scope.items.push(item);
+                }
+            })
+        }
+    };
     $scope.delBsi = function(idx){
         $log.info('del$scope.bsi.items[idx]',$scope.bsi.items[idx]);
         if($scope.bsi.items[idx].spec.binding){
