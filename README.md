@@ -2,7 +2,8 @@
 -  openshift:[https://docs.openshift.org/latest/rest_api/openshift_v1.html](https://docs.openshift.org/latest/rest_api/openshift_v1.html)
 - kubernetes: [https://docs.openshift.org/latest/rest_api/kubernetes_v1.html](https://docs.openshift.org/latest/rest_api/kubernetes_v1.html)
 - datafoundry: [http://asiainfoldp.github.io/datafactory/](http://asiainfoldp.github.io/datafactory/)
-- angular: [http://docs.angularjs.cn/api/ngResource/service/$resource](http://docs.angularjs.cn/api/ngResource/service/$resource)
+- angular文档: [http://docs.angularjs.cn/api/ngResource/service/$resource](http://docs.angularjs.cn/api/ngResource/service/$resource)
+- angular基础: [http://www.runoob.com/angularjs/angularjs-tutorial.html](http://www.runoob.com/angularjs/angularjs-tutorial.html)
 
 ## 开始
 
@@ -191,7 +192,15 @@ angular.module('console.build', [
 - ng-class/ng-style
 - ng-include
 - ...
+
 > 参考 angular文档
+
+### 依赖注入
+```js
+.controller('BuildCtrl', ['$scope', 'Build', function($scope, Build){
+    ...
+}])
+```
 
 ### controller
 
@@ -233,8 +242,8 @@ html
       }
   };
 }])
-.service('Confirm', ['$scope', function ($scope) {
-  this.func = function (title, txt) {
+.service('FooService', ['$scope', function ($scope) {
+  this.foo = function (param) {
       //方法代码
   };
 }]);
