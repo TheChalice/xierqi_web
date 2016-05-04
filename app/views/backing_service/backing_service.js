@@ -13,6 +13,23 @@ angular.module('console.backing_service',[
         serviceCat: 'all',
         vendor: 'all'
     };
+
+    $scope.$watch('grid.serviceCat', function(newVal, oldVal){
+
+    });
+
+    $scope.$watch('grid.vendor', function(newVal, oldVal){
+        //if (newVal != oldVal) {
+        //    angular.forEach($scope.data.items, function(item){
+        //        if (item.metadata.labels["asiainfo.io/servicebroker"] == newVal) {
+        //            item.show = true;
+        //        } else {
+        //            item.show = false;
+        //        }
+        //    })
+        //}
+    });
+
     var loadBs = function(){
         BackingService.get({namespace:'openshift'},function(data){
             $log.info('loadBs',data);
@@ -21,6 +38,7 @@ angular.module('console.backing_service',[
         })
     }
     loadBs();
+
     var loadBsi = function () {
         BackingServiceInstance.get({namespace: $rootScope.namespace}, function(res){
             $log.info("backingServiceInstance", res);
