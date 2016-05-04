@@ -73,7 +73,7 @@ angular.module('console.backing_service',[
 
             }
         }
-        //loadBsi();
+        loadBsi();
     };
     var bindService = function(idx,objarr){
         for(var i = 0; i<objarr.length;i++){

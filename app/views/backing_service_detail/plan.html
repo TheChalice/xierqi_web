@@ -11,24 +11,26 @@
             <button class="btn btn-orange pull-right">申请实例</button>
         </div>
         <div class="panel-body">
-            <div class="row">
-                <div class="col-md-5" style="border-right: 1px solid #c9c9c9;">
+            <table class="" style="border:0 none;padding:0px;margin:0px;width:100%;" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td class="col-md-5" style="border-right: 1px solid #c9c9c9;">
                     <label><i class="faa faa-price"></i>&nbsp;&nbsp;价格</label>
                     <p ng-repeat="ct in item.metadata.costs">
                             {{ct.unit}}:€{{ct.eur}}&nbsp;|&nbsp;${{ct.usd}}
                     </p>
-                </div>
-                <div class="col-md-3" style="border-right: 1px solid #c9c9c9;">
+                </td>
+                <td class="col-md-3" style="border-right: 1px solid #c9c9c9;">
                     <label><i class="faa faa-price"></i>&nbsp;&nbsp;内容</label>
                     <p ng-repeat="bl in item.metadata.bullets">
                            {{bl}}
                     </p>
-                </div>
-                <div class="col-md-4">
+                </td>
+                <td class="col-md-4">
                     <label><i class="faa faa-price"></i>&nbsp;&nbsp;描述</label>
                     <p>{{item.description}}</p>
-                </div>
-            </div>
+                </td>
+            </tr>
+            </table>
         </div>
     </div>
 </div>
