@@ -25,7 +25,10 @@
                         {{k}}
                     </span>
                 </td>
-                <td>{{container.resources}}</td>
+                <td>
+                    <span ng-if="container.resources.limits">{{container.resources}}</span>
+                    <span ng-if="!container.resources.limits">无限制</span>
+                </td>
                 <td>{{container.image | imageStreamName}}</td>
                 <td>{{container.tag}}</td>
             </tr>
