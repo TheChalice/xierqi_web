@@ -23,7 +23,7 @@ angular.module('console.backing_service',[
             $scope.grid[tp] = key;
         }
 
-        search(tp, key);
+        filter(tp, key);
     };
 
     var filter = function(tp, key){
