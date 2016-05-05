@@ -7,7 +7,7 @@ angular.module('console.backing_service',[
         ]
     }
 ])
-.controller('BackingServiceCtrl',['$log','$rootScope','$scope','BackingService','BackingServiceInstance','ServiceSelect','BackingServiceInstanceBd','Confirm',function ($log,$rootScope,$scope,BackingService,BackingServiceInstance,ServiceSelect,BackingServiceInstanceBd,Confirm){
+.controller('BackingServiceCtrl',['$log','$rootScope','$scope','BackingService','BackingServiceInstance','ServiceSelect','BackingServiceInstanceBd','Confirm', 'Toast',function ($log,$rootScope,$scope,BackingService,BackingServiceInstance,ServiceSelect,BackingServiceInstanceBd,Confirm, Toast){
     $scope.status = {};
     $scope.grid = {
         serviceCat: 'all',
@@ -102,30 +102,42 @@ angular.module('console.backing_service',[
 
     }
     $scope.delBing = function(idx){
-        $log.info('delBing$scope.bsi',$scope.bsi.items[idx]);
-        var curlength =  $scope.bsi.items[idx].spec.binding.length
-        for(var i = 0 ;i < curlength;i++){
-            if($scope.bsi.items[idx].spec.binding[i].checked == true){
-                var bindObj = {
-                    metadata: {
-                        name: $scope.bsi.items[idx].metadata.name
-                    },
-                    resourceName : $scope.bsi.items[idx].spec.binding[i].bind_deploymentconfig,
-                    bindResourceVersion : '',
-                    bindKind : 'DeploymentConfig'
-                };
-                var j = i;
-                BackingServiceInstanceBd.put({namespace: $rootScope.namespace,name : $scope.bsi.items[idx].metadata.name},bindObj, function(res){
-                    $scope.bsi.items[idx].spec.binding.splice(j,1);
-                    $log.info('delbind',res);
-                }, function(res){
-                    //todo 错误处理
-                    $log.info("err", res);
-                });
-
+        var name = $scope.bsi.items[idx].metadata.name;
+        var bindings = [];
+        var binds = $scope.bsi.items[idx].spec.binding || [];
+        for (var i = 0; i < binds.length; i++) {
+            if (binds[i].checked) {
+                bindings.push(binds[i]);
             }
         }
-        loadBsi();
+        if (bindings.length == 0) {
+            Toast.open('请先选择要解除绑定的服务');
+            return;
+        }
+
+        angular.forEach(bindings, function(binding){
+            var bindObj = {
+                metadata: {
+                    name: name
+                },
+                resourceName : binding.bind_deploymentconfig,
+                bindResourceVersion : '',
+                bindKind : 'DeploymentConfig'
+            };
+            BackingServiceInstanceBd.put({namespace: $rootScope.namespace, name: name}, bindObj, function(res){
+                var foos = $scope.bsi.items[idx].spec.binding;
+                for (var j = 0; j < foos.length; j++) {
+                    if (foos[j].bind_deploymentconfig == binding.bind_deploymentconfig) {
+                        foos.splice(j, 1);
+                    }
+                }
+                $scope.bsi.items[idx].spec.bound -= 1;
+            }, function(res){
+                //todo 错误处理
+                Toast.open('操作失败');
+                $log.info("del bindings err", res);
+            });
+        });
     };
     var bindService = function(idx,objarr){
         for(var i = 0; i<objarr.length;i++){
