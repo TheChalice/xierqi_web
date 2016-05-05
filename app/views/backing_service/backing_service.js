@@ -144,7 +144,7 @@ angular.module('console.backing_service',[
         loadBsi();
     };
     $scope.bindModal = function(idx){
-        var curbsi = $scope.bsi.items[idx].spec.binding;
+        var curbsi = $scope.bsi.items[idx].spec.binding || [];
         ServiceSelect.open(curbsi).then(function(res){
             bindService(idx,res)
             $log.info("bind modal", res);

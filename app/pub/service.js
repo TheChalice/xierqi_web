@@ -246,8 +246,8 @@ define(['angular'], function (angular) {
                         };
                     }],
                     resolve: {
-                        data: ['$rootScope', 'Service', function ($rootScope, Service) {
-                            return Service.get({namespace: $rootScope.namespace}).$promise;
+                        data: ['$rootScope', 'DeploymentConfig', function ($rootScope, DeploymentConfig) {
+                            return DeploymentConfig.get({namespace: $rootScope.namespace}).$promise;
                         }]
                     }
                 }).result;
