@@ -102,8 +102,11 @@ angular.module('console.backing_service_detail', [
         }
         $scope.delBing = function(idx){
             $log.info('delBing$scope.bsi',$scope.bsi[idx]);
-            var curlength =  $scope.bsi[idx].spec.binding.length
-            for(var i = 0 ;i < curlength;i++){
+            if (!$scope.bsi[idx].spec.binding || $scope.bsi[idx].spec.binding.length == 0) {
+                return;
+            }
+
+            for(var i = 0 ;i < $scope.bsi[idx].spec.binding.length;i++){
                 if($scope.bsi[idx].spec.binding[i].checked == true){
                     var bindObj = {
                         metadata: {
@@ -143,7 +146,7 @@ angular.module('console.backing_service_detail', [
             loadBsi();
         };
         $scope.bindModal = function(idx){
-            var curbsi = $scope.bsi[idx].spec.binding;
+            var curbsi = $scope.bsi[idx].spec.binding || [];
             ServiceSelect.open(curbsi).then(function(res){
                 bindService(idx,res)
                 $log.info("bind modal", res);
