@@ -725,7 +725,7 @@ angular.module('console.service.detail', [
             var ps = [];
             var containers = dc.spec.template.spec.containers;
             for (var i = 0; i < containers.length; i++) {
-                var ports = containers[i].ports;
+                var ports = containers[i].ports || [];
                 for (var j = 0; j < ports.length; j++) {
                     if (!ports[j].open) {
                         continue;
@@ -823,6 +823,7 @@ angular.module('console.service.detail', [
             DeploymentConfig.put({namespace: $rootScope.namespace, name: dc.metadata.name}, dc, function(res){
                 $log.info("update dc success", res);
                 bindService(dc);
+                $scope.active = 1;
             }, function(res){
                 //todo 错误处理
                 $log.info("update dc fail", res);
