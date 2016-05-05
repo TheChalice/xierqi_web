@@ -9,21 +9,23 @@ angular.module('console', [
         ]
     }
 ])
-    .controller('ConsoleCtrl', ['$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', 'user', 'Project', function ($rootScope, $scope, $log, AUTH_EVENTS, User, user, Project) {
+    .controller('ConsoleCtrl', ['$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', 'user', 'Project', 'Cookie', function ($rootScope, $scope, $log, AUTH_EVENTS, User, user, Project, Cookie) {
         $log.info('Console');
         $rootScope.user = user;
-        $rootScope.namespace = user.metadata.name;
+
+        var namespace = Cookie.get('namespace');
+        if (namespace) {
+            $rootScope.namespace = namespace;
+        } else {
+            $rootScope.namespace = user.metadata.name;
+            Cookie.set('namespace', name, 10 * 365 * 24 * 3600 * 1000);
+        }
 
         var loadProject = function(name){
             $log.info("load project");
             Project.get(function(data){
+                $rootScope.projects = data.items;
                 $log.info("load project success", data);
-                for(var i = 0; i < data.items.length; i++) {
-                    if(data.items[i].metadata.name == name){
-                        $rootScope.namespace = name;
-                        return;
-                    }
-                }
                 buildProject(name);
             }, function(res){
                 $log.info("find project err", res);

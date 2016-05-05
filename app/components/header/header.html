@@ -18,8 +18,10 @@
                 <span>{{user.metadata.name}}&nbsp;&nbsp;</span>
                 <i class="fa fa-chevron-circle-down" style="color: #e6e9f2;"></i>
             </a>
-            <ul uib-dropdown-menu aria-labelledby="user-menu">
-                <li><a href="#">Action</a></li>
+            <ul uib-dropdown-menu aria-labelledby="user-menu" style="max-height: 300px;overflow-y: scroll;left: -20px;top:45px;">
+                <li ng-repeat="project in projects">
+                    <a href="javascript:;" ng-click="setNamespace(project.metadata.name)">{{project.metadata.name}}</a>
+                </li>
                 <li role="separator" class="divider"></li>
                 <li><a href="javascript:;" ng-click="logout()">退出</a></li>
             </ul>

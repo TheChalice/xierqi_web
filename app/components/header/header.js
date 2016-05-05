@@ -23,10 +23,16 @@ angular.module("console.header", [
                 };
                 $scope.logout = function(){
                     Cookie.clear('df_access_token');
+                    Cookie.clear('namespace');
                     $rootScope.user = null;
                     $rootScope.namespace = "";
                     $state.go('login');
                 };
+                $scope.setNamespace = function(namespace) {
+                    $rootScope.namespace = namespace;
+                    Cookie.set('namespace', namespace, 10 * 365 * 24 * 3600 * 1000);
+                    location.reload(true);
+                }
             }]
         }
     }])
