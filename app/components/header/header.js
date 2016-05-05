@@ -33,6 +33,8 @@ angular.module("console.header", [
     .filter('stateTitleFilter', [function(){
         return function(state) {
             switch (state) {
+                case "console.dashboard":
+                    return "仪表盘"
                 case "console.build":
                     return "代码构建";
                 case "console.build_create":

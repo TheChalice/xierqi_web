@@ -162,5 +162,18 @@ define([
                         }]
                     }
                 })
+                .state('console.dashboard',{
+                    url: '/dashboard/',
+                    templateUrl: 'views/dashboard/dashboard.html',
+                    controller: 'dashboardCtrl',
+                    params: {
+
+                    },
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return  $ocLazyLoad.load(['views/dashboard/dashboard.js'])
+                        }]
+                    }
+                })
         }]);
 });
