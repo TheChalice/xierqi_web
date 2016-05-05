@@ -111,8 +111,8 @@ define(['angular', 'moment'], function (angular, moment) {
         .filter('bsiphaseFilter',[function(){
             return function(phase){
                 if(phase == 'Bound'){
-                    return "绑定"
-                }else if(phase == 'UnBound'){
+                    return "已绑定"
+                }else if(phase == 'Unbound'){
                     return "未绑定"
                 }else if(phase == 'Provisioning'){
                     return "正在创建"
