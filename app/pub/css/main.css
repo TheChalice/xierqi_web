@@ -888,15 +888,13 @@ a {
     position: relative;
     top: -1px;
 }
-.plan > h3 {
-    font-size: 14px;
-    color: #5a6378;
-    margin-top: 36px;
-}
 .plan .panel-heading {
     background: #f7f7f7;
 }
 .plan .panel-heading .panel-title {
     color: #5a6378;
     font-size: 14px;
+}
+.panel-xxx.active {
+    border-color: #f6a540;
 }

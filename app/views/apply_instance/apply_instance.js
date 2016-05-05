@@ -26,6 +26,7 @@ angular.module('console.apply_instance', [
         };
 
     var loadBs = function(){
+        console.log("$state", $stateParams.plan)
         BackingService.get({namespace:'openshift',name:$stateParams.name},function(data){
             $log.info('loadBs',data);
             $scope.data = data;
@@ -35,6 +36,7 @@ angular.module('console.apply_instance', [
             for (var i = 0; i < plans.length; i++) {
                 if (plans[i].name == $stateParams.plan) {
                     $scope.grid.checked = i;
+                    console.log("==============", i)
                     break;
                 }
             }
