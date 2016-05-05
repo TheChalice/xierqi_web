@@ -93,9 +93,9 @@ angular.module('console.service.detail', [
                 });
 
                 var volumeMap = {};
-                if (res.spec.volumes) {
-                    for (var i = 0; i < res.spec.volumes.length; i++) {
-                        volumeMap[res.spec.volumes[i].name] = res.spec.volumes[i].secret.secretName;
+                if (res.spec.template.spec.volumes) {
+                    for (var i = 0; i < res.spec.template.spec.volumes.length; i++) {
+                        volumeMap[res.spec.template.spec.volumes[i].name] = res.spec.template.spec.volumes[i].secret.secretName;
                     }
                 }
 
@@ -109,13 +109,14 @@ angular.module('console.service.detail', [
                         item.volumeMounts = [{}];
                     }
                     var name = getIst(item.name);
-                    console.log("====",name, item.name);
                     if (name) {
                         ImageStreamTag.get({namespace: $rootScope.namespace, name: name}, function(res){
                             item.image = name;
                             item.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
                             item.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
-                            item.tag = res.tag.name;
+                            if (res.tag) {
+                                item.tag = res.tag.name;
+                            }
                         });
                     }
                 });
@@ -173,7 +174,7 @@ angular.module('console.service.detail', [
         var isConflict = function(){
             var containers = $scope.dc.spec.template.spec.containers;
             for (var i = 0; i < containers.length; i++) {
-                var ports = containers[i].ports;
+                var ports = containers[i].ports || [];
                 for (var j = 0; j < ports.length; j++) {
                     ports[j].conflict = portConflict(ports[j].containerPort, i, j)
                 }
