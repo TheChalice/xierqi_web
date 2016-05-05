@@ -16,7 +16,7 @@ angular.module("console.header", [
                     $window.history.back();
                 };
                 $scope.hasBack = function(){
-                    if ($state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service") {
+                    if ($state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard") {
                         return false
                     }
                     return true;
