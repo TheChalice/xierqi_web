@@ -63,7 +63,7 @@ angular.module('login', [
                 loadProject(credentials.username);
 
             }).error(function(data){
-                Alert.open('错误提示', '用户名或密码不正确');
+                Alert.open('错误', '用户名或密码不正确');
             });
         };
     }]);
