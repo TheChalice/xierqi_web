@@ -11,32 +11,49 @@ angular.module('console.backing_service',[
     $scope.status = {};
     $scope.grid = {
         serviceCat: 'all',
-        vendor: 'all'
+        vendor: 'all',
+        txt: ''
     };
 
-    $scope.$watch('grid.serviceCat', function(newVal, oldVal){
+    $scope.select = function(tp, key){
+        console.log("tp", tp, 'key', key);
+        if (key == $scope.grid[tp]) {
+            $scope.grid[tp] = 'all';
+        } else {
+            $scope.grid[tp] = key;
+        }
 
-    });
+        search(tp, key);
+    };
 
-    $scope.$watch('grid.vendor', function(newVal, oldVal){
-        //if (newVal != oldVal) {
-        //    angular.forEach($scope.data.items, function(item){
-        //        if (item.metadata.labels["asiainfo.io/servicebroker"] == newVal) {
-        //            item.show = true;
-        //        } else {
-        //            item.show = false;
-        //        }
-        //    })
-        //}
-    });
+    var filter = function(tp, key){
+        var reg = null;
+        if ($scope.grid.txt) {
+            var txt = $scope.grid.txt.replace(/\//g, '\\/');
+            reg = eval('/' + txt + '/ig');
+        }
+        angular.forEach($scope.items, function(item){
+            if (tp == 'serviceCat') {
+                item.show = item.metadata.labels.cat == key || key == 'all';
+            }
+            if (tp == 'vendor') {
+                item.show = item.spec.metadata.providerDisplayName == key || key == 'all';
+            }
+            if (reg) {
+                item.show = item.show && reg.test(item.metadata.name)
+            }
+        });
+    };
 
     var loadBs = function(){
         BackingService.get({namespace:'openshift'},function(data){
             $log.info('loadBs',data);
             $scope.items = data.items;
             $scope.data = data.items;
+            filter('serviceCat', 'all');
+            filter('vendor', 'all');
         })
-    }
+    };
     loadBs();
 
     var loadBsi = function () {
@@ -50,19 +67,11 @@ angular.module('console.backing_service',[
         });
     };
     loadBsi();
-    $scope.search = function (txt) {
-        if(!txt){
-            $scope.items = $scope.data;
-        }else{
-            $scope.items = [];
-            txt = txt.replace(/\//g, '\\/');
-            var reg = eval('/' + txt + '/ig');
-            angular.forEach($scope.data, function(item) {
-                if (reg.test(item.metadata.name)) {
-                    $scope.items.push(item);
-                }
-            })
-        }
+
+    $scope.search = function () {
+        console.log("----", $scope.txt);
+        filter('serviceCat', $scope.grid.serviceCat);
+        filter('vendor', $scope.grid.vendor);
     };
     $scope.delBsi = function(idx){
         $log.info('del$scope.bsi.items[idx]',$scope.bsi.items[idx]);
