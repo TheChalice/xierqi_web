@@ -92,7 +92,19 @@ angular.module('console.service.detail', [
                     }
                 });
 
+                var volumeMap = {};
+                if (res.spec.volumes) {
+                    for (var i = 0; i < res.spec.volumes.length; i++) {
+                        volumeMap[res.spec.volumes[i].name] = res.spec.volumes[i].secret.secretName;
+                    }
+                }
+
                 angular.forEach($scope.dc.spec.template.spec.containers, function(item){
+                    angular.forEach(item.volumeMounts, function(volume){
+                        if (volumeMap[volume.name]) {
+                            volume.name = volumeMap[volume.name];
+                        }
+                    });
                     if (!item.volumeMounts || item.volumeMounts.length == 0) {
                         item.volumeMounts = [{}];
                     }
