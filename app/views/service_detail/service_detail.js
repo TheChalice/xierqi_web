@@ -110,14 +110,17 @@ angular.module('console.service.detail', [
                     }
                     var name = getIst(item.name);
                     if (name) {
-                        ImageStreamTag.get({namespace: $rootScope.namespace, name: name}, function(res){
-                            item.image = name;
-                            item.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
-                            item.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
-                            if (res.tag) {
-                                item.tag = res.tag.name;
-                            }
-                        });
+                        var foos = name.split(':');
+                        if (foos.length > 1) {
+                            item.image = foos[0];
+                            item.tag = foos[1];
+                        }
+                        //ImageStreamTag.get({namespace: $rootScope.namespace, name: name}, function(res){
+                        //    item.image = name;
+                        //    if (res.tag) {
+                        //        item.tag = res.tag.name;
+                        //    }
+                        //});
                     }
                 });
 
