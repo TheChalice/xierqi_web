@@ -21,11 +21,16 @@
             <tr ng-repeat="container in pod.spec.containers">
                 <td><a href="javascript:;" ng-click="containerDetail($index)" class="href-orange">{{container.name}}</a></td>
                 <td>
-
+                    <span ng-repeat="(k, v) in container.status.state">
+                        {{k}}
+                    </span>
                 </td>
-                <td>{{container.resources}}</td>
+                <td>
+                    <span ng-if="container.resources.limits">{{container.resources}}</span>
+                    <span ng-if="!container.resources.limits">无限制</span>
+                </td>
                 <td>{{container.image | imageStreamName}}</td>
-                <td>{{container.image | stripSHAPrefix | limitTo: 7}}</td>
+                <td>{{container.tag}}</td>
             </tr>
         </table>
     </div>
@@ -39,8 +44,8 @@
                         <input type="text" class="form-control" placeholder="关键字" style="margin-right: 20px;">
                     </div>
                     <div class="col-md-8">
-                        <date-pick st="st" et="et"></date-pick>
-                        <a style="margin-left: 15px;" href="javascript:;" class="btn btn-orange">搜索</a>
+                        <date-pick st="grid.st" et="grid.et"></date-pick>
+                        <a style="margin-left: 15px;" href="javascript:;" class="btn btn-orange" ng-click="search()">搜索</a>
                     </div>
                 </div>
 
@@ -50,12 +55,22 @@
             </uib-tab>
             <uib-tab index="2" heading="性能监控">
                 <div>
-                    <highchart style="width:100%" config="chartConfigCpu"></highchart>
-                    <highchart style="width:100%" config="chartConfigMem"></highchart>
-                    <highchart style="width:100%" config="chartConfigIo"></highchart>
+                    <div ng-if="!grid.cpu" class="graph">
+                        <p>CPU</p>
+                        <h4>Application is not available</h4>
+                        <p>The application is currently not serving requests at this endpoint. It may not have been started or is still starting.</p>
+                    </div>
+                    <highchart ng-if="grid.cpu" style="width:100%" config="chartConfigCpu"></highchart>
+                    <div ng-if="!grid.mem" class="graph">
+                        <p>内存</p>
+                        <h4>Application is not available</h4>
+                        <p>The application is currently not serving requests at this endpoint. It may not have been started or is still starting.</p>
+                    </div>
+                    <highchart ng-if="grid.mem" style="width:100%" config="chartConfigMem"></highchart>
+                    <highchart ng-if="false" style="width:100%" config="chartConfigIo"></highchart>
                 </div>
             </uib-tab>
-            <uib-tab index="3" heading="Terminal">
+            <uib-tab index="3" heading="Terminal" ng-click="terminalSelect()">
                 <kubernetes-container-terminal pod="pod" container="container.name" prevent="!terminalTabWasSelected">
                 </kubernetes-container-terminal>
             </uib-tab>
@@ -63,6 +78,12 @@
     </div>
 
     <style>
+        .container-detail .graph {
+            padding: 8px;
+        }
+        .container-detail .graph p {
+            font-size: 12px;
+        }
         .container-detail > h2 {
             font-size: 14px;
             font-weight: normal;

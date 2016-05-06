@@ -9,7 +9,7 @@ angular.module('login', [
             AuthService.login($scope.credentials);
         }
     }])
-    .service('AuthService', ['$rootScope', '$http', '$base64', 'Cookie', '$state', '$log', 'Project', 'GLOBAL', function($rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL){
+    .service('AuthService', ['$rootScope', '$http', '$base64', 'Cookie', '$state', '$log', 'Project', 'GLOBAL', 'Alert', function($rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert){
         this.login = function(credentials) {
             console.log("login");
             var req = {
@@ -63,7 +63,7 @@ angular.module('login', [
                 loadProject(credentials.username);
 
             }).error(function(data){
-                //todo 错误处理
+                Alert.open('错误', '用户名或密码不正确');
             });
         };
     }]);

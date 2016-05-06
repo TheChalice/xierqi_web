@@ -92,19 +92,35 @@ angular.module('console.service.detail', [
                     }
                 });
 
+                var volumeMap = {};
+                if (res.spec.template.spec.volumes) {
+                    for (var i = 0; i < res.spec.template.spec.volumes.length; i++) {
+                        volumeMap[res.spec.template.spec.volumes[i].name] = res.spec.template.spec.volumes[i].secret.secretName;
+                    }
+                }
+
                 angular.forEach($scope.dc.spec.template.spec.containers, function(item){
+                    angular.forEach(item.volumeMounts, function(volume){
+                        if (volumeMap[volume.name]) {
+                            volume.name = volumeMap[volume.name];
+                        }
+                    });
                     if (!item.volumeMounts || item.volumeMounts.length == 0) {
                         item.volumeMounts = [{}];
                     }
                     var name = getIst(item.name);
-                    console.log("====",name, item.name);
                     if (name) {
-                        ImageStreamTag.get({namespace: $rootScope.namespace, name: name}, function(res){
-                            item.image = name;
-                            item.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
-                            item.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
-                            item.tag = res.tag.name;
-                        });
+                        var foos = name.split(':');
+                        if (foos.length > 1) {
+                            item.image = foos[0];
+                            item.tag = foos[1];
+                        }
+                        //ImageStreamTag.get({namespace: $rootScope.namespace, name: name}, function(res){
+                        //    item.image = name;
+                        //    if (res.tag) {
+                        //        item.tag = res.tag.name;
+                        //    }
+                        //});
                     }
                 });
 
@@ -120,8 +136,8 @@ angular.module('console.service.detail', [
             });
         };
 
-        var updatePorts = function(){
-            angular.forEach($scope.dc.spec.template.spec.containers, function(item){
+        var updatePorts = function(containers){
+            angular.forEach(containers, function(item){
                 angular.forEach(item.ports, function(port){
                     port.servicePort = $scope.portMap[port.containerPort + ''] || port.containerPort;
                     port.open = !!$scope.portMap[port.containerPort];
@@ -139,11 +155,11 @@ angular.module('console.service.detail', [
                     $scope.portMap[port.targetPort + ''] = port.port;
                 }
 
-                updatePorts();
+                updatePorts($scope.dc.spec.template.spec.containers);
 
             }, function(res){
                 $log.info("load service err", res);
-                updatePorts();
+                updatePorts($scope.dc.spec.template.spec.containers);
             });
         };
 
@@ -161,7 +177,7 @@ angular.module('console.service.detail', [
         var isConflict = function(){
             var containers = $scope.dc.spec.template.spec.containers;
             for (var i = 0; i < containers.length; i++) {
-                var ports = containers[i].ports;
+                var ports = containers[i].ports || [];
                 for (var j = 0; j < ports.length; j++) {
                     ports[j].conflict = portConflict(ports[j].containerPort, i, j)
                 }
@@ -340,6 +356,13 @@ angular.module('console.service.detail', [
         };
 
         $scope.startDc = function(){
+            if ($scope.dc.spec.replicas == 0) {
+                $scope.dc.spec.replicas = 1;
+                $scope.dc.status.latestVersion = 2;
+                $scope.updateDc();
+                return;
+            }
+
             var rcName = $scope.dc.metadata.name + '-' + $scope.dc.status.latestVersion;
             var items = $scope.rcs.items;
             var item = null;
@@ -481,6 +504,21 @@ angular.module('console.service.detail', [
         $scope.getConfig = function(idx){
             var o = $scope.rcs.items[idx];
             o.showConfig = !o.showConfig;
+
+            if (o.dc) {
+                updatePorts(o.dc.spec.template.spec.containers);
+            }
+
+            $scope.bindingBsi = [];
+            angular.forEach($scope.bsi.items, function(item){
+                angular.forEach(item.spec.binding, function(bind){
+                    console.log("============", bind.bind_deploymentconfig, o.dc.metadata.name);
+                    if (bind.bind_deploymentconfig == o.dc.metadata.name) {
+                        $scope.bindingBsi.push(o.dc.metadata.name);
+                    }
+                })
+            });
+
             o.showLog = false;
 
             //todo 获取更多的配置
@@ -588,9 +626,6 @@ angular.module('console.service.detail', [
             ImageSelect.open().then(function(res){
                 console.log("imageStreamTag", res);
                 container.image = res.metadata.name;
-                container.name = res.metadata.name.replace(/:.*/, '');
-                container.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
-                container.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
                 container.tag = res.tag.name;
 
                 container.ports = [];
@@ -693,7 +728,7 @@ angular.module('console.service.detail', [
             var ps = [];
             var containers = dc.spec.template.spec.containers;
             for (var i = 0; i < containers.length; i++) {
-                var ports = containers[i].ports;
+                var ports = containers[i].ports || [];
                 for (var j = 0; j < ports.length; j++) {
                     if (!ports[j].open) {
                         continue;
@@ -776,7 +811,7 @@ angular.module('console.service.detail', [
         $scope.updateDc = function(){
             var dc = angular.copy($scope.dc);
 
-            dc.status.latestVersion += 1;
+            //dc.status.latestVersion += 1;
 
             prepareVolume(dc);
             prepareTrigger(dc);
@@ -791,6 +826,7 @@ angular.module('console.service.detail', [
             DeploymentConfig.put({namespace: $rootScope.namespace, name: dc.metadata.name}, dc, function(res){
                 $log.info("update dc success", res);
                 bindService(dc);
+                $scope.active = 1;
             }, function(res){
                 //todo 错误处理
                 $log.info("update dc fail", res);
@@ -803,6 +839,7 @@ angular.module('console.service.detail', [
                 templateUrl: 'views/service_detail/logModal.html',
                 size: 'default modal-lg',
                 controller: ['$rootScope', '$scope', '$uibModalInstance', 'Pod', function ($rootScope, $scope, $uibModalInstance, Pod) {
+                    $scope.grid = {};
                     $scope.pod = pod;
                     $scope.ok = function () {
                         $uibModalInstance.close(true);
@@ -814,8 +851,8 @@ angular.module('console.service.detail', [
                     $scope.getLog = function (pod) {
                         var params = {
                             namespace: $rootScope.namespace,
-                            name: pod
-                            //sinceTime: ''
+                            name: pod,
+                            sinceTime: $scope.grid.st ? $scope.grid.st.toISOString(): (new Date(0)).toISOString()
                         };
                         Pod.log.get(params, function(res){
                             var result = "";
@@ -828,6 +865,9 @@ angular.module('console.service.detail', [
                         });
                     };
                     $scope.getLog(pod);
+                    $scope.search = function () {
+                        $scope.getLog($scope.pod);
+                    };
                 }]
             }).result;
         };
@@ -837,10 +877,12 @@ angular.module('console.service.detail', [
             return $uibModal.open({
                 templateUrl: 'views/service_detail/containerModal.html',
                 size: 'default modal-lg',
-                controller: ['$rootScope', '$scope', '$log', '$uibModalInstance', 'Pod', 'Ws', function ($rootScope, $scope, $log, $uibModalInstance, Pod, Ws) {
+                controller: ['$rootScope', '$scope', '$log', '$uibModalInstance', 'ImageStream', 'Pod', 'Ws', 'Metrics', function ($rootScope, $scope, $log, $uibModalInstance, ImageStream, Pod, Ws, Metrics) {
                     $scope.pod = pod;
                     $scope.grid = {
-                        show: false
+                        show: false,
+                        mem: false,
+                        cpu: false
                     };
                     $scope.ok = function () {
                         $uibModalInstance.close(true);
@@ -849,23 +891,69 @@ angular.module('console.service.detail', [
                         $uibModalInstance.dismiss();
                     };
 
+                    var imageStreamName = function(image){
+                        if (!image) {
+                            return "";
+                        }
+                        var match = image.match(/\/([^/]*)@sha256/);
+                        if (!match) {
+                            return "";
+                        }
+                        return match[1];
+                    };
+
+                    var preparePod = function(pod){
+                        var status = pod.status.containerStatuses;
+                        var statusMap = {};
+                        for (var i = 0; i < status.length; i++) {
+                            statusMap[status[i].name] = status[i];
+                        }
+                        var containers = pod.spec.containers;
+                        angular.forEach(pod.spec.containers, function(container){
+                            if (statusMap[container.name]) {
+                                container.status = statusMap[container.name];
+                            }
+
+                            ImageStream.get({namespace: $rootScope.namespace, name: imageStreamName(container.image)}, function(res){
+                                if (res.kind == 'ImageStream') {
+                                    angular.forEach(res.status.tags, function (tag) {
+                                        angular.forEach(tag.items, function (item) {
+                                            if (container.image.indexOf(item.image)) {
+                                                container.tag = tag.tag;
+                                            }
+                                        });
+                                    });
+                                }
+                            });
+                        });
+                        console.log('====', $scope.pod)
+                    };
+                    preparePod($scope.pod);
+
                     $scope.containerDetail = function(idx){
                         var o = pod.spec.containers[idx];
                         $scope.grid.show = true;
                         $scope.container = o;
                         $scope.getLog(o.name);
                         //terminal(o.name);
+                        getMetrics(pod, o);
                     };
 
                     $scope.back = function(){
                         $scope.grid.show = false;
                     };
 
+                    $scope.search = function(){
+                        console.log("sinceTime", $scope.grid.st);
+                        $scope.getLog($scope.container.name);
+                    };
+
                     $scope.getLog = function (container) {
                         var params = {
                             namespace: $rootScope.namespace,
                             name: pod.metadata.name,
-                            container: container
+                            container: container,
+                            sinceTime: $scope.grid.st ? $scope.grid.st.toISOString() : (new Date(0)).toISOString()
                         };
                         Pod.log.get(params, function(res){
                             var result = "";
@@ -873,14 +961,20 @@ angular.module('console.service.detail', [
                                 result += res[k];
                             }
                             $scope.log = result;
+                            console.log(result);
                         }, function(res){
                             $scope.log = res.data.message;
                         });
                     };
 
+                    $scope.terminalSelect = function(){
+                        $scope.terminalTabWasSelected = true;
+                    };
+
                     $scope.terminalTabWasSelected = false;
 
                     var setChart = function(name, data){
+                        data = prepareData(name, data);
                         return {
                             options: {
                                 chart: {
@@ -896,13 +990,16 @@ angular.module('console.service.detail', [
                                 },
                                 tooltip: {
                                     backgroundColor: '#666',
-                                        borderWidth: 0,
-                                        shadow: false,
-                                        style: {
+                                    borderWidth: 0,
+                                    shadow: false,
+                                    style: {
                                         color: '#fff'
                                     },
                                     formatter: function(){
-                                        return this.y;
+                                        if (name == 'CPU') {
+                                            return this.y.toFixed(2);
+                                        }
+                                        return (this.y / 1000000).toFixed(2) + 'M';
                                     }
                                 },
                                 legend: {
@@ -915,12 +1012,13 @@ angular.module('console.service.detail', [
                                 marker: {
                                     enabled: false
                                 },
-                                data: data
+                                data: data,
+                                pointStart: (new Date()).getTime() - 30 * 60 * 1000 + 8 * 3600 * 1000,
+                                pointInterval: 30000 //时间间隔
                             }],
                             xAxis: {
-                                gridLineWidth: 1,
-                                currentMin: 0,
-                                currentMax: 20
+                                type: 'datetime',
+                                gridLineWidth: 1
                             },
                             yAxis: {
                                 gridLineDashStyle: 'ShortDash',
@@ -930,7 +1028,7 @@ angular.module('console.service.detail', [
                             },
                             size: {
                                 width: 798,
-                                    height: 130
+                                height: 130
                             },
                             func: function (chart) {
                                 //setup some logic for the chart
@@ -938,8 +1036,82 @@ angular.module('console.service.detail', [
                         };
                     };
 
-                    $scope.chartConfigCpu = setChart('CPU', [0.01, 0.02, 0.04, 0.01, 0.02, 0.02, 0.09, 0.04,0.05, 0.01, 0.09, 0.04, 0.02]);
-                    $scope.chartConfigMem = setChart('内存', []);
+                    var prepareData = function(tp, data){
+                        var res = [];
+                        normalize(data, tp);
+                        for (var i = 0; i < data.length - 1; i++) {
+                            res.push(data[i].value);
+                        }
+                        return res;
+                    };
+
+                    var midTime = function (point) {
+                        return point.start + (point.end - point.start) / 2;
+                    };
+
+                    var millicoresUsed = function (point, lastValue) {
+                        if (!lastValue || !point.value) {
+                            return null;
+                        }
+
+                        if (lastValue > point.value) {
+                            return null;
+                        }
+
+                        var timeInMillis = point.end - point.start;
+                        var usageInMillis = (point.value - lastValue) / 1000000;
+                        return (usageInMillis / timeInMillis) * 1000;
+                    };
+
+                    function normalize(data, metric) {
+                        var lastValue;
+                        angular.forEach(data, function(point) {
+                            var value;
+
+                            if (!point.timestamp) {
+                                point.timestamp = midTime(point);
+                            }
+
+                            if (!point.value || point.value === "NaN") {
+                                var avg = point.avg;
+                                point.value = (avg && avg !== "NaN") ? avg : null;
+                            }
+
+                            if (metric === 'CPU') {
+                                value = point.value;
+                                point.value = millicoresUsed(point, lastValue);
+                                lastValue = value;
+                            }
+                        });
+
+                        data.shift();
+                        return data;
+                    }
+
+                    var getMetrics = function(pod, container){
+                        var st = (new Date()).getTime() - 30 * 60 * 1000;
+                        var gauges = container.name + '/' + pod.metadata.uid + '/memory/usage';
+                        var counters = container.name + '/' + pod.metadata.uid + '/cpu/usage';
+                        Metrics.mem.query({gauges: gauges, buckets: 61, start: st}, function(res){
+                            $log.info("metrics mem", res);
+                            $scope.chartConfigMem = setChart('内存', res);
+                            $scope.grid.mem = true;
+                        }, function(res){
+                            $log.info("metrics mem err", res);
+                            $scope.chartConfigMem = setChart('内存', []);
+                            $scope.grid.mem = false;
+                        });
+                        Metrics.cpu.query({counters: counters, buckets: 61, start: st}, function(res){
+                            $log.info("metrics cpu", res);
+                            $scope.chartConfigCpu = setChart('CPU', res);
+                            $scope.grid.cpu = true;
+                        }, function(res){
+                            $log.info("metrics cpu err", res);
+                            $scope.chartConfigCpu = setChart('CPU', []);
+                            $scope.grid.cpu = false;
+                        });
+                    };
+
                     $scope.chartConfigIo = setChart('网络IO', []);
                 }]
             }).result;

@@ -108,6 +108,21 @@ define(['angular', 'moment'], function (angular, moment) {
                 }
             };
         }])
+        .filter('bsiphaseFilter',[function(){
+            return function(phase){
+                if(phase == 'Bound'){
+                    return "已绑定"
+                }else if(phase == 'Unbound'){
+                    return "未绑定"
+                }else if(phase == 'Provisioning'){
+                    return "正在创建"
+                }else if(phase == 'Deleted'){
+                    return "正在注销"
+                }else{
+                    return phase || "-"
+                }
+            };
+        }])
         .filter('webhooks', ['$rootScope', 'GLOBAL', function($rootScope, GLOBAL) {
             return function(buildConfig) {
                 var triggers = buildConfig.spec.triggers;
@@ -135,26 +150,11 @@ define(['angular', 'moment'], function (angular, moment) {
                 if (!image) {
                     return "";
                 }
-                // TODO move this parsing method into a utility method
-
-                // remove @sha256:....
-                var imageWithoutID = image.split("@")[0];
-
-                var slashSplit = imageWithoutID.split("/");
-                var semiColonSplit;
-                if (slashSplit.length === 3) {
-                    semiColonSplit = slashSplit[2].split(":");
-                    return slashSplit[1] + '/' + semiColonSplit[0];
+                var match = image.match(/\/([^/]*)@sha256/);
+                if (!match) {
+                    return image.replace(/:.*/, '');
                 }
-                else if (slashSplit.length === 2) {
-                    // TODO umm tough... this could be registry/imageName or imageRepo/imageName
-                    // have to check if the first bit matches a registry pattern, will handle this later...
-                    return imageWithoutID;
-                }
-                else if (slashSplit.length === 1) {
-                    semiColonSplit = imageWithoutID.split(":");
-                    return semiColonSplit[0];
-                }
+                return match[1];
             };
         })
         .filter("stripSHAPrefix", function() {

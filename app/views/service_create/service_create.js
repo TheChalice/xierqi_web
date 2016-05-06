@@ -8,8 +8,8 @@ angular.module('console.service.create', [
             ]
         }
     ])
-    .controller('ServiceCreateCtrl', [ '$rootScope', '$state', '$scope', '$log', 'ImageStream', 'DeploymentConfig', 'ImageSelect','BackingServiceInstance','BackingServiceInstanceBd','ReplicationController','Route', 'Secret', 'Service',
-        function ($rootScope, $state, $scope, $log, ImageStream, DeploymentConfig, ImageSelect,BackingServiceInstance,BackingServiceInstanceBd,ReplicationController,Route, Secret, Service) {
+    .controller('ServiceCreateCtrl', [ '$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect','BackingServiceInstance','BackingServiceInstanceBd','ReplicationController','Route', 'Secret', 'Service',
+        function ($rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect,BackingServiceInstance,BackingServiceInstanceBd,ReplicationController,Route, Secret, Service) {
             $log.info('ServiceCreate');
 
             $scope.grid = {
@@ -137,6 +137,33 @@ angular.module('console.service.create', [
                 }
             };
 
+            var initContainer = function () {
+                if ($stateParams.image) {
+                    console.log("initContainer", $stateParams.image);
+                    var container = angular.copy($scope.containerTpl);
+                    container.image = $stateParams.image.metadata.name;
+                    if ($stateParams.image.tag) {
+                        container.tag = $stateParams.image.tag.name;
+                    }
+                    container.ports = [];
+                    var exposedPorts = $stateParams.image.image.dockerImageMetadata.Config.ExposedPorts;
+                    for (var k in exposedPorts) {
+                        var arr = k.split('/');
+                        if (arr.length == 2) {
+                            container.ports.push({
+                                containerPort: parseInt(arr[0]),
+                                servicePort: parseInt(arr[0]),
+                                protocol: arr[1],
+                                open: true
+                            });
+                        }
+                    }
+                    $scope.dc.spec.template.spec.containers.push(container);
+                    $scope.invalid.containerLength = false;
+                }
+            };
+            initContainer();
+
             $scope.containerModal = function (idx) {
                 var o = $scope.pods.items[idx];
                 ContainerModal.open(o);
@@ -241,7 +268,6 @@ angular.module('console.service.create', [
                             });
                         }
                     }
-                    isConflict();
                 });
             };
 
@@ -475,11 +501,9 @@ angular.module('console.service.create', [
                 prepareTrigger(dc);
                 prepareEnv(dc);
 
-                if ($scope.grid.auto) {
-                    dc.status.latestVersion = 1;
+                if (!$scope.grid.auto) {
+                    dc.spec.replicas = 0;
                 }
-
-                $log.info("update dc", dc);
 
                 DeploymentConfig.create({namespace: $rootScope.namespace}, dc, function(res){
                     $log.info("create dc success", res);

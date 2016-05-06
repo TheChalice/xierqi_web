@@ -1,0 +1,111 @@
+<div class="dashboard">
+    <div class="firstline">
+        <div class="block block-left col-md-6">
+            <h2>账户信息</h2>
+            <table class="table table-bordered info">
+                <thead class="thead-default">
+                <tr>
+                    <th colspan="3">Jingxy</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <p>账户余额</p>
+                        <p><span>300.00</span>元</p>
+                        <a href="javascript:;" class="btn btn-green">充值</a>
+                    </td>
+                    <td>
+                        <p>套餐信息</p>
+                        <p><span>20</span>元/月</p>
+                    </td>
+                    <td>
+                        <p>可用代金券</p>
+                        <p><span>0</span>张</p>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="block block-right col-md-6">
+            <h2>资源统计</h2>
+            <highchart config="chartConfigFirst"></highchart>
+        </div>
+    </div>
+    <div class="secondline col-md-12">
+        <h2>资源监测</h2>
+        <div>
+            <highchart style="width:100%; margin-top: 20px" config="chartConfig"></highchart>
+        </div>
+    </div>
+    <div class="thirdline col-md-12">
+        <h2>统计数值</h2>
+        <div class="selection col-md-3">
+            <p class="num">100</p>
+            <img src="">
+            <p>容器</p>
+        </div>
+        <div class="selection col-md-3">
+            <p class="num">100</p>
+            <img src="">
+            <p>服务</p>
+        </div>
+        <div class="selection col-md-3">
+            <p class="num">100</p>
+            <img src="">
+            <p>后端服务</p>
+        </div>
+        <div class="selection col-md-3">
+            <p class="num">100</p>
+            <img src="">
+            <p>应用</p>
+        </div>
+    </div>
+
+    <style>
+        .dashboard h2 {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .dashboard .info {
+            text-align: center;
+        }
+        .dashboard .firstline .block-left h2 {
+            margin-bottom: 20px;
+        }
+        .dashboard .firstline .block-left .info > tbody > tr > td > p {
+            margin-top: 10px;
+        }
+        .dashboard .firstline .block-left .info > tr > th {
+            /*添加圈圈*/
+        }
+        .dashboard .firstline .block-left .info > thead > tr {
+            background-color: #e6e9f2;
+            border-color: #e6e9f2;
+        }
+        .dashboard .firstline .block-left .info > thead > tr > th {
+            border-color: #e6e9f2;
+        }
+        .dashboard .firstline .block-left .info > tbody > tr > td:first-child {
+            background-color: #e2e5ee;
+        }
+        .dashboard .firstline .block-left .info > tbody > tr > td{
+            background-color: #f2f4f8;
+            border-color: #f2f4f8;
+        }
+        .dashboard .firstline .block-left .info > tbody > tr > td > p > span {
+            color: #e5993a;
+        }
+        .dashboard .thirdline .selection:hover {
+            background-color: #f2f4f8;
+            border-bottom: 2px solid #e5993a;
+        }
+        .dashboard .thirdline p {
+            text-align: center;
+        }
+        .dashboard .thirdline .num {
+            font-size: 18px;
+            color: #e5993a;
+        }
+    </style>
+</div>

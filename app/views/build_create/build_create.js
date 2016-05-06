@@ -57,14 +57,7 @@ angular.module('console.build.create', [])
         var createBuildConfig = function (imageStreamTag) {
             $scope.buildConfig.spec.completionDeadlineSeconds = $scope.completionDeadlineMinutes * 60;
             $scope.buildConfig.spec.output.to.name = imageStreamTag + ':latest';
-            $scope.buildConfig.spec.triggers = [
-                {
-                    type: 'GitHub',
-                    github: {
-                        secret: UUID.guid().replace(/-/g, "")
-                    }
-                }
-            ];
+            $scope.buildConfig.spec.triggers = [];
             BuildConfig.create({namespace: $rootScope.namespace}, $scope.buildConfig, function(res){
                 $log.info("buildConfig", res);
                 createBuild(res.metadata.name);

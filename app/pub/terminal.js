@@ -9,10 +9,7 @@ define(['angular'], function (angular) {
             self.WebSocketFactory = function() {
                 return function ContainerWebSocket(url, protocols) {
                     if (url.indexOf("/") === 0) {
-                        if (window.location.protocol === "http:")
-                            url = "ws://" + window.location.host + url;
-                        else
-                            url = "wss://" + window.location.host + url;
+                        url = "ws://" + window.location.host + '/ws' + url;
                     }
                     return new window.WebSocket(url, protocols);
                 };
@@ -35,8 +32,8 @@ define(['angular'], function (angular) {
             ];
         })
         .directive('kubernetesContainerTerminal', [
-            "$q", "kubernetesContainerSocket",
-            function($q, kubernetesContainerSocket) {
+            "$q", "kubernetesContainerSocket", "Cookie",
+            function($q, kubernetesContainerSocket, Cookie) {
                 return {
                     restrict: 'E',
                     scope: {
@@ -110,6 +107,8 @@ define(['angular'], function (angular) {
                             command.forEach(function(arg) {
                                 url += "&command=" + encodeURIComponent(arg);
                             });
+
+                            url += "&access_token=" + Cookie.get('df_access_token');
 
                             var first = true;
                             spinner.removeClass("hidden");

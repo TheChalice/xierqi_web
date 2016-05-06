@@ -2,33 +2,35 @@
     <h2>Pod</h2>
     <div class="row">
         <div class="col-md-10">
-            <div class="panel panel-default sub-panel" ng-repeat="container in item.spec.template.spec.containers">
+            <div class="panel panel-default sub-panel" ng-repeat="container in item.dc.spec.template.spec.containers">
                 <div class="panel-heading">
                     {{container.name}}
                 </div>
                 <div class="panel-body">
                     <h3>镜像信息</h3>
                     <p>镜像名称:&nbsp;&nbsp;{{container.image | imageStreamName}}</p>
-                    <p>镜像版本:&nbsp;&nbsp;{{container.image | stripSHAPrefix | limitTo: 7}}</p>
+                    <p>镜像版本:&nbsp;&nbsp;{{container.image}}</p>
                     <hr>
 
-                    <h3>挂载secret卷</h3>
-                    <div class="row">
-                        <div class="col-md-5">
-                            <input value="secret名称" type="text" class="form-control" disabled>
+                    <div ng-if="container.volumeMounts.length">
+                        <h3>挂载secret卷</h3>
+                        <div class="row" ng-repeat="vm in container.volumeMounts" style="margin-bottom: 15px;">
+                            <div class="col-md-5">
+                                <input ng-model="vm.name" type="text" class="form-control" disabled>
+                            </div>
+                            <div class="col-md-5">
+                                <input ng-model="vm.mountPath" type="text" class="form-control" readonly>
+                            </div>
                         </div>
-                        <div class="col-md-5">
-                            <input value="路径" type="text" class="form-control">
-                        </div>
+                        <hr>
                     </div>
-                    <hr>
 
                     <h3>端口信息</h3>
                     <div class="row">
                         <div class="col-md-5" ng-repeat="port in container.ports">
                             <span class="tag">{{port.protocol}}</span>
                             <span class="tag">{{port.containerPort}}</span>
-                            <span class="tag">&nbsp;</span>
+                            <span class="tag">{{port.servicePort}}</span>
                         </div>
                     </div>
                 </div>
@@ -40,21 +42,21 @@
     <h2>服务高可用</h2>
     <div class="row">
         <div class="col-md-2">
-            服务数量:&nbsp;
+            POD数量:&nbsp;{{item.dc.spec.replicas}}
         </div>
         <div class="col-md-2">
-            重启策略:&nbsp;{{item.spec.template.spec.restartPolicy}}
+            重启策略:&nbsp;{{item.dc.spec.template.spec.restartPolicy}}
         </div>
     </div>
     <hr>
 
-    <h2 ng-if="dc.bsi.length">后端服务绑定</h2>
-    <div class="row" ng-if="dc.bsi.length">
-        <div class="col-md-2" ng-repeat="bsi in dc.bsi">
-            {{bsi}}
+    <h2 ng-if="bindingBsi.length">后端服务绑定</h2>
+    <div class="row" ng-if="bindingBsi.length">
+        <div class="col-md-2" ng-repeat="bs in bindingBsi">
+            {{bs}}
         </div>
     </div>
-    <hr ng-if="dc.bsi.length">
+    <hr ng-if="bindingBsi.length">
 
     <h2>自动部署</h2>
     <div>

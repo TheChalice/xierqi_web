@@ -1,0 +1,20 @@
+<div class="thumbnail">
+    <div class="thumb-content">
+        <p><img src="components/bscard/img/images01_08.png">{{item.spec.metadata.providerDisplayName}}</p>
+        <p><img src="components/bscard/img/images01_06.png">&nbsp;version</p>
+        <div class="thumb-slide">
+            <div class="thumb-op">
+                <small>{{item.spec.description}}</small>
+                <p class="thumb-btn">
+                    <a class="btn btn-skyblue" href="javascript:;" ui-sref="console.backing_service_detail({name: item.metadata.name})">
+                        查看详情</a>
+                </p>
+            </div>
+            <img src="components/bscard/img/images01_03.png" alt="image">
+        </div>
+    </div>
+    <div class="caption">
+        <p class="bsname">{{item.metadata.name}}</p>
+        <a class="btn btn-orange"  ui-sref="console.apply_instance({name: item.metadata.name})">申请实例</a>
+    </div>
+</div>

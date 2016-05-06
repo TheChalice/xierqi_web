@@ -39,39 +39,6 @@ define([
                 });
             };
 
-            Ws.terminal = function(params, onmessage, onopen, onclose){
-                if (!$ws.available()) {
-                    $log.info('webSocket is not available');
-                    return;
-                }
-
-                var host = GLOBAL.host_wss;
-                if (params.api == 'k8s') {
-                    host = GLOBAL.host_wss_k8s;
-                }
-
-                params.name = params.name ? '/' + params.name : '';
-
-                var url = host + '/namespaces/' + params.namespace + '/' + params.type + params.name + '/exec' +
-                          '?stdout=1' +
-                          '&stdin=1' +
-                          '&stderr=1' +
-                          '&tty=1' +
-                          '&container='+ params.container +
-                          '&command=%2Fbin%2Fsh' +
-                          '&command=-i' +
-                          '&access_token=' + Cookie.get("df_access_token");
-                $ws({
-                    method: 'WATCH',
-                    url: url,
-                    onclose: onclose,
-                    onmessage: onmessage,
-                    onopen: onopen
-                }).then(function(ws){
-                    $rootScope.watches[Ws.key(params.namespace, params.type, params.name)] = ws;
-                });
-            };
-
             Ws.key = function(namespace, type, name){
                 return namespace + '-' + type + '-' + name;
             };
@@ -168,7 +135,8 @@ define([
         }])
         .factory('BackingServiceInstance', ['$resource', 'GLOBAL', function($resource, GLOBAL){
             var BackingServiceInstance= $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances/:name', {name: '@name', namespace: '@namespace'},{
-                create: {method: 'POST'}
+                create: {method: 'POST'},
+                del: {method: 'DELETE'}
             });
             BackingServiceInstance.bind = $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances/:name/binding', {name: '@name', namespace: '@namespace'},{
                 create: {method: 'POST'},
@@ -178,9 +146,16 @@ define([
         }])
         .factory('BackingServiceInstanceBd', ['$resource', 'GLOBAL', function($resource, GLOBAL){
             var BackingServiceInstanceBd= $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances/:name/binding', {name: '@name', namespace: '@namespace'},{
-                create: {method: 'POST'}
+                create: {method: 'POST'},
+                put: {method: 'PUT'},
             });
             return BackingServiceInstanceBd;
+        }])
+        .factory('BackingService', ['$resource', 'GLOBAL', function($resource, GLOBAL){
+            var BackingService= $resource(GLOBAL.host + '/namespaces/:namespace/backingservices/:name', {name: '@name', namespace: '@namespace'},{
+                create: {method: 'POST'}
+            });
+            return BackingService;
         }])
         .factory('Pod', ['$resource', 'GLOBAL', function($resource, GLOBAL){
             var Pod= $resource(GLOBAL.host_k8s + '/namespaces/:namespace/pods/:name', {name: '@name', namespace: '@namespace'},{
@@ -200,5 +175,12 @@ define([
                 create: {method: 'POST'}
             });
             return Secret;
+        }])
+        .factory('Metrics', ['$resource', function($resource){
+            var Metrics = {};
+            //https://hawkular-metrics.app.dataos.io
+            Metrics.mem = $resource('/hawkular/metrics/gauges/:gauges/data', {gauges: '@gauges', buckets: '@buckets', start: '@start'});
+            Metrics.cpu = $resource('/hawkular/metrics/counters/:counters/data', {counters: '@counters', buckets: '@buckets', start: '@start'});
+            return Metrics;
         }]);
 });

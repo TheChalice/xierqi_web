@@ -7,6 +7,9 @@ body {
 hr {
     border-top: 1px solid #c9c9c9;
 }
+a {
+    text-decoration: none!important;
+}
 /*按钮*/
 .btn {
     border-radius: 2px;
@@ -43,7 +46,12 @@ hr {
 .btn-orange:hover {
     background-color: #e5993a;
 }
-
+.btn-Iknow {
+    background-color: #f6a540;
+}
+.btn-Iknow:hover {
+    background-color: #e5993a;
+}
 /*表格*/
 .table-default {
     overflow: hidden;
@@ -577,8 +585,24 @@ hr {
     width: 15px;
     height: 15px;
 }
-.active .faa-check {
+.active > .faa-check {
     background-position: -41px -220px;
+}
+.faa-price {
+    background: url(../img/price_icon.png);
+    width: 20px;
+    height: 20px;
+}
+.faa-content {
+    background: url(../img/content_icon.png);
+    width: 20px;
+    height: 20px;
+}
+
+.faa-description {
+    background: url(../img/description_icon.png);
+    width: 20px;
+    height: 20px;
 }
 
 @media (max-width: 758px) {
@@ -721,4 +745,156 @@ hr {
 }
 .searchbar .tip-board > li > a:hover > div:first-child{
     background: #c9d0e3;
+}
+
+/*backing service*/
+.h2-border {
+    font-size: 14px;
+    overflow: hidden;
+    color: #393f4f;
+}
+.h2-border:after {
+    content: '';
+    border-bottom: 1px solid #c9c9c9;
+    display: block;
+    width: 100%;
+    position: relative;
+    top: -6px;
+    left: 60px;
+}
+.backing-service-instance .instance {
+    border: 1px solid #c9c9c9;
+    border-radius: 2px;
+    margin-bottom: 15px;
+}
+.backing-service-instance .instance .instance-bar {
+    height: 60px;
+    padding-left: 75px;
+    background: url(../img/bsi.png) no-repeat;
+}
+.backing-service-instance .instance h3,
+.backing-service-instance .instance p {
+    font-size: 12px;
+    margin: 10px 0 0 0;
+    color: #5a6378;
+}
+.backing-service-instance .instance h3 {
+    color: #393f4f;
+}
+.backing-service-instance .instance-bar .faa,
+.backing-service-instance .instance-bar .fa2 {
+    margin: 17px 5px;
+}
+.backing-service-instance .binding-services {
+    border-top: 1px solid #c9c9c9;
+}
+.backing-service-instance .binding-services h2 {
+    overflow: hidden;
+    font-size: 16px;
+    font-weight: normal;
+    color: #5a6378;
+    margin-top: 0;
+    line-height: 34px;
+}
+.backing-service-instance .binding-services h2 .btn {
+    margin-left: 15px;
+    float: right;
+}
+.backing-service-instance .binding-services .panel {
+    border-radius: 0;
+    border: none;
+    border-top: 1px solid #c9c9c9;
+    box-shadow: none;
+}
+.backing-service-instance .binding-services .panel .panel-heading {
+    background: none;
+}
+.backing-service-instance .binding-services .panel.panel-open .panel-heading {
+    background: #f5f6fa;
+}
+.backing-service-instance .binding-services .panel .panel-body {
+    border: none;
+}
+.backing-service-instance .binding-services .panel .panel-heading .panel-title {
+    font-size: 14px;
+}
+.backing-service-instance .binding-services .panel .label {
+    font-size: 12px;
+    background: #dde0e9;
+    color: #5a6378;
+    padding: 3px 7px;
+    margin-left: 10px;
+}
+.fa2 {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    background: url(../img/service.png);
+    width: 25px;
+    height: 25px;
+}
+.fa2.fa2-link {
+    background-position: -219px -786px;
+}
+.fa2.fa2-link:hover {
+    background-position: -187px -786px;
+}
+.fa2.fa2-update {
+    background-position: -76px -786px;
+}
+.fa2.fa2-update:hover {
+    background-position: -46px -786px;
+}
+.fa2.fa2-dashboard {
+    background-position: -146px -786px;
+}
+.fa2.fa2-dashboard:hover {
+    background-position: -116px -786px;
+}
+.fa2.fa2-dashboard {
+    background-position: -146px -786px;
+}
+.fa2.fa2-dashboard:hover {
+    background-position: -116px -786px;
+}
+.fa2.fa2-time {
+    width: 16px;
+    height: 16px;
+    background-position: -49px -826px;
+}
+.fa2-bs {
+    background-position: -424px -826px;
+}
+.fa2-bs:hover, .fa2-bs.active, .active .fa2-bs, .nav-link:hover .fa2-bs {
+    background-position: -394px -826px;
+}
+.fa2-bsi {
+    background-position: -381px -787px;
+}
+.fa2-bsi:hover, .fa2-bsi.active, .active .fa2-bsi, .nav-link:hover .fa2-bsi {
+    background-position: -412px -788px;
+}
+
+.plan p {
+    font-size: 12px;
+    color: #5a6378;
+    line-height: 20px;
+}
+.plan label {
+    font-size: 12px;
+    color: #9fa7b7;
+}
+.plan label .faa {
+    position: relative;
+    top: -1px;
+}
+.plan .panel-heading {
+    background: #f7f7f7;
+}
+.plan .panel-heading .panel-title {
+    color: #5a6378;
+    font-size: 14px;
+}
+.panel-xxx.active {
+    border-color: #f6a540;
 }

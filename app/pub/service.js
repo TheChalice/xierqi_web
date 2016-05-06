@@ -3,7 +3,7 @@
 define(['angular'], function (angular) {
     return angular.module('myApp.service', ['angular-clipboard'])
         .service('Confirm', ['$uibModal', function ($uibModal) {
-            this.open = function (title, txt, tip, tp) {
+            this.open = function (title, txt, tip, tp, iscf) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/confirm.html',
                     size: 'default',
@@ -12,6 +12,7 @@ define(['angular'], function (angular) {
                         $scope.txt = txt;
                         $scope.tip = tip;
                         $scope.tp = tp;
+                        $scope.iscf = iscf;
                         $scope.ok = function () {
                             $uibModalInstance.close(true);
                         };
@@ -193,6 +194,65 @@ define(['angular'], function (angular) {
                 this.set(key, "", -1);
             };
         }])
+        .service('ServiceSelect', ['$uibModal', function($uibModal){
+            this.open = function (c) {
+                return $uibModal.open({
+                    templateUrl: 'views/backing_service/service_select.html',
+                    size: 'default modal-foo',
+                    controller: ['$log','$rootScope', '$scope', '$uibModalInstance', 'data', function($log,$rootScope, $scope, $uibModalInstance, data) {
+                        var curdata = angular.copy(data);
+                        for(var j = 0;j<data.items.length;j++){
+                            for(var i = 0 ; i < c.length;i++){
+                                if(data.items[j].metadata.name == c[i].bind_deploymentconfig){
+                                    curdata.items.splice(j,1);
+                                }
+                            }
+                        }
+                        $log.info('curdatacurdata',curdata);
+                        $scope.data = curdata;
+                        $scope.items = curdata.items;
+                        $scope.cancel = function() {
+                            $uibModalInstance.dismiss();
+                        };
+                        $scope.ok = function() {
+                            var items = [];
+                            for (var i = 0; i < $scope.data.items.length; i++) {
+                                if ($scope.data.items[i].checked) {
+                                    items.push($scope.data.items[i]);
+                                }
+                            }
+                            $uibModalInstance.close(items);
+                        };
+
+                        $scope.$watch('txt', function(newVal, oldVal){
+                            if (newVal != oldVal) {
+                                $scope.search(newVal);
+                            }
+                        });
+
+                        $scope.search = function (txt) {
+                            if(!txt){
+                                $scope.items = $scope.data.items;
+                            }else{
+                                $scope.items = [];
+                                txt = txt.replace(/\//g, '\\/');
+                                var reg = eval('/' + txt + '/');
+                                angular.forEach($scope.data.items, function(item) {
+                                    if (reg.test(item.metadata.name)) {
+                                        $scope.items.push(item);
+                                    }
+                                })
+                            }
+                        };
+                    }],
+                    resolve: {
+                        data: ['$rootScope', 'DeploymentConfig', function ($rootScope, DeploymentConfig) {
+                            return DeploymentConfig.get({namespace: $rootScope.namespace}).$promise;
+                        }]
+                    }
+                }).result;
+            }
+        }])
         .factory('AuthInterceptor', ['$rootScope', '$q', 'AUTH_EVENTS', 'Cookie', function ($rootScope, $q, AUTH_EVENTS, Cookie) {
             var CODE_MAPPING = {
                 401: AUTH_EVENTS.loginNeeded,
@@ -208,6 +268,10 @@ define(['angular'], function (angular) {
                     var token = Cookie.get('df_access_token');
                     if (config.headers && token) {
                         config.headers["Authorization"] = "Bearer " + token;
+                    }
+
+                    if (/hawkular/.test(config.url)) {
+                        config.headers["Hawkular-Tenant"] = $rootScope.namespace;
                     }
 
                     $rootScope.loading = true;

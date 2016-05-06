@@ -58,7 +58,9 @@ angular.module('console.image', [
                     return;
                 }
                 ImageStreamTag.get({namespace: $rootScope.namespace, name: item.spec.output.to.name}, function (data) {
+                    console.log("-------", data);
                     item.metadata.creationTimestamp = data.metadata.creationTimestamp;
+                    item.ist = data;
                     $scope.data.items.push(item);
                     $scope.grid.total++;
                     refresh(1);
