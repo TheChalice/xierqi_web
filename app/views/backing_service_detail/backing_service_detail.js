@@ -6,7 +6,7 @@ angular.module('console.backing_service_detail', [
             ]
         }
     ])
-    .controller('BackingServiceInstanceCtrl',['$log','$scope','$rootScope','$stateParams','BackingService', 'BackingServiceInstance','ServiceSelect','Confirm','BackingServiceInstanceBd', '$state', 'Toast', function($log,$scope,$rootScope,$stateParams,BackingService,BackingServiceInstance,ServiceSelect,Confirm,BackingServiceInstanceBd, $state, Toast){
+    .controller('BackingServiceInstanceCtrl',['$log','$scope','$rootScope','$stateParams','BackingService', 'BackingServiceInstance','ServiceSelect','Confirm','BackingServiceInstanceBd', '$state', 'Toast', 'Ws', function($log,$scope,$rootScope,$stateParams,BackingService,BackingServiceInstance,ServiceSelect,Confirm,BackingServiceInstanceBd, $state, Toast, Ws){
         $scope.grid = {};
 
         var cuename = $stateParams.name;
@@ -33,7 +33,7 @@ angular.module('console.backing_service_detail', [
         });
 
         $scope.update = function(idx){
-            var item = $scope.bsi[idx];
+            var item = $scope.bsi.items[idx];
             $scope.grid.update = true;
             $scope.grid.active = 1;
 
@@ -41,7 +41,7 @@ angular.module('console.backing_service_detail', [
         };
 
         $scope.jump = function(idx){
-            var item = $scope.bsi[idx];
+            var item = $scope.bsi.items[idx];
             $scope.grid.active = 1;
 
             var plans = $scope.data.spec.plans;
@@ -54,34 +54,43 @@ angular.module('console.backing_service_detail', [
 
             //$state.go('console.backing_service_detail', {name: item.spec.provisioning.backingservice_name, plan: item.spec.provisioning.backingservice_plan_name});
         };
-
         loadBs();
+
+        var filterBsi = function(bsi){
+            var items = [];
+            for(var i = 0 ; i < bsi.items.length; i++){
+                if(bsi.items[i].spec.provisioning.backingservice_name == $stateParams.name){
+                    items.push(bsi.items[i]);
+                }
+            }
+            bsi.items = items;
+            return bsi;
+        };
+
         var loadBsi = function () {
             BackingServiceInstance.get({namespace: $rootScope.namespace}, function(res){
                 $log.info("backingServiceInstance", res);
-                $scope.bsi = [];
-                for(var i = 0 ; i < res.items.length;i++){
-                    if(res.items[i].spec.provisioning.backingservice_name == cuename){
-                        $scope.bsi.push(res.items[i]);
-                    }
-                }
-                $log.info("$scope.bsi====", $scope.bsi);
+                $scope.bsi = filterBsi(res);
+
+                watchBsi(res.metadata.resourceVersion);
+
             }, function(res){
                 //todo 错误处理
                 $log.info("loadBsi err", res);
             });
         };
         loadBsi();
+
         $scope.delBsi = function(idx){
-            $log.info('del$scope.bsi.items[idx]',$scope.bsi[idx]);
-            if($scope.bsi[idx].spec.binding){
-                var curlength = $scope.bsi[idx].spec.binding.length;
+            $log.info('del$scope.bsi.items[idx]',$scope.bsi.items[idx]);
+            if($scope.bsi.items[idx].spec.binding){
+                var curlength = $scope.bsi.items[idx].spec.binding.length;
                 if(curlength > 0){
                     Confirm.open('删除后端服务实例','该实例已绑定服务,不能删除','','',true)
                 }else{
                     Confirm.open('删除后端服务实例','您确定要删除该实例吗?此操作不可恢复','','',false).then(function(){
-                        BackingServiceInstance.del({namespace : $rootScope.namespace,name : $scope.bsi[idx].metadata.name},function(res){
-                            $scope.bsi.splice(idx,1);
+                        BackingServiceInstance.del({namespace : $rootScope.namespace,name : $scope.bsi.items[idx].metadata.name},function(res){
+                            $scope.bsi.items.splice(idx,1);
                         },function(res){
                             $log.info('err',res);
                         })
@@ -90,8 +99,8 @@ angular.module('console.backing_service_detail', [
                 }
             }else{
                 Confirm.open('删除后端服务实例','您确定要删除该实例吗?此操作不可恢复','','',false).then(function(){
-                    BackingServiceInstance.del({namespace : $rootScope.namespace,name : $scope.bsi[idx].metadata.name},function(res){
-                        $scope.bsi.splice(idx,1);
+                    BackingServiceInstance.del({namespace : $rootScope.namespace,name : $scope.bsi.items[idx].metadata.name},function(res){
+                        $scope.bsi.items.splice(idx,1);
                     },function(res){
                         $log.info('err',res);
                     })
@@ -99,11 +108,55 @@ angular.module('console.backing_service_detail', [
             }
 
 
-        }
+        };
+
+        var watchBsi = function(resourceVersion){
+            Ws.watch({
+                resourceVersion: resourceVersion,
+                namespace: $rootScope.namespace,
+                type: 'backingserviceinstances',
+                name: ''
+            }, function(res){
+                var data = JSON.parse(res.data);
+                $scope.resourceVersion = data.object.metadata.resourceVersion;
+                updateBsi(data);
+            }, function(){
+                $log.info("webSocket start");
+            }, function(){
+                $log.info("webSocket stop");
+                var key = Ws.key($rootScope.namespace, 'backingserviceinstances', '');
+                if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
+                    return;
+                }
+                watchBsi($scope.resourceVersion);
+            });
+        };
+
+        var updateBsi = function(data){
+            $log.info("watch bsi", data);
+
+            if (data.type == 'ADDED') {
+                data.object.showLog = true;
+                if ($scope.bsi.items.length > 0) {
+                    $scope.bsi.items.unshift(data.object);
+                } else {
+                    $scope.bsi.items = [data.object];
+                }
+            } else if (data.type == "MODIFIED") {
+                angular.forEach($scope.bsi.items, function(item, i){
+                    if (item.metadata.name == data.object.metadata.name) {
+                        data.object.show = item.show;
+                        $scope.bsi.items[i] = data.object;
+                        $scope.$apply();
+                    }
+                });
+            }
+        };
+
         $scope.delBing = function(idx){
-            var name = $scope.bsi[idx].metadata.name;
+            var name = $scope.bsi.items[idx].metadata.name;
             var bindings = [];
-            var binds = $scope.bsi[idx].spec.binding || [];
+            var binds = $scope.bsi.items[idx].spec.binding || [];
             for (var i = 0; i < binds.length; i++) {
                 if (binds[i].checked) {
                     bindings.push(binds[i]);
@@ -124,13 +177,7 @@ angular.module('console.backing_service_detail', [
                     bindKind : 'DeploymentConfig'
                 };
                 BackingServiceInstanceBd.put({namespace: $rootScope.namespace, name: name}, bindObj, function(res){
-                    var foos = $scope.bsi[idx].spec.binding;
-                    for (var j = 0; j < foos.length; j++) {
-                        if (foos[j].bind_deploymentconfig == binding.bind_deploymentconfig) {
-                            foos.splice(j, 1);
-                        }
-                    }
-                    $scope.bsi[idx].spec.bound -= 1;
+
                 }, function(res){
                     //todo 错误处理
                     Toast.open('操作失败');
@@ -151,14 +198,6 @@ angular.module('console.backing_service_detail', [
             for(var i = 0; i < dcs.length; i++){
                 bindObj.resourceName = dcs[i].metadata.name;
                 BackingServiceInstanceBd.create({namespace: $rootScope.namespace, name: name}, bindObj, function(res){
-                    $log.info("bindService success", res);
-                    var foos = $scope.bsi;
-                    for (var j = 0; j < foos.length; j++) {
-                        if (foos[j].metadata.name == name) {
-                            res.show = foos[j].show;
-                            foos[j] = res;
-                        }
-                    }
 
                 }, function(res){
                     //todo 错误处理
@@ -166,14 +205,13 @@ angular.module('console.backing_service_detail', [
                     $log.info("bind services err", res);
                 });
             }
-            loadBsi();
         };
         $scope.bindModal = function(idx){
-            var bindings = $scope.bsi[idx].spec.binding || [];
+            var bindings = $scope.bsi.items[idx].spec.binding || [];
             ServiceSelect.open(bindings).then(function(res){
                 $log.info("selected service", res);
                 if (res.length > 0) {
-                    bindService($scope.bsi[idx].metadata.name, res);
+                    bindService($scope.bsi.items[idx].metadata.name, res);
                 }
             });
         };

@@ -42,7 +42,7 @@ angular.module('console.dashboard', [
                 pointStart: (new Date()).getTime() - 30 * 60 * 1000 + 8 * 3600 * 1000,
                 pointInterval: 3600 * 1000 //时间间隔
             },
-                {
+            {
                 color: '#c9c9c9',
                 fillOpacity: 0.3,
                 marker: {

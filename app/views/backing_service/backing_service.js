@@ -7,7 +7,7 @@ angular.module('console.backing_service',[
         ]
     }
 ])
-.controller('BackingServiceCtrl',['$log','$rootScope','$scope','BackingService','BackingServiceInstance','ServiceSelect','BackingServiceInstanceBd','Confirm', 'Toast',function ($log,$rootScope,$scope,BackingService,BackingServiceInstance,ServiceSelect,BackingServiceInstanceBd,Confirm, Toast){
+.controller('BackingServiceCtrl',['$log','$rootScope','$scope','BackingService','BackingServiceInstance','ServiceSelect','BackingServiceInstanceBd','Confirm', 'Toast', 'Ws',function ($log,$rootScope,$scope,BackingService,BackingServiceInstance,ServiceSelect,BackingServiceInstanceBd,Confirm, Toast, Ws){
     $scope.status = {};
     $scope.grid = {
         serviceCat: 'all',
@@ -61,12 +61,57 @@ angular.module('console.backing_service',[
             $log.info("backingServiceInstance", res);
             $scope.bsi = res;
 
+            watchBsi(res.metadata.resourceVersion);
+
         }, function(res){
             //todo 错误处理
             $log.info("loadBsi err", res);
         });
     };
     loadBsi();
+
+    var watchBsi = function(resourceVersion){
+        Ws.watch({
+            resourceVersion: resourceVersion,
+            namespace: $rootScope.namespace,
+            type: 'backingserviceinstances',
+            name: ''
+        }, function(res){
+            var data = JSON.parse(res.data);
+            $scope.resourceVersion = data.object.metadata.resourceVersion;
+            updateBsi(data);
+        }, function(){
+            $log.info("webSocket start");
+        }, function(){
+            $log.info("webSocket stop");
+            var key = Ws.key($rootScope.namespace, 'backingserviceinstances', '');
+            if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
+                return;
+            }
+            watchBsi($scope.resourceVersion);
+        });
+    };
+
+    var updateBsi = function(data){
+        $log.info("watch bsi", data);
+
+        if (data.type == 'ADDED') {
+            data.object.showLog = true;
+            if ($scope.bsi.items.length > 0) {
+                $scope.bsi.items.unshift(data.object);
+            } else {
+                $scope.bsi.items = [data.object];
+            }
+        } else if (data.type == "MODIFIED") {
+            angular.forEach($scope.bsi.items, function(item, i){
+                if (item.metadata.name == data.object.metadata.name) {
+                    data.object.show = item.show;
+                    $scope.bsi.items[i] = data.object;
+                    $scope.$apply();
+                }
+            });
+        }
+    };
 
     $scope.search = function () {
         console.log("----", $scope.txt);
@@ -125,13 +170,7 @@ angular.module('console.backing_service',[
                 bindKind : 'DeploymentConfig'
             };
             BackingServiceInstanceBd.put({namespace: $rootScope.namespace, name: name}, bindObj, function(res){
-                var foos = $scope.bsi.items[idx].spec.binding;
-                for (var j = 0; j < foos.length; j++) {
-                    if (foos[j].bind_deploymentconfig == binding.bind_deploymentconfig) {
-                        foos.splice(j, 1);
-                    }
-                }
-                $scope.bsi.items[idx].spec.bound -= 1;
+
             }, function(res){
                 //todo 错误处理
                 Toast.open('操作失败');
@@ -152,14 +191,6 @@ angular.module('console.backing_service',[
         for(var i = 0; i < dcs.length; i++){
             bindObj.resourceName = dcs[i].metadata.name;
             BackingServiceInstanceBd.create({namespace: $rootScope.namespace, name: name}, bindObj, function(res){
-                $log.info("bindService success", res);
-                var foos = $scope.bsi.items;
-                for (var j = 0; j < foos.length; j++) {
-                    if (foos[j].metadata.name == name) {
-                        res.show = foos[j].show;
-                        foos[j] = res;
-                    }
-                }
 
             }, function(res){
                 //todo 错误处理
@@ -167,7 +198,6 @@ angular.module('console.backing_service',[
                 $log.info("bind services err", res);
             });
         }
-        loadBsi();
     };
     $scope.bindModal = function(idx){
         var bindings = $scope.bsi.items[idx].spec.binding || [];
