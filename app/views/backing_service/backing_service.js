@@ -139,27 +139,43 @@ angular.module('console.backing_service',[
             });
         });
     };
-    var bindService = function(idx,objarr){
-        for(var i = 0; i<objarr.length;i++){
-            var bindObj = {
-                metadata: {
-                    name: $scope.bsi.items[idx].metadata.name
-                },
-                resourceName : objarr[i].metadata.name,
-                bindResourceVersion : '',
-                bindKind : 'DeploymentConfig'
-            };
-            BackingServiceInstanceBd.create({namespace: $rootScope.namespace,name : $scope.bsi.items[idx].metadata.name},bindObj,function(res){
-                $log.info("bindService", res);
-            })
+
+    var bindService = function(name, dcs){
+        var bindObj = {
+            metadata: {
+                name: name
+            },
+            resourceName : '',
+            bindResourceVersion : '',
+            bindKind : 'DeploymentConfig'
+        };
+        for(var i = 0; i < dcs.length; i++){
+            bindObj.resourceName = dcs[i].metadata.name;
+            BackingServiceInstanceBd.create({namespace: $rootScope.namespace, name: name}, bindObj, function(res){
+                $log.info("bindService success", res);
+                var foos = $scope.bsi.items;
+                for (var j = 0; j < foos.length; j++) {
+                    if (foos[j].metadata.name == name) {
+                        res.show = foos[j].show;
+                        foos[j] = res;
+                    }
+                }
+
+            }, function(res){
+                //todo 错误处理
+                Toast.open('操作失败');
+                $log.info("bind services err", res);
+            });
         }
         loadBsi();
     };
     $scope.bindModal = function(idx){
-        var curbsi = $scope.bsi.items[idx].spec.binding || [];
-        ServiceSelect.open(curbsi).then(function(res){
-            bindService(idx,res)
-            $log.info("bind modal", res);
+        var bindings = $scope.bsi.items[idx].spec.binding || [];
+        ServiceSelect.open(bindings).then(function(res){
+            $log.info("selected service", res);
+            if (res.length > 0) {
+                bindService($scope.bsi.items[idx].metadata.name, res);
+            }
         });
     };
 }]);
