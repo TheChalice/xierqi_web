@@ -178,6 +178,7 @@ define([
         }])
         .factory('Metrics', ['$resource', function($resource){
             var Metrics = {};
+            //https://hawkular-metrics.app.dataos.io
             Metrics.mem = $resource('/hawkular/metrics/gauges/:gauges/data', {gauges: '@gauges', buckets: '@buckets', start: '@start'});
             Metrics.cpu = $resource('/hawkular/metrics/counters/:counters/data', {counters: '@counters', buckets: '@buckets', start: '@start'});
             return Metrics;

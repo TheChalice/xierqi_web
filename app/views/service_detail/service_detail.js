@@ -1092,7 +1092,7 @@ angular.module('console.service.detail', [
                         var st = (new Date()).getTime() - 30 * 60 * 1000;
                         var gauges = container.name + '/' + pod.metadata.uid + '/memory/usage';
                         var counters = container.name + '/' + pod.metadata.uid + '/cpu/usage';
-                        Metrics.mem.get({gauges: gauges, buckets: 61, start: st}, function(res){
+                        Metrics.mem.query({gauges: gauges, buckets: 61, start: st}, function(res){
                             $log.info("metrics mem", res);
                             $scope.chartConfigMem = setChart('内存', res);
                             $scope.grid.mem = true;
@@ -1101,7 +1101,7 @@ angular.module('console.service.detail', [
                             $scope.chartConfigMem = setChart('内存', []);
                             $scope.grid.mem = false;
                         });
-                        Metrics.cpu.get({counters: counters, buckets: 61, start: st}, function(res){
+                        Metrics.cpu.query({counters: counters, buckets: 61, start: st}, function(res){
                             $log.info("metrics cpu", res);
                             $scope.chartConfigCpu = setChart('CPU', res);
                             $scope.grid.cpu = true;
