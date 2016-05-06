@@ -66,6 +66,14 @@ angular.module('console.dashboard', [
                 width: 798,
                 height: 130
             },
+
+            func: function (chart) {
+                //setup some logic for the chart
+            }
+        };
+        //pie chart
+        $scope.chartConfigFirst = {
+
             func: function (chart) {
                 //setup some logic for the chart
             }
