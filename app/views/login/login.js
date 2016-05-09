@@ -31,28 +31,9 @@ angular.module('login', [
                             return;
                         }
                     }
-                    buildProject(name);
+                    $log.info("can't find project");
                 }, function(res){
                     $log.info("find project err", res);
-                    buildProject(name);
-                });
-            };
-
-            var buildProject = function(name){
-                $log.info("build project");
-                var project = {
-                    kind: 'ProjectRequest',
-                    apiVersion: 'v1',
-                    metadata: {
-                        name: name
-                    }
-                };
-                Project.request.create({}, project, function(data){
-                    $log.info("create project success", data.metadata.name);
-                    $rootScope.namespace = data.metadata.name;
-                    $state.go('console.build');
-                }, function(res){
-                    $log.info("build project err", res);
                 });
             };
 
