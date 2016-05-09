@@ -63,20 +63,62 @@ angular.module('console.dashboard', [
                 }
             },
             size: {
-                width: 798,
-                height: 130
+                height: 230
             },
 
             func: function (chart) {
                 //setup some logic for the chart
             }
         };
-        //pie chart
-        $scope.chartConfigFirst = {
 
-            func: function (chart) {
-                //setup some logic for the chart
-            }
+        var setPieChart = function(tp, dec, percent) {
+            var subTitle = '<b style="font-size:16px;color:#f6a540;">' + tp + '</b><br>' +
+                '<span style="color:#9fa7b7;">' + dec + '</span><br>' +
+                '<b style="color:#5a6378;">已用' + percent + '%</b>';
+            return {
+                options: {
+                    title: {
+                        text: ''
+                    },
+                    tooltip: {
+                        enabled: false
+                    },
+                    subtitle: {
+                        text: subTitle,
+                        style: {
+                            lineHeight: '20px'
+                        },
+                        align: 'center',
+                        verticalAlign: 'middle',
+                        x: 0,
+                        y: -10
+
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    colors: ['#f6a540', '#c6c6c6'],
+                    data: [
+                        ['已用',   percent],
+                        ['未使用', 100 - percent]
+                    ],
+                    dataLabels: {
+                        enabled: false
+                    },
+                    innerSize: '88%'
+                }],
+                size: {
+                    height: 200
+                },
+
+                func: function (chart) {
+                    //setup some logic for the chart
+                }
+            };
         };
+
+        $scope.pieConfigCpu = setPieChart('CPU', '25.75HZ', 75.5);
+        $scope.pieConfigMem = setPieChart('内存', '80G', 45.8);
+
     }]);
 
