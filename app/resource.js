@@ -62,9 +62,6 @@ define([
             var Project = $resource(GLOBAL.host + '/projects/:name', {name: '@name'}, {
                 create: { method: 'POST'}
             });
-            Project.request = $resource(GLOBAL.host + '/projectrequests', {}, {
-                create: {method: 'POST'}
-            });
             return Project;
         }])
         .factory('Build', ['$resource', '$rootScope', '$ws', '$log', 'Cookie', 'GLOBAL', function($resource, $rootScope, $ws, $log, Cookie, GLOBAL){
