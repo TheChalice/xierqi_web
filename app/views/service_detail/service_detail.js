@@ -884,7 +884,7 @@ angular.module('console.service.detail', [
             return $uibModal.open({
                 templateUrl: 'views/service_detail/containerModal.html',
                 size: 'default modal-lg',
-                controller: ['$rootScope', '$scope', '$log', '$uibModalInstance', 'ImageStream', 'Pod', 'Ws', 'Metrics', function ($rootScope, $scope, $log, $uibModalInstance, ImageStream, Pod, Ws, Metrics) {
+                controller: ['$rootScope', '$scope', '$log', '$uibModalInstance', 'ImageStream', 'Pod', 'Ws', 'Metrics', 'MetricsService', function ($rootScope, $scope, $log, $uibModalInstance, ImageStream, Pod, Ws, Metrics, MetricsService) {
                     $scope.pod = pod;
                     $scope.grid = {
                         show: false,
@@ -1045,55 +1045,12 @@ angular.module('console.service.detail', [
 
                     var prepareData = function(tp, data){
                         var res = [];
-                        normalize(data, tp);
+                        MetricsService.normalize(data, tp);
                         for (var i = 0; i < data.length - 1; i++) {
                             res.push(data[i].value);
                         }
                         return res;
                     };
-
-                    var midTime = function (point) {
-                        return point.start + (point.end - point.start) / 2;
-                    };
-
-                    var millicoresUsed = function (point, lastValue) {
-                        if (!lastValue || !point.value) {
-                            return null;
-                        }
-
-                        if (lastValue > point.value) {
-                            return null;
-                        }
-
-                        var timeInMillis = point.end - point.start;
-                        var usageInMillis = (point.value - lastValue) / 1000000;
-                        return (usageInMillis / timeInMillis) * 1000;
-                    };
-
-                    function normalize(data, metric) {
-                        var lastValue;
-                        angular.forEach(data, function(point) {
-                            var value;
-
-                            if (!point.timestamp) {
-                                point.timestamp = midTime(point);
-                            }
-
-                            if (!point.value || point.value === "NaN") {
-                                var avg = point.avg;
-                                point.value = (avg && avg !== "NaN") ? avg : null;
-                            }
-
-                            if (metric === 'CPU') {
-                                value = point.value;
-                                point.value = millicoresUsed(point, lastValue);
-                                lastValue = value;
-                            }
-                        });
-
-                        data.shift();
-                        return data;
-                    }
 
                     var getMetrics = function(pod, container){
                         var st = (new Date()).getTime() - 30 * 60 * 1000;

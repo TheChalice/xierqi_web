@@ -253,6 +253,50 @@ define(['angular'], function (angular) {
                 }).result;
             }
         }])
+        .service('MetricsService', [function(){
+            var midTime = function (point) {
+                return point.start + (point.end - point.start) / 2;
+            };
+
+            var millicoresUsed = function (point, lastValue) {
+                if (!lastValue || !point.value) {
+                    return null;
+                }
+
+                if (lastValue > point.value) {
+                    return null;
+                }
+
+                var timeInMillis = point.end - point.start;
+                var usageInMillis = (point.value - lastValue) / 1000000;
+                return (usageInMillis / timeInMillis) * 1000;
+            };
+
+            this.normalize = function (data, metric) {
+                var lastValue;
+                angular.forEach(data, function(point) {
+                    var value;
+
+                    if (!point.timestamp) {
+                        point.timestamp = midTime(point);
+                    }
+
+                    if (!point.value || point.value === "NaN") {
+                        var avg = point.avg;
+                        point.value = (avg && avg !== "NaN") ? avg : null;
+                    }
+
+                    if (metric === 'CPU') {
+                        value = point.value;
+                        point.value = millicoresUsed(point, lastValue);
+                        lastValue = value;
+                    }
+                });
+
+                data.shift();
+                return data;
+            };
+        }])
         .factory('AuthInterceptor', ['$rootScope', '$q', 'AUTH_EVENTS', 'Cookie', function ($rootScope, $q, AUTH_EVENTS, Cookie) {
             var CODE_MAPPING = {
                 401: AUTH_EVENTS.loginNeeded,
