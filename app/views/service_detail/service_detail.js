@@ -301,7 +301,6 @@ angular.module('console.service.detail', [
                 name: ''
             }, function(res){
                 var data = JSON.parse(res.data);
-                $scope.resourceVersion = data.object.metadata.resourceVersion;
                 updateRcs(data);
             }, function(){
                 $log.info("webSocket start");
@@ -316,6 +315,14 @@ angular.module('console.service.detail', [
         };
 
         var updateRcs = function(data){
+            if (data.type == 'ERROR') {
+                $log.info("err", data.object.message);
+                Ws.clear();
+                loadRcs($scope.dc.metadata.name);
+                return;
+            }
+
+            $scope.resourceVersion = data.object.metadata.resourceVersion;
             $scope.dc.status.phase = data.object.metadata.annotations['openshift.io/deployment.phase'];
             $scope.dc.state = serviceState();
 
