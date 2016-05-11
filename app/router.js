@@ -25,12 +25,22 @@ define([
                     url: '/home',
                     templateUrl: 'views/home/home.html',
                     controller: 'HomeCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/home/home.js')
+                        }]
+                    },
                     abstract: true
                 })
                 .state('home.index', {
                     url: '/index',
                     templateUrl: 'views/home/index/index.html',
-                    controller: 'IndexCtrl'
+                    controller: 'IndexCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/home/index/index.js')
+                        }]
+                    }
                 })
                 .state('console', {
                     url: '/console',

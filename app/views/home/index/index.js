@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('console', [])
+angular.module('home.index', [])
     .controller('IndexCtrl', ['$scope', '$log', function ($scope, $log) {
         $log.info('Index');
 
