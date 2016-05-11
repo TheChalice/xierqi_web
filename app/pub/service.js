@@ -297,6 +297,17 @@ define(['angular'], function (angular) {
                 return data;
             };
         }])
+        .service('ImageService', [function(){
+            this.tag = function(container){
+                var foo = container.image.replace(/(.*\/)/, '');
+                foo = foo.split(':');
+                if (foo.length > 1) {
+                    return foo[1];
+                }
+                return '';
+            };
+
+        }])
         .factory('AuthInterceptor', ['$rootScope', '$q', 'AUTH_EVENTS', 'Cookie', function ($rootScope, $q, AUTH_EVENTS, Cookie) {
             var CODE_MAPPING = {
                 401: AUTH_EVENTS.loginNeeded,
