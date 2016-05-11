@@ -1,11 +1,69 @@
 <div id="home" style="margin-top: -70px;">
-    <div class="header">
-        header
+    <style>
+        #header {
+            height: 70px;
+            background: #f8b551;
+            padding-right: 40px;
+        }
+        #header #header-brand {
+            height: 100%;
+            float: left;
+        }
+        #header #header-brand img {
+            padding-bottom: 13px;
+            height: 100%;
+        }
+        #header .menu > li > a {
+            padding: 25px;
+            color: #5a6378;
+        }
+        #header .menu > li > a:hover,
+        #header .menu > li > a:focus {
+            background: none;
+            color: #3c4251;
+        }
+        #header .menu > li.active > a {
+            color: #3c4251;
+        }
+        .footer {
+            background: #5a6378;
+            font-size: 14px;
+            color: #fff;
+            text-align: center;
+            height: 50px;
+            line-height: 50px;
+        }
+        #header .btn-green {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        #header .btn-border {
+            border: 1px solid #5a6378;
+            border-radius: 2px;
+            background: none;
+            color: #5a6378;
+        }
+    </style>
+    <div id="header">
+        <a id="header-brand" href="#">
+            <img src="components/header/img/logo.png" alt="logo">
+        </a>
+        <form class="navbar-form navbar-right" style="margin-top: 23px;">
+            <button type="button" class="btn btn-green btn-border btn-xs" style="margin-right:5px;">登录</button>
+            <button type="button" class="btn btn-green btn-xs">注册</button>
+        </form>
+        <ul class="nav navbar-nav menu navbar-right">
+            <li class="active"><a ui-sref="home.index">首页</a></li>
+            <li><a href="javascript:;">应用市场</a></li>
+            <li><a href="javascript:;">产品介绍</a></li>
+            <li><a href="javascript:;">解决方案</a></li>
+            <li><a href="javascript:;">帮助</a></li>
+        </ul>
     </div>
 
     <div ui-view></div>
 
     <div class="footer">
-        footer
+        © 2016版权所有 北京亚信智慧数据科技有限公司 京ICP备11005544号 京公网安备110108007119号
     </div>
 </div>
