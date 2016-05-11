@@ -6,7 +6,6 @@ define([
     'angularBase64',
     'ocLazyLoad',
     'uiBootstrap',
-    'angularAnimate',
     'router',
     'resource',
     'pub/controller',
@@ -25,7 +24,6 @@ define([
     var myApp = angular.module('myApp', [
         'oc.lazyLoad',
         'ui.bootstrap',
-        'ngAnimate',
         'myApp.router',     //路由模块
         'myApp.resource',   //资源模块
         'myApp.controller',
@@ -58,20 +56,6 @@ define([
         oauth_client_id: "openshift-web-console",
         logout_uri: ""
     })
-    //.config(['$httpProvider', 'AuthServiceProvider', 'RedirectLoginServiceProvider', 'AUTH_CFG', function($httpProvider, AuthServiceProvider, RedirectLoginServiceProvider, AUTH_CFG) {
-    //    //todo oauth_redirect_base强制为location.origin
-    //    var oauth_redirect_base = location.origin;
-    //
-    //    $httpProvider.interceptors.push('AuthInterceptor');
-    //
-    //    AuthServiceProvider.LoginService('RedirectLoginService');
-    //    AuthServiceProvider.LogoutService('DeleteTokenLogoutService');
-    //    AuthServiceProvider.UserStore('LocalStorageUserStore');
-    //
-    //    RedirectLoginServiceProvider.OAuthClientID(AUTH_CFG.oauth_client_id);
-    //    RedirectLoginServiceProvider.OAuthAuthorizeURI(AUTH_CFG.oauth_authorize_uri);
-    //    RedirectLoginServiceProvider.OAuthRedirectURI(URI(oauth_redirect_base).segment("app/oauth.html").toString());
-    //}])
 
     .config(['$httpProvider', 'GLOBAL', function ($httpProvider) {
 
