@@ -350,7 +350,7 @@ define(['angular'], function (angular) {
             };
 
         }])
-        .service('AuthService', ['$rootScope', '$http', '$base64', 'Cookie', '$state', '$log', 'Project', 'GLOBAL', 'Alert', function($rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert){
+        .service('AuthService', ['$rootScope', '$http', '$base64', 'Cookie', '$state', '$log', 'Project', 'GLOBAL', 'Alert', 'User', function($rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User){
             this.login = function(credentials) {
                 console.log("login");
                 var req = {
@@ -368,7 +368,6 @@ define(['angular'], function (angular) {
                         for(var i = 0; i < data.items.length; i++) {
                             if(data.items[i].metadata.name == name){
                                 $rootScope.namespace = name;
-                                $state.go('console.dashboard');
                                 return;
                             }
                         }
@@ -383,6 +382,10 @@ define(['angular'], function (angular) {
                     Cookie.set('df_access_token', data.access_token, 10 * 365 * 24 * 3600 * 1000);
 
                     loadProject(credentials.username);
+
+                    User.get({name: '~'}, function(res){
+                        $rootScope.user = res;
+                    });
 
                 }).error(function(data){
                     Alert.open('错误', '用户名或密码不正确');

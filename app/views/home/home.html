@@ -48,9 +48,12 @@
         <a id="header-brand" href="#">
             <img src="components/header/img/logo.png" alt="logo">
         </a>
-        <form class="navbar-form navbar-right" style="margin-top: 23px;">
+        <form ng-if="!user" class="navbar-form navbar-right" style="margin-top: 23px;">
             <button ng-click="login()" type="button" class="btn btn-green btn-border btn-xs" style="margin-right:5px;">登录</button>
             <button ng-click="regist()" type="button" class="btn btn-green btn-xs">注册</button>
+        </form>
+        <form ng-if="user" class="navbar-form navbar-right" style="margin-top: 23px;">
+            <a ui-sref="console.dashboard" class="btn btn-green btn-xs">控制台</a>
         </form>
         <ul class="nav navbar-nav menu navbar-right">
             <li class="active"><a ui-sref="home.index">首页</a></li>
