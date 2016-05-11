@@ -1,7 +1,7 @@
 'use strict';
 
 define(['angular'], function (angular) {
-    return angular.module('myApp.service', ['angular-clipboard'])
+    return angular.module('myApp.service', ['angular-clipboard', 'base64'])
         .service('Confirm', ['$uibModal', function ($uibModal) {
             this.open = function (title, txt, tip, tp, iscf) {
                 return $uibModal.open({
@@ -151,6 +151,48 @@ define(['angular'], function (angular) {
                             return ImageStream.get({namespace: $rootScope.namespace}).$promise;
                         }]
                     }
+                }).result;
+            }
+        }])
+        .service('ModalLogin', ['$uibModal', function($uibModal){
+            this.open = function () {
+                return $uibModal.open({
+                    templateUrl: 'views/login/login.html',
+                    size: 'default',
+                    controller: ['$scope', 'AuthService', '$uibModalInstance', 'ModalRegist', function($scope, AuthService, $uibModalInstance, ModalRegist){
+                        $scope.credentials = {};
+                        $scope.login = function(){
+                            AuthService.login($scope.credentials);
+                            $uibModalInstance.close();
+                        };
+
+                        $scope.regist = function(){
+                            $uibModalInstance.close();
+                            ModalRegist.open();
+                        };
+
+                        $scope.cancel = function() {
+                            $uibModalInstance.dismiss();
+                        };
+                    }]
+                }).result;
+            }
+        }])
+        .service('ModalRegist', ['$uibModal', function($uibModal){
+            this.open = function () {
+                return $uibModal.open({
+                    templateUrl: 'views/login/regist.html',
+                    size: 'default',
+                    controller: ['$scope', 'AuthService', '$uibModalInstance', function($scope, AuthService, $uibModalInstance){
+                        $scope.credentials = {};
+                        $scope.regist = function(){
+                            //注册相关代码...
+                            $uibModalInstance.close();
+                        };
+                        $scope.cancel = function() {
+                            $uibModalInstance.dismiss();
+                        };
+                    }]
                 }).result;
             }
         }])
@@ -308,6 +350,45 @@ define(['angular'], function (angular) {
             };
 
         }])
+        .service('AuthService', ['$rootScope', '$http', '$base64', 'Cookie', '$state', '$log', 'Project', 'GLOBAL', 'Alert', function($rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert){
+            this.login = function(credentials) {
+                console.log("login");
+                var req = {
+                    method: 'GET',
+                    url: GLOBAL.login_uri,
+                    headers: {
+                        'Authorization': 'Basic ' + $base64.encode(credentials.username + ':' + credentials.password)
+                    }
+                };
+
+                var loadProject = function(name){
+                    $log.info("load project");
+                    Project.get(function(data){
+                        $log.info("load project success", data);
+                        for(var i = 0; i < data.items.length; i++) {
+                            if(data.items[i].metadata.name == name){
+                                $rootScope.namespace = name;
+                                $state.go('console.dashboard');
+                                return;
+                            }
+                        }
+                        $log.info("can't find project");
+                    }, function(res){
+                        $log.info("find project err", res);
+                    });
+                };
+
+                $http(req).success(function(data){
+                    console.log(data);
+                    Cookie.set('df_access_token', data.access_token, 10 * 365 * 24 * 3600 * 1000);
+
+                    loadProject(credentials.username);
+
+                }).error(function(data){
+                    Alert.open('错误', '用户名或密码不正确');
+                });
+            };
+        }])
         .factory('AuthInterceptor', ['$rootScope', '$q', 'AUTH_EVENTS', 'Cookie', function ($rootScope, $q, AUTH_EVENTS, Cookie) {
             var CODE_MAPPING = {
                 401: AUTH_EVENTS.loginNeeded,
@@ -421,7 +502,7 @@ define(['angular'], function (angular) {
                 }
             };
         }])
-        .provider('AuthService', [function() {
+        .provider('AuthService2', [function() {
             var _userStore = "";
             this.UserStore = function(userStoreName) {
                 if (userStoreName) {

@@ -614,7 +614,7 @@ a {
 .require:after {
     content: '*';
     margin: 0 5px 0 3px;
-    color: red;
+    color: #ec6941;
     vertical-align: sub;
 }
 
