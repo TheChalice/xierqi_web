@@ -122,9 +122,6 @@ angular.module('console.dashboard', [
             };
         };
 
-        $scope.pieConfigCpu = setPieChart('CPU', '25.75HZ', 75.5);
-        $scope.pieConfigMem = setPieChart('内存', '80G', 45.8);
-
         var prepareData = function(tp, data){
             var res = [];
             MetricsService.normalize(data, tp);
@@ -141,7 +138,10 @@ angular.module('console.dashboard', [
             Metrics.mem.all.query({tags: 'descriptor_name:memory/usage,pod_namespace:' + $rootScope.namespace, buckets: 61}, function(res){
                 $log.info('metrics mem all', res);
                 $scope.memData = prepareData('内存', res);
+
                 $scope.chartConfig = setChart();
+                $scope.pieConfigCpu = setPieChart('CPU', '25.75HZ', 75.5);
+                $scope.pieConfigMem = setPieChart('内存', '80G', 45.8);
             }, function(res){
                 $log.info('metrics mem all err', res);
             });

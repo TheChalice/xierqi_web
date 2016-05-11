@@ -9,7 +9,7 @@ define([
     return angular.module('myApp.router', ['ui.router', 'oc.lazyLoad'])
         .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
-            $urlRouterProvider.otherwise("/console/build");
+            $urlRouterProvider.otherwise("/console/dashboard");
             $stateProvider
                 .state('login', {
                     url: '/login',
