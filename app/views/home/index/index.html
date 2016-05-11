@@ -3,56 +3,82 @@
         <img src="views/home/index/img/banner.png">
     </div>
     <div class="second">
-        <div class="leftinfo col-sm-8">
-            <h2>大数据服务</h2>
-            <p>一站式大数据云服务,提供广泛的大数据服务组件,可在数十秒钟即可获得</p>
-            <p>一个可扩展的弹性分布式大数据服务组件。支持多种数据应用场景,同时满</p>
-            <p>足数据迁移及开放的需求。</p>
+        <div class="info col-sm-7">
+            <h3>大数据服务</h3>
+            <p class="infocont">一站式大数据云服务,提供广泛的大数据服务组件,可在数十秒钟即可获得<br/>
+                一个可扩展的弹性分布式大数据服务组件。支持多种数据应用场景,同时满<br/>
+                足数据迁移及开放的需求。
+            </p>
             <a class="btn btn-green">进入大数据服务列表</a>
         </div>
-        <div class="rightpic col-sm-4">
-            <img src="views/home/index/img/index_07.png">
+        <div class="rightpic col-sm-5">
+            <img class="imgwd" src="views/home/index/img/index_07.png">
         </div>
     </div>
     <div class="third">
-        <div class="leftpic col-sm-6">
-            <img src="views/home/index/img/index_11.png">
+        <div class="leftpic col-sm-5">
+            <img class="imgwd" src="views/home/index/img/index_11.png">
         </div>
-        <div class="rightinfo col-sm-6">
-            <h2>容器云管理</h2>
-            <p>一键完成应用代码到云端的部署,得到一个灵活、高度可扩展、低成本的应</p>
-            <p>用。同时利用容器服务优势,提供从开发、构建、测试、部署、运行的完整</p>
-            <p>应用生命周期服务,并支持负载均衡、弹性伸缩、日志监控、灰度升级等特</p>
-            <p>性。</p>
+        <div class="info col-sm-7">
+            <h3>容器云管理</h3>
+            <p class="infocont">一键完成应用代码到云端的部署,得到一个灵活、高度可扩展、低成本的应<br/>
+                用。同时利用容器服务优势,提供从开发、构建、测试、部署、运行的完整<br/>
+                应用生命周期服务,并支持负载均衡、弹性伸缩、日志监控、灰度升级等特<br/>性。
+            </p>
             <a class="btn btn-green">进入产品介绍</a>
         </div>
     </div>
      <div class="forth">
-         <div class="linfo col-sm-8">
+         <div class="info col-sm-7">
              <h3>合作共赢的应用</h3>
-             <p>打造开放、合作、共赢的云端应用生态,共同拓展全面聚合优秀的应</p>
-             <p>用,为用户提供丰富且一致的应用体验。</p>
+             <p>打造开放、合作、共赢的云端应用生态,共同拓展全面聚合优秀的应<br/>
+                 用,为用户提供丰富且一致的应用体验。
+             </p>
              <a class="btn btn-green">进入应用市场</a>
          </div>
-         <div class="rpic col-sm-4">
-             <img src="views/home/index/img/index_14.png">
+         <div class="rpic col-sm-5">
+             <img class="imgwd" src="views/home/index/img/index_14.png">
          </div>
      </div>
 
     <style>
+        h3{
+            font-size: 22px;
+        }
+        .imgwd{
+            width: 100%;
+        }
+        .infocont{
+            font-size: 14px;
+            line-height: 24px;
+            color: #5a6378;
+        }
+        .index{
+            overflow: hidden;
+        }
+        .info{
+            margin-top:7%;
+        }
         .index .banner {
             float: left;
         }
         .index .second {
             float: left;
-            width: 1280px;
+
         }
-        .index.second.leftinfo h2{
+        .index .second,.index .third,.index .forth{
+            width: 100%;
+            padding:40px 10%;
+        }
+        .index .third .info{
+            padding-left:10%;
+        }
+        .index .second .info h2{
             color: #ff9423;
             font-size: 22px;
             margin-bottom: 20px;
         }
-        .index.second.leftinfo p {
+        .index .second .info p {
             font-size: 14px;
             color: #5a6378;
             margin-bottom: 12px;
@@ -60,11 +86,9 @@
         .index .third {
             float: left;
             background-color: #f8f8f8;
-            width: 1280px;
         }
         .index .forth {
             float: left;
-            width: 1280px;
         }
     </style>
 </div>
