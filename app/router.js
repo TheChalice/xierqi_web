@@ -9,7 +9,7 @@ define([
     return angular.module('myApp.router', ['ui.router', 'oc.lazyLoad'])
         .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
-            $urlRouterProvider.otherwise("/console/dashboard");
+            $urlRouterProvider.otherwise("/home/index");
             $stateProvider
                 .state('login', {
                     url: '/login',
@@ -20,6 +20,17 @@ define([
                             return $ocLazyLoad.load('views/login/login.js')
                         }]
                     }
+                })
+                .state('home', {
+                    url: '/home',
+                    templateUrl: 'views/home/home.html',
+                    controller: 'HomeCtrl',
+                    abstract: true
+                })
+                .state('home.index', {
+                    url: '/index',
+                    templateUrl: 'views/home/index/index.html',
+                    controller: 'IndexCtrl'
                 })
                 .state('console', {
                     url: '/console',
