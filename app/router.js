@@ -11,16 +11,6 @@ define([
 
             $urlRouterProvider.otherwise("/home/index");
             $stateProvider
-                .state('login', {
-                    url: '/login',
-                    templateUrl: 'views/login/login.html',
-                    controller: 'LoginCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/login/login.js')
-                        }]
-                    }
-                })
                 .state('home', {
                     url: '/home',
                     templateUrl: 'views/home/home.html',

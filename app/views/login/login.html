@@ -1,24 +1,38 @@
-<div class="col-sm-4 col-sm-offset-4">
-    <div class="text-center">
-        <h1>Data Foundry</h1>
-    </div>
+<div class="modal-header">
+    <h5 class="modal-title">
+        登录
+        <a ng-click="cancel()" class="close"><span aria-hidden="true">&times;</span></a>
+    </h5>
+</div>
+<div class="modal-body" style="padding: 20px 40px 30px 40px;">
+    <form class="form-horizontal" name="frm">
+        <p class="modal-msg text-left" style="margin: 0 0 5px 0;font-size:14px;color:#5a6378;">
+            <span class="require">用户名</span>&nbsp;&nbsp;
+            <small ng-if="frm.username.$dirty && frm.username.$invalid" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;用户名不能为空</small>
+        </p>
+        <input name="username" class="form-control" placeholder="邮箱/手机号/用户名" ng-model="credentials.username" required>
 
-    <form name="frm" class="form-horizontal" role="form" ng-submit="login()">
-        <div class="form-group" ng-class="{'has-error': frm.username.$dirty && frm.username.$invalid}">
-            <input name="username" class="form-control" placeholder="邮箱/手机号/用户名" ng-model="credentials.username" required>
-        </div>
+        <p class="modal-msg text-left" style="margin: 20px 0 5px 0;font-size:14px;color:#5a6378;">
+            <span class="require">密码</span>&nbsp;&nbsp;
+            <small ng-if="frm.password.$dirty && frm.password.$invalid" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;密码不能为空</small>
+        </p>
+        <input name="password" type="password" class="form-control" placeholder="密码" ng-model="credentials.password" required>
 
-        <div class="form-group" ng-class="{'has-error': frm.password.$dirty && frm.password.$invalid}">
-            <input name="password" type="password" class="form-control" placeholder="密码" ng-model="credentials.password"
-                   required>
-        </div>
-
-        <div class="form-group" ng-class="{'has-error': frm.password.$dirty && frm.password.$invalid}">
-            <button class="btn btn-primary btn-block" type="submit">
-                <i class="fa" ng-class="{'fa-sign-in': !loading, 'fa-spinner fa-spin': loading}"></i> 登录
-            </button>
-        </div>
-
-
+        <button class="btn btn-orange btn-block" ng-click="frm.$valid && login()" style="margin: 30px 0 0 0;">
+            登录
+        </button>
     </form>
 </div>
+<div class="modal-footer" style="padding: 0;">
+    <button ng-click="regist()" class="btn btn-block btn-regist" style="height:50px;margin:0;background:#5a6378;border-radius:0 0 2px 2px;">
+        立即注册
+    </button>
+</div>
+<style>
+    .btn-regist:hover {
+        color: #c9c9c9;
+    }
+    .modal-default {
+        margin-top: -200px;
+    }
+</style>
