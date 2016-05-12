@@ -51,6 +51,8 @@
             </div>
         </div>
 
-        <a class="btn btn-block" ng-class="{'btn-orange':frm.$valid, 'btn-disabled': frm.$invalid}" ng-disabled="frm.$invalid" ng-click="frm.$valid && create()">开始构建</a>
+        <a class="btn btn-block" ng-class="{'btn-orange':frm.$valid, 'btn-disabled': frm.$invalid}" ng-disabled="frm.$invalid || creating" ng-click="frm.$valid && create()">
+            <i class="fa fa-spinner fa-spin" ng-if="creating">&nbsp;</i>开始构建
+        </a>
     </form>
 </div>
