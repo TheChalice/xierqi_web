@@ -61,7 +61,8 @@ angular.module('console.backing_service',[
             $log.info("backingServiceInstance", res);
             $scope.bsi = res;
 
-            watchBsi(res.metadata.resourceVersion);
+            $scope.resourceVersion = res.metadata.resourceVersion;
+            watchBsi($scope.resourceVersion);
 
         }, function(res){
             //todo 错误处理
@@ -94,6 +95,15 @@ angular.module('console.backing_service',[
 
     var updateBsi = function(data){
         $log.info("watch bsi", data);
+
+        if (data.type == 'ERROR') {
+            $log.info("err", data.object.message);
+            Ws.clear();
+            loadBsi();
+            return;
+        }
+
+        $scope.resourceVersion = data.object.metadata.resourceVersion;
 
         if (data.type == 'ADDED') {
             data.object.showLog = true;
