@@ -18,10 +18,9 @@ angular.module('console.backing_service',[
     $scope.select = function(tp, key){
         console.log("tp", tp, 'key', key);
         if (key == $scope.grid[tp]) {
-            $scope.grid[tp] = 'all';
-        } else {
-            $scope.grid[tp] = key;
+            key = 'all';
         }
+        $scope.grid[tp] = key;
 
         filter(tp, key);
     };
