@@ -68,7 +68,10 @@ angular.module('console.build.detail', [
         };
 
         var removeBuilds = function (bcName) {
-            Build.remove({namespace: $rootScope.namespace}, {labelSelector: 'buildconfig=' + bcName}, function(){
+            if (!bcName) {
+                return;
+            }
+            Build.remove({namespace: $rootScope.namespace, labelSelector: 'buildconfig=' + bcName}, function(){
                 $log.info("remove builds of " + bcName + " success");
             }, function(res){
                 $log.info("remove builds of " + bcName + " error");
