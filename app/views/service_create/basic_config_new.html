@@ -39,7 +39,8 @@
 
                         <div class="container-box" style="margin-bottom: 0;">
                             <div style="margin-bottom: 20px;">
-                                <input ng-model="container.name" style="width: 95%;display: inline-block;" type="text" class="form-control" placeholder="请设置容器名称"><span class="require"></span>
+                                <input ng-model="container.name" style="width: 95%;display: inline-block;" type="text" class="form-control" placeholder="请设置容器名称">
+                                <span class="require"></span>
                                 <small ng-show="!container.name && container.emptyName" class="fa fa-info-circle err-tip">&nbsp;请设置容器名,至少2个字符以上</small>
                             </div>
                             <hr>
@@ -57,7 +58,11 @@
                                 </div>
                                 <hr>
 
-                                <h4>挂载secret卷&nbsp;&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="fa fa-plus-circle fa-lg href-add" style="font-size: 14px;">&nbsp;&nbsp;创建</a></h4>
+                                <h4>挂载secret卷&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <a href="javascript:;"
+                                       class="fa fa-plus-circle fa-lg href-add" style="font-size: 14px;">
+                                        &nbsp;&nbsp;创建</a>
+                                </h4>
 
                                 <div class="secret-bar" ng-repeat="vm in container.volumeMounts">
                                     <div class="dropdown dropdown-select" style="width: 200px;margin: 0 15px 15px 0;">
@@ -113,13 +118,21 @@
                                         <div class="col-sm-3"></div>
                                     </div>
                                     <div class="row" ng-repeat="port in container.ports" style="margin-top: 15px;">
-                                        <div class="col-sm-3"><input type="text" readonly class="input-small" ng-model="port.protocol"></div>
                                         <div class="col-sm-3">
-                                            <input type="text" readonly class="input-small" ng-class="{'input-error':port.conflict}" ng-model="port.containerPort">
+                                            <!--<input type="text" readonly class="input-small" ng-model="port.protocol">-->
+                                            <select class="input-small" ng-model='port.protocol'>
+                                                <option value='tcp'>tcp</option>
+                                                <option value='udp'>udp</option>
+                                            </select>
                                         </div>
-                                        <div class="col-sm-3"><input type="text" ng-model="port.servicePort" class="input-small" ng-class="{'input-error':port.serviceConflict}"></div>
-                                        <div class="col-sm-3" style="cursor: pointer">
-                                            <label ng-class="{'active': port.open}" ng-click="port.open=!port.open"><i class="faa faa-check"></i>&nbsp;开放</label>
+                                        <div class="col-sm-3">
+                                            <input type="text" class="input-small" ng-class="{'input-error':port.conflict}" ng-model="port.containerPort">
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <input type="text" ng-model="port.servicePort" class="input-small" ng-class="{'input-error':port.serviceConflict}">
+                                        </div>
+                                        <div class="col-sm-3">
+                                            <a href="javascript:;" ng-click="addprot(container,$index,$last)" class="fa fa-lg" ng-class="{'fa-times-circle':!$last, 'fa-plus-circle':$last}"></a>
                                         </div>
                                     </div>
                                 </td>

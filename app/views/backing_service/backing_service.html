@@ -13,9 +13,9 @@
         <div class="sc">
             <label>服务提供者</label>
             <div class="btn-group">
-                <label class="btn" ng-class="{'active':grid.vendor == '平台'}" ng-click="select('vendor', '平台')">平台</label>
-                <label class="btn" ng-class="{'active':grid.vendor == 'HBase'}" ng-click="select('vendor', 'HBase')">HBase</label>
-                <label class="btn" ng-class="{'active':grid.vendor == '第三方'}" ng-click="select('vendor', '第三方')">第三方</label>
+                <label class="btn" ng-class="{'active':grid.vendor == '平台'}" ng-click="select('vendor', '平台',$$hashKey)">平台</label>
+                <label class="btn" ng-class="{'active':grid.vendor == 'HBase'}" ng-click="select('vendor', 'HBase',$$hashKey)">HBase</label>
+                <label class="btn" ng-class="{'active':grid.vendor == '第三方'}" ng-click="select('vendor', '第三方',$$hashKey)">第三方</label>
             </div>
         </div>
     </div>
@@ -37,7 +37,9 @@
             <div class="row">
                 <h2 class="h2-border" style="margin-bottom: 15px;">Devops</h2>
                 <div class="row">
-                    <div class="col-md-3 col-sm-4 col-xs-6" ng-repeat="item in items" ng-show="item.show">
+                    <div class="col-md-3 col-sm-4 col-xs-6"
+                         ng-repeat="item in items |filter:isComplete"
+                         ng-show="item.show">
                         <bs-card></bs-card>
                     </div>
                 </div>

@@ -630,6 +630,16 @@ angular.module('console.service.detail', [
             }
         };
 
+          $scope.addprot =function (container) {
+            console.log(1)
+            container.ports.push({
+              containerPort: "",
+              protocol: "tcp",
+              servicePort: "",
+
+            })
+          };
+
         $scope.selectImage = function(idx){
             var container =  $scope.dc.spec.template.spec.containers[idx];
             ImageSelect.open().then(function(res){
@@ -638,11 +648,13 @@ angular.module('console.service.detail', [
                 container.tag = res.tag.name;
 
                 container.ports = [];
+              
                 var exposedPorts = res.image.dockerImageMetadata.Config.ExposedPorts;
                 for (var k in exposedPorts) {
                     var arr = k.split('/');
                     if (arr.length == 2) {
                         container.ports.push({
+                              
                             containerPort: parseInt(arr[0]),
                             protocol: arr[1],
                             servicePort: $scope.portMap[arr[0]] || arr[0],
