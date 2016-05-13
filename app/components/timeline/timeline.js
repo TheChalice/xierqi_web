@@ -98,7 +98,6 @@ angular.module("console.timeline", [])
                         name: ''
                     }, function(res){
                         var data = JSON.parse(res.data);
-                        $scope.resourceVersion = data.object.metadata.resourceVersion;
                         updateBuilds(data);
                     }, function(){
                         $log.info("webSocket start");
@@ -113,6 +112,15 @@ angular.module("console.timeline", [])
                 };
 
                 var updateBuilds = function (data) {
+                    if (data.type == 'ERROR') {
+                        $log.info("err", data.object.message);
+                        Ws.clear();
+                        loadBuildHistory($scope.name);
+                        return;
+                    }
+
+                    $scope.resourceVersion = data.object.metadata.resourceVersion;
+
                     if (data.type == 'ADDED') {
 
                     } else if (data.type == "MODIFIED") {
