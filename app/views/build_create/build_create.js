@@ -14,11 +14,9 @@ angular.module('console.build.create', [])
                     type: 'Git',
                     git: {
                         uri: '',
-                        //ref: ''
                     },
                     sourceSecret: {
                         name: ''
-                        //name: 'xxx-github'
                     }
                 },
                 strategy: {
@@ -28,7 +26,6 @@ angular.module('console.build.create', [])
                     to: {
                         kind: 'ImageStreamTag',
                         name: ''
-                        //name: 'namexxx:branch-commitid'    //镜像名指定为buildonfig名
                     }
                 },
                 completionDeadlineSeconds: 1800

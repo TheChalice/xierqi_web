@@ -186,5 +186,23 @@ define([
             Metrics.mem.all = $resource('https://hawkular-metrics.app.dataos.io/hawkular/metrics/gauges/data', {tags: '@tags', buckets: '@buckets'});
             Metrics.cpu.all = $resource('https://hawkular-metrics.app.dataos.io/hawkular/metrics/counters/data', {tags: '@tags', buckets: '@buckets'});
             return Metrics;
+        }])
+        .factory('Owner', ['$resource', 'GLOBAL', function($resource, GLOBAL){
+            var Owner = $resource(GLOBAL.host + '/repos/github/onwe', {
+                get: {method: 'GET'}
+            });
+             return Owner;
+        }])
+        .factory('Org', ['$resource', 'GLOBAL', function($resource, GLOBAL){
+            var Org = $resource(GLOBAL.host + '/repos/github/org', {
+                get: {method: 'GET'}
+            });
+            return Org;
+        }])
+        .factory('Branch', ['$resource', 'GLOBAL', function($resource, GLOBAL){
+            var Branch = $resource(GLOBAL.host + '/repos/github/users/:user/repos/:repo', {
+                get: {method: 'GET'}
+            });
+            return Branch;
         }]);
 });
