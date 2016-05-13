@@ -173,6 +173,11 @@ define([
             });
             return Secret;
         }])
+
+        .factory('Git', ['$resource', function($resource){
+            var Git= $resource('/v1/repos/github/owner');
+            return Git;
+        }])
         .factory('Metrics', ['$resource', function($resource){
             var Metrics = {};
             //https://hawkular-metrics.app.dataos.io
