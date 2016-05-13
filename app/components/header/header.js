@@ -31,7 +31,7 @@ angular.module("console.header", [
                 $scope.setNamespace = function(namespace) {
                     $rootScope.namespace = namespace;
                     Cookie.set('namespace', namespace, 10 * 365 * 24 * 3600 * 1000);
-                    location.reload(true);
+                    $state.reload();
                 }
             }]
         }
