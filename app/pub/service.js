@@ -124,8 +124,6 @@ define(['angular'], function (angular) {
                             var image = $scope.images.items[idx];
                             angular.forEach(image.status.tags, function(item){
                                 ImageStreamTag.get({namespace: $rootScope.namespace, name: image.metadata.name + ':' + item.tag}, function(res){
-                                    item.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
-                                    item.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
                                     item.ist = res;
                                 }, function(res){
                                     console.log("get image stream tag err", res);
@@ -143,6 +141,7 @@ define(['angular'], function (angular) {
                             $uibModalInstance.dismiss();
                         };
                         $scope.ok = function() {
+                            console.log("===", $scope.imageTags);
                             $uibModalInstance.close($scope.imageTags[$scope.grid.version_x].ist);
                         };
                     }],

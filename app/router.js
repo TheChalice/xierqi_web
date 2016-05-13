@@ -82,6 +82,16 @@ define([
                         }]
                     }
                 })
+                .state('console.build_create_new', {
+                    url: '/construction/create/new',
+                    templateUrl: 'views/build_create_new/build_create_new.html',
+                    controller: 'BuildcCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/build_create_new/build_create_new.js')
+                        }]
+                    }
+                })
                 .state('console.image',{
                     url: '/image',
                     templateUrl: 'views/image/image.html',

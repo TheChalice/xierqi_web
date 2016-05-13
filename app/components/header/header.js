@@ -43,7 +43,7 @@ angular.module("console.header", [
                     return "仪表盘"
                 case "console.build":
                     return "代码构建";
-                case "console.build_create":
+                case "console.build_create_new":
                     return "新建构建";
                 case "console.build_detail":
                     return "构建详情";

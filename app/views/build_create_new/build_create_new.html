@@ -1,0 +1,108 @@
+<div>
+    <form class="form-horizontal" name="frm" style="margin-right: 90px; margin-left: 90px; margin-top: 40px">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="panel-title">新建构建</span>
+            </div>
+            <div class="panel-body">
+                <div class="form-group ">
+                    <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size:14px; text-align: left;">构建名称</label>
+                    <div class="col-sm-10" style="padding-right: 40px">
+                        <input  ng-model="buildConfig.metadata.name" type="text" name="name" class="form-control" required
+                                ng-pattern="/^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/">
+                        <!--<small ng-if="frm.name.$viewValue != '' && frm.name.$invalid">名称只能包括小写字母/数字/短线,短线不能在开头或结尾位置</small>-->
+                    </div>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" style="color: #5a6378; font-size:14px; text-align: left;">代码URL</label>
+                    <div class="col-sm-10">
+                        <uib-tabset class="tab-default">
+                        <uib-tab index="1" heading="代码仓库">
+                            <i class="fa fa-green fa-lg fa-refresh pull-right" ng-click="" style="margin-top: -30px; margin-right: -20px"></i>
+                            <img src="views/build_create_new/img/images02_178.png">
+                        </uib-tab>
+                        <uib-tab index="2" heading="GitHub">
+                            <i class="fa fa-green fa-lg fa-refresh pull-right" ng-click="" style="margin-top: -30px; margin-right: -20px"></i>
+                            <img src="views/build_create_new/img/github.png">
+                            heihei
+                        </uib-tab>
+                        <uib-tab index="3" heading="Gitlab">
+                            <i class="fa fa-green fa-lg fa-refresh pull-right" ng-click="" style="margin-top: -30px; margin-right: -20px"></i>
+                            <img src="views/build_create_new/img/gitlab.png">
+                            xixi
+                        </uib-tab>
+                        </uib-tabset>
+
+                        <div class="is-box">
+                            <div class="panel panel-default first col-sm-4" style="margin-right: 30px">
+                                <div class="panel-heading">
+                                    <img src="views/build_create_new/img/user.png">
+                                    用户/组织</div>
+                                <div class="panel-body">
+                                    <p><i class="faa faa-check"></i>&nbsp;&nbsp;lol</p>
+                                </div>
+                            </div>
+                            <div class="panel panel-default second col-sm-4" style="margin-right: 30px">
+                                <div class="panel-heading">
+                                    <img src="views/build_create_new/img/project.png">
+                                    项目</div>
+                                <div class="panel-body">
+                                    <p><i class="faa faa-check"></i>&nbsp;&nbsp;lol</p>
+                                </div>
+                            </div>
+                            <div class="panel panel-default col-sm-4">
+                                <div class="panel-heading">
+                                    <img src="views/build_create_new/img/branch.png">
+                                    代码分支</div>
+                                <div class="panel-body">
+                                    <p><i class="faa faa-check"></i>&nbsp;&nbsp;lol</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size:14px; text-align: left; ">构建超时时长</label>
+                    <div class="col-sm-10">
+                        <input ng-model="completionDeadlineMinutes" name="cdm" min="1" max="60" style="width: 80px;display: inline-block;" type="number" class="form-control" required>
+                        <span style="display: inline-block; margin-right: 20px">mins</span>
+                        <span class="font12">&nbsp;&nbsp;构建超时时长请不要超过60Mins.</span><br>
+                        <small ng-if="frm.cdm.$invalid" class="fa fa-exclamation-circle" style="font-size: 12px;color: #ec6941; margin-top: 10px">&nbsp;您设置的时长超过了限制,请重新设置</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a class="btn btn-block" ng-class="{'btn-orange':frm.$valid, 'btn-disabled': frm.$invalid}" ng-disabled="frm.$invalid" ng-click="frm.$valid && create()">开始构建</a>
+    </form>
+
+    <style>
+        .is-box {
+            margin-top: 30px;
+        }
+        .is-box .panel {
+            padding-left: 0px;
+            padding-right: 0px;
+            width: 190px;
+        }
+        .is-box .panel .panel-heading {
+            width: 100%;
+            background-color: #e6e9f2;
+        }
+        .is-box .panel .panel-body {
+            width: 100%;
+            padding: 0px;
+            margin-bottom: 0px;
+        }
+        .is-box .panel .panel-body p {
+            padding: 10px 15px;
+        }
+        .is-box .panel .panel-body img {
+            margin-right: 10px;
+        }
+    </style>
+</div>

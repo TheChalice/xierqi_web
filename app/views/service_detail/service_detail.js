@@ -646,12 +646,16 @@ angular.module('console.service.detail', [
                 console.log("imageStreamTag", res);
                 container.image = res.metadata.name;
                 container.tag = res.tag.name;
+                var arr = res.metadata.name.split(':');
+                if (arr.length > 1) {
+                    container.name = arr[0];
+                }
 
                 container.ports = [];
               
                 var exposedPorts = res.image.dockerImageMetadata.Config.ExposedPorts;
                 for (var k in exposedPorts) {
-                    var arr = k.split('/');
+                    arr = k.split('/');
                     if (arr.length == 2) {
                         container.ports.push({
                               
