@@ -187,21 +187,18 @@ define([
             Metrics.cpu.all = $resource('https://hawkular-metrics.app.dataos.io/hawkular/metrics/counters/data', {tags: '@tags', buckets: '@buckets'});
             return Metrics;
         }])
-        .factory('Owner', ['$resource', 'GLOBAL', function($resource, GLOBAL){
-            var Owner = $resource(GLOBAL.host + '/repos/github/onwe', {
-                get: {method: 'GET'}
+        .factory('Owner', ['$resource', function($resource){
+            var Owner = $resource('/v1/repos/github/owner', {
             });
              return Owner;
         }])
-        .factory('Org', ['$resource', 'GLOBAL', function($resource, GLOBAL){
-            var Org = $resource(GLOBAL.host + '/repos/github/org', {
-                get: {method: 'GET'}
+        .factory('Org', ['$resource', function($resource){
+            var Org = $resource('/v1/repos/github/org', {
             });
             return Org;
         }])
-        .factory('Branch', ['$resource', 'GLOBAL', function($resource, GLOBAL){
-            var Branch = $resource(GLOBAL.host + '/repos/github/users/:user/repos/:repo', {
-                get: {method: 'GET'}
+        .factory('Branch', ['$resource', function($resource){
+            var Branch = $resource('/v1/repos/github/users/:user/repos/:repo', {
             });
             return Branch;
         }]);

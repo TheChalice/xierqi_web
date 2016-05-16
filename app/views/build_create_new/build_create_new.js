@@ -6,9 +6,6 @@ angular.module('console.build_create_new', [
     }
 ])
     .controller ('BuildcCtrl', ['$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch',function($rootScope, $scope, $state, $log, Owner, Org, Branch) {
-        $log.info('Owner');
-        $log.info('Org');
-        $log.info('Branch');
 
         $scope.buildConfig = {
             metadata: {
@@ -20,7 +17,7 @@ angular.module('console.build_create_new', [
                     type: 'Git',
                     git: {
                         uri: '',
-                        ref: 'commitID'
+                        ref: ''
                     },
                     sourceSecret: {
                         name: ''
@@ -40,8 +37,37 @@ angular.module('console.build_create_new', [
         };
         $scope.completionDeadlineMinutes = 30;
 
-        var getAuthorization = function () {
+        $scope.create = function() {
+            $scope.creating = true;
+            var imageStream = {
+                metadata: {
+                    name: $scope.buildConfig.metadata.name
+                }
+            };
+            ImageStream.create({namespace: $rootScope.namespace}, imageStream, function (res) {
+                $log.info("imageStream", res);
+                createBuildConfig(res.metadata.name);
+            }, function(res){
+                $log.info("err", res);
+                if (res.data.code == 409) {
+                    createBuildConfig($scope.buildConfig.metadata.name);
+                } else {
+                    Alert.open('错误', res.data.message, true);
+                    $scope.creating = false;
+                }
+            });
+        };
 
+        $scope.refresh = function() {
+            Owner.query(function(res) {
+                $log.info("owner", res)
+            });
+            //Org.get(function(data) {
+            //    $log.info("org", data)
+            //});
+            //Branch.get(function(info) {
+            //    $log.info("branch", info)
+            //});
         }
     }])
 
