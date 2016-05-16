@@ -15,10 +15,6 @@ angular.module('console.build.create', [])
                     git: {
                         uri: '',
                         //ref: ''
-                    },
-                    sourceSecret: {
-                        name: ''
-                        //name: 'xxx-github'
                     }
                 },
                 strategy: {
@@ -41,11 +37,6 @@ angular.module('console.build.create', [])
             var imageStream = {
                 metadata: {
                     name: $scope.buildConfig.metadata.name
-                },
-                spec: {
-                    tags: [
-                        {name: 'latest'}
-                    ]
                 }
             };
             ImageStream.create({namespace: $rootScope.namespace}, imageStream, function (res) {

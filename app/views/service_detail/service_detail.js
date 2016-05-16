@@ -580,7 +580,7 @@ angular.module('console.service.detail', [
         };
 
         $scope.addContainer = function () {
-            console.log("addContainer");
+            $log.info("addContainer");
             $scope.dc.spec.template.spec.containers.push({volumeMounts:[{}], show: true, new: true});
         };
 
@@ -691,6 +691,7 @@ angular.module('console.service.detail', [
             if ($scope.grid.imageChange) {
                 var containers = dc.spec.template.spec.containers;
                 for (var i = 0; i < containers.length; i++) {
+                    $log.info('containers=====',containers[i]);
                     triggers.push({
                         type: 'ImageChange',
                         imageChangeParams: {
@@ -698,7 +699,7 @@ angular.module('console.service.detail', [
                             "containerNames": [containers[i].name],
                             "from": {
                                 "kind": "ImageStreamTag",
-                                "name": containers[i].image
+                                "name": containers[i].image+':'+containers[i].tag
                             }
                         }
                     });
