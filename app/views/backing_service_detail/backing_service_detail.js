@@ -10,7 +10,7 @@ angular.module('console.backing_service_detail', [
         $scope.grid = {};
 
         var cuename = $stateParams.name;
-        var loadBs = function(){
+          var loadBs = function(){
             BackingService.get({namespace:'openshift',name:cuename},function(data){
                 $log.info('loadBs=====',data);
                 $scope.data = data;
