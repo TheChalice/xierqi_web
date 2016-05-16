@@ -6,13 +6,13 @@ angular.module('console.dashboard', [
         ]
     }
 ])
-    .controller('dashboardCtrl', ['$log', '$rootScope', '$scope', 'Metrics', 'MetricsService', 'Git', function($log, $rootScope, $scope, Metrics, MetricsService, Git){
+    .controller('dashboardCtrl', ['$log', '$rootScope', '$scope', 'Metrics', 'MetricsService', 'owner', function($log, $rootScope, $scope, Metrics, MetricsService, owner){
         $scope.cpuData = [];
         $scope.memData = [];
 
-        //Git.query(function(res){
-        //   $log.info("git=====", res);
-        //});
+      // owner.query(function(res){
+      //     $log.info("owner=====", res);
+      //   });
 
         var setChart = function() {
             return {

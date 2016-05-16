@@ -173,10 +173,9 @@ define([
             });
             return Secret;
         }])
-
-        .factory('Git', ['$resource', function($resource){
-            var Git= $resource('/v1/repos/github/owner');
-            return Git;
+        .factory('owner', ['$resource', function($resource){
+            var owner= $resource('/v1/repos/github/owner');
+            return owner;
         }])
         .factory('Metrics', ['$resource', function($resource){
             var Metrics = {};
@@ -186,5 +185,20 @@ define([
             Metrics.mem.all = $resource('https://hawkular-metrics.app.dataos.io/hawkular/metrics/gauges/data', {tags: '@tags', buckets: '@buckets'});
             Metrics.cpu.all = $resource('https://hawkular-metrics.app.dataos.io/hawkular/metrics/counters/data', {tags: '@tags', buckets: '@buckets'});
             return Metrics;
+        }])
+        .factory('Owner', ['$resource', function($resource){
+            var Owner = $resource('/v1/repos/github/owner', {
+            });
+             return Owner;
+        }])
+        .factory('Org', ['$resource', function($resource){
+            var Org = $resource('/v1/repos/github/org', {
+            });
+            return Org;
+        }])
+        .factory('Branch', ['$resource', function($resource){
+            var Branch = $resource('/v1/repos/github/users/:user/repos/:repo', {
+            });
+            return Branch;
         }]);
 });

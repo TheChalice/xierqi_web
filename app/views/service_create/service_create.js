@@ -18,16 +18,55 @@ angular.module('console.service.create', [
               containerPort: "",
               protocol: "tcp",
               servicePort: "",
-
             })
           } else {
             container.ports.splice(ind, 1);
           }
         }
+        $scope.dc = {
+          kind: "DeploymentConfig",
+          apiVersion: "v1",
+          metadata: {
+            name: {
+              name:""
+            },
+            labels: {
+              app: ""
+            }
+          },
+          spec: {
+            strategy: {},
+            triggers: [],
+            replicas: 1,
+            selector: {
+              app: "",
+              deploymentconfig: ""
+            },
+            template: {
+              metadata: {
+                labels: {
+                  app: "",
+                  deploymentconfig: ""
+                }
+              },
+              spec: {
+                containers: [],
+                "restartPolicy": "Always",
+                "terminationGracePeriodSeconds": 30,
+                "dnsPolicy": "ClusterFirst",
+                "securityContext": {}
+              }
+            },
+            test: false
+          },
+          status: {}
+        };
         $scope.grid = {
           ports: [],
           port: 0,
-          host: '',
+          host: {
+            name:''
+          },
           suffix: '.app.dataos.io',
           imageChange: true,
           configChange: true,
@@ -36,7 +75,7 @@ angular.module('console.service.create', [
           conflict: false,
           serviceConflict: false
         };
-
+        $scope.grid.host=$scope.dc.metadata.name
         $scope.invalid = {};
 
         $scope.envs = [];
@@ -69,42 +108,7 @@ angular.module('console.service.create', [
           }
         };
 
-        $scope.dc = {
-          kind: "DeploymentConfig",
-          apiVersion: "v1",
-          metadata: {
-            name: "",
-            labels: {
-              app: ""
-            }
-          },
-          spec: {
-            strategy: {},
-            triggers: [],
-            replicas: 1,
-            selector: {
-              app: "",
-              deploymentconfig: ""
-            },
-            template: {
-              metadata: {
-                labels: {
-                  app: "",
-                  deploymentconfig: ""
-                }
-              },
-              spec: {
-                containers: [],
-                "restartPolicy": "Always",
-                "terminationGracePeriodSeconds": 30,
-                "dnsPolicy": "ClusterFirst",
-                "securityContext": {}
-              }
-            },
-            test: false
-          },
-          status: {}
-        };
+
 
         $scope.service = {
           "kind": "Service",
