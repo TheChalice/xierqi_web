@@ -15,9 +15,9 @@ angular.module('console.build.create', [])
                     git: {
                         uri: '',
                     },
-                    sourceSecret: {
-                        name: ''
-                    }
+                    // sourceSecret: {
+                    //     name: ''
+                    // }
                 },
                 strategy: {
                     type: 'Docker'
@@ -42,7 +42,13 @@ angular.module('console.build.create', [])
                 spec: {
                     tags: [
                         {name: 'latest'}
-                    ]
+                    ],
+                  // source:{
+                  //   sourceSecret:{
+                  //     name:$scope.buildConfig.metadata.name
+                  //   }
+                  // }
+
                 }
             };
             ImageStream.create({namespace: $rootScope.namespace}, imageStream, function (res) {
