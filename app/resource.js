@@ -173,10 +173,9 @@ define([
             });
             return Secret;
         }])
-
-        .factory('Git', ['$resource', function($resource){
-            var Git= $resource('/v1/repos/github/owner');
-            return Git;
+        .factory('owner', ['$resource', function($resource){
+            var owner= $resource('/v1/repos/github/owner');
+            return owner;
         }])
         .factory('Metrics', ['$resource', function($resource){
             var Metrics = {};

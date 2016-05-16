@@ -18,7 +18,6 @@ angular.module('console.service.create', [
               containerPort: "",
               protocol: "tcp",
               servicePort: "",
-
             })
           } else {
             container.ports.splice(ind, 1);
@@ -62,7 +61,6 @@ angular.module('console.service.create', [
           },
           status: {}
         };
-        console.log($scope.dc.metadata.name)
         $scope.grid = {
           ports: [],
           port: 0,
