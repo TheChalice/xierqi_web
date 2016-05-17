@@ -352,6 +352,7 @@ define(['angular'], function (angular) {
         .service('AuthService', ['$rootScope', '$http', '$base64', 'Cookie', '$state', '$log', 'Project', 'GLOBAL', 'Alert', 'User', function($rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User){
             this.login = function(credentials) {
                 console.log("login");
+              $rootScope.loding=true;
                 var req = {
                     method: 'GET',
                     url: GLOBAL.login_uri,
@@ -377,7 +378,9 @@ define(['angular'], function (angular) {
                 };
 
                 $http(req).success(function(data){
+                  $rootScope.loding=false;
                     console.log(data);
+
                     Cookie.set('df_access_token', data.access_token, 10 * 365 * 24 * 3600 * 1000);
 
                     loadProject(credentials.username);
@@ -387,6 +390,7 @@ define(['angular'], function (angular) {
                     });
 
                 }).error(function(data){
+                  $rootScope.loding=false;
                     Alert.open('错误', '用户名或密码不正确');
                 });
             };

@@ -16,6 +16,7 @@ angular.module('console.build.create', [])
                         uri: ''
                         //ref: ''
                     }
+
                 },
                 strategy: {
                     type: 'Docker'
