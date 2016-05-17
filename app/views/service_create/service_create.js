@@ -63,9 +63,7 @@ angular.module('console.service.create', [
         $scope.grid = {
           ports: [],
           port: 0,
-          host: {
-            name:''
-          },
+          host:'',
           suffix: '.app.dataos.io',
           imageChange: true,
           configChange: true,
@@ -74,7 +72,7 @@ angular.module('console.service.create', [
           conflict: false,
           serviceConflict: false
         };
-        $scope.grid.host=$scope.dc.metadata.name
+        // $scope.grid.host=$scope.dc.metadata.name
         $scope.invalid = {};
 
         $scope.envs = [];
