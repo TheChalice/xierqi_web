@@ -836,9 +836,25 @@ angular.module('console.service.detail', [
 
         $scope.updateDc = function(){
             var dc = angular.copy($scope.dc);
+            $log.info("-=-=-=-=-=-=",dc);
+            dc.spec.template.spec.volumes = [];
+            var flog = 0;
+            for(var i = 0 ; i <dc.spec.template.spec.containers.length; i++){
+                for(var j = 0;j<dc.spec.template.spec.containers[i].volumeMounts.length;j++){
+                    flog++;
+                    var volume1 = "volume"+flog;
 
-            //dc.status.latestVersion += 1;
-
+                    dc.spec.template.spec.volumes.push(
+                        {
+                            "name" : volume1,
+                            "secret" : {
+                                "secretName" : dc.spec.template.spec.containers[i].volumeMounts[j].name
+                            }
+                        }
+                    );
+                    dc.spec.template.spec.containers[i].volumeMounts[j].name = volume1;
+                }
+            }
             prepareVolume(dc);
             prepareTrigger(dc);
             prepareEnv(dc);

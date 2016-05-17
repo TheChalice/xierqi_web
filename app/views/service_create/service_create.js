@@ -27,9 +27,7 @@ angular.module('console.service.create', [
           kind: "DeploymentConfig",
           apiVersion: "v1",
           metadata: {
-            name: {
-              name:""
-            },
+            name:"",
             labels: {
               app: ""
             }
@@ -54,7 +52,8 @@ angular.module('console.service.create', [
                 "restartPolicy": "Always",
                 "terminationGracePeriodSeconds": 30,
                 "dnsPolicy": "ClusterFirst",
-                "securityContext": {}
+                "securityContext": {},
+                'volumes' : []
               }
             },
             test: false
@@ -233,7 +232,9 @@ angular.module('console.service.create', [
         loadBsi();
 
         $scope.addSecret = function (name, idx, last) {
+          $log.info('$scope.dcdc.spec.template.spec.containers-=-=-=-=-=-=-=',$scope.dc.spec.template.spec.containers)
           var containers = $scope.dc.spec.template.spec.containers;
+          var volumes = $scope.dc.spec.template.spec.volumes;
           var container = null;
           for (var i = 0; i < containers.length; i++) {
             if (containers[i].name == name) {
@@ -267,9 +268,10 @@ angular.module('console.service.create', [
           ImageSelect.open().then(function (res) {
             console.log("imageStreamTag", res);
             container.image = res.metadata.name;
+            var str = res.metadata.name.split(":");
             container.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
             container.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
-            container.tag = res.tag.name;
+            container.tag = str[1];
 
             container.ports = [];
             var exposedPorts = res.image.dockerImageMetadata.Config.ExposedPorts;
@@ -510,7 +512,25 @@ angular.module('console.service.create', [
 
         $scope.createDc = function () {
           var dc = angular.copy($scope.dc);
+          $log.info("-=-=-=-=-=--=-=",dc);
+          var flog = 0;
+          for(var i = 0 ; i <dc.spec.template.spec.containers.length; i++){
+              for(var j = 0;j<dc.spec.template.spec.containers[i].volumeMounts.length;j++){
+                flog++;
+                var volume1 = "volume"+flog;
 
+                dc.spec.template.spec.volumes.push(
+                    {
+                      "name" : volume1,
+                      "secret" : {
+                        "secretName" : dc.spec.template.spec.containers[i].volumeMounts[j].name
+                      }
+                    }
+                );
+                dc.spec.template.spec.containers[i].volumeMounts[j].name = volume1;
+              }
+          }
+  $log.info("-=-=90-90--=-=",dc);
           if (!valid(dc)) {
             return;
           }
