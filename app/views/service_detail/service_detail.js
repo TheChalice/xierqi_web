@@ -722,7 +722,6 @@ angular.module('console.service.detail', [
         };
 
         var bindService = function(dc){
-            alert('111111');
             angular.forEach($scope.bsi.items, function(bsi){
                 var bindObj = {
                     metadata: {
