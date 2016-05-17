@@ -59,15 +59,20 @@ angular.module('console.build_create_new', [
         };
 
         $scope.refresh = function() {
+
             Owner.query(function(res) {
-                $log.info("owner", res)
+                $log.info("owner", res);
+                $scope.login = res.login;
+                $scope.repos = res.repos;
             });
-            //Org.get(function(data) {
-            //    $log.info("org", data)
-            //});
-            //Branch.get(function(info) {
-            //    $log.info("branch", info)
-            //});
+
+            Org.get(function(data) {
+                $log.info("org", data)
+            });
+            Branch.get(function(info) {
+                $log.info("branch", info)
+            });
         }
+        $scope.refresh();
     }])
 

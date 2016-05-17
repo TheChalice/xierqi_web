@@ -647,12 +647,15 @@ angular.module('console.service.detail', [
                 container.image = res.metadata.name;
                 container.tag = res.tag.name;
                 var arr = res.metadata.name.split(':');
+                    if (arr.length > 1) {
+                        container.name = arr[0];
+                    }
+                var arr = res.metadata.name.split(':');
                 if (arr.length > 1) {
                     container.name = arr[0];
                 }
 
                 container.ports = [];
-              
                 var exposedPorts = res.image.dockerImageMetadata.Config.ExposedPorts;
                 for (var k in exposedPorts) {
                     arr = k.split('/');

@@ -266,6 +266,7 @@ angular.module('console.service.create', [
           ImageSelect.open().then(function (res) {
             console.log("imageStreamTag", res);
             container.image = res.metadata.name;
+
             var str = res.metadata.name.split(":");
             container.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
             container.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];

@@ -352,7 +352,7 @@ define(['angular'], function (angular) {
         .service('AuthService', ['$rootScope', '$http', '$base64', 'Cookie', '$state', '$log', 'Project', 'GLOBAL', 'Alert', 'User', function($rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User){
             this.login = function(credentials) {
                 console.log("login");
-              $rootScope.loding=true;
+                $rootScope.loding=true;
                 var req = {
                     method: 'GET',
                     url: GLOBAL.login_uri,
