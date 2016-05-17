@@ -390,6 +390,7 @@ define(['angular'], function (angular) {
                     });
 
                 }).error(function(data){
+                  $rootScope.loding=false;
                     Alert.open('错误', '用户名或密码不正确');
                 });
             };
