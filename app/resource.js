@@ -180,10 +180,10 @@ define([
         .factory('Metrics', ['$resource', function($resource){
             var Metrics = {};
             //https://hawkular-metrics.app.dataos.io
-            Metrics.mem = $resource('https://hawkular-metrics.app.dataos.io/hawkular/metrics/gauges/:gauges/data', {gauges: '@gauges', buckets: '@buckets', start: '@start'});
-            Metrics.cpu = $resource('https://hawkular-metrics.app.dataos.io/hawkular/metrics/counters/:counters/data', {counters: '@counters', buckets: '@buckets', start: '@start'});
-            Metrics.mem.all = $resource('https://hawkular-metrics.app.dataos.io/hawkular/metrics/gauges/data', {tags: '@tags', buckets: '@buckets'});
-            Metrics.cpu.all = $resource('https://hawkular-metrics.app.dataos.io/hawkular/metrics/counters/data', {tags: '@tags', buckets: '@buckets'});
+            Metrics.mem = $resource('/hawkular/metrics/gauges/:gauges/data', {gauges: '@gauges', buckets: '@buckets', start: '@start'});
+            Metrics.cpu = $resource('/hawkular/metrics/counters/:counters/data', {counters: '@counters', buckets: '@buckets', start: '@start'});
+            Metrics.mem.all = $resource('/hawkular/metrics/gauges/data', {tags: '@tags', buckets: '@buckets'});
+            Metrics.cpu.all = $resource('/hawkular/metrics/counters/data', {tags: '@tags', buckets: '@buckets'});
             return Metrics;
         }])
         .factory('Owner', ['$resource', function($resource){
