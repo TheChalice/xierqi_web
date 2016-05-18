@@ -1,0 +1,341 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\dev\\nodejs\\node.exe',
+1 verbose cli   'C:\\dev\\nvm\\npm\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'i' ]
+2 info using npm@3.8.3
+3 info using node@v4.4.0
+4 silly loadCurrentTree Starting
+5 silly install loadCurrentTree
+6 silly install readLocalPackageData
+7 silly install normalizeTree
+8 silly loadCurrentTree Finishing
+9 silly loadIdealTree Starting
+10 silly install loadIdealTree
+11 silly cloneCurrentTree Starting
+12 silly install cloneCurrentTreeToIdealTree
+13 silly cloneCurrentTree Finishing
+14 silly loadShrinkwrap Starting
+15 silly install loadShrinkwrap
+16 silly loadShrinkwrap Finishing
+17 silly loadAllDepsIntoIdealTree Starting
+18 silly install loadAllDepsIntoIdealTree
+19 silly fetchNamedPackageData http-server
+20 silly mapToRegistry name http-server
+21 silly mapToRegistry using default registry
+22 silly mapToRegistry registry http://registry.npm.taobao.org/
+23 silly mapToRegistry data Result {
+23 silly mapToRegistry   raw: 'http-server',
+23 silly mapToRegistry   scope: null,
+23 silly mapToRegistry   name: 'http-server',
+23 silly mapToRegistry   rawSpec: '',
+23 silly mapToRegistry   spec: 'latest',
+23 silly mapToRegistry   type: 'tag' }
+24 silly mapToRegistry uri http://registry.npm.taobao.org/http-server
+25 silly fetchNamedPackageData jasmine-core
+26 silly mapToRegistry name jasmine-core
+27 silly mapToRegistry using default registry
+28 silly mapToRegistry registry http://registry.npm.taobao.org/
+29 silly mapToRegistry data Result {
+29 silly mapToRegistry   raw: 'jasmine-core',
+29 silly mapToRegistry   scope: null,
+29 silly mapToRegistry   name: 'jasmine-core',
+29 silly mapToRegistry   rawSpec: '',
+29 silly mapToRegistry   spec: 'latest',
+29 silly mapToRegistry   type: 'tag' }
+30 silly mapToRegistry uri http://registry.npm.taobao.org/jasmine-core
+31 silly fetchNamedPackageData karma
+32 silly mapToRegistry name karma
+33 silly mapToRegistry using default registry
+34 silly mapToRegistry registry http://registry.npm.taobao.org/
+35 silly mapToRegistry data Result {
+35 silly mapToRegistry   raw: 'karma',
+35 silly mapToRegistry   scope: null,
+35 silly mapToRegistry   name: 'karma',
+35 silly mapToRegistry   rawSpec: '',
+35 silly mapToRegistry   spec: 'latest',
+35 silly mapToRegistry   type: 'tag' }
+36 silly mapToRegistry uri http://registry.npm.taobao.org/karma
+37 silly fetchNamedPackageData karma-chrome-launcher
+38 silly mapToRegistry name karma-chrome-launcher
+39 silly mapToRegistry using default registry
+40 silly mapToRegistry registry http://registry.npm.taobao.org/
+41 silly mapToRegistry data Result {
+41 silly mapToRegistry   raw: 'karma-chrome-launcher',
+41 silly mapToRegistry   scope: null,
+41 silly mapToRegistry   name: 'karma-chrome-launcher',
+41 silly mapToRegistry   rawSpec: '',
+41 silly mapToRegistry   spec: 'latest',
+41 silly mapToRegistry   type: 'tag' }
+42 silly mapToRegistry uri http://registry.npm.taobao.org/karma-chrome-launcher
+43 silly fetchNamedPackageData karma-jasmine
+44 silly mapToRegistry name karma-jasmine
+45 silly mapToRegistry using default registry
+46 silly mapToRegistry registry http://registry.npm.taobao.org/
+47 silly mapToRegistry data Result {
+47 silly mapToRegistry   raw: 'karma-jasmine',
+47 silly mapToRegistry   scope: null,
+47 silly mapToRegistry   name: 'karma-jasmine',
+47 silly mapToRegistry   rawSpec: '',
+47 silly mapToRegistry   spec: 'latest',
+47 silly mapToRegistry   type: 'tag' }
+48 silly mapToRegistry uri http://registry.npm.taobao.org/karma-jasmine
+49 silly fetchNamedPackageData karma-junit-reporter
+50 silly mapToRegistry name karma-junit-reporter
+51 silly mapToRegistry using default registry
+52 silly mapToRegistry registry http://registry.npm.taobao.org/
+53 silly mapToRegistry data Result {
+53 silly mapToRegistry   raw: 'karma-junit-reporter',
+53 silly mapToRegistry   scope: null,
+53 silly mapToRegistry   name: 'karma-junit-reporter',
+53 silly mapToRegistry   rawSpec: '',
+53 silly mapToRegistry   spec: 'latest',
+53 silly mapToRegistry   type: 'tag' }
+54 silly mapToRegistry uri http://registry.npm.taobao.org/karma-junit-reporter
+55 silly fetchNamedPackageData karma-requirejs
+56 silly mapToRegistry name karma-requirejs
+57 silly mapToRegistry using default registry
+58 silly mapToRegistry registry http://registry.npm.taobao.org/
+59 silly mapToRegistry data Result {
+59 silly mapToRegistry   raw: 'karma-requirejs',
+59 silly mapToRegistry   scope: null,
+59 silly mapToRegistry   name: 'karma-requirejs',
+59 silly mapToRegistry   rawSpec: '',
+59 silly mapToRegistry   spec: 'latest',
+59 silly mapToRegistry   type: 'tag' }
+60 silly mapToRegistry uri http://registry.npm.taobao.org/karma-requirejs
+61 silly fetchNamedPackageData protractor
+62 silly mapToRegistry name protractor
+63 silly mapToRegistry using default registry
+64 silly mapToRegistry registry http://registry.npm.taobao.org/
+65 silly mapToRegistry data Result {
+65 silly mapToRegistry   raw: 'protractor',
+65 silly mapToRegistry   scope: null,
+65 silly mapToRegistry   name: 'protractor',
+65 silly mapToRegistry   rawSpec: '',
+65 silly mapToRegistry   spec: 'latest',
+65 silly mapToRegistry   type: 'tag' }
+66 silly mapToRegistry uri http://registry.npm.taobao.org/protractor
+67 silly fetchNamedPackageData requirejs
+68 silly mapToRegistry name requirejs
+69 silly mapToRegistry using default registry
+70 silly mapToRegistry registry http://registry.npm.taobao.org/
+71 silly mapToRegistry data Result {
+71 silly mapToRegistry   raw: 'requirejs',
+71 silly mapToRegistry   scope: null,
+71 silly mapToRegistry   name: 'requirejs',
+71 silly mapToRegistry   rawSpec: '',
+71 silly mapToRegistry   spec: 'latest',
+71 silly mapToRegistry   type: 'tag' }
+72 silly mapToRegistry uri http://registry.npm.taobao.org/requirejs
+73 verbose request uri http://registry.npm.taobao.org/http-server
+74 verbose request no auth needed
+75 info attempt registry request try #1 at 10:45:01
+76 verbose request id 0d600faa2ebbd55a
+77 http request GET http://registry.npm.taobao.org/http-server
+78 verbose request uri http://registry.npm.taobao.org/karma
+79 verbose request no auth needed
+80 info attempt registry request try #1 at 10:45:02
+81 http request GET http://registry.npm.taobao.org/karma
+82 verbose request uri http://registry.npm.taobao.org/karma-chrome-launcher
+83 verbose request no auth needed
+84 info attempt registry request try #1 at 10:45:02
+85 http request GET http://registry.npm.taobao.org/karma-chrome-launcher
+86 verbose request uri http://registry.npm.taobao.org/karma-requirejs
+87 verbose request no auth needed
+88 info attempt registry request try #1 at 10:45:02
+89 http request GET http://registry.npm.taobao.org/karma-requirejs
+90 verbose request uri http://registry.npm.taobao.org/karma-junit-reporter
+91 verbose request no auth needed
+92 info attempt registry request try #1 at 10:45:02
+93 http request GET http://registry.npm.taobao.org/karma-junit-reporter
+94 verbose request uri http://registry.npm.taobao.org/protractor
+95 verbose request no auth needed
+96 info attempt registry request try #1 at 10:45:02
+97 http request GET http://registry.npm.taobao.org/protractor
+98 verbose request uri http://registry.npm.taobao.org/jasmine-core
+99 verbose request no auth needed
+100 info attempt registry request try #1 at 10:45:02
+101 http request GET http://registry.npm.taobao.org/jasmine-core
+102 verbose request uri http://registry.npm.taobao.org/karma-jasmine
+103 verbose request no auth needed
+104 info attempt registry request try #1 at 10:45:02
+105 http request GET http://registry.npm.taobao.org/karma-jasmine
+106 verbose request uri http://registry.npm.taobao.org/requirejs
+107 verbose request no auth needed
+108 info attempt registry request try #1 at 10:45:02
+109 http request GET http://registry.npm.taobao.org/requirejs
+110 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 114.55.80.225:80
+111 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 114.55.80.225:80
+112 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 114.55.80.225:80
+113 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 114.55.80.225:80
+114 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 114.55.80.225:80
+115 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 114.55.80.225:80
+116 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 114.55.80.225:80
+117 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 114.55.80.225:80
+118 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 114.55.80.225:80
+119 info attempt registry request try #2 at 10:45:13
+120 http request GET http://registry.npm.taobao.org/jasmine-core
+121 info attempt registry request try #2 at 10:45:13
+122 http request GET http://registry.npm.taobao.org/http-server
+123 info attempt registry request try #2 at 10:45:13
+124 http request GET http://registry.npm.taobao.org/karma-chrome-launcher
+125 info attempt registry request try #2 at 10:45:13
+126 http request GET http://registry.npm.taobao.org/karma-jasmine
+127 info attempt registry request try #2 at 10:45:13
+128 http request GET http://registry.npm.taobao.org/karma-junit-reporter
+129 info attempt registry request try #2 at 10:45:13
+130 http request GET http://registry.npm.taobao.org/protractor
+131 info attempt registry request try #2 at 10:45:13
+132 http request GET http://registry.npm.taobao.org/karma
+133 info attempt registry request try #2 at 10:45:13
+134 http request GET http://registry.npm.taobao.org/requirejs
+135 info attempt registry request try #2 at 10:45:13
+136 http request GET http://registry.npm.taobao.org/karma-requirejs
+137 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 114.55.80.225:80
+138 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 114.55.80.225:80
+139 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 114.55.80.225:80
+140 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 114.55.80.225:80
+141 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 114.55.80.225:80
+142 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 114.55.80.225:80
+143 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 114.55.80.225:80
+144 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 114.55.80.225:80
+145 info retry will retry, error on last attempt: Error: connect ECONNREFUSED 114.55.80.225:80
+146 info attempt registry request try #3 at 10:46:14
+147 http request GET http://registry.npm.taobao.org/jasmine-core
+148 info attempt registry request try #3 at 10:46:14
+149 http request GET http://registry.npm.taobao.org/karma-requirejs
+150 info attempt registry request try #3 at 10:46:14
+151 http request GET http://registry.npm.taobao.org/protractor
+152 info attempt registry request try #3 at 10:46:14
+153 http request GET http://registry.npm.taobao.org/http-server
+154 info attempt registry request try #3 at 10:46:14
+155 http request GET http://registry.npm.taobao.org/karma-jasmine
+156 info attempt registry request try #3 at 10:46:14
+157 http request GET http://registry.npm.taobao.org/karma-chrome-launcher
+158 info attempt registry request try #3 at 10:46:14
+159 http request GET http://registry.npm.taobao.org/karma
+160 info attempt registry request try #3 at 10:46:14
+161 http request GET http://registry.npm.taobao.org/karma-junit-reporter
+162 info attempt registry request try #3 at 10:46:14
+163 http request GET http://registry.npm.taobao.org/requirejs
+164 silly fetchPackageMetaData Error: connect ECONNREFUSED 114.55.80.225:80
+164 silly fetchPackageMetaData     at Object.exports._errnoException (util.js:870:11)
+164 silly fetchPackageMetaData     at exports._exceptionWithHostPort (util.js:893:20)
+164 silly fetchPackageMetaData     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1057:14)
+164 silly fetchPackageMetaData  error for jasmine-core@^2.4.1 { [Error: connect ECONNREFUSED 114.55.80.225:80]
+164 silly fetchPackageMetaData   code: 'ECONNREFUSED',
+164 silly fetchPackageMetaData   errno: 'ECONNREFUSED',
+164 silly fetchPackageMetaData   syscall: 'connect',
+164 silly fetchPackageMetaData   address: '114.55.80.225',
+164 silly fetchPackageMetaData   port: 80 }
+165 silly fetchPackageMetaData Error: connect ECONNREFUSED 114.55.80.225:80
+165 silly fetchPackageMetaData     at Object.exports._errnoException (util.js:870:11)
+165 silly fetchPackageMetaData     at exports._exceptionWithHostPort (util.js:893:20)
+165 silly fetchPackageMetaData     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1057:14)
+165 silly fetchPackageMetaData  error for karma-chrome-launcher@^0.2.2 { [Error: connect ECONNREFUSED 114.55.80.225:80]
+165 silly fetchPackageMetaData   code: 'ECONNREFUSED',
+165 silly fetchPackageMetaData   errno: 'ECONNREFUSED',
+165 silly fetchPackageMetaData   syscall: 'connect',
+165 silly fetchPackageMetaData   address: '114.55.80.225',
+165 silly fetchPackageMetaData   port: 80 }
+166 silly fetchPackageMetaData Error: connect ECONNREFUSED 114.55.80.225:80
+166 silly fetchPackageMetaData     at Object.exports._errnoException (util.js:870:11)
+166 silly fetchPackageMetaData     at exports._exceptionWithHostPort (util.js:893:20)
+166 silly fetchPackageMetaData     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1057:14)
+166 silly fetchPackageMetaData  error for karma-jasmine@^0.3.6 { [Error: connect ECONNREFUSED 114.55.80.225:80]
+166 silly fetchPackageMetaData   code: 'ECONNREFUSED',
+166 silly fetchPackageMetaData   errno: 'ECONNREFUSED',
+166 silly fetchPackageMetaData   syscall: 'connect',
+166 silly fetchPackageMetaData   address: '114.55.80.225',
+166 silly fetchPackageMetaData   port: 80 }
+167 silly fetchPackageMetaData Error: connect ECONNREFUSED 114.55.80.225:80
+167 silly fetchPackageMetaData     at Object.exports._errnoException (util.js:870:11)
+167 silly fetchPackageMetaData     at exports._exceptionWithHostPort (util.js:893:20)
+167 silly fetchPackageMetaData     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1057:14)
+167 silly fetchPackageMetaData  error for http-server@^0.8.5 { [Error: connect ECONNREFUSED 114.55.80.225:80]
+167 silly fetchPackageMetaData   code: 'ECONNREFUSED',
+167 silly fetchPackageMetaData   errno: 'ECONNREFUSED',
+167 silly fetchPackageMetaData   syscall: 'connect',
+167 silly fetchPackageMetaData   address: '114.55.80.225',
+167 silly fetchPackageMetaData   port: 80 }
+168 silly fetchPackageMetaData Error: connect ECONNREFUSED 114.55.80.225:80
+168 silly fetchPackageMetaData     at Object.exports._errnoException (util.js:870:11)
+168 silly fetchPackageMetaData     at exports._exceptionWithHostPort (util.js:893:20)
+168 silly fetchPackageMetaData     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1057:14)
+168 silly fetchPackageMetaData  error for karma-junit-reporter@^0.3.8 { [Error: connect ECONNREFUSED 114.55.80.225:80]
+168 silly fetchPackageMetaData   code: 'ECONNREFUSED',
+168 silly fetchPackageMetaData   errno: 'ECONNREFUSED',
+168 silly fetchPackageMetaData   syscall: 'connect',
+168 silly fetchPackageMetaData   address: '114.55.80.225',
+168 silly fetchPackageMetaData   port: 80 }
+169 silly fetchPackageMetaData Error: connect ECONNREFUSED 114.55.80.225:80
+169 silly fetchPackageMetaData     at Object.exports._errnoException (util.js:870:11)
+169 silly fetchPackageMetaData     at exports._exceptionWithHostPort (util.js:893:20)
+169 silly fetchPackageMetaData     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1057:14)
+169 silly fetchPackageMetaData  error for protractor@^3.0.0 { [Error: connect ECONNREFUSED 114.55.80.225:80]
+169 silly fetchPackageMetaData   code: 'ECONNREFUSED',
+169 silly fetchPackageMetaData   errno: 'ECONNREFUSED',
+169 silly fetchPackageMetaData   syscall: 'connect',
+169 silly fetchPackageMetaData   address: '114.55.80.225',
+169 silly fetchPackageMetaData   port: 80 }
+170 silly fetchPackageMetaData Error: connect ECONNREFUSED 114.55.80.225:80
+170 silly fetchPackageMetaData     at Object.exports._errnoException (util.js:870:11)
+170 silly fetchPackageMetaData     at exports._exceptionWithHostPort (util.js:893:20)
+170 silly fetchPackageMetaData     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1057:14)
+170 silly fetchPackageMetaData  error for karma@^0.13.19 { [Error: connect ECONNREFUSED 114.55.80.225:80]
+170 silly fetchPackageMetaData   code: 'ECONNREFUSED',
+170 silly fetchPackageMetaData   errno: 'ECONNREFUSED',
+170 silly fetchPackageMetaData   syscall: 'connect',
+170 silly fetchPackageMetaData   address: '114.55.80.225',
+170 silly fetchPackageMetaData   port: 80 }
+171 silly fetchPackageMetaData Error: connect ECONNREFUSED 114.55.80.225:80
+171 silly fetchPackageMetaData     at Object.exports._errnoException (util.js:870:11)
+171 silly fetchPackageMetaData     at exports._exceptionWithHostPort (util.js:893:20)
+171 silly fetchPackageMetaData     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1057:14)
+171 silly fetchPackageMetaData  error for requirejs@^2.1.22 { [Error: connect ECONNREFUSED 114.55.80.225:80]
+171 silly fetchPackageMetaData   code: 'ECONNREFUSED',
+171 silly fetchPackageMetaData   errno: 'ECONNREFUSED',
+171 silly fetchPackageMetaData   syscall: 'connect',
+171 silly fetchPackageMetaData   address: '114.55.80.225',
+171 silly fetchPackageMetaData   port: 80 }
+172 silly fetchPackageMetaData Error: connect ECONNREFUSED 114.55.80.225:80
+172 silly fetchPackageMetaData     at Object.exports._errnoException (util.js:870:11)
+172 silly fetchPackageMetaData     at exports._exceptionWithHostPort (util.js:893:20)
+172 silly fetchPackageMetaData     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1057:14)
+172 silly fetchPackageMetaData  error for karma-requirejs@^0.2.3 { [Error: connect ECONNREFUSED 114.55.80.225:80]
+172 silly fetchPackageMetaData   code: 'ECONNREFUSED',
+172 silly fetchPackageMetaData   errno: 'ECONNREFUSED',
+172 silly fetchPackageMetaData   syscall: 'connect',
+172 silly fetchPackageMetaData   address: '114.55.80.225',
+172 silly fetchPackageMetaData   port: 80 }
+173 silly rollbackFailedOptional Starting
+174 silly rollbackFailedOptional Finishing
+175 silly runTopLevelLifecycles Starting
+176 silly runTopLevelLifecycles Finishing
+177 silly install printInstalled
+178 verbose stack Error: connect ECONNREFUSED 114.55.80.225:80
+178 verbose stack     at Object.exports._errnoException (util.js:870:11)
+178 verbose stack     at exports._exceptionWithHostPort (util.js:893:20)
+178 verbose stack     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1057:14)
+179 verbose cwd C:\Users\Administrator\Desktop\datafoundry_web
+180 error Windows_NT 6.1.7601
+181 error argv "C:\\dev\\nodejs\\node.exe" "C:\\dev\\nvm\\npm\\node_modules\\npm\\bin\\npm-cli.js" "i"
+182 error node v4.4.0
+183 error npm  v3.8.3
+184 error code ECONNREFUSED
+185 error errno ECONNREFUSED
+186 error syscall connect
+187 error Error: connect ECONNREFUSED 114.55.80.225:80
+187 error     at Object.exports._errnoException (util.js:870:11)
+187 error     at exports._exceptionWithHostPort (util.js:893:20)
+187 error     at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1057:14)
+187 error  { [Error: connect ECONNREFUSED 114.55.80.225:80]
+187 error   code: 'ECONNREFUSED',
+187 error   errno: 'ECONNREFUSED',
+187 error   syscall: 'connect',
+187 error   address: '114.55.80.225',
+187 error   port: 80,
+187 error   parent: 'angular-seed' }
+188 error If you are behind a proxy, please make sure that the
+188 error 'proxy' config is set properly.  See: 'npm help config'
+189 verbose exit [ 1, true ]
