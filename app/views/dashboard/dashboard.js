@@ -28,6 +28,9 @@ angular.module('console.dashboard', [
                             fontSize: '12px'
                         }
                     },
+                    credits: {
+                        enabled: false
+                    },
                     tooltip: {
                         backgroundColor: '#666',
                         borderWidth: 0,
@@ -90,6 +93,9 @@ angular.module('console.dashboard', [
                         text: ''
                     },
                     tooltip: {
+                        enabled: false
+                    },
+                    credits: {
                         enabled: false
                     },
                     subtitle: {

@@ -269,6 +269,9 @@ angular.module('console.service.create', [
             console.log("imageStreamTag", res);
             container.image = res.metadata.name;
             var str = res.metadata.name.split(":");
+            var strname = str[0];
+            container.strname = strname;
+            container.name = strname;
             container.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
             container.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
             container.tag = str[1];
@@ -515,6 +518,8 @@ angular.module('console.service.create', [
           $log.info("-=-=-=-=-=--=-=",dc);
           var flog = 0;
           for(var i = 0 ; i <dc.spec.template.spec.containers.length; i++){
+            dc.spec.template.spec.containers[i].name = dc.spec.template.spec.containers[i].strname;
+            delete dc.spec.template.spec.containers[i]["strname"];
               for(var j = 0;j<dc.spec.template.spec.containers[i].volumeMounts.length;j++){
                 flog++;
                 var volume1 = "volume"+flog;

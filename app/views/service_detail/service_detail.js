@@ -80,9 +80,8 @@ angular.module('console.service.detail', [
             DeploymentConfig.get({namespace: $rootScope.namespace, name: name}, function(res){
                 $log.info("deploymentConfigs", res);
                 $scope.dc = res;
-
+                $scope.getdc = angular.copy(res)
                 getEnvs(res.spec.template.spec.containers);
-
                 angular.forEach($scope.dc.spec.triggers, function(trigger){
                     if (trigger.type == 'ImageChange') {
                         $scope.grid.imageChange = true;
@@ -383,6 +382,7 @@ angular.module('console.service.detail', [
             if (item) {
                 item.spec.replicas = $scope.dc.spec.replicas;
                 ReplicationController.put({namespace: $rootScope.namespace, name: item.metadata.name}, item, function(res){
+                    $log.info("$scope.dc0-0-0-0-0-0-", $scope.dc);
                     $log.info("start dc success", res);
                     item = res;
                 }, function(res){
@@ -408,6 +408,7 @@ angular.module('console.service.detail', [
                 ReplicationController.put({namespace: $rootScope.namespace, name: item.metadata.name}, item, function(res){
                     $log.info("start dc success", res);
                     item = res;
+                    $log.info("$scope.dc0-0-0-0-0-0-", $scope.dc);
 
                 }, function(res){
                     //todo 错误处理
@@ -418,18 +419,25 @@ angular.module('console.service.detail', [
 
         $scope.startRc = function(idx){
             var o = $scope.rcs.items[idx];
+            $log.info('0-0-0-0-0-0-0',$scope.rcs);
             if (!o.dc) {
                 return;
             }
-            o.dc.metadata.resourceVersion = $scope.dc.metadata.resourceVersion;
-            o.dc.status.latestVersion = $scope.dc.status.latestVersion + 1;
-            DeploymentConfig.put({namespace: $rootScope.namespace, name: o.dc.metadata.name}, o.dc, function(res){
-                $log.info("start rc success", res);
+            DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function(dcdata){
+                o.dc.metadata.resourceVersion = dcdata.metadata.resourceVersion;
+                o.dc.status.latestVersion = dcdata.status.latestVersion + 1;
+                DeploymentConfig.put({namespace: $rootScope.namespace, name: o.dc.metadata.name}, o.dc, function(res){
+                    $log.info("start rc success", res);
 
+                }, function(res){
+                    //todo 错误处理
+                    $log.info("start rc err", res);
+                });
             }, function(res){
                 //todo 错误处理
-                $log.info("start rc err", res);
-            });
+
+            })
+
         };
 
         $scope.stopRc = function(idx){
@@ -836,43 +844,49 @@ angular.module('console.service.detail', [
 
         $scope.updateDc = function(){
             var dc = angular.copy($scope.dc);
-            $log.info("-=-=-=-=-=-=",dc);
-            dc.spec.template.spec.volumes = [];
-            var flog = 0;
-            for(var i = 0 ; i <dc.spec.template.spec.containers.length; i++){
-                for(var j = 0;j<dc.spec.template.spec.containers[i].volumeMounts.length;j++){
-                    flog++;
-                    var volume1 = "volume"+flog;
+            DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function(datadc){
 
-                    dc.spec.template.spec.volumes.push(
-                        {
-                            "name" : volume1,
-                            "secret" : {
-                                "secretName" : dc.spec.template.spec.containers[i].volumeMounts[j].name
+                $log.info("-=-=-=-=-=-=dc",dc);
+                //$log.info("-=-=-=-=-=-=datadc",datadc);
+                dc.spec.template.spec.volumes = [];
+                dc.metadata.resourceVersion = datadc.metadata.resourceVersion;
+                dc.status.latestVersion = datadc.status.latestVersion;
+                var flog = 0;
+                for(var i = 0 ; i <dc.spec.template.spec.containers.length; i++){
+                    for(var j = 0;j<dc.spec.template.spec.containers[i].volumeMounts.length;j++){
+                        flog++;
+                        var volume1 = "volume"+flog;
+                        dc.spec.template.spec.volumes.push(
+                            {
+                                "name" : volume1,
+                                "secret" : {
+                                    "secretName" : dc.spec.template.spec.containers[i].volumeMounts[j].name
+                                }
                             }
-                        }
-                    );
-                    dc.spec.template.spec.containers[i].volumeMounts[j].name = volume1;
+                        );
+                        dc.spec.template.spec.containers[i].volumeMounts[j].name = volume1;
+                    }
                 }
-            }
-            prepareVolume(dc);
-            prepareTrigger(dc);
-            prepareEnv(dc);
-            updateService(dc);
-            if ($scope.grid.route) {
-                updateRoute(dc);
-            }
+                prepareVolume(dc);
+                prepareTrigger(dc);
+                prepareEnv(dc);
+                updateService(dc);
+                if ($scope.grid.route) {
+                    updateRoute(dc);
+                }
 
-            $log.info("update dc", dc);
+                $log.info("update dc", dc);
 
-            DeploymentConfig.put({namespace: $rootScope.namespace, name: dc.metadata.name}, dc, function(res){
-                $log.info("update dc success", res);
-                bindService(dc);
-                $scope.active = 1;
-            }, function(res){
-                //todo 错误处理
-                $log.info("update dc fail", res);
-            });
+                DeploymentConfig.put({namespace: $rootScope.namespace, name: dc.metadata.name}, dc, function(res){
+                    $log.info("update dc success", res);
+                    bindService(dc);
+                    $scope.active = 1;
+                }, function(res){
+                    //todo 错误处理
+                    $log.info("update dc fail", res);
+                });
+            })
+
         };
     }])
     .service('LogModal', ['$uibModal', function ($uibModal) {

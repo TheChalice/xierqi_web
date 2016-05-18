@@ -33,8 +33,10 @@
             font-size: 14px;
             color: #fff;
             text-align: center;
-            height: 50px;
+            height: 250px;
             line-height: 50px;
+            paddin:0px 30px;
+            padding-top: 40px;
         }
         #header .btn-green {
             padding-left: 10px;
@@ -167,6 +169,38 @@
                   -webkit-transform: scale(1.0);
               }
         }
+        .information{
+            width: 100%;
+        }
+        .ifml{
+            width: 15%;
+            overflow: hidden;
+            float: left;
+            border-right: 1px solid #3d4458;
+        }
+        .ifml a:link,.ifml a:visited{
+            display: inline-block;
+            width: 100%;
+            height: 17px;
+            line-height:17px;
+            color: #fff;
+        }
+        .ftpic{
+            width: 115px;
+            height: 115px;
+            margin-left:50px;
+            float: left;
+        }
+        .ftcon{
+            float: left;
+            width:65%;
+            overflow: hidden;
+        }
+        .ftcon p{
+            color: #fff;
+            line-height:24px;
+            text-align: left;
+        }
     </style>
     <div id="header">
         <a id="header-brand" href="#">
@@ -213,6 +247,20 @@
     <div ui-view style="overflow: hidden;"></div>
 
     <div class="footer">
-        © 2016版权所有 北京亚信智慧数据科技有限公司 京ICP备11005544号-15 京公网安备110108007119号
+
+        <div class="information">
+            <div class="ifml">
+                <a href="#">团队介绍</a>
+                <a href="#">合作方式</a>
+            </div>
+            <div class="ftpic"></div>
+            <div class="ftcon">
+                <p>联系我们</p>
+                <p>电话:010-82166688</p>
+                <p>datafoundry@asiainfo.com</p>
+                <p>地址:北京市海淀区中关村软件园二期西北旺东路10院亚信大厦</p>
+            </div>
+        </div>
+       <div style="float:left; text-align: center;width: 100%;">© 2016版权所有 北京亚信智慧数据科技有限公司 京ICP备11005544号-15 京公网安备110108007119号</div>
     </div>
 </div>
