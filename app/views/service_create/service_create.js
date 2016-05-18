@@ -63,18 +63,17 @@ angular.module('console.service.create', [
         $scope.grid = {
           ports: [],
           port: 0,
-          host: {
-            name:''
-          },
+          host:'',
           suffix: '.app.dataos.io',
           imageChange: true,
           configChange: true,
           checkedsecond: false,
           auto: false,
           conflict: false,
-          serviceConflict: false
+          serviceConflict: false,
+          servicepot:false
         };
-        $scope.grid.host=$scope.dc.metadata.name
+        // $scope.grid.host=$scope.dc.metadata.name
         $scope.invalid = {};
 
         $scope.envs = [];
@@ -268,6 +267,7 @@ angular.module('console.service.create', [
           ImageSelect.open().then(function (res) {
             console.log("imageStreamTag", res);
             container.image = res.metadata.name;
+
             var str = res.metadata.name.split(":");
             var strname = str[0];
             container.strname = strname;
@@ -302,7 +302,7 @@ angular.module('console.service.create', [
             });
           });
         };
-
+        //
         var isConflict = function () {
           var conflict = false;
           var serviceConflict = false;
@@ -314,10 +314,17 @@ angular.module('console.service.create', [
               serviceConflict = portConflict(ports[j].servicePort, i, j, 'servicePort');
               ports[j].conflict = conflict;
               ports[j].serviceConflict = serviceConflict;
+              if (ports[j].containerPort && ports[j].servicePort) {
+                $scope.grid.servicepot=false;
+              }else {
+                $scope.grid.servicepot=true;
+              }
             }
           }
           $scope.grid.conflict = conflict;
           $scope.grid.serviceConflict = serviceConflict;
+
+         console.log('ports',ports.containerPort)
           return conflict || serviceConflict;
         };
 

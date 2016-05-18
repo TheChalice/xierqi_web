@@ -49,8 +49,10 @@
             color: #5a6378;
         }
         .loading-box{
-            position: absolute;
+            position: fixed;
             /*overflow: hidden;*/
+            top: 0;
+            left: 0;
             height: 100%;
             /*top:100px;*/
             width: 100%;
@@ -221,6 +223,7 @@
             <li><a href="javascript:;">帮助</a></li>
         </ul>
     </div>
+    <!--loading-->
     <div class="loading-box" ng-show='loding'>
         <div class="spinner">
             <div class="spinner-container container1">
@@ -243,6 +246,7 @@
             </div>
         </div>
     </div>
+
 
     <div ui-view style="overflow: hidden;"></div>
 

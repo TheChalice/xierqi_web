@@ -2,20 +2,34 @@
     <div class="tabs">
         <div class="sc">
             <label>服务分类</label>
-            <div class="btn-group">
-                <label class="btn" ng-class="{'active':grid.serviceCat == 'Devops'}" ng-click="select('serviceCat', 'Devops')">Devops</label>
-                <label class="btn" ng-class="{'active':grid.serviceCat == '数据'}" ng-click="select('serviceCat', '数据')">数据</label>
-                <label class="btn" ng-class="{'active':grid.serviceCat == '分析'}" ng-click="select('serviceCat', '分析')">分析</label>
-                <label class="btn" ng-class="{'active':grid.serviceCat == 'IOT'}" ng-click="select('serviceCat', 'IOT')">IOT</label>
+            <!--<div class="btn-group">-->
+                <!--<label class="btn" ng-class="{'active':grid.serviceCat == 'Devops'}"-->
+                       <!--ng-click="select('serviceCat', 'Devops')">Devops</label>-->
+                <!--<label class="btn" ng-class="{'active':grid.serviceCat == 'sj'}"-->
+                       <!--ng-click="select('serviceCat', 'sj')">数据</label>-->
+                <!--<label class="btn" ng-class="{'active':grid.serviceCat == 'fx'}"-->
+                       <!--ng-click="select('serviceCat', 'fx')">分析</label>-->
+                <!--<label class="btn" ng-class="{'active':grid.serviceCat == 'IOT'}"-->
+                       <!--ng-click="select('serviceCat', 'IOT')">IOT</label>-->
+            <!--</div>-->
+            <div class="btn-group" ng-repeat='item in cation'>
+                <label class="btn" ng-class='{"active":grid.serviceCat == $index}'
+                       ng-click='select("serviceCat", $index)'>{{item}}</label>
             </div>
-
         </div>
         <div class="sc">
             <label>服务提供者</label>
-            <div class="btn-group">
-                <label class="btn" ng-class="{'active':grid.vendor == '平台'}" ng-click="select('vendor', '平台',$$hashKey)">平台</label>
-                <label class="btn" ng-class="{'active':grid.vendor == 'HBase'}" ng-click="select('vendor', 'HBase',$$hashKey)">HBase</label>
-                <label class="btn" ng-class="{'active':grid.vendor == '第三方'}" ng-click="select('vendor', '第三方',$$hashKey)">第三方</label>
+            <!--<div class="btn-group">-->
+                <!--<label class="btn" ng-class="{'active':grid.vendor == 'asiainfoLDP'}"-->
+                       <!--ng-click="selectsc('vendor', 'asiainfoLDP')">平台</label>-->
+                <!--<label class="btn" ng-class="{'active':grid.vendor == 'Asiainfo'}"-->
+                       <!--ng-click="selectsc('vendor', 'Asiainfo')">HBase</label>-->
+                <!--<label class="btn" ng-class="{'active':grid.vendor == '第三方'}"-->
+                       <!--ng-click="selectsc('vendor', '第三方')">第三方</label>-->
+            <!--</div>-->
+            <div class="btn-group" ng-repeat='item in dev'>
+                <label class="btn" ng-class="{'active':grid.vendor == $index}"
+                       ng-click="selectsc('vendor',$index)">{{item}}</label>
             </div>
         </div>
     </div>
@@ -27,30 +41,63 @@
             <div class="row">
                 <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
                     <input type="text" class="form-control" placeholder="搜索后端服务名称" ng-model="grid.txt">
-                           <!--ng-model="txt" ng-focus="showTip=true;" -->
-
+                    <!--ng-model="txt" ng-focus="showTip=true;" -->
                     <span class="input-group-btn">
                         <a class="btn" ng-click="search()"></a>
                     </span>
                 </div>
             </div>
-            <div class="row">
-                <h2 class="h2-border" style="margin-bottom: 15px;">Devops</h2>
+
+            <div class="row" ng-show='isshow.ETCD'>
+                <h2 class="h2-border" style="margin-bottom: 15px;">ETCD</h2>
                 <div class="row">
                     <div class="col-md-3 col-sm-4 col-xs-6"
-                         ng-repeat="item in items |filter:isComplete"
+                         ng-repeat="item in itemsDevop.itemsDevops | filter:isComplete"
                          ng-show="item.show">
                         <bs-card></bs-card>
                     </div>
                 </div>
             </div>
-        </uib-tab>
+            <div class="row" ng-show='isshow.rdb'>
+                <h2 class="h2-border" style="margin-bottom: 15px;">rdb</h2>
+                <div class="row">
+                    <div class="col-md-3 col-sm-4 col-xs-6"
+                         ng-repeat="item in itemsDevop.itemssj | filter:isComplete"
+                         ng-show="item.show">
+                        <bs-card></bs-card>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-show='isshow.RDB'>
+                <h2 class="h2-border" style="margin-bottom: 15px;">RDB</h2>
+                <div class="row">
+                    <div class="col-md-3 col-sm-4 col-xs-6"
+                         ng-repeat="item in itemsDevop.itemsfx | filter:isComplete"
+                         ng-show="item.show">
+                        <bs-card></bs-card>
+                    </div>
+                </div>
+            </div>
+            <div class="row" ng-show='isshow.Mysql'>
+                <h2 class="h2-border" style="margin-bottom: 15px;">Mysql</h2>
+                <div class="row">
+                    <div class="col-md-3 col-sm-4 col-xs-6"
+                         ng-repeat="item in itemsDevop.itemsIOT | filter:isComplete"
+                         ng-show="item.show">
+                        <bs-card></bs-card>
+                    </div>
+                </div>
+            </div>
 
-        <uib-tab index="2">
-            <uib-tab-heading>
-                <i class="fa2 fa2-bsi"></i>&nbsp;&nbsp;我的后端服务实例
-            </uib-tab-heading>
-            <div ng-include="'views/backing_service/backing_service_instance.html'"></div>
-        </uib-tab>
-    </uib-tabset>
+</uib-tab>
+
+<uib-tab index="2">
+    <uib-tab-heading>
+        <i class="fa2 fa2-bsi"></i>&nbsp;&nbsp;我的后端服务实例
+    </uib-tab-heading>
+    <div ng-include="'views/backing_service/backing_service_instance.html'">
+
+    </div>
+</uib-tab>
+</uib-tabset>
 </div>
