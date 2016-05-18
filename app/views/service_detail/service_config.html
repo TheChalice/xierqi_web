@@ -150,10 +150,17 @@
                     </div>
                     <div class="row" ng-repeat="port in container.ports" style="margin-top: 15px;">
                         <div class="col-sm-3">
-                            <input type="text" readonly class="input-small" ng-model="port.protocol">
+                            <!--<input type="text"-->
+                            <!--class="input-small"-->
+                            <!--ng-model="port.protocol">-->
+                            <select class="input-small" ng-model="port.protocol">
+                                <option value="TCP">TCP</option>
+                                <option value="UDP">UDP</option>
+                            </select>
                         </div>
                         <div class="col-sm-3">
-                            <input type="text" readonly class="input-small" ng-class="{'input-error':port.conflict}"
+                            <input type="text" class="input-small"
+                                   ng-class="{'input-error':port.conflict}"
                                    ng-model="port.containerPort">
                         </div>
                         <div class="col-sm-3">

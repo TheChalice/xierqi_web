@@ -7,24 +7,130 @@ angular.module('console.backing_service', [
         ]
       }
     ])
-    .controller('BackingServiceCtrl', ['$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'BackingServiceInstanceBd', 'Confirm', 'Toast', 'Ws', function ($log, $rootScope, $scope, BackingService, BackingServiceInstance, ServiceSelect, BackingServiceInstanceBd, Confirm, Toast, Ws) {
+    .controller('BackingServiceCtrl', ['$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'BackingServiceInstanceBd', 'Confirm', 'Toast', 'Ws', '$filter', function ($log, $rootScope, $scope, BackingService, BackingServiceInstance, ServiceSelect, BackingServiceInstanceBd, Confirm, Toast, Ws, $filter) {
+      // 得到loadBs对象进行分组
+      // 数组去重方法
+      Array.prototype.unique = function(){
+        this.sort(); //先排序
+        var res = [this[0]];
+        for(var i = 1; i < this.length; i++){
+          if(this[i] !== res[res.length - 1]){
+            res.push(this[i]);
+          }
+        }
+        return res;
+      }
+      // 数组变对象
+
+      var loadBs = function () {
+        BackingService.get({namespace: 'openshift'}, function (data) {
+          $log.info('loadBs', data);
+          $scope.items = data.items;
+          // console.log($scope.items);
+          var arr = data.items;
+          $scope.dev=[];
+          $scope.cation=[];
+          $scope.itemsDevop = {
+            itemsDevops: [],
+            itemssj: [],
+            itemsfx: [],
+            itemsIOT: []
+          }
+          // $scope.others = [];
+          //服务分类属性
+          // console.log(arr[0].metadata.annotations.Class)
+          // 服务提供者属性
+          // console.log(arr[1].spec.metadata.providerDisplayName)
+          //服务提供者分组
+
+          for (var j = 0; j < arr.length; j++) {
+            // console.log(arr[j].spec.metadata.providerDisplayName)
+            $scope.dev.push(arr[j].spec.metadata.providerDisplayName)
+            $scope.cation.push(arr[j].metadata.annotations.Class)
+            if (arr[j].spec.metadata.providerDisplayName == 'asiainfoLDP') {
+              arr[j].providerDisplayName = 'asiainfoLDP';
+            } else if (arr[j].spec.metadata.providerDisplayName == 'Asiainfo') {
+              arr[j].providerDisplayName = 'Asiainfo';
+            }
+
+          }
+          $scope.dev=$scope.dev.unique()
+          // console.log('$scope.dev',$scope.dev);
+          $scope.cation=$scope.cation.unique()
+          // console.log('$scope.cation',$scope.cation);
+          // console.log('change', arr)
+          //服务分类分组
+          for (var i = 0; i < arr.length; i++) {
+            // console.log('change', arr[i].providerDisplayName)
+            if (arr[i].metadata.annotations.Class == 'ETCD') {
+              $scope.itemsDevop.itemsDevops.push(arr[i]);
+            } else if (arr[i].metadata.annotations.Class == 'rdb') {
+              $scope.itemsDevop.itemssj.push(arr[i]);
+            } else if (arr[i].metadata.annotations.Class == 'RDB') {
+              $scope.itemsDevop.itemsfx.push(arr[i]);
+            } else if (arr[i].metadata.annotations.Class == 'Mysql') {
+              $scope.itemsDevop.itemsIOT.push(arr[i]);
+            }
+
+          }
+          // console.log("$scope.itemsDevop",$scope.itemsDevop)
+          $scope.data = data.items;
+          filter('serviceCat', 'all');
+          filter('vendor', 'all');
+        })
+      };
+      loadBs();
+
       $scope.status = {};
+
       $scope.grid = {
         serviceCat: 'all',
         vendor: 'all',
         txt: ''
       };
-
-      $scope.select = function (tp, key, hashKey) {
-        console.log("tp", tp, 'key', key);
+      $scope.isComplete = {};
+      $scope.isshow = {
+        ETCD: true,
+        rdb: true,
+        RDB: true,
+        Mysql: true
+      }
+      $scope.select = function (tp, key) {
+        console.log("tp", tp, 'key', $scope.cation[key]);
+        //class判定
         if (key == $scope.grid[tp]) {
           key = 'all';
+          $scope.isshow = {
+            ETCD: true,
+            rdb: true,
+            RDB: true,
+            Mysql: true
+          }
+        } else {
+          for (var k in $scope.isshow) {
+            if ($scope.cation[key] == k) {
+              $scope.isshow[k] = true;
+            } else {
+              $scope.isshow[k] = false;
+            }
+
+          }
         }
         $scope.grid[tp] = key;
-        console.log(hashKey)
-
-        filter(tp, key);
+        // filter(tp, key);
       };
+      $scope.selectsc = function (tp, key) {
+        console.log("tp", tp, 'key', $scope.dev[key]);
+        var a=$scope.dev[key]
+        $scope.isComplete = {providerDisplayName: a}
+        console.log($scope.isComplete);
+        if (key == $scope.grid[tp]) {
+          key = 'all';
+          $scope.isComplete = {}
+        }
+        $scope.grid[tp] = key;
+      }
+
 
       var filter = function (tp, key) {
         var reg = null;
@@ -45,16 +151,6 @@ angular.module('console.backing_service', [
         });
       };
 
-      var loadBs = function () {
-        BackingService.get({namespace: 'openshift'}, function (data) {
-          $log.info('loadBs', data);
-          $scope.items = data.items;
-          $scope.data = data.items;
-          filter('serviceCat', 'all');
-          filter('vendor', 'all');
-        })
-      };
-      loadBs();
 
       var loadBsi = function () {
         BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {

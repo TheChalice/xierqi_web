@@ -70,7 +70,8 @@ angular.module('console.service.create', [
           checkedsecond: false,
           auto: false,
           conflict: false,
-          serviceConflict: false
+          serviceConflict: false,
+          servicepot:false
         };
         // $scope.grid.host=$scope.dc.metadata.name
         $scope.invalid = {};
@@ -297,7 +298,7 @@ angular.module('console.service.create', [
             });
           });
         };
-
+        //
         var isConflict = function () {
           var conflict = false;
           var serviceConflict = false;
@@ -309,10 +310,17 @@ angular.module('console.service.create', [
               serviceConflict = portConflict(ports[j].servicePort, i, j, 'servicePort');
               ports[j].conflict = conflict;
               ports[j].serviceConflict = serviceConflict;
+              if (ports[j].containerPort && ports[j].servicePort) {
+                $scope.grid.servicepot=false;
+              }else {
+                $scope.grid.servicepot=true;
+              }
             }
           }
           $scope.grid.conflict = conflict;
           $scope.grid.serviceConflict = serviceConflict;
+
+         console.log('ports',ports.containerPort)
           return conflict || serviceConflict;
         };
 
