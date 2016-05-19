@@ -429,9 +429,9 @@ angular.module('console.service.create', [
               }
               ps.push({
                 name: ports[j].servicePort + '-' + ports[j].protocol.toLowerCase(),
-                port: ports[j].servicePort,
+                port: parseInt(ports[j].servicePort),
                 protocol: ports[j].protocol,
-                targetPort: ports[j].containerPort
+                targetPort: parseInt(ports[j].containerPort)
               });
             }
           }
@@ -458,7 +458,7 @@ angular.module('console.service.create', [
           service.metadata.name = dc.metadata.name;
           service.metadata.labels.app = dc.metadata.name;
           service.spec.selector.app = dc.metadata.name;
-          service.spec.selector.app = dc.metadata.name;
+          service.spec.selector.deploymentconfig = dc.metadata.name;
         };
 
         var prepareDc = function (dc) {
