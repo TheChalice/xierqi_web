@@ -15,8 +15,14 @@ define([
                     $log.info('webSocket is not available');
                     return;
                 }
+                
+                var wsscheme = "wss://";
+                if (window.location.protocol != "https:") {
+                    wsscheme = "ws://";
+                }
 
-                var host = 'ws://' + location.host;
+                var host = wsscheme + location.host;
+                
                 if (params.api == 'k8s') {
                     host = host + GLOBAL.host_wss_k8s;
                 } else {

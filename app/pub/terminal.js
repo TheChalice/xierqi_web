@@ -9,7 +9,11 @@ define(['angular'], function (angular) {
             self.WebSocketFactory = function() {
                 return function ContainerWebSocket(url, protocols) {
                     if (url.indexOf("/") === 0) {
-                        url = "ws://" + window.location.host + '/ws' + url;
+                        var  wsscheme = "wss://";
+                        if (window.location.protocol != "https:") {
+                            wsscheme = "ws://";
+                        }
+                        url = wsscheme + window.location.host + '/ws' + url;
                     }
                     return new window.WebSocket(url, protocols);
                 };
