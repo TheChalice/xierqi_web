@@ -131,7 +131,7 @@
                                             <input type="text" class="input-small" ng-class="{'input-error':port.conflict}" ng-model="port.containerPort">
                                         </div>
                                         <div class="col-sm-3">
-                                            <input type="text" ng-model="port.servicePort" class="input-small" ng-class="{'input-error':port.serviceConflict}">
+                                            <input type="text" ng-model="port.hostPort" class="input-small" ng-class="{'input-error':port.serviceConflict}">
                                         </div>
                                         <div class="col-sm-3">
                                             <a href="javascript:;" ng-click="addprot(container,$index,$last)" class="fa fa-lg" ng-class="{'fa-times-circle':!$last, 'fa-plus-circle':$last}"></a>

@@ -16,8 +16,8 @@ angular.module('console.service.create', [
           if (last) {     //添加
             container.ports.push({
               containerPort: "",
-              protocol: "tcp",
-              servicePort: "",
+              protocol: "TCP",
+              hostPort: "",
             })
           } else {
             container.ports.splice(ind, 1);
@@ -164,11 +164,12 @@ angular.module('console.service.create', [
             for (var k in exposedPorts) {
               var arr = k.split('/');
               if (arr.length == 2) {
+                var val = arr[1].toUpperCase()
                 container.ports.push({
                   containerPort: parseInt(arr[0]),
-                  servicePort: parseInt(arr[0]),
-                  protocol: arr[1],
-                  open: true
+                  hostPort: parseInt(arr[0]),
+                  protocol: val,
+                  //open: true
                 });
               }
             }
@@ -281,11 +282,12 @@ angular.module('console.service.create', [
             for (var k in exposedPorts) {
               var arr = k.split('/');
               if (arr.length == 2) {
+                var val = arr[1].toUpperCase()
                 container.ports.push({
                   containerPort: '',
-                  servicePort: '',
-                  protocol: arr[1],
-                  open: true
+                  hostPort: '',
+                  protocol: val,
+                  //open: true
                 });
               }
             }
@@ -296,8 +298,8 @@ angular.module('console.service.create', [
           $scope.grid.ports = [];
           angular.forEach($scope.dc.spec.template.spec.containers, function (item) {
             angular.forEach(item.ports, function (port) {
-              if ($scope.grid.ports.indexOf(port.servicePort) == -1) {
-                $scope.grid.ports.push(port.servicePort);
+              if ($scope.grid.ports.indexOf(port.hostPort) == -1) {
+                $scope.grid.ports.push(port.hostPort);
               }
             });
           });
@@ -311,10 +313,10 @@ angular.module('console.service.create', [
             var ports = containers[i].ports;
             for (var j = 0; j < ports.length; j++) {
               conflict = portConflict(ports[j].containerPort, i, j, 'containerPort');
-              serviceConflict = portConflict(ports[j].servicePort, i, j, 'servicePort');
+              serviceConflict = portConflict(ports[j].hostPort, i, j, 'hostPort');
               ports[j].conflict = conflict;
               ports[j].serviceConflict = serviceConflict;
-              if (ports[j].containerPort && ports[j].servicePort) {
+              if (ports[j].containerPort && ports[j].hostPort) {
                 $scope.grid.servicepot=false;
               }else {
                 $scope.grid.servicepot=true;
@@ -339,7 +341,7 @@ angular.module('console.service.create', [
               if (tp == 'containerPort' && ports[j].containerPort == port) {
                 return true;
               }
-              if (tp == 'servicePort' && ports[j].servicePort == port) {
+              if (tp == 'hostPort' && ports[j].hostPort == port) {
                 return true;
               }
             }
@@ -431,10 +433,11 @@ angular.module('console.service.create', [
               if (!ports[j].open) {
                 continue;
               }
+              var val = ports[j].protocol.toUpperCase()
               ps.push({
-                name: ports[j].servicePort + '-' + ports[j].protocol.toLowerCase(),
-                port: parseInt(ports[j].servicePort),
-                protocol: ports[j].protocol,
+                name: ports[j].hostPort + '-' + ports[j].protocol.toLowerCase(),
+                port: parseInt(ports[j].hostPort),
+                protocol: val,
                 targetPort: parseInt(ports[j].containerPort)
               });
             }
@@ -526,6 +529,7 @@ angular.module('console.service.create', [
 
         $scope.createDc = function () {
           var dc = angular.copy($scope.dc);
+          var cons = angular.copy($scope.dc.spec.template.spec.containers);
           $log.info("-=-=-=-=-=--=-=",dc);
           var flog = 0;
           for(var i = 0 ; i <dc.spec.template.spec.containers.length; i++){
@@ -546,8 +550,21 @@ angular.module('console.service.create', [
                     dc.spec.template.spec.containers[i].volumeMounts[j].name = volume1;
                 }
               }
+            var testlength = cons[i].ports.length;
+            for(var k = 0 ;k < testlength;k++){
+                if(!cons[i].ports[k].containerPort){
+                  cons[i].ports.splice(k,1);
+                  k--;
+                  testlength--;
+                }else{
+
+                  cons[i].ports[k].name = cons[i].ports[k].protocol+"-"+cons[i].ports[k].containerPort;
+                  cons[i].ports[k].protocol = cons[i].ports[k].protocol.toUpperCase()
+                }
+            }
+            dc.spec.template.spec.containers[i].ports = cons[i].ports;
           }
-          $log.info("-=-=90-90--=-=",dc);
+          $log.info("-0-0-0-0-0-0",dc);
           if (!valid(dc)) {
             return;
           }
