@@ -79,6 +79,15 @@ angular.module('console.service.detail', [
         var loadDc = function (name) {
           DeploymentConfig.get({namespace: $rootScope.namespace, name: name}, function (res) {
             $log.info("deploymentConfigs", res);
+            if (!res.spec.template.spec.containers[0].ports) {
+              res.spec.template.spec.containers[0].ports = [{
+                conflict: false,
+                containerPort: '',
+                open: false,
+                protocol: "TCP",
+                servicePort: ''
+              }]
+            }
             $scope.dc = res;
             $scope.getdc = angular.copy(res)
             getEnvs(res.spec.template.spec.containers);
