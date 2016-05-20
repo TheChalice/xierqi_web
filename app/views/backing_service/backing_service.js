@@ -10,11 +10,11 @@ angular.module('console.backing_service', [
     .controller('BackingServiceCtrl', ['$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'BackingServiceInstanceBd', 'Confirm', 'Toast', 'Ws', '$filter', function ($log, $rootScope, $scope, BackingService, BackingServiceInstance, ServiceSelect, BackingServiceInstanceBd, Confirm, Toast, Ws, $filter) {
       // 得到loadBs对象进行分组
       // 数组去重方法
-      Array.prototype.unique = function(){
+      Array.prototype.unique = function () {
         this.sort(); //先排序
         var res = [this[0]];
-        for(var i = 1; i < this.length; i++){
-          if(this[i] !== res[res.length - 1]){
+        for (var i = 1; i < this.length; i++) {
+          if (this[i] !== res[res.length - 1]) {
             res.push(this[i]);
           }
         }
@@ -28,11 +28,10 @@ angular.module('console.backing_service', [
           $scope.items = data.items;
           // console.log($scope.items);
           var arr = data.items;
-          $scope.dev=[];
-          $scope.cation=[];
+          $scope.dev = [];
+          $scope.cation = [];
           $scope.itemsDevop = {
             itemsDevops: [],
-            itemssj: [],
             itemsfx: [],
             itemsIOT: []
           }
@@ -46,34 +45,40 @@ angular.module('console.backing_service', [
           for (var j = 0; j < arr.length; j++) {
             // console.log(arr[j].spec.metadata.providerDisplayName)
             $scope.dev.push(arr[j].spec.metadata.providerDisplayName)
-            $scope.cation.push(arr[j].metadata.annotations.Class)
-            if (arr[j].spec.metadata.providerDisplayName == 'asiainfoLDP') {
-              arr[j].providerDisplayName = 'asiainfoLDP';
-            } else if (arr[j].spec.metadata.providerDisplayName == 'Asiainfo') {
+            // $scope.cation.push(arr[j].metadata.annotations.Class)
+            if (arr[j].spec.metadata.providerDisplayName === 'asiainfoLDP') {
+              arr[j].providerDisplayName = 'bs';
+            } else if (arr[j].spec.metadata.providerDisplayName === 'Asiainfo') {
               arr[j].providerDisplayName = 'Asiainfo';
             }
 
           }
-          $scope.dev=$scope.dev.unique()
+          //将类名变大写
+          for (var l = 0; l < arr.length; l++) {
+            arr[l].metadata.annotations.Class = arr[l].metadata.annotations.Class.toUpperCase()
+
+            $scope.cation.push(arr[l].metadata.annotations.Class)
+          }
+          $scope.dev = $scope.dev.unique()
           // console.log('$scope.dev',$scope.dev);
-          $scope.cation=$scope.cation.unique()
           // console.log('$scope.cation',$scope.cation);
+          $scope.cation = $scope.cation.unique()
+
           // console.log('change', arr)
           //服务分类分组
           for (var i = 0; i < arr.length; i++) {
             // console.log('change', arr[i].providerDisplayName)
             if (arr[i].metadata.annotations.Class == 'ETCD') {
               $scope.itemsDevop.itemsDevops.push(arr[i]);
-            } else if (arr[i].metadata.annotations.Class == 'rdb') {
-              $scope.itemsDevop.itemssj.push(arr[i]);
             } else if (arr[i].metadata.annotations.Class == 'RDB') {
               $scope.itemsDevop.itemsfx.push(arr[i]);
-            } else if (arr[i].metadata.annotations.Class == 'Mysql') {
+            } else if (arr[i].metadata.annotations.Class == 'MYSQL') {
               $scope.itemsDevop.itemsIOT.push(arr[i]);
             }
 
           }
-          // console.log("$scope.itemsDevop",$scope.itemsDevop)
+          // console.log("$scope.itemsDevop", $scope.itemsDevop)
+
           $scope.data = data.items;
           filter('serviceCat', 'all');
           filter('vendor', 'all');
@@ -91,21 +96,26 @@ angular.module('console.backing_service', [
       $scope.isComplete = {};
       $scope.isshow = {
         ETCD: true,
-        rdb: true,
         RDB: true,
-        Mysql: true
+        MYSQL: true,
       }
+      $scope.showTab = {
+        ETCD: true,
+        RDB: true,
+        MYSQL: true,
+      }
+      // 第一栏筛选
       $scope.select = function (tp, key) {
-        console.log("tp", tp, 'key', $scope.cation[key]);
+        // console.log("tp", tp, 'key', $scope.cation[key]);
         //class判定
         if (key == $scope.grid[tp]) {
           key = 'all';
           $scope.isshow = {
             ETCD: true,
-            rdb: true,
             RDB: true,
-            Mysql: true
+            MYSQL: true
           }
+
         } else {
           for (var k in $scope.isshow) {
             if ($scope.cation[key] == k) {
@@ -119,16 +129,40 @@ angular.module('console.backing_service', [
         $scope.grid[tp] = key;
         // filter(tp, key);
       };
+      //第二栏筛选
       $scope.selectsc = function (tp, key) {
-        console.log("tp", tp, 'key', $scope.dev[key]);
-        var a=$scope.dev[key]
-        $scope.isComplete = {providerDisplayName: a}
-        console.log($scope.isComplete);
+        // console.log("tp", tp, 'key', $scope.dev[key]);
+        var a = $scope.dev[key]
+        // console.log($scope.itemsDevop)
+        if ($scope.dev[key] === 'Asiainfo') {
+          $scope.showTab = {
+            ETCD: true,
+            RDB: false,
+            MYSQL: false,
+          }
+          $scope.isComplete = {providerDisplayName: a}
+        } else {
+          $scope.showTab = {
+            ETCD: false,
+            RDB: true,
+            MYSQL: true,
+          }
+          $scope.isComplete = {providerDisplayName: 'bs'}
+        }
+
+
+        // console.log($scope.isComplete);
         if (key == $scope.grid[tp]) {
           key = 'all';
           $scope.isComplete = {}
+          $scope.showTab = {
+            ETCD: true,
+            RDB: true,
+            MYSQL: true,
+          }
         }
         $scope.grid[tp] = key;
+        console.log("$scope.itemsDevop", $scope.itemsDevop)
       }
 
 
