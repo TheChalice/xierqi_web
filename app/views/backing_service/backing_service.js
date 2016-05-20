@@ -100,6 +100,7 @@ angular.module('console.backing_service', [
         txt: ''
       };
       $scope.isComplete = {};
+      console.log()
       $scope.isshow = {
         "分布式协调": true,
         "数据库": true,
