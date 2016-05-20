@@ -9,6 +9,7 @@ angular.module('console.dashboard', [
     .controller('dashboardCtrl', ['$log', '$rootScope', '$scope', 'Metrics', 'MetricsService', 'owner', function($log, $rootScope, $scope, Metrics, MetricsService, owner){
         $scope.cpuData = [];
         $scope.memData = [];
+        $scope.isdata = {};
 
       // owner.query(function(res){
       //     $log.info("owner=====", res);
@@ -74,7 +75,8 @@ angular.module('console.dashboard', [
                     }
                 },
                 size: {
-                    height: 230
+                    height: 230,
+                    width:900
                 },
 
                 func: function (chart) {
@@ -123,7 +125,8 @@ angular.module('console.dashboard', [
                     innerSize: '88%'
                 }],
                 size: {
-                    height: 200
+                    height: 200,
+                    width:200
                 },
 
                 func: function (chart) {
@@ -152,6 +155,7 @@ angular.module('console.dashboard', [
                 $scope.chartConfig = setChart();
                 $scope.pieConfigCpu = setPieChart('CPU', '25.75HZ', 75.5);
                 $scope.pieConfigMem = setPieChart('内存', '80G', 45.8);
+                $scope.isdata.CpuorMem = true;
             }, function(res){
                 $log.info('metrics mem all err', res);
             });
