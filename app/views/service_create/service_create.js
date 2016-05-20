@@ -424,15 +424,15 @@ angular.module('console.service.create', [
         var createService = function (dc) {
 
           prepareService($scope.service, dc);
-
           var ps = [];
           var containers = dc.spec.template.spec.containers;
+
           for (var i = 0; i < containers.length; i++) {
             var ports = containers[i].ports;
             for (var j = 0; j < ports.length; j++) {
-              if (!ports[j].open) {
-                continue;
-              }
+              //if (!ports[j].open) {
+              //  continue;
+              //}
               var val = ports[j].protocol.toUpperCase()
               ps.push({
                 name: ports[j].hostPort + '-' + ports[j].protocol.toLowerCase(),
@@ -447,6 +447,7 @@ angular.module('console.service.create', [
           } else {
             $scope.service.spec.ports = null;
           }
+          $log.info('$scope.service0-0-0-0-',$scope.service.spec.ports);
           Service.create({namespace: $rootScope.namespace}, $scope.service, function (res) {
             $log.info("create service success", res);
             $scope.service = res;
@@ -557,7 +558,6 @@ angular.module('console.service.create', [
                   k--;
                   testlength--;
                 }else{
-
                   cons[i].ports[k].name = cons[i].ports[k].protocol+"-"+cons[i].ports[k].containerPort;
                   cons[i].ports[k].protocol = cons[i].ports[k].protocol.toUpperCase()
                 }
@@ -580,8 +580,21 @@ angular.module('console.service.create', [
 
           DeploymentConfig.create({namespace: $rootScope.namespace}, dc, function (res) {
             $log.info("create dc success", res);
-            createService(dc);
-            bindService(dc);
+            var isport = false;
+            for(var i = 0 ; i < dc.spec.template.spec.containers.length ; i++){
+              if(dc.spec.template.spec.containers[i].ports){
+                isport = true;
+                break;
+              }
+            }
+            if(isport){
+              createService(dc);
+              bindService(dc);
+            }else{
+              $state.go('console.service_detail', {name: dc.metadata.name});
+            }
+
+
           }, function (res) {
             //todo 错误处理
             $log.info("create dc fail", res);

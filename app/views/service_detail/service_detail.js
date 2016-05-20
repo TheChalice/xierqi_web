@@ -81,11 +81,11 @@ angular.module('console.service.detail', [
             $log.info("deploymentConfigs", res);
             if (!res.spec.template.spec.containers[0].ports) {
               res.spec.template.spec.containers[0].ports = [{
-                conflict: false,
+                //conflict: false,
                 containerPort: '',
-                open: false,
+                //open: false,
                 protocol: "TCP",
-                servicePort: ''
+                hostPort: ''
               }]
             }
             $scope.dc = res;
@@ -149,7 +149,7 @@ angular.module('console.service.detail', [
         var updatePorts = function (containers) {
           angular.forEach(containers, function (item) {
             angular.forEach(item.ports, function (port) {
-              port.servicePort = $scope.portMap[port.containerPort + ''] || port.containerPort;
+              port.hostPort = $scope.portMap[port.containerPort + ''] || port.containerPort;
               port.open = !!$scope.portMap[port.containerPort];
             });
           });
@@ -177,8 +177,8 @@ angular.module('console.service.detail', [
           $scope.grid.ports = [];
           angular.forEach($scope.dc.spec.template.spec.containers, function (item) {
             angular.forEach(item.ports, function (port) {
-              if ($scope.grid.ports.indexOf(port.servicePort) == -1) {
-                $scope.grid.ports.push(port.servicePort);
+              if ($scope.grid.ports.indexOf(port.hostPort) == -1) {
+                $scope.grid.ports.push(port.hostPort);
               }
             });
           });
@@ -660,7 +660,7 @@ angular.module('console.service.detail', [
           container.ports.push({
             containerPort: "",
             protocol: "tcp",
-            servicePort: "",
+            hostPort: "",
 
           })
         };
@@ -689,8 +689,8 @@ angular.module('console.service.detail', [
 
                   containerPort: parseInt(arr[0]),
                   protocol: arr[1],
-                  servicePort: $scope.portMap[arr[0]] || arr[0],
-                  open: !!$scope.portMap[arr[0]]
+                  hostPort: $scope.portMap[arr[0]] || arr[0]
+                  //open: !!$scope.portMap[arr[0]]
                 })
               }
             }
@@ -698,13 +698,28 @@ angular.module('console.service.detail', [
           });
         };
 
+        //var prepareVolume = function (dc) {
+        //  var containers = dc.spec.template.spec.containers;
+        //  for (var i = 0; i < containers.length; i++) {
+        //    var container = containers[i];
+        //    for (var j = 0; j < container.volumeMounts.length; j++) {
+        //      if (!container.volumeMounts[j].name || !container.volumeMounts[j].mountPath) {
+        //        container.volumeMounts.splice(j, 1);
+        //      }
+        //    }
+        //  }
+        //};
         var prepareVolume = function (dc) {
           var containers = dc.spec.template.spec.containers;
           for (var i = 0; i < containers.length; i++) {
             var container = containers[i];
-            for (var j = 0; j < container.volumeMounts.length; j++) {
+            for (var j = 0; j < container.volumeMounts.length; ) {
               if (!container.volumeMounts[j].name || !container.volumeMounts[j].mountPath) {
+                $log.info("remove "+j+" from volumeMounts total has "+ container.volumeMounts.length);
                 container.volumeMounts.splice(j, 1);
+                j = 0;
+              } else {
+                j ++;
               }
             }
           }
@@ -794,8 +809,8 @@ angular.module('console.service.detail', [
                 continue;
               }
               ps.push({
-                name: ports[j].servicePort + '-' + ports[j].protocol.toLowerCase(),
-                port: ports[j].servicePort,
+                name: ports[j].hostPort + '-' + ports[j].protocol.toLowerCase(),
+                port: ports[j].hostPort,
                 protocol: ports[j].protocol,
                 targetPort: ports[j].containerPort
               });
@@ -875,6 +890,7 @@ angular.module('console.service.detail', [
           // console.log('点击更新');
           $scope.lding = true;
           var dc = angular.copy($scope.dc);
+          var cons = angular.copy($scope.dc.spec.template.spec.containers);
           DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (datadc) {
 
             $log.info("-=-=-=-=-=-=dc", dc);
@@ -885,19 +901,34 @@ angular.module('console.service.detail', [
             var flog = 0;
             for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
               for (var j = 0; j < dc.spec.template.spec.containers[i].volumeMounts.length; j++) {
-                flog++;
-                var volume1 = "volume" + flog;
-                dc.spec.template.spec.volumes.push(
-                    {
-                      "name": volume1,
-                      "secret": {
-                        "secretName": dc.spec.template.spec.containers[i].volumeMounts[j].name
+                if (dc.spec.template.spec.containers[i].volumeMounts[j].name) {
+                  flog++;
+                  var volume1 = "volume" + flog;
+                  dc.spec.template.spec.volumes.push(
+                      {
+                        "name": volume1,
+                        "secret": {
+                          "secretName": dc.spec.template.spec.containers[i].volumeMounts[j].name
+                        }
                       }
-                    }
-                );
-                dc.spec.template.spec.containers[i].volumeMounts[j].name = volume1;
+                  );
+                  dc.spec.template.spec.containers[i].volumeMounts[j].name = volume1;
+                }
               }
+              var testlength = cons[i].ports.length;
+              for(var k = 0 ;k < testlength;k++){
+                if(!cons[i].ports[k].containerPort){
+                  cons[i].ports.splice(k,1);
+                  k--;
+                  testlength--;
+                }else{
+                  cons[i].ports[k].name = cons[i].ports[k].protocol+"-"+cons[i].ports[k].containerPort;
+                  cons[i].ports[k].protocol = cons[i].ports[k].protocol.toUpperCase()
+                }
+              }
+              dc.spec.template.spec.containers[i].ports = cons[i].ports;
             }
+            $log.info("-=-=-=-=-=--=-=",dc);
             prepareVolume(dc);
             prepareTrigger(dc);
             prepareEnv(dc);
@@ -907,10 +938,21 @@ angular.module('console.service.detail', [
             }
 
             $log.info("update dc", dc);
+            var copedc = angular.copy(dc);
+            for(var i = 0;i<copedc.spec.template.spec.containers.length;i++){
+                if(copedc.spec.template.spec.containers[i].ports){
+                    for(var j = 0 ; j< copedc.spec.template.spec.containers[i].ports.length;j++){
+                      delete copedc.spec.template.spec.containers[i].ports[j]["conflict"];
+                      delete copedc.spec.template.spec.containers[i].ports[j]["name"];
+                      delete copedc.spec.template.spec.containers[i].ports[j]["open"];
+                      delete copedc.spec.template.spec.containers[i].ports[j]["hostPort"];
+                    }
+                }
+            }
 
-            DeploymentConfig.put({namespace: $rootScope.namespace, name: dc.metadata.name}, dc, function (res) {
+            DeploymentConfig.put({namespace: $rootScope.namespace, name: dc.metadata.name}, copedc, function (res) {
               $log.info("update dc success", res);
-              bindService(dc);
+              bindService(copedc);
               $scope.active = 1;
             }, function (res) {
               //todo 错误处理
