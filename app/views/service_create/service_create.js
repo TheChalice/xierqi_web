@@ -81,7 +81,7 @@ angular.module('console.service.create', [
         $scope.containerTpl = {
           name: "",
           image: "",    //imageStreamTag
-          ports: [{protocol: "tcp"}],
+          ports: [{protocol: "TCP"}],
           "env": [],
           "resources": {},
           "imagePullPolicy": "Always",
@@ -358,9 +358,13 @@ angular.module('console.service.create', [
           var containers = dc.spec.template.spec.containers;
           for (var i = 0; i < containers.length; i++) {
             var container = containers[i];
-            for (var j = 0; j < container.volumeMounts.length; j++) {
+            for (var j = 0; j < container.volumeMounts.length; ) {
               if (!container.volumeMounts[j].name || !container.volumeMounts[j].mountPath) {
+                $log.info("remove "+j+" from volumeMounts total has "+ container.volumeMounts.length);
                 container.volumeMounts.splice(j, 1);
+                j = 0;
+              } else {
+                j ++;
               }
             }
           }
@@ -528,21 +532,22 @@ angular.module('console.service.create', [
             dc.spec.template.spec.containers[i].name = dc.spec.template.spec.containers[i].strname;
             delete dc.spec.template.spec.containers[i]["strname"];
               for(var j = 0;j<dc.spec.template.spec.containers[i].volumeMounts.length;j++){
-                flog++;
-                var volume1 = "volume"+flog;
-
-                dc.spec.template.spec.volumes.push(
-                    {
-                      "name" : volume1,
-                      "secret" : {
-                        "secretName" : dc.spec.template.spec.containers[i].volumeMounts[j].name
+                if(dc.spec.template.spec.containers[i].volumeMounts[j].name){
+                    flog++;
+                    var volume1 = "volume"+flog;
+                    dc.spec.template.spec.volumes.push(
+                      {
+                        "name" : volume1,
+                        "secret" : {
+                          "secretName" : dc.spec.template.spec.containers[i].volumeMounts[j].name
+                        }
                       }
-                    }
-                );
-                dc.spec.template.spec.containers[i].volumeMounts[j].name = volume1;
+                    );
+                    dc.spec.template.spec.containers[i].volumeMounts[j].name = volume1;
+                }
               }
           }
-  $log.info("-=-=90-90--=-=",dc);
+          $log.info("-=-=90-90--=-=",dc);
           if (!valid(dc)) {
             return;
           }
