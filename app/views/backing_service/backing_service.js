@@ -31,9 +31,12 @@ angular.module('console.backing_service', [
           $scope.dev = [];
           $scope.cation = [];
           $scope.itemsDevop = {
-            itemsDevops: [],
-            itemsfx: [],
-            itemsIOT: []
+            itemsfb: [],
+            itemssj: [],
+            itemsxx: [],
+            itemsjs: [],
+            itemsjz: [],
+
           }
           //将类名变大写
           for (var l = 0; l < arr.length; l++) {
@@ -42,10 +45,10 @@ angular.module('console.backing_service', [
             $scope.cation.push(arr[l].metadata.annotations.Class)
           }
           $scope.dev = $scope.dev.unique()
-          // console.log('$scope.dev',$scope.dev);
-          // console.log('$scope.cation',$scope.cation);
-          $scope.cation = $scope.cation.unique()
+          console.log('$scope.dev',$scope.dev);
 
+          $scope.cation = $scope.cation.unique()
+          console.log('$scope.cation',$scope.cation);
           // $scope.others = [];
           //服务分类属性
           // console.log(arr[0].metadata.annotations.Class)
@@ -68,11 +71,15 @@ angular.module('console.backing_service', [
           for (var i = 0; i < arr.length; i++) {
             // console.log('change', arr[i].providerDisplayName)
             if (arr[i].metadata.annotations.Class === $scope.cation[0]) {
-              $scope.itemsDevop.itemsDevops.push(arr[i]);
-            } else if (arr[i].metadata.annotations.Class === $scope.cation[2]) {
-              $scope.itemsDevop.itemsfx.push(arr[i]);
+              $scope.itemsDevop.itemsfb.push(arr[i]);
             } else if (arr[i].metadata.annotations.Class === $scope.cation[1]) {
-              $scope.itemsDevop.itemsIOT.push(arr[i]);
+              $scope.itemsDevop.itemssj.push(arr[i]);
+            } else if (arr[i].metadata.annotations.Class === $scope.cation[2]) {
+              $scope.itemsDevop.itemsxx.push(arr[i]);
+            }else if (arr[i].metadata.annotations.Class === $scope.cation[3]) {
+              $scope.itemsDevop.itemsjs.push(arr[i]);
+            }else if (arr[i].metadata.annotations.Class === $scope.cation[4]) {
+              $scope.itemsDevop.itemsjz.push(arr[i]);
             }
 
           }
@@ -94,14 +101,18 @@ angular.module('console.backing_service', [
       };
       $scope.isComplete = {};
       $scope.isshow = {
-        ETCD: true,
-        RDB: true,
-        MYSQL: true,
+        "分布式协调": true,
+        "数据库": true,
+        "消息": true,
+        "计算": true,
+        "键值存储": true,
       }
       $scope.showTab = {
-        ETCD: true,
-        RDB: true,
-        MYSQL: true,
+        fb: true,
+        sj: true,
+        xx: true,
+        js: true,
+        jz: true,
       }
       // 第一栏筛选
       $scope.select = function (tp, key) {
@@ -110,9 +121,11 @@ angular.module('console.backing_service', [
         if (key == $scope.grid[tp]) {
           key = 'all';
           $scope.isshow = {
-            ETCD: true,
-            RDB: true,
-            MYSQL: true
+            "分布式协调": true,
+            "数据库": true,
+            "消息": true,
+            "计算": true,
+            "键值存储": true,
           }
 
         } else {
@@ -135,16 +148,20 @@ angular.module('console.backing_service', [
         // console.log($scope.itemsDevop)
         if ($scope.dev[key] === 'Asiainfo') {
           $scope.showTab = {
-            ETCD: true,
-            RDB: false,
-            MYSQL: false,
+            fb: true,
+            sj: true,
+            xx: true,
+            js: true,
+            jz: true,
           }
           $scope.isComplete = {providerDisplayName: a}
         } else {
           $scope.showTab = {
-            ETCD: false,
-            RDB: true,
-            MYSQL: true,
+            fb: false,
+            sj: true,
+            xx: false,
+            js: false,
+            jz: false,
           }
           $scope.isComplete = {providerDisplayName: 'bs'}
         }
@@ -155,13 +172,15 @@ angular.module('console.backing_service', [
           key = 'all';
           $scope.isComplete = {}
           $scope.showTab = {
-            ETCD: true,
-            RDB: true,
-            MYSQL: true,
+            fb: true,
+            sj: true,
+            xx: true,
+            js: true,
+            jz: true,
           }
         }
         $scope.grid[tp] = key;
-        console.log("$scope.itemsDevop", $scope.itemsDevop)
+        // console.log("$scope.itemsDevop", $scope.itemsDevop)
       }
 
 
