@@ -35,6 +35,17 @@ angular.module('console.backing_service', [
             itemsfx: [],
             itemsIOT: []
           }
+          //将类名变大写
+          for (var l = 0; l < arr.length; l++) {
+            arr[l].metadata.annotations.Class = arr[l].metadata.annotations.Class.toUpperCase()
+            $scope.dev.push(arr[l].spec.metadata.providerDisplayName)
+            $scope.cation.push(arr[l].metadata.annotations.Class)
+          }
+          $scope.dev = $scope.dev.unique()
+          // console.log('$scope.dev',$scope.dev);
+          // console.log('$scope.cation',$scope.cation);
+          $scope.cation = $scope.cation.unique()
+
           // $scope.others = [];
           //服务分类属性
           // console.log(arr[0].metadata.annotations.Class)
@@ -44,37 +55,23 @@ angular.module('console.backing_service', [
 
           for (var j = 0; j < arr.length; j++) {
             // console.log(arr[j].spec.metadata.providerDisplayName)
-            $scope.dev.push(arr[j].spec.metadata.providerDisplayName)
             // $scope.cation.push(arr[j].metadata.annotations.Class)
-            if (arr[j].spec.metadata.providerDisplayName === 'asiainfoLDP') {
+            if (arr[j].spec.metadata.providerDisplayName === $scope.dev[1]) {
               arr[j].providerDisplayName = 'bs';
-              
-            } else if (arr[j].spec.metadata.providerDisplayName === 'Asiainfo') {
+            } else if (arr[j].spec.metadata.providerDisplayName === $scope.dev[0]) {
               arr[j].providerDisplayName = 'Asiainfo';
-              
             }
-
           }
-          //将类名变大写
-          for (var l = 0; l < arr.length; l++) {
-            arr[l].metadata.annotations.Class = arr[l].metadata.annotations.Class.toUpperCase()
-
-            $scope.cation.push(arr[l].metadata.annotations.Class)
-          }
-          $scope.dev = $scope.dev.unique()
-          // console.log('$scope.dev',$scope.dev);
-          // console.log('$scope.cation',$scope.cation);
-          $scope.cation = $scope.cation.unique()
 
           // console.log('change', arr)
           //服务分类分组
           for (var i = 0; i < arr.length; i++) {
             // console.log('change', arr[i].providerDisplayName)
-            if (arr[i].metadata.annotations.Class == 'ETCD') {
+            if (arr[i].metadata.annotations.Class === $scope.cation[0]) {
               $scope.itemsDevop.itemsDevops.push(arr[i]);
-            } else if (arr[i].metadata.annotations.Class == 'RDB') {
+            } else if (arr[i].metadata.annotations.Class === $scope.cation[2]) {
               $scope.itemsDevop.itemsfx.push(arr[i]);
-            } else if (arr[i].metadata.annotations.Class == 'MYSQL') {
+            } else if (arr[i].metadata.annotations.Class === $scope.cation[1]) {
               $scope.itemsDevop.itemsIOT.push(arr[i]);
             }
 
