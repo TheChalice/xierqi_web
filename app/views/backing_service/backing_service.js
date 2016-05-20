@@ -48,8 +48,10 @@ angular.module('console.backing_service', [
             // $scope.cation.push(arr[j].metadata.annotations.Class)
             if (arr[j].spec.metadata.providerDisplayName === 'asiainfoLDP') {
               arr[j].providerDisplayName = 'bs';
+              
             } else if (arr[j].spec.metadata.providerDisplayName === 'Asiainfo') {
               arr[j].providerDisplayName = 'Asiainfo';
+              
             }
 
           }
@@ -354,4 +356,14 @@ angular.module('console.backing_service', [
           }
         });
       };
+      // console.log($('.fw'))
+
+      // (function () {
+      //   var fw=document.getElementsByClassName('fw');
+      //   console.log('fw',fw[1])
+      //   for (var i = 0; i < fw.length; i++) {
+      //     console.log(fw[i].innerText.length);
+      //   }
+      // })()
+
     }]);

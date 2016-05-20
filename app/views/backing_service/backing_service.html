@@ -3,7 +3,9 @@
         box-shadow: none;
         -webkit-box-shadow: none;
     }
-
+    .fw:last-child .btn{
+        width: 90px;
+    }
     /*.backing-service .sc .btn {*/
         /*!*width: 90px;*!*/
     /*}*/
@@ -28,7 +30,7 @@
                        ng-click='select("serviceCat", $index)'>{{item}}</label>
             </div>
         </div>
-        <div class="sc">
+        <div class="sc" id='fw'>
             <label>服务提供者</label>
             <!--<div class="btn-group">-->
             <!--<label class="btn" ng-class="{'active':grid.vendor == 'asiainfoLDP'}"-->
@@ -38,7 +40,7 @@
             <!--<label class="btn" ng-class="{'active':grid.vendor == '第三方'}"-->
             <!--ng-click="selectsc('vendor', '第三方')">第三方</label>-->
             <!--</div>-->
-            <div class="btn-group" ng-repeat='item in dev'>
+            <div class="btn-group fw" ng-repeat='item in dev'>
                 <label class="btn" ng-class="{'active':grid.vendor == $index}"
                        ng-click="selectsc('vendor',$index)">{{item}}</label>
             </div>
@@ -112,3 +114,9 @@
         </uib-tab>
     </uib-tabset>
 </div>
+<script>
+    window.onload=function () {
+        var fw=document.getElementsByClassName('fw');
+        console.log(fw)
+    }
+</script>
