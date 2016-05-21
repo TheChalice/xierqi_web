@@ -48,53 +48,15 @@
                 </div>
             </div>
 
-            <div class="row" ng-show="isshow['分布式协调']">
-                <h2 class="h2-border" ng-show='showTab.fb' style="margin-bottom: 15px;">分布式协调</h2>
-                <div class="row">
-                    <div class="col-md-3 col-sm-4 col-xs-6"
-                         ng-repeat="item in itemsDevop.itemsfb | filter:isComplete"
-                         ng-show="item.show">
-                        <bs-card></bs-card>
-                    </div>
-                </div>
-            </div>
-            <div class="row" ng-show="isshow['数据库']">
-                <h2 class="h2-border" ng-show='showTab.sj' style="margin-bottom: 15px;">数据库</h2>
-                <div class="row">
-                    <div class="col-md-3 col-sm-4 col-xs-6"
-                         ng-repeat="item in itemsDevop.itemssj | filter:isComplete"
-                         ng-show="item.show">
-                        <bs-card></bs-card>
-                    </div>
-                </div>
-            </div>
-            <div class="row" ng-show="isshow['消息']">
-                <h2 class="h2-border" ng-show='showTab.xx' style="margin-bottom: 15px;">消息</h2>
-                <div class="row">
-                    <div class="col-md-3 col-sm-4 col-xs-6"
-                         ng-repeat="item in itemsDevop.itemsxx | filter:isComplete"
-                         ng-show="item.show">
-                        <bs-card></bs-card>
-                    </div>
-                </div>
-            </div>
-            <div class="row" ng-show="isshow['计算']">
-                <h2 class="h2-border" ng-show='showTab.js' style="margin-bottom: 15px;">计算</h2>
-                <div class="row">
-                    <div class="col-md-3 col-sm-4 col-xs-6"
-                         ng-repeat="item in itemsDevop.itemsjs | filter:isComplete"
-                         ng-show="item.show">
-                        <bs-card></bs-card>
-                    </div>
-                </div>
-            </div>
-            <div class="row" ng-show="isshow['键值存储']">
-                <h2 class="h2-border" ng-show='showTab.jz' style="margin-bottom: 15px;">键值存储</h2>
-                <div class="row">
-                    <div class="col-md-3 col-sm-4 col-xs-6"
-                         ng-repeat="item in itemsDevop.itemsjz | filter:isComplete"
-                         ng-show="item.show">
-                        <bs-card></bs-card>
+            <div ng-repeat='items in test'>
+                <div class="row" ng-show="items.isshow">
+                    <h2 class="h2-border" ng-show="items.showTab" style="margin-bottom: 15px;">{{items.name}}</h2>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-4 col-xs-6"
+                             ng-repeat="item in items.item | filter:isComplete"
+                             ng-show="item.show">
+                            <bs-card></bs-card>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -111,9 +73,3 @@
         </uib-tab>
     </uib-tabset>
 </div>
-<script>
-    window.onload=function () {
-        var fw=document.getElementsByClassName('fw');
-        console.log(fw)
-    }
-</script>
