@@ -16,7 +16,7 @@ angular.module('console.service.create', [
           if (last) {     //添加
             container.ports.push({
               containerPort: "",
-              protocol: "TCP",
+              protocol: "",
               hostPort: "",
             })
           } else {
@@ -81,7 +81,7 @@ angular.module('console.service.create', [
         $scope.containerTpl = {
           name: "",
           image: "",    //imageStreamTag
-          ports: [{protocol: "TCP"}],
+          ports: [{protocol: ""}],
           "env": [],
           "resources": {},
           "imagePullPolicy": "Always",
@@ -531,7 +531,6 @@ angular.module('console.service.create', [
         $scope.createDc = function () {
           var dc = angular.copy($scope.dc);
           var cons = angular.copy($scope.dc.spec.template.spec.containers);
-          $log.info("-=-=-=-=-=--=-=",dc);
           var flog = 0;
           for(var i = 0 ; i <dc.spec.template.spec.containers.length; i++){
             dc.spec.template.spec.containers[i].name = dc.spec.template.spec.containers[i].strname;
@@ -564,7 +563,7 @@ angular.module('console.service.create', [
             }
             dc.spec.template.spec.containers[i].ports = cons[i].ports;
           }
-          $log.info("-0-0-0-0-0-0",dc);
+
           if (!valid(dc)) {
             return;
           }
@@ -582,7 +581,7 @@ angular.module('console.service.create', [
             $log.info("create dc success", res);
             var isport = false;
             for(var i = 0 ; i < dc.spec.template.spec.containers.length ; i++){
-              if(dc.spec.template.spec.containers[i].ports){
+              if(dc.spec.template.spec.containers[i].ports.length != 0){
                 isport = true;
                 break;
               }
