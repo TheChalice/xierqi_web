@@ -64,7 +64,7 @@ define(['angular'], function (angular) {
                     size: 'default',
                     controller: ['$scope', '$uibModalInstance', '$log', function ($scope, $uibModalInstance, $log) {
                         $scope.name = name;
-                        $scope.cmd = 'docker pull docker-registry-default.app.asiainfodata.com/'+ $rootScope.namespace +'/' + name;
+                        $scope.cmd = 'docker pull registry.dataos.io/'+ $rootScope.namespace +'/' + name;
                         $scope.cancel = function () {
                             $uibModalInstance.dismiss();
                         };
