@@ -265,12 +265,17 @@ angular.module('console.service.create', [
 
         $scope.selectImage = function (idx) {
           var container = $scope.dc.spec.template.spec.containers[idx];
+          var cons = $scope.dc.spec.template.spec.containers;
           ImageSelect.open().then(function (res) {
             console.log("imageStreamTag", res);
             container.image = res.metadata.name;
-
             var str = res.metadata.name.split(":");
             var strname = str[0];
+            if(idx>0){
+              if(cons[idx-1].image.split(":")[0] == strname){
+                strname = str[0]+idx;
+              }
+            }
             container.strname = strname;
             container.name = strname;
             container.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
