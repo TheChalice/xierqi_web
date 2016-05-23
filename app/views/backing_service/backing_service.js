@@ -1,22 +1,22 @@
 'use strict';
 angular.module('console.backing_service', [
-      {
-        files: [
-          'views/backing_service/backing_service.css',
-          'components/bscard/bscard.js'
-        ]
-      }
-    ]).filter('myfilter', function() {
-      return function( items, condition) {
+  {
+    files: [
+      'views/backing_service/backing_service.css',
+      'components/bscard/bscard.js'
+    ]
+  }
+]).filter('myfilter', function () {
+      return function (items, condition) {
         var filtered = [];
 
-        if(condition === undefined || condition === ''){
+        if (condition === undefined || condition === '') {
           return items;
         }
 
-        angular.forEach(items, function(item) {
+        angular.forEach(items, function (item) {
 
-          if(condition.providerDisplayName === item.providerDisplayName){
+          if (condition.providerDisplayName === item.providerDisplayName) {
             filtered.push(item);
           }
         });
@@ -49,7 +49,7 @@ angular.module('console.backing_service', [
           $scope.cation = [];
           $scope.itemsDevop = [];
           $scope.isshow = {};
-          $scope.showTab={};
+          $scope.showTab = {};
           //将类名变大写
           for (var l = 0; l < arr.length; l++) {
             arr[l].metadata.annotations.Class = arr[l].metadata.annotations.Class.toUpperCase()
@@ -68,7 +68,7 @@ angular.module('console.backing_service', [
           for (var j = 0; j < arr.length; j++) {
             // console.log(arr[j].spec.metadata.providerDisplayName)
             // $scope.cation.push(arr[j].metadata.annotations.Class)
-            for (var b = 0; b <$scope.dev.length; b++) {
+            for (var b = 0; b < $scope.dev.length; b++) {
               if (arr[j].spec.metadata.providerDisplayName === $scope.dev[b]) {
                 arr[j].providerDisplayName = $scope.dev[b];
               }
@@ -96,16 +96,16 @@ angular.module('console.backing_service', [
           // console.log("$scope.itemsDevop", $scope.itemsDevop)
           // console.log("$scope.isshow", $scope.isshow)
           // 设置渲染到页面的数据
-          $scope.test= [];
+          $scope.test = [];
           for (var s = 0; s < $scope.cation.length; s++) {
             $scope.test.push({})
-            $scope.test[s].name=$scope.cation[s];
-            for (var  q= 0; q < $scope.itemsDevop.length; q++) {
+            $scope.test[s].name = $scope.cation[s];
+            for (var q = 0; q < $scope.itemsDevop.length; q++) {
               if (s == q) {
-                $scope.test[s].item=$scope.itemsDevop[q]
-                $scope.test[s].isshow=$scope.isshow[q]
-                $scope.test[s].showTab=$scope.showTab[q]
-                $scope.test[s].id=q;
+                $scope.test[s].item = $scope.itemsDevop[q]
+                $scope.test[s].isshow = $scope.isshow[q]
+                $scope.test[s].showTab = $scope.showTab[q]
+                $scope.test[s].id = q;
               }
             }
           }
@@ -125,7 +125,7 @@ angular.module('console.backing_service', [
         txt: ''
       };
       $scope.isComplete = '';
-      
+
       // 第一栏筛选
       $scope.select = function (tp, key) {
         // console.log("tp", tp, 'key', $scope.cation[key]);
@@ -150,13 +150,14 @@ angular.module('console.backing_service', [
       //第二栏筛选
       $scope.selectsc = function (tp, key) {
         for (var i = 0; i < $scope.cation.length; i++) {
-          $scope.test[i].showTab=true
-          $scope.isComplete = {providerDisplayName: $scope.dev[key]}
-          var arr=$filter("myfilter")($scope.test[i].item,$scope.isComplete);
-          if (arr.length==0) {
-            $scope.test[i].showTab=false
+          $scope.test[i].showTab = true
+          $scope.isComplete = {providerDisplayName: $scope.dev[key]};
+          //把渲染数组做二次筛选;
+          var arr = $filter("myfilter")($scope.test[i].item, $scope.isComplete);
+          if (arr.length == 0) {
+            $scope.test[i].showTab = false
           }
-          
+
         }
         console.log($scope.isComplete);
         if (key == $scope.grid[tp]) {
