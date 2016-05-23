@@ -6,7 +6,24 @@ angular.module('console.backing_service', [
           'components/bscard/bscard.js'
         ]
       }
-    ])
+    ]).filter('myfilter', function() {
+      return function( items, condition) {
+        var filtered = [];
+
+        if(condition === undefined || condition === ''){
+          return items;
+        }
+
+        angular.forEach(items, function(item) {
+
+          if(condition.providerDisplayName === item.providerDisplayName){
+            filtered.push(item);
+          }
+        });
+
+        return filtered;
+      };
+    })
     .controller('BackingServiceCtrl', ['$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'BackingServiceInstanceBd', 'Confirm', 'Toast', 'Ws', '$filter', function ($log, $rootScope, $scope, BackingService, BackingServiceInstance, ServiceSelect, BackingServiceInstanceBd, Confirm, Toast, Ws, $filter) {
       // 得到loadBs对象进行分组
       // 数组去重方法
@@ -51,14 +68,15 @@ angular.module('console.backing_service', [
           for (var j = 0; j < arr.length; j++) {
             // console.log(arr[j].spec.metadata.providerDisplayName)
             // $scope.cation.push(arr[j].metadata.annotations.Class)
-            if (arr[j].spec.metadata.providerDisplayName === $scope.dev[1]) {
-              arr[j].providerDisplayName = 'bs';
-            } else if (arr[j].spec.metadata.providerDisplayName === $scope.dev[0]) {
-              arr[j].providerDisplayName = 'Asiainfo';
+            for (var b = 0; b <$scope.dev.length; b++) {
+              if (arr[j].spec.metadata.providerDisplayName === $scope.dev[b]) {
+                arr[j].providerDisplayName = $scope.dev[b];
+              }
             }
+            // console.log(arr[j].providerDisplayName)
           }
-          console.log('$scope.dev', $scope.dev);
-          console.log('$scope.cation', $scope.cation);
+          // console.log('$scope.dev', $scope.dev);
+          // console.log('$scope.cation', $scope.cation);
 
           // console.log('change', arr)
           //服务分类分组
@@ -87,6 +105,7 @@ angular.module('console.backing_service', [
                 $scope.test[s].item=$scope.itemsDevop[q]
                 $scope.test[s].isshow=$scope.isshow[q]
                 $scope.test[s].showTab=$scope.showTab[q]
+                $scope.test[s].id=q;
               }
             }
           }
@@ -105,7 +124,7 @@ angular.module('console.backing_service', [
         vendor: 'all',
         txt: ''
       };
-      $scope.isComplete = {};
+      $scope.isComplete = '';
       
       // 第一栏筛选
       $scope.select = function (tp, key) {
@@ -130,24 +149,19 @@ angular.module('console.backing_service', [
       };
       //第二栏筛选
       $scope.selectsc = function (tp, key) {
-        // console.log("tp", tp, 'key', $scope.dev[key]);
-        var a = $scope.dev[key]
-        // console.log($scope.itemsDevop)
-        if ($scope.dev[key] === 'Asiainfo') {
-          for (var k in $scope.test) {
-            $scope.test[k].showTab = true;
+        for (var i = 0; i < $scope.cation.length; i++) {
+          $scope.test[i].showTab=true
+          $scope.isComplete = {providerDisplayName: $scope.dev[key]}
+          var arr=$filter("myfilter")($scope.test[i].item,$scope.isComplete);
+          if (arr.length==0) {
+            $scope.test[i].showTab=false
           }
-          $scope.isComplete = {providerDisplayName: a}
-        } else {
-          for (var k in $scope.test) {
-            k=='1'?$scope.test[k].showTab = true:$scope.test[k].showTab=false
-          }
-          $scope.isComplete = {providerDisplayName: 'bs'}
+          
         }
-        // console.log($scope.isComplete);
+        console.log($scope.isComplete);
         if (key == $scope.grid[tp]) {
           key = 'all';
-          $scope.isComplete = {}
+          $scope.isComplete = '';
           for (var k in $scope.test) {
             $scope.test[k].showTab = true;
           }
@@ -355,4 +369,4 @@ angular.module('console.backing_service', [
       //   }
       // })()
 
-    }]);
+    }])
