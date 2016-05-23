@@ -179,10 +179,7 @@ define([
             });
             return Secret;
         }])
-        .factory('owner', ['$resource', function($resource){
-            var owner= $resource('/v1/repos/github/owner');
-            return owner;
-        }])
+
         .factory('Metrics', ['$resource', function($resource){
             var Metrics = {};
             //https://hawkular-metrics.app.dataos.io
@@ -193,12 +190,13 @@ define([
             return Metrics;
         }])
         .factory('Owner', ['$resource', function($resource){
-            var Owner = $resource('/v1/repos/github/owner', {
+            var Owner = $resource('/v1/repos/github/owner?namespace=:namespace', {namespace:'@namespace'}, {
+                'query': {method: 'GET'}
             });
              return Owner;
         }])
         .factory('Org', ['$resource', function($resource){
-            var Org = $resource('/v1/repos/github/org', {
+            var Org = $resource('/v1/repos/github/orgs', {
             });
             return Org;
         }])

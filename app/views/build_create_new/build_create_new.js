@@ -58,21 +58,54 @@ angular.module('console.build_create_new', [
             });
         };
 
+
         $scope.refresh = function() {
-
-            Owner.query(function(res) {
+            Owner.query({namespace: $rootScope.namespace},function(res) {
                 $log.info("owner", res);
-                $scope.login = res.login;
-                $scope.repos = res.repos;
+                $scope.login = res.msg.infos;
+                $scope.login.user = "user";
+                $log.info("userProject", $scope.login);
+            },function(data){
+                $log.info('-=-=-=-=',data);
+                if (data.status == 401) {
+                    if (data.data.code == 1401){
+                        //goto github
+                    }
+                    //$log.info(data.data.code);
+                }
             });
-
             Org.get(function(data) {
-                $log.info("org", data)
-            });
-            Branch.get(function(info) {
-                $log.info("branch", info)
+                $log.info("org", data);
+                $scope.orgName = data.msg;
+                $scope.orgName.org = "org";
+                $log.info("orgProject", $scope.orgName);
             });
         }
         $scope.refresh();
+
+        $scope.selectUser = function(idx,chooseProject) {
+            $scope.projectList = {
+                reposobj : [],
+                a : chooseProject
+            };
+            if(chooseProject == "user"){
+                $scope.projectList.reposobj = $scope.login[idx].repos;
+            }else if(chooseProject == "org"){
+                $scope.projectList.reposobj = $scope.orgName[idx].repos;
+            }
+            $log.info('$scope.projectList.reposobj',$scope.projectList.reposobj);
+        }
+
+        $scope.selectBranch = function(idx,chooseProject) {
+            alert(chooseProject)
+            if(chooseProject == "org"){
+                alert("a");
+            }else if(chooseProject == "user"){
+                alert("b");
+            }
+            //Branch.get({users:$scope.test11.reposobj[idx].name, repos:},function(info) {
+            //    $log.info("branch", info)
+            //});
+        };
     }])
 

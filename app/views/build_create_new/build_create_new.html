@@ -22,7 +22,6 @@
                         <uib-tab index="1" heading="代码仓库">
 
                             <a class="btn pull-right" ng-click="refresh()" style="margin-top: -30px; margin-right: -20px" >
-
                                 <i class="fa fa-green fa-lg fa-refresh"></i>
                             </a>
                             <img src="views/build_create_new/img/images02_178.png">
@@ -44,24 +43,56 @@
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/user.png">
                                     用户/组织</div>
-                                <div class="panel-body" ng-repeat="owner in login">
-                                    <p><i class="faa faa-check"></i>&nbsp;&nbsp;{{owner.login}}</p>
+                                <div class="panel-body">
+                                    <ul>
+                                        <li ng-repeat="user in login" ng-show="!user.hide">
+                                            <a href="javascript:;" ng-class="{'active': grid.user == index}" ng-click="selectUser($index,login.user)">
+                                                <i class="faa faa-check"></i>&nbsp;&nbsp;{{user.login}}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <ul>
+                                        <li ng-repeat="org in orgName">
+                                            <a href="javascript:;" ng-class="{'active':grid.org == index}" ng-click="selectUser($index,orgName.org)">
+                                                <i class="faa faa-check"></i>&nbsp;&nbsp;{{org.login}}
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                             <div class="panel panel-default second col-sm-4" style="margin-right: 30px">
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/project.png">
                                     项目</div>
-                                <div class="panel-body" ng-repeat="owner in repos">
-                                    <p><i class="faa faa-check"></i>&nbsp;&nbsp;{{owner.repos[i].name}}</p>
+                                <div class="panel-body">
+                                    <ul>
+                                        <li ng-repeat="project in projectList.reposobj">
+                                            <a href="javascript:;" ng-class="{'active': grid.project == index}" ng-click="selectBranch($index,projectList.a)">
+                                                <i class="faa faa-check"></i>&nbsp;&nbsp;{{project.name}}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                    <!--<ul ng-repeat="OrgProject in orgRepos">-->
+                                        <!--<li>-->
+                                            <!--<a href="javascript:;" ng-class="{'active': grid.orgProject == index}" ng-click="selectProject($index,chooseProject)">-->
+                                                <!--<i class="faa faa-check"></i>&nbsp;&nbsp;{{orgProject.name}}-->
+                                            <!--</a>-->
+                                        <!--</li>-->
+                                    <!--</ul>-->
                                 </div>
                             </div>
-                            <div class="panel panel-default col-sm-4">
+                            <div class="panel panel-default third col-sm-4">
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/branch.png">
                                     代码分支</div>
                                 <div class="panel-body">
-                                    <p><i class="faa faa-check"></i>&nbsp;&nbsp;lol</p>
+                                    <ul>
+                                        <li>
+                                            <a>
+                                                <i class="faa faa-check"></i>&nbsp;&nbsp;lol
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -92,18 +123,41 @@
             padding-left: 0px;
             padding-right: 0px;
             width: 190px;
+            height: 220px;
         }
         .is-box .panel .panel-heading {
             width: 100%;
             background-color: #e6e9f2;
         }
+
         .is-box .panel .panel-body {
             width: 100%;
             padding: 0px;
             margin-bottom: 0px;
+            height:150px;
+            overflow-y: auto;
         }
-        .is-box .panel .panel-body p {
+        .is-box .panel .panel-body ul{
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .is-box .panel .panel-body li{
+            margin-top: 10px;
+            height: 40px;
+        }
+        .is-box .panel .panel-body ul li a {
             padding: 10px 15px;
+        }
+        .is-box .panel .panel-body ul li a:active {
+            color: #5a6378;
+        }
+        .is-box .panel .panel-body ul li a:focus {
+            text-decoration: none;
+        }
+        .is-box .panel .panel-body ul li a.active {
+            background: #e5e6ea;
+            color: #5a6378;
         }
         .is-box .panel .panel-body img {
             margin-right: 10px;
