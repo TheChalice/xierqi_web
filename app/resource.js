@@ -15,8 +15,14 @@ define([
                     $log.info('webSocket is not available');
                     return;
                 }
+                
+                var wsscheme = "wss://";
+                if (window.location.protocol != "https:") {
+                    wsscheme = "ws://";
+                }
 
-                var host = 'ws://' + location.host;
+                var host = wsscheme + location.host;
+                
                 if (params.api == 'k8s') {
                     host = host + GLOBAL.host_wss_k8s;
                 } else {
@@ -173,11 +179,32 @@ define([
             });
             return Secret;
         }])
+        .factory('owner', ['$resource', function($resource){
+            var owner= $resource('/v1/repos/github/owner');
+            return owner;
+        }])
         .factory('Metrics', ['$resource', function($resource){
             var Metrics = {};
             //https://hawkular-metrics.app.dataos.io
             Metrics.mem = $resource('/hawkular/metrics/gauges/:gauges/data', {gauges: '@gauges', buckets: '@buckets', start: '@start'});
             Metrics.cpu = $resource('/hawkular/metrics/counters/:counters/data', {counters: '@counters', buckets: '@buckets', start: '@start'});
+            Metrics.mem.all = $resource('/hawkular/metrics/gauges/data', {tags: '@tags', buckets: '@buckets'});
+            Metrics.cpu.all = $resource('/hawkular/metrics/counters/data', {tags: '@tags', buckets: '@buckets'});
             return Metrics;
+        }])
+        .factory('Owner', ['$resource', function($resource){
+            var Owner = $resource('/v1/repos/github/owner', {
+            });
+             return Owner;
+        }])
+        .factory('Org', ['$resource', function($resource){
+            var Org = $resource('/v1/repos/github/org', {
+            });
+            return Org;
+        }])
+        .factory('Branch', ['$resource', function($resource){
+            var Branch = $resource('/v1/repos/github/users/:user/repos/:repo', {
+            });
+            return Branch;
         }]);
 });

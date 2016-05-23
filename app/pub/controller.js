@@ -9,7 +9,7 @@ define(['angular'], function (angular) {
             $rootScope.$on(AUTH_EVENTS.loginNeeded, function () {
                 $log.info(AUTH_EVENTS.loginNeeded);
                 Cookie.clear('namespace');
-                $state.go('login');
+                $state.go('home.index');
             });
             $rootScope.$on(AUTH_EVENTS.loginSuccess, function () {
                 $log.info(AUTH_EVENTS.loginSuccess);
@@ -17,7 +17,7 @@ define(['angular'], function (angular) {
             $rootScope.$on(AUTH_EVENTS.httpForbidden, function () {
                 $log.info(AUTH_EVENTS.httpForbidden);
                 Cookie.clear('namespace');
-                $state.go('login');
+                $state.go('home.index');
             });
         }]);
 });

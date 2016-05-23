@@ -103,7 +103,6 @@ angular.module('console.build', [
                 name: ''
             }, function(res){
                 var data = JSON.parse(res.data);
-                $scope.resourceVersion = data.object.metadata.resourceVersion;
                 updateBuildConfigs(data);
             }, function(){
                 $log.info("webSocket start");
@@ -118,6 +117,14 @@ angular.module('console.build', [
         };
 
         var updateBuildConfigs = function(data){
+            if (data.type == 'ERROR') {
+                $log.info("err", data.object.message);
+                Ws.clear();
+                loadBuilds($scope.data.items);
+                return;
+            }
+
+            $scope.resourceVersion = data.object.metadata.resourceVersion;
             if (data.type == 'ADDED') {
 
             } else if (data.type == "MODIFIED") {

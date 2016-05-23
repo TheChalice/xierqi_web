@@ -14,7 +14,9 @@ angular.module('console.build.create', [])
                     type: 'Git',
                     git: {
                         uri: ''
+                        //ref: ''
                     }
+
                 },
                 strategy: {
                     type: 'Docker'
@@ -22,7 +24,7 @@ angular.module('console.build.create', [])
                 output: {
                     to: {
                         kind: 'ImageStreamTag',
-                        name: ''    //镜像名指定为buildonfig名
+                        name: ''
                     }
                 },
                 completionDeadlineSeconds: 1800
@@ -31,14 +33,10 @@ angular.module('console.build.create', [])
         $scope.completionDeadlineMinutes = 30;
 
         $scope.create = function() {
+            $scope.creating = true;
             var imageStream = {
                 metadata: {
                     name: $scope.buildConfig.metadata.name
-                },
-                spec: {
-                    tags: [
-                        {name: 'latest'}
-                    ]
                 }
             };
             ImageStream.create({namespace: $rootScope.namespace}, imageStream, function (res) {
@@ -50,6 +48,7 @@ angular.module('console.build.create', [])
                     createBuildConfig($scope.buildConfig.metadata.name);
                 } else {
                     Alert.open('错误', res.data.message, true);
+                    $scope.creating = false;
                 }
             });
         };
@@ -61,7 +60,9 @@ angular.module('console.build.create', [])
             BuildConfig.create({namespace: $rootScope.namespace}, $scope.buildConfig, function(res){
                 $log.info("buildConfig", res);
                 createBuild(res.metadata.name);
+                $scope.creating = false;
             }, function(res){
+                $scope.creating = false;
                 if (res.data.code == 409) {
                     Alert.open('错误', "构建名称重复", true);
                 } else {

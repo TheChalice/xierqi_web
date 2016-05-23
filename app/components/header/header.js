@@ -26,12 +26,12 @@ angular.module("console.header", [
                     Cookie.clear('namespace');
                     $rootScope.user = null;
                     $rootScope.namespace = "";
-                    $state.go('login');
+                    $state.go('home.index');
                 };
                 $scope.setNamespace = function(namespace) {
                     $rootScope.namespace = namespace;
                     Cookie.set('namespace', namespace, 10 * 365 * 24 * 3600 * 1000);
-                    location.reload(true);
+                    $state.reload();
                 }
             }]
         }
@@ -43,7 +43,7 @@ angular.module("console.header", [
                     return "仪表盘"
                 case "console.build":
                     return "代码构建";
-                case "console.build_create":
+                case "console.build_create_new":
                     return "新建构建";
                 case "console.build_detail":
                     return "构建详情";

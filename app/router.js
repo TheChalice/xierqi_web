@@ -9,15 +9,26 @@ define([
     return angular.module('myApp.router', ['ui.router', 'oc.lazyLoad'])
         .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
-            $urlRouterProvider.otherwise("/console/build");
+            $urlRouterProvider.otherwise("/home/index");
             $stateProvider
-                .state('login', {
-                    url: '/login',
-                    templateUrl: 'views/login/login.html',
-                    controller: 'LoginCtrl',
+                .state('home', {
+                    url: '/home',
+                    templateUrl: 'views/home/home.html',
+                    controller: 'HomeCtrl',
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/login/login.js')
+                            return $ocLazyLoad.load('views/home/home.js')
+                        }]
+                    },
+                    abstract: true
+                })
+                .state('home.index', {
+                    url: '/index',
+                    templateUrl: 'views/home/index/index.html',
+                    controller: 'IndexCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/home/index/index.js')
                         }]
                     }
                 })
@@ -68,6 +79,16 @@ define([
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/build_detail/build_detail.js')
+                        }]
+                    }
+                })
+                .state('console.build_create_new', {
+                    url: '/construction/create/new',
+                    templateUrl: 'views/build_create_new/build_create_new.html',
+                    controller: 'BuildcCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/build_create_new/build_create_new.js')
                         }]
                     }
                 })

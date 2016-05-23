@@ -15,23 +15,7 @@
                     </div>
                 </div>
                 <hr>
-                <!--<div class="form-group">-->
-                    <!--<label class="col-sm-2 control-label">代码URL</label>-->
-                    <!--<div class="col-sm-10">-->
-                        <!--<uib-tabset class="tab-default">-->
-                            <!--<uib-tab index="1" heading="代码仓库">-->
-                                <!--haha-->
-                            <!--</uib-tab>-->
-                            <!--<uib-tab index="2" heading="GitHub">-->
-                                <!--heihei-->
-                            <!--</uib-tab>-->
-                            <!--<uib-tab index="3" heading="Gitlab">-->
-                                <!--xixi-->
-                            <!--</uib-tab>-->
-                        <!--</uib-tabset>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--<hr>-->
+
                 <div class="form-group">
                     <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size:14px; text-align: left;">代码URL</label>
                     <div class="col-sm-10" style="padding-right: 40px">
@@ -51,6 +35,8 @@
             </div>
         </div>
 
-        <a class="btn btn-block" ng-class="{'btn-orange':frm.$valid, 'btn-disabled': frm.$invalid}" ng-disabled="frm.$invalid" ng-click="frm.$valid && create()">开始构建</a>
+        <a class="btn btn-block" ng-class="{'btn-orange':frm.$valid, 'btn-disabled': frm.$invalid}" ng-disabled="frm.$invalid || creating" ng-click="frm.$valid && !creating && create()">
+            <i class="fa fa-spinner fa-spin" ng-if="creating">&nbsp;</i>开始构建
+        </a>
     </form>
 </div>

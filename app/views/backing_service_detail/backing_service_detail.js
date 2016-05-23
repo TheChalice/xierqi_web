@@ -10,7 +10,7 @@ angular.module('console.backing_service_detail', [
         $scope.grid = {};
 
         var cuename = $stateParams.name;
-        var loadBs = function(){
+          var loadBs = function(){
             BackingService.get({namespace:'openshift',name:cuename},function(data){
                 $log.info('loadBs=====',data);
                 $scope.data = data;
@@ -72,7 +72,8 @@ angular.module('console.backing_service_detail', [
                 $log.info("backingServiceInstance", res);
                 $scope.bsi = filterBsi(res);
 
-                watchBsi(res.metadata.resourceVersion);
+                $scope.resourceVersion = res.metadata.resourceVersion;
+                watchBsi($scope.resourceVersion);
 
             }, function(res){
                 //todo 错误处理
@@ -118,7 +119,6 @@ angular.module('console.backing_service_detail', [
                 name: ''
             }, function(res){
                 var data = JSON.parse(res.data);
-                $scope.resourceVersion = data.object.metadata.resourceVersion;
                 updateBsi(data);
             }, function(){
                 $log.info("webSocket start");
@@ -134,6 +134,15 @@ angular.module('console.backing_service_detail', [
 
         var updateBsi = function(data){
             $log.info("watch bsi", data);
+
+            if (data.type == 'ERROR') {
+                $log.info("err", data.object.message);
+                Ws.clear();
+                loadBsi();
+                return;
+            }
+
+            $scope.resourceVersion = data.object.metadata.resourceVersion;
 
             if (data.type == 'ADDED') {
                 data.object.showLog = true;

@@ -162,7 +162,6 @@ angular.module('console.service', [
                 name: ''
             }, function(res){
                 var data = JSON.parse(res.data);
-                $scope.resourceVersion = data.object.metadata.resourceVersion;
                 updateRcs(data);
             }, function(){
                 $log.info("webSocket start");
@@ -176,6 +175,15 @@ angular.module('console.service', [
             });
         };
         var updateRcs = function(data){
+            if (data.type == 'ERROR') {
+                $log.info("err", data.object.message);
+                Ws.clear();
+                serviceList();
+                return;
+            }
+
+            $scope.resourceVersion = data.object.metadata.resourceVersion;
+
             if (data.type == 'ADDED') {
                 $scope.rcs.items.push(data.object);
             }else if (data.type == "MODIFIED") {
