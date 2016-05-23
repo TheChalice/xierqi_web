@@ -16,7 +16,7 @@ angular.module('console.service.create', [
           if (last) {     //添加
             container.ports.push({
               containerPort: "",
-              protocol: "TCP",
+              protocol: "",
               hostPort: "",
             })
           } else {
@@ -81,7 +81,7 @@ angular.module('console.service.create', [
         $scope.containerTpl = {
           name: "",
           image: "",    //imageStreamTag
-          ports: [{protocol: "TCP"}],
+          ports: [{protocol: ""}],
           "env": [],
           "resources": {},
           "imagePullPolicy": "Always",
@@ -265,12 +265,17 @@ angular.module('console.service.create', [
 
         $scope.selectImage = function (idx) {
           var container = $scope.dc.spec.template.spec.containers[idx];
+          var cons = $scope.dc.spec.template.spec.containers;
           ImageSelect.open().then(function (res) {
             console.log("imageStreamTag", res);
             container.image = res.metadata.name;
-
             var str = res.metadata.name.split(":");
             var strname = str[0];
+            if(idx>0){
+              if(cons[idx-1].image.split(":")[0] == strname){
+                strname = str[0]+idx;
+              }
+            }
             container.strname = strname;
             container.name = strname;
             container.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
@@ -424,15 +429,15 @@ angular.module('console.service.create', [
         var createService = function (dc) {
 
           prepareService($scope.service, dc);
-
           var ps = [];
           var containers = dc.spec.template.spec.containers;
+
           for (var i = 0; i < containers.length; i++) {
             var ports = containers[i].ports;
             for (var j = 0; j < ports.length; j++) {
-              if (!ports[j].open) {
-                continue;
-              }
+              //if (!ports[j].open) {
+              //  continue;
+              //}
               var val = ports[j].protocol.toUpperCase()
               ps.push({
                 name: ports[j].hostPort + '-' + ports[j].protocol.toLowerCase(),
@@ -447,6 +452,7 @@ angular.module('console.service.create', [
           } else {
             $scope.service.spec.ports = null;
           }
+          $log.info('$scope.service0-0-0-0-',$scope.service.spec.ports);
           Service.create({namespace: $rootScope.namespace}, $scope.service, function (res) {
             $log.info("create service success", res);
             $scope.service = res;
@@ -530,7 +536,6 @@ angular.module('console.service.create', [
         $scope.createDc = function () {
           var dc = angular.copy($scope.dc);
           var cons = angular.copy($scope.dc.spec.template.spec.containers);
-          $log.info("-=-=-=-=-=--=-=",dc);
           var flog = 0;
           for(var i = 0 ; i <dc.spec.template.spec.containers.length; i++){
             dc.spec.template.spec.containers[i].name = dc.spec.template.spec.containers[i].strname;
@@ -557,14 +562,13 @@ angular.module('console.service.create', [
                   k--;
                   testlength--;
                 }else{
-
                   cons[i].ports[k].name = cons[i].ports[k].protocol+"-"+cons[i].ports[k].containerPort;
                   cons[i].ports[k].protocol = cons[i].ports[k].protocol.toUpperCase()
                 }
             }
             dc.spec.template.spec.containers[i].ports = cons[i].ports;
           }
-          $log.info("-0-0-0-0-0-0",dc);
+
           if (!valid(dc)) {
             return;
           }
@@ -580,8 +584,21 @@ angular.module('console.service.create', [
 
           DeploymentConfig.create({namespace: $rootScope.namespace}, dc, function (res) {
             $log.info("create dc success", res);
-            createService(dc);
-            bindService(dc);
+            var isport = false;
+            for(var i = 0 ; i < dc.spec.template.spec.containers.length ; i++){
+              if(dc.spec.template.spec.containers[i].ports.length != 0){
+                isport = true;
+                break;
+              }
+            }
+            if(isport){
+              createService(dc);
+              bindService(dc);
+            }else{
+              $state.go('console.service_detail', {name: dc.metadata.name});
+            }
+
+
           }, function (res) {
             //todo 错误处理
             $log.info("create dc fail", res);

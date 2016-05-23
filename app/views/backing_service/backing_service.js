@@ -1,12 +1,29 @@
 'use strict';
 angular.module('console.backing_service', [
-      {
-        files: [
-          'views/backing_service/backing_service.css',
-          'components/bscard/bscard.js'
-        ]
-      }
-    ])
+  {
+    files: [
+      'views/backing_service/backing_service.css',
+      'components/bscard/bscard.js'
+    ]
+  }
+]).filter('myfilter', function () {
+      return function (items, condition) {
+        var filtered = [];
+
+        if (condition === undefined || condition === '') {
+          return items;
+        }
+
+        angular.forEach(items, function (item) {
+
+          if (condition.providerDisplayName === item.providerDisplayName) {
+            filtered.push(item);
+          }
+        });
+
+        return filtered;
+      };
+    })
     .controller('BackingServiceCtrl', ['$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'BackingServiceInstanceBd', 'Confirm', 'Toast', 'Ws', '$filter', function ($log, $rootScope, $scope, BackingService, BackingServiceInstance, ServiceSelect, BackingServiceInstanceBd, Confirm, Toast, Ws, $filter) {
       // 得到loadBs对象进行分组
       // 数组去重方法
@@ -30,57 +47,69 @@ angular.module('console.backing_service', [
           var arr = data.items;
           $scope.dev = [];
           $scope.cation = [];
-          $scope.itemsDevop = {
-            itemsDevops: [],
-            itemsfx: [],
-            itemsIOT: []
+          $scope.itemsDevop = [];
+          $scope.isshow = {};
+          $scope.showTab = {};
+          //将类名变大写
+          for (var l = 0; l < arr.length; l++) {
+            arr[l].metadata.annotations.Class = arr[l].metadata.annotations.Class.toUpperCase()
+            $scope.dev.push(arr[l].spec.metadata.providerDisplayName)
+            $scope.cation.push(arr[l].metadata.annotations.Class)
           }
+          $scope.dev = $scope.dev.unique()
+          $scope.cation = $scope.cation.unique()
           // $scope.others = [];
           //服务分类属性
           // console.log(arr[0].metadata.annotations.Class)
           // 服务提供者属性
           // console.log(arr[1].spec.metadata.providerDisplayName)
           //服务提供者分组
-
+          //
           for (var j = 0; j < arr.length; j++) {
             // console.log(arr[j].spec.metadata.providerDisplayName)
-            $scope.dev.push(arr[j].spec.metadata.providerDisplayName)
             // $scope.cation.push(arr[j].metadata.annotations.Class)
-            if (arr[j].spec.metadata.providerDisplayName === 'asiainfoLDP') {
-              arr[j].providerDisplayName = 'bs';
-              
-            } else if (arr[j].spec.metadata.providerDisplayName === 'Asiainfo') {
-              arr[j].providerDisplayName = 'Asiainfo';
-              
+            for (var b = 0; b < $scope.dev.length; b++) {
+              if (arr[j].spec.metadata.providerDisplayName === $scope.dev[b]) {
+                arr[j].providerDisplayName = $scope.dev[b];
+              }
             }
-
+            // console.log(arr[j].providerDisplayName)
           }
-          //将类名变大写
-          for (var l = 0; l < arr.length; l++) {
-            arr[l].metadata.annotations.Class = arr[l].metadata.annotations.Class.toUpperCase()
-
-            $scope.cation.push(arr[l].metadata.annotations.Class)
-          }
-          $scope.dev = $scope.dev.unique()
-          // console.log('$scope.dev',$scope.dev);
-          // console.log('$scope.cation',$scope.cation);
-          $scope.cation = $scope.cation.unique()
+          // console.log('$scope.dev', $scope.dev);
+          // console.log('$scope.cation', $scope.cation);
 
           // console.log('change', arr)
           //服务分类分组
-          for (var i = 0; i < arr.length; i++) {
+
+          for (var i = 0; i < $scope.cation.length; i++) {
             // console.log('change', arr[i].providerDisplayName)
-            if (arr[i].metadata.annotations.Class == 'ETCD') {
-              $scope.itemsDevop.itemsDevops.push(arr[i]);
-            } else if (arr[i].metadata.annotations.Class == 'RDB') {
-              $scope.itemsDevop.itemsfx.push(arr[i]);
-            } else if (arr[i].metadata.annotations.Class == 'MYSQL') {
-              $scope.itemsDevop.itemsIOT.push(arr[i]);
+            $scope.itemsDevop.push([])
+            for (var m = 0; m < arr.length; m++) {
+              if (arr[m].metadata.annotations.Class === $scope.cation[i]) {
+                $scope.itemsDevop[i].push(arr[m]);
+              }
             }
+            $scope.isshow[i] = true;
+            $scope.showTab[i] = true;
 
           }
           // console.log("$scope.itemsDevop", $scope.itemsDevop)
-
+          // console.log("$scope.isshow", $scope.isshow)
+          // 设置渲染到页面的数据
+          $scope.test = [];
+          for (var s = 0; s < $scope.cation.length; s++) {
+            $scope.test.push({})
+            $scope.test[s].name = $scope.cation[s];
+            for (var q = 0; q < $scope.itemsDevop.length; q++) {
+              if (s == q) {
+                $scope.test[s].item = $scope.itemsDevop[q]
+                $scope.test[s].isshow = $scope.isshow[q]
+                $scope.test[s].showTab = $scope.showTab[q]
+                $scope.test[s].id = q;
+              }
+            }
+          }
+          console.log("$scope.test", $scope.test)
           $scope.data = data.items;
           filter('serviceCat', 'all');
           filter('vendor', 'all');
@@ -95,37 +124,24 @@ angular.module('console.backing_service', [
         vendor: 'all',
         txt: ''
       };
-      $scope.isComplete = {};
-      $scope.isshow = {
-        ETCD: true,
-        RDB: true,
-        MYSQL: true,
-      }
-      $scope.showTab = {
-        ETCD: true,
-        RDB: true,
-        MYSQL: true,
-      }
+      $scope.isComplete = '';
+
       // 第一栏筛选
       $scope.select = function (tp, key) {
         // console.log("tp", tp, 'key', $scope.cation[key]);
         //class判定
         if (key == $scope.grid[tp]) {
           key = 'all';
-          $scope.isshow = {
-            ETCD: true,
-            RDB: true,
-            MYSQL: true
+          for (var k in $scope.test) {
+            $scope.test[k].isshow = true;
           }
-
         } else {
-          for (var k in $scope.isshow) {
-            if ($scope.cation[key] == k) {
-              $scope.isshow[k] = true;
+          for (var k in $scope.test) {
+            if (key == k) {
+              $scope.test[k].isshow = true;
             } else {
-              $scope.isshow[k] = false;
+              $scope.test[k].isshow = false;
             }
-
           }
         }
         $scope.grid[tp] = key;
@@ -133,38 +149,26 @@ angular.module('console.backing_service', [
       };
       //第二栏筛选
       $scope.selectsc = function (tp, key) {
-        // console.log("tp", tp, 'key', $scope.dev[key]);
-        var a = $scope.dev[key]
-        // console.log($scope.itemsDevop)
-        if ($scope.dev[key] === 'Asiainfo') {
-          $scope.showTab = {
-            ETCD: true,
-            RDB: false,
-            MYSQL: false,
+        for (var i = 0; i < $scope.cation.length; i++) {
+          $scope.test[i].showTab = true
+          $scope.isComplete = {providerDisplayName: $scope.dev[key]};
+          //把渲染数组做二次筛选;
+          var arr = $filter("myfilter")($scope.test[i].item, $scope.isComplete);
+          if (arr.length == 0) {
+            $scope.test[i].showTab = false
           }
-          $scope.isComplete = {providerDisplayName: a}
-        } else {
-          $scope.showTab = {
-            ETCD: false,
-            RDB: true,
-            MYSQL: true,
-          }
-          $scope.isComplete = {providerDisplayName: 'bs'}
+
         }
-
-
-        // console.log($scope.isComplete);
+        console.log($scope.isComplete);
         if (key == $scope.grid[tp]) {
           key = 'all';
-          $scope.isComplete = {}
-          $scope.showTab = {
-            ETCD: true,
-            RDB: true,
-            MYSQL: true,
+          $scope.isComplete = '';
+          for (var k in $scope.test) {
+            $scope.test[k].showTab = true;
           }
         }
         $scope.grid[tp] = key;
-        console.log("$scope.itemsDevop", $scope.itemsDevop)
+        // console.log("$scope.itemsDevop", $scope.itemsDevop)
       }
 
 
@@ -366,4 +370,4 @@ angular.module('console.backing_service', [
       //   }
       // })()
 
-    }]);
+    }])

@@ -1,45 +1,14 @@
-<style>
-    .btn.active, .btn:active {
-        box-shadow: none;
-        -webkit-box-shadow: none;
-    }
-    .fw:last-child .btn{
-        width: 90px;
-    }
-    /*.backing-service .sc .btn {*/
-        /*!*width: 90px;*!*/
-    /*}*/
-
-</style>
 <div class="backing-service">
     <div class="tabs">
         <div class="sc">
             <label>服务分类</label>
-            <!--<div class="btn-group">-->
-            <!--<label class="btn" ng-class="{'active':grid.serviceCat == 'Devops'}"-->
-            <!--ng-click="select('serviceCat', 'Devops')">Devops</label>-->
-            <!--<label class="btn" ng-class="{'active':grid.serviceCat == 'sj'}"-->
-            <!--ng-click="select('serviceCat', 'sj')">数据</label>-->
-            <!--<label class="btn" ng-class="{'active':grid.serviceCat == 'fx'}"-->
-            <!--ng-click="select('serviceCat', 'fx')">分析</label>-->
-            <!--<label class="btn" ng-class="{'active':grid.serviceCat == 'IOT'}"-->
-            <!--ng-click="select('serviceCat', 'IOT')">IOT</label>-->
-            <!--</div>-->
-            <div class="btn-group" ng-repeat='item in cation'>
+            <div class="btn-group ft" ng-repeat='item in cation'>
                 <label class="btn" ng-class='{"active":grid.serviceCat == $index}'
                        ng-click='select("serviceCat", $index)'>{{item}}</label>
             </div>
         </div>
-        <div class="sc" id='fw'>
+        <div class="sc">
             <label>服务提供者</label>
-            <!--<div class="btn-group">-->
-            <!--<label class="btn" ng-class="{'active':grid.vendor == 'asiainfoLDP'}"-->
-            <!--ng-click="selectsc('vendor', 'asiainfoLDP')">平台</label>-->
-            <!--<label class="btn" ng-class="{'active':grid.vendor == 'Asiainfo'}"-->
-            <!--ng-click="selectsc('vendor', 'Asiainfo')">HBase</label>-->
-            <!--<label class="btn" ng-class="{'active':grid.vendor == '第三方'}"-->
-            <!--ng-click="selectsc('vendor', '第三方')">第三方</label>-->
-            <!--</div>-->
             <div class="btn-group fw" ng-repeat='item in dev'>
                 <label class="btn" ng-class="{'active':grid.vendor == $index}"
                        ng-click="selectsc('vendor',$index)">{{item}}</label>
@@ -53,7 +22,8 @@
             </uib-tab-heading>
             <div class="row">
                 <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
-                    <input type="text" class="form-control" placeholder="搜索后端服务名称" ng-model="grid.txt">
+                    <input type="text" class="form-control" placeholder="搜索后端服务名称"
+                           ng-model="grid.txt">
                     <!--ng-model="txt" ng-focus="showTip=true;" -->
                     <span class="input-group-btn">
                         <a class="btn" ng-click="search()"></a>
@@ -61,43 +31,17 @@
                 </div>
             </div>
 
-            <div class="row" ng-show='isshow.ETCD'>
-                <h2 class="h2-border" ng-show='showTab.ETCD' style="margin-bottom: 15px;">ETCD</h2>
-                <div class="row">
-                    <div class="col-md-3 col-sm-4 col-xs-6"
-                         ng-repeat="item in itemsDevop.itemsDevops | filter:isComplete"
-                         ng-show="item.show">
-                        <bs-card></bs-card>
-                    </div>
-                </div>
-            </div>
-            <!--<div class="row" ng-show='isshow.rdb'>-->
-                <!--<h2 class="h2-border" style="margin-bottom: 15px;">rdb</h2>-->
-                <!--<div class="row">-->
-                    <!--<div class="col-md-3 col-sm-4 col-xs-6"-->
-                         <!--ng-repeat="item in itemsDevop.itemssj | filter:{providerDisplayName: 'Asiainfo'}"-->
-                         <!--ng-show="item.show">-->
-                        <!--<bs-card></bs-card>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-            <div class="row" ng-show='isshow.RDB'>
-                <h2 class="h2-border" ng-show='showTab.RDB' style="margin-bottom: 15px;">RDB</h2>
-                <div class="row">
-                    <div class="col-md-3 col-sm-4 col-xs-6"
-                         ng-repeat="item in itemsDevop.itemsfx | filter:isComplete"
-                         ng-show="item.show">
-                        <bs-card></bs-card>
-                    </div>
-                </div>
-            </div>
-            <div class="row" ng-show='isshow.MYSQL'>
-                <h2 class="h2-border" ng-show='showTab.MYSQL' style="margin-bottom: 15px;">MYSQL</h2>
-                <div class="row">
-                    <div class="col-md-3 col-sm-4 col-xs-6"
-                         ng-repeat="item in itemsDevop.itemsIOT | filter:isComplete"
-                         ng-show="item.show">
-                        <bs-card></bs-card>
+            <div class='change' ng-repeat='items in test'>
+                <div class="row" ng-show="items.isshow">
+                    <h2 id=t{{items.id}} class="h2-border" ng-show="items.showTab"
+                        style="margin-bottom: 15px;">
+                        {{items.name}}</h2>
+                    <div class="row">
+                        <div class="col-md-3 col-sm-4 col-xs-6"
+                             ng-repeat="item in items.item | myfilter:isComplete"
+                             ng-show="item.show">
+                            <bs-card></bs-card>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -114,9 +58,23 @@
         </uib-tab>
     </uib-tabset>
 </div>
-<script>
-    window.onload=function () {
-        var fw=document.getElementsByClassName('fw');
-        console.log(fw)
+<style>
+    .btn.active, .btn:active {
+        box-shadow: none;
+        -webkit-box-shadow: none;
     }
-</script>
+
+    .backing-service .sc .btn {
+        width: 85px;
+    }
+
+    .fw:last-child .btn {
+        width: 90px;
+    }
+
+    #t0:after {
+        left: 80px;
+    }
+
+
+</style>
