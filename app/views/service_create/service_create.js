@@ -68,7 +68,7 @@ angular.module('console.service.create', [
           imageChange: true,
           configChange: true,
           checkedsecond: false,
-          auto: false,
+          auto: true,
           conflict: false,
           serviceConflict: false,
           servicepot: false
