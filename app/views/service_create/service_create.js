@@ -27,7 +27,7 @@ angular.module('console.service.create', [
           kind: "DeploymentConfig",
           apiVersion: "v1",
           metadata: {
-            name:"",
+            name: "",
             labels: {
               app: ""
             }
@@ -53,7 +53,7 @@ angular.module('console.service.create', [
                 "terminationGracePeriodSeconds": 30,
                 "dnsPolicy": "ClusterFirst",
                 "securityContext": {},
-                'volumes' : []
+                'volumes': []
               }
             },
             test: false
@@ -63,7 +63,7 @@ angular.module('console.service.create', [
         $scope.grid = {
           ports: [],
           port: 0,
-          host:'',
+          host: '',
           suffix: '.app.dataos.io',
           imageChange: true,
           configChange: true,
@@ -71,7 +71,7 @@ angular.module('console.service.create', [
           auto: false,
           conflict: false,
           serviceConflict: false,
-          servicepot:false
+          servicepot: false
         };
         // $scope.grid.host=$scope.dc.metadata.name
         $scope.invalid = {};
@@ -105,7 +105,6 @@ angular.module('console.service.create', [
             }
           }
         };
-
 
 
         $scope.service = {
@@ -232,7 +231,7 @@ angular.module('console.service.create', [
         loadBsi();
 
         $scope.addSecret = function (name, idx, last) {
-          $log.info('$scope.dcdc.spec.template.spec.containers-=-=-=-=-=-=-=',$scope.dc.spec.template.spec.containers)
+          $log.info('$scope.dcdc.spec.template.spec.containers-=-=-=-=-=-=-=', $scope.dc.spec.template.spec.containers)
           var containers = $scope.dc.spec.template.spec.containers;
           var volumes = $scope.dc.spec.template.spec.volumes;
           var container = null;
@@ -268,12 +267,22 @@ angular.module('console.service.create', [
           var cons = $scope.dc.spec.template.spec.containers;
           ImageSelect.open().then(function (res) {
             console.log("imageStreamTag", res);
+            console.log('container', container)
+            container.ports = [];
+            if (container.ports.length == 0) {
+              container.ports.push({
+                containerPort: '',
+                hostPort: '',
+                protocol: 'TCP',
+                //open: true
+              })
+            }
             container.image = res.metadata.name;
             var str = res.metadata.name.split(":");
             var strname = str[0];
-            if(idx>0){
-              if(cons[idx-1].image.split(":")[0] == strname){
-                strname = str[0]+idx;
+            if (idx > 0) {
+              if (cons[idx - 1].image.split(":")[0] == strname) {
+                strname = str[0] + idx;
               }
             }
             container.strname = strname;
@@ -282,11 +291,12 @@ angular.module('console.service.create', [
             container.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
             container.tag = str[1];
 
-            container.ports = [];
+
             var exposedPorts = res.image.dockerImageMetadata.Config.ExposedPorts;
             for (var k in exposedPorts) {
               var arr = k.split('/');
               if (arr.length == 2) {
+                container.ports = [];
                 var val = arr[1].toUpperCase()
                 container.ports.push({
                   containerPort: '',
@@ -322,16 +332,16 @@ angular.module('console.service.create', [
               ports[j].conflict = conflict;
               ports[j].serviceConflict = serviceConflict;
               if (ports[j].containerPort && ports[j].hostPort) {
-                $scope.grid.servicepot=false;
-              }else {
-                $scope.grid.servicepot=true;
+                $scope.grid.servicepot = false;
+              } else {
+                $scope.grid.servicepot = true;
               }
             }
           }
           $scope.grid.conflict = conflict;
           $scope.grid.serviceConflict = serviceConflict;
 
-         console.log('ports',ports.containerPort)
+          console.log('ports', ports.containerPort)
           return conflict || serviceConflict;
         };
 
@@ -365,13 +375,13 @@ angular.module('console.service.create', [
           var containers = dc.spec.template.spec.containers;
           for (var i = 0; i < containers.length; i++) {
             var container = containers[i];
-            for (var j = 0; j < container.volumeMounts.length; ) {
+            for (var j = 0; j < container.volumeMounts.length;) {
               if (!container.volumeMounts[j].name || !container.volumeMounts[j].mountPath) {
-                $log.info("remove "+j+" from volumeMounts total has "+ container.volumeMounts.length);
+                $log.info("remove " + j + " from volumeMounts total has " + container.volumeMounts.length);
                 container.volumeMounts.splice(j, 1);
                 j = 0;
               } else {
-                j ++;
+                j++;
               }
             }
           }
@@ -452,7 +462,7 @@ angular.module('console.service.create', [
           } else {
             $scope.service.spec.ports = null;
           }
-          $log.info('$scope.service0-0-0-0-',$scope.service.spec.ports);
+          $log.info('$scope.service0-0-0-0-', $scope.service.spec.ports);
           Service.create({namespace: $rootScope.namespace}, $scope.service, function (res) {
             $log.info("create service success", res);
             $scope.service = res;
@@ -537,34 +547,34 @@ angular.module('console.service.create', [
           var dc = angular.copy($scope.dc);
           var cons = angular.copy($scope.dc.spec.template.spec.containers);
           var flog = 0;
-          for(var i = 0 ; i <dc.spec.template.spec.containers.length; i++){
+          for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
             dc.spec.template.spec.containers[i].name = dc.spec.template.spec.containers[i].strname;
             delete dc.spec.template.spec.containers[i]["strname"];
-              for(var j = 0;j<dc.spec.template.spec.containers[i].volumeMounts.length;j++){
-                if(dc.spec.template.spec.containers[i].volumeMounts[j].name){
-                    flog++;
-                    var volume1 = "volume"+flog;
-                    dc.spec.template.spec.volumes.push(
-                      {
-                        "name" : volume1,
-                        "secret" : {
-                          "secretName" : dc.spec.template.spec.containers[i].volumeMounts[j].name
-                        }
+            for (var j = 0; j < dc.spec.template.spec.containers[i].volumeMounts.length; j++) {
+              if (dc.spec.template.spec.containers[i].volumeMounts[j].name) {
+                flog++;
+                var volume1 = "volume" + flog;
+                dc.spec.template.spec.volumes.push(
+                    {
+                      "name": volume1,
+                      "secret": {
+                        "secretName": dc.spec.template.spec.containers[i].volumeMounts[j].name
                       }
-                    );
-                    dc.spec.template.spec.containers[i].volumeMounts[j].name = volume1;
-                }
+                    }
+                );
+                dc.spec.template.spec.containers[i].volumeMounts[j].name = volume1;
               }
+            }
             var testlength = cons[i].ports.length;
-            for(var k = 0 ;k < testlength;k++){
-                if(!cons[i].ports[k].containerPort){
-                  cons[i].ports.splice(k,1);
-                  k--;
-                  testlength--;
-                }else{
-                  cons[i].ports[k].name = cons[i].ports[k].protocol+"-"+cons[i].ports[k].containerPort;
-                  cons[i].ports[k].protocol = cons[i].ports[k].protocol.toUpperCase()
-                }
+            for (var k = 0; k < testlength; k++) {
+              if (!cons[i].ports[k].containerPort) {
+                cons[i].ports.splice(k, 1);
+                k--;
+                testlength--;
+              } else {
+                cons[i].ports[k].name = cons[i].ports[k].protocol + "-" + cons[i].ports[k].containerPort;
+                cons[i].ports[k].protocol = cons[i].ports[k].protocol.toUpperCase()
+              }
             }
             dc.spec.template.spec.containers[i].ports = cons[i].ports;
           }
@@ -585,16 +595,16 @@ angular.module('console.service.create', [
           DeploymentConfig.create({namespace: $rootScope.namespace}, dc, function (res) {
             $log.info("create dc success", res);
             var isport = false;
-            for(var i = 0 ; i < dc.spec.template.spec.containers.length ; i++){
-              if(dc.spec.template.spec.containers[i].ports.length != 0){
+            for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
+              if (dc.spec.template.spec.containers[i].ports.length != 0) {
                 isport = true;
                 break;
               }
             }
-            if(isport){
+            if (isport) {
               createService(dc);
               bindService(dc);
-            }else{
+            } else {
               $state.go('console.service_detail', {name: dc.metadata.name});
             }
 

@@ -52,9 +52,12 @@ angular.module('console.backing_service', [
           $scope.showTab = {};
           //将类名变大写
           for (var l = 0; l < arr.length; l++) {
-            arr[l].metadata.annotations.Class = arr[l].metadata.annotations.Class.toUpperCase()
-            $scope.dev.push(arr[l].spec.metadata.providerDisplayName)
-            $scope.cation.push(arr[l].metadata.annotations.Class)
+            if (arr[l].metadata.annotations.Class) {
+              arr[l].metadata.annotations.Class = arr[l].metadata.annotations.Class.toUpperCase()
+              $scope.dev.push(arr[l].spec.metadata.providerDisplayName)
+              $scope.cation.push(arr[l].metadata.annotations.Class)
+            }
+
           }
           $scope.dev = $scope.dev.unique()
           $scope.cation = $scope.cation.unique()

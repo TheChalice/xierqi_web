@@ -33,10 +33,47 @@
         <uib-tab index="2" heading="平台公有镜像">
             <div>
                 <div class="row" style="margin-bottom: 30px;">
-                    <div class="col-sm-4 col-sm-offset-8">
-                        <c-search></c-search>
-                    </div>
-                </div>
+                <!--<div class="col-sm-4 col-sm-offset-8">-->
+                    <!--<c-search></c-search>-->
+                <!--</div>-->
+            <!--</div>-->
+                <!--<div class="panel-group" role="tablist" aria-multiselectable="true" style="margin-bottom: 0;">-->
+                    <!--<div class="panel panel-default" ng-repeat="bsisv in items">-->
+                        <!--<div class="panel-heading" role="tab">-->
+                            <!--<h4 class="panel-title">-->
+                                <!--<a ng-class="{'active': bsisv.checked}" ng-click="bsisv.checked=!bsisv.checked"-->
+                                   <!--style="cursor: pointer">-->
+                                    <!--<i class="faa faa-check"></i>&nbsp;-->
+                                <!--</a>-->
+                                <!--<a href="#{{item.metadata.name}}-{{bsisv.bind_deploymentconfig}}" data-toggle="collapse"-->
+                                   <!--class="accordion-toggle">-->
+                                    <!--{{bsisv.bind_deploymentconfig}}-->
+                                    <!--<i class="fa pull-right"-->
+                                       <!--ng-class="{'fa-caret-up': status.open, 'fa-caret-down': !status.open}"-->
+                                       <!--style="color: #5a6378;"></i>-->
+                                <!--</a>-->
+                                <!--<span class="label label-default" uib-tooltip="绑定时间">-->
+                                    <!--<i class="fa2 fa2-time"></i>&nbsp;{{bsisv.bound_time | dateRelative}}-->
+                                <!--</span>-->
+                            <!--</h4>-->
+                        <!--</div>-->
+                        <!--<div id="{{item.metadata.name}}-{{bsisv.bind_deploymentconfig}}" class="panel-collapse collapse"-->
+                             <!--role="tabpanel">-->
+                            <!--<div class="panel-body">-->
+                                <!--<div>-->
+                                    <!--<p><strong>Host:</strong><br>{{bsisv.credentials.Host}}</p>-->
+                                    <!--<p><strong>Port:</strong><br>{{bsisv.credentials.Port}}</p>-->
+                                    <!--<p><strong>Username:</strong><br>{{bsisv.credentials.Username}}</p>-->
+                                    <!--<p><strong>Password:</strong><br>{{bsisv.credentials.Password}}</p>-->
+                                    <!--<p><strong>Uri:</strong><br>{{bsisv.credentials.Uri}}</p>-->
+                                    <!--<p><strong>Name:</strong><br>{{bsisv.credentials.Name}}</p>-->
+                                    <!--<p><strong>Vhost:</strong><br>{{bsisv.credentials.Vhost}}</p>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
                 <div class="row">
                     <div class="col-sm-3 col-xs-6" ng-repeat="item in [1]">
                         <c-card item="item" gitStore="gitStore"></c-card>
