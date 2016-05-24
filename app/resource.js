@@ -206,5 +206,10 @@ define([
             var Branch = $resource('/v1/repos/github/users/:user/repos/:repo', {
             });
             return Branch;
-        }]);
+        }])
+        // .factory('platform', ['$resource', function($resource){
+        //   var Branch = $resource('/api/projects?', {
+        //   });
+        //   return Branch;
+        // }]);
 });

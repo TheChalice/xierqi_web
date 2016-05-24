@@ -30,21 +30,56 @@
                 </uib-pagination>
             </div>
         </uib-tab>
-        <uib-tab index="2" heading="平台公有镜像" ng-if="false">
+        <uib-tab index="2" heading="平台公有镜像">
             <div>
                 <div class="row" style="margin-bottom: 30px;">
-                    <div class="col-sm-4 col-sm-offset-8">
-                        <c-search></c-search>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-3 col-xs-6" ng-repeat="item in [1]">
-                        <c-card item="item" gitStore="gitStore"></c-card>
-                    </div>
+                <div class="col-sm-4 col-sm-offset-8">
+                    <c-search></c-search>
                 </div>
             </div>
+                <!--<div class="panel-group" role="tablist" aria-multiselectable="true" style="margin-bottom: 0;">-->
+                    <!--<div class="panel panel-default" ng-repeat="bsisv in items">-->
+                        <!--<div class="panel-heading" role="tab">-->
+                            <!--<h4 class="panel-title">-->
+                                <!--<a ng-class="{'active': bsisv.checked}" ng-click="bsisv.checked=!bsisv.checked"-->
+                                   <!--style="cursor: pointer">-->
+                                    <!--<i class="faa faa-check"></i>&nbsp;-->
+                                <!--</a>-->
+                                <!--<a href="#{{item.metadata.name}}-{{bsisv.bind_deploymentconfig}}" data-toggle="collapse"-->
+                                   <!--class="accordion-toggle">-->
+                                    <!--{{bsisv.bind_deploymentconfig}}-->
+                                    <!--<i class="fa pull-right"-->
+                                       <!--ng-class="{'fa-caret-up': status.open, 'fa-caret-down': !status.open}"-->
+                                       <!--style="color: #5a6378;"></i>-->
+                                <!--</a>-->
+                                <!--<span class="label label-default" uib-tooltip="绑定时间">-->
+                                    <!--<i class="fa2 fa2-time"></i>&nbsp;{{bsisv.bound_time | dateRelative}}-->
+                                <!--</span>-->
+                            <!--</h4>-->
+                        <!--</div>-->
+                        <!--<div id="{{item.metadata.name}}-{{bsisv.bind_deploymentconfig}}" class="panel-collapse collapse"-->
+                             <!--role="tabpanel">-->
+                            <!--<div class="panel-body">-->
+                                <!--<div>-->
+                                    <!--<div class="row">-->
+                                        <!--<div class="col-sm-3 col-xs-6" ng-repeat="item in [1]">-->
+                                            <!--<c-card item="item" gitStore="gitStore"></c-card>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <!--<div class="row">-->
+                    <!--<div class="col-sm-3 col-xs-6" ng-repeat="item in [1]">-->
+                        <!--<c-card item="item" gitStore="gitStore"></c-card>-->
+                    <!--</div>-->
+                <!--</div>-->
+            </div>
         </uib-tab>
-        <uib-tab index="3" heading="DockerHub镜像" ng-if="false">
+        <uib-tab index="3" heading="DockerHub镜像">
             <div class="text-center" style="padding: 130px 0 200px 0;">
                 <p style="font-size: 16px;color: #5a6378;">Docker镜像 一键搜索</p>
 

@@ -15,7 +15,7 @@ angular.module('console.image', [
             page: 1,
             size: GLOBAL.size
         };
-
+        // $scope.status = {};
         $scope.gitStore = {};   //存储commit id 和 分支,angular修改数组内元素属性不能触发刷新
 
         $scope.$watch('grid.page', function(newVal, oldVal){

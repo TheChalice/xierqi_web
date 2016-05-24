@@ -52,9 +52,12 @@ angular.module('console.backing_service', [
           $scope.showTab = {};
           //将类名变大写
           for (var l = 0; l < arr.length; l++) {
-            arr[l].metadata.annotations.Class = arr[l].metadata.annotations.Class.toUpperCase()
-            $scope.dev.push(arr[l].spec.metadata.providerDisplayName)
-            $scope.cation.push(arr[l].metadata.annotations.Class)
+            if (arr[l].metadata.annotations.Class) {
+              arr[l].metadata.annotations.Class = arr[l].metadata.annotations.Class.toUpperCase()
+              $scope.dev.push(arr[l].spec.metadata.providerDisplayName)
+              $scope.cation.push(arr[l].metadata.annotations.Class)
+            }
+
           }
           $scope.dev = $scope.dev.unique()
           $scope.cation = $scope.cation.unique()
@@ -109,7 +112,7 @@ angular.module('console.backing_service', [
               }
             }
           }
-          console.log("$scope.test", $scope.test)
+          // console.log("$scope.test", $scope.test)
           $scope.data = data.items;
           filter('serviceCat', 'all');
           filter('vendor', 'all');
@@ -150,7 +153,7 @@ angular.module('console.backing_service', [
       //第二栏筛选
       $scope.selectsc = function (tp, key) {
         for (var i = 0; i < $scope.cation.length; i++) {
-          $scope.test[i].showTab = true
+          $scope.test[i].showTab = true;
           $scope.isComplete = {providerDisplayName: $scope.dev[key]};
           //把渲染数组做二次筛选;
           var arr = $filter("myfilter")($scope.test[i].item, $scope.isComplete);
@@ -159,7 +162,7 @@ angular.module('console.backing_service', [
           }
 
         }
-        console.log($scope.isComplete);
+        // console.log($scope.isComplete);
         if (key == $scope.grid[tp]) {
           key = 'all';
           $scope.isComplete = '';

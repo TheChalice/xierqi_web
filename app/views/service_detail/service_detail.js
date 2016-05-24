@@ -79,15 +79,27 @@ angular.module('console.service.detail', [
         var loadDc = function (name) {
           DeploymentConfig.get({namespace: $rootScope.namespace, name: name}, function (res) {
             $log.info("deploymentConfigs", res);
-            if (!res.spec.template.spec.containers[0].ports) {
-              res.spec.template.spec.containers[0].ports = [{
-                //conflict: false,
-                containerPort: '',
-                //open: false,
-                protocol: "",
-                hostPort: ''
-              }]
+            for (var i = 0; i < res.spec.template.spec.containers.length; i++) {
+              if (!res.spec.template.spec.containers[i].ports) {
+                res.spec.template.spec.containers[i].ports = [{
+                  //conflict: false,
+                  containerPort: '',
+                  //open: false,
+                  protocol: "",
+                  hostPort: ''
+                }]
+              }
+
             }
+            // if (!res.spec.template.spec.containers[0].ports) {
+            //   res.spec.template.spec.containers[0].ports = [{
+            //     //conflict: false,
+            //     containerPort: '',
+            //     //open: false,
+            //     protocol: "",
+            //     hostPort: ''
+            //   }]
+            // }
             $scope.dc = res;
             $scope.getdc = angular.copy(res)
             getEnvs(res.spec.template.spec.containers);
@@ -899,21 +911,25 @@ angular.module('console.service.detail', [
           var containers = dc.spec.template.spec.containers;
 
           for (var i = 0; i < containers.length; i++) {
-            var ports = containers[i].ports;
-            for (var j = 0; j < ports.length; j++) {
-              //if (!ports[j].open) {
-              //  continue;
-              //}
-              if(ports[j].hostPort) {
-                var val = ports[j].protocol.toUpperCase()
-                ps.push({
-                  name: ports[j].hostPort + '-' + ports[j].protocol.toLowerCase(),
-                  port: parseInt(ports[j].hostPort),
-                  protocol: val,
-                  targetPort: parseInt(ports[j].containerPort)
-                });
+            if (containers[i].ports) {
+              var ports = containers[i].ports;
+              for (var j = 0; j < ports.length; j++) {
+                //if (!ports[j].open) {
+                //  continue;
+                //}
+                if(ports[j].hostPort) {
+                  var val = ports[j].protocol.toUpperCase()
+                  ps.push({
+                    name: ports[j].hostPort + '-' + ports[j].protocol.toLowerCase(),
+                    port: parseInt(ports[j].hostPort),
+                    protocol: val,
+                    targetPort: parseInt(ports[j].containerPort)
+                  });
+                }
               }
             }
+
+
           }
           if (ps.length > 0) {
             $scope.service.spec.ports = ps;
