@@ -8,14 +8,28 @@ angular.module('console.image', [
             ]
         }
     ])
-    .controller('ImageCtrl', ['$rootScope', '$scope', '$log', 'ImageStreamTag', 'BuildConfig', 'Build', 'GLOBAL', 'Sort', function ($rootScope, $scope, $log, ImageStreamTag, BuildConfig, Build, GLOBAL, Sort) {
-
+    .controller('ImageCtrl', ['$http','platform','$rootScope', '$scope', '$log', 'ImageStreamTag', 'BuildConfig', 'Build', 'GLOBAL', 'Sort', function ($http,platform,$rootScope, $scope, $log, ImageStreamTag, BuildConfig, Build, GLOBAL, Sort) {
+      // platform.get(function(data) {
+      //   console.log("platform", data)
+      // });
         //分页
+      $http.get('/registry/api/projects', {
+        //设置Authorization(授权)头。在真实的应用中，你需要到一个服务里面去获取auth令牌
+        headers: {
+          'Test':'Hello world'
+          //'Cookie': 'beegosessionID=e2341d54b4632214d459a2dac9c5af27'
+        },
+        params: {is_public:1}
+
+      }).success(function(data) {
+        $scope.test=data
+        console.log("platform", data)
+      });
         $scope.grid = {
             page: 1,
             size: GLOBAL.size
         };
-        // $scope.status = {};
+        $scope.status = {};
         $scope.gitStore = {};   //存储commit id 和 分支,angular修改数组内元素属性不能触发刷新
 
         $scope.$watch('grid.page', function(newVal, oldVal){
