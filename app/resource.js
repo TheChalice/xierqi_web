@@ -207,9 +207,9 @@ define([
             });
             return Branch;
         }])
-        // .factory('platform', ['$resource', function($resource){
-        //   var Branch = $resource('/api/projects?', {
-        //   });
-        //   return Branch;
-        // }]);
+        .factory('platform', ['$resource', function($resource){
+          var platform = $resource('/api/projects?is_public=1', {
+          });
+          return platform;
+        }]);
 });
