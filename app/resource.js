@@ -201,7 +201,7 @@ define([
             return Org;
         }])
         .factory('Branch', ['$resource', function($resource){
-            var Branch = $resource('/v1/repos/github/users/:user/repos/:repo', {
+            var Branch = $resource('/v1/repos/github/users/:users/repos/:repos',{users:'@users',repos:'@repos'}, {
             });
             return Branch;
         }]);

@@ -45,16 +45,9 @@
                                     用户/组织</div>
                                 <div class="panel-body">
                                     <ul>
-                                        <li ng-repeat="user in login" ng-show="!user.hide">
-                                            <a href="javascript:;" ng-class="{'active': grid.user == index}" ng-click="selectUser($index,login.user)">
+                                        <li ng-repeat="user in usernames" ng-show="!user.hide">
+                                            <a href="javascript:;" ng-class="{'active': grid.user == index}" ng-click="selectUser($index)">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{user.login}}
-                                            </a>
-                                        </li>
-                                    </ul>
-                                    <ul>
-                                        <li ng-repeat="org in orgName">
-                                            <a href="javascript:;" ng-class="{'active':grid.org == index}" ng-click="selectUser($index,orgName.org)">
-                                                <i class="faa faa-check"></i>&nbsp;&nbsp;{{org.login}}
                                             </a>
                                         </li>
                                     </ul>
@@ -66,19 +59,12 @@
                                     项目</div>
                                 <div class="panel-body">
                                     <ul>
-                                        <li ng-repeat="project in projectList.reposobj">
+                                        <li ng-repeat="project in reposobj">
                                             <a href="javascript:;" ng-class="{'active': grid.project == index}" ng-click="selectBranch($index,projectList.a)">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{project.name}}
                                             </a>
                                         </li>
                                     </ul>
-                                    <!--<ul ng-repeat="OrgProject in orgRepos">-->
-                                        <!--<li>-->
-                                            <!--<a href="javascript:;" ng-class="{'active': grid.orgProject == index}" ng-click="selectProject($index,chooseProject)">-->
-                                                <!--<i class="faa faa-check"></i>&nbsp;&nbsp;{{orgProject.name}}-->
-                                            <!--</a>-->
-                                        <!--</li>-->
-                                    <!--</ul>-->
                                 </div>
                             </div>
                             <div class="panel panel-default third col-sm-4">
