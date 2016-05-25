@@ -183,7 +183,8 @@ define([
         .factory('Metrics', ['$resource', function($resource){
             var Metrics = {};
             //https://hawkular-metrics.app.dataos.io
-            Metrics.mem = $resource('/hawkular/metrics/gauges/:gauges/data', {gauges: '@gauges', buckets: '@buckets', start: '@start'});
+            Metrics.mem = $resource('/hawkular/metrics/gauges/:gauges/data',
+                {gauges: '@gauges', buckets: '@buckets', start: '@start'});
             Metrics.cpu = $resource('/hawkular/metrics/counters/:counters/data', {counters: '@counters', buckets: '@buckets', start: '@start'});
             Metrics.mem.all = $resource('/hawkular/metrics/gauges/data', {tags: '@tags', buckets: '@buckets'});
             Metrics.cpu.all = $resource('/hawkular/metrics/counters/data', {tags: '@tags', buckets: '@buckets'});
@@ -204,5 +205,10 @@ define([
             var Branch = $resource('/v1/repos/github/users/:users/repos/:repos',{users:'@users',repos:'@repos'}, {
             });
             return Branch;
+        }])
+        .factory('platform', ['$resource', function($resource){
+          var platform = $resource('/registry/api/repositories?project_id=:id', {id:'@id'});
+          return platform;
         }]);
 });
+// https://registry.dataos.io/api/projects?is_public=1

@@ -30,21 +30,58 @@
                 </uib-pagination>
             </div>
         </uib-tab>
-        <uib-tab index="2" heading="平台公有镜像" ng-if="false">
+        <uib-tab index="2" heading="平台公有镜像">
             <div>
                 <div class="row" style="margin-bottom: 30px;">
-                    <div class="col-sm-4 col-sm-offset-8">
-                        <c-search></c-search>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-3 col-xs-6" ng-repeat="item in [1]">
-                        <c-card item="item" gitStore="gitStore"></c-card>
-                    </div>
+                <div class="col-sm-4 col-sm-offset-8">
+                    <c-search></c-search>
                 </div>
             </div>
+                <div class="panel-group" role="tablist" aria-multiselectable="true" style="margin-bottom: 0;">
+                    <div class="panel panel-default" style='margin-bottom: 30px' ng-repeat="bsisv in test">
+                        <div class="panel-heading" style='background:#FFFFFF;' role="tab">
+                            <h4 class="panel-title">
+                                <a href="#{{bsisv.Name}}" data-toggle="collapse"
+                                   class="accordion-toggle">
+                                    {{bsisv.bind_deploymentconfig}}
+                                    <i class="fa pull-right"
+                                       ng-class="{'fa-caret-up': status.open, 'fa-caret-down': !status.open}"
+                                       style="color: #5a6378;"></i>
+                                </a>
+                                <span class="label label-default"
+                                      style='font-size: 14px;background:#FFFFFF; color: #5a6378;'
+                                      uib-tooltip="绑定时间">
+                                        {{bsisv.Name}}
+                                </span>
+                                <span style='position: absolute; margin-top: 2px; left: 50%; text-align: center; font-size: 12px; color: #5a6378;'>
+                                    创建时间:&nbsp;{{bsisv.CreationTime | dateRelative}}
+                                </span>
+                            </h4>
+
+                        </div>
+                        <div id="{{bsisv.Name}}" class="panel-collapse collapse"
+                             role="tabpanel">
+                            <div class="panel-body">
+                                <div>
+                                    <div class="row">
+                                        <div class="col-sm-3 col-xs-6" ng-repeat="item in [1]">
+                                            <c-card item="item" gitStore="gitStore"></c-card>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--<div class="row">-->
+                    <!--<div class="col-sm-3 col-xs-6" ng-repeat="item in [1]">-->
+                        <!--<c-card item="item" gitStore="gitStore"></c-card>-->
+                    <!--</div>-->
+                <!--</div>-->
+            </div>
         </uib-tab>
-        <uib-tab index="3" heading="DockerHub镜像" ng-if="false">
+        <uib-tab index="3" heading="DockerHub镜像">
             <div class="text-center" style="padding: 130px 0 200px 0;">
                 <p style="font-size: 16px;color: #5a6378;">Docker镜像 一键搜索</p>
 
