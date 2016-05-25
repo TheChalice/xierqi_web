@@ -52,7 +52,7 @@ angular.module('console.backing_service', [
           $scope.showTab = {};
           //将类名变大写
           for (var l = 0; l < arr.length; l++) {
-            if (arr[l].metadata.annotations.Class) {
+            if (arr[l].metadata.annotations && arr[l].metadata.annotations.Class !== undefined){
               arr[l].metadata.annotations.Class = arr[l].metadata.annotations.Class.toUpperCase()
               $scope.dev.push(arr[l].spec.metadata.providerDisplayName)
               $scope.cation.push(arr[l].metadata.annotations.Class)
@@ -88,7 +88,7 @@ angular.module('console.backing_service', [
             // console.log('change', arr[i].providerDisplayName)
             $scope.itemsDevop.push([])
             for (var m = 0; m < arr.length; m++) {
-              if (arr[m].metadata.annotations.Class === $scope.cation[i]) {
+              if (arr[m].metadata.annotations && arr[m].metadata.annotations.Class === $scope.cation[i]) {
                 $scope.itemsDevop[i].push(arr[m]);
               }
             }
