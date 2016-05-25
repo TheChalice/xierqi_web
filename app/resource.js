@@ -204,5 +204,29 @@ define([
             var Branch = $resource('/v1/repos/github/users/:users/repos/:repos',{users:'@users',repos:'@repos'}, {
             });
             return Branch;
+        }])
+        .factory('labOwner', ['$resource', function($resource){
+            var labOwner = $resource('/v1/repos/gitlab/owner',{}, {
+            });
+            return labOwner;
+        }])
+        .factory('psgitlab', ['$resource', function($resource){
+            var psgitlab = $resource('/v1/repos/gitlab',{}, {
+                create: {method: 'POST'}
+            });
+            return psgitlab;
+        }])
+        .factory('laborgs', ['$resource', function($resource){
+            var laborgs = $resource('/v1/repos/gitlab/orgs',{}, {
+
+            });
+            return laborgs;
+        }])
+        .factory('labBranch', ['$resource', function($resource){
+            var labBranch = $resource('/v1/repos/gitlab/:repo/branches',{repo:'@repo'}, {
+
+            });
+            return labBranch;
         }]);
+
 });
