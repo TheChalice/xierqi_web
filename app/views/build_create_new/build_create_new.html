@@ -11,7 +11,7 @@
                     <div class="col-sm-10" style="padding-right: 40px">
                         <input  ng-model="buildConfig.metadata.name" type="text" name="name" class="form-control" required
                                 ng-pattern="/^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/">
-                        <!--<small ng-if="frm.name.$viewValue != '' && frm.name.$invalid">名称只能包括小写字母/数字/短线,短线不能在开头或结尾位置</small>-->
+                        <small ng-if="frm.name.$viewValue != '' && frm.name.$invalid">名称只能包括小写字母/数字/短线,短线不能在开头或结尾位置</small>
                     </div>
                 </div>
                 <hr>
@@ -22,12 +22,15 @@
                         <uib-tab index="1" heading="代码仓库">
 
                             <a class="btn pull-right" uib-tooltip="同步代码源" ng-click="loadlabOwner()" style="margin-top: -30px; margin-right: -20px" >
+                            <a class="btn pull-right" ng-click="" style="margin-top: -30px; margin-right: -20px" >
                                 <i class="fa fa-green fa-lg fa-refresh"></i>
                             </a>
                             <img src="views/build_create_new/img/images02_178.png"><span>GitLab 提供丰富的 Git 代码管理功能，是目前主流的企业内部 Git 代码仓库解决方案。</span>
                         </uib-tab>
                         <uib-tab index="2" heading="GitHub">
-                            <i class="fa fa-green fa-lg fa-refresh" ng-click="" style="margin-top: -30px; margin-right: -20px"></i>
+                            <a class="btn pull-right" ng-click="refresh()" style="margin-top: -30px; margin-right: -20px">
+                                <i class="fa fa-green fa-lg fa-refresh" ></i>
+                            </a>
                             <img src="views/build_create_new/img/github.png">
 
                         </uib-tab>
@@ -38,44 +41,44 @@
                         </uib-tab>
                         </uib-tabset>
 
-                        <div class="is-box" style="display: none;" >
-                            <div class="panel panel-default first col-sm-4" style="margin-right: 30px">
+                        <div class="is-box"  ng-hide="ishide">
+                            <div class="panel panel-default first col-md-4" style="margin-right: 30px">
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/user.png">
                                     用户/组织</div>
                                 <div class="panel-body">
                                     <ul>
                                         <li ng-repeat="user in usernames" ng-show="!user.hide">
-                                            <a href="javascript:;" ng-class="{'active': grid.user == index}" ng-click="selectUser($index)">
+                                            <a href="javascript:;" ng-class="{'active': grid.user == $index}" ng-click="selectUser($index)">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{user.login}}
                                             </a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
-                            <div class="panel panel-default second col-sm-4" style="margin-right: 30px">
+                            <div class="panel panel-default second col-md-4" style="margin-right: 30px">
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/project.png">
                                     项目</div>
                                 <div class="panel-body">
                                     <ul>
                                         <li ng-repeat="project in reposobj">
-                                            <a href="javascript:;" ng-class="{'active': grid.project == index}" ng-click="selectBranch($index,projectList.a)">
+                                            <a href="javascript:;" ng-class="{'active': grid.project == $index}" ng-click="selectProject($index)">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{project.name}}
                                             </a>
                                         </li>
                                     </ul>
                                 </div>
                             </div>
-                            <div class="panel panel-default third col-sm-4">
+                            <div class="panel panel-default third col-md-4">
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/branch.png">
                                     代码分支</div>
                                 <div class="panel-body">
                                     <ul>
-                                        <li>
-                                            <a>
-                                                <i class="faa faa-check"></i>&nbsp;&nbsp;lol
+                                        <li ng-repeat="branch in branch">
+                                            <a href="javascript:;" ng-class="{'active': grid.branch == $index}" ng-click="selectBranch($index)">
+                                                <i class="faa faa-check"></i>&nbsp;&nbsp;{{branch.name}}
                                             </a>
                                         </li>
                                     </ul>
@@ -176,7 +179,7 @@
         </div>
 
         <a class="btn btn-block" ng-class="{'btn-orange':frm.$valid, 'btn-disabled': frm.$invalid}" ng-disabled="frm.$invalid" ng-click="frm.$valid && create()">开始构建</a>
-   
+
 
     <style>
         .is-box {
@@ -185,8 +188,8 @@
         .is-box .panel {
             padding-left: 0px;
             padding-right: 0px;
-            width: 190px;
-            height: 220px;
+            width: 192px;
+            height: 200px;
         }
         .is-box .panel .panel-heading {
             width: 100%;
@@ -206,7 +209,7 @@
             padding: 0;
         }
         .is-box .panel .panel-body li{
-            margin-top: 10px;
+            padding-top: 8px;
             height: 40px;
         }
         .is-box .panel .panel-body ul li a {
@@ -219,7 +222,7 @@
             text-decoration: none;
         }
         .is-box .panel .panel-body ul li a.active {
-            background: #e5e6ea;
+            background: #e6e9f2;
             color: #5a6378;
         }
         .is-box .panel .panel-body img {
