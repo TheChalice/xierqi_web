@@ -13,6 +13,7 @@ angular.module('console.backing_service_detail', [
           var loadBs = function(){
             BackingService.get({namespace:'openshift',name:cuename},function(data){
                 $log.info('loadBs=====',data);
+              
                 $scope.data = data;
 
                 var plans = data.spec.plans;
@@ -196,6 +197,7 @@ angular.module('console.backing_service_detail', [
         };
 
         var bindService = function(name, dcs){
+          console.log('dcs',dcs)
             var bindObj = {
                 metadata: {
                     name: name
