@@ -37,6 +37,7 @@ angular.module('console.backing_service', [
         }
         return res;
       }
+      
       // 数组变对象
 
       var loadBs = function () {
@@ -52,12 +53,15 @@ angular.module('console.backing_service', [
           $scope.showTab = {};
           //将类名变大写
           for (var l = 0; l < arr.length; l++) {
-            if (arr[l].metadata.annotations && arr[l].metadata.annotations.Class !== undefined){
+            if (arr[l].metadata.annotations && arr[l].metadata.annotations.Class !== undefined) {
               arr[l].metadata.annotations.Class = arr[l].metadata.annotations.Class.toUpperCase()
-              $scope.dev.push(arr[l].spec.metadata.providerDisplayName)
-              $scope.cation.push(arr[l].metadata.annotations.Class)
+            } else {
+              arr[l].metadata.annotations = {
+                Class:'Others'
+              };
             }
-
+            $scope.dev.push(arr[l].spec.metadata.providerDisplayName)
+            $scope.cation.push(arr[l].metadata.annotations.Class)
           }
           $scope.dev = $scope.dev.unique()
           $scope.cation = $scope.cation.unique()
