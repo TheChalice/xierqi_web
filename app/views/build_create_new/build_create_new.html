@@ -38,7 +38,7 @@
                         </uib-tab>
                         </uib-tabset>
 
-                        <div class="is-box"  ng-hide="ishide">
+                        <div class="is-box"  ng-hide="ishide" >
                             <div class="panel panel-default first col-md-4" style="margin-right: 30px">
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/user.png">
@@ -46,7 +46,7 @@
                                 <div class="panel-body">
                                     <ul>
                                         <li ng-repeat="user in usernames" ng-show="!user.hide">
-                                            <a href="javascript:;" ng-class="{'active': grid.user == $index}" ng-click="selectUser($index)">
+                                            <a href="javascript:;"  uib-tooltip="{{user.login}}" ng-class="{'active': grid.user == $index}" ng-click="selectUser($index)">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{user.login}}
                                             </a>
                                         </li>
@@ -60,7 +60,7 @@
                                 <div class="panel-body">
                                     <ul>
                                         <li ng-repeat="project in reposobj">
-                                            <a href="javascript:;" ng-class="{'active': grid.project == $index}" ng-click="selectProject($index)">
+                                            <a href="javascript:;" uib-tooltip="{{project.name}}" ng-class="{'active': grid.project == $index}" ng-click="selectProject($index)">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{project.name}}
                                             </a>
                                         </li>
@@ -74,7 +74,7 @@
                                 <div class="panel-body">
                                     <ul>
                                         <li ng-repeat="branch in branch">
-                                            <a href="javascript:;" ng-class="{'active': grid.branch == $index}" ng-click="selectBranch($index)">
+                                            <a href="javascript:;" uib-tooltip="{{branch.name}}" ng-class="{'active': grid.branch == $index}" ng-click="selectBranch($index)">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{branch.name}}
                                             </a>
                                         </li>
@@ -111,7 +111,7 @@
 
             padding-left: 0px;
             padding-right: 0px;
-            width: 192px;
+            width: 190px;
             height: 200px;
         }
         .is-box .panel .panel-heading {
@@ -120,11 +120,11 @@
         }
 
         .is-box .panel .panel-body {
-
             padding: 0px;
             margin-bottom: 0px;
             height:150px;
             overflow-y: auto;
+
         }
         .is-box .panel .panel-body ul{
             list-style: none;
@@ -132,25 +132,38 @@
             padding: 0;
         }
         .is-box .panel .panel-body li{
-            padding-top: 8px;
             height: 40px;
+            display: block;
         }
         .is-box .panel .panel-body ul li a {
             padding: 10px 15px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: block;
         }
         .is-box .panel .panel-body ul li a:active {
             width: 100%;
             color: #5a6378;
+            display: block;
         }
         .is-box .panel .panel-body ul li a:focus {
             text-decoration: none;
         }
         .is-box .panel .panel-body ul li a.active {
-            background: #e6e9f2;
+            background: #f5f6fa;
             color: #5a6378;
+            display: block;
         }
         .is-box .panel .panel-body img {
             margin-right: 10px;
         }
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #e6e9f2;
+        }
+
     </style>
 </div>
