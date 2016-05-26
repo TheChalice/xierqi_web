@@ -30,8 +30,8 @@
                             <h4 class="media-heading">最新版本</h4>
                             <small>
                                 {{data.image.dockerImageMetadata.Config.Labels["io.openshift.build.commit.ref"] || newname}}
-                                -
-                                <span>{{data.image.dockerImageMetadata.Config.Labels["io.openshift.build.commit.id"] || newlist.Parent | limitTo: 7}}
+                                :
+                                <span>{{data.image.dockerImageMetadata.Config.Labels["io.openshift.build.commit.id"] || nameone | limitTo: 7}}
                             </span>
                             </small>
                         </div>

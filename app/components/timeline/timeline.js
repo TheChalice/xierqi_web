@@ -15,8 +15,9 @@ angular.module("console.timeline", [])
               function($http,platformone,platformlist,$rootScope, $scope, $state, $log, BuildConfig, Build, Confirm, $stateParams, ImageStreamTag, Sort, ModalPullImage, Ws){
               var namecopy = $scope.name
               var name = namecopy.split('/');
-                
+                console.log('$scope.name',name.length);
               if (name.length == 2) {
+                
                 $scope.data={
                   items:[]
                 };
@@ -59,26 +60,48 @@ angular.module("console.timeline", [])
 
                 })
 
-                // var loadImageStreamTag = function(item){
-                //   ImageStreamTag.get({namespace: $rootScope.namespace, name: item.name}, function(data){
-                //     $log.info('imageStreamTag', data);
-                //
-                //     item.bsi = data;
-                //
-                //     $scope.gitStore[item.spec.output.to.name] = {
-                //       id: data.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'],
-                //       ref: data.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref']
-                //     }
-                //
-                //   }, function(res){
-                //     //todo 错误处理
-                //   });
-                // };
+                $scope.delete = function(idx){
+                  var title = "删除构建";
+                  var msg = "您确定要删除构建吗?";
+                  var tip = "删除构建将清除构建的所有历史数据以及相关的镜像,该操作不能被恢复";
+                  if ($scope.type == 'image') {
+                    title = "删除镜像版本";
+                    msg = "您确定要删除该镜像版本吗?";
+                    tip = "";
+                  }
 
+                  var name = $scope.data.items[idx].name
+                  if (!name) {
+                    return;
+                  }
+                  Confirm.open(title, msg, tip, 'recycle').then(function(){
+                    Build.remove({namespace: $rootScope.namespace, name: name}, function(){
+                      $log.info("deleted");
+                      for (var i = 0; i < $scope.data.items.length; i++) {
+                        if (name == $scope.data.items[i].metadata.name) {
+                          $scope.data.items.splice(i, 1)
+                        }
+                      }
+                    }, function(res){
+                      //todo 错误处理
+                      $log.info("err", res);
+                    });
+                  });
+                };
+                $scope.pull = function(name){
+
+                  var s = $scope.name;
+                  // var name = $scope.name;
+                  var str = s.split('/')[0]+'/'+name+':'+$scope.name
+                  ModalPullImage.open(str)
+                      .then(function(res){
+                        console.log("cmd", res);
+                      });
+                };
 
                 
               }else {
-                // console.log(1)
+                console.log(1)
                 $scope.gitStore = {};
 
                 $scope.$on('timeline', function(e, type, data){

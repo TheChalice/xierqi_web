@@ -63,7 +63,7 @@ define(['angular'], function (angular) {
                     templateUrl: 'pub/tpl/modal_pull_image.html',
                     size: 'default',
                     controller: ['$scope', '$uibModalInstance', '$log', function ($scope, $uibModalInstance, $log) {
-                        $scope.name = name;
+                        $scope.name = name.split('/')[1]?name.split('/')[1]:name;
                         $scope.cmd = 'docker pull registry.dataos.io/'+ $rootScope.namespace +'/' + name;
                         $scope.cancel = function () {
                             $uibModalInstance.dismiss();
