@@ -9,10 +9,46 @@ angular.module('console.image_detail', [
             ]
         }
     ])
-    .controller('ImageDetailCtrl', ['$rootScope', '$scope', '$log', 'ImageStreamTag', '$stateParams', function ($rootScope, $scope, $log, ImageStreamTag, $stateParams) {
+    .controller('ImageDetailCtrl', ['$http','platformone','platformlist','$location','$rootScope', '$scope', '$log', 'ImageStreamTag', '$stateParams',
+      function ($http,platformone,platformlist,$location,$rootScope, $scope, $log, ImageStreamTag, $stateParams) {
         $log.info('ImageDetailCtrl');
         $scope.bcName = $stateParams.bc;
+        $scope.nameone=$location.url().split('/')[3].split('~2F').join('/');
 
+        console.log('$scope.name',$scope.nameone);
+        platformlist.query({id:$scope.nameone},function (data) {
+          console.log('data',data);
+            data.reverse();
+            $scope.newname = data[0];
+          var arr = [];
+          for (var i = 0; i < data.length; i++) {
+            $http.get('/registry/api/repositories/manifests',
+                {params: {repo_name: $scope.nameone,tag:data[i]}})
+                .success(function (datalis) {
+                  arr.push(datalis)
+                }).then(function () {
+              if (arr.length == data.length) {
+                for (var i = 0; i < arr.length; i++) {
+                  arr[i].mysort = arr[i].Created;
+                  arr[i].mysort = (new Date(arr[i].mysort)).getTime()
+                }
+                arr.sort(function (x, y) {
+                  return x.mysort > y.mysort ? -1 : 1;
+                });
+                console.log(arr);
+                $scope.newlist=arr[0];
+              }
+            })
+          }
+            // platformone.get({id:$scope.nameone,tag:data[0]},function (res) {
+            //   console.log('res',res);
+            //
+            //   $scope.newlist=res;
+            //
+            //   console.log('$scope.newlist',$scope.newlist)
+            // })
+
+          })
         var loadImageDetail = function(){
             //传imagename的参数
             ImageStreamTag.get({namespace: $rootScope.namespace, name: $stateParams["name"]}, function(data){

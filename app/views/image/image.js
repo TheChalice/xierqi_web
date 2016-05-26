@@ -146,19 +146,12 @@ angular.module('console.image', [
 
                   }
                 }
-                
-              // $scope.test[k].items = $scope.text[k];
-              // console.log($scope.text[k])
               }
             }
-            //for (var k = 0; k < $scope.text.length; k++) {
-              // $scope.test[k].items = $scope.text[k];
-              // console.log($scope.text[k])
 
-            //}
 
           }).then(function () {
-            // console.log('$scope.test', $scope.test);
+
           })
         }
       })

@@ -211,6 +211,18 @@ define([
         .factory('platform', ['$resource', function($resource){
           var platform = $resource('/registry/api/repositories?project_id=:id', {id:'@id'});
           return platform;
-        }]);
+        }])
+        .factory('platformlist', ['$resource', function($resource){
+          var platformlist = $resource('/registry/api/repositories/tags?repo_name=:id', {id:'@id'});
+          return platformlist;
+        }])
+      .factory('platformone', ['$resource', function($resource){
+                var platformone = $resource('/registry/api/repositories/manifests?repo_name=:id&tag=:tag', {id:'@id',tag:'@tag'});
+                return platformone;
+      }])
+
+
 });
+// http://registry.dataos.io/api/repositories/manifests?repo_name=library/alpine&tag=latest
 // https://registry.dataos.io/api/projects?is_public=1
+// https://registry.dataos.io/api/repositories/tags?repo_name=openshift/node

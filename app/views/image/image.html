@@ -65,9 +65,11 @@
                                         <div class="col-xs-12" ng-repeat="item in bsisv.items">
                                             <!--<c-card item="item" gitStore="gitStore"></c-card>-->
                                             <ul class="list-group">
-                                                <li class="list-group-item"><a href="#">{{item}}</a></li>
+                                                <li class="list-group-item">
+                                                    <a class="href-orange" ui-sref="console.image_detail({name:item, bc:item})">
+                                                        {{item}}
+                                                    </a></li>
                                             </ul>
-
                                         </div>
                                     </div>
                                 </div>
