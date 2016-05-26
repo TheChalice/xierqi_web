@@ -129,6 +129,9 @@ angular.module('console.build_create_new', [
                     }
                 }
             });
+            $scope.usernames.length = 0;
+            console.log($scope.usernames);
+
             Org.get(function(data) {
                 $log.info("org", data);
                 for(var i = 0 ; i < data.msg.length;i++){

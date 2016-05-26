@@ -31,7 +31,6 @@
                                 <i class="fa fa-green fa-lg fa-refresh" ></i>
                             </a>
                             <img src="views/build_create_new/img/github.png">
-
                         </uib-tab>
                         <uib-tab index="3" heading="GitLab" ng-click="test111()">
                             <i class="fa fa-green fa-lg fa-refresh pull-right"  style="margin-top: -30px; margin-right: -20px"></i>
@@ -48,7 +47,7 @@
                                 <div class="panel-body">
                                     <ul>
                                         <li ng-repeat="user in usernames" ng-show="!user.hide">
-                                            <a href="javascript:;" ng-class="{'active': grid.user == $index}" ng-click="selectUser($index)">
+                                            <a href="javascript:;"  uib-tooltip="{{user.login}}" ng-class="{'active': grid.user == $index}" ng-click="selectUser($index)">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{user.login}}
                                             </a>
                                         </li>
@@ -62,7 +61,7 @@
                                 <div class="panel-body">
                                     <ul>
                                         <li ng-repeat="project in reposobj">
-                                            <a href="javascript:;" ng-class="{'active': grid.project == $index}" ng-click="selectProject($index)">
+                                            <a href="javascript:;" uib-tooltip="{{project.name}}" ng-class="{'active': grid.project == $index}" ng-click="selectProject($index)">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{project.name}}
                                             </a>
                                         </li>
@@ -76,7 +75,7 @@
                                 <div class="panel-body">
                                     <ul>
                                         <li ng-repeat="branch in branch">
-                                            <a href="javascript:;" ng-class="{'active': grid.branch == $index}" ng-click="selectBranch($index)">
+                                            <a href="javascript:;" uib-tooltip="{{branch.name}}" ng-class="{'active': grid.branch == $index}" ng-click="selectBranch($index)">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{branch.name}}
                                             </a>
                                         </li>
