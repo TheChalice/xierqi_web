@@ -43,14 +43,29 @@ angular.module('console.build_create_new', [
 
         // console.log($scope.buildConfig.metadata.name);
         // console.log($scope.labBranchData);
-        // console.log($scope.grid.labbranch);
         if ($scope.buildConfig.metadata.name && $scope.grid.labbranch!=null) {
+          $scope.dianl=true;
+          $scope.dianbl=false;
+        }else if ($scope.buildConfig.metadata.name && $scope.grid.branch!=null) {
           $scope.dianl=true;
           $scope.dianbl=false;
         }else {
           $scope.dianl=false;
           $scope.dianbl=true;
         }
+        // console.log($scope.grid.labbranch);
+       //  if ($scope.buildConfig.metadata.name && $scope.grid.labbranch!=null) {
+       //    $scope.dianl=true;
+       //    $scope.dianbl=false;
+       //  }else {
+       //    $scope.dianl=false;
+       //    $scope.dianbl=true;
+       //  }
+       // else {
+       //    $scope.dianl=false;
+       //    $scope.dianbl=true;
+       //  }
+        
       },20)
 
 
