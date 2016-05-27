@@ -213,7 +213,7 @@ define([
           var platformlist = $resource('/registry/api/repositories/tags?repo_name=:id', {id:'@id'});
           return platformlist;
         }])
-      .factory('platformone', ['$resource', function($resource){
+        .factory('platformone', ['$resource', function($resource){
                 var platformone = $resource('/registry/api/repositories/manifests?repo_name=:id&tag=:tag', {id:'@id',tag:'@tag'});
                 return platformone;
       }])
