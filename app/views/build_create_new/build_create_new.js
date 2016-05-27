@@ -5,7 +5,7 @@ angular.module('console.build_create_new', [
         ]
     }
 ])
-    .controller ('BuildcCtrl', ['$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch','labOwner','psgitlab','laborgs','labBranch','ImageStream', 'BuildConfig', 'Alert','$http',function($rootScope, $scope, $state, $log, Owner, Org, Branch,labOwner,psgitlab,laborgs,labBranch,ImageStream, BuildConfig, Alert,$http) {
+    .controller ('BuildcCtrl', ['$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch','labOwner','psgitlab','laborgs','labBranch','ImageStream', 'BuildConfig', 'Alert','$http', 'Cookie',function($rootScope, $scope, $state, $log, Owner, Org, Branch,labOwner,psgitlab,laborgs,labBranch,ImageStream, BuildConfig, Alert, $http, Cookie) {
 
         $scope.running = false;
 
@@ -161,9 +161,17 @@ angular.module('console.build_create_new', [
                 $log.info("userProject", $scope.login);
             },function(data){
                 $log.info('-=-=-=-=',data);
-                if (data.status == 401) {
+                if (data.status == 400) {
                     if (data.data.code == 1401){
                         //goto github
+                        // var authurl = data.data.msg + "?namespace=" + $rootScope.namespace 
+                        // + "%26bearer=" + Cookie.get("df_access_token")
+                        // + "%26redirect_url=" + window.location.href ;
+                        var authurl =  "namespace=" + $rootScope.namespace 
+                        + "&bearer=" + Cookie.get("df_access_token")
+                        + "&redirect_url=" + window.location.href ;
+                        $log.info(authurl);
+                        window.location = data.data.msg + "?"+ encodeURIComponent(authurl);
                     }
                 }else{
                     Alert.open('错误', data.data.msg, true);
@@ -191,7 +199,7 @@ angular.module('console.build_create_new', [
                 "project_id" : pjId
             }
             $http.post('/v1/repos/gitlab/authorize/deploy',objJson, {headers: {'namespace': $rootScope.namespace}}).success(function(data) {
-                console.log("iwurweioriewroewuroiweu",data);
+
                 $scope.grid.labsecret = data.msg.secret;
                 createBuildConfig(data.msg.secret)
 
