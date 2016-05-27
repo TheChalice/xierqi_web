@@ -37,40 +37,46 @@
                     <c-search></c-search>
                 </div>
             </div>
-                <!--<div class="panel-group" role="tablist" aria-multiselectable="true" style="margin-bottom: 0;">-->
-                    <!--<div class="panel panel-default" ng-repeat="bsisv in items">-->
-                        <!--<div class="panel-heading" role="tab">-->
-                            <!--<h4 class="panel-title">-->
-                                <!--<a ng-class="{'active': bsisv.checked}" ng-click="bsisv.checked=!bsisv.checked"-->
-                                   <!--style="cursor: pointer">-->
-                                    <!--<i class="faa faa-check"></i>&nbsp;-->
-                                <!--</a>-->
-                                <!--<a href="#{{item.metadata.name}}-{{bsisv.bind_deploymentconfig}}" data-toggle="collapse"-->
-                                   <!--class="accordion-toggle">-->
-                                    <!--{{bsisv.bind_deploymentconfig}}-->
-                                    <!--<i class="fa pull-right"-->
-                                       <!--ng-class="{'fa-caret-up': status.open, 'fa-caret-down': !status.open}"-->
-                                       <!--style="color: #5a6378;"></i>-->
-                                <!--</a>-->
-                                <!--<span class="label label-default" uib-tooltip="绑定时间">-->
-                                    <!--<i class="fa2 fa2-time"></i>&nbsp;{{bsisv.bound_time | dateRelative}}-->
-                                <!--</span>-->
-                            <!--</h4>-->
-                        <!--</div>-->
-                        <!--<div id="{{item.metadata.name}}-{{bsisv.bind_deploymentconfig}}" class="panel-collapse collapse"-->
-                             <!--role="tabpanel">-->
-                            <!--<div class="panel-body">-->
-                                <!--<div>-->
-                                    <!--<div class="row">-->
-                                        <!--<div class="col-sm-3 col-xs-6" ng-repeat="item in [1]">-->
+                <div class="panel-group" role="tablist" aria-multiselectable="true" style="margin-bottom: 0;">
+                    <div class="panel panel-default" style='margin-bottom: 30px' ng-repeat="bsisv in test">
+                        <div class="panel-heading" style='background:#FFFFFF;' role="tab">
+                            <h4 class="panel-title">
+                                <a href="#{{bsisv.Name}}" data-toggle="collapse"
+                                   class="accordion-toggle">
+                                    <i class="fa pull-right icon25 icon25-collapse"
+                                       style="color: #5a6378; margin-top: -4px" uib-tooltip="查看"></i>
+                                </a>
+                                <span class="label label-default"
+                                      style='font-size: 14px;background:#FFFFFF; color: #5a6378;'
+                                      >
+                                        {{bsisv.Name}}
+                                </span>
+                                <span uib-tooltip="创建时间" style='position: absolute; margin-top: 2px; left: 50%; text-align: center; font-size: 12px; color: #5a6378;'>
+                                    创建时间:&nbsp;{{bsisv.CreationTime | dateRelative}}
+                                </span>
+                            </h4>
+
+                        </div>
+                        <div id="{{bsisv.Name}}" class="panel-collapse collapse"
+                             role="tabpanel">
+                            <div class="panel-body">
+                                <div>
+                                    <div class="row">
+                                        <div class="col-xs-12" ng-repeat="item in bsisv.items">
                                             <!--<c-card item="item" gitStore="gitStore"></c-card>-->
-                                        <!--</div>-->
-                                    <!--</div>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
+                                            <ul class="list-group">
+                                                <li class="list-group-item">
+                                                    <a class="href-orange" ui-sref="console.image_detail({name:item, bc:item})">
+                                                        {{item}}
+                                                    </a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <!--<div class="row">-->
                     <!--<div class="col-sm-3 col-xs-6" ng-repeat="item in [1]">-->
@@ -79,6 +85,7 @@
                 <!--</div>-->
             </div>
         </uib-tab>
+        <!--
         <uib-tab index="3" heading="DockerHub镜像">
             <div class="text-center" style="padding: 130px 0 200px 0;">
                 <p style="font-size: 16px;color: #5a6378;">Docker镜像 一键搜索</p>
@@ -90,5 +97,28 @@
                 </div>
             </div>
         </uib-tab>
+        -->
     </uib-tabset>
 </div>
+<style>
+    .list-group-item {
+        height: 40px;
+        line-height: 23px;
+        border: none;
+        border-radius: 0;
+        display: block;
+        border-bottom: 1px solid #d4d4d4;
+    }
+    .list-group-item a {
+        font-size:12px;
+        color: #f6a540;
+        font-weight:bold;
+    }
+    .list-group-item a:hover {
+        color: #e5993a;
+    }
+    .list-group-item:last-child {
+        border-bottom-right-radius:0;
+        border-bottom-left-radius:0;
+    }
+</style>

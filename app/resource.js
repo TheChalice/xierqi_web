@@ -179,37 +179,70 @@ define([
             });
             return Secret;
         }])
-        .factory('owner', ['$resource', function($resource){
-            var owner= $resource('/v1/repos/github/owner');
-            return owner;
-        }])
+
         .factory('Metrics', ['$resource', function($resource){
             var Metrics = {};
-            //https://hawkular-metrics.app.dataos.io
-            Metrics.mem = $resource('/hawkular/metrics/gauges/:gauges/data', {gauges: '@gauges', buckets: '@buckets', start: '@start'});
+            Metrics.mem = $resource('/hawkular/metrics/gauges/:gauges/data',
+                {gauges: '@gauges', buckets: '@buckets', start: '@start'});
             Metrics.cpu = $resource('/hawkular/metrics/counters/:counters/data', {counters: '@counters', buckets: '@buckets', start: '@start'});
             Metrics.mem.all = $resource('/hawkular/metrics/gauges/data', {tags: '@tags', buckets: '@buckets'});
             Metrics.cpu.all = $resource('/hawkular/metrics/counters/data', {tags: '@tags', buckets: '@buckets'});
             return Metrics;
         }])
         .factory('Owner', ['$resource', function($resource){
-            var Owner = $resource('/v1/repos/github/owner', {
+            var Owner = $resource('/v1/repos/github/owner?namespace=:namespace', {namespace:'@namespace'}, {
+                'query': {method: 'GET'}
             });
              return Owner;
         }])
         .factory('Org', ['$resource', function($resource){
-            var Org = $resource('/v1/repos/github/org', {
+            var Org = $resource('/v1/repos/github/orgs', {
             });
             return Org;
         }])
         .factory('Branch', ['$resource', function($resource){
-            var Branch = $resource('/v1/repos/github/users/:user/repos/:repo', {
+            var Branch = $resource('/v1/repos/github/users/:users/repos/:repos',{users:'@users',repos:'@repos'}, {
             });
             return Branch;
         }])
         .factory('platform', ['$resource', function($resource){
-          var platform = $resource('/api/projects?is_public=1', {
-          });
+          var platform = $resource('/registry/api/repositories?project_id=:id', {id:'@id'});
           return platform;
-        }]);
+        }])
+        .factory('platformlist', ['$resource', function($resource){
+          var platformlist = $resource('/registry/api/repositories/tags?repo_name=:id', {id:'@id'});
+          return platformlist;
+        }])
+        .factory('platformone', ['$resource', function($resource){
+                var platformone = $resource('/registry/api/repositories/manifests?repo_name=:id&tag=:tag', {id:'@id',tag:'@tag'});
+                return platformone;
+      }])
+
+        .factory('labOwner', ['$resource', function($resource){
+            var labOwner = $resource('/v1/repos/gitlab/owner',{}, {
+            });
+            return labOwner;
+        }])
+        .factory('psgitlab', ['$resource', function($resource){
+            var psgitlab = $resource('/v1/repos/gitlab',{}, {
+                create: {method: 'POST'}
+            });
+            return psgitlab;
+        }])
+        .factory('laborgs', ['$resource', function($resource){
+            var laborgs = $resource('/v1/repos/gitlab/orgs',{}, {
+
+            });
+            return laborgs;
+        }])
+        .factory('labBranch', ['$resource', function($resource){
+            var labBranch = $resource('/v1/repos/gitlab/:repo/branches',{repo:'@repo'}, {
+
+            });
+            return labBranch;
+        }])
+
 });
+// http://registry.dataos.io/api/repositories/manifests?repo_name=library/alpine&tag=latest
+// https://registry.dataos.io/api/projects?is_public=1
+// https://registry.dataos.io/api/repositories/tags?repo_name=openshift/node

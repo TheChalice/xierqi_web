@@ -14,7 +14,6 @@ angular.module('console.build.create', [])
                     type: 'Git',
                     git: {
                         uri: ''
-                        //ref: ''
                     }
 
                 },
@@ -55,7 +54,7 @@ angular.module('console.build.create', [])
 
         var createBuildConfig = function (imageStreamTag) {
             $scope.buildConfig.spec.completionDeadlineSeconds = $scope.completionDeadlineMinutes * 60;
-            $scope.buildConfig.spec.output.to.name = imageStreamTag + ':latest';
+            $scope.buildConfig.spec.output.to.name = imageStreamTag;// + ':latest';
             $scope.buildConfig.spec.triggers = [];
             BuildConfig.create({namespace: $rootScope.namespace}, $scope.buildConfig, function(res){
                 $log.info("buildConfig", res);
