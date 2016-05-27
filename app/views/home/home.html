@@ -226,6 +226,24 @@
         <form ng-if="!user" class="navbar-form navbar-right" style="margin-top: 23px;">
             <button ng-click="login()" type="button" class="btn btn-green btn-border btn-xs" style="margin-right:5px;">登录</button>
             <button ng-click="regist()" type="button" class="btn btn-green btn-xs">注册</button>
+            <div class="dropdown" ID="mobilenav">
+                <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+                <span class="sr-only">切换导航</span>
+                        <span style="background-color: #fff" class="icon-bar"></span>
+                        <span style="background-color: #fff" class="icon-bar"></span>
+                        <span style="background-color: #fff" class="icon-bar"></span>
+
+                </button>
+                <div class="navbar-collapse collapse navbar-right pull-right">
+                    <ul class="nav navbar-nav" id="m-navs">
+                        <li><a ui-sref="home.index" target="_blank" style="color: #fff;">首页</a></li>
+                        <li><a href="javascript:;" target="_blank" style="color: #fff;">应用市场</a></li>
+                        <li><a href="javascript:;" target="_blank" style="color: #fff;">产品介绍</a></li>
+                        <li><a href="javascript:;" target="_blank" style="color: #fff;">解决方案</a></li>
+                        <li><a href="javascript:;" target="_blank" style="color: #fff;">帮助</a></li>
+                    </ul>
+                </div>
+            </div>
         </form>
         <form ng-if="user" class="navbar-form navbar-right" style="margin-top: 23px;">
             <a ui-sref="console.dashboard" class="btn btn-green btn-xs">控制台</a>
@@ -249,6 +267,7 @@
                 </div>
             </div>
         </form>
+
         <ul class="nav navbar-nav menu navbar-right" ID="nav">
             <li class="active"><a ui-sref="home.index">首页</a></li>
             <li><a href="javascript:;">应用市场</a></li>
