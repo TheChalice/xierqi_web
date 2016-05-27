@@ -186,7 +186,9 @@ angular.module('console.build_create_new', [
             gitlabbox : false,
             ishide : true,
             labcon : false,
-            labsecret : ""
+            labsecret : "",
+            cdm : false,
+            creatlaberr : ''
         };
         var thisowner = {};
         $scope.checkdTab = function(){
@@ -255,8 +257,11 @@ angular.module('console.build_create_new', [
                 $scope.loadlabOwner();
                 $scope.grid.labcon = true;
                 $scope.grid.gitlabbox = false;
+                $scope.grid.cdm = false;
             },function(res){
                 $log.info('psgitlab-----err',res);
+                $scope.grid.cdm = true;
+                $scope.grid.creatlaberr = res.data.msg;
 
             })
         }
