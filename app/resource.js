@@ -209,6 +209,15 @@ define([
           var platform = $resource('/registry/api/repositories?project_id=:id', {id:'@id'});
           return platform;
         }])
+        .factory('platformlist', ['$resource', function($resource){
+          var platformlist = $resource('/registry/api/repositories/tags?repo_name=:id', {id:'@id'});
+          return platformlist;
+        }])
+      .factory('platformone', ['$resource', function($resource){
+                var platformone = $resource('/registry/api/repositories/manifests?repo_name=:id&tag=:tag', {id:'@id',tag:'@tag'});
+                return platformone;
+      }])
+
         .factory('labOwner', ['$resource', function($resource){
             var labOwner = $resource('/v1/repos/gitlab/owner',{}, {
             });
@@ -232,5 +241,8 @@ define([
             });
             return labBranch;
         }])
-       
+
 });
+// http://registry.dataos.io/api/repositories/manifests?repo_name=library/alpine&tag=latest
+// https://registry.dataos.io/api/projects?is_public=1
+// https://registry.dataos.io/api/repositories/tags?repo_name=openshift/node
