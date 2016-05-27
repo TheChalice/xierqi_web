@@ -19,33 +19,34 @@
                     <label class="col-sm-2 control-label" style="color: #5a6378; font-size:14px; text-align: left;">代码URL</label>
                     <div class="col-sm-10">
                         <uib-tabset class="tab-default">
-                        <uib-tab index="1" heading="代码仓库">
-                            <a class="btn pull-right" ng-click="" style="margin-top: -30px; margin-right: -20px" >
+                        <uib-tab index="1" heading="代码仓库" ng-click="checkdTab()">
+
+                            <a class="btn pull-right" uib-tooltip="同步代码源" ng-click="loadlabOwner()" style="margin-top: -30px; margin-right: -20px" >
                                 <i class="fa fa-green fa-lg fa-refresh"></i>
                             </a>
-                            <img src="views/build_create_new/img/images02_178.png">
+                            <img style="float: left;margin-right: 20px;" src="views/build_create_new/img/images02_178.png"><span style="font-size:12px;">Github于2008年上线,目前,除了Git代码仓库托管以及基本的web管理界面以外、还提供了订阅、讨论组、文本渲染、在线文件编辑器、协作图谱(报表)、代码片段分享(Gist)等功能</span>
                         </uib-tab>
-                        <uib-tab index="2" heading="GitHub">
+                        <uib-tab index="2" heading="GitHub" ng-click="checkdTab()">
                             <a class="btn pull-right" ng-click="refresh()" style="margin-top: -30px; margin-right: -20px">
                                 <i class="fa fa-green fa-lg fa-refresh" ></i>
                             </a>
                             <img src="views/build_create_new/img/github.png">
                         </uib-tab>
-                        <uib-tab index="3" heading="GitLab">
-                            <i class="fa fa-green fa-lg fa-refresh pull-right" ng-click="" style="margin-top: -30px; margin-right: -20px"></i>
+                        <uib-tab index="3" heading="GitLab" ng-click="checkdTab()">
+                            <i class="fa fa-green fa-lg fa-refresh pull-right"  style="margin-top: -30px; margin-right: -20px"></i>
                             <img src="views/build_create_new/img/gitlab.png">
 
                         </uib-tab>
                         </uib-tabset>
 
-                        <div class="is-box"  ng-hide="ishide" >
-                            <div class="panel panel-default first col-md-4" style="margin-right: 30px">
+                        <div class="is-box"  ng-hide="grid.ishide">
+                            <div class="panel panel-default first col-md-4" style="margin-right: 25px">
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/user.png">
                                     用户/组织</div>
                                 <div class="panel-body">
                                     <ul>
-                                        <li ng-repeat="user in usernames" ng-show="!user.hide">
+                                        <li class="labcon" ng-repeat="user in usernames" ng-show="!user.hide">
                                             <a href="javascript:;"  uib-tooltip="{{user.login}}" ng-class="{'active': grid.user == $index}" ng-click="selectUser($index)">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{user.login}}
                                             </a>
@@ -53,13 +54,13 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="panel panel-default second col-md-4" style="margin-right: 30px">
+                            <div class="panel panel-default second col-md-4" style="margin-right: 25px">
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/project.png">
                                     项目</div>
                                 <div class="panel-body">
                                     <ul>
-                                        <li ng-repeat="project in reposobj">
+                                        <li class="labcon" ng-repeat="project in reposobj">
                                             <a href="javascript:;" uib-tooltip="{{project.name}}" ng-class="{'active': grid.project == $index}" ng-click="selectProject($index)">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{project.name}}
                                             </a>
@@ -73,7 +74,7 @@
                                     代码分支</div>
                                 <div class="panel-body">
                                     <ul>
-                                        <li ng-repeat="branch in branch">
+                                        <li class="labcon" ng-repeat="branch in branch">
                                             <a href="javascript:;" uib-tooltip="{{branch.name}}" ng-class="{'active': grid.branch == $index}" ng-click="selectBranch($index)">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{branch.name}}
                                             </a>
@@ -82,7 +83,87 @@
                                 </div>
                             </div>
                         </div>
+                        <!--909090909-->
+                        <div class="is-box" ng-show="grid.labcon">
+                            <div class="panel panel-default first col-sm-4" style="margin-right: 25px">
+                                <div class="panel-heading">
+                                    <img src="views/build_create_new/img/user.png">
+                                    用户/组织</div>
+                                <div class="panel-body">
+                                    <ul>
+                                        <li class="labcon" ng-repeat="user in labusername" ng-show="!user.hide">
+                                            <a href="javascript:;" uib-tooltip="{{user.org.name || user.owner.name}}" ng-class="{'active': grid.labusers == $index}" ng-click="selectlabUser($index)">
+                                                <i class="faa faa-check"></i>&nbsp;&nbsp;{{user.org.name || user.owner.name}}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="panel panel-default second col-sm-4" style="margin-right: 25px">
+                                <div class="panel-heading">
+                                    <img src="views/build_create_new/img/project.png">
+                                    项目</div>
+                                <div class="panel-body">
+                                    <ul>
+                                        <li class="labcon" ng-repeat="project in labobjs">
+                                            <a href="javascript:;" uib-tooltip="{{project.name}}" ng-class="{'active': grid.labproject == $index}" ng-click="loadLabBranch($index)">
+                                                <i class="faa faa-check"></i>&nbsp;&nbsp;{{project.name}}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="panel panel-default third col-sm-4">
+                                <div class="panel-heading">
+                                    <img src="views/build_create_new/img/branch.png">
+                                    代码分支</div>
+                                <div class="panel-body">
+                                    <ul>
+                                        <li class="labcon" ng-repeat="labBranchData in labBranchData.msg">
+                                            <a href="javascript:;" uib-tooltip="{{labBranchData.name}}"  ng-class="{'active': grid.labbranch == $index}" ng-click="selectlabBranch($index)">
+                                                <i class="faa faa-check"></i>&nbsp;&nbsp;{{labBranchData.name}}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!--909090909-->
+                        <!-----=-=-=-=-=-=--=--->
+                        <div class="gitlabbox" ng-show="grid.gitlabbox">
+                            <!--<form class="form-horizontal">-->
+                                <div class="form-group">
+                                    <label  class="col-sm-4 control-label">代码仓库URL</label>
+                                    <div class="col-sm-8">
+                                        <input ng-model="psgitlab.host" class="form-control" style="width: 70%">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label  class="col-sm-4 control-label">用户名</label>
+                                    <div class="col-sm-8">
+                                        <input ng-model="psgitlab.user" class="form-control" style="width: 70%">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label  class="col-sm-4 control-label">私有Token</label>
+                                    <div class="col-sm-8">
+                                        <input ng-model="psgitlab.private_token" class="form-control" style="width: 70%">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label  class="col-sm-4 control-label"></label>
+                                    <div class="col-sm-8">
+
+                                        <div class="gitlabBtn" ng-click="creatgitlab()">确定</div>
+                                        <small ng-show="grid.cdm" class="fa fa-exclamation-circle" style="font-size: 12px;color: #ec6941; margin-top: 10px">&nbsp;{{grid.creatlaberr}}</small>
+                                    </div>
+                                </div>
+
+                            <!--</form>-->
+
+                            <!-----=-=-=-=-=-=--=--->
                     </div>
+                </div>
                 </div>
                 <hr>
 
@@ -96,71 +177,85 @@
                     </div>
                 </div>
             </div>
-        </div>
+</div>
+        <a class="btn btn-block" ng-class="{'btn-orange':frm.$valid, 'btn-disabled': frm.$invalid}" ng-disabled="frm.$invalid" ng-click="frm.$valid && create()"><i class="fa fa-spinner fa-spin" ng-if="creating">&nbsp;</i>开始构建</a>
 
         <a class="btn btn-block" ng-class="{'btn-orange':frm.$valid, 'btn-disabled': frm.$invalid}" ng-disabled="frm.$invalid" ng-click="frm.$valid && create()">开始构建</a>
     </form>
 
-    <style>
-        .is-box {
-            margin-top: 30px;
-            overflow:hidden;
-        }
-        .is-box .panel {
-            padding-left: 0px;
-            padding-right: 0px;
-            width: 190px;
-            height: 200px;
-        }
-        .is-box .panel .panel-heading {
-            background-color: #e6e9f2;
-        }
-
-        .is-box .panel .panel-body {
-            padding: 0px;
-            margin-bottom: 0px;
-            height:150px;
-            overflow-y: auto;
-
-        }
-        .is-box .panel .panel-body ul{
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-        .is-box .panel .panel-body li{
-            height: 40px;
-            display: block;
-        }
-        .is-box .panel .panel-body ul li a {
-            padding: 10px 15px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            display: block;
-        }
-        .is-box .panel .panel-body ul li a:active {
-            width: 100%;
-            color: #5a6378;
-            display: block;
-        }
-        .is-box .panel .panel-body ul li a:focus {
-            text-decoration: none;
-        }
-        .is-box .panel .panel-body ul li a.active {
-            background: #f5f6fa;
-            color: #5a6378;
-            display: block;
-        }
-        .is-box .panel .panel-body img {
-            margin-right: 10px;
-        }
-        ::-webkit-scrollbar {
-            width: 10px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background-color: #e6e9f2;
-        }
-
-    </style>
 </div>
+
+
+<style>
+    .is-box {
+        margin-top: 30px;
+    }
+    .is-box .panel {
+        padding-left: 0px;
+        padding-right: 0px;
+        width: 191px;
+        height: 200px;
+    }
+    .is-box .panel .panel-heading {
+        width: 100%;
+        background-color: #e6e9f2;
+    }
+    .col-sm-10{
+        padding-right:42px;
+    }
+    .is-box .panel .panel-body {
+        width: 100%;
+        padding: 0px;
+        margin-bottom: 0px;
+        height:150px;
+        overflow-y: auto;
+    }
+    .is-box .panel .panel-body ul{
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+    .is-box .panel .panel-body li{
+        height: 40px;
+        line-height: 40px;
+    }
+    .is-box .panel .panel-body ul li a {
+        padding: 0px 15px;
+    }
+    .is-box .panel .panel-body ul li a:active {
+        color: #5a6378;
+    }
+    .is-box .panel .panel-body ul li a:focus {
+        text-decoration: none;
+    }
+    .is-box .panel .panel-body ul li a.active {
+        background: #f5f6fa;
+        color: #5a6378;
+    }
+    .is-box .panel .panel-body img {
+        margin-right: 10px;
+    }
+    .gitlabbox{
+        width: 100%;
+        overflow: hidden;
+        border:1px solid #c9c9c9;
+        padding:40px 0px;
+    }
+    .gitlabBtn{
+        width: 70%;
+        height: 34px;
+        background: #55c45f;
+        line-height:34px;
+        text-align: center;
+        color: #fff;
+        cursor: pointer;
+    }
+    .gitlabBtn:hover{
+        background: #469450;
+    }
+    .labcon a:link,.labcon a:visited{
+        display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+
+
+    }
+</style>

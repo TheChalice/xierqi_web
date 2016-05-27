@@ -544,6 +544,7 @@ angular.module('console.service.create', [
         };
 
         $scope.createDc = function () {
+          $rootScope.lding = true;
           var dc = angular.copy($scope.dc);
           var cons = angular.copy($scope.dc.spec.template.spec.containers);
           var flog = 0;
