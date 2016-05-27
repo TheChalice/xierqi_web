@@ -6,11 +6,12 @@
         <span style="cursor: pointer" ng-click="back()" class="icon25 icon25-back" ng-if="hasBack()"></span>
         <span>{{console.state | stateTitleFilter}}</span>
     </div>
-    <div id="header-menu">
-        <a class="icon25 icon25-msg" href="javascript:;" uib-tooltip="消息" tooltip-placement="bottom">
-            <div class="header-dot"></div>
-        </a>
-        <a class="icon25 icon25-guide" href="javascript:;" uib-tooltip="指南" tooltip-placement="bottom"></a>
+    <div id="header-menu" style='margin-top: 10px;' >
+        <!--<a class="icon25 icon25-msg" href="javascript:;" uib-tooltip="消息" tooltip-placement="bottom">-->
+            <!--<div class="header-dot"></div>-->
+        <!--</a>-->
+        <!--<a class="icon25 icon25-guide" href="javascript:;" uib-tooltip="指南" tooltip-placement="bottom"-->
+        <!--</a>-->
 
         <span uib-dropdown on-toggle="toggled(open)">
             <a href="javascript:;" id="user-menu" uib-dropdown-toggle>
