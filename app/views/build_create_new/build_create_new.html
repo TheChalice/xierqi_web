@@ -13,7 +13,6 @@
 </style>
 <div>
     <form class="form-horizontal" name="frm" style="margin-right: 90px; margin-left: 90px; margin-top: 40px">
-
         <div class="panel panel-default">
             <div class="panel-heading">
                 <span class="panel-title">新建构建</span>
@@ -23,7 +22,7 @@
                     <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size:14px; text-align: left;">构建名称</label>
                     <div class="col-sm-10" style="padding-right: 40px">
                         <input  ng-model="buildConfig.metadata.name" type="text" name="name" class="form-control" required
-                                ng-pattern="/^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/">
+                                ng-pattern="/^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/" style="width: 613px;">
                         <small ng-if="frm.name.$viewValue != '' && frm.name.$invalid">名称只能包括小写字母/数字/短线,短线不能在开头或结尾位置</small>
                     </div>
                 </div>
@@ -32,28 +31,37 @@
                     <label class="col-sm-2 control-label" style="color: #5a6378; font-size:14px; text-align: left;">代码URL</label>
                     <div class="col-sm-10">
                         <uib-tabset class="tab-default">
-                        <uib-tab index="1" heading="代码仓库" ng-click="checkdTab()">
+                        <uib-tab index="1" heading="代码仓库" ng-click="checkdTab(1)">
+                            <div class="tabinfo" style="height: 70px">
+                                <a class="btn pull-right" ng-class="{'running':running,}" uib-tooltip="同步代码源" ng-click="loadlabOwner()" style="margin-top: -30px; margin-right: -20px" >
+                                    <i class="fa fa-green fa-lg fa-refresh"></i>
+                                </a>
+                                <img style="float: left;margin-right: 20px;" src="views/build_create_new/img/images02_178.png">
+                                <span style="font-size:12px; height: 20px">DataFoundry 提供的代码仓库 <a href="https://code.dataos.io" target="view_window">（https://code.dataos.io）</a> 是可靠的自托管的 Git 项目仓库，
+                                    可通过Web 界面进行访问公开的或者私人项目。</span>
+                            </div>
 
-                            <a class="btn pull-right" ng-class="{'zhuan':zhuan,}" uib-tooltip="同步代码源" ng-click="loadlabOwner()" style="margin-top: -30px; margin-right: -20px" >
-                                <i class="fa fa-green fa-lg fa-refresh"></i>
-                            </a>
-                            <img style="float: left;margin-right: 20px;" src="views/build_create_new/img/images02_178.png"><span style="font-size:12px;">Github于2008年上线,目前,除了Git代码仓库托管以及基本的web管理界面以外、还提供了订阅、讨论组、文本渲染、在线文件编辑器、协作图谱(报表)、代码片段分享(Gist)等功能</span>
-                        </uib-tab>
-                        <uib-tab index="2" heading="GitHub" ng-click="checkdTab()">
-                            <a class="btn pull-right" ng-click="refresh()" style="margin-top: -30px; margin-right: -20px">
-                                <i class="fa fa-green fa-lg fa-refresh" ></i>
-                            </a>
-                            <img src="views/build_create_new/img/github.png">
-                        </uib-tab>
-                        <uib-tab index="3" heading="GitLab" ng-click="checkdTab()">
-                            <i class="fa fa-green fa-lg fa-refresh pull-right"  style="margin-top: -30px; margin-right: -20px"></i>
-                            <img src="views/build_create_new/img/gitlab.png">
 
                         </uib-tab>
+                        <uib-tab index="2" heading="GitHub" ng-click="checkdTab(2)">
+                            <div class="tabinfo" style="height: 70px">
+                                <a class="btn pull-right" ng-class="{'running':running,}" uib-tooltip="同步代码源" ng-click="refresh()" style="margin-top: -30px; margin-right: -20px">
+                                    <i class="fa fa-green fa-lg fa-refresh" ></i>
+                                </a>
+                                <img style="float: left;margin-right: 20px;" src="views/build_create_new/img/github.png">
+                                <span style="font-size:12px; height: 20px">Github 于 2008 年上线，目前，除了 Git 代码仓库托管以及基本的 Web 管理界面以外 、 还提供了订阅 、讨论组 、文本渲染 、
+                                    在线文件编辑器 、协作图谱（报表） 、代码片段分享（Gist）等功能。</span>
+                            </div>
+                        </uib-tab>
+                        <!--<uib-tab index="3" heading="GitLab" ng-click="checkdTab()">-->
+                            <!--<i class="fa fa-green fa-lg fa-refresh pull-right"  style="margin-top: -30px; margin-right: -20px"></i>-->
+                            <!--<img src="views/build_create_new/img/gitlab.png">-->
+                            <!--<span style="font-size:12px; height: 20px"></span>-->
+                        <!--</uib-tab>-->
                         </uib-tabset>
 
                         <div class="is-box"  ng-hide="grid.ishide">
-                            <div class="panel panel-default first col-md-4" style="margin-right: 25px">
+                            <div class="panel panel-default first col-md-4" style="margin-right: 31px">
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/user.png">
                                     用户/组织</div>
@@ -67,7 +75,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="panel panel-default second col-md-4" style="margin-right: 25px">
+                            <div class="panel panel-default second col-md-4" style="margin-right: 30px">
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/project.png">
                                     项目</div>
@@ -95,10 +103,11 @@
                                     </ul>
                                 </div>
                             </div>
+                            <small ng-if="frm.branch.$viewValue != '' && frm.branch.$invalid">请选择一个分支</small>
                         </div>
-                        <!--909090909-->
+                        <!--gitlab pannel-->
                         <div class="is-box" ng-show="grid.labcon">
-                            <div class="panel panel-default first col-sm-4" style="margin-right: 25px">
+                            <div class="panel panel-default first col-sm-4" style="margin-right: 31px">
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/user.png">
                                     用户/组织</div>
@@ -112,7 +121,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="panel panel-default second col-sm-4" style="margin-right: 25px">
+                            <div class="panel panel-default second col-sm-4" style="margin-right: 30px">
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/project.png">
                                     项目</div>
@@ -141,9 +150,8 @@
                                 </div>
                             </div>
                         </div>
-                        <!--909090909-->
-                        <!-----=-=-=-=-=-=--=--->
-                        <div class="gitlabbox" ng-show="grid.gitlabbox">
+                        <!--gitLab box-->
+                        <div class="gitlabbox" ng-show="grid.gitlabbox" style="margin-top: 20px">
                             <!--<form class="form-horizontal">-->
                                 <div class="form-group">
                                     <label  class="col-sm-4 control-label">代码仓库URL</label>
@@ -174,7 +182,7 @@
 
                             <!--</form>-->
 
-                            <!-----=-=-=-=-=-=--=--->
+                            <!-----gitLab--->
                     </div>
                 </div>
                 </div>
@@ -189,9 +197,11 @@
                     </div>
                 </div>
             </div>
-</div>
-        <a class="btn btn-block" ng-class="{'btn-orange':frm.$valid, 'btn-disabled': frm.$invalid}" ng-disabled="frm.$invalid" ng-click="frm.$valid && create()"><i class="fa fa-spinner fa-spin" ng-if="creating">&nbsp;</i>开始构建</a>
-
+        </div>
+        <!--<a class="btn btn-block" ng-class="{'btn-orange':frm.$valid, 'btn-disabled': frm.$invalid}" ng-disabled="frm.$invalid" ng-click="frm.$valid && create()"><i class="fa fa-spinner fa-spin" ng-if="creating">&nbsp;</i>开始构建</a>-->
+        <a class="btn btn-block"
+           ng-class="{'btn-orange':dianl, 'btn-disabled': dianbl}"
+           ng-click="frm.$valid && create()">开始构建</a>
     </form>
 
 </div>
@@ -204,7 +214,7 @@
     .is-box .panel {
         padding-left: 0px;
         padding-right: 0px;
-        width: 191px;
+        width: 30%;
         height: 200px;
     }
     .is-box .panel .panel-heading {
@@ -266,7 +276,16 @@
     }
     .labcon a:link,.labcon a:visited{
         display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
-
-
+    }
+    .running {
+        animation:rotate 1s infinite linear;
+    }
+    @-webkit-keyframes rotate{
+          0%{
+              -webkit-transform:rotate(0deg);
+            }
+            100%{
+                -webkit-transform:rotate(360deg);
+            }
     }
 </style>

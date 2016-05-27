@@ -5,9 +5,10 @@ angular.module('console.build_create_new', [
         ]
     }
 ])
-    .controller ('BuildcCtrl', ['$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch','labOwner','psgitlab','laborgs','labBranch','ImageStream', 'BuildConfig', 'Alert','$http',function($rootScope, $scope, $state, $log, Owner, Org, Branch,labOwner,psgitlab,laborgs,labBranch,ImageStream, BuildConfig, Alert,$http) {
+    .controller ('BuildcCtrl', ['$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch','labOwner','psgitlab','laborgs','labBranch','ImageStream', 'BuildConfig', 'Alert','$http', 'Cookie',function($rootScope, $scope, $state, $log, Owner, Org, Branch,labOwner,psgitlab,laborgs,labBranch,ImageStream, BuildConfig, Alert, $http, Cookie) {
 
-      $scope.zhuan = false;
+        $scope.running = false;
+
         $scope.buildConfig = {
             metadata: {
                 name: ''
@@ -36,6 +37,39 @@ angular.module('console.build_create_new', [
                 completionDeadlineSeconds: 1800
             }
         };
+      $scope.dianl=false;
+      $scope.dianbl=true;
+      setInterval(function () {
+
+        // console.log($scope.buildConfig.metadata.name);
+        // console.log($scope.labBranchData);
+        if ($scope.buildConfig.metadata.name && $scope.grid.labbranch!=null) {
+          $scope.dianl=true;
+          $scope.dianbl=false;
+        }else if ($scope.buildConfig.metadata.name && $scope.grid.branch!=null) {
+          $scope.dianl=true;
+          $scope.dianbl=false;
+        }else {
+          $scope.dianl=false;
+          $scope.dianbl=true;
+        }
+        // console.log($scope.grid.labbranch);
+       //  if ($scope.buildConfig.metadata.name && $scope.grid.labbranch!=null) {
+       //    $scope.dianl=true;
+       //    $scope.dianbl=false;
+       //  }else {
+       //    $scope.dianl=false;
+       //    $scope.dianbl=true;
+       //  }
+       // else {
+       //    $scope.dianl=false;
+       //    $scope.dianbl=true;
+       //  }
+        
+      },20)
+
+
+
         $scope.completionDeadlineMinutes = 30;
         var thisindex = 0;
         var createBuildConfig = function(labsecret) {
@@ -76,8 +110,12 @@ angular.module('console.build_create_new', [
             };
             ImageStream.create({namespace: $rootScope.namespace}, imageStream, function (res) {
                 $log.info("imageStream", res);
-                getlabsecret($scope.labHost,$scope.labobjs[$scope.grid.labproject].id);
-            }, function(res){
+                if($scope.grid.labcon == true){
+                    getlabsecret($scope.labHost,$scope.labobjs[$scope.grid.labproject].id);
+                }else if($scope.grid.ishide == false){
+                    createBuildConfig();
+                }
+            },function(res){
                 $log.info("err", res);
                 if (res.data.code == 409) {
                     getlabsecret($scope.labHost,$scope.labobjs[$scope.grid.labproject].id);
@@ -107,8 +145,10 @@ angular.module('console.build_create_new', [
 
         $scope.usernames = [];
         var hubobj = {};
+        $scope.owner = null;
         $scope.refresh = function() {
             $scope.grid.ishide= false;
+            $scope.running = true;
             Owner.query({namespace: $rootScope.namespace},function(res) {
                 $log.info("owner", res);
                 $scope.owner = res.msg;
@@ -121,10 +161,21 @@ angular.module('console.build_create_new', [
                 $log.info("userProject", $scope.login);
             },function(data){
                 $log.info('-=-=-=-=',data);
-                if (data.status == 401) {
+                if (data.status == 400) {
                     if (data.data.code == 1401){
                         //goto github
+                        // var authurl = data.data.msg + "?namespace=" + $rootScope.namespace 
+                        // + "%26bearer=" + Cookie.get("df_access_token")
+                        // + "%26redirect_url=" + window.location.href ;
+                        var authurl =  "namespace=" + $rootScope.namespace 
+                        + "&bearer=" + Cookie.get("df_access_token")
+                        + "&redirect_url=" + window.location.href ;
+                        $log.info(authurl);
+                        window.location = data.data.msg + "?"+ encodeURIComponent(authurl);
                     }
+                }else{
+                    Alert.open('错误', data.data.msg, true);
+                    $scope.grid.ishide = true;
                 }
             });
             Org.get(function(data) {
@@ -137,15 +188,18 @@ angular.module('console.build_create_new', [
                         data.msg[i].repos[j].loginname = data.msg[i].login;
                     }
                 }
+            $scope.running = false;
             });
+
         }
+
         var getlabsecret = function(ht,pjId){
             var objJson = {
                 "host" : ht,
                 "project_id" : pjId
             }
             $http.post('/v1/repos/gitlab/authorize/deploy',objJson, {headers: {'namespace': $rootScope.namespace}}).success(function(data) {
-                console.log("iwurweioriewroewuroiweu",data);
+
                 $scope.grid.labsecret = data.msg.secret;
                 createBuildConfig(data.msg.secret)
 
@@ -153,11 +207,14 @@ angular.module('console.build_create_new', [
         }
         $scope.selectUser = function(idx) {
             $scope.grid.user = idx;
+            $scope.grid.project = null;
+            $scope.grid.branch = null;
             $scope.reposobj = $scope.usernames[idx].repos;
             thisindex = idx;
         }
         $scope.selectProject = function(idx) {
             $scope.grid.project = idx;
+            $scope.grid.branch = null;
             var selectUsername = $scope.usernames[thisindex].login;
             var selectRepo = $scope.usernames[thisindex].repos[idx].name;
             $log.info("user and repos",selectUsername + selectRepo);
@@ -191,17 +248,35 @@ angular.module('console.build_create_new', [
             creatlaberr : ''
         };
         var thisowner = {};
-        $scope.checkdTab = function(){
-            $scope.grid.ishide = true;
-            $scope.grid.labcon = false;
+        $scope.checkdTab = function(val){
+            if(val == 1){
+                if(!$scope.labowner){
+                    $scope.grid.labcon = false;
+                    $scope.grid.ishide = true;
+                }else{
+                    $scope.grid.labcon = true;
+                    $scope.grid.ishide = true;
+                }
+            }else if(val == 2){
+                if($scope.owner){
+                    $scope.grid.ishide = false;
+                    $scope.grid.labcon = false;
+                }else{
+                    $scope.grid.ishide = true;
+                    $scope.grid.labcon = false;
+                }
+            }
         }
+        $scope.labowner = null;
         $scope.loadlabOwner = function(){
-            $scope.zhuan = true;
+            $scope.running = true;
+
             $scope.grid.labcon = true;
             labOwner.get({},function(data) {
                 $log.info("labOwner", data)
                 for(var i = 0 ; i < data.msg.infos.length;i++){
                     thisowner = data.msg.infos[0];
+                    $scope.labowner = data.msg;
                     for(var j = 0; j < data.msg.infos[i].repos.length;j++){
                         data.msg.infos[i].repos[j].objsname = data.msg.infos[i].owner.name;
                     }
@@ -212,7 +287,8 @@ angular.module('console.build_create_new', [
                 $log.info("labOwner-------err",data);
                 if(data.status == 400 && data.data.code == 1400){
                     $scope.grid.labcon = false;
-                    $scope.grid.gitlabbox = true;
+                    //$scope.grid.gitlabbox = true;
+                    Alert.open('错误', data.data.msg, true);
                 }
             });
         }
@@ -229,13 +305,16 @@ angular.module('console.build_create_new', [
                         data.msg.infos[i].repos[j].objsname = data.msg.infos[i].org.name;
                     }
                 }
-              $scope.zhuan = false;
-                console.log("0-0-0-00-0-$scope.labusername",$scope.labusername);
+
+                $scope.running = false;
+                $log.info("0-0-0-00-0-$scope.labusername",$scope.labusername);
+
             },function(data){
                 $log.info("laborgs-------err",data)
             });
         }
         $scope.loadLabBranch = function(idx){
+          $scope.grid.labbranch=null;
             var labId = $scope.labobjs[idx].id;
             labBranch.get({repo:labId},function(data){
                 $scope.labBranchData = data;
@@ -258,7 +337,7 @@ angular.module('console.build_create_new', [
                 $log.info('psgitlab-----0000',res);
                 $scope.loadlabOwner();
                 $scope.grid.labcon = true;
-                $scope.grid.gitlabbox = false;
+                //$scope.grid.gitlabbox = false;
                 $scope.grid.cdm = false;
             },function(res){
                 $log.info('psgitlab-----err',res);
@@ -267,7 +346,6 @@ angular.module('console.build_create_new', [
 
             })
         }
-
 
     }])
 
