@@ -6,7 +6,7 @@ angular.module('console.dashboard', [
         ]
     }
 ])
-    .controller('dashboardCtrl', ['$log', '$rootScope', '$scope', 'Metrics', 'MetricsService', 'owner', function($log, $rootScope, $scope, Metrics, MetricsService, owner){
+    .controller('dashboardCtrl', ['$log', '$rootScope', '$scope', 'Metrics', 'MetricsService', function($log, $rootScope, $scope, Metrics, MetricsService){
         $scope.cpuData = [];
         $scope.memData = [];
         $scope.isdata = {};

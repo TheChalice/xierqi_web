@@ -14,7 +14,6 @@ angular.module('console.build.create', [])
                     type: 'Git',
                     git: {
                         uri: ''
-                        //ref: ''
                     }
 
                 },
