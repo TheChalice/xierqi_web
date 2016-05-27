@@ -189,7 +189,7 @@ angular.module('console.build_create_new', [
             labsecret : ""
         };
         var thisowner = {};
-        $scope.test111 = function(){
+        $scope.checkdTab = function(){
             $scope.grid.ishide = true;
             $scope.grid.labcon = false;
         }
