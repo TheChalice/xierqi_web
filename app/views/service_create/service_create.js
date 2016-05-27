@@ -377,7 +377,7 @@ angular.module('console.service.create', [
             var container = containers[i];
             for (var j = 0; j < container.volumeMounts.length;) {
               if (!container.volumeMounts[j].name || !container.volumeMounts[j].mountPath) {
-                $log.info("remove " + j + " from volumeMounts total has " + container.volumeMounts.length);
+                //$log.info("remove " + j + " from volumeMounts total has " + container.volumeMounts.length);
                 container.volumeMounts.splice(j, 1);
                 j = 0;
               } else {

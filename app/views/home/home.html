@@ -153,17 +153,61 @@
         }
         .navbar-collapse {
             padding-top: 39px;
+            margin-right: -81px;
+            background-color: #f8b551;
+            width:30%;
+        }
+        .mobilelogoimg {
+            padding-top: 5px;
         }
         #mobilenav{
             display: none;
         }
+        .mobilefooter {
+            float:left;
+            display: none;
+            background: #5a6378;
+        }
+        .minformation p{
+            font-size: 14px;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+
+        .weblogo{
+            display: block;
+        }
+
+        #mobilelogo{
+            display: none;
+        }
+
+
         @media (max-width:640px) {
             #nav {
                 display: none;
             }
-            #mobilenav{
+
+            #mobilenav {
                 display: block;
             }
+
+            .mobilefooter {
+                display: block;
+            }
+
+            .footer {
+                display: none;
+            }
+
+            .weblogo{
+                display: none;
+            }
+
+            #mobilelogo{
+                display: block;
+            }
+
         }
         .navbar-nav {
             background-color: #f8b551;
@@ -171,7 +215,12 @@
 
     </style>
     <div id="header">
-        <a id="header-brand" href="#">
+        <!--mobile -->
+        <a href="#" id="mobilelogo" style="float: left;margin-top: 8px;">
+            <img src="components/header/img/logo.png" alt="logo" class="mobilelogoimg" >
+        </a>
+        <!-- pc -->
+        <a id="header-brand" href="#" class="weblogo">
             <img src="components/header/img/logo.png" alt="logo">
         </a>
         <form ng-if="!user" class="navbar-form navbar-right" style="margin-top: 23px;">
@@ -216,8 +265,22 @@
 
     <div ui-view style="overflow: hidden;"></div>
 
-    <div class="footer">
+    <!--mobile footer-->
+    <div class="mobilefooter">
+        <div class="minformation">
+                <p>团队介绍</p>
+                <p>合作方式</p>
+                <p>联系我们</p>
+                <p>电话:010-82166688</p>
+                <p>datafoundry@asiainfo.com</p>
+                <p>地址:北京市海淀区中关村软件园二期西北旺东路10院亚信大厦</p>
+            </div>
+        </div>
+        <div>© 2016版权所有 北京亚信智慧数据科技有限公司 京ICP备11005544号-15 京公网安备110108007119号</div>
+    </div>
+    <!--the end of mobile footer-->
 
+    <div class="footer">
         <div class="information">
             <div class="ifml">
                 <a href="#">团队介绍</a>
