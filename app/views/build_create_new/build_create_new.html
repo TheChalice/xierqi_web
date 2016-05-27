@@ -46,7 +46,7 @@
                                     用户/组织</div>
                                 <div class="panel-body">
                                     <ul>
-                                        <li ng-repeat="user in usernames" ng-show="!user.hide">
+                                        <li class="labcon" ng-repeat="user in usernames" ng-show="!user.hide">
                                             <a href="javascript:;"  uib-tooltip="{{user.login}}" ng-class="{'active': grid.user == $index}" ng-click="selectUser($index)">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{user.login}}
                                             </a>
@@ -60,7 +60,7 @@
                                     项目</div>
                                 <div class="panel-body">
                                     <ul>
-                                        <li ng-repeat="project in reposobj">
+                                        <li class="labcon" ng-repeat="project in reposobj">
                                             <a href="javascript:;" uib-tooltip="{{project.name}}" ng-class="{'active': grid.project == $index}" ng-click="selectProject($index)">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{project.name}}
                                             </a>
@@ -74,7 +74,7 @@
                                     代码分支</div>
                                 <div class="panel-body">
                                     <ul>
-                                        <li ng-repeat="branch in branch">
+                                        <li class="labcon" ng-repeat="branch in branch">
                                             <a href="javascript:;" uib-tooltip="{{branch.name}}" ng-class="{'active': grid.branch == $index}" ng-click="selectBranch($index)">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{branch.name}}
                                             </a>
@@ -92,7 +92,7 @@
                                 <div class="panel-body">
                                     <ul>
                                         <li class="labcon" ng-repeat="user in labusername" ng-show="!user.hide">
-                                            <a href="javascript:;" uib-tooltip="{{user.org.name || user.owner.name}}" ng-class="{'active': grid.labuser == $index}" ng-click="selectlabUser($index)">
+                                            <a href="javascript:;" uib-tooltip="{{user.org.name || user.owner.name}}" ng-class="{'active': grid.labusers == $index}" ng-click="selectlabUser($index)">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{user.org.name || user.owner.name}}
                                             </a>
                                         </li>
@@ -162,8 +162,8 @@
                             <!-----=-=-=-=-=-=--=--->
                     </div>
                 </div>
+                </div>
                 <hr>
-
                 <div class="form-group">
                     <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size:14px; text-align: left; ">构建超时时长</label>
                     <div class="col-sm-10">
@@ -174,10 +174,10 @@
                     </div>
                 </div>
             </div>
-        </div>
 </div>
-        <a class="btn btn-block" ng-class="{'btn-orange':frm.$valid, 'btn-disabled': frm.$invalid}" ng-disabled="frm.$invalid" ng-click="frm.$valid && create()">开始构建</a>
-   </form>
+        <a class="btn btn-block" ng-class="{'btn-orange':frm.$valid, 'btn-disabled': frm.$invalid}" ng-disabled="frm.$invalid" ng-click="frm.$valid && create()"><i class="fa fa-spinner fa-spin" ng-if="creating">&nbsp;</i>开始构建</a>
+
+    </form>
 
 </div>
 
@@ -210,11 +210,11 @@
         padding: 0;
     }
     .is-box .panel .panel-body li{
-        padding-top: 8px;
         height: 40px;
+        line-height: 40px;
     }
     .is-box .panel .panel-body ul li a {
-        padding: 10px 15px;
+        padding: 0px 15px;
     }
     .is-box .panel .panel-body ul li a:active {
         color: #5a6378;
@@ -223,7 +223,7 @@
         text-decoration: none;
     }
     .is-box .panel .panel-body ul li a.active {
-        background: #e6e9f2;
+        background: #f5f6fa;
         color: #5a6378;
     }
     .is-box .panel .panel-body img {
