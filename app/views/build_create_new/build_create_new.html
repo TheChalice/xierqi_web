@@ -40,7 +40,7 @@
                         </uib-tabset>
 
                         <div class="is-box"  ng-hide="grid.ishide">
-                            <div class="panel panel-default first col-md-4" style="margin-right: 25px">
+                            <div class="panel panel-default first col-md-4" style="margin-right: 30px">
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/user.png">
                                     用户/组织</div>
@@ -54,7 +54,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="panel panel-default second col-md-4" style="margin-right: 25px">
+                            <div class="panel panel-default second col-md-4" style="margin-right: 30px">
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/project.png">
                                     项目</div>
@@ -85,7 +85,7 @@
                         </div>
                         <!--909090909-->
                         <div class="is-box" ng-show="grid.labcon">
-                            <div class="panel panel-default first col-sm-4" style="margin-right: 25px">
+                            <div class="panel panel-default first col-sm-4" style="margin-right: 30px">
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/user.png">
                                     用户/组织</div>
@@ -99,7 +99,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="panel panel-default second col-sm-4" style="margin-right: 25px">
+                            <div class="panel panel-default second col-sm-4" style="margin-right: 30px">
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/project.png">
                                     项目</div>
@@ -128,9 +128,8 @@
                                 </div>
                             </div>
                         </div>
-                        <!--909090909-->
-                        <!-----=-=-=-=-=-=--=--->
-                        <div class="gitlabbox" ng-show="grid.gitlabbox">
+                        <!--gitLab-->
+                        <div class="gitlabbox" ng-show="grid.gitlabbox" style="margin-top: 20px">
                             <!--<form class="form-horizontal">-->
                                 <div class="form-group">
                                     <label  class="col-sm-4 control-label">代码仓库URL</label>
@@ -161,7 +160,7 @@
 
                             <!--</form>-->
 
-                            <!-----=-=-=-=-=-=--=--->
+                            <!-----gitLab--->
                     </div>
                 </div>
                 </div>
@@ -179,8 +178,6 @@
             </div>
 </div>
         <a class="btn btn-block" ng-class="{'btn-orange':frm.$valid, 'btn-disabled': frm.$invalid}" ng-disabled="frm.$invalid" ng-click="frm.$valid && create()"><i class="fa fa-spinner fa-spin" ng-if="creating">&nbsp;</i>开始构建</a>
-
-        <a class="btn btn-block" ng-class="{'btn-orange':frm.$valid, 'btn-disabled': frm.$invalid}" ng-disabled="frm.$invalid" ng-click="frm.$valid && create()">开始构建</a>
     </form>
 
 </div>
@@ -193,7 +190,7 @@
     .is-box .panel {
         padding-left: 0px;
         padding-right: 0px;
-        width: 191px;
+        width: 30%;
         height: 200px;
     }
     .is-box .panel .panel-heading {
