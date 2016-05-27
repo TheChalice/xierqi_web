@@ -13,7 +13,8 @@
             float: left;
         }
         #header #header-brand img {
-            padding-bottom: 13px;
+            padding-top: 10px;
+            padding-bottom: 7px;
             height: 100%;
         }
         #header .menu > li > a {
@@ -203,6 +204,26 @@
             line-height:24px;
             text-align: left;
         }
+        .dropdown {
+            alignment: right;
+            margin-top: -34px;
+            margin-right: -20px;
+        }
+        .navbar-collapse {
+            padding-top: 39px;
+        }
+        #mobilenav{
+            display: none;
+        }
+        @media (max-width:640px) {
+            #nav {
+                display: none;
+            }
+            #mobilenav{
+                display: block;
+            }
+        }
+
     </style>
     <div id="header">
         <a id="header-brand" href="#">
@@ -214,8 +235,27 @@
         </form>
         <form ng-if="user" class="navbar-form navbar-right" style="margin-top: 23px;">
             <a ui-sref="console.dashboard" class="btn btn-green btn-xs">控制台</a>
+
+            <div class="dropdown" ID="mobilenav">
+                <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
+                <span class="sr-only">切换导航</span>
+                        <span style="background-color: #fff" class="icon-bar"></span>
+                        <span style="background-color: #fff" class="icon-bar"></span>
+                        <span style="background-color: #fff" class="icon-bar"></span>
+
+                </button>
+                <div class="navbar-collapse collapse navbar-right pull-right">
+                    <ul class="nav navbar-nav" id="m-navs">
+                        <li><a ui-sref="home.index" target="_blank" style="color: #fff;">首页</a></li>
+                        <li><a href="javascript:;" target="_blank" style="color: #fff;">应用市场</a></li>
+                        <li><a href="javascript:;" target="_blank" style="color: #fff;">产品介绍</a></li>
+                        <li><a href="javascript:;" target="_blank" style="color: #fff;">解决方案</a></li>
+                        <li><a href="javascript:;" target="_blank" style="color: #fff;">帮助</a></li>
+                    </ul>
+                </div>
+            </div>
         </form>
-        <ul class="nav navbar-nav menu navbar-right">
+        <ul class="nav navbar-nav menu navbar-right" ID="nav">
             <li class="active"><a ui-sref="home.index">首页</a></li>
             <li><a href="javascript:;">应用市场</a></li>
             <li><a href="javascript:;">产品介绍</a></li>
