@@ -118,7 +118,7 @@ angular.module("console.timeline", [])
                 var loadBuildHistory = function (name) {
                   console.log('name',name)
                   Build.get({namespace: $rootScope.namespace, labelSelector: 'buildconfig=' + name}, function(data){
-                    $log.info("history", data);
+                    console.log("history", data);
                     data.items = Sort.sort(data.items, -1); //排序
                     $scope.data = data;
 
@@ -275,6 +275,8 @@ angular.module("console.timeline", [])
                 };
 
                 $scope.pull = function(idx){
+
+                  console.log(idx,$scope.data.items[idx])
                   var name = $scope.data.items[idx].spec.output.to.name;
                   ModalPullImage.open(name).then(function(res){
                     console.log("cmd", res);

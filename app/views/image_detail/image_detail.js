@@ -56,9 +56,10 @@ angular.module('console.image_detail', [
 
               var gitUrl = data.image.dockerImageMetadata.Config.Labels['io.openshift.build.source-location'];
               var ref = data.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
-
-              var matches = gitUrl.match(/^https:\/\/github.com\/([^/]+)\/([^.]+)(\.git)?$/);
-              console.log('matches', matches);
+              if (gitUrl) {
+                var matches = gitUrl.match(/^https:\/\/github.com\/([^/]+)\/([^.]+)(\.git)?$/);
+              }
+               console.log('matches', matches);
               if(matches){
                 loadReadme(matches[1], matches[2], ref);
               }

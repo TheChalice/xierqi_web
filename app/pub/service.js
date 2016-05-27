@@ -157,15 +157,15 @@ define(['angular'], function (angular) {
           }).result;
         }
       }])
-      .service('ModalLogin', ['$uibModal', function ($uibModal) {
+      .service('ModalLogin', ['$rootScope','$uibModal', function ($rootScope,$uibModal) {
         this.open = function () {
           return $uibModal.open({
             templateUrl: 'views/login/login.html',
             size: 'default',
             controller: ['$scope', 'AuthService', '$uibModalInstance', 'ModalRegist', function ($scope, AuthService, $uibModalInstance, ModalRegist) {
-              $scope.credentials = {};
+              $rootScope.credentials = {};
               $scope.login = function () {
-                AuthService.login($scope.credentials);
+                AuthService.login($rootScope.credentials);
                 $uibModalInstance.close();
               };
 
@@ -356,6 +356,7 @@ define(['angular'], function (angular) {
       .service('AuthService', ['$rootScope', '$http', '$base64', 'Cookie', '$state', '$log', 'Project', 'GLOBAL', 'Alert', 'User', function ($rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User) {
         this.login = function (credentials) {
           console.log("login");
+          localStorage.setItem('Auth',$base64.encode(credentials.username + ':' + credentials.password))
 
           $rootScope.loding = true;
 
@@ -366,6 +367,7 @@ define(['angular'], function (angular) {
               'Authorization': 'Basic ' + $base64.encode(credentials.username + ':' + credentials.password)
             }
           };
+          localStorage.setItem('Auth',$base64.encode(credentials.username + ':' + credentials.password))
 
           var loadProject = function (name) {
             // $log.info("load project");
@@ -425,6 +427,10 @@ define(['angular'], function (angular) {
 
             if (/hawkular/.test(config.url)) {
               config.headers["Hawkular-Tenant"] = $rootScope.namespace;
+            }
+            if (/registry/.test(config.url)) {
+              var Auth = localStorage.getItem("Auth")
+              config.headers["Authorization"] = "Basic " + Auth;
             }
 
             $rootScope.loading = true;

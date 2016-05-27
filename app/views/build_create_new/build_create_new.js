@@ -7,7 +7,7 @@ angular.module('console.build_create_new', [
 ])
     .controller ('BuildcCtrl', ['$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch','labOwner','psgitlab','laborgs','labBranch','ImageStream', 'BuildConfig', 'Alert','$http',function($rootScope, $scope, $state, $log, Owner, Org, Branch,labOwner,psgitlab,laborgs,labBranch,ImageStream, BuildConfig, Alert,$http) {
 
-
+      $scope.zhuan = false;
         $scope.buildConfig = {
             metadata: {
                 name: ''
@@ -196,6 +196,7 @@ angular.module('console.build_create_new', [
             $scope.grid.labcon = false;
         }
         $scope.loadlabOwner = function(){
+            $scope.zhuan = true;
             $scope.grid.labcon = true;
             labOwner.get({},function(data) {
                 $log.info("labOwner", data)
@@ -228,7 +229,8 @@ angular.module('console.build_create_new', [
                         data.msg.infos[i].repos[j].objsname = data.msg.infos[i].org.name;
                     }
                 }
-                $log.info("0-0-0-00-0-$scope.labusername",$scope.labusername);
+              $scope.zhuan = false;
+                console.log("0-0-0-00-0-$scope.labusername",$scope.labusername);
             },function(data){
                 $log.info("laborgs-------err",data)
             });
