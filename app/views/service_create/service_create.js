@@ -71,13 +71,14 @@ angular.module('console.service.create', [
           auto: true,
           conflict: false,
           serviceConflict: false,
-          servicepot: false
+          servicepot: false,
+          servicepoterr : false
         };
         // $scope.grid.host=$scope.dc.metadata.name
         $scope.invalid = {};
 
         $scope.envs = [];
-
+        $scope.createdcerr = "";
         $scope.containerTpl = {
           name: "",
           image: "",    //imageStreamTag
@@ -205,7 +206,12 @@ angular.module('console.service.create', [
           });
         };
         loadSecrets();
-
+        $scope.serviceNamekedown = function(){
+          var oldname = angular.copy($scope.dc.metadata.name);
+          if(oldname == $scope.dc.metadata.name){
+            $scope.createdcerr = "";
+          }
+        }
         var loadBsi = function (dc) {
           BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {
             $log.info("backingServiceInstance", res);
@@ -273,7 +279,7 @@ angular.module('console.service.create', [
               container.ports.push({
                 containerPort: '',
                 hostPort: '',
-                protocol: 'TCP',
+                protocol: '',
                 //open: true
               })
             }
@@ -301,7 +307,7 @@ angular.module('console.service.create', [
                 container.ports.push({
                   containerPort: '',
                   hostPort: '',
-                  protocol: val,
+                  protocol: '',
                   //open: true
                 });
               }
@@ -592,8 +598,41 @@ angular.module('console.service.create', [
           if (!$scope.grid.auto) {
             dc.spec.replicas = 0;
           }
-
-          DeploymentConfig.create({namespace: $rootScope.namespace}, dc, function (res) {
+          var createports = true;
+          var thisdccon = $scope.dc.spec.template.spec.containers;
+          for(var i = 0 ;i < thisdccon.length;i++) {
+            if (thisdccon[i].ports) {
+              for (var j = 0; j < thisdccon[i].ports.length; j++) {
+                if (thisdccon[i].ports[j].hostPort && thisdccon[i].ports[j].protocol && thisdccon[i].ports[j].containerPort) {
+                  if (thisdccon[i].ports[j].containerPort || thisdccon[i].ports[j].hostPort) {
+                    console.log("1111");
+                    if (thisdccon[i].ports[j].containerPort < 1 || thisdccon[i].ports[j].containerPort > 65535 || thisdccon[i].ports[j].hostPort < 1 || thisdccon[i].ports[j].hostPort > 64435) {
+                      console.log("1234567890pertyuiop")
+                      createports = false;
+                      $scope.grid.servicepoterr = true;
+                    }
+                  }
+                } else if (!thisdccon[i].ports[j].hostPort && !thisdccon[i].ports[j].containerPort && !thisdccon[i].ports[j].protocol) {
+                  console.log("2222");
+                } else {
+                  createports = false;
+                  $scope.grid.servicepoterr = true;
+                  console.log("33333");
+                }
+              }
+            }
+          }
+          console.log(createports);
+          if(createports == false){
+            return;
+          }
+          var clonedc = angular.copy(dc);
+          for(var i = 0;i<clonedc.spec.template.spec.containers.length;i++){
+            if(clonedc.spec.template.spec.containers[i].ports){
+                delete clonedc.spec.template.spec.containers[i]["ports"];
+            }
+          }
+          DeploymentConfig.create({namespace: $rootScope.namespace}, clonedc, function (res) {
             $log.info("create dc success", res);
             var isport = false;
             for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
@@ -608,11 +647,12 @@ angular.module('console.service.create', [
             } else {
               $state.go('console.service_detail', {name: dc.metadata.name});
             }
-
-
           }, function (res) {
             //todo 错误处理
             $log.info("create dc fail", res);
+            if(res.status == 409){
+             $scope.createdcerr = "服务名称重复";
+            }
           });
         };
       }]);
