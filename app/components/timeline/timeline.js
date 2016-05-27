@@ -17,7 +17,7 @@ angular.module("console.timeline", [])
               var name = namecopy.split('/');
                 console.log('$scope.name',name.length);
               if (name.length == 2) {
-                
+                $scope.isshow=false;
                 $scope.data={
                   items:[]
                 };
@@ -102,6 +102,7 @@ angular.module("console.timeline", [])
                 
               }else {
                 // console.log(1)
+                $scope.isshow=true;
                 $scope.gitStore = {};
 
                 $scope.$on('timeline', function(e, type, data){
