@@ -144,7 +144,7 @@ angular.module('console.image', [
                           // console.log($scope.test[h].items, arr[k]);
                         }
                       }
-                      console.log($scope.test)
+                      // console.log($scope.test)
                     }
                   }
                   // console.log($scope.test)

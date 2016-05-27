@@ -92,7 +92,7 @@ angular.module("console.timeline", [])
 
                   var s = $scope.name;
                   // var name = $scope.name;
-                  var str = s.split('/')[0]+'/'+name+':'+$scope.name
+                  var str = $scope.name+':'+s.split('/')[0]+'/'+name
                   ModalPullImage.open(str)
                       .then(function(res){
                         console.log("cmd", res);
@@ -101,7 +101,7 @@ angular.module("console.timeline", [])
 
                 
               }else {
-                console.log(1)
+                // console.log(1)
                 $scope.gitStore = {};
 
                 $scope.$on('timeline', function(e, type, data){

@@ -57,7 +57,7 @@ angular.module('console.backing_service', [
               arr[l].metadata.annotations.Class = arr[l].metadata.annotations.Class.toUpperCase()
             } else {
               arr[l].metadata.annotations = {
-                Class:'Others'
+                Class:'其他'
               };
             }
             $scope.dev.push(arr[l].spec.metadata.providerDisplayName)
@@ -65,6 +65,7 @@ angular.module('console.backing_service', [
           }
           $scope.dev = $scope.dev.unique()
           $scope.cation = $scope.cation.unique()
+          $scope.cation.reverse()
           // $scope.others = [];
           //服务分类属性
           // console.log(arr[0].metadata.annotations.Class)
