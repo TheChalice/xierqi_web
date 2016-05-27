@@ -58,14 +58,16 @@
             /*top:100px;*/
             width: 100%;
             background-color: rgba(255,255,255,0.7);
+
             z-index: 999;
         }
 
         /*loading 动画*/
         .spinner {
             margin: 250px auto;
-            width: 250px;
+            width: 76px;
             text-align: center;
+            display: block;
         }
 
         .spinner > div {
@@ -163,6 +165,9 @@
                 display: block;
             }
         }
+        .navbar-nav {
+            background-color: #f8b551;
+        }
 
     </style>
     <div id="header">
@@ -204,33 +209,8 @@
         </ul>
     </div>
     <!--loading-->
-    <div class="loading-box" ng-show='loding'>
-        <div class="spinner">
-            <div class="bounce1"></div>
-            <div class="bounce2"></div>
-            <div class="bounce3"></div>
-        </div>
-
-        <!--<div class="spinner">-->
-            <!--<div class="spinner-container container1">-->
-                <!--<div class="circle1"></div>-->
-                <!--<div class="circle2"></div>-->
-                <!--<div class="circle3"></div>-->
-                <!--<div class="circle4"></div>-->
-            <!--</div>-->
-            <!--<div class="spinner-container container2">-->
-                <!--<div class="circle1"></div>-->
-                <!--<div class="circle2"></div>-->
-                <!--<div class="circle3"></div>-->
-                <!--<div class="circle4"></div>-->
-            <!--</div>-->
-            <!--<div class="spinner-container container3">-->
-                <!--<div class="circle1"></div>-->
-                <!--<div class="circle2"></div>-->
-                <!--<div class="circle3"></div>-->
-                <!--<div class="circle4"></div>-->
-            <!--</div>-->
-        <!--</div>-->
+    <div class="loading-box" ng-show=loding>
+        <img class="spinner" src="pub/img/loading.gif" alt="">
     </div>
 
 

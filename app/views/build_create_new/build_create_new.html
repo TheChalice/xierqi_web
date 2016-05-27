@@ -1,6 +1,5 @@
 <div>
     <form class="form-horizontal" name="frm" style="margin-right: 90px; margin-left: 90px; margin-top: 40px">
-
         <div class="panel panel-default">
             <div class="panel-heading">
                 <span class="panel-title">新建构建</span>
@@ -165,7 +164,6 @@
                 </div>
                 </div>
                 <hr>
-
                 <div class="form-group">
                     <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size:14px; text-align: left; ">构建超时时长</label>
                     <div class="col-sm-10">
@@ -176,8 +174,11 @@
                     </div>
                 </div>
             </div>
-</div>
-        <a class="btn btn-block" ng-class="{'btn-orange':frm.$valid, 'btn-disabled': frm.$invalid}" ng-disabled="frm.$invalid" ng-click="frm.$valid && create()"><i class="fa fa-spinner fa-spin" ng-if="creating">&nbsp;</i>开始构建</a>
+        </div>
+        <!--<a class="btn btn-block" ng-class="{'btn-orange':frm.$valid, 'btn-disabled': frm.$invalid}" ng-disabled="frm.$invalid" ng-click="frm.$valid && create()"><i class="fa fa-spinner fa-spin" ng-if="creating">&nbsp;</i>开始构建</a>-->
+        <a class="btn btn-block"
+           ng-class="{'btn-orange':dianl, 'btn-disabled': dianbl}"
+           ng-click="frm.$valid && create()">开始构建</a>
     </form>
 
 </div>

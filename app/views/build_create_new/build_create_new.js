@@ -36,6 +36,24 @@ angular.module('console.build_create_new', [
                 completionDeadlineSeconds: 1800
             }
         };
+      $scope.dianl=false;
+      $scope.dianbl=true;
+      setInterval(function () {
+
+        // console.log($scope.buildConfig.metadata.name);
+        // console.log($scope.labBranchData);
+        // console.log($scope.grid.labbranch);
+        if ($scope.buildConfig.metadata.name && $scope.grid.labbranch!=null) {
+          $scope.dianl=true;
+          $scope.dianbl=false;
+        }else {
+          $scope.dianl=false;
+          $scope.dianbl=true;
+        }
+      },20)
+
+
+
         $scope.completionDeadlineMinutes = 30;
         var thisindex = 0;
         var createBuildConfig = function(labsecret) {
@@ -234,6 +252,7 @@ angular.module('console.build_create_new', [
             });
         }
         $scope.loadLabBranch = function(idx){
+          $scope.grid.labbranch=null;
             var labId = $scope.labobjs[idx].id;
             labBranch.get({repo:labId},function(data){
                 $scope.labBranchData = data;
