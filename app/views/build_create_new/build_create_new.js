@@ -243,6 +243,7 @@ angular.module('console.build_create_new', [
         $scope.labowner = null;
         $scope.loadlabOwner = function(){
             $scope.running = true;
+
             $scope.grid.labcon = true;
             labOwner.get({},function(data) {
                 $log.info("labOwner", data)
@@ -277,8 +278,10 @@ angular.module('console.build_create_new', [
                         data.msg.infos[i].repos[j].objsname = data.msg.infos[i].org.name;
                     }
                 }
+
                 $scope.running = false;
                 $log.info("0-0-0-00-0-$scope.labusername",$scope.labusername);
+
             },function(data){
                 $log.info("laborgs-------err",data)
             });

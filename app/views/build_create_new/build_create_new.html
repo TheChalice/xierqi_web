@@ -1,3 +1,16 @@
+<style>
+    .zhuan {
+        animation:rotate 1s infinite linear;
+    }
+    @-webkit-keyframes rotate{
+        0%{
+            -webkit-transform:rotate(0deg);
+        }
+        100%{
+            -webkit-transform:rotate(360deg);
+        }
+    }
+</style>
 <div>
     <form class="form-horizontal" name="frm" style="margin-right: 90px; margin-left: 90px; margin-top: 40px">
         <div class="panel panel-default">
@@ -27,6 +40,7 @@
                                 <span style="font-size:12px; height: 20px">DataFoundry 提供的代码仓库 <a href="https://code.dataos.io" target="view_window">（https://code.dataos.io）</a> 是可靠的自托管的 Git 项目仓库，
                                     可通过Web 界面进行访问公开的或者私人项目。</span>
                             </div>
+
 
                         </uib-tab>
                         <uib-tab index="2" heading="GitHub" ng-click="checkdTab(2)">
