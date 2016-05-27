@@ -110,8 +110,12 @@ angular.module('console.build_create_new', [
             };
             ImageStream.create({namespace: $rootScope.namespace}, imageStream, function (res) {
                 $log.info("imageStream", res);
-                getlabsecret($scope.labHost,$scope.labobjs[$scope.grid.labproject].id);
-            }, function(res){
+                if($scope.grid.labcon == true){
+                    getlabsecret($scope.labHost,$scope.labobjs[$scope.grid.labproject].id);
+                }else if($scope.grid.ishide == false){
+                    createBuildConfig();
+                }
+            },function(res){
                 $log.info("err", res);
                 if (res.data.code == 409) {
                     getlabsecret($scope.labHost,$scope.labobjs[$scope.grid.labproject].id);
