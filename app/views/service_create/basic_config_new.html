@@ -9,8 +9,9 @@
                     <h3 class="require">服务名称</h3>
                 </div>
                 <div class="col-md-10">
-                    <input type="text" name="serviceName" ng-model="dc.metadata.name" class="form-control input-block" placeholder="创建一个服务名称" required>
-                    <small ng-show="frm.serviceName.$dirty && frm.serviceName.$invalid" class="fa fa-info-circle err-tip">&nbsp;请创建一个服务名,至少2个字符以上</small>
+                    <input type="text" name="serviceName" ng-model="dc.metadata.name" class="form-control input-block" placeholder="创建一个服务名称" required ng-keyup="serviceNamekedown()">
+                    <!--<small ng-show="frm.serviceName.$dirty && frm.serviceName.$invalid" class="fa fa-info-circle err-tip">&nbsp;请创建一个服务名,至少2个字符以上</small>-->
+                    <small ng-show="createdcerr" class="fa fa-info-circle err-tip">&nbsp;{{createdcerr}}</small>
                 </div>
             </div>
             <hr>
@@ -143,7 +144,8 @@
                     </div>
                     <small ng-show="grid.conflict" class="fa fa-info-circle err-tip">&nbsp;容器端口冲突,请修改</small>
                     <small ng-show="grid.serviceConflict" class="fa fa-info-circle err-tip">&nbsp;服务端口冲突,请修改</small>
-                    <small ng-show="grid.servicepot" class="fa fa-info-circle err-tip">&nbsp;端口为空</small>
+                    <!--<small ng-show="grid.servicepot" class="fa fa-info-circle err-tip">&nbsp;端口为空</small>-->
+                    <small ng-show="grid.servicepoterr" class="fa fa-info-circle err-tip">&nbsp;端口填写错误</small>
                 </div>
             </div>
         </div>

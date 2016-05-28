@@ -48,10 +48,10 @@
                                 </a>
                                 <span class="label label-default"
                                       style='font-size: 14px;background:#FFFFFF; color: #5a6378;'
-                                      uib-tooltip="绑定时间">
+                                      >
                                         {{bsisv.Name}}
                                 </span>
-                                <span style='position: absolute; margin-top: 2px; left: 50%; text-align: center; font-size: 12px; color: #5a6378;'>
+                                <span uib-tooltip="创建时间" style='position: absolute; margin-top: 2px; left: 50%; text-align: center; font-size: 12px; color: #5a6378;'>
                                     创建时间:&nbsp;{{bsisv.CreationTime | dateRelative}}
                                 </span>
                             </h4>
@@ -65,9 +65,11 @@
                                         <div class="col-xs-12" ng-repeat="item in bsisv.items">
                                             <!--<c-card item="item" gitStore="gitStore"></c-card>-->
                                             <ul class="list-group">
-                                                <li class="list-group-item"><a href="#">{{item}}</a></li>
+                                                <li class="list-group-item">
+                                                    <a class="href-orange" ui-sref="console.image_detail({name:item, bc:item})">
+                                                        {{item}}
+                                                    </a></li>
                                             </ul>
-
                                         </div>
                                     </div>
                                 </div>
@@ -83,6 +85,7 @@
                 <!--</div>-->
             </div>
         </uib-tab>
+        <!--
         <uib-tab index="3" heading="DockerHub镜像">
             <div class="text-center" style="padding: 130px 0 200px 0;">
                 <p style="font-size: 16px;color: #5a6378;">Docker镜像 一键搜索</p>
@@ -94,6 +97,7 @@
                 </div>
             </div>
         </uib-tab>
+        -->
     </uib-tabset>
 </div>
 <style>

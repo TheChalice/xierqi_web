@@ -110,56 +110,51 @@ angular.module('console.image', [
         return deferred.promise;
       }
 
-      $scope.text = [];
+      var arr = [];
       getJson('/registry/api/projects')
           .then(function (data) {
             for (var i = 0; i < data.length; i++) {
               data[i].mysort = data[i].CreationTime
               data[i].mysort = (new Date(data[i].mysort)).getTime()
             }
-            console.log(data)
+            // console.log(data)
             //时间冒泡排序写法
             data.sort(function (x, y) {
               return x.mysort > y.mysort ? -1 : 1;
             });
 
             $scope.test = data;
-          }).then(function () {
-        for (var j = 0; j < $scope.test.length; j++) {
-          $http.get('/registry/api/repositories', {params: {project_id: $scope.test[j].ProjectId}})
-              .success(function (datalis) {
-                $scope.text.push(datalis);
-              }).then(function () {
-            // console.log($scope.text)
-            if ($scope.text.length == 11) {
-              // console.log($scope.text);
-              for (var k = 0; k < $scope.text.length; k++) {
-                if ($scope.text[k]!=null) {
-                  for (var h = 0; h < $scope.text[k].length; h++) {
-                    var fifter = $scope.text[k][h].split('/')[0]
-                    // console.log($scope.text[k][h].split('/')[0])
-                    if (fifter == $scope.test[k].Name) {
-                      $scope.test[k].items=$scope.text[k]
-                    }else {
-                      $scope.test[k].items=null;
+
+            for (var j = 0; j < $scope.test.length; j++) {
+              $http.get('/registry/api/repositories', {params: {project_id: $scope.test[j].ProjectId}})
+                  .success(function (datalis) {
+                    arr.push(datalis);
+                  }).then(function () {
+
+                if (arr.length == data.length) {
+                  // console.log(arr);
+                  for (var k = 0; k < arr.length; k++) {
+                    if (arr[k] != null) {
+                      // console.log(k,arr[k])
+                      for (var h = 0; h < $scope.test.length; h++) {
+                        if (arr[k][0].split('/')[0] == $scope.test[h].Name) {
+                          // console.log(arr[k][0].split('/')[0])
+                          // console.log('$scope.test[k].Name', $scope.test[h].Name);
+                          $scope.test[h].items = arr[k]
+                          // console.log($scope.test[h].items, arr[k]);
+                        }
+                      }
+                      // console.log($scope.test)
                     }
-
                   }
+                  // console.log($scope.test)
+
                 }
-                
-              // $scope.test[k].items = $scope.text[k];
-              // console.log($scope.text[k])
-              }
+
+
+              }).then(function () {
+
+              })
             }
-            //for (var k = 0; k < $scope.text.length; k++) {
-              // $scope.test[k].items = $scope.text[k];
-              // console.log($scope.text[k])
-
-            //}
-
-          }).then(function () {
-            // console.log('$scope.test', $scope.test);
           })
-        }
-      })
     }]);

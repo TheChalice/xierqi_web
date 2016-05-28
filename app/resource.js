@@ -182,7 +182,6 @@ define([
 
         .factory('Metrics', ['$resource', function($resource){
             var Metrics = {};
-            //https://hawkular-metrics.app.dataos.io
             Metrics.mem = $resource('/hawkular/metrics/gauges/:gauges/data',
                 {gauges: '@gauges', buckets: '@buckets', start: '@start'});
             Metrics.cpu = $resource('/hawkular/metrics/counters/:counters/data', {counters: '@counters', buckets: '@buckets', start: '@start'});
@@ -209,6 +208,41 @@ define([
         .factory('platform', ['$resource', function($resource){
           var platform = $resource('/registry/api/repositories?project_id=:id', {id:'@id'});
           return platform;
-        }]);
+        }])
+        .factory('platformlist', ['$resource', function($resource){
+          var platformlist = $resource('/registry/api/repositories/tags?repo_name=:id', {id:'@id'});
+          return platformlist;
+        }])
+        .factory('platformone', ['$resource', function($resource){
+                var platformone = $resource('/registry/api/repositories/manifests?repo_name=:id&tag=:tag', {id:'@id',tag:'@tag'});
+                return platformone;
+      }])
+
+        .factory('labOwner', ['$resource', function($resource){
+            var labOwner = $resource('/v1/repos/gitlab/owner',{}, {
+            });
+            return labOwner;
+        }])
+        .factory('psgitlab', ['$resource', function($resource){
+            var psgitlab = $resource('/v1/repos/gitlab',{}, {
+                create: {method: 'POST'}
+            });
+            return psgitlab;
+        }])
+        .factory('laborgs', ['$resource', function($resource){
+            var laborgs = $resource('/v1/repos/gitlab/orgs',{}, {
+
+            });
+            return laborgs;
+        }])
+        .factory('labBranch', ['$resource', function($resource){
+            var labBranch = $resource('/v1/repos/gitlab/:repo/branches',{repo:'@repo'}, {
+
+            });
+            return labBranch;
+        }])
+
 });
+// http://registry.dataos.io/api/repositories/manifests?repo_name=library/alpine&tag=latest
 // https://registry.dataos.io/api/projects?is_public=1
+// https://registry.dataos.io/api/repositories/tags?repo_name=openshift/node

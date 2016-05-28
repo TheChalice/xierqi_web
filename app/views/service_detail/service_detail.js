@@ -12,7 +12,7 @@ angular.module('console.service.detail', [
     .controller('ServiceDetailCtrl', ['$state', '$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamTag', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal', 'Secret', 'ImageSelect', 'Service', 'ImageService',
       function ($state, $rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamTag, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret, ImageSelect, Service, ImageService) {
         //获取服务列表
-        $scope.lding = false;
+        
         $scope.grid = {
           ports: [],
           port: 0,
@@ -340,7 +340,7 @@ angular.module('console.service.detail', [
         //执行log
         var updateRcs = function (data) {
           // console.log('执行了');
-          $scope.lding = false;
+          $rootScope.lding = false;
           if (data.type == 'ERROR') {
             $log.info("err", data.object.message);
             Ws.clear();
@@ -999,7 +999,7 @@ angular.module('console.service.detail', [
 //点击更新
         $scope.updateDc = function () {
           // console.log('点击更新');
-          $scope.lding = true;
+          $rootScope.lding = true;
           var dc = angular.copy($scope.dc);
           $log.info("-=-=-=-=-=-=$scope.dc-=--=", $scope.dc);
 
