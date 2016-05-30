@@ -117,10 +117,81 @@ angular.module('console.backing_service', [
               }
             }
           }
+          console.log($scope.test)
+          // 第一栏分类
+          var fiftobj = {};
+          var fiftmanobj={}
+          for (var q = 0; q < data.items.length; q++) {
+            fiftobj[data.items[q].metadata.name] =data.items[q].metadata.annotations.Class
+            fiftmanobj[data.items[q].metadata.name]=data.items[q].providerDisplayName
+          }
+          // console.log('fiftobj',fiftobj)
+          // console.log('fiftmanobj',fiftmanobj)
+
+
+          //我的后端服务json
+          var loadBsi = function () {
+            BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {
+              $log.info("backingServiceInstance", res);
+              for (var i = 0; i < res.items.length; i++) {
+                for (var k in fiftobj) {
+                  if (res.items[i].spec.provisioning.backingservice_name == k) {
+                    res.items[i].type= fiftobj[k];
+                  }
+                }
+                for (var w in fiftmanobj) {
+                  if (res.items[i].spec.provisioning.backingservice_name == w) {
+                    res.items[i].providerDisplayName= fiftmanobj[w];
+                  }
+                }
+                //console.log(res.items[i].spec.provisioning.backingservice_name)
+              }
+              var fiftarr=[];
+
+              for (var r = 0; r < $scope.cation.length; r++) {
+                fiftarr.push([]);
+                for (var m = 0; m < res.items.length; m++) {
+                  if (res.items[m].type && res.items[m].type === $scope.cation[r]) {
+                    fiftarr[r].push(res.items[m]);
+                  }
+                }
+              }
+              $scope.mytest = [];
+              for (var s = 0; s < $scope.cation.length; s++) {
+                $scope.mytest.push({})
+                $scope.mytest[s].name = $scope.cation[s];
+                for (var q = 0; q < fiftarr.length; q++) {
+                  if (s == q) {
+                    $scope.mytest[s].item = fiftarr[q]
+                    $scope.mytest[s].isshow = true;
+                    $scope.mytest[s].showTab = true;
+                    $scope.mytest[s].id = q;
+                  }
+                }
+              }
+              for (var d = 0; d < $scope.cation.length; d++) {
+                var arr1 = $filter("myfilter")($scope.mytest[d].item, $scope.isComplete);
+                if (arr1.length == 0) {
+                  $scope.mytest[d].showTab = false
+                }
+              }
+              console.log('mytest',$scope.mytest)
+              $scope.bsi = res;
+              $scope.resourceVersion = res.metadata.resourceVersion;
+              watchBsi($scope.resourceVersion);
+
+            }, function (res) {
+              //todo 错误处理
+              $log.info("loadBsi err", res);
+            });
+
+          };
+          loadBsi();
           // console.log("$scope.test", $scope.test)
           $scope.data = data.items;
           filter('serviceCat', 'all');
           filter('vendor', 'all');
+
         })
       };
       loadBs();
@@ -142,13 +213,16 @@ angular.module('console.backing_service', [
           key = 'all';
           for (var k in $scope.test) {
             $scope.test[k].isshow = true;
+            $scope.mytest[k].isshow = true;
           }
         } else {
           for (var k in $scope.test) {
             if (key == k) {
               $scope.test[k].isshow = true;
+              $scope.mytest[k].isshow = true;
             } else {
               $scope.test[k].isshow = false;
+              $scope.mytest[k].isshow = false;
             }
           }
         }
@@ -156,14 +230,20 @@ angular.module('console.backing_service', [
         // filter(tp, key);
       };
       //第二栏筛选
+
       $scope.selectsc = function (tp, key) {
         for (var i = 0; i < $scope.cation.length; i++) {
           $scope.test[i].showTab = true;
+          $scope.mytest[i].showTab = true;
           $scope.isComplete = {providerDisplayName: $scope.dev[key]};
           //把渲染数组做二次筛选;
           var arr = $filter("myfilter")($scope.test[i].item, $scope.isComplete);
           if (arr.length == 0) {
             $scope.test[i].showTab = false
+          }
+        var arr1 = $filter("myfilter")($scope.mytest[i].item, $scope.isComplete);
+          if (arr1.length == 0) {
+            $scope.mytest[i].showTab = false
           }
 
         }
@@ -171,8 +251,16 @@ angular.module('console.backing_service', [
         if (key == $scope.grid[tp]) {
           key = 'all';
           $scope.isComplete = '';
+
           for (var k in $scope.test) {
             $scope.test[k].showTab = true;
+            $scope.mytest[k].showTab = true;
+          }
+          for (var d = 0; d < $scope.cation.length; d++) {
+            var arr1 = $filter("myfilter")($scope.mytest[d].item, $scope.isComplete);
+            if (arr1.length == 0) {
+              $scope.mytest[d].showTab = false
+            }
           }
         }
         $scope.grid[tp] = key;
@@ -200,20 +288,6 @@ angular.module('console.backing_service', [
       };
 
 
-      var loadBsi = function () {
-        BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {
-          $log.info("backingServiceInstance", res);
-          $scope.bsi = res;
-
-          $scope.resourceVersion = res.metadata.resourceVersion;
-          watchBsi($scope.resourceVersion);
-
-        }, function (res) {
-          //todo 错误处理
-          $log.info("loadBsi err", res);
-        });
-      };
-      loadBsi();
 
       var watchBsi = function (resourceVersion) {
         Ws.watch({
@@ -368,14 +442,6 @@ angular.module('console.backing_service', [
           }
         });
       };
-      // console.log($('.fw'))
 
-      // (function () {
-      //   var fw=document.getElementsByClassName('fw');
-      //   console.log('fw',fw[1])
-      //   for (var i = 0; i < fw.length; i++) {
-      //     console.log(fw[i].innerText.length);
-      //   }
-      // })()
 
     }])
