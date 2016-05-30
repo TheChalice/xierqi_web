@@ -8,48 +8,61 @@
             position: fixed;
             z-index: 999;
         }
+
         #header #header-brand {
             height: 100%;
             float: left;
         }
+
         #header #header-brand img {
             padding-top: 10px;
             padding-bottom: 7px;
             height: 100%;
         }
+
         #header .menu > li > a {
             padding: 25px;
             color: #5a6378;
         }
+
         #header .menu > li > a:hover,
         #header .menu > li > a:focus {
             background: none;
             color: #3c4251;
         }
+
         #header .menu > li.active > a {
             color: #3c4251;
         }
+
         .footer {
             background: #5a6378;
             font-size: 14px;
-            color: #fff;
+            font-weight:bold;
+            color: #bdc0c7;
             text-align: center;
-            height: 250px;
+            height: 300px;
             line-height: 50px;
-            paddin:0px 30px;
+            width: 100%;
+            paddin: 0px 30px;
             padding-top: 40px;
+            margin-left: 0;
+            margin-right: 0;
         }
+
         #header .btn-green {
             padding-left: 10px;
             padding-right: 10px;
         }
+
         #header .btn-border {
             border: 1px solid #5a6378;
             border-radius: 2px;
             background: none;
             color: #5a6378;
         }
-        .loading-box{
+
+        .loading-box {
             position: fixed;
             /*overflow: hidden;*/
             top: 0;
@@ -57,7 +70,7 @@
             height: 100%;
             /*top:100px;*/
             width: 100%;
-            background-color: rgba(255,255,255,0.7);
+            background-color: rgba(255, 255, 255, 0.7);
 
             z-index: 999;
         }
@@ -114,76 +127,86 @@
             }
         }
 
-        .information{
+        .information {
             width: 100%;
         }
-        .ifml{
+
+        .ifml {
             width: 15%;
             overflow: hidden;
             float: left;
             border-right: 1px solid #3d4458;
         }
-        .ifml a:link,.ifml a:visited{
+
+        .ifml a:link, .ifml a:visited {
             display: inline-block;
             width: 100%;
             height: 17px;
-            line-height:17px;
+            line-height: 17px;
             color: #fff;
         }
-        .ftpic{
+
+        .ftpic {
             width: 115px;
             height: 115px;
-            margin-left:50px;
+            margin-left: 50px;
             float: left;
         }
-        .ftcon{
+
+        .ftcon {
             float: left;
-            width:65%;
+            width: 65%;
             overflow: hidden;
         }
-        .ftcon p{
+
+        .ftcon p {
             color: #fff;
-            line-height:24px;
+            line-height: 24px;
             text-align: left;
         }
+
         .dropdown {
             alignment: right;
             margin-top: -34px;
             margin-right: -20px;
         }
+
         .navbar-collapse {
-            margin-top:39px;
+            margin-top: 39px;
             margin-right: -52px;
             background-color: #f8b551;
-            width:30%;
+            width: 30%;
         }
+
         .mobilelogoimg {
             padding-top: 5px;
         }
-        #mobilenav{
+
+        #mobilenav {
             display: none;
         }
+
         .mobilefooter {
-            float:left;
+            float: left;
             display: none;
             background: #5a6378;
         }
-        .minformation p{
+
+        .minformation p {
             font-size: 14px;
             padding-left: 30px;
             padding-right: 30px;
         }
 
-        .weblogo{
+        .weblogo {
             display: block;
         }
 
-        #mobilelogo{
+        #mobilelogo {
             display: none;
         }
 
-
-        @media (max-width:640px) {
+        @media (max-width: 640px) {
             #nav {
                 display: none;
             }
@@ -197,15 +220,21 @@
             }
 
             .footer {
+                height: 380px;
+            }
+
+            .weblogo {
                 display: none;
             }
 
-            .weblogo{
-                display: none;
-            }
-
-            #mobilelogo{
+            #mobilelogo {
                 display: block;
+            }
+            .footer-td {
+                display: none;
+            }
+            .footer-lx {
+                margin-left: 7%;
             }
 
         }
@@ -213,12 +242,18 @@
         .navbar-nav {
             background-color: #f8b551;
         }
-
+        .footer-lx p {
+            margin-bottom: 15px;
+            line-height: 30px;
+        }
+        .footer-td {
+            border-right: 1px solid #3d4458;
+        }
     </style>
     <div id="header">
         <!--mobile -->
         <a href="#" id="mobilelogo" style="float: left;margin-top: 8px;">
-            <img src="components/header/img/logo.png" alt="logo" class="mobilelogoimg" >
+            <img src="components/header/img/logo.png" alt="logo" class="mobilelogoimg">
         </a>
         <!-- pc -->
         <a id="header-brand" href="#" class="weblogo">
@@ -228,17 +263,19 @@
 
 
         <!--</form>-->
-        <form  class="navbar-form navbar-right" style="margin-top: 23px;">
-            <button ng-if="!user" ng-click="login()" type="button" class="btn btn-green btn-border btn-xs" style="margin-right:5px;">登录</button>
+        <form class="navbar-form navbar-right" style="margin-top: 23px;">
+            <button ng-if="!user" ng-click="login()" type="button" class="btn btn-green btn-border btn-xs"
+                    style="margin-right:5px;">登录
+            </button>
             <button ng-if="!user" ng-click="regist()" type="button" class="btn btn-green btn-xs">注册</button>
             <a ng-if="user" ui-sref="console.dashboard" class="btn btn-green btn-xs">控制台</a>
 
             <div class="dropdown" ID="mobilenav">
-                <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggle" type="button">
-                <span class="sr-only">切换导航</span>
-                        <span style="background-color: #fff" class="icon-bar"></span>
-                        <span style="background-color: #fff" class="icon-bar"></span>
-                        <span style="background-color: #fff" class="icon-bar"></span>
+                <button data-target=".navbar-collapse" style='margin-right: -13px;' data-toggle="collapse" class="navbar-toggle" type="button">
+                    <span class="sr-only">切换导航</span>
+                    <span style="background-color: #fff" class="icon-bar"></span>
+                    <span style="background-color: #fff" class="icon-bar"></span>
+                    <span style="background-color: #fff" class="icon-bar"></span>
 
                 </button>
                 <div class="navbar-collapse collapse navbar-right pull-right">
@@ -269,34 +306,38 @@
     <div ui-view style="overflow: hidden;"></div>
 
     <!--mobile footer-->
-    <div class="mobilefooter">
-        <div class="minformation">
-                <p>团队介绍</p>
-                <p>合作方式</p>
-                <p>联系我们</p>
-                <p>电话:010-82166688</p>
-                <p>datafoundry@asiainfo.com</p>
-                <p>地址:北京市海淀区中关村软件园二期西北旺东路10院亚信大厦</p>
-            </div>
-        </div>
-        <div>© 2016版权所有 北京亚信智慧数据科技有限公司 京ICP备11005544号-15 京公网安备110108007119号</div>
+    <div class="row footer">
+                <div class="col-xs-3 col-lg-2 col-sm-3 footer-td" style='text-align: center;'>
+                    <p>团队介绍</p>
+                    <p>合作方式</p>
+                    <p style='visibility: hidden'>联系我们</p>
+                </div>
+                <div class="col-xs-9 col-lg-8 col-sm-9 col-lg-offset-2 footer-lx" style='text-align: left;'>
+                    <p>联系我们</p>
+                    <p>电话:010-82166688</p>
+                    <p>邮箱:datafoundry@asiainfo.com</p>
+                    <p>地址:北京市海淀区中关村软件园二期西北旺东路10院亚信大厦</p>
+                </div>
+        <div class="col-xs-12" style='text-align: center; margin-top: 20px;'>© 2016版权所有 北京亚信智慧数据科技有限公司 京ICP备11005544号-15 京公网安备110108007119号</div>
     </div>
     <!--the end of mobile footer-->
 
-    <div class="footer">
-        <div class="information">
-            <div class="ifml">
-                <a href="#">团队介绍</a>
-                <a href="#">合作方式</a>
-            </div>
-            <div class="ftpic"></div>
-            <div class="ftcon">
-                <p>联系我们</p>
-                <p>电话:010-82166688</p>
-                <p>datafoundry@asiainfo.com</p>
-                <p>地址:北京市海淀区中关村软件园二期西北旺东路10院亚信大厦</p>
-            </div>
-        </div>
-       <div style="float:left; text-align: center;width: 100%;">© 2016版权所有 北京亚信智慧数据科技有限公司 京ICP备11005544号-15 京公网安备110108007119号</div>
-    </div>
+    <!--<div class="footer">-->
+    <!--<div class="information">-->
+    <!--<div class="ifml">-->
+    <!--<a href="#">团队介绍</a>-->
+    <!--<a href="#">合作方式</a>-->
+    <!--</div>-->
+    <!--<div class="ftpic"></div>-->
+    <!--<div class="ftcon">-->
+    <!--<p>联系我们</p>-->
+    <!--<p>电话:010-82166688</p>-->
+    <!--<p>datafoundry@asiainfo.com</p>-->
+    <!--<p>地址:北京市海淀区中关村软件园二期西北旺东路10院亚信大厦</p>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div style="float:left; text-align: center;width: 100%;">© 2016版权所有 北京亚信智慧数据科技有限公司 京ICP备11005544号-15 京公网安备110108007119号</div>-->
+    <!--</div>-->
+</div>
+
 </div>

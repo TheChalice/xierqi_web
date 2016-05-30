@@ -53,7 +53,6 @@ angular.module('console.image', [
 
       var fillImageStreams = function () {
         var items = angular.copy($scope.data.items);
-
         $scope.data.items = [];
         $scope.grid.total = 0;
         angular.forEach(items, function (item) {
