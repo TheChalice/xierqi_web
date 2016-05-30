@@ -12,7 +12,7 @@ angular.module('console.service.detail', [
     .controller('ServiceDetailCtrl', ['$state', '$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamTag', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal', 'Secret', 'ImageSelect', 'Service', 'ImageService',
       function ($state, $rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamTag, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret, ImageSelect, Service, ImageService) {
         //获取服务列表
-        
+        $scope.servicepoterr = false;
         $scope.grid = {
           ports: [],
           port: 0,
@@ -169,9 +169,8 @@ angular.module('console.service.detail', [
 
         var loadService = function (dc) {
           Service.get({namespace: $rootScope.namespace, name: dc}, function (res) {
-            $log.info("service", res);
+            $log.info("service-=-=-=-=-=-=-=-", res);
             $scope.service = res;
-
             for (var i = 0; i < res.spec.ports.length; i++) {
               var port = res.spec.ports[i];
               $scope.portMap[port.targetPort + ''] = port.port;
@@ -279,6 +278,8 @@ angular.module('console.service.detail', [
               if (res.items[i].spec.to.kind != 'Service') {
                 continue;
               }
+              //console.log("$scope.dc.metadata.name--0-0-0-0",$scope.dc.metadata.name);
+              //console.log("res.items[i].spec.to.name--0-0-0-0",res.items[i].spec.to.name);
               if (res.items[i].spec.to.name == $scope.dc.metadata.name) {
                 $scope.dc.route = res.items[i];
 
@@ -1005,20 +1006,11 @@ angular.module('console.service.detail', [
 
           var cons = angular.copy($scope.dc.spec.template.spec.containers);
           DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (datadc) {
-            //var oldcons = datadc.spec.template.spec.containers;
             dc.spec.template.spec.volumes = [];
             dc.metadata.resourceVersion = datadc.metadata.resourceVersion;
             dc.status.latestVersion = datadc.status.latestVersion;
             var flog = 0;
-            //for(var i = 0 ; i < oldcons.length; i++){
-            //  if (!oldcons[i].ports) {
-            //    if (cons[i].ports.length != 0 && cons[i].ports[0].protocol) {
-            //      $scope.iscreatesv = true;
-            //    }
-            //  }
-            //}
             for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
-
               for (var j = 0; j < dc.spec.template.spec.containers[i].volumeMounts.length; j++) {
                 if (dc.spec.template.spec.containers[i].volumeMounts[j].name) {
                   flog++;
@@ -1054,8 +1046,6 @@ angular.module('console.service.detail', [
             prepareVolume(dc);
             prepareTrigger(dc);
             prepareEnv(dc);
-
-
             $log.info("update dc", dc);
             //var copedc = angular.copy(dc);
             for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
@@ -1068,18 +1058,49 @@ angular.module('console.service.detail', [
                 }
               }
             }
-            $log.info('0-0-0-0-0-0iscreatesv', iscreatesv)
-            if (!iscreatesv) {
-              createService($scope.dc);
-            } else {
-              updateService($scope.dc);
+            var createports = true;
+            var thisdccon = $scope.dc.spec.template.spec.containers;
+            for(var i = 0 ;i < thisdccon.length;i++) {
+              if (thisdccon[i].ports) {
+                for (var j = 0; j < thisdccon[i].ports.length; j++) {
+                  if (thisdccon[i].ports[j].hostPort && thisdccon[i].ports[j].protocol && thisdccon[i].ports[j].containerPort) {
+                    if (thisdccon[i].ports[j].containerPort || thisdccon[i].ports[j].hostPort) {
+                      if (thisdccon[i].ports[j].containerPort < 1 || thisdccon[i].ports[j].containerPort > 65535 || thisdccon[i].ports[j].hostPort < 1 || thisdccon[i].ports[j].hostPort > 64435) {
+                        console.log("1234567890pertyuiop")
+                        createports = false;
+                        $scope.servicepoterr = true;
+                      }
+                    }
+                  } else if (!thisdccon[i].ports[j].hostPort && !thisdccon[i].ports[j].containerPort && !thisdccon[i].ports[j].protocol) {
+                    createports = true;
+                  } else {
+                    createports = false;
+                    $scope.servicepoterr = true;
+                    console.log("33333");
+                  }
+                }
+              }
             }
-
+            if(createports == false){
+              return;
+            }
             if ($scope.grid.route) {
               updateRoute(dc);
             }
             DeploymentConfig.put({namespace: $rootScope.namespace, name: dc.metadata.name}, dc, function (res) {
               $log.info("update dc success", res);
+              var isport = false;
+              for (var i = 0; i < $scope.dc.spec.template.spec.containers.length; i++) {
+                if ($scope.dc.spec.template.spec.containers[i].ports.length != 0) {
+                  isport = true;
+                  break;
+                }
+              }
+              if (isport == true && iscreatesv == false && createports == true) {
+                createService($scope.dc);
+              }else if(isport == true && iscreatesv == true && createports == true){
+                updateService($scope.dc);
+              }
               bindService(dc);
               $scope.active = 1;
             }, function (res) {
