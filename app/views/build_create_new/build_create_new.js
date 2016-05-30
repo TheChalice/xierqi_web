@@ -39,10 +39,8 @@ angular.module('console.build_create_new', [
         };
       $scope.dianl=false;
       $scope.dianbl=true;
-      setInterval(function () {
-
-        // console.log($scope.buildConfig.metadata.name);
-        // console.log($scope.labBranchData);
+      // 实时监听按钮点亮
+      var timer = setInterval(function () {
         if ($scope.buildConfig.metadata.name && $scope.grid.labbranch!=null) {
           $scope.dianl=true;
           $scope.dianbl=false;
@@ -53,19 +51,6 @@ angular.module('console.build_create_new', [
           $scope.dianl=false;
           $scope.dianbl=true;
         }
-        // console.log($scope.grid.labbranch);
-       //  if ($scope.buildConfig.metadata.name && $scope.grid.labbranch!=null) {
-       //    $scope.dianl=true;
-       //    $scope.dianbl=false;
-       //  }else {
-       //    $scope.dianl=false;
-       //    $scope.dianbl=true;
-       //  }
-       // else {
-       //    $scope.dianl=false;
-       //    $scope.dianbl=true;
-       //  }
-        
       },20)
 
 
@@ -102,6 +87,7 @@ angular.module('console.build_create_new', [
 
         };
         $scope.create = function() {
+
             $scope.creating = true;
             var imageStream = {
                 metadata: {
@@ -115,6 +101,7 @@ angular.module('console.build_create_new', [
                 }else if($scope.grid.ishide == false){
                     createBuildConfig();
                 }
+              
             },function(res){
                 $log.info("err", res);
                 if (res.data.code == 409) {
@@ -247,7 +234,7 @@ angular.module('console.build_create_new', [
             cdm : false,
             creatlaberr : ''
         };
-        var thisowner = {};
+        var thisowner = null;
         $scope.checkdTab = function(val){
             if(val == 1){
                 if(!$scope.labowner){
@@ -297,7 +284,11 @@ angular.module('console.build_create_new', [
             laborgs.get({},function(data) {
                 $scope.labHost = data.msg.host;
                 $scope.labusername = [];
-                $scope.labusername[0] = thisowner;
+                console.log("thisowner0-0-0-0-",thisowner);
+                if(thisowner){
+                    $scope.labusername[0] = thisowner;
+                }
+
                 $log.info("laborgs", data)
                 for(var i = 0 ; i < data.msg.infos.length;i++){
                     $scope.labusername.push(data.msg.infos[i]);

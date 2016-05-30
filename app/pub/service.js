@@ -401,6 +401,7 @@ define(['angular'], function (angular) {
 
           }).error(function (data) {
             if (data.code == 401) {
+              $rootScope.user=false;
               $rootScope.loding = false;
             }
             $rootScope.loding = false;
