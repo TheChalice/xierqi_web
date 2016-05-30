@@ -247,7 +247,7 @@ angular.module('console.build_create_new', [
             cdm : false,
             creatlaberr : ''
         };
-        var thisowner = {};
+        var thisowner = null;
         $scope.checkdTab = function(val){
             if(val == 1){
                 if(!$scope.labowner){
@@ -297,7 +297,11 @@ angular.module('console.build_create_new', [
             laborgs.get({},function(data) {
                 $scope.labHost = data.msg.host;
                 $scope.labusername = [];
-                $scope.labusername[0] = thisowner;
+                console.log("thisowner0-0-0-0-",thisowner);
+                if(thisowner){
+                    $scope.labusername[0] = thisowner;
+                }
+
                 $log.info("laborgs", data)
                 for(var i = 0 ; i < data.msg.infos.length;i++){
                     $scope.labusername.push(data.msg.infos[i]);
