@@ -1092,8 +1092,8 @@ angular.module('console.service.detail', [
             DeploymentConfig.put({namespace: $rootScope.namespace, name: dc.metadata.name}, dc, function (res) {
               $log.info("update dc success", res);
               var isport = false;
-              for (var i = 0; i < $scope.dc.spec.template.spec.containers.length; i++) {
-                if ($scope.dc.spec.template.spec.containers[i].ports.length != 0) {
+              for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
+                if (dc.spec.template.spec.containers[i].ports.length != 0) {
                   isport = true;
                   break;
                 }

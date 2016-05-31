@@ -433,6 +433,9 @@ define(['angular'], function (angular) {
               var Auth = localStorage.getItem("Auth")
               config.headers["Authorization"] = "Basic " + Auth;
             }
+            if(config.method == 'PATCH'){
+              config.headers["Content-Type"] = "application/merge-patch+json";
+            }
 
             $rootScope.loading = true;
             return config
