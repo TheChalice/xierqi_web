@@ -263,7 +263,7 @@ angular.module('console.service.detail', [
             $scope.resourceVersion = res.metadata.resourceVersion;
 
             $scope.rcs = res;
-            console.log('log',$scope.rcs.items.log);
+            // console.log('log',$scope.rcs.items.log);
             watchRcs(res.metadata.resourceVersion);
           }, function (res) {
             //todo 错误处理
@@ -367,7 +367,9 @@ angular.module('console.service.detail', [
             var result = "";
             for (var k in res) {
               result += res[k];
+              // console.log('log',res[k])
             }
+            result=result.replace('[object Object]truefunction (){var a=r({},this);delete a.$promise;delete a.$resolved;return a}function (b,a,c){x(b)&&(c=a,a=b,b={});b=d[q].call(this,b,this,a,c);return b.$promise||b}function (b,a,c){x(b)&&(c=a,a=b,b={});b=d[q].call(this,b,this,a,c);return b.$promise||b}function (b,a,c){x(b)&&(c=a,a=b,b={});b=d[q].call(this,b,this,a,c);return b.$promise||b}function (b,a,c){x(b)&&(c=a,a=b,b={});b=d[q].call(this,b,this,a,c);return b.$promise||b}function (b,a,c){x(b)&&(c=a,a=b,b={});b=d[q].call(this,b,this,a,c);return b.$promise||b}','finish...');
             data.object.log = result;
             // console.log('log',result)
           }, function (res) {
