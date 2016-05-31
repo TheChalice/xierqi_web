@@ -367,6 +367,7 @@ angular.module('console.service.detail', [
               result += res[k];
             }
             data.object.log = result;
+
           }, function (res) {
             //todo 错误处理
             data.object.log = res.data.message;
