@@ -401,6 +401,7 @@ define(['angular'], function (angular) {
 
           }).error(function (data) {
             if (data.code == 401) {
+              $rootScope.user=false;
               $rootScope.loding = false;
             }
             $rootScope.loding = false;
@@ -431,6 +432,9 @@ define(['angular'], function (angular) {
             if (/registry/.test(config.url)) {
               var Auth = localStorage.getItem("Auth")
               config.headers["Authorization"] = "Basic " + Auth;
+            }
+            if(config.method == 'PATCH'){
+              config.headers["Content-Type"] = "application/merge-patch+json";
             }
 
             $rootScope.loading = true;

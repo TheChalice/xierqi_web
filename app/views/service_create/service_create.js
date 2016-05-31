@@ -11,6 +11,7 @@ angular.module('console.service.create', [
     .controller('ServiceCreateCtrl', ['$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service',
       function ($rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service) {
         $log.info('ServiceCreate');
+
         $scope.addprot = function (container, ind, last) {
 
           if (last) {     //添加
@@ -23,6 +24,7 @@ angular.module('console.service.create', [
             container.ports.splice(ind, 1);
           }
         }
+
         $scope.dc = {
           kind: "DeploymentConfig",
           apiVersion: "v1",
@@ -60,6 +62,7 @@ angular.module('console.service.create', [
           },
           status: {}
         };
+
         $scope.grid = {
           ports: [],
           port: 0,
@@ -78,7 +81,9 @@ angular.module('console.service.create', [
         $scope.invalid = {};
 
         $scope.envs = [];
+
         $scope.createdcerr = "";
+
         $scope.containerTpl = {
           name: "",
           image: "",    //imageStreamTag
@@ -154,13 +159,31 @@ angular.module('console.service.create', [
         var initContainer = function () {
           if ($stateParams.image) {
             console.log("initContainer", $stateParams.image);
+            // console.log("initContainer", $scope.dc.spec.template.spec.containers.tag);
+            // if (!$scope.dc.spec.template.spec.containers.tag) {
+            //   $scope.named=$stateParams.image.metadata.name;
+            // }
+            // console.log("initContainer", $stateParams.image.metadata.name);
+
             var container = angular.copy($scope.containerTpl);
             container.image = $stateParams.image.metadata.name;
             if ($stateParams.image.tag) {
               container.tag = $stateParams.image.tag.name;
             }
+            //console.log($stateParams.image.metadata.name.split(':')[1]);
+            container.tag=$stateParams.image.metadata.name.split(':')[1];
+            console.log($scope.dc.spec.template.spec.containers);
+            container.strname=container.name=$stateParams.image.metadata.name.split(':')[0]
+
             container.ports = [];
             var exposedPorts = $stateParams.image.image.dockerImageMetadata.Config.ExposedPorts;
+            if (!$stateParams.image.image.dockerImageMetadata.Config.ExposedPorts) {
+              container.ports.push({
+                containerPort: "",
+                hostPort: "",
+                protocol: "",
+              })
+            }
             for (var k in exposedPorts) {
               var arr = k.split('/');
               if (arr.length == 2) {
@@ -173,10 +196,13 @@ angular.module('console.service.create', [
                 });
               }
             }
+            // $scope.dc.spec.template.spec.containers[0].name=$stateParams.image.metadata.name.split(':')[0]
+
             $scope.dc.spec.template.spec.containers.push(container);
             $scope.invalid.containerLength = false;
           }
         };
+
         initContainer();
 
         $scope.containerModal = function (idx) {
@@ -212,6 +238,7 @@ angular.module('console.service.create', [
             $scope.createdcerr = "";
           }
         }
+
         var loadBsi = function (dc) {
           BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {
             $log.info("backingServiceInstance", res);
@@ -234,6 +261,7 @@ angular.module('console.service.create', [
             $log.info("loadBsi err", res);
           });
         };
+
         loadBsi();
 
         $scope.addSecret = function (name, idx, last) {

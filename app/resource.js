@@ -110,7 +110,8 @@ define([
         .factory('DeploymentConfig', ['$resource', 'GLOBAL', function($resource, GLOBAL){
             var DeploymentConfig= $resource(GLOBAL.host + '/namespaces/:namespace/deploymentconfigs/:name', {name: '@name', namespace: '@namespace'},{
                 create: {method: 'POST'},
-                put: {method: 'PUT'}
+                put: {method: 'PUT'},
+                patch : {method : "PATCH"}
             });
             DeploymentConfig.log = $resource(GLOBAL.host + '/namespaces/:namespace/deploymentconfigs/:name/log');
             return DeploymentConfig;

@@ -13,9 +13,7 @@ angular.module('console.backing_service_detail', [
           var loadBs = function(){
             BackingService.get({namespace:'openshift',name:cuename},function(data){
                 $log.info('loadBs=====',data);
-              
                 $scope.data = data;
-
                 var plans = data.spec.plans;
                 for (var i = 0; i < plans.length; i++) {
                     if (plans[i].name == $stateParams.plan) {
@@ -23,9 +21,9 @@ angular.module('console.backing_service_detail', [
                         break;
                     }
                 }
-
             })
         };
+
 
         $scope.$watch('grid.active', function(newVal, oldVal){
             if (newVal != oldVal && newVal == 2) {
@@ -56,6 +54,7 @@ angular.module('console.backing_service_detail', [
             //$state.go('console.backing_service_detail', {name: item.spec.provisioning.backingservice_name, plan: item.spec.provisioning.backingservice_plan_name});
         };
         loadBs();
+
 
         var filterBsi = function(bsi){
             var items = [];
