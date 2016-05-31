@@ -361,7 +361,7 @@ angular.module('console.service.detail', [
           }
 
           DeploymentConfig.log.get({namespace: $rootScope.namespace, name: $scope.dc.metadata.name}, function (res) {
-            console.log('log',res)
+            // console.log('log',res)
             console.log('执行了');
             $rootScope.lding = false;
             var result = "";
@@ -369,6 +369,7 @@ angular.module('console.service.detail', [
               result += res[k];
             }
             data.object.log = result;
+            // console.log('log',result)
           }, function (res) {
             //todo 错误处理
             data.object.log = res.data.message;

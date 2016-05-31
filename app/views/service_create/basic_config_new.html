@@ -41,7 +41,7 @@
                         <div class="container-box" style="margin-bottom: 0;">
                             <div style="margin-bottom: 20px;">
 
-                                <input value="{{container.strname}}"
+                                <input ng-model="container.strname"
                                        style="width: 95%;display: inline-block;"
                                        type="text" class="form-control"
                                        placeholder="请设置容器名称">
@@ -106,7 +106,7 @@
                             </tr>
                             <tr ng-repeat="container in dc.spec.template.spec.containers">
                                 <td style="vertical-align: middle;">
-                                    {{container.name}}
+                                    {{container.strname}}
                                 </td>
                                 <td style="vertical-align: middle; display: none;">
                                     <span>
