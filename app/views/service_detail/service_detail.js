@@ -263,7 +263,7 @@ angular.module('console.service.detail', [
             $scope.resourceVersion = res.metadata.resourceVersion;
 
             $scope.rcs = res;
-
+            console.log('log',$scope.rcs.items.log);
             watchRcs(res.metadata.resourceVersion);
           }, function (res) {
             //todo 错误处理
@@ -340,8 +340,7 @@ angular.module('console.service.detail', [
         };
         //执行log
         var updateRcs = function (data) {
-          // console.log('执行了');
-          $rootScope.lding = false;
+
           if (data.type == 'ERROR') {
             $log.info("err", data.object.message);
             Ws.clear();
@@ -362,6 +361,9 @@ angular.module('console.service.detail', [
           }
 
           DeploymentConfig.log.get({namespace: $rootScope.namespace, name: $scope.dc.metadata.name}, function (res) {
+            console.log('log',res)
+            console.log('执行了');
+            $rootScope.lding = false;
             var result = "";
             for (var k in res) {
               result += res[k];
@@ -1001,7 +1003,7 @@ angular.module('console.service.detail', [
         };
 //点击更新
         $scope.updateDc = function () {
-          // console.log('点击更新');
+          console.log('点击更新');
           $rootScope.lding = true;
           var dc = angular.copy($scope.dc);
           $log.info("-=-=-=-=-=-=$scope.dc-=--=", $scope.dc);

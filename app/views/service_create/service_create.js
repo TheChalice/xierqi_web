@@ -174,9 +174,16 @@ angular.module('console.service.create', [
             container.tag=$stateParams.image.metadata.name.split(':')[1];
             console.log($scope.dc.spec.template.spec.containers);
             container.strname=container.name=$stateParams.image.metadata.name.split(':')[0]
-                        // container.strname=
+
             container.ports = [];
             var exposedPorts = $stateParams.image.image.dockerImageMetadata.Config.ExposedPorts;
+            if (!$stateParams.image.image.dockerImageMetadata.Config.ExposedPorts) {
+              container.ports.push({
+                containerPort: "",
+                hostPort: "",
+                protocol: "",
+              })
+            }
             for (var k in exposedPorts) {
               var arr = k.split('/');
               if (arr.length == 2) {
