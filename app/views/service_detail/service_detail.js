@@ -396,6 +396,7 @@ angular.module('console.service.detail', [
             $scope.dc.status.latestVersion = 2;
             $scope.updateDc();
             return;
+            
           }
 
           var rcName = $scope.dc.metadata.name + '-' + $scope.dc.status.latestVersion;
@@ -980,6 +981,7 @@ angular.module('console.service.detail', [
         };
         var updateRoute = function (dc) {
           if (dc.route) {     //route存在,更新route
+            console.log(dc);
             dc.route.spec.host = $scope.grid.host + $scope.grid.suffix;
             dc.route.spec.port.targetPort = $scope.grid.port + '-tcp';
             Route.put({namespace: $rootScope.namespace, name: dc.route.metadata.name}, dc.route, function (res) {
