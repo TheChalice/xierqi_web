@@ -41,7 +41,10 @@
                         <div class="container-box" style="margin-bottom: 0;">
                             <div style="margin-bottom: 20px;">
 
-                                <input value="{{container.strname}}" style="width: 95%;display: inline-block;" type="text" class="form-control" placeholder="请设置容器名称">
+                                <input value="{{container.strname}}"
+                                       style="width: 95%;display: inline-block;"
+                                       type="text" class="form-control"
+                                       placeholder="请设置容器名称">
                                 <span class="require"></span>
                                 <small ng-show="!container.name && container.emptyName" class="fa fa-info-circle err-tip">&nbsp;请设置容器名,至少2个字符以上</small>
 
@@ -107,10 +110,18 @@
                                 </td>
                                 <td style="vertical-align: middle; display: none;">
                                     <span>
-                                        <p style="margin-top: 15px">镜像名称 :</p>
-                                        <p style="margin-top: -10px">{{container.image | imageStreamName}}</p>
-                                        <p style="margin-top: 15px">镜像版本 :</p>
-                                        <p style="margin-top: -10px">{{container.tag}}</p>
+                                        <p style="margin-top: 15px">
+                                            镜像名称 :
+                                        </p>
+                                        <p style="margin-top: -10px">
+                                            {{container.image | imageStreamName}}
+                                        </p>
+                                        <p style="margin-top: 15px">
+                                            镜像版本 :
+                                        </p>
+                                        <p style="margin-top: -10px">
+                                            {{container.tag}}
+                                        </p>
                                     </span>
                                 </td>
                                 <td style="vertical-align: middle;">
