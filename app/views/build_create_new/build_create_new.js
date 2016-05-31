@@ -53,8 +53,6 @@ angular.module('console.build_create_new', [
         }
       },20)
 
-
-
         $scope.completionDeadlineMinutes = 30;
         var thisindex = 0;
         var createBuildConfig = function(labsecret) {
@@ -84,10 +82,8 @@ angular.module('console.build_create_new', [
                     Alert.open('错误', res.data.message, true);
                 }
             });
-
         };
         $scope.create = function() {
-
             $scope.creating = true;
             var imageStream = {
                 metadata: {
@@ -197,6 +193,15 @@ angular.module('console.build_create_new', [
             $scope.grid.project = null;
             $scope.grid.branch = null;
             $scope.reposobj = $scope.usernames[idx].repos;
+            var newarr = $scope.reposobj;
+            var names = [];
+            for (var i = 0; i < newarr.length; i++){
+               $scope.reposobj[i]['names']=newarr[i].name.toUpperCase();
+            }
+            newarr.sort(function(x,y){
+                return x.names > y.names ? 1 : -1;
+            })
+            $log.info('&********', $scope.reposobj);
             thisindex = idx;
         }
         $scope.selectProject = function(idx) {
@@ -296,7 +301,6 @@ angular.module('console.build_create_new', [
                         data.msg.infos[i].repos[j].objsname = data.msg.infos[i].org.name;
                     }
                 }
-
                 $scope.running = false;
                 $log.info("0-0-0-00-0-$scope.labusername",$scope.labusername);
 
@@ -317,8 +321,15 @@ angular.module('console.build_create_new', [
         }
         $scope.selectlabUser = function(idx) {
             $scope.labobjs = $scope.labusername[idx].repos;
+            var labproject = $scope.labobjs;
+            var projecrnames = [];
+            for (var i = 0; i < labproject.length; i++){
+                $scope.labobjs[i]['projecrnames']=labproject[i].name.toUpperCase();
+            }
+            labproject.sort(function(x,y){
+                return x.projecrnames > y.projecrnames ? 1 : -1;
+            })
             $scope.grid.labusers = idx;
-            //$log.info('-0-0-0$scope.labobjs',$scope.labobjs);
         }
         $scope.selectlabBranch = function(idx){
             $scope.grid.labbranch = idx;
