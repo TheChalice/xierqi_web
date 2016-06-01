@@ -3,9 +3,16 @@
     background: #f8b551;
 }
 #header #header-brand {
+    padding-left: 40px;
+    padding-right: 40px;
     height: 100%;
     float: left;
-    background-color: #f6a540;
+}
+
+#header #header-brand img {
+    padding-top: 10px;
+    padding-bottom: 7px;
+    height: 100%;
 }
 #header #header-brand:hover {
     background-color: #f8b551;
