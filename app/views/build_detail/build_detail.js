@@ -37,7 +37,9 @@ angular.module('console.build.detail', [
 
         //开始构建
         $scope.startBuild = function() {
+
             var name = $scope.data.metadata.name;
+          
             var buildRequest = {
                 metadata: {
                     name: name

@@ -397,6 +397,7 @@ define(['angular'], function (angular) {
 
             User.get({name: '~'}, function (res) {
               $rootScope.user = res;
+              $state.go('console.dashboard');
             });
 
           }).error(function (data) {
@@ -432,6 +433,9 @@ define(['angular'], function (angular) {
             if (/registry/.test(config.url)) {
               var Auth = localStorage.getItem("Auth")
               config.headers["Authorization"] = "Basic " + Auth;
+            }
+            if(config.method == 'PATCH'){
+              config.headers["Content-Type"] = "application/merge-patch+json";
             }
 
             $rootScope.loading = true;
