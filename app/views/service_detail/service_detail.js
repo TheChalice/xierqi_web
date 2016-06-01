@@ -340,7 +340,8 @@ angular.module('console.service.detail', [
         };
         //执行log
         var updateRcs = function (data) {
-
+          console.log('执行了');
+          $rootScope.lding = false;
           if (data.type == 'ERROR') {
             $log.info("err", data.object.message);
             Ws.clear();
@@ -366,12 +367,13 @@ angular.module('console.service.detail', [
             $rootScope.lding = false;
             var result = "";
             for (var k in res) {
-              result += res[k];
-              // console.log('log',res[k])
-            }
-            result=result.replace('[object Object]truefunction (){var a=r({},this);delete a.$promise;delete a.$resolved;return a}function (b,a,c){x(b)&&(c=a,a=b,b={});b=d[q].call(this,b,this,a,c);return b.$promise||b}function (b,a,c){x(b)&&(c=a,a=b,b={});b=d[q].call(this,b,this,a,c);return b.$promise||b}function (b,a,c){x(b)&&(c=a,a=b,b={});b=d[q].call(this,b,this,a,c);return b.$promise||b}function (b,a,c){x(b)&&(c=a,a=b,b={});b=d[q].call(this,b,this,a,c);return b.$promise||b}function (b,a,c){x(b)&&(c=a,a=b,b={});b=d[q].call(this,b,this,a,c);return b.$promise||b}','finish...');
-            data.object.log = result;
+              if (/^\d+$/.test(k)) {
+                result += res[k];
+              }
 
+            }
+            // console.log(result);
+            data.object.log = result;
           }, function (res) {
             //todo 错误处理
             data.object.log = res.data.message;
@@ -547,7 +549,9 @@ angular.module('console.service.detail', [
           DeploymentConfig.log.get({namespace: $rootScope.namespace, name: $scope.dc.metadata.name}, function (res) {
             var result = "";
             for (var k in res) {
-              result += res[k];
+              if (/^\d+$/.test(k)) {
+                result += res[k];
+              }
             }
             o.log = result;
           }, function (res) {
@@ -1155,7 +1159,10 @@ angular.module('console.service.detail', [
               Pod.log.get(params, function (res) {
                 var result = "";
                 for (var k in res) {
-                  result += res[k];
+
+                  if (/^\d+$/.test(k)) {
+                    result += res[k];
+                  }
                 }
                 $scope.log = result;
               }, function (res) {
@@ -1260,7 +1267,10 @@ angular.module('console.service.detail', [
               Pod.log.get(params, function (res) {
                 var result = "";
                 for (var k in res) {
-                  result += res[k];
+
+                  if (/^\d+$/.test(k)) {
+                    result += res[k];
+                  }
                 }
                 $scope.log = result;
                 console.log(result);

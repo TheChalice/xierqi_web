@@ -7,7 +7,6 @@ angular.module('console.backing_service_detail', [
         }
     ])
     .controller('BackingServiceInstanceCtrl',['$log','$scope','$rootScope','$stateParams','BackingService', 'BackingServiceInstance','ServiceSelect','Confirm','BackingServiceInstanceBd', '$state', 'Toast', 'Ws', function($log,$scope,$rootScope,$stateParams,BackingService,BackingServiceInstance,ServiceSelect,Confirm,BackingServiceInstanceBd, $state, Toast, Ws){
-        $scope.grid = {};
 
         var cuename = $stateParams.name;
           var loadBs = function(){
