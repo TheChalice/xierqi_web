@@ -282,7 +282,6 @@ angular.module('console.service.detail', [
               //console.log("res.items[i].spec.to.name--0-0-0-0",res.items[i].spec.to.name);
               if (res.items[i].spec.to.name == $scope.dc.metadata.name) {
                 $scope.dc.route = res.items[i];
-
                 $scope.grid.route = true;
                 $scope.grid.host = $scope.dc.route.spec.host.replace($scope.grid.suffix, '');
                 $scope.grid.port = parseInt($scope.dc.route.spec.port.targetPort.replace(/-.*/, ''));
@@ -396,7 +395,31 @@ angular.module('console.service.detail', [
           }
         };
 
+        $scope.$watch('dc.state',function (n,o) {
+          console.log('new',n);
+          if (n != 'normal') {
+            $scope.startBtn = {
+              name:'启动',
+              dianlz:false,
+              dianl:true
+            }
+          }else {
+            $scope.stopBtn = {
+              name:'停止',
+              dianlz:false,
+              dianl:true
+            }
+          }
+
+        })
+
         $scope.startDc = function () {
+          $scope.startBtn = {
+            name:'启动中',
+            dianlz:true,
+            dianl:false
+          }
+          
           if ($scope.dc.spec.replicas == 0) {
             $scope.dc.spec.replicas = 1;
             $scope.dc.status.latestVersion = 2;
@@ -430,8 +453,18 @@ angular.module('console.service.detail', [
             //todo 没有rc怎么办?
           }
         };
+        $scope.stopBtn = {
+          name:'停止',
+          dianlz:false,
+          dianl:true
+        }
 
         $scope.stopDc = function () {
+          $scope.stopBtn = {
+            name:'停止中',
+            dianlz:true,
+            dianl:false
+          }
           var rcName = $scope.dc.metadata.name + '-' + $scope.dc.status.latestVersion;
           var items = $scope.rcs.items;
           var item = null;

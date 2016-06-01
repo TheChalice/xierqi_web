@@ -7,8 +7,20 @@
                 <span ng-if="dc.state == 'normal'" style="color: #55c45f;">运行中</span>
             </span>
             <a class="btn btn-gray pull-right" style=" padding: 5px 10px; margin-left: 15px; height:34px; width:36px" ng-click="delete()"><i class="fa fa-trash-o fa-lg"></i></a>
-            <a class="btn btn-green pull-right" ng-if="dc.state != 'normal'" ng-click="startDc()">启动</a>
-            <a class="btn btn-green pull-right" ng-if="dc.state == 'normal'" ng-click="stopDc()">停止</a>
+            <!--<a class="btn btn-block"-->
+               <!--ng-disabled=dianbl-->
+               <!--ng-class="{'btn-orange':dianl, 'btn-disabled': dianbl}"-->
+               <!--ng-click="frm.$valid && create()">开始构建</a>-->
+            <a class="btn pull-right"
+               ng-show="dc.state != 'normal'"
+               ng-class="{'btn-green':startBtn.dianl, 'btn-orange': startBtn.dianlz}"
+               ng-disabled=startBtn.dianlz
+               ng-click="startDc()">{{startBtn.name}}</a>
+            <a class="btn pull-right"
+               ng-show="dc.state == 'normal'"
+               ng-class="{'btn-green':stopBtn.dianl, 'btn-orange': stopBtn.dianlz}"
+               ng-disabled=stopBtn.dianlz
+               ng-click="stopDc()">{{stopBtn.name}}</a>
         </div>
         <div class="panel-body">
             <div class="row">
