@@ -397,6 +397,7 @@ define(['angular'], function (angular) {
 
             User.get({name: '~'}, function (res) {
               $rootScope.user = res;
+              $state.go('console.dashboard');
             });
 
           }).error(function (data) {
