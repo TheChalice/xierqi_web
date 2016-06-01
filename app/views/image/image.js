@@ -100,60 +100,46 @@ angular.module('console.image', [
         $log.info($scope.items);
         $log.info($scope.data.items[0].metadata.name);
       }
-      function getJson(url) {
-        var deferred = $q.defer();
-        $http.get(url, {params: {is_public: 1}})
-            .success(function (d) {
-              deferred.resolve(d);
-            });
-        return deferred.promise;
-      }
-
       var arr = [];
-      getJson('/registry/api/projects')
-          .then(function (data) {
+      $http.get('/registry/api/projects', {params: {is_public: 1}
+      }).success(function (data) {
             for (var i = 0; i < data.length; i++) {
               data[i].mysort = data[i].CreationTime
               data[i].mysort = (new Date(data[i].mysort)).getTime()
             }
-            // console.log(data)
             //时间冒泡排序写法
             data.sort(function (x, y) {
               return x.mysort > y.mysort ? -1 : 1;
             });
-
             $scope.test = data;
-
             for (var j = 0; j < $scope.test.length; j++) {
               $http.get('/registry/api/repositories', {params: {project_id: $scope.test[j].ProjectId}})
                   .success(function (datalis) {
                     arr.push(datalis);
-                  }).then(function () {
-
-                if (arr.length == data.length) {
-                  // console.log(arr);
-                  for (var k = 0; k < arr.length; k++) {
-                    if (arr[k] != null) {
-                      // console.log(k,arr[k])
-                      for (var h = 0; h < $scope.test.length; h++) {
-                        if (arr[k][0].split('/')[0] == $scope.test[h].Name) {
-                          // console.log(arr[k][0].split('/')[0])
-                          // console.log('$scope.test[k].Name', $scope.test[h].Name);
-                          $scope.test[h].items = arr[k]
-                          // console.log($scope.test[h].items, arr[k]);
+                    if (arr.length == data.length) {
+                      for (var k = 0; k < arr.length; k++) {
+                        if (arr[k] != null) {
+                          for (var h = 0; h < $scope.test.length; h++) {
+                            if (arr[k][0].split('/')[0] == $scope.test[h].Name) {
+                              $scope.test[h].items = arr[k]
+                            }
+                          }
                         }
                       }
-                      // console.log($scope.test)
                     }
-                  }
-                  // console.log($scope.test)
-
-                }
-
-
-              }).then(function () {
+                  }).error(function (msg) {
 
               })
             }
-          })
+          }).error(function(data){
+        // $log.info('error',data)
+        $rootScope.user=null;
+        console.log('error',$rootScope)
+      });
+      // $http.get('api/user', {params: {id:'5'}
+      // }).success(function(data, status, headers, config) {
+      //   //加载成功之后做一些事
+      // }).error(function(data, status, headers, config) {
+      //   //处理错误
+      // });
     }]);
