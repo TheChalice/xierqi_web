@@ -582,9 +582,35 @@ angular.module('console.service.detail', [
         var loadPods = function (dc) {
           var labelSelector = 'deploymentconfig=' + dc;
           Pod.get({namespace: $scope.namespace, labelSelector: labelSelector}, function (res) {
-            $log.info("pods", res);
-            $scope.pods = res;
 
+            $scope.pods = res;
+            $scope.pods.items = res.items;
+
+            for(var i = 0;i < res.items.length; i++){
+              $scope.pods.items[i].reason = res.items[i].status.phase;
+               if(res.items[i].status.reason != null && res.items[i].status.reason != ""){
+                 $scope.pods.items[i].reason = res.items[i].status.reason;
+               }
+                for(var j = 0 ;j < res.items[i].status.containerStatuses.length;j++){
+                  var container =  res.items[i].status.containerStatuses[j];
+                  if (container.state.waiting != null && container.state.waiting.reason != "" ){
+                    $scope.pods.items[i].reason = container.state.waiting.reason
+                  } else if (container.state.terminated != null && container.state.terminated.reason != "") {
+                    $scope.pods.items[i].reason = container.state.terminated.reason
+                  }else if (container.state.terminated != null && container.state.terminated.reason == "") {
+                    if (container.state.terminated.signal != 0) {
+                      $scope.pods.items[i].reason = "Signal:%d"+container.state.terminated.signal;
+                    } else {
+                      $scope.pods.items[i].reason = "ExitCode:"+container.state.terminated.exitCode;
+                    }
+                  }
+                }
+              if (res.items[i].metadata.deletionTimestamp != null ){
+                $scope.pods.items[i].reason = "Terminating"
+              }
+            }
+
+            $log.info("pods", $scope.pods.items);
             loadEvents(res.items);
 
           }, function (res) {
@@ -1138,7 +1164,7 @@ angular.module('console.service.detail', [
           controller: ['$rootScope', '$scope', '$uibModalInstance', 'Pod', function ($rootScope, $scope, $uibModalInstance, Pod) {
             $scope.grid = {};
             $scope.pod = pod;
-            console.log("pod-=-=-=-=-",pod);
+            console.log("pod-=-=-=-=-++++",pod);
             $scope.ok = function () {
               $uibModalInstance.close(true);
             };
@@ -1177,7 +1203,7 @@ angular.module('console.service.detail', [
           size: 'default modal-lg',
           controller: ['$rootScope', '$scope', '$log', '$uibModalInstance', 'ImageStream', 'Pod', 'Ws', 'Metrics', 'MetricsService', function ($rootScope, $scope, $log, $uibModalInstance, ImageStream, Pod, Ws, Metrics, MetricsService) {
             $scope.pod = pod;
-            console.log("pod-=-=-=-=-",pod);
+            console.log("pod-=-=-=-=-!!!!",pod);
             $scope.grid = {
               show: false,
               mem: false,

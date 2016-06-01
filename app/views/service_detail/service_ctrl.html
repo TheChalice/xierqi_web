@@ -17,7 +17,7 @@
             <tr ng-repeat="pod in pods.items">
                 <td>{{pod.metadata.name}}</td>
                 <td>
-                    <span class="text-{{pod.status.phase}}">{{pod.status.phase}}</span>
+                    <span class="text-{{pod.reason}}">{{pod.reason}}</span>
                 </td>
                 <td>{{pod.status.startTime | duration2}}</td>
                 <td>{{pod.spec.restartPolicy}}</td>
