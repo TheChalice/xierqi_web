@@ -365,18 +365,27 @@ angular.module('console.service.create', [
               serviceConflict = portConflict(ports[j].hostPort, i, j, 'hostPort');
               ports[j].conflict = conflict;
               ports[j].serviceConflict = serviceConflict;
+
               if (ports[j].containerPort && ports[j].hostPort) {
+                // alert(5)
                 $scope.grid.servicepot = false;
+                $scope.grid.conflict = conflict;
+                $scope.grid.serviceConflict = serviceConflict;
+                return conflict || serviceConflict;
+              }else if (!ports[j].containerPort && !ports[j].containerPort) {
+                return false
               } else {
+                // alert(6)
                 $scope.grid.servicepot = true;
+                return true
               }
             }
           }
-          $scope.grid.conflict = conflict;
-          $scope.grid.serviceConflict = serviceConflict;
 
-          console.log('ports', ports.containerPort)
-          return conflict || serviceConflict;
+
+
+          // console.log('ports', ports.containerPort)
+          // return conflict || serviceConflict;
         };
 
         var portConflict = function (port, x, y, tp) {
@@ -554,8 +563,10 @@ angular.module('console.service.create', [
         };
 
         var valid = function (dc) {
+          console.log('dc',dc);
           var containers = dc.spec.template.spec.containers;
           if (!containers.length) {
+            alert(1)
             $scope.invalid.containerLength = true;
             return false;
           }
@@ -563,15 +574,18 @@ angular.module('console.service.create', [
           for (var i = 0; i < containers.length; i++) {
             if (!containers[i].name) {
               containers[i].emptyName = true;
+              alert(2)
               return false;
             }
             if (!containers[i].image) {
+              alert(3)
               containers[i].emptyImage = true;
               return false;
             }
           }
 
           if (isConflict()) {
+            alert(4)
             return false;
           }
           return true;
