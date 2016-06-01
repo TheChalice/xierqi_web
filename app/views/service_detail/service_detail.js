@@ -1005,6 +1005,7 @@ angular.module('console.service.detail', [
           // console.log('点击更新');
           $rootScope.lding = true;
           var dc = angular.copy($scope.dc);
+
           $log.info("-=-=-=-=-=-=$scope.dc-=--=", $scope.dc);
 
           var cons = angular.copy($scope.dc.spec.template.spec.containers);
@@ -1090,20 +1091,31 @@ angular.module('console.service.detail', [
             if ($scope.grid.route) {
               updateRoute(dc);
             }
+          //var patchdc = {
+          //  spec : {
+          //    replicas : dc.spec.replicas,
+          //    template : {
+          //      spec : {
+          //        containers : dc.spec.template.spec.containers
+          //      }
+          //
+          //    }
+          //  }
+          //}
+          var isport = false;
+          for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
+            if (dc.spec.template.spec.containers[i].ports.length != 0) {
+              isport = true;
+              break;
+            }
+          }
+          if (isport == true && iscreatesv == false && createports == true) {
+            createService($scope.dc);
+          }else if(isport == true && iscreatesv == true && createports == true){
+            updateService($scope.dc);
+          }
             DeploymentConfig.put({namespace: $rootScope.namespace, name: dc.metadata.name}, dc, function (res) {
               $log.info("update dc success", res);
-              var isport = false;
-              for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
-                if (dc.spec.template.spec.containers[i].ports.length != 0) {
-                  isport = true;
-                  break;
-                }
-              }
-              if (isport == true && iscreatesv == false && createports == true) {
-                createService($scope.dc);
-              }else if(isport == true && iscreatesv == true && createports == true){
-                updateService($scope.dc);
-              }
               bindService(dc);
               $scope.active = 1;
             }, function (res) {
@@ -1122,6 +1134,7 @@ angular.module('console.service.detail', [
           controller: ['$rootScope', '$scope', '$uibModalInstance', 'Pod', function ($rootScope, $scope, $uibModalInstance, Pod) {
             $scope.grid = {};
             $scope.pod = pod;
+            console.log("pod-=-=-=-=-",pod);
             $scope.ok = function () {
               $uibModalInstance.close(true);
             };
@@ -1160,6 +1173,7 @@ angular.module('console.service.detail', [
           size: 'default modal-lg',
           controller: ['$rootScope', '$scope', '$log', '$uibModalInstance', 'ImageStream', 'Pod', 'Ws', 'Metrics', 'MetricsService', function ($rootScope, $scope, $log, $uibModalInstance, ImageStream, Pod, Ws, Metrics, MetricsService) {
             $scope.pod = pod;
+            console.log("pod-=-=-=-=-",pod);
             $scope.grid = {
               show: false,
               mem: false,
