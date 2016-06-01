@@ -8,13 +8,16 @@ angular.module('console.backing_service_detail', [
     ])
     .controller('BackingServiceInstanceCtrl',['$log','$scope','$rootScope','$stateParams','BackingService', 'BackingServiceInstance','ServiceSelect','Confirm','BackingServiceInstanceBd', '$state', 'Toast', 'Ws', function($log,$scope,$rootScope,$stateParams,BackingService,BackingServiceInstance,ServiceSelect,Confirm,BackingServiceInstanceBd, $state, Toast, Ws){
         $scope.grid = {};
-
+        //var name = $stateParams.name.split(':')
         var cuename = $stateParams.name;
+        $scope.grid.active = $stateParams.index;
+        console.log($stateParams);
           var loadBs = function(){
             BackingService.get({namespace:'openshift',name:cuename},function(data){
                 $log.info('loadBs=====',data);
                 $scope.data = data;
                 var plans = data.spec.plans;
+                //var costs = data.spec.plans.metadata.costs;
                 for (var i = 0; i < plans.length; i++) {
                     if (plans[i].name == $stateParams.plan) {
                         $scope.grid.checked = i;
@@ -23,7 +26,6 @@ angular.module('console.backing_service_detail', [
                 }
             })
         };
-
 
         $scope.$watch('grid.active', function(newVal, oldVal){
             if (newVal != oldVal && newVal == 2) {

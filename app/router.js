@@ -160,7 +160,8 @@ define([
                     url: '/backing_service/:name',
                     params: {
                         plan: null,
-                        update: false
+                        update: false,
+                        index: null,
                     },
                     templateUrl: 'views/backing_service_detail/backing_service_detail.html',
                     controller: 'BackingServiceInstanceCtrl',

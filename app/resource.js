@@ -111,7 +111,7 @@ define([
             var DeploymentConfig= $resource(GLOBAL.host + '/namespaces/:namespace/deploymentconfigs/:name', {name: '@name', namespace: '@namespace'},{
                 create: {method: 'POST'},
                 put: {method: 'PUT'},
-                patch: {method: 'PATCH', headers: {'Content-Type':'application/merge-patch+json'}}
+                //patch: {method: 'PATCH', headers: {'Content-Type':'application/merge-patch+json'}}
             });
             DeploymentConfig.log = $resource(GLOBAL.host + '/namespaces/:namespace/deploymentconfigs/:name/log');
             return DeploymentConfig;
@@ -149,7 +149,7 @@ define([
             return BackingServiceInstance;
         }])
         .factory('BackingServiceInstanceBd', ['$resource', 'GLOBAL', function($resource, GLOBAL){
-            var BackingServiceInstanceBd= $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances/:name/binding', {name: '@name', namespace: '@namespace'},{
+            var BackingServiceInstanceBd= $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances/:name/binding/', {name: '@name', namespace: '@namespace'},{
                 create: {method: 'POST'},
                 put: {method: 'PUT'},
             });
