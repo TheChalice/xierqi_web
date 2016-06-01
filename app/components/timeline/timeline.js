@@ -225,7 +225,9 @@ angular.module("console.timeline", [])
                         Build.log.get({namespace: $rootScope.namespace, name: data.object.metadata.name}, function(res){
                           var result = "";
                           for(var k in res){
-                            result += res[k];
+                            if (/^\d+$/.test(k)) {
+                              result += res[k];
+                            }
                           }
                           data.object.buildLog = result;
                           $scope.data.items[i] = data.object;
@@ -265,7 +267,9 @@ angular.module("console.timeline", [])
                   Build.log.get({namespace: $rootScope.namespace, name: o.metadata.name}, function(res){
                     var result = "";
                     for(var k in res){
-                      result += res[k];
+                      if (/^\d+$/.test(k)) {
+                        result += res[k];
+                      }
                     }
                     o.buildLog = result;
                   }, function(res){

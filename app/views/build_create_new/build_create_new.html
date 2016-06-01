@@ -1,14 +1,14 @@
 <style>
     .zhuan {
-        animation:rotate 1s infinite linear;
+        animation: rotate 1s infinite linear;
     }
 
-    @keyframes rotate{
-        0%{
-            transform:rotate(0deg);
+    @keyframes rotate {
+        0% {
+            transform: rotate(0deg);
         }
-        100%{
-            transform:rotate(360deg);
+        100% {
+            transform: rotate(360deg);
         }
     }
 </style>
@@ -20,11 +20,15 @@
             </div>
             <div class="panel-body">
                 <div class="form-group ">
-                    <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size:14px; text-align: left;">构建名称</label>
+                    <label class="col-sm-2 control-label text-left"
+                           style="color: #5a6378; font-size:14px; text-align: left;">构建名称</label>
                     <div class="col-sm-10" style="padding-right: 40px">
-                        <input  ng-model="buildConfig.metadata.name" type="text" name="name" class="form-control" required
-                                ng-pattern="/^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/" style="width: 613px;">
-                        <small ng-if="frm.name.$viewValue != '' && frm.name.$invalid">名称只能包括小写字母/数字/短线,短线不能在开头或结尾位置</small>
+                        <input ng-model="buildConfig.metadata.name" type="text" name="name" class="form-control"
+                               required
+                               ng-pattern="/^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/"
+                               style="width: 613px;">
+                        <small ng-if="frm.name.$viewValue != '' && frm.name.$invalid">名称只能包括小写字母/数字/短线,短线不能在开头或结尾位置
+                        </small>
                     </div>
                 </div>
                 <hr>
@@ -32,44 +36,51 @@
                     <label class="col-sm-2 control-label" style="color: #5a6378; font-size:14px; text-align: left;">代码URL</label>
                     <div class="col-sm-10">
                         <uib-tabset class="tab-default">
-                        <uib-tab index="1" heading="代码仓库" ng-click="checkdTab(1)">
-                            <div class="tabinfo" style="height: 70px">
-                                <a class="btn pull-right" ng-class="{'running':running,}" uib-tooltip="同步代码源" ng-click="loadlabOwner()" style="margin-top: -30px; margin-right: -20px" >
-                                    <i class="fa fa-green fa-lg fa-refresh"></i>
-                                </a>
-                                <img style="float: left;margin-right: 20px;" src="views/build_create_new/img/images02_178.png">
-                                <span style="font-size:12px; height: 20px">DataFoundry 提供的代码仓库 <a href="https://code.dataos.io" target="view_window">（https://code.dataos.io）</a> 是可靠的自托管的 Git 项目仓库，
+                            <uib-tab index="1" heading="代码仓库" ng-click="checkdTab(1)">
+                                <div class="tabinfo" style="height: 70px">
+                                    <a class="btn pull-right" ng-class="{'running':running,}" uib-tooltip="同步代码源"
+                                       ng-click="loadlabOwner()" style="margin-top: -30px; margin-right: -20px">
+                                        <i class="fa fa-green fa-lg fa-refresh"></i>
+                                    </a>
+                                    <img style="float: left;margin-right: 20px;"
+                                         src="views/build_create_new/img/images02_178.png">
+                                <span style="font-size:12px; height: 20px">DataFoundry 提供的代码仓库
+                                    （<a href="https://code.dataos.io" target="view_window">https://code.dataos.io</a>） 是可靠的自托管的 Git 项目仓库，
                                     可通过Web 界面进行访问公开的或者私人项目。</span>
-                            </div>
+                                </div>
 
 
-                        </uib-tab>
-                        <uib-tab index="2" heading="GitHub" ng-click="checkdTab(2)">
-                            <div class="tabinfo" style="height: 70px">
-                                <a class="btn pull-right" ng-class="{'running':running,}" uib-tooltip="同步代码源" ng-click="refresh()" style="margin-top: -30px; margin-right: -20px">
-                                    <i class="fa fa-green fa-lg fa-refresh" ></i>
-                                </a>
-                                <img style="float: left;margin-right: 20px;" src="views/build_create_new/img/github.png">
+                            </uib-tab>
+                            <uib-tab index="2" heading="GitHub" ng-click="checkdTab(2)">
+                                <div class="tabinfo" style="height: 70px">
+                                    <a class="btn pull-right" ng-class="{'running':running,}" uib-tooltip="同步代码源"
+                                       ng-click="refresh()" style="margin-top: -30px; margin-right: -20px">
+                                        <i class="fa fa-green fa-lg fa-refresh"></i>
+                                    </a>
+                                    <img style="float: left;margin-right: 20px;"
+                                         src="views/build_create_new/img/github.png">
                                 <span style="font-size:12px; height: 20px">Github 于 2008 年上线，目前，除了 Git 代码仓库托管以及基本的 Web 管理界面以外 、 还提供了订阅 、讨论组 、文本渲染 、
                                     在线文件编辑器 、协作图谱（报表） 、代码片段分享（Gist）等功能。</span>
-                            </div>
-                        </uib-tab>
-                        <!--<uib-tab index="3" heading="GitLab" ng-click="checkdTab()">-->
+                                </div>
+                            </uib-tab>
+                            <!--<uib-tab index="3" heading="GitLab" ng-click="checkdTab()">-->
                             <!--<i class="fa fa-green fa-lg fa-refresh pull-right"  style="margin-top: -30px; margin-right: -20px"></i>-->
                             <!--<img src="views/build_create_new/img/gitlab.png">-->
                             <!--<span style="font-size:12px; height: 20px"></span>-->
-                        <!--</uib-tab>-->
+                            <!--</uib-tab>-->
                         </uib-tabset>
 
-                        <div class="is-box"  ng-hide="grid.ishide">
+                        <div class="is-box" ng-hide="grid.ishide">
                             <div class="panel panel-default first col-md-4" style="margin-right: 31px">
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/user.png">
-                                    用户/组织</div>
+                                    用户/组织
+                                </div>
                                 <div class="panel-body">
                                     <ul>
                                         <li class="labcon" ng-repeat="user in usernames" ng-show="!user.hide">
-                                            <a href="javascript:;"  uib-tooltip="{{user.login}}" ng-class="{'active': grid.user == $index}" ng-click="selectUser($index)">
+                                            <a href="javascript:;" uib-tooltip="{{user.login}}"
+                                               ng-class="{'active': grid.user == $index}" ng-click="selectUser($index)">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{user.login}}
                                             </a>
                                         </li>
@@ -79,11 +90,14 @@
                             <div class="panel panel-default second col-md-4" style="margin-right: 30px">
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/project.png">
-                                    项目</div>
+                                    项目
+                                </div>
                                 <div class="panel-body">
                                     <ul>
                                         <li class="labcon" ng-repeat="project in reposobj">
-                                            <a href="javascript:;" uib-tooltip="{{project.name}}" ng-class="{'active': grid.project == $index}" ng-click="selectProject($index)">
+                                            <a href="javascript:;" uib-tooltip="{{project.name}}"
+                                               ng-class="{'active': grid.project == $index}"
+                                               ng-click="selectProject($index)">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{project.name}}
                                             </a>
                                         </li>
@@ -93,11 +107,14 @@
                             <div class="panel panel-default third col-md-4">
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/branch.png">
-                                    代码分支</div>
+                                    代码分支
+                                </div>
                                 <div class="panel-body">
                                     <ul>
                                         <li class="labcon" ng-repeat="branch in branch">
-                                            <a href="javascript:;" uib-tooltip="{{branch.name}}" ng-class="{'active': grid.branch == $index}" ng-click="selectBranch($index)">
+                                            <a href="javascript:;" uib-tooltip="{{branch.name}}"
+                                               ng-class="{'active': grid.branch == $index}"
+                                               ng-click="selectBranch($index)">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{branch.name}}
                                             </a>
                                         </li>
@@ -111,12 +128,16 @@
                             <div class="panel panel-default first col-sm-4" style="margin-right: 31px">
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/user.png">
-                                    用户/组织</div>
+                                    用户/组织
+                                </div>
                                 <div class="panel-body">
                                     <ul>
                                         <li class="labcon" ng-repeat="user in labusername" ng-show="!user.hide">
-                                            <a href="javascript:;" uib-tooltip="{{user.org.name || user.owner.name}}" ng-class="{'active': grid.labusers == $index}" ng-click="selectlabUser($index)">
-                                                <i class="faa faa-check"></i>&nbsp;&nbsp;{{user.org.name || user.owner.name}}
+                                            <a href="javascript:;" uib-tooltip="{{user.org.name || user.owner.name}}"
+                                               ng-class="{'active': grid.labusers == $index}"
+                                               ng-click="selectlabUser($index)">
+                                                <i class="faa faa-check"></i>&nbsp;&nbsp;{{user.org.name ||
+                                                user.owner.name}}
                                             </a>
                                         </li>
                                     </ul>
@@ -125,11 +146,14 @@
                             <div class="panel panel-default second col-sm-4" style="margin-right: 30px">
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/project.png">
-                                    项目</div>
+                                    项目
+                                </div>
                                 <div class="panel-body">
                                     <ul>
                                         <li class="labcon" ng-repeat="project in labobjs">
-                                            <a href="javascript:;" uib-tooltip="{{project.name}}" ng-class="{'active': grid.labproject == $index}" ng-click="loadLabBranch($index)">
+                                            <a href="javascript:;" uib-tooltip="{{project.name}}"
+                                               ng-class="{'active': grid.labproject == $index}"
+                                               ng-click="loadLabBranch($index)">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{project.name}}
                                             </a>
                                         </li>
@@ -139,11 +163,14 @@
                             <div class="panel panel-default third col-sm-4">
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/branch.png">
-                                    代码分支</div>
+                                    代码分支
+                                </div>
                                 <div class="panel-body">
                                     <ul>
                                         <li class="labcon" ng-repeat="labBranchData in labBranchData.msg">
-                                            <a href="javascript:;" uib-tooltip="{{labBranchData.name}}"  ng-class="{'active': grid.labbranch == $index}" ng-click="selectlabBranch($index)">
+                                            <a href="javascript:;" uib-tooltip="{{labBranchData.name}}"
+                                               ng-class="{'active': grid.labbranch == $index}"
+                                               ng-click="selectlabBranch($index)">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{labBranchData.name}}
                                             </a>
                                         </li>
@@ -154,47 +181,53 @@
                         <!--gitLab box-->
                         <div class="gitlabbox" ng-show="grid.gitlabbox" style="margin-top: 20px">
                             <!--<form class="form-horizontal">-->
-                                <div class="form-group">
-                                    <label  class="col-sm-4 control-label">代码仓库URL</label>
-                                    <div class="col-sm-8">
-                                        <input ng-model="psgitlab.host" class="form-control" style="width: 70%">
-                                    </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">代码仓库URL</label>
+                                <div class="col-sm-8">
+                                    <input ng-model="psgitlab.host" class="form-control" style="width: 70%">
                                 </div>
-                                <div class="form-group">
-                                    <label  class="col-sm-4 control-label">用户名</label>
-                                    <div class="col-sm-8">
-                                        <input ng-model="psgitlab.user" class="form-control" style="width: 70%">
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">用户名</label>
+                                <div class="col-sm-8">
+                                    <input ng-model="psgitlab.user" class="form-control" style="width: 70%">
                                 </div>
-                                <div class="form-group">
-                                    <label  class="col-sm-4 control-label">私有Token</label>
-                                    <div class="col-sm-8">
-                                        <input ng-model="psgitlab.private_token" class="form-control" style="width: 70%">
-                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">私有Token</label>
+                                <div class="col-sm-8">
+                                    <input ng-model="psgitlab.private_token" class="form-control" style="width: 70%">
                                 </div>
-                                <div class="form-group">
-                                    <label  class="col-sm-4 control-label"></label>
-                                    <div class="col-sm-8">
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label"></label>
+                                <div class="col-sm-8">
 
-                                        <div class="gitlabBtn" ng-click="creatgitlab()">确定</div>
-                                        <small ng-show="grid.cdm" class="fa fa-exclamation-circle" style="font-size: 12px;color: #ec6941; margin-top: 10px">&nbsp;{{grid.creatlaberr}}</small>
-                                    </div>
+                                    <div class="gitlabBtn" ng-click="creatgitlab()">确定</div>
+                                    <small ng-show="grid.cdm" class="fa fa-exclamation-circle"
+                                           style="font-size: 12px;color: #ec6941; margin-top: 10px">&nbsp;{{grid.creatlaberr}}
+                                    </small>
                                 </div>
+                            </div>
 
                             <!--</form>-->
 
                             <!-----gitLab--->
+                        </div>
                     </div>
-                </div>
                 </div>
                 <hr>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size:14px; text-align: left; ">构建超时时长</label>
+                    <label class="col-sm-2 control-label text-left"
+                           style="color: #5a6378; font-size:14px; text-align: left; ">构建超时时长</label>
                     <div class="col-sm-10">
-                        <input ng-model="completionDeadlineMinutes" name="cdm" min="1" max="60" style="width: 80px;display: inline-block;" type="number" class="form-control" required>
+                        <input ng-model="completionDeadlineMinutes" name="cdm" min="1" max="60"
+                               style="width: 80px;display: inline-block;" type="number" class="form-control" required>
                         <span style="display: inline-block; margin-right: 20px">mins</span>
                         <span class="font12">&nbsp;&nbsp;构建超时时长请不要超过60Mins.</span><br>
-                        <small ng-if="frm.cdm.$invalid" class="fa fa-exclamation-circle" style="font-size: 12px;color: #ec6941; margin-top: 10px">&nbsp;您设置的时长超过了限制,请重新设置</small>
+                        <small ng-if="frm.cdm.$invalid" class="fa fa-exclamation-circle"
+                               style="font-size: 12px;color: #ec6941; margin-top: 10px">&nbsp;您设置的时长超过了限制,请重新设置
+                        </small>
                     </div>
                 </div>
             </div>
@@ -213,81 +246,101 @@
     .is-box {
         margin-top: 30px;
     }
+
     .is-box .panel {
         padding-left: 0px;
         padding-right: 0px;
         width: 30%;
         height: 200px;
     }
+
     .is-box .panel .panel-heading {
         width: 100%;
         background-color: #e6e9f2;
     }
-    .col-sm-10{
-        padding-right:42px;
+
+    .col-sm-10 {
+        padding-right: 42px;
     }
+
     .is-box .panel .panel-body {
         width: 100%;
         padding: 0px;
         margin-bottom: 0px;
-        height:150px;
+        height: 150px;
         overflow-y: auto;
     }
-    .is-box .panel .panel-body ul{
+
+    .is-box .panel .panel-body ul {
         list-style: none;
         margin: 0;
         padding: 0;
     }
-    .is-box .panel .panel-body li{
+
+    .is-box .panel .panel-body li {
         height: 40px;
         line-height: 40px;
     }
+
     .is-box .panel .panel-body ul li a {
         padding: 0px 15px;
     }
+
     .is-box .panel .panel-body ul li a:active {
         color: #5a6378;
     }
+
     .is-box .panel .panel-body ul li a:focus {
         text-decoration: none;
     }
+
     .is-box .panel .panel-body ul li a.active {
         background: #f5f6fa;
         color: #5a6378;
     }
+
     .is-box .panel .panel-body img {
         margin-right: 10px;
     }
-    .gitlabbox{
+
+    .gitlabbox {
         width: 100%;
         overflow: hidden;
-        border:1px solid #c9c9c9;
-        padding:40px 0px;
+        border: 1px solid #c9c9c9;
+        padding: 40px 0px;
     }
-    .gitlabBtn{
+
+    .gitlabBtn {
         width: 70%;
         height: 34px;
         background: #55c45f;
-        line-height:34px;
+        line-height: 34px;
         text-align: center;
         color: #fff;
         cursor: pointer;
     }
-    .gitlabBtn:hover{
+
+    .gitlabBtn:hover {
         background: #469450;
     }
-    .labcon a:link,.labcon a:visited{
-        display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+
+    .labcon a:link, .labcon a:visited {
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
+
     .running {
-        animation:rotate 1s infinite linear;
+        animation: rotate 1s infinite linear;
     }
-    @-webkit-keyframes rotate{
-          0%{
-              -webkit-transform:rotate(0deg);
-            }
-            100%{
-                -webkit-transform:rotate(360deg);
-            }
+
+    @-webkit-keyframes rotate {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
     }
 </style>
