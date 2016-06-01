@@ -168,14 +168,16 @@
             padding-right: 30px;
         }
 
-        .weblogo {
-            display: block;
-        }
-
         #mobilelogo {
             display: none;
         }
-
+        #header #header-brand img{
+            padding-top:7px;
+        }
+        #header #header-brand {
+            padding-left: 40px;
+            padding-right: 40px;
+        }
         @media (max-width: 640px) {
             #nav {
                 display: none;
@@ -189,12 +191,17 @@
                 height: 380px;
             }
 
-            .weblogo {
-                display: none;
-            }
-
             #mobilelogo {
                 display: block;
+            }
+            #header #header-brand img{
+                padding-top:22px;
+                margin-left:21%;
+                margin-right: 87px;
+            }
+            #header #header-brand {
+                padding-left: 0px;
+                padding-right: 0px;
             }
             .footer-td {
                 display: none;
@@ -218,11 +225,8 @@
     </style>
     <div id="header">
         <!--mobile -->
-        <a href="#" id="mobilelogo" style="float: left;margin-top: 8px;">
-            <img src="components/header/img/logo.png" alt="logo" class="mobilelogoimg">
-        </a>
         <!-- pc -->
-        <a id="header-brand" href="#" class="weblogo">
+        <a id="header-brand" href="#">
             <img src="components/header/img/logo.png" alt="logo">
         </a>
         <form class="navbar-form navbar-right" style="margin-top: 23px;">
