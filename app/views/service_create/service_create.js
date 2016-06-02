@@ -367,7 +367,7 @@ angular.module('console.service.create', [
               ports[j].serviceConflict = serviceConflict;
 
               if (ports[j].containerPort && ports[j].hostPort) {
-                // alert(5)
+                
                 $scope.grid.servicepot = false;
                 $scope.grid.conflict = conflict;
                 $scope.grid.serviceConflict = serviceConflict;
@@ -375,7 +375,7 @@ angular.module('console.service.create', [
               }else if (!ports[j].containerPort && !ports[j].containerPort) {
                 return false
               } else {
-                // alert(6)
+                
                 $scope.grid.servicepot = true;
                 return true
               }
@@ -566,7 +566,7 @@ angular.module('console.service.create', [
           console.log('dc',dc);
           var containers = dc.spec.template.spec.containers;
           if (!containers.length) {
-            alert(1)
+            
             $scope.invalid.containerLength = true;
             return false;
           }
@@ -574,18 +574,18 @@ angular.module('console.service.create', [
           for (var i = 0; i < containers.length; i++) {
             if (!containers[i].name) {
               containers[i].emptyName = true;
-              alert(2)
+              
               return false;
             }
             if (!containers[i].image) {
-              alert(3)
+              
               containers[i].emptyImage = true;
               return false;
             }
           }
 
           if (isConflict()) {
-            alert(4)
+            
             return false;
           }
           return true;
