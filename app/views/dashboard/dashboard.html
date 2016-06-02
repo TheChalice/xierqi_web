@@ -1,6 +1,6 @@
 <div class="dashboard">
     <div class="firstline">
-        <div class="block block-left col-md-6">
+        <div class="block block-left ban">
             <h2>账户信息</h2>
             <table class="table info">
                 <thead class="thead-default">
@@ -27,13 +27,13 @@
                 </tbody>
             </table>
         </div>
-        <div class="block block-right col-md-6">
+        <div class="block block-right ban">
             <h2>资源统计</h2>
             <div class="row">
-                <div class="col-md-6" >
+                <div class="ban" >
                     <highchart ng-show="isdata.CpuorMem" config="pieConfigCpu"></highchart>
                 </div>
-                <div class="col-md-6" >
+                <div class="ban" >
                     <highchart ng-show="isdata.CpuorMem" config="pieConfigMem"></highchart>
                 </div>
             </div>
@@ -47,22 +47,22 @@
     </div>
     <div class="thirdline col-md-12">
         <h2>统计数值</h2>
-        <div class="selection col-md-3">
+        <div class="selection ban2">
             <p class="num">100</p>
             <img src="">
             <p>容器</p>
         </div>
-        <div class="selection col-md-3">
+        <div class="selection ban2">
             <p class="num">100</p>
             <img src="">
             <p>服务</p>
         </div>
-        <div class="selection col-md-3">
+        <div class="selection ban2">
             <p class="num">100</p>
             <img src="">
             <p>后端服务</p>
         </div>
-        <div class="selection col-md-3">
+        <div class="selection ban2">
             <p class="num">100</p>
             <img src="">
             <p>应用</p>
@@ -70,6 +70,15 @@
     </div>
 
     <style>
+        .ban {
+            float: left;
+            width: 50%;
+        }
+        .ban2 {
+            float: left;
+            width:25%;
+        }
+
         .dashboard h2 {
             font-size: 14px;
             font-weight: bold;
