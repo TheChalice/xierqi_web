@@ -55,8 +55,8 @@ angular.module('console.dashboard', [
                     pointInterval: 3600 * 1000 //时间间隔
                 },
                     {
-                        color: '#c9c9c9',
-                        fillOpacity: 0.3,
+                        color: '#f8b551',
+                        fillOpacity: 0.1,
                         marker: {
                             enabled: false
                         },
