@@ -101,7 +101,7 @@ angular.module('console.service.detail', [
             //   }]
             // }
             $scope.dc = res;
-            $scope.getdc = angular.copy(res)
+            $scope.getdc = angular.copy(res);
             getEnvs(res.spec.template.spec.containers);
             angular.forEach($scope.dc.spec.triggers, function (trigger) {
               if (trigger.type == 'ImageChange') {
@@ -283,8 +283,11 @@ angular.module('console.service.detail', [
               if (res.items[i].spec.to.name == $scope.dc.metadata.name) {
                 $scope.dc.route = res.items[i];
                 $scope.grid.route = true;
+                if($scope.dc.route.spec.port){
+                  $scope.grid.port = parseInt($scope.dc.route.spec.port.targetPort.replace(/-.*/, ''));
+                }
                 $scope.grid.host = $scope.dc.route.spec.host.replace($scope.grid.suffix, '');
-                $scope.grid.port = parseInt($scope.dc.route.spec.port.targetPort.replace(/-.*/, ''));
+
               }
             }
           }, function (res) {
@@ -351,9 +354,12 @@ angular.module('console.service.detail', [
           $scope.resourceVersion = data.object.metadata.resourceVersion;
           $scope.dc.status.phase = data.object.metadata.annotations['openshift.io/deployment.phase'];
           $scope.dc.state = serviceState();
+          console.log("$scope.dc.state+_+_+_+_+",$scope.dc.state);
+          console.log("$scope.dc.statedata+_+_+_+_+",data);
 
           data.object.dc = JSON.parse(data.object.metadata.annotations['openshift.io/encoded-deployment-config']);
-          if (data.object.metadata.name == $scope.dc.metadata.name + '-' + $scope.dc.status.latestVersion) {
+          if (data.object.metadata.name == $scope.dc.metadata.name + '-' + ($scope.dc.status.latestVersion+1)) {
+            console.log("data.object.status.replicas+_+_+_+_+",data.object.status.replicas);
             $scope.dc.status.replicas = data.object.status.replicas;
           }
           if (data.object.metadata.annotations['openshift.io/deployment.cancelled'] == 'true') {
@@ -1183,6 +1189,7 @@ angular.module('console.service.detail', [
           }
             DeploymentConfig.put({namespace: $rootScope.namespace, name: dc.metadata.name}, dc, function (res) {
               $log.info("update dc success", res);
+              $scope.getdc.spec.replicas = $scope.dc.spec.replicas;
               bindService(dc);
               $scope.active = 1;
             }, function (res) {

@@ -319,11 +319,14 @@ angular.module('console.service.create', [
                 strname = str[0] + idx;
               }
             }
+            console.log("strwoshishui=0=0=0",str);
             container.strname = strname;
             container.name = strname;
-            container.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
-            container.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
             container.tag = str[1];
+            if(res.image.dockerImageMetadata.Config.Labels){
+              container.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
+              container.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
+            }
 
 
             var exposedPorts = res.image.dockerImageMetadata.Config.ExposedPorts;
