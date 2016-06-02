@@ -5,7 +5,11 @@
                 <span class="icon25 icon25-panel-repository">
                 </span>&nbsp;&nbsp;{{data.metadata.name || nameone}}
             </span>
-            <a class="btn btn-green pull-right" ui-sref="console.service_create({image: data})">部署最新版本</a>
+            <a class="btn pull-right"
+               ng-class="{'btn-green':busBtn.diang,
+                'btn-orange': busBtn.dianh}"
+               ng-disabled=busBtn.dianh
+               ui-sref="console.service_create({image: data})">{{busBtn.name}}</a>
         </div>
         <div class="panel-body">
             <div class="row">

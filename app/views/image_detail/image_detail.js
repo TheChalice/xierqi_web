@@ -17,10 +17,11 @@ angular.module('console.image_detail', [
         var str = $location.url().split('/')[3];
         
         if (str.indexOf('~2F') != -1) {
-          console.log(2)
+          // console.log(2)
           $scope.nameone=$location.url().split('/')[3].split('~2F').join('/');
 
           // console.log('$scope.name',$scope.nameone);
+
           platformlist.query({id:$scope.nameone},function (data) {
             // console.log('data',data);
             data.reverse();
@@ -40,26 +41,46 @@ angular.module('console.image_detail', [
                   arr.sort(function (x, y) {
                     return x.mysort > y.mysort ? -1 : 1;
                   });
-                  console.log(arr);
+                  // console.log(arr);
                   $scope.newlist=arr[0];
                 }
               })
             }
           })
+
         }else {
-          
+          $rootScope.testq='hasver'
+          $scope.busBtn = {
+            name:'部署最新版本',
+            dianh:false,
+            diang:true
+          }
+          $scope.$watch('testq',function (n,o) {
+            console.log('new',n)
+            if (n == 'finsh') {
+                console.log(1)
+              $scope.busBtn = {
+                name:'暂无最新版本',
+                dianh:true,
+                diang:false
+              }
+              $scope.data=null;
+            }
+          })
           var loadImageDetail = function(){
             //传imagename的参数
+
             ImageStreamTag.get({namespace: $rootScope.namespace, name: $stateParams["name"]}, function(data){
               $log.info('data',data);
               $scope.data = data;
 
               var gitUrl = data.image.dockerImageMetadata.Config.Labels['io.openshift.build.source-location'];
               var ref = data.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
+              
               if (gitUrl) {
                 var matches = gitUrl.match(/^https:\/\/github.com\/([^/]+)\/([^.]+)(\.git)?$/);
               }
-               console.log('matches', matches);
+               // console.log('matches', matches);
               if(matches){
                 loadReadme(matches[1], matches[2], ref);
               }
@@ -73,6 +94,7 @@ angular.module('console.image_detail', [
           var loadReadme = function(owner, repo, ref) {
             var url = 'https://raw.githubusercontent.com/'+ owner +'/'+ repo +'/'+ ref +'/README.md';
             $.get(url, function(data){
+              // console.log('data',data)
               $scope.readme = data;
               $scope.$apply();
             });

@@ -15,8 +15,10 @@ angular.module("console.timeline", [])
               function($http,platformone,platformlist,$rootScope, $scope, $state, $log, BuildConfig, Build, Confirm, $stateParams, ImageStreamTag, Sort, ModalPullImage, Ws){
               var namecopy = $scope.name
               var name = namecopy.split('/');
-                console.log('$scope.name',name.length);
+                // console.log('$scope.name',name.length);
               if (name.length == 2) {
+                // console.log('2',$scope.name)
+
                 $scope.isshow=false;
                 $scope.data={
                   items:[]
@@ -99,9 +101,9 @@ angular.module("console.timeline", [])
                       });
                 };
 
-                
               }else {
-                // console.log(1)
+                // console.log('1',$scope.name)
+                
                 $scope.isshow=true;
                 $scope.gitStore = {};
 
@@ -116,7 +118,7 @@ angular.module("console.timeline", [])
 
                 //获取build记录
                 var loadBuildHistory = function (name) {
-                  console.log('name',name)
+                  // console.log('name',name)
                   Build.get({namespace: $rootScope.namespace, labelSelector: 'buildconfig=' + name}, function(data){
                     console.log("history", data);
                     data.items = Sort.sort(data.items, -1); //排序
@@ -125,6 +127,11 @@ angular.module("console.timeline", [])
                     fillHistory(data.items);
 
                     emit(imageEnable(data.items));
+                    if (data.items.length == '0') {
+                      $rootScope.testq='finsh'
+                    }else {
+                      $rootScope.testq='hasver'
+                    }
 
                     $scope.resourceVersion = data.metadata.resourceVersion;
                     watchBuilds(data.metadata.resourceVersion);
@@ -151,7 +158,7 @@ angular.module("console.timeline", [])
 
                 var loadImageStreamTag = function(item){
                   ImageStreamTag.get({namespace: $rootScope.namespace, name: item.spec.output.to.name}, function(data){
-                    $log.info('imageStreamTag', data);
+                    // $log.info('imageStreamTag', data);
 
                     item.bsi = data;
 
@@ -280,7 +287,7 @@ angular.module("console.timeline", [])
 
                 $scope.pull = function(idx){
 
-                  console.log(idx,$scope.data.items[idx])
+                  // console.log(idx,$scope.data.items[idx])
                   var name = $scope.data.items[idx].spec.output.to.name;
                   ModalPullImage.open(name).then(function(res){
                     console.log("cmd", res);
@@ -309,6 +316,19 @@ angular.module("console.timeline", [])
                           $scope.data.items.splice(i, 1)
                         }
                       }
+
+                      $scope.$watch('data',function (n,o) {
+                        console.log(n.items.length);
+                        if (n.items.length == '0') {
+                          $rootScope.testq='finsh'
+                        }
+                      })
+                      // if (idx == '0') {
+                      //   $rootScope.testq.type = 'delete';
+                      //   $rootScope.testq.git = $scope.data.items[0].spec.revision.git.commit;
+                      // }
+
+
                     }, function(res){
                       //todo 错误处理
                       $log.info("err", res);
