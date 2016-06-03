@@ -85,7 +85,7 @@ angular.module('console.backing_service_detail', [
       loadBsi();
 
       $scope.delBsi = function (idx) {
-        $log.info('del$scope.bsi.items[idx]', $scope.bsi.items[idx]);
+        console.log('del$scope.bsi.items[idx]', $scope.bsi.items[idx].spec.binding);
         if ($scope.bsi.items[idx].spec.binding) {
           var curlength = $scope.bsi.items[idx].spec.binding.length;
           if (curlength > 0) {

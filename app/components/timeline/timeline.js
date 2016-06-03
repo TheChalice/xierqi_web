@@ -23,11 +23,10 @@ angular.module("console.timeline", [])
                 $scope.data={
                   items:[]
                 };
-                console.log('$scope.name',$scope.name);
+                // console.log('$scope.name',$scope.name);
                 platformlist.query({id:$scope.name},function (data) {
                   data.reverse();
                   // console.log('data',data)
-
                   var arr = [];
                   for (var i = 0; i < data.length; i++) {
                     $scope.data.items.push({name:data[i]})
@@ -45,21 +44,24 @@ angular.module("console.timeline", [])
                         arr.sort(function (x, y) {
                           return x.mysort > y.mysort ? -1 : 1;
                         });
-                        console.log(arr);
-
+                        // console.log(arr);
+                        if (arr.length == 0) {
+                          $rootScope.testq='finsh';
+                        }
+                        var namecopy = $scope.name;
+                        namecopy=namecopy.split('/')[0];
                         for (var i = 0; i < arr.length; i++) {
                           $scope.data.items[i].list=arr[i];
-
+                          $scope.data.items[i].bsi=namecopy+':'+$scope.data.items[i].name;
                         }
+                        
+                        console.log($scope.data.items[0].bsi);
                       }
                     })
                   }
-
                   if (data.length == arr.length) {
                     console.log('data.length',data.length)
-
                   }
-
                 })
 
                 $scope.delete = function(idx){
