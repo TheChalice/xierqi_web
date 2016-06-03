@@ -32,7 +32,7 @@
             </div>
 
             <div class='change' ng-repeat='items in test'>
-                <div class="row" ng-show="items.isshow">
+                <div class="row" ng-show="items.isshow" id=n{{items.id}}>
                     <h2 id=t{{items.id}} class="h2-border" ng-show="items.showTab"
                         style="margin-bottom: 15px;">
                         {{items.name}}</h2>
