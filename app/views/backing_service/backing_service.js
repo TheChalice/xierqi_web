@@ -133,9 +133,9 @@ angular.module('console.backing_service', [
           var loadBsi = function () {
             BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {
               $log.info("backingServiceInstance", res);
-              $scope.bsi = res;
               $scope.resourceVersion = res.metadata.resourceVersion;
               watchBsi($scope.resourceVersion);
+              $scope.bsi = res;
               for (var i = 0; i < res.items.length; i++) {
                 for (var k in fiftobj) {
                   if (res.items[i].spec.provisioning.backingservice_name == k) {
@@ -430,19 +430,16 @@ angular.module('console.backing_service', [
           bindObj.resourceName = dcs[i].metadata.name;
           BackingServiceInstanceBd.create({namespace: $rootScope.namespace, name: name}, bindObj,
               function (res) {
-                // console.log('绑定', res);
-                // console.log('原型', $scope.bsi.items[1].metadata.name);
+                console.log('绑定', res);
+                console.log('原型', $scope.bsi.items[1]);
+                console.log('新版',$scope.mytest[id].item[idx]);
                 for (var i = 0; i < $scope.bsi.items.length; i++) {
                   if ($scope.bsi.items[i].metadata.name == $scope.mytest[id].item[idx].metadata.name) {
                     console.log($scope.bsi.items[i].metadata.name);
-
-                      $scope.mytest[id].item[idx]=$scope.bsi.items[i];
-                    
-
+                    $scope.mytest[id].item[idx]=$scope.bsi.items[i];
                   }
-
                 }
-                // console.log('新版',$scope.mytest[id].item[idx].metadata.name);
+
 
 
 

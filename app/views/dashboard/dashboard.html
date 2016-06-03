@@ -50,20 +50,20 @@
         <div class="selection ban2">
             <p class="num">100</p>
             <img src="pub/img/images_06.png">
-            <p>容器</p>
+            <p>POD</p>
         </div>
         <div class="selection ban2">
-            <p class="num">100</p>
+            <p class="num">20</p>
             <img src="pub/img/images_08.png">
             <p>服务</p>
         </div>
         <div class="selection ban2">
-            <p class="num">100</p>
+            <p class="num">39</p>
             <img src="pub/img/images_10.png">
-            <p>后端服务</p>
+            <p>后端服务实例</p>
         </div>
         <div class="selection ban2">
-            <p class="num">100</p>
+            <p class="num">2000</p>
             <img src="pub/img/images_12.png">
             <p>应用</p>
         </div>
@@ -74,17 +74,18 @@
             position: relative;
         }
         .selection img {
-            position: absolute;
-            top: 31%;
-            left: 18%;
+            margin-bottom: 10px;
         }
         .ban {
             float: left;
             width: 50%;
+
         }
         .ban2 {
+            padding-top: 20px;
             float: left;
             width:25%;
+            text-align: center;
         }
 
         .dashboard h2 {
@@ -119,13 +120,16 @@
         }
         .dashboard .thirdline .selection:hover {
             background-color: #f2f4f8;
-            border-bottom: 2px solid #e5993a;
+            border-bottom: 7px solid #e5993a;
         }
         .dashboard .thirdline p {
+            font-size:14px;
             text-align: center;
         }
         .dashboard .thirdline .num {
-            font-size: 18px;
+            font-size: 32px;
+            font-weight: 500;
+            /*font-size: 18px;*/
             color: #e5993a;
         }
     </style>
