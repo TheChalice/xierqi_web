@@ -169,6 +169,7 @@ angular.module('console.backing_service', [
                   }
                 }
               }
+              console.log('$scope.mytest');
               for (var d = 0; d < $scope.cation.length; d++) {
                 var arr1 = $filter("myfilter")($scope.mytest[d].item, $scope.isComplete);
                 if (arr1.length == 0) {
@@ -346,19 +347,20 @@ angular.module('console.backing_service', [
         filter('serviceCat', $scope.grid.serviceCat);
         filter('vendor', $scope.grid.vendor);
       };
-      $scope.delBsi = function (idx) {
-        $log.info('del$scope.bsi.items[idx]', $scope.bsi.items[idx]);
-        if ($scope.bsi.items[idx].spec.binding) {
-          var curlength = $scope.bsi.items[idx].spec.binding.length;
+      $scope.delBsi = function (idx,id) {
+
+        console.log('del$scope.mytest[id].item[idx]', $scope.mytest[id].item[idx].spec.binding);
+        if ($scope.mytest[id].item[idx].spec.binding) {
+          var curlength = $scope.mytest[id].item[idx].spec.binding.length;
           if (curlength > 0) {
             Confirm.open('删除后端服务实例', '该实例已绑定服务,不能删除', '', '', true)
           } else {
             Confirm.open('删除后端服务实例', '您确定要删除该实例吗?此操作不可恢复', '', '', false).then(function () {
               BackingServiceInstance.del({
                 namespace: $rootScope.namespace,
-                name: $scope.bsi.items[idx].metadata.name
+                name: $scope.mytest[id].item[idx].metadata.name
               }, function (res) {
-                $scope.bsi.items.splice(idx, 1);
+                $scope.mytest[id].item.splice(idx, 1);
               }, function (res) {
                 $log.info('err', res);
               })
@@ -369,9 +371,9 @@ angular.module('console.backing_service', [
           Confirm.open('删除后端服务实例', '您确定要删除该实例吗?此操作不可恢复', '', '', false).then(function () {
             BackingServiceInstance.del({
               namespace: $rootScope.namespace,
-              name: $scope.bsi.items[idx].metadata.name
+              name: $scope.mytest[id].item[idx].metadata.name
             }, function (res) {
-              $scope.bsi.items.splice(idx, 1);
+              $scope.mytest[id].item.splice(idx, 1);
             }, function (res) {
               $log.info('err', res);
             })
@@ -380,10 +382,10 @@ angular.module('console.backing_service', [
 
 
       }
-      $scope.delBing = function (idx) {
-        var name = $scope.bsi.items[idx].metadata.name;
+      $scope.delBing = function (idx,id) {
+        var name = $scope.mytest[id].item[idx].metadata.name;
         var bindings = [];
-        var binds = $scope.bsi.items[idx].spec.binding || [];
+        var binds = $scope.mytest[id].item[idx].spec.binding || [];
         for (var i = 0; i < binds.length; i++) {
           if (binds[i].checked) {
             bindings.push(binds[i]);
@@ -433,12 +435,12 @@ angular.module('console.backing_service', [
           });
         }
       };
-      $scope.bindModal = function (idx) {
-        var bindings = $scope.bsi.items[idx].spec.binding || [];
+      $scope.bindModal = function (idx,id) {
+        var bindings = $scope.mytest[id].item[idx].spec.binding || [];
         ServiceSelect.open(bindings).then(function (res) {
           $log.info("selected service", res);
           if (res.length > 0) {
-            bindService($scope.bsi.items[idx].metadata.name, res);
+            bindService($scope.mytest[id].item[idx].metadata.name, res);
           }
         });
       };
