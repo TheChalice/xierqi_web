@@ -18,16 +18,20 @@
     <div class="table-responsive" style="margin-top: 20px;">
         <table class="table table-hover table-default">
             <tr>
-                <th>构建名称</th>
-                <th>最近构建状态</th>
-                <th>最近构建时间</th>
-                <th>最近构建时长</th>
-                <th>构建类型</th>
-                <th class="text-center">操作</th>
+                <div class=row>
+                    <th class='col-lg-2 col-md-2 col-sm-1'>构建名称</th>
+                    <th class='col-lg-2 col-md-2 col-sm-2'>最近构建状态</th>
+                    <th class='col-lg-2 col-md-2 col-sm-2'>最近构建时间</th>
+                    <th class='col-lg-2 col-md-2 col-sm-2'>最近构建时长</th>
+                    <th class='col-lg-1 col-md-1 col-sm-1'>构建类型</th>
+                    <th class="col-lg-3 col-md-3 col-sm-3" style='text-align: center;'>操作</th>
+                </div>
+
             </tr>
             <tr ng-repeat="bc in items">
                 <td>
-                    <a class="href-orange" ui-sref="console.build_detail({name: bc.metadata.name})">{{bc.metadata.name}}</a>
+                    <a class="href-orange"
+                       ui-sref="console.build_detail({name: bc.metadata.name})">{{bc.metadata.name}}</a>
                 </td>
                 <td>
                     <span class="icon12 icon12-{{bc.build.status.phase}}"
@@ -40,28 +44,56 @@
                     <i ng-if="true" class="fa fa-hand-pointer-o">&nbsp;手动</i>
                     <i ng-if="false" class="fa fa-television">&nbsp;自动</i>
                 </td>
-                <td class="text-center" style="padding-right: 30px">
-                    <a class="icon25 icon25-source pull-left" href="{{bc.spec.source.git.uri}}" uib-tooltip="查看代码源" target="_blank"></a>
-                    <a class="icon25 icon25-image" ng-if="bc.spec.output && bc.spec.output.to && bc.spec.output.to.name" ui-sref="console.image_detail({bc: bc.metadata.name, name: bc.spec.output.to.name})" uib-tooltip="查看镜像"></a>
-                    <a class="icon25 icon25-start pull-right" href="javascript:;" ng-click="startBuild($index)" ng-if="bc.build.status.phase != 'Running'" uib-tooltip="构建"></a>
-                    <a class="icon25 icon25-stop pull-right" href="javascript:;" ng-click="stop($index)" ng-if="bc.build.status.phase == 'Pendding' || bc.build.status.phase == 'Running' || bc.build.status.phase == 'New'" uib-tooltip="停止"></a>
+                <td class="text-center threec" style="text-align: center;">
+                    <div class="row" style='white-space: nowrap; text-align: center;'>
+                        <a class="icon25 icon25-source col-lg-4 col-md-4 col-sm-4" href="{{bc.spec.source.git.uri}}"
+                           uib-tooltip="查看代码源" target="_blank"></a>
+                        <a class="icon25 icon25-image col-lg-4 col-md-4 col-sm-4"
+                           ng-if="bc.spec.output && bc.spec.output.to && bc.spec.output.to.name"
+                           ui-sref="console.image_detail({bc: bc.metadata.name, name: bc.spec.output.to.name})"
+                           uib-tooltip="查看镜像"></a>
+                        <a class="icon25 icon25-start col-lg-4 col-md-4 col-sm-4" href="javascript:;"
+                           ng-click="startBuild($index)" ng-show="bc.build.status.phase != 'Running'"
+                           uib-tooltip="构建"></a>
+                        <a class="icon25 icon25-stop  col-lg-4 col-md-4 col-sm-4" href="javascript:;"
+                           ng-click="stop($index)"
+                           ng-show="bc.build.status.phase == 'Pendding' || bc.build.status.phase == 'Running' || bc.build.status.phase == 'New'"
+                           uib-tooltip="停止"></a>
+                    </div>
                 </td>
             </tr>
         </table>
         <div class="text-right" ng-if="grid.total > 10">
             <uib-pagination class="pagination"
-                    ng-model="grid.page"
-                    total-items="grid.total"
-                    items-per-page="grid.size"
-                    class="pagination-sm"
-                    boundary-links="true"
-                    max-size="12"
-                    rotate="true"
-                    previous-text="上一页"
-                    next-text="下一页"
-                    first-text="首页"
-                    last-text="末页">
+                            ng-model="grid.page"
+                            total-items="grid.total"
+                            items-per-page="grid.size"
+                            class="pagination-sm"
+                            boundary-links="true"
+                            max-size="12"
+                            rotate="true"
+                            previous-text="上一页"
+                            next-text="下一页"
+                            first-text="首页"
+                            last-text="末页">
             </uib-pagination>
         </div>
     </div>
 </div>
+<style>
+    #build .icon25 {
+        margin: 0 25px;
+    }
+
+    /*@media screen and (max-width: 1250px) {*/
+        /*#build .icon25 {*/
+            /*margin: 0 8px;*/
+        /*}*/
+    /*}*/
+
+    /*@media screen and (max-width: 900px) {*/
+        /*#build .icon25 {*/
+            /*margin: 0px;*/
+        /*}*/
+    /*}*/
+</style>

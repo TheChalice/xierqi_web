@@ -130,7 +130,7 @@ angular.module('console.build_create_new', [
         var hubobj = {};
         $scope.owner = null;
         $scope.refresh = function() {
-            $scope.grid.ishide= false;
+            //$scope.grid.ishide= false;
             $scope.running = true;
             Owner.query({namespace: $rootScope.namespace},function(res) {
                 $log.info("owner", res);
@@ -143,6 +143,7 @@ angular.module('console.build_create_new', [
                 }
                 $log.info("userProject", $scope.login);
             },function(data){
+                $scope.running = false;
                 $log.info('-=-=-=-=',data);
                 if (data.status == 400) {
                     if (data.data.code == 1401){
@@ -154,11 +155,15 @@ angular.module('console.build_create_new', [
                         + "&bearer=" + Cookie.get("df_access_token")
                         + "&redirect_url=" + window.location.href ;
                         $log.info(authurl);
-                        window.location = data.data.msg + "?"+ encodeURIComponent(authurl);
+                        if($scope.grid.isfirst == 2){
+                            window.location = data.data.msg + "?"+ encodeURIComponent(authurl);
+                        }
+
                     }
                 }else{
                     Alert.open('错误', data.data.msg, true);
                     $scope.grid.ishide = true;
+
                 }
             });
             Org.get(function(data) {
@@ -237,7 +242,8 @@ angular.module('console.build_create_new', [
             labcon : false,
             labsecret : "",
             cdm : false,
-            creatlaberr : ''
+            creatlaberr : '',
+            isfirst :1
         };
         var thisowner = null;
         $scope.checkdTab = function(val){
@@ -250,9 +256,11 @@ angular.module('console.build_create_new', [
                     $scope.grid.ishide = true;
                 }
             }else if(val == 2){
+                $scope.grid.isfirst = 2;
                 if($scope.owner){
                     $scope.grid.ishide = false;
                     $scope.grid.labcon = false;
+
                 }else{
                     $scope.grid.ishide = true;
                     $scope.grid.labcon = false;
@@ -277,7 +285,8 @@ angular.module('console.build_create_new', [
                 $log.info(' $scope.grid0-0-0', $scope.grid)
             },function(data){
                 $log.info("labOwner-------err",data);
-                if(data.status == 400 && data.data.code == 1400){
+                $scope.running = false;
+                if(data.status == 400 && data.data.code == 1401){
                     $scope.grid.labcon = false;
                     //$scope.grid.gitlabbox = true;
                     Alert.open('错误', data.data.msg, true);
@@ -348,6 +357,10 @@ angular.module('console.build_create_new', [
 
             })
         }
+        $scope.grid.labcon = true;
+        $scope.grid.ishide = true;
+        $scope.loadlabOwner();
+        $scope.refresh();
 
     }])
 

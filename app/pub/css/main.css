@@ -3,7 +3,15 @@
 }
 body {
     padding-top: 70px;
+    font-family: -apple-system,BlinkMacSystemFont,Neue Haas Grotesk Text Pro,Arial Nova,Segoe UI,Helvetica Neue,\.PingFang SC,PingFang SC,Microsoft YaHei,Microsoft JhengHei,Source Han Sans SC,Noto Sans CJK SC,Source Han Sans CN,Noto Sans SC,Source Han Sans TC,Noto Sans CJK TC,Hiragino Sans GB,sans-serif
 }
+@media (max-width: 1200px) {
+    body {
+        width: 1349px;
+        overflow: auto;
+    }
+}
+
 hr {
     border-top: 1px solid #c9c9c9;
 }

@@ -101,7 +101,7 @@ angular.module('console.service.detail', [
             //   }]
             // }
             $scope.dc = res;
-            $scope.getdc = angular.copy(res)
+            $scope.getdc = angular.copy(res);
             getEnvs(res.spec.template.spec.containers);
             angular.forEach($scope.dc.spec.triggers, function (trigger) {
               if (trigger.type == 'ImageChange') {
@@ -282,10 +282,12 @@ angular.module('console.service.detail', [
               //console.log("res.items[i].spec.to.name--0-0-0-0",res.items[i].spec.to.name);
               if (res.items[i].spec.to.name == $scope.dc.metadata.name) {
                 $scope.dc.route = res.items[i];
-
                 $scope.grid.route = true;
+                if($scope.dc.route.spec.port){
+                  $scope.grid.port = parseInt($scope.dc.route.spec.port.targetPort.replace(/-.*/, ''));
+                }
                 $scope.grid.host = $scope.dc.route.spec.host.replace($scope.grid.suffix, '');
-                $scope.grid.port = parseInt($scope.dc.route.spec.port.targetPort.replace(/-.*/, ''));
+
               }
             }
           }, function (res) {
@@ -340,7 +342,9 @@ angular.module('console.service.detail', [
         };
         //执行log
         var updateRcs = function (data) {
-
+          console.log('执行了');
+          $rootScope.lding = false;
+          loadPods($scope.dc.metadata.name);
           if (data.type == 'ERROR') {
             $log.info("err", data.object.message);
             Ws.clear();
@@ -351,10 +355,14 @@ angular.module('console.service.detail', [
           $scope.resourceVersion = data.object.metadata.resourceVersion;
           $scope.dc.status.phase = data.object.metadata.annotations['openshift.io/deployment.phase'];
           $scope.dc.state = serviceState();
+          console.log("$scope.dc+_+_+_+_+",$scope.dc);
+          console.log("$scope.dc.statedata+_+_+_+_+",data);
 
           data.object.dc = JSON.parse(data.object.metadata.annotations['openshift.io/encoded-deployment-config']);
           if (data.object.metadata.name == $scope.dc.metadata.name + '-' + $scope.dc.status.latestVersion) {
+            console.log("data.object.status.replicas+_+_+_+_+",data.object.status.replicas);
             $scope.dc.status.replicas = data.object.status.replicas;
+            $scope.getdc.spec.replicas = data.object.spec.replicas;
           }
           if (data.object.metadata.annotations['openshift.io/deployment.cancelled'] == 'true') {
             data.object.metadata.annotations['openshift.io/deployment.phase'] = 'Cancelled';
@@ -366,12 +374,13 @@ angular.module('console.service.detail', [
             $rootScope.lding = false;
             var result = "";
             for (var k in res) {
-              result += res[k];
-              // console.log('log',res[k])
-            }
-            result=result.replace('[object Object]truefunction (){var a=r({},this);delete a.$promise;delete a.$resolved;return a}function (b,a,c){x(b)&&(c=a,a=b,b={});b=d[q].call(this,b,this,a,c);return b.$promise||b}function (b,a,c){x(b)&&(c=a,a=b,b={});b=d[q].call(this,b,this,a,c);return b.$promise||b}function (b,a,c){x(b)&&(c=a,a=b,b={});b=d[q].call(this,b,this,a,c);return b.$promise||b}function (b,a,c){x(b)&&(c=a,a=b,b={});b=d[q].call(this,b,this,a,c);return b.$promise||b}function (b,a,c){x(b)&&(c=a,a=b,b={});b=d[q].call(this,b,this,a,c);return b.$promise||b}','finish...');
-            data.object.log = result;
+              if (/^\d+$/.test(k)) {
+                result += res[k];
+              }
 
+            }
+            // console.log(result);
+            data.object.log = result;
           }, function (res) {
             //todo 错误处理
             data.object.log = res.data.message;
@@ -394,7 +403,31 @@ angular.module('console.service.detail', [
           }
         };
 
+        $scope.$watch('dc.state',function (n,o) {
+          console.log('new',n);
+          if (n != 'normal') {
+            $scope.startBtn = {
+              name:'启动',
+              dianlz:false,
+              dianl:true
+            }
+          }else {
+            $scope.stopBtn = {
+              name:'停止',
+              dianlz:false,
+              dianl:true
+            }
+          }
+
+        })
+
         $scope.startDc = function () {
+          $scope.startBtn = {
+            name:'启动中',
+            dianlz:true,
+            dianl:false
+          }
+          
           if ($scope.dc.spec.replicas == 0) {
             $scope.dc.spec.replicas = 1;
             $scope.dc.status.latestVersion = 2;
@@ -428,8 +461,18 @@ angular.module('console.service.detail', [
             //todo 没有rc怎么办?
           }
         };
+        $scope.stopBtn = {
+          name:'停止',
+          dianlz:false,
+          dianl:true
+        }
 
         $scope.stopDc = function () {
+          $scope.stopBtn = {
+            name:'停止中',
+            dianlz:true,
+            dianl:false
+          }
           var rcName = $scope.dc.metadata.name + '-' + $scope.dc.status.latestVersion;
           var items = $scope.rcs.items;
           var item = null;
@@ -547,7 +590,9 @@ angular.module('console.service.detail', [
           DeploymentConfig.log.get({namespace: $rootScope.namespace, name: $scope.dc.metadata.name}, function (res) {
             var result = "";
             for (var k in res) {
-              result += res[k];
+              if (/^\d+$/.test(k)) {
+                result += res[k];
+              }
             }
             o.log = result;
           }, function (res) {
@@ -582,9 +627,37 @@ angular.module('console.service.detail', [
         var loadPods = function (dc) {
           var labelSelector = 'deploymentconfig=' + dc;
           Pod.get({namespace: $scope.namespace, labelSelector: labelSelector}, function (res) {
-            $log.info("pods", res);
-            $scope.pods = res;
 
+            $scope.pods = res;
+            $scope.pods.items = res.items;
+
+            for(var i = 0;i < res.items.length; i++){
+              $scope.pods.items[i].reason = res.items[i].status.phase;
+               if(res.items[i].status.reason != null && res.items[i].status.reason != ""){
+                 $scope.pods.items[i].reason = res.items[i].status.reason;
+               }
+              if(res.items[i].status.containerStatuses){
+                for(var j = 0 ;j < res.items[i].status.containerStatuses.length;j++){
+                  var container =  res.items[i].status.containerStatuses[j];
+                  if (container.state.waiting != null && container.state.waiting.reason != "" ){
+                    $scope.pods.items[i].reason = container.state.waiting.reason
+                  } else if (container.state.terminated != null && container.state.terminated.reason != "") {
+                    $scope.pods.items[i].reason = container.state.terminated.reason
+                  }else if (container.state.terminated != null && container.state.terminated.reason == "") {
+                    if (container.state.terminated.signal != 0) {
+                      $scope.pods.items[i].reason = "Signal:%d"+container.state.terminated.signal;
+                    } else {
+                      $scope.pods.items[i].reason = "ExitCode:"+container.state.terminated.exitCode;
+                    }
+                  }
+                }
+              }
+              if (res.items[i].metadata.deletionTimestamp != null ){
+                $scope.pods.items[i].reason = "Terminating"
+              }
+            }
+
+            $log.info("pods", $scope.pods.items);
             loadEvents(res.items);
 
           }, function (res) {
@@ -1007,15 +1080,16 @@ angular.module('console.service.detail', [
 //点击更新
         $scope.updateDc = function () {
           console.log('点击更新');
-          $rootScope.lding = true;
+          //$rootScope.lding = true;
           var dc = angular.copy($scope.dc);
+
           $log.info("-=-=-=-=-=-=$scope.dc-=--=", $scope.dc);
 
           var cons = angular.copy($scope.dc.spec.template.spec.containers);
-          DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (datadc) {
+          //DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (datadc) {
             dc.spec.template.spec.volumes = [];
-            dc.metadata.resourceVersion = datadc.metadata.resourceVersion;
-            dc.status.latestVersion = datadc.status.latestVersion;
+            //dc.metadata.resourceVersion = datadc.metadata.resourceVersion;
+            //dc.status.latestVersion = datadc.status.latestVersion+1;
             var flog = 0;
             for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
               for (var j = 0; j < dc.spec.template.spec.containers[i].volumeMounts.length; j++) {
@@ -1053,6 +1127,7 @@ angular.module('console.service.detail', [
             prepareVolume(dc);
             prepareTrigger(dc);
             prepareEnv(dc);
+
             $log.info("update dc", dc);
             //var copedc = angular.copy(dc);
             for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
@@ -1094,27 +1169,39 @@ angular.module('console.service.detail', [
             if ($scope.grid.route) {
               updateRoute(dc);
             }
-            DeploymentConfig.put({namespace: $rootScope.namespace, name: dc.metadata.name}, dc, function (res) {
-              $log.info("update dc success", res);
-              var isport = false;
-              for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
-                if (dc.spec.template.spec.containers[i].ports.length != 0) {
-                  isport = true;
-                  break;
+          var patchdc = {
+            spec : {
+              replicas : dc.spec.replicas,
+              template : {
+                spec : {
+                  containers : dc.spec.template.spec.containers
                 }
+
               }
-              if (isport == true && iscreatesv == false && createports == true) {
-                createService($scope.dc);
-              }else if(isport == true && iscreatesv == true && createports == true){
-                updateService($scope.dc);
-              }
+            }
+          }
+          var isport = false;
+          for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
+            if (dc.spec.template.spec.containers[i].ports.length != 0) {
+              isport = true;
+              break;
+            }
+          }
+          if (isport == true && iscreatesv == false && createports == true) {
+            createService($scope.dc);
+          }else if(isport == true && iscreatesv == true && createports == true){
+            updateService($scope.dc);
+          }
+            DeploymentConfig.patch({namespace: $rootScope.namespace, name: dc.metadata.name}, patchdc, function (res) {
+              $log.info("update dc success", res);
+              $scope.getdc.spec.replicas = $scope.dc.spec.replicas;
               bindService(dc);
               $scope.active = 1;
             }, function (res) {
               //todo 错误处理
               $log.info("update dc fail", res);
             });
-          })
+          //})
 
         };
       }])
@@ -1126,6 +1213,7 @@ angular.module('console.service.detail', [
           controller: ['$rootScope', '$scope', '$uibModalInstance', 'Pod', function ($rootScope, $scope, $uibModalInstance, Pod) {
             $scope.grid = {};
             $scope.pod = pod;
+            console.log("pod-=-=-=-=-++++",pod);
             $scope.ok = function () {
               $uibModalInstance.close(true);
             };
@@ -1142,7 +1230,10 @@ angular.module('console.service.detail', [
               Pod.log.get(params, function (res) {
                 var result = "";
                 for (var k in res) {
-                  result += res[k];
+
+                  if (/^\d+$/.test(k)) {
+                    result += res[k];
+                  }
                 }
                 $scope.log = result;
               }, function (res) {
@@ -1164,6 +1255,7 @@ angular.module('console.service.detail', [
           size: 'default modal-lg',
           controller: ['$rootScope', '$scope', '$log', '$uibModalInstance', 'ImageStream', 'Pod', 'Ws', 'Metrics', 'MetricsService', function ($rootScope, $scope, $log, $uibModalInstance, ImageStream, Pod, Ws, Metrics, MetricsService) {
             $scope.pod = pod;
+            console.log("pod-=-=-=-=-!!!!",pod);
             $scope.grid = {
               show: false,
               mem: false,
@@ -1246,7 +1338,10 @@ angular.module('console.service.detail', [
               Pod.log.get(params, function (res) {
                 var result = "";
                 for (var k in res) {
-                  result += res[k];
+
+                  if (/^\d+$/.test(k)) {
+                    result += res[k];
+                  }
                 }
                 $scope.log = result;
                 console.log(result);

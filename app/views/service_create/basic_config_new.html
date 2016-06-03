@@ -9,7 +9,8 @@
                     <h3 class="require">服务名称</h3>
                 </div>
                 <div class="col-md-10">
-                    <input type="text" name="serviceName" ng-model="dc.metadata.name" class="form-control input-block" placeholder="创建一个服务名称" required ng-keyup="serviceNamekedown()">
+                    <input type="text" name="serviceName" ng-model="dc.metadata.name" class="form-control input-block"
+                           placeholder="创建一个服务名称" required ng-keyup="serviceNamekedown()">
                     <!--<small ng-show="frm.serviceName.$dirty && frm.serviceName.$invalid" class="fa fa-info-circle err-tip">&nbsp;请创建一个服务名,至少2个字符以上</small>-->
                     <small ng-show="createdcerr" class="fa fa-info-circle err-tip">&nbsp;{{createdcerr}}</small>
                 </div>
@@ -26,14 +27,16 @@
                     </a>
                     <br>
                     <small ng-show="invalid.containerLength" class="fa fa-info-circle err-tip">您至少需要设置一个容器</small>
-                    <div ng-repeat="container in dc.spec.template.spec.containers" style="border:1px solid #c9c9c9;border-radius:2px;margin-bottom: 15px;">
+                    <div ng-repeat="container in dc.spec.template.spec.containers"
+                         style="border:1px solid #c9c9c9;border-radius:2px;margin-bottom: 15px;">
                         <div class="container-fluid container-bar" style="border: none;background: #f7f8fb;">
                             <div class="row">
                                 <div class="col-sm-6">
                                     设置容器
                                 </div>
                                 <div class="col-sm-6 text-right">
-                                    <a class="fa fa-times-circle fa-lg" ng-click="rmContainer($index)" style="text-decoration: none;color: #9fa7b7;" href="javascript:;"></a>
+                                    <a class="fa fa-times-circle fa-lg" ng-click="rmContainer($index)"
+                                       style="text-decoration: none;color: #9fa7b7;" href="javascript:;"></a>
                                 </div>
                             </div>
                         </div>
@@ -46,18 +49,24 @@
                                        type="text" class="form-control"
                                        placeholder="请设置容器名称">
                                 <span class="require"></span>
-                                <small ng-show="!container.name && container.emptyName" class="fa fa-info-circle err-tip">&nbsp;请设置容器名,至少2个字符以上</small>
+                                <small ng-show="!container.name && container.emptyName"
+                                       class="fa fa-info-circle err-tip">&nbsp;请设置容器名,至少2个字符以上
+                                </small>
 
                             </div>
                             <hr>
                             <div style="margin-bottom: 20px;">
-                                <a href="javascript:;" class="btn btn-orange" ng-click="selectImage($index)">选择镜像</a><span class="require"></span>
+                                <a href="javascript:;" class="btn btn-orange"
+                                   ng-click="selectImage($index)">选择镜像</a><span class="require"></span>
                                 <br>
-                                <small ng-if="!container.image && container.emptyImage" class="fa fa-info-circle err-tip">&nbsp;请选择镜像</small>
+                                <small ng-if="!container.image && container.emptyImage"
+                                       class="fa fa-info-circle err-tip">&nbsp;请选择镜像
+                                </small>
                             </div>
                             <div style="font-size: 12px;color: #5a6378;">
                                 <div ng-if="container.image">
-                                    <p style="margin-bottom: 5px;">镜像名称:&nbsp;&nbsp;{{container.image | imageStreamName}}</p>
+                                    <p style="margin-bottom: 5px;">镜像名称:&nbsp;&nbsp;{{container.image |
+                                        imageStreamName}}</p>
                                     <p style="margin-bottom: 20px;">
                                         镜像版本:&nbsp;&nbsp;{{container.tag}}
                                     </p>
@@ -82,8 +91,12 @@
                                             </li>
                                         </ul>
                                     </div>
-                                    <input ng-model="vm.mountPath" style="width: 300px;display: inline-block;margin: 0 15px 15px 0;" type="text" class="form-control">
-                                    <a href="javascript:;" ng-click="addSecret(container.name, $index, $last)" class="fa fa-lg" ng-class="{'fa-times-circle':!$last, 'fa-plus-circle':$last}"></a>
+                                    <input ng-model="vm.mountPath"
+                                           style="width: 300px;display: inline-block;margin: 0 15px 15px 0;" type="text"
+                                           class="form-control">
+                                    <a href="javascript:;" ng-click="addSecret(container.name, $index, $last)"
+                                       class="fa fa-lg"
+                                       ng-class="{'fa-times-circle':!$last, 'fa-plus-circle':$last}"></a>
                                 </div>
                             </div>
                         </div>
@@ -140,13 +153,18 @@
                                             </select>
                                         </div>
                                         <div class="col-sm-3">
-                                            <input type="text" class="input-small" ng-class="{'input-error':port.conflict}" ng-model="port.containerPort">
+                                            <input type="text" class="input-small"
+                                                   ng-class="{'input-error':port.conflict}"
+                                                   ng-model="port.containerPort">
                                         </div>
                                         <div class="col-sm-3">
-                                            <input type="text" ng-model="port.hostPort" class="input-small" ng-class="{'input-error':port.serviceConflict}">
+                                            <input type="text" ng-model="port.hostPort" class="input-small"
+                                                   ng-class="{'input-error':port.serviceConflict}">
                                         </div>
                                         <div class="col-sm-3">
-                                            <a href="javascript:;" style='color: #9fa7b7;' ng-click="addprot(container,$index,$last)" class="fa fa-lg" ng-class="{'fa-times-circle':!$last, 'fa-plus-circle':$last}"></a>
+                                            <a href="javascript:;" style='color: #9fa7b7;'
+                                               ng-click="addprot(container,$index,$last)" class="fa fa-lg"
+                                               ng-class="{'fa-times-circle':!$last, 'fa-plus-circle':$last}"></a>
                                         </div>
                                     </div>
                                 </td>

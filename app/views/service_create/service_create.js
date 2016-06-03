@@ -158,48 +158,77 @@ angular.module('console.service.create', [
 
         var initContainer = function () {
           if ($stateParams.image) {
-            console.log("initContainer", $stateParams.image);
+            console.log("$stateParams.image", $stateParams.image);
             // console.log("initContainer", $scope.dc.spec.template.spec.containers.tag);
             // if (!$scope.dc.spec.template.spec.containers.tag) {
             //   $scope.named=$stateParams.image.metadata.name;
             // }
             // console.log("initContainer", $stateParams.image.metadata.name);
+            if ($stateParams.image.metadata) {
+              var container = angular.copy($scope.containerTpl);
+              container.image = $stateParams.image.metadata.name;
+              console.log($stateParams.image.metadata.name)
+              if ($stateParams.image.tag) {
+                container.tag = $stateParams.image.tag.name;
 
-            var container = angular.copy($scope.containerTpl);
-            container.image = $stateParams.image.metadata.name;
-            if ($stateParams.image.tag) {
-              container.tag = $stateParams.image.tag.name;
-            }
-            //console.log($stateParams.image.metadata.name.split(':')[1]);
-            container.tag=$stateParams.image.metadata.name.split(':')[1];
-            console.log($scope.dc.spec.template.spec.containers);
-            container.strname=container.name=$stateParams.image.metadata.name.split(':')[0]
-
-            container.ports = [];
-            var exposedPorts = $stateParams.image.image.dockerImageMetadata.Config.ExposedPorts;
-            if (!$stateParams.image.image.dockerImageMetadata.Config.ExposedPorts) {
-              container.ports.push({
-                containerPort: "",
-                hostPort: "",
-                protocol: "",
-              })
-            }
-            for (var k in exposedPorts) {
-              var arr = k.split('/');
-              if (arr.length == 2) {
-                var val = arr[1].toUpperCase()
-                container.ports.push({
-                  containerPort: parseInt(arr[0]),
-                  hostPort: parseInt(arr[0]),
-                  protocol: val,
-                  //open: true
-                });
               }
-            }
-            // $scope.dc.spec.template.spec.containers[0].name=$stateParams.image.metadata.name.split(':')[0]
+              // console.log($stateParams.image.metadata.name.split(':')[1]);
+              container.tag=$stateParams.image.metadata.name.split(':')[1];
+              console.log($scope.dc.spec.template.spec.containers);
+              container.strname=container.name=$stateParams.image.metadata.name.split(':')[0]
+              console.log($stateParams.image.metadata.name.split(':')[0]);
+              container.ports = [];
+              var exposedPorts = $stateParams.image.image.dockerImageMetadata.Config.ExposedPorts;
+              if (!$stateParams.image.image.dockerImageMetadata.Config.ExposedPorts) {
+                container.ports.push({
+                  containerPort: "",
+                  hostPort: "",
+                  protocol: "",
+                })
+              }
+              for (var k in exposedPorts) {
+                var arr = k.split('/');
+                if (arr.length == 2) {
+                  var val = arr[1].toUpperCase()
+                  container.ports.push({
+                    containerPort: parseInt(arr[0]),
+                    hostPort: parseInt(arr[0]),
+                    protocol: val,
+                    //open: true
+                  });
+                }
+              }
+              // $scope.dc.spec.template.spec.containers[0].name=$stateParams.image.metadata.name.split(':')[0]
 
-            $scope.dc.spec.template.spec.containers.push(container);
-            $scope.invalid.containerLength = false;
+              $scope.dc.spec.template.spec.containers.push(container);
+              $scope.invalid.containerLength = false;
+            }else {
+              var proto = $stateParams.image;
+              var jingxing = $stateParams.image.split(':')[0];
+              var banben = $stateParams.image.split(':')[1];
+              var container = angular.copy($scope.containerTpl);
+              container.image = proto;
+              // console.log($stateParams.image.metadata.name.split(':')[1]);
+              container.tag=banben;
+              // console.log($scope.dc.spec.template.spec.containers);
+              container.strname=container.name=jingxing;
+
+              container.ports = [];
+
+                container.ports.push({
+                  containerPort: "",
+                  hostPort: "",
+                  protocol: "",
+                })
+
+
+              // $scope.dc.spec.template.spec.containers[0].name=$stateParams.image.metadata.name.split(':')[0]
+
+              $scope.dc.spec.template.spec.containers.push(container);
+              $scope.invalid.containerLength = false;
+            }
+
+
           }
         };
 
@@ -231,7 +260,9 @@ angular.module('console.service.create', [
             $log.info("load secrets err", res);
           });
         };
+        
         loadSecrets();
+        
         $scope.serviceNamekedown = function(){
           var oldname = angular.copy($scope.dc.metadata.name);
           if(oldname == $scope.dc.metadata.name){
@@ -319,11 +350,14 @@ angular.module('console.service.create', [
                 strname = str[0] + idx;
               }
             }
+            console.log("strwoshishui=0=0=0",str);
             container.strname = strname;
             container.name = strname;
-            container.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
-            container.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
             container.tag = str[1];
+            if(res.image.dockerImageMetadata.Config.Labels){
+              container.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
+              container.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
+            }
 
 
             var exposedPorts = res.image.dockerImageMetadata.Config.ExposedPorts;
@@ -365,18 +399,27 @@ angular.module('console.service.create', [
               serviceConflict = portConflict(ports[j].hostPort, i, j, 'hostPort');
               ports[j].conflict = conflict;
               ports[j].serviceConflict = serviceConflict;
+
               if (ports[j].containerPort && ports[j].hostPort) {
+                
                 $scope.grid.servicepot = false;
+                $scope.grid.conflict = conflict;
+                $scope.grid.serviceConflict = serviceConflict;
+                return conflict || serviceConflict;
+              }else if (!ports[j].containerPort && !ports[j].containerPort) {
+                return false
               } else {
+                
                 $scope.grid.servicepot = true;
+                return true
               }
             }
           }
-          $scope.grid.conflict = conflict;
-          $scope.grid.serviceConflict = serviceConflict;
 
-          console.log('ports', ports.containerPort)
-          return conflict || serviceConflict;
+
+
+          // console.log('ports', ports.containerPort)
+          // return conflict || serviceConflict;
         };
 
         var portConflict = function (port, x, y, tp) {
@@ -554,8 +597,10 @@ angular.module('console.service.create', [
         };
 
         var valid = function (dc) {
+          console.log('dc',dc);
           var containers = dc.spec.template.spec.containers;
           if (!containers.length) {
+            
             $scope.invalid.containerLength = true;
             return false;
           }
@@ -563,15 +608,18 @@ angular.module('console.service.create', [
           for (var i = 0; i < containers.length; i++) {
             if (!containers[i].name) {
               containers[i].emptyName = true;
+              
               return false;
             }
             if (!containers[i].image) {
+              
               containers[i].emptyImage = true;
               return false;
             }
           }
 
           if (isConflict()) {
+            
             return false;
           }
           return true;

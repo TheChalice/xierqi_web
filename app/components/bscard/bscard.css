@@ -39,8 +39,24 @@
     text-align: center;
     margin: 20px 0 0 0;
 }
-.thumbnail > .thumb-content > .thumb-slide > img {
-    margin: 30px auto;
+.thumbnail > .thumb-content > .thumb-slide > .imageholder {
+    width: 100%;
+    height: 51%;
+    /*margin: 30px auto;*/
+    /*background-origin:content;*/
+    /*background-position:50%50%;*/
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-position: center;
+    background-color: #fff;
+}
+#n5 .fen:nth-child(2) .thumb-content > .thumb-slide > .imageholder,
+#n5 .fen:nth-child(3) .thumb-content > .thumb-slide > .imageholder,
+#n5 .fen:nth-child(5) .thumb-content > .thumb-slide > .imageholder,
+#n5 .fen:nth-child(6) .thumb-content > .thumb-slide > .imageholder,
+#n5 .fen:nth-child(7) .thumb-content > .thumb-slide > .imageholder
+{
+    background-size:contain;
 }
 .thumbnail .caption {
     background: #fff;
@@ -48,9 +64,13 @@
     padding: 15px 0;
     text-align: center;
 }
-.thumb-content p {
-    margin-top: 10px;
-    margin-left: 10px;
+.providername  {
+    padding-top: 10px;
+    padding-bottom: 200px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: white;
+
 }
 .thumb-content span {
     margin-right: 10px;
@@ -70,10 +90,17 @@
 .caption p:hover {
     color: #5a6378;
 }
-.btn btn-orange{
+.btn .btn-orange{
     width: 120px;
     background-color: #f6a540;
 }
-.btn btn-orange:hover {
+.btn .btn-orange:hover {
     background-color: #f8b551;
+}
+#hui .hui {
+    margin: 0;
+    text-align: left;
+    padding-top: 10px;
+    padding-left: 10px;
+
 }

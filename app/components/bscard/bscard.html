@@ -1,6 +1,6 @@
-<div class="thumbnail">
+<div id=hui class="thumbnail">
     <div class="thumb-content">
-        <p><img src="components/bscard/img/images01_08.png">{{item.spec.metadata.providerDisplayName}}</p>
+        <!--<p class='hui'><img src="components/bscard/img/images01_08.png">{{item.spec.metadata.providerDisplayName}}</p>-->
         <!--<p><img src="components/bscard/img/images01_06.png">&nbsp;version</p>-->
         <div class="thumb-slide">
             <div class="thumb-op">
@@ -10,8 +10,11 @@
                         查看详情</a>
                 </p>
             </div>
-            <img src="components/bscard/img/images01_03.png" alt="image">
-        </div>
+            <div ng-if="item.spec.metadata.imageUrl" class="imageholder" style="background-image:url('{{item.spec.metadata.imageUrl}}');">
+                <p class='hui'><img src="components/bscard/img/images01_08.png">{{item.spec.metadata.providerDisplayName}}</p>
+            </div>
+            <div ng-if="!item.spec.metadata.imageUrl" class="imageholder" style="background-image:url('components/bscard/img/images01_03.png');width: 68px;height:66px;background-color: #EAEBEF;"></div>
+        </div>background-position: center
     </div>
     <div class="caption">
         <p class="bsname">{{item.metadata.name}}</p>
