@@ -18,6 +18,24 @@ angular.module('console.image_detail', [
         
         if (str.indexOf('~2F') != -1) {
           // console.log(2)
+          $rootScope.testq='hasver'
+          $scope.busBtn = {
+            name:'部署最新版本',
+            dianh:false,
+            diang:true
+          }
+          $scope.$watch('testq',function (n,o) {
+            console.log('new',n)
+            if (n == 'finsh') {
+              // console.log(1);
+              $scope.busBtn = {
+                name:'暂无最新版本',
+                dianh:true,
+                diang:false
+              }
+              $scope.data=null;
+            }
+          })
           $scope.nameone=$location.url().split('/')[3].split('~2F').join('/');
 
           // console.log('$scope.name',$scope.nameone);
@@ -43,6 +61,9 @@ angular.module('console.image_detail', [
                   });
                   // console.log(arr);
                   $scope.newlist=arr[0];
+                  var namet = $scope.nameone.split('/')[0];
+                  // console.log('$scope.data',namet+':'+$scope.newname)
+                  $scope.data = namet+':'+$scope.newname
                 }
               })
             }
