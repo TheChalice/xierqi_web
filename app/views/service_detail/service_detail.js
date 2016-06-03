@@ -636,6 +636,7 @@ angular.module('console.service.detail', [
                if(res.items[i].status.reason != null && res.items[i].status.reason != ""){
                  $scope.pods.items[i].reason = res.items[i].status.reason;
                }
+              if(res.items[i].status.containerStatuses){
                 for(var j = 0 ;j < res.items[i].status.containerStatuses.length;j++){
                   var container =  res.items[i].status.containerStatuses[j];
                   if (container.state.waiting != null && container.state.waiting.reason != "" ){
@@ -650,6 +651,7 @@ angular.module('console.service.detail', [
                     }
                   }
                 }
+              }
               if (res.items[i].metadata.deletionTimestamp != null ){
                 $scope.pods.items[i].reason = "Terminating"
               }
