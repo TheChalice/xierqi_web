@@ -21,7 +21,10 @@
             <tr ng-repeat="container in pod.spec.containers">
                 <td><a href="javascript:;" ng-click="containerDetail($index)" class="href-orange">{{container.name}}</a></td>
                 <td>
-                    <span ng-repeat="(k, v) in container.status.state">
+                    <span ng-repeat="(k, v) in container.status.state" ng-show="v.hasOwnProperty('reason')">
+                        {{v.reason}}
+                    </span>
+                     <span ng-repeat="(k, v) in container.status.state" ng-show="v.hasOwnProperty('startedAt')">
                         {{k}}
                     </span>
                 </td>
