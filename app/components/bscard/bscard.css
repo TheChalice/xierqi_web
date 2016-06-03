@@ -55,9 +55,13 @@
     padding: 15px 0;
     text-align: center;
 }
-.thumb-content p {
-    margin-top: 10px;
-    margin-left: 10px;
+.providername  {
+    padding-top: 10px;
+    padding-bottom: 200px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: white;
+
 }
 .thumb-content span {
     margin-right: 10px;

@@ -1,3 +1,47 @@
+<!--the origin regist-->
+<!--<div class="modal-header">-->
+    <!--<h5 class="modal-title">-->
+        <!--注册-->
+        <!--<a ng-click="cancel()" class="close"><span aria-hidden="true">&times;</span></a>-->
+    <!--</h5>-->
+<!--</div>-->
+<!--<div class="modal-body" style="padding: 20px 40px 30px 40px;">-->
+    <!--<form class="form-horizontal" name="frm">-->
+        <!--<p class="modal-msg text-left" style="margin: 0 0 5px 0;font-size:14px;color:#5a6378;">-->
+            <!--<span class="require">用户名</span>&nbsp;&nbsp;-->
+            <!--<small ng-if="frm.username.$dirty && frm.username.$invalid" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;用户名不能为空</small>-->
+        <!--</p>-->
+        <!--<input name="username" class="form-control" ng-model="credentials.username" required>-->
+
+        <!--<p class="modal-msg text-left" style="margin: 20px 0 5px 0;font-size:14px;color:#5a6378;">-->
+            <!--<span class="require">邮箱</span>&nbsp;&nbsp;-->
+            <!--<small ng-if="frm.email.$dirty && frm.email.$invalid" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;邮箱不能为空</small>-->
+        <!--</p>-->
+        <!--<input name="email" class="form-control" ng-model="credentials.email" required>-->
+
+        <!--<p class="modal-msg text-left" style="margin: 20px 0 5px 0;font-size:14px;color:#5a6378;">-->
+            <!--<span class="require">密码</span>&nbsp;&nbsp;-->
+            <!--<small ng-if="frm.password.$dirty && frm.password.$invalid" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;密码不能为空</small>-->
+        <!--</p>-->
+        <!--<input name="password" type="password" class="form-control" ng-model="credentials.password" required>-->
+
+        <!--<p class="modal-msg text-left" style="margin: 20px 0 5px 0;font-size:14px;color:#5a6378;">-->
+            <!--<span class="require">确认密码</span>&nbsp;&nbsp;-->
+            <!--<small ng-if="frm.cfmPassword.$dirty && credentials.password != credentials.cfmPassword" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;两次输入密码不相同</small>-->
+        <!--</p>-->
+        <!--<input name="cfmPassword" type="password" class="form-control" ng-model="credentials.cfmPassword">-->
+
+        <!--<button class="btn btn-orange btn-block" ng-click="frm.$valid && regist()" style="margin: 30px 0 0 0;">-->
+            <!--注册-->
+        <!--</button>-->
+    <!--</form>-->
+<!--</div>-->
+<!--<style>-->
+    <!--.modal-default {-->
+        <!--margin-top: -200px;-->
+    <!--}-->
+<!--</style>-->
+
 <div class="modal-header">
     <h5 class="modal-title">
         注册
@@ -5,38 +49,5 @@
     </h5>
 </div>
 <div class="modal-body" style="padding: 20px 40px 30px 40px;">
-    <form class="form-horizontal" name="frm">
-        <p class="modal-msg text-left" style="margin: 0 0 5px 0;font-size:14px;color:#5a6378;">
-            <span class="require">用户名</span>&nbsp;&nbsp;
-            <small ng-if="frm.username.$dirty && frm.username.$invalid" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;用户名不能为空</small>
-        </p>
-        <input name="username" class="form-control" ng-model="credentials.username" required>
-
-        <p class="modal-msg text-left" style="margin: 20px 0 5px 0;font-size:14px;color:#5a6378;">
-            <span class="require">邮箱</span>&nbsp;&nbsp;
-            <small ng-if="frm.email.$dirty && frm.email.$invalid" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;邮箱不能为空</small>
-        </p>
-        <input name="email" class="form-control" ng-model="credentials.email" required>
-
-        <p class="modal-msg text-left" style="margin: 20px 0 5px 0;font-size:14px;color:#5a6378;">
-            <span class="require">密码</span>&nbsp;&nbsp;
-            <small ng-if="frm.password.$dirty && frm.password.$invalid" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;密码不能为空</small>
-        </p>
-        <input name="password" type="password" class="form-control" ng-model="credentials.password" required>
-
-        <p class="modal-msg text-left" style="margin: 20px 0 5px 0;font-size:14px;color:#5a6378;">
-            <span class="require">确认密码</span>&nbsp;&nbsp;
-            <small ng-if="frm.cfmPassword.$dirty && credentials.password != credentials.cfmPassword" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;两次输入密码不相同</small>
-        </p>
-        <input name="cfmPassword" type="password" class="form-control" ng-model="credentials.cfmPassword">
-
-        <button class="btn btn-orange btn-block" ng-click="frm.$valid && regist()" style="margin: 30px 0 0 0;">
-            注册
-        </button>
-    </form>
+    <p>请发送NT账号、邮箱名、部门名称、产品名称支邮箱 <a href="mailto:datafoundry@asiainfo.com?Subject=申请账号">datafoundry@asiainfo.com</a> 申请账号</p>
 </div>
-<style>
-    .modal-default {
-        margin-top: -200px;
-    }
-</style>
