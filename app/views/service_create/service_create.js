@@ -606,13 +606,11 @@ angular.module('console.service.create', [
           }
 
           for (var i = 0; i < containers.length; i++) {
-            if (!containers[i].name) {
+            if (!containers[i].strname) {
               containers[i].emptyName = true;
-              
               return false;
             }
             if (!containers[i].image) {
-              
               containers[i].emptyImage = true;
               return false;
             }
@@ -631,7 +629,7 @@ angular.module('console.service.create', [
           var cons = angular.copy($scope.dc.spec.template.spec.containers);
           var flog = 0;
           for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
-            dc.spec.template.spec.containers[i].name = dc.spec.template.spec.containers[i].strname;
+            $scope.dc.spec.template.spec.containers[i].name = dc.spec.template.spec.containers[i].strname;
             delete dc.spec.template.spec.containers[i]["strname"];
             for (var j = 0; j < dc.spec.template.spec.containers[i].volumeMounts.length; j++) {
               if (dc.spec.template.spec.containers[i].volumeMounts[j].name) {
@@ -662,7 +660,7 @@ angular.module('console.service.create', [
             dc.spec.template.spec.containers[i].ports = cons[i].ports;
           }
 
-          if (!valid(dc)) {
+          if (!valid($scope.dc)) {
             return;
           }
 

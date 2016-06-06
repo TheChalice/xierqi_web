@@ -117,7 +117,7 @@ angular.module('console.backing_service', [
               }
             }
           }
-          console.log($scope.test)
+          // console.log($scope.test)
           // 第一栏分类
           var fiftobj = {};
           var fiftmanobj = {}
@@ -172,14 +172,14 @@ angular.module('console.backing_service', [
                   }
                 }
               }
-              console.log('$scope.mytest');
+              // console.log('$scope.mytest');
               for (var d = 0; d < $scope.cation.length; d++) {
                 var arr1 = $filter("myfilter")($scope.mytest[d].item, $scope.isComplete);
                 if (arr1.length == 0) {
                   $scope.mytest[d].showTab = false
                 }
               }
-              console.log('mytest', $scope.mytest)
+              // console.log('mytest', $scope.mytest)
 
 
             }, function (res) {
@@ -289,7 +289,7 @@ angular.module('console.backing_service', [
         });
       };
 
-
+      var newid = null;
       var watchBsi = function (resourceVersion) {
         Ws.watch({
           resourceVersion: resourceVersion,
@@ -317,8 +317,9 @@ angular.module('console.backing_service', [
 
         if (data.type == 'ERROR') {
           $log.info("err", data.object.message);
+          // loadBsi();
           Ws.clear();
-          loadBsi();
+
           return;
         }
 
@@ -332,24 +333,33 @@ angular.module('console.backing_service', [
             $scope.bsi.items = [data.object];
           }
         } else if (data.type == "MODIFIED") {
-          angular.forEach($scope.bsi.items, function (item, i) {
-            if (item.metadata.name == data.object.metadata.name) {
-              data.object.show = item.show;
-              $scope.bsi.items[i] = data.object;
+
+          // console.log('newid',newid)
+          if ($scope.mytest[newid]) {
+            angular.forEach($scope.mytest[newid].item, function (item, i) {
+              if (item.metadata.name == data.object.metadata.name) {
+                data.object.show = item.show;
+                $scope.mytest[newid].item[i] = data.object;
+                $scope.$apply();
+              }
+            })
+            console.log('$scope.mytest[newid].item',$scope.mytest[newid].item.length)
+            if ($scope.mytest[newid].item.length == '0') {
+              $scope.mytest[newid].showTab = false;
               $scope.$apply();
             }
-          });
+          }
         }
       };
 
       $scope.search = function () {
-        console.log("----", $scope.txt);
+        // console.log("----", $scope.txt);
         filter('serviceCat', $scope.grid.serviceCat);
         filter('vendor', $scope.grid.vendor);
       };
       $scope.delBsi = function (idx, id) {
-
-        console.log('del$scope.mytest[id].item[idx]', $scope.mytest[id].item[idx].spec.binding);
+        newid=id;
+        // console.log('del$scope.mytest[id].item[idx]', $scope.mytest[id].item[idx].spec.binding);
         if ($scope.mytest[id].item[idx].spec.binding) {
           var curlength = $scope.mytest[id].item[idx].spec.binding.length;
           if (curlength > 0) {
@@ -383,6 +393,7 @@ angular.module('console.backing_service', [
 
       }
       $scope.delBing = function (idx, id) {
+        newid = id;
         var name = $scope.mytest[id].item[idx].metadata.name;
         var bindings = [];
         var binds = $scope.mytest[id].item[idx].spec.binding || [];
@@ -405,10 +416,10 @@ angular.module('console.backing_service', [
             bindResourceVersion: '',
             bindKind: 'DeploymentConfig'
           };
-          console.log(bindObj)
+          // console.log(bindObj)
           BackingServiceInstanceBd.put({namespace: $rootScope.namespace, name: name},
               bindObj, function (res) {
-                console.log('解绑定', res)
+                // console.log('解绑定', res)
               }, function (res) {
                 //todo 错误处理
                 Toast.open('操作失败');
@@ -418,6 +429,7 @@ angular.module('console.backing_service', [
       };
 
       var bindService = function (name, dcs, idx, id) {
+
         var bindObj = {
           metadata: {
             name: name
@@ -430,19 +442,6 @@ angular.module('console.backing_service', [
           bindObj.resourceName = dcs[i].metadata.name;
           BackingServiceInstanceBd.create({namespace: $rootScope.namespace, name: name}, bindObj,
               function (res) {
-                console.log('绑定', res);
-                console.log('原型', $scope.bsi.items[1]);
-                console.log('新版',$scope.mytest[id].item[idx]);
-                for (var i = 0; i < $scope.bsi.items.length; i++) {
-                  if ($scope.bsi.items[i].metadata.name == $scope.mytest[id].item[idx].metadata.name) {
-                    console.log($scope.bsi.items[i].metadata.name);
-                    $scope.mytest[id].item[idx]=$scope.bsi.items[i];
-                  }
-                }
-
-
-
-
               }, function (res) {
                 //todo 错误处理
                 Toast.open('操作失败');
@@ -451,6 +450,7 @@ angular.module('console.backing_service', [
         }
       };
       $scope.bindModal = function (idx, id) {
+        newid = id;
         var bindings = $scope.mytest[id].item[idx].spec.binding || [];
         ServiceSelect.open(bindings).then(function (res) {
           $log.info("selected service", res);

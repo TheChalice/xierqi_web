@@ -25,7 +25,7 @@
                     <input type="text" class="form-control" placeholder="搜索后端服务名称"
                            ng-model="grid.txt">
                     <!--ng-model="txt" ng-focus="showTip=true;" -->
-                    <span class="input-group-btn">
+                    <span class="input-group-btn" id=inputa>
                         <a class="btn" ng-click="search()"></a>
                     </span>
                 </div>
@@ -58,6 +58,26 @@
         </uib-tab>
     </uib-tabset>
 </div>
+<!--[if !IE]><!-->
+<script>
+    // 针对IE10
+    if (/*@cc_on!@*/false) {
+        document.documentElement.className += ' ie' + document.documentMode;
+    }
+    // 针对IE11及非IE浏览器，
+    // 因为IE11下document.documentMode为11，所以html标签上会加ie11样式类；
+    // 而非IE浏览器的document.documentMode为undefined，所以html标签上会加ieundefined样式类。
+    if (/*@cc_on!@*/true) {
+        document.documentElement.className += ' ie' + document.documentMode;
+    }
+</script>
+<!--<![endif]-->
+<style type="text/css">
+    .ie11 #inputa {
+        top: 9px;
+    }
+</style>
+
 <style>
     .fen {
         float: left;
