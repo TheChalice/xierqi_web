@@ -35,7 +35,7 @@
                 <div class="row" style="margin-bottom: 30px;">
                     <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
                         <input type="text" class="form-control" ng-model="txxt" ng-focus="showTip=true;"
-                               placeholder="搜索镜像">
+                               placeholder="搜索镜像" ng-keydown="ksearch('all', txxt,$event)">
                     <span class="input-group-btn">
                         <a class="btn" ng-click="gsearch('all', txxt)"></a>
                     </span>
@@ -44,10 +44,10 @@
                 <div class="panel-group" role="tablist" aria-multiselectable="true" style="margin-bottom: 0;">
                     <div class="panel panel-default" style='margin-bottom: 30px' ng-repeat="bsisv in test">
                         <div href="#{{bsisv.Name}}" data-toggle="collapse" class="panel-heading"
-                             style='background:#FFFFFF;' role="tab">
+                             style='background:#FFFFFF;' role="tab" aria-expanded={{opened}}>
                             <h4 class="panel-title">
                                 <a href="#{{bsisv.Name}}" data-toggle="collapse"
-                                   class="accordion-toggle">
+                                   class="accordion-toggle" aria-expanded={{opened}}>
                                     <i class="fa pull-right icon25 icon25-collapse"
                                        style="color: #5a6378; margin-top: -4px" uib-tooltip="查看"></i>
                                 </a>
@@ -64,8 +64,9 @@
                             </h4>
 
                         </div>
-                        <div id="{{bsisv.Name}}" class="panel-collapse collapse"
-                             role="tabpanel">
+                        <div id="{{bsisv.Name}}" class="panel-collapse"
+                             ng-class="{'collapse':opened}"
+                             role="tabpanel" aria-expanded={{opened}}>
                             <div class="panel-body">
                                 <div>
                                     <div class="row">
