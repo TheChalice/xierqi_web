@@ -4,7 +4,7 @@
         <div class="instance" ng-repeat="item in items.item | myfilter:isComplete">
             <div class="instance-bar">
                 <div class="row">
-                    <div class="ban4">
+                    <div class="ban4 pan">
                         <h3>{{item.metadata.name}}</h3>
                         <p>{{item.spec.provisioning.backingservice_name}}</p>
                     </div>
@@ -77,6 +77,9 @@
     </div>
 </div>
 <style>
+    .pan {
+        padding-left: 10px;
+    }
     .ban4 {
         width: 25%;
         float: left;

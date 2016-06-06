@@ -332,14 +332,17 @@ angular.module('console.backing_service', [
             $scope.bsi.items = [data.object];
           }
         } else if (data.type == "MODIFIED") {
+
           // console.log('newid',newid)
-          angular.forEach($scope.mytest[newid].item, function (item, i) {
-            if (item.metadata.name == data.object.metadata.name) {
-              data.object.show = item.show;
-              $scope.mytest[newid].item[i] = data.object;
-              $scope.$apply();
-            }
-          })
+          if ($scope.mytest[newid]) {
+            angular.forEach($scope.mytest[newid].item, function (item, i) {
+              if (item.metadata.name == data.object.metadata.name) {
+                data.object.show = item.show;
+                $scope.mytest[newid].item[i] = data.object;
+                $scope.$apply();
+              }
+            })
+          }
         }
       };
 
