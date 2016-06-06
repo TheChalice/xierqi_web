@@ -15,14 +15,12 @@ angular.module("console.search", [
                 search: '='
             },
             controller:['$scope', function ($scope) {
-              
-              $scope.$watch('txt',function (n,o) {
-                console.log(n);
-              })
-                $scope.doSearch = function(tp, txt){
+
+                $scope.doSearch = function(tp, txt, event) {
                     $scope.showTip = false;
-                    $scope.search(tp, txt);
+                    $scope.search(tp, txt, event);
                 }
+
             }]
         }
     }]);

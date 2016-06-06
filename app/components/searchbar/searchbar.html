@@ -1,8 +1,8 @@
 <div class="searchbar">
     <div class="input-group">
-        <input type="text" class="form-control" ng-model="txt" ng-focus="showTip=true;" placeholder="搜索关键字">
+        <input type="text" class="form-control" ng-model="txt" ng-focus="showTip=true;" placeholder="搜索关键字" ng-keydown="search('all', txt, event)">
         <span class="input-group-btn">
-            <a class="btn" ng-click="search('all', txt)"></a>
+            <a class="btn" ng-click="search('all', txt, event)"></a>
         </span>
     </div>
     <ul class="tip-board" ng-show="txt && showTip">
