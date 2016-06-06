@@ -317,8 +317,9 @@ angular.module('console.backing_service', [
 
         if (data.type == 'ERROR') {
           $log.info("err", data.object.message);
+          // loadBsi();
           Ws.clear();
-          loadBsi();
+
           return;
         }
 
@@ -332,14 +333,22 @@ angular.module('console.backing_service', [
             $scope.bsi.items = [data.object];
           }
         } else if (data.type == "MODIFIED") {
+
           // console.log('newid',newid)
-          angular.forEach($scope.mytest[newid].item, function (item, i) {
-            if (item.metadata.name == data.object.metadata.name) {
-              data.object.show = item.show;
-              $scope.mytest[newid].item[i] = data.object;
+          if ($scope.mytest[newid]) {
+            angular.forEach($scope.mytest[newid].item, function (item, i) {
+              if (item.metadata.name == data.object.metadata.name) {
+                data.object.show = item.show;
+                $scope.mytest[newid].item[i] = data.object;
+                $scope.$apply();
+              }
+            })
+            console.log('$scope.mytest[newid].item',$scope.mytest[newid].item.length)
+            if ($scope.mytest[newid].item.length == '0') {
+              $scope.mytest[newid].showTab = false;
               $scope.$apply();
             }
-          })
+          }
         }
       };
 
@@ -349,7 +358,7 @@ angular.module('console.backing_service', [
         filter('vendor', $scope.grid.vendor);
       };
       $scope.delBsi = function (idx, id) {
-
+        newid=id;
         // console.log('del$scope.mytest[id].item[idx]', $scope.mytest[id].item[idx].spec.binding);
         if ($scope.mytest[id].item[idx].spec.binding) {
           var curlength = $scope.mytest[id].item[idx].spec.binding.length;
