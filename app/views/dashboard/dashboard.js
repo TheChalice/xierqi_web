@@ -86,9 +86,13 @@ angular.module('console.dashboard', [
         };
 
         var setPieChart = function(tp, dec, percent) {
+            var percentstr = '';
+            if(percent){
+                percentstr = '<b style="color:#5a6378;">已用' + percent + '%</b>';
+            }
             var subTitle = '<b style="font-size:16px;color:#f6a540;">' + tp + '</b><br>' +
-                '<span style="color:#9fa7b7;">' + dec + '</span><br>' +
-                '<b style="color:#5a6378;">已用' + percent + '%</b>';
+                '<span style="color:#9fa7b7;">' + dec + '</span><br>' + percentstr
+               ;
             return {
                 options: {
                     title: {
@@ -159,16 +163,16 @@ angular.module('console.dashboard', [
                 $scope.isdata.charts = true;
             }, function(res){
                 $log.info('metrics mem all err', res);
-                $scope.pieConfigCpu = setPieChart('CPU', '25.75HZ', 0);
-                $scope.pieConfigMem = setPieChart('内存', '80G', 0);
+                $scope.pieConfigCpu = setPieChart('CPU', 'NA', 0);
+                $scope.pieConfigMem = setPieChart('内存', 'NA', 0);
             });
 
         }, function(res){
             $log.info('metrics cpu all err', res);
             $scope.isdata.CpuorMem = true;
             $scope.isdata.charts = false;
-            $scope.pieConfigCpu = setPieChart('CPU', '25.75HZ', 0);
-            $scope.pieConfigMem = setPieChart('内存', '80G', 0);
+            $scope.pieConfigCpu = setPieChart('CPU', 'N/A', 0);
+            $scope.pieConfigMem = setPieChart('内存', 'N/A', 0);
         });
     }]);
 
