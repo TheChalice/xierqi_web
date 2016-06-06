@@ -12,6 +12,22 @@ angular.module('console.image', [
       // platform.query({id:5},function(data) {
       //   console.log("platform", data)
       // });
+      Array.prototype.unique = function () {
+        var res = [this[0]];
+        for (var i = 1; i < this.length; i++) {
+          var repeat = false;
+          for (var j = 0; j < res.length; j++) {
+            if (this[i] == res[j]) {
+              repeat = true;
+              break;
+            }
+          }
+          if (!repeat) {
+            res.push(this[i]);
+          }
+        }
+        return res;
+      }
       //分页
 
       $scope.grid = {
@@ -100,64 +116,161 @@ angular.module('console.image', [
         $log.info($scope.items);
         $log.info($scope.data.items[0].metadata.name);
       };
+      $scope.opened = true;
+      $scope.ksearch = function (key,txt,event) {
+        
+        if (event.keyCode == 13) {
+          if (!txt) {
+            $scope.test = copytest
+            $scope.opened = true;
+            return;
+          }
+          console.log(copytest)
+          $scope.test = copytest
+          var namelist = [];
+          txt = txt.replace(/\//g, '\\/');
+          $http.get('/registry/api/search',
+              {params: {q: txt}})
+              .success(function (data) {
+                console.log(data)
+                for (var i = 0; i < data.repository.length; i++) {
+                  // console.log(data.repository[i].project_name);
+                  namelist.push(data.repository[i].project_name)
+                }
 
+                namelist = namelist.unique();
+                var item = [];
+                for (var j = 0; j < namelist.length; j++) {
+                  item.push({Name: namelist[j], items: []});
+                  for (var k = 0; k < data.repository.length; k++) {
+                    if (namelist[j] === data.repository[k].project_name) {
+                      item[j].items.push(data.repository[k].repository_name);
+                    }
+                  }
+                }
+
+                for (var q = 0; q < copytest.length; q++) {
+                  for (var r = 0; r < item.length; r++) {
+                    if (item[r].Name === copytest[q].Name) {
+
+                      item[r].CreationTime = copytest[q].CreationTime;
+                      item[r].mysort = copytest[q].mysort;
+                    }
+                  }
+                }
+                item.sort(function (x, y) {
+                  return x.mysort > y.mysort ? -1 : 1;
+                });
+                if (item[0].Name) {
+                  // console.log(item);
+                  $scope.test = item;
+                  $scope.opened = false;
+                }else {
+                  $scope.test=null;
+                }
+
+              })
+        }
+
+      }
       $scope.gsearch = function (key, txt) {
+
+        // $scope.keyCode = event.keyCode;
+        console.log(event.keyCode);
         if (!txt) {
-          $scope.test=copytest
+          $scope.test = copytest
+          $scope.opened = true;
           return;
         }
-        var arr = [];
+        console.log(copytest)
+        $scope.test = copytest
+        var namelist = [];
         txt = txt.replace(/\//g, '\\/');
-        var reg = eval('/' + txt + '/');
-        for (var i = 0; i < $scope.test.length; i++) {
-          // console.log($scope.test[i].Name);
-          if (reg.test($scope.test[i].Name)) {
-            arr.push($scope.test[i]);
-          }
-        }
-        $scope.test=arr;
-        // $log.info($scope.items);
-        // $log.info($scope.data.items[0].metadata.name);
+        //
+        // var reg = eval('/' + txt + '/');
+        // /registry/api/search?q=baseimage
+        $http.get('/registry/api/search',
+            {params: {q: txt}})
+            .success(function (data) {
+              console.log(data)
+              for (var i = 0; i < data.repository.length; i++) {
+                // console.log(data.repository[i].project_name);
+                namelist.push(data.repository[i].project_name)
+              }
+
+              namelist = namelist.unique();
+              var item = [];
+              for (var j = 0; j < namelist.length; j++) {
+                item.push({Name: namelist[j], items: []});
+                for (var k = 0; k < data.repository.length; k++) {
+                  if (namelist[j] === data.repository[k].project_name) {
+                    item[j].items.push(data.repository[k].repository_name);
+                  }
+                }
+              }
+
+              for (var q = 0; q < copytest.length; q++) {
+                for (var r = 0; r < item.length; r++) {
+                  if (item[r].Name === copytest[q].Name) {
+
+                    item[r].CreationTime = copytest[q].CreationTime;
+                    item[r].mysort = copytest[q].mysort;
+                  }
+                }
+              }
+              item.sort(function (x, y) {
+                return x.mysort > y.mysort ? -1 : 1;
+              });
+              if (item[0].Name) {
+                // console.log(item);
+                $scope.test = item;
+                $scope.opened = false;
+              }else {
+                $scope.test=null;
+              }
+
+            })
       }
       var arr = [];
-      var copytest={};
-      $http.get('/registry/api/projects', {params: {is_public: 1}
+      var copytest = {};
+      $http.get('/registry/api/projects', {
+        params: {is_public: 1}
       }).success(function (data) {
-            for (var i = 0; i < data.length; i++) {
-              data[i].mysort = data[i].CreationTime
-              data[i].mysort = (new Date(data[i].mysort)).getTime()
-            }
-            //时间冒泡排序写法
-            data.sort(function (x, y) {
-              return x.mysort > y.mysort ? -1 : 1;
-            });
-            $scope.test = data;
-            for (var j = 0; j < $scope.test.length; j++) {
-              $http.get('/registry/api/repositories', {params: {project_id: $scope.test[j].ProjectId}})
-                  .success(function (datalis) {
-                    arr.push(datalis);
-                    if (arr.length == data.length) {
-                      for (var k = 0; k < arr.length; k++) {
-                        if (arr[k] != null) {
-                          for (var h = 0; h < $scope.test.length; h++) {
-                            if (arr[k][0].split('/')[0] == $scope.test[h].Name) {
-                              $scope.test[h].items = arr[k]
-                            }
-                          }
+        for (var i = 0; i < data.length; i++) {
+          data[i].mysort = data[i].CreationTime
+          data[i].mysort = (new Date(data[i].mysort)).getTime()
+        }
+        //时间冒泡排序写法
+        data.sort(function (x, y) {
+          return x.mysort > y.mysort ? -1 : 1;
+        });
+        $scope.test = data;
+        for (var j = 0; j < $scope.test.length; j++) {
+          $http.get('/registry/api/repositories', {params: {project_id: $scope.test[j].ProjectId}})
+              .success(function (datalis) {
+                arr.push(datalis);
+                if (arr.length == data.length) {
+                  for (var k = 0; k < arr.length; k++) {
+                    if (arr[k] != null) {
+                      for (var h = 0; h < $scope.test.length; h++) {
+                        if (arr[k][0].split('/')[0] == $scope.test[h].Name) {
+                          $scope.test[h].items = arr[k]
                         }
                       }
                     }
+                  }
+                }
 
-                    copytest = angular.copy($scope.test);
+                copytest = angular.copy($scope.test);
 
-                  }).error(function (msg) {
+              }).error(function (msg) {
 
-              })
-            }
-          }).error(function(data){
+          })
+        }
+      }).error(function (data) {
         // $log.info('error',data)
-        $rootScope.user=null;
-        console.log('error',$rootScope)
+        $rootScope.user = null;
+        console.log('error', $rootScope)
       });
       // $http.get('api/user', {params: {id:'5'}
       // }).success(function(data, status, headers, config) {
