@@ -144,11 +144,11 @@ angular.module('console.dashboard', [
             return res;
         };
 
-        Metrics.cpu.all.query({tags: 'descriptor_name:cpu/usage,pod_namespace:' + $rootScope.namespace, buckets: 61}, function(res){
+        Metrics.cpu.all.query({tags: 'descriptor_name:cpu/usage,pod_namespace:' + $rootScope.namespace, buckets: 30}, function(res){
             $log.info('metrics cpu all', res);
             $scope.cpuData = prepareData('CPU', res);
 
-            Metrics.mem.all.query({tags: 'descriptor_name:memory/usage,pod_namespace:' + $rootScope.namespace, buckets: 61}, function(res){
+            Metrics.mem.all.query({tags: 'descriptor_name:memory/usage,pod_namespace:' + $rootScope.namespace, buckets: 30}, function(res){
                 $log.info('metrics mem all', res);
                 $scope.memData = prepareData('内存', res);
 
@@ -156,12 +156,19 @@ angular.module('console.dashboard', [
                 $scope.pieConfigCpu = setPieChart('CPU', '25.75HZ', 75.5);
                 $scope.pieConfigMem = setPieChart('内存', '80G', 45.8);
                 $scope.isdata.CpuorMem = true;
+                $scope.isdata.charts = true;
             }, function(res){
                 $log.info('metrics mem all err', res);
+                $scope.pieConfigCpu = setPieChart('CPU', '25.75HZ', 0);
+                $scope.pieConfigMem = setPieChart('内存', '80G', 0);
             });
 
         }, function(res){
             $log.info('metrics cpu all err', res);
+            $scope.isdata.CpuorMem = true;
+            $scope.isdata.charts = false;
+            $scope.pieConfigCpu = setPieChart('CPU', '25.75HZ', 0);
+            $scope.pieConfigMem = setPieChart('内存', '80G', 0);
         });
     }]);
 
