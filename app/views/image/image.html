@@ -33,13 +33,18 @@
         <uib-tab index="2" heading="平台公有镜像">
             <div>
                 <div class="row" style="margin-bottom: 30px;">
-                <div class="col-sm-4 col-sm-offset-8">
-                    <c-search></c-search>
+                    <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
+                        <input type="text" class="form-control" ng-model="txxt" ng-focus="showTip=true;"
+                               placeholder="搜索镜像">
+                    <span class="input-group-btn">
+                        <a class="btn" ng-click="gsearch('all', txxt)"></a>
+                    </span>
+                    </div>
                 </div>
-            </div>
                 <div class="panel-group" role="tablist" aria-multiselectable="true" style="margin-bottom: 0;">
                     <div class="panel panel-default" style='margin-bottom: 30px' ng-repeat="bsisv in test">
-                        <div href="#{{bsisv.Name}}" data-toggle="collapse" class="panel-heading" style='background:#FFFFFF;' role="tab">
+                        <div href="#{{bsisv.Name}}" data-toggle="collapse" class="panel-heading"
+                             style='background:#FFFFFF;' role="tab">
                             <h4 class="panel-title">
                                 <a href="#{{bsisv.Name}}" data-toggle="collapse"
                                    class="accordion-toggle">
@@ -52,7 +57,8 @@
                                             class="accordion-toggle"
                                             style='font-size: 14px;background:#FFFFFF; color: #5a6378;'>{{bsisv.Name}}</a>
                                 </span>
-                                <span uib-tooltip="创建时间" style='position: absolute; margin-top: 2px; left: 50%; text-align: center; font-size: 12px; color: #5a6378;'>
+                                <span uib-tooltip="创建时间"
+                                      style='position: absolute; margin-top: 2px; left: 50%; text-align: center; font-size: 12px; color: #5a6378;'>
                                     创建时间:&nbsp;{{bsisv.CreationTime | dateRelative}}
                                 </span>
                             </h4>
@@ -67,7 +73,8 @@
                                             <!--<c-card item="item" gitStore="gitStore"></c-card>-->
                                             <ul class="list-group">
                                                 <li class="list-group-item">
-                                                    <a class="href-orange" ui-sref="console.image_detail({name:item, bc:item})">
+                                                    <a class="href-orange"
+                                                       ui-sref="console.image_detail({name:item, bc:item})">
                                                         {{item}}
                                                     </a>
                                                 </li>
@@ -81,9 +88,9 @@
                 </div>
 
                 <!--<div class="row">-->
-                    <!--<div class="col-sm-3 col-xs-6" ng-repeat="item in [1]">-->
-                        <!--<c-card item="item" gitStore="gitStore"></c-card>-->
-                    <!--</div>-->
+                <!--<div class="col-sm-3 col-xs-6" ng-repeat="item in [1]">-->
+                <!--<c-card item="item" gitStore="gitStore"></c-card>-->
+                <!--</div>-->
                 <!--</div>-->
             </div>
         </uib-tab>
@@ -111,16 +118,19 @@
         display: block;
         border-bottom: 1px solid #d4d4d4;
     }
+
     .list-group-item a {
-        font-size:12px;
+        font-size: 12px;
         color: #f6a540;
-        font-weight:bold;
+        font-weight: bold;
     }
+
     .list-group-item a:hover {
         color: #e5993a;
     }
+
     .list-group-item:last-child {
-        border-bottom-right-radius:0;
-        border-bottom-left-radius:0;
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
     }
 </style>
