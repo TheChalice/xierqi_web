@@ -144,7 +144,7 @@ angular.module('console.dashboard', [
             return res;
         };
 
-        Metrics.cpu.all.query({tagsss: 'descriptor_name:cpu/usage,pod_namespace:' + $rootScope.namespace, buckets: 30}, function(res){
+        Metrics.cpu.all.query({tags: 'descriptor_name:cpu/usage,pod_namespace:' + $rootScope.namespace, buckets: 30}, function(res){
             $log.info('metrics cpu all', res);
             $scope.cpuData = prepareData('CPU', res);
 
