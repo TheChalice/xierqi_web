@@ -110,7 +110,7 @@ angular.module('console.image', [
         txt = txt.replace(/\//g, '\\/');
         var reg = eval('/' + txt + '/');
         for (var i = 0; i < $scope.test.length; i++) {
-          console.log($scope.test[i].Name);
+          // console.log($scope.test[i].Name);
           if (reg.test($scope.test[i].Name)) {
             arr.push($scope.test[i]);
           }
