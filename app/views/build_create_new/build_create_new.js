@@ -147,8 +147,7 @@ angular.module('console.build_create_new', [
                 $log.info('-=-=-=-=',data);
                 if (data.status == 400) {
                     if (data.data.code == 1401){
-                        //goto github
-                        // var authurl = data.data.msg + "?namespace=" + $rootScope.namespace 
+                        // var authurl = data.data.msg + "?namespace=" + $rootScope.namespace
                         // + "%26bearer=" + Cookie.get("df_access_token")
                         // + "%26redirect_url=" + window.location.href ;
                         var authurl =  "namespace=" + $rootScope.namespace 

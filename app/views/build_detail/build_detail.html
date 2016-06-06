@@ -25,16 +25,16 @@
                         <div class="media-left">
                             <img class="media-object" src="views/build_detail/img/images_106.png">
                         </div>
-                        <div class="media-body">
+                        <div class="media-body" style="width: 100%">
                             <h4 class="media-heading">代码URL</h4>
                             <small>
-                                <a class="href-orange text-overflow" href="{{data.spec.source.git.uri}}" target="_blank">{{data.spec.source.git.uri}}</a>
+                                <a class="href-orange text-overflow" href="{{data.spec.source.git.uri}}" target="_blank" style="width:60%;">{{data.spec.source.git.uri}}</a>
                             </small>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-4" ng-if="imageEnable">
-                    <div class="media media-sm">
+                <div class="col-sm-4">
+                    <div class="media media-sm" ng-if="imageEnable">
                         <div class="media-left">
                             <img class="media-object" src="views/build_detail/img/images_108.png">
                         </div>

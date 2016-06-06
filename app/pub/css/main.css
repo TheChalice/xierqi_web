@@ -260,11 +260,10 @@ a {
 
 /*单行文本溢出*/
 .text-overflow {
-    overflow: hidden;
-    display: block;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    -o-text-overflow: ellipsis;
+    display:block;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
 
 /*模态框默认样式*/
