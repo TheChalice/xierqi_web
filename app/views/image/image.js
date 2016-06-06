@@ -99,8 +99,28 @@ angular.module('console.image', [
         }
         $log.info($scope.items);
         $log.info($scope.data.items[0].metadata.name);
+      };
+
+      $scope.gsearch = function (key, txt) {
+        if (!txt) {
+          $scope.test=copytest
+          return;
+        }
+        var arr = [];
+        txt = txt.replace(/\//g, '\\/');
+        var reg = eval('/' + txt + '/');
+        for (var i = 0; i < $scope.test.length; i++) {
+          // console.log($scope.test[i].Name);
+          if (reg.test($scope.test[i].Name)) {
+            arr.push($scope.test[i]);
+          }
+        }
+        $scope.test=arr;
+        // $log.info($scope.items);
+        // $log.info($scope.data.items[0].metadata.name);
       }
       var arr = [];
+      var copytest={};
       $http.get('/registry/api/projects', {params: {is_public: 1}
       }).success(function (data) {
             for (var i = 0; i < data.length; i++) {
@@ -127,6 +147,9 @@ angular.module('console.image', [
                         }
                       }
                     }
+
+                    copytest = angular.copy($scope.test);
+
                   }).error(function (msg) {
 
               })
