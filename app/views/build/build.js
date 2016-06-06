@@ -28,11 +28,12 @@ angular.module('console.build', [
             $scope.items = $scope.data.items.slice(skip, skip + $scope.grid.size);
         };
 
-        $scope.search = function (key, txt) {
+        $scope.search = function (key, txt, event) {
             if (!txt) {
                 refresh(1);
                 return;
             }
+
             $scope.items = [];
 
             txt = txt.replace(/\//g, '\\/');

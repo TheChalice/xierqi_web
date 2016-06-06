@@ -126,7 +126,7 @@ angular.module('console.image', [
             return;
           }
           console.log(copytest)
-          $scope.test = copytest
+        
           var namelist = [];
           txt = txt.replace(/\//g, '\\/');
           $http.get('/registry/api/search',
@@ -182,8 +182,7 @@ angular.module('console.image', [
           $scope.opened = true;
           return;
         }
-        console.log(copytest)
-        $scope.test = copytest
+        console.log(copytest);
         var namelist = [];
         txt = txt.replace(/\//g, '\\/');
         //

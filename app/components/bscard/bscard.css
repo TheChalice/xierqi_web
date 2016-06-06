@@ -50,14 +50,7 @@
     background-position: center;
     background-color: #fff;
 }
-#n5 .fen:nth-child(2) .thumb-content > .thumb-slide > .imageholder,
-#n5 .fen:nth-child(3) .thumb-content > .thumb-slide > .imageholder,
-#n5 .fen:nth-child(5) .thumb-content > .thumb-slide > .imageholder,
-#n5 .fen:nth-child(6) .thumb-content > .thumb-slide > .imageholder,
-#n5 .fen:nth-child(7) .thumb-content > .thumb-slide > .imageholder
-{
-    background-size:contain;
-}
+
 .thumbnail .caption {
     background: #fff;
     border-top: 1px solid #c9c9c9;
