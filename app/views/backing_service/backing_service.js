@@ -67,10 +67,10 @@ angular.module('console.backing_service', [
 
           $scope.cation = $scope.cation.unique()
           $scope.cation.reverse()
-          var cation = $scope.cation[3];
-          $scope.cation.splice(3,1)
-          console.log($scope.cation);
-          $scope.cation.unshift(cation)
+          // var cation = $scope.cation[3];
+          // $scope.cation.splice(3,1)
+          // console.log($scope.cation);
+          // $scope.cation.unshift(cation)
           // $scope.others = [];
           //服务分类属性
           // console.log(arr[0].metadata.annotations.Class)
@@ -122,7 +122,25 @@ angular.module('console.backing_service', [
               }
             }
           }
+
+          var other=null;
+          for (var o = 0; o < $scope.test.length; o++) {
+            if ($scope.test[o].name == '其他') {
+              other = $scope.test[o];
+              $scope.test.splice(o,1);
+            }
+          }
+          $scope.test.sort(function (x, y) {
+            return x.item.length > y.item.length ? -1 : 1;
+          });
+          $scope.test.push(other)
           console.log($scope.test)
+          var lins = [];
+          for (var x = 0; x <$scope.test.length; x++) {
+            lins.push($scope.test[x].name)
+          }
+          $scope.cation=lins;
+          // console.log(lins);
           // 第一栏分类
           var fiftobj = {};
           var fiftmanobj = {}
@@ -348,7 +366,7 @@ angular.module('console.backing_service', [
                 $scope.$apply();
               }
             })
-            console.log('$scope.mytest[newid].item',$scope.mytest[newid].item.length)
+            // console.log('$scope.mytest[newid].item',$scope.mytest[newid].item.length)
             if ($scope.mytest[newid].item.length == '0') {
               $scope.mytest[newid].showTab = false;
               $scope.$apply();
