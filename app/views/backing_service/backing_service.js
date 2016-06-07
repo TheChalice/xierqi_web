@@ -64,8 +64,13 @@ angular.module('console.backing_service', [
             $scope.cation.push(arr[l].metadata.annotations.Class)
           }
           $scope.dev = $scope.dev.unique()
+
           $scope.cation = $scope.cation.unique()
           $scope.cation.reverse()
+          var cation = $scope.cation[3];
+          $scope.cation.splice(3,1)
+          console.log($scope.cation);
+          $scope.cation.unshift(cation)
           // $scope.others = [];
           //服务分类属性
           // console.log(arr[0].metadata.annotations.Class)
@@ -117,7 +122,7 @@ angular.module('console.backing_service', [
               }
             }
           }
-          // console.log($scope.test)
+          console.log($scope.test)
           // 第一栏分类
           var fiftobj = {};
           var fiftmanobj = {}
