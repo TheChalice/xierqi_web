@@ -154,6 +154,7 @@ angular.module('console.dashboard', [
 
                 $scope.chartConfig = setChart();
                 $scope.pieConfigCpu = setPieChart('CPU', '25.75HZ', 75.5);
+              
                 $scope.pieConfigMem = setPieChart('内存', '80G', 45.8);
                 $scope.isdata.CpuorMem = true;
                 $scope.isdata.charts = true;
