@@ -11,7 +11,7 @@ angular.module('console.service.create', [
     .controller('ServiceCreateCtrl', ['$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service',
       function ($rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service) {
         $log.info('ServiceCreate');
-
+        $scope.checkEnv = false;
         $scope.addprot = function (container, ind, last) {
 
           if (last) {     //添加
@@ -572,8 +572,24 @@ angular.module('console.service.create', [
 
         var prepareEnv = function (dc) {
           var containers = dc.spec.template.spec.containers;
+          var reg = new	RegExp(/^[a-zA-Z_]+[a-zA-Z0-9_]*$/gi);
           for (var i = 0; i < containers.length; i++) {
-            containers[i].env = $scope.envs;
+
+            var thisenv = angular.copy($scope.envs);
+            for(var k = 0 ; k <  $scope.envs.length;k++){
+              if(!$scope.envs[k].name){
+                 thisenv.splice(k, 1);
+              }
+            }
+            containers[i].env = thisenv;
+            //console.log(containers[i]);
+            for(var j = 0; j <  containers[i].env.length;j++){
+              if(reg.test(containers[i].env[j].name) == false){
+                  $scope.checkEnv = true;
+                  return false;
+              }
+            }
+
           }
         };
 
@@ -622,7 +638,6 @@ angular.module('console.service.create', [
           }
           return true;
         };
-
         $scope.createDc = function () {
           $rootScope.lding = true;
           var dc = angular.copy($scope.dc);
@@ -668,7 +683,6 @@ angular.module('console.service.create', [
           prepareVolume(dc);
           prepareTrigger(dc);
           prepareEnv(dc);
-
           if (!$scope.grid.auto) {
             dc.spec.replicas = 0;
           }
@@ -702,8 +716,11 @@ angular.module('console.service.create', [
           }
           var clonedc = angular.copy(dc);
           for(var i = 0;i<clonedc.spec.template.spec.containers.length;i++){
-            if(clonedc.spec.template.spec.containers[i].ports){
+            if(clonedc.spec.template.spec.containers[i].ports.length == 0){
                 delete clonedc.spec.template.spec.containers[i]["ports"];
+            }
+            if(clonedc.spec.template.spec.containers[i].env.length == 0){
+              delete clonedc.spec.template.spec.containers[i]["env"];
             }
           }
           DeploymentConfig.create({namespace: $rootScope.namespace}, clonedc, function (res) {
