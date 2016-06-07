@@ -133,8 +133,14 @@ angular.module('console.backing_service', [
           $scope.test.sort(function (x, y) {
             return x.item.length > y.item.length ? -1 : 1;
           });
-          $scope.test.push(other)
+          
+          if (other) {
+            $scope.test.push(other)
+          }
+
+
           console.log($scope.test)
+
           var lins = [];
           for (var x = 0; x <$scope.test.length; x++) {
             lins.push($scope.test[x].name)
