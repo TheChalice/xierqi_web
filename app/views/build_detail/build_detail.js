@@ -9,7 +9,7 @@ angular.module('console.build.detail', [
         ]
     }
 ])
-    .controller('BuildDetailCtrl', ['$rootScope', '$scope', '$log', '$stateParams', '$state', 'BuildConfig', 'Build', 'Confirm', 'UUID', function ($rootScope, $scope, $log, $stateParams, $state, BuildConfig, Build, Confirm, UUID) {
+    .controller('BuildDetailCtrl', ['$rootScope', '$scope', '$log', '$stateParams', '$state', 'BuildConfig', 'Build', 'Confirm', 'UUID', 'WebhookLab', function ($rootScope, $scope, $log, $stateParams, $state, BuildConfig, Build, Confirm, UUID, WebhookLab) {
         $scope.grid = {};
         $scope.bcName = $stateParams.name;
 
@@ -130,6 +130,10 @@ angular.module('console.build.detail', [
                 $log.info("put failed");
             });
         };
+
+        //WebhookLab.get({namespace: $rootScope.namespace, build: name}, function () {
+        //    $log.info('&*&*&*&**&**', data);
+        //});
 
     }]);
 

@@ -137,9 +137,7 @@ angular.module('console.backing_service', [
           if (other) {
             $scope.test.push(other)
           }
-
-
-          console.log($scope.test)
+          // console.log($scope.test)
 
           var lins = [];
           for (var x = 0; x <$scope.test.length; x++) {
