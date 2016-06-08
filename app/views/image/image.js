@@ -271,10 +271,5 @@ angular.module('console.image', [
         $rootScope.user = null;
         console.log('error', $rootScope)
       });
-      // $http.get('api/user', {params: {id:'5'}
-      // }).success(function(data, status, headers, config) {
-      //   //加载成功之后做一些事
-      // }).error(function(data, status, headers, config) {
-      //   //处理错误
-      // });
+
     }]);

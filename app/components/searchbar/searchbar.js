@@ -15,12 +15,12 @@ angular.module("console.search", [
                 search: '='
             },
             controller:['$scope', function ($scope) {
-
-                $scope.doSearch = function(tp, txt, event) {
+              
+ 
+                $scope.doSearch = function(tp,txt,event){
                     $scope.showTip = false;
-                    $scope.search(tp, txt, event);
+                    $scope.search(tp,txt,event);
                 }
-
             }]
         }
     }]);
