@@ -11,12 +11,11 @@
         </div>
         <div class="col-sm-6 col-xs-8" style="padding-left: 0;">
             <div class="pull-right">
-                <div class="searchbar">
-                    <div class="input-group">
-                        <input type="text" class="form-control" ng-model="txt" ng-focus="showTip=true;" placeholder="搜索关键字">
-                        <span class="input-group-btn">
-                            <a class="btn" ng-click="search('all', txt)"></a>
-                        </span>
+                <div class="">
+                    <div class="" style="padding-left: 0;">
+                        <div class="pull-right">
+                            <c-search search="search"></c-search>
+                        </div>
                     </div>
                     <ul class="tip-board" ng-show="txt && showTip">
                         <li>
