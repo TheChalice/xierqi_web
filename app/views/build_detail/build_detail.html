@@ -16,7 +16,7 @@
                         </div>
                         <div class="media-body">
                             <h4 class="media-heading">创建时间</h4>
-                            <small style="color: #5a6378;">{{data.metadata.creationTimestamp | dateRelative}}</small>
+                            <small style="color: #5a6378;" uib-tooltip="{{data.metadata.creationTimestamp}}">{{data.metadata.creationTimestamp | dateRelative}}</small>
                         </div>
                     </div>
                 </div>

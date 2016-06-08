@@ -6,9 +6,8 @@ angular.module('console.build_create_new', [
     }
 ])
     .controller ('BuildcCtrl', ['$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch','labOwner','psgitlab','laborgs','labBranch','ImageStream', 'BuildConfig', 'Alert','$http', 'Cookie',function($rootScope, $scope, $state, $log, Owner, Org, Branch,labOwner,psgitlab,laborgs,labBranch,ImageStream, BuildConfig, Alert, $http, Cookie) {
-
         $scope.running = false;
-
+        $scope.runninghub = false;
         $scope.buildConfig = {
             metadata: {
                 name: ''
@@ -133,10 +132,9 @@ angular.module('console.build_create_new', [
         $scope.usernames = [];
         var hubobj = {};
         $scope.owner = null;
-        $scope.refresh = function() {
-            //$scope.grid.ishide= false;
-            $scope.running = true;
+        $scope.loadOwner = function(){
             Owner.query({namespace: $rootScope.namespace},function(res) {
+                $scope.runninghub = true;
                 $log.info("owner", res);
                 $scope.owner = res.msg;
                 hubobj = res.msg.infos[0];
@@ -145,30 +143,31 @@ angular.module('console.build_create_new', [
                         res.msg.infos[i].repos[j].loginname = res.msg.infos[i].login;
                     }
                 }
+                $scope.loadOrg();
                 $log.info("userProject", $scope.login);
             },function(data){
-                $scope.running = false;
                 $log.info('-=-=-=-=',data);
                 if (data.status == 400) {
                     if (data.data.code == 1401){
                         // var authurl = data.data.msg + "?namespace=" + $rootScope.namespace
                         // + "%26bearer=" + Cookie.get("df_access_token")
                         // + "%26redirect_url=" + window.location.href ;
-                        var authurl =  "namespace=" + $rootScope.namespace 
-                        + "&bearer=" + Cookie.get("df_access_token")
-                        + "&redirect_url=" + window.location.href ;
+                        var authurl =  "namespace=" + $rootScope.namespace
+                            + "&bearer=" + Cookie.get("df_access_token")
+                            + "&redirect_url=" + window.location.href ;
                         $log.info(authurl);
                         if($scope.grid.isfirst == 2){
                             window.location = data.data.msg + "?"+ encodeURIComponent(authurl);
                         }
-
                     }
                 }else{
                     Alert.open('错误', data.data.msg, true);
                     $scope.grid.ishide = true;
-
+                    $scope.runninghub = false;
                 }
             });
+        }
+        $scope.loadOrg = function() {
             Org.get(function(data) {
                 $log.info("org", data);
                 $scope.usernames = [];
@@ -179,9 +178,14 @@ angular.module('console.build_create_new', [
                         data.msg[i].repos[j].loginname = data.msg[i].login;
                     }
                 }
-            $scope.running = false;
+                $scope.runninghub = false;
             });
-
+        }
+        $scope.refresh = function() {
+            $scope.runninghub = true;
+            $scope.grid.ishide= false;
+            $scope.loadOwner();
+            $scope.loadOrg();
         }
 
         var getlabsecret = function(ht,pjId){
@@ -190,7 +194,6 @@ angular.module('console.build_create_new', [
                 "project_id" : pjId
             }
             $http.post('/v1/repos/gitlab/authorize/deploy',objJson, {headers: {'namespace': $rootScope.namespace}}).success(function(data) {
-
                 $scope.grid.labsecret = data.msg.secret;
                 createBuildConfig(data.msg.secret)
 
@@ -252,7 +255,7 @@ angular.module('console.build_create_new', [
         $scope.checkdTab = function(val){
             if(val == 1){
                 if(!$scope.labowner){
-                    $scope.grid.labcon = false;
+                    $scope.grid.labcon = true;
                     $scope.grid.ishide = true;
                 }else{
                     $scope.grid.labcon = true;
@@ -265,7 +268,7 @@ angular.module('console.build_create_new', [
                     $scope.grid.labcon = false;
 
                 }else{
-                    $scope.grid.ishide = true;
+                    $scope.grid.ishide = false;
                     $scope.grid.labcon = false;
                 }
             }
@@ -273,7 +276,6 @@ angular.module('console.build_create_new', [
         $scope.labowner = null;
         $scope.loadlabOwner = function(){
             $scope.running = true;
-
             $scope.grid.labcon = true;
             labOwner.get({},function(data) {
                 $log.info("labOwner", data)
@@ -363,7 +365,8 @@ angular.module('console.build_create_new', [
         $scope.grid.labcon = true;
         $scope.grid.ishide = true;
         $scope.loadlabOwner();
-        $scope.refresh();
-
+        $scope.loadlabOwner();
+        $scope.loadOwner();
+        $scope.loadOrg();
     }])
 

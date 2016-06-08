@@ -206,6 +206,11 @@ define([
             });
             return Branch;
         }])
+        .factory('WebhookLab',['$resource', function($resource){
+            var WebhookLab = $resource('/v1/repos/source/gitlab/webhooks/namespace/:namespace/build/:build/repo/:repo/spec/:spec',{namespace:'@namespace',build:'@build',repo:'@repo',spec:'@spec'},{
+            });
+            return WebhookLab;
+        }])
         .factory('platform', ['$resource', function($resource){
           var platform = $resource('/registry/api/repositories?project_id=:id', {id:'@id'});
           return platform;
