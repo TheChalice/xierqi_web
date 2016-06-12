@@ -147,12 +147,13 @@ angular.module('console.dashboard', [
           }
           return res;
         };
+
         var toDecimal = function (x) {
           var f = parseFloat(x);
           if (isNaN(f)) {
             return;
           }
-          f = Math.round(x*10000)/10000;
+          f = Math.round(x * 10000) / 10000;
           return f;
         }
         Metrics.cpu.all.query({
@@ -178,68 +179,72 @@ angular.module('console.dashboard', [
                 var mem = [];
                 var memsun = 0;
                 for (var i = 0; i < $scope.cpuData.length; i++) {
-                  if ($scope.cpuData[i]!=null) {
+                  if ($scope.cpuData[i] != null) {
                     cpu.push($scope.cpuData[i])
                   }
-                  if ($scope.memData[i]!=null) {
+                  if ($scope.memData[i] != null) {
                     mem.push($scope.memData[i])
                   }
                 }
                 for (var q = 0; q < cpu.length; q++) {
-                  cpusun+=cpu[q]
+                  cpusun += cpu[q]
                 }
                 for (var w = 0; w < mem.length; w++) {
-                  memsun+=mem[w]
+                  memsun += mem[w]
                 }
                 // console.log(cpusun,memsun)
-                var cpunum=0
-                var memnum=0
+                var cpunum = 0
+                var memnum = 0
                 if (cpu.length && mem.length) {
-                  cpunum = cpusun/cpu.length/500*100;
-                  memnum = memsun/mem.length/1000000/250*100;
-                  cpunum=toDecimal(cpunum);
-                  memnum=toDecimal(memnum);
+                  cpunum = cpusun / cpu.length / 500 * 100;
+                  memnum = memsun / mem.length / 1000000 / 250 * 100;
+                  cpunum = toDecimal(cpunum);
+                  memnum = toDecimal(memnum);
                 }
 
-                  console.log(cpunum,memnum)
-                  $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu'],cpunum);
-                  $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'],memnum);
-                  $scope.chartConfig = setChart();
-                  $scope.isdata.CpuorMem = true;
-                  $scope.isdata.charts = true;
+                // console.log(cpunum,memnum)
+                $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu'], cpunum);
+                $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnum);
+                $scope.chartConfig = setChart();
+                $scope.isdata.CpuorMem = true;
+                $scope.isdata.charts = true;
 
-              }else {
+              } else {
                 var cpu = [];
                 var cpusun = 0;
                 var mem = [];
                 var memsun = 0;
                 for (var i = 0; i < $scope.cpuData.length; i++) {
-                  if ($scope.cpuData[i]!=null) {
+                  if ($scope.cpuData[i] != null) {
                     cpu.push($scope.cpuData[i])
                   }
-                  if ($scope.memData[i]!=null) {
+                  // console.log($scope.cpuData[i],$scope.memData[i])
+                  if ($scope.memData[i] != null) {
                     mem.push($scope.memData[i])
                   }
                 }
+                // console.log(cpu,mem)
                 for (var q = 0; q < cpu.length; q++) {
-                  cpusun+=cpu[q]
+                  cpusun += cpu[q]
                 }
                 for (var w = 0; w < mem.length; w++) {
-                  memsun+=mem[w]
+                  memsun += mem[w]
                 }
-                if (cpusun && memsun) {
-                  var cpunum = cpusun/cpu.length/500*100;
-                  var memnum = memsun/mem.length/1000000/250*100;
-                  cpunum=toDecimal(cpunum);
-                  memnum=toDecimal(memnum);
-                  $scope.pieConfigCpu = setPieChart('CPU', '500m',cpunum);
-                  $scope.pieConfigMem = setPieChart('内存', '250Mi',memnum);
+                console.log(cpusun, memsun)
+                if (cpusun || memsun) {
+                  var cpunum = cpusun / cpu.length / 500 * 100 || 0;
+                  var memnum = memsun / mem.length / 1000000 / 250 * 100 || 0;
+                  cpunum = toDecimal(cpunum);
+                  memnum = toDecimal(memnum);
+                  // console.log(cpunum,memnum)
+                  $scope.pieConfigCpu = setPieChart('CPU', '500m', cpunum);
+                  $scope.pieConfigMem = setPieChart('内存', '250Mi', memnum);
                   $scope.chartConfig = setChart();
                   $scope.isdata.CpuorMem = true;
                   $scope.isdata.charts = true;
-                }else {
-                  $scope.pieConfigCpu = setPieChart('CPU', '500m',0);
-                  $scope.pieConfigMem = setPieChart('内存', '250Mi',0);
+                } else {
+                  $scope.pieConfigCpu = setPieChart('CPU', '500m', 0);
+                  $scope.pieConfigMem = setPieChart('内存', '250Mi', 0);
                   $scope.chartConfig = setChart();
                   $scope.isdata.CpuorMem = true;
                   $scope.isdata.charts = true;

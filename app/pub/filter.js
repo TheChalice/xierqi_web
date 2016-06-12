@@ -6,6 +6,7 @@ define(['angular', 'moment'], function (angular, moment) {
         .filter('dateRelative', [function() {
             // dropSuffix will tell moment whether to include the "ago" text
             return function(timestamp, dropSuffix) {
+
                 if (!timestamp) {
                     return "-";
                 }
@@ -122,6 +123,14 @@ define(['angular', 'moment'], function (angular, moment) {
                     return phase || "-"
                 }
             };
+        }])
+        .filter("timescon",[function(){
+            return function(times){
+                if(times){
+                   //var timesfilter = times.replace(/[a-zA-Z]/g,'');
+                    return moment(times).format('YYYY MMMM Do, h:mm:ss');
+                }
+            }
         }])
         .filter('webhooks', ['$rootScope', 'GLOBAL', function($rootScope, GLOBAL) {
             return function(buildConfig) {
