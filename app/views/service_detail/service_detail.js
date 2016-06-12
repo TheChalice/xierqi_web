@@ -113,18 +113,30 @@ angular.module('console.service.detail', [
             });
 
             var volumeMap = {};
+            // console.log('secretName',res.spec.template.spec.volumes[0].secret);
             if (res.spec.template.spec.volumes) {
               for (var i = 0; i < res.spec.template.spec.volumes.length; i++) {
-                volumeMap[res.spec.template.spec.volumes[i].name] = res.spec.template.spec.volumes[i].secret.secretName;
+                if (res.spec.template.spec.volumes[i].secret) {
+                  volumeMap[res.spec.template.spec.volumes[i].name] = res.spec.template.spec.volumes[i].secret.secretName;
+                }
               }
+              // console.log('volumeMap',$.isEmptyObject(volumeMap));
+              // if ($.isEmptyObject(volumeMap)) {
+              //
+              //   angular.forEach($scope.dc.spec.template.spec.containers, function (item) {
+              //     angular.forEach(item.volumeMounts, function (volume) {
+              //       item.volumeMounts=[];
+              //     })
+              //   })
+              // }
             }
-
             angular.forEach($scope.dc.spec.template.spec.containers, function (item) {
               angular.forEach(item.volumeMounts, function (volume) {
                 if (volumeMap[volume.name]) {
                   volume.name = volumeMap[volume.name];
                 }
               });
+              // console.log(item.volumeMounts);
               if (!item.volumeMounts || item.volumeMounts.length == 0) {
                 item.volumeMounts = [{}];
               }
