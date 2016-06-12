@@ -1192,7 +1192,15 @@ angular.module('console.service.detail', [
           }else if(isport == true && iscreatesv == true && createports == true){
             updateService($scope.dc);
           }
-            DeploymentConfig.patch({namespace: $rootScope.namespace, name: dc.metadata.name}, patchdc, function (res) {
+          var clonepatchdc = angular.copy(patchdc);
+          for(var i = 0 ; i < clonepatchdc.spec.template.spec.containers.length ; i++ ){
+            delete clonepatchdc.spec.template.spec.containers[i]["tag"];
+            if (clonepatchdc.spec.template.spec.containers[i].ports) {
+              delete clonepatchdc.spec.template.spec.containers[i]["ports"];
+              console.log("clonepatchdc-=-=-=-=",clonepatchdc)
+            }
+          }
+            DeploymentConfig.patch({namespace: $rootScope.namespace, name: dc.metadata.name}, clonepatchdc, function (res) {
               $log.info("update dc success", res);
               $scope.getdc.spec.replicas = $scope.dc.spec.replicas;
               bindService(dc);
