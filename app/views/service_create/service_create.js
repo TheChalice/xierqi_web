@@ -633,7 +633,6 @@ angular.module('console.service.create', [
           }
 
           if (isConflict()) {
-            alert(1);
             return false;
           }
           return true;
