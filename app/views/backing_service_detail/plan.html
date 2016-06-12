@@ -14,7 +14,8 @@
                     <label>
                         <i class="faa faa-price">
                         </i>&nbsp;&nbsp;价格</label>
-                    <p ng-repeat="ct in item.metadata.costs">
+                    <p ng-show="item.free">Free</p>
+                    <p ng-show="!item.free" ng-repeat="ct in item.metadata.costs">
                             {{ct.unit}}:<br /><!--€{{ct.amount.eur}}&nbsp;|&nbsp;${{ct.amount.usd}}-->
                             <i ng-repeat="(key, value) in ct.amount">
                             {{key}}: {{value}}<br />

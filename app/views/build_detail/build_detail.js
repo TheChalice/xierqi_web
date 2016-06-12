@@ -9,10 +9,9 @@ angular.module('console.build.detail', [
         ]
     }
 ])
-    .controller('BuildDetailCtrl', ['$rootScope', '$scope', '$log', '$stateParams', '$state', 'BuildConfig', 'Build', 'Confirm', 'UUID', 'WebhookLab', function ($rootScope, $scope, $log, $stateParams, $state, BuildConfig, Build, Confirm, UUID, WebhookLab) {
+    .controller('BuildDetailCtrl', ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'BuildConfig', 'Build', 'Confirm', 'UUID', 'WebhookLab', 'WebhoookHub', function ($rootScope, $scope, $log, $state, $stateParams, BuildConfig, Build, Confirm, UUID, WebhookLab, WebhoookHub) {
         $scope.grid = {};
         $scope.bcName = $stateParams.name;
-
         $scope.$on('image-enable', function(e, enable){
             $scope.imageEnable = enable;
         });
@@ -21,6 +20,8 @@ angular.module('console.build.detail', [
             BuildConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function(data){
                 $log.info('data', data);
                 $scope.data = data;
+                createWebhook();
+                createwebhookHub();
                 if (data.spec && data.spec.completionDeadlineSeconds){
                     $scope.grid.completionDeadlineMinutes = parseInt(data.spec.completionDeadlineSeconds / 60);
                 }
@@ -131,9 +132,15 @@ angular.module('console.build.detail', [
             });
         };
 
-        //WebhookLab.get({namespace: $rootScope.namespace, build: name}, function () {
-        //    $log.info('&*&*&*&**&**', data);
-        //});
-
+        var createWebhook = function(){
+            WebhookLab.check({host: 'https://code.dataos.io', namespace: $rootScope.namespace, build: $stateParams.name, repo: $scope.data.metadata.annotations.repo, spec: {url:'https://www.baidu.com'}}, function (data) {
+               $log.info('&*&*&*&**&**', data);
+            });
+       }
+        var createwebhookHub = function() {
+            WebhoookHub.check({host: 'https://github.com', namespace: $rootScope.namespace, build: $stateParams.name, user: $scope.data.metadata.namespace, repo: $scope.data.metadata.annotations.repo, spec:{events: ['push','pull_request','status']}, config: {url: 'http://example.com/webhook'}}, function(item) {
+                $log.info('&*&*&webhoookhub', item);
+            });
+        }
     }]);
 
