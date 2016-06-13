@@ -1105,7 +1105,7 @@ angular.module('console.service.detail', [
 //点击更新
         $scope.updateDc = function () {
           console.log('点击更新');
-          //$rootScope.lding = true;
+          $rootScope.lding = true;
           // $scope.dc.spec.template.spec.containers[0].volumeMounts=[];
           // $scope.dc.spec.template.spec.containers[0].volumeMounts.push({mountPath:'/app/pic'})
           var dc = angular.copy($scope.dc);
