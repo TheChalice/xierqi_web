@@ -87,6 +87,7 @@ angular.module('console.dashboard', [
         var setPieChart = function (tp, dec, percent) {
           var percentstr = '';
           if (percent) {
+            // percentstr = '<b style="color:#5a6378;">已用' + percent + '%</b>';
             percentstr = '<b style="color:#5a6378;">已用' + percent + '%</b>';
           }
           var subTitle = '<b style="font-size:16px;color:#f6a540;">' + tp + '</b><br>' +
@@ -169,7 +170,6 @@ angular.module('console.dashboard', [
             $log.info('metrics mem all', res);
             $scope.memData = prepareData('内存', res);
             $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas').success(function (data, status, headers, config) {
-
               if (data.items[0]) {
                 // console.log($scope.cpuData);
                 // console.log($scope.memData);
@@ -232,13 +232,18 @@ angular.module('console.dashboard', [
                 }
                 console.log(cpusun, memsun)
                 if (cpusun || memsun) {
-                  var cpunum = cpusun / cpu.length / 500 * 100 || 0;
-                  var memnum = memsun / mem.length / 1000000 / 250 * 100 || 0;
+                  // var cpunum = cpusun / cpu.length / 500 * 100 || 0;
+                  // var memnum = memsun / mem.length / 1000000 / 250 * 100 || 0
+                   var cpunum = cpusun / cpu.length || 0;
+                  var memnum = memsun / mem.length/1000000 || 0
+
                   cpunum = toDecimal(cpunum);
                   memnum = toDecimal(memnum);
-                  // console.log(cpunum,memnum)
-                  $scope.pieConfigCpu = setPieChart('CPU', '500m', cpunum);
-                  $scope.pieConfigMem = setPieChart('内存', '250Mi', memnum);
+                  // console.log(cpunum,memnum);
+                  // $scope.pieConfigCpu = setPieChart('CPU', '500m', cpunum);
+                  // $scope.pieConfigMem = setPieChart('内存', '250Mi', memnum);
+                  $scope.pieConfigCpu = setPieChart('CPU', cpunum+'m', 0);
+                  $scope.pieConfigMem = setPieChart('内存', memnum+'Mi', 0);
                   $scope.chartConfig = setChart();
                   $scope.isdata.CpuorMem = true;
                   $scope.isdata.charts = true;
