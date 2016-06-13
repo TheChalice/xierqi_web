@@ -270,5 +270,9 @@ angular.module('console.dashboard', [
           $scope.pieConfigCpu = setPieChart('CPU', 'N/A', 0);
           $scope.pieConfigMem = setPieChart('内存', 'N/A', 0);
         });
+        $scope.isdata.CpuorMem = true;
+        $scope.isdata.charts = false;
+        $scope.pieConfigCpu = setPieChart('CPU', 'loading...', 0);
+        $scope.pieConfigMem = setPieChart('内存', 'loading...', 0);
       }]);
 
