@@ -39,10 +39,10 @@
             </div>
         </div>
     </div>
-    <div class="secondline col-md-12">
+    <div class="secondline col-md-12" ng-show="isdata.charts">
         <h2>资源监测</h2>
         <div style="width: 100%;">
-            <highchart ng-show="isdata.CpuorMem" config="chartConfig"></highchart>
+            <highchart config="chartConfig"></highchart>
         </div>
     </div>
     <div class="thirdline col-md-12">

@@ -11,12 +11,11 @@
         </div>
         <div class="col-sm-6 col-xs-8" style="padding-left: 0;">
             <div class="pull-right">
-                <div class="searchbar">
-                    <div class="input-group">
-                        <input type="text" class="form-control" ng-model="txt" ng-focus="showTip=true;" placeholder="搜索关键字">
-                        <span class="input-group-btn">
-                            <a class="btn" ng-click="search('all', txt)"></a>
-                        </span>
+                <div class="">
+                    <div class="" style="padding-left: 0;">
+                        <div class="pull-right">
+                            <c-search search="search"></c-search>
+                        </div>
                     </div>
                     <ul class="tip-board" ng-show="txt && showTip">
                         <li>
@@ -52,7 +51,7 @@
                 <th>pod个数<br>正常/期望</th>
                 <th>路由URL</th>
                 <th>后端服务</th>
-                <th class="text-center">操作</th>
+                <th style='text-align: left; padding-left: 17px;'>操作</th>
             </tr>
             <!--<tr ng-repeat="bc in items">-->
             <tr ng-repeat="dc in items">
@@ -61,7 +60,7 @@
                         {{dc.metadata.name}}
                     </a>
                 </td>
-                <td>{{dc.metadata.creationTimestamp | dateRelative}}</td>
+                <td><span uib-tooltip="{{dc.metadata.creationTimestamp  | timescon}}">{{dc.metadata.creationTimestamp | dateRelative}}</span></td>
                 <td>{{dc.ismn}}</td>
                 <td><span style="color: #f6a540">{{dc.rc.status.replicas || 0}}</span>/{{dc.spec.replicas}}</td>
                 <td>

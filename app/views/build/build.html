@@ -38,7 +38,7 @@
                           ng-class="{'fa-spin': bc.build.status.phase == 'Running' || bc.build.status.phase == 'Pending'}"></span>
                     {{bc.build.status.phase | phaseFilter}}
                 </td>
-                <td>{{bc.build.metadata.creationTimestamp | dateRelative}}</td>
+                <td><span uib-tooltip="{{bc.build.metadata.creationTimestamp | timescon}}">{{bc.build.metadata.creationTimestamp | dateRelative}}</span></td>
                 <td>{{bc.build.status.duration | duration}}</td>
                 <td>
                     <i ng-if="true" class="fa fa-hand-pointer-o">&nbsp;手动</i>

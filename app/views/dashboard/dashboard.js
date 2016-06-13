@@ -1,167 +1,285 @@
 'use strict';
 angular.module('console.dashboard', [
-    {
-        files: [
-
-        ]
-    }
-])
-    .controller('dashboardCtrl', ['$log', '$rootScope', '$scope', 'Metrics', 'MetricsService', function($log, $rootScope, $scope, Metrics, MetricsService){
+      {
+        files: []
+      }
+    ])
+    .controller('dashboardCtrl', ['$http', '$log', '$rootScope', '$scope', 'Metrics', 'MetricsService',
+      function ($http, $log, $rootScope, $scope, Metrics, MetricsService) {
         $scope.cpuData = [];
         $scope.memData = [];
         $scope.isdata = {};
 
-      // owner.query(function(res){
-      //     $log.info("owner=====", res);
-      //   });
+        // owner.query(function(res){
+        //     $log.info("owner=====", res);
+        //   });
 
-        var setChart = function() {
-            return {
-                options: {
-                    chart: {
-                        type: 'areaspline'
-                    },
-                    title: {
-                        text: name,
-                        align: 'left',
-                        x: 0,
-                        style: {
-                            fontSize: '12px'
-                        }
-                    },
-                    credits: {
-                        enabled: false
-                    },
-                    tooltip: {
-                        backgroundColor: '#666',
-                        borderWidth: 0,
-                        shadow: false,
-                        style: {
-                            color: '#fff'
-                        }
-                    },
-                    legend: {
-                        enabled: false
-                    }
-                },
-                series: [{
-                    color: '#f6a540',
-                    fillOpacity: 0.3,
-                    marker: {
-                        enabled: false
-                    },
-                    data: $scope.cpuData,
-                    pointStart: (new Date()).getTime() - 30 * 60 * 1000 + 8 * 3600 * 1000,
-                    pointInterval: 3600 * 1000 //时间间隔
-                },
-                    {
-                        color: '#f8b551',
-                        fillOpacity: 0.1,
-                        marker: {
-                            enabled: false
-                        },
-                        data: $scope.memData,
-                        pointStart: (new Date()).getTime() - 30 * 60 * 1000 + 8 * 3600 * 1000,
-                        pointInterval: 3600 * 1000 //时间间隔
-                    }],
-                xAxis: {
-                    type: 'datetime',
-                    gridLineWidth: 1
-                },
-                yAxis: {
-                    gridLineDashStyle: 'ShortDash',
-                    title: {
-                        text: ''
-                    }
-                },
-                size: {
-                    height: 230,
-                    width:900
-                },
-
-                func: function (chart) {
-                    //setup some logic for the chart
+        var setChart = function () {
+          return {
+            options: {
+              chart: {
+                type: 'areaspline'
+              },
+              title: {
+                text: name,
+                align: 'left',
+                x: 0,
+                style: {
+                  fontSize: '12px'
                 }
-            };
-        };
-
-        var setPieChart = function(tp, dec, percent) {
-            var subTitle = '<b style="font-size:16px;color:#f6a540;">' + tp + '</b><br>' +
-                '<span style="color:#9fa7b7;">' + dec + '</span><br>' +
-                '<b style="color:#5a6378;">已用' + percent + '%</b>';
-            return {
-                options: {
-                    title: {
-                        text: ''
-                    },
-                    tooltip: {
-                        enabled: false
-                    },
-                    credits: {
-                        enabled: false
-                    },
-                    subtitle: {
-                        text: subTitle,
-                        style: {
-                            lineHeight: '20px'
-                        },
-                        align: 'center',
-                        verticalAlign: 'middle',
-                        x: 0,
-                        y: -10
-
-                    }
-                },
-                series: [{
-                    type: 'pie',
-                    colors: ['#f6a540', '#c6c6c6'],
-                    data: [
-                        ['已用',   percent],
-                        ['未使用', 100 - percent]
-                    ],
-                    dataLabels: {
-                        enabled: false
-                    },
-                    innerSize: '88%'
-                }],
-                size: {
-                    height: 200,
-                    width:200
-                },
-
-                func: function (chart) {
-                    //setup some logic for the chart
+              },
+              credits: {
+                enabled: false
+              },
+              tooltip: {
+                backgroundColor: '#666',
+                borderWidth: 0,
+                shadow: false,
+                style: {
+                  color: '#fff'
                 }
-            };
-        };
+              },
+              legend: {
+                enabled: false
+              }
+            },
+            series: [{
+              color: '#f6a540',
+              fillOpacity: 0.3,
+              marker: {
+                enabled: false
+              },
+              data: $scope.cpuData,
+              pointStart: (new Date()).getTime() - 30 * 60 * 1000 + 8 * 3600 * 1000,
+              pointInterval: 3600 * 1000 //时间间隔
+            },
+              {
+                color: '#f8b551',
+                fillOpacity: 0.1,
+                marker: {
+                  enabled: false
+                },
+                data: $scope.memData,
+                pointStart: (new Date()).getTime() - 30 * 60 * 1000 + 8 * 3600 * 1000,
+                pointInterval: 3600 * 1000 //时间间隔
+              }],
+            xAxis: {
+              type: 'datetime',
+              gridLineWidth: 1
+            },
+            yAxis: {
+              gridLineDashStyle: 'ShortDash',
+              title: {
+                text: ''
+              }
+            },
+            size: {
+              height: 230,
+              width: 900
+            },
 
-        var prepareData = function(tp, data){
-            var res = [];
-            MetricsService.normalize(data, tp);
-            for (var i = 0; i < data.length - 1; i++) {
-                res.push(data[i].value);
+            func: function (chart) {
+              //setup some logic for the chart
             }
-            return res;
+          };
         };
 
-        Metrics.cpu.all.query({tags: 'descriptor_name:cpu/usage,pod_namespace:' + $rootScope.namespace, buckets: 61}, function(res){
-            $log.info('metrics cpu all', res);
-            $scope.cpuData = prepareData('CPU', res);
+        var setPieChart = function (tp, dec, percent) {
+          var percentstr = '';
+          if (percent) {
+            // percentstr = '<b style="color:#5a6378;">已用' + percent + '%</b>';
+            percentstr = '<b style="color:#5a6378;">已用' + percent + '%</b>';
+          }
+          var subTitle = '<b style="font-size:16px;color:#f6a540;">' + tp + '</b><br>' +
+                  '<span style="color:#9fa7b7;">' + dec + '</span><br>' + percentstr
+              ;
+          return {
+            options: {
+              title: {
+                text: ''
+              },
+              tooltip: {
+                enabled: false
+              },
+              credits: {
+                enabled: false
+              },
+              subtitle: {
+                text: subTitle,
+                style: {
+                  lineHeight: '20px'
+                },
+                align: 'center',
+                verticalAlign: 'middle',
+                x: 0,
+                y: -10
 
-            Metrics.mem.all.query({tags: 'descriptor_name:memory/usage,pod_namespace:' + $rootScope.namespace, buckets: 61}, function(res){
-                $log.info('metrics mem all', res);
-                $scope.memData = prepareData('内存', res);
+              }
+            },
+            series: [{
+              type: 'pie',
+              colors: ['#f6a540', '#c6c6c6'],
+              data: [
+                ['已用', percent],
+                ['未使用', 100 - percent]
+              ],
+              dataLabels: {
+                enabled: false
+              },
+              innerSize: '88%'
+            }],
+            size: {
+              height: 200,
+              width: 200
+            },
 
+            func: function (chart) {
+              //setup some logic for the chart
+            }
+          };
+        };
+
+        // /api/v1/namespaces/{namespace}/resourcequotas
+        var prepareData = function (tp, data) {
+          var res = [];
+          MetricsService.normalize(data, tp);
+          for (var i = 0; i < data.length - 1; i++) {
+            res.push(data[i].value);
+          }
+          return res;
+        };
+
+        var toDecimal = function (x) {
+          var f = parseFloat(x);
+          if (isNaN(f)) {
+            return;
+          }
+          f = Math.round(x * 10000) / 10000;
+          return f;
+        }
+        Metrics.cpu.all.query({
+          tags: 'descriptor_name:cpu/usage,pod_namespace:' + $rootScope.namespace,
+          buckets: 30
+        }, function (res) {
+          $log.info('metrics cpu all', res);
+          $scope.cpuData = prepareData('CPU', res);
+          Metrics.mem.all.query({
+            tags: 'descriptor_name:memory/usage,pod_namespace:' + $rootScope.namespace,
+            buckets: 30
+          }, function (res) {
+            $log.info('metrics mem all', res);
+            $scope.memData = prepareData('内存', res);
+            $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas').success(function (data, status, headers, config) {
+              if (data.items[0]) {
+                // console.log($scope.cpuData);
+                // console.log($scope.memData);
+                parseInt(data.items[0].spec.hard['limits.memory'])
+                var cpu = [];
+                var cpusun = 0;
+                var mem = [];
+                var memsun = 0;
+                for (var i = 0; i < $scope.cpuData.length; i++) {
+                  if ($scope.cpuData[i] != null) {
+                    cpu.push($scope.cpuData[i])
+                  }
+                  if ($scope.memData[i] != null) {
+                    mem.push($scope.memData[i])
+                  }
+                }
+                for (var q = 0; q < cpu.length; q++) {
+                  cpusun += cpu[q]
+                }
+                for (var w = 0; w < mem.length; w++) {
+                  memsun += mem[w]
+                }
+                // console.log(cpusun,memsun)
+                var cpunum = 0
+                var memnum = 0
+                if (cpu.length && mem.length) {
+                  cpunum = cpusun / cpu.length / 500 * 100;
+                  memnum = memsun / mem.length / 1000000 / 250 * 100;
+                  cpunum = toDecimal(cpunum);
+                  memnum = toDecimal(memnum);
+                }
+
+                // console.log(cpunum,memnum)
+                $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu'], cpunum);
+                $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnum);
                 $scope.chartConfig = setChart();
-                $scope.pieConfigCpu = setPieChart('CPU', '25.75HZ', 75.5);
-                $scope.pieConfigMem = setPieChart('内存', '80G', 45.8);
                 $scope.isdata.CpuorMem = true;
-            }, function(res){
-                $log.info('metrics mem all err', res);
-            });
+                $scope.isdata.charts = true;
 
-        }, function(res){
-            $log.info('metrics cpu all err', res);
+              } else {
+                var cpu = [];
+                var cpusun = 0;
+                var mem = [];
+                var memsun = 0;
+                for (var i = 0; i < $scope.cpuData.length; i++) {
+                  if ($scope.cpuData[i] != null) {
+                    cpu.push($scope.cpuData[i])
+                  }
+                  // console.log($scope.cpuData[i],$scope.memData[i])
+                  if ($scope.memData[i] != null) {
+                    mem.push($scope.memData[i])
+                  }
+                }
+                // console.log(cpu,mem)
+                for (var q = 0; q < cpu.length; q++) {
+                  cpusun += cpu[q]
+                }
+                for (var w = 0; w < mem.length; w++) {
+                  memsun += mem[w]
+                }
+                console.log(cpusun, memsun)
+                if (cpusun || memsun) {
+                  // var cpunum = cpusun / cpu.length / 500 * 100 || 0;
+                  // var memnum = memsun / mem.length / 1000000 / 250 * 100 || 0
+                   var cpunum = cpusun / cpu.length || 0;
+                  var memnum = memsun / mem.length/1000000 || 0
+
+                  cpunum = toDecimal(cpunum);
+                  memnum = toDecimal(memnum);
+                  // console.log(cpunum,memnum);
+                  // $scope.pieConfigCpu = setPieChart('CPU', '500m', cpunum);
+                  // $scope.pieConfigMem = setPieChart('内存', '250Mi', memnum);
+                  $scope.pieConfigCpu = setPieChart('CPU', cpunum+'m', 0);
+                  $scope.pieConfigMem = setPieChart('内存', memnum+'Mi', 0);
+                  $scope.chartConfig = setChart();
+                  $scope.isdata.CpuorMem = true;
+                  $scope.isdata.charts = true;
+                } else {
+                  $scope.pieConfigCpu = setPieChart('CPU', '500m', 0);
+                  $scope.pieConfigMem = setPieChart('内存', '250Mi', 0);
+                  $scope.chartConfig = setChart();
+                  $scope.isdata.CpuorMem = true;
+                  $scope.isdata.charts = true;
+                }
+
+              }
+              // console.log('配额', data);
+
+            }).error(function (data, status, headers, config) {
+              $scope.pieConfigCpu = setPieChart('CPU', 'NA', 0);
+              $scope.pieConfigMem = setPieChart('内存', 'NA', 0);
+            });
+          }, function (res) {
+            $log.info('metrics mem all err', res);
+            $scope.pieConfigCpu = setPieChart('CPU', 'NA', 0);
+            $scope.pieConfigMem = setPieChart('内存', 'NA', 0);
+          });
+
+        }, function (res) {
+          $log.info('metrics cpu all err', res);
+          $scope.isdata.CpuorMem = true;
+          $scope.isdata.charts = false;
+          $scope.pieConfigCpu = setPieChart('CPU', 'N/A', 0);
+          $scope.pieConfigMem = setPieChart('内存', 'N/A', 0);
         });
-    }]);
+
+        $scope.isdata.CpuorMem = true;
+        $scope.isdata.charts = false;
+        $scope.pieConfigCpu = setPieChart('CPU', 'loading...', 0);
+        $scope.pieConfigMem = setPieChart('内存', 'loading...', 0);
+
+      }]);
 

@@ -15,8 +15,10 @@ angular.module('console.backing_service_detail', [
       var loadBs = function () {
         BackingService.get({namespace: 'openshift', name: cuename}, function (data) {
           $log.info('loadBs=====', data);
+          
           $scope.data = data;
           var plans = data.spec.plans;
+          $log.info("plan display", plans);
           for (var i = 0; i < plans.length; i++) {
             if (plans[i].name == $stateParams.plan) {
               $scope.grid.checked = i;
@@ -46,6 +48,8 @@ angular.module('console.backing_service_detail', [
         $scope.grid.active = 1;
 
         var plans = $scope.data.spec.plans;
+        $scope.data.spec.plans.free = true;
+        console.log("%%%%%%", $scope.data.spec);
         for (var i = 0; i < plans.length; i++) {
           if (plans[i].name == item.spec.provisioning.backingservice_plan_name) {
             $scope.grid.checked = i;
@@ -233,5 +237,4 @@ angular.module('console.backing_service_detail', [
           }
         });
       };
-
     }]);

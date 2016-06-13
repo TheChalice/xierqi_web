@@ -36,6 +36,7 @@
                     <label class="col-sm-2 control-label" style="color: #5a6378; font-size:14px; text-align: left;">代码URL</label>
                     <div class="col-sm-10">
                         <uib-tabset class="tab-default">
+                            <!--gitlab-->
                             <uib-tab index="1" heading="代码仓库" ng-click="checkdTab(1)">
                                 <div class="tabinfo" style="height: 70px">
                                     <a class="btn pull-right" ng-class="{'running':running,}" uib-tooltip="同步代码源"
@@ -48,12 +49,11 @@
                                     （<a href="https://code.dataos.io" target="view_window">https://code.dataos.io</a>） 是可靠的自托管的 Git 项目仓库，
                                     可通过Web 界面进行访问公开的或者私人项目。</span>
                                 </div>
-
-
                             </uib-tab>
+                            <!--github-->
                             <uib-tab index="2" heading="GitHub" ng-click="checkdTab(2)">
                                 <div class="tabinfo" style="height: 70px">
-                                    <a class="btn pull-right" ng-class="{'running':running,}" uib-tooltip="同步代码源"
+                                    <a class="btn pull-right" ng-class="{'running':runninghub}" uib-tooltip="同步代码源"
                                        ng-click="refresh()" style="margin-top: -30px; margin-right: -20px">
                                         <i class="fa fa-green fa-lg fa-refresh"></i>
                                     </a>

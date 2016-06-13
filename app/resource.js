@@ -206,6 +206,18 @@ define([
             });
             return Branch;
         }])
+        .factory('WebhookLab',['$resource', function($resource){
+            var WebhookLab = $resource('/v1/repos/source/gitlab/webhooks',{}, {
+                check: {method: 'POST'}
+            });
+            return WebhookLab;
+        }])
+        .factory('WebhoookHub',['$resource', function($resource){
+            var WebhookHub = $resource('/v1/repos/source/github/webhooks', {} ,{
+                check: {method: 'POST'}
+            });
+            return WebhookHub;
+        }])
         .factory('platform', ['$resource', function($resource){
           var platform = $resource('/registry/api/repositories?project_id=:id', {id:'@id'});
           return platform;
@@ -215,10 +227,9 @@ define([
           return platformlist;
         }])
         .factory('platformone', ['$resource', function($resource){
-                var platformone = $resource('/registry/api/repositories/manifests?repo_name=:id&tag=:tag', {id:'@id',tag:'@tag'});
-                return platformone;
-      }])
-
+            var platformone = $resource('/registry/api/repositories/manifests?repo_name=:id&tag=:tag', {id:'@id',tag:'@tag'});
+            return platformone;
+        }])
         .factory('labOwner', ['$resource', function($resource){
             var labOwner = $resource('/v1/repos/gitlab/owner',{}, {
             });
