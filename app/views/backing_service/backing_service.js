@@ -216,7 +216,19 @@ angular.module('console.backing_service', [
 
           };
           loadBsi();
-          // console.log("$scope.test", $scope.test)
+
+          for (var r = 0; r < $scope.test.length; r++) {
+            for (var u = 0; u < $scope.test[r].item.length; u++) {
+              console.log($scope.test[r].item[u].status.phase);
+              if ($scope.test[r].item[u].status.phase === 'Active') {
+                $scope.test[r].item[u].biancheng = true;
+              }else {
+                $scope.test[r].item[u].bianhui = true;
+              }
+              
+            }
+          }
+          console.log("$scope.test", $scope.test)
           $scope.data = data.items;
           filter('serviceCat', 'all');
           filter('vendor', 'all');
