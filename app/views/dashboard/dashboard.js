@@ -84,9 +84,9 @@ angular.module('console.dashboard', [
           };
         };
 
-        var setPieChart = function (tp, dec, percent) {
+        var setPieChart = function (tp, dec, percent, quota) {
           var percentstr = '';
-          if (percent) {
+          if (quota == true) {
             // percentstr = '<b style="color:#5a6378;">已用' + percent + '%</b>';
             percentstr = '<b style="color:#5a6378;">已用' + percent + '%</b>';
           }
@@ -203,8 +203,9 @@ angular.module('console.dashboard', [
                 }
 
                 // console.log(cpunum,memnum)
-                $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu'], cpunum);
-                $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnum);
+                //quotaed
+                $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu'], cpunum, true);
+                $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnum, true);
                 $scope.chartConfig = setChart();
                 $scope.isdata.CpuorMem = true;
                 $scope.isdata.charts = true;
@@ -242,12 +243,14 @@ angular.module('console.dashboard', [
                   // console.log(cpunum,memnum);
                   // $scope.pieConfigCpu = setPieChart('CPU', '500m', cpunum);
                   // $scope.pieConfigMem = setPieChart('内存', '250Mi', memnum);
-                  $scope.pieConfigCpu = setPieChart('CPU', cpunum+'m', 0);
-                  $scope.pieConfigMem = setPieChart('内存', memnum+'Mi', 0);
+                  //no quota.
+                  $scope.pieConfigCpu = setPieChart('CPU', cpunum+'m', 0, false);
+                  $scope.pieConfigMem = setPieChart('内存', memnum+'Mi', 0, false);
                   $scope.chartConfig = setChart();
                   $scope.isdata.CpuorMem = true;
                   $scope.isdata.charts = true;
                 } else {
+                  //error occured.
                   $scope.pieConfigCpu = setPieChart('CPU', '500m', 0);
                   $scope.pieConfigMem = setPieChart('内存', '250Mi', 0);
                   $scope.chartConfig = setChart();
@@ -259,13 +262,13 @@ angular.module('console.dashboard', [
               // console.log('配额', data);
 
             }).error(function (data, status, headers, config) {
-              $scope.pieConfigCpu = setPieChart('CPU', 'NA', 0);
-              $scope.pieConfigMem = setPieChart('内存', 'NA', 0);
+              $scope.pieConfigCpu = setPieChart('CPU', 'N/A', 0);
+              $scope.pieConfigMem = setPieChart('内存', 'N/A', 0);
             });
           }, function (res) {
             $log.info('metrics mem all err', res);
-            $scope.pieConfigCpu = setPieChart('CPU', 'NA', 0);
-            $scope.pieConfigMem = setPieChart('内存', 'NA', 0);
+            $scope.pieConfigCpu = setPieChart('CPU', 'N/A', 0);
+            $scope.pieConfigMem = setPieChart('内存', 'N/A', 0);
           });
 
         }, function (res) {
@@ -278,8 +281,8 @@ angular.module('console.dashboard', [
 
         $scope.isdata.CpuorMem = true;
         $scope.isdata.charts = false;
-        $scope.pieConfigCpu = setPieChart('CPU', 'loading...', 0);
-        $scope.pieConfigMem = setPieChart('内存', 'loading...', 0);
+        $scope.pieConfigCpu = setPieChart('CPU', 'loading...', 0.1);
+        $scope.pieConfigMem = setPieChart('内存', 'loading...', 0.1);
 
       }]);
 
