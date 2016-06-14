@@ -388,7 +388,7 @@ angular.module('console.service.detail', [
             if (data.object.metadata.annotations['openshift.io/deployment.cancelled'] == 'true') {
               data.object.metadata.annotations['openshift.io/deployment.phase'] = 'Cancelled';
             }
-
+          })
             DeploymentConfig.log.get({namespace: $rootScope.namespace, name: $scope.dc.metadata.name}, function (res) {
               // console.log('log',res)
               console.log('执行了');
@@ -422,7 +422,7 @@ angular.module('console.service.detail', [
                 }
               });
             }
-          })
+
         };
 
         $scope.$watch('dc.state',function (n,o) {
