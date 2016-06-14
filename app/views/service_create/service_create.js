@@ -633,7 +633,6 @@ angular.module('console.service.create', [
           }
 
           if (isConflict()) {
-            
             return false;
           }
           return true;
@@ -716,7 +715,10 @@ angular.module('console.service.create', [
           }
           var clonedc = angular.copy(dc);
           for(var i = 0;i<clonedc.spec.template.spec.containers.length;i++){
-            if(clonedc.spec.template.spec.containers[i].ports.length == 0){
+            delete clonedc.spec.template.spec.containers[i]["commitId"];
+            delete clonedc.spec.template.spec.containers[i]["ref"];
+            delete clonedc.spec.template.spec.containers[i]["tag"];
+            if(clonedc.spec.template.spec.containers[i].ports){
                 delete clonedc.spec.template.spec.containers[i]["ports"];
             }
             if(clonedc.spec.template.spec.containers[i].env.length == 0){
