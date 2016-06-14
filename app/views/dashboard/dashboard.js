@@ -50,7 +50,7 @@ angular.module('console.dashboard', [
               },
               yAxis: 1,
               data: $scope.cpuData,
-              pointStart: (new Date()).getTime() - 30 * 60 * 1000 - 24 * 3600 * 1000,
+              pointStart: (new Date()).getTime() - 30 * 60 * 1000 - 19 * 3600 * 1000,
               pointInterval: 3600 * 1000 //时间间隔
             },
               {
@@ -62,7 +62,7 @@ angular.module('console.dashboard', [
                 },
                 yAxis: 0,
                 data: $scope.memData,
-                pointStart: (new Date()).getTime() - 30 * 60 * 1000 - 24 * 3600 * 1000,
+                pointStart: (new Date()).getTime() - 30 * 60 * 1000 - 19 * 3600 * 1000,
                 pointInterval: 3600 * 1000 //时间间隔
               }],
             xAxis: {
@@ -171,18 +171,21 @@ angular.module('console.dashboard', [
           f = Math.round(x * 10000) / 10000;
           return f;
         }
+        
         Metrics.cpu.all.query({
           tags: 'descriptor_name:cpu/usage,pod_namespace:' + $rootScope.namespace,
           buckets: 30
         }, function (res) {
           $log.info('metrics cpu all', res);
           $scope.cpuData = prepareData('CPU', res);
+          console.log('$scope.cpuData',$scope.cpuData)
           Metrics.mem.all.query({
             tags: 'descriptor_name:memory/usage,pod_namespace:' + $rootScope.namespace,
             buckets: 30
           }, function (res) {
             $log.info('metrics mem all', res);
             $scope.memData = prepareData('内存', res);
+            console.log('$scope.memData',$scope.memData)
             $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas').success(function (data, status, headers, config) {
               if (data.items[0]) {
                 // console.log($scope.cpuData);
