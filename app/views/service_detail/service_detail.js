@@ -265,6 +265,29 @@ angular.module('console.service.detail', [
           }
           return 'warning';   //告警
         };
+        
+        $scope.$watch('dc.status.replicas',function (n,o) {
+          $scope.$watch('dc.spec.replicas',function (w,t) {
+            // console.log(n == w)
+            if ($scope.dc) {
+              if (n == 0) {
+                $scope.dc.state ='ready'; //未启动
+              }
+              if (n == 0) {
+                $scope.dc.state ='ready'; //未启动
+              }
+              if (n == 0) {
+                $scope.dc.state ='abnormal';  //异常
+              }
+              if (n == w) {
+                $scope.dc.state ='normal';    //正常
+              }
+            }
+
+            // $scope.dc.state ='warning';   //告警
+          })
+
+        })
 
         var loadRcs = function (name) {
           var labelSelector = 'openshift.io/deployment-config.name=' + name;
@@ -367,7 +390,7 @@ angular.module('console.service.detail', [
         var updateRcs = function (data) {
           DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (dcdata) {
             $scope.dc = dcdata;
-            console.log('执行了');
+            // console.log('执行了');
             $rootScope.lding = false;
             loadPods($scope.dc.metadata.name);
             if (data.type == 'ERROR') {
@@ -426,7 +449,9 @@ angular.module('console.service.detail', [
         };
 
         $scope.$watch('dc.state',function (n,o) {
+
           console.log('new',n);
+
           if (n != 'normal') {
             $scope.startBtn = {
               name:'启动',
