@@ -55,14 +55,14 @@ angular.module('console.dashboard', [
             },
               {
                 name:'内存',
-                color: '#e0e0e0',
-                fillOpacity: 0.3,
+                color: '#5a6378',
+                fillOpacity: 0.4,
                 marker: {
                   enabled: false
                 },
                 yAxis: 0,
                 data: $scope.memData,
-                pointStart: (new Date()).getTime() - 30 * 60 * 1000 -24 * 3600 * 1000,
+                pointStart: (new Date()).getTime() - 30 * 60 * 1000 - 24 * 3600 * 1000,
                 pointInterval: 3600 * 1000 //时间间隔
               }],
             xAxis: {
@@ -74,7 +74,7 @@ angular.module('console.dashboard', [
               title: {
                 text: '内存 (m)',
                 style:{
-                  color: '#89A54E'
+                  color: '#5a6378'
                 }
               }
 
@@ -83,7 +83,7 @@ angular.module('console.dashboard', [
               title: {
                 text: 'cpu (%)',
                 style:{
-                  color: '#89A54E'
+                  color: '#f6a540'
                 }
               },
               opposite: true
