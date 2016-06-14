@@ -267,7 +267,7 @@ angular.module('console.service.detail', [
         };
         
         $scope.$watch('dc.status.replicas',function (n,o) {
-          $scope.$watch('dc.spec.replicas',function (w,t) {
+          // $scope.$watch('dc.spec.replicas',function (w,t) {
             // console.log(n == w)
             if ($scope.dc) {
               if (n == 0) {
@@ -279,7 +279,7 @@ angular.module('console.service.detail', [
               if (n == 0) {
                 $scope.dc.state ='abnormal';  //异常
               }
-              if (n == w) {
+              if (n == $scope.dc.spec.replicas) {
                 $scope.dc.state ='normal';    //正常
               }
             }
@@ -287,7 +287,7 @@ angular.module('console.service.detail', [
             // $scope.dc.state ='warning';   //告警
           })
 
-        })
+        // })
 
         var loadRcs = function (name) {
           var labelSelector = 'openshift.io/deployment-config.name=' + name;
@@ -887,15 +887,18 @@ angular.module('console.service.detail', [
           var containers = dc.spec.template.spec.containers;
           for (var i = 0; i < containers.length; i++) {
             var container = containers[i];
-            for (var j = 0; j < container.volumeMounts.length;) {
-              if (!container.volumeMounts[j].name || !container.volumeMounts[j].mountPath) {
-                $log.info("remove " + j + " from volumeMounts total has " + container.volumeMounts.length);
-                container.volumeMounts.splice(j, 1);
-                j = 0;
-              } else {
-                j++;
+            if (container.volumeMounts) {
+              for (var j = 0; j < container.volumeMounts.length;) {
+                if (!container.volumeMounts[j].name || !container.volumeMounts[j].mountPath) {
+                  $log.info("remove " + j + " from volumeMounts total has " + container.volumeMounts.length);
+                  container.volumeMounts.splice(j, 1);
+                  j = 0;
+                } else {
+                  j++;
+                }
               }
             }
+
           }
         };
 
