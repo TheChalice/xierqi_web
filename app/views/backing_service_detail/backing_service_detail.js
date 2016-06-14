@@ -15,7 +15,12 @@ angular.module('console.backing_service_detail', [
       var loadBs = function () {
         BackingService.get({namespace: 'openshift', name: cuename}, function (data) {
           $log.info('loadBs=====', data);
-          
+
+          if (data.status.phase === "Inactive") {
+            data.bianhui = true;
+          }else {
+            data.biancheng = true;
+          }
           $scope.data = data;
           var plans = data.spec.plans;
           $log.info("plan display", plans);
