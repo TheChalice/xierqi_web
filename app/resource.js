@@ -212,11 +212,23 @@ define([
             });
             return WebhookLab;
         }])
-        .factory('WebhoookHub',['$resource', function($resource){
+        .factory('WebhookHub',['$resource', function($resource){
             var WebhookHub = $resource('/v1/repos/source/github/webhooks', {} ,{
                 check: {method: 'POST'}
             });
             return WebhookHub;
+        }])
+        .factory('WebhookLabDel',['$resource', function($resource){
+            var WebhookLabDel =  $resource('/v1/repos/source/gitlab/webhooks?host=:host&namespace=:namespace&build=:build&repo=:repo', {host:'@host', namespace:'@namespace',build:'@build',repo:'@repo'},{
+                del: {method: 'DELETE'}
+            });
+            return WebhookLabDel;
+        }])
+        .factory('WebhookHubDel',['$resource', function($resource){
+            var WebhookHubDel = $resource('/v1/repos/source/github/webhooks?namespace=:namespace&build=:build&user=:user&repo=:repo', {namespace:'@namespace',build:'@build',user:'@user',repo:'@repo'},{
+                del: {method: 'DELETE'}
+            });
+            return WebhookHubDel;
         }])
         .factory('platform', ['$resource', function($resource){
           var platform = $resource('/registry/api/repositories?project_id=:id', {id:'@id'});

@@ -270,9 +270,7 @@ angular.module('console.service.detail', [
           var labelSelector = 'openshift.io/deployment-config.name=' + name;
           ReplicationController.get({namespace: $rootScope.namespace, labelSelector: labelSelector}, function (res) {
             $log.info("replicationControllers", res);
-
             res.items = Sort.sort(res.items, -1);
-
             for (var i = 0; i < res.items.length; i++) {
               res.items[i].dc = JSON.parse(res.items[i].metadata.annotations['openshift.io/encoded-deployment-config']);
               if (res.items[i].metadata.name == $scope.dc.metadata.name + '-' + $scope.dc.status.latestVersion) {
@@ -355,9 +353,9 @@ angular.module('console.service.detail', [
             var data = JSON.parse(res.data);
             updateRcs(data);
           }, function () {
-            $log.info("webSocket start");
+            $log.info("webSocket startRC");
           }, function () {
-            $log.info("webSocket stop");
+            $log.info("webSocket stopRC");
             var key = Ws.key($rootScope.namespace, 'replicationcontrollers', '');
             if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
               return;
@@ -367,65 +365,64 @@ angular.module('console.service.detail', [
         };
         //执行log
         var updateRcs = function (data) {
-          console.log('执行了');
-          $rootScope.lding = false;
-          loadPods($scope.dc.metadata.name);
-          if (data.type == 'ERROR') {
-            $log.info("err", data.object.message);
-            Ws.clear();
-            loadRcs($scope.dc.metadata.name);
-            return;
-          }
-
-          $scope.resourceVersion = data.object.metadata.resourceVersion;
-          $scope.dc.status.phase = data.object.metadata.annotations['openshift.io/deployment.phase'];
-          $scope.dc.state = serviceState();
-          console.log("$scope.dc+_+_+_+_+",$scope.dc);
-          console.log("$scope.dc.statedata+_+_+_+_+",data);
-
-          data.object.dc = JSON.parse(data.object.metadata.annotations['openshift.io/encoded-deployment-config']);
-          if (data.object.metadata.name == $scope.dc.metadata.name + '-' + $scope.dc.status.latestVersion) {
-            console.log("data.object.status.replicas+_+_+_+_+",data.object.status.replicas);
-            $scope.dc.status.replicas = data.object.status.replicas;
-            $scope.getdc.spec.replicas = data.object.spec.replicas;
-          }
-          if (data.object.metadata.annotations['openshift.io/deployment.cancelled'] == 'true') {
-            data.object.metadata.annotations['openshift.io/deployment.phase'] = 'Cancelled';
-          }
-
-          DeploymentConfig.log.get({namespace: $rootScope.namespace, name: $scope.dc.metadata.name}, function (res) {
-            // console.log('log',res)
+          DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (dcdata) {
+            $scope.dc = dcdata;
             console.log('执行了');
             $rootScope.lding = false;
-            var result = "";
-            for (var k in res) {
-              if (/^\d+$/.test(k)) {
-                result += res[k];
-              }
-
+            loadPods($scope.dc.metadata.name);
+            if (data.type == 'ERROR') {
+              $log.info("err", data.object.message);
+              Ws.clear();
+              loadRcs($scope.dc.metadata.name);
+              return;
             }
-            // console.log(result);
-            data.object.log = result;
-          }, function (res) {
-            //todo 错误处理
-            data.object.log = res.data.message;
-          });
-
-          if (data.type == 'ADDED') {
-            data.object.showLog = true;
-            if ($scope.rcs.items.length > 0) {
-              $scope.rcs.items.unshift(data.object);
-            } else {
-              $scope.rcs.items = [data.object];
+            $scope.resourceVersion = data.object.metadata.resourceVersion;
+            $scope.dc.status.phase = data.object.metadata.annotations['openshift.io/deployment.phase'];
+            $scope.dc.state = serviceState();
+            console.log("$scope.dc+_+_+_+_+", $scope.dc);
+            data.object.dc = JSON.parse(data.object.metadata.annotations['openshift.io/encoded-deployment-config']);
+            if (data.object.metadata.name == $scope.dc.metadata.name + '-' + $scope.dc.status.latestVersion) {
+              $scope.dc.status.replicas = data.object.status.replicas;
+              $scope.getdc.spec.replicas = data.object.spec.replicas;
             }
-          } else if (data.type == "MODIFIED") {
-            angular.forEach($scope.rcs.items, function (item, i) {
-              if (item.metadata.name == data.object.metadata.name) {
-                data.object.showLog = item.showLog;
-                $scope.rcs.items[i] = data.object;
+            if (data.object.metadata.annotations['openshift.io/deployment.cancelled'] == 'true') {
+              data.object.metadata.annotations['openshift.io/deployment.phase'] = 'Cancelled';
+            }
+
+            DeploymentConfig.log.get({namespace: $rootScope.namespace, name: $scope.dc.metadata.name}, function (res) {
+              // console.log('log',res)
+              console.log('执行了');
+              $rootScope.lding = false;
+              var result = "";
+              for (var k in res) {
+                if (/^\d+$/.test(k)) {
+                  result += res[k];
+                }
+
               }
+              // console.log(result);
+              data.object.log = result;
+            }, function (res) {
+              //todo 错误处理
+              data.object.log = res.data.message;
             });
-          }
+
+            if (data.type == 'ADDED') {
+              data.object.showLog = true;
+              if ($scope.rcs.items.length > 0) {
+                $scope.rcs.items.unshift(data.object);
+              } else {
+                $scope.rcs.items = [data.object];
+              }
+            } else if (data.type == "MODIFIED") {
+              angular.forEach($scope.rcs.items, function (item, i) {
+                if (item.metadata.name == data.object.metadata.name) {
+                  data.object.showLog = item.showLog;
+                  $scope.rcs.items[i] = data.object;
+                }
+              });
+            }
+          })
         };
 
         $scope.$watch('dc.state',function (n,o) {
@@ -1119,20 +1116,22 @@ angular.module('console.service.detail', [
             //dc.status.latestVersion = datadc.status.latestVersion+1;
             var flog = 0;
             for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
-              for (var j = 0; j < dc.spec.template.spec.containers[i].volumeMounts.length; j++) {
-                if (dc.spec.template.spec.containers[i].volumeMounts[j].name) {
-                  flog++;
-                  var volume1 = "volume" + flog;
-                  dc.spec.template.spec.volumes.push(
-                      {
-                        "name": volume1,
-                        "secret": {
-                          "secretName": dc.spec.template.spec.containers[i].volumeMounts[j].name
-                        }
-                      }
-                  );
-                  dc.spec.template.spec.containers[i].volumeMounts[j].name = volume1;
-                }
+              if(dc.spec.template.spec.containers[i].volumeMounts){
+                  for (var j = 0; j < dc.spec.template.spec.containers[i].volumeMounts.length; j++) {
+                    if (dc.spec.template.spec.containers[i].volumeMounts[j].name) {
+                      flog++;
+                      var volume1 = "volume" + flog;
+                      dc.spec.template.spec.volumes.push(
+                          {
+                            "name": volume1,
+                            "secret": {
+                              "secretName": dc.spec.template.spec.containers[i].volumeMounts[j].name
+                            }
+                          }
+                      );
+                      dc.spec.template.spec.containers[i].volumeMounts[j].name = volume1;
+                    }
+                  }
               }
               if (cons[i].ports) {
                 var testlength = cons[i].ports.length;

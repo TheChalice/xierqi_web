@@ -65,6 +65,7 @@ angular.module('console.build_create_new', [
                 $scope.buildConfig.spec.source.git.uri = $scope.usernames[$scope.grid.user].repos[$scope.grid.project].clone_url;
                 $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ":" + $scope.branch[$scope.grid.branch].name;
                 $scope.buildConfig.metadata.annotations.repo = $scope.usernames[$scope.grid.user].repos[$scope.grid.project].name;
+                $scope.buildConfig.metadata.annotations.user =  $scope.usernames[$scope.grid.user].login;
             }else if($scope.grid.labcon == true){
                 $scope.buildConfig.spec.completionDeadlineSeconds = $scope.completionDeadlineMinutes * 60;
                 $scope.buildConfig.spec.source.git.ref = $scope.labBranchData.msg[$scope.grid.labbranch].name;
@@ -148,7 +149,7 @@ angular.module('console.build_create_new', [
                         res.msg.infos[i].repos[j].loginname = res.msg.infos[i].login;
                     }
                 }
-                $scope.loadOrg();
+                //$scope.loadOrg();
                 $log.info("userProject", $scope.login);
             },function(data){
                 $log.info('-=-=-=-=',data);
@@ -216,7 +217,6 @@ angular.module('console.build_create_new', [
             newarr.sort(function(x,y){
                 return x.names > y.names ? 1 : -1;
             })
-            //$log.info('&********', $scope.reposobj);
             thisindex = idx;
         }
         $scope.selectProject = function(idx) {
@@ -326,6 +326,7 @@ angular.module('console.build_create_new', [
                 $log.info("laborgs-------err",data)
             });
         }
+
         $scope.loadLabBranch = function(idx){
           $scope.grid.labbranch=null;
             var labId = $scope.labobjs[idx].id;
@@ -364,12 +365,10 @@ angular.module('console.build_create_new', [
                 $log.info('psgitlab-----err',res);
                 $scope.grid.cdm = true;
                 $scope.grid.creatlaberr = res.data.msg;
-
             })
         }
         $scope.grid.labcon = true;
         $scope.grid.ishide = true;
-        $scope.loadlabOwner();
         $scope.loadlabOwner();
         $scope.loadOwner();
         $scope.loadOrg();

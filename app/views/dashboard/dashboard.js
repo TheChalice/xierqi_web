@@ -44,7 +44,7 @@ angular.module('console.dashboard', [
             series: [{
               name:'cpu',
               color: '#f6a540',
-              fillOpacity: 0.3,
+              fillOpacity: 0.2,
               marker: {
                 enabled: false
               },
@@ -55,8 +55,8 @@ angular.module('console.dashboard', [
             },
               {
                 name:'内存',
-                color: '#5a6378',
-                fillOpacity: 0.4,
+                color: '#5bc0de',
+                fillOpacity: 0.2,
                 marker: {
                   enabled: false
                 },
@@ -75,7 +75,7 @@ angular.module('console.dashboard', [
               title: {
                 text: '内存 (m)',
                 style:{
-                  color: '#5a6378'
+                  color: '#5bc0de'
                 }
               }
 
