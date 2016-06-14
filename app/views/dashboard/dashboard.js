@@ -50,8 +50,8 @@ angular.module('console.dashboard', [
               },
               yAxis: 1,
               data: $scope.cpuData,
-              pointStart: (new Date()).getTime() - 30 * 60 * 1000 - 19 * 3600 * 1000,
-              pointInterval: 3600 * 1000 //时间间隔
+              pointStart: (new Date()).getTime()+3600 * 1000,
+              pointInterval: 15 * 60 * 1000 //时间间隔
             },
               {
                 name:'内存',
@@ -62,10 +62,11 @@ angular.module('console.dashboard', [
                 },
                 yAxis: 0,
                 data: $scope.memData,
-                pointStart: (new Date()).getTime() - 30 * 60 * 1000 - 19 * 3600 * 1000,
-                pointInterval: 3600 * 1000 //时间间隔
+                pointStart: (new Date()).getTime()+3600 * 1000,
+                pointInterval: 15 * 60 * 1000 //时间间隔
               }],
             xAxis: {
+              // categories: ['12:00','14:00', '16:00', '18:00', '20:00', '22:00', '24:00'],
               type: 'datetime',
               gridLineWidth: 1
             },
@@ -153,7 +154,7 @@ angular.module('console.dashboard', [
           };
         };
 
-        // /api/v1/namespaces/{namespace}/resourcequotas
+        // console.log((new Date()).getTime()-8 * 3600 * 1000);
         var prepareData = function (tp, data) {
           var res = [];
           MetricsService.normalize(data, tp);
@@ -162,7 +163,6 @@ angular.module('console.dashboard', [
           }
           return res;
         };
-
         var toDecimal = function (x) {
           var f = parseFloat(x);
           if (isNaN(f)) {
