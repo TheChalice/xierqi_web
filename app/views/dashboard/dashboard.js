@@ -10,9 +10,7 @@ angular.module('console.dashboard', [
         $scope.memData = [];
         $scope.isdata = {};
 
-        // owner.query(function(res){
-        //     $log.info("owner=====", res);
-        //   });
+        // console.log((new Date()).getTime() - 30 * 60 * 1000 + 8 * 3600 * 1000);
 
         var setChart = function () {
           return {
@@ -44,40 +42,56 @@ angular.module('console.dashboard', [
               }
             },
             series: [{
+              name:'cpu',
               color: '#f6a540',
               fillOpacity: 0.3,
               marker: {
                 enabled: false
               },
+              yAxis: 1,
               data: $scope.cpuData,
-              pointStart: (new Date()).getTime() - 30 * 60 * 1000 + 8 * 3600 * 1000,
+              pointStart: (new Date()).getTime() - 30 * 60 * 1000 - 24 * 3600 * 1000,
               pointInterval: 3600 * 1000 //时间间隔
             },
               {
-                color: '#f8b551',
-                fillOpacity: 0.1,
+                name:'内存',
+                color: '#e0e0e0',
+                fillOpacity: 0.3,
                 marker: {
                   enabled: false
                 },
+                yAxis: 0,
                 data: $scope.memData,
-                pointStart: (new Date()).getTime() - 30 * 60 * 1000 + 8 * 3600 * 1000,
+                pointStart: (new Date()).getTime() - 30 * 60 * 1000 -24 * 3600 * 1000,
                 pointInterval: 3600 * 1000 //时间间隔
               }],
             xAxis: {
               type: 'datetime',
               gridLineWidth: 1
             },
-            yAxis: {
-              gridLineDashStyle: 'ShortDash',
+            yAxis:[{
+              // gridLineDashStyle: 'ShortDash',
               title: {
-                text: ''
+                text: '内存 (m)',
+                style:{
+                  color: '#89A54E'
+                }
               }
-            },
+
+          },{
+              // gridLineDashStyle: 'ShortDash',
+              title: {
+                text: 'cpu (%)',
+                style:{
+                  color: '#89A54E'
+                }
+              },
+              opposite: true
+            }],
             size: {
               height: 230,
-              width: 900
+              width: 950
             },
-
             func: function (chart) {
               //setup some logic for the chart
             }
