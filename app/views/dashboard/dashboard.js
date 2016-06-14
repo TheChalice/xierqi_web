@@ -264,9 +264,9 @@ angular.module('console.dashboard', [
                   $scope.isdata.CpuorMem = true;
                   $scope.isdata.charts = true;
                 } else {
-                  //error occured.
-                  $scope.pieConfigCpu = setPieChart('CPU', '500m', 0);
-                  $scope.pieConfigMem = setPieChart('内存', '250Mi', 0);
+                  //no quota, no usage.
+                  $scope.pieConfigCpu = setPieChart('CPU', 'N/A', 0);
+                  $scope.pieConfigMem = setPieChart('内存', 'N/A', 0);
                   $scope.chartConfig = setChart();
                   $scope.isdata.CpuorMem = true;
                   $scope.isdata.charts = true;
