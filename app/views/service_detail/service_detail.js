@@ -13,11 +13,12 @@ angular.module('console.service.detail', [
       function ($state, $rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamTag, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret, ImageSelect, Service, ImageService) {
         //获取服务列表
         $scope.servicepoterr = false;
+        console.log('$rootScope',$rootScope);
         $scope.grid = {
           ports: [],
           port: 0,
           host: '',
-          suffix: '.app.dataos.io'
+          suffix: '.'+$rootScope.namespace+'.app.dataos.io'
         };
         $scope.portMap = {};
 
