@@ -128,7 +128,7 @@ define(['angular', 'moment'], function (angular, moment) {
             return function(times){
                 if(times){
                    //var timesfilter = times.replace(/[a-zA-Z]/g,'');
-                    return moment(times).format('YYYY MMMM Do, h:mm:ss');
+                    return moment(times).format('YYYY-MM-DD HH:mm:ss');
                 }
             }
         }])

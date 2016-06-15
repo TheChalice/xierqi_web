@@ -2,7 +2,7 @@
     <ul>
         <!--<li ng-repeat="item in data.items" ng-if="type=='build' || (type=='image' && item.status.phase=='Complete')">-->
         <li ng-repeat="item in data.items">
-            <label>
+            <label uib-tooltip="{{item.metadata.creationTimestamp | timescon}}">
                 <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
                 {{item.metadata.creationTimestamp || item.list.Created | dateRelative}}
             </label>
@@ -28,7 +28,7 @@
                     <div class="col-sm-3 text-right" ng-if="type=='build'">
                         <a ng-if="item.status.phase == 'Complete'"
                            ui-sref="console.image_detail({bc: item.metadata.labels.buildconfig, name: item.spec.output.to.name})"
-                           class="icon25 icon25-forward" uib-tooltip="跳转"></a>
+                           class="icon25 icon25-forward" uib-tooltip="查看镜像"></a>
                         <a ng-if="item.status.phase !== 'Pending' && item.status.phase !== 'Running' && item.status.phase !== 'New'"
                            ng-click="delete($index)" class="icon25 icon25-delete" uib-tooltip="删除"
                            href="javascript:;"></a>
