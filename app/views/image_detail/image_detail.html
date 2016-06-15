@@ -20,7 +20,7 @@
                         </div>
                         <div class="media-body">
                             <h4 class="media-heading">更新时间</h4>
-                            <small uib-tooltip="{{data.metadata.creationTimestamp}}">
+                            <small uib-tooltip="{{data.metadata.creationTimestamp | timescon}}">
                                 {{data.metadata.creationTimestamp || newlist.Created | dateRelative}}</small>
                         </div>
                     </div>

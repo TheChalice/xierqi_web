@@ -274,7 +274,7 @@ define(['angular'], function (angular) {
                   $scope.search(newVal);
                 }
               });
-
+            
               $scope.search = function (txt) {
                 if (!txt) {
                   $scope.items = $scope.data.items;

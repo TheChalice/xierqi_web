@@ -62,12 +62,12 @@ angular.module('console.service.create', [
           },
           status: {}
         };
-
+        console.log('$rootScope',$rootScope);
         $scope.grid = {
           ports: [],
           port: 0,
           host: '',
-          suffix: '.app.dataos.io',
+          suffix: '.'+$rootScope.namespace+'.app.dataos.io',
           imageChange: true,
           configChange: true,
           checkedsecond: false,

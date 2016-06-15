@@ -48,24 +48,32 @@
     <div class="thirdline col-md-12">
         <h2>统计数值</h2>
         <div class="selection ban2">
-            <p class="num">100</p>
-            <img src="pub/img/images_06.png">
-            <p>POD</p>
+            <div style="border-right: 1px solid #c9c9c9">
+                <p class="num">100</p>
+                <img src="pub/img/images_06.png"><br>
+                <a ui-sref="console.service">POD</a>
+            </div>
         </div>
         <div class="selection ban2">
-            <p class="num">20</p>
-            <img src="pub/img/images_08.png">
-            <p>服务</p>
+            <div style="border-right: 1px solid #c9c9c9">
+                <p class="num">20</p>
+                <img src="pub/img/images_08.png"><br>
+                <a ui-sref="console.service">服务</a>
+            </div>
         </div>
         <div class="selection ban2">
-            <p class="num">39</p>
-            <img src="pub/img/images_10.png">
-            <p>后端服务实例</p>
+            <div style="border-right: 1px solid #c9c9c9">
+                <p class="num">39</p>
+                <img src="pub/img/images_10.png"><br>
+                <a ui-sref="console.backing_service">后端服务实例</a>
+            </div>
         </div>
         <div class="selection ban2">
-            <p class="num">2000</p>
-            <img src="pub/img/images_12.png">
-            <p>应用</p>
+            <div>
+                <p class="num">2000</p>
+                <img src="pub/img/images_12.png"><br>
+                <a ui-sref="console.backing_service">应用</a>
+            </div>
         </div>
     </div>
 
@@ -122,6 +130,9 @@
         .dashboard .firstline .block-left .info > tbody > tr > td > p > span {
             color: #e5993a;
         }
+        .dashboard .thirdline .selection {
+            padding-bottom: 10px;
+        }
         .dashboard .thirdline .selection:hover {
             background-color: #f2f4f8;
             border-bottom: 7px solid #e5993a;
@@ -129,6 +140,9 @@
         .dashboard .thirdline p {
             font-size:14px;
             text-align: center;
+        }
+        .dashboard .thirdline a {margin-bottom: 20px;
+            color: #5a6378;
         }
         .dashboard .thirdline .num {
             font-size: 32px;

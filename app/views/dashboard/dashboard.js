@@ -103,10 +103,12 @@ angular.module('console.dashboard', [
           var percentstr = '';
           if (quota == true) {
             // percentstr = '<b style="color:#5a6378;">已用' + percent + '%</b>';
-            percentstr = '<b style="color:#5a6378;">已用' + percent + '%</b>';
+            //已用
+            percentstr = '<b style="color:#5a6378; font-size: 16px">已用' + percent + '%</b>';
           }
+          //配额
           var subTitle = '<b style="font-size:16px;color:#f6a540;">' + tp + '</b><br>' +
-                  '<span style="color:#9fa7b7;">' + dec + '</span><br>' + percentstr
+                  '<span style="color:#9fa7b7; font-size:16px;">' + dec + '</span><br>' + percentstr
               ;
           return {
             options: {
@@ -178,14 +180,14 @@ angular.module('console.dashboard', [
         }, function (res) {
           $log.info('metrics cpu all', res);
           $scope.cpuData = prepareData('CPU', res);
-          console.log('$scope.cpuData',$scope.cpuData)
+          // console.log('$scope.cpuData',$scope.cpuData)
           Metrics.mem.all.query({
             tags: 'descriptor_name:memory/usage,pod_namespace:' + $rootScope.namespace,
             buckets: 30
           }, function (res) {
             $log.info('metrics mem all', res);
             $scope.memData = prepareData('内存', res);
-            console.log('$scope.memData',$scope.memData)
+            // console.log('$scope.memData',$scope.memData)
             $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas').success(function (data, status, headers, config) {
               if (data.items[0]) {
                 // console.log($scope.cpuData);
@@ -248,7 +250,7 @@ angular.module('console.dashboard', [
                 for (var w = 0; w < mem.length; w++) {
                   memsun += mem[w]
                 }
-                console.log(cpusun, memsun)
+                // console.log(cpusun, memsun)
                 if (cpusun || memsun) {
                   // var cpunum = cpusun / cpu.length / 500 * 100 || 0;
                   // var memnum = memsun / mem.length / 1000000 / 250 * 100 || 0
