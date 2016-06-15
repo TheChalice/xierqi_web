@@ -80,7 +80,8 @@
                                     <ul>
                                         <li class="labcon" ng-repeat="user in usernames" ng-show="!user.hide">
                                             <a href="javascript:;" uib-tooltip="{{user.login}}"
-                                               ng-class="{'active': grid.user == $index}" ng-click="selectUser($index)">
+                                               ng-class="{'active': grid.user == $index}"
+                                               ng-click="selectUser($index)">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{user.login}}
                                             </a>
                                         </li>

@@ -145,11 +145,13 @@ angular.module('console.build_create_new', [
                 hubobj = res.msg.infos[0];
                 for(var i = 0 ; i < res.msg.infos.length;i++){
                     for(var j = 0; j < res.msg.infos[i].repos.length;j++){
-                        res.msg.infos[i].repos[j].loginname = res.msg.infos[i].login;
+
+                      res.msg.infos[i].repos[j].loginname = res.msg.infos[i].login;
                     }
                 }
+
                 //$scope.loadOrg();
-                $log.info("userProject", $scope.login);
+                $log.info("msg", res.msg);
             },function(data){
                 $log.info('-=-=-=-=',data);
                 if (data.status == 400) {
@@ -181,6 +183,7 @@ angular.module('console.build_create_new', [
                     $scope.usernames.push(data.msg[i]);
                     for(var j = 0; j < data.msg[i].repos.length;j++){
                         data.msg[i].repos[j].loginname = data.msg[i].login;
+                      
                     }
                 }
                 $scope.runninghub = false;
@@ -210,13 +213,16 @@ angular.module('console.build_create_new', [
             $scope.reposobj = $scope.usernames[idx].repos;
             var newarr = $scope.reposobj;
             var names = [];
+          if (newarr) {
             for (var i = 0; i < newarr.length; i++){
-               $scope.reposobj[i]['names']=newarr[i].name.toUpperCase();
+              $scope.reposobj[i]['names']=newarr[i].name.toUpperCase();
             }
             newarr.sort(function(x,y){
-                return x.names > y.names ? 1 : -1;
+              return x.names > y.names ? 1 : -1;
             })
             thisindex = idx;
+          }
+
         }
         $scope.selectProject = function(idx) {
             $scope.grid.project = idx;
