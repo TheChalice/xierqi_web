@@ -59,6 +59,16 @@ define([
                 }]
               }
             })
+            .state('console.user', {
+              url: '/user',
+              templateUrl: 'views/user/user.html',
+              controller: 'userCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/user/user.js')
+                }]
+              }
+            })
             .state('console.build_create', {
               url: '/build/create',
               templateUrl: 'views/build_create/build_create.html',
