@@ -103,10 +103,12 @@ angular.module('console.dashboard', [
           var percentstr = '';
           if (quota == true) {
             // percentstr = '<b style="color:#5a6378;">已用' + percent + '%</b>';
-            percentstr = '<b style="color:#5a6378;">已用' + percent + '%</b>';
+            //已用
+            percentstr = '<b style="color:#5a6378; font-size: 16px">已用' + percent + '%</b>';
           }
+          //配额
           var subTitle = '<b style="font-size:16px;color:#f6a540;">' + tp + '</b><br>' +
-                  '<span style="color:#9fa7b7;">' + dec + '</span><br>' + percentstr
+                  '<span style="color:#9fa7b7; font-size:16px;">' + dec + '</span><br>' + percentstr
               ;
           return {
             options: {
