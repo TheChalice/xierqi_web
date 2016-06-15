@@ -75,14 +75,17 @@ angular.module('console.service.create', [
           conflict: false,
           serviceConflict: false,
           servicepot: false,
-          servicepoterr : false
+          servicepoterr : false,
+          createdcerr : false,
+          isserviceName : false
+
         };
         // $scope.grid.host=$scope.dc.metadata.name
         $scope.invalid = {};
 
         $scope.envs = [];
 
-        $scope.createdcerr = "";
+        $scope.createdcerr = false;
 
         $scope.containerTpl = {
           name: "",
@@ -262,11 +265,32 @@ angular.module('console.service.create', [
         };
         
         loadSecrets();
+        var serviceNameArr = [];
+        var loadDcList = function(){
+          DeploymentConfig.get({namespace: $rootScope.namespace}, function(data){
+                for(var i = 0 ; i < data.items.length; i++){
+                  serviceNameArr.push(data.items[i].metadata.name);
+                }
+          }, function(res) {
+            $log.info('loadDcList', res);
+            //todo ������
+          });
+        }
+
+        loadDcList();
         
         $scope.serviceNamekedown = function(){
-          var oldname = angular.copy($scope.dc.metadata.name);
-          if(oldname == $scope.dc.metadata.name){
-            $scope.createdcerr = "";
+            for(var i = 0; i < serviceNameArr.length;i++){
+              if(serviceNameArr[i] == $scope.dc.metadata.name){
+                $scope.grid.createdcerr = true;
+              }else{
+                $scope.grid.createdcerr = false;
+                $scope.grid.isserviceName = false;
+              }
+            }
+          if(!$scope.dc.metadata.name){
+            $scope.grid.isserviceName = true;
+            $scope.grid.createdcerr = false;
           }
         }
 
@@ -544,10 +568,10 @@ angular.module('console.service.create', [
             $log.info("create service success", res);
             $scope.service = res;
 
-            if ($scope.grid.route) {
-              createRoute(res);
-            }
-            $state.go('console.service_detail', {name: dc.metadata.name});
+            //if ($scope.grid.route) {
+            //  createRoute(res);
+            //}
+            //$state.go('console.service_detail', {name: dc.metadata.name});
           }, function (res) {
             $log.info("create service fail", res);
             $state.go('console.service_detail', {name: dc.metadata.name});
@@ -637,7 +661,27 @@ angular.module('console.service.create', [
           }
           return true;
         };
+        var deleService = function(){
+          Service.delete({namespace: $rootScope.namespace,name:$scope.dc.metadata.name}, function (res) {
+              console.log("deleService-yes",res);
+          },function(res){
+              console.log("deleService-no",res);
+          })
+        }
+        var deleRoute = function(){
+          Route.delete({namespace: $rootScope.namespace,name:$scope.dc.metadata.name}, function (res) {
+            console.log("deleRoute-yes",res);
+          },function(res){
+            console.log("deleRoute-no",res);
+          })
+        }
         $scope.createDc = function () {
+          if($scope.grid.isserviceName || $scope.grid.createdcerr){
+            return;
+          }
+          if (!valid($scope.dc)) {
+            return;
+          }
           $rootScope.lding = true;
           var dc = angular.copy($scope.dc);
           var cons = angular.copy($scope.dc.spec.template.spec.containers);
@@ -673,11 +717,6 @@ angular.module('console.service.create', [
             }
             dc.spec.template.spec.containers[i].ports = cons[i].ports;
           }
-
-          if (!valid($scope.dc)) {
-            return;
-          }
-
           prepareDc(dc);
           prepareVolume(dc);
           prepareTrigger(dc);
@@ -713,6 +752,8 @@ angular.module('console.service.create', [
           if(createports == false){
             return;
           }
+          deleService();
+          deleRoute();
           var clonedc = angular.copy(dc);
           for(var i = 0;i<clonedc.spec.template.spec.containers.length;i++){
             delete clonedc.spec.template.spec.containers[i]["commitId"];
@@ -725,26 +766,41 @@ angular.module('console.service.create', [
               delete clonedc.spec.template.spec.containers[i]["env"];
             }
           }
+          var isport = false;
+          for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
+            if (dc.spec.template.spec.containers[i].ports.length != 0) {
+              isport = true;
+              break;
+            }
+          }
+          if (isport) {
+            createService(dc);
+          }
+          if ($scope.grid.route) {
+            createRoute(dc);
+          }
           DeploymentConfig.create({namespace: $rootScope.namespace}, clonedc, function (res) {
             $log.info("create dc success", res);
-            var isport = false;
-            for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
-              if (dc.spec.template.spec.containers[i].ports.length != 0) {
-                isport = true;
-                break;
-              }
-            }
-            if (isport) {
-              createService(dc);
-              bindService(dc);
-            } else {
-              $state.go('console.service_detail', {name: dc.metadata.name});
-            }
+            //var isport = false;
+            //for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
+            //  if (dc.spec.template.spec.containers[i].ports.length != 0) {
+            //    isport = true;
+            //    break;
+            //  }
+            //}
+            //if (isport) {
+            //  createService(dc);
+            //  bindService(dc);
+            //} else {
+            //  $state.go('console.service_detail', {name: dc.metadata.name});
+            //}
+            bindService(dc);
+            $state.go('console.service_detail', {name: dc.metadata.name});
           }, function (res) {
             //todo 错误处理
             $log.info("create dc fail", res);
             if(res.status == 409){
-             $scope.createdcerr = "服务名称重复";
+             $scope.createdcerr = true;
             }
           });
         };

@@ -584,6 +584,20 @@ angular.module('console.service.detail', [
           });
         };
 
+        var deleService = function(){
+          Service.delete({namespace: $rootScope.namespace,name:$scope.dc.metadata.name}, function (res) {
+            console.log("deleService-yes",res);
+          },function(res){
+            console.log("deleService-no",res);
+          })
+        }
+        var deleRoute = function(){
+          Route.delete({namespace: $rootScope.namespace,name:$scope.dc.metadata.name}, function (res) {
+            console.log("deleRoute-yes",res);
+          },function(res){
+            console.log("deleRoute-no",res);
+          })
+        }
         var rmRcs = function (dc) {
           if (!dc) {
             return;
@@ -620,8 +634,10 @@ angular.module('console.service.detail', [
             if ($scope.rcs.items.length > 0) {
               rmRcs($scope.dc.metadata.name);
             } else {
-              rmDc($scope.dc.metadata.name)
+              rmDc($scope.dc.metadata.name);
             }
+            deleService();
+            deleRoute();
           });
         };
 
