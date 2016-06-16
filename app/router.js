@@ -172,6 +172,7 @@ define([
                 plan: null,
                 update: false,
                 index: null,
+                type:null
               },
               templateUrl: 'views/backing_service_detail/backing_service_detail.html',
               controller: 'BackingServiceInstanceCtrl',

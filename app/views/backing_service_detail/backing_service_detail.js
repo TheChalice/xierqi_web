@@ -6,12 +6,16 @@ angular.module('console.backing_service_detail', [
         ]
       }
     ])
-    .controller('BackingServiceInstanceCtrl', ['$log', '$scope', '$rootScope', '$stateParams', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'Confirm', 'BackingServiceInstanceBd', '$state', 'Toast', 'Ws', function ($log, $scope, $rootScope, $stateParams, BackingService, BackingServiceInstance, ServiceSelect, Confirm, BackingServiceInstanceBd, $state, Toast, Ws) {
+    .controller('BackingServiceInstanceCtrl',
+        ['$log', '$scope', '$rootScope', '$stateParams', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'Confirm', 'BackingServiceInstanceBd', '$state', 'Toast', 'Ws'
+          , function ($log, $scope, $rootScope, $stateParams, BackingService, BackingServiceInstance, ServiceSelect, Confirm, BackingServiceInstanceBd, $state, Toast, Ws) {
       $scope.grid={}
       var cuename = $stateParams.name;
-      console.log('$stateParams.index', $stateParams.index)
+      console.log('$stateParams', $stateParams)
       $scope.grid.active = $stateParams.index;
-
+          if ($stateParams.type) {
+            $scope.ltype=$stateParams.type
+          }
       var loadBs = function () {
         BackingService.get({namespace: 'openshift', name: cuename}, function (data) {
           $log.info('loadBs=====', data);
