@@ -44,8 +44,8 @@
                     </div>
                 </div>
                 <div class="panel-group" role="tablist" aria-multiselectable="true" style="margin-bottom: 0;">
-                    <div class="panel panel-default" style='margin-bottom: 30px' ng-repeat="bsisv in test">
-                        <div href="#{{bsisv.Name}}" data-toggle="collapse" class="panel-heading"
+                    <div class="panel panel-default" style='margin-bottom: 30px' ng-repeat="bsisv in test" ng-show='bsisv.items'>
+                        <div href="#{{bsisv.Name}}" data-toggle="collapse"  class="panel-heading"
                              style='background:#FFFFFF;' role="tab" aria-expanded={{opened}}>
                             <h4 class="panel-title">
                                 <a href="#{{bsisv.Name}}" data-toggle="collapse"
