@@ -206,7 +206,12 @@ angular.module('console.backing_service_detail', [
 
           }, function (res) {
             //todo 错误处理
-            Toast.open('操作失败');
+            // Toast.open('操作失败');
+            if (res.data.message.split(':')[1]) {
+              Toast.open(res.data.message.split(':')[1].split(';')[0]);
+            }else {
+              Toast.open(res.data.message);
+            }
             $log.info("del bindings err", res);
           });
         });
@@ -228,7 +233,12 @@ angular.module('console.backing_service_detail', [
 
           }, function (res) {
             //todo 错误处理
-            Toast.open('操作失败');
+            // Toast.open('操作失败');
+            if (res.data.message.split(':')[1]) {
+              Toast.open(res.data.message.split(':')[1].split(';')[0]);
+            }else {
+              Toast.open(res.data.message);
+            }
             $log.info("bind services err", res);
           });
         }
