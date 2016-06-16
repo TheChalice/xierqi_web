@@ -44,22 +44,6 @@ angular.module('console.backing_service', [
         }
 
       };
-    }).filter('searchfilter', function () {
-      return function (items, condition) {
-        var filtered = [];
-
-        if (condition === undefined || condition === '') {
-          return items;
-        }
-
-        angular.forEach(items, function (item) {
-          if (condition.name ==item.metadata.name) {
-            filtered.push(item);
-          }
-        });
-
-        return filtered;
-      };
     })
     .controller('BackingServiceCtrl', ['$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'BackingServiceInstanceBd', 'Confirm', 'Toast', 'Ws', '$filter', function ($log, $rootScope, $scope, BackingService, BackingServiceInstance, ServiceSelect, BackingServiceInstanceBd, Confirm, Toast, Ws, $filter) {
       // 得到loadBs对象进行分组
@@ -277,7 +261,8 @@ angular.module('console.backing_service', [
       $scope.grid = {
         serviceCat: 'all',
         vendor: 'all',
-        txt: ''
+        txt: '',
+        mytxt:''
       };
       $scope.isComplete = '';
 
@@ -425,6 +410,30 @@ angular.module('console.backing_service', [
           }
         }
       };
+      $scope.mykeysearch=function (event) {
+        if (event.keyCode === 13){
+          $scope.isComplete={name:$scope.grid.mytxt};
+          var sarr = [];
+          if ($scope.grid.mytxt) {
+            for (var s = 0; s < $scope.mytest.length; s++) {
+              sarr = $filter("myfilter")($scope.mytest[s].item, $scope.isComplete);
+              if (sarr.length === 0) {
+                $scope.mytest[s].showTab = false;
+              }
+            }
+          }else {
+            for (var s = 0; s < $scope.mytest.length; s++) {
+              sarr = $filter("myfilter")($scope.mytest[s].item, $scope.isComplete);
+              // console.log(sarr.length)
+              if (sarr.length === 0) {
+                $scope.mytest[s].showTab = false;
+              }else {
+                $scope.mytest[s].showTab=true;
+              }
+            }
+          }
+        }
+      }
 
       $scope.keysearch=function (event) {
         if (event.keyCode === 13) {
@@ -441,13 +450,38 @@ angular.module('console.backing_service', [
           }else {
             for (var s = 0; s < $scope.test.length; s++) {
               sarr = $filter("myfilter")($scope.test[s].item, $scope.isComplete);
-              console.log(sarr.length)
+              // console.log(sarr.length)
               $scope.test[s].showTab=true;
             }
             }
         }
       }
       // 搜索
+      $scope.mysearch=function () {
+        $scope.isComplete={name:$scope.grid.mytxt};
+        var sarr = [];
+        if ($scope.grid.mytxt) {
+          for (var s = 0; s < $scope.mytest.length; s++) {
+            sarr = $filter("myfilter")($scope.mytest[s].item, $scope.isComplete);
+            if (sarr.length === 0) {
+              $scope.mytest[s].showTab = false;
+            }
+          }
+        }else {
+          for (var s = 0; s < $scope.mytest.length; s++) {
+            sarr = $filter("myfilter")($scope.mytest[s].item, $scope.isComplete);
+            // console.log(sarr.length)
+            if (sarr.length === 0) {
+              $scope.mytest[s].showTab = false;
+            }else {
+              $scope.mytest[s].showTab=true;
+            }
+          }
+        }
+        // console.log($scope.mytest);
+        // filter('serviceCat', $scope.grid.serviceCat);
+        // filter('vendor', $scope.grid.vendor);
+      }
       $scope.search = function () {
         $scope.isComplete={name:$scope.grid.txt};
         var sarr = [];
@@ -461,11 +495,11 @@ angular.module('console.backing_service', [
         }else {
           for (var s = 0; s < $scope.test.length; s++) {
               sarr = $filter("myfilter")($scope.test[s].item, $scope.isComplete);
-              console.log(sarr.length)
+              // console.log(sarr.length)
               $scope.test[s].showTab=true;
             }
         }
-        console.log($scope.test);
+        // console.log($scope.test);
         // filter('serviceCat', $scope.grid.serviceCat);
         // filter('vendor', $scope.grid.vendor);
       };
