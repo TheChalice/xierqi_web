@@ -95,14 +95,17 @@ angular.module('console.image', [
           });
         });
       };
-
+      $scope.fyshow=true;
       $scope.doSearch = function (txt) {
         $scope.showTip = false;
         $scope.search(txt);
       }
       $scope.search = function (key, txt) {
+
+        console.log('grid.page',$scope.grid.page);
         if (!txt) {
           refresh(1);
+          $scope.fyshow=true;
           return;
         }
         $scope.items = [];
@@ -113,8 +116,12 @@ angular.module('console.image', [
             $scope.items.push($scope.data.items[i]);
           }
         }
+
         $log.info($scope.items);
-        $log.info($scope.data.items[0].metadata.name);
+        if ($scope.grid.page == 1) {
+          $scope.fyshow=false;
+        }
+        // $log.info($scope.data.items[0].metadata.name);
       };
       $scope.opened = true;
       $scope.ksearch = function (key,txt,event) {
