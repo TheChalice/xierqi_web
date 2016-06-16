@@ -63,6 +63,9 @@ angular.module("console.header", [
                     return "后端服务详情";
                 case "console.apply_instance":
                     return "新建后端服务实例";
+               case "console.user":
+                    return "用户中心";
+
             }
         };
     }]);
