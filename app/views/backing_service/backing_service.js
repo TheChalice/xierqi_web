@@ -9,19 +9,40 @@ angular.module('console.backing_service', [
 ]).filter('myfilter', function () {
       return function (items, condition) {
         var filtered = [];
-
         if (condition === undefined || condition === '') {
           return items;
         }
+        if (condition.name === '') {
+          return items;
+        }
+        if (condition.name) {
+          for (var i = 0; i < items.length; i++) {
+           var str = items[i].metadata.name.toLowerCase();
+            if (str.indexOf(condition.name) != -1) {
+              filtered.push(items[i]);
+            }
 
-        angular.forEach(items, function (item) {
-
-          if (condition.providerDisplayName === item.providerDisplayName) {
-            filtered.push(item);
           }
-        });
+          return filtered;
+          // angular.forEach(items, function (item) {
+          //   var str = item.metadata.name.toLowerCase()
+          //   // console.log(condition.name,str)
+          //   if (str.indexOf(condition.name)!=-1) {
+          //     filtered.push(item);
+          //   }
+          // });
+          // console.log(filtered)
+          // return filtered;
+        }
+        else {
+          angular.forEach(items, function (item) {
+            if (condition.providerDisplayName === item.providerDisplayName) {
+              filtered.push(item);
+            }
+          });
+          return filtered;
+        }
 
-        return filtered;
       };
     })
     .controller('BackingServiceCtrl', ['$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'BackingServiceInstanceBd', 'Confirm', 'Toast', 'Ws', '$filter', function ($log, $rootScope, $scope, BackingService, BackingServiceInstance, ServiceSelect, BackingServiceInstanceBd, Confirm, Toast, Ws, $filter) {
@@ -207,8 +228,6 @@ angular.module('console.backing_service', [
                 }
               }
               // console.log('mytest', $scope.mytest)
-
-
             }, function (res) {
               //todo 错误处理
               $log.info("loadBsi err", res);
@@ -219,7 +238,7 @@ angular.module('console.backing_service', [
 
           for (var r = 0; r < $scope.test.length; r++) {
             for (var u = 0; u < $scope.test[r].item.length; u++) {
-              console.log($scope.test[r].item[u].status.phase);
+              // console.log($scope.test[r].item[u].status.phase);
               if ($scope.test[r].item[u].status.phase === 'Active') {
                 $scope.test[r].item[u].biancheng = true;
               }else {
@@ -242,7 +261,8 @@ angular.module('console.backing_service', [
       $scope.grid = {
         serviceCat: 'all',
         vendor: 'all',
-        txt: ''
+        txt: '',
+        mytxt:''
       };
       $scope.isComplete = '';
 
@@ -390,12 +410,100 @@ angular.module('console.backing_service', [
           }
         }
       };
+      $scope.mykeysearch=function (event) {
+        if (event.keyCode === 13){
+          $scope.isComplete={name:$scope.grid.mytxt};
+          var sarr = [];
+          if ($scope.grid.mytxt) {
+            for (var s = 0; s < $scope.mytest.length; s++) {
+              sarr = $filter("myfilter")($scope.mytest[s].item, $scope.isComplete);
+              if (sarr.length === 0) {
+                $scope.mytest[s].showTab = false;
+              }
+            }
+          }else {
+            for (var s = 0; s < $scope.mytest.length; s++) {
+              sarr = $filter("myfilter")($scope.mytest[s].item, $scope.isComplete);
+              // console.log(sarr.length)
+              if (sarr.length === 0) {
+                $scope.mytest[s].showTab = false;
+              }else {
+                $scope.mytest[s].showTab=true;
+              }
+            }
+          }
+        }
+      }
 
+      $scope.keysearch=function (event) {
+        if (event.keyCode === 13) {
+          $scope.isComplete={name:$scope.grid.txt};
+          var sarr = [];
+          if ($scope.grid.txt) {
+            for (var s = 0; s < $scope.test.length; s++) {
+              sarr = $filter("myfilter")($scope.test[s].item, $scope.isComplete);
+              // console.log(sarr.length)
+              if (sarr.length === 0) {
+                $scope.test[s].showTab = false;
+              }
+            }
+          }else {
+            for (var s = 0; s < $scope.test.length; s++) {
+              sarr = $filter("myfilter")($scope.test[s].item, $scope.isComplete);
+              // console.log(sarr.length)
+              $scope.test[s].showTab=true;
+            }
+            }
+        }
+      }
+      // 搜索
+      $scope.mysearch=function () {
+        $scope.isComplete={name:$scope.grid.mytxt};
+        var sarr = [];
+        if ($scope.grid.mytxt) {
+          for (var s = 0; s < $scope.mytest.length; s++) {
+            sarr = $filter("myfilter")($scope.mytest[s].item, $scope.isComplete);
+            if (sarr.length === 0) {
+              $scope.mytest[s].showTab = false;
+            }
+          }
+        }else {
+          for (var s = 0; s < $scope.mytest.length; s++) {
+            sarr = $filter("myfilter")($scope.mytest[s].item, $scope.isComplete);
+            // console.log(sarr.length)
+            if (sarr.length === 0) {
+              $scope.mytest[s].showTab = false;
+            }else {
+              $scope.mytest[s].showTab=true;
+            }
+          }
+        }
+        // console.log($scope.mytest);
+        // filter('serviceCat', $scope.grid.serviceCat);
+        // filter('vendor', $scope.grid.vendor);
+      }
       $scope.search = function () {
-        // console.log("----", $scope.txt);
-        filter('serviceCat', $scope.grid.serviceCat);
-        filter('vendor', $scope.grid.vendor);
+        $scope.isComplete={name:$scope.grid.txt};
+        var sarr = [];
+        if ($scope.grid.txt) {
+          for (var s = 0; s < $scope.test.length; s++) {
+            sarr = $filter("myfilter")($scope.test[s].item, $scope.isComplete);
+            if (sarr.length === 0) {
+              $scope.test[s].showTab = false;
+            }
+          }
+        }else {
+          for (var s = 0; s < $scope.test.length; s++) {
+              sarr = $filter("myfilter")($scope.test[s].item, $scope.isComplete);
+              // console.log(sarr.length)
+              $scope.test[s].showTab=true;
+            }
+        }
+        // console.log($scope.test);
+        // filter('serviceCat', $scope.grid.serviceCat);
+        // filter('vendor', $scope.grid.vendor);
       };
+
       $scope.delBsi = function (idx, id) {
         newid=id;
         // console.log('del$scope.mytest[id].item[idx]', $scope.mytest[id].item[idx].spec.binding);
@@ -461,7 +569,12 @@ angular.module('console.backing_service', [
                 // console.log('解绑定', res)
               }, function (res) {
                 //todo 错误处理
-                Toast.open('操作失败');
+                // Toast.open('操作失败');
+                if (res.data.message.split(':')[1]) {
+                  Toast.open(res.data.message.split(':')[1].split(';')[0]);
+                }else {
+                  Toast.open(res.data.message);
+                }
                 $log.info("del bindings err", res);
               });
         });
@@ -483,8 +596,15 @@ angular.module('console.backing_service', [
               function (res) {
               }, function (res) {
                 //todo 错误处理
-                Toast.open('操作失败');
-                $log.info("bind services err", res);
+                // Toast.open('操作失败');
+                if (res.data.message.split(':')[1]) {
+                  Toast.open(res.data.message.split(':')[1].split(';')[0]);
+                }else {
+                  Toast.open(res.data.message);
+                }
+                
+                $log.info("bind services " +
+                    "err", res);
               });
         }
       };

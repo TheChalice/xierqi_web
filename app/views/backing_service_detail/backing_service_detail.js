@@ -6,12 +6,16 @@ angular.module('console.backing_service_detail', [
         ]
       }
     ])
-    .controller('BackingServiceInstanceCtrl', ['$log', '$scope', '$rootScope', '$stateParams', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'Confirm', 'BackingServiceInstanceBd', '$state', 'Toast', 'Ws', function ($log, $scope, $rootScope, $stateParams, BackingService, BackingServiceInstance, ServiceSelect, Confirm, BackingServiceInstanceBd, $state, Toast, Ws) {
+    .controller('BackingServiceInstanceCtrl',
+        ['$log', '$scope', '$rootScope', '$stateParams', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'Confirm', 'BackingServiceInstanceBd', '$state', 'Toast', 'Ws'
+          , function ($log, $scope, $rootScope, $stateParams, BackingService, BackingServiceInstance, ServiceSelect, Confirm, BackingServiceInstanceBd, $state, Toast, Ws) {
       $scope.grid={}
       var cuename = $stateParams.name;
-      console.log('$stateParams.index', $stateParams.index)
+      console.log('$stateParams', $stateParams)
       $scope.grid.active = $stateParams.index;
-
+          if ($stateParams.type) {
+            $scope.ltype=$stateParams.type
+          }
       var loadBs = function () {
         BackingService.get({namespace: 'openshift', name: cuename}, function (data) {
           $log.info('loadBs=====', data);
@@ -206,7 +210,12 @@ angular.module('console.backing_service_detail', [
 
           }, function (res) {
             //todo 错误处理
-            Toast.open('操作失败');
+            // Toast.open('操作失败');
+            if (res.data.message.split(':')[1]) {
+              Toast.open(res.data.message.split(':')[1].split(';')[0]);
+            }else {
+              Toast.open(res.data.message);
+            }
             $log.info("del bindings err", res);
           });
         });
@@ -228,7 +237,12 @@ angular.module('console.backing_service_detail', [
 
           }, function (res) {
             //todo 错误处理
-            Toast.open('操作失败');
+            // Toast.open('操作失败');
+            if (res.data.message.split(':')[1]) {
+              Toast.open(res.data.message.split(':')[1].split(';')[0]);
+            }else {
+              Toast.open(res.data.message);
+            }
             $log.info("bind services err", res);
           });
         }

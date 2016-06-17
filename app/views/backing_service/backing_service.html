@@ -22,7 +22,10 @@
             </uib-tab-heading>
             <div class="row">
                 <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
-                    <input type="text" class="form-control" placeholder="搜索后端服务名称"
+                    <input type="text"
+                           class="form-control"
+                           placeholder="搜索后端服务名称"
+                           ng-keydown=keysearch($event)
                            ng-model="grid.txt">
                     <!--ng-model="txt" ng-focus="showTip=true;" -->
                     <span class="input-group-btn" id=inputa>
@@ -52,6 +55,19 @@
             <uib-tab-heading>
                 <i class="fa2 fa2-bsi"></i>&nbsp;&nbsp;我的后端服务实例
             </uib-tab-heading>
+            <div class="row">
+                <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
+                    <input type="text"
+                           class="form-control"
+                           placeholder="搜索后端服务名称"
+                           ng-keydown=mykeysearch($event)
+                           ng-model="grid.mytxt">
+                    <!--ng-model="txt" ng-focus="showTip=true;" -->
+                    <span class="input-group-btn" id=inputb>
+                        <a class="btn" ng-click="mysearch()"></a>
+                    </span>
+                </div>
+            </div>
             <div ng-include="'views/backing_service/backing_service_instance.html'">
 
             </div>

@@ -95,14 +95,17 @@ angular.module('console.image', [
           });
         });
       };
-
+      $scope.fyshow=true;
       $scope.doSearch = function (txt) {
         $scope.showTip = false;
         $scope.search(txt);
       }
       $scope.search = function (key, txt) {
+
+        // console.log('grid.page',$scope.grid.page);
         if (!txt) {
           refresh(1);
+          $scope.fyshow=true;
           return;
         }
         $scope.items = [];
@@ -113,8 +116,12 @@ angular.module('console.image', [
             $scope.items.push($scope.data.items[i]);
           }
         }
+
         $log.info($scope.items);
-        $log.info($scope.data.items[0].metadata.name);
+        if ($scope.grid.page == 1) {
+          $scope.fyshow=false;
+        }
+        // $log.info($scope.data.items[0].metadata.name);
       };
       $scope.opened = true;
       $scope.ksearch = function (key,txt,event) {
@@ -125,19 +132,18 @@ angular.module('console.image', [
             $scope.opened = true;
             return;
           }
-          console.log(copytest)
+          // console.log(copytest)
         
           var namelist = [];
           txt = txt.replace(/\//g, '\\/');
           $http.get('/registry/api/search',
               {params: {q: txt}})
               .success(function (data) {
-                console.log(data)
+                // console.log(data)
                 for (var i = 0; i < data.repository.length; i++) {
                   // console.log(data.repository[i].project_name);
                   namelist.push(data.repository[i].project_name)
                 }
-
                 namelist = namelist.unique();
                 var item = [];
                 for (var j = 0; j < namelist.length; j++) {
@@ -152,7 +158,6 @@ angular.module('console.image', [
                 for (var q = 0; q < copytest.length; q++) {
                   for (var r = 0; r < item.length; r++) {
                     if (item[r].Name === copytest[q].Name) {
-
                       item[r].CreationTime = copytest[q].CreationTime;
                       item[r].mysort = copytest[q].mysort;
                     }
@@ -176,13 +181,13 @@ angular.module('console.image', [
       $scope.gsearch = function (key, txt) {
 
         // $scope.keyCode = event.keyCode;
-        console.log(event.keyCode);
+        // console.log(event.keyCode);
         if (!txt) {
           $scope.test = copytest
           $scope.opened = true;
           return;
         }
-        console.log(copytest);
+        // console.log(copytest);
         var namelist = [];
         txt = txt.replace(/\//g, '\\/');
         //
@@ -191,7 +196,7 @@ angular.module('console.image', [
         $http.get('/registry/api/search',
             {params: {q: txt}})
             .success(function (data) {
-              console.log(data)
+              // console.log(data)
               for (var i = 0; i < data.repository.length; i++) {
                 // console.log(data.repository[i].project_name);
                 namelist.push(data.repository[i].project_name)
@@ -253,7 +258,8 @@ angular.module('console.image', [
                     if (arr[k] != null) {
                       for (var h = 0; h < $scope.test.length; h++) {
                         if (arr[k][0].split('/')[0] == $scope.test[h].Name) {
-                          $scope.test[h].items = arr[k]
+                          $scope.test[h].items = arr[k];
+                          $scope.test[h].isshow = true;
                         }
                       }
                     }
@@ -261,6 +267,7 @@ angular.module('console.image', [
                 }
 
                 copytest = angular.copy($scope.test);
+                // console.log('$scope.test',$scope.test)
 
               }).error(function (msg) {
 
@@ -269,7 +276,7 @@ angular.module('console.image', [
       }).error(function (data) {
         // $log.info('error',data)
         $rootScope.user = null;
-        console.log('error', $rootScope)
+        // console.log('error', $rootScope)
       });
 
     }]);

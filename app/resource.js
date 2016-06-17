@@ -126,14 +126,16 @@ define([
         .factory('Service', ['$resource', 'GLOBAL', function($resource, GLOBAL){
             var Service= $resource(GLOBAL.host_k8s + '/namespaces/:namespace/services/:name', {name: '@name', namespace: '@namespace'},{
                 create: {method: 'POST'},
-                put: {method: 'PUT'}
+                put: {method: 'PUT'},
+                delete : {method : "DELETE"}
             });
             return Service;
         }])
         .factory('Route', ['$resource', 'GLOBAL', function($resource, GLOBAL){
             var Route= $resource(GLOBAL.host + '/namespaces/:namespace/routes/:name', {name: '@name', namespace: '@namespace'},{
                 create: {method: 'POST'},
-                put: {method: 'PUT'}
+                put: {method: 'PUT'},
+                delete : {method : "DELETE"}
             });
             return Route;
         }])
