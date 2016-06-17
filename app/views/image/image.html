@@ -4,7 +4,7 @@
             <div class="row" style="margin-bottom: 30px;">
                 <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
                     <input type="text" class="form-control" ng-model="txt"
-                           ng-focus="showTip=true;" placeholder="搜索镜像">
+                           ng-focus="showTip=true;" placeholder="搜索镜像" ng-keyup="search('all', txt)">
                     <span class="input-group-btn">
                         <a class="btn" ng-click="search('all', txt)"></a>
                     </span>
@@ -15,7 +15,7 @@
                     <c-card></c-card>
                 </div>
             </div>
-            <div class="text-right">
+            <div class="text-right" ng-if="grid.total > 10">
                 <uib-pagination
                         ng-model="grid.page"
                         total-items="grid.total"

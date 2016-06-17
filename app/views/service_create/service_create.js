@@ -12,18 +12,24 @@ angular.module('console.service.create', [
       function ($rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service) {
         $log.info('ServiceCreate');
         $scope.checkEnv = false;
-        $scope.addprot = function (container, ind, last) {
-
+        $scope.portsArr = [
+          {
+            containerPort: "",
+            hostPort: "",
+            protocol: ""
+          }
+        ]
+        $scope.addprot = function (ind, last) {
           if (last) {     //添加
-            container.ports.push({
+            $scope.portsArr.unshift({
               containerPort: "",
               protocol: "",
               hostPort: "",
             })
           } else {
-            container.ports.splice(ind, 1);
+            $scope.portsArr.splice(ind, 1);
           }
-        }
+        };
 
         $scope.dc = {
           kind: "DeploymentConfig",
@@ -90,7 +96,7 @@ angular.module('console.service.create', [
         $scope.containerTpl = {
           name: "",
           image: "",    //imageStreamTag
-          ports: [{protocol: ""}],
+          //ports: [{protocol: ""}],
           "env": [],
           "resources": {},
           "imagePullPolicy": "Always",
@@ -183,17 +189,26 @@ angular.module('console.service.create', [
               container.ports = [];
               var exposedPorts = $stateParams.image.image.dockerImageMetadata.Config.ExposedPorts;
               if (!$stateParams.image.image.dockerImageMetadata.Config.ExposedPorts) {
-                container.ports.push({
-                  containerPort: "",
-                  hostPort: "",
-                  protocol: "",
-                })
+                //container.ports.push({
+                //  containerPort: "",
+                //  hostPort: "",
+                //  protocol: "",
+                //})
+                $scope.portsArr = [
+                  {
+                    containerPort: "",
+                    hostPort: "",
+                    protocol: ""
+                  }
+                ]
+              }else{
+                $scope.portsArr = []
               }
               for (var k in exposedPorts) {
                 var arr = k.split('/');
                 if (arr.length == 2) {
                   var val = arr[1].toUpperCase()
-                  container.ports.push({
+                  $scope.portsArr.push({
                     containerPort: parseInt(arr[0]),
                     hostPort: parseInt(arr[0]),
                     protocol: val,
@@ -216,14 +231,20 @@ angular.module('console.service.create', [
               // console.log($scope.dc.spec.template.spec.containers);
               container.strname=container.name=jingxing;
 
-              container.ports = [];
-
-                container.ports.push({
+              //container.ports = [];
+              //
+              //  container.ports.push({
+              //    containerPort: "",
+              //    hostPort: "",
+              //    protocol: ""
+              //  })
+              $scope.portsArr = [
+                {
                   containerPort: "",
                   hostPort: "",
-                  protocol: "",
-                })
-
+                  protocol: ""
+                }
+              ]
 
               // $scope.dc.spec.template.spec.containers[0].name=$stateParams.image.metadata.name.split(':')[0]
 
@@ -470,6 +491,7 @@ angular.module('console.service.create', [
             return;
           }
           $scope.grid.checked = d;
+          window.scrollTo(0,0);
         };
 
         var prepareVolume = function (dc) {
@@ -541,21 +563,38 @@ angular.module('console.service.create', [
 
           prepareService($scope.service, dc);
           var ps = [];
-          var containers = dc.spec.template.spec.containers;
-
-          for (var i = 0; i < containers.length; i++) {
-            var ports = containers[i].ports;
+          //var containers = dc.spec.template.spec.containers;
+          //
+          //for (var i = 0; i < containers.length; i++) {
+          //  var ports = containers[i].ports;
+          //  for (var j = 0; j < ports.length; j++) {
+          //    //if (!ports[j].open) {
+          //    //  continue;
+          //    //}
+          //    var val = ports[j].protocol.toUpperCase()
+          //    ps.push({
+          //      name: ports[j].hostPort + '-' + ports[j].protocol.toLowerCase(),
+          //      port: parseInt(ports[j].hostPort),
+          //      protocol: val,
+          //      targetPort: parseInt(ports[j].containerPort)
+          //    });
+          //  }
+          //}
+          if ($scope.portsArr) {
+            var ports =$scope.portsArr;
             for (var j = 0; j < ports.length; j++) {
               //if (!ports[j].open) {
               //  continue;
               //}
-              var val = ports[j].protocol.toUpperCase()
-              ps.push({
-                name: ports[j].hostPort + '-' + ports[j].protocol.toLowerCase(),
-                port: parseInt(ports[j].hostPort),
-                protocol: val,
-                targetPort: parseInt(ports[j].containerPort)
-              });
+              if (ports[j].hostPort) {
+                var val = ports[j].protocol.toUpperCase()
+                ps.push({
+                  name: ports[j].hostPort + '-' + ports[j].protocol.toLowerCase(),
+                  port: parseInt(ports[j].hostPort),
+                  protocol: val,
+                  targetPort: parseInt(ports[j].containerPort)
+                });
+              }
             }
           }
           if (ps.length > 0) {
@@ -725,26 +764,45 @@ angular.module('console.service.create', [
             dc.spec.replicas = 0;
           }
           var createports = true;
-          var thisdccon = $scope.dc.spec.template.spec.containers;
-          for(var i = 0 ;i < thisdccon.length;i++) {
-            if (thisdccon[i].ports) {
-              for (var j = 0; j < thisdccon[i].ports.length; j++) {
-                if (thisdccon[i].ports[j].hostPort && thisdccon[i].ports[j].protocol && thisdccon[i].ports[j].containerPort) {
-                  if (thisdccon[i].ports[j].containerPort || thisdccon[i].ports[j].hostPort) {
-                    console.log("1111");
-                    if (thisdccon[i].ports[j].containerPort < 1 || thisdccon[i].ports[j].containerPort > 65535 || thisdccon[i].ports[j].hostPort < 1 || thisdccon[i].ports[j].hostPort > 64435) {
-                      console.log("1234567890pertyuiop")
-                      createports = false;
-                      $scope.grid.servicepoterr = true;
-                    }
+          //var thisdccon = $scope.dc.spec.template.spec.containers;
+          //for(var i = 0 ;i < thisdccon.length;i++) {
+          //  if (thisdccon[i].ports) {
+          //    for (var j = 0; j < thisdccon[i].ports.length; j++) {
+          //      if (thisdccon[i].ports[j].hostPort && thisdccon[i].ports[j].protocol && thisdccon[i].ports[j].containerPort) {
+          //        if (thisdccon[i].ports[j].containerPort || thisdccon[i].ports[j].hostPort) {
+          //          console.log("1111");
+          //          if (thisdccon[i].ports[j].containerPort < 1 || thisdccon[i].ports[j].containerPort > 65535 || thisdccon[i].ports[j].hostPort < 1 || thisdccon[i].ports[j].hostPort > 64435) {
+          //            console.log("1234567890pertyuiop")
+          //            createports = false;
+          //            $scope.grid.servicepoterr = true;
+          //          }
+          //        }
+          //      } else if (!thisdccon[i].ports[j].hostPort && !thisdccon[i].ports[j].containerPort && !thisdccon[i].ports[j].protocol) {
+          //        console.log("2222");
+          //      } else {
+          //        createports = false;
+          //        $scope.grid.servicepoterr = true;
+          //        console.log("33333");
+          //      }
+          //    }
+          //  }
+          //}
+          if ($scope.portsArr) {
+            for (var j = 0; j < $scope.portsArr.length; j++) {
+              if ($scope.portsArr[j].hostPort && $scope.portsArr[j].protocol && $scope.portsArr[j].containerPort) {
+                if ($scope.portsArr[j].containerPort || $scope.portsArr[j].hostPort) {
+                  if ($scope.portsArr[j].containerPort < 1 || $scope.portsArr[j].containerPort > 65535 || $scope.portsArr[j].hostPort < 1 || $scope.portsArr[j].hostPort > 64435) {
+                    // console.log("1234567890pertyuiop")
+                    createports = false;
+                    $scope.grid.ervicepoterr = true;
                   }
-                } else if (!thisdccon[i].ports[j].hostPort && !thisdccon[i].ports[j].containerPort && !thisdccon[i].ports[j].protocol) {
-                  console.log("2222");
-                } else {
-                  createports = false;
-                  $scope.grid.servicepoterr = true;
-                  console.log("33333");
                 }
+              } else if (!$scope.portsArr[j].hostPort && !$scope.portsArr[j].containerPort && !$scope.portsArr[j].protocol) {
+                createports = true;
+              } else {
+                createports = false;
+                $scope.grid.servicepoterr = true;
+                // console.log("33333");
               }
             }
           }
@@ -767,8 +825,8 @@ angular.module('console.service.create', [
             }
           }
           var isport = false;
-          for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
-            if (dc.spec.template.spec.containers[i].ports.length != 0) {
+          for (var i = 0; i < $scope.portsArr.length; i++) {
+            if ($scope.portsArr[i].hostPort) {
               isport = true;
               break;
             }

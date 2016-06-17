@@ -32,7 +32,7 @@ angular.module('console.image', [
 
       $scope.grid = {
         page: 1,
-        size: GLOBAL.size
+        size: 8
       };
       $scope.status = {};
       $scope.gitStore = {};   //存储commit id 和 分支,angular修改数组内元素属性不能触发刷新
@@ -46,6 +46,7 @@ angular.module('console.image', [
       var refresh = function (page) {
         var skip = (page - 1) * $scope.grid.size;
         $scope.items = $scope.data.items.slice(skip, skip + $scope.grid.size);
+        $scope.grid.total = $scope.data.items.length;
       };
 
       //获取buildConfig列表
@@ -115,6 +116,7 @@ angular.module('console.image', [
         }
         $log.info($scope.items);
         $log.info($scope.data.items[0].metadata.name);
+        $scope.grid.total = $scope.items.length;
       };
       $scope.opened = true;
       $scope.ksearch = function (key,txt,event) {
