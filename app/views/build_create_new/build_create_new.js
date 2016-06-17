@@ -212,6 +212,7 @@ angular.module('console.build_create_new', [
             $scope.grid.user=null;
             $scope.dianyh=null;
             $scope.grid.project = null;
+            $scope.branch=null;
             $scope.grid.branch = null;
             $scope.reposobj=null;
             // return false;
@@ -219,6 +220,7 @@ angular.module('console.build_create_new', [
             $scope.grid.user = idx;
             $scope.dianyh=dian;
             $scope.grid.project = null;
+            $scope.branch=null;
             $scope.grid.branch = null;
             $scope.reposobj = $scope.usernames[idx].repos;
             var newarr = $scope.reposobj;
