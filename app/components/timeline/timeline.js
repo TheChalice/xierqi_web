@@ -250,7 +250,6 @@ angular.module("console.timeline", [])
 
                 loadBuildHistory($scope.name);
 
-
                 //如果是新创建的打开第一个日志,并监控
                 if ($stateParams.from == "create") {
                   $scope.$watch("data", function(newVal, oldVal){

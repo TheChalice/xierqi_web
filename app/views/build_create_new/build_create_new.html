@@ -71,7 +71,7 @@
                         </uib-tabset>
 
                         <div class="is-box" ng-hide="grid.ishide">
-                            <div class="panel panel-default first col-md-4" style="margin-right: 31px">
+                            <div class="panel panel-default first col-md-4" style="margin-right: 30px">
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/user.png">
                                     用户/组织
@@ -88,7 +88,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="panel panel-default second col-md-4" style="margin-right: 30px">
+                            <div class="panel panel-default col-md-4" style="margin-right: 30px">
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/project.png">
                                     项目
@@ -122,11 +122,12 @@
                                     </ul>
                                 </div>
                             </div>
+
                             <small ng-if="frm.branch.$viewValue != '' && frm.branch.$invalid">请选择一个分支</small>
                         </div>
                         <!--gitlab pannel-->
                         <div class="is-box" ng-show="grid.labcon">
-                            <div class="panel panel-default first col-sm-4" style="margin-right: 31px">
+                            <div class="panel panel-default first col-sm-4" style="margin-right: 30px">
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/user.png">
                                     用户/组织
