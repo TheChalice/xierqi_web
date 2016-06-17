@@ -36,9 +36,14 @@
 
             <div class='change' ng-repeat='items in test'>
                 <div class="row" ng-show="items.isshow" id=n{{items.id}}>
-                    <h2 id=t{{items.id}} class="h2-border" ng-show="items.showTab"
+                    <div id=t{{items.id}} class="h2-border" ng-show="items.showTab"
                         style="margin-bottom: 15px;">
-                        {{items.name}}</h2>
+                        <span class='biaoti'>{{items.name}}</span>
+                        <i class='xian'></i>
+                        </div>
+                    <!--<h2 id=t{{items.id}} class="h2-border" ng-show="items.showTab"-->
+                        <!--style="margin-bottom: 15px;">-->
+                        <!--{{items.name}}</h2>-->
                     <div class="row">
                         <div class="fen"
                              ng-repeat="item in items.item | myfilter:isComplete"
@@ -95,6 +100,34 @@
 </style>
 
 <style>
+    .h2-border::after {
+        content: '';
+        border-bottom:none;
+    }
+    .h2-border {
+        height: 30px;
+        line-height: 30px;
+        position: relative;
+    }
+
+    .h2-border .xian {
+        /*float: left;*/
+        display: inline-block;
+        border-bottom: 1px solid #c9c9c9;
+        width: 100%;
+        /*margin-bottom: 5px;*/
+        position: absolute;
+        top: 50%;
+    }
+    .h2-border .biaoti {
+        float: left;
+        display: inline-block;
+        padding-right: 15px;
+        position: relative;
+        left: 0;
+        top: 0;
+        z-index: 2;
+    }
     .fen {
         float: left;
         width:25%;
@@ -112,12 +145,12 @@
     .fw:last-child .btn {
         width: 90px;
     }
-    #t0:after {
-        left: 75px;
-    }
-    #t4:after {
-        left: 80px;
-    }
+    /*#t0:after {*/
+        /*left: 75px;*/
+    /*}*/
+    /*#t4:after {*/
+        /*left: 80px;*/
+    /*}*/
 
 
 </style>
