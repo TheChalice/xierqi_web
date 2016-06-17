@@ -411,7 +411,11 @@ angular.module('console.backing_service', [
         }
       };
       $scope.mykeysearch=function (event) {
+
         if (event.keyCode === 13){
+          for (var s = 0; s < $scope.mytest.length; s++) {
+            $scope.mytest[s].showTab=true;
+          }
           $scope.isComplete={name:$scope.grid.mytxt};
           var sarr = [];
           if ($scope.grid.mytxt) {
@@ -437,6 +441,9 @@ angular.module('console.backing_service', [
 
       $scope.keysearch=function (event) {
         if (event.keyCode === 13) {
+          for (var s = 0; s < $scope.test.length; s++) {
+            $scope.test[s].showTab=true;
+          }
           $scope.isComplete={name:$scope.grid.txt};
           var sarr = [];
           if ($scope.grid.txt) {
@@ -450,7 +457,6 @@ angular.module('console.backing_service', [
           }else {
             for (var s = 0; s < $scope.test.length; s++) {
               sarr = $filter("myfilter")($scope.test[s].item, $scope.isComplete);
-              // console.log(sarr.length)
               $scope.test[s].showTab=true;
             }
             }
@@ -458,8 +464,14 @@ angular.module('console.backing_service', [
       }
       // 搜索
       $scope.mysearch=function () {
+        for (var s = 0; s < $scope.mytest.length; s++) {
+          $scope.mytest[s].showTab=true;
+        }
         $scope.isComplete={name:$scope.grid.mytxt};
         var sarr = [];
+        for (var s = 0; s < $scope.mytest.length; s++) {
+          $scope.mytest[s].showTab=true;
+        }
         if ($scope.grid.mytxt) {
           for (var s = 0; s < $scope.mytest.length; s++) {
             sarr = $filter("myfilter")($scope.mytest[s].item, $scope.isComplete);
@@ -484,6 +496,9 @@ angular.module('console.backing_service', [
       }
       $scope.search = function () {
         $scope.isComplete={name:$scope.grid.txt};
+        for (var s = 0; s < $scope.test.length; s++) {
+          $scope.test[s].showTab=true;
+        }
         var sarr = [];
         if ($scope.grid.txt) {
           for (var s = 0; s < $scope.test.length; s++) {
@@ -494,8 +509,7 @@ angular.module('console.backing_service', [
           }
         }else {
           for (var s = 0; s < $scope.test.length; s++) {
-              sarr = $filter("myfilter")($scope.test[s].item, $scope.isComplete);
-              // console.log(sarr.length)
+              sarr = $filter("myfilter")($scope.test[s].item, $scope.isComplete)
               $scope.test[s].showTab=true;
             }
         }

@@ -21,7 +21,11 @@ angular.module('console.service.detail', [
           suffix: '.'+$rootScope.namespace+'.app.dataos.io'
         };
         $scope.portMap = {};
-
+        var loglast= function () {
+          setTimeout(function () {
+            $('#sc').scrollTop(1000000)
+          },200)
+        }
         $scope.service = {
           "kind": "Service",
           "apiVersion": "v1",
@@ -424,6 +428,7 @@ angular.module('console.service.detail', [
                 }
 
               }
+              loglast()
               // console.log(result);
               data.object.log = result;
             }, function (res) {
@@ -648,9 +653,12 @@ angular.module('console.service.detail', [
           o.showConfig = false;
 
           //存储已经调取过的log
+
           if (o.log) {
+            loglast()
             return;
           }
+
           DeploymentConfig.log.get({namespace: $rootScope.namespace, name: $scope.dc.metadata.name}, function (res) {
             var result = "";
             for (var k in res) {
@@ -659,6 +667,8 @@ angular.module('console.service.detail', [
               }
             }
             o.log = result;
+            loglast()
+
           }, function (res) {
             //todo 错误处理
             o.log = res.data.message;
@@ -1320,6 +1330,8 @@ angular.module('console.service.detail', [
                   }
                 }
                 $scope.log = result;
+                loglast()
+
               }, function (res) {
                 $scope.log = res.data.message;
               });
@@ -1428,6 +1440,9 @@ angular.module('console.service.detail', [
                   }
                 }
                 $scope.log = result;
+
+                loglast()
+                
                 console.log(result);
               }, function (res) {
                 $scope.log = res.data.message;

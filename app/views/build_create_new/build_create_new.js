@@ -203,35 +203,68 @@ angular.module('console.build_create_new', [
                 createBuildConfig(data.msg.secret)
             })
         }
-        $scope.selectUser = function(idx) {
+      $scope.dianyh = null;
+      $scope.dianxm = null;
+      $scope.dianfz = null;
+        $scope.selectUser = function(idx,dian) {
+          console.log($scope.grid.project, $scope.grid.branch);
+          if ($scope.dianyh&&$scope.grid.user==idx) {
+            $scope.grid.user=null;
+            $scope.dianyh=null;
+            $scope.grid.project = null;
+            $scope.grid.branch = null;
+            $scope.reposobj=null;
+            // return false;
+          }else {
             $scope.grid.user = idx;
+            $scope.dianyh=dian;
             $scope.grid.project = null;
             $scope.grid.branch = null;
             $scope.reposobj = $scope.usernames[idx].repos;
             var newarr = $scope.reposobj;
             var names = [];
             for (var i = 0; i < newarr.length; i++){
-               $scope.reposobj[i]['names']=newarr[i].name.toUpperCase();
+              $scope.reposobj[i]['names']=newarr[i].name.toUpperCase();
             }
             newarr.sort(function(x,y){
-                return x.names > y.names ? 1 : -1;
+              return x.names > y.names ? 1 : -1;
             })
             thisindex = idx;
+          }
+            // $scope.grid.dian=dian;
+            // $scope.grid.user = idx;
+
         }
-        $scope.selectProject = function(idx) {
-            $scope.grid.project = idx;
+        $scope.selectProject = function(idx,dian) {
+          if ($scope.dianxm&&$scope.grid.project==idx) {
+            $scope.grid.project=null;
+            $scope.dianxm = null;
+            $scope.branch=null;
             $scope.grid.branch = null;
+          }else {
+            $scope.dianxm=dian;
+            $scope.grid.project = idx;
+            $scope.branch=null;
             var selectUsername = $scope.usernames[thisindex].login;
             var selectRepo = $scope.usernames[thisindex].repos[idx].name;
             $log.info("user and repos",selectUsername + selectRepo);
             Branch.get({users:selectUsername, repos:selectRepo},function(info) {
-                $log.info("branch", info);
-                $scope.branch = info.msg;
+              $log.info("branch", info);
+              $scope.branch = info.msg;
             });
+          }
+
         };
 
-        $scope.selectBranch = function(idx) {
+        $scope.selectBranch = function(idx,dian) {
+          if ($scope.dianfz&&$scope.grid.branch==idx) {
+            $scope.dianfz=null;
+            $scope.grid.branch=null;
+          }else {
             $scope.grid.branch = idx;
+            $scope.dianfz=dian;
+          }
+
         };
         $scope.psgitlab = {
             host : "",
