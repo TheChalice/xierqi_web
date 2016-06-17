@@ -468,8 +468,10 @@ angular.module('console.service.create', [
         $scope.jump = function (d) {
           if (!valid($scope.dc)) {
             return;
+            $('html,body').animate({scrollTop:$('.service-create').offset().top},10)
           }
           $scope.grid.checked = d;
+          $('html,body').animate({scrollTop:$('.service-create').offset().top},10)
         };
 
         var prepareVolume = function (dc) {
