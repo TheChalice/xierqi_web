@@ -81,7 +81,7 @@
                                         <li class="labcon" ng-repeat="user in usernames" ng-show="!user.hide">
                                             <a href="javascript:;" uib-tooltip="{{user.login}}"
                                                ng-class="{'active': grid.user == $index}"
-                                               ng-click="selectUser($index,'dian')">
+                                               ng-click="selectUser($index,'choose')">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{user.login}}
                                             </a>
                                         </li>
@@ -98,7 +98,7 @@
                                         <li class="labcon" ng-repeat="project in reposobj">
                                             <a href="javascript:;" uib-tooltip="{{project.name}}"
                                                ng-class="{'active': grid.project == $index}"
-                                               ng-click="selectProject($index,'dian')">
+                                               ng-click="selectProject($index,'choose')">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{project.name}}
                                             </a>
                                         </li>
@@ -115,7 +115,7 @@
                                         <li class="labcon" ng-repeat="branch in branch">
                                             <a href="javascript:;" uib-tooltip="{{branch.name}}"
                                                ng-class="{'active': grid.branch == $index}"
-                                               ng-click="selectBranch($index,'dian')">
+                                               ng-click="selectBranch($index,'choose')">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{branch.name}}
                                             </a>
                                         </li>
@@ -136,8 +136,8 @@
                                     <ul>
                                         <li class="labcon" ng-repeat="user in labusername" ng-show="!user.hide">
                                             <a href="javascript:;" uib-tooltip="{{user.org.name || user.owner.name}}"
-                                               ng-class="{'active': grid.labusers == $index}"
-                                               ng-click="selectlabUser($index)">
+                                               ng-class="{'active': grid.user == $index}"
+                                               ng-click="selectlabUser($index,'chooose')">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{user.org.name ||
                                                 user.owner.name}}
                                             </a>
@@ -155,7 +155,7 @@
                                         <li class="labcon" ng-repeat="project in labobjs">
                                             <a href="javascript:;" uib-tooltip="{{project.name}}"
                                                ng-class="{'active': grid.labproject == $index}"
-                                               ng-click="loadLabBranch($index)">
+                                               ng-click="selectLabProject($index, 'chooose')">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{project.name}}
                                             </a>
                                         </li>
@@ -172,7 +172,7 @@
                                         <li class="labcon" ng-repeat="labBranchData in labBranchData.msg">
                                             <a href="javascript:;" uib-tooltip="{{labBranchData.name}}"
                                                ng-class="{'active': grid.labbranch == $index}"
-                                               ng-click="selectlabBranch($index)">
+                                               ng-click="selectlabBranch($index,'chooose')">
                                                 <i class="faa faa-check"></i>&nbsp;&nbsp;{{labBranchData.name}}
                                             </a>
                                         </li>
