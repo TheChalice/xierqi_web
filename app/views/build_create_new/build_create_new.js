@@ -366,6 +366,8 @@ angular.module('console.build_create_new', [
                 $scope.choooseUser = null;
                 $scope.grid.labproject = null;
                 $scope.grid.labbranch = null;
+              $scope.labobjs=null;
+              $scope.labBranchData.msg=null;
             }else{
                 $scope.grid.user = idx;
                 $scope.choooseUser = chooose;
@@ -388,6 +390,7 @@ angular.module('console.build_create_new', [
                     $scope.grid.labproject = null;
                     $scope.choooseProject = null;
                     $scope.grid.labbranch = null;
+                  $scope.labBranchData.msg=null;
                 } else {
                     $scope.labBranchData = data;
                     $scope.grid.labproject = idx;
@@ -399,13 +402,16 @@ angular.module('console.build_create_new', [
         }
 
         $scope.selectlabBranch = function(idx, chooose){
-            if ($scope.grid.labbranch && $scope.choooseBranch == idx){
-                $scope.grid.labbranch = null;
-                $scope.choooseBranch = null;
+          // console.log($scope.grid.labbranch);
+          if ($scope.choooseBranch && $scope.grid.labbranch === idx){
+
+              $scope.choooseBranch = null;
+              $scope.grid.labbranch = null;
             }else{
+
                 $scope.grid.labbranch = idx;
                 $scope.choooseBranch = chooose;
-                $log.info('testtest',$scope.labusername[$scope.grid.labusers]);
+                // $log.info('testtest',$scope.labusername[$scope.grid.labusers]);
             }
         }
         $scope.creatgitlab = function(){
