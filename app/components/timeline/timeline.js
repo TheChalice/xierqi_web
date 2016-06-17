@@ -163,12 +163,12 @@ angular.module("console.timeline", [])
                     // $log.info('imageStreamTag', data);
 
                     item.bsi = data;
-
-                    $scope.gitStore[item.spec.output.to.name] = {
-                      id: data.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'],
-                      ref: data.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref']
+                    if (data.image.dockerImageMetadata.Config.Labels){
+                      $scope.gitStore[item.spec.output.to.name] = {
+                        id: data.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'],
+                        ref: data.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref']
+                      }
                     }
-
                   }, function(res){
                     //todo 错误处理
                   });

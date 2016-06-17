@@ -73,6 +73,7 @@ angular.module('console.build_create_new', [
                 $scope.buildConfig.spec.source.git.uri = $scope.labusername[$scope.grid.labusers].repos[$scope.grid.labproject].ssh_url_to_repo;
                 $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ":" + $scope.labBranchData.msg[$scope.grid.labbranch].name;
                 $scope.buildConfig.metadata.annotations.repo = $scope.labusername[$scope.grid.labusers].repos[$scope.grid.labproject].id.toString();
+
             }
 
             BuildConfig.create({namespace: $rootScope.namespace},$scope.buildConfig, function(res){
@@ -139,7 +140,7 @@ angular.module('console.build_create_new', [
         $scope.owner = null;
         $scope.loadOwner = function(){
             Owner.query({namespace: $rootScope.namespace},function(res) {
-                $scope.runninghub = true;
+
                 $log.info("owner", res);
                 $scope.owner = res.msg;
                 hubobj = res.msg.infos[0];
@@ -148,7 +149,7 @@ angular.module('console.build_create_new', [
                         res.msg.infos[i].repos[j].loginname = res.msg.infos[i].login;
                     }
                 }
-                //$scope.loadOrg();
+                $scope.loadOrg();
                 $log.info("userProject", $scope.login);
             },function(data){
                 $log.info('-=-=-=-=',data);
@@ -183,7 +184,6 @@ angular.module('console.build_create_new', [
                         data.msg[i].repos[j].loginname = data.msg[i].login;
                     }
                 }
-                $scope.runninghub = false;
             });
         }
         $scope.refresh = function() {
