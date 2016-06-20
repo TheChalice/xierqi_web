@@ -482,7 +482,11 @@ angular.module('console.service.detail', [
             }
 
         };
-
+        var statos = {
+          start:true,
+          dianj:false,
+          repeat:null,
+        }
         $scope.$watch('dc.state',function (n,o) {
 
           console.log('new',n);
@@ -493,17 +497,35 @@ angular.module('console.service.detail', [
               dianlz:false,
               dianl:true
             }
+            console.log(statos)
+            if (!statos.start&&statos.dianj&&statos.repeat=='stop') {
+              Toast.open('服务已停止');
+              statos.repeat=null;
+            }else {
+              statos.start=false
+            }
+
+
           }else {
             $scope.stopBtn = {
               name:'停止',
               dianlz:false,
               dianl:true
             }
+
+            if (!statos.start&&statos.dianj&&statos.repeat=='start') {
+              Toast.open('服务已启动');
+              statos.repeat=null;
+            }else {
+              statos.start=false
+            }
           }
 
         })
 
         $scope.startDc = function () {
+          statos.dianj=true;
+          statos.repeat='start';
           $scope.startBtn = {
             name:'启动中',
             dianlz:true,
@@ -550,6 +572,8 @@ angular.module('console.service.detail', [
         }
 
         $scope.stopDc = function () {
+          statos.repeat='stop';
+          statos.dianj=true;
           $scope.stopBtn = {
             name:'停止中',
             dianlz:true,
@@ -581,6 +605,7 @@ angular.module('console.service.detail', [
         };
 
         $scope.startRc = function (idx) {
+          // statos.dianj=true;
           var o = $scope.rcs.items[idx];
           $log.info('0-0-0-0-0-0-0', $scope.rcs);
           if (!o.dc) {
