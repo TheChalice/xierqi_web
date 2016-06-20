@@ -256,30 +256,58 @@ angular.module('console.service.detail', [
         };
 
         var isConflict = function () {
-          var containers = $scope.dc.spec.template.spec.containers;
-          for (var i = 0; i < containers.length; i++) {
-            var ports = containers[i].ports || [];
-            for (var j = 0; j < ports.length; j++) {
-              ports[j].conflict = portConflict(ports[j].containerPort, i, j)
+          var conflict = false;
+          var serviceConflict = false;
+          //var containers = $scope.portsArr;
+          //for (var i = 0; i < containers.length; i++) {
+          var ports = $scope.portsArr;
+          for (var j = 0; j < ports.length; j++) {
+            conflict = portConflict(ports[j].containerPort,j, 'containerPort');
+            serviceConflict = portConflict(ports[j].hostPort,j, 'hostPort');
+            ports[j].conflict = conflict;
+            ports[j].serviceConflict = serviceConflict;
+
+            if (ports[j].containerPort && ports[j].hostPort) {
+
+              $scope.grid.servicepot = false;
+              $scope.grid.conflict = conflict;
+              $scope.grid.serviceConflict = serviceConflict;
+              return conflict || serviceConflict;
+            }else if (!ports[j].containerPort && !ports[j].containerPort) {
+              return false
+            } else {
+
+              $scope.grid.servicepot = true;
+              return true
             }
           }
+          //}
+
+
+
+          // console.log('ports', ports.containerPort)
+          // return conflict || serviceConflict;
         };
 
-        var portConflict = function (port, x, y) {
-          var containers = $scope.dc.spec.template.spec.containers;
-          for (var i = 0; i < containers.length; i++) {
-            var ports = containers[i].ports;
-            for (var j = 0; j < ports.length; j++) {
-              if (i == x && j == y) {
-                continue;
-              }
-              if (ports[j].containerPort == port) {
-                return true;
-              }
+        var portConflict = function (port,y, tp) {
+          //var containers = $scope.portsArr;
+          //for (var i = 0; i < containers.length; i++) {
+          var ports = $scope.portsArr;
+          for (var j = 0; j < ports.length; j++) {
+            if (j == y) {
+              continue;
+            }
+            if (tp == 'containerPort' && ports[j].containerPort == port) {
+              return true;
+            }
+            if (tp == 'hostPort' && ports[j].hostPort == port) {
+              return true;
             }
           }
+          //}
           return false;
         };
+
 
         loadDc($stateParams.name);
 
@@ -1207,6 +1235,9 @@ angular.module('console.service.detail', [
 //点击更新
         $scope.updateDc = function () {
           console.log('点击更新');
+          if(isConflict()){
+                return
+          }
           $rootScope.lding = true;
           // $scope.dc.spec.template.spec.containers[0].volumeMounts=[];
           // $scope.dc.spec.template.spec.containers[0].volumeMounts.push({mountPath:'/app/pic'})

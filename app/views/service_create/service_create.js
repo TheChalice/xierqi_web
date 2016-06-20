@@ -436,12 +436,12 @@ angular.module('console.service.create', [
         var isConflict = function () {
           var conflict = false;
           var serviceConflict = false;
-          var containers = $scope.dc.spec.template.spec.containers;
-          for (var i = 0; i < containers.length; i++) {
-            var ports = containers[i].ports;
+          //var containers = $scope.portsArr;
+          //for (var i = 0; i < containers.length; i++) {
+            var ports = $scope.portsArr;
             for (var j = 0; j < ports.length; j++) {
-              conflict = portConflict(ports[j].containerPort, i, j, 'containerPort');
-              serviceConflict = portConflict(ports[j].hostPort, i, j, 'hostPort');
+              conflict = portConflict(ports[j].containerPort,j, 'containerPort');
+              serviceConflict = portConflict(ports[j].hostPort,j, 'hostPort');
               ports[j].conflict = conflict;
               ports[j].serviceConflict = serviceConflict;
 
@@ -459,7 +459,7 @@ angular.module('console.service.create', [
                 return true
               }
             }
-          }
+          //}
 
 
 
@@ -467,12 +467,12 @@ angular.module('console.service.create', [
           // return conflict || serviceConflict;
         };
 
-        var portConflict = function (port, x, y, tp) {
-          var containers = $scope.dc.spec.template.spec.containers;
-          for (var i = 0; i < containers.length; i++) {
-            var ports = containers[i].ports;
+        var portConflict = function (port,y, tp) {
+          //var containers = $scope.portsArr;
+          //for (var i = 0; i < containers.length; i++) {
+            var ports = $scope.portsArr;
             for (var j = 0; j < ports.length; j++) {
-              if (i == x && j == y) {
+              if (j == y) {
                 continue;
               }
               if (tp == 'containerPort' && ports[j].containerPort == port) {
@@ -482,7 +482,7 @@ angular.module('console.service.create', [
                 return true;
               }
             }
-          }
+          //}
           return false;
         };
 
