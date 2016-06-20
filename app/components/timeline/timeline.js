@@ -141,7 +141,11 @@ angular.module("console.timeline", [])
                     //todo 错误处理
                   });
                 };
-
+                var loglast= function () {
+                  setTimeout(function () {
+                    $('#sa').scrollTop(1000000)
+                  },200)
+                }
                 var fillHistory = function(items){
                   var tags = [];
                   for (var i = 0; i < items.length; i++) {
@@ -162,17 +166,19 @@ angular.module("console.timeline", [])
                   ImageStreamTag.get({namespace: $rootScope.namespace, name: item.spec.output.to.name}, function(data){
                     // $log.info('imageStreamTag', data);
 
-                    item.bsi = data;
-
+                  item.bsi = data;
+                  if (data.image.dockerImageMetadata.Config.Labels) {
                     $scope.gitStore[item.spec.output.to.name] = {
                       id: data.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'],
                       ref: data.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref']
                     }
+                  }
 
-                  }, function(res){
-                    //todo 错误处理
-                  });
-                };
+
+                }, function (res) {
+                  //todo 错误处理
+                });
+              };
 
                 var emit = function(enable){
                   $scope.$emit('image-enable', enable);
@@ -240,6 +246,8 @@ angular.module("console.timeline", [])
                           }
                           data.object.buildLog = result;
                           $scope.data.items[i] = data.object;
+                          loglast()
+                          
                         }, function(){
                           $scope.data.items[i] = data.object;
                         });
@@ -249,7 +257,6 @@ angular.module("console.timeline", [])
                 };
 
                 loadBuildHistory($scope.name);
-
 
                 //如果是新创建的打开第一个日志,并监控
                 if ($stateParams.from == "create") {
@@ -271,6 +278,7 @@ angular.module("console.timeline", [])
                   }
                   //存储已经调取过的log
                   if (o.buildLog) {
+                    loglast()
                     return;
                   }
                   Build.log.get({namespace: $rootScope.namespace, name: o.metadata.name}, function(res){
@@ -281,6 +289,7 @@ angular.module("console.timeline", [])
                       }
                     }
                     o.buildLog = result;
+                    loglast()
                   }, function(res){
                     console.log("res", res);
                     o.buildLog = res.data.message;

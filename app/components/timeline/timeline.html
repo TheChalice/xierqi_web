@@ -34,7 +34,7 @@
                            href="javascript:;"></a>
                         <a ng-if="item.status.phase == 'Pending' || item.status.phase == 'Running' || item.status.phase == 'New'"
                            ng-click="stop($index)" class="icon25 icon25-stop" uib-tooltip="停止" href="javascript:;"></a>
-                        <a class="icon25 icon25-collapse" uib-tooltip="查看" ng-click="getLog($index)"
+                        <a class="icon25 icon25-collapse" uib-tooltip="查看" ng-click="getLog($index,item)"
                            href="javascript:;"></a>
                     </div>
                     <div class="col-sm-3 text-right" ng-if="type=='image'">
@@ -48,8 +48,8 @@
                 </div>
             </div>
             <div uib-collapse="!item.showLog">
-                <div class="well well-log">
-                    <pre>{{item.buildLog}}</pre>
+                <div class="well well-log" style='overflow: auto'>
+                    <pre id='sa'>{{item.buildLog}}</pre>
                 </div>
             </div>
 

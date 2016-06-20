@@ -492,6 +492,7 @@ angular.module('console.service.create', [
           }
           $scope.grid.checked = d;
           window.scrollTo(0,0);
+
         };
 
         var prepareVolume = function (dc) {

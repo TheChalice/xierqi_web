@@ -11,6 +11,7 @@ angular.module('console.build.detail', [
 ])
     .controller('BuildDetailCtrl', ['GLOBAL', '$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'UUID', 'WebhookLab', 'WebhookHub','WebhookLabDel', 'WebhookHubDel', function (GLOBAL, $rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, UUID, WebhookLab, WebhookHub, WebhookLabDel, WebhookHubDel) {
         $scope.grid = {};
+        $scope.grid.checked = false;
         $scope.bcName = $stateParams.name;
         $scope.$on('image-enable', function(e, enable){
             $scope.imageEnable = enable;
@@ -28,8 +29,8 @@ angular.module('console.build.detail', [
                     $scope.grid.completionDeadlineMinutes = parseInt(data.spec.completionDeadlineSeconds / 60);
                 }
                 if (data.spec.triggers.length) {
-                    $scope.grid.checked = 'start';
-                    $scope.grid.checkedLocal = true;
+                    //$scope.grid.checked = 'start';
+                    //$scope.grid.checkedLocal = true;
                 }
             }, function(res) {
                 //错误处理
@@ -110,8 +111,8 @@ angular.module('console.build.detail', [
                 $scope.data = res;
                 $scope.deadlineMinutesEnable = false;
                 $scope.grid.checkedLocal = $scope.grid.checked;
-                createWebhook();
                 deleteWebhook();
+                createWebhook();
             }, function(res) {
                 //todo 错误处理
                 $log.info("put failed");
@@ -157,7 +158,7 @@ angular.module('console.build.detail', [
             var config = getConfig(triggers);
             if ($scope.grid.checked) {
                 if (getSourceHost(host)==='github.com') {
-                    $log.info("user is", $scope.data.metadata.annotations.user);
+                    //$log.info("user is", $scope.data.metadata.annotations.user);
                     WebhookHub.check({
                         host: 'https://github.com',
                         namespace: $rootScope.namespace,
@@ -176,7 +177,6 @@ angular.module('console.build.detail', [
                         repo: $scope.data.metadata.annotations.repo,
                         spec: {url: config}
                     }, function (data) {
-
                     });
                 }
             }
