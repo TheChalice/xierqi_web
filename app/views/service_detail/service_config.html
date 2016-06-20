@@ -172,7 +172,7 @@
                                    ng-model="port.containerPort">
                         </div>
                         <div class="col-sm-3">
-                            <input type="text" ng-model="port.hostPort" class="input-small">
+                            <input type="text"  ng-class="{'input-error':port.serviceConflict}" ng-model="port.hostPort" class="input-small">
                         </div>
                         <div class="col-sm-3">
                             <a href="javascript:;" style='color: #9fa7b7;' ng-click="addprot($index,$last)"
@@ -367,6 +367,8 @@
     </div>
     <hr style="margin-top: 20px;" ng-if="false">
     <small ng-show="servicepoterr" class="fa fa-info-circle err-tip">&nbsp;端口填写错误</small>
+    <small ng-show="grid.conflict" class="fa fa-info-circle err-tip">&nbsp;容器端口冲突,请修改</small>
+    <small ng-show="grid.serviceConflict" class="fa fa-info-circle err-tip">&nbsp;服务端口冲突,请修改</small>
     <button class="btn btn-orange btn-block" ng-click="updateDc()">更新(会自动触发重新部署)</button>
 
 </div>
