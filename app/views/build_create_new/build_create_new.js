@@ -238,28 +238,28 @@ angular.module('console.build_create_new', [
         }
         $scope.selectProject = function(idx,choose) {
           if ($scope.chooseProject&&$scope.grid.project==idx) {
-            $scope.grid.project=null;
-            $scope.chooseProject = null;
-            $scope.branch=null;
-            $scope.grid.branch = null;
+              $scope.grid.project=null;
+              $scope.chooseProject = null;
+              $scope.branch=null;
+              $scope.grid.branch = null;
           }else {
-            $scope.chooseProject=choose;
-            $scope.grid.project = idx;
-            $scope.branch=null;
-            var selectUsername = $scope.usernames[thisindex].login;
-            var selectRepo = $scope.usernames[thisindex].repos[idx].name;
-            $log.info("user and repos",selectUsername + selectRepo);
-            Branch.get({users:selectUsername, repos:selectRepo},function(info) {
-              $log.info("branch", info);
-              $scope.branch = info.msg;
+              $scope.chooseProject=choose;
+              $scope.grid.project = idx;
+              $scope.branch=null;
+              var selectUsername = $scope.usernames[thisindex].login;
+              var selectRepo = $scope.usernames[thisindex].repos[idx].name;
+              $log.info("user and repos",selectUsername + selectRepo);
+              Branch.get({users:selectUsername, repos:selectRepo},function(info) {
+                $log.info("branch", info);
+                $scope.branch = info.msg;
             });
           }
         };
 
         $scope.selectBranch = function(idx,choose) {
           if ($scope.chooseBranch&&$scope.grid.branch==idx) {
-            $scope.chooseBranch=null;
-            $scope.grid.branch=null;
+                $scope.chooseBranch=null;
+                $scope.grid.branch=null;
           }else {
             $scope.grid.branch = idx;
             $scope.chooseBranch=choose;
@@ -366,8 +366,8 @@ angular.module('console.build_create_new', [
                 $scope.choooseUser = null;
                 $scope.grid.labproject = null;
                 $scope.grid.labbranch = null;
-              $scope.labobjs=null;
-              $scope.labBranchData.msg=null;
+                $scope.labobjs=null;
+                $scope.labBranchData.msg=null;
             }else{
                 $scope.grid.user = idx;
                 $scope.choooseUser = chooose;
@@ -390,7 +390,7 @@ angular.module('console.build_create_new', [
                     $scope.grid.labproject = null;
                     $scope.choooseProject = null;
                     $scope.grid.labbranch = null;
-                  $scope.labBranchData.msg=null;
+                    $scope.labBranchData.msg=null;
                 } else {
                     $scope.labBranchData = data;
                     $scope.grid.labproject = idx;
@@ -402,16 +402,13 @@ angular.module('console.build_create_new', [
         }
 
         $scope.selectlabBranch = function(idx, chooose){
-          // console.log($scope.grid.labbranch);
           if ($scope.choooseBranch && $scope.grid.labbranch === idx){
-
               $scope.choooseBranch = null;
               $scope.grid.labbranch = null;
             }else{
 
-                $scope.grid.labbranch = idx;
-                $scope.choooseBranch = chooose;
-                // $log.info('testtest',$scope.labusername[$scope.grid.labusers]);
+              $scope.grid.labbranch = idx;
+              $scope.choooseBranch = chooose;
             }
         }
         $scope.creatgitlab = function(){
