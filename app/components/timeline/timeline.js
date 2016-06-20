@@ -13,8 +13,11 @@ angular.module("console.timeline", [])
             },
             controller: ['$http','platformone','platformlist','$rootScope', '$scope', '$state', '$log', 'BuildConfig', 'Build', 'Confirm', '$stateParams', 'ImageStreamTag', 'Sort', 'ModalPullImage', 'Ws',
               function($http,platformone,platformlist,$rootScope, $scope, $state, $log, BuildConfig, Build, Confirm, $stateParams, ImageStreamTag, Sort, ModalPullImage, Ws){
-              var namecopy = $scope.name
-              var name = namecopy.split('/');
+                if ($scope.name) {
+                  var namecopy = $scope.name
+                  var name = namecopy.split('/');
+                }
+              
                 // console.log('$scope.name',name.length);
               if (name.length == 2) {
                 // console.log('2',$scope.name)
@@ -54,13 +57,14 @@ angular.module("console.timeline", [])
                           $scope.data.items[i].list=arr[i];
                           $scope.data.items[i].bsi=namecopy+':'+$scope.data.items[i].name;
                         }
-                        
                         console.log($scope.data.items[0].bsi);
+                        console.log('*&*&*&*&*&*&',data)
                       }
                     })
                   }
                   if (data.length == arr.length) {
-                    console.log('data.length',data.length)
+                    $rootScope.loading = false;
+                    //console.log('*&*&*&*&*&*&',data)
                   }
                 })
 
@@ -356,7 +360,7 @@ angular.module("console.timeline", [])
                       $scope.data.items[idx] = res;
                     }, function(res){
                       if(res.data.code== 409){
-                        Confirm.open("提示信息","当数据正在New的时候,构建不能停止,请等到正在构建时,再请求停止.");
+                        Confirm.open("提示信息","初始化中不能终止，请稍后再试",null,null,true);
                       }
                     });
                   });

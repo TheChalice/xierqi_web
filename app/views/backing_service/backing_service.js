@@ -532,11 +532,11 @@ angular.module('console.backing_service', [
                 name: $scope.mytest[id].item[idx].metadata.name
               }, function (res) {
                 $scope.mytest[id].item.splice(idx, 1);
+                Toast.open('删除成功');
               }, function (res) {
                 $log.info('err', res);
               })
             });
-
           }
         } else {
           Confirm.open('删除后端服务实例', '您确定要删除该实例吗?此操作不可恢复', '', '', false).then(function () {
@@ -545,6 +545,7 @@ angular.module('console.backing_service', [
               name: $scope.mytest[id].item[idx].metadata.name
             }, function (res) {
               $scope.mytest[id].item.splice(idx, 1);
+              Toast.open('删除成功');
             }, function (res) {
               $log.info('err', res);
             })

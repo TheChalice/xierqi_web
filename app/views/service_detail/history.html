@@ -35,11 +35,8 @@
     <!--<img ng-show='lding' class="spinner" src="pub/img/loading.gif" alt="">-->
 <!--</div>-->
 <div class="timeline">
-
     <ul>
-
         <li ng-repeat="item in rcs.items">
-
             <label>
                 <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
                 {{item.metadata.creationTimestamp | dateRelative}}
@@ -69,9 +66,9 @@
                           </span>
                     </div>
                     <div class="col-sm-3 text-right">
-                        <a class="icon25 icon25-collapse" ng-click="getLog($index)" uib-tooltip="查看"
+                        <a class="icon25 icon25-collapse" ng-click="getLog($index)" uib-tooltip="查看日志"
                            href="javascript:;"></a>
-                        <a class="faa faa-cogs" ng-click="getConfig($index)" uib-tooltip="配置" href="javascript:;"></a>
+                        <a class="faa faa-cogs" ng-click="getConfig($index)" uib-tooltip="查看配置" href="javascript:;"></a>
                         <a class="icon25 icon25-start" ng-click="startRc($index)"
                            ng-if="item.metadata.annotations['openshift.io/deployment.phase'] != 'Running'"
                            uib-tooltip="重新部署" href="javascript:;"></a>

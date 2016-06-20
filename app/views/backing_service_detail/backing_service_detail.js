@@ -110,6 +110,7 @@ angular.module('console.backing_service_detail', [
                 name: $scope.bsi.items[idx].metadata.name
               }, function (res) {
                 $scope.bsi.items.splice(idx, 1);
+                
               }, function (res) {
                 $log.info('err', res);
               })

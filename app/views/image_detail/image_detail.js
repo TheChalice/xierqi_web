@@ -90,7 +90,7 @@ angular.module('console.image_detail', [
           })
           var loadImageDetail = function(){
             //传imagename的参数
-
+            $rootScope.loading = true;
             ImageStreamTag.get({namespace: $rootScope.namespace, name: $stateParams["name"]}, function(data){
               $log.info('data',data);
               $scope.data = data;
