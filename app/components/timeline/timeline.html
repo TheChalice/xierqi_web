@@ -33,8 +33,8 @@
                            ng-click="delete($index)" class="icon25 icon25-delete" uib-tooltip="删除"
                            href="javascript:;"></a>
                         <a ng-if="item.status.phase == 'Pending' || item.status.phase == 'Running' || item.status.phase == 'New'"
-                           ng-click="stop($index)" class="icon25 icon25-stop" uib-tooltip="停止" href="javascript:;"></a>
-                        <a class="icon25 icon25-collapse" uib-tooltip="查看" ng-click="getLog($index,item)"
+                           ng-click="stop($index)" class="icon25 icon25-stop" uib-tooltip="终止" href="javascript:;"></a>
+                        <a class="icon25 icon25-collapse" uib-tooltip="查看日志" ng-click="getLog($index,item)"
                            href="javascript:;"></a>
                     </div>
                     <div class="col-sm-3 text-right" ng-if="type=='image'">

@@ -54,13 +54,14 @@ angular.module("console.timeline", [])
                           $scope.data.items[i].list=arr[i];
                           $scope.data.items[i].bsi=namecopy+':'+$scope.data.items[i].name;
                         }
-                        
                         console.log($scope.data.items[0].bsi);
+                        console.log('*&*&*&*&*&*&',data)
                       }
                     })
                   }
                   if (data.length == arr.length) {
-                    console.log('data.length',data.length)
+                    $rootScope.loading = false;
+                    //console.log('*&*&*&*&*&*&',data)
                   }
                 })
 

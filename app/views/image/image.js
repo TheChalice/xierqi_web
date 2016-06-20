@@ -55,11 +55,8 @@ angular.module('console.image', [
           $scope.data = data;
           $scope.data.items = Sort.sort(data.items, -1);
           $scope.grid.total = data.items.length;
-
           fillImageStreams();
-
           refresh(1);
-
         }, function (res) {
           //todo 错误处理
         });
