@@ -264,8 +264,19 @@ angular.module('console.service.detail', [
           for (var j = 0; j < ports.length; j++) {
             conflict = portConflict(ports[j].containerPort,j, 'containerPort');
             serviceConflict = portConflict(ports[j].hostPort,j, 'hostPort');
-            ports[j].conflict = conflict;
-            ports[j].serviceConflict = serviceConflict;
+
+            if (ports[conflict]) {
+              ports[conflict].conflict=true;
+              ports[j].conflict = conflict;
+            }else {
+              ports[j].conflict=false;
+            }
+            if (ports[serviceConflict]) {
+              ports[serviceConflict].serviceConflict=true;
+              ports[j].serviceConflict = serviceConflict;
+            }else {
+              ports[j].serviceConflict=false;
+            }
 
             if (ports[j].containerPort && ports[j].hostPort) {
 
@@ -294,14 +305,13 @@ angular.module('console.service.detail', [
           //for (var i = 0; i < containers.length; i++) {
           var ports = $scope.portsArr;
           for (var j = 0; j < ports.length; j++) {
-            if (j == y) {
-              continue;
-            }
-            if (tp == 'containerPort' && ports[j].containerPort == port) {
-              return true;
-            }
-            if (tp == 'hostPort' && ports[j].hostPort == port) {
-              return true;
+            if (j != y) {
+              if (tp == 'containerPort' && ports[j].containerPort == port) {
+                return j;
+              }
+              if (tp == 'hostPort' && ports[j].hostPort == port) {
+                return j;
+              }
             }
           }
           //}
@@ -1262,6 +1272,10 @@ angular.module('console.service.detail', [
           console.log('点击更新');
           if(isConflict()){
                 return
+          }
+          for (var q = 0; q < $scope.portsArr.length; q++) {
+            $scope.portsArr[q].conflict=false;
+            $scope.portsArr[q].serviceConflict=false;
           }
           $rootScope.lding = true;
           // $scope.dc.spec.template.spec.containers[0].volumeMounts=[];

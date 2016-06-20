@@ -442,11 +442,23 @@ angular.module('console.service.create', [
             for (var j = 0; j < ports.length; j++) {
               conflict = portConflict(ports[j].containerPort,j, 'containerPort');
               serviceConflict = portConflict(ports[j].hostPort,j, 'hostPort');
-              ports[j].conflict = conflict;
-              ports[j].serviceConflict = serviceConflict;
 
+
+              // console.log(conflict,serviceConflict)
+              if (ports[conflict]) {
+                ports[conflict].conflict=true;
+                ports[j].conflict = conflict;
+              }else {
+                ports[j].conflict=false;
+              }
+              if (ports[serviceConflict]) {
+                ports[serviceConflict].serviceConflict=true;
+                ports[j].serviceConflict = serviceConflict;
+              }else {
+                ports[j].serviceConflict=false;
+              }
+             
               if (ports[j].containerPort && ports[j].hostPort) {
-                
                 $scope.grid.servicepot = false;
                 $scope.grid.conflict = conflict;
                 $scope.grid.serviceConflict = serviceConflict;
@@ -472,15 +484,18 @@ angular.module('console.service.create', [
           //for (var i = 0; i < containers.length; i++) {
             var ports = $scope.portsArr;
             for (var j = 0; j < ports.length; j++) {
-              if (j == y) {
-                continue;
+              // if (j == y) {
+              //   continue;
+              // }
+              if (j != y) {
+                if (tp == 'containerPort' && ports[j].containerPort == port) {
+                  return j;
+                }
+                if (tp == 'hostPort' && ports[j].hostPort == port) {
+                  return j;
+                }
               }
-              if (tp == 'containerPort' && ports[j].containerPort == port) {
-                return true;
-              }
-              if (tp == 'hostPort' && ports[j].hostPort == port) {
-                return true;
-              }
+
             }
           //}
           return false;
@@ -492,7 +507,10 @@ angular.module('console.service.create', [
           }
           $scope.grid.checked = d;
           window.scrollTo(0,0);
-
+          for (var i = 0; i < $scope.portsArr.length; i++) {
+            $scope.portsArr[i].conflict=false;
+            $scope.portsArr[i].serviceConflict=false;
+          }
         };
 
         var prepareVolume = function (dc) {
