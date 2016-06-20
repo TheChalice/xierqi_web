@@ -436,6 +436,10 @@ angular.module('console.service.create', [
         var isConflict = function () {
           var conflict = false;
           var serviceConflict = false;
+          for (var i = 0; i < $scope.portsArr.length; i++) {
+            $scope.portsArr[i].conflict=false;
+            $scope.portsArr[i].serviceConflict=false;
+          }
           //var containers = $scope.portsArr;
           //for (var i = 0; i < containers.length; i++) {
             var ports = $scope.portsArr;
