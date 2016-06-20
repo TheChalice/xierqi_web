@@ -24,8 +24,9 @@ angular.module('console.service', [
         var refresh = function(page) {
             var skip = (page - 1) * $scope.grid.size;
             $scope.items = $scope.data.items.slice(skip, skip + $scope.grid.size);
-
             $log.info('$scope.items=-=-=-=-=-=',$scope.items);
+            $scope.grid.total = $scope.data.items.length;
+
         };
 
 
@@ -35,9 +36,7 @@ angular.module('console.service', [
                 return;
             }
             $scope.items = [];
-
             txt = txt.replace(/\//g, '\\/');
-            txt = txt.replace(/\./g, '\\.');
             var reg = eval('/' + txt + '/');
             angular.forEach($scope.data.items, function(item){
                 if (key == 'all') {
@@ -66,13 +65,14 @@ angular.module('console.service', [
                 data.items = Sort.sort(data.items, -1);
                 $scope.data = data;
                 //$scope.items = data.items;
-                $scope.grid.total = data.items.length;
+
                 RouteList(data.items);
                 loadBsi(data.items);
                 refresh(1);
                 replicationcls($scope.data.items);
                 $scope.resourceVersion = data.metadata.resourceVersion;
                 watchRcs(data.metadata.resourceVersion);
+                $scope.grid.total = data.items.length;
 
             }, function(res) {
                 $log.info('serviceList', res);
@@ -84,6 +84,7 @@ angular.module('console.service', [
 
         $scope.refresh = function(){
             serviceList();
+            $scope.grid.page = 1;
         };
         //////pod数
         var replicationcls = function(items){
