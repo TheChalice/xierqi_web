@@ -16,7 +16,7 @@ angular.module("console.header", [
                     $window.history.back();
                 };
                 $scope.hasBack = function(){
-                    if ($state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard") {
+                    if ($state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user") {
                         return false
                     }
                     return true;
@@ -65,7 +65,6 @@ angular.module("console.header", [
                     return "新建后端服务实例";
                case "console.user":
                     return "用户中心";
-
             }
         };
     }]);

@@ -8,13 +8,20 @@
                 <h5 class='col-md-12 buy'>您已订购的套餐</h5>
                 <section class='col-md-12'>
                     <div class="col-md-3">
-                        <figure class="taocan">
+                        <figure class="plan">
                             <figcaption>计费资源</figcaption>
-                            <p class=taocanb><span>XS高级版套餐</span></p>
+                            <p class=planb><span>XS高级版套餐</span></p>
                             <article>
                                 <div>
-                                    <span class='pull-left'>CPU 1X</span>
-                                    <span class='pull-right'>内存 2G</span>
+                                    <div class="cpu" style="float:left; width: 50%">
+                                        <span class="subtitle pull-left">CPU</span>
+                                        <span style="font-weight: normal; font-size: 12px">1X</span>
+                                    </div>
+                                    <div class="memory" style="float: right; width: 50%">
+                                        <span class="subtitle">内存</span>
+                                        <span style="font-weight: normal; margin-left:10px; font-size: 12px">2G</span>
+                                    </div>
+
                                 </div>
                             </article>
                             <div class='meiy'>
@@ -27,15 +34,15 @@
                         </figure>
                     </div>
                     <div class="col-md-3">
-                        <div class="taocan">
+                        <div class="plan">
 
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <div class="taocan"></div>
+                        <div class="plan"></div>
                     </div>
                     <div class="col-md-3">
-                        <div class="taocan"></div>
+                        <div class="plan"></div>
                     </div>
 
                 </section>
@@ -146,12 +153,11 @@
         margin-bottom: 12px;
     }
 
-    .taocanb {
+    .planb {
         padding: 0 15px;
-
     }
 
-    .taocanb > span {
+    .planb > span {
         display: inline-block;
     }
 
@@ -167,24 +173,24 @@
         color: #f6a540;
     }
 
-    .taocan p {
+    .plan p {
         text-align: center;
         margin: 0;
         margin-bottom: 20px;
     }
 
-    .taocan button {
+    .plan button {
         width: 180px;
         height: 36px;
         font-size: 16px;
         border-radius: 2px;
     }
 
-    .taocan button:hover {
+    .plan button:hover {
         background: #e5993a;
     }
 
-    .taocan {
+    .plan {
         height: 300px;
         border: 1px solid #e6e9f2;
         text-align: center;
@@ -193,11 +199,11 @@
         /*padding-right: 15px;*/
     }
 
-    .taocan figcaption {
+    .plan figcaption {
         background: #e6e9f2;
     }
 
-    .taocan figcaption, .taocan .taocanb, .taocan article {
+    .plan figcaption, .plan .planb, .plan article {
         font-size: 16px;
         font-weight: bold;
         border-bottom: 1px solid #e6e9f2;
@@ -207,12 +213,12 @@
         line-height: 45px;
     }
 
-    .taocan article {
+    .plan article {
         padding: 0 12px;
         margin-bottom: 20px;
     }
 
-    .taocan .taocanb {
+    .plan .planb {
         font-size: 14px;
         margin: 0;
     }
@@ -241,6 +247,9 @@
 
     .tab-default li .nav-link {
         height: 50px;
+    }
+    .subtitle {
+        font-size: 12px;
     }
 </style>
 
