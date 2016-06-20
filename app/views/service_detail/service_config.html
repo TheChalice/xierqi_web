@@ -124,33 +124,39 @@
 
     <h3>端口开放&nbsp;<span class="require"></span></h3>
 
-    <div class="table-responsive" style="margin-bottom: 30px;">
-        <table class="table table-hover table-default sub-table">
+    <div class="table-responsive" style="margin-bottom: 30px;overflow: hidden;">
+        <table class="table table-hover table-default sub-table" style="padding-bottom: 20px;">
             <tr>
-                <th style="width: 20%;">容器名称</th>
-                <th style="width: 30%; display: none;">镜像</th>
+                <!--<th style="width: 20%;">容器名称</th>-->
+                <!--<th style="width: 30%; display: none;">镜像</th>-->
                 <th style="width: 50%;">端口</th>
             </tr>
-            <tr ng-repeat="container in dc.spec.template.spec.containers">
-                <td style="vertical-align: middle;">
-                    {{container.name}}
-                </td>
-                <td style="vertical-align: middle; display: none;">
-                    <span>
-                        <p>镜像名称:</p>
-                        <p>{{container.image | imageStreamName}}</p>
-                        <p>镜像版本:</p>
-                        <p><span>{{container.tag}}</span></p>
-                    </span>
-                </td>
-                <td style="vertical-align: middle;">
+            <tr>
+                <td>
                     <div class="row">
                         <div class="col-sm-3">协议</div>
                         <div class="col-sm-3">容器端口</div>
                         <div class="col-sm-3">服务端口</div>
                         <div class="col-sm-3"></div>
                     </div>
-                    <div class="row" ng-repeat="port in container.ports" style="margin-top: 15px;">
+                </td>
+
+            </tr>
+            <tr ng-repeat="port in portsArr">
+                <!--<td style="vertical-align: middle;">-->
+                    <!--{{container.name}}-->
+                <!--</td>-->
+                <!--<td style="vertical-align: middle; display: none;">-->
+                    <!--<span>-->
+                        <!--<p>镜像名称:</p>-->
+                        <!--<p>{{container.image | imageStreamName}}</p>-->
+                        <!--<p>镜像版本:</p>-->
+                        <!--<p><span>{{container.tag}}</span></p>-->
+                    <!--</span>-->
+                <!--</td>-->
+                <td style="vertical-align: middle;border-top: none;padding:0px;">
+
+                    <div class="row" style="margin-top: 15px;margin-left:0px;margin-right: 0px;">
                         <div class="col-sm-3">
                             <!--<input type="text"-->
                             <!--class="input-small"-->
@@ -169,7 +175,7 @@
                             <input type="text" ng-model="port.hostPort" class="input-small">
                         </div>
                         <div class="col-sm-3">
-                            <a href="javascript:;" style='color: #9fa7b7;' ng-click="addprot(container,$index,$last)"
+                            <a href="javascript:;" style='color: #9fa7b7;' ng-click="addprot($index,$last)"
                                class="fa fa-lg"
                                ng-class="{'fa-times-circle':!$last, 'fa-plus-circle':$last}"></a>
                         </div>
@@ -229,7 +235,7 @@
             <br>
             <div ng-if="grid.route">
                 <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">服务端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                <div class="dropdown dropdown-select" ng-click="updatePorts()" style="width: 80px;">
+                <div class="dropdown dropdown-select" ng-click="getupdatePorts()" style="width: 80px;">
                     <button class="btn dropdown-toggle" data-toggle="dropdown">
                         <span>{{grid.port || '请选择'}}</span>
                         <span class="caret"></span>
