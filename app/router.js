@@ -69,6 +69,16 @@ define([
                 }]
               }
             })
+            .state('console.org', {
+              url: '/org',
+              templateUrl: 'views/org/org.html',
+              controller: 'orgCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/org/org.js')
+                }]
+              }
+            })
             .state('console.build_create', {
               url: '/build/create',
               templateUrl: 'views/build_create/build_create.html',
