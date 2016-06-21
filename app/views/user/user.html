@@ -62,13 +62,71 @@
                                ng-click="search()">搜</a>
                         </div>
                         <div>
-                            <c-timeline name="bcName" type="taobao"></c-timeline>
+                            <div class="timeline" style="padding-top:20px;">
+                                <ul>
+                                    <li>
+                                        <label uib-tooltip="充值记录">
+                                            <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                        </label>
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-md-4">账单月:2015-2</div>
+                                                <div class="col-md-4">金额:2345</div>
+                                                <div class="col-md-4" style="text-align: right">
+                                                    <a class="icon25 icon25-collapse" uib-tooltip="费用明细" href="javascript:;"></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </uib-tab>
                     <uib-tab index="2">
                         <uib-tab-heading class='head'>
                             账单查询
                         </uib-tab-heading>
+                        <div>
+                            <div style="margin-bottom: 15px;">
+                                <date-pick st="grid.st" et="grid.et"></date-pick>
+                                <a style="" href="javascript:;" class="btn btn-orange search"
+                                   ng-click="search()">搜</a>
+                            </div>
+                        </div>
+                       <div class="timeline" style="padding-top:20px;">
+                           <ul>
+                               <li>
+                                   <label uib-tooltip="账单查询">
+                                       <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                   </label>
+                                   <div class="container-fluid">
+                                        <div class="row">
+                                             <div class="col-md-4">账单月:2015-2</div>
+                                             <div class="col-md-4">金额:2345</div>
+                                             <div class="col-md-4" style="text-align: right">
+                                                 <a class="icon25 icon25-collapse" uib-tooltip="费用明细" ng-click=""  data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample" href="javascript:;"></a>
+                                             </div>
+                                        </div>
+                                   </div>
+                                   <div class="container-fluid collapse" style="margin-top:30px;" id="collapseExample">
+                                       <table class="table searchbill">
+                                           <tr>
+                                               <th style="border-top: none;">扣费时间</th>
+                                               <th style="border-top: none;">套餐类别</th>
+                                               <th style="border-top: none;">费用项目</th>
+                                               <th style="border-top: none;">金额</th>
+                                           </tr>
+                                           <tr>
+                                               <td>2016-2-10</td>
+                                               <td>网络资源</td>
+                                               <td>XL专业版</td>
+                                               <td>2345</td>
+                                           </tr>
+                                       </table>
+                                   </div>
+                               </li>
+                           </ul>
+                       </div>
                     </uib-tab>
 
                 </uib-tabset>
@@ -89,6 +147,12 @@
     </uib-tabset>
 </div>
 <style>
+    ul,li,ol{
+        list-style: none;
+    }
+    .searchbill{
+        margin-bottom: 0px;
+    }
     .search {
         padding: 0;
         width: 34px;
