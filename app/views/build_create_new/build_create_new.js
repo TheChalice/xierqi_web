@@ -70,7 +70,8 @@ angular.module('console.build_create_new', [
                 $scope.buildConfig.spec.completionDeadlineSeconds = $scope.completionDeadlineMinutes * 60;
                 $scope.buildConfig.spec.source.git.ref = $scope.labBranchData.msg[$scope.grid.labbranch].name;
                 $scope.buildConfig.spec.source.sourceSecret.name = labsecret;
-                $scope.buildConfig.spec.source.git.uri = $scope.labusername[$scope.grid.labusers].repos[$scope.grid.labproject].ssh_url_to_repo;
+              console.log($scope.labusername,$scope.grid.labusers);
+              $scope.buildConfig.spec.source.git.uri = $scope.labusername[$scope.grid.labusers].repos[$scope.grid.labproject].ssh_url_to_repo;
                 $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ":" + $scope.labBranchData.msg[$scope.grid.labbranch].name;
                 $scope.buildConfig.metadata.annotations.repo = $scope.labusername[$scope.grid.labusers].repos[$scope.grid.labproject].id.toString();
 
@@ -380,6 +381,7 @@ angular.module('console.build_create_new', [
                 labproject.sort(function(x,y){
                     return x.projecrnames > y.projecrnames ? 1 : -1;
                 })
+              $scope.grid.labusers = idx;
             }
         }
 
