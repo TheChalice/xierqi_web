@@ -17,5 +17,6 @@ angular.module('console.user', [
       st:null,
       et:null
     }
+    
   }])
 
