@@ -5,23 +5,22 @@
     margin-left: 15px;
     margin-top: -3px;
     height: 34px;
-    background: #f7f8fb;
+    background:url(../../pub/img/search.png)no-repeat center #f7f8fb;
     line-height: 36px;
     border: 1px solid #eaebef;
 }
 .search:hover{
-    background: #f7f8fb;
+    background:url(../../pub/img/search-focus.png)no-repeat center #f7f8fb;
 
 }
 #tabbtn .nav-link {
     padding: 0;
     /*margin: 10px 15px;*/
     border: none;
+    border-bottom: 1px solid #eaebef;
 }
 
-#tabbtn .tab-content {
-    border: none;
-}
+
 
 #tabbtn .nav-tabs > li {
     width: 120px;
@@ -141,6 +140,7 @@
 
 #user .tab-content {
     padding: 30px;
+
 }
 
 .buy {
@@ -191,4 +191,19 @@ article .peie {
 .userselect {
     width: 120px;
     margin-right: 50px;
+}
+.blod {
+    font-weight: bold;
+}
+.payway {
+    margin-right:30px;
+}
+#tabbtn .tab-content {
+    padding: 30px 0;
+    margin: 0 30px;
+    border: none;
+    border-top: 1px solid #eaebef;
+}
+.container-fluid:hover {
+    background-color: #f7f8fb;
 }
