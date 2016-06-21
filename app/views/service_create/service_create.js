@@ -434,6 +434,7 @@ angular.module('console.service.create', [
         };
         //
         var isConflict = function () {
+          console.log($scope.portsArr)
           var conflict = false;
           var serviceConflict = false;
           for (var i = 0; i < $scope.portsArr.length; i++) {
@@ -446,27 +447,29 @@ angular.module('console.service.create', [
             for (var j = 0; j < ports.length; j++) {
               conflict = portConflict(ports[j].containerPort,j, 'containerPort');
               serviceConflict = portConflict(ports[j].hostPort,j, 'hostPort');
-
-
-              // console.log(conflict,serviceConflict)
-              if (ports[conflict]) {
-                ports[conflict].conflict=true;
-                ports[j].conflict = conflict;
-              }else {
-                ports[j].conflict=false;
+              console.log(conflict,j)
+              if (conflict) {
+                for (var k = 0; k < conflict.length; k++) {
+                  ports[conflict[k]].conflict=true
+                }
+                ports[j].conflict = true;
               }
-              if (ports[serviceConflict]) {
-                ports[serviceConflict].serviceConflict=true;
-                ports[j].serviceConflict = serviceConflict;
-              }else {
-                ports[j].serviceConflict=false;
+
+              if (serviceConflict) {
+                for (var k = 0; k < serviceConflict.length; k++) {
+                  ports[serviceConflict[k]].serviceConflict=true
+                }
+                ports[j].serviceConflict = true;
               }
+
              
               if (ports[j].containerPort && ports[j].hostPort) {
                 $scope.grid.servicepot = false;
                 $scope.grid.conflict = conflict;
                 $scope.grid.serviceConflict = serviceConflict;
-                return conflict || serviceConflict;
+                if (j == ports.length - 1) {
+                  return conflict || serviceConflict;
+                }
               }else if (!ports[j].containerPort && !ports[j].containerPort) {
                 return false
               } else {
@@ -484,24 +487,24 @@ angular.module('console.service.create', [
         };
 
         var portConflict = function (port,y, tp) {
-          //var containers = $scope.portsArr;
-          //for (var i = 0; i < containers.length; i++) {
-            var ports = $scope.portsArr;
-            for (var j = 0; j < ports.length; j++) {
-              // if (j == y) {
-              //   continue;
-              // }
-              if (j != y) {
+          var ports = $scope.portsArr;
+          var arr =[];
+          for (var j = 0; j < ports.length; j++) {
+            if (j != y) {
                 if (tp == 'containerPort' && ports[j].containerPort == port) {
-                  return j;
+                  arr.push(j)
                 }
                 if (tp == 'hostPort' && ports[j].hostPort == port) {
-                  return j;
+                  arr.push(j)
                 }
               }
-
+            if(j==ports.length-1){
+              if (arr.length > 0) {
+                return arr;
+              }
             }
-          //}
+          }
+
           return false;
         };
 
