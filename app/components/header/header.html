@@ -3,15 +3,15 @@
         <img src="components/header/img/logo.png" alt="logo">
     </a>
     <div id="header-title" class="hidden-xs">
-        <span style="cursor: pointer; margin-right: 10px" ng-click="back()" class="icon25 icon25-back" ng-if="hasBack()">
+        <span style="float: left;cursor: pointer; margin-right: 10px" ng-click="back()" class="icon25 icon25-back" ng-if="hasBack()">
 
         </span>
-        <span>{{console.state | stateTitleFilter}}</span>
+        <span style='float: left;'>{{console.state | stateTitleFilter}}</span>
     </div>
-    <div id="header-menu" style='margin-top: 10px;' >
-        <!--<a class="icon25 icon25-msg" href="javascript:;" uib-tooltip="消息" tooltip-placement="bottom">-->
-            <!--<div class="header-dot"></div>-->
-        <!--</a>-->
+    <div id="header-menu">
+        <a class="icon25 icon25-msg" href="javascript:;" uib-tooltip="消息" tooltip-placement="bottom">
+            <div class="header-dot"></div>
+        </a>
         <!--<a class="icon25 icon25-guide" href="javascript:;" uib-tooltip="指南" tooltip-placement="bottom"-->
         <!--</a>-->
 

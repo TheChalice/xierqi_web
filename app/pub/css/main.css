@@ -905,3 +905,6 @@ a {
 .panel-xxx.active {
     border-color: #f6a540;
 }
+.icon20-144 {
+    background: url('../../pub/img/images_144.png')no-repeat;
+}

@@ -59,7 +59,7 @@
                                             class="accordion-toggle"
                                             style='font-size: 14px; color: #5a6378;'>{{bsisv.Name}}</a>
                                 </span>
-                                <span uib-tooltip="创建时间"
+                                <span uib-tooltip="{{bsisv.CreationTime | timescon}}"
                                       style='position: absolute;font-weight: 400; margin-top: 4px; left: 50%; text-align: center; font-size: 12px; color: #5a6378;'>
                                     创建时间:&nbsp;{{bsisv.CreationTime | dateRelative}}
                                 </span>

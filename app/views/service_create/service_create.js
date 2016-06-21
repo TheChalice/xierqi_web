@@ -434,23 +434,42 @@ angular.module('console.service.create', [
         };
         //
         var isConflict = function () {
+          console.log($scope.portsArr)
           var conflict = false;
           var serviceConflict = false;
+          for (var i = 0; i < $scope.portsArr.length; i++) {
+            $scope.portsArr[i].conflict=false;
+            $scope.portsArr[i].serviceConflict=false;
+          }
           //var containers = $scope.portsArr;
           //for (var i = 0; i < containers.length; i++) {
             var ports = $scope.portsArr;
             for (var j = 0; j < ports.length; j++) {
               conflict = portConflict(ports[j].containerPort,j, 'containerPort');
               serviceConflict = portConflict(ports[j].hostPort,j, 'hostPort');
-              ports[j].conflict = conflict;
-              ports[j].serviceConflict = serviceConflict;
+              console.log(conflict,j)
+              if (conflict) {
+                for (var k = 0; k < conflict.length; k++) {
+                  ports[conflict[k]].conflict=true
+                }
+                ports[j].conflict = true;
+              }
 
+              if (serviceConflict) {
+                for (var k = 0; k < serviceConflict.length; k++) {
+                  ports[serviceConflict[k]].serviceConflict=true
+                }
+                ports[j].serviceConflict = true;
+              }
+
+             
               if (ports[j].containerPort && ports[j].hostPort) {
-                
                 $scope.grid.servicepot = false;
                 $scope.grid.conflict = conflict;
                 $scope.grid.serviceConflict = serviceConflict;
-                return conflict || serviceConflict;
+                if (j == ports.length - 1) {
+                  return conflict || serviceConflict;
+                }
               }else if (!ports[j].containerPort && !ports[j].containerPort) {
                 return false
               } else {
@@ -468,21 +487,24 @@ angular.module('console.service.create', [
         };
 
         var portConflict = function (port,y, tp) {
-          //var containers = $scope.portsArr;
-          //for (var i = 0; i < containers.length; i++) {
-            var ports = $scope.portsArr;
-            for (var j = 0; j < ports.length; j++) {
-              if (j == y) {
-                continue;
+          var ports = $scope.portsArr;
+          var arr =[];
+          for (var j = 0; j < ports.length; j++) {
+            if (j != y) {
+                if (tp == 'containerPort' && ports[j].containerPort == port) {
+                  arr.push(j)
+                }
+                if (tp == 'hostPort' && ports[j].hostPort == port) {
+                  arr.push(j)
+                }
               }
-              if (tp == 'containerPort' && ports[j].containerPort == port) {
-                return true;
-              }
-              if (tp == 'hostPort' && ports[j].hostPort == port) {
-                return true;
+            if(j==ports.length-1){
+              if (arr.length > 0) {
+                return arr;
               }
             }
-          //}
+          }
+
           return false;
         };
 
@@ -492,7 +514,10 @@ angular.module('console.service.create', [
           }
           $scope.grid.checked = d;
           window.scrollTo(0,0);
-
+          for (var i = 0; i < $scope.portsArr.length; i++) {
+            $scope.portsArr[i].conflict=false;
+            $scope.portsArr[i].serviceConflict=false;
+          }
         };
 
         var prepareVolume = function (dc) {

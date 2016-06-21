@@ -57,15 +57,16 @@ angular.module("console.timeline", [])
                           $scope.data.items[i].list=arr[i];
                           $scope.data.items[i].bsi=namecopy+':'+$scope.data.items[i].name;
                         }
-                        console.log($scope.data.items[0].bsi);
-                        console.log('*&*&*&*&*&*&',data)
+                        // console.log($scope.data.items[0].bsi);
+                        // console.log('*&*&*&*&*&*&',$scope.data)
+                        $rootScope.loading = false;
                       }
                     })
                   }
-                  if (data.length == arr.length) {
-                    $rootScope.loading = false;
-                    //console.log('*&*&*&*&*&*&',data)
-                  }
+                  // if (data.length == arr.length) {
+                  //
+                  //   //console.log('*&*&*&*&*&*&',data)
+                  // }
                 })
 
                 $scope.delete = function(idx){
@@ -360,7 +361,7 @@ angular.module("console.timeline", [])
                       $scope.data.items[idx] = res;
                     }, function(res){
                       if(res.data.code== 409){
-                        Confirm.open("提示信息","初始化中不能终止，请稍后再试",null,null,true);
+                        Confirm.open("提示信息","初始化中不能终止，请稍后再试",null,144,true);
                       }
                     });
                   });
