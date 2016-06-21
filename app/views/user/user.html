@@ -115,12 +115,46 @@
                             </uib-tab-heading>
                             <!--<date-pick st="grid.st" et="grid.et"></date-pick>-->
                             <div style="margin-bottom: 15px;">
+                                <div class="dropdown dropdown-select userselect" style="width: 120px;">
+                                    <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                        <span>{{data || '储值方式'}}</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Always'">Always</a>
+                                            <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'OnFailure'">OnFailure</a>
+                                            <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Never'">Never</a>
+                                        </li>
+                                    </ul>
+                                </div>
                                 <date-pick st="grid.st" et="grid.et"></date-pick>
                                 <a style="" href="javascript:;" class="btn btn-orange search"
                                    ng-click="search()"></a>
                             </div>
                             <div>
-                                <c-timeline name="bcName" type="taobao"></c-timeline>
+                                <div>
+                                    <div class="timeline" style="padding-top:20px;">
+                                        <ul>
+                                            <li>
+                                                <label uib-tooltip="1111">
+                                                    <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                </label>
+                                                <div class="container-fluid">
+                                                    <div class="row">
+                                                        <div class="col-md-4">账单月:2015-2</div>
+                                                        <div class="col-md-4">金额:2345</div>
+                                                        <div class="col-md-4" style="text-align: right">
+                                                            <a class="icon25 icon25-collapse" uib-tooltip="费用明细" href="javascript:;"></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!--<c-timeline name="bcName" type="taobao"></c-timeline>-->
                             </div>
                         </uib-tab>
                         <uib-tab index="2">
