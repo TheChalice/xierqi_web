@@ -424,13 +424,13 @@ angular.module('console.service.create', [
 
         $scope.updatePorts = function () {
           $scope.grid.ports = [];
-          angular.forEach($scope.dc.spec.template.spec.containers, function (item) {
-            angular.forEach(item.ports, function (port) {
+          //angular.forEach($scope.dc.spec.template.spec.containers, function (item) {
+            angular.forEach($scope.portsArr, function (port) {
               if ($scope.grid.ports.indexOf(port.hostPort) == -1) {
                 $scope.grid.ports.push(port.hostPort);
               }
             });
-          });
+          //});
         };
         //
         var isConflict = function () {
