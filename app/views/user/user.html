@@ -13,13 +13,13 @@
                             <p class=planb><span>XS高级版套餐</span></p>
                             <article>
                                 <div>
-                                    <div class="cpu" style="float:left; width: 50%">
-                                        <span class="subtitle pull-left">CPU</span>
-                                        <span style="font-weight: normal; font-size: 12px">1X</span>
+                                    <div class="cpu  pull-left" style='margin-left: 5px;'>
+                                        <span class="subtitle">CPU</span>
+                                        <span class=peie style='margin-left: 10px;'>1X</span>
                                     </div>
-                                    <div class="memory" style="float: right; width: 50%">
+                                    <div class="memory pull-right" style='margin-right: 5px;'>
                                         <span class="subtitle">内存</span>
-                                        <span style="font-weight: normal; margin-left:10px; font-size: 12px">2G</span>
+                                        <span class=peie style='margin-left: 10px;'>2G</span>
                                     </div>
 
                                 </div>
@@ -53,33 +53,36 @@
             <uib-tab-heading>
                 <i class="fa2 fa2-bsi"></i>&nbsp;&nbsp;账户信息
             </uib-tab-heading>
-            <h5 class='col-md-12 buy'>账户余额: <span style='color:#F8B551'>34.54</span>元<a class='btn btn-green'
-                                                                                        style='width: 45px;height: 24px;padding: 0;margin-left: 5px;'>充值</a>
-            </h5>
-            <div id="tabbtn">
-                <uib-tabset class="tab-default">
-                    <uib-tab index="1">
-                        <uib-tab-heading class='head'>
-                            充值记录
-                        </uib-tab-heading>
-                        <!--<date-pick st="grid.st" et="grid.et"></date-pick>-->
-                        <div style="margin-bottom: 15px;">
-                            <date-pick st="grid.st" et="grid.et"></date-pick>
-                            <a style="" href="javascript:;" class="btn btn-orange search"
-                               ng-click="search()">搜</a>
-                        </div>
-                        <div>
-                            <c-timeline name="bcName" type="taobao"></c-timeline>
-                        </div>
-                    </uib-tab>
-                    <uib-tab index="2">
-                        <uib-tab-heading class='head'>
-                            账单查询
-                        </uib-tab-heading>
-                    </uib-tab>
+            <div class="row" style="margin-bottom: 30px;">
+                <h5 class='col-md-12 buy'>账户余额: <span style='color:#F8B551'>34.54</span>元<a class='btn btn-green'
+                                                                                            style='width: 45px;height: 24px;padding: 0;margin-left: 5px;'>充值</a>
+                </h5>
+                <div id="tabbtn">
+                    <uib-tabset class="tab-default">
+                        <uib-tab index="1">
+                            <uib-tab-heading class='head'>
+                                充值记录
+                            </uib-tab-heading>
+                            <!--<date-pick st="grid.st" et="grid.et"></date-pick>-->
+                            <div style="margin-bottom: 15px;">
+                                <date-pick st="grid.st" et="grid.et"></date-pick>
+                                <a style="" href="javascript:;" class="btn btn-orange search"
+                                   ng-click="search()"></a>
+                            </div>
+                            <div>
+                                <c-timeline name="bcName" type="taobao"></c-timeline>
+                            </div>
+                        </uib-tab>
+                        <uib-tab index="2">
+                            <uib-tab-heading class='head'>
+                                账单查询
+                            </uib-tab-heading>
+                        </uib-tab>
 
-                </uib-tabset>
+                    </uib-tabset>
+                </div>
             </div>
+
 
         </uib-tab>
         <uib-tab index="3">
@@ -95,161 +98,5 @@
 
     </uib-tabset>
 </div>
-<style>
-    .search {
-        padding: 0;
-        width: 34px;
-        margin-left: 15px;
-        margin-top: -3px;
-        height: 34px;
-        background: #f7f8fb;
-        line-height: 36px;
-        border: 1px solid #eaebef;
-    }
-    .search:hover{
-        background: #f7f8fb;
 
-    }
-    #tabbtn .nav-link {
-        padding: 0;
-        /*margin: 10px 15px;*/
-        border: none;
-    }
-
-    #tabbtn .tab-content {
-        border: none;
-    }
-
-    #tabbtn .nav-tabs > li {
-        width: 120px;
-        margin-left: 30px;
-    }
-
-    #tabbtn .tab-default li.active .head {
-        border: 1px solid #e5993a;
-        background: url(views/backing_service/img/images_48.png) no-repeat #fff;
-    }
-
-    #tabbtn .head {
-        width: 120px;
-        height: 36px;
-        background: #eaebef;
-        display: inline-block;
-        line-height: 36px;
-    }
-
-    #tabbtn .tab-default .nav-tabs {
-        border: none;
-    }
-
-    #tabbtn .nav-tabs {
-        border: none;
-    }
-
-    .meiy {
-        text-align: center;
-        /*height: 37px;*/
-        width: 100%;
-        margin-bottom: 12px;
-    }
-
-    .planb {
-        padding: 0 15px;
-    }
-
-    .planb > span {
-        display: inline-block;
-    }
-
-    .meiyue {
-        width: 120px;
-        height: 36px;
-        display: inline-block;
-        line-height: 36px;
-        border: 1px solid #f6a540;
-        font-size: 16px;
-        border-radius: 2px;
-        font-weight: bold;
-        color: #f6a540;
-    }
-
-    .plan p {
-        text-align: center;
-        margin: 0;
-        margin-bottom: 20px;
-    }
-
-    .plan button {
-        width: 180px;
-        height: 36px;
-        font-size: 16px;
-        border-radius: 2px;
-    }
-
-    .plan button:hover {
-        background: #e5993a;
-    }
-
-    .plan {
-        height: 300px;
-        border: 1px solid #e6e9f2;
-        text-align: center;
-        /*background-color:cyan;*/
-        /*padding-left:15px;*/
-        /*padding-right: 15px;*/
-    }
-
-    .plan figcaption {
-        background: #e6e9f2;
-    }
-
-    .plan figcaption, .plan .planb, .plan article {
-        font-size: 16px;
-        font-weight: bold;
-        border-bottom: 1px solid #e6e9f2;
-        color: #5a6378;
-        height: 45px;
-        text-align: center;
-        line-height: 45px;
-    }
-
-    .plan article {
-        padding: 0 12px;
-        margin-bottom: 20px;
-    }
-
-    .plan .planb {
-        font-size: 14px;
-        margin: 0;
-    }
-
-    #user .tab-content {
-        padding: 30px;
-    }
-
-    .buy {
-        font-size: 16px;
-        font-weight: bold;
-        color: #5a6378;
-        padding-left: 30px;
-        margin-bottom: 30px;
-    }
-
-    #user {
-        margin-top: 40px;
-    }
-
-    .nav-tabs > li {
-        width: 180px;
-        height: 50px;
-        text-align: center;
-    }
-
-    .tab-default li .nav-link {
-        height: 50px;
-    }
-    .subtitle {
-        font-size: 12px;
-    }
-</style>
 
