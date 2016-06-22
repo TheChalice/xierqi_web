@@ -19,19 +19,28 @@
             <div class="timeline" style="padding-top:20px;">
                 <ul>
                     <li>
+                        <a href="javascript:;"
+                           class='radios'
+                           ng-class="{'active':grid.radio}"
+                           ng-click="grid.radio =!grid.radio"
+                           style="text-decoration: none;color: #5a6378;">
+                            <i class="faa faa-check"></i>
+                        </a>
                         <label uib-tooltip="1111">
-                            <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;11:11
+                            <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;1天以前
                         </label>
                         <div class="container-fluid">
                             <div class="row">
-                                <div class="col-md-4">充值金额: <b class='blod'>￥123</b></div>
-                                <div class="col-md-4">账户余额:<b class='blod'>￥123</b></div>
-                                <div class="col-md-4" style="text-align: right">
-                                    <span class='payway'>支付方式:<b class='blod'>支付宝</b></span>
-                                </div>
+                                <div class="col-md-10 users"><i ng-if="type=='event'" class='icon27 icon29'></i>用户: <b>xxx</b>邀请您加入组织 :<b>xxx</b></div>
+                                <div class="col-md-2 accepts"  ng-if="type=='zhannei'"><a href="javascript:;" class='btn btn-green accept dianj'>已接受</a></div>
+                                <!--<div class="col-md-4">账户余额:<b class='blod'>￥123</b></div>-->
+                                <!--<div class="col-md-4" style="text-align: right">-->
+                                    <!--<span class='payway'>支付方式:<b class='blod'>支付宝</b></span>-->
+                                <!--</div>-->
                             </div>
                         </div>
                     </li>
+
                 </ul>
             </div>
         </section>
