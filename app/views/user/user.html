@@ -217,6 +217,29 @@
             <uib-tab-heading>
                 <i class="fa2 fa2-bs"></i>&nbsp;&nbsp;组织管理
             </uib-tab-heading>
+            <div class="row">
+                <a style="margin-right:20px;" class="btn btn-green" href="javascript:;">
+                    <i class="fa fa-plus fa-lg"></i>
+                    <span class="hidden-xs" ng-click="addOrg()">创建组织</span>
+                </a>
+            </div>
+            <div class="h2-border row" style="margin-top:30px;">
+                <span class="biaoti ng-binding">组织名称</span>
+                <i class="xian"></i>
+            </div>
+            <div class="row" style="margin-left:-20px;">
+                <div class="orgList">
+                    <div style="border-bottom: 1px solid #c9c9c9;padding:15px 0px;">
+                        <img src="../app/pub/img/user_pic.png" alt="" style="margin-left:35%;">
+                        <p style="text-align: center;margin-bottom: 0px;margin-top:10px;">管理员</p>
+                    </div>
+                    <div class="caption">
+                        <p class="bsname ng-binding">组织名称</p>
+                        <a class="btn btn-orange ng-scope" style="width: 120px;" href="#">离开组织</a>
+                    </div>
+
+                </div>
+            </div>
         </uib-tab>
 
     </uib-tabset>
