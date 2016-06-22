@@ -11,12 +11,17 @@ angular.module('console.user', [
 
     ]
   }
-]) .controller('userCtrl', ['$scope',
-  function ($scope) {
+]) .controller('userCtrl', ['$scope',"Addmodal",
+  function ($scope,Addmodal) {
     $scope.grid={
       st:null,
       et:null
     }
-    
+    $scope.orgName = "seferfe"
+    $scope.addOrg = function(){
+      Addmodal.open('创建组织', '组织名称', '信息错误').then(function(res){
+
+      })
+    }
   }])
 
