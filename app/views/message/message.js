@@ -6,7 +6,7 @@ angular.module('console.user', [
     files: [
       'views/message/message.css',
       'components/datepick/datepick.js',
-      'components/timeline/timeline.js',
+      'components/messlist/messlist.js',
       'components/checkbox/checkbox.js'
 
     ]
@@ -15,7 +15,8 @@ angular.module('console.user', [
   function (Addmodal,Confirm,$scope) {
     $scope.grid={
       st:null,
-      et:null
+      et:null,
+      auto:null
     }
 
   }])
