@@ -23,6 +23,26 @@ define(['angular'], function (angular) {
           }).result;
         };
       }])
+      .service('Addmodal', ['$uibModal', function ($uibModal) {
+        this.open = function (title, txt, tip) {
+          return $uibModal.open({
+            templateUrl: 'pub/tpl/addmodal.html',
+            size: 'default',
+            controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+              $scope.title = title;
+              $scope.txt = txt;
+              $scope.tip = tip;
+              $scope.orgName = null;
+              $scope.ok = function () {
+                $uibModalInstance.close($scope.orgName);
+              };
+              $scope.cancel = function () {
+                $uibModalInstance.dismiss();
+              };
+            }]
+          }).result;
+        };
+      }])
       .service('Alert', ['$uibModal', function ($uibModal) {
         this.open = function (title, txt, err) {
           return $uibModal.open({

@@ -181,7 +181,7 @@ angular.module('console.service.detail', [
             loadBsi($scope.dc.metadata.name);
             loadPods(res.metadata.name);
             loadService(res.metadata.name);
-            isConflict();   //判断端口是否冲突
+            //isConflict();   //判断端口是否冲突
 
           }, function (res) {
             //todo 错误处理
