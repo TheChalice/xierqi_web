@@ -47,7 +47,12 @@
 #tabbtn .nav-tabs {
     border: none;
 }
-
+ul,li,ol{
+    list-style: none;
+}
+.searchbill{
+    margin-bottom: 0px;
+}
 .meiy {
     text-align: center;
     /*height: 37px;*/
@@ -206,4 +211,67 @@ article .peie {
 }
 .container-fluid:hover {
     background-color: #f7f8fb;
+}
+.recycle {
+    width: 20px;
+    height: 20px;
+    margin-left: 20px;
+    margin-top: -1px;
+    display: inline-block;
+    background: url(../../pub/img/images_22.png)no-repeat;
+}
+.recycle:hover {
+    background: url(../../pub/img/images_24.png)no-repeat;
+}
+.content {
+    padding: 30px 0;
+    margin: 0 30px;
+    border: none;
+    border-bottom: 1px solid #eaebef;
+}
+.creattime {
+    padding-left: 30px;
+    font-size: 14px;
+    margin-bottom: 0;
+    /*color: #E6E9F2;*/
+}
+.content p{
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+}
+.list {
+    padding: 30px 0;
+    margin: 0 30px;
+}
+.list h3 {
+    font-size: 14px;
+    font-weight: bold;
+}
+.table tr th,
+.table tr td{
+    text-align: center;
+
+}
+.table>tbody>tr>td{
+    line-height: 34px;
+}
+.table .btns {
+    border: none;
+    width: 45px;
+    height: 24px;
+    padding: 0;
+    text-align: center;
+    line-height: 24px;
+    margin-left: 30px;
+}
+.table-default {
+    overflow: auto;
+}
+.table-responsive {
+    overflow: inherit;
+}
+.dropdown-select > .btn .caret {
+    top: 10px;
+    right: 7px;
 }
