@@ -219,6 +219,23 @@ define(['angular'], function (angular) {
           }).result;
         }
       }])
+
+      .service('ModalPwd', ['$uibModal', function ($uibModal) {
+        this.open = function () {
+          return $uibModal.open({
+            templateUrl: 'views/user/pwd.html',
+            size: 'default',
+            controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+              $scope.ok = function () {
+                $uibModalInstance.close();
+              };
+              $scope.cancel = function () {
+                $uibModalInstance.dismiss();
+              };
+            }]
+          }).result;
+        };
+      }])
       .service('Sort', [function () {
         this.sort = function (items, reverse) {
           if (!reverse || reverse == 0) {

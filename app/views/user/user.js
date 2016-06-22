@@ -11,20 +11,20 @@ angular.module('console.user', [
 
     ]
   }
-]) .controller('userCtrl', ['$scope',"Addmodal","Confirm",
-  function ($scope,Addmodal,Confirm) {
+]) .controller('userCtrl', ['$scope', 'ModalPwd', 'Addmodal',
+  function ($scope, ModalPwd,Addmodal) {
     $scope.grid={
       st:null,
       et:null
     }
+  $scope.updatePwd = function() {
+    ModalPwd.open();
+  };
     $scope.orgName = "seferfe"
     $scope.addOrg = function(){
       Addmodal.open('创建组织', '组织名称', '信息错误').then(function(res){
 
       })
-    }
-    $scope.lvOrg = function(){
-      Confirm.open("离开组织","您确定要离开组织吗?","","",false);
     }
   }])
 
