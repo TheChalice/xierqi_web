@@ -16,7 +16,7 @@ angular.module("console.header", [
                     $window.history.back();
                 };
                 $scope.hasBack = function(){
-                    if ($state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user") {
+                    if ($state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name== "console.notification") {
                         return false
                     }
                     return true;
@@ -63,11 +63,12 @@ angular.module("console.header", [
                     return "后端服务详情";
                 case "console.apply_instance":
                     return "新建后端服务实例";
-               case "console.user":
+                case "console.user":
                     return "用户中心";
-              case "console.org":
+                case "console.org":
                     return "用户中心";
-
+                case "console.notification":
+                    return "消息中心";
             }
         };
     }]);
