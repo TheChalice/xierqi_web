@@ -212,18 +212,154 @@
             <uib-tab-heading>
                 <i class="fa2 fa2-bs"></i>&nbsp;&nbsp;组织管理
             </uib-tab-heading>
+            <div class="row" style="margin-bottom: 30px;">
+                <h5 class='col-md-12 buy' style='margin-bottom: 0;'><span s class=pull-left>组织名称</span> <a href='javascript:;' ng-click='deletezz()' class='recycle pull-left'></a><br/>
+                </h5>
+                <p class='creattime'>创建于6天前</p>
+                <div class=content>
+                    <p>成员信息<a href="javascript:;" style="line-height: 40px; color: #55c45f" ng-click="addpeople()">
+                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;邀请新成员
+                    </a></p>
+                </div>
+
+                <section class='list'>
+                    <div class="row">
+                        <div class="col-md-1" style="padding-top: 8px;">
+                            <h3>管理员</h3>
+                        </div>
+                        <div class="col-md-11" style='padding-bottom: 30px;padding-left: 0;
+                        padding-right: 0;border-bottom: 1px solid #E6E9F2;'>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-default sub-table">
+                                    <tbody>
+                                    <tr>
+                                        <th>用户名</th>
+                                        <th>邮箱</th>
+                                        <th>加入时间</th>
+                                        <th>授权人</th>
+                                        <th>操作</th>
+                                    <tr>
+                                        <td>江彤</td>
+                                        <td>jt5016224@163.com</td>
+                                        <td>两天前</td>
+                                        <td>江彤</td>
+                                        <td>
+                                            <div class="dropdown dropdown-select" style="width: 80px; height: 24px;margin-bottom: 10px;">
+                                            <button class="btn dropdown-toggle" data-toggle="dropdown" style="width: 80px; height: 24px;padding-top: 0;padding-bottom: 0;">
+                                                <span>{{data ||'更改权限'}}</span>
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Always'">成员</a>
+                                                    <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'OnFailure'">长老</a>
+                                                    <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Never'">酋长</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                            <a href="javascript:;" ng-click='remore()' class='btn btn-orange btns'>移除</a>
+                                        </td> <!-- end ngRepeat: port in portsArr -->
+
+                                    </tr>
+                                    </tbody></table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style='margin-top: 30px;'>
+                        <div class="col-md-1" style="padding-top: 8px;">
+                            <h3>成员</h3>
+                        </div>
+                        <div class="col-md-11" style='padding-bottom: 30px;padding-left: 0;
+                        padding-right: 0;'>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-default sub-table">
+                                    <tbody>
+                                    <tr>
+                                        <th>用户名</th>
+                                        <th>邮箱</th>
+                                        <th>加入时间</th>
+                                        <th>授权人</th>
+                                        <th>操作</th>
+                                    <tr>
+                                        <td>江彤</td>
+                                        <td>jt5016224@163.com</td>
+                                        <td>两天前</td>
+                                        <td>江彤</td>
+                                        <td>
+                                            <div class="dropdown dropdown-select" style="width: 80px; height: 24px;margin-bottom: 10px;">
+                                                <button class="btn dropdown-toggle" data-toggle="dropdown" style="width: 80px; height: 24px;padding-top: 0;padding-bottom: 0;">
+                                                    <span>{{data ||'更改权限'}}</span>
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Always'">成员</a>
+                                                        <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'OnFailure'">长老</a>
+                                                        <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Never'">酋长</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <a href="javascript:;" class='btn btn-orange btns'>移除</a>
+                                        </td> <!-- end ngRepeat: port in portsArr -->
+
+                                    </tr>
+                                    <tr>
+                                        <td>江彤</td>
+                                        <td>jt5016224@163.com</td>
+                                        <td>两天前</td>
+                                        <td>江彤</td>
+                                        <td>
+                                            <div class="dropdown dropdown-select" style="width: 80px; height: 24px;margin-bottom: 10px;">
+                                                <button class="btn dropdown-toggle" data-toggle="dropdown" style="width: 80px; height: 24px;padding-top: 0;padding-bottom: 0;">
+                                                    <span>{{data ||'更改权限'}}</span>
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Always'">成员</a>
+                                                        <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'OnFailure'">长老</a>
+                                                        <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Never'">酋长</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <a href="javascript:;" class='btn btn-orange btns'>移除</a>
+                                        </td> <!-- end ngRepeat: port in portsArr -->
+
+                                    </tr>
+                                    <tr>
+                                        <td>江彤</td>
+                                        <td>jt5016224@163.com</td>
+                                        <td>两天前</td>
+                                        <td>江彤</td>
+                                        <td>
+                                            <div class="dropdown dropdown-select" style="width: 80px; height: 24px;margin-bottom: 10px;">
+                                                <button class="btn dropdown-toggle" data-toggle="dropdown" style="width: 80px; height: 24px;padding-top: 0;padding-bottom: 0;">
+                                                    <span>{{data ||'更改权限'}}</span>
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li>
+                                                        <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Always'">成员</a>
+                                                        <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'OnFailure'">长老</a>
+                                                        <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Never'">酋长</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <a href="javascript:;" class='btn btn-orange btns'>移除</a>
+                                        </td> <!-- end ngRepeat: port in portsArr -->
+
+                                    </tr>
+                                    </tbody></table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+
         </uib-tab>
 
     </uib-tabset>
 </div>
-<style>
-    ul,li,ol{
-        list-style: none;
-    }
-    .searchbill{
-        margin-bottom: 0px;
-    }
 
-
-</style>
 
