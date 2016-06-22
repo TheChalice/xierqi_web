@@ -1,17 +1,17 @@
 'use strict';
 
-angular.module('console.user', [
+angular.module('console.notification', [
   'kubernetesUI',
   {
     files: [
-      'views/message/message.css',
+      'views/notification/notification.css',
       'components/datepick/datepick.js',
       'components/timeline/timeline.js',
       'components/checkbox/checkbox.js'
 
     ]
   }
-]) .controller('messageCtrl', ['Addmodal','Confirm','$scope',
+]) .controller('notificationCtrl', ['Addmodal','Confirm','$scope',
   function (Addmodal,Confirm,$scope) {
     $scope.grid={
       st:null,
