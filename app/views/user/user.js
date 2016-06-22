@@ -8,14 +8,16 @@ angular.module('console.user', [
       'components/datepick/datepick.js',
       'components/timeline/timeline.js',
       'components/checkbox/checkbox.js'
-
     ]
   }
-]) .controller('userCtrl', ['$scope',
-  function ($scope) {
+]) .controller('userCtrl', ['$scope', 'ModalPwd',
+  function ($scope, ModalPwd) {
     $scope.grid={
       st:null,
       et:null
     }
+  $scope.updatePwd = function() {
+    ModalPwd.open();
+  };
   }])
 
