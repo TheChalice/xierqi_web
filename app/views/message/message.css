@@ -275,3 +275,23 @@ article .peie {
     top: 10px;
     right: 7px;
 }
+.notice{
+    background: url(../../pub/img/notice.png) no-repeat;
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    background-size:cover;
+    vertical-align: middle;
+}
+.nav-link:hover i{
+    background: url(../../pub/img/notice_hover.png) no-repeat;
+    background-size:cover;
+}
+.active .notice{
+    background: url(../../pub/img/notice_hover.png) no-repeat;
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    background-size:cover;
+    vertical-align: middle;
+}

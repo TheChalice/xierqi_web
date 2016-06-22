@@ -59,36 +59,6 @@ define([
                 }]
               }
             })
-            .state('console.user', {
-              url: '/user',
-              templateUrl: 'views/user/user.html',
-              controller: 'userCtrl',
-              resolve: {
-                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                  return $ocLazyLoad.load('views/user/user.js')
-                }]
-              }
-            })
-            .state('console.org', {
-              url: '/org',
-              templateUrl: 'views/org/org.html',
-              controller: 'orgCtrl',
-              resolve: {
-                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                  return $ocLazyLoad.load('views/org/org.js')
-                }]
-              }
-            })
-            .state('console.message', {
-              url: '/message',
-              templateUrl: 'views/message/message.html',
-              controller: 'messageCtrl',
-              resolve: {
-                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                  return $ocLazyLoad.load('views/message/message.js')
-                }]
-              }
-            })
             .state('console.build_create', {
               url: '/build/create',
               templateUrl: 'views/build_create/build_create.html',
@@ -223,6 +193,36 @@ define([
               resolve: {
                 dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                   return $ocLazyLoad.load(['views/dashboard/dashboard.js'])
+                }]
+              }
+            })
+            .state('console.user', {
+              url: '/user',
+              templateUrl: 'views/user/user.html',
+              controller: 'userCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/user/user.js')
+                }]
+              }
+            })
+            .state('console.org', {
+              url: '/org',
+              templateUrl: 'views/org/org.html',
+              controller: 'orgCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/org/org.js')
+                }]
+              }
+            })
+            .state('console.notification', {
+              url: '/notification',
+              templateUrl: 'views/notification/notification.html',
+              controller: 'notificationCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/notification/notification.js')
                 }]
               }
             })

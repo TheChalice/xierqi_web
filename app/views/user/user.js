@@ -17,12 +17,17 @@ angular.module('console.user', [
       st:null,
       et:null
     }
-  $scope.updatePwd = function() {
-    ModalPwd.open();
-  };
-    $scope.orgName = "seferfe"
+    $scope.orgName = "seferfe";
     $scope.addOrg = function(){
       Addmodal.open('创建组织', '组织名称', '信息错误').then(function(res){
+
+      })
+    }
+    $scope.updatePwd = function() {
+      ModalPwd.open();
+    };
+    $scope.updateToken = function() {
+      Addmodal.open('更新私有token', '私有token', '信息错误').then(function(res){
 
       })
     }

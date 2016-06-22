@@ -188,12 +188,10 @@ define(['angular'], function (angular) {
                 AuthService.login($rootScope.credentials);
                 $uibModalInstance.close();
               };
-
               $scope.regist = function () {
                 $uibModalInstance.close();
                 ModalRegist.open();
               };
-
               $scope.cancel = function () {
                 $uibModalInstance.dismiss();
               };
