@@ -79,6 +79,16 @@ define([
                 }]
               }
             })
+            .state('console.message', {
+              url: '/message',
+              templateUrl: 'views/message/message.html',
+              controller: 'messageCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/message/message.js')
+                }]
+              }
+            })
             .state('console.build_create', {
               url: '/build/create',
               templateUrl: 'views/build_create/build_create.html',
