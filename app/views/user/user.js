@@ -11,8 +11,8 @@ angular.module('console.user', [
 
     ]
   }
-]) .controller('userCtrl', ['$scope',"Addmodal",
-  function ($scope,Addmodal) {
+]) .controller('userCtrl', ['$scope',"Addmodal","Confirm",
+  function ($scope,Addmodal,Confirm) {
     $scope.grid={
       st:null,
       et:null
@@ -22,6 +22,9 @@ angular.module('console.user', [
       Addmodal.open('创建组织', '组织名称', '信息错误').then(function(res){
 
       })
+    }
+    $scope.lvOrg = function(){
+      Confirm.open("离开组织","您确定要离开组织吗?","","",false);
     }
   }])
 
