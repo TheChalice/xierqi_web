@@ -8,8 +8,8 @@ angular.module('console.service.create', [
         ]
       }
     ])
-    .controller('ServiceCreateCtrl', ['$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service',
-      function ($rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service) {
+    .controller('ServiceCreateCtrl', ['Toast','$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service',
+      function (Toast,$rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service) {
         $log.info('ServiceCreate');
         $scope.checkEnv = false;
         $scope.portsArr = [
@@ -879,6 +879,7 @@ angular.module('console.service.create', [
             //  $state.go('console.service_detail', {name: dc.metadata.name});
             //}
             bindService(dc);
+            Toast.open('初始化成功');
             $state.go('console.service_detail', {name: dc.metadata.name});
           }, function (res) {
             //todo 错误处理
