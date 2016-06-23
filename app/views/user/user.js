@@ -31,5 +31,18 @@ angular.module('console.user', [
 
       })
     }
+    var a;
+    $scope.showpop = function() {
+      document.getElementById("pop").style.display = "block"; clearTimeout(a);
+    }
+    $scope.hidepop = function() {
+      var a;
+      var out = function () {
+        a = setTimeout(function () {
+          document.getElementById("pop").style.display = "none";
+        }, 100)
+      }
+      out();
+    }
   }])
 
