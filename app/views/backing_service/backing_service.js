@@ -42,11 +42,10 @@ angular.module('console.backing_service', [
           });
           return filtered;
         }
-
       };
     })
     .controller('BackingServiceCtrl', ['$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'BackingServiceInstanceBd', 'Confirm', 'Toast', 'Ws', '$filter', function ($log, $rootScope, $scope, BackingService, BackingServiceInstance, ServiceSelect, BackingServiceInstanceBd, Confirm, Toast, Ws, $filter) {
-      // 得到loadBs对象进行分组
+
       // 数组去重方法
       Array.prototype.unique = function () {
         this.sort(); //先排序
@@ -59,18 +58,22 @@ angular.module('console.backing_service', [
         return res;
       }
 
-      // 数组变对象
-
+      // 得到loadBs对象进行分组
       var loadBs = function () {
         BackingService.get({namespace: 'openshift'}, function (data) {
           $log.info('loadBs', data);
           $scope.items = data.items;
-          // console.log($scope.items);
           var arr = data.items;
-          $scope.dev = [];
+          //上方两个tab分组数组
+          //服务分类
           $scope.cation = [];
+         // 服务提供者
+          $scope.providers = [];
+          // 每个item中有几个对象
           $scope.itemsDevop = [];
+
           $scope.isshow = {};
+
           $scope.showTab = {};
           //将类名变大写
           for (var l = 0; l < arr.length; l++) {
@@ -81,35 +84,29 @@ angular.module('console.backing_service', [
                 Class: '其他'
               };
             }
-            $scope.dev.push(arr[l].spec.metadata.providerDisplayName)
+            $scope.providers.push(arr[l].spec.metadata.providerDisplayName)
             $scope.cation.push(arr[l].metadata.annotations.Class)
           }
-          $scope.dev = $scope.dev.unique()
-
+          //将分类去重
           $scope.cation = $scope.cation.unique()
-          $scope.cation.reverse()
-          // var cation = $scope.cation[3];
-          // $scope.cation.splice(3,1)
-          // console.log($scope.cation);
-          // $scope.cation.unshift(cation)
-          // $scope.others = [];
+          $scope.providers = $scope.providers.unique()
+
+          // $scope.cation.reverse()
+
           //服务分类属性
           // console.log(arr[0].metadata.annotations.Class)
           // 服务提供者属性
-          // console.log(arr[1].spec.metadata.providerDisplayName)
+          // console.log(arr[0].spec.metadata.providerDisplayName)
           //服务提供者分组
           //
           for (var j = 0; j < arr.length; j++) {
-            // console.log(arr[j].spec.metadata.providerDisplayName)
-            // $scope.cation.push(arr[j].metadata.annotations.Class)
-            for (var b = 0; b < $scope.dev.length; b++) {
-              if (arr[j].spec.metadata.providerDisplayName === $scope.dev[b]) {
-                arr[j].providerDisplayName = $scope.dev[b];
+            for (var b = 0; b < $scope.providers.length; b++) {
+              if (arr[j].spec.metadata.providerDisplayName === $scope.providers[b]) {
+                arr[j].providerDisplayName = $scope.providers[b];
               }
             }
-            // console.log(arr[j].providerDisplayName)
           }
-          // console.log('$scope.dev', $scope.dev);
+          // console.log('$scope.providers', $scope.providers);
           // console.log('$scope.cation', $scope.cation);
 
           // console.log('change', arr)
@@ -127,42 +124,41 @@ angular.module('console.backing_service', [
             $scope.showTab[i] = true;
 
           }
-          // console.log("$scope.itemsDevop", $scope.itemsDevop)
-          // console.log("$scope.isshow", $scope.isshow)
+          console.log($scope.itemsDevop);
           // 设置渲染到页面的数据
-          $scope.test = [];
+          $scope.market = [];
           for (var s = 0; s < $scope.cation.length; s++) {
-            $scope.test.push({})
-            $scope.test[s].name = $scope.cation[s];
+            $scope.market.push({})
+            $scope.market[s].name = $scope.cation[s];
             for (var q = 0; q < $scope.itemsDevop.length; q++) {
               if (s == q) {
-                $scope.test[s].item = $scope.itemsDevop[q]
-                $scope.test[s].isshow = $scope.isshow[q]
-                $scope.test[s].showTab = $scope.showTab[q]
-                $scope.test[s].id = q;
+                $scope.market[s].item = $scope.itemsDevop[q]
+                $scope.market[s].isshow = $scope.isshow[q]
+                $scope.market[s].showTab = $scope.showTab[q]
+                $scope.market[s].id = q;
               }
             }
           }
 
           var other=null;
-          for (var o = 0; o < $scope.test.length; o++) {
-            if ($scope.test[o].name == '其他') {
-              other = $scope.test[o];
-              $scope.test.splice(o,1);
+          for (var o = 0; o < $scope.market.length; o++) {
+            if ($scope.market[o].name == '其他') {
+              other = $scope.market[o];
+              $scope.market.splice(o,1);
             }
           }
-          $scope.test.sort(function (x, y) {
+          $scope.market.sort(function (x, y) {
             return x.item.length > y.item.length ? -1 : 1;
           });
           
           if (other) {
-            $scope.test.push(other)
+            $scope.market.push(other)
           }
-          // console.log($scope.test)
+          // console.log($scope.market)
 
           var lins = [];
-          for (var x = 0; x <$scope.test.length; x++) {
-            lins.push($scope.test[x].name)
+          for (var x = 0; x <$scope.market.length; x++) {
+            lins.push($scope.market[x].name)
           }
           $scope.cation=lins;
           // console.log(lins);
@@ -207,27 +203,28 @@ angular.module('console.backing_service', [
                   }
                 }
               }
-              $scope.mytest = [];
+              //我的后端服务页面渲染json
+              $scope.myservice = [];
               for (var s = 0; s < $scope.cation.length; s++) {
-                $scope.mytest.push({})
-                $scope.mytest[s].name = $scope.cation[s];
+                $scope.myservice.push({})
+                $scope.myservice[s].name = $scope.cation[s];
                 for (var q = 0; q < fiftarr.length; q++) {
                   if (s == q) {
-                    $scope.mytest[s].item = fiftarr[q]
-                    $scope.mytest[s].isshow = true;
-                    $scope.mytest[s].showTab = true;
-                    $scope.mytest[s].id = q;
+                    $scope.myservice[s].item = fiftarr[q]
+                    $scope.myservice[s].isshow = true;
+                    $scope.myservice[s].showTab = true;
+                    $scope.myservice[s].id = q;
                   }
                 }
               }
-              // console.log('$scope.mytest');
+              // console.log('$scope.myservice');
               for (var d = 0; d < $scope.cation.length; d++) {
-                var arr1 = $filter("myfilter")($scope.mytest[d].item, $scope.isComplete);
+                var arr1 = $filter("myfilter")($scope.myservice[d].item, $scope.isComplete);
                 if (arr1.length == 0) {
-                  $scope.mytest[d].showTab = false
+                  $scope.myservice[d].showTab = false
                 }
               }
-              // console.log('mytest', $scope.mytest)
+              // console.log('mytest', $scope.myservice)
             }, function (res) {
               //todo 错误处理
               $log.info("loadBsi err", res);
@@ -236,18 +233,18 @@ angular.module('console.backing_service', [
           };
           loadBsi();
 
-          for (var r = 0; r < $scope.test.length; r++) {
-            for (var u = 0; u < $scope.test[r].item.length; u++) {
-              // console.log($scope.test[r].item[u].status.phase);
-              if ($scope.test[r].item[u].status.phase === 'Active') {
-                $scope.test[r].item[u].biancheng = true;
+          for (var r = 0; r < $scope.market.length; r++) {
+            for (var u = 0; u < $scope.market[r].item.length; u++) {
+              // console.log($scope.market[r].item[u].status.phase);
+              if ($scope.market[r].item[u].status.phase === 'Active') {
+                $scope.market[r].item[u].biancheng = true;
               }else {
-                $scope.test[r].item[u].bianhui = true;
+                $scope.market[r].item[u].bianhui = true;
               }
               
             }
           }
-          console.log("$scope.test", $scope.test)
+          console.log("$scope.market", $scope.market)
           $scope.data = data.items;
           filter('serviceCat', 'all');
           filter('vendor', 'all');
@@ -257,13 +254,14 @@ angular.module('console.backing_service', [
       loadBs();
 
       $scope.status = {};
-
+      //页面双向绑定数据
       $scope.grid = {
         serviceCat: 'all',
         vendor: 'all',
         txt: '',
         mytxt:''
       };
+      //tab切换分类过滤对象
       $scope.isComplete = '';
 
       // 第一栏筛选
@@ -272,18 +270,18 @@ angular.module('console.backing_service', [
         //class判定
         if (key == $scope.grid[tp]) {
           key = 'all';
-          for (var k in $scope.test) {
-            $scope.test[k].isshow = true;
-            $scope.mytest[k].isshow = true;
+          for (var k in $scope.market) {
+            $scope.market[k].isshow = true;
+            $scope.myservice[k].isshow = true;
           }
         } else {
-          for (var k in $scope.test) {
+          for (var k in $scope.market) {
             if (key == k) {
-              $scope.test[k].isshow = true;
-              $scope.mytest[k].isshow = true;
+              $scope.market[k].isshow = true;
+              $scope.myservice[k].isshow = true;
             } else {
-              $scope.test[k].isshow = false;
-              $scope.mytest[k].isshow = false;
+              $scope.market[k].isshow = false;
+              $scope.myservice[k].isshow = false;
             }
           }
         }
@@ -291,20 +289,19 @@ angular.module('console.backing_service', [
         // filter(tp, key);
       };
       //第二栏筛选
-
       $scope.selectsc = function (tp, key) {
         for (var i = 0; i < $scope.cation.length; i++) {
-          $scope.test[i].showTab = true;
-          $scope.mytest[i].showTab = true;
-          $scope.isComplete = {providerDisplayName: $scope.dev[key]};
+          $scope.market[i].showTab = true;
+          $scope.myservice[i].showTab = true;
+          $scope.isComplete = {providerDisplayName: $scope.providers[key]};
           //把渲染数组做二次筛选;
-          var arr = $filter("myfilter")($scope.test[i].item, $scope.isComplete);
+          var arr = $filter("myfilter")($scope.market[i].item, $scope.isComplete);
           if (arr.length == 0) {
-            $scope.test[i].showTab = false
+            $scope.market[i].showTab = false
           }
-          var arr1 = $filter("myfilter")($scope.mytest[i].item, $scope.isComplete);
+          var arr1 = $filter("myfilter")($scope.myservice[i].item, $scope.isComplete);
           if (arr1.length == 0) {
-            $scope.mytest[i].showTab = false
+            $scope.myservice[i].showTab = false
           }
 
         }
@@ -313,14 +310,14 @@ angular.module('console.backing_service', [
           key = 'all';
           $scope.isComplete = '';
 
-          for (var k in $scope.test) {
-            $scope.test[k].showTab = true;
-            $scope.mytest[k].showTab = true;
+          for (var k in $scope.market) {
+            $scope.market[k].showTab = true;
+            $scope.myservice[k].showTab = true;
           }
           for (var d = 0; d < $scope.cation.length; d++) {
-            var arr1 = $filter("myfilter")($scope.mytest[d].item, $scope.isComplete);
+            var arr1 = $filter("myfilter")($scope.myservice[d].item, $scope.isComplete);
             if (arr1.length == 0) {
-              $scope.mytest[d].showTab = false
+              $scope.myservice[d].showTab = false
             }
           }
         }
@@ -394,17 +391,17 @@ angular.module('console.backing_service', [
         } else if (data.type == "MODIFIED") {
 
           // console.log('newid',newid)
-          if ($scope.mytest[newid]) {
-            angular.forEach($scope.mytest[newid].item, function (item, i) {
+          if ($scope.myservice[newid]) {
+            angular.forEach($scope.myservice[newid].item, function (item, i) {
               if (item.metadata.name == data.object.metadata.name) {
                 data.object.show = item.show;
-                $scope.mytest[newid].item[i] = data.object;
+                $scope.myservice[newid].item[i] = data.object;
                 $scope.$apply();
               }
             })
-            // console.log('$scope.mytest[newid].item',$scope.mytest[newid].item.length)
-            if ($scope.mytest[newid].item.length == '0') {
-              $scope.mytest[newid].showTab = false;
+            // console.log('$scope.myservice[newid].item',$scope.myservice[newid].item.length)
+            if ($scope.myservice[newid].item.length == '0') {
+              $scope.myservice[newid].showTab = false;
               $scope.$apply();
             }
           }
@@ -413,125 +410,125 @@ angular.module('console.backing_service', [
       $scope.mykeysearch=function (event) {
 
         if (event.keyCode === 13){
-          for (var s = 0; s < $scope.mytest.length; s++) {
-            $scope.mytest[s].showTab=true;
+          for (var s = 0; s < $scope.myservice.length; s++) {
+            $scope.myservice[s].showTab=true;
           }
           $scope.isComplete={name:$scope.grid.mytxt};
           var sarr = [];
           if ($scope.grid.mytxt) {
-            for (var s = 0; s < $scope.mytest.length; s++) {
-              sarr = $filter("myfilter")($scope.mytest[s].item, $scope.isComplete);
+            for (var s = 0; s < $scope.myservice.length; s++) {
+              sarr = $filter("myfilter")($scope.myservice[s].item, $scope.isComplete);
               if (sarr.length === 0) {
-                $scope.mytest[s].showTab = false;
+                $scope.myservice[s].showTab = false;
               }
             }
           }else {
-            for (var s = 0; s < $scope.mytest.length; s++) {
-              sarr = $filter("myfilter")($scope.mytest[s].item, $scope.isComplete);
+            for (var s = 0; s < $scope.myservice.length; s++) {
+              sarr = $filter("myfilter")($scope.myservice[s].item, $scope.isComplete);
               // console.log(sarr.length)
               if (sarr.length === 0) {
-                $scope.mytest[s].showTab = false;
+                $scope.myservice[s].showTab = false;
               }else {
-                $scope.mytest[s].showTab=true;
+                $scope.myservice[s].showTab=true;
               }
             }
           }
         }
       }
-
+      //键盘搜索
       $scope.keysearch=function (event) {
         if (event.keyCode === 13) {
-          for (var s = 0; s < $scope.test.length; s++) {
-            $scope.test[s].showTab=true;
+          for (var s = 0; s < $scope.market.length; s++) {
+            $scope.market[s].showTab=true;
           }
           $scope.isComplete={name:$scope.grid.txt};
           var sarr = [];
           if ($scope.grid.txt) {
-            for (var s = 0; s < $scope.test.length; s++) {
-              sarr = $filter("myfilter")($scope.test[s].item, $scope.isComplete);
+            for (var s = 0; s < $scope.market.length; s++) {
+              sarr = $filter("myfilter")($scope.market[s].item, $scope.isComplete);
               // console.log(sarr.length)
               if (sarr.length === 0) {
-                $scope.test[s].showTab = false;
+                $scope.market[s].showTab = false;
               }
             }
           }else {
-            for (var s = 0; s < $scope.test.length; s++) {
-              sarr = $filter("myfilter")($scope.test[s].item, $scope.isComplete);
-              $scope.test[s].showTab=true;
+            for (var s = 0; s < $scope.market.length; s++) {
+              sarr = $filter("myfilter")($scope.market[s].item, $scope.isComplete);
+              $scope.market[s].showTab=true;
             }
             }
         }
       }
       // 搜索
       $scope.mysearch=function () {
-        for (var s = 0; s < $scope.mytest.length; s++) {
-          $scope.mytest[s].showTab=true;
+        for (var s = 0; s < $scope.myservice.length; s++) {
+          $scope.myservice[s].showTab=true;
         }
         $scope.isComplete={name:$scope.grid.mytxt};
         var sarr = [];
-        for (var s = 0; s < $scope.mytest.length; s++) {
-          $scope.mytest[s].showTab=true;
+        for (var s = 0; s < $scope.myservice.length; s++) {
+          $scope.myservice[s].showTab=true;
         }
         if ($scope.grid.mytxt) {
-          for (var s = 0; s < $scope.mytest.length; s++) {
-            sarr = $filter("myfilter")($scope.mytest[s].item, $scope.isComplete);
+          for (var s = 0; s < $scope.myservice.length; s++) {
+            sarr = $filter("myfilter")($scope.myservice[s].item, $scope.isComplete);
             if (sarr.length === 0) {
-              $scope.mytest[s].showTab = false;
+              $scope.myservice[s].showTab = false;
             }
           }
         }else {
-          for (var s = 0; s < $scope.mytest.length; s++) {
-            sarr = $filter("myfilter")($scope.mytest[s].item, $scope.isComplete);
+          for (var s = 0; s < $scope.myservice.length; s++) {
+            sarr = $filter("myfilter")($scope.myservice[s].item, $scope.isComplete);
             // console.log(sarr.length)
             if (sarr.length === 0) {
-              $scope.mytest[s].showTab = false;
+              $scope.myservice[s].showTab = false;
             }else {
-              $scope.mytest[s].showTab=true;
+              $scope.myservice[s].showTab=true;
             }
           }
         }
-        // console.log($scope.mytest);
+        // console.log($scope.myservice);
         // filter('serviceCat', $scope.grid.serviceCat);
         // filter('vendor', $scope.grid.vendor);
       }
       $scope.search = function () {
         $scope.isComplete={name:$scope.grid.txt};
-        for (var s = 0; s < $scope.test.length; s++) {
-          $scope.test[s].showTab=true;
+        for (var s = 0; s < $scope.market.length; s++) {
+          $scope.market[s].showTab=true;
         }
         var sarr = [];
         if ($scope.grid.txt) {
-          for (var s = 0; s < $scope.test.length; s++) {
-            sarr = $filter("myfilter")($scope.test[s].item, $scope.isComplete);
+          for (var s = 0; s < $scope.market.length; s++) {
+            sarr = $filter("myfilter")($scope.market[s].item, $scope.isComplete);
             if (sarr.length === 0) {
-              $scope.test[s].showTab = false;
+              $scope.market[s].showTab = false;
             }
           }
         }else {
-          for (var s = 0; s < $scope.test.length; s++) {
-              sarr = $filter("myfilter")($scope.test[s].item, $scope.isComplete)
-              $scope.test[s].showTab=true;
+          for (var s = 0; s < $scope.market.length; s++) {
+              sarr = $filter("myfilter")($scope.market[s].item, $scope.isComplete)
+              $scope.market[s].showTab=true;
             }
         }
-        // console.log($scope.test);
+        // console.log($scope.market);
         // filter('serviceCat', $scope.grid.serviceCat);
         // filter('vendor', $scope.grid.vendor);
       };
 
       $scope.delBsi = function (idx, id) {
         newid=id;
-        // console.log('del$scope.mytest[id].item[idx]', $scope.mytest[id].item[idx].spec.binding);
-        if ($scope.mytest[id].item[idx].spec.binding) {
-          var curlength = $scope.mytest[id].item[idx].spec.binding.length;
+        // console.log('del$scope.myservice[id].item[idx]', $scope.myservice[id].item[idx].spec.binding);
+        if ($scope.myservice[id].item[idx].spec.binding) {
+          var curlength = $scope.myservice[id].item[idx].spec.binding.length;
           if (curlength > 0) {
             Confirm.open('删除后端服务实例', '该实例已绑定服务,不能删除', '', '', true)
           } else {
             Confirm.open('删除后端服务实例', '您确定要删除该实例吗?此操作不可恢复', '', '', false).then(function () {
               BackingServiceInstance.del({
                 namespace: $rootScope.namespace,
-                name: $scope.mytest[id].item[idx].metadata.name
+                name: $scope.myservice[id].item[idx].metadata.name
               }, function (res) {
-                $scope.mytest[id].item.splice(idx, 1);
+                $scope.myservice[id].item.splice(idx, 1);
                 Toast.open('删除成功');
               }, function (res) {
                 $log.info('err', res);
@@ -542,9 +539,9 @@ angular.module('console.backing_service', [
           Confirm.open('删除后端服务实例', '您确定要删除该实例吗?此操作不可恢复', '', '', false).then(function () {
             BackingServiceInstance.del({
               namespace: $rootScope.namespace,
-              name: $scope.mytest[id].item[idx].metadata.name
+              name: $scope.myservice[id].item[idx].metadata.name
             }, function (res) {
-              $scope.mytest[id].item.splice(idx, 1);
+              $scope.myservice[id].item.splice(idx, 1);
               Toast.open('删除成功');
             }, function (res) {
               $log.info('err', res);
@@ -556,9 +553,9 @@ angular.module('console.backing_service', [
       }
       $scope.delBing = function (idx, id) {
         newid = id;
-        var name = $scope.mytest[id].item[idx].metadata.name;
+        var name = $scope.myservice[id].item[idx].metadata.name;
         var bindings = [];
-        var binds = $scope.mytest[id].item[idx].spec.binding || [];
+        var binds = $scope.myservice[id].item[idx].spec.binding || [];
         for (var i = 0; i < binds.length; i++) {
           if (binds[i].checked) {
             bindings.push(binds[i]);
@@ -625,11 +622,11 @@ angular.module('console.backing_service', [
       };
       $scope.bindModal = function (idx, id) {
         newid = id;
-        var bindings = $scope.mytest[id].item[idx].spec.binding || [];
+        var bindings = $scope.myservice[id].item[idx].spec.binding || [];
         ServiceSelect.open(bindings).then(function (res) {
           $log.info("selected service", res);
           if (res.length > 0) {
-            bindService($scope.mytest[id].item[idx].metadata.name, res, idx, id);
+            bindService($scope.myservice[id].item[idx].metadata.name, res, idx, id);
           }
         });
       };

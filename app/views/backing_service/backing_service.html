@@ -12,7 +12,7 @@
         </div>
         <div class="sc col-mb-12 pull-left">
             <label>服务提供者</label>
-            <div class="btn-group fw" ng-repeat='item in dev'>
+            <div class="btn-group fw" ng-repeat='item in providers'>
                 <label class="btn" ng-class="{'active':grid.vendor == $index}"
                        ng-click="selectsc('vendor',$index)">{{item}}</label>
             </div>
@@ -37,7 +37,7 @@
                 </div>
             </div>
 
-            <div class='change' ng-repeat='items in test'>
+            <div class='change' ng-repeat='items in market'>
                 <div class="row" ng-show="items.isshow" id=n{{items.id}}>
                     <div id=t{{items.id}} class="h2-border" ng-show="items.showTab"
                         style="margin-bottom: 15px;">
