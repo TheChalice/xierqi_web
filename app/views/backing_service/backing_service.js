@@ -575,7 +575,6 @@ angular.module('console.backing_service', [
       };
       //我的后端服务绑定一个服务
       var bindService = function (name, dcs, idx, id) {
-
         var bindObj = {
           metadata: {
             name: name
@@ -612,6 +611,4 @@ angular.module('console.backing_service', [
           }
         });
       };
-
-
     }])
