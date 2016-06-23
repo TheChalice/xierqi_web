@@ -244,7 +244,7 @@ angular.module('console.backing_service', [
       };
       //tab切换分类过滤对象
       $scope.isComplete = '';
-      // 第一栏筛选
+      //服务分类筛选
       $scope.select = function (tp, key) {
         // console.log("tp", tp, 'key', $scope.cation[key]);
         //class判定
@@ -268,7 +268,7 @@ angular.module('console.backing_service', [
         $scope.grid[tp] = key;
         // filter(tp, key);
       };
-      //第二栏筛选
+      //服务提供者筛选
       $scope.selectsc = function (tp, key) {
         for (var i = 0; i < $scope.cation.length; i++) {
           $scope.market[i].showTab = true;
