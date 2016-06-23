@@ -12,7 +12,7 @@ angular.module('console.user', [
     ]
   }
 ]) .controller('userCtrl', ['$scope', 'ModalPwd', 'Addmodal',
-  function ($scope, ModalPwd,Addmodal) {
+  function ($scope, ModalPwd, Addmodal) {
     $scope.grid={
       st:null,
       et:null
@@ -28,21 +28,22 @@ angular.module('console.user', [
     };
     $scope.updateToken = function() {
       Addmodal.open('更新私有token', '私有token', '信息错误').then(function(res){
-
       })
     }
     var a;
+    var keep = function() {
+      a  = setTimeout($scope.showpop,1000);
+    }
     $scope.showpop = function() {
+      keep();
       document.getElementById("pop").style.display = "block"; clearTimeout(a);
     }
     $scope.hidepop = function() {
-      var a;
-      var out = function () {
-        a = setTimeout(function () {
-          document.getElementById("pop").style.display = "none";
-        }, 100)
-      }
-      out();
+      document.getElementById("pop").style.display = "none";
+    }
+    $scope.showbig = function() {
+      keep();
+      document.getElementById("pop").style.display = "block"; clearTimeout(a);
     }
   }])
 

@@ -248,7 +248,7 @@
                     <p style="margin-left: 30px; font-size: 16px; font-weight: bold; color: #5a6378">已授权的代码库</p>
                     <div style="margin-left: 30px; margin-right: 30px">
                         <div class="source">
-                            <div class="source-bar" style="margin-left: 30px; margin-right: 30px">
+                            <div class="source-bar" style=" margin-right: 30px">
                                 <div class="row">
                                     <div class="ban4 pan">
                                         <h3>sourcename</h3>
@@ -263,17 +263,20 @@
                                     <div class="ban5 buttons" style="margin-top: 20px; position: relative;">
                                         <button type="button" ng-click="unbind()" class="btn btn-orange unbind" style="margin-right: 20px; width:80px; height:30px"
                                            >解除绑定</button>
-                                        <div class="popup" id="pop">
-                                            如何获取私有token?<br>
-                                            <a href="javascript:;" ng-click="help()" style="text-decoration: none; padding-left: 5px; font-weight: bold">查看帮助</a>
-                                        </div>
-                                        <button type="button" ng-click="updateToken()" ng-mousemove="showpop()" ng-mouseleave="hidepop()" class="btn btn-green token">
+                                        <div class="token" ng-click="updateToken()" ng-mousemove="showpop()" ng-mouseleave="hidepop()">
                                             更新私有token
-                                        </button>
+                                        </div>
+                                        <div id="pop" ng-mousemove="showpop()" ng-mouseleave="hidepop()">
+                                            <div class="popup" >
+                                                <p style="font-size: 12px; color: white;padding-left: 10px">如何获取私有token?</p>
+                                                <a href="javascript:;" ng-click="help()" style="text-decoration: none; padding-left: 35px; font-size: 12px; font-weight: bold">查看帮助</a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -315,25 +318,42 @@
     .searchbill{
         margin-bottom: 0px;
     }
+    #pop {
+        height: 80px;
+        position: relative;
+        width: 100px;
+        top: -110px;
+        left: 90px;
+        display: none
+    }
     .popup {
-        display: none;
         height: 50px;
         width: 150px;
         background-color: #000000;
         color: white;
         position: absolute;
-        top: -60px;
-        left: 80px;
-        padding-top: 5px;
+        top: 20px;
+        left: -5px;
         padding-left: 10px;
         border-radius: 3px;
     }
     .token {
         position: relative;
-        height: 30px;
+        border-radius: 2px;
+        border: 1px solid #55c45f;
         width: 120px;
-        margin-top: -53px;
+        background-color: #55c45f;
+        height: 30px;
+        padding: 5px 10px;
+        color: white;
+        margin-top: -30px;
         margin-left: 100px;
+    }
+    .token :hover {
+        background-color: #469450;
+    }
+    .token :active {
+        background-color: #68d472;
     }
 </style>
 
