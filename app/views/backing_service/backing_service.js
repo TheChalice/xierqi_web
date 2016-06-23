@@ -6,7 +6,9 @@ angular.module('console.backing_service', [
       'components/bscard/bscard.js'
     ]
   }
-]).filter('myfilter', function () {
+])
+    .filter('myfilter', function () {
+      // 分类过滤器
       return function (items, condition) {
         var filtered = [];
         if (condition === undefined || condition === '') {
@@ -45,7 +47,6 @@ angular.module('console.backing_service', [
       };
     })
     .controller('BackingServiceCtrl', ['$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'BackingServiceInstanceBd', 'Confirm', 'Toast', 'Ws', '$filter', function ($log, $rootScope, $scope, BackingService, BackingServiceInstance, ServiceSelect, BackingServiceInstanceBd, Confirm, Toast, Ws, $filter) {
-
       // 数组去重方法
       Array.prototype.unique = function () {
         this.sort(); //先排序
@@ -57,7 +58,6 @@ angular.module('console.backing_service', [
         }
         return res;
       }
-
       // 得到loadBs对象进行分组
       var loadBs = function () {
         BackingService.get({namespace: 'openshift'}, function (data) {
@@ -71,10 +71,6 @@ angular.module('console.backing_service', [
           $scope.providers = [];
           // 每个item中有几个对象
           $scope.itemsDevop = [];
-
-          $scope.isshow = {};
-
-          $scope.showTab = {};
           //将类名变大写
           for (var l = 0; l < arr.length; l++) {
             if (arr[l].metadata.annotations && arr[l].metadata.annotations.Class !== undefined) {
@@ -90,15 +86,11 @@ angular.module('console.backing_service', [
           //将分类去重
           $scope.cation = $scope.cation.unique()
           $scope.providers = $scope.providers.unique()
-
-          // $scope.cation.reverse()
-
           //服务分类属性
-          // console.log(arr[0].metadata.annotations.Class)
+          // item.metadata.annotations.Class
           // 服务提供者属性
-          // console.log(arr[0].spec.metadata.providerDisplayName)
+          // item.spec.metadata.providerDisplayName
           //服务提供者分组
-          //
           for (var j = 0; j < arr.length; j++) {
             for (var b = 0; b < $scope.providers.length; b++) {
               if (arr[j].spec.metadata.providerDisplayName === $scope.providers[b]) {
@@ -106,26 +98,16 @@ angular.module('console.backing_service', [
               }
             }
           }
-          // console.log('$scope.providers', $scope.providers);
-          // console.log('$scope.cation', $scope.cation);
-
-          // console.log('change', arr)
           //服务分类分组
-
           for (var i = 0; i < $scope.cation.length; i++) {
-            // console.log('change', arr[i].providerDisplayName)
             $scope.itemsDevop.push([])
             for (var m = 0; m < arr.length; m++) {
               if (arr[m].metadata.annotations && arr[m].metadata.annotations.Class === $scope.cation[i]) {
                 $scope.itemsDevop[i].push(arr[m]);
               }
             }
-            $scope.isshow[i] = true;
-            $scope.showTab[i] = true;
-
           }
-          console.log($scope.itemsDevop);
-          // 设置渲染到页面的数据
+          // 设置渲染到页面的数据market市场
           $scope.market = [];
           for (var s = 0; s < $scope.cation.length; s++) {
             $scope.market.push({})
@@ -133,13 +115,13 @@ angular.module('console.backing_service', [
             for (var q = 0; q < $scope.itemsDevop.length; q++) {
               if (s == q) {
                 $scope.market[s].item = $scope.itemsDevop[q]
-                $scope.market[s].isshow = $scope.isshow[q]
-                $scope.market[s].showTab = $scope.showTab[q]
+                $scope.market[s].isshow = true;
+                $scope.market[s].showTab = true;
                 $scope.market[s].id = q;
               }
             }
           }
-
+          // 划分出market的其他分类
           var other=null;
           for (var o = 0; o < $scope.market.length; o++) {
             if ($scope.market[o].name == '其他') {
@@ -147,21 +129,21 @@ angular.module('console.backing_service', [
               $scope.market.splice(o,1);
             }
           }
+          // 把market根据item多少进行排序
           $scope.market.sort(function (x, y) {
             return x.item.length > y.item.length ? -1 : 1;
           });
-          
+          // 如果有other把other放到最后
           if (other) {
             $scope.market.push(other)
           }
-          // console.log($scope.market)
-
+          // 从新将服务分类提取
           var lins = [];
           for (var x = 0; x <$scope.market.length; x++) {
             lins.push($scope.market[x].name)
           }
+          // 将上面的服务分类顺序排列的与下方一致
           $scope.cation=lins;
-          // console.log(lins);
           // 第一栏分类
           var fiftobj = {};
           var fiftmanobj = {}
@@ -241,7 +223,7 @@ angular.module('console.backing_service', [
               }else {
                 $scope.market[r].item[u].bianhui = true;
               }
-              
+
             }
           }
           console.log("$scope.market", $scope.market)
@@ -252,7 +234,6 @@ angular.module('console.backing_service', [
         })
       };
       loadBs();
-
       $scope.status = {};
       //页面双向绑定数据
       $scope.grid = {
@@ -263,7 +244,6 @@ angular.module('console.backing_service', [
       };
       //tab切换分类过滤对象
       $scope.isComplete = '';
-
       // 第一栏筛选
       $scope.select = function (tp, key) {
         // console.log("tp", tp, 'key', $scope.cation[key]);
@@ -324,8 +304,7 @@ angular.module('console.backing_service', [
         $scope.grid[tp] = key;
         // console.log("$scope.itemsDevop", $scope.itemsDevop)
       }
-
-
+      // 正则方式过滤器
       var filter = function (tp, key) {
         var reg = null;
         if ($scope.grid.txt) {
@@ -344,8 +323,7 @@ angular.module('console.backing_service', [
           }
         });
       };
-
-      var newid = null;
+      // 我的后端服务长连接
       var watchBsi = function (resourceVersion) {
         Ws.watch({
           resourceVersion: resourceVersion,
@@ -367,7 +345,7 @@ angular.module('console.backing_service', [
           watchBsi($scope.resourceVersion);
         });
       };
-
+      // 我的后端服务长连接监视方法
       var updateBsi = function (data) {
         $log.info("watch bsi", data);
 
@@ -407,6 +385,7 @@ angular.module('console.backing_service', [
           }
         }
       };
+      // 我的后端服务键盘搜索
       $scope.mykeysearch=function (event) {
 
         if (event.keyCode === 13){
@@ -435,7 +414,7 @@ angular.module('console.backing_service', [
           }
         }
       }
-      //键盘搜索
+      //服务分类键盘搜索
       $scope.keysearch=function (event) {
         if (event.keyCode === 13) {
           for (var s = 0; s < $scope.market.length; s++) {
@@ -459,7 +438,7 @@ angular.module('console.backing_service', [
             }
         }
       }
-      // 搜索
+      // 我的后端服务搜索
       $scope.mysearch=function () {
         for (var s = 0; s < $scope.myservice.length; s++) {
           $scope.myservice[s].showTab=true;
@@ -491,6 +470,7 @@ angular.module('console.backing_service', [
         // filter('serviceCat', $scope.grid.serviceCat);
         // filter('vendor', $scope.grid.vendor);
       }
+      //服务分类搜索
       $scope.search = function () {
         $scope.isComplete={name:$scope.grid.txt};
         for (var s = 0; s < $scope.market.length; s++) {
@@ -514,7 +494,8 @@ angular.module('console.backing_service', [
         // filter('serviceCat', $scope.grid.serviceCat);
         // filter('vendor', $scope.grid.vendor);
       };
-
+      //我的后端服务删除一个实例
+      var newid = null;
       $scope.delBsi = function (idx, id) {
         newid=id;
         // console.log('del$scope.myservice[id].item[idx]', $scope.myservice[id].item[idx].spec.binding);
@@ -551,6 +532,7 @@ angular.module('console.backing_service', [
 
 
       }
+      //我的后端服务解除绑定一个服务
       $scope.delBing = function (idx, id) {
         newid = id;
         var name = $scope.myservice[id].item[idx].metadata.name;
@@ -591,7 +573,7 @@ angular.module('console.backing_service', [
               });
         });
       };
-
+      //我的后端服务绑定一个服务
       var bindService = function (name, dcs, idx, id) {
 
         var bindObj = {
@@ -614,7 +596,7 @@ angular.module('console.backing_service', [
                 }else {
                   Toast.open(res.data.message);
                 }
-                
+
                 $log.info("bind services " +
                     "err", res);
               });
