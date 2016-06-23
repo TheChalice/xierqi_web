@@ -180,9 +180,11 @@ article .peie {
 .circle {
     width: 90px;
     height: 90px;
-    background-color: cyan;
+    /*background-color: cyan;*/
+    background: url(/app/pub/img/images_85.png);
     border-radius: 45px;
     margin: 25px auto;
+
     /*margin-top: 25px;*/
 }
 .plan .notbuy {
