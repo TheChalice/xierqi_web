@@ -30,7 +30,8 @@ angular.module('console.image', [
         // 分页对象
         $scope.grid = {
           page: 1,
-          size: 8
+          size: 8,
+          copytest: {}
         };
         // 存储commit id 和 分支,angular修改数组内元素属性不能触发刷新
         $scope.gitStore = {};
@@ -123,11 +124,11 @@ angular.module('console.image', [
 
           if (event.keyCode == 13) {
             if (!txt) {
-              $scope.test = copytest
+              $scope.test = $scope.grid.copytest
               $scope.opened = true;
               return;
             }
-            // console.log(copytest)
+
 
             var namelist = [];
             txt = txt.replace(/\//g, '\\/');
@@ -150,11 +151,11 @@ angular.module('console.image', [
                     }
                   }
 
-                  for (var q = 0; q < copytest.length; q++) {
+                  for (var q = 0; q < $scope.grid.copytest.length; q++) {
                     for (var r = 0; r < item.length; r++) {
-                      if (item[r].Name === copytest[q].Name) {
-                        item[r].CreationTime = copytest[q].CreationTime;
-                        item[r].mysort = copytest[q].mysort;
+                      if (item[r].Name === $scope.grid.copytest[q].Name) {
+                        item[r].CreationTime = $scope.grid.copytest[q].CreationTime;
+                        item[r].mysort = $scope.grid.copytest[q].mysort;
                       }
                     }
                   }
@@ -176,7 +177,7 @@ angular.module('console.image', [
         // 平台公有镜像搜索
         $scope.gsearch = function (key, txt) {
           if (!txt) {
-            $scope.test = copytest
+            $scope.test = $scope.grid.copytest
             $scope.opened = true;
             return;
           }
@@ -199,12 +200,12 @@ angular.module('console.image', [
                   }
                 }
 
-                for (var q = 0; q < copytest.length; q++) {
+                for (var q = 0; q < $scope.grid.copytest.length; q++) {
                   for (var r = 0; r < item.length; r++) {
-                    if (item[r].Name === copytest[q].Name) {
+                    if (item[r].Name === $scope.grid.copytest[q].Name) {
 
-                      item[r].CreationTime = copytest[q].CreationTime;
-                      item[r].mysort = copytest[q].mysort;
+                      item[r].CreationTime = $scope.grid.copytest[q].CreationTime;
+                      item[r].mysort = $scope.grid.copytest[q].mysort;
                     }
                   }
                 }
@@ -222,11 +223,12 @@ angular.module('console.image', [
               })
         }
         // 请求共有镜像平台
+
         $http.get('/registry/api/projects', {
           params: {is_public: 1}
         }).success(function (data) {
           var arr = [];
-          var copytest = {};
+
           for (var i = 0; i < data.length; i++) {
             data[i].mysort = data[i].CreationTime
             data[i].mysort = (new Date(data[i].mysort)).getTime()
@@ -254,7 +256,7 @@ angular.module('console.image', [
                     }
                   }
 
-                  copytest = angular.copy($scope.test);
+                  $scope.grid.copytest = angular.copy($scope.test);
 
                 }).error(function (msg) {
               //TODO:失败时错误处理
