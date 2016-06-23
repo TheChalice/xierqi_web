@@ -278,3 +278,6 @@ article .peie {
 .row{
     margin:0px;
 }
+.token {
+    white-space: nowrap;
+}

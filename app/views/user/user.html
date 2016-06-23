@@ -261,16 +261,21 @@
                                         <span>www.aaaaa.com</span>
                                     </div>
                                     <div class="ban5 buttons" style="margin-top: 20px;">
-                                        <a href="javascript:;" type="button" ng-click="unbind()" class="btn-orange unbind" style="margin-right: 20px; width:80px; height:30px"
-                                           >解除绑定</a>
-                                        <a href="javascript:;" type="button" ng-click="updateToken()" class="btn-green token" uib-tooltip="如何获取私有Token?查看帮助">更新私有token
-                                        </a>
+                                        <button type="button" ng-click="unbind()" class="btn btn-orange unbind" style="margin-right: 20px; width:80px; height:30px"
+                                           >解除绑定</button>
+                                        <button type="button" ng-click="updateToken()"  class="btn btn-green token" style="position: relative; height: 30px; width: 120px; margin-top: -53px;
+    margin-left: 100px;">
+                                            <div class="popup" style="height: 50px; width: 150px; background-color: #000000; color: white; position: absolute; top: -70px; left: -20px; padding-top: 10px; padding-bottom: 10px">
+                                                如何获取私有token?<br><a href="javascript:;" style="text-decoration: none">查看帮助</a>
+                                                <div class="triangle"></div>
+                                            </div>
+                                            更新私有token
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </uib-tab>
@@ -312,7 +317,20 @@
     .searchbill{
         margin-bottom: 0px;
     }
-
-
+    .popup {
+        display: none;
+    }
+    .token:hover .popup{
+        display: block;
+    }
+    .triangle {
+        width: 0px;
+        height:0px;
+        border: 20px solid #000000;
+        border-left-color: transparent;
+        border-right-color: transparent;
+        border-bottom-color: transparent;
+        margin-left: 56px;
+    }
 </style>
 
