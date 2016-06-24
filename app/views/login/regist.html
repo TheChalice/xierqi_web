@@ -83,16 +83,22 @@
 
         <p class="modal-msg text-left" style="margin: 20px 0 5px 0;font-size:14px;color:#5a6378;">
             <span class="require">确认密码</span>&nbsp;&nbsp;
-            <small ng-if="frm.password.$dirty && frm.cfmPassword.$error.required"
+            <small ng-if="credentials.cfmPasswordchange&&frm.password.$dirty && frm.cfmPassword.$error.required"
                    class="err-tip pull-right">
                 <i class="fa fa-info-circle"></i>&nbsp;确认密码不能为空
             </small>
             <small ng-if="frm.cfmPassword.$dirty && credentials.password != credentials.cfmPassword" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;两次输入密码不相同</small>
         </p>
-        <input name="cfmPassword" type="password" class="form-control" ng-model="credentials.cfmPassword">
+        <input name="cfmPassword"
+               type="password"
+               ng-blur="credentials.cfmPasswordchange=true"
+               ng-focus="credentials.cfmPasswordchange=false"
+               class="form-control"
+               ng-model="credentials.cfmPassword" required/>
 
         <button class="btn btn-block btn-disabled" ng-disabled="frm.$invalid"
-                ng-class="{'btn-orange':frm.$valid, 'btn-disabled': frm.$invalid}" ng-click="frm.$valid && regist()"
+                ng-class="{'btn-orange':credentials.password === credentials.cfmPassword&&frm.$valid, 'btn-disabled': credentials.password !== credentials.cfmPassword||frm.$invalid}"
+                ng-click="credentials.password === credentials.cfmPassword&&frm.$valid && regist()"
                 style="margin: 30px 0 0 0;">
             注册
         </button>
