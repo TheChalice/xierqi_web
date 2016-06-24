@@ -44,31 +44,32 @@
                     </div>
                 </div>
                 <div class="panel-group" role="tablist" aria-multiselectable="true" style="margin-bottom: 0;">
-                    <div class="panel panel-default" style='margin-bottom: 30px;box-shadow: none; border-radius: 2px;' ng-repeat="bsisv in test" ng-show='bsisv.items'>
-                        <div href="#{{bsisv.Name}}" data-toggle="collapse"  class="panel-heading"
-                             style='background:#f7f8fb;padding: 14px 30px 15px 23px;' role="tab" aria-expanded={{opened}}>
+                    <div class="panel panel-default" style='margin-bottom: 30px;box-shadow: none; border-radius: 2px;'
+                         ng-repeat="bsisv in newtext" ng-show='bsisv.items'>
+                        <div href="#{{bsisv.name}}" data-toggle="collapse" class="panel-heading"
+                             style='background:#f7f8fb;padding: 14px 30px 15px 23px;' role="tab" aria-expanded='true'>
                             <h4 class="panel-title">
-                                <a href="#{{bsisv.Name}}" data-toggle="collapse"
-                                   class="accordion-toggle" aria-expanded={{opened}}>
+                                <a href="#{{bsisv.name}}" data-toggle="collapse"
+                                   class="accordion-toggle" aria-expanded='true'>
                                     <i class="fa pull-right icon25 icon25-collapse"
                                        style="color: #5a6378; margin-top: -4px" uib-tooltip="查看"></i>
                                 </a>
                                 <span class="label label-default"
                                       style='font-size: 14px;background:#f7f8fb; color: #5a6378;'>
-                                         <a href="#{{bsisv.Name}}" data-toggle="collapse"
+                                         <a href="#{{bsisv.name}}" data-toggle="collapse"
                                             class="accordion-toggle"
-                                            style='font-size: 14px; color: #5a6378;'>{{bsisv.Name}}</a>
+                                            style='font-size: 14px; color: #5a6378;'>{{bsisv.name}}</a>
                                 </span>
-                                <span uib-tooltip="{{bsisv.CreationTime | timescon}}"
+                                <span uib-tooltip="{{bsisv.creation_time | timescon}}"
                                       style='position: absolute;font-weight: 400; margin-top: 4px; left: 50%; text-align: center; font-size: 12px; color: #5a6378;'>
-                                    创建时间:&nbsp;{{bsisv.CreationTime | dateRelative}}
+                                    创建时间:&nbsp;{{bsisv.creation_time | dateRelative}}
                                 </span>
                             </h4>
 
                         </div>
-                        <div id="{{bsisv.Name}}" class="panel-collapse"
+                        <div id="{{bsisv.name}}" class="panel-collapse"
                              ng-class="{'collapse':opened}"
-                             role="tabpanel" aria-expanded={{opened}}>
+                             role="tabpanel" aria-expanded='true'>
                             <div class="panel-body" style='padding-top: 20px;'>
                                 <div>
                                     <div class="row">
