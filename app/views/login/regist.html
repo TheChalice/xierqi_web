@@ -1,4 +1,4 @@
-the origin regist
+<!--the origin regist-->
 <div class="modal-header">
     <h5 class="modal-title">
         注册
@@ -7,31 +7,93 @@ the origin regist
 </div>
 <div class="modal-body" style="padding: 20px 40px 30px 40px;">
     <form class="form-horizontal" name="frm">
+        <!--<button ng-click=look()>查看</button>-->
         <p class="modal-msg text-left" style="margin: 0 0 5px 0;font-size:14px;color:#5a6378;">
             <span class="require">用户名</span>&nbsp;&nbsp;
-            <small ng-if="frm.username.$dirty && frm.username.$invalid" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;用户名不能为空</small>
-        </p>
-        <input name="username" class="form-control" ng-model="credentials.username" required>
+            <small ng-if="credentials.usernamechange&&frm.username.$dirty && frm.username.$error.required"
+                   class="err-tip pull-right">
+                <i class="fa fa-info-circle"></i>&nbsp;用户名不能为空
+            </small>
+            <small ng-if="credentials.usernamechange&&frm.username.$dirty && frm.username.$error.minlength"
+                   class="err-tip pull-right">
+                <i class="fa fa-info-circle"></i>&nbsp;用户名太短
+            </small>
+            <small ng-if="credentials.usernamechange&&frm.username.$dirty && frm.username.$error.maxlength"
+                   class="err-tip pull-right">
+                <i class="fa fa-info-circle"></i>&nbsp;用户名太长
+            </small>
+            <small ng-if="credentials.usernamechange&&frm.username.$dirty && frm.username.$error.pattern&&!frm.username.$error.maxlength&&!frm.username.$error.minlength"
+                   class="err-tip pull-right">
+                <i class="fa fa-info-circle"></i>&nbsp;用户名不合法
+            </small>
+        </p><!--ng-blur='usernamelose()'-->
+        <input type="text" name="username"
+               class="form-control"
+               ng-blur="credentials.usernamechange=true"
+               ng-focus="credentials.usernamechange=false"
+               ng-model="credentials.username"
+               required ng-minlength="4"
+               ng-maxlength="12"
+               ng-pattern="/^[a-zA-Z\d]\w+[a-zA-Z\d]$/"/>
 
         <p class="modal-msg text-left" style="margin: 20px 0 5px 0;font-size:14px;color:#5a6378;">
             <span class="require">邮箱</span>&nbsp;&nbsp;
-            <small ng-if="frm.email.$dirty && frm.email.$invalid" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;邮箱不能为空</small>
+            <small ng-if="credentials.emailchange&&frm.email.$dirty && frm.email.$error.required"
+                   class="err-tip pull-right">
+                <i class="fa fa-info-circle"></i>&nbsp;邮箱不能为空
+            </small>
+            <small ng-if="credentials.emailchange&&frm.email.$dirty && frm.email.$error.pattern"
+                   class="err-tip pull-right">
+                <i class="fa fa-info-circle"></i>&nbsp;这不是一个有效的邮箱
+            </small>
         </p>
-        <input name="email" class="form-control" ng-model="credentials.email" required>
 
+        <!--<input name="email"-->
+        <!--class="form-control"-->
+        <!--ng-model="credentials.email"-->
+        <!--required>-->
+        <input type="email"
+               name="email"
+               class="form-control"
+               ng-blur="credentials.emailchange=true"
+               ng-focus="credentials.emailchange=false"
+               ng-model="credentials.email"
+               required
+               ng-pattern="/^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/"/>
         <p class="modal-msg text-left" style="margin: 20px 0 5px 0;font-size:14px;color:#5a6378;">
             <span class="require">密码</span>&nbsp;&nbsp;
-            <small ng-if="frm.password.$dirty && frm.password.$invalid" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;密码不能为空</small>
+            <small ng-if="credentials.passwordchange&&frm.password.$dirty && frm.password.$error.required"
+                   class="err-tip pull-right">
+                <i class="fa fa-info-circle"></i>&nbsp;密码不能为空
+            </small>
+            <small ng-if="credentials.passwordchange&&frm.password.$dirty && frm.password.$error.pattern"
+                   class="err-tip pull-right">
+                <i class="fa fa-info-circle"></i>&nbsp;密码必须为6-18位的字母，数字，特殊符号
+            </small>
         </p>
-        <input name="password" type="password" class="form-control" ng-model="credentials.password" required>
+        <input type="password"
+               name="password"
+               class="form-control"
+               ng-blur="credentials.passwordchange=true"
+               ng-focus="credentials.passwordchange=false"
+               ng-model="credentials.password"
+               onpaste="return false;"
+               required
+               ng-pattern="/^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{6,18}$/"/>
 
         <p class="modal-msg text-left" style="margin: 20px 0 5px 0;font-size:14px;color:#5a6378;">
             <span class="require">确认密码</span>&nbsp;&nbsp;
+            <small ng-if="frm.password.$dirty && frm.cfmPassword.$error.required"
+                   class="err-tip pull-right">
+                <i class="fa fa-info-circle"></i>&nbsp;确认密码不能为空
+            </small>
             <small ng-if="frm.cfmPassword.$dirty && credentials.password != credentials.cfmPassword" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;两次输入密码不相同</small>
         </p>
         <input name="cfmPassword" type="password" class="form-control" ng-model="credentials.cfmPassword">
 
-        <button class="btn btn-orange btn-block" ng-click="frm.$valid && regist()" style="margin: 30px 0 0 0;">
+        <button class="btn btn-block btn-disabled" ng-disabled="frm.$invalid"
+                ng-class="{'btn-orange':frm.$valid, 'btn-disabled': frm.$invalid}" ng-click="frm.$valid && regist()"
+                style="margin: 30px 0 0 0;">
             注册
         </button>
     </form>

@@ -880,7 +880,10 @@ angular.module('console.service.create', [
             //}
             bindService(dc);
             Toast.open('初始化成功');
-            $state.go('console.service_detail', {name: dc.metadata.name});
+            setTimeout(function () {
+              $state.go('console.service_detail', {name: dc.metadata.name});
+            }, 1000)
+            
           }, function (res) {
             //todo 错误处理
             $log.info("create dc fail", res);
