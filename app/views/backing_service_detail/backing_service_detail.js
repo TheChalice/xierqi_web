@@ -13,13 +13,13 @@ angular.module('console.backing_service_detail', [
       var cuename = $stateParams.name;
       console.log('$stateParams', $stateParams)
       $scope.grid.active = $stateParams.index;
-          if ($stateParams.type) {
-            $scope.ltype=$stateParams.type
-          }
+          // if ($stateParams.type) {
+          //   $scope.ltype=$stateParams.type
+          // }
       var loadBs = function () {
         BackingService.get({namespace: 'openshift', name: cuename}, function (data) {
           $log.info('loadBs=====', data);
-
+          $scope.ltype = data.metadata.annotations.Class
           if (data.status.phase === "Inactive") {
             data.bianhui = true;
           }else {
