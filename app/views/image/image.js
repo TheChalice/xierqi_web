@@ -44,51 +44,52 @@ angular.module('console.image', [
         // 控制换页方法
         var refresh = function (page) {
           var skip = (page - 1) * $scope.grid.size;
-          $scope.items = $scope.data.items.slice(skip, skip + $scope.grid.size);
-          $scope.grid.total = $scope.data.items.length;
+          $scope.testlist = $scope.testcopy.slice(skip, skip + $scope.grid.size);
+          $scope.grid.total = $scope.testcopy.length;
         };
-        // 获取buildConfig列表
-        var loadBuildConfigs = function () {
-          BuildConfig.get({namespace: $rootScope.namespace}, function (data) {
-            $log.info('buildConfigs', data);
-            $scope.data = data;
-            $scope.data.items = Sort.sort(data.items, -1);
-            $scope.grid.total = data.items.length;
-            fillImageStreams();
-            refresh(1);
-          }, function (res) {
-            //todo 错误处理
-          });
-        };
-        loadBuildConfigs();
-        // 获取平台私有镜像
-        var fillImageStreams = function () {
-          var items = angular.copy($scope.data.items);
-          $scope.data.items = [];
-          $scope.grid.total = 0;
-          angular.forEach(items, function (item) {
-            if (!item.spec.output.to) {
-              return;
-            }
-            ImageStreamTag.get({namespace: $rootScope.namespace, name: item.spec.output.to.name}, function (data) {
-              // console.log("-------", data);
-              item.metadata.creationTimestamp = data.metadata.creationTimestamp;
-              item.ist = data;
-              $scope.data.items.push(item);
-              $scope.grid.total++;
-              refresh(1);
-              var labels = data.image.dockerImageMetadata.Config.Labels;
-              if (!labels) {
-                return;
-              }
-              $scope.gitStore[item.spec.output.to.name] = {
-                id: labels["io.openshift.build.commit.id"],
-                ref: labels["io.openshift.build.commit.ref"]
-              };
 
-            });
-          });
-        };
+        // 获取buildConfig列表
+        // var loadBuildConfigs = function () {
+        //   BuildConfig.get({namespace: $rootScope.namespace}, function (data) {
+        //     $log.info('buildConfigs', data);
+        //     $scope.data = data;
+        //     $scope.data.items = Sort.sort(data.items, -1);
+        //     $scope.grid.total = data.items.length;
+        //     fillImageStreams();
+        //     refresh(1);
+        //   }, function (res) {
+        //     //todo 错误处理
+        //   });
+        // };
+        // loadBuildConfigs();
+        // 获取平台私有镜像
+        // var fillImageStreams = function () {
+        //   var items = angular.copy($scope.data.items);
+        //   $scope.data.items = [];
+        //   $scope.grid.total = 0;
+        //   angular.forEach(items, function (item) {
+        //     if (!item.spec.output.to) {
+        //       return;
+        //     }
+        //     ImageStreamTag.get({namespace: $rootScope.namespace, name: item.spec.output.to.name}, function (data) {
+        //       // console.log("-------", data);
+        //       item.metadata.creationTimestamp = data.metadata.creationTimestamp;
+        //       item.ist = data;
+        //       $scope.data.items.push(item);
+        //       $scope.grid.total++;
+        //       refresh(1);
+        //       var labels = data.image.dockerImageMetadata.Config.Labels;
+        //       if (!labels) {
+        //         return;
+        //       }
+        //       $scope.gitStore[item.spec.output.to.name] = {
+        //         id: labels["io.openshift.build.commit.id"],
+        //         ref: labels["io.openshift.build.commit.ref"]
+        //       };
+        //
+        //     });
+        //   });
+        // };
         // 控制分页在1页下不显示
         $scope.fyshow = true;
         // 在searchbar组件中调用
@@ -175,6 +176,15 @@ angular.module('console.image', [
           }
 
         }
+        $http.get('/oapi/v1/namespaces/' + $rootScope.namespace + '/imagestreams')
+            .success(function (datalist) {
+              $scope.testlist = datalist.items;
+              $scope.testcopy = angular.copy(datalist.items)
+              $scope.grid.total = $scope.testcopy.length;
+              console.log('$scope.testcopy', $scope.testcopy)
+              refresh(1)
+              // console.log('$scope.testlist',$scope.testlist)
+            })
         // 平台公有镜像搜索
         $scope.gsearch = function (key, txt) {
           if (event.keyCode == 13) {

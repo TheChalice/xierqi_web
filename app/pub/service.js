@@ -78,13 +78,18 @@ define(['angular'], function (angular) {
         }
       }])
       .service('ModalPullImage', ['$rootScope', '$uibModal', 'clipboard', function ($rootScope, $uibModal, clipboard) {
-        this.open = function (name) {
+        this.open = function (name, yuorself) {
           return $uibModal.open({
             templateUrl: 'pub/tpl/modal_pull_image.html',
             size: 'default',
             controller: ['$scope', '$uibModalInstance', '$log', function ($scope, $uibModalInstance, $log) {
               console.log(name)
-              $scope.name = name.split('/')[1] ? name.split(':')[0]+':'+name.split(':')[1].split('/')[1] : name;
+              if (!yuorself) {
+                $scope.name = name.split('/')[1] ? name.split(':')[0] + ':' + name.split(':')[1].split('/')[1] : name;
+
+              } else {
+                $scope.name = name;
+              }
               $scope.cmd = 'docker pull registry.dataos.io/' + $scope.name;
               $scope.cancel = function () {
                 $uibModalInstance.dismiss();

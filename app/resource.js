@@ -93,7 +93,8 @@ define([
         .factory('ImageStream', ['$resource', 'GLOBAL', function($resource, GLOBAL){
             var ImageStream = $resource(GLOBAL.host + '/namespaces/:namespace/imagestreams/:name', {name: '@name', namespace: '@namespace'}, {
                 create: {method: 'POST'},
-                delete: {method: 'delete'}
+              delete: {method: 'delete'},
+              get: {method: 'GET'}
             });
             return ImageStream;
         }])
