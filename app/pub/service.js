@@ -106,7 +106,7 @@ define(['angular'], function (angular) {
           return $uibModal.open({
             templateUrl: 'pub/tpl/modal_choose_image.html',
             size: 'default modal-lg',
-            controller: ['$rootScope', '$scope', '$uibModalInstance', 'images', 'ImageStreamTag', function ($rootScope, $scope, $uibModalInstance, images, ImageStreamTag) {
+            controller: ['$rootScope', '$scope', '$uibModalInstance', 'images', 'ImageStreamTag','ImageStream','$http','platformlist' ,function ($rootScope, $scope, $uibModalInstance, images, ImageStreamTag,ImageStream,$http,platformlist) {
               console.log('images', images);
 
               $scope.grid = {
@@ -115,7 +115,9 @@ define(['angular'], function (angular) {
                 version_x: null,
                 version_y: null
               };
-
+              $scope.test = {
+                'items':[]
+              };
               $scope.$watch('imageName', function (newVal, oldVal) {
                 if (newVal != oldVal) {
                   newVal = newVal.replace(/\\/g);
@@ -135,28 +137,79 @@ define(['angular'], function (angular) {
               });
 
               $scope.images = images;
-
               $scope.selectCat = function (idx) {
+                console.log("1223",idx);
                 $scope.grid.cat = idx;
+                if(idx == 0 ){
+                  ImageStream.get({namespace: $rootScope.namespace},function(res){
+                    $scope.images = res;
+                  })
+                }else if(idx == 1){
+                  $http.get('/registry/api/projects', {
+                    params: {is_public: 1}
+                  }).success(function (data) {
+                    for(var i = 0 ; i < data.length; i++){
+                      $http.get('/registry/api/repositories', {params: {project_id:data[i].project_id}})
+                          .success(function (res) {
+                            if(res){
+                              for(var j = 0 ; j < res.length; j++ ){
+                                var str = {
+                                  'name' : res[j]
+                                }
+                                $scope.test.items.push(str);
+                              }
+                              $scope.images = $scope.test ;
+                            }
+                          })
+
+                    }
+
+                  })
+                }
               };
 
               $scope.selectImage = function (idx) {
-                $scope.grid.image = idx;
-                var image = $scope.images.items[idx];
-                angular.forEach(image.status.tags, function (item) {
-                  ImageStreamTag.get({
-                    namespace: $rootScope.namespace,
-                    name: image.metadata.name + ':' + item.tag
-                  }, function (res) {
-                    item.ist = res;
-                  }, function (res) {
-                    console.log("get image stream tag err", res);
+                if($scope.grid.cat == 0){
+                  $scope.grid.image = idx;
+                  var image = $scope.images.items[idx];
+                  angular.forEach(image.status.tags, function (item) {
+                    ImageStreamTag.get({
+                      namespace: $rootScope.namespace,
+                      name: image.metadata.name + ':' + item.tag
+                    }, function (res) {
+                      item.ist = res;
+                    }, function (res) {
+                      console.log("get image stream tag err", res);
+                    });
                   });
-                });
-                $scope.imageTags = image.status.tags;
+                  console.log("get image stream tag err", image.status.tags);
+                  $scope.imageTags = image.status.tags;
+                }else if($scope.grid.cat == 1){
+                  $scope.grid.image = idx;
+                  platformlist.query({id:$scope.test.items[idx].name},function (data){
+                    $scope.test.items[idx].status = {};
+                    $scope.test.items[idx].status.tags = [];
+                    for(var i = 0 ; i < data.length; i++){
+                      var test2 = {
+                        'tag' : data[i],
+                        'items' : data,
+                        'ist' : {
+                          'imagesname' :$scope.test.items[idx].name+'/'+data[i],
+                          'ispublicimage' : true
+                        }
+                      };
+                      $scope.test.items[idx].status.tags.push(test2)
+                    }
+                    console.log($scope.test.items[idx].status)
+                    $scope.imageTags = $scope.test.items[idx].status.tags;
+                  })
+                }
+
               };
 
               $scope.selectVersion = function (x, y) {
+                console.log("xxx",x);
+                console.log("yyy",y);
                 $scope.grid.version_x = x;
                 $scope.grid.version_y = y;
               };

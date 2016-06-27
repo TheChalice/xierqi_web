@@ -74,7 +74,7 @@ angular.module('console.service.create', [
           port: 0,
           host: '',
           suffix: '.'+$rootScope.namespace+'.app.dataos.io',
-          imageChange: true,
+          imageChange: false,
           configChange: true,
           checkedsecond: false,
           auto: true,
@@ -387,38 +387,55 @@ angular.module('console.service.create', [
                 //open: true
               })
             }
-            container.image = res.metadata.name;
-            var str = res.metadata.name.split(":");
-            var strname = str[0];
-            if (idx > 0) {
-              if (cons[idx - 1].image.split(":")[0] == strname) {
-                strname = str[0] + idx;
+            if(res.ispublicimage){
+              var str1 =  res.imagesname.split("/");
+              var strname1 = str1[0]+'/'+str1[1];
+              container.image = 'registry.dataos.io/'+str1[0]+'/'+str1[1]+':'+str1[2];
+              console.log(container.image)
+              if (idx > 0) {
+                if (cons[idx - 1].image.split(":")[0] == 'registry.dataos.io/'+strname1) {
+                  strname1 = str1[0]+'/'+str1[1] + idx;
+                }
               }
-            }
-            console.log("strwoshishui=0=0=0",str);
-            container.strname = strname;
-            container.name = strname;
-            container.tag = str[1];
-            if(res.image.dockerImageMetadata.Config.Labels){
-              container.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
-              container.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
-            }
+              container.strname = strname1.replace('/', "-");
+              container.name = strname1.replace('/', "-");
+              container.tag = str1[2];
+
+            }else{
+              container.image = res.metadata.name;
+              var str = res.metadata.name.split(":");
+              var strname = str[0];
+              if (idx > 0) {
+                if (cons[idx - 1].image.split(":")[0] == strname) {
+                  strname = str[0] + idx;
+                }
+              }
+              console.log("strwoshishui=0=0=0",str);
+              container.strname = strname;
+              container.name = strname;
+              container.tag = str[1];
+              if(res.image.dockerImageMetadata.Config.Labels){
+                container.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
+                container.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
+              }
 
 
-            var exposedPorts = res.image.dockerImageMetadata.Config.ExposedPorts;
-            for (var k in exposedPorts) {
-              var arr = k.split('/');
-              if (arr.length == 2) {
-                container.ports = [];
-                var val = arr[1].toUpperCase()
-                container.ports.push({
-                  containerPort: '',
-                  hostPort: '',
-                  protocol: '',
-                  //open: true
-                });
+              var exposedPorts = res.image.dockerImageMetadata.Config.ExposedPorts;
+              for (var k in exposedPorts) {
+                var arr = k.split('/');
+                if (arr.length == 2) {
+                  container.ports = [];
+                  var val = arr[1].toUpperCase()
+                  container.ports.push({
+                    containerPort: '',
+                    hostPort: '',
+                    protocol: '',
+                    //open: true
+                  });
+                }
               }
             }
+
           });
         };
 
@@ -836,6 +853,7 @@ angular.module('console.service.create', [
           if(createports == false){
             return;
           }
+          console.log("------------------",$scope.dc);
           deleService();
           deleRoute();
           var clonedc = angular.copy(dc);

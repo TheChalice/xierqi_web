@@ -92,7 +92,8 @@ define([
         }])
         .factory('ImageStream', ['$resource', 'GLOBAL', function($resource, GLOBAL){
             var ImageStream = $resource(GLOBAL.host + '/namespaces/:namespace/imagestreams/:name', {name: '@name', namespace: '@namespace'}, {
-                create: {method: 'POST'}
+                create: {method: 'POST'},
+                delete: {method: 'delete'}
             });
             return ImageStream;
         }])
@@ -267,6 +268,10 @@ define([
             });
             return labBranch;
         }])
+        //.factory('registrytest', ['$resource', function($resource){
+        //    var registrytest = $resource('/registry/api/projects?is_public=1',{},{});
+        //    return registrytest;
+        //}])
 
 });
 // http://registry.dataos.io/api/repositories/manifests?repo_name=library/alpine&tag=latest

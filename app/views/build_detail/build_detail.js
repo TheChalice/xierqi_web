@@ -9,7 +9,7 @@ angular.module('console.build.detail', [
         ]
     }
 ])
-    .controller('BuildDetailCtrl', ['GLOBAL', '$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'UUID', 'WebhookLab', 'WebhookHub','WebhookLabDel', 'WebhookHubDel', function (GLOBAL, $rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, UUID, WebhookLab, WebhookHub, WebhookLabDel, WebhookHubDel) {
+    .controller('BuildDetailCtrl', ['GLOBAL', '$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'UUID', 'WebhookLab', 'WebhookHub','WebhookLabDel', 'WebhookHubDel','ImageStream', function (GLOBAL, $rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, UUID, WebhookLab, WebhookHub, WebhookLabDel, WebhookHubDel,ImageStream) {
         $scope.grid = {};
         $scope.grid.checked = false;
         $scope.bcName = $stateParams.name;
@@ -62,7 +62,7 @@ angular.module('console.build.detail', [
             Confirm.open("删除构建", "您确定要删除构建吗?", "删除构建将清除构建的所有历史数据以及相关的镜像该操作不能被恢复", 'recycle').then(function() {
                 BuildConfig.remove({namespace: $rootScope.namespace, name: name}, {}, function(){
                     $log.info("remove buildConfig success");
-
+                    removeIs($scope.data.metadata.name);
                     removeBuilds($scope.data.metadata.name);
 
                     $state.go("console.build");
@@ -82,7 +82,13 @@ angular.module('console.build.detail', [
                 $log.info("remove builds of " + bcName + " error");
             });
         };
-
+        var removeIs = function(name){
+            ImageStream.delete({name:name},{},function(res){
+                console.log("yes removeIs");
+            },function(res){
+                console.log("err removeIs");
+            })
+        }
         $scope.$watch('grid.checked', function(newVal, oldVal){
             if (newVal == "start") {
                 return;
