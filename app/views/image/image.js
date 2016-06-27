@@ -124,18 +124,18 @@ angular.module('console.image', [
 
           if (event.keyCode == 13) {
             if (!txt) {
-              $scope.test = $scope.grid.copytest
+              // console.log($scope.grid.copytest)
+              $scope.newtext = $scope.grid.copytest;
+              console.log($scope.newtext)
               $scope.opened = true;
               return;
             }
-
-
             var namelist = [];
             txt = txt.replace(/\//g, '\\/');
             $http.get('/registry/api/search',
                 {params: {q: txt}})
                 .success(function (data) {
-                  // console.log(data)
+                  console.log(data);
                   for (var i = 0; i < data.repository.length; i++) {
                     // console.log(data.repository[i].project_name);
                     namelist.push(data.repository[i].project_name)
@@ -143,7 +143,7 @@ angular.module('console.image', [
                   namelist = namelist.unique();
                   var item = [];
                   for (var j = 0; j < namelist.length; j++) {
-                    item.push({Name: namelist[j], items: []});
+                    item.push({name: namelist[j], items: []});
                     for (var k = 0; k < data.repository.length; k++) {
                       if (namelist[j] === data.repository[k].project_name) {
                         item[j].items.push(data.repository[k].repository_name);
@@ -153,8 +153,8 @@ angular.module('console.image', [
 
                   for (var q = 0; q < $scope.grid.copytest.length; q++) {
                     for (var r = 0; r < item.length; r++) {
-                      if (item[r].Name === $scope.grid.copytest[q].Name) {
-                        item[r].CreationTime = $scope.grid.copytest[q].CreationTime;
+                      if (item[r].name === $scope.grid.copytest[q].name) {
+                        item[r].creation_time = $scope.grid.copytest[q].creation_time;
                         item[r].mysort = $scope.grid.copytest[q].mysort;
                       }
                     }
@@ -162,9 +162,10 @@ angular.module('console.image', [
                   item.sort(function (x, y) {
                     return x.mysort > y.mysort ? -1 : 1;
                   });
-                  if (item[0].Name) {
+
+                  if (item[0].name) {
                     // console.log(item);
-                    $scope.test = item;
+                    $scope.newtext = item;
                     $scope.opened = false;
                   } else {
                     $scope.test = null;
@@ -176,87 +177,98 @@ angular.module('console.image', [
         }
         // 平台公有镜像搜索
         $scope.gsearch = function (key, txt) {
-          if (!txt) {
-            $scope.test = $scope.grid.copytest
-            $scope.opened = true;
-            return;
+          if (event.keyCode == 13) {
+            if (!txt) {
+              // console.log($scope.grid.copytest)
+              $scope.newtext = $scope.grid.copytest;
+              console.log($scope.newtext)
+              $scope.opened = true;
+              return;
+            }
+            var namelist = [];
+            txt = txt.replace(/\//g, '\\/');
+            $http.get('/registry/api/search',
+                {params: {q: txt}})
+                .success(function (data) {
+                  console.log(data);
+                  for (var i = 0; i < data.repository.length; i++) {
+                    // console.log(data.repository[i].project_name);
+                    namelist.push(data.repository[i].project_name)
+                  }
+                  namelist = namelist.unique();
+                  var item = [];
+                  for (var j = 0; j < namelist.length; j++) {
+                    item.push({name: namelist[j], items: []});
+                    for (var k = 0; k < data.repository.length; k++) {
+                      if (namelist[j] === data.repository[k].project_name) {
+                        item[j].items.push(data.repository[k].repository_name);
+                      }
+                    }
+                  }
+
+                  for (var q = 0; q < $scope.grid.copytest.length; q++) {
+                    for (var r = 0; r < item.length; r++) {
+                      if (item[r].name === $scope.grid.copytest[q].name) {
+                        item[r].creation_time = $scope.grid.copytest[q].creation_time;
+                        item[r].mysort = $scope.grid.copytest[q].mysort;
+                      }
+                    }
+                  }
+                  item.sort(function (x, y) {
+                    return x.mysort > y.mysort ? -1 : 1;
+                  });
+
+                  if (item[0].name) {
+                    // console.log(item);
+                    $scope.newtext = item;
+                    $scope.opened = false;
+                  } else {
+                    $scope.test = null;
+                  }
+
+                })
           }
-          var namelist = [];
-          txt = txt.replace(/\//g, '\\/');
-          $http.get('/registry/api/search',
-              {params: {q: txt}})
-              .success(function (data) {
-                for (var i = 0; i < data.repository.length; i++) {
-                  namelist.push(data.repository[i].project_name)
-                }
-                namelist = namelist.unique();
-                var item = [];
-                for (var j = 0; j < namelist.length; j++) {
-                  item.push({Name: namelist[j], items: []});
-                  for (var k = 0; k < data.repository.length; k++) {
-                    if (namelist[j] === data.repository[k].project_name) {
-                      item[j].items.push(data.repository[k].repository_name);
-                    }
-                  }
-                }
-
-                for (var q = 0; q < $scope.grid.copytest.length; q++) {
-                  for (var r = 0; r < item.length; r++) {
-                    if (item[r].Name === $scope.grid.copytest[q].Name) {
-
-                      item[r].CreationTime = $scope.grid.copytest[q].CreationTime;
-                      item[r].mysort = $scope.grid.copytest[q].mysort;
-                    }
-                  }
-                }
-                item.sort(function (x, y) {
-                  return x.mysort > y.mysort ? -1 : 1;
-                });
-                if (item[0].Name) {
-                  // console.log(item);
-                  $scope.test = item;
-                  $scope.opened = false;
-                } else {
-                  $scope.test = null;
-                }
-
-              })
         }
         // 请求共有镜像平台
-
         $http.get('/registry/api/projects', {
           params: {is_public: 1}
         }).success(function (data) {
+          $scope.newtext = data;
+          console.log(data);
           var arr = [];
-
           for (var i = 0; i < data.length; i++) {
-            data[i].mysort = data[i].CreationTime
+            data[i].mysort = data[i].creation_time;
             data[i].mysort = (new Date(data[i].mysort)).getTime()
           }
           //时间冒泡排序写法
           data.sort(function (x, y) {
             return x.mysort > y.mysort ? -1 : 1;
           });
-          $scope.test = data;
-          for (var j = 0; j < $scope.test.length; j++) {
+
+          for (var j = 0; j < $scope.newtext.length; j++) {
             // 请求共有镜像平台的镜像版本
-            $http.get('/registry/api/repositories', {params: {project_id: $scope.test[j].ProjectId}})
+            $http.get('/registry/api/repositories', {params: {project_id: $scope.newtext[j].project_id}})
                 .success(function (datalis) {
                   arr.push(datalis);
+
                   if (arr.length == data.length) {
+
                     for (var k = 0; k < arr.length; k++) {
+
                       if (arr[k] != null) {
-                        for (var h = 0; h < $scope.test.length; h++) {
-                          if (arr[k][0].split('/')[0] == $scope.test[h].Name) {
-                            $scope.test[h].items = arr[k];
-                            $scope.test[h].isshow = true;
+                        for (var h = 0; h < $scope.newtext.length; h++) {
+
+                          if (arr[k][0].split('/')[0] == $scope.newtext[h].name) {
+
+                            $scope.newtext[h].items = arr[k];
+                            $scope.newtext[h].isshow = true;
                           }
                         }
                       }
                     }
                   }
 
-                  $scope.grid.copytest = angular.copy($scope.test);
+                  $scope.grid.copytest = angular.copy($scope.newtext);
 
                 }).error(function (msg) {
               //TODO:失败时错误处理
