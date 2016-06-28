@@ -997,7 +997,7 @@ angular.module('console.service.detail', [
               }
             }
             for(var i = 0 ;i < $scope.dc.spec.template.spec.containers.length;i++ ){
-              if($scope.dc.spec.template.spec.containers[i].isimageChange == false){
+              if($scope.dc.spec.template.spec.containers[i].isimageChange == false || (!$scope.dc.spec.template.spec.containers[i].isimageChange && $scope.dc.metadata.annotations["dadafoundry.io/images-from"] == 'private')){
                 $scope.grid.isimageChange = false;
                 break;
               }else{
