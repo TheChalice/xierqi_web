@@ -268,7 +268,7 @@ define(['angular'], function (angular) {
               $scope.credentials = {};
               $scope.regist = function () {
                 //注册相关代码...
-                //
+
                 $uibModalInstance.close();
               };
               $scope.cancel = function () {

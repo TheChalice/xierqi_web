@@ -6,8 +6,15 @@
                 <p><i class="fa fa-flag-o"></i>&nbsp;&nbsp;<!--{{gitStore[item.spec.output.to.name]["ref"]}} - -->
                     {{item.status.tags[0].tag | limitTo: 7}}</p>
                 <p class="thumb-btn">
-                    <a class="btn btn-green" href="javascript:;"
+                    <a class="btn btn-green"
+                       ng-if='item.status.tags[0].tag&&item.status.tags[0].items[0].created'
+                       href="javascript:;"
                        ui-sref="console.service_create({image:item.metadata.name+':'+item.status.tags[0].tag})">部署最新版本</a>
+                    <a class="btn btn-gray"
+                       ng-if='!item.status.tags[0].tag || !item.status.tags[0].items[0].created'
+                       href="javascript:;"
+                       disabled='ture'>暂无最新版本</a>
+
                 </p>
             </div>
             <img src="components/card/img/image.png" alt="image">
