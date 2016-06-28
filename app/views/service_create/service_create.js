@@ -8,8 +8,8 @@ angular.module('console.service.create', [
         ]
       }
     ])
-    .controller('ServiceCreateCtrl', ['Toast','$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service',
-      function (Toast,$rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service) {
+    .controller('ServiceCreateCtrl', ['Confirm', 'Toast', '$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service',
+      function (Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service) {
         $log.info('ServiceCreate');
         $scope.checkEnv = false;
         $scope.portsArr = [
@@ -173,6 +173,7 @@ angular.module('console.service.create', [
             //   $scope.named=$stateParams.image.metadata.name;
             // }
             // console.log("initContainer", $stateParams.image.metadata.name);
+
             if ($stateParams.image.metadata) {
               var container = angular.copy($scope.containerTpl);
               container.image = $stateParams.image.metadata.name;
@@ -181,6 +182,7 @@ angular.module('console.service.create', [
                 container.tag = $stateParams.image.tag.name;
 
               }
+
               // console.log($stateParams.image.metadata.name.split(':')[1]);
               container.tag=$stateParams.image.metadata.name.split(':')[1];
               console.log($scope.dc.spec.template.spec.containers);
@@ -221,15 +223,26 @@ angular.module('console.service.create', [
               $scope.dc.spec.template.spec.containers.push(container);
               $scope.invalid.containerLength = false;
             }else {
-              var proto = $stateParams.image;
-              var jingxing = $stateParams.image.split(':')[0];
-              var banben = $stateParams.image.split(':')[1];
-              var container = angular.copy($scope.containerTpl);
-              container.image = proto;
-              // console.log($stateParams.image.metadata.name.split(':')[1]);
-              container.tag=banben;
-              // console.log($scope.dc.spec.template.spec.containers);
-              container.strname=container.name=jingxing;
+              if ($stateParams.image.indexOf('/') == -1) {
+                var container = angular.copy($scope.containerTpl);
+                var proto = $stateParams.image;
+                var jingxing = $stateParams.image.split(':')[0];
+                var banben = $stateParams.image.split(':')[1];
+                // var container = angular.copy($scope.containerTpl);
+                container.image = proto;
+                // console.log($stateParams.image.metadata.name.split(':')[1]);
+                container.tag = banben;
+                // console.log($scope.dc.spec.template.spec.containers);
+                container.strname = container.name = jingxing;
+              } else {
+                var container = angular.copy($scope.containerTpl);
+                container.image = 'registry.dataos.io/' + $stateParams.image.split(':')[0];
+                container.tag = $stateParams.image.split(':')[1];
+                container.strname = container.name = $stateParams.image.split(':')[0].replace('/', '-')
+
+
+              }
+
 
               //container.ports = [];
               //
@@ -786,17 +799,20 @@ angular.module('console.service.create', [
                 dc.spec.template.spec.containers[i].volumeMounts[j].name = volume1;
               }
             }
-            var testlength = cons[i].ports.length;
-            for (var k = 0; k < testlength; k++) {
-              if (!cons[i].ports[k].containerPort) {
-                cons[i].ports.splice(k, 1);
-                k--;
-                testlength--;
-              } else {
-                cons[i].ports[k].name = cons[i].ports[k].protocol + "-" + cons[i].ports[k].containerPort;
-                cons[i].ports[k].protocol = cons[i].ports[k].protocol.toUpperCase()
+            if (cons[i].ports) {
+              var testlength = cons[i].ports.length;
+              for (var k = 0; k < testlength; k++) {
+                if (!cons[i].ports[k].containerPort) {
+                  cons[i].ports.splice(k, 1);
+                  k--;
+                  testlength--;
+                } else {
+                  cons[i].ports[k].name = cons[i].ports[k].protocol + "-" + cons[i].ports[k].containerPort;
+                  cons[i].ports[k].protocol = cons[i].ports[k].protocol.toUpperCase()
+                }
               }
             }
+
             dc.spec.template.spec.containers[i].ports = cons[i].ports;
           }
           prepareDc(dc);
@@ -897,10 +913,13 @@ angular.module('console.service.create', [
             //  $state.go('console.service_detail', {name: dc.metadata.name});
             //}
             bindService(dc);
-            Toast.open('初始化成功');
-            setTimeout(function () {
+            // Toast.open('初始化成功');
+            // Confirm.open("提示信息","初始化成功",null,144,true).then(function () {
+            //   $state.go('console.service_detail', {name: dc.metadata.name});
+            // })
+            // setTimeout(function () {
               $state.go('console.service_detail', {name: dc.metadata.name});
-            }, 1000)
+            // }, 1000)
             
           }, function (res) {
             //todo 错误处理
