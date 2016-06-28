@@ -259,15 +259,20 @@ define(['angular'], function (angular) {
           }).result;
         }
       }])
+      //registration
       .service('ModalRegist', ['$uibModal', function ($uibModal) {
         this.open = function () {
           return $uibModal.open({
             templateUrl: 'views/login/regist.html',
             size: 'default',
-            controller: ['$scope', 'AuthService', '$uibModalInstance', function ($scope, AuthService, $uibModalInstance) {
+            controller: ['$scope', 'AuthService', '$uibModalInstance', 'registration', function ($scope, AuthService, $uibModalInstance, registration) {
               $scope.credentials = {};
               $scope.regist = function () {
                 //注册相关代码...
+
+                registration.regist({username: $scope.credentials.username, password: $scope.credentials.password, email: $scope.credentials.email}, function(data){
+
+                })
 
                 $uibModalInstance.close();
               };

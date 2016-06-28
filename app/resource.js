@@ -93,8 +93,8 @@ define([
         .factory('ImageStream', ['$resource', 'GLOBAL', function($resource, GLOBAL){
             var ImageStream = $resource(GLOBAL.host + '/namespaces/:namespace/imagestreams/:name', {name: '@name', namespace: '@namespace'}, {
                 create: {method: 'POST'},
-              delete: {method: 'delete'},
-              get: {method: 'GET'}
+                delete: {method: 'delete'},
+                get: {method: 'GET'}
             });
             return ImageStream;
         }])
@@ -270,11 +270,24 @@ define([
             });
             return labBranch;
         }])
-        //.factory('registrytest', ['$resource', function($resource){
-        //    var registrytest = $resource('/registry/api/projects?is_public=1',{},{});
-        //    return registrytest;
-        //}])
+        .factory('registration', ['$resource', function($resource){
+            var registration = $resource('/lapi/signup',{username:'@username', password:'@password', email:'@email'},{
+                regist: {method: 'POST'}
+            });
+            return registration;
+        }])
+        .factory('profile', ['$resource', function($resource){
+            var profile = $resource('/lapi/user/profile',{},{
 
+            });
+            return profile;
+        }])
+        .factory('pwdModify', ['$resource', function($resource){
+            var pwdModify = $resource('/lapi/password_modify',{old_password:'@oldpassword', new_password:'@newpassword'},{
+                change: {method: 'PUT'}
+            })
+            return pwdModify;
+        }]);
 });
 // http://registry.dataos.io/api/repositories/manifests?repo_name=library/alpine&tag=latest
 // https://registry.dataos.io/api/projects?is_public=1
