@@ -29,7 +29,7 @@
 
             </tr>
             <tr ng-repeat="bc in items">
-                <td>
+                <td class='buildname'>
                     <a class="href-orange"
                        ui-sref="console.build_detail({name: bc.metadata.name})">{{bc.metadata.name}}</a>
                 </td>
@@ -86,6 +86,11 @@
         margin: 0 25px;
     }
 
+    .table-responsive .buildname {
+        overflow: hidden;
+        word-break: break-all;
+        word-wrap: break-word;
+    }
     @media screen and (max-width: 1250px) {
         #build .icon25 {
             margin: 0 8px;
