@@ -18,7 +18,8 @@ angular.module('console.service.detail', [
           ports: [],
           port: 0,
           host: '',
-          suffix: '.'+$rootScope.namespace+'.app.dataos.io'
+          suffix: '.'+$rootScope.namespace+'.app.dataos.io',
+          isimageChange : true
         };
         $scope.portMap = {};
         var loglast= function () {
@@ -84,6 +85,11 @@ angular.module('console.service.detail', [
         var loadDc = function (name) {
           DeploymentConfig.get({namespace: $rootScope.namespace, name: name}, function (res) {
             $log.info("deploymentConfigs", res);
+            if(res.metadata.annotations["dadafoundry.io/images-from"] == 'private'){
+              $scope.grid.isimageChange = false;
+            }else{
+              $scope.grid.isimageChange = true;
+            }
             for (var i = 0; i < res.spec.template.spec.containers.length; i++) {
               if (!res.spec.template.spec.containers[i].ports) {
                 res.spec.template.spec.containers[i].ports = [{
@@ -109,7 +115,7 @@ angular.module('console.service.detail', [
             $scope.getdc = angular.copy(res);
             getEnvs(res.spec.template.spec.containers);
             angular.forEach($scope.dc.spec.triggers, function (trigger) {
-              if (trigger.type == 'ImageChange') {
+              if (trigger.type == 'ImageChange' && res.metadata.annotations["dadafoundry.io/images-from"] == 'public') {
                 $scope.grid.imageChange = true;
               }
               if (trigger.type == 'ConfigChange') {
@@ -967,17 +973,46 @@ angular.module('console.service.detail', [
           var cons = $scope.dc.spec.template.spec.containers;
           ImageSelect.open().then(function (res) {
             console.log("imageStreamTag", res);
-            container.image = res.metadata.name;
-            var arr = res.metadata.name.split(':');
-            container.tag = arr[1];
-            if (arr.length > 1) {
-              container.name = arr[0];
-            }
-            if (idx > 0) {
-              if (cons[idx - 1].image.split(":")[0] == arr[0]) {
-                container.name = arr[0] + idx;
+            if(res.ispublicimage){
+              var str1 =  res.imagesname.split("/");
+              var strname1 = str1[0]+'/'+str1[1];
+              container.image = 'registry.dataos.io/'+str1[0]+'/'+str1[1]+':'+str1[2];
+              container.isimageChange = false;
+              console.log(container.image)
+              if (idx > 0) {
+                if (cons[idx - 1].image.split(":")[0] == 'registry.dataos.io/'+strname1) {
+                  strname1 = str1[0]+'/'+str1[1] + idx;
+                }
+              }
+              container.strname = strname1.replace('/', "-");
+              container.name = strname1.replace('/', "-");
+              container.tag = str1[2];
+
+            }else{
+              container.image = res.metadata.name;
+              container.isimageChange = true;
+              var arr = res.metadata.name.split(':');
+              container.tag = arr[1];
+              if (arr.length > 1) {
+                container.name = arr[0];
+              }
+              if (idx > 0) {
+                if (cons[idx - 1].image.split(":")[0] == arr[0]) {
+                  container.name = arr[0] + idx;
+                }
               }
             }
+            for(var i = 0 ;i < $scope.dc.spec.template.spec.containers.length;i++ ){
+              if($scope.dc.spec.template.spec.containers[i].isimageChange == false){
+                $scope.grid.isimageChange = false;
+                break;
+              }else{
+                $scope.grid.isimageChange = true;
+              }
+            }
+            console.log('$scope.grid.isimageChange',$scope.grid.isimageChange)
+            console.log('$ $scope.dc', $scope.dc)
+
             //var arr = res.metadata.name.split(':');
             //if (arr.length > 1) {
             //  container.name = arr[0];
@@ -1412,6 +1447,15 @@ angular.module('console.service.detail', [
             if ($scope.grid.route) {
               updateRoute(dc);
             }
+          for(var i = 0 ;i < dc.spec.template.spec.containers.length;i++ ){
+            if(dc.spec.template.spec.containers[i].isimageChange == false){
+              $scope.grid.isimageChange = false;
+              break;
+            }else{
+              $scope.grid.isimageChange = true;
+            }
+          }
+
           var patchdc = {
             spec : {
               replicas : dc.spec.replicas,
@@ -1419,9 +1463,23 @@ angular.module('console.service.detail', [
                 spec : {
                   containers : dc.spec.template.spec.containers
                 }
-
+              },
+              triggers : []
+            },
+            metadata : {
+              annotations : {
+                "dadafoundry.io/images-from" : ''
               }
             }
+          }
+          if($scope.grid.isimageChange == false){
+            dc.metadata.annotations["dadafoundry.io/images-from"] = 'private';
+            patchdc.metadata.annotations["dadafoundry.io/images-from"] = 'private';
+            delete patchdc.spec['triggers'];
+          }else{
+            dc.metadata.annotations["dadafoundry.io/images-from"] = 'public';
+            patchdc.metadata.annotations["dadafoundry.io/images-from"] = 'public';
+            patchdc.spec.triggers = dc.spec.triggers;
           }
           var isport = false;
           for (var i = 0; i < $scope.portsArr.length; i++) {
@@ -1438,11 +1496,14 @@ angular.module('console.service.detail', [
           var clonepatchdc = angular.copy(patchdc);
           for(var i = 0 ; i < clonepatchdc.spec.template.spec.containers.length ; i++ ){
             delete clonepatchdc.spec.template.spec.containers[i]["tag"];
+            delete clonepatchdc.spec.template.spec.containers[i]["isimageChange"];
             if (clonepatchdc.spec.template.spec.containers[i].ports) {
               delete clonepatchdc.spec.template.spec.containers[i]["ports"];
               console.log("clonepatchdc-=-=-=-=",clonepatchdc)
             }
           }
+          console.log('----------clonepatchdc',clonepatchdc);
+          //return
             DeploymentConfig.patch({namespace: $rootScope.namespace, name: dc.metadata.name}, clonepatchdc, function (res) {
               $log.info("update dc success", res);
               $scope.getdc.spec.replicas = $scope.dc.spec.replicas;

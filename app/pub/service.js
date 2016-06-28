@@ -143,6 +143,8 @@ define(['angular'], function (angular) {
 
               $scope.images = images;
               $scope.selectCat = function (idx) {
+                $scope.imageTags = {};
+                $scope.grid.image = null;
                 console.log("1223",idx);
                 $scope.grid.cat = idx;
                 if(idx == 0 ){

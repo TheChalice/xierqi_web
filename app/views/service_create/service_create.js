@@ -38,6 +38,9 @@ angular.module('console.service.create', [
             name: "",
             labels: {
               app: ""
+            },
+            annotations : {
+              "dadafoundry.io/images-from" : "public"
             }
           },
           spec: {
@@ -83,7 +86,8 @@ angular.module('console.service.create', [
           servicepot: false,
           servicepoterr : false,
           createdcerr : false,
-          isserviceName : false
+          isserviceName : false,
+          isimageChange :true
 
         };
         // $scope.grid.host=$scope.dc.metadata.name
@@ -388,6 +392,8 @@ angular.module('console.service.create', [
               })
             }
             if(res.ispublicimage){
+              //$scope.grid.isimageChange = false;
+              container.isimageChange = false;
               var str1 =  res.imagesname.split("/");
               var strname1 = str1[0]+'/'+str1[1];
               container.image = 'registry.dataos.io/'+str1[0]+'/'+str1[1]+':'+str1[2];
@@ -402,6 +408,8 @@ angular.module('console.service.create', [
               container.tag = str1[2];
 
             }else{
+              //$scope.grid.isimageChange = true;
+              container.isimageChange = true;
               container.image = res.metadata.name;
               var str = res.metadata.name.split(":");
               var strname = str[0];
@@ -534,6 +542,16 @@ angular.module('console.service.create', [
           for (var i = 0; i < $scope.portsArr.length; i++) {
             $scope.portsArr[i].conflict=false;
             $scope.portsArr[i].serviceConflict=false;
+          }
+          var conlength = $scope.dc.spec.template.spec.containers;
+          for(var i = 0 ;i < conlength.length;i++ ){
+            if(conlength[i].isimageChange == false){
+              alert(conlength[i].isimageChange);
+              $scope.grid.isimageChange = false;
+              return
+            }else{
+              $scope.grid.isimageChange = true;
+            }
           }
         };
 
@@ -764,8 +782,18 @@ angular.module('console.service.create', [
           if (!valid($scope.dc)) {
             return;
           }
+
           $rootScope.lding = true;
           var dc = angular.copy($scope.dc);
+          for(var i = 0 ;i < dc.spec.template.spec.containers.length;i++ ){
+            if(dc.spec.template.spec.containers[i].isimageChange == false){
+              $scope.grid.isimageChange = false;
+              break;
+            }else{
+              $scope.grid.isimageChange = true;
+            }
+          }
+
           var cons = angular.copy($scope.dc.spec.template.spec.containers);
           var flog = 0;
           for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
@@ -807,35 +835,11 @@ angular.module('console.service.create', [
             dc.spec.replicas = 0;
           }
           var createports = true;
-          //var thisdccon = $scope.dc.spec.template.spec.containers;
-          //for(var i = 0 ;i < thisdccon.length;i++) {
-          //  if (thisdccon[i].ports) {
-          //    for (var j = 0; j < thisdccon[i].ports.length; j++) {
-          //      if (thisdccon[i].ports[j].hostPort && thisdccon[i].ports[j].protocol && thisdccon[i].ports[j].containerPort) {
-          //        if (thisdccon[i].ports[j].containerPort || thisdccon[i].ports[j].hostPort) {
-          //          console.log("1111");
-          //          if (thisdccon[i].ports[j].containerPort < 1 || thisdccon[i].ports[j].containerPort > 65535 || thisdccon[i].ports[j].hostPort < 1 || thisdccon[i].ports[j].hostPort > 64435) {
-          //            console.log("1234567890pertyuiop")
-          //            createports = false;
-          //            $scope.grid.servicepoterr = true;
-          //          }
-          //        }
-          //      } else if (!thisdccon[i].ports[j].hostPort && !thisdccon[i].ports[j].containerPort && !thisdccon[i].ports[j].protocol) {
-          //        console.log("2222");
-          //      } else {
-          //        createports = false;
-          //        $scope.grid.servicepoterr = true;
-          //        console.log("33333");
-          //      }
-          //    }
-          //  }
-          //}
           if ($scope.portsArr) {
             for (var j = 0; j < $scope.portsArr.length; j++) {
               if ($scope.portsArr[j].hostPort && $scope.portsArr[j].protocol && $scope.portsArr[j].containerPort) {
                 if ($scope.portsArr[j].containerPort || $scope.portsArr[j].hostPort) {
                   if ($scope.portsArr[j].containerPort < 1 || $scope.portsArr[j].containerPort > 65535 || $scope.portsArr[j].hostPort < 1 || $scope.portsArr[j].hostPort > 64435) {
-                    // console.log("1234567890pertyuiop")
                     createports = false;
                     $scope.grid.ervicepoterr = true;
                   }
@@ -861,12 +865,17 @@ angular.module('console.service.create', [
             delete clonedc.spec.template.spec.containers[i]["commitId"];
             delete clonedc.spec.template.spec.containers[i]["ref"];
             delete clonedc.spec.template.spec.containers[i]["tag"];
+            delete clonedc.spec.template.spec.containers[i]["isimageChange"];
             if(clonedc.spec.template.spec.containers[i].ports){
                 delete clonedc.spec.template.spec.containers[i]["ports"];
             }
             if(clonedc.spec.template.spec.containers[i].env.length == 0){
               delete clonedc.spec.template.spec.containers[i]["env"];
             }
+          }
+          if($scope.grid.isimageChange == false){
+            clonedc.metadata.annotations["dadafoundry.io/images-from"] = 'private';
+            delete clonedc.spec['triggers'];
           }
           var isport = false;
           for (var i = 0; i < $scope.portsArr.length; i++) {
