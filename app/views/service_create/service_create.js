@@ -12,6 +12,7 @@ angular.module('console.service.create', [
       function (Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service) {
         $log.info('ServiceCreate');
         $scope.checkEnv = false;
+
         $scope.portsArr = [
           {
             containerPort: "",
@@ -19,6 +20,7 @@ angular.module('console.service.create', [
             protocol: ""
           }
         ]
+
         $scope.addprot = function (ind, last) {
           if (last) {     //添加
             $scope.portsArr.unshift({
@@ -39,8 +41,8 @@ angular.module('console.service.create', [
             labels: {
               app: ""
             },
-            annotations : {
-              "dadafoundry.io/images-from" : "public"
+            annotations: {
+              "dadafoundry.io/images-from": "public"
             }
           },
           spec: {
@@ -71,7 +73,9 @@ angular.module('console.service.create', [
           },
           status: {}
         };
-        console.log('$rootScope',$rootScope);
+
+        // console.log('$rootScope',$rootScope);
+        
         $scope.grid = {
           ports: [],
           port: 0,
@@ -86,8 +90,8 @@ angular.module('console.service.create', [
           servicepot: false,
           servicepoterr : false,
           createdcerr : false,
-          isserviceName : false,
-          isimageChange :true
+          isserviceName: false,
+          isimageChange: true
 
         };
         // $scope.grid.host=$scope.dc.metadata.name
@@ -557,12 +561,12 @@ angular.module('console.service.create', [
             $scope.portsArr[i].serviceConflict=false;
           }
           var conlength = $scope.dc.spec.template.spec.containers;
-          for(var i = 0 ;i < conlength.length;i++ ){
-            if(conlength[i].isimageChange == false){
+          for (var i = 0; i < conlength.length; i++) {
+            if (conlength[i].isimageChange == false) {
               alert(conlength[i].isimageChange);
               $scope.grid.isimageChange = false;
               return
-            }else{
+            } else {
               $scope.grid.isimageChange = true;
             }
           }
@@ -774,6 +778,7 @@ angular.module('console.service.create', [
           }
           return true;
         };
+
         var deleService = function(){
           Service.delete({namespace: $rootScope.namespace,name:$scope.dc.metadata.name}, function (res) {
               console.log("deleService-yes",res);
@@ -781,6 +786,7 @@ angular.module('console.service.create', [
               console.log("deleService-no",res);
           })
         }
+
         var deleRoute = function(){
           Route.delete({namespace: $rootScope.namespace,name:$scope.dc.metadata.name}, function (res) {
             console.log("deleRoute-yes",res);
@@ -788,6 +794,7 @@ angular.module('console.service.create', [
             console.log("deleRoute-no",res);
           })
         }
+
         $scope.createDc = function () {
           if($scope.grid.isserviceName || $scope.grid.createdcerr){
             return;
@@ -798,11 +805,11 @@ angular.module('console.service.create', [
 
           $rootScope.lding = true;
           var dc = angular.copy($scope.dc);
-          for(var i = 0 ;i < dc.spec.template.spec.containers.length;i++ ){
-            if(dc.spec.template.spec.containers[i].isimageChange == false){
+          for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
+            if (dc.spec.template.spec.containers[i].isimageChange == false) {
               $scope.grid.isimageChange = false;
               break;
-            }else{
+            } else {
               $scope.grid.isimageChange = true;
             }
           }
@@ -889,7 +896,7 @@ angular.module('console.service.create', [
               delete clonedc.spec.template.spec.containers[i]["env"];
             }
           }
-          if($scope.grid.isimageChange == false){
+          if ($scope.grid.isimageChange == false) {
             clonedc.metadata.annotations["dadafoundry.io/images-from"] = 'private';
             delete clonedc.spec['triggers'];
           }
