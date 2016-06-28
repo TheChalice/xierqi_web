@@ -9,10 +9,17 @@
                 </span>&nbsp;&nbsp;{{date.metadata.name || nameone}}
             </span>
             <a class="btn pull-right"
+               ng-if='myimage'
                ng-class="{'btn-green':busBtn.diang,
                 'btn-orange': busBtn.dianh}"
                ng-disabled=busBtn.dianh
                ui-sref="console.service_create({image:date.metadata.name+':'+date.status.tags[0].tag})">{{busBtn.name}}</a>
+            <a class="btn pull-right"
+               ng-if='!myimage'
+               ng-class="{'btn-green':busBtn.diang,
+                'btn-orange': busBtn.dianh}"
+               ng-disabled=busBtn.dianh
+               ui-sref="console.service_create({image:nameone+':'+newname})">{{busBtn.name}}</a>
         </div>
         <div class="panel-body">
             <div class="row">
@@ -38,7 +45,7 @@
                             <h4 class="media-heading">最新版本</h4>
                             <small>
                                 <span>
-                                {{date.metadata.name || nameone}}:{{date.status.tags[0].tag || newname || 'none' | limitTo: 7}}
+                                {{date.metadata.name || nameone}}:{{date.status.tags[0].tag || newname | limitTo: 7}}
                             </span>
                             </small>
                         </div>

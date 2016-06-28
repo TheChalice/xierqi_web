@@ -122,7 +122,6 @@ angular.module('console.image', [
         $scope.opened = true;
         // 平台公有镜像键盘搜索
         $scope.ksearch = function (key, txt, event) {
-
           if (event.keyCode == 13) {
             if (!txt) {
               // console.log($scope.grid.copytest)
@@ -174,14 +173,13 @@ angular.module('console.image', [
 
                 })
           }
-
         }
         $http.get('/oapi/v1/namespaces/' + $rootScope.namespace + '/imagestreams')
             .success(function (datalist) {
               $scope.testlist = datalist.items;
               $scope.testcopy = angular.copy(datalist.items)
               $scope.grid.total = $scope.testcopy.length;
-              console.log('$scope.testcopy', $scope.testcopy)
+              // console.log('$scope.testcopy', $scope.testcopy)
               refresh(1)
               // console.log('$scope.testlist',$scope.testlist)
             })

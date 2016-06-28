@@ -96,15 +96,6 @@ angular.module('console.service.detail', [
               }
 
             }
-            // if (!res.spec.template.spec.containers[0].ports) {
-            //   res.spec.template.spec.containers[0].ports = [{
-            //     //conflict: false,
-            //     containerPort: '',
-            //     //open: false,
-            //     protocol: "",
-            //     hostPort: ''
-            //   }]
-            // }
             $scope.dc = res;
             $scope.getdc = angular.copy(res);
             getEnvs(res.spec.template.spec.containers);

@@ -105,7 +105,8 @@ define([
         .factory('ImageStreamTag', ['$resource', 'GLOBAL', function($resource, GLOBAL){
             var ImageStreamTag= $resource(GLOBAL.host + '/namespaces/:namespace/imagestreamtags/:name', {name: '@name', namespace: '@namespace'},{
                 create: {method: 'POST'},
-                get: {method: 'GET'}
+              get: {method: 'GET'},
+              delete: {method: "DELETE"}
             });
             return ImageStreamTag;
         }])
