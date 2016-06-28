@@ -7,28 +7,37 @@
 </div>
 <div class="modal-body" style="padding: 20px 40px 30px 40px;">
     <form class="form-horizontal" name="frm">
+        <!--oldpwd-->
         <p class="modal-msg text-left" style="margin: 0 0 5px 0;font-size:14px;color:#5a6378;">
             <span class="require">原密码</span>&nbsp;&nbsp;
-            <small ng-if="" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;原密码不正确</small>
+            <small ng-if="credentials.oldpwdchange&&frm.oldpwd.$dirty && frm.oldpwd.$error.required" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;密码不能为空</small>
         </p>
-        <input name="username" class="form-control" ng-model="pwd" required>
+        <!--<button ng-click="look()">test</button>-->
+        <input type="password" name="oldpwd" class="form-control" ng-model="credentials.oldpwd" ng-blur="credentials.oldpwdchange=true"
+               ng-focus="credentials.oldpwdchange=false" required ng-pattern="/^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{4,18}$/">
 
+        <!--newpwd-->
         <p class="modal-msg text-left" style="margin: 20px 0 5px 0;font-size:14px;color:#5a6378;">
             <span class="require">新密码</span>&nbsp;&nbsp;
-            <small ng-if="" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;密码不能为空</small>
+            <small ng-if="credentials.pwdchange && frm.newpwd.$dirty && frm.newpwd.$error.required" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;新密码不能为空</small>
+            <small ng-if="credentials.pwdchange && frm.newpwd.$dirty && frm.newpwd.$error.pattern" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;密码必须为6-18位的字母，数字，特殊符号</small>
         </p>
-        <input name="password" type="password" class="form-control" placeholder="8-12位新密码" ng-model="pwd" required>
+        <input name="newpwd" type="password" class="form-control" placeholder="8-12位新密码" required ng-model="credentials.pwd" ng-blur="credentials.pwdchange=true"
+               ng-focus="credentials.pwdchange=false" ng-pattern="/^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{8,12}$/">
 
+        <!--repeat newpwd-->
         <p class="modal-msg text-left" style="margin: 20px 0 5px 0;font-size:14px;color:#5a6378;">
             <span class="require">确认新密码</span>&nbsp;&nbsp;
-            <small ng-if="" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;密码不能为空</small>
+            <small ng-if="credentials.repwdchange && frm.repwd.$dirty && frm.repwd.$error.required" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;确认新密码不能为空</small>
+            <small ng-if="credentials.repwdchange && frm.repwd.$dirty && frm.repwd.$error.pattern && credentials.pwd != credentials.repwd" class="err-tip pull-right"><i class="fa fa-info-circle"></i>>&nbsp;两次输入密码不相同</small>
         </p>
-        <input name="password" type="password" class="form-control"  ng-model="pwd" required>
-
+        <input name="repwd" type="password" class="form-control" required ng-model="credentials.repwd" ng-blur="repwdchange=true"
+               ng-focus="repwdchange=false" required>
         <button class="btn btn-grey" ng-click="cancel()" style="margin: 30px 0 0 0;">
             取消
         </button>
-        <button class="btn btn-orange" ng-click="newPwd()" style="margin: 30px 0 0 0;">
+        <button class="btn btn-orange" ng-click="credentials.pwd === credentials.repwd&&frm.$valid&&newPwd()"  ng-class="{'btn-orange':credentials.pwd === credentials.repwd&&frm.$valid,'btn-disabled':credentials.pwd !== credentials.repwd ||frm.$invalid}"
+                style="margin: 30px 0 0 0;">
             保存
         </button>
     </form>

@@ -11,8 +11,9 @@ angular.module('console.user', [
 
     ]
   }
-]) .controller('userCtrl', ['$scope', 'ModalPwd', 'Addmodal',
-  function ($scope, ModalPwd, Addmodal) {
+]) .controller('userCtrl', ['$scope', 'ModalPwd', 'Addmodal', 'profile', 'pwdModify',
+  function ($scope, ModalPwd, Addmodal, profile, pwdModify) {
+    $scope.credentials = {};
     $scope.grid={
       st:null,
       et:null
@@ -25,6 +26,15 @@ angular.module('console.user', [
     }
     $scope.updatePwd = function() {
       ModalPwd.open();
+      $scope.look = function() {
+        console.log('%%%%%%%%%%',$scope.frm);
+      };
+      $scope.newPwd = function() {
+        pwdModify.change({new_password: $scope.pwd, old_password: $scope.oldpwd}, function(data){
+
+        })
+      }
+
     };
     $scope.updateToken = function() {
       Addmodal.open('更新私有token', '私有token', '信息错误').then(function(res){
@@ -45,5 +55,14 @@ angular.module('console.user', [
       keep();
       document.getElementById("pop").style.display = "block"; clearTimeout(a);
     }
+    var loadInfo = function() {
+      profile.get({},function(data) {
+        console.log('******',data);
+      })
+    }
+    loadInfo();
+
+
+
   }])
 

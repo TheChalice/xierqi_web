@@ -29,7 +29,8 @@ angular.module('console.build.create', [])
                 completionDeadlineSeconds: 1800
             }
         };
-        $scope.completionDeadlineMinutes = 30;
+
+      $scope.completionDeadlineMinutes = 30;
 
         $scope.create = function() {
             $scope.creating = true;
@@ -83,5 +84,6 @@ angular.module('console.build.create', [])
                 //todo 错误处理
             });
         };
+
     }]);
 

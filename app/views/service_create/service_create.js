@@ -12,6 +12,7 @@ angular.module('console.service.create', [
       function (Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service) {
         $log.info('ServiceCreate');
         $scope.checkEnv = false;
+
         $scope.portsArr = [
           {
             containerPort: "",
@@ -71,7 +72,9 @@ angular.module('console.service.create', [
           },
           status: {}
         };
-        console.log('$rootScope',$rootScope);
+
+        // console.log('$rootScope',$rootScope);
+
         $scope.grid = {
           ports: [],
           port: 0,
@@ -86,8 +89,8 @@ angular.module('console.service.create', [
           servicepot: false,
           servicepoterr : false,
           createdcerr : false,
-          isserviceName : false,
-          isimageChange :true
+          isserviceName: false,
+          isimageChange: true
 
         };
         // $scope.grid.host=$scope.dc.metadata.name
