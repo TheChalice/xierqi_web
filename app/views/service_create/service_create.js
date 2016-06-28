@@ -559,7 +559,6 @@ angular.module('console.service.create', [
           var conlength = $scope.dc.spec.template.spec.containers;
           for(var i = 0 ;i < conlength.length;i++ ){
             if(conlength[i].isimageChange == false){
-              alert(conlength[i].isimageChange);
               $scope.grid.isimageChange = false;
               return
             }else{

@@ -85,11 +85,14 @@ angular.module('console.service.detail', [
         var loadDc = function (name) {
           DeploymentConfig.get({namespace: $rootScope.namespace, name: name}, function (res) {
             $log.info("deploymentConfigs", res);
-            if(res.metadata.annotations["dadafoundry.io/images-from"] == 'private'){
-              $scope.grid.isimageChange = false;
-            }else{
-              $scope.grid.isimageChange = true;
+            if(res.metadata.annotations["dadafoundry.io/images-from"]){
+              if(res.metadata.annotations["dadafoundry.io/images-from"] == 'private'){
+                $scope.grid.isimageChange = false;
+              }else{
+                $scope.grid.isimageChange = true;
+              }
             }
+
             for (var i = 0; i < res.spec.template.spec.containers.length; i++) {
               if (!res.spec.template.spec.containers[i].ports) {
                 res.spec.template.spec.containers[i].ports = [{
