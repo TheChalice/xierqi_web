@@ -246,18 +246,8 @@ angular.module('console.service.create', [
                 container.image = 'registry.dataos.io/' + $stateParams.image.split(':')[0];
                 container.tag = $stateParams.image.split(':')[1];
                 container.strname = container.name = $stateParams.image.split(':')[0].replace('/', '-')
-
-
               }
 
-
-              //container.ports = [];
-              //
-              //  container.ports.push({
-              //    containerPort: "",
-              //    hostPort: "",
-              //    protocol: ""
-              //  })
               $scope.portsArr = [
                 {
                   containerPort: "",
@@ -266,13 +256,9 @@ angular.module('console.service.create', [
                 }
               ]
 
-              // $scope.dc.spec.template.spec.containers[0].name=$stateParams.image.metadata.name.split(':')[0]
-
               $scope.dc.spec.template.spec.containers.push(container);
               $scope.invalid.containerLength = false;
             }
-
-
           }
         };
 

@@ -13,7 +13,8 @@ angular.module('console.service.detail', [
       function ($state, $rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamTag, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret, ImageSelect, Service, ImageService) {
         //获取服务列表
         $scope.servicepoterr = false;
-        console.log('$rootScope',$rootScope);
+        
+        // console.log('$rootScope',$rootScope);
         $scope.grid = {
           ports: [],
           port: 0,
@@ -21,12 +22,15 @@ angular.module('console.service.detail', [
           suffix: '.'+$rootScope.namespace+'.app.dataos.io',
           isimageChange : true
         };
+        
         $scope.portMap = {};
+        
         var loglast= function () {
           setTimeout(function () {
             $('#sc').scrollTop(1000000)
           },200)
         }
+        
         $scope.service = {
           "kind": "Service",
           "apiVersion": "v1",
@@ -48,7 +52,9 @@ angular.module('console.service.detail', [
             "sessionAffinity": "None"
           }
         };
+        
         var iscreatesv = false;
+        
         var getEnvs = function (containers) {
           $scope.envs = [];
           for (var i = 0; i < containers.length; i++) {
@@ -531,6 +537,7 @@ angular.module('console.service.detail', [
                 $scope.rcs.items = [data.object];
               }
             } else if (data.type == "MODIFIED") {
+              console.log('RC',$scope.rcs.items)
               angular.forEach($scope.rcs.items, function (item, i) {
                 if (item.metadata.name == data.object.metadata.name) {
                   data.object.showLog = item.showLog;
@@ -540,11 +547,13 @@ angular.module('console.service.detail', [
             }
 
         };
+        
         var statos = {
           start:true,
           dianj:false,
           repeat:null,
         }
+        
         $scope.$watch('dc.state',function (n,o) {
 
           console.log('new',n);
@@ -623,6 +632,7 @@ angular.module('console.service.detail', [
             //todo 没有rc怎么办?
           }
         };
+        
         $scope.stopBtn = {
           name:'停止',
           dianlz:false,
@@ -709,6 +719,7 @@ angular.module('console.service.detail', [
             console.log("deleService-no",res);
           })
         }
+        
         var deleRoute = function(){
           Route.delete({namespace: $rootScope.namespace,name:$scope.dc.metadata.name}, function (res) {
             console.log("deleRoute-yes",res);
@@ -716,6 +727,7 @@ angular.module('console.service.detail', [
             console.log("deleRoute-no",res);
           })
         }
+        
         var rmRcs = function (dc) {
           if (!dc) {
             return;
@@ -1220,6 +1232,7 @@ angular.module('console.service.detail', [
             }
           }
         };
+        
         var createService = function (dc) {
           $log.info("0-0-0-0createService", dc)
           prepareService($scope.service, dc);
@@ -1281,12 +1294,14 @@ angular.module('console.service.detail', [
             $state.go('console.service_detail', {name: dc.metadata.name});
           });
         };
+        
         var prepareService = function (service, dc) {
           service.metadata.name = dc.metadata.name;
           service.metadata.labels.app = dc.metadata.name;
           service.spec.selector.app = dc.metadata.name;
           service.spec.selector.deploymentconfig = dc.metadata.name;
         };
+        
         var createRoute = function (service) {
           prepareRoute($scope.route, service);
 
@@ -1297,6 +1312,7 @@ angular.module('console.service.detail', [
             $log.info("create route fail", res);
           });
         };
+        
         var updateRoute = function (dc) {
           if (dc.route) {     //route存在,更新route
             console.log(dc);
@@ -1318,6 +1334,7 @@ angular.module('console.service.detail', [
             });
           }
         };
+        
 //点击更新
         $scope.updateDc = function () {
           console.log('点击更新');
@@ -1515,6 +1532,7 @@ angular.module('console.service.detail', [
           //})
 
         };
+        
       }])
     .service('LogModal', ['$uibModal', function ($uibModal) {
       this.open = function (pod) {
