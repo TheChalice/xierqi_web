@@ -83,7 +83,7 @@ angular.module('console.build.detail', [
             });
         };
         var removeIs = function(name){
-            ImageStream.delete({name:name},{},function(res){
+            ImageStream.delete({namespace: $rootScope.namespace,name:name},{},function(res){
                 console.log("yes removeIs");
             },function(res){
                 console.log("err removeIs");

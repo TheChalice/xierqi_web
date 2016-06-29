@@ -91,14 +91,15 @@ angular.module('console.service.detail', [
         var loadDc = function (name) {
           DeploymentConfig.get({namespace: $rootScope.namespace, name: name}, function (res) {
             $log.info("deploymentConfigs", res);
-            if(res.metadata.annotations["dadafoundry.io/images-from"]){
-              if(res.metadata.annotations["dadafoundry.io/images-from"] == 'private'){
-                $scope.grid.isimageChange = false;
-              }else{
-                $scope.grid.isimageChange = true;
+            if(res.metadata.annotations){
+              if(res.metadata.annotations["dadafoundry.io/images-from"]){
+                if(res.metadata.annotations["dadafoundry.io/images-from"] == 'private'){
+                  $scope.grid.isimageChange = false;
+                }else{
+                  $scope.grid.isimageChange = true;
+                }
               }
             }
-
             for (var i = 0; i < res.spec.template.spec.containers.length; i++) {
               if (!res.spec.template.spec.containers[i].ports) {
                 res.spec.template.spec.containers[i].ports = [{
@@ -115,8 +116,10 @@ angular.module('console.service.detail', [
             $scope.getdc = angular.copy(res);
             getEnvs(res.spec.template.spec.containers);
             angular.forEach($scope.dc.spec.triggers, function (trigger) {
-              if (trigger.type == 'ImageChange' && res.metadata.annotations["dadafoundry.io/images-from"] == 'public') {
-                $scope.grid.imageChange = true;
+              if(res.metadata.annotations){
+                if (trigger.type == 'ImageChange' && res.metadata.annotations["dadafoundry.io/images-from"] == 'public') {
+                  $scope.grid.imageChange = true;
+                }
               }
               if (trigger.type == 'ConfigChange') {
                 $scope.grid.configChange = true;
@@ -950,18 +953,20 @@ angular.module('console.service.detail', [
           }
         };
 
-        $scope.addEnv = function (name, idx, last) {
-          if (last) {     //添加
-            $scope.envs.push({name: '', value: ''});
-          } else {
-            for (var i = 0; i < $scope.envs.length; i++) {
-              if ($scope.envs[i].name == name) {
-                $scope.envs.splice(i, 1);
-              }
-            }
-          }
+        $scope.delEnv = function (idx) {
+          //if (last) {     //添加
+          //  $scope.envs.push({name: '', value: ''});
+          //} else {
+          //  for (var i = 0; i < $scope.envs.length; i++) {
+          //    if ($scope.envs[i].name == name) {
+                $scope.envs.splice(idx, 1);
+          //    }
+          //  }
+          //}
         };
-
+        $scope.addEnv = function(){
+          $scope.envs.push({name: '', value: ''});
+        }
         $scope.addprot = function (ind, last) {
           if (last) {     //添加
             $scope.portsArr.unshift({

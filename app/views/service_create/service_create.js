@@ -98,7 +98,7 @@ angular.module('console.service.create', [
 
         $scope.envs = [];
 
-        $scope.createdcerr = false;
+        //$scope.createdcerr = false;
 
         $scope.containerTpl = {
           name: "",
@@ -324,6 +324,7 @@ angular.module('console.service.create', [
             for(var i = 0; i < serviceNameArr.length;i++){
               if(serviceNameArr[i] == $scope.dc.metadata.name){
                 $scope.grid.createdcerr = true;
+                break;
               }else{
                 $scope.grid.createdcerr = false;
                 $scope.grid.isserviceName = false;
@@ -360,13 +361,13 @@ angular.module('console.service.create', [
 
         loadBsi();
 
-        $scope.addSecret = function (name, idx, last) {
+        $scope.addSecret = function (name, idx, last,hashKeys) {
           $log.info('$scope.dcdc.spec.template.spec.containers-=-=-=-=-=-=-=', $scope.dc.spec.template.spec.containers)
           var containers = $scope.dc.spec.template.spec.containers;
           var volumes = $scope.dc.spec.template.spec.volumes;
           var container = null;
           for (var i = 0; i < containers.length; i++) {
-            if (containers[i].name == name) {
+            if (containers[i].$$hashKey == hashKeys) {
               container = containers[i];
             }
           }
@@ -936,7 +937,7 @@ angular.module('console.service.create', [
             //todo 错误处理
             $log.info("create dc fail", res);
             if(res.status == 409){
-             $scope.createdcerr = true;
+             $scope.grid.createdcerr = true;
             }
           });
         };
