@@ -144,6 +144,7 @@ define(['angular'], function (angular) {
               $scope.images = images;
               $scope.selectCat = function (idx) {
                 $scope.imageTags = {};
+                $scope.images = {};
                 $scope.grid.image = null;
                 console.log("1223",idx);
                 $scope.grid.cat = idx;
@@ -176,6 +177,8 @@ define(['angular'], function (angular) {
               };
 
               $scope.selectImage = function (idx) {
+                $scope.grid.version_x = null;
+                $scope.grid.version_y = null;
                 if($scope.grid.cat == 0){
                   $scope.grid.image = idx;
                   var image = $scope.images.items[idx];
@@ -215,8 +218,6 @@ define(['angular'], function (angular) {
               };
 
               $scope.selectVersion = function (x, y) {
-                console.log("xxx",x);
-                console.log("yyy",y);
                 $scope.grid.version_x = x;
                 $scope.grid.version_y = y;
               };
