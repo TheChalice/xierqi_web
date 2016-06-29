@@ -289,10 +289,17 @@ define(['angular'], function (angular) {
           return $uibModal.open({
             templateUrl: 'views/user/pwd.html',
             size: 'default',
-            controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+            controller: ['$scope','$rootScope','$uibModalInstance', function ($scope,$rootScope,$uibModalInstance) {
+              $scope.credentials={}
+              console.log($rootScope)
               $scope.ok = function () {
-                $uibModalInstance.close();
+                var possword = {
+                  oldpwd:$scope.credentials.oldpwd,
+                  pwd:$scope.credentials.pwd
+                }
+                $uibModalInstance.close(possword);
               };
+              
               $scope.cancel = function () {
                 $uibModalInstance.dismiss();
               };
