@@ -180,7 +180,8 @@ define([
             return Event;
         }])
         .factory('Secret', ['$resource', 'GLOBAL', function($resource, GLOBAL){
-            var Secret= $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets/:name', {name: '@name', namespace: '@namespace'},{
+            var Secret= $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets/:name',
+                {name: '@name', namespace: '@namespace'},{
                 create: {method: 'POST'}
             });
             return Secret;
@@ -287,6 +288,12 @@ define([
                 change: {method: 'PUT'}
             })
             return pwdModify;
+        }])
+        .factory('deletepod', ['$resource', function($resource){
+            var deletepod = $resource('/lapi/v1/namespaces/:namespace/pods',{namespace: '@namespace'},{
+                delete: {method: 'DELETE'}
+            })
+            return deletepod;
         }]);
 });
 // http://registry.dataos.io/api/repositories/manifests?repo_name=library/alpine&tag=latest
