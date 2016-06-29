@@ -107,7 +107,7 @@
                     <h3>环境变量设置</h3>
                 </div>
                 <div class="col-md-10">
-                    <a href="javascript:;" class="href-add" ng-click="addEnv('', 0, true)">
+                    <a href="javascript:;" class="href-add" ng-click="addEnv()">
                         <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;创建环境变量
                     </a>
                 </div>
@@ -132,7 +132,7 @@
                                 </div>
                             </div>
                             <div class="col-md-1" style="line-height: 36px;">
-                                <a href="javascript:;" ng-click="addEnv(env.name, $index, $last)" class="fa fa-lg" ng-class="{'fa-times-circle':!$last, 'fa-plus-circle':$last}"></a>
+                                <a href="javascript:;" ng-click="delEnv($index)" class="fa fa-lg fa-times-circle"></a>
                             </div>
                         </div>
                     </span>
