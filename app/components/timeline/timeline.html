@@ -73,10 +73,10 @@
                         <!--switch to Chinese-->
                         {{item.status.phase | phaseFilter}}
                     </div>
-                    <div class="col-sm-3" style='white-space:nowrap;overflow: hidden;'>
+                    <div class="col-sm-3" style='white-space:nowrap;overflow: hidden;width:20%; text-overflow: ellipsis'>
                         <i class="fa fa-flag-o"></i>&nbsp;
                         <!--<span ng-if="item.spec.revision.git.ref">-->
-                        <span>{{item.spec.revision.git.ref || name }}:{{item.spec.revision.git.commit || item.tag || item.name | limitTo: 7}}</span>
+                        <span uib-tooltip="{{item.spec.revision.git.ref || name }}:{{item.spec.revision.git.commit || item.tag || item.name | limitTo: 7}}">{{item.spec.revision.git.ref || name }}:{{item.spec.revision.git.commit || item.tag || item.name | limitTo: 7}}</span>
                     </div>
                     <div class="col-sm-2" ng-if="type=='image'"></div>
                     <div class="col-sm-4">
