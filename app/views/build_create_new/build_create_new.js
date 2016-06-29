@@ -312,7 +312,6 @@ angular.module('console.build_create_new', [
         }
         $scope.labowner = null;
         $scope.loadlabOwner = function(){
-
             $scope.grid.labcon = true;
             labOwner.get({},function(data) {
                 $log.info("labOwner", data)

@@ -113,7 +113,6 @@ define(['angular'], function (angular) {
             size: 'default modal-lg',
             controller: ['$rootScope', '$scope', '$uibModalInstance', 'images', 'ImageStreamTag','ImageStream','$http','platformlist' ,function ($rootScope, $scope, $uibModalInstance, images, ImageStreamTag,ImageStream,$http,platformlist) {
               console.log('images', images);
-
               $scope.grid = {
                 cat: 0,
                 image: null,
@@ -126,18 +125,31 @@ define(['angular'], function (angular) {
               $scope.$watch('imageName', function (newVal, oldVal) {
                 if (newVal != oldVal) {
                   newVal = newVal.replace(/\\/g);
-                  angular.forEach($scope.images.items, function (image) {
-                    image.hide = !(new RegExp(newVal)).test(image.metadata.name);
-                  });
+                  if ($scope.grid.cat == 0) {
+                    angular.forEach($scope.images.items, function (image) {
+                      image.hide = !(new RegExp(newVal)).test(image.metadata.name);
+                    });
+                  }else{
+                    angular.forEach($scope.images.items, function (image) {
+                      image.hide = !(new RegExp(newVal)).test(image.name);
+                    });
+                  }
                 }
               });
 
               $scope.$watch('imageVersion', function (newVal, oldVal) {
                 if (newVal != oldVal) {
                   newVal = newVal.replace(/\\/g);
-                  angular.forEach($scope.imageTags, function (tag) {
-                    tag.hide = !(new RegExp(newVal)).test(tag.commitId);
-                  });
+                  if($scope.grid.cat == 0) {
+                    angular.forEach($scope.imageTags, function (item, i) {
+                      item.hide = !(new RegExp(newVal)).test(item.tag);
+                    });
+                  }else{
+                    angular.forEach($scope.imageTags,function(item, i){
+                      item.hide = !(new RegExp(newVal)).test(item.tag);
+                    });
+                  }
+
                 }
               });
 
@@ -168,29 +180,30 @@ define(['angular'], function (angular) {
                               $scope.images = $scope.test ;
                             }
                           })
-
                     }
 
                   })
                 }
               };
-
               $scope.selectImage = function (idx) {
                 if($scope.grid.cat == 0){
                   $scope.grid.image = idx;
                   var image = $scope.images.items[idx];
                   angular.forEach(image.status.tags, function (item) {
-                    ImageStreamTag.get({
-                      namespace: $rootScope.namespace,
-                      name: image.metadata.name + ':' + item.tag
-                    }, function (res) {
-                      item.ist = res;
-                    }, function (res) {
-                      console.log("get image stream tag err", res);
-                    });
+                    if(image.metadata.name){
+                      ImageStreamTag.get({
+                        namespace: $rootScope.namespace,
+                        name: image.metadata.name + ':' + item.tag
+                      }, function (res) {
+                        item.ist = res;
+                      }, function (res) {
+                        console.log("get image stream tag err", res);
+                      });
+                    }
                   });
                   console.log("get image stream tag err", image.status.tags);
                   $scope.imageTags = image.status.tags;
+                  console.log('test tag.items', $scope.imageTags)
                 }else if($scope.grid.cat == 1){
                   $scope.grid.image = idx;
                   platformlist.query({id:$scope.test.items[idx].name},function (data){
@@ -207,11 +220,9 @@ define(['angular'], function (angular) {
                       };
                       $scope.test.items[idx].status.tags.push(test2)
                     }
-                    console.log($scope.test.items[idx].status)
                     $scope.imageTags = $scope.test.items[idx].status.tags;
                   })
                 }
-
               };
 
               $scope.selectVersion = function (x, y) {
