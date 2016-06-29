@@ -167,9 +167,11 @@ angular.module('console.build_create_new', [
                         }
                     }
                 }else{
-                    Alert.open('错误', data.data.msg, true);
-                    $scope.grid.ishide = true;
-                    $scope.runninghub = false;
+                    if(data.data.msg){
+                        Alert.open('错误', data.data.msg, true);
+                        $scope.grid.ishide = true;
+                        $scope.runninghub = false;
+                    }
                 }
             });
         }
