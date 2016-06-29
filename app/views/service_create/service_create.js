@@ -925,11 +925,11 @@ angular.module('console.service.create', [
             //}
             bindService(dc);
             // Toast.open('初始化成功');
-            // Confirm.open("提示信息","初始化成功",null,144,true).then(function () {
-            //   $state.go('console.service_detail', {name: dc.metadata.name});
-            // })
-            // setTimeout(function () {
+            Confirm.open("提示信息","初始化成功",null,144,true).then(function () {
               $state.go('console.service_detail', {name: dc.metadata.name});
+            })
+            // setTimeout(function () {
+            //   $state.go('console.service_detail', {name: dc.metadata.name});
             // }, 1000)
             
           }, function (res) {
