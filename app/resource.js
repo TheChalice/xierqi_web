@@ -92,7 +92,9 @@ define([
         }])
         .factory('ImageStream', ['$resource', 'GLOBAL', function($resource, GLOBAL){
             var ImageStream = $resource(GLOBAL.host + '/namespaces/:namespace/imagestreams/:name', {name: '@name', namespace: '@namespace'}, {
-                create: {method: 'POST'}
+                create: {method: 'POST'},
+                delete: {method: 'delete'},
+                get: {method: 'GET'}
             });
             return ImageStream;
         }])
@@ -103,7 +105,8 @@ define([
         .factory('ImageStreamTag', ['$resource', 'GLOBAL', function($resource, GLOBAL){
             var ImageStreamTag= $resource(GLOBAL.host + '/namespaces/:namespace/imagestreamtags/:name', {name: '@name', namespace: '@namespace'},{
                 create: {method: 'POST'},
-                get: {method: 'GET'}
+              get: {method: 'GET'},
+              delete: {method: "DELETE"}
             });
             return ImageStreamTag;
         }])
@@ -126,14 +129,16 @@ define([
         .factory('Service', ['$resource', 'GLOBAL', function($resource, GLOBAL){
             var Service= $resource(GLOBAL.host_k8s + '/namespaces/:namespace/services/:name', {name: '@name', namespace: '@namespace'},{
                 create: {method: 'POST'},
-                put: {method: 'PUT'}
+                put: {method: 'PUT'},
+                delete : {method : "DELETE"}
             });
             return Service;
         }])
         .factory('Route', ['$resource', 'GLOBAL', function($resource, GLOBAL){
             var Route= $resource(GLOBAL.host + '/namespaces/:namespace/routes/:name', {name: '@name', namespace: '@namespace'},{
                 create: {method: 'POST'},
-                put: {method: 'PUT'}
+                put: {method: 'PUT'},
+                delete : {method : "DELETE"}
             });
             return Route;
         }])
@@ -175,7 +180,8 @@ define([
             return Event;
         }])
         .factory('Secret', ['$resource', 'GLOBAL', function($resource, GLOBAL){
-            var Secret= $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets/:name', {name: '@name', namespace: '@namespace'},{
+            var Secret= $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets/:name',
+                {name: '@name', namespace: '@namespace'},{
                 create: {method: 'POST'}
             });
             return Secret;
@@ -212,11 +218,23 @@ define([
             });
             return WebhookLab;
         }])
-        .factory('WebhoookHub',['$resource', function($resource){
+        .factory('WebhookHub',['$resource', function($resource){
             var WebhookHub = $resource('/v1/repos/source/github/webhooks', {} ,{
                 check: {method: 'POST'}
             });
             return WebhookHub;
+        }])
+        .factory('WebhookLabDel',['$resource', function($resource){
+            var WebhookLabDel =  $resource('/v1/repos/source/gitlab/webhooks?host=:host&namespace=:namespace&build=:build&repo=:repo', {host:'@host', namespace:'@namespace',build:'@build',repo:'@repo'},{
+                del: {method: 'DELETE'}
+            });
+            return WebhookLabDel;
+        }])
+        .factory('WebhookHubDel',['$resource', function($resource){
+            var WebhookHubDel = $resource('/v1/repos/source/github/webhooks?namespace=:namespace&build=:build&user=:user&repo=:repo', {namespace:'@namespace',build:'@build',user:'@user',repo:'@repo'},{
+                del: {method: 'DELETE'}
+            });
+            return WebhookHubDel;
         }])
         .factory('platform', ['$resource', function($resource){
           var platform = $resource('/registry/api/repositories?project_id=:id', {id:'@id'});
@@ -253,7 +271,30 @@ define([
             });
             return labBranch;
         }])
+        .factory('registration', ['$resource', function($resource){
+            var registration = $resource('/lapi/signup',{username:'@username', password:'@password', email:'@email'},{
+                regist: {method: 'POST'}
+            });
+            return registration;
+        }])
+        .factory('profile', ['$resource', function($resource){
+            var profile = $resource('/lapi/user/profile',{},{
 
+            });
+            return profile;
+        }])
+        .factory('pwdModify', ['$resource', function($resource){
+            var pwdModify = $resource('/lapi/password_modify',{old_password:'@oldpassword', new_password:'@newpassword'},{
+                change: {method: 'PUT'}
+            })
+            return pwdModify;
+        }])
+        .factory('deletepod', ['$resource', function($resource){
+            var deletepod = $resource('/lapi/v1/namespaces/:namespace/pods',{namespace: '@namespace'},{
+                delete: {method: 'DELETE'}
+            })
+            return deletepod;
+        }]);
 });
 // http://registry.dataos.io/api/repositories/manifests?repo_name=library/alpine&tag=latest
 // https://registry.dataos.io/api/projects?is_public=1

@@ -136,6 +136,7 @@ angular.module('console.build', [
                         $scope.items[i].build = data.object;
                     }
                 });
+              // console.log('$scope.items.build.status.phase',$scope.items);
             }
         };
 
@@ -170,7 +171,9 @@ angular.module('console.build', [
 
         $scope.refresh = function(){
             loadBuildConfigs();
+            $scope.grid.page = 1;
         };
+
 
         //开始构建
         $scope.startBuild = function(idx) {

@@ -11,8 +11,7 @@
             <h2>镜像分类</h2>
             <ul>
                 <li><a class="href-orange" ng-class="{'active': grid.cat == 0}" ng-click="selectCat(0)" href="javascript:;">用户私有镜像仓库</a></li>
-                <li><a class="href-orange" ng-class="{'active': grid.cat == 1}" ng-click="selectCat(1)" href="javascript:;">平台共有镜像</a></li>
-                <li><a class="href-orange" ng-class="{'active': grid.cat == 2}" ng-click="selectCat(2)" href="javascript:;">DockerHub镜像</a></li>
+                <li><a class="href-orange" ng-class="{'active': grid.cat == 1}" ng-click="selectCat(1)" href="javascript:;">平台公有镜像</a></li>
             </ul>
         </div>
         <div class="box-right">
@@ -26,7 +25,7 @@
                         <ul>
                             <li ng-repeat="image in images.items" ng-show="!image.hide">
                                 <a href="javascript:;" ng-class="{'active': grid.image == $index}" ng-click="selectImage($index)">
-                                    <i class="faa faa-check"></i>&nbsp;&nbsp;{{image.metadata.name}}
+                                    <i class="faa faa-check"></i>&nbsp;&nbsp;{{image.metadata.name || image.name}}
                                 </a>
                             </li>
                         </ul>
@@ -43,7 +42,6 @@
                                 <a href="javascript:;" ng-class="{'active': grid.version_x == k && grid.version_y == j}" ng-click="selectVersion(k, j)">
                                     <i class="faa faa-check"></i>&nbsp;&nbsp;
                                     <span>{{tag.tag}}</span>
-                                    <!--<span ng-if="tag.ref">{{tag.ref}} - </span>{{tag.commitId | limitTo: 7}}-->
                                 </a>
                             </li>
                         </ul>

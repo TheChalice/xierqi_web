@@ -65,11 +65,13 @@ angular.module('console.build_create_new', [
                 $scope.buildConfig.spec.source.git.uri = $scope.usernames[$scope.grid.user].repos[$scope.grid.project].clone_url;
                 $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ":" + $scope.branch[$scope.grid.branch].name;
                 $scope.buildConfig.metadata.annotations.repo = $scope.usernames[$scope.grid.user].repos[$scope.grid.project].name;
+                $scope.buildConfig.metadata.annotations.user =  $scope.usernames[$scope.grid.user].login;
             }else if($scope.grid.labcon == true){
                 $scope.buildConfig.spec.completionDeadlineSeconds = $scope.completionDeadlineMinutes * 60;
                 $scope.buildConfig.spec.source.git.ref = $scope.labBranchData.msg[$scope.grid.labbranch].name;
                 $scope.buildConfig.spec.source.sourceSecret.name = labsecret;
-                $scope.buildConfig.spec.source.git.uri = $scope.labusername[$scope.grid.labusers].repos[$scope.grid.labproject].ssh_url_to_repo;
+              console.log($scope.labusername,$scope.grid.labusers);
+              $scope.buildConfig.spec.source.git.uri = $scope.labusername[$scope.grid.labusers].repos[$scope.grid.labproject].ssh_url_to_repo;
                 $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ":" + $scope.labBranchData.msg[$scope.grid.labbranch].name;
                 $scope.buildConfig.metadata.annotations.repo = $scope.labusername[$scope.grid.labusers].repos[$scope.grid.labproject].id.toString();
 
@@ -139,7 +141,6 @@ angular.module('console.build_create_new', [
         $scope.owner = null;
         $scope.loadOwner = function(){
             Owner.query({namespace: $rootScope.namespace},function(res) {
-                $scope.runninghub = true;
                 $log.info("owner", res);
                 $scope.owner = res.msg;
                 hubobj = res.msg.infos[0];
@@ -166,9 +167,11 @@ angular.module('console.build_create_new', [
                         }
                     }
                 }else{
-                    Alert.open('错误', data.data.msg, true);
-                    $scope.grid.ishide = true;
-                    $scope.runninghub = false;
+                    if(data.data.msg){
+                        Alert.open('错误', data.data.msg, true);
+                        $scope.grid.ishide = true;
+                        $scope.runninghub = false;
+                    }
                 }
             });
         }
@@ -203,36 +206,68 @@ angular.module('console.build_create_new', [
                 createBuildConfig(data.msg.secret)
             })
         }
-        $scope.selectUser = function(idx) {
-            $scope.grid.user = idx;
+        $scope.chooseUser = null;
+        $scope.chooseProject = null;
+        $scope.chooseBranch = null;
+        $scope.selectUser = function(idx,choose) {
+            console.log($scope.grid.project, $scope.grid.branch);
+          if ($scope.chooseUser&&$scope.grid.user==idx) {
+            $scope.grid.user=null;
+            $scope.chooseUser=null;
             $scope.grid.project = null;
+            $scope.branch=null;
+            $scope.grid.branch = null;
+            $scope.reposobj=null;
+            // return false;
+          }else {
+            $scope.grid.user = idx;
+            $scope.chooseUser=choose;
+            $scope.grid.project = null;
+            $scope.branch=null;
             $scope.grid.branch = null;
             $scope.reposobj = $scope.usernames[idx].repos;
             var newarr = $scope.reposobj;
             var names = [];
             for (var i = 0; i < newarr.length; i++){
-               $scope.reposobj[i]['names']=newarr[i].name.toUpperCase();
+              $scope.reposobj[i]['names']=newarr[i].name.toUpperCase();
             }
             newarr.sort(function(x,y){
-                return x.names > y.names ? 1 : -1;
+              return x.names > y.names ? 1 : -1;
             })
-            //$log.info('&********', $scope.reposobj);
             thisindex = idx;
+          }
+            // $scope.grid.dian=dian;
+            // $scope.grid.user = idx;
+
         }
-        $scope.selectProject = function(idx) {
-            $scope.grid.project = idx;
-            $scope.grid.branch = null;
-            var selectUsername = $scope.usernames[thisindex].login;
-            var selectRepo = $scope.usernames[thisindex].repos[idx].name;
-            $log.info("user and repos",selectUsername + selectRepo);
-            Branch.get({users:selectUsername, repos:selectRepo},function(info) {
+        $scope.selectProject = function(idx,choose) {
+          if ($scope.chooseProject&&$scope.grid.project==idx) {
+              $scope.grid.project=null;
+              $scope.chooseProject = null;
+              $scope.branch=null;
+              $scope.grid.branch = null;
+          }else {
+              $scope.chooseProject=choose;
+              $scope.grid.project = idx;
+              $scope.branch=null;
+              var selectUsername = $scope.usernames[thisindex].login;
+              var selectRepo = $scope.usernames[thisindex].repos[idx].name;
+              $log.info("user and repos",selectUsername + selectRepo);
+              Branch.get({users:selectUsername, repos:selectRepo},function(info) {
                 $log.info("branch", info);
                 $scope.branch = info.msg;
             });
+          }
         };
 
-        $scope.selectBranch = function(idx) {
+        $scope.selectBranch = function(idx,choose) {
+          if ($scope.chooseBranch&&$scope.grid.branch==idx) {
+                $scope.chooseBranch=null;
+                $scope.grid.branch=null;
+          }else {
             $scope.grid.branch = idx;
+            $scope.chooseBranch=choose;
+          }
         };
         $scope.psgitlab = {
             host : "",
@@ -280,7 +315,6 @@ angular.module('console.build_create_new', [
         }
         $scope.labowner = null;
         $scope.loadlabOwner = function(){
-            $scope.running = true;
             $scope.grid.labcon = true;
             labOwner.get({},function(data) {
                 $log.info("labOwner", data)
@@ -320,38 +354,66 @@ angular.module('console.build_create_new', [
                         data.msg.infos[i].repos[j].objsname = data.msg.infos[i].org.name;
                     }
                 }
-                $scope.running = false;
                 //$log.info("0-0-0-00-0-$scope.labusername",$scope.labusername);
             },function(data){
                 $log.info("laborgs-------err",data)
             });
         }
-        $scope.loadLabBranch = function(idx){
-          $scope.grid.labbranch=null;
-            var labId = $scope.labobjs[idx].id;
-            labBranch.get({repo:labId},function(data){
-                $scope.labBranchData = data;
-                $scope.grid.labproject = idx;
-                //$log.info("loadLabBranch--=-=",data)
-            },function(data){
-                $log.info("loadLabBranch--=-=err",data)
-            })
-        }
-        $scope.selectlabUser = function(idx) {
-            $scope.labobjs = $scope.labusername[idx].repos;
-            var labproject = $scope.labobjs;
-            var projecrnames = [];
-            for (var i = 0; i < labproject.length; i++){
-                $scope.labobjs[i]['projecrnames']=labproject[i].name.toUpperCase();
+        $scope.choooseUser = null;
+        $scope.choooseProject = null;
+        $scope.choooseBranch = null;
+
+        $scope.selectlabUser = function(idx, chooose) {
+            if ($scope.choooseUser && $scope.grid.user == idx){
+                $scope.grid.user = null;
+                $scope.choooseUser = null;
+                $scope.grid.labproject = null;
+                $scope.grid.labbranch = null;
+                $scope.labobjs=null;
+                $scope.labBranchData.msg=null;
+            }else{
+                $scope.grid.user = idx;
+                $scope.choooseUser = chooose;
+                $scope.labobjs = $scope.labusername[idx].repos;
+                var labproject = $scope.labobjs;
+                var projecrnames = [];
+                for (var i = 0; i < labproject.length; i++){
+                    $scope.labobjs[i]['projecrnames']=labproject[i].name.toUpperCase();
+                }
+                labproject.sort(function(x,y){
+                    return x.projecrnames > y.projecrnames ? 1 : -1;
+                })
+              $scope.grid.labusers = idx;
             }
-            labproject.sort(function(x,y){
-                return x.projecrnames > y.projecrnames ? 1 : -1;
-            })
-            $scope.grid.labusers = idx;
         }
-        $scope.selectlabBranch = function(idx){
-            $scope.grid.labbranch = idx;
-            $log.info('testtest',$scope.labusername[$scope.grid.labusers]);
+
+        $scope.selectLabProject = function(idx, chooose){
+            var labId = $scope.labobjs[idx].id;
+            labBranch.get({repo:labId},function(data) {
+                if ($scope.choooseProject && $scope.grid.labproject == idx) {
+                    $scope.grid.labproject = null;
+                    $scope.choooseProject = null;
+                    $scope.grid.labbranch = null;
+                    $scope.labBranchData.msg=null;
+                } else {
+                    $scope.labBranchData = data;
+                    $scope.grid.labproject = idx;
+                    $scope.choooseProject = chooose;
+                }
+            }, function (data) {
+                $log.info("selectLabProject--=-=err", data)
+            })
+        }
+
+        $scope.selectlabBranch = function(idx, chooose){
+          if ($scope.choooseBranch && $scope.grid.labbranch === idx){
+              $scope.choooseBranch = null;
+              $scope.grid.labbranch = null;
+            }else{
+
+              $scope.grid.labbranch = idx;
+              $scope.choooseBranch = chooose;
+            }
         }
         $scope.creatgitlab = function(){
             psgitlab.create({},$scope.psgitlab,function(res){
@@ -364,12 +426,10 @@ angular.module('console.build_create_new', [
                 $log.info('psgitlab-----err',res);
                 $scope.grid.cdm = true;
                 $scope.grid.creatlaberr = res.data.msg;
-
             })
         }
         $scope.grid.labcon = true;
         $scope.grid.ishide = true;
-        $scope.loadlabOwner();
         $scope.loadlabOwner();
         $scope.loadOwner();
         $scope.loadOrg();

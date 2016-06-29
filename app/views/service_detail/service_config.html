@@ -124,33 +124,39 @@
 
     <h3>端口开放&nbsp;<span class="require"></span></h3>
 
-    <div class="table-responsive" style="margin-bottom: 30px;">
-        <table class="table table-hover table-default sub-table">
+    <div class="table-responsive" style="margin-bottom: 30px;overflow: hidden;">
+        <table class="table table-hover table-default sub-table" style="padding-bottom: 20px;">
             <tr>
-                <th style="width: 20%;">容器名称</th>
-                <th style="width: 30%; display: none;">镜像</th>
+                <!--<th style="width: 20%;">容器名称</th>-->
+                <!--<th style="width: 30%; display: none;">镜像</th>-->
                 <th style="width: 50%;">端口</th>
             </tr>
-            <tr ng-repeat="container in dc.spec.template.spec.containers">
-                <td style="vertical-align: middle;">
-                    {{container.name}}
-                </td>
-                <td style="vertical-align: middle; display: none;">
-                    <span>
-                        <p>镜像名称:</p>
-                        <p>{{container.image | imageStreamName}}</p>
-                        <p>镜像版本:</p>
-                        <p><span>{{container.tag}}</span></p>
-                    </span>
-                </td>
-                <td style="vertical-align: middle;">
+            <tr>
+                <td>
                     <div class="row">
                         <div class="col-sm-3">协议</div>
                         <div class="col-sm-3">容器端口</div>
                         <div class="col-sm-3">服务端口</div>
                         <div class="col-sm-3"></div>
                     </div>
-                    <div class="row" ng-repeat="port in container.ports" style="margin-top: 15px;">
+                </td>
+
+            </tr>
+            <tr ng-repeat="port in portsArr">
+                <!--<td style="vertical-align: middle;">-->
+                    <!--{{container.name}}-->
+                <!--</td>-->
+                <!--<td style="vertical-align: middle; display: none;">-->
+                    <!--<span>-->
+                        <!--<p>镜像名称:</p>-->
+                        <!--<p>{{container.image | imageStreamName}}</p>-->
+                        <!--<p>镜像版本:</p>-->
+                        <!--<p><span>{{container.tag}}</span></p>-->
+                    <!--</span>-->
+                <!--</td>-->
+                <td style="vertical-align: middle;border-top: none;padding:0px;">
+
+                    <div class="row" style="margin-top: 15px;margin-left:0px;margin-right: 0px;">
                         <div class="col-sm-3">
                             <!--<input type="text"-->
                             <!--class="input-small"-->
@@ -166,10 +172,10 @@
                                    ng-model="port.containerPort">
                         </div>
                         <div class="col-sm-3">
-                            <input type="text" ng-model="port.hostPort" class="input-small">
+                            <input type="text"  ng-class="{'input-error':port.serviceConflict}" ng-model="port.hostPort" class="input-small">
                         </div>
                         <div class="col-sm-3">
-                            <a href="javascript:;" style='color: #9fa7b7;' ng-click="addprot(container,$index,$last)"
+                            <a href="javascript:;" style='color: #9fa7b7;' ng-click="addprot($index,$last)"
                                class="fa fa-lg"
                                ng-class="{'fa-times-circle':!$last, 'fa-plus-circle':$last}"></a>
                         </div>
@@ -229,7 +235,7 @@
             <br>
             <div ng-if="grid.route">
                 <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">服务端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                <div class="dropdown dropdown-select" ng-click="updatePorts()" style="width: 80px;">
+                <div class="dropdown dropdown-select" ng-click="getupdatePorts()" style="width: 80px;">
                     <button class="btn dropdown-toggle" data-toggle="dropdown">
                         <span>{{grid.port || '请选择'}}</span>
                         <span class="caret"></span>
@@ -285,7 +291,7 @@
             <h3>环境变量设置</h3>
         </div>
         <div class="col-md-10">
-            <a href="javascript:;" class="href-add" ng-click="addEnv('', 0, true)">
+            <a href="javascript:;" class="href-add" ng-click="addEnv()">
                 <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;创建环境变量
             </a>
         </div>
@@ -312,9 +318,8 @@
                             <div class="col-md-1" id='xz' style="line-height: 36px;">
                                 <a href="javascript:;"
 
-                                   ng-click="addEnv(env.name, $index, $last)"
-                                   class="fa fa-lg"
-                                   ng-class="{'fa-times-circle':!$last, 'fa-plus-circle':$last}">
+                                   ng-click="delEnv($index)"
+                                   class="fa fa-lg fa-times-circle">
 
                                 </a>
                             </div>
@@ -331,10 +336,23 @@
             <h3>自动部署</h3>
         </div>
         <div class="col-md-5">
-            <labe><input type="checkbox" ng-model="grid.imageChange">&nbsp;&nbsp;镜像变化触发自动部署</labe>
+            <!--<labe ng-if="grid.isimageChange"><input type="checkbox"  ng-model="grid.imageChange">&nbsp;&nbsp;镜像变化触发自动部署</labe>-->
+            <label ng-if="grid.isimageChange" ng-class="{'active': grid.imageChange}" ng-click="grid.imageChange=!grid.imageChange" style="cursor: pointer;">
+                <i class="faa faa-check"></i>
+                &nbsp;&nbsp;镜像变化触发自动部署
+            </label>
+            <!--<labe ng-if="!grid.isimageChange"><input type="checkbox"  disabled="disabled" ng-model="grid.imageChange">&nbsp;&nbsp;镜像变化触发自动部署</labe>-->
+            <label ng-if="!grid.isimageChange" style="cursor: pointer;">
+                <i class="faa faa-check"></i>
+                &nbsp;&nbsp;镜像变化触发自动部署
+            </label>
         </div>
         <div class="col-md-5">
-            <labe><input type="checkbox" ng-model="grid.configChange">&nbsp;&nbsp;配置变化触发自动部署</labe>
+            <!--<labe><input type="checkbox" ng-model="grid.configChange">&nbsp;&nbsp;配置变化触发自动部署</labe>-->
+            <label ng-class="{'active': grid.configChange}" ng-click="grid.configChange=!grid.configChange" style="cursor: pointer;">
+                <i class="faa faa-check"></i>
+                &nbsp;&nbsp;镜像变化触发自动部署
+            </label>
         </div>
     </div>
     <hr>
@@ -361,6 +379,8 @@
     </div>
     <hr style="margin-top: 20px;" ng-if="false">
     <small ng-show="servicepoterr" class="fa fa-info-circle err-tip">&nbsp;端口填写错误</small>
+    <small ng-show="grid.conflict" class="fa fa-info-circle err-tip">&nbsp;容器端口冲突,请修改</small>
+    <small ng-show="grid.serviceConflict" class="fa fa-info-circle err-tip">&nbsp;服务端口冲突,请修改</small>
     <button class="btn btn-orange btn-block" ng-click="updateDc()">更新(会自动触发重新部署)</button>
 
 </div>

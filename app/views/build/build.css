@@ -21,3 +21,11 @@
 .icon25-stop:hover {
     background-image: url(img/stop-hover.png);
 }
+.row {
+    white-space:nowrap;
+}
+@media (max-width: 1201px) {
+    .threec a {
+        display: inline-block;
+    }
+}

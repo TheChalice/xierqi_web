@@ -162,6 +162,7 @@ define([
                 plan: null,
                 update: false,
                 index: null,
+                type:null
               },
               templateUrl: 'views/backing_service_detail/backing_service_detail.html',
               controller: 'BackingServiceInstanceCtrl',
@@ -192,6 +193,36 @@ define([
               resolve: {
                 dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                   return $ocLazyLoad.load(['views/dashboard/dashboard.js'])
+                }]
+              }
+            })
+            .state('console.user', {
+              url: '/user',
+              templateUrl: 'views/user/user.html',
+              controller: 'userCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/user/user.js')
+                }]
+              }
+            })
+            .state('console.org', {
+              url: '/org',
+              templateUrl: 'views/org/org.html',
+              controller: 'orgCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/org/org.js')
+                }]
+              }
+            })
+            .state('console.notification', {
+              url: '/notification',
+              templateUrl: 'views/notification/notification.html',
+              controller: 'notificationCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/notification/notification.js')
                 }]
               }
             })

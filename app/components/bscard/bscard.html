@@ -6,7 +6,7 @@
             <div class="thumb-op">
                 <small>{{item.spec.description}}</small>
                 <p class="thumb-btn">
-                    <a class="btn btn-skyblue" href="javascript:;" ui-sref="console.backing_service_detail({name: item.metadata.name})">
+                    <a class="btn btn-skyblue" href="javascript:;" ui-sref="console.backing_service_detail({name: item.metadata.name,type:item.metadata.annotations.Class})">
                         查看详情</a>
                 </p>
             </div>
@@ -14,10 +14,11 @@
                 <p class='hui'><img src="components/bscard/img/images01_08.png">{{item.spec.metadata.providerDisplayName}}</p>
             </div>
             <div ng-if="!item.spec.metadata.imageUrl" class="imageholder" style="background-image:url('components/bscard/img/images01_03.png');width: 68px;height:66px;background-color: #EAEBEF;"></div>
-        </div>background-position: center
+        </div>
     </div>
     <div class="caption">
         <p class="bsname">{{item.metadata.name}}</p>
-        <a class="btn btn-orange"  ui-sref="console.apply_instance({name: item.metadata.name})">申请实例</a>
+        <a class="btn btn-disabled" ng-if='item.bianhui' style='cursor:default;'>申请实例</a>
+        <a class="btn btn-orange" ng-if='item.biancheng' ui-sref="console.apply_instance({name: item.metadata.name})">申请实例</a>
     </div>
 </div>

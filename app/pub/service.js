@@ -23,6 +23,26 @@ define(['angular'], function (angular) {
           }).result;
         };
       }])
+      .service('Addmodal', ['$uibModal', function ($uibModal) {
+        this.open = function (title, txt, tip) {
+          return $uibModal.open({
+            templateUrl: 'pub/tpl/addmodal.html',
+            size: 'default',
+            controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+              $scope.title = title;
+              $scope.txt = txt;
+              $scope.tip = tip;
+              $scope.orgName = null;
+              $scope.ok = function () {
+                $uibModalInstance.close($scope.orgName);
+              };
+              $scope.cancel = function () {
+                $uibModalInstance.dismiss();
+              };
+            }]
+          }).result;
+        };
+      }])
       .service('Alert', ['$uibModal', function ($uibModal) {
         this.open = function (title, txt, err) {
           return $uibModal.open({
@@ -58,13 +78,18 @@ define(['angular'], function (angular) {
         }
       }])
       .service('ModalPullImage', ['$rootScope', '$uibModal', 'clipboard', function ($rootScope, $uibModal, clipboard) {
-        this.open = function (name) {
+        this.open = function (name, yuorself) {
           return $uibModal.open({
             templateUrl: 'pub/tpl/modal_pull_image.html',
             size: 'default',
             controller: ['$scope', '$uibModalInstance', '$log', function ($scope, $uibModalInstance, $log) {
               console.log(name)
-              $scope.name = name.split('/')[1] ? name.split(':')[0]+':'+name.split(':')[1].split('/')[1] : name;
+              if (!yuorself) {
+                $scope.name = name.split('/')[1] ? name.split(':')[0] + ':' + name.split(':')[1].split('/')[1] : name;
+
+              } else {
+                $scope.name = name;
+              }
               $scope.cmd = 'docker pull registry.dataos.io/' + $scope.name;
               $scope.cancel = function () {
                 $uibModalInstance.dismiss();
@@ -86,54 +111,121 @@ define(['angular'], function (angular) {
           return $uibModal.open({
             templateUrl: 'pub/tpl/modal_choose_image.html',
             size: 'default modal-lg',
-            controller: ['$rootScope', '$scope', '$uibModalInstance', 'images', 'ImageStreamTag', function ($rootScope, $scope, $uibModalInstance, images, ImageStreamTag) {
+            controller: ['$rootScope', '$scope', '$uibModalInstance', 'images', 'ImageStreamTag','ImageStream','$http','platformlist' ,function ($rootScope, $scope, $uibModalInstance, images, ImageStreamTag,ImageStream,$http,platformlist) {
               console.log('images', images);
-
               $scope.grid = {
                 cat: 0,
                 image: null,
                 version_x: null,
                 version_y: null
               };
-
+              $scope.test = {
+                'items':[]
+              };
               $scope.$watch('imageName', function (newVal, oldVal) {
                 if (newVal != oldVal) {
                   newVal = newVal.replace(/\\/g);
-                  angular.forEach($scope.images.items, function (image) {
-                    image.hide = !(new RegExp(newVal)).test(image.metadata.name);
-                  });
+                  if ($scope.grid.cat == 0) {
+                    angular.forEach($scope.images.items, function (image) {
+                      image.hide = !(new RegExp(newVal)).test(image.metadata.name);
+                    });
+                  }else{
+                    angular.forEach($scope.images.items, function (image) {
+                      image.hide = !(new RegExp(newVal)).test(image.name);
+                    });
+                  }
                 }
               });
 
               $scope.$watch('imageVersion', function (newVal, oldVal) {
                 if (newVal != oldVal) {
                   newVal = newVal.replace(/\\/g);
-                  angular.forEach($scope.imageTags, function (tag) {
-                    tag.hide = !(new RegExp(newVal)).test(tag.commitId);
-                  });
+                  if($scope.grid.cat == 0) {
+                    angular.forEach($scope.imageTags, function (item, i) {
+                      item.hide = !(new RegExp(newVal)).test(item.tag);
+                    });
+                  }else{
+                    angular.forEach($scope.imageTags,function(item, i){
+                      item.hide = !(new RegExp(newVal)).test(item.tag);
+                    });
+                  }
+
                 }
               });
 
               $scope.images = images;
-
               $scope.selectCat = function (idx) {
+                $scope.imageTags = {};
+                $scope.images = {};
+                $scope.grid.image = null;
+                console.log("1223",idx);
                 $scope.grid.cat = idx;
-              };
+                if(idx == 0 ){
+                  ImageStream.get({namespace: $rootScope.namespace},function(res){
+                    $scope.images = res;
+                  })
+                }else if(idx == 1){
+                  $http.get('/registry/api/projects', {
+                    params: {is_public: 1}
+                  }).success(function (data) {
+                    for(var i = 0 ; i < data.length; i++){
+                      $http.get('/registry/api/repositories', {params: {project_id:data[i].project_id}})
+                          .success(function (res) {
+                            if(res){
+                              for(var j = 0 ; j < res.length; j++ ){
+                                var str = {
+                                  'name' : res[j]
+                                }
+                                $scope.test.items.push(str);
+                              }
+                              $scope.images = $scope.test ;
+                            }
+                          })
+                    }
 
+                  })
+                }
+              };
               $scope.selectImage = function (idx) {
-                $scope.grid.image = idx;
-                var image = $scope.images.items[idx];
-                angular.forEach(image.status.tags, function (item) {
-                  ImageStreamTag.get({
-                    namespace: $rootScope.namespace,
-                    name: image.metadata.name + ':' + item.tag
-                  }, function (res) {
-                    item.ist = res;
-                  }, function (res) {
-                    console.log("get image stream tag err", res);
+                $scope.grid.version_x = null;
+                $scope.grid.version_y = null;
+                if($scope.grid.cat == 0){
+                  $scope.grid.image = idx;
+                  var image = $scope.images.items[idx];
+                  angular.forEach(image.status.tags, function (item) {
+                    if(image.metadata.name){
+                      ImageStreamTag.get({
+                        namespace: $rootScope.namespace,
+                        name: image.metadata.name + ':' + item.tag
+                      }, function (res) {
+                        item.ist = res;
+                      }, function (res) {
+                        console.log("get image stream tag err", res);
+                      });
+                    }
                   });
-                });
-                $scope.imageTags = image.status.tags;
+                  console.log("get image stream tag err", image.status.tags);
+                  $scope.imageTags = image.status.tags;
+                  console.log('test tag.items', $scope.imageTags)
+                }else if($scope.grid.cat == 1){
+                  $scope.grid.image = idx;
+                  platformlist.query({id:$scope.test.items[idx].name},function (data){
+                    $scope.test.items[idx].status = {};
+                    $scope.test.items[idx].status.tags = [];
+                    for(var i = 0 ; i < data.length; i++){
+                      var test2 = {
+                        'tag' : data[i],
+                        'items' : data,
+                        'ist' : {
+                          'imagesname' :$scope.test.items[idx].name+'/'+data[i],
+                          'ispublicimage' : true
+                        }
+                      };
+                      $scope.test.items[idx].status.tags.push(test2)
+                    }
+                    $scope.imageTags = $scope.test.items[idx].status.tags;
+                  })
+                }
               };
 
               $scope.selectVersion = function (x, y) {
@@ -168,12 +260,10 @@ define(['angular'], function (angular) {
                 AuthService.login($rootScope.credentials);
                 $uibModalInstance.close();
               };
-
               $scope.regist = function () {
                 $uibModalInstance.close();
                 ModalRegist.open();
               };
-
               $scope.cancel = function () {
                 $uibModalInstance.dismiss();
               };
@@ -181,15 +271,21 @@ define(['angular'], function (angular) {
           }).result;
         }
       }])
+      //registration
       .service('ModalRegist', ['$uibModal', function ($uibModal) {
         this.open = function () {
           return $uibModal.open({
             templateUrl: 'views/login/regist.html',
             size: 'default',
-            controller: ['$scope', 'AuthService', '$uibModalInstance', function ($scope, AuthService, $uibModalInstance) {
+            controller: ['$scope', 'AuthService', '$uibModalInstance', 'registration', function ($scope, AuthService, $uibModalInstance, registration) {
               $scope.credentials = {};
               $scope.regist = function () {
                 //注册相关代码...
+
+                registration.regist({username: $scope.credentials.username, password: $scope.credentials.password, email: $scope.credentials.email}, function(data){
+
+                })
+
                 $uibModalInstance.close();
               };
               $scope.cancel = function () {
@@ -198,6 +294,30 @@ define(['angular'], function (angular) {
             }]
           }).result;
         }
+      }])
+
+      .service('ModalPwd', ['$uibModal', function ($uibModal) {
+        this.open = function () {
+          return $uibModal.open({
+            templateUrl: 'views/user/pwd.html',
+            size: 'default',
+            controller: ['$scope','$rootScope','$uibModalInstance', function ($scope,$rootScope,$uibModalInstance) {
+              $scope.credentials={}
+              console.log($rootScope)
+              $scope.ok = function () {
+                var possword = {
+                  oldpwd:$scope.credentials.oldpwd,
+                  pwd:$scope.credentials.pwd
+                }
+                $uibModalInstance.close(possword);
+              };
+              
+              $scope.cancel = function () {
+                $uibModalInstance.dismiss();
+              };
+            }]
+          }).result;
+        };
       }])
       .service('Sort', [function () {
         this.sort = function (items, reverse) {
@@ -274,7 +394,7 @@ define(['angular'], function (angular) {
                   $scope.search(newVal);
                 }
               });
-
+            
               $scope.search = function (txt) {
                 if (!txt) {
                   $scope.items = $scope.data.items;

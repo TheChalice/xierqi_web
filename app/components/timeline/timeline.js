@@ -11,14 +11,17 @@ angular.module("console.timeline", [])
                 name: '=',
                 type: '@'
             },
-            controller: ['$http','platformone','platformlist','$rootScope', '$scope', '$state', '$log', 'BuildConfig', 'Build', 'Confirm', '$stateParams', 'ImageStreamTag', 'Sort', 'ModalPullImage', 'Ws',
-              function($http,platformone,platformlist,$rootScope, $scope, $state, $log, BuildConfig, Build, Confirm, $stateParams, ImageStreamTag, Sort, ModalPullImage, Ws){
-              var namecopy = $scope.name
-              var name = namecopy.split('/');
+          controller: ['$location', 'ImageStream', '$http', 'platformone', 'platformlist', '$rootScope', '$scope', '$state', '$log', 'BuildConfig', 'Build', 'Confirm', '$stateParams', 'ImageStreamTag', 'Sort', 'ModalPullImage', 'Ws',
+            function ($location, ImageStream, $http, platformone, platformlist, $rootScope, $scope, $state, $log, BuildConfig, Build, Confirm, $stateParams, ImageStreamTag, Sort, ModalPullImage, Ws) {
+                if ($scope.name) {
+
+                  var namecopy = $scope.name
+                  var name = namecopy.split('/');
+                }
+              // console.log(name)
                 // console.log('$scope.name',name.length);
               if (name.length == 2) {
                 // console.log('2',$scope.name)
-
                 $scope.isshow=false;
                 $scope.data={
                   items:[]
@@ -26,13 +29,14 @@ angular.module("console.timeline", [])
                 // console.log('$scope.name',$scope.name);
                 platformlist.query({id:$scope.name},function (data) {
                   data.reverse();
-                  // console.log('data',data)
+                  // console.log('data', data)
                   var arr = [];
                   for (var i = 0; i < data.length; i++) {
                     $scope.data.items.push({name:data[i]})
                     $http.get('/registry/api/repositories/manifests',
                         {params: {repo_name: $scope.name,tag:data[i]}})
                         .success(function (datalis) {
+                          console.log('datalis', datalis)
                           // $scope.data.items[0].list=datalis;/
                           arr.push(datalis)
                         }).then(function () {
@@ -44,26 +48,30 @@ angular.module("console.timeline", [])
                         arr.sort(function (x, y) {
                           return x.mysort > y.mysort ? -1 : 1;
                         });
+
                         // console.log(arr);
                         if (arr.length == 0) {
                           $rootScope.testq='finsh';
                         }
                         var namecopy = $scope.name;
-                        namecopy=namecopy.split('/')[0];
+                        console.log('namecopy', namecopy)
+                        // namecopy=namecopy.split('/')[0];
+                        // console.log('namecopy',namecopy)
                         for (var i = 0; i < arr.length; i++) {
                           $scope.data.items[i].list=arr[i];
                           $scope.data.items[i].bsi=namecopy+':'+$scope.data.items[i].name;
                         }
-                        
-                        console.log($scope.data.items[0].bsi);
+                        // console.log($scope.data.items[0].bsi);
+                        // console.log('*&*&*&*&*&*&',$scope.data)
+                        $rootScope.loading = false;
                       }
                     })
                   }
-                  if (data.length == arr.length) {
-                    console.log('data.length',data.length)
-                  }
+                  // if (data.length == arr.length) {
+                  //
+                  //   //console.log('*&*&*&*&*&*&',data)
+                  // }
                 })
-
                 $scope.delete = function(idx){
                   var title = "删除构建";
                   var msg = "您确定要删除构建吗?";
@@ -80,7 +88,7 @@ angular.module("console.timeline", [])
                   }
                   Confirm.open(title, msg, tip, 'recycle').then(function(){
                     Build.remove({namespace: $rootScope.namespace, name: name}, function(){
-                      $log.info("deleted");
+                      // $log.info("deleted");
                       for (var i = 0; i < $scope.data.items.length; i++) {
                         if (name == $scope.data.items[i].metadata.name) {
                           $scope.data.items.splice(i, 1)
@@ -104,8 +112,35 @@ angular.module("console.timeline", [])
                 };
 
               }else {
-                // console.log('1',$scope.name)
-                
+                var urlarr = $location.url().split('/');
+                if (urlarr[3] && urlarr[4]) {
+                  if (urlarr[3] == urlarr[4]) {
+                    $scope.showimage = true
+                  }
+                } else {
+                  $scope.showimage = false
+                }
+                ImageStream.get({namespace: $rootScope.namespace, name: $scope.name}, function (data) {
+                  if (data.status.tags && data.status.tags[0].items) {
+                    for (var i = 0; i < data.status.tags.length; i++) {
+                      data.status.tags[i].mysort = data.status.tags[i].items[0].created;
+                      data.status.tags[i].mysort = (new Date(data.status.tags[i].mysort)).getTime()
+                    }
+                    data.status.tags.sort(function (x, y) {
+                      return x.mysort > y.mysort ? -1 : 1;
+                    });
+                    for (var i = 0; i < data.status.tags.length; i++) {
+                      data.status.tags[i].bsi = $scope.name + ':' + data.status.tags[i].tag;
+                    }
+                    $scope.date = data;
+                    console.log('$scope.date', $scope.date)
+                  }
+                  if (!data.status.tags) {
+                    $rootScope.testq = 'finsh'
+                  } else {
+                    $rootScope.testq = 'hasver'
+                  }
+                })
                 $scope.isshow=true;
                 $scope.gitStore = {};
 
@@ -129,18 +164,24 @@ angular.module("console.timeline", [])
                     fillHistory(data.items);
 
                     emit(imageEnable(data.items));
-                    if (data.items.length == '0') {
-                      $rootScope.testq='finsh'
-                    }else {
-                      $rootScope.testq='hasver'
-                    }
-
+                    // if (data.items.length == '0') {
+                    //   $rootScope.testq='finsh'
+                    // }else {
+                    //   $rootScope.testq='hasver'
+                    // }
+                
                     $scope.resourceVersion = data.metadata.resourceVersion;
                     watchBuilds(data.metadata.resourceVersion);
                   }, function(res){
                     //todo 错误处理
                   });
                 };
+
+                var loglast= function () {
+                  setTimeout(function () {
+                    $('#sa').scrollTop(1000000)
+                  },200)
+                }
 
                 var fillHistory = function(items){
                   var tags = [];
@@ -160,19 +201,19 @@ angular.module("console.timeline", [])
 
                 var loadImageStreamTag = function(item){
                   ImageStreamTag.get({namespace: $rootScope.namespace, name: item.spec.output.to.name}, function(data){
-                    // $log.info('imageStreamTag', data);
-
-                    item.bsi = data;
-
+                  item.bsi = data;
+                  if (data.image.dockerImageMetadata.Config.Labels) {
                     $scope.gitStore[item.spec.output.to.name] = {
                       id: data.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'],
                       ref: data.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref']
                     }
+                  }
 
-                  }, function(res){
-                    //todo 错误处理
-                  });
-                };
+
+                }, function (res) {
+                  //todo 错误处理
+                });
+              };
 
                 var emit = function(enable){
                   $scope.$emit('image-enable', enable);
@@ -240,6 +281,8 @@ angular.module("console.timeline", [])
                           }
                           data.object.buildLog = result;
                           $scope.data.items[i] = data.object;
+                          loglast()
+                          
                         }, function(){
                           $scope.data.items[i] = data.object;
                         });
@@ -249,7 +292,6 @@ angular.module("console.timeline", [])
                 };
 
                 loadBuildHistory($scope.name);
-
 
                 //如果是新创建的打开第一个日志,并监控
                 if ($stateParams.from == "create") {
@@ -271,6 +313,7 @@ angular.module("console.timeline", [])
                   }
                   //存储已经调取过的log
                   if (o.buildLog) {
+                    loglast()
                     return;
                   }
                   Build.log.get({namespace: $rootScope.namespace, name: o.metadata.name}, function(res){
@@ -281,6 +324,7 @@ angular.module("console.timeline", [])
                       }
                     }
                     o.buildLog = result;
+                    loglast()
                   }, function(res){
                     console.log("res", res);
                     o.buildLog = res.data.message;
@@ -288,10 +332,11 @@ angular.module("console.timeline", [])
                 };
 
                 $scope.pull = function(idx){
-
-                  // console.log(idx,$scope.data.items[idx])
-                  var name = $scope.data.items[idx].spec.output.to.name;
-                  ModalPullImage.open(name).then(function(res){
+                  // console.log(idx)
+                  // console.log(idx,$scope.data.status.tags[idx].tag)
+                  var name = $scope.name + '/' + $scope.date.status.tags[idx].tag;
+                  // var name = $scope.data.items[idx].spec.output.to.name;
+                  ModalPullImage.open(name, true).then(function (res) {
                     console.log("cmd", res);
                   });
                 };
@@ -305,37 +350,63 @@ angular.module("console.timeline", [])
                     msg = "您确定要删除该镜像版本吗?";
                     tip = "";
                   }
-
-                  var name = $scope.data.items[idx].metadata.name;
-                  if (!name) {
-                    return;
-                  }
-                  Confirm.open(title, msg, tip, 'recycle').then(function(){
-                    Build.remove({namespace: $rootScope.namespace, name: name}, function(){
-                      $log.info("deleted");
-                      for (var i = 0; i < $scope.data.items.length; i++) {
-                        if (name == $scope.data.items[i].metadata.name) {
-                          $scope.data.items.splice(i, 1)
+                  if ($scope.data.items[idx]) {
+                    var name = $scope.data.items[idx].metadata.name;
+                    if (!name) {
+                      return;
+                    }
+                    Confirm.open(title, msg, tip, 'recycle').then(function () {
+                      Build.remove({namespace: $rootScope.namespace, name: name}, function () {
+                        $log.info("deleted");
+                        for (var i = 0; i < $scope.data.items.length; i++) {
+                          if (name == $scope.data.items[i].metadata.name) {
+                            $scope.data.items.splice(i, 1)
+                          }
                         }
-                      }
 
-                      $scope.$watch('data',function (n,o) {
-                        console.log(n.items.length);
-                        if (n.items.length == '0') {
-                          $rootScope.testq='finsh'
-                        }
-                      })
-                      // if (idx == '0') {
-                      //   $rootScope.testq.type = 'delete';
-                      //   $rootScope.testq.git = $scope.data.items[0].spec.revision.git.commit;
-                      // }
-
-
-                    }, function(res){
-                      //todo 错误处理
-                      $log.info("err", res);
+                        $scope.$watch('data', function (n, o) {
+                          console.log(n.items.length);
+                          if (n.items.length == '0') {
+                            $rootScope.testq = 'finsh'
+                          }
+                        })
+                        // if (idx == '0') {
+                        //   $rootScope.testq.type = 'delete';
+                        //   $rootScope.testq.git = $scope.data.items[0].spec.revision.git.commit;
+                        // }
+                      }, function (res) {
+                        //todo 错误处理
+                        $log.info("err", res);
+                      });
                     });
-                  });
+                  } else {
+                    Confirm.open(title, msg, tip, 'recycle').then(function () {
+                      console.log($scope.date)
+                      var name = $scope.date.status.tags[idx].tag
+                      // alert(name)master
+                      if (!name) {
+                        return;
+                      }
+                      ImageStreamTag.delete({
+                        namespace: $rootScope.namespace,
+                        name: $scope.name + ':' + name
+                      }, function (data) {
+                        for (var i = 0; i < $scope.date.status.tags.length; i++) {
+                          if (name == $scope.date.status.tags[i].tag) {
+                            $scope.date.status.tags.splice(i, 1)
+                          }
+                        }
+                        $scope.$watch('date.status', function (n, o) {
+                          console.log(n.tags.length);
+                          if (n.tags.length == '0') {
+                            $rootScope.testq = 'finsh'
+                          }
+                        })
+                      })
+
+                    })
+                  }
+
                 };
 
                 $scope.stop = function(idx){
@@ -347,7 +418,7 @@ angular.module("console.timeline", [])
                       $scope.data.items[idx] = res;
                     }, function(res){
                       if(res.data.code== 409){
-                        Confirm.open("提示信息","当数据正在New的时候,构建不能停止,请等到正在构建时,再请求停止.");
+                        Confirm.open("提示信息","初始化中不能终止，请稍后再试",null,144,true);
                       }
                     });
                   });

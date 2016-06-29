@@ -16,20 +16,20 @@
         </div>
     </div>
     <div class="table-responsive" style="margin-top: 20px;">
-        <table class="table table-hover table-default">
+        <table class="table table-hover table-default" style=table-layout:fixed;>
             <tr>
                 <div class=row>
                     <th class='col-lg-2 col-md-2 col-sm-1'>构建名称</th>
                     <th class='col-lg-2 col-md-2 col-sm-2'>最近构建状态</th>
                     <th class='col-lg-2 col-md-2 col-sm-2'>最近构建时间</th>
                     <th class='col-lg-2 col-md-2 col-sm-2'>最近构建时长</th>
-                    <th class='col-lg-1 col-md-1 col-sm-1'>构建类型</th>
-                    <th class="col-lg-3 col-md-3 col-sm-3" style='text-align: center;'>操作</th>
+                    <th class='col-lg-1 col-md-1 col-sm-2' style='word-break:keep-all;white-space:nowrap;'>构建类型</th>
+                    <th class="col-lg-3 col-md-3 col-sm-2" style='text-align: center;'>操作</th>
                 </div>
 
             </tr>
             <tr ng-repeat="bc in items">
-                <td>
+                <td class='buildname'>
                     <a class="href-orange"
                        ui-sref="console.build_detail({name: bc.metadata.name})">{{bc.metadata.name}}</a>
                 </td>
@@ -50,6 +50,7 @@
                            uib-tooltip="查看代码源" target="_blank"></a>
                         <a class="icon25 icon25-image col-lg-4 col-md-4 col-sm-4"
                            ng-if="bc.spec.output && bc.spec.output.to && bc.spec.output.to.name"
+                           ng-show="bc.build.status.phase !== 'Failed'"
                            ui-sref="console.image_detail({bc: bc.metadata.name, name: bc.spec.output.to.name})"
                            uib-tooltip="查看镜像"></a>
                         <a class="icon25 icon25-start col-lg-4 col-md-4 col-sm-4" href="javascript:;"
@@ -85,15 +86,15 @@
         margin: 0 25px;
     }
 
-    /*@media screen and (max-width: 1250px) {*/
-        /*#build .icon25 {*/
-            /*margin: 0 8px;*/
-        /*}*/
-    /*}*/
+    .table-responsive .buildname {
+        overflow: hidden;
+        word-break: break-all;
+        word-wrap: break-word;
+    }
+    @media screen and (max-width: 1250px) {
+        #build .icon25 {
+            margin: 0 8px;
+        }
+    }
 
-    /*@media screen and (max-width: 900px) {*/
-        /*#build .icon25 {*/
-            /*margin: 0px;*/
-        /*}*/
-    /*}*/
 </style>
