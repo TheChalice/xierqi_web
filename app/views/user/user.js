@@ -25,15 +25,15 @@ angular.module('console.user', [
       })
     }
     $scope.updatePwd = function() {
-      ModalPwd.open();
-      $scope.look = function() {
-        console.log('%%%%%%%%%%',$scope.frm);
-      };
-      $scope.newPwd = function() {
-        pwdModify.change({new_password: $scope.pwd, old_password: $scope.oldpwd}, function(data){
-
+      ModalPwd.open().then(function (password) {
+        console.log(password);
+        pwdModify.change({new_password: password.pwd, old_password: password.oldpwd}, function(data){
         })
-      }
+      })
+
+      // $scope.newPwd = function() {
+      //
+      // }
 
     };
     $scope.updateToken = function() {

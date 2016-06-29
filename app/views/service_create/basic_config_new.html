@@ -94,7 +94,7 @@
                                     <input ng-model="vm.mountPath"
                                            style="width: 300px;display: inline-block;margin: 0 15px 15px 0;" type="text"
                                            class="form-control">
-                                    <a href="javascript:;" ng-click="addSecret(container.name, $index, $last)"
+                                    <a href="javascript:;" ng-click="addSecret(container.name, $index, $last,container.$$hashKey)"
                                        class="fa fa-lg"
                                        ng-class="{'fa-times-circle':!$last, 'fa-plus-circle':$last}"></a>
                                 </div>

@@ -14,7 +14,7 @@
                         <!--switch to Chinese-->
                         {{item.status.phase | phaseFilter}}
                     </div>
-                    <div class="col-sm-3" style='white-space:nowrap;'>
+                    <div class="col-sm-3" style='white-space:nowrap;overflow: hidden;'>
                         <i class="fa fa-flag-o"></i>&nbsp;
                         <!--<span ng-if="item.spec.revision.git.ref">-->
                         <span>{{item.spec.revision.git.ref || name }}:{{item.spec.revision.git.commit || item.tag || item.name | limitTo: 7}}</span>
@@ -73,7 +73,7 @@
                         <!--switch to Chinese-->
                         {{item.status.phase | phaseFilter}}
                     </div>
-                    <div class="col-sm-3" style='white-space:nowrap;'>
+                    <div class="col-sm-3" style='white-space:nowrap;overflow: hidden;'>
                         <i class="fa fa-flag-o"></i>&nbsp;
                         <!--<span ng-if="item.spec.revision.git.ref">-->
                         <span>{{item.spec.revision.git.ref || name }}:{{item.spec.revision.git.commit || item.tag || item.name | limitTo: 7}}</span>

@@ -98,7 +98,7 @@ angular.module('console.service.create', [
 
         $scope.envs = [];
 
-        $scope.createdcerr = false;
+        //$scope.createdcerr = false;
 
         $scope.containerTpl = {
           name: "",
@@ -310,6 +310,7 @@ angular.module('console.service.create', [
             for(var i = 0; i < serviceNameArr.length;i++){
               if(serviceNameArr[i] == $scope.dc.metadata.name){
                 $scope.grid.createdcerr = true;
+                break;
               }else{
                 $scope.grid.createdcerr = false;
                 $scope.grid.isserviceName = false;
@@ -346,13 +347,13 @@ angular.module('console.service.create', [
 
         loadBsi();
 
-        $scope.addSecret = function (name, idx, last) {
+        $scope.addSecret = function (name, idx, last,hashKeys) {
           $log.info('$scope.dcdc.spec.template.spec.containers-=-=-=-=-=-=-=', $scope.dc.spec.template.spec.containers)
           var containers = $scope.dc.spec.template.spec.containers;
           var volumes = $scope.dc.spec.template.spec.volumes;
           var container = null;
           for (var i = 0; i < containers.length; i++) {
-            if (containers[i].name == name) {
+            if (containers[i].$$hashKey == hashKeys) {
               container = containers[i];
             }
           }
@@ -911,18 +912,18 @@ angular.module('console.service.create', [
             //}
             bindService(dc);
             // Toast.open('初始化成功');
-            // Confirm.open("提示信息","初始化成功",null,144,true).then(function () {
-            //   $state.go('console.service_detail', {name: dc.metadata.name});
-            // })
-            // setTimeout(function () {
+            Confirm.open("提示信息","初始化成功",null,144,true).then(function () {
               $state.go('console.service_detail', {name: dc.metadata.name});
+            })
+            // setTimeout(function () {
+            //   $state.go('console.service_detail', {name: dc.metadata.name});
             // }, 1000)
             
           }, function (res) {
             //todo 错误处理
             $log.info("create dc fail", res);
             if(res.status == 409){
-             $scope.createdcerr = true;
+             $scope.grid.createdcerr = true;
             }
           });
         };
