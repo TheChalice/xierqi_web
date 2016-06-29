@@ -367,18 +367,31 @@ angular.module('console.service.create', [
           }
         };
 
-        $scope.addEnv = function (name, idx, last) {
-          if (last) {     //添加
-            $scope.envs.push({name: '', value: ''});
-          } else {
-            for (var i = 0; i < $scope.envs.length; i++) {
-              if ($scope.envs[i].name == name) {
-                $scope.envs.splice(i, 1);
-              }
-            }
-          }
+        //$scope.addEnv = function (name, idx, last) {
+        //  if (last) {     //添加
+        //    $scope.envs.push({name: '', value: ''});
+        //  } else {
+        //    for (var i = 0; i < $scope.envs.length; i++) {
+        //      if ($scope.envs[i].name == name) {
+        //        $scope.envs.splice(i, 1);
+        //      }
+        //    }
+        //  }
+        //};
+        $scope.delEnv = function (idx) {
+          //if (last) {     //添加
+          //  $scope.envs.push({name: '', value: ''});
+          //} else {
+          //  for (var i = 0; i < $scope.envs.length; i++) {
+          //    if ($scope.envs[i].name == name) {
+          $scope.envs.splice(idx, 1);
+          //    }
+          //  }
+          //}
         };
-
+        $scope.addEnv = function(){
+          $scope.envs.push({name: '', value: ''});
+        }
         $scope.selectImage = function (idx) {
           var container = $scope.dc.spec.template.spec.containers[idx];
           var cons = $scope.dc.spec.template.spec.containers;
