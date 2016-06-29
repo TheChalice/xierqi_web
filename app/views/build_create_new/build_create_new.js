@@ -186,6 +186,7 @@ angular.module('console.build_create_new', [
                         data.msg[i].repos[j].loginname = data.msg[i].login;
                     }
                 }
+                $scope.runninghub = false;
             });
         }
         $scope.refresh = function() {
