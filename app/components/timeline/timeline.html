@@ -55,7 +55,7 @@
             </div>
             <div uib-collapse="!item.showLog">
                 <div class="well well-log" style='overflow: auto'>
-                    <pre id='sa'>{{item.buildLog}}</pre>
+                    <pre id='sd'>{{item.buildLog}}</pre>
                 </div>
             </div>
 
@@ -75,10 +75,15 @@
                         <!--switch to Chinese-->
                         {{item.status.phase | phaseFilter}}
                     </div>
-                    <div class="col-sm-3" style='white-space:nowrap;overflow: hidden;width:20%; text-overflow: ellipsis'>
-                        <i class="fa fa-flag-o"></i>&nbsp;
-                        <!--<span ng-if="item.spec.revision.git.ref">-->
-                        <span uib-tooltip="{{item.spec.revision.git.ref || name }}:{{item.spec.revision.git.commit || item.tag || item.name | limitTo: 7}}">{{item.spec.revision.git.ref || name }}:{{item.spec.revision.git.commit || item.tag || item.name | limitTo: 7}}</span>
+
+                    <div class="col-sm-3 tell" style='position: relative;'>
+                        <div class=till style='position: absolute;top: -30px;padding: 0 8px;border-radius:3px;left: 0;background-color: black;color: white'>
+                            {{item.spec.revision.git.ref || name }}:{{item.spec.revision.git.commit || item.tag || item.name | limitTo: 7}}</div>
+                        <div style='white-space:nowrap;overflow: hidden;text-overflow: ellipsis'>
+                            <i class="fa fa-flag-o"></i>&nbsp;
+                            <!--<span ng-if="item.spec.revision.git.ref">-->
+                            <span>{{item.spec.revision.git.ref || name }}:{{item.spec.revision.git.commit || item.tag || item.name | limitTo: 7}}</span>
+                        </div>
                     </div>
                     <div class="col-sm-2" ng-if="type=='image'"></div>
                     <div class="col-sm-4">
@@ -119,7 +124,16 @@
             </div>
 
         </li>
+        <style>
+            .till{
+                display: none;
+            }
+            .tell:hover>.till{
+                display: block;
+            }
+        </style>
     </ul>
 </div>
+
 
 
