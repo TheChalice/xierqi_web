@@ -9,8 +9,8 @@ angular.module('console.service.detail', [
         ]
       }
     ])
-    .controller('ServiceDetailCtrl', ['$state', '$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamTag', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal', 'Secret', 'ImageSelect', 'Service', 'ImageService',
-      function ($state, $rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamTag, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret, ImageSelect, Service, ImageService) {
+    .controller('ServiceDetailCtrl', ['$http','$state', '$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamTag', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal', 'Secret', 'ImageSelect', 'Service', 'ImageService',
+      function ($http,$state, $rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamTag, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret, ImageSelect, Service, ImageService) {
         //获取服务列表
         $scope.servicepoterr = false;
         
@@ -749,6 +749,11 @@ angular.module('console.service.detail', [
             namespace: $rootScope.namespace,
             name: dc
           }, function () {
+            $http.delete('/api/v1/namespaces/'+$rootScope.namespace+'/pods?' + 'labelSelector=deploymentconfig%3D'+$scope.dc.metadata.name).
+            success(function(data) {
+              console.log(data);
+            }).
+            error(function(err) {});
             $log.info("remove deploymentConfig success");
 
             $state.go("console.service");
@@ -763,9 +768,15 @@ angular.module('console.service.detail', [
           Confirm.open("删除服务", "您确定要删除服务吗?", "删除服务将解绑持久化卷和外部服务,此操作不能被撤销", 'recycle').then(function () {
             if ($scope.rcs.items.length > 0) {
               rmRcs($scope.dc.metadata.name);
+              
             } else {
               rmDc($scope.dc.metadata.name);
             }
+
+            // var labelSelector = 'deployment config='+$scope.dc.metadata.name;
+            // deletepod.delete({namespace: $rootScope.namespace,labelSelector: labelSelector},function (data) {
+            //   console.log(data)
+            // })
             deleService();
             deleRoute();
           });
