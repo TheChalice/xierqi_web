@@ -23,7 +23,7 @@ angular.module("console.header", [
                 };
               console.log('$rootScope',$rootScope);
               $scope.logout = function(){
-                    // Cookie.clear('df_access_token');
+                    Cookie.clear('df_access_token');
                     Cookie.clear('namespace');
                     $rootScope.user = null;
                     $rootScope.namespace = "";
