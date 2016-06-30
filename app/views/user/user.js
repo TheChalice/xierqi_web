@@ -11,8 +11,8 @@ angular.module('console.user', [
 
     ]
   }
-]) .controller('userCtrl', ['$scope', 'ModalPwd', 'Addmodal', 'profile', 'pwdModify',
-  function ($scope, ModalPwd, Addmodal, profile, pwdModify) {
+]) .controller('userCtrl', ['$rootScope','$state','Cookie','Toast','$scope', 'ModalPwd', 'Addmodal', 'profile', 'pwdModify',
+  function ($rootScope,$state,Cookie,Toast,$scope, ModalPwd, Addmodal, profile, pwdModify) {
     $scope.credentials = {};
     $scope.grid={
       st:null,
@@ -28,6 +28,14 @@ angular.module('console.user', [
       ModalPwd.open().then(function (password) {
         console.log(password);
         pwdModify.change({new_password: password.pwd, old_password: password.oldpwd}, function(data){
+          Toast.open('更改密码成功');
+          setTimeout(function () {
+            Cookie.clear('namespace');
+            Cookie.clear('df_access_token');
+            $rootScope.user = null;
+            $rootScope.namespace = "";
+            $state.go('home.index');
+          },2000)
         })
       })
 
