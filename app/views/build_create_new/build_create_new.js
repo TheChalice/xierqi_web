@@ -12,7 +12,8 @@ angular.module('console.build_create_new', [
             metadata: {
                 name: '',
                 annotations:{
-                    repo:''
+                  'datafoundry.io/create-by':$rootScope.user.metadata.name,
+                  repo:''
                 },
             },
             spec: {
@@ -39,8 +40,8 @@ angular.module('console.build_create_new', [
                 completionDeadlineSeconds: 1800
             }
         };
-      $scope.dianl=false;
-      $scope.dianbl=true;
+        $scope.dianl=false;
+        $scope.dianbl=true;
       // 实时监听按钮点亮
       var timer = setInterval(function () {
         if ($scope.buildConfig.metadata.name && $scope.grid.labbranch!=null) {
@@ -94,7 +95,10 @@ angular.module('console.build_create_new', [
             $scope.creating = true;
             var imageStream = {
                 metadata: {
-                    name: $scope.buildConfig.metadata.name
+                  annotations:{
+                    'datafoundry.io/create-by':$rootScope.user.metadata.name,
+                  },
+                  name: $scope.buildConfig.metadata.name
                 }
             };
             ImageStream.create({namespace: $rootScope.namespace}, imageStream, function (res) {
@@ -124,7 +128,10 @@ angular.module('console.build_create_new', [
         var createBuild = function(name) {
             var buildRequest = {
                 metadata: {
-                    name: name
+                  annotations:{
+                    'datafoundry.io/create-by':$rootScope.user.metadata.name
+                  },
+                  name: name
                 }
             };
             BuildConfig.instantiate.create({namespace: $rootScope.namespace, name: name}, buildRequest, function(){
@@ -206,6 +213,7 @@ angular.module('console.build_create_new', [
                 createBuildConfig(data.msg.secret)
             })
         }
+
         $scope.chooseUser = null;
         $scope.chooseProject = null;
         $scope.chooseBranch = null;
@@ -238,8 +246,8 @@ angular.module('console.build_create_new', [
           }
             // $scope.grid.dian=dian;
             // $scope.grid.user = idx;
-
         }
+
         $scope.selectProject = function(idx,choose) {
           if ($scope.chooseProject&&$scope.grid.project==idx) {
               $scope.grid.project=null;
@@ -269,13 +277,17 @@ angular.module('console.build_create_new', [
             $scope.chooseBranch=choose;
           }
         };
+
         $scope.psgitlab = {
             host : "",
             user : "",
             private_token : ""
         }
+
         $scope.labusername = [];
+
         $scope.labrepos = [];
+
         $scope.grid = {
             users: null,
             project: null,
@@ -291,7 +303,9 @@ angular.module('console.build_create_new', [
             creatlaberr : '',
             isfirst :1
         };
+
         var thisowner = null;
+
         $scope.checkdTab = function(val){
             if(val == 1){
                 if(!$scope.labowner){
@@ -313,7 +327,9 @@ angular.module('console.build_create_new', [
                 }
             }
         }
+
         $scope.labowner = null;
+
         $scope.loadlabOwner = function(){
             $scope.grid.labcon = true;
             labOwner.get({},function(data) {
@@ -359,8 +375,11 @@ angular.module('console.build_create_new', [
                 $log.info("laborgs-------err",data)
             });
         }
+
         $scope.choooseUser = null;
+
         $scope.choooseProject = null;
+
         $scope.choooseBranch = null;
 
         $scope.selectlabUser = function(idx, chooose) {
