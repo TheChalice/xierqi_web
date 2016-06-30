@@ -92,6 +92,7 @@
 }
 .projectname>.personal>a{
     color: #F8B551;
+    line-height: normal;
 }
 .projectname>.personal>a>span{
     color: #0f0f0f;
@@ -99,7 +100,7 @@
 .projectname > li > a {
     width: 100%;
     height: 50px;
-    /*line-height: 50px;*/
+    line-height: 50px;
     display: block;
 }
 @media (max-width: 758px) {
