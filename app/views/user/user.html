@@ -218,7 +218,7 @@
                     <div class="form-group">
                         <label for="usernameInput" class="col-md-2">用户名</label>
                         <div class="col-md-3">
-                            <input type="text" class="form-control" id="usernameInput" style="margin-left: -60px">
+                            <input type="text" disabled="disabled" class="form-control" id="usernameInput" ng-model="curUserInfo.username" style="margin-left: -60px">
                         </div>
                         <div class="col-md-offest-7"></div>
                     </div>
@@ -226,11 +226,11 @@
                     <div class="form-group">
                         <label for="InputEmail" class="col-md-2">邮箱</label>
                         <div class="col-md-3">
-                            <input type="email" class="form-control" id="InputEmail" style="margin-left: -60px">
+                            <input type="email" disabled="disabled" class="form-control" id="InputEmail" ng-model="curUserInfo.email" style="margin-left: -60px">
                         </div>
                         <div class="col-md-7" style="margin-top: 8px">
-                            <i class="fa fa-check-circle" style="color: green;">已验证</i>
-                            <i class="fa fa-info-circle" style="color: red">未验证</i>
+                            <i ng-if="curUserInfo.status.active" class="fa fa-check-circle" style="color: green;">已验证</i>
+                            <i ng-if="!curUserInfo.status.active" class="fa fa-info-circle" style="color: red">未验证</i>
                         </div>
                     </div>
                     <hr>
