@@ -65,7 +65,7 @@ angular.module('console.user', [
     }
     var loadInfo = function() {
       profile.get({},function(data) {
-        console.log('******',data);
+         $scope.curUserInfo = data;
       })
     }
     loadInfo();

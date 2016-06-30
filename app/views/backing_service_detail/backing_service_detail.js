@@ -198,7 +198,10 @@ angular.module('console.backing_service_detail', [
         angular.forEach(bindings, function (binding) {
           var bindObj = {
             metadata: {
-              name: name
+              name: name,
+              annotations : {
+                "dadafoundry.io/create-by" : $rootScope.user.metadata.name
+              }
             },
             resourceName: binding.bind_deploymentconfig,
             bindResourceVersion: '',
@@ -223,7 +226,10 @@ angular.module('console.backing_service_detail', [
         console.log('dcs', dcs)
         var bindObj = {
           metadata: {
-            name: name
+            name: name,
+            annotations : {
+              "dadafoundry.io/create-by" : $rootScope.user.metadata.name
+            }
           },
           resourceName: '',
           bindResourceVersion: '',
