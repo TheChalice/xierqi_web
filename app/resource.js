@@ -298,7 +298,7 @@ define([
         }])
         .factory('orgList', ['$resource', function($resource){
             var orgList = $resource('/lapi/orgs', {},{
-                load : {method: 'GET'}
+
             })
             return orgList;
         }])
@@ -310,7 +310,6 @@ define([
         }])
         .factory('loadOrg', ['$resource', function($resource){
             var loadOrg = $resource('/lapi/orgs/:org', {org:'@org'},{
-                load: {method: 'GET'}
             })
             return loadOrg;
         }])

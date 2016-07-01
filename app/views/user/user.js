@@ -11,8 +11,8 @@ angular.module('console.user', [
 
     ]
   }
-]) .controller('userCtrl', ['$rootScope','$state','Cookie','Toast','$scope', 'ModalPwd', 'Addmodal', 'profile', 'pwdModify',
-  function ($rootScope,$state,Cookie,Toast,$scope, ModalPwd, Addmodal, profile, pwdModify) {
+]) .controller('userCtrl', ['$rootScope','$state','$stateParams','Cookie','Toast','$scope', 'ModalPwd', 'Addmodal', 'profile', 'pwdModify', '$http', 'Confirm','leave',
+  function ($rootScope,$state,$stateParams,Cookie,Toast,$scope, ModalPwd, Addmodal, profile, pwdModify, $http, Confirm, leave) {
     $scope.credentials = {};
     $scope.grid={
       st:null,
@@ -68,9 +68,64 @@ angular.module('console.user', [
          $scope.curUserInfo = data;
       })
     }
+    var loadOrg = function() {
+      $http({
+        url:'/lapi/orgs',
+        method:'GET'
+      }).success(function(data,header,config,status){
+        console.log('test org', data);
+        $scope.data = data;
+        console.log('test length',$scope.data.length);
+      })
+    }
+    $scope.leaveOrg = function(idx) {
+      loadOrg();
+      var leaving = function() {
+        leave.leave({orgs:$scope.data[idx].ID}, function() {
+          console.log('test leave', res);
+        })
+      }
+      angular.forEach($scope.data, function(item,idx){
+        //idx represents data[i];
+        angular.forEach(item.members,function(item1, index1){
+          if(item1.member_name === $rootScope.user.metadata.name){
+            item.test = item1.privileged;
+          }
+        })
+      })
+      console.log($scope.data);
+      //.data[idx] = org
+      //test = privileged
+      if ($scope.data[idx].test && $scope.data[idx].members.length > 1 ){
+        Confirm.open("离开组织", "您确定要离开"+$scope.data[idx].name+"组织吗?", "", "stop").then(function(){
+          leaving();
+        })
+      }
+      if ($scope.data[idx].test && $scope.data[idx].members.length == 1 ){
+        Confirm.open("离开组织", "不能离开!", "您是最后一名管理员请先指定其他管理员,才能离开", "stop").then(function(){
+        })
+      }
+      if (!$scope.data[idx].test){
+        Confirm.open("离开组织", "您确定要离开"+$scope.data[idx].name+"组织吗?", "", "stop").then(function(){
+          leaving();
+        })
+      }
+      //if ($scope.data.length != 0 && $scope.data[idx].members.privileged){
+      //  Confirm.open("离开组织", "您确定要离开{{}}组织吗?", "", "stop").then(function(){
+      //    leaving();
+      //  })
+      //}
+      //if ($scope.data.length = 0 && $scope.data[idx].members.privileged){
+      //  Confirm.open("离开组织", "不能离开!", "您是最后一名管理员请先指定其他管理员,才能离开", "stop").then(function(){
+      //  })
+      //}
+      //if($scope.data[idx].members.privileged = false){
+      //  Confirm.open("离开组织", "您确定要离开{{}}组织吗?", "", "stop").then(function(){
+      //    leaving();
+      //  })
+      //}
+    }
     loadInfo();
-
-
-
+    loadOrg();
   }])
 
