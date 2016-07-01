@@ -18,7 +18,7 @@
         <span uib-dropdown on-toggle="toggled(open)">
             <a href="javascript:;" id="user-menu" uib-dropdown-toggle>
                 <img src="components/header/img/user-icon-default.png" alt="icon" class="hidden-xs">
-                <span>{{user.metadata.name}} | {{namespace}}&nbsp;&nbsp;</span>
+                <span>{{user.metadata.name}} | {{checked || namespace}}&nbsp;&nbsp;</span>
                 <i class="fa fa-chevron-circle-down" style="color: #e6e9f2;"></i>
             </a>
             <ul class="projectname" uib-dropdown-menu
@@ -27,7 +27,7 @@
                     <a href="javascript:;" ui-sref='console.user'>{{namespace}}<br/><span>切换到个人账户</span></a>
                 </li>
                 <li class='personal' ng-repeat='org in userorgs'>
-                    <a href="javascript:;" ui-sref='console.org({useorg:org})'>{{org.name}}<br/>
+                    <a href="javascript:;" ng-click='goto($index)' ui-sref='console.org({useorg:org.id})'>{{org.name}}<br/>
                         <span>切换到组织账户</span></a>
                 </li>
                 <li ng-repeat="project in projects | orderBy: 'metadata.name'">

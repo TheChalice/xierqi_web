@@ -11,17 +11,20 @@ angular.module('console.user', [
 
     ]
   }
-]) .controller('userCtrl', ['$rootScope','$state','$stateParams','Cookie','Toast','$scope', 'ModalPwd', 'Addmodal', 'profile', 'pwdModify', '$http', 'Confirm','leave',
-  function ($rootScope,$state,$stateParams,Cookie,Toast,$scope, ModalPwd, Addmodal, profile, pwdModify, $http, Confirm, leave) {
+]) .controller('userCtrl', ['createOrg', '$rootScope','$state','$stateParams','Cookie','Toast','$scope', 'ModalPwd', 'Addmodal', 'profile', 'pwdModify', '$http', 'Confirm','leave',
+  function (createOrg, $rootScope,$state,$stateParams,Cookie,Toast,$scope, ModalPwd, Addmodal, profile, pwdModify, $http, Confirm, leave) {
     $scope.credentials = {};
     $scope.grid={
       st:null,
       et:null
     }
     $scope.orgName = "seferfe";
+    //创建组织
     $scope.addOrg = function(){
       Addmodal.open('创建组织', '组织名称', '信息错误').then(function(res){
-
+        createOrg.create({name:res},function (data) {
+          console.log(data)
+        })
       })
     }
     $scope.updatePwd = function() {
