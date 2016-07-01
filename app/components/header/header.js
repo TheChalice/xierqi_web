@@ -21,7 +21,7 @@ angular.module("console.header", [
                     }
                     return true;
                 };
-              console.log('$rootScope',$rootScope);
+              //console.log('$rootScope',$rootScope);
               $scope.logout = function(){
                     Cookie.clear('df_access_token');
                     Cookie.clear('namespace');

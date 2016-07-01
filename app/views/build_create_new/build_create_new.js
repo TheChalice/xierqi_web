@@ -451,6 +451,6 @@ angular.module('console.build_create_new', [
         $scope.grid.ishide = true;
         $scope.loadlabOwner();
         $scope.loadOwner();
-        $scope.loadOrg();
+        // $scope.loadOrg();
     }])
 
