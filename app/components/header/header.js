@@ -16,9 +16,12 @@ angular.module("console.header", [
                 $scope.back = function(){
                     $window.history.back();
                 };
-                $scope.goto=function (org) {
-                  $state.go('console.org', {useorg:org.id})
-                  // console.org({useorg:org.id})
+
+                $scope.goto=function (ind) {
+                  $scope.checked = $scope.userorgs[ind].name;
+                  // console.log($scope.userorgs,$scope.userorgs[ind].id);
+                  $state.go('console.org', {useorg:$scope.userorgs[ind].id})
+                  
                 }
                 orgList.query({},function (org) {
                   $scope.userorgs = org

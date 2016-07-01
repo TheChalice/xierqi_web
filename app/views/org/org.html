@@ -238,11 +238,12 @@
                                         <th>加入时间</th>
                                         <th>授权人</th>
                                         <th>操作</th>
-                                    <tr>
-                                        <td>江彤</td>
-                                        <td>jt5016224@163.com</td>
-                                        <td>两天前</td>
-                                        <td>江彤</td>
+                                    </tr>
+                                    <tr ng-repeat='member in rootmembers'>
+                                        <td>{{member.member_name}}</td>
+                                        <td>{{member.member_name}}@163.com</td>
+                                        <td>{{member.joined_at | dateRelative}}</td>
+                                        <td>{{member.privileged_by}}</td>
                                         <td>
                                             <div class="dropdown dropdown-select" style="width: 80px; height: 24px;margin-bottom: 10px;">
                                             <button class="btn dropdown-toggle" data-toggle="dropdown" style="width: 80px; height: 24px;padding-top: 0;padding-bottom: 0;">
@@ -258,7 +259,8 @@
                                             </ul>
                                         </div>
                                             <a href="javascript:;" ng-click='remove()' class='btn btn-orange btns'>移除</a>
-                                        </td> <!-- end ngRepeat: port in portsArr -->
+                                        </td>
+                                        <!-- end ngRepeat: port in portsArr -->
 
                                     </tr>
                                     </tbody></table>
@@ -280,57 +282,12 @@
                                         <th>加入时间</th>
                                         <th>授权人</th>
                                         <th>操作</th>
-                                    <tr>
-                                        <td>江彤</td>
-                                        <td>jt5016224@163.com</td>
-                                        <td>两天前</td>
-                                        <td>江彤</td>
-                                        <td>
-                                            <div class="dropdown dropdown-select" style="width: 80px; height: 24px;margin-bottom: 10px;">
-                                                <button class="btn dropdown-toggle" data-toggle="dropdown" style="width: 80px; height: 24px;padding-top: 0;padding-bottom: 0;">
-                                                    <span>{{data ||'更改权限'}}</span>
-                                                    <span class="caret"></span>
-                                                </button>
-                                                <ul class="dropdown-menu">
-                                                    <li>
-                                                        <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Always'">成员</a>
-                                                        <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'OnFailure'">长老</a>
-                                                        <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Never'">酋长</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <a href="javascript:;" class='btn btn-orange btns'>移除</a>
-                                        </td> <!-- end ngRepeat: port in portsArr -->
-
                                     </tr>
-                                    <tr>
-                                        <td>江彤</td>
-                                        <td>jt5016224@163.com</td>
-                                        <td>两天前</td>
-                                        <td>江彤</td>
-                                        <td>
-                                            <div class="dropdown dropdown-select" style="width: 80px; height: 24px;margin-bottom: 10px;">
-                                                <button class="btn dropdown-toggle" data-toggle="dropdown" style="width: 80px; height: 24px;padding-top: 0;padding-bottom: 0;">
-                                                    <span>{{data ||'更改权限'}}</span>
-                                                    <span class="caret"></span>
-                                                </button>
-                                                <ul class="dropdown-menu">
-                                                    <li>
-                                                        <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Always'">成员</a>
-                                                        <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'OnFailure'">长老</a>
-                                                        <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Never'">酋长</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <a href="javascript:;" class='btn btn-orange btns'>移除</a>
-                                        </td> <!-- end ngRepeat: port in portsArr -->
-
-                                    </tr>
-                                    <tr>
-                                        <td>江彤</td>
-                                        <td>jt5016224@163.com</td>
-                                        <td>两天前</td>
-                                        <td>江彤</td>
+                                    <tr ng-repeat='member in norootmembers'>
+                                        <td>{{member.member_name}}</td>
+                                        <td>{{member.member_name}}@163.com</td>
+                                        <td>{{member.joined_at | dateRelative}}</td>
+                                        <td>{{member.privileged_by}}</td>
                                         <td>
                                             <div class="dropdown dropdown-select" style="width: 80px; height: 24px;margin-bottom: 10px;">
                                                 <button class="btn dropdown-toggle" data-toggle="dropdown" style="width: 80px; height: 24px;padding-top: 0;padding-bottom: 0;">

@@ -11,18 +11,41 @@ angular.module('console.user', [
 
     ]
   }
-]) .controller('orgCtrl', ['$cacheFactory','loadOrg','Addmodal','Confirm','$scope','$stateParams',
-  function ($cacheFactory,loadOrg,Addmodal,Confirm,$scope,$stateParams) {
+]) .controller('orgCtrl', ['$http','$cacheFactory','loadOrg','Addmodal','Confirm','$scope','$stateParams',
+  function ($http,$cacheFactory,loadOrg,Addmodal,Confirm,$scope,$stateParams) {
     $scope.grid={
       st:null,
       et:null
     }
-    console.log('org',$stateParams.useorg)
+    // console.log('org',$stateParams.useorg)
     console.log($stateParams.useorg)
     // var cache = $cacheFactory('myCache');
-    loadOrg.load({org:$stateParams.useorg},function (data) {
-      console.log(data)
-    })
+    $http({
+      url:'/lapi/orgs/'+$stateParams.useorg,
+      method:'GET'
+    }).success(function(data,header,config,status){
+        // console.log(data);
+      if (data.id) {
+        console.log(data);
+        $scope.members=data.members;
+        $scope.rootmembers=[];
+        $scope.norootmembers=[];
+        angular.forEach(data.members,function (item) {
+          if (item.privileged) {
+            $scope.rootmembers.push(item);
+          }else {
+            $scope.norootmembers.push(item);
+          }
+        })
+        
+      }
+
+    }).error(function(data,header,config,status){
+
+    });
+    // loadOrg.load({org:$stateParams.useorg},function (data) {
+    //   console.log(data)
+    // })
     
     $scope.deletezz=function () {
       // alert(1)

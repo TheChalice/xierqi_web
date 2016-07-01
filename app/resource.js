@@ -309,7 +309,7 @@ define([
             return createOrg;
         }])
         .factory('loadOrg', ['$resource', function($resource){
-            var loadOrg = $resource('/lapi/orgs/:org', {org:'@org'},{
+            var loadOrg = $resource('/lapi/orgs/:org',{org:'@org'},{
                 load: {method: 'GET'}
             })
             return loadOrg;
