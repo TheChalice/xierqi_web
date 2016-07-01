@@ -16,6 +16,10 @@ angular.module("console.header", [
                 $scope.back = function(){
                     $window.history.back();
                 };
+                $scope.goto=function (org) {
+                  $state.go('console.org', {useorg:org.id})
+                  // console.org({useorg:org.id})
+                }
                 orgList.query({},function (org) {
                   $scope.userorgs = org
                 })

@@ -27,7 +27,7 @@
                     <a href="javascript:;" ui-sref='console.user'>{{namespace}}<br/><span>切换到个人账户</span></a>
                 </li>
                 <li class='personal' ng-repeat='org in userorgs'>
-                    <a href="javascript:;" ui-sref='console.org({useorg:org})'>{{org.name}}<br/>
+                    <a href="javascript:;" ng-click='goto(org.id)' ui-sref='console.org({useorg:org.id})'>{{org.name}}<br/>
                         <span>切换到组织账户</span></a>
                 </li>
                 <li ng-repeat="project in projects | orderBy: 'metadata.name'">

@@ -207,7 +207,7 @@ define([
               }
             })
             .state('console.org', {
-              url: '/org',
+              url: '/org/:useorg',
               templateUrl: 'views/org/org.html',
               params: {
                 useorg:''
