@@ -11,10 +11,14 @@ angular.module("console.header", [
             restrict: 'EA',
             replace: true,
             templateUrl: 'components/header/header.html',
-            controller: ['$rootScope', '$scope', '$window', '$state', 'Cookie', function($rootScope, $scope, $window, $state, Cookie){
+            controller: ['orgList','$rootScope', '$scope', '$window', '$state', 'Cookie',
+              function(orgList,$rootScope, $scope, $window, $state, Cookie){
                 $scope.back = function(){
                     $window.history.back();
                 };
+                orgList.query({},function (org) {
+                  $scope.userorgs = org
+                })
                 $scope.hasBack = function(){
                     if ($state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name== "console.notification") {
                         return false

@@ -11,12 +11,13 @@ angular.module('console.user', [
 
     ]
   }
-]) .controller('orgCtrl', ['Addmodal','Confirm','$scope',
-  function (Addmodal,Confirm,$scope) {
+]) .controller('orgCtrl', ['Addmodal','Confirm','$scope','$stateParams',
+  function (Addmodal,Confirm,$scope,$stateParams) {
     $scope.grid={
       st:null,
       et:null
     }
+    console.log('org',$stateParams.useorg)
     $scope.deletezz=function () {
       // alert(1)
       Confirm.open("离开组织", "您确定要删除组织吗?", "此操作不可撤销", "stop").then(function(){

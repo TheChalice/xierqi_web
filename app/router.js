@@ -209,6 +209,9 @@ define([
             .state('console.org', {
               url: '/org',
               templateUrl: 'views/org/org.html',
+              params: {
+                useorg:''
+              },
               controller: 'orgCtrl',
               resolve: {
                 dep: ['$ocLazyLoad', function ($ocLazyLoad) {

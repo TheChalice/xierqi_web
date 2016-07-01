@@ -473,7 +473,8 @@ define(['angular'], function (angular) {
         };
 
       }])
-      .service('AuthService', ['$rootScope', '$http', '$base64', 'Cookie', '$state', '$log', 'Project', 'GLOBAL', 'Alert', 'User', function ($rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User) {
+      .service('AuthService', ['orgList','$rootScope', '$http', '$base64', 'Cookie', '$state', '$log', 'Project', 'GLOBAL', 'Alert', 'User',
+        function (orgList,$rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User) {
         this.login = function (credentials) {
           console.log("login");
           localStorage.setItem('Auth',$base64.encode(credentials.username + ':' + credentials.password))

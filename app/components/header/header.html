@@ -26,6 +26,10 @@
                 <li class='personal'>
                     <a href="javascript:;" ui-sref='console.user'>{{namespace}}<br/><span>切换到个人账户</span></a>
                 </li>
+                <li class='personal' ng-repeat='org in userorgs'>
+                    <a href="javascript:;" ui-sref='console.org({useorg:org})'>{{org.name}}<br/>
+                        <span>切换到组织账户</span></a>
+                </li>
                 <li ng-repeat="project in projects | orderBy: 'metadata.name'">
                     <a href="javascript:;" ng-click="setNamespace(project.metadata.name)">{{project.metadata.name}}</a>
                 </li>
