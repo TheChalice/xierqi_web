@@ -335,3 +335,10 @@ article .peie {
     background: url(../../pub/img/orgbg_hover.png) no-repeat;
     background-size:contain;
 }
+.h2-border .xian {
+    border-bottom: 1px solid #c9c9c9;
+    display: inline-block;
+    top: 50%;
+    width: 100%;
+    float: left;
+}
