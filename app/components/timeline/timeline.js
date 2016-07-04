@@ -11,9 +11,9 @@ angular.module("console.timeline", [])
                 name: '=',
                 type: '@'
             },
-          controller: ['$location', 'ImageStream', '$http', 'platformone', 'platformlist', '$rootScope', '$scope', '$state', '$log', 'BuildConfig', 'Build', 'Confirm', '$stateParams', 'ImageStreamTag', 'Sort', 'ModalPullImage', 'Ws',
+            controller: ['$location', 'ImageStream', '$http', 'platformone', 'platformlist', '$rootScope', '$scope', '$state', '$log', 'BuildConfig', 'Build', 'Confirm', '$stateParams', 'ImageStreamTag', 'Sort', 'ModalPullImage', 'Ws',
             function ($location, ImageStream, $http, platformone, platformlist, $rootScope, $scope, $state, $log, BuildConfig, Build, Confirm, $stateParams, ImageStreamTag, Sort, ModalPullImage, Ws) {
-                if ($scope.name) {
+              if ($scope.name) {
 
                   var namecopy = $scope.name
                   var name = namecopy.split('/');

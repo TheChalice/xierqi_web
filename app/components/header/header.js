@@ -11,12 +11,30 @@ angular.module("console.header", [
             restrict: 'EA',
             replace: true,
             templateUrl: 'components/header/header.html',
-            controller: ['orgList','$rootScope', '$scope', '$window', '$state', 'Cookie',
-              function(orgList,$rootScope, $scope, $window, $state, Cookie){
+            controller: ['$http','$location','orgList','$rootScope', '$scope', '$window', '$state', 'Cookie',
+              function($http,$location,orgList,$rootScope, $scope, $window, $state, Cookie){
                 $scope.back = function(){
                     $window.history.back();
                 };
 
+                // console.log($location.url().split('/')[2])
+               if ($location.url().split('/')[2]==='org') {
+                 $http({
+                   url:'/lapi/orgs/'+$location.url().split('/')[3],
+                   method:'GET'
+                 }).success(function(data){
+                   // console.log('112',data.name)
+                   $scope.checked=data.name
+                 })
+               } else if (!$scope.checked) {
+                 $scope.checked=$rootScope.namespace;
+               }
+
+
+
+                $scope.gotomy=function () {
+                  $scope.checked=$rootScope.namespace;
+                }
                 $scope.goto=function (ind) {
                   $scope.checked = $scope.userorgs[ind].name;
                   // console.log($scope.userorgs,$scope.userorgs[ind].id);
