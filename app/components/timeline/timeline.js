@@ -256,7 +256,8 @@ angular.module("console.timeline", [])
                   if (data.type == 'ERROR') {
                     $log.info("err", data.object.message);
                     Ws.clear();
-                    loadBuildHistory($scope.name);
+                    //TODO直接刷新bc会导致页面重新渲染
+                    // loadBuildHistory($scope.name);
                     return;
                   }
 
