@@ -415,7 +415,6 @@ angular.module('console.service.create', [
               })
             }
             if(res.ispublicimage){
-              //$scope.grid.isimageChange = false;
               container.isimageChange = false;
               var str1 =  res.imagesname.split("/");
               var strname1 = str1[0]+'/'+str1[1];
@@ -431,10 +430,10 @@ angular.module('console.service.create', [
               container.tag = str1[2];
 
             }else{
-              //$scope.grid.isimageChange = true;
+              var dockerImageIP  = res.image.dockerImageReference.split('@');
               container.isimageChange = true;
-              container.image = res.metadata.name;
               var str = res.metadata.name.split(":");
+              container.image = dockerImageIP[0]+':'+str[1];
               var strname = str[0];
               if (idx > 0) {
                 if (cons[idx - 1].image.split(":")[0] == strname) {
@@ -599,7 +598,7 @@ angular.module('console.service.create', [
             triggers.push({type: 'ConfigChange'});
           }
 
-          if ($scope.grid.imageChange) {
+          if ($scope.grid.imageChange || $scope.grid.isimageChange) {
             var containers = dc.spec.template.spec.containers;
             for (var i = 0; i < containers.length; i++) {
               triggers.push({
