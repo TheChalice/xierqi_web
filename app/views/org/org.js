@@ -59,12 +59,24 @@ angular.module('console.user', [
         console.log(res);
       })
     }
-    $scope.remove=function () {
-      Confirm.open("移除", "您确定要删除：xxxx吗?", null, "stop").then(function(){
+    $scope.remove=function (idx) {
+      Confirm.open("移除", "您确定要删除："+$scope.rootmembers[idx].member_name+"吗?", null, "stop").then(function(){
         // Toast.open('删除成功');
         // ModalPullImage.open('删除成功')
         // Alert.open("移除", "您确定要删除：xxxx吗?",123)
       })
     }
+    $scope.leave=function () {
+      //离开组织
+    }
+    $scope.removenotroot=function (idx) {
+      Confirm.open("移除", "您确定要删除："+$scope.norootmembers[idx].member_name+"吗?", null, "stop").then(function(){
+        // Toast.open('删除成功');
+        // ModalPullImage.open('删除成功')
+        // Alert.open("移除", "您确定要删除：xxxx吗?",123)
+      })
+
+    }
+
   }])
 

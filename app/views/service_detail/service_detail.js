@@ -497,7 +497,27 @@ angular.module('console.service.detail', [
             if (data.type == 'ERROR') {
               $log.info("err", data.object.message);
               Ws.clear();
-              loadRcs($scope.dc.metadata.name);
+              //TODO直接刷新rc会导致页面重新渲染
+              // loadRcs($scope.dc.metadata.name);
+              //暂定处理
+              DeploymentConfig.log.get({namespace: $rootScope.namespace, name: $scope.dc.metadata.name}, function (res) {
+                // console.log('log',res)
+                console.log('执行了');
+                $rootScope.lding = false;
+                var result = "";
+                for (var k in res) {
+                  if (/^\d+$/.test(k)) {
+                    result += res[k];
+                  }
+
+                }
+                loglast()
+                // console.log(result);
+                data.object.log = result;
+              }, function (res) {
+                //todo 错误处理
+                data.object.log = res.data.message;
+              });
               return;
             }
             $scope.resourceVersion = data.object.metadata.resourceVersion;

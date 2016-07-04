@@ -11,9 +11,9 @@ angular.module("console.timeline", [])
                 name: '=',
                 type: '@'
             },
-          controller: ['$location', 'ImageStream', '$http', 'platformone', 'platformlist', '$rootScope', '$scope', '$state', '$log', 'BuildConfig', 'Build', 'Confirm', '$stateParams', 'ImageStreamTag', 'Sort', 'ModalPullImage', 'Ws',
+            controller: ['$location', 'ImageStream', '$http', 'platformone', 'platformlist', '$rootScope', '$scope', '$state', '$log', 'BuildConfig', 'Build', 'Confirm', '$stateParams', 'ImageStreamTag', 'Sort', 'ModalPullImage', 'Ws',
             function ($location, ImageStream, $http, platformone, platformlist, $rootScope, $scope, $state, $log, BuildConfig, Build, Confirm, $stateParams, ImageStreamTag, Sort, ModalPullImage, Ws) {
-                if ($scope.name) {
+              if ($scope.name) {
 
                   var namecopy = $scope.name
                   var name = namecopy.split('/');
@@ -256,7 +256,8 @@ angular.module("console.timeline", [])
                   if (data.type == 'ERROR') {
                     $log.info("err", data.object.message);
                     Ws.clear();
-                    loadBuildHistory($scope.name);
+                    //TODO直接刷新bc会导致页面重新渲染
+                    // loadBuildHistory($scope.name);
                     return;
                   }
 
