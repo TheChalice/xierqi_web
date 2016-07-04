@@ -184,7 +184,9 @@
                                              </div>
                                         </div>
                                    </div>
-                                   <div class="container-fluid collapse" style="margin-top:30px;" id="collapseExample">
+                                   <div class="container-fluid collapse"
+                                        style="margin-top:30px;"
+                                        id="collapseExample">
                                        <table class="table searchbill">
                                            <tr>
                                                <th style="border-top: none;">扣费时间</th>
@@ -246,22 +248,30 @@
                                         <td>{{member.privileged_by}}</td>
                                         <td>
                                             <div class="dropdown dropdown-select" style="width: 80px; height: 24px;margin-bottom: 10px;">
-                                            <button class="btn dropdown-toggle" data-toggle="dropdown" style="width: 80px; height: 24px;padding-top: 0;padding-bottom: 0;">
-                                                <span>{{data ||'更改权限'}}</span>
+                                            <button class="btn dropdown-toggle"
+                                                    data-toggle="dropdown"
+                                                    style="width: 80px; height: 24px;padding-top: 0;padding-bottom: 0;">
+                                                <span>{{date ||'更改权限'}}</span>
                                                 <span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-menu">
                                                 <li>
                                                     <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Always'">成员</a>
-                                                    <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'OnFailure'">长老</a>
-                                                    <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Never'">酋长</a>
+                                                    <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'OnFailure'">管理员</a>
                                                 </li>
                                             </ul>
                                         </div>
-                                            <a href="javascript:;" ng-click='remove()' class='btn btn-orange btns'>移除</a>
+                                            <a href="javascript:;"
+                                               ng-click='leave()'
+                                               style='width: 80px;margin-right: -34px;'
+                                               ng-if='member.member_name==namespace'
+                                               class='btn btn-orange btns'>离开组织</a>
+                                            <a href="javascript:;"
+                                               ng-click='remove($index)'
+                                               ng-if='member.member_name!==namespace'
+                                               class='btn btn-orange btns'>移除</a>
                                         </td>
                                         <!-- end ngRepeat: port in portsArr -->
-
                                     </tr>
                                     </tbody></table>
                             </div>
@@ -291,18 +301,27 @@
                                         <td>
                                             <div class="dropdown dropdown-select" style="width: 80px; height: 24px;margin-bottom: 10px;">
                                                 <button class="btn dropdown-toggle" data-toggle="dropdown" style="width: 80px; height: 24px;padding-top: 0;padding-bottom: 0;">
-                                                    <span>{{data ||'更改权限'}}</span>
+                                                    <span>{{date ||'更改权限'}}</span>
                                                     <span class="caret"></span>
                                                 </button>
                                                 <ul class="dropdown-menu">
                                                     <li>
                                                         <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Always'">成员</a>
                                                         <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'OnFailure'">长老</a>
-                                                        <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Never'">酋长</a>
+                                                        <!--<a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Never'">酋长</a>-->
                                                     </li>
                                                 </ul>
                                             </div>
-                                            <a href="javascript:;" class='btn btn-orange btns'>移除</a>
+                                            <a href="javascript:;"
+                                               ng-click='leave()'
+                                               style='width: 80px;margin-right: -34px;'
+                                               ng-if='member.member_name==namespace'
+                                               class='btn btn-orange btns'>离开组织</a>
+                                            <a href="javascript:;"
+                                               ng-click='removenotroot($index)'
+                                               ng-if='member.member_name!==namespace'
+                                               class='btn btn-orange btns'>移除</a>
+                                            <!--<a href="javascript:;" class='btn btn-orange btns'>移除</a>-->
                                         </td> <!-- end ngRepeat: port in portsArr -->
 
                                     </tr>
