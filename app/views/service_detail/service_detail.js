@@ -419,6 +419,7 @@ angular.module('console.service.detail', [
         var loadRoutes = function () {
           Route.get({namespace: $rootScope.namespace}, function (res) {
             // $log.info("routes", res);
+            $scope.getroutes = res;
 
             for (var i = 0; i < res.items.length; i++) {
               if (res.items[i].spec.to.kind != 'Service') {
@@ -491,6 +492,20 @@ angular.module('console.service.detail', [
           DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (dcdata) {
             loadService(dcdata.metadata.name);
             $scope.dc = dcdata;
+            for (var i = 0; i < $scope.getroutes.items.length; i++) {
+              if ($scope.getroutes.items[i].spec.to.kind != 'Service') {
+                continue;
+              }
+              if ($scope.getroutes.items[i].spec.to.name == $scope.dc.metadata.name) {
+                $scope.dc.route = $scope.getroutes.items[i];
+                $scope.grid.route = true;
+                if($scope.dc.route.spec.port){
+                  $scope.grid.port = parseInt($scope.dc.route.spec.port.targetPort.replace(/-.*/, ''));
+                }
+                $scope.grid.host = $scope.dc.route.spec.host.replace($scope.grid.suffix, '');
+
+              }
+            }
             // console.log('执行了');
             $rootScope.lding = false;
             loadPods($scope.dc.metadata.name);
@@ -516,10 +531,7 @@ angular.module('console.service.detail', [
             }
           })
             DeploymentConfig.log.get({namespace: $rootScope.namespace, name: $scope.dc.metadata.name}, function (res) {
-              // console.log('log',res)
-              // console.log('执行了');
               $rootScope.lding = false;
-
               var result = "";
               for (var k in res) {
                 if (/^\d+$/.test(k)) {
@@ -533,9 +545,6 @@ angular.module('console.service.detail', [
               }else {
                 $scope.test =result
               }
-              console.log(result);
-
-
               data.object.log = result;
             }, function (res) {
               //todo 错误处理
