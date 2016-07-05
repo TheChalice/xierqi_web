@@ -181,7 +181,7 @@ angular.module('console.service.create', [
 
         var initContainer = function () {
           if ($stateParams.image) {
-            console.log("$stateParams.image", $stateParams.image);
+            // console.log("$stateParams.image", $stateParams.image);
             // console.log("initContainer", $scope.dc.spec.template.spec.containers.tag);
             // if (!$scope.dc.spec.template.spec.containers.tag) {
             //   $scope.named=$stateParams.image.metadata.name;
@@ -237,17 +237,14 @@ angular.module('console.service.create', [
               $scope.dc.spec.template.spec.containers.push(container);
               $scope.invalid.containerLength = false;
             }else {
-              if ($stateParams.image.indexOf('/') == -1) {
+              if ($stateParams.image.indexOf('@')!= -1) {
+                console.log($stateParams.image)
+                var arr=$stateParams.image.split("@");
+                console.log(arr)
                 var container = angular.copy($scope.containerTpl);
-                var proto = $stateParams.image;
-                var jingxing = $stateParams.image.split(':')[0];
-                var banben = $stateParams.image.split(':')[1];
-                // var container = angular.copy($scope.containerTpl);
-                container.image = proto;
-                // console.log($stateParams.image.metadata.name.split(':')[1]);
-                container.tag = banben;
-                // console.log($scope.dc.spec.template.spec.containers);
-                container.strname = container.name = jingxing;
+                container.image = arr[0]+":"+arr[2];
+                container.tag = arr[2];
+                container.strname = container.name = arr[1];
               } else {
                 var container = angular.copy($scope.containerTpl);
                 container.image = 'registry.dataos.io/' + $stateParams.image.split(':')[0];
@@ -435,10 +432,24 @@ angular.module('console.service.create', [
               var str = res.metadata.name.split(":");
               container.image = dockerImageIP[0]+':'+str[1];
               var strname = str[0];
+              
               if (idx > 0) {
-                if (cons[idx - 1].image.split(":")[0] == strname) {
-                  strname = str[0] + idx;
+                // console.log('strname', strname);
+                // console.log('cons[idx - 1].image', cons[idx - 1].image);
+                console.log('cons[idx - 1].image.split[0].indexOf($rootScope.namespace)', cons[idx - 1].image);
+                if (cons[idx - 1].image.indexOf($rootScope.namespace) != -1) {
+                  console.log(cons[idx - 1].image.split($rootScope.namespace + '/')[1], strname);
+                  if (cons[idx - 1].image.split($rootScope.namespace + '/')[1].split(':')[0] == strname) {
+
+                    strname = str[0] + idx;
+                  }
+                }else {
+                  if (cons[idx - 1].image.split(":")[0] == strname) {
+
+                    strname = str[0] + idx;
+                  }
                 }
+
               }
               console.log("strwoshishui=0=0=0",str);
               container.strname = strname;

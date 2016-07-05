@@ -13,7 +13,7 @@
                ng-class="{'btn-green':busBtn.diang,
                 'btn-orange': busBtn.dianh}"
                ng-disabled=busBtn.dianh
-               ui-sref="console.service_create({image:date.metadata.name+':'+date.status.tags[0].tag})">{{busBtn.name}}</a>
+               ui-sref="console.service_create({image:date.status.dockerImageRepository+'@'+date.metadata.name+'@'+date.status.tags[0].tag})">{{busBtn.name}}</a>
             <a class="btn pull-right"
                ng-if='!myimage'
                ng-class="{'btn-green':busBtn.diang,
