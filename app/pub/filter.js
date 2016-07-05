@@ -166,6 +166,19 @@ define(['angular', 'moment'], function (angular, moment) {
                 return match[1];
             };
         })
+        .filter('imageStreamName1', function() {
+            return function(image) {
+                if (!image) {
+                    return "";
+                }
+                var images = image.split(":");
+                if(images.length>2){
+                    return images[0]+images[1];
+                }else{
+                    return images[0]
+                }
+            };
+        })
         .filter("stripSHAPrefix", function() {
             return function(id) {
                 if (!id) {

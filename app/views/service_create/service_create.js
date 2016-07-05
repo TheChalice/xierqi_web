@@ -465,6 +465,15 @@ angular.module('console.service.create', [
                 }
               }
             }
+            var conlength = $scope.dc.spec.template.spec.containers
+            for(var i = 0 ;i < conlength.length;i++ ){
+              if(conlength[i].isimageChange == false){
+                $scope.grid.isimageChange = false;
+                return
+              }else{
+                $scope.grid.isimageChange = true;
+              }
+            }
 
           });
         };
@@ -601,6 +610,8 @@ angular.module('console.service.create', [
           if ($scope.grid.imageChange || $scope.grid.isimageChange) {
             var containers = dc.spec.template.spec.containers;
             for (var i = 0; i < containers.length; i++) {
+              var match = containers[i].image.split($rootScope.namespace+'/');
+             console.log('match....',match)
               triggers.push({
                 type: 'ImageChange',
                 imageChangeParams: {
@@ -608,13 +619,14 @@ angular.module('console.service.create', [
                   "containerNames": [containers[i].name],
                   "from": {
                     "kind": "ImageStreamTag",
-                    "name": containers[i].image
+                    "name": match[1]
                   }
                 }
               });
             }
           }
           dc.spec.triggers = triggers;
+          console.log(' dc.spec.triggers',dc.spec.triggers);
         };
 
         var bindService = function (dc) {
@@ -902,7 +914,7 @@ angular.module('console.service.create', [
           }
           if($scope.grid.isimageChange == false){
             clonedc.metadata.annotations["dadafoundry.io/images-from"] = 'private';
-            delete clonedc.spec['triggers'];
+            delete clonedc.spec.triggers[1];
           }
           var isport = false;
           for (var i = 0; i < $scope.portsArr.length; i++) {
