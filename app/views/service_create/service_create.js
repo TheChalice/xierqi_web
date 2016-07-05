@@ -581,6 +581,7 @@ angular.module('console.service.create', [
               return
             }else{
               $scope.grid.isimageChange = true;
+              $scope.grid.imageChange = true;
             }
           }
         };
