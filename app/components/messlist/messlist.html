@@ -33,10 +33,10 @@
                             <div class="row">
                                 <div class="col-md-10 users"><i ng-if="type=='event'" class='icon27 icon29'></i>用户: <b>xxx</b>邀请您加入组织 :<b>xxx</b></div>
                                 <div class="col-md-2 accepts"  ng-if="type=='zhannei'"><a href="javascript:;" class='btn btn-green accept dianj'>已接受</a></div>
-                                <!--<div class="col-md-4">账户余额:<b class='blod'>￥123</b></div>-->
-                                <!--<div class="col-md-4" style="text-align: right">-->
-                                    <!--<span class='payway'>支付方式:<b class='blod'>支付宝</b></span>-->
-                                <!--</div>-->
+                                <div class="col-md-2"  ng-if="type=='user'">账户余额:<b class='blod'>￥123</b></div>
+                                <div class="col-md-2" style="text-align: right">
+                                    <span class='payway'  ng-if="type=='event'">支付方式:<b class='blod'>支付宝</b></span>
+                                </div>
                             </div>
                         </div>
                     </li>
