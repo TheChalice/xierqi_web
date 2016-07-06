@@ -73,7 +73,7 @@ angular.module('console.dashboard', [
             yAxis:[{
               // gridLineDashStyle: 'ShortDash',
               title: {
-                text: '内存 (m)',
+                text: '内存 (M)',
                 style:{
                   color: '#bec0c7'
                 }
@@ -82,7 +82,7 @@ angular.module('console.dashboard', [
           },{
               // gridLineDashStyle: 'ShortDash',
               title: {
-                text: 'cpu (%)',
+                text: 'CPU (%)',
                 style:{
                   color: '#f6a540'
                 }
@@ -180,7 +180,13 @@ angular.module('console.dashboard', [
         }, function (res) {
           $log.info('metrics cpu all', res);
           $scope.cpuData = prepareData('CPU', res);
-          // console.log('$scope.cpuData',$scope.cpuData)
+
+          angular.forEach($scope.cpuData,function (item,i) {
+            if (item==null) {
+              $scope.cpuData[i]=0
+            }
+          })
+          console.log('$scope.cpuData',$scope.cpuData)
           Metrics.mem.all.query({
             tags: 'descriptor_name:memory/usage,pod_namespace:' + $rootScope.namespace,
             buckets: 30
@@ -223,8 +229,9 @@ angular.module('console.dashboard', [
 
                 // console.log(cpunum,memnum)
                 //quotaed
-                $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu'], cpunum, true);
-                $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnum, true);
+                console.log(data.items[0].spec.hard['limits.memory'],data.items[0].spec.hard['limits.cpu']);
+                $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'G', cpunum, true);
+                $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'].replace('Gi','GB'), memnum, true);
                 $scope.chartConfig = setChart();
                 $scope.isdata.CpuorMem = true;
                 $scope.isdata.charts = true;
