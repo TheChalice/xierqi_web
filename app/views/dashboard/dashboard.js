@@ -182,17 +182,29 @@ angular.module('console.dashboard', [
           $scope.cpuData = prepareData('CPU', res);
 
           angular.forEach($scope.cpuData,function (item,i) {
+
+
             if (item==null) {
               $scope.cpuData[i]=0
+            }else {
+              $scope.cpuData[i]=Math.round(item*10000)/10000
             }
           })
-          console.log('$scope.cpuData',$scope.cpuData)
+          // console.log('$scope.cpuData',$scope.cpuData)
           Metrics.mem.all.query({
             tags: 'descriptor_name:memory/usage,pod_namespace:' + $rootScope.namespace,
             buckets: 30
           }, function (res) {
             $log.info('metrics mem all', res);
             $scope.memData = prepareData('内存', res);
+            angular.forEach($scope.memData,function (item,i) {
+              if (item==null) {
+                $scope.memData[i]=0
+              }else {
+                $scope.memData[i]=Math.round(item*10000)/10000
+              }
+            })
+            $scope.memData
             // console.log('$scope.memData',$scope.memData)
             $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas').success(function (data, status, headers, config) {
               if (data.items[0]) {
@@ -204,10 +216,10 @@ angular.module('console.dashboard', [
                 var mem = [];
                 var memsun = 0;
                 for (var i = 0; i < $scope.cpuData.length; i++) {
-                  if ($scope.cpuData[i] != null) {
+                  if ($scope.cpuData[i] != 0) {
                     cpu.push($scope.cpuData[i])
                   }
-                  if ($scope.memData[i] != null) {
+                  if ($scope.memData[i] != 0) {
                     mem.push($scope.memData[i])
                   }
                 }
