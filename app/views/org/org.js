@@ -37,11 +37,8 @@ angular.module('console.user', [
             $scope.norootmembers.push(item);
           }
         })
-        
       }
-
     }).error(function(data,header,config,status){
-
     });
     // loadOrg.load({org:$stateParams.useorg},function (data) {
     //   console.log(data)
