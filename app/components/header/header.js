@@ -41,8 +41,10 @@ angular.module("console.header", [
                   $state.go('console.org', {useorg:$scope.userorgs[ind].id})
                   
                 }
-                orgList.query({},function (org) {
-                  $scope.userorgs = org
+
+                orgList.get({},function (org) {
+                  // console.log(org);
+                  $scope.userorgs = org.orgnazitions;
                 })
                 $scope.hasBack = function(){
                     if ($state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name== "console.notification") {

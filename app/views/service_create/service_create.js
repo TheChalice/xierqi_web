@@ -440,7 +440,6 @@ angular.module('console.service.create', [
                 if (cons[idx - 1].image.indexOf($rootScope.namespace) != -1) {
                   console.log(cons[idx - 1].image.split($rootScope.namespace + '/')[1], strname);
                   if (cons[idx - 1].image.split($rootScope.namespace + '/')[1].split(':')[0] == strname) {
-
                     strname = str[0] + idx;
                   }
                 }else {
