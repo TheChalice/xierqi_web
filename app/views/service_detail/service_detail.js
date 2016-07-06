@@ -41,6 +41,7 @@ angular.module('console.service.detail', [
             },
             annotations : {
               "dadafoundry.io/create-by" : $rootScope.user.metadata.name
+              // "dadafoundry.io/create-by" : $rootScope.namespace
             }
           },
           "spec": {
@@ -389,7 +390,7 @@ angular.module('console.service.detail', [
 
         // })
 
-        var loadRcs = function (name) {
+        var loadRcs = function (name,oldname) {
           var labelSelector = 'openshift.io/deployment-config.name=' + name;
           ReplicationController.get({namespace: $rootScope.namespace, labelSelector: labelSelector}, function (res) {
             // $log.info("replicationControllers", res);
@@ -407,8 +408,22 @@ angular.module('console.service.detail', [
             $scope.dc.state = serviceState();
 
             $scope.resourceVersion = res.metadata.resourceVersion;
+            
+            if (oldname) {
+              console.log('shoulog',oldname);
+              angular.forEach($scope.rcs.items, function (item, i) {
+                console.log(item.metadata.name, oldname);
+                if (item.metadata.name == oldname) {
+                  item.showLog = true;
+                }
+              });
+            }else {
+              $scope.rcs = res;
+            }
 
-            $scope.rcs = res;
+
+
+
             // console.log('log',$scope.rcs.items.log);
             watchRcs(res.metadata.resourceVersion);
           }, function (res) {
@@ -465,7 +480,7 @@ angular.module('console.service.detail', [
             // $log.info("loadBsi err", res);
           });
         };
-
+                                                                                         
         var watchRcs = function (resourceVersion) {
           Ws.watch({
             api: 'k8s',
@@ -489,6 +504,7 @@ angular.module('console.service.detail', [
         };
         //执行log
         var updateRcs = function (data) {
+          console.log('data.type',data.type);
           DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (dcdata) {
             loadService(dcdata.metadata.name);
             $scope.dc = dcdata;
@@ -507,20 +523,24 @@ angular.module('console.service.detail', [
               }
             }
             // console.log('执行了');
-            $rootScope.lding = false;
+
             loadPods($scope.dc.metadata.name);
             if (data.type == 'ERROR') {
               $log.info("err", data.object.message);
               Ws.clear();
               //TODO直接刷新rc会导致页面重新渲染
-             loadRcs($scope.dc.metadata.name);
+              // if (!$scope.test) {
+              console.log('data.object.metadata.name',data)
+              loadRcs($scope.dc.metadata.name,$scope.baocuname);
+
+              // }
               //暂定处理
               return;
             }
             $scope.resourceVersion = data.object.metadata.resourceVersion;
             $scope.dc.status.phase = data.object.metadata.annotations['openshift.io/deployment.phase'];
             $scope.dc.state = serviceState();
-            console.log("$scope.dc+_+_+_+_+", $scope.dc);
+            // console.log("$scope.dc+_+_+_+_+", $scope.dc);
             data.object.dc = JSON.parse(data.object.metadata.annotations['openshift.io/encoded-deployment-config']);
             if (data.object.metadata.name == $scope.dc.metadata.name + '-' + $scope.dc.status.latestVersion) {
               $scope.dc.status.replicas = data.object.status.replicas;
@@ -553,16 +573,18 @@ angular.module('console.service.detail', [
 
             if (data.type == 'ADDED') {
               data.object.showLog = true;
+              $rootScope.lding = false;
               if ($scope.rcs.items.length > 0) {
                 $scope.rcs.items.unshift(data.object);
               } else {
                 $scope.rcs.items = [data.object];
               }
             } else if (data.type == "MODIFIED") {
-              console.log('RC',$scope.rcs.items)
+              // console.log('RC',$scope.rcs.items)
+              $scope.baocuname=data.object.metadata.name;
               angular.forEach($scope.rcs.items, function (item, i) {
                 if (item.metadata.name == data.object.metadata.name) {
-                  console.log('data.object',data.object)
+                  // console.log('data.object',data.object)
                   data.object.showLog = item.showLog;
                   $scope.rcs.items[i] = data.object;
 
@@ -810,13 +832,41 @@ angular.module('console.service.detail', [
 
           var o = $scope.rcs.items[idx];
           o.showLog = !o.showLog;
-          o.showConfig = false;
+          if (!o.showLog) {
+            $scope.baocuname=null;
+          }else {
+            $scope.baocuname=o.metadata.name;
+          }
 
+          o.showConfig = false;
+          if ($scope.test) {
+            o.log=$scope.test
+          }
           //存储已经调取过的log
           // console.log(o.log)
           if (o.log) {
             loglast()
             return;
+          }else {
+            DeploymentConfig.log.get({namespace: $rootScope.namespace, name: $scope.dc.metadata.name}, function (res) {
+
+              var result = "";
+              for (var k in res) {
+                if (/^\d+$/.test(k)) {
+                  result += res[k];
+                }
+              }
+              loglast()
+              if (result == '') {
+                result=$scope.test
+              }else {
+                $scope.test =result
+              }
+              o.log = result;
+            }, function (res) {
+              //todo 错误处理
+              o.log = res.data.message;
+            });
           }
 
           DeploymentConfig.log.get({namespace: $rootScope.namespace, name: $scope.dc.metadata.name}, function (res) {

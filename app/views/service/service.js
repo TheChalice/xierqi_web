@@ -7,7 +7,8 @@ angular.module('console.service', [
             ]
         }
     ])
-    .controller('ServiceCtrl', [ '$rootScope', '$scope', '$log', '$state', '$stateParams', 'DeploymentConfig','ReplicationController', 'Route','BackingServiceInstance','GLOBAL', 'Confirm', 'Sort', 'Ws', function ($rootScope, $scope, $log, $state, $stateParams, DeploymentConfig,ReplicationController, Route,BackingServiceInstance,GLOBAL, Confirm, Sort, Ws) {
+    .controller('ServiceCtrl', [ '$rootScope', '$scope', '$log', '$state', '$stateParams', 'DeploymentConfig','ReplicationController', 'Route','BackingServiceInstance','GLOBAL', 'Confirm', 'Sort', 'Ws',
+      function ($rootScope, $scope, $log, $state, $stateParams, DeploymentConfig,ReplicationController, Route,BackingServiceInstance,GLOBAL, Confirm, Sort, Ws) {
         $scope.grid = {
             page: 1,
             size: 10,
@@ -186,6 +187,9 @@ angular.module('console.service', [
                 serviceList();
                 return;
             }
+          // if (data.type == 'DELETE') {
+          //
+          // }
 
             $scope.resourceVersion = data.object.metadata.resourceVersion;
 
