@@ -8,7 +8,6 @@ angular.module('console.service', [
         }
     ])
     .controller('ServiceCtrl', [ '$rootScope', '$scope', '$log', '$state', '$stateParams', 'DeploymentConfig','ReplicationController', 'Route','BackingServiceInstance','GLOBAL', 'Confirm', 'Sort', 'Ws', function ($rootScope, $scope, $log, $state, $stateParams, DeploymentConfig,ReplicationController, Route,BackingServiceInstance,GLOBAL, Confirm, Sort, Ws) {
-        //��ҳ
         $scope.grid = {
             page: 1,
             size: 10,

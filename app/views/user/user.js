@@ -71,7 +71,6 @@ angular.module('console.user', [
          $scope.curUserInfo = data;
       })
     }
-
     var loadOrg = function() {
       orgList.get({},function(data){
         $scope.orgList = data.orgnazitions;

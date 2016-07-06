@@ -66,8 +66,6 @@ angular.module('console.backing_service_detail', [
         //$state.go('console.backing_service_detail', {name: item.spec.provisioning.backingservice_name, plan: item.spec.provisioning.backingservice_plan_name});
       };
       loadBs();
-
-
       var filterBsi = function (bsi) {
         var items = [];
         for (var i = 0; i < bsi.items.length; i++) {
@@ -83,10 +81,8 @@ angular.module('console.backing_service_detail', [
         BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {
           $log.info("backingServiceInstance", res);
           $scope.bsi = filterBsi(res);
-
           $scope.resourceVersion = res.metadata.resourceVersion;
           watchBsi($scope.resourceVersion);
-
         }, function (res) {
           //todo 错误处理
           $log.info("loadBsi err", res);
@@ -112,7 +108,6 @@ angular.module('console.backing_service_detail', [
                 $log.info('err', res);
               })
             });
-
           }
         } else {
           Confirm.open('删除后端服务实例', '您确定要删除该实例吗?此操作不可恢复', '', '', false).then(function () {
@@ -126,8 +121,6 @@ angular.module('console.backing_service_detail', [
             })
           });
         }
-
-
       };
 
       var watchBsi = function (resourceVersion) {
@@ -160,7 +153,6 @@ angular.module('console.backing_service_detail', [
           loadBsi();
           return;
         }
-
         $scope.resourceVersion = data.object.metadata.resourceVersion;
 
         if (data.type == 'ADDED') {
