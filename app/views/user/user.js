@@ -127,7 +127,7 @@ angular.module('console.user', [
         })
       }
       if (privilegeds && privilegednum == 1 ){
-        Confirm.open("离开组织", "不能离开!", "您是最后一名管理员请先指定其他管理员,才能离开", "stop").then(function(){
+        Confirm.open("离开组织", "不能离开!", "您是最后一名管理员请先指定其他管理员,才能离开", "stop",true).then(function(){
         })
       }
     }
