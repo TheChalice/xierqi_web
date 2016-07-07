@@ -48,10 +48,9 @@ angular.module("console.header", [
                     return true;
                 };
                   $scope.$watch("orgStatus", function(n, old){
-                      console.log("%%%%%%", n, old);
+                      // console.log("%%%%%%", n, old);
                       if (n) {
                           orgList.get({},function (org) {
-                              // console.log(org);
                               $scope.userorgs = org.orgnazitions;
                               $scope.checked = $rootScope.namespace;
                               $rootScope.orgStatus=false;

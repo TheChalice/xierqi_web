@@ -110,11 +110,14 @@ angular.module('console.user', [
         }
       }
       var leaving = function() {
-        leave.left({orgs:orgid}, function() {
-          console.log('test leave', res);
+        leave.left({org:orgid}, function() {
+          // console.log('test leave', res);
+          $scope.orgList.splice(idx,1)
+          $rootScope.orgStatus=true;
           loadOrg();
         })
       }
+
       console.log('privilegeds',privilegeds);
       console.log('privilegednum', privilegednum);
       console.log('$rootScope.user.metadata.name', $rootScope.user.metadata.name);
