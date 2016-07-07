@@ -325,7 +325,7 @@ define([
         }])
         .factory('remove', ['$resource', function($resource){
             var remove = $resource('/lapi/orgs/:org/remove', {org:'@org'},{
-                remove: {method: 'PUT'}
+                delete: {method: 'PUT'}
             })
             return remove;
         }])
@@ -343,7 +343,7 @@ define([
         }])
         .factory('leave', ['$resource', function($resource){
             var leave = $resource('/lapi/orgs/:org/leave', {org:'@org'},{
-                leave: {method:'PUT'}
+                left: {method:'PUT'}
             })
         return leave;
         }])

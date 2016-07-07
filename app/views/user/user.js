@@ -23,7 +23,12 @@ angular.module('console.user', [
     $scope.addOrg = function(){
       Addmodal.open('创建组织', '组织名称', '信息错误').then(function(res){
         createOrg.create({name:res},function (data) {
-          console.log(data)
+          console.log(data);
+          if(data) {
+            $scope.orgList.push(data);
+            loadOrg();
+            $rootScope.orgStatus = true;
+          }
         })
       })
     }
@@ -72,8 +77,17 @@ angular.module('console.user', [
       })
     }
     var loadOrg = function() {
+      //list entire orgs
       orgList.get({},function(data){
         $scope.orgList = data.orgnazitions;
+        if($scope.orgList){
+          for(var i = 0 ; i < $scope.orgList.length; i++){
+            for(var j = 0; j < $scope.orgList[i].members.length;j++){
+              if($scope.orgList[i].members[j].member_name == $rootScope.user.metadata.name){
+                $scope.orgList[i].privileged = $scope.orgList[i].members[j].privileged;
+              }
+            }
+          }
         if(!data.orgnazitions){
           $scope.orgList = [];
         }
@@ -83,8 +97,9 @@ angular.module('console.user', [
                $scope.orgList[i].privileged = $scope.orgList[i].members[j].privileged;
              }
            }
+          }
         }
-        console.log('test length111',data);
+        console.log('list entire orgs',data);
       })
     }
     $scope.leaveOrg = function(idx,orgid,oname,privilegeds) {
@@ -95,21 +110,14 @@ angular.module('console.user', [
         }
       }
       var leaving = function() {
-        leave.leave({orgs:orgid}, function() {
+        leave.left({orgs:orgid}, function() {
           console.log('test leave', res);
           loadOrg();
         })
       }
-      //angular.forEach($scope.orgList, function(item,idx){
-      //  angular.forEach(item.members,function(item1, index1){
-      //    if(item1.member_name === $rootScope.user.metadata.name){
-      //      item.test = item1.privileged;
-      //    }
-      //  })
-      //})
-      console.log(privilegeds);
-      console.log(privilegednum);
-      console.log($rootScope.user.metadata.name);
+      console.log('privilegeds',privilegeds);
+      console.log('privilegednum', privilegednum);
+      console.log('$rootScope.user.metadata.name', $rootScope.user.metadata.name);
       if ((privilegeds && privilegednum > 1) || !privilegeds){
         Confirm.open("离开组织", "您确定要离开"+oname+"组织吗?", "", "stop").then(function(){
           leaving();

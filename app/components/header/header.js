@@ -29,8 +29,6 @@ angular.module("console.header", [
                } else if (!$scope.checked) {
                  $scope.checked=$rootScope.namespace;
                }
-
-                // console.log('$rootScope',$rootScope.username)
                 $scope.gotomy=function () {
                   $scope.checked=$rootScope.namespace;
                 }
@@ -38,9 +36,7 @@ angular.module("console.header", [
                   $scope.checked = $scope.userorgs[ind].name;
                   // console.log($scope.userorgs,$scope.userorgs[ind].id);
                   $state.go('console.org', {useorg:$scope.userorgs[ind].id})
-                  
                 }
-
                 orgList.get({},function (org) {
                   // console.log(org);
                   $scope.userorgs = org.orgnazitions;
@@ -51,6 +47,18 @@ angular.module("console.header", [
                     }
                     return true;
                 };
+                  $scope.$watch("orgStatus", function(n, old){
+                      console.log("%%%%%%", n, old);
+                      if (n) {
+                          orgList.get({},function (org) {
+                              // console.log(org);
+                              $scope.userorgs = org.orgnazitions;
+                              $scope.checked = $rootScope.namespace;
+                              $rootScope.orgStatus=false;
+                          })
+                      }
+
+                  })
               //console.log('$rootScope',$rootScope);
               $scope.logout = function(){
                     Cookie.clear('df_access_token');
