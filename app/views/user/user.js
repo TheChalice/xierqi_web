@@ -88,6 +88,16 @@ angular.module('console.user', [
               }
             }
           }
+        if(!data.orgnazitions){
+          $scope.orgList = [];
+        }
+        for(var i = 0 ; i < $scope.orgList.length; i++){
+           for(var j = 0; j < $scope.orgList[i].members.length;j++){
+             if($scope.orgList[i].members[j].member_name == $rootScope.user.metadata.name){
+               $scope.orgList[i].privileged = $scope.orgList[i].members[j].privileged;
+             }
+           }
+          }
         }
         console.log('list entire orgs',data);
       })
@@ -102,7 +112,6 @@ angular.module('console.user', [
       var leaving = function() {
         leave.left({orgs:orgid}, function() {
           console.log('test leave', res);
-
           loadOrg();
         })
       }
