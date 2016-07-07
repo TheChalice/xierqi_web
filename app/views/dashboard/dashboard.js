@@ -73,7 +73,7 @@ angular.module('console.dashboard', [
             yAxis:[{
               // gridLineDashStyle: 'ShortDash',
               title: {
-                text: '内存 (m)',
+                text: '内存 (M)',
                 style:{
                   color: '#bec0c7'
                 }
@@ -82,7 +82,7 @@ angular.module('console.dashboard', [
           },{
               // gridLineDashStyle: 'ShortDash',
               title: {
-                text: 'cpu (%)',
+                text: 'CPU (%)',
                 style:{
                   color: '#f6a540'
                 }
@@ -180,6 +180,16 @@ angular.module('console.dashboard', [
         }, function (res) {
           $log.info('metrics cpu all', res);
           $scope.cpuData = prepareData('CPU', res);
+
+          angular.forEach($scope.cpuData,function (item,i) {
+
+
+            if (item==null) {
+              $scope.cpuData[i]=0
+            }else {
+              $scope.cpuData[i]=Math.round(item*10000)/10000
+            }
+          })
           // console.log('$scope.cpuData',$scope.cpuData)
           Metrics.mem.all.query({
             tags: 'descriptor_name:memory/usage,pod_namespace:' + $rootScope.namespace,
@@ -187,6 +197,14 @@ angular.module('console.dashboard', [
           }, function (res) {
             $log.info('metrics mem all', res);
             $scope.memData = prepareData('内存', res);
+            angular.forEach($scope.memData,function (item,i) {
+              if (item==null) {
+                $scope.memData[i]=0
+              }else {
+                $scope.memData[i]=Math.round(item*10000)/10000
+              }
+            })
+            $scope.memData
             // console.log('$scope.memData',$scope.memData)
             $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas').success(function (data, status, headers, config) {
               if (data.items[0]) {
@@ -198,10 +216,10 @@ angular.module('console.dashboard', [
                 var mem = [];
                 var memsun = 0;
                 for (var i = 0; i < $scope.cpuData.length; i++) {
-                  if ($scope.cpuData[i] != null) {
+                  if ($scope.cpuData[i] != 0) {
                     cpu.push($scope.cpuData[i])
                   }
-                  if ($scope.memData[i] != null) {
+                  if ($scope.memData[i] != 0) {
                     mem.push($scope.memData[i])
                   }
                 }
@@ -223,8 +241,9 @@ angular.module('console.dashboard', [
 
                 // console.log(cpunum,memnum)
                 //quotaed
-                $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu'], cpunum, true);
-                $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnum, true);
+                console.log(data.items[0].spec.hard['limits.memory'],data.items[0].spec.hard['limits.cpu']);
+                $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'G', cpunum, true);
+                $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'].replace('Gi','GB'), memnum, true);
                 $scope.chartConfig = setChart();
                 $scope.isdata.CpuorMem = true;
                 $scope.isdata.charts = true;

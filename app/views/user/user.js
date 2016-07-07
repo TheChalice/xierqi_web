@@ -71,14 +71,16 @@ angular.module('console.user', [
          $scope.curUserInfo = data;
       })
     }
-
     var loadOrg = function() {
-      orgList.query({},function(data){
-        $scope.orgList = data;
-        for(var i = 0 ; i < data.length; i++){
-           for(var j = 0; j < data[i].members.length;j++){
-             if(data[i].members[j].member_name == $rootScope.user.metadata.name){
-               data[i].privileged = data[i].members[j].privileged;
+      orgList.get({},function(data){
+        $scope.orgList = data.orgnazitions;
+        if(!data.orgnazitions){
+          $scope.orgList = [];
+        }
+        for(var i = 0 ; i < $scope.orgList.length; i++){
+           for(var j = 0; j < $scope.orgList[i].members.length;j++){
+             if($scope.orgList[i].members[j].member_name == $rootScope.user.metadata.name){
+               $scope.orgList[i].privileged = $scope.orgList[i].members[j].privileged;
              }
            }
         }
