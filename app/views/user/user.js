@@ -74,6 +74,9 @@ angular.module('console.user', [
     var loadOrg = function() {
       orgList.get({},function(data){
         $scope.orgList = data.orgnazitions;
+        if(!data.orgnazitions){
+          $scope.orgList = [];
+        }
         for(var i = 0 ; i < $scope.orgList.length; i++){
            for(var j = 0; j < $scope.orgList[i].members.length;j++){
              if($scope.orgList[i].members[j].member_name == $rootScope.user.metadata.name){
