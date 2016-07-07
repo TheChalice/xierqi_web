@@ -30,7 +30,7 @@ angular.module("console.header", [
                  $scope.checked=$rootScope.namespace;
                }
 
-                console.log('$rootScope',$rootScope.username)
+                // console.log('$rootScope',$rootScope.username)
                 $scope.gotomy=function () {
                   $scope.checked=$rootScope.namespace;
                 }

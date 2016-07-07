@@ -18,13 +18,17 @@ define([
                 
                 var wsscheme = "wss://";
                 if (window.location.protocol != "https:") {
+                    // wsscheme = "wss://";
                     wsscheme = "ws://";
                 }
 
                 var host = wsscheme + location.host;
-                
+
+                // var host = wsscheme;
+
                 if (params.api == 'k8s') {
                     host = host + GLOBAL.host_wss_k8s;
+                  // host=host+'dev.dataos.io:8443/api/v1';
                 } else {
                     host = host + GLOBAL.host_wss;
                 }

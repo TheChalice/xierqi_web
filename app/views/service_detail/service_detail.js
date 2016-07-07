@@ -412,7 +412,7 @@ angular.module('console.service.detail', [
             if (oldname) {
               console.log('shoulog',oldname);
               angular.forEach($scope.rcs.items, function (item, i) {
-                console.log(item.metadata.name, oldname);
+                // console.log(item.metadata.name, oldname);
                 if (item.metadata.name == oldname) {
                   item.showLog = true;
                 }
