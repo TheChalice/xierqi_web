@@ -282,8 +282,8 @@ angular.module('console.dashboard', [
                   // $scope.pieConfigCpu = setPieChart('CPU', '500m', cpunum);
                   // $scope.pieConfigMem = setPieChart('内存', '250Mi', memnum);
                   //no quota.
-                  $scope.pieConfigCpu = setPieChart('CPU', cpunum+'m', 0, false);
-                  $scope.pieConfigMem = setPieChart('内存', memnum+'Mi', 0, false);
+                  $scope.pieConfigCpu = setPieChart('CPU', cpunum+'%', 0, false);
+                  $scope.pieConfigMem = setPieChart('内存', memnum+'MB', 0, false);
                   $scope.chartConfig = setChart();
                   $scope.isdata.CpuorMem = true;
                   $scope.isdata.charts = true;
