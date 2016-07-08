@@ -508,6 +508,17 @@ angular.module('console.service.detail', [
           DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (dcdata) {
             loadService(dcdata.metadata.name);
             $scope.dc = dcdata;
+            var labelSelector = 'openshift.io/deployment-config.name=' + $scope.dc.metadata.name;
+            ReplicationController.get({namespace: $rootScope.namespace, labelSelector: labelSelector}, function (res) {
+              res.items = Sort.sort(res.items, -1);
+              for (var i = 0; i < res.items.length; i++) {
+                res.items[i].dc = JSON.parse(res.items[i].metadata.annotations['openshift.io/encoded-deployment-config']);
+                if (res.items[i].metadata.name == $scope.dc.metadata.name + '-' + $scope.dc.status.latestVersion) {
+                  $scope.dc.status.replicas = res.items[i].status.replicas;
+                  $scope.dc.status.phase = res.items[i].metadata.annotations['openshift.io/deployment.phase'];
+                }
+              }
+            })
             for (var i = 0; i < $scope.getroutes.items.length; i++) {
               if ($scope.getroutes.items[i].spec.to.kind != 'Service') {
                 continue;

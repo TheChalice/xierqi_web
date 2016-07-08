@@ -27,6 +27,7 @@ angular.module('console.user', [
         if (data.id) {
           console.log('load org data',data);
           $scope.members=data.members;
+          $scope.orgcon = data;
           $scope.rootmembers=[];
           $scope.norootmembers=[];
           angular.forEach(data.members,function (item) {

@@ -8,6 +8,7 @@ define([
 
   return angular.module('myApp.router', ['ui.router', 'oc.lazyLoad'])
       .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+
         $urlRouterProvider.otherwise("/home/index");
         $stateProvider
             .state('home', {
@@ -31,7 +32,6 @@ define([
                 }]
               }
             })
-
             .state('console', {
               url: '/console',
               templateUrl: 'views/console/console.html',

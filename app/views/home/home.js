@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('home', [])
-    .controller('HomeCtrl', ['$scope', '$rootScope', '$log', 'ModalLogin', 'ModalRegist', 'User', function ($scope, $rootScope, $log, ModalLogin, ModalRegist, User) {
+    .controller('HomeCtrl', ['$state','$scope', '$rootScope', '$log', 'ModalLogin', 'ModalRegist', 'User',
+      function ($state,$scope, $rootScope, $log, ModalLogin, ModalRegist, User) {
         $log.info('Home');
 
         if($rootScope.user){
@@ -12,11 +13,13 @@ angular.module('home', [])
         });
 
         $scope.login = function(){
-            ModalLogin.open();
+            // ModalLogin.open();
+          $state.go('home.login');
         };
 
         $scope.regist = function(){
-            ModalRegist.open();
+            // ModalRegist.open();
+          $state.go('home.regist');
         };
     }]);
 
