@@ -1,6 +1,11 @@
 <div class="login">
+    <!--loading-->
+    <div class="loading-box" ng-show=loding>
+    <img class="spinner" src="pub/img/loading.gif" alt="">
+</div>
     <div class='loginbox'>
         <div class="modal-header">
+
             <h5 class="modal-title">
                 登录
                 <!--<a ng-click="cancel()" class="close"><span aria-hidden="true">&times;</span></a>-->
@@ -31,6 +36,12 @@
             </button>
         </div>
     </div>
+    <!--<button class="btn btn-success" ng-click="count()">开始进度</button>-->
+    <!--<div ng-class="{progress: true, 'progress-striped': vm.striped}" class="col-md-4">-->
+        <!--<div ng-class="['progress-bar', vm.style]" ng-style="{width: vm.value + '%'}">-->
+            <!--<div ng-if="vm.showLabel">{{vm.value}}%</div>-->
+        <!--</div>-->
+    <!--</div>-->
 </div>
 
 
@@ -38,6 +49,24 @@
 <style>
     body {
         background-color: #f7f8fb;
+    }
+    /*loading 动画*/
+    .loading-box {
+        position: fixed;
+        /*overflow: hidden;*/
+        top: 0;
+        left: 0;
+        height: 100%;
+        /*top:100px;*/
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.7);
+        z-index: 999;
+    }
+    .spinner {
+        margin: 250px auto;
+        width: 76px;
+        text-align: center;
+        display: block;
     }
     .login {
         width: 100%;
