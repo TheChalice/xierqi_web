@@ -104,8 +104,8 @@
             </uib-tab-heading>
             <div class="row" style="margin-bottom: 30px;">
                 <h5 class='col-md-12 buy'>账户余额:
-                    <span style='color:#F8B551'>34.54</span>元
-                    <a class='btn btn-green' style='width: 45px;height: 24px;padding: 0;margin-left: 5px;'>充值</a></h5>
+                    <span style='color:#F8B551; padding-left: 5px;'>34.54</span>元
+                    <a class='btn btn-green' style='width: 45px;height: 24px;padding: 2px;margin-left: 15px; margin-top: -5px'>充值</a></h5>
                 <div id="tabbtn">
                 <uib-tabset class="tab-default">
                     <uib-tab index="1">
@@ -218,7 +218,7 @@
                     <div class="form-group">
                         <label for="usernameInput" class="col-md-2">用户名</label>
                         <div class="col-md-3">
-                            <input type="text" disabled="disabled" class="form-control" id="usernameInput" ng-model="curUserInfo.username" style="margin-left: -60px">
+                            <input type="text" disabled="disabled" class="form-control" id="usernameInput" ng-model="curUserInfo.username" style="margin-left: -60px; background-color: #f7f8fb">
                         </div>
                         <div class="col-md-offest-7"></div>
                     </div>
@@ -226,19 +226,22 @@
                     <div class="form-group">
                         <label for="InputEmail" class="col-md-2">邮箱</label>
                         <div class="col-md-3">
-                            <input type="email" disabled="disabled" class="form-control" id="InputEmail" ng-model="curUserInfo.email" style="margin-left: -60px">
+                            <input type="email" disabled="disabled" class="form-control" id="InputEmail" ng-model="curUserInfo.email" style="margin-left: -60px; background-color: #f7f8fb">
                         </div>
                         <div class="col-md-7" style="margin-top: 8px">
                             <i ng-if="curUserInfo.status.active" class="fa fa-check-circle" style="color: green;">已验证</i>
                             <i ng-if="!curUserInfo.status.active" class="fa fa-info-circle" style="color: red">未验证</i>
+                            <span class="sendmail" ng-if="!curUserInfo.status.active" ng-click="sendemail()" type="button" style="margin-top: 5px; width:100px; height:30px; margin-left:15px; background-color: #f6a540; color: white; padding: 5px 10px">发送激活邮件</span>
                         </div>
                     </div>
                     <hr>
                     <div class="form-group">
                         <label class="col-md-2">密码</label>
-                        <div class="col-md-3">
-                            <img src="views/user/img/images_69.png" style="margin-left: -60px; margin-right: 15px">
-                            <a href="" style="text-decoration: none; color: #f6a540"; ng-click="updatePwd()">修改密码</a>
+                        <div class="col-md-3 modifypwd" style="margin-top: 5px; margin-left: -60px">
+                            <span style="width:30px; height:34px; border: 1px solid #f7f8fb; display: inline-block;">
+                                <img src="views/user/img/images_69.png" style="margin-right: 15px; border: 1px solid #c9c9c9; padding:3px 5px; background-color: #f7f8fb">
+                            </span>
+                            <span style="color: #f6a540; margin-top: 5px" ng-click="updatePwd()">修改密码</span>
                         </div>
                     </div>
                     <hr>
@@ -359,5 +362,18 @@
     .token :active {
         background-color: #68d472;
     }
+    .form-group label {
+        padding-top: 8px;
+    }
+    .modifypwd span:hover {
+        color: #e5993a;
+    }
+    .sendmail :hover{
+        background-color: #e5993a;
+    }
+    .sendmail :active {
+        background-color: #F8B551;
+    }
+
 </style>
 

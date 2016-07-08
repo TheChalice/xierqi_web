@@ -131,6 +131,9 @@ angular.module('console.user', [
         })
       }
     }
+    $scope.sendemail = function() {
+
+    }
     loadInfo();
     loadOrg();
   }])
