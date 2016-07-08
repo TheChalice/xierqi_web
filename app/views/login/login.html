@@ -36,6 +36,11 @@
             </button>
         </div>
     </div>
+    <div style="margin:0 auto; padding-top: 25px; padding-bottom: 30px; width: 460px; position:relative">
+        <div class="line">
+        </div>
+        <img id="footerimg" src="views/login/img/image_09.png">
+    </div>
     <!--<button class="btn btn-success" ng-click="count()">开始进度</button>-->
     <!--<div ng-class="{progress: true, 'progress-striped': vm.striped}" class="col-md-4">-->
         <!--<div ng-class="['progress-bar', vm.style]" ng-style="{width: vm.value + '%'}">-->
@@ -48,7 +53,7 @@
 
 <style>
     body {
-        background-color: #f7f8fb;
+        background-color: #e6e9f2;
     }
     /*loading 动画*/
     .loading-box {
@@ -98,5 +103,18 @@
     .modal-default {
         margin-top: -200px;
     }
-
+    .line {
+        width: 100%;
+        border-bottom: 1px solid #c9d0e2;
+    }
+    #footerimg {
+        background-color: #e6e9f2;
+        position: absolute;
+        top: 15px;
+        left:45%;
+        height: 30px;
+        width:50px;
+        z-index: 5;
+        padding: 0px 10px;
+    }
 </style>

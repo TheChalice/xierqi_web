@@ -1,6 +1,3 @@
-/**
- * Created by Administrator on 2016/7/8.
- */
 'use strict';
 angular.module('home.login', [])
     .controller('loginCtrl', ['$interval','$state','$rootScope','AuthService','$scope', '$log',
