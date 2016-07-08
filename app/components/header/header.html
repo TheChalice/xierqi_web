@@ -9,9 +9,13 @@
         <span style='float: left;'>{{console.state | stateTitleFilter}}</span>
     </div>
     <div id="header-menu">
-        <a class="icon25 icon25-msg" ui-sref="console.notification" uib-tooltip="消息" tooltip-placement="bottom">
+        <!--消息图标-->
+        <a class="icon25 icon25-msg" style='visibility: hidden;' ui-sref="console.notification" uib-tooltip="消息" tooltip-placement="bottom">
             <div class="header-dot"></div>
         </a>
+
+
+
         <!--<a class="icon25 icon25-guide" href="javascript:;" uib-tooltip="指南" tooltip-placement="bottom"-->
         <!--</a>-->
 
@@ -29,12 +33,15 @@
                         <span>切换到个人账户</span>
                     </a>
                 </li>
-                <li class='personal' ng-repeat='org in userorgs'>
-                    <a href="javascript:;" ng-click='goto($index)' ui-sref='console.org({useorg:org.id})'>{{org.name}}
-                        <br/>
-                        <span>切换到组织账户</span>
-                    </a>
-                </li>
+
+                <!--组织账户-->
+
+                <!--<li class='personal' ng-repeat='org in userorgs'>-->
+                    <!--<a href="javascript:;" ng-click='goto($index)' ui-sref='console.org({useorg:org.id})'>{{org.name}}-->
+                        <!--<br/>-->
+                        <!--<span>切换到组织账户</span>-->
+                    <!--</a>-->
+                <!--</li>-->
                 <li ng-repeat="project in projects | orderBy: 'metadata.name'">
                     <a href="javascript:;" ng-click="setNamespace(project.metadata.name)">{{project.metadata.name}}</a>
                 </li>
