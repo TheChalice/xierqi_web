@@ -266,19 +266,20 @@ define(['angular'], function (angular) {
           return $uibModal.open({
             templateUrl: 'views/login/login.html',
             size: 'default',
-            controller: ['$scope', 'AuthService', '$uibModalInstance', 'ModalRegist', function ($scope, AuthService, $uibModalInstance, ModalRegist) {
-              $rootScope.credentials = {};
-              $scope.login = function () {
-                AuthService.login($rootScope.credentials);
-                $uibModalInstance.close();
-              };
-              $scope.regist = function () {
-                $uibModalInstance.close();
-                ModalRegist.open();
-              };
-              $scope.cancel = function () {
-                $uibModalInstance.dismiss();
-              };
+            controller: ['$scope', 'AuthService', '$uibModalInstance', 'ModalRegist', 
+              function ($scope, AuthService, $uibModalInstance, ModalRegist) {
+              // $rootScope.credentials = {};
+              // $scope.login = function () {
+              //   AuthService.login($rootScope.credentials);
+              //   $uibModalInstance.close();
+              // };
+              // $scope.regist = function () {
+              //   $uibModalInstance.close();
+              //   ModalRegist.open();
+              // };
+              // $scope.cancel = function () {
+              //   $uibModalInstance.dismiss();
+              // };
             }]
           }).result;
         }
@@ -289,15 +290,13 @@ define(['angular'], function (angular) {
           return $uibModal.open({
             templateUrl: 'views/login/regist.html',
             size: 'default',
-            controller: ['$scope', 'AuthService', '$uibModalInstance', 'registration', function ($scope, AuthService, $uibModalInstance, registration) {
+            controller: ['$scope', 'AuthService', '$uibModalInstance', 'registration', 
+              function ($scope, AuthService, $uibModalInstance, registration) {
               $scope.credentials = {};
               $scope.regist = function () {
                 //注册相关代码...
-
                 registration.regist({username: $scope.credentials.username, password: $scope.credentials.password, email: $scope.credentials.email}, function(data){
-
                 })
-
                 $uibModalInstance.close();
               };
               $scope.cancel = function () {

@@ -32,6 +32,26 @@ define([
                 }]
               }
             })
+            .state('home.login', {
+              url: '/login',
+              templateUrl: 'views/login/login.html',
+              controller: 'loginCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/login/login.js')
+                }]
+              }
+            })
+            .state('home.regist', {
+              url: '/regist',
+              templateUrl: 'views/regist/regist.html',
+              controller: 'registCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/regist/regist.js')
+                }]
+              }
+            })
             .state('console', {
               url: '/console',
               templateUrl: 'views/console/console.html',

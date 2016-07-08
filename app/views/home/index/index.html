@@ -49,7 +49,79 @@
         </div>
 
     </div>
+    <div class="row footer">
+        <div class="col-xs-3 col-lg-2 col-sm-3 footer-td" style='text-align: center;'>
+            <p>团队介绍</p>
+            <p>合作方式</p>
+            <!--<p>联系我们</p>-->
+        </div>
+        <div class="col-xs-9 col-lg-8 col-sm-9 col-lg-offset-2 footer-lx" style='text-align: left;'>
+            <p>联系我们</p>
+            <p>电话:010-82166688</p>
+            <p>邮箱:datafoundry@asiainfo.com</p>
+            <p>地址:北京市海淀区中关村软件园二期西北旺东路10号院亚信大厦</p>
+        </div>
+        <div class="col-xs-12" style='text-align: center; margin-top: 20px;'>© 2016版权所有 北京亚信智慧数据科技有限公司 京ICP备11005544号-15 京公网安备110108007119号</div>
+    </div>
     <style>
+        .footer {
+            background: #5a6378;
+            font-size: 14px;
+            font-weight:bold;
+            color: #bdc0c7;
+            text-align: center;
+            height: 300px;
+            line-height: 50px;
+            width: 100%;
+            paddin: 0px 30px;
+            padding-top: 40px;
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        @media (max-width: 640px) {
+            #nav {
+                display: none;
+            }
+            #mobilenav {
+                display: block;
+            }
+
+            .footer {
+                height: 380px;
+            }
+
+            #header #header-brand img{
+                padding-top:30px;
+                margin-left:21%;
+                margin-right: 30px;
+            }
+            #header #btnk {
+                margin-left: 76px;
+            }
+
+            #header #header-brand {
+                padding-left: 0px;
+                padding-right: 0px;
+            }
+            .footer-td {
+                display: none;
+            }
+            .footer-lx {
+                margin-left: 7%;
+            }
+
+        }
+
+        .footer-lx p {
+            margin-bottom: 15px;
+            line-height: 30px;
+        }
+
+        .footer-td {
+            border-right: 1px solid #3d4458;
+        }
+
         h3 {
             font-size: 22px;
         }
