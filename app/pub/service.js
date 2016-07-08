@@ -24,17 +24,29 @@ define(['angular'], function (angular) {
         };
       }])
       .service('Addmodal', ['$uibModal', function ($uibModal) {
-        this.open = function (title, txt, tip) {
+        this.open = function (title, txt, tip,orgId,isaddpeople) {
           return $uibModal.open({
             templateUrl: 'pub/tpl/addmodal.html',
             size: 'default',
-            controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+            controller: ['$scope', '$uibModalInstance','loadOrg','$http', function ($scope, $uibModalInstance,loadOrg,$http) {
               $scope.title = title;
               $scope.txt = txt;
               $scope.tip = tip;
               $scope.orgName = null;
               $scope.ok = function () {
-                $uibModalInstance.close($scope.orgName);
+                if(isaddpeople){
+                  $http.put('/lapi/orgs/'+orgId+'/invite', {
+                    member_name: $scope.orgName,
+                    privileged: false
+                  }).success(function(item){
+                    $uibModalInstance.close(item);
+                  }).error(function(res){
+                    $scope.tip = res;
+                  })
+                }else{
+                  $uibModalInstance.close();
+                }
+
               };
               $scope.cancel = function () {
                 $uibModalInstance.dismiss();

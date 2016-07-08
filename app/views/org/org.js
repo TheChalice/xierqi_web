@@ -49,22 +49,21 @@ angular.module('console.user', [
 
     }
     $scope.addpeople=function () {
-      Addmodal.open('邀请新成员', '邮箱', '信息错误').then(function (res) {
-        //print input
+      Addmodal.open('邀请新成员', '邮箱', '',$stateParams.useorg,true).then(function (res) {
         console.log('test org member', res);
-        $http.put('/lapi/orgs/'+$stateParams.useorg+'/invite', {
-          member_name: res,
-          privileged: false
-        }).success(function(item){
-          console.log('test invitation', item)
-          if(item.privileged){
-            $scope.rootmembers.push(item)
-          }else{
-            $scope.norootmembers.push(item)
-          }
+        //$http.put('/lapi/orgs/'+$stateParams.useorg+'/invite', {
+        //  member_name: res,
+        //  privileged: false
+        //}).success(function(item){
+        //  console.log('test invitation', item)
+        //  if(item.privileged){
+        //    $scope.rootmembers.push(item)
+        //  }else{
+        //    $scope.norootmembers.push(item)
+        //  }
           loadOrg();
-          console.log('adding new memeber',item)
-        })
+        //  console.log('adding new memeber',item)
+        //})
       })
     }
     $scope.remove=function (idx) {
