@@ -28,14 +28,13 @@
             </a>
             <ul class="projectname" uib-dropdown-menu
                 aria-labelledby="user-menu" style="max-height: 300px;overflow-y: scroll;top:45px;">
-
+                <!--personal account-->
                 <li class='personal'>
                     <a href="javascript:;" ng-click='gotomy()' ui-sref='console.user'>{{namespace}}
                         <br/>
                         <span>切换到个人账户</span>
                     </a>
                 </li>
-
 
                 <!--组织账户-->
                 <li class='personal' ng-repeat='org in userorgs'>
