@@ -241,9 +241,26 @@ angular.module('console.dashboard', [
 
                 // console.log(cpunum,memnum)
                 //quotaed
-                console.log(data.items[0].spec.hard['limits.memory'],data.items[0].spec.hard['limits.cpu']);
-                $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'G', cpunum, true);
-                $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'].replace('Gi','GB'), memnum, true);
+                var userd ={
+                  usedM:parseInt(data.items[0].status.used['limits.memory']),
+                  usedC:parseInt(data.items[0].status.used['limits.cpu']),
+                  headM:parseInt(data.items[0].status.hard['limits.memory'])*1024,
+                  headC:parseInt(data.items[0].status.hard['limits.cpu'])*1024,
+                }
+                var memnums = (userd.usedM/userd.headM)*100;
+                var cpunums = (userd.usedC/userd.headC)*100;
+                console.log('数据',data);
+                console.log(userd.headC,userd.headM);
+                console.log(userd.usedC,userd.usedM);
+                console.log(memnums,cpunums);
+                memnums=Math.round(memnums*10000)/10000
+                cpunums=Math.round(cpunums*10000)/10000
+                // data.items[0].status.hard['limits.cpu']
+                // console.log(data.items[0].status.used['limits.memory'],data.items[0].status.used['limits.cpu']);
+                // console.log(data.items[0].status.hard['limits.memory'],data.items[0].status.hard['limits.cpu']);
+
+                $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'GB', cpunums, true);
+                $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'].replace('Gi','GB'), memnums, true);
                 $scope.chartConfig = setChart();
                 $scope.isdata.CpuorMem = true;
                 $scope.isdata.charts = true;
@@ -273,7 +290,7 @@ angular.module('console.dashboard', [
                 if (cpusun || memsun) {
                   // var cpunum = cpusun / cpu.length / 500 * 100 || 0;
                   // var memnum = memsun / mem.length / 1000000 / 250 * 100 || 0
-                   var cpunum = cpusun / cpu.length || 0;
+                  var cpunum = cpusun / cpu.length || 0;
                   var memnum = memsun / mem.length/1000000 || 0
 
                   cpunum = toDecimal(cpunum);

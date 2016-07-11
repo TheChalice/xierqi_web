@@ -8,18 +8,35 @@
                 <span class="icon25 icon25-panel-repository">
                 </span>&nbsp;&nbsp;{{date.metadata.name || nameone}}
             </span>
-            <a class="btn pull-right"
-               ng-if='myimage'
-               ng-class="{'btn-green':busBtn.diang,
-                'btn-orange': busBtn.dianh}"
-               ng-disabled=busBtn.dianh
-               ui-sref="console.service_create({image:date.status.dockerImageRepository+'@'+date.metadata.name+'@'+date.status.tags[0].tag})">{{busBtn.name}}</a>
-            <a class="btn pull-right"
-               ng-if='!myimage'
-               ng-class="{'btn-green':busBtn.diang,
-                'btn-orange': busBtn.dianh}"
-               ng-disabled=busBtn.dianh
-               ui-sref="console.service_create({image:nameone+':'+newname})">{{busBtn.name}}</a>
+            <!--<a class="btn pull-right"-->
+               <!--ng-if='myimage'-->
+               <!--ng-class="{'btn-green':busBtn.diang,-->
+                <!--'btn-orange': busBtn.dianh}"-->
+               <!--ng-disabled=busBtn.dianh-->
+               <!--ui-sref="console.service_create({image:date.status.dockerImageRepository+'@'+date.metadata.name+'@'+date.status.tags[0].tag})">{{busBtn.name}}</a>-->
+            <!--<a class="btn pull-right"-->
+               <!--ng-if='!myimage'-->
+               <!--ng-class="{'btn-green':busBtn.diang,-->
+                <!--'btn-orange': busBtn.dianh}"-->
+               <!--ng-disabled=busBtn.dianh-->
+               <!--ui-sref="console.service_create({image:nameone+':'+newname})">{{busBtn.name}}</a>-->
+            <a class="btn pull-right btn-green"
+            ng-if='!busBtn.dianh&&myimage'
+            ng-disabled=busBtn.dianh
+            ui-sref="console.service_create({image:date.status.dockerImageRepository+'@'+date.metadata.name+'@'+date.status.tags[0].tag})">{{busBtn.name}}</a>
+            <a class="btn pull-right btn-orange"
+            ng-if='busBtn.dianh&&myimage'
+            ng-disabled=busBtn.dianh>
+                {{busBtn.name}}</a>
+            <a class="btn pull-right btn-green"
+            ng-if='!busBtn.dianh&&!myimage'
+            ng-disabled=busBtn.dianh
+            ui-sref="console.service_create({image:nameone+':'+newname})">{{busBtn.name}}</a>
+            <a class="btn pull-right btn-orange"
+            ng-if='busBtn.dianh&&!myimage'
+            ng-disabled=busBtn.dianh>
+                {{busBtn.name}}</a>
+
         </div>
         <div class="panel-body">
             <div class="row">
