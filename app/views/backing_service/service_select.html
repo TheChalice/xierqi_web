@@ -9,7 +9,10 @@
     <div class="is-box">
         <div class="box-right">
             <h2 class="text-left">选择需要绑定的服务</h2>
-            <div class="is-box-search">
+            <div class="is-box-search" style='position: relative;'>
+
+                <a class="btn" style='position: absolute;top: 13px;right: 13px;height: 30px;background: url(pub/img/search.png) no-repeat;' ng-click="mysearch()"></a>
+
                 <input type="text" class="form-control" ng-model="txt" placeholder="服务名称" ng-click="search(txt)">
             </div>
             <div class="is-box-wrap">

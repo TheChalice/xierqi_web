@@ -14,7 +14,12 @@ angular.module("console.header", [
             controller: ['$http','$location','orgList','$rootScope', '$scope', '$window', '$state', 'Cookie',
               function($http,$location,orgList,$rootScope, $scope, $window, $state, Cookie){
                 $scope.back = function(){
+                  console.log($state);
+                  if ($state.current.name == "console.image_detail"&&$state.params.name.indexOf('/')!=-1) {
+                    $state.go('console.image',{index:2})
+                  }else {
                     $window.history.back();
+                  }
                 };
 
                 // console.log($location.url().split('/')[2])
@@ -42,7 +47,7 @@ angular.module("console.header", [
                   $scope.userorgs = org.orgnazitions;
                 })
                 $scope.hasBack = function(){
-                    if ($state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name== "console.notification") {
+                    if ($state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name == "console.notification" || $state.current.name == "console.resource_management") {
                         return false
                     }
                     return true;
@@ -107,6 +112,8 @@ angular.module("console.header", [
                     return "用户中心";
                 case "console.notification":
                     return "消息中心";
+                case "console.resource_management":
+                    return "资源管理";
             }
         };
     }]);

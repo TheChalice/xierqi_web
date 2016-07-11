@@ -16,7 +16,7 @@
             </tr>
             <tr ng-repeat="pod in pods.items">
                 <td>
-                    <span uib-tooltip="{{pod.metadata.name}}">{{pod.metadata.name| limitTo: 12}}</span>
+                    <span uib-tooltip="{{pod.metadata.name}}" style="display: block; width: 70px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{pod.metadata.name| limitTo: 12}}</span>
                 </td>
                 <td>
                     <span uib-tooltip="{{pod.reason}}" class="text-{{pod.reason}}">{{pod.reason | limitTo: 8}}</span>

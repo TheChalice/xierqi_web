@@ -116,6 +116,9 @@ define([
               url: '/image',
               templateUrl: 'views/image/image.html',
               controller: 'ImageCtrl',
+              params: {
+                index: null
+              },
               resolve: {
                 dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                   return $ocLazyLoad.load(['views/image/image.js', 'views/image/image.css'])
@@ -246,6 +249,16 @@ define([
               resolve: {
                 dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                   return $ocLazyLoad.load('views/notification/notification.js')
+                }]
+              }
+            })
+            .state('console.resource_management', {
+              url: '/resource_management',
+              templateUrl: 'views/resource_management/resource_management.html',
+              controller: 'resmanageCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/resource_management/resource_management.js')
                 }]
               }
             })
