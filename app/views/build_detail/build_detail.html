@@ -25,8 +25,11 @@
                         <div class="media-left">
                             <img class="media-object" src="views/build_detail/img/images_106.png">
                         </div>
-                        <div class="media-body" style="width: 100%">
+                        <div class="media-body tell" style="width: 100%;">
                             <h4 class="media-heading">代码URL</h4>
+                            <div class=till style='position: absolute; top: -30px; padding: 0 8px; border-radius:3px; left: 0; background-color: black; color: white'>
+                                {{data.spec.source.git.uri}}
+                            </div>
                             <small>
                                 <a class="href-orange text-overflow" href="{{data.spec.source.git.uri}}" target="_blank" style="width:60%;">{{data.spec.source.git.uri}}</a>
                             </small>
