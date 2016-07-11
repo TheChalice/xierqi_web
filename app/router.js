@@ -249,5 +249,15 @@ define([
                 }]
               }
             })
+            .state('console.resource_management', {
+              url: '/resource_management',
+              templateUrl: 'views/resource_management/resource_management.html',
+              controller: 'resmanageCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/resource_management/resource_management.js')
+                }]
+              }
+            })
       }]);
 });

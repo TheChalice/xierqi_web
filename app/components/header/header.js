@@ -42,7 +42,7 @@ angular.module("console.header", [
                   $scope.userorgs = org.orgnazitions;
                 })
                 $scope.hasBack = function(){
-                    if ($state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name== "console.notification") {
+                    if ($state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name == "console.notification" || $state.current.name == "console.resource_management") {
                         return false
                     }
                     return true;
@@ -107,6 +107,8 @@ angular.module("console.header", [
                     return "用户中心";
                 case "console.notification":
                     return "消息中心";
+                case "console.resource_management":
+                    return "资源管理";
             }
         };
     }]);

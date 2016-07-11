@@ -1,3 +1,10 @@
-/**
- * Created by sabrinaxue on 7/11/16.
- */
+'use strict';
+angular.module('console.resource_management', [
+    {
+        files:[
+            'components/searchbar/searchbar.js',
+        ]
+    }
+]).controller('resmanageCtrl',[ function(){
+
+}])
