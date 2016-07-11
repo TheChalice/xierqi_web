@@ -116,6 +116,9 @@ define([
               url: '/image',
               templateUrl: 'views/image/image.html',
               controller: 'ImageCtrl',
+              params: {
+                index: null
+              },
               resolve: {
                 dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                   return $ocLazyLoad.load(['views/image/image.js', 'views/image/image.css'])
