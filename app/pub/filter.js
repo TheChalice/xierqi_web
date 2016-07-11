@@ -171,12 +171,9 @@ define(['angular', 'moment'], function (angular, moment) {
                 if (!image) {
                     return "";
                 }
-                var images = image.split(":");
-                if(images.length>2){
-                    return images[0]+images[1];
-                }else{
+                var images = image.split("@");
                     return images[0]
-                }
+
             };
         })
         .filter("stripSHAPrefix", function() {

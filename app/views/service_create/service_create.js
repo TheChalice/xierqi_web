@@ -416,10 +416,13 @@ angular.module('console.service.create', [
               var str1 =  res.imagesname.split("/");
               var strname1 = str1[0]+'/'+str1[1];
               container.image = 'registry.dataos.io/'+str1[0]+'/'+str1[1]+':'+str1[2];
+              var olsname = strname1.replace('/', "-");
               console.log(container.image)
               if (idx > 0) {
-                if (cons[idx - 1].image.split(":")[0] == 'registry.dataos.io/'+strname1) {
-                  strname1 = str1[0]+'/'+str1[1] + idx;
+                for(var i = 0 ; i < cons.length;i++){
+                  if(cons[i].name == olsname){
+                    strname1 = str1[0]+'/'+str1[1] + idx;
+                  }
                 }
               }
               container.strname = strname1.replace('/', "-");
@@ -430,25 +433,17 @@ angular.module('console.service.create', [
               var dockerImageIP  = res.image.dockerImageReference.split('@');
               container.isimageChange = true;
               var str = res.metadata.name.split(":");
-              container.image = dockerImageIP[0]+':'+str[1];
+              //container.image = dockerImageIP[0]+':'+str[1];
+              container.image = res.image.dockerImageReference;
+              container.imgstr = res.image.dockerImageReference;
               var strname = str[0];
               
               if (idx > 0) {
-                // console.log('strname', strname);
-                // console.log('cons[idx - 1].image', cons[idx - 1].image);
-                console.log('cons[idx - 1].image.split[0].indexOf($rootScope.namespace)', cons[idx - 1].image);
-                if (cons[idx - 1].image.indexOf($rootScope.namespace) != -1) {
-                  console.log(cons[idx - 1].image.split($rootScope.namespace + '/')[1], strname);
-                  if (cons[idx - 1].image.split($rootScope.namespace + '/')[1].split(':')[0] == strname) {
-                    strname = str[0] + idx;
-                  }
-                }else {
-                  if (cons[idx - 1].image.split(":")[0] == strname) {
-
-                    strname = str[0] + idx;
+                for(var i = 0 ; i < cons.length;i++){
+                  if(cons[i].name == strname){
+                    strname = str[0] + idx
                   }
                 }
-
               }
               console.log("strwoshishui=0=0=0",str);
               container.strname = strname;
@@ -475,13 +470,16 @@ angular.module('console.service.create', [
                 }
               }
             }
+            console.log('$scope.dc.spec.template.spec-------------',$scope.dc.spec.template.spec)
             var conlength = $scope.dc.spec.template.spec.containers
             for(var i = 0 ;i < conlength.length;i++ ){
               if(conlength[i].isimageChange == false){
                 $scope.grid.isimageChange = false;
-                return
+                $scope.grid.imageChange = false;
+                break;
               }else{
                 $scope.grid.isimageChange = true;
+                $scope.grid.imageChange = true;
               }
             }
 
@@ -617,11 +615,12 @@ angular.module('console.service.create', [
           if ($scope.grid.configChange) {
             triggers.push({type: 'ConfigChange'});
           }
-
-          if ($scope.grid.imageChange || $scope.grid.isimageChange) {
+          console.log($scope.grid.imageChange)
+          console.log($scope.grid.isimageChange)
+          if ($scope.grid.imageChange && $scope.grid.isimageChange) {
             var containers = dc.spec.template.spec.containers;
             for (var i = 0; i < containers.length; i++) {
-              var match = containers[i].image.split($rootScope.namespace+'/');
+              var match = containers[i].name+":"+containers[i].tag;
              console.log('match....',match)
               triggers.push({
                 type: 'ImageChange',
@@ -630,7 +629,7 @@ angular.module('console.service.create', [
                   "containerNames": [containers[i].name],
                   "from": {
                     "kind": "ImageStreamTag",
-                    "name": match[1]
+                    "name": match
                   }
                 }
               });
@@ -916,6 +915,7 @@ angular.module('console.service.create', [
             delete clonedc.spec.template.spec.containers[i]["ref"];
             delete clonedc.spec.template.spec.containers[i]["tag"];
             delete clonedc.spec.template.spec.containers[i]["isimageChange"];
+            //delete clonedc.spec.template.spec.containers[i]["imgstr"];
             if(clonedc.spec.template.spec.containers[i].ports){
                 delete clonedc.spec.template.spec.containers[i]["ports"];
             }
@@ -943,12 +943,6 @@ angular.module('console.service.create', [
           DeploymentConfig.create({namespace: $rootScope.namespace}, clonedc, function (res) {
             $log.info("create dc success", res);
             //var isport = false;
-            //for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
-            //  if (dc.spec.template.spec.containers[i].ports.length != 0) {
-            //    isport = true;
-            //    break;
-            //  }
-            //}
             //if (isport) {
             //  createService(dc);
             //  bindService(dc);
@@ -957,13 +951,10 @@ angular.module('console.service.create', [
             //}
             bindService(dc);
             // Toast.open('初始化成功');
-            Confirm.open("提示信息","初始化成功",null,144,true).then(function () {
-              $state.go('console.service_detail', {name: dc.metadata.name});
-            })
-            // setTimeout(function () {
-            //   $state.go('console.service_detail', {name: dc.metadata.name});
-            // }, 1000)
-            
+            //Confirm.open("提示信息","初始化成功",null,144,true).then(function () {
+            //
+            //})
+            $state.go('console.service_detail', {name: dc.metadata.name});
           }, function (res) {
             //todo 错误处理
             $log.info("create dc fail", res);
