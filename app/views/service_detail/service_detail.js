@@ -1494,10 +1494,10 @@ angular.module('console.service.detail', [
           // $log.info("-=-=-=-=-=-=$scope.dc-=--=", $scope.dc);
 
           var cons = angular.copy($scope.dc.spec.template.spec.containers);
-          //DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (datadc) {
+          DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (datadc) {
             dc.spec.template.spec.volumes = [];
-            //dc.metadata.resourceVersion = datadc.metadata.resourceVersion;
-            //dc.status.latestVersion = datadc.status.latestVersion+1;
+            dc.metadata.resourceVersion = datadc.metadata.resourceVersion;
+            dc.status.latestVersion = datadc.status.latestVersion+1;
             var flog = 0;
             for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
               if(dc.spec.template.spec.containers[i].volumeMounts){
@@ -1623,6 +1623,9 @@ angular.module('console.service.detail', [
               },
               triggers : []
             },
+            status :{
+              latestVersion : datadc.status.latestVersion+1
+            },
             metadata : {
               annotations : {
                 "dadafoundry.io/images-from" : ''
@@ -1670,7 +1673,7 @@ angular.module('console.service.detail', [
               //todo 错误处理
               // $log.info("update dc fail", res);
             });
-          //})
+          })
 
         };
         

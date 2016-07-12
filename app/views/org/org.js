@@ -49,7 +49,7 @@ angular.module('console.user', [
 
     }
     $scope.addpeople=function () {
-      Addmodal.open('邀请新成员', '邮箱', '',$stateParams.useorg,true).then(function (res) {
+      Addmodal.open('邀请新成员', '邮箱', '',$stateParams.useorg,'people').then(function (res) {
         console.log('test org member', res);
         //$http.put('/lapi/orgs/'+$stateParams.useorg+'/invite', {
         //  member_name: res,
