@@ -245,6 +245,8 @@ angular.module('console.service.create', [
                 container.image = arr[0]+"@"+arr[1];
                 container.tag = arr[2];
                 container.strname = container.name = arr[3];
+                $scope.grid.imageChange = true;
+                $scope.grid.isimageChange = true;
               } else {
                 var container = angular.copy($scope.containerTpl);
                 container.image = 'registry.dataos.io/' + $stateParams.image.split(':')[0];
