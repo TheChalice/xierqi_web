@@ -167,28 +167,42 @@ angular.module('console.service.detail', [
                   volume.name = volumeMap[volume.name];
                 }
               });
-              // console.log(item.volumeMounts);
               if (!item.volumeMounts || item.volumeMounts.length == 0) {
                 item.volumeMounts = [{}];
               }
-              var name = getIst(item.name);
-              if (name) {
-                var foos = name.split(':');
-                if (foos.length > 1) {
-                  item.image = foos[0];
-                  item.tag = foos[1];
-                }
-                //ImageStreamTag.get({namespace: $rootScope.namespace, name: name}, function(res){
-                //    item.image = name;
-                //    if (res.tag) {
-                //        item.tag = res.tag.name;
-                //    }
-                //});
-              } else {
-                item.tag = ImageService.tag(item);
-              }
-            });
+              //var name = getIst(item.name);
+              //if (name) {
+              //  var foos = name.split(':');
+              //  if (foos.length > 1) {
+              //    //item.image = foos[0];
+              //    item.tag = foos[1];
+              //  }
+              //} else {
+              //  item.tag = ImageService.tag(item);
+              //}
+              //var tagstr = item.image;
+              //if(tagstr.indexOf('@') != -1){
+              //  item.tag = tagstr.split('@')[1];
+              //}else{
+              //  item.tag = tagstr.split(':')[1];
+              //}
 
+            });
+            for(var i = 0 ;i < $scope.dc.spec.template.spec.containers.length; i++){
+              var imagetag = 'image-'+$scope.dc.spec.template.spec.containers[i].name;
+              if($scope.dc.metadata.annotations[imagetag]){
+                $scope.dc.spec.template.spec.containers[i].tag = $scope.dc.metadata.annotations[imagetag];
+              }else{
+                angular.forEach($scope.dc.spec.template.spec.containers, function (item) {
+                  var tagstr = item.image;
+                  if(tagstr.indexOf('@') != -1){
+                    item.tag = tagstr.split('@')[1];
+                  }else{
+                    item.tag = tagstr.split(':')[1];
+                  }
+                });
+              }
+            }
             loadRcs(res.metadata.name);
             loadRoutes();
             loadBsi($scope.dc.metadata.name);
@@ -506,6 +520,22 @@ angular.module('console.service.detail', [
         var updateRcs = function (data) {
           console.log('data.type',data.type);
           DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (dcdata) {
+            $scope.dc = dcdata
+            for(var i = 0 ;i < $scope.dc.spec.template.spec.containers.length; i++){
+              var imagetag = 'image-'+$scope.dc.spec.template.spec.containers[i].name;
+              if($scope.dc.metadata.annotations[imagetag]){
+                $scope.dc.spec.template.spec.containers[i].tag = $scope.dc.metadata.annotations[imagetag];
+              }else{
+                angular.forEach($scope.dc.spec.template.spec.containers, function (item) {
+                  var tagstr = item.image;
+                  if(tagstr.indexOf('@') != -1){
+                    item.tag = tagstr.split('@')[1];
+                  }else{
+                    item.tag = tagstr.split(':')[1];
+                  }
+                });
+              }
+            }
             loadService(dcdata.metadata.name);
             $scope.dc = dcdata;
             var labelSelector = 'openshift.io/deployment-config.name=' + $scope.dc.metadata.name;
@@ -1081,32 +1111,43 @@ angular.module('console.service.detail', [
           var cons = $scope.dc.spec.template.spec.containers;
           ImageSelect.open().then(function (res) {
             // console.log("imageStreamTag", res);
+            var imagetag = '';
             if(res.ispublicimage){
               var str1 =  res.imagesname.split("/");
               var strname1 = str1[0]+'/'+str1[1];
+              var olsname = strname1.replace('/', "-");
               container.image = 'registry.dataos.io/'+str1[0]+'/'+str1[1]+':'+str1[2];
               container.isimageChange = false;
               // console.log(container.image)
               if (idx > 0) {
-                if (cons[idx - 1].image.split(":")[0] == 'registry.dataos.io/'+strname1) {
-                  strname1 = str1[0]+'/'+str1[1] + idx;
+                for(var i = 0 ; i < cons.length;i++){
+                  if(cons[i].name == olsname){
+                    strname1 = str1[0]+'/'+str1[1] + idx;
+                  }
                 }
               }
               container.strname = strname1.replace('/', "-");
               container.name = strname1.replace('/', "-");
               container.tag = str1[2];
+              imagetag = 'image-'+container.name;
+              $scope.dc.metadata.annotations[imagetag] = str1[2];
 
             }else{
-              container.image = res.metadata.name;
+              container.image = res.image.dockerImageReference
               container.isimageChange = true;
+              console.log('-----------',res);
               var arr = res.metadata.name.split(':');
               container.tag = arr[1];
+              imagetag = 'image-'+container.name;
+              $scope.dc.metadata.annotations[imagetag] = str[1];
               if (arr.length > 1) {
                 container.name = arr[0];
               }
               if (idx > 0) {
-                if (cons[idx - 1].image.split(":")[0] == arr[0]) {
-                  container.name = arr[0] + idx;
+                for(var i = 0 ; i < cons.length;i++){
+                  if(cons[i].name == arr[0]){
+                    container.name = arr[0] + idx
+                  }
                 }
               }
             }

@@ -402,6 +402,7 @@ angular.module('console.service.create', [
           ImageSelect.open().then(function (res) {
             console.log("imageStreamTag", res);
             console.log('container', container)
+            var imagetag = '';
             container.ports = [];
             if (container.ports.length == 0) {
               container.ports.push({
@@ -428,6 +429,8 @@ angular.module('console.service.create', [
               container.strname = strname1.replace('/', "-");
               container.name = strname1.replace('/', "-");
               container.tag = str1[2];
+              imagetag = 'image-'+container.name;
+              $scope.dc.metadata.annotations[imagetag] = str1[2];
 
             }else{
               var dockerImageIP  = res.image.dockerImageReference.split('@');
@@ -435,7 +438,6 @@ angular.module('console.service.create', [
               var str = res.metadata.name.split(":");
               //container.image = dockerImageIP[0]+':'+str[1];
               container.image = res.image.dockerImageReference;
-              container.imgstr = res.image.dockerImageReference;
               var strname = str[0];
               
               if (idx > 0) {
@@ -449,6 +451,8 @@ angular.module('console.service.create', [
               container.strname = strname;
               container.name = strname;
               container.tag = str[1];
+              imagetag = 'image-'+container.name;
+              $scope.dc.metadata.annotations[imagetag] = str[1];
               if(res.image.dockerImageMetadata.Config.Labels){
                 container.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
                 container.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
@@ -470,7 +474,7 @@ angular.module('console.service.create', [
                 }
               }
             }
-            console.log('$scope.dc.spec.template.spec-------------',$scope.dc.spec.template.spec)
+            console.log('$scope.dc.spec.template.spec-------------',$scope.dc)
             var conlength = $scope.dc.spec.template.spec.containers
             for(var i = 0 ;i < conlength.length;i++ ){
               if(conlength[i].isimageChange == false){
@@ -915,7 +919,6 @@ angular.module('console.service.create', [
             delete clonedc.spec.template.spec.containers[i]["ref"];
             delete clonedc.spec.template.spec.containers[i]["tag"];
             delete clonedc.spec.template.spec.containers[i]["isimageChange"];
-            //delete clonedc.spec.template.spec.containers[i]["imgstr"];
             if(clonedc.spec.template.spec.containers[i].ports){
                 delete clonedc.spec.template.spec.containers[i]["ports"];
             }
