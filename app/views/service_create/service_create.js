@@ -186,7 +186,7 @@ angular.module('console.service.create', [
             // if (!$scope.dc.spec.template.spec.containers.tag) {
             //   $scope.named=$stateParams.image.metadata.name;
             // }
-            // console.log("initContainer", $stateParams.image.metadata.name);
+             console.log("initContainer", $stateParams.image);
 
             if ($stateParams.image.metadata) {
               var container = angular.copy($scope.containerTpl);
@@ -242,9 +242,9 @@ angular.module('console.service.create', [
                 var arr=$stateParams.image.split("@");
                 console.log(arr)
                 var container = angular.copy($scope.containerTpl);
-                container.image = arr[0]+":"+arr[2];
+                container.image = arr[0]+"@"+arr[1];
                 container.tag = arr[2];
-                container.strname = container.name = arr[1];
+                container.strname = container.name = arr[3];
               } else {
                 var container = angular.copy($scope.containerTpl);
                 container.image = 'registry.dataos.io/' + $stateParams.image.split(':')[0];
