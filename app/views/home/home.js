@@ -14,12 +14,12 @@ angular.module('home', [])
 
         $scope.login = function(){
             // ModalLogin.open();
-          $state.go('home.login');
+          $state.go('login');
         };
 
         $scope.regist = function(){
             // ModalRegist.open();
-          $state.go('home.regist');
+          $state.go('regist');
         };
     }]);
 
