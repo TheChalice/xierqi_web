@@ -1,3 +1,9 @@
-/**
- * Created by sabrinaxue on 7/12/16.
- */
+'use strict';
+angular.module('console.create_constantly_volume', [
+    {
+        files:[
+        ]
+    }
+]).controller('createfigvolumeCtrl',[ function(){
+
+}])

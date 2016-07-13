@@ -259,5 +259,25 @@ define([
                 }]
               }
             })
+            .state('console.create_constantly_volume', {
+              url: '/resource_create_constantly_volume',
+              templateUrl: 'views/create_constantly_volume/create_constantly_volume.html',
+              controller: 'createconvolumeCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/create_constantly_volume/create_constantly_volume.js')
+                }]
+              }
+            })
+            .state('console.create_config_volume', {
+              url: '/resource_create_config_volume',
+              templateUrl: 'views/create_config_volume/create_config_volume.html',
+              controller: 'createfigvolumeCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/create_config_volume/create_config_volume.js')
+                }]
+              }
+            })
       }]);
 });
