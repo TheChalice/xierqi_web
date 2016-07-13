@@ -1136,7 +1136,6 @@ angular.module('console.service.detail', [
             }else{
               container.image = res.image.dockerImageReference
               container.isimageChange = true;
-              console.log('-----------',res);
               var arr = res.metadata.name.split(':');
               container.tag = arr[1];
               imagetag = 'image-'+container.name;
@@ -1153,7 +1152,6 @@ angular.module('console.service.detail', [
                 }
               }
             }
-            console.log('$ $scope.dc', $scope.dc)
             for(var i = 0 ;i < $scope.dc.spec.template.spec.containers.length;i++ ){
               if($scope.dc.spec.template.spec.containers[i].isimageChange != false && $scope.dc.spec.template.spec.containers[i].isimageChange != true){
                 $scope.dc.spec.template.spec.containers[i].isimageChange = arrimgstr[i];
@@ -1165,10 +1163,6 @@ angular.module('console.service.detail', [
                 $scope.grid.isimageChange = true;
               }
             }
-
-             console.log('$scope.grid.isimageChange',$scope.grid.isimageChange)
-
-
             //var arr = res.metadata.name.split(':');
             //if (arr.length > 1) {
             //  container.name = arr[0];
