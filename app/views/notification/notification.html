@@ -39,7 +39,7 @@
                                         <div class="row">
                                             <div class="col-md-10 users"></i>用户: <b>{{item.sender}}</b>邀请您加入组织 :<b>{{item.data.org_name}}</b></div>
                                             <div class="col-md-2 accepts" ng-if='item.status'><a href="javascript:;" class='btn accept dianj'>已接受</a></div>
-                                            <div class="col-md-2 accepts" ng-if='!item.status'><a href="javascript:;" class='btn btn-green accept' ng-click='accept($index,item.data.org_id)'>接受</a></div>
+                                            <div class="col-md-2 accepts" ng-if='!item.status'><a href="javascript:;" class='btn btn-green accept' ng-click='accept($index,item.data.org_id,item.messageid)'>接受</a></div>
                                         </div>
                                     </div>
                                 </li>
