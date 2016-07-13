@@ -13,6 +13,35 @@ angular.module("console.header", [
             templateUrl: 'components/header/header.html',
             controller: ['$http','$location','orgList','$rootScope', '$scope', '$window', '$state', 'Cookie',
               function($http,$location,orgList,$rootScope, $scope, $window, $state, Cookie){
+                // alert(1)
+                // var timer;
+                $scope.$watch('$state.current.name',function (n,o) {
+                  console.log(n);
+                  if (n == 'console.notification') {
+                    clearInterval($scope.timer)
+                  }else {
+                    $scope.timer = setInterval(function(){
+                      $http({
+                        url:'/lapi/inbox_stat/',
+                        method:'GET',
+                      }).success(function(res){
+                        console.log("test the inbox stat", res);
+                        if(res.data == null){
+                          res.data = {};
+                        }
+                        if (res.data.sitenotify || res.data.accountms || res.data.alert){
+                          $scope.isshow = true;
+                        }else{
+                          $scope.isshow = false;
+                        };
+                      }).error(function(data){
+                        console.log("Couldn't get inbox message", data)
+                      });
+                    },30000)
+                  }
+
+                })
+
                 $scope.back = function(){
                   console.log($state);
                   if ($state.current.name == "console.image_detail"&&$state.params.name.indexOf('/')!=-1) {
@@ -61,7 +90,6 @@ angular.module("console.header", [
                               $rootScope.orgStatus=false;
                           })
                       }
-
                   })
               //console.log('$rootScope',$rootScope);
               $scope.logout = function(){
@@ -76,6 +104,27 @@ angular.module("console.header", [
                     Cookie.set('namespace', namespace, 10 * 365 * 24 * 3600 * 1000);
                     $state.reload();
                 }
+            // setting timer
+                $http({
+                  url:'/lapi/inbox_stat/',
+                  method:'GET',
+                }).success(function(res){
+                  console.log("test the inbox stat", res);
+                  if(res.data == null){
+                    res.data = {};
+                  }
+                  if (res.data.sitenotify || res.data.accountms || res.data.alert){
+                    $scope.isshow = true;
+                  }else{
+                    $scope.isshow = false;
+                  };
+                }).error(function(data){
+                  console.log("Couldn't get inbox message", data)
+                });
+
+                  $scope.checkInbox = function() {
+                      $scope.isshow = false;
+                  }
             }]
         }
     }])

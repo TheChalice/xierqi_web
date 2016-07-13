@@ -260,7 +260,7 @@ angular.module('console.dashboard', [
                 // console.log(data.items[0].status.hard['limits.memory'],data.items[0].status.hard['limits.cpu']);
 
                 $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'GB', cpunums, true);
-                $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'].replace('Gi','GB'), memnums, true);
+                $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true);
                 $scope.chartConfig = setChart();
                 $scope.isdata.CpuorMem = true;
                 $scope.isdata.charts = true;

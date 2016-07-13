@@ -11,11 +11,11 @@
     </div>
     <div id="header-menu">
         <!--消息图标-->
-        <a class="icon25 icon25-msg" ui-sref="console.notification" uib-tooltip="消息" tooltip-placement="bottom">
-            <div class="header-dot"></div>
+        <a class="icon25 icon25-msg" ui-sref="console.notification" uib-tooltip="消息" tooltip-placement="bottom" ng-click="checkInbox()">
+            <div ng-show="isshow">
+                <div class="header-dot"></div>
+            </div>
         </a>
-
-
 
         <!--<a class="icon25 icon25-guide" href="javascript:;" uib-tooltip="指南" tooltip-placement="bottom"-->
         <!--</a>-->
