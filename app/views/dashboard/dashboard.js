@@ -244,8 +244,8 @@ angular.module('console.dashboard', [
                 var userd ={
                   usedM:parseInt(data.items[0].status.used['limits.memory']),
                   usedC:parseInt(data.items[0].status.used['limits.cpu']),
-                  headM:parseInt(data.items[0].status.hard['limits.memory'])*1024,
-                  headC:parseInt(data.items[0].status.hard['limits.cpu'])*1024,
+                  headM:parseInt(data.items[0].status.hard['limits.memory'])*1000,
+                  headC:parseInt(data.items[0].status.hard['limits.cpu'])*1000,
                 }
                 var memnums = (userd.usedM/userd.headM)*100;
                 var cpunums = (userd.usedC/userd.headC)*100;
@@ -253,8 +253,8 @@ angular.module('console.dashboard', [
                 console.log(userd.headC,userd.headM);
                 console.log(userd.usedC,userd.usedM);
                 console.log(memnums,cpunums);
-                memnums=Math.round(memnums*10000)/10000
-                cpunums=Math.round(cpunums*10000)/10000
+                memnums=Math.round(memnums*100)/100
+                cpunums=Math.round(cpunums*100)/100
                 // data.items[0].status.hard['limits.cpu']
                 // console.log(data.items[0].status.used['limits.memory'],data.items[0].status.used['limits.cpu']);
                 // console.log(data.items[0].status.hard['limits.memory'],data.items[0].status.hard['limits.cpu']);
