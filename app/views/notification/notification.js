@@ -16,14 +16,12 @@ angular.module('console.notification', [
     $scope.grid={
       st:null,
       et:null,
-      auto:null
+      auto:null,
+      page: 1,
+      size: 10,
     }
-    // $http({
-    //   method:'GET',
-    //   url:'/lapi/inbox?type={type}&sender={sender}&status={status}&level={level}&page={page}&size={size}',
-    //   params:{
-    //     'username':'tan'
-    //   });
+    $scope.sitenotifycheck=[];
+    $scope.sitenotifydelarr=[];
     $http({
       url:'/lapi/inbox',
       method:'GET',
@@ -33,9 +31,72 @@ angular.module('console.notification', [
         'size':10,
       }
     }).success(function(data){
-        console.log('inbox',data)
+        // console.log('inbox',data);
+      $scope.sitenotify=data;
     }).error(function(data,header,config,status){
     });
 
+    $scope.sitenotifycheckeds=function () {
+      if (!$scope.sitenotifychecked) {
+        for (var i = 0; i < $scope.sitenotify.data.results.length; i++) {
+          $scope.sitenotifycheck[$scope.sitenotify.data.results[i].messageid]=true
+          $scope.sitenotifydelarr.push($scope.sitenotify.data.results[i].messageid)
+        }
+      }else {
+        for (var i = 0; i < $scope.sitenotify.data.results.length; i++) {
+          $scope.sitenotifycheck[$scope.sitenotify.data.results[i].messageid]=false
+          $scope.sitenotifydelarr=[];
+        }
+      }
+
+      $scope.sitenotifychecked=!$scope.sitenotifychecked
+    }
+    $scope.chenked=function (idx) {
+      // $scope.sitenotify.data.results[ind].messageid
+      $scope.sitenotifycheck[$scope.sitenotify.data.results[idx].messageid]=!$scope.sitenotifycheck[$scope.sitenotify.data.results[idx].messageid]
+      $scope.sitenotifydelarr.push($scope.sitenotify.data.results[idx].messageid)
+    }
+    // 删除接口
+    $scope.sitenotifydel=function () {
+      $scope.arr = angular.copy($scope.sitenotifydelarr)
+      for (var i = 0; i < $scope.sitenotifydelarr.length; i++) {
+        
+        // $scope.sitenotifydelarr[i];
+
+        $http({
+          url:'/lapi/inbox/'+$scope.sitenotifydelarr[i],
+          method:'DELETE',
+        }).success(function(data){
+          // alert(1)
+          for (var j = 0; j < $scope.sitenotify.data.results.length; j++) {
+            for (var k = 0; k < $scope.arr.length; k++) {
+              // console.log('messageid',$scope.sitenotify.data.results[j].messageid);
+              // console.log('sitenotifydelarr',$scope.arr[j]);
+              if ($scope.arr[k] == $scope.sitenotify.data.results[j].messageid) {
+                $scope.sitenotify.data.results.splice(j,1)
+              }
+
+            }
+
+
+          }
+          // console.log($scope.sitenotifydelarr[i])
+          // $scope.sitenotify.data.results[ind].status=true;
+        }).error(function(data,header,config,status){
+        });
+      }
+    }
+    //接受加入组织
+    $scope.accept=function (ind,orgid) {
+      // console.log('orgid',orgid)
+      $http({
+        url:'/lapi/orgs/'+orgid+'/accept',
+        method:'PUT',
+      }).success(function(data){
+        $scope.sitenotify.data.results[ind].status=true;
+      }).error(function(data,header,config,status){
+      });
+
+    }
   }])
 
