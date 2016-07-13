@@ -109,6 +109,10 @@ angular.module("console.header", [
                     return "消息中心";
                 case "console.resource_management":
                     return "资源管理";
+                case "console.create_constantly_volume":
+                    return "新建持久化卷";
+                case "console.create_config_volume":
+                    return "新建配置卷";
             }
         };
     }]);
