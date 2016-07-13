@@ -17,7 +17,8 @@ define([
     'angularMd',
     'angularClipboard',
     'kubernetesUI',
-    'highchartsNg'
+    'highchartsNg',
+    //'fileUpload'
 ], function (angular) {
 
     // 声明应用及其依赖
