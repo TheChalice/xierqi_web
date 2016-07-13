@@ -418,6 +418,7 @@ angular.module('console.service.create', [
               container.isimageChange = false;
               var str1 =  res.imagesname.split("/");
               var strname1 = str1[0]+'/'+str1[1];
+              container.truename = strname1.replace('/', "-");
               container.image = 'registry.dataos.io/'+str1[0]+'/'+str1[1]+':'+str1[2];
               var olsname = strname1.replace('/', "-");
               console.log(container.image)
@@ -441,7 +442,7 @@ angular.module('console.service.create', [
               //container.image = dockerImageIP[0]+':'+str[1];
               container.image = res.image.dockerImageReference;
               var strname = str[0];
-              
+              container.truename = str[0];
               if (idx > 0) {
                 for(var i = 0 ; i < cons.length;i++){
                   if(cons[i].name == strname){
@@ -626,7 +627,7 @@ angular.module('console.service.create', [
           if ($scope.grid.imageChange && $scope.grid.isimageChange) {
             var containers = dc.spec.template.spec.containers;
             for (var i = 0; i < containers.length; i++) {
-              var match = containers[i].name+":"+containers[i].tag;
+              var match = containers[i].truename+":"+containers[i].tag;
              console.log('match....',match)
               triggers.push({
                 type: 'ImageChange',
@@ -916,10 +917,13 @@ angular.module('console.service.create', [
           deleService();
           deleRoute();
           var clonedc = angular.copy(dc);
+          var arrimgs = [];
           for(var i = 0;i<clonedc.spec.template.spec.containers.length;i++){
             delete clonedc.spec.template.spec.containers[i]["commitId"];
+            delete clonedc.spec.template.spec.containers[i]["truename"];
             delete clonedc.spec.template.spec.containers[i]["ref"];
             delete clonedc.spec.template.spec.containers[i]["tag"];
+            arrimgs.push(clonedc.spec.template.spec.containers[i].isimageChange);
             delete clonedc.spec.template.spec.containers[i]["isimageChange"];
             if(clonedc.spec.template.spec.containers[i].ports){
                 delete clonedc.spec.template.spec.containers[i]["ports"];
@@ -928,6 +932,8 @@ angular.module('console.service.create', [
               delete clonedc.spec.template.spec.containers[i]["env"];
             }
           }
+          var arrimgstr = arrimgs.join();
+          clonedc.metadata.annotations["imageorpublic"] = arrimgstr;
           if($scope.grid.isimageChange == false){
             clonedc.metadata.annotations["dadafoundry.io/images-from"] = 'private';
             delete clonedc.spec.triggers[1];

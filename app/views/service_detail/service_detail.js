@@ -1107,18 +1107,19 @@ angular.module('console.service.detail', [
         };
 
         $scope.selectImage = function (idx) {
+          var arrimgstr = $scope.dc.metadata.annotations.imageorpublic.split(",");
           var container = $scope.dc.spec.template.spec.containers[idx];
           var cons = $scope.dc.spec.template.spec.containers;
           ImageSelect.open().then(function (res) {
-            // console.log("imageStreamTag", res);
+            console.log("imageStreamTag", res);
             var imagetag = '';
             if(res.ispublicimage){
               var str1 =  res.imagesname.split("/");
               var strname1 = str1[0]+'/'+str1[1];
               var olsname = strname1.replace('/', "-");
+              container.truename = strname1.replace('/', "-");
               container.image = 'registry.dataos.io/'+str1[0]+'/'+str1[1]+':'+str1[2];
               container.isimageChange = false;
-              // console.log(container.image)
               if (idx > 0) {
                 for(var i = 0 ; i < cons.length;i++){
                   if(cons[i].name == olsname){
@@ -1139,10 +1140,11 @@ angular.module('console.service.detail', [
               var arr = res.metadata.name.split(':');
               container.tag = arr[1];
               imagetag = 'image-'+container.name;
-              $scope.dc.metadata.annotations[imagetag] = str[1];
+              $scope.dc.metadata.annotations[imagetag] = arr[1];
               if (arr.length > 1) {
                 container.name = arr[0];
               }
+              container.truename = arr[0];
               if (idx > 0) {
                 for(var i = 0 ; i < cons.length;i++){
                   if(cons[i].name == arr[0]){
@@ -1151,16 +1153,21 @@ angular.module('console.service.detail', [
                 }
               }
             }
+            console.log('$ $scope.dc', $scope.dc)
             for(var i = 0 ;i < $scope.dc.spec.template.spec.containers.length;i++ ){
-              if($scope.dc.spec.template.spec.containers[i].isimageChange == false || (!$scope.dc.spec.template.spec.containers[i].isimageChange && $scope.dc.metadata.annotations["dadafoundry.io/images-from"] == 'private')){
+              if($scope.dc.spec.template.spec.containers[i].isimageChange != false && $scope.dc.spec.template.spec.containers[i].isimageChange != true){
+                $scope.dc.spec.template.spec.containers[i].isimageChange = arrimgstr[i];
+              }
+              if($scope.dc.spec.template.spec.containers[i].isimageChange == false){
                 $scope.grid.isimageChange = false;
                 break;
               }else{
                 $scope.grid.isimageChange = true;
               }
             }
-            // console.log('$scope.grid.isimageChange',$scope.grid.isimageChange)
-            // console.log('$ $scope.dc', $scope.dc)
+
+             console.log('$scope.grid.isimageChange',$scope.grid.isimageChange)
+
 
             //var arr = res.metadata.name.split(':');
             //if (arr.length > 1) {
@@ -1231,7 +1238,7 @@ angular.module('console.service.detail', [
                   "containerNames": [containers[i].name],
                   "from": {
                     "kind": "ImageStreamTag",
-                    "name": containers[i].image + ':' + containers[i].tag
+                    "name": containers[i].truename + ':' + containers[i].tag
                   }
                 }
               });
@@ -1546,6 +1553,9 @@ angular.module('console.service.detail', [
             // $log.info("update dc", dc);
             //var copedc = angular.copy(dc);
             for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
+              if(dc.spec.template.spec.containers[i].truename){
+                delete dc.spec.template.spec.containers[i]["truename"];
+              }
               if (dc.spec.template.spec.containers[i].ports) {
                 for (var j = 0; j < dc.spec.template.spec.containers[i].ports.length; j++) {
                   delete dc.spec.template.spec.containers[i].ports[j]["conflict"];
