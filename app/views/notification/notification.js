@@ -87,8 +87,26 @@ angular.module('console.notification', [
       }
     }
     //接受加入组织
-    $scope.accept=function (ind,orgid) {
+    $scope.accept=function (ind,orgid,messid) {
       // console.log('orgid',orgid)
+      // console.log(messid);
+      // $http({
+      //   url:'/lapi/inbox/'+messid,
+      //   method:'PUT',
+      //   params:{
+      //     action:'accept_org_invitation',
+      //   }
+      // }).success(function(data){
+      //
+      // }).error(function(data,header,config,status){
+      // });
+      $http.put('/lapi/inbox/'+messid, {action:'accept_org_invitation'})
+          .success(function(data){
+
+          })
+          .error(function(){
+            // console.error("Failed to save.");
+          });
       $http({
         url:'/lapi/orgs/'+orgid+'/accept',
         method:'PUT',

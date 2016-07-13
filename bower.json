@@ -11,7 +11,7 @@
     "angular-ui-router": "0.2.18",
     "angular-bootstrap": "1.2.1",
     "bootstrap": "3.3.6",
-    "ng-file-upload": "11.1.1",
+    "ng-file-upload": "^12.0.4",
     "requirejs": "2.1.22",
     "oclazyload": "1.0.9",
     "moment": "2.12.0",
@@ -23,7 +23,8 @@
     "kubernetes-container-terminal": "^0.0.11",
     "term.js": "^0.0.7",
     "highcharts": "^4.2.3",
-    "highcharts-ng": "^0.0.11"
+    "highcharts-ng": "^0.0.11",
+    "ng-file-upload-shim": "^12.0.4"
   },
   "description": "angular seed",
   "main": "index.js",
