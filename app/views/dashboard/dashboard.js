@@ -4,8 +4,8 @@ angular.module('console.dashboard', [
         files: []
       }
     ])
-    .controller('dashboardCtrl', ['$http', '$log', '$rootScope', '$scope', 'Metrics', 'MetricsService',
-      function ($http, $log, $rootScope, $scope, Metrics, MetricsService) {
+    .controller('dashboardCtrl', ['$http', '$log', '$rootScope', '$scope', 'Metrics', 'MetricsService','Pod','DeploymentConfig','BackingServiceInstance',
+      function ($http, $log, $rootScope, $scope, Metrics, MetricsService,Pod,DeploymentConfig,BackingServiceInstance) {
         $scope.cpuData = [];
         $scope.memData = [];
         $scope.isdata = {};
@@ -244,8 +244,8 @@ angular.module('console.dashboard', [
                 var userd ={
                   usedM:parseInt(data.items[0].status.used['limits.memory']),
                   usedC:parseInt(data.items[0].status.used['limits.cpu']),
-                  headM:parseInt(data.items[0].status.hard['limits.memory'])*1024,
-                  headC:parseInt(data.items[0].status.hard['limits.cpu'])*1024,
+                  headM:parseInt(data.items[0].status.hard['limits.memory'])*1000,
+                  headC:parseInt(data.items[0].status.hard['limits.cpu'])*1000,
                 }
                 var memnums = (userd.usedM/userd.headM)*100;
                 var cpunums = (userd.usedC/userd.headC)*100;
@@ -253,8 +253,8 @@ angular.module('console.dashboard', [
                 console.log(userd.headC,userd.headM);
                 console.log(userd.usedC,userd.usedM);
                 console.log(memnums,cpunums);
-                memnums=Math.round(memnums*10000)/10000
-                cpunums=Math.round(cpunums*10000)/10000
+                memnums=Math.round(memnums*100)/100
+                cpunums=Math.round(cpunums*100)/100
                 // data.items[0].status.hard['limits.cpu']
                 // console.log(data.items[0].status.used['limits.memory'],data.items[0].status.used['limits.cpu']);
                 // console.log(data.items[0].status.hard['limits.memory'],data.items[0].status.hard['limits.cpu']);
@@ -338,6 +338,42 @@ angular.module('console.dashboard', [
         $scope.isdata.charts = false;
         $scope.pieConfigCpu = setPieChart('CPU', 'loading...', 0.1);
         $scope.pieConfigMem = setPieChart('内存', 'loading...', 0.1);
+        $scope.podList = 0;
+        var podList = function(){
+          Pod.get({namespace: $scope.namespace},function(res){
+            console.log("pod...res....",res);
+            for(var i = 0; i < res.items.length; i++){
+               if(res.items[i].status.phase == 'Running'){
+                 $scope.podList ++;
+               }
+            }
+          },function(res){
+            console.log("pod...reserr....",res);
+          })
+        }
+
+        var dcList = function(){
+          DeploymentConfig.get({namespace: $rootScope.namespace}, function(data){
+            $log.info('dcList----', data);
+            $scope.dcList = data.items.length;
+          }, function(res) {
+            $log.info('dcListerr', res);
+            $scope.dcList = 0;
+            //todo ������
+          });
+        }
+        var bsiList = function(){
+          BackingServiceInstance.get({namespace: $rootScope.namespace},function(res){
+            console.log("bsiList......",res);
+            $scope.bsiList = res.items.length;
+          },function(res){
+            console.log("bsiList...bsiListerr....",res);
+            $scope.bsiList = 0;
+          })
+        }
+        podList();
+        dcList();
+        bsiList();
 
       }]);
 

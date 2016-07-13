@@ -34,7 +34,7 @@ define(['angular'], function (angular) {
               $scope.tip = tip;
               $scope.orgName = null;
               $scope.ok = function () {
-                if(isaddpeople){
+                if(isaddpeople == 'people'){
                   $http.put('/lapi/orgs/'+orgId+'/invite', {
                     member_name: $scope.orgName,
                     privileged: false
@@ -43,8 +43,16 @@ define(['angular'], function (angular) {
                   }).error(function(res){
                     $scope.tip = res;
                   })
+                }else if(isaddpeople == 'org'){
+                  $http.post('/lapi/orgs', {
+                   name : $scope.orgName
+                  }).success(function(item){
+                    $uibModalInstance.close(item);
+                  }).error(function(res){
+                    $scope.tip = res;
+                  })
                 }else{
-                  $uibModalInstance.close();
+                  $uibModalInstance.close( $scope.orgName);
                 }
 
               };

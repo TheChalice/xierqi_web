@@ -21,15 +21,16 @@ angular.module('console.user', [
     $scope.orgName = "seferfe";
     //创建组织
     $scope.addOrg = function(){
-      Addmodal.open('创建组织', '组织名称', '信息错误').then(function(res){
-        createOrg.create({name:res},function (data) {
-          console.log(data);
-          if(data) {
-            $scope.orgList.push(data);
-            loadOrg();
-            $rootScope.orgStatus = true;
-          }
-        })
+      Addmodal.open('创建组织', '组织名称', '',$stateParams.useorg,'org').then(function(res){
+        //createOrg.create({name:res},function (data) {
+        //  console.log(data);
+        //  if(data) {
+        //    $scope.orgList.push(data);
+        //    loadOrg();
+        //    $rootScope.orgStatus = true;
+        //  }
+        //})
+        loadOrg();
       })
     }
     $scope.updatePwd = function() {

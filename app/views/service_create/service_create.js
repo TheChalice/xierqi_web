@@ -186,7 +186,7 @@ angular.module('console.service.create', [
             // if (!$scope.dc.spec.template.spec.containers.tag) {
             //   $scope.named=$stateParams.image.metadata.name;
             // }
-            // console.log("initContainer", $stateParams.image.metadata.name);
+             console.log("initContainer", $stateParams.image);
 
             if ($stateParams.image.metadata) {
               var container = angular.copy($scope.containerTpl);
@@ -242,9 +242,11 @@ angular.module('console.service.create', [
                 var arr=$stateParams.image.split("@");
                 console.log(arr)
                 var container = angular.copy($scope.containerTpl);
-                container.image = arr[0]+":"+arr[2];
+                container.image = arr[0]+"@"+arr[1];
                 container.tag = arr[2];
-                container.strname = container.name = arr[1];
+                container.strname = container.name = arr[3];
+                $scope.grid.imageChange = true;
+                $scope.grid.isimageChange = true;
               } else {
                 var container = angular.copy($scope.containerTpl);
                 container.image = 'registry.dataos.io/' + $stateParams.image.split(':')[0];
@@ -402,6 +404,7 @@ angular.module('console.service.create', [
           ImageSelect.open().then(function (res) {
             console.log("imageStreamTag", res);
             console.log('container', container)
+            var imagetag = '';
             container.ports = [];
             if (container.ports.length == 0) {
               container.ports.push({
@@ -416,44 +419,42 @@ angular.module('console.service.create', [
               var str1 =  res.imagesname.split("/");
               var strname1 = str1[0]+'/'+str1[1];
               container.image = 'registry.dataos.io/'+str1[0]+'/'+str1[1]+':'+str1[2];
+              var olsname = strname1.replace('/', "-");
               console.log(container.image)
               if (idx > 0) {
-                if (cons[idx - 1].image.split(":")[0] == 'registry.dataos.io/'+strname1) {
-                  strname1 = str1[0]+'/'+str1[1] + idx;
+                for(var i = 0 ; i < cons.length;i++){
+                  if(cons[i].name == olsname){
+                    strname1 = str1[0]+'/'+str1[1] + idx;
+                  }
                 }
               }
               container.strname = strname1.replace('/', "-");
               container.name = strname1.replace('/', "-");
               container.tag = str1[2];
+              imagetag = 'image-'+container.name;
+              $scope.dc.metadata.annotations[imagetag] = str1[2];
 
             }else{
               var dockerImageIP  = res.image.dockerImageReference.split('@');
               container.isimageChange = true;
               var str = res.metadata.name.split(":");
-              container.image = dockerImageIP[0]+':'+str[1];
+              //container.image = dockerImageIP[0]+':'+str[1];
+              container.image = res.image.dockerImageReference;
               var strname = str[0];
               
               if (idx > 0) {
-                // console.log('strname', strname);
-                // console.log('cons[idx - 1].image', cons[idx - 1].image);
-                console.log('cons[idx - 1].image.split[0].indexOf($rootScope.namespace)', cons[idx - 1].image);
-                if (cons[idx - 1].image.indexOf($rootScope.namespace) != -1) {
-                  console.log(cons[idx - 1].image.split($rootScope.namespace + '/')[1], strname);
-                  if (cons[idx - 1].image.split($rootScope.namespace + '/')[1].split(':')[0] == strname) {
-                    strname = str[0] + idx;
-                  }
-                }else {
-                  if (cons[idx - 1].image.split(":")[0] == strname) {
-
-                    strname = str[0] + idx;
+                for(var i = 0 ; i < cons.length;i++){
+                  if(cons[i].name == strname){
+                    strname = str[0] + idx
                   }
                 }
-
               }
               console.log("strwoshishui=0=0=0",str);
               container.strname = strname;
               container.name = strname;
               container.tag = str[1];
+              imagetag = 'image-'+container.name;
+              $scope.dc.metadata.annotations[imagetag] = str[1];
               if(res.image.dockerImageMetadata.Config.Labels){
                 container.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
                 container.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
@@ -475,13 +476,16 @@ angular.module('console.service.create', [
                 }
               }
             }
+            console.log('$scope.dc.spec.template.spec-------------',$scope.dc)
             var conlength = $scope.dc.spec.template.spec.containers
             for(var i = 0 ;i < conlength.length;i++ ){
               if(conlength[i].isimageChange == false){
                 $scope.grid.isimageChange = false;
-                return
+                $scope.grid.imageChange = false;
+                break;
               }else{
                 $scope.grid.isimageChange = true;
+                $scope.grid.imageChange = true;
               }
             }
 
@@ -617,11 +621,12 @@ angular.module('console.service.create', [
           if ($scope.grid.configChange) {
             triggers.push({type: 'ConfigChange'});
           }
-
-          if ($scope.grid.imageChange || $scope.grid.isimageChange) {
+          console.log($scope.grid.imageChange)
+          console.log($scope.grid.isimageChange)
+          if ($scope.grid.imageChange && $scope.grid.isimageChange) {
             var containers = dc.spec.template.spec.containers;
             for (var i = 0; i < containers.length; i++) {
-              var match = containers[i].image.split($rootScope.namespace+'/');
+              var match = containers[i].name+":"+containers[i].tag;
              console.log('match....',match)
               triggers.push({
                 type: 'ImageChange',
@@ -630,7 +635,7 @@ angular.module('console.service.create', [
                   "containerNames": [containers[i].name],
                   "from": {
                     "kind": "ImageStreamTag",
-                    "name": match[1]
+                    "name": match
                   }
                 }
               });
@@ -943,12 +948,6 @@ angular.module('console.service.create', [
           DeploymentConfig.create({namespace: $rootScope.namespace}, clonedc, function (res) {
             $log.info("create dc success", res);
             //var isport = false;
-            //for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
-            //  if (dc.spec.template.spec.containers[i].ports.length != 0) {
-            //    isport = true;
-            //    break;
-            //  }
-            //}
             //if (isport) {
             //  createService(dc);
             //  bindService(dc);
@@ -957,13 +956,10 @@ angular.module('console.service.create', [
             //}
             bindService(dc);
             // Toast.open('初始化成功');
-            Confirm.open("提示信息","初始化成功",null,144,true).then(function () {
-              $state.go('console.service_detail', {name: dc.metadata.name});
-            })
-            // setTimeout(function () {
-            //   $state.go('console.service_detail', {name: dc.metadata.name});
-            // }, 1000)
-            
+            //Confirm.open("提示信息","初始化成功",null,144,true).then(function () {
+            //
+            //})
+            $state.go('console.service_detail', {name: dc.metadata.name});
           }, function (res) {
             //todo 错误处理
             $log.info("create dc fail", res);

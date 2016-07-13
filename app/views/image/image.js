@@ -8,9 +8,15 @@ angular.module('console.image', [
         ]
       }
     ])
-    .controller('ImageCtrl', ['$q', '$http', 'platform', '$rootScope', '$scope', '$log', 'ImageStreamTag', 'BuildConfig', 'Build', 'GLOBAL', 'Sort',
-      function ($q, $http, platform, $rootScope, $scope, $log, ImageStreamTag, BuildConfig, Build, GLOBAL, Sort) {
+    .controller('ImageCtrl', ['$state','$q', '$http', 'platform', '$rootScope', '$scope', '$log', 'ImageStreamTag', 'BuildConfig', 'Build', 'GLOBAL', 'Sort',
+      function ($state,$q, $http, platform, $rootScope, $scope, $log, ImageStreamTag, BuildConfig, Build, GLOBAL, Sort) {
         // 数组去重
+        console.log('$state',$state.params.index);
+        if ($state.params.index) {
+          $scope.check = $state.params.index
+        }else {
+          $scope.check = false
+        }
         Array.prototype.unique = function () {
           var res = [this[0]];
           for (var i = 1; i < this.length; i++) {
