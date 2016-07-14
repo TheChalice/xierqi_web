@@ -99,7 +99,7 @@ angular.module('console.dashboard', [
           };
         };
 
-        var setPieChart = function (tp, dec, percent, quota) {
+        var setPieChart = function (tp, dec, percent, quota,color) {
           var percentstr = '';
           if (quota == true) {
             // percentstr = '<b style="color:#5a6378;">已用' + percent + '%</b>';
@@ -135,7 +135,7 @@ angular.module('console.dashboard', [
             },
             series: [{
               type: 'pie',
-              colors: ['#f6a540', '#c6c6c6'],
+              colors: [color, '#c6c6c6'],
               data: [
                 ['已用', percent],
                 ['未使用', 100 - percent]
@@ -230,14 +230,14 @@ angular.module('console.dashboard', [
                   memsun += mem[w]
                 }
                 // console.log(cpusun,memsun)
-                var cpunum = 0
-                var memnum = 0
-                if (cpu.length && mem.length) {
-                  cpunum = cpusun / cpu.length / 500 * 100;
-                  memnum = memsun / mem.length / 1000000 / 250 * 100;
-                  cpunum = toDecimal(cpunum);
-                  memnum = toDecimal(memnum);
-                }
+                // var cpunum = 0
+                // var memnum = 0
+                // if (cpu.length && mem.length) {
+                //   cpunum = cpusun / cpu.length / 500 * 100;
+                //   memnum = memsun / mem.length / 1000000 / 250 * 100;
+                //   cpunum = toDecimal(cpunum);
+                //   memnum = toDecimal(memnum);
+                // }
 
                 // console.log(cpunum,memnum)
                 //quotaed
@@ -264,9 +264,24 @@ angular.module('console.dashboard', [
                 // data.items[0].status.hard['limits.cpu']
                 // console.log(data.items[0].status.used['limits.memory'],data.items[0].status.used['limits.cpu']);
                 // console.log(data.items[0].status.hard['limits.memory'],data.items[0].status.hard['limits.cpu']);
+                if (memnums == 100||cpunums==100) {
+                  if (memnums == 100&&cpunums!=100) {
+                    $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true,'red');
+                    $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'GB', cpunums, true,'#f6a540');
+                  }else if(cpunums==100&&memnums != 100){
+                    $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'GB', cpunums, true,'red');
+                    $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true,'#f6a540');
+                  }else {
+                    $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'GB', cpunums, true,'red');
+                    $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true,'red');
 
-                $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'GB', cpunums, true);
-                $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true);
+                  }
+
+                }else {
+                  $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true,'#f6a540');
+                  $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'GB', cpunums, true,'#f6a540');
+                }
+                // $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'GB', cpunums, true,'#f6a540');
                 $scope.chartConfig = setChart();
                 $scope.isdata.CpuorMem = true;
                 $scope.isdata.charts = true;
