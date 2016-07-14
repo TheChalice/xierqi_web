@@ -4,6 +4,6 @@ angular.module('console.create_secret', [
         files:[
         ]
     }
-]).controller('createSecretCtrl',[ function(){
+]).controller('createSecretCtrl',[  function(){
 
 }])

@@ -282,5 +282,15 @@ define([
                 }]
               }
             })
+            .state('console.create_secret', {
+              url: '/create_secret',
+              templateUrl: 'views/create_secret/create_secret.html',
+              controller: 'createSecretCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/create_secret/create_secret.js')
+                }]
+              }
+            })
       }]);
 });
