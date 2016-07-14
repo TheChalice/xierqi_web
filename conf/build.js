@@ -1,16 +1,16 @@
 {
-    appDir: "../app",
-    baseUrl: "./",
-    dir: "../dist",
-    optimize: "uglify",
-    optimizeCss: "standard",
-    removeCombined: true,
-    modules: [
+    appDir="../app",
+    baseUrl= "./",
+    dir= "../dist",
+    optimize= "uglify",
+    optimizeCss= "standard",
+    removeCombined= true,
+    modules= [
     {
         name: 'app'
     }
 ],
-    paths: {
+    paths= {
         bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min',
         jquery: '../bower_components/jquery/dist/jquery.min',
         moment: '../bower_components/moment/min/moment-with-locales.min',
@@ -27,9 +27,13 @@
         kubernetesUI: 'pub/terminal',
         term: '../bower_components/term.js/src/term',
         highcharts: '../bower_components/highcharts/highcharts',
-        highchartsNg: '../bower_components/highcharts-ng/dist/highcharts-ng.min'
-},
-    shim: {
+        highchartsNg: '../bower_components/highcharts-ng/dist/highcharts-ng.min',
+        fileUpload: '../bower_components/ng-file-upload/ng-file-upload.min',
+        fileUploadShim: '../bower_components/ng-file-upload/ng-file-upload-shim.min'
+
+
+    },
+    shim = {
         'angular': {
             deps: ['jquery'],
                 exports: 'angular'
@@ -70,6 +74,12 @@
         },
         'highchartsNg': {
             deps: ['angular', 'highcharts']
-        }
+        },
+      'fileUpload' : {
+        deps: ['angular']
+      },
+      'fileUploadShim' : {
+        deps: ['angular', 'fileUpload']
+      }
     }
 }
