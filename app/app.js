@@ -35,6 +35,7 @@ define([
         'myApp.version',
         'hc.marked',
         'highcharts-ng'
+
     ]);
 
     myApp.constant('GLOBAL', {
