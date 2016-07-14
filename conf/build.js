@@ -1,16 +1,16 @@
 {
-    appDir="../app",
-    baseUrl= "./",
-    dir= "../dist",
-    optimize= "uglify",
-    optimizeCss= "standard",
-    removeCombined= true,
-    modules= [
+    appDir:"../app",
+    baseUrl: "./",
+    dir: "../dist",
+    optimize: "uglify",
+    optimizeCss: "standard",
+    removeCombined: true,
+    modules: [
     {
         name: 'app'
     }
 ],
-    paths= {
+    paths: {
         bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min',
         jquery: '../bower_components/jquery/dist/jquery.min',
         moment: '../bower_components/moment/min/moment-with-locales.min',
@@ -33,7 +33,7 @@
 
 
     },
-    shim = {
+    shim : {
         'angular': {
             deps: ['jquery'],
                 exports: 'angular'
