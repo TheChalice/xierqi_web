@@ -79,7 +79,7 @@ angular.module("console.header", [
                   var timer = setInterval(function(){
                       // check the status of message inbox
                       $http({
-                          url:'/lapi/inbox_stat/',
+                          url:'/lapi/inbox_stat',
                           method:'GET',
                       }).success(function(res){
                           console.log("test the inbox stat", res);
@@ -95,10 +95,10 @@ angular.module("console.header", [
                           console.log("Couldn't get inbox message", data)
                       });
                   },30000)
-                  timer();
                   $scope.checkInbox = function() {
                       $scope.isshow = false;
                   }
+                  //timer();
             }]
         }
     }])
@@ -141,6 +141,8 @@ angular.module("console.header", [
                     return "新建持久化卷";
                 case "console.create_config_volume":
                     return "新建配置卷";
+                case "console.create_secret":
+                    return "新建密钥"
             }
         };
     }]);

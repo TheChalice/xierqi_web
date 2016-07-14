@@ -42,11 +42,26 @@ angular.module('console.user', [
       });
     }
 
-    $scope.deletezz=function () {
-      Confirm.open("离开组织", "您确定要删除组织吗？", "此操作不可撤销", "stop").then(function(){
-        Confirm.open("离开组织", "删除组织失败", "组织内还有其他成员，您需要先移除其他成员", null,true)
+    //load project
+    var loadProject = function(){
+      $http.get('/oapi/v1/projects', {
+      }).success(function(data){
+        console.log('test project', data);
       })
+    }
 
+    $scope.deletezz=function () {
+      if($scope.rootmembers.length ==1 && $scope.norootmembers.length == 0){
+        Confirm.open("离开组织", "您确定要删除组织吗？", "此操作不可撤销", "stop").then(function(){
+          $http.delete('/lapi/orgs/'+$stateParams.useorg, {
+          }).success(function(item){
+            console.log('the org has been deelted', item);
+            loadProject();
+          })
+        })
+      }else{
+        Confirm.open("离开组织", "删除组织失败", "组织内还有其他成员，您需要先移除其他成员", null,true)
+      }
     }
     $scope.addpeople=function () {
       Addmodal.open('邀请新成员', '邮箱', '',$stateParams.useorg,'people').then(function (res) {
@@ -69,12 +84,12 @@ angular.module('console.user', [
     $scope.remove=function (idx) {
       Confirm.open("移除", "您确定要删除："+$scope.rootmembers[idx].member_name+"吗？", null, "").then(function(){
         console.log('test root members before remove',$scope.rootmembers )
-        $http.put('/lapi/orgs/'+$stateParams.useorg+'/remove',{
-          member_name:$scope.rootmembers[idx].member_name
-        }).success(function(data){
-          console.log('test rootmember who has been removed', $scope.rootmembers[idx].member_name);
-          loadOrg();
-        })
+        //$http.put('/lapi/orgs/'+$stateParams.useorg+'/remove',{
+        //  member_name:$scope.rootmembers[idx].member_name
+        //}).success(function(data){
+        //  console.log('test rootmember who has been removed', $scope.rootmembers[idx].member_name);
+        //  loadOrg();
+        //})
       })
     }
 
@@ -107,7 +122,7 @@ angular.module('console.user', [
             })
         }
       }
-    //}
+
       $scope.changetomember = function(idx){
         $http.put('/lapi/orgs/'+$stateParams.useorg+'/privileged',{
           member_name:$scope.rootmembers[idx].member_name,

@@ -36,7 +36,8 @@ require.config({
         term: '../bower_components/term.js/src/term',
         highcharts: '../bower_components/highcharts/highcharts',
         highchartsNg: '../bower_components/highcharts-ng/dist/highcharts-ng.min',
-        //fileUpload: '../bower_components/ng-file-upload/ng-file-upload.min'
+        fileUpload: '../bower_components/ng-file-upload/ng-file-upload.min',
+        fileUploadShim: '../bower_components/ng-file-upload/ng-file-upload-shim.min'
     },
     shim: {
         'angular': {
@@ -79,10 +80,13 @@ require.config({
         },
         'highchartsNg': {
             deps: ['angular', 'highcharts']
+        },
+        'fileUpload' : {
+            deps: ['angular']
+        },
+        'fileUploadShim': {
+            deps: ['angular', 'fileUpload']
         }
-        //'fileUpload' : {
-        //    deps: ['angular', 'fileUpload']
-        //}
     },
     priority: [
         "angular"
