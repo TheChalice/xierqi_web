@@ -53,15 +53,8 @@ define([
         loginSuccess: 'auth-login-success',
         httpForbidden: 'auth-http-forbidden'
     })
-    // .constant('AUTH_CFG', {
-    //     oauth_authorize_uri: "https://54.222.158.233:8443/oauth/authorize",
-    //     oauth_redirect_base: "http://localhost:9000",
-    //     oauth_client_id: "openshift-web-console",
-    //     logout_uri: ""
-    // })
 
     .config(['$httpProvider', 'GLOBAL', function ($httpProvider) {
-
         $httpProvider.interceptors.push([
             '$injector',
             function ($injector) {

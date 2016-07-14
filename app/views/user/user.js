@@ -19,6 +19,15 @@ angular.module('console.user', [
       et:null
     }
     $scope.orgName = "seferfe";
+
+    //load project
+    var loadProject = function(){
+      $http.get('/oapi/v1/projects', {
+      }).success(function(data){
+        console.log('test project', data);
+      })
+    }
+
     //创建组织
     $scope.addOrg = function(){
       Addmodal.open('创建组织', '组织名称', '',$stateParams.useorg,'org').then(function(res){
@@ -31,6 +40,7 @@ angular.module('console.user', [
         //  }
         //})
         loadOrg();
+        loadProject();
       })
     }
     $scope.updatePwd = function() {
@@ -47,10 +57,6 @@ angular.module('console.user', [
           },2000)
         })
       })
-
-      // $scope.newPwd = function() {
-      //
-      // }
 
     };
     $scope.updateToken = function() {
@@ -132,8 +138,12 @@ angular.module('console.user', [
         })
       }
     }
-    $scope.sendemail = function() {
-
+    $scope.sendemail = function(item) {
+      $http.post('/lapi/send_verify_email', {
+      }).success(function(){
+        alert('激活邮件已发送!')
+        console.log('test send email', item);
+      })
     }
     loadInfo();
     loadOrg();

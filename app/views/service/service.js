@@ -7,8 +7,8 @@ angular.module('console.service', [
             ]
         }
     ])
-    .controller('ServiceCtrl', [ '$rootScope', '$scope', '$log', '$state', '$stateParams', 'DeploymentConfig','ReplicationController', 'Route','BackingServiceInstance','GLOBAL', 'Confirm', 'Sort', 'Ws',
-      function ($rootScope, $scope, $log, $state, $stateParams, DeploymentConfig,ReplicationController, Route,BackingServiceInstance,GLOBAL, Confirm, Sort, Ws) {
+    .controller('ServiceCtrl', [ '$rootScope', '$scope', '$log', '$state', '$stateParams', 'DeploymentConfig','ReplicationController', 'Route','BackingServiceInstance','GLOBAL', 'Confirm', 'Sort', 'Ws','Pod',
+      function ($rootScope, $scope, $log, $state, $stateParams, DeploymentConfig,ReplicationController, Route,BackingServiceInstance,GLOBAL, Confirm, Sort, Ws,Pod) {
         $scope.grid = {
             page: 1,
             size: 10,
@@ -78,6 +78,11 @@ angular.module('console.service', [
                 $scope.resourceVersion = data.metadata.resourceVersion;
                 watchRcs(data.metadata.resourceVersion);
                 $scope.grid.total = data.items.length;
+                for(var i = 0 ; i < $scope.items.length; i++){
+                    loadPods($scope.items[i]);
+                }
+
+
 
             }, function(res) {
                 $log.info('serviceList', res);
@@ -86,7 +91,46 @@ angular.module('console.service', [
         }
 
         serviceList();
-
+          var loadPods = function (itemarr) {
+                  var labelSelector = 'deploymentconfig=' + itemarr.metadata.name;
+                    itemarr.status.replicas = 0;
+                  Pod.get({namespace: $scope.namespace, labelSelector: labelSelector}, function (res) {
+                      $scope.pods = res;
+                      $scope.pods.items = res.items;
+                      for(var i = 0;i < res.items.length; i++){
+                          $scope.pods.items[i].reason = res.items[i].status.phase;
+                          if(res.items[i].status.reason != null && res.items[i].status.reason != ""){
+                              $scope.pods.items[i].reason = res.items[i].status.reason;
+                          }
+                          if(res.items[i].status.containerStatuses){
+                              for(var j = 0 ;j < res.items[i].status.containerStatuses.length;j++){
+                                  var container =  res.items[i].status.containerStatuses[j];
+                                  if (container.state.waiting != null && container.state.waiting.reason != "" ){
+                                      $scope.pods.items[i].reason = container.state.waiting.reason
+                                  } else if (container.state.terminated != null && container.state.terminated.reason != "") {
+                                      $scope.pods.items[i].reason = container.state.terminated.reason
+                                  }else if (container.state.terminated != null && container.state.terminated.reason == "") {
+                                      if (container.state.terminated.signal != 0) {
+                                          $scope.pods.items[i].reason = "Signal:%d"+container.state.terminated.signal;
+                                      } else {
+                                          $scope.pods.items[i].reason = "ExitCode:"+container.state.terminated.exitCode;
+                                      }
+                                  }
+                              }
+                          }
+                          if (res.items[i].metadata.deletionTimestamp != null ){
+                              $scope.pods.items[i].reason = "Terminating"
+                          }
+                          if($scope.pods.items[i].reason == 'Running'){
+                              itemarr.status.replicas++;
+                          }
+                      }
+                      // $log.info("pods", $scope.pods.items);
+                  }, function (res) {
+                      //todo 错误处理
+                      // $log.info("loadPods err", res);
+                  });
+          };
         $scope.refresh = function(){
             serviceList();
           $scope.grid.page=1;

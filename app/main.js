@@ -87,7 +87,9 @@ require.config({
         'fileUploadShim' : {
            deps: ['angular', 'fileUpload']
         }
-
+        //'fileUpload' : {
+        //    deps: ['angular', 'fileUpload']
+        //}
     },
     priority: [
         "angular"

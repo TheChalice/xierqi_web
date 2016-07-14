@@ -412,7 +412,7 @@ angular.module('console.service.detail', [
             for (var i = 0; i < res.items.length; i++) {
               res.items[i].dc = JSON.parse(res.items[i].metadata.annotations['openshift.io/encoded-deployment-config']);
               if (res.items[i].metadata.name == $scope.dc.metadata.name + '-' + $scope.dc.status.latestVersion) {
-                $scope.dc.status.replicas = res.items[i].status.replicas;
+                //$scope.dc.status.replicas = res.items[i].status.replicas;
                 $scope.dc.status.phase = res.items[i].metadata.annotations['openshift.io/deployment.phase'];
               }
               if (res.items[i].metadata.annotations['openshift.io/deployment.cancelled'] == 'true') {
@@ -544,7 +544,7 @@ angular.module('console.service.detail', [
               for (var i = 0; i < res.items.length; i++) {
                 res.items[i].dc = JSON.parse(res.items[i].metadata.annotations['openshift.io/encoded-deployment-config']);
                 if (res.items[i].metadata.name == $scope.dc.metadata.name + '-' + $scope.dc.status.latestVersion) {
-                  $scope.dc.status.replicas = res.items[i].status.replicas;
+                  //$scope.dc.status.replicas = res.items[i].status.replicas;
                   $scope.dc.status.phase = res.items[i].metadata.annotations['openshift.io/deployment.phase'];
                 }
               }
@@ -584,7 +584,7 @@ angular.module('console.service.detail', [
             // console.log("$scope.dc+_+_+_+_+", $scope.dc);
             data.object.dc = JSON.parse(data.object.metadata.annotations['openshift.io/encoded-deployment-config']);
             if (data.object.metadata.name == $scope.dc.metadata.name + '-' + $scope.dc.status.latestVersion) {
-              $scope.dc.status.replicas = data.object.status.replicas;
+              //$scope.dc.status.replicas = data.object.status.replicas;
               $scope.getdc.spec.replicas = data.object.spec.replicas;
             }
             if (data.object.metadata.annotations['openshift.io/deployment.cancelled'] == 'true') {
@@ -951,6 +951,7 @@ angular.module('console.service.detail', [
 
         var loadPods = function (dc) {
           var labelSelector = 'deploymentconfig=' + dc;
+          $scope.dc.status.replicas = 0;
           Pod.get({namespace: $scope.namespace, labelSelector: labelSelector}, function (res) {
 
             $scope.pods = res;
@@ -979,6 +980,9 @@ angular.module('console.service.detail', [
               }
               if (res.items[i].metadata.deletionTimestamp != null ){
                 $scope.pods.items[i].reason = "Terminating"
+              }
+              if($scope.pods.items[i].reason == 'Running'){
+                $scope.dc.status.replicas++;
               }
             }
 
@@ -1107,7 +1111,10 @@ angular.module('console.service.detail', [
         };
 
         $scope.selectImage = function (idx) {
-          var arrimgstr = $scope.dc.metadata.annotations.imageorpublic.split(",");
+          var arrimgstr = [];
+          if($scope.dc.metadata.annotations.imageorpublic){
+            arrimgstr = $scope.dc.metadata.annotations.imageorpublic.split(",");
+          }
           var container = $scope.dc.spec.template.spec.containers[idx];
           var cons = $scope.dc.spec.template.spec.containers;
           ImageSelect.open().then(function (res) {
@@ -1158,9 +1165,11 @@ angular.module('console.service.detail', [
               }
               if($scope.dc.spec.template.spec.containers[i].isimageChange == false){
                 $scope.grid.isimageChange = false;
+                $scope.grid.imageChange = false;
                 break;
               }else{
                 $scope.grid.isimageChange = true;
+                $scope.grid.imageChange = true;
               }
             }
             //var arr = res.metadata.name.split(':');

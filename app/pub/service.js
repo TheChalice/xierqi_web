@@ -156,7 +156,6 @@ define(['angular'], function (angular) {
                   }
                 }
               });
-
               $scope.$watch('imageVersion', function (newVal, oldVal) {
                 if (newVal != oldVal) {
                   newVal = newVal.replace(/\\/g);
