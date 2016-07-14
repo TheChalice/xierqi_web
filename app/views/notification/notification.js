@@ -31,7 +31,7 @@ angular.module('console.notification', [
         'size':10,
       }
     }).success(function(data){
-        // console.log('inbox',data);
+        console.log('inbox',data);
       $scope.sitenotify=data;
     }).error(function(data,header,config,status){
     });
@@ -111,7 +111,7 @@ angular.module('console.notification', [
         url:'/lapi/orgs/'+orgid+'/accept',
         method:'PUT',
       }).success(function(data){
-        $scope.sitenotify.data.results[ind].status=true;
+        $scope.sitenotify.data.results[ind].data.accepted=true;
       }).error(function(data,header,config,status){
       });
 

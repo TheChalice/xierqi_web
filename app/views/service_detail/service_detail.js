@@ -412,7 +412,7 @@ angular.module('console.service.detail', [
             for (var i = 0; i < res.items.length; i++) {
               res.items[i].dc = JSON.parse(res.items[i].metadata.annotations['openshift.io/encoded-deployment-config']);
               if (res.items[i].metadata.name == $scope.dc.metadata.name + '-' + $scope.dc.status.latestVersion) {
-                $scope.dc.status.replicas = res.items[i].status.replicas;
+                //$scope.dc.status.replicas = res.items[i].status.replicas;
                 $scope.dc.status.phase = res.items[i].metadata.annotations['openshift.io/deployment.phase'];
               }
               if (res.items[i].metadata.annotations['openshift.io/deployment.cancelled'] == 'true') {
@@ -544,7 +544,7 @@ angular.module('console.service.detail', [
               for (var i = 0; i < res.items.length; i++) {
                 res.items[i].dc = JSON.parse(res.items[i].metadata.annotations['openshift.io/encoded-deployment-config']);
                 if (res.items[i].metadata.name == $scope.dc.metadata.name + '-' + $scope.dc.status.latestVersion) {
-                  $scope.dc.status.replicas = res.items[i].status.replicas;
+                  //$scope.dc.status.replicas = res.items[i].status.replicas;
                   $scope.dc.status.phase = res.items[i].metadata.annotations['openshift.io/deployment.phase'];
                 }
               }
@@ -584,7 +584,7 @@ angular.module('console.service.detail', [
             // console.log("$scope.dc+_+_+_+_+", $scope.dc);
             data.object.dc = JSON.parse(data.object.metadata.annotations['openshift.io/encoded-deployment-config']);
             if (data.object.metadata.name == $scope.dc.metadata.name + '-' + $scope.dc.status.latestVersion) {
-              $scope.dc.status.replicas = data.object.status.replicas;
+              //$scope.dc.status.replicas = data.object.status.replicas;
               $scope.getdc.spec.replicas = data.object.spec.replicas;
             }
             if (data.object.metadata.annotations['openshift.io/deployment.cancelled'] == 'true') {
@@ -951,6 +951,7 @@ angular.module('console.service.detail', [
 
         var loadPods = function (dc) {
           var labelSelector = 'deploymentconfig=' + dc;
+          $scope.dc.status.replicas = 0;
           Pod.get({namespace: $scope.namespace, labelSelector: labelSelector}, function (res) {
 
             $scope.pods = res;
@@ -979,6 +980,9 @@ angular.module('console.service.detail', [
               }
               if (res.items[i].metadata.deletionTimestamp != null ){
                 $scope.pods.items[i].reason = "Terminating"
+              }
+              if($scope.pods.items[i].reason == 'Running'){
+                $scope.dc.status.replicas++;
               }
             }
 
@@ -1107,18 +1111,22 @@ angular.module('console.service.detail', [
         };
 
         $scope.selectImage = function (idx) {
+          var arrimgstr = [];
+          if($scope.dc.metadata.annotations.imageorpublic){
+            arrimgstr = $scope.dc.metadata.annotations.imageorpublic.split(",");
+          }
           var container = $scope.dc.spec.template.spec.containers[idx];
           var cons = $scope.dc.spec.template.spec.containers;
           ImageSelect.open().then(function (res) {
-            // console.log("imageStreamTag", res);
+            console.log("imageStreamTag", res);
             var imagetag = '';
             if(res.ispublicimage){
               var str1 =  res.imagesname.split("/");
               var strname1 = str1[0]+'/'+str1[1];
               var olsname = strname1.replace('/', "-");
+              container.truename = strname1.replace('/', "-");
               container.image = 'registry.dataos.io/'+str1[0]+'/'+str1[1]+':'+str1[2];
               container.isimageChange = false;
-              // console.log(container.image)
               if (idx > 0) {
                 for(var i = 0 ; i < cons.length;i++){
                   if(cons[i].name == olsname){
@@ -1135,14 +1143,14 @@ angular.module('console.service.detail', [
             }else{
               container.image = res.image.dockerImageReference
               container.isimageChange = true;
-              console.log('-----------',res);
               var arr = res.metadata.name.split(':');
               container.tag = arr[1];
               imagetag = 'image-'+container.name;
-              $scope.dc.metadata.annotations[imagetag] = str[1];
+              $scope.dc.metadata.annotations[imagetag] = arr[1];
               if (arr.length > 1) {
                 container.name = arr[0];
               }
+              container.truename = arr[0];
               if (idx > 0) {
                 for(var i = 0 ; i < cons.length;i++){
                   if(cons[i].name == arr[0]){
@@ -1152,16 +1160,18 @@ angular.module('console.service.detail', [
               }
             }
             for(var i = 0 ;i < $scope.dc.spec.template.spec.containers.length;i++ ){
-              if($scope.dc.spec.template.spec.containers[i].isimageChange == false || (!$scope.dc.spec.template.spec.containers[i].isimageChange && $scope.dc.metadata.annotations["dadafoundry.io/images-from"] == 'private')){
+              if($scope.dc.spec.template.spec.containers[i].isimageChange != false && $scope.dc.spec.template.spec.containers[i].isimageChange != true){
+                $scope.dc.spec.template.spec.containers[i].isimageChange = arrimgstr[i];
+              }
+              if($scope.dc.spec.template.spec.containers[i].isimageChange == false){
                 $scope.grid.isimageChange = false;
+                $scope.grid.imageChange = false;
                 break;
               }else{
                 $scope.grid.isimageChange = true;
+                $scope.grid.imageChange = true;
               }
             }
-            // console.log('$scope.grid.isimageChange',$scope.grid.isimageChange)
-            // console.log('$ $scope.dc', $scope.dc)
-
             //var arr = res.metadata.name.split(':');
             //if (arr.length > 1) {
             //  container.name = arr[0];
@@ -1231,7 +1241,7 @@ angular.module('console.service.detail', [
                   "containerNames": [containers[i].name],
                   "from": {
                     "kind": "ImageStreamTag",
-                    "name": containers[i].image + ':' + containers[i].tag
+                    "name": containers[i].truename + ':' + containers[i].tag
                   }
                 }
               });
@@ -1546,6 +1556,9 @@ angular.module('console.service.detail', [
             // $log.info("update dc", dc);
             //var copedc = angular.copy(dc);
             for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
+              if(dc.spec.template.spec.containers[i].truename){
+                delete dc.spec.template.spec.containers[i]["truename"];
+              }
               if (dc.spec.template.spec.containers[i].ports) {
                 for (var j = 0; j < dc.spec.template.spec.containers[i].ports.length; j++) {
                   delete dc.spec.template.spec.containers[i].ports[j]["conflict"];

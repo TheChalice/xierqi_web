@@ -76,7 +76,7 @@ angular.module('console.user', [
         //  }else{
         //    $scope.norootmembers.push(item)
         //  }
-          loadOrg();
+        //   loadOrg();
         //  console.log('adding new memeber',item)
         //})
       })

@@ -32,7 +32,7 @@ define([
                 }]
               }
             })
-            .state('home.login', {
+            .state('login', {
               url: '/login',
               templateUrl: 'views/login/login.html',
               controller: 'loginCtrl',
@@ -42,7 +42,7 @@ define([
                 }]
               }
             })
-            .state('home.regist', {
+            .state('regist', {
               url: '/regist',
               templateUrl: 'views/regist/regist.html',
               controller: 'registCtrl',

@@ -82,11 +82,14 @@ require.config({
             deps: ['angular', 'highcharts']
         },
         'fileUpload' : {
-            deps: ['angular']
+           deps: ['angular']
         },
-        'fileUploadShim': {
-            deps: ['angular', 'fileUpload']
+        'fileUploadShim' : {
+           deps: ['angular', 'fileUpload']
         }
+        //'fileUpload' : {
+        //    deps: ['angular', 'fileUpload']
+        //}
     },
     priority: [
         "angular"
