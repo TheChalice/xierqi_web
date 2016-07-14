@@ -247,11 +247,17 @@ angular.module('console.dashboard', [
                   headM:parseInt(data.items[0].status.hard['limits.memory'])*1000,
                   headC:parseInt(data.items[0].status.hard['limits.cpu'])*1000,
                 }
-                var memnums = (userd.usedM/userd.headM)*100;
-                var cpunums = (userd.usedC/userd.headC)*100;
+
                 console.log('数据',data);
                 console.log(userd.headC,userd.headM);
                 console.log(userd.usedC,userd.usedM);
+                userd.usedM=userd.usedM>userd.headM?userd.headM:userd.usedM;
+                userd.usedC=userd.usedC>userd.headC?userd.headC:userd.usedC;
+                console.log(userd.headC,userd.headM);
+                console.log(userd.usedC,userd.usedM);
+
+                var memnums = (userd.usedM/userd.headM)*100;
+                var cpunums = (userd.usedC/userd.headC)*100;
                 console.log(memnums,cpunums);
                 memnums=Math.round(memnums*100)/100
                 cpunums=Math.round(cpunums*100)/100
