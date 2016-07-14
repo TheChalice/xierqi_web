@@ -18,7 +18,8 @@ define([
     'angularClipboard',
     'kubernetesUI',
     'highchartsNg',
-    //'fileUpload'
+    'fileUpload',
+    'fileUploadShim'
 ], function (angular) {
 
     // 声明应用及其依赖
@@ -34,7 +35,8 @@ define([
         'myApp.webSocket',
         'myApp.version',
         'hc.marked',
-        'highcharts-ng'
+        'highcharts-ng',
+        'ngFileUpload'
     ]);
 
     myApp.constant('GLOBAL', {
