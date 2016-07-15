@@ -12,7 +12,7 @@ angular.module('console.user', [
     ]
   }
 ]) .controller('userCtrl', ['createOrg', '$rootScope','$state','$stateParams','Cookie','Toast','$scope', 'ModalPwd', 'Addmodal', 'profile', 'pwdModify', '$http', 'Confirm','leave','orgList','Alert',
-  function (createOrg, $rootScope,$state,$stateParams,Cookie,Toast,$scope, ModalPwd, Addmodal, profile, pwdModify, $http, Confirm, leave, orgList, Alert) {
+  function ( createOrg, $rootScope,$state,$stateParams,Cookie,Toast,$scope, ModalPwd, Addmodal, profile, pwdModify, $http, Confirm, leave, orgList, Alert) {
     $scope.credentials = {};
     $scope.grid={
       st:null,
@@ -129,12 +129,12 @@ angular.module('console.user', [
       console.log('privilegednum', privilegednum);
       console.log('$rootScope.user.metadata.name', $rootScope.user.metadata.name);
       if ((privilegeds && privilegednum > 1) || !privilegeds){
-        Confirm.open("离开组织", "您确定要离开"+oname+"组织吗?", "", "stop").then(function(){
+        Confirm.open("离开组织", "您确定要离开"+oname+"吗?", "", "").then(function(){
           leaving();
         })
       }
       if (privilegeds && privilegednum == 1 ){
-        Confirm.open("离开组织", "不能离开!", "您是最后一名管理员请先指定其他管理员,才能离开", "stop",true).then(function(){
+        Confirm.open("离开组织", "不能离开!", "您是最后一名管理员请先指定其他管理员,才能离开", "", true).then(function(){
         })
       }
     }
@@ -142,9 +142,8 @@ angular.module('console.user', [
       $http.post('/lapi/send_verify_email', {
       }).success(function(){
         //alert('激活邮件已发送!')
-        Alert.open('激活邮件', '激活邮件发送成功!', '', true).then(function(){
+        Toast.open('激活邮件发送成功!');
           console.log('test send email', item);
-        })
       })
     }
     loadInfo();
