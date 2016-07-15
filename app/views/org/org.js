@@ -63,6 +63,7 @@ angular.module('console.user', [
         Confirm.open("离开组织", "删除组织失败", "组织内还有其他成员，您需要先移除其他成员", null,true)
       }
     }
+
     $scope.addpeople=function () {
       Addmodal.open('邀请新成员', '邮箱', '',$stateParams.useorg,'people').then(function (res) {
         //console.log('test org member', res);
