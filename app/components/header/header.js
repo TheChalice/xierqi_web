@@ -17,7 +17,7 @@ angular.module("console.header", [
                 // var timer;
                 $scope.$watch('$state.current.name',function (n,o) {
                   console.log(n);
-                  if (n == 'console.notification') {
+                  if (n == 'console.notification'||n=='home.index'||n=='home.login'||n=='home.regist') {
                     clearInterval($scope.timer)
                   }else {
                     $scope.timer = setInterval(function(){
@@ -37,7 +37,7 @@ angular.module("console.header", [
                       }).error(function(data){
                         console.log("Couldn't get inbox message", data)
                       });
-                    },30000)
+                    },60000)
                   }
 
                 })
@@ -105,23 +105,6 @@ angular.module("console.header", [
                     $state.reload();
                 }
             // setting timer
-                $http({
-                  url:'/lapi/inbox_stat/',
-                  method:'GET',
-                }).success(function(res){
-                  console.log("test the inbox stat", res);
-                  if(res.data == null){
-                    res.data = {};
-                  }
-                  if (res.data.sitenotify || res.data.accountms || res.data.alert){
-                    $scope.isshow = true;
-                  }else{
-                    $scope.isshow = false;
-                  };
-                }).error(function(data){
-                  console.log("Couldn't get inbox message", data)
-                });
-
                   $scope.checkInbox = function() {
                       $scope.isshow = false;
                   }
