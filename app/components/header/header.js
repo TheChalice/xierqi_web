@@ -23,6 +23,15 @@ angular.module("console.header", [
                           });
 
                   }
+                  if($rootScope.delOrgs){
+                      $http({
+                          url:'/lapi/orgs/'+$state.params.useorg,
+                          method:'GET'
+                      }).success(function(data,header,config,status,orgid){
+                          $scope.checked = data.name;
+                      }).error(function(data,header,config,status){
+                      });
+                  }
                   $scope.$watch('$state.params.useorg', function (n,o) {
                       if(n == o){
                           return;

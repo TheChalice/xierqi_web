@@ -17,7 +17,7 @@ angular.module('console.user', [
       st:null,
       et:null
     }
-
+    $rootScope.delOrgs = false;
     var loadOrg = function() {
       console.log('test org name',$stateParams.useorg)
       $http({
@@ -56,6 +56,7 @@ angular.module('console.user', [
           $http.delete('/lapi/orgs/'+$stateParams.useorg, {
           }).success(function(item){
             console.log('the org has been deelted', item);
+            $rootScope.delOrgs = true;
             loadProject();
           })
         })
