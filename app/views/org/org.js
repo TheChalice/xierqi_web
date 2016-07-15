@@ -11,8 +11,8 @@ angular.module('console.user', [
 
     ]
   }
-]) .controller('orgCtrl', ['$http', '$rootScope', '$state','$cacheFactory','loadOrg','Addmodal','Confirm','$scope','$stateParams', 'invitation', 'leave',
-  function ($http, $rootScope, $state, $cacheFactory,loadOrg,Addmodal,Confirm,$scope,$stateParams,invitation,leave) {
+]) .controller('orgCtrl', ['$http', '$rootScope', '$state','$cacheFactory','loadOrg','Addmodal','Confirm','$scope','$stateParams', 'invitation', 'leave', 'Toast',
+  function ($http, $rootScope, $state, $cacheFactory,loadOrg,Addmodal,Confirm,$scope,$stateParams,invitation,leave, Toast) {
     $scope.grid={
       st:null,
       et:null
@@ -63,9 +63,12 @@ angular.module('console.user', [
         Confirm.open("离开组织", "删除组织失败", "组织内还有其他成员，您需要先移除其他成员", null,true)
       }
     }
+
     $scope.addpeople=function () {
       Addmodal.open('邀请新成员', '邮箱', '',$stateParams.useorg,'people').then(function (res) {
-        console.log('test org member', res);
+        //console.log('test org member', res);
+        Toast.open('邀请邮件发送成功!');
+        //alert('11111')
         //$http.put('/lapi/orgs/'+$stateParams.useorg+'/invite', {
         //  member_name: res,
         //  privileged: false
@@ -136,6 +139,7 @@ angular.module('console.user', [
           $scope.norootmembers.push(b);
         })
       }
+
       $scope.changetoadmin = function(idx) {
       $http.put('/lapi/orgs/'+$stateParams.useorg+'/privileged',{
           member_name:$scope.norootmembers[idx].member_name,

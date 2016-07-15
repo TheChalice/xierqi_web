@@ -3,7 +3,7 @@
 define(['angular'], function (angular) {
   return angular.module('myApp.service', ['angular-clipboard', 'base64'])
       .service('Confirm', ['$uibModal', function ($uibModal) {
-        this.open = function (title, txt, tip, tp, iscf) {
+        this.open = function (title, txt, tip, tp, iscf, nonstop) {
           return $uibModal.open({
             templateUrl: 'pub/tpl/confirm.html',
             size: 'default',
@@ -13,6 +13,7 @@ define(['angular'], function (angular) {
               $scope.tip = tip;
               $scope.tp = tp;
               $scope.iscf = iscf;
+              //$scope.nonstop = nonstop;
               $scope.ok = function () {
                 $uibModalInstance.close(true);
               };
@@ -41,7 +42,7 @@ define(['angular'], function (angular) {
                   }).success(function(item){
                     $uibModalInstance.close(item);
                   }).error(function(res){
-                    $scope.tip = res;
+                    $scope.tip = res.message;
                   })
                 }else if(isaddpeople == 'org'){
                   $http.post('/lapi/orgs', {
@@ -49,7 +50,7 @@ define(['angular'], function (angular) {
                   }).success(function(item){
                     $uibModalInstance.close(item);
                   }).error(function(res){
-                    $scope.tip = res;
+                    $scope.tip = res.message;
                   })
                 }else{
                   $uibModalInstance.close( $scope.orgName);
