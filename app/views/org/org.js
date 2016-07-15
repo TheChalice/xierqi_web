@@ -31,11 +31,15 @@ angular.module('console.user', [
           $scope.rootmembers=[];
           $scope.norootmembers=[];
           angular.forEach(data.members,function (item) {
-            if (item.privileged) {
-              $scope.rootmembers.push(item);
-            }else {
-              $scope.norootmembers.push(item);
+            //item.jioned
+            if (item.status == "joined") {
+              if (item.privileged) {
+                $scope.rootmembers.push(item);
+              }else {
+                $scope.norootmembers.push(item);
+              }
             }
+
           })
         }
       }).error(function(data,header,config,status){
@@ -58,6 +62,7 @@ angular.module('console.user', [
             console.log('the org has been deelted', item);
             $rootScope.delOrgs = true;
             loadProject();
+            $state.go('console.dashboard');
           })
         })
       }else{
@@ -88,12 +93,14 @@ angular.module('console.user', [
     $scope.remove=function (idx) {
       Confirm.open("移除", "您确定要删除："+$scope.rootmembers[idx].member_name+"吗？", null, "").then(function(){
         console.log('test root members before remove',$scope.rootmembers )
-        //$http.put('/lapi/orgs/'+$stateParams.useorg+'/remove',{
-        //  member_name:$scope.rootmembers[idx].member_name
-        //}).success(function(data){
-        //  console.log('test rootmember who has been removed', $scope.rootmembers[idx].member_name);
-        //  loadOrg();
-        //})
+
+        $http.put('/lapi/orgs/'+$stateParams.useorg+'/remove',{
+          member_name:$scope.rootmembers[idx].member_name
+        }).success(function(data){
+          Toast.open('删除成功')
+          console.log('test rootmember who has been removed', $scope.rootmembers[idx].member_name);
+          loadOrg();
+        })
       })
     }
 
@@ -103,6 +110,7 @@ angular.module('console.user', [
         $http.put('/lapi/orgs/'+$stateParams.useorg+'/remove',{
           member_name:$scope.norootmembers[idx].member_name
         }).success(function(){
+          Toast.open('删除成功')
           console.log('test noroot who has been removed', $scope.norootmembers[idx].member_name)
           loadOrg();
         })
