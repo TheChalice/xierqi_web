@@ -76,20 +76,20 @@
     margin-right: 15px;
 }
 .projectname{
-    padding:0px 10px;
+    /*padding:0px 10px;*/
 }
 .projectname  > li {
     margin-top: 0px;
     padding:0px;
-    height: 50px;
-    border-bottom: 1px solid #f2f4f8;
+    height: 60px;
+    border-bottom: 1px solid #dfe4ef;
 }
 
 .projectname > li:hover {
     margin-top: 0px;
     padding:0px;
-    height: 50px;
-    line-height: 50px;
+    height: 60px;
+    line-height: 60px;
 }
 .projectname>.personal>a{
     color: #F8B551;
@@ -100,9 +100,27 @@
 }
 .projectname > li > a {
     width: 100%;
-    height: 50px;
-    line-height: 50px;
+    height: 60px;
+    line-height: 60px;
     display: block;
+}
+.dropdown-menu{
+    padding:0px;
+    box-shadow:none;
+
+}
+.dropdown-menu > li > a{
+    font-size:12px;
+    padding-top:0px;
+    padding-bottom:0px;
+}
+
+.dropdown-menu > li > a:hover{
+    background: #dfe4ef;
+}
+.dropdown-menu > li > a > label{
+    color: #f8b551;
+    padding-top: 7px;
 }
 @media (max-width: 758px) {
     #header {

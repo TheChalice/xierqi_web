@@ -11,10 +11,30 @@ angular.module("console.header", [
             restrict: 'EA',
             replace: true,
             templateUrl: 'components/header/header.html',
-            controller: ['Toast','Addmodal','$http','$location','orgList','$rootScope', '$scope', '$window', '$state', 'Cookie',
-              function(Toast,Addmodal,$http,$location,orgList,$rootScope, $scope, $window, $state, Cookie){
-                // alert(1)
-                 var timer;
+            controller: ['Toast','Addmodal','$http','$location','orgList','$rootScope', '$scope', '$window', '$state', 'Cookie','$stateParams',
+              function(Toast,Addmodal,$http,$location,orgList,$rootScope, $scope, $window, $state, Cookie,$stateParams){
+                  if($state.params.useorg){
+                          $http({
+                              url:'/lapi/orgs/'+$state.params.useorg,
+                              method:'GET'
+                          }).success(function(data,header,config,status,orgid){
+                              $scope.checked = data.name;
+                          }).error(function(data,header,config,status){
+                          });
+
+                  }
+                  $scope.$watch('$state.params.useorg', function (n,o) {
+                      if(n == o){
+                          return;
+                      }
+                      if($state.params.useorg){
+                          $scope.isorg = true;
+                          $scope.neworgid = $state.params.useorg
+                      }else{
+                          $scope.isorg = false;
+                      }
+                  })
+                  $scope.isorg = false;
                   $scope.$watch('namespace', function (n,o) {
                       console.log('new',n);
                       if (n) {
@@ -77,7 +97,7 @@ angular.module("console.header", [
                 $scope.goto=function (ind) {
                   $scope.checked = $scope.userorgs[ind].name;
                   // console.log($scope.userorgs,$scope.userorgs[ind].id);
-                  $state.go('console.org', {useorg:$scope.userorgs[ind].id})
+                  //$state.go('console.org', {useorg:$scope.userorgs[ind].id})
                 }
                 orgList.get({},function (org) {
                   // console.log(org);
@@ -111,6 +131,7 @@ angular.module("console.header", [
                     $rootScope.namespace = namespace;
                     Cookie.set('namespace', namespace, 10 * 365 * 24 * 3600 * 1000);
                     $state.reload();
+                    $scope.checked = namespace;
                 }
             // setting timer
                   $scope.checkInbox = function() {
