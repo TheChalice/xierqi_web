@@ -14,33 +14,32 @@ angular.module("console.header", [
             controller: ['$http','$location','orgList','$rootScope', '$scope', '$window', '$state', 'Cookie',
               function($http,$location,orgList,$rootScope, $scope, $window, $state, Cookie){
                 // alert(1)
-                // var timer;
-                $scope.$watch('$state.current.name',function (n,o) {
-                  console.log(n);
-                  if (n == 'console.notification'||n=='home.index'||n=='home.login'||n=='home.regist') {
-                    clearInterval($scope.timer)
-                  }else {
-                    $scope.timer = setInterval(function(){
-                      $http({
-                        url:'/lapi/inbox_stat/',
-                        method:'GET',
-                      }).success(function(res){
-                        console.log("test the inbox stat", res);
-                        if(res.data == null){
-                          res.data = {};
-                        }
-                        if (res.data.sitenotify || res.data.accountms || res.data.alert){
-                          $scope.isshow = true;
-                        }else{
-                          $scope.isshow = false;
-                        };
-                      }).error(function(data){
-                        console.log("Couldn't get inbox message", data)
-                      });
-                    },60000)
-                  }
+                 var timer;
+                  $scope.$watch('namespace', function (n,o) {
+                      console.log('new',n);
+                      if (n) {
+                          $rootScope.timer = setInterval(function(){
+                              $http({
+                                  url:'/lapi/inbox_stat',
+                                  method:'GET',
+                              }).success(function(res){
+                                  console.log("test the inbox stat", res);
+                                  if(res.data == null){
+                                      res.data = {};
+                                  }
+                                  if (res.data.sitenotify || res.data.accountms || res.data.alert){
+                                      $scope.isshow = true;
+                                  }else{
+                                      $scope.isshow = false;
+                                  };
+                              }).error(function(data){
+                                  //console.log("Couldn't get inbox message", data)
+                              });
+                          },600000)
+                      }
 
-                })
+
+                  })
 
                 $scope.back = function(){
                   console.log($state);

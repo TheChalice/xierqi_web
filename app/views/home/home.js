@@ -4,7 +4,12 @@ angular.module('home', [])
     .controller('HomeCtrl', ['$state','$scope', '$rootScope', '$log', 'ModalLogin', 'ModalRegist', 'User',
       function ($state,$scope, $rootScope, $log, ModalLogin, ModalRegist, User) {
         $log.info('Home');
-
+          $scope.$watch('namespace', function (n,o) {
+              //console.log('new1',n);
+              if (n == '') {
+                  clearInterval($rootScope.timer)
+              }
+          })
         if($rootScope.user){
             return $rootScope.user;
         }
