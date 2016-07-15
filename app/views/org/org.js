@@ -136,17 +136,25 @@ angular.module('console.user', [
       }
 
       $scope.changetomember = function(idx){
-        $http.put('/lapi/orgs/'+$stateParams.useorg+'/privileged',{
-          member_name:$scope.rootmembers[idx].member_name,
-          privileged: false
-        }).success(function(data){
-          console.log('test api changetomember', data);
-          $scope.rootmembers[idx].privileged = false;
-          var b = $scope.rootmembers[idx];
-          $scope.rootmembers.splice(idx, 1);
-          console.log('test changetomemeber', $scope.rootmembers, idx);
-          $scope.norootmembers.push(b);
-        })
+        if ($scope.rootmembers.length == 1) {
+          Toast.open('最后一名管理员无法被降权')
+        }else {
+          $http.put('/lapi/orgs/'+$stateParams.useorg+'/privileged',{
+            member_name:$scope.rootmembers[idx].member_name,
+            privileged: false
+          }).success(function(data){
+            console.log('test api changetomember', data);
+            $scope.rootmembers[idx].privileged = false;
+            var b = $scope.rootmembers[idx];
+            $scope.rootmembers.splice(idx, 1);
+            console.log('test changetomemeber', $scope.rootmembers, idx);
+            $scope.norootmembers.push(b);
+
+          }).error(function (err) {
+            //Toast.open(err.message)
+          })
+        }
+
       }
 
       $scope.changetoadmin = function(idx) {
