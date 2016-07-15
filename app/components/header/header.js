@@ -22,7 +22,7 @@ angular.module("console.header", [
                   }else {
                     $scope.timer = setInterval(function(){
                       $http({
-                        url:'/lapi/inbox_stat/',
+                        url:'/lapi/inbox_stat',
                         method:'GET',
                       }).success(function(res){
                         console.log("test the inbox stat", res);
@@ -39,7 +39,6 @@ angular.module("console.header", [
                       });
                     },60000)
                   }
-
                 })
 
                 $scope.back = function(){

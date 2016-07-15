@@ -100,7 +100,7 @@
                         <i class="faa faa-check"></i>&nbsp;&nbsp;我已阅读并接受《DataFoundry的会员服务协议》
                     </a>
                 </p>
-                <button class="btn btn-block btn-disabled" ng-disabled="frm.$invalid"
+                <button class="btn btn-block btn-disabled" id="regist" ng-disabled="frm.$invalid"
                         ng-class="{'btn-orange':xieyi&&credentials.password === credentials.cfmPassword&&frm.$valid, 'btn-disabled': !xieyi&&credentials.password !== credentials.cfmPassword||frm.$invalid}"
                         ng-click="xieyi&&credentials.password === credentials.cfmPassword&&frm.$valid && regist()"
                         style="margin: 20px 0 0 0;">
@@ -175,6 +175,7 @@
         z-index: 5;
         padding: 0px 10px;
     }
+
 </style>
 
 <!--<div class="modal-header">-->

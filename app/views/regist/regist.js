@@ -9,7 +9,9 @@ angular.module('home.regist', [])
       $scope.regist = function () {
         //注册相关代码...
           registration.regist({}, $scope.credentials, function(data){
-              $state.go('home.index');
+              Alert.open('注册账号', '激活邮件发送成功!', '', true).then(function(){
+                  $state.go('home.index');
+              })
           })
       };
 

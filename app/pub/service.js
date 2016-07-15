@@ -64,7 +64,7 @@ define(['angular'], function (angular) {
         };
       }])
       .service('Alert', ['$uibModal', function ($uibModal) {
-        this.open = function (title, txt, err) {
+        this.open = function (title, txt, err, regist, active) {
           return $uibModal.open({
             templateUrl: 'pub/tpl/alert.html',
             size: 'default',
@@ -72,6 +72,8 @@ define(['angular'], function (angular) {
               $scope.title = title;
               $scope.txt = txt;
               $scope.err = err;
+              $scope.classify = regist;
+              $scope.activation = active;
               $scope.ok = function () {
                 $uibModalInstance.close();
               };

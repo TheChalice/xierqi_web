@@ -11,8 +11,8 @@ angular.module('console.user', [
 
     ]
   }
-]) .controller('userCtrl', ['createOrg', '$rootScope','$state','$stateParams','Cookie','Toast','$scope', 'ModalPwd', 'Addmodal', 'profile', 'pwdModify', '$http', 'Confirm','leave','orgList',
-  function (createOrg, $rootScope,$state,$stateParams,Cookie,Toast,$scope, ModalPwd, Addmodal, profile, pwdModify, $http, Confirm, leave,orgList) {
+]) .controller('userCtrl', ['createOrg', '$rootScope','$state','$stateParams','Cookie','Toast','$scope', 'ModalPwd', 'Addmodal', 'profile', 'pwdModify', '$http', 'Confirm','leave','orgList','Alert',
+  function (createOrg, $rootScope,$state,$stateParams,Cookie,Toast,$scope, ModalPwd, Addmodal, profile, pwdModify, $http, Confirm, leave, orgList, Alert) {
     $scope.credentials = {};
     $scope.grid={
       st:null,
@@ -141,8 +141,10 @@ angular.module('console.user', [
     $scope.sendemail = function(item) {
       $http.post('/lapi/send_verify_email', {
       }).success(function(){
-        alert('激活邮件已发送!')
-        console.log('test send email', item);
+        //alert('激活邮件已发送!')
+        Alert.open('激活邮件', '激活邮件发送成功!', '', true).then(function(){
+          console.log('test send email', item);
+        })
       })
     }
     loadInfo();
