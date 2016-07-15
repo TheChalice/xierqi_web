@@ -25,19 +25,19 @@
                 <span>{{user.metadata.name}} | {{checked}}&nbsp;&nbsp;</span>
                 <i class="fa fa-chevron-circle-down" style="color: #e6e9f2;"></i>
             </a>
-            <ul class="projectname" uib-dropdown-menu
-                aria-labelledby="user-menu" style="max-height: 300px;overflow-y: scroll;top:45px;">
+            <ul ng-if="!isorg" class="projectname" uib-dropdown-menu
+                aria-labelledby="user-menu" style="max-height: 320px;overflow-y: scroll;top:45px;left:-16px;background: #f7fafc;">
                 <!--personal account-->
                 <li class='personal'>
-                    <a href="javascript:;" ng-click='gotomy()' ui-sref='console.user'>{{namespace}}
+                    <a href="javascript:;" ng-click='gotomy()' ui-sref='console.user'><label>{{namespace}}</label>
                         <br/>
-                        <span>切换到个人账户</span>
+                        <span>查看个人账户</span>
                     </a>
                 </li>
 
                 <!--组织账户-->
                 <li class='personal' ng-repeat='org in userorgs'>
-                    <a href="javascript:;" ng-click='goto($index)' ui-sref='console.org({useorg:org.id})'>{{org.name}}
+                    <a href="javascript:;" ng-click='goto($index)' ui-sref='console.dashboard({useorg:org.id})'><label>{{org.name}}</label>
                         <br/>
                         <span>切换到组织账户</span>
                     </a>
@@ -50,10 +50,40 @@
                     <a href="javascript:;" ng-click="createOrg()">创建组织</a>
                 </li>
                 <!--<li role="separator" class="divider"></li>-->
-                <li>
+                <li style="border-bottom: none;">
                     <a href="javascript:;" ng-click="logout()">退出登录</a>
                 </li>
             </ul>
+             <ul ng-if="isorg" class="projectname" uib-dropdown-menu
+                 aria-labelledby="user-menu" style="max-height: 320px;overflow-y: scroll;top:45px;left:-16px;background: #f7fafc;">
+                 <!--personal account-->
+                 <li class='personal'>
+                     <a href="javascript:;" ng-click='gotomy()' ui-sref='console.user'><label>{{namespace}}</label>
+                         <br/>
+                         <span>切换到个人账户</span>
+                     </a>
+                 </li>
+
+                 <!--组织账户-->
+                 <li class='personal' ng-repeat='org in userorgs'>
+                     <a href="javascript:;" ng-click='goto($index)' ui-sref='console.org({useorg:org.id})'><label>{{org.name}}</label>
+                         <br/>
+                         <span ng-if="org.id == neworgid">查看组织账户</span>
+                         <span ng-if="org.id != neworgid">切换组织账户</span>
+                     </a>
+                 </li>
+<!--切换project仅限go神使用,要问go神是谁?-->
+                 <li ng-if='user.metadata.name=="chaizs"' ng-repeat="project in projects | orderBy: 'metadata.name'">
+                     <a href="javascript:;" ng-click="setNamespace(project.metadata.name)">{{project.metadata.name}}</a>
+                 </li>
+                 <li>
+                     <a href="javascript:;" ng-click="createOrg()">创建组织</a>
+                 </li>
+                 <!--<li role="separator" class="divider"></li>-->
+                 <li style="border-bottom: none;">
+                     <a href="javascript:;" ng-click="logout()">退出登录</a>
+                 </li>
+             </ul>
         </span>
     </div>
 
