@@ -31,11 +31,15 @@ angular.module('console.user', [
           $scope.rootmembers=[];
           $scope.norootmembers=[];
           angular.forEach(data.members,function (item) {
-            if (item.privileged) {
-              $scope.rootmembers.push(item);
-            }else {
-              $scope.norootmembers.push(item);
+            //item.jioned
+            if (item.status == "joined") {
+              if (item.privileged) {
+                $scope.rootmembers.push(item);
+              }else {
+                $scope.norootmembers.push(item);
+              }
             }
+
           })
         }
       }).error(function(data,header,config,status){
@@ -57,6 +61,7 @@ angular.module('console.user', [
           }).success(function(item){
             console.log('the org has been deelted', item);
             loadProject();
+            $state.go('console.dashboard');
           })
         })
       }else{
