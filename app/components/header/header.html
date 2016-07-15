@@ -46,6 +46,9 @@
                 <li ng-if='user.metadata.name=="chaizs"' ng-repeat="project in projects | orderBy: 'metadata.name'">
                     <a href="javascript:;" ng-click="setNamespace(project.metadata.name)">{{project.metadata.name}}</a>
                 </li>
+                <li>
+                    <a href="javascript:;" ng-click="createOrg()">创建组织</a>
+                </li>
                 <!--<li role="separator" class="divider"></li>-->
                 <li>
                     <a href="javascript:;" ng-click="logout()">退出登录</a>

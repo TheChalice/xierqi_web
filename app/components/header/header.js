@@ -11,8 +11,8 @@ angular.module("console.header", [
             restrict: 'EA',
             replace: true,
             templateUrl: 'components/header/header.html',
-            controller: ['$http','$location','orgList','$rootScope', '$scope', '$window', '$state', 'Cookie',
-              function($http,$location,orgList,$rootScope, $scope, $window, $state, Cookie){
+            controller: ['Toast','Addmodal','$http','$location','orgList','$rootScope', '$scope', '$window', '$state', 'Cookie',
+              function(Toast,Addmodal,$http,$location,orgList,$rootScope, $scope, $window, $state, Cookie){
                 // alert(1)
                  var timer;
                   $scope.$watch('namespace', function (n,o) {
@@ -35,14 +35,23 @@ angular.module("console.header", [
                               }).error(function(data){
                                   //console.log("Couldn't get inbox message", data)
                               });
-                          },600000)
+                          },60000)
                       }
 
 
                   })
+                $scope.createOrg= function () {
+                    Addmodal.open('创建组织', '组织名称', '','','org').then(function(res){
+                        orgList.get({},function (org) {
+                            // console.log(org);
+                            Toast.open('创建成功')
+                            $scope.userorgs = org.orgnazitions;
+                        })
+                    })
 
+                }
                 $scope.back = function(){
-                  console.log($state);
+                  //console.log($state);
                   if ($state.current.name == "console.image_detail"&&$state.params.name.indexOf('/')!=-1) {
                     $state.go('console.image',{index:2})
                   }else {
