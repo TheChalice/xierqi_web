@@ -228,7 +228,7 @@
                         <div class="col-md-3">
                             <input type="email" disabled="disabled" class="form-control" id="InputEmail" ng-model="curUserInfo.email" style="margin-left: -60px; background-color: #f7f8fb">
                         </div>
-                        <div class="col-md-7" style="margin-top: 8px">
+                        <div class="col-md-7 activemail" style="margin-top: 8px">
                             <i ng-if="curUserInfo.status.active" class="fa fa-check-circle" style="color: green;">已验证</i>
                             <i ng-if="!curUserInfo.status.active" class="fa fa-info-circle" style="color: red">未验证</i>
                             <span class="sendmail" ng-if="!curUserInfo.status.active" ng-click="sendemail()" type="button" style="margin-top: 5px; width:100px; height:30px; margin-left:15px; background-color: #f6a540; color: white; padding: 5px 10px">发送激活邮件</span>
@@ -238,10 +238,10 @@
                     <div class="form-group">
                         <label class="col-md-2">密码</label>
                         <div class="col-md-3 modifypwd" style="margin-top: 5px; margin-left: -60px">
-                            <span style="width:30px; height:34px; border: 1px solid #f7f8fb; display: inline-block;">
+                            <span style="width:30px; height:34px; border: 1px solid #f7f8fb; display: inline-block;" typeof="button" ng-click="updatePwd()">
                                 <img src="views/user/img/images_69.png" style="margin-right: 15px; border: 1px solid #c9c9c9; padding:3px 5px; background-color: #f7f8fb">
                             </span>
-                            <span style="color: #f6a540; margin-top: 5px" ng-click="updatePwd()">修改密码</span>
+                            <span style="color: #f6a540; margin-top: 5px" ng-click="updatePwd()" class="updatepwd">修改密码</span>
                         </div>
                     </div>
                     <hr>
@@ -289,12 +289,12 @@
                 <i class="orgbg"></i>&nbsp;&nbsp;组织管理
             </uib-tab-heading>
             <div class="row">
-                <a style="margin-right:20px;" class="btn btn-green" href="javascript:;">
+                <a style="margin-right:20px;" class="btn btn-green" id="creation" href="javascript:;">
                     <i class="fa fa-plus fa-lg"></i>
                     <span class="hidden-xs" ng-click="addOrg()">创建组织</span>
                 </a>
             </div>
-            <div class="row" >
+            <div class="row">
                 <!--<div class="h2-border row" style="margin-top:30px;">-->
                     <!--<span class="biaoti ng-binding" style="padding-right: 20px;background: #fff;position: relative;z-index: 100;">{{org.name}}</span>-->
                 <!--</div>-->
@@ -374,6 +374,14 @@
     .sendmail :active {
         background-color: #F8B551;
     }
-
+    .activemail :hover {
+        cursor: pointer
+    }
+    .modifypwd :hover {
+        cursor: pointer
+    }
+    #creation {
+        color: white; !important;
+    }
 </style>
 

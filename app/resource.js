@@ -276,7 +276,7 @@ define([
             return labBranch;
         }])
         .factory('registration', ['$resource', function($resource){
-            var registration = $resource('/lapi/signup',{username:'@username', password:'@password', email:'@email'},{
+            var registration = $resource('/lapi/signup',{},{
                 regist: {method: 'POST'}
             });
             return registration;
