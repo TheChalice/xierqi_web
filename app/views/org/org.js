@@ -147,7 +147,7 @@ angular.module('console.user', [
             $scope.rootmembers[idx].privileged = false;
             var b = $scope.rootmembers[idx];
             $scope.rootmembers.splice(idx, 1);
-            console.log('test changetomemeber', $scope.rootmembers, idx);
+            //console.log('test changetomemeber', $scope.rootmembers, idx);
             $scope.norootmembers.push(b);
 
           }).error(function (err) {

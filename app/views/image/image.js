@@ -266,8 +266,9 @@ angular.module('console.image', [
                   arr.push(datalis);
 
                   if (arr.length == data.length) {
+                      console.log('newtext',arr);
 
-                    for (var k = 0; k < arr.length; k++) {
+                      for (var k = 0; k < arr.length; k++) {
 
                       if (arr[k] != null) {
                         for (var h = 0; h < $scope.newtext.length; h++) {
@@ -290,7 +291,7 @@ angular.module('console.image', [
           }
         }).error(function (data) {
           // $log.info('error',data)
-          $rootScope.user = null;
+          //$rootScope.user = null;
           // console.log('error', $rootScope)
         });
 
