@@ -267,19 +267,19 @@ angular.module('console.dashboard', [
                 if (memnums == 100||cpunums==100) {
                   if (memnums == 100&&cpunums!=100) {
                     $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true,'red');
-                    $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'GB', cpunums, true,'#f6a540');
+                    $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'G/Hz', cpunums, true,'#f6a540');
                   }else if(cpunums==100&&memnums != 100){
-                    $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'GB', cpunums, true,'red');
+                    $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'G/Hz', cpunums, true,'red');
                     $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true,'#f6a540');
                   }else {
-                    $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'GB', cpunums, true,'red');
+                    $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'G/Hz', cpunums, true,'red');
                     $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true,'red');
 
                   }
 
                 }else {
                   $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true,'#f6a540');
-                  $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'GB', cpunums, true,'#f6a540');
+                  $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'G/Hz', cpunums, true,'#f6a540');
                 }
                 // $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'GB', cpunums, true,'#f6a540');
                 $scope.chartConfig = setChart();

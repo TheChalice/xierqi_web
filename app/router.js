@@ -209,7 +209,7 @@ define([
               }
             })
             .state('console.dashboard', {
-              url: '/dashboard/',
+              url: '/dashboard/:useorg',
               templateUrl: 'views/dashboard/dashboard.html',
               controller: 'dashboardCtrl',
               params: {},
