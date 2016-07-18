@@ -521,6 +521,7 @@ angular.module('console.service.detail', [
           console.log('data.type',data.type);
           DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (dcdata) {
             $scope.dc = dcdata
+            $scope.getdc.spec.replicas = dcdata.spec.replicas;
             for(var i = 0 ;i < $scope.dc.spec.template.spec.containers.length; i++){
               var imagetag = 'image-'+$scope.dc.spec.template.spec.containers[i].name;
               if($scope.dc.metadata.annotations[imagetag]){
@@ -585,7 +586,7 @@ angular.module('console.service.detail', [
             data.object.dc = JSON.parse(data.object.metadata.annotations['openshift.io/encoded-deployment-config']);
             if (data.object.metadata.name == $scope.dc.metadata.name + '-' + $scope.dc.status.latestVersion) {
               //$scope.dc.status.replicas = data.object.status.replicas;
-              $scope.getdc.spec.replicas = data.object.spec.replicas;
+              //$scope.getdc.spec.replicas = data.object.spec.replicas;
             }
             if (data.object.metadata.annotations['openshift.io/deployment.cancelled'] == 'true') {
               data.object.metadata.annotations['openshift.io/deployment.phase'] = 'Cancelled';
@@ -953,10 +954,9 @@ angular.module('console.service.detail', [
           var labelSelector = 'deploymentconfig=' + dc;
           $scope.dc.status.replicas = 0;
           Pod.get({namespace: $scope.namespace, labelSelector: labelSelector}, function (res) {
-
             $scope.pods = res;
             $scope.pods.items = res.items;
-
+            $scope.dc.status.replicas = 0;
             for(var i = 0;i < res.items.length; i++){
               $scope.pods.items[i].reason = res.items[i].status.phase;
                if(res.items[i].status.reason != null && res.items[i].status.reason != ""){
