@@ -320,3 +320,7 @@ article .peie {
     background: url(../../pub/img/warning_hover.png) no-repeat;
     background-size:contain;
 }
+.accepts .dianj:hover {
+    background-color: #fff;
+    color: black;
+}
