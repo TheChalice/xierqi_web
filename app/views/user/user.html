@@ -231,20 +231,17 @@
                         <div class="col-md-7 activemail" style="margin-top: 8px">
                             <i ng-show="curUserInfo.status.active" class="fa fa-check-circle" style="color: #55c45f; margin-left: -70px">已验证</i>
                             <i ng-show="!curUserInfo.status.active" class="fa fa-info-circle" style="color: #ec6941">未验证</i>
-                            <span class="sendmail" ng-if="!curUserInfo.status.active" ng-click="sendemail()" type="button" style="margin-top: 5px; width:100px; height:30px; margin-left:15px; background-color: #f6a540; color: white; padding: 5px 10px">发送激活邮件</span>
-                        </div>
-                        <div>
-                            <p>激活邮件已发送!</p >
+                            <span class="sendmail" ng-if="!curUserInfo.status.active" ng-click="sendemail()" type="button">发送激活邮件</span>
                         </div>
                     </div>
                     <hr>
                     <div class="form-group">
                         <label class="col-md-2">密码</label>
-                        <div class="col-md-3 modifypwd" style="margin-top: 5px; margin-left: -60px">
+                        <div class="col-md-3" style="margin-top: 5px; margin-left: -60px">
                             <span style="width:30px; height:34px; border: 1px solid #f7f8fb; display: inline-block;">
                                 <img src="views/user/img/images_69.png" style="margin-right: 15px; border: 1px solid #c9c9c9; padding:3px 5px; background-color: #f7f8fb">
                             </span>
-                            <span style="color: #f6a540; margin-top: 5px; cursor: pointer" ng-click="updatePwd()" ID="updatepwd">修改密码</span>
+                            <span ng-click="updatePwd()" ID="updatepwd">修改密码</span>
                         </div>
                     </div>
                     <hr>
@@ -368,23 +365,34 @@
     .form-group label {
         padding-top: 8px;
     }
-    .modifypwd span:hover {
-        color: #e5993a;
+    .sendmail {
+        margin-top: 5px;
+        width:100px;
+        height:30px;
+        margin-left:15px;
+        background-color: #f6a540;
+        color: white;
+        padding: 5px 10px;
     }
-    .sendmail :hover{
+    .sendmail:hover{
         background-color: #e5993a;
     }
-    .sendmail :active {
-        background-color: #F8B551;
-    }
-    .activemail :hover {
-        cursor: pointer
+    .activemail:hover {
+        cursor: pointer;
     }
     #creation {
         color: white; !important;
     }
     #leaveorg {
         color: white;
+    }
+    #updatepwd {
+        color: #f6a540;
+        margin-top: 5px;
+        cursor: pointer;
+    }
+    #updatepwd:hover {
+        color:#e5993a;
     }
 </style>
 
