@@ -52,7 +52,7 @@ angular.module("console.header", [
                                   url:'/lapi/inbox_stat',
                                   method:'GET',
                               }).success(function(res){
-                                  console.log("test the inbox stat", res);
+                                  //console.log("test the inbox stat", res);
                                   if(res.data == null){
                                       res.data = {};
                                   }
