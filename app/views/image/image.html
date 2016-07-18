@@ -1,6 +1,9 @@
 <div id="image">
-    <uib-tabset class="tab-default" active="check" style="padding: 30px 50px">
-        <uib-tab index="1" heading="用户私有镜像仓库">
+    <uib-tabset class="tab-default" active="check">
+        <uib-tab index="1">
+            <uib-tab-heading>
+                <i class="noticebg myimage"></i>&nbsp;&nbsp;我的镜像
+            </uib-tab-heading>
             <div class="row" style="margin-bottom: 30px;">
                 <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
                     <input type="text" class="form-control" ng-model="txt"
@@ -32,7 +35,10 @@
                 </uib-pagination>
             </div>
         </uib-tab>
-        <uib-tab index="2" heading="平台公有镜像">
+        <uib-tab index="2">
+            <uib-tab-heading>
+                <i class="noticebg ourimage"></i>&nbsp;&nbsp;仓库镜像
+            </uib-tab-heading>
             <div>
                 <div class="row" style="margin-bottom: 30px;">
                     <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
@@ -95,6 +101,76 @@
                 <!--<c-card item="item" gitStore="gitStore"></c-card>-->
                 <!--</div>-->
                 <!--</div>-->
+            </div>
+        </uib-tab>
+        <uib-tab index="3">
+            <uib-tab-heading>
+                <i class="noticebg imagecenter"></i>&nbsp;&nbsp;镜像中心
+            </uib-tab-heading>
+            <div class="row" style="margin-bottom: 30px;">
+                <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
+                    <input type="text" class="form-control" ng-model="txt"
+                           ng-focus="showTip=true;" placeholder="搜索镜像" ng-keyup="search('all', txt)">
+                    <span class="input-group-btn">
+                        <a class="btn" ng-click="search('all', txt)"></a>
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-sm-4 col-xs-6" ng-repeat="item in testlist">
+                    <c-card></c-card>
+                </div>
+            </div>
+            <div class="text-right" ng-if="grid.total > 10">
+                <uib-pagination
+                        ng-model="grid.page"
+                        ng-show='fyshow'
+                        total-items="grid.total"
+                        items-per-page="grid.size"
+                        class="pagination-sm"
+                        boundary-links="true"
+                        max-size="12"
+                        rotate="true"
+                        previous-text="上一页"
+                        next-text="下一页"
+                        first-text="首页"
+                        last-text="末页">
+                </uib-pagination>
+            </div>
+        </uib-tab>
+        <uib-tab index="4">
+            <uib-tab-heading>
+                <i class="noticebg myshoucang"></i>&nbsp;&nbsp;我的收藏
+            </uib-tab-heading>
+            <div class="row" style="margin-bottom: 30px;">
+                <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
+                    <input type="text" class="form-control" ng-model="txt"
+                           ng-focus="showTip=true;" placeholder="搜索镜像" ng-keyup="search('all', txt)">
+                    <span class="input-group-btn">
+                        <a class="btn" ng-click="search('all', txt)"></a>
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-sm-4 col-xs-6" ng-repeat="item in testlist">
+                    <c-card></c-card>
+                </div>
+            </div>
+            <div class="text-right" ng-if="grid.total > 10">
+                <uib-pagination
+                        ng-model="grid.page"
+                        ng-show='fyshow'
+                        total-items="grid.total"
+                        items-per-page="grid.size"
+                        class="pagination-sm"
+                        boundary-links="true"
+                        max-size="12"
+                        rotate="true"
+                        previous-text="上一页"
+                        next-text="下一页"
+                        first-text="首页"
+                        last-text="末页">
+                </uib-pagination>
             </div>
         </uib-tab>
         <!--
