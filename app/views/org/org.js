@@ -61,6 +61,7 @@ angular.module('console.user', [
           }).success(function(item){
             console.log('the org has been deelted', item);
             $rootScope.delOrgs = true;
+            $rootScope.isorg = false;
             loadProject();
             $state.go('console.dashboard');
           })
@@ -120,7 +121,7 @@ angular.module('console.user', [
     $scope.leave=function (res) {
       //for(var i = 0; i < $scope.rootmembers.length; i++){
         console.log('test how many rootmember',$scope.rootmembers.length )
-        if($scope.rootmembers.length == 1){
+        if($scope.rootmembers.length == 1 && $scope.norootmembers == 0){
           Confirm.open("离开组织", "不能离开!", "您是最后一名管理员请先指定其他管理员,才能离开", "", true).then(function() {
             //console.log('the last rootmember', $scope.rootmembers)
           })
@@ -129,6 +130,7 @@ angular.module('console.user', [
             Confirm.open("离开组织", "您确定要离开："+$stateParams.useorg+"吗？",null, "").then(function(){
               leave.left({org:$stateParams.useorg}, function() {
                 $rootScope.orgStatus = true;
+                $rootScope.delOrgs = true;
                 $state.go('console.dashboard');
               })
             })

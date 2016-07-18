@@ -109,6 +109,7 @@ angular.module('console.user', [
         console.log('list entire orgs',data);
       })
     }
+
     $scope.leaveOrg = function(idx,orgid,oname,privilegeds) {
       var privilegednum = 0;
       for(var i = 0; i < $scope.orgList[idx].members.length;i++){
@@ -116,21 +117,18 @@ angular.module('console.user', [
            privilegednum++;
         }
       }
-      var leaving = function() {
-        leave.left({org:orgid}, function() {
-          // console.log('test leave', res);
-          $scope.orgList.splice(idx,1)
-          $rootScope.orgStatus=true;
-          loadOrg();
-        })
-      }
-
       console.log('privilegeds',privilegeds);
       console.log('privilegednum', privilegednum);
       console.log('$rootScope.user.metadata.name', $rootScope.user.metadata.name);
       if ((privilegeds && privilegednum > 1) || !privilegeds){
         Confirm.open("离开组织", "您确定要离开"+oname+"吗?", "", "").then(function(){
-          leaving();
+          leave.left({org:orgid}, function() {
+            // console.log('test leave', res);
+            $scope.orgList.splice(idx,1)
+            $rootScope.orgStatus=true;
+            $rootScope.delOrgs = true;
+            loadOrg();
+          })
         })
       }
       if (privilegeds && privilegednum == 1 ){

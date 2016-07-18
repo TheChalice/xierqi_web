@@ -7,4 +7,9 @@ angular.module('console.resource_management', [
     }
 ]).controller('resmanageCtrl',[ function(){
 
+
+
+
+
+
 }])

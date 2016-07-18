@@ -29,7 +29,7 @@ define(['angular'], function (angular) {
           return $uibModal.open({
             templateUrl: 'pub/tpl/addmodal.html',
             size: 'default',
-            controller: ['$scope', '$uibModalInstance','loadOrg','$http', function ($scope, $uibModalInstance,loadOrg,$http) {
+            controller: ['$rootScope','$scope', '$uibModalInstance','loadOrg','$http', function ($rootScope,$scope, $uibModalInstance,loadOrg,$http) {
               $scope.title = title;
               $scope.txt = txt;
               $scope.tip = tip;
@@ -49,6 +49,7 @@ define(['angular'], function (angular) {
                    name : $scope.orgName
                   }).success(function(item){
                     $uibModalInstance.close(item);
+                    $rootScope.delOrgs = true;
                   }).error(function(res){
                     $scope.tip = res.message;
                   })
