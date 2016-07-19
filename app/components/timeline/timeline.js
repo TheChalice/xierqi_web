@@ -107,7 +107,7 @@ angular.module("console.timeline", [])
                   var str = $scope.name+':'+s.split('/')[0]+'/'+name
                   ModalPullImage.open(str)
                       .then(function(res){
-                        console.log("cmd", res);
+                        console.log("cmd1", res);
                       });
                 };
 
@@ -335,8 +335,9 @@ angular.module("console.timeline", [])
                 $scope.pull = function(idx){
                   // console.log(idx)
                   // console.log(idx,$scope.data.status.tags[idx].tag)
-                  var name = $scope.name + '/' + $scope.date.status.tags[idx].tag;
+                  var name = $scope.name + ':' + $scope.date.status.tags[idx].tag;
                   // var name = $scope.data.items[idx].spec.output.to.name;
+                  console.log('name',name);
                   ModalPullImage.open(name, true).then(function (res) {
                     console.log("cmd", res);
                   });

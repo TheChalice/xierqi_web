@@ -229,9 +229,9 @@
                             <input type="email" disabled="disabled" class="form-control" id="InputEmail" ng-model="curUserInfo.email" style="margin-left: -60px; background-color: #f7f8fb">
                         </div>
                         <div class="col-md-7 activemail" style="margin-top: 8px">
-                            <i ng-show="curUserInfo.status.active" class="fa fa-check-circle" style="color: #55c45f; margin-left: -70px">已验证</i>
-                            <i ng-show="!curUserInfo.status.active" class="fa fa-info-circle" style="color: #ec6941">未验证</i>
-                            <span class="sendmail" ng-if="!curUserInfo.status.active" ng-click="sendemail()" type="button">发送激活邮件</span>
+                            <i ng-show="curUserInfo.status.active" class="fa fa-check-circle" id="activation" style="color: #55c45f; margin-left: -30px"><span style="margin-left: 5px">已验证</span></i>
+                            <i ng-show="!curUserInfo.status.active" class="fa fa-info-circle" id="inactivation" style="color: #ec6941"><span style="margin-left: 5px">未验证</span></i>
+                            <span ng-show="!curUserInfo.status.active" class="sendmail" ng-click="sendemail()" type="button" style="margin-left: 40px">发送激活邮件</span>
                         </div>
                     </div>
                     <hr>
@@ -368,9 +368,10 @@
     .sendmail {
         margin-top: 5px;
         width:100px;
-        height:30px;
+        height:36px;
         margin-left:15px;
         background-color: #f6a540;
+        border-radius: 2px;
         color: white;
         padding: 5px 10px;
     }
@@ -393,6 +394,11 @@
     }
     #updatepwd:hover {
         color:#e5993a;
+    }
+    #inactivation {
+        position: absolute;
+        left: -15px;
+        top: 3px;
     }
 </style>
 

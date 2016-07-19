@@ -39,7 +39,7 @@ angular.module("console.header", [
                       if(n){
                           $scope.checked = $rootScope.namespace;
                           $http({
-                              url:'/lapi/orgs/',
+                              url:'/lapi/orgs',
                               method:'GET'
                           }).success(function(data,header,config,status,orgid){
                               $scope.userorgs = data.orgnazitions;
