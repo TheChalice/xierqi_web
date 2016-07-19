@@ -85,7 +85,7 @@
                            class="err-tip pull-right">
                         <i class="fa fa-info-circle"></i>&nbsp;确认密码不能为空
                     </small>
-                    <small ng-if="frm.password.$error.pattern&&credentials.cfmPasswordchange&&frm.cfmPassword.$dirty && credentials.password != credentials.cfmPassword"
+                    <small ng-if="credentials.cfmPasswordchange&&frm.cfmPassword.$dirty && credentials.password != credentials.cfmPassword"
                            class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;两次输入密码不相同
                     </small>
                 </p>
