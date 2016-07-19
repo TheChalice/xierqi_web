@@ -1762,7 +1762,7 @@ angular.module('console.service.detail', [
               }
               var match = image.match(/\/([^/]*)@sha256/);
               if (!match) {
-                return "";
+                return image.split(":");
               }
               return match[1];
             };
@@ -1778,21 +1778,24 @@ angular.module('console.service.detail', [
                 if (statusMap[container.name]) {
                   container.status = statusMap[container.name];
                 }
-
-                ImageStream.get({
-                  namespace: $rootScope.namespace,
-                  name: imageStreamName(container.image)
-                }, function (res) {
-                  if (res.kind == 'ImageStream') {
-                    angular.forEach(res.status.tags, function (tag) {
-                      angular.forEach(tag.items, function (item) {
-                        if (container.image.indexOf(item.image)) {
-                          container.tag = tag.tag;
-                        }
+                if(container.image.indexOf('@') != -1){
+                  ImageStream.get({
+                    namespace: $rootScope.namespace,
+                    name: imageStreamName(container.image)
+                  }, function (res) {
+                    if (res.kind == 'ImageStream') {
+                      angular.forEach(res.status.tags, function (tag) {
+                        angular.forEach(tag.items, function (item) {
+                          if (container.image.indexOf(item.image)) {
+                            container.tag = tag.tag;
+                          }
+                        });
                       });
-                    });
-                  }
-                });
+                    }
+                  });
+                }else{
+                  container.tag = imageStreamName(container.image)[1];
+                }
               });
               // console.log('====', $scope.pod)
             };
