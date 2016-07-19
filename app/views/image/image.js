@@ -54,49 +54,7 @@ angular.module('console.image', [
           $scope.grid.total = $scope.testcopy.length;
         };
 
-        // 获取buildConfig列表
-        // var loadBuildConfigs = function () {
-        //   BuildConfig.get({namespace: $rootScope.namespace}, function (data) {
-        //     $log.info('buildConfigs', data);
-        //     $scope.data = data;
-        //     $scope.data.items = Sort.sort(data.items, -1);
-        //     $scope.grid.total = data.items.length;
-        //     fillImageStreams();
-        //     refresh(1);
-        //   }, function (res) {
-        //     //todo 错误处理
-        //   });
-        // };
-        // loadBuildConfigs();
-        // 获取平台私有镜像
-        // var fillImageStreams = function () {
-        //   var items = angular.copy($scope.data.items);
-        //   $scope.data.items = [];
-        //   $scope.grid.total = 0;
-        //   angular.forEach(items, function (item) {
-        //     if (!item.spec.output.to) {
-        //       return;
-        //     }
-        //     ImageStreamTag.get({namespace: $rootScope.namespace, name: item.spec.output.to.name}, function (data) {
-        //       // console.log("-------", data);
-        //       item.metadata.creationTimestamp = data.metadata.creationTimestamp;
-        //       item.ist = data;
-        //       $scope.data.items.push(item);
-        //       $scope.grid.total++;
-        //       refresh(1);
-        //       var labels = data.image.dockerImageMetadata.Config.Labels;
-        //       if (!labels) {
-        //         return;
-        //       }
-        //       $scope.gitStore[item.spec.output.to.name] = {
-        //         id: labels["io.openshift.build.commit.id"],
-        //         ref: labels["io.openshift.build.commit.ref"]
-        //       };
-        //
-        //     });
-        //   });
-        // };
-        // 控制分页在1页下不显示
+
         $scope.fyshow = true;
         // 在searchbar组件中调用
         $scope.doSearch = function (txt) {
@@ -180,6 +138,7 @@ angular.module('console.image', [
                 })
           }
         }
+
         $http.get('/oapi/v1/namespaces/' + $rootScope.namespace + '/imagestreams')
             .success(function (datalist) {
               $scope.testlist = datalist.items;
@@ -245,19 +204,22 @@ angular.module('console.image', [
         }
         // 请求共有镜像平台
         $http.get('/registry/api/projects', {
-          params: {is_public: 1}
+          params: {is_public: 0}
         }).success(function (data) {
           $scope.newtext = data;
-          console.log(data);
+
+          console.log('regstr',data);
+
           var arr = [];
-          for (var i = 0; i < data.length; i++) {
-            data[i].mysort = data[i].creation_time;
-            data[i].mysort = (new Date(data[i].mysort)).getTime()
-          }
-          //时间冒泡排序写法
-          data.sort(function (x, y) {
-            return x.mysort > y.mysort ? -1 : 1;
-          });
+
+          //for (var i = 0; i < data.length; i++) {
+          //  data[i].mysort = data[i].creation_time;
+          //  data[i].mysort = (new Date(data[i].mysort)).getTime()
+          //}
+          ////时间冒泡排序写法
+          //data.sort(function (x, y) {
+          //  return x.mysort > y.mysort ? -1 : 1;
+          //});
 
           for (var j = 0; j < $scope.newtext.length; j++) {
             // 请求共有镜像平台的镜像版本

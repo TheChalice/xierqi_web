@@ -258,7 +258,7 @@ angular.module('console.dashboard', [
 
                 var memnums = (userd.usedM/userd.headM)*100;
                 var cpunums = (userd.usedC/userd.headC)*100;
-                console.log(memnums,cpunums);
+                //console.log(memnums,cpunums);
                 memnums=Math.round(memnums*100)/100
                 cpunums=Math.round(cpunums*100)/100
                 // data.items[0].status.hard['limits.cpu']
@@ -287,7 +287,7 @@ angular.module('console.dashboard', [
                 $scope.isdata.charts = true;
 
               } else {
-                console.log('配额',data);
+                //console.log('配额',data);
                 var cpu = [];
                 var cpusun = 0;
                 var mem = [];
@@ -317,10 +317,16 @@ angular.module('console.dashboard', [
 
                   cpunum = toDecimal(cpunum);
                   memnum = toDecimal(memnum);
+                  memnum = Math.round(memnum*100)/100;
+                  cpunum = Math.round(cpunum*100)/100;
+                  console.log(memnum);
+
+
                   // console.log(cpunum,memnum);
                   // $scope.pieConfigCpu = setPieChart('CPU', '500m', cpunum);
                   // $scope.pieConfigMem = setPieChart('内存', '250Mi', memnum);
                   //no quota.
+
                   $scope.pieConfigCpu = setPieChart('CPU', cpunum+'%', 0, false);
                   $scope.pieConfigMem = setPieChart('内存', memnum+'MB', 0, false);
 
