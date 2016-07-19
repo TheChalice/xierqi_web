@@ -287,6 +287,7 @@ angular.module('console.dashboard', [
                 $scope.isdata.charts = true;
 
               } else {
+                console.log('配额',data);
                 var cpu = [];
                 var cpusun = 0;
                 var mem = [];
@@ -322,6 +323,7 @@ angular.module('console.dashboard', [
                   //no quota.
                   $scope.pieConfigCpu = setPieChart('CPU', cpunum+'%', 0, false);
                   $scope.pieConfigMem = setPieChart('内存', memnum+'MB', 0, false);
+
                   $scope.chartConfig = setChart();
                   $scope.isdata.CpuorMem = true;
                   $scope.isdata.charts = true;
