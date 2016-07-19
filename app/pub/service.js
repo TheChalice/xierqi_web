@@ -563,10 +563,12 @@ define(['angular'], function (angular) {
             });
 
           }).error(function (data) {
-            if (data.code == 401) {
-              $rootScope.user=false;
-              $rootScope.loding = false;
-            }
+            //console.log(data);
+            //if (data.code == 401) {
+            //  //$rootScope.user=false;
+            //  $rootScope.loding = false;
+            //}
+            $state.go('login');
             $rootScope.loding = false;
             Alert.open('错误', '用户名或密码不正确');
           });
