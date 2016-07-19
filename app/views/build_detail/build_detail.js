@@ -22,7 +22,37 @@ angular.module('console.build.detail', [
                 $log.info('data', data);
                 //$log.info('labsecrect is',data.spec.source.sourceSecret.name);
                 $scope.data = data;
-                var host = data.spec.source.git.uri;
+                if (data.spec.source.git.uri.split(':')[0] == 'ssh') {
+                    var host = data.spec.source.git.uri.replace('git@','').replace('.git','');
+
+                    console.log(host.split('/'));
+
+                    var parser = document.createElement('a');
+
+                    parser.href = host;
+
+                    parser.protocol='http:';
+
+                    var post = parser.host.split(':')[0];
+                    parser.host=post;
+                    console.log(parser.href);
+                    console.log(parser.hostname);
+                    console.log(parser.pathname);
+                    data.spec.source.git.uri='https://'+parser.hostname+parser.pathname
+                }
+
+
+
+                //var parser = document.createElement('a');
+                //
+                //parser.href = host;
+                //
+                //console.log(parser.protocol); // => "http:"
+                //console.log(parser.hostname); // => "example.com"
+                //console.log(parser.port);     // => "3000"
+                //console.log(parser.pathname); // => "/pathname/"
+                //console.log(parser.hash);     // => "#hash"
+                //console.log(parser.host);     // => "example.com:3000"
                 $log.info("printhost%%%%",host);
 
                 if (data.spec && data.spec.completionDeadlineSeconds){
