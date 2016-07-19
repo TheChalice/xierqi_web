@@ -29,29 +29,49 @@ define(['angular'], function (angular) {
           return $uibModal.open({
             templateUrl: 'pub/tpl/addmodal.html',
             size: 'default',
-            controller: ['$scope', '$uibModalInstance','loadOrg','$http', function ($scope, $uibModalInstance,loadOrg,$http) {
+            controller: ['$rootScope','$scope', '$uibModalInstance','loadOrg','$http', function ($rootScope,$scope, $uibModalInstance,loadOrg,$http) {
               $scope.title = title;
               $scope.txt = txt;
               $scope.tip = tip;
               $scope.orgName = null;
               $scope.ok = function () {
                 if(isaddpeople == 'people'){
-                  $http.put('/lapi/orgs/'+orgId+'/invite', {
-                    member_name: $scope.orgName,
-                    privileged: false
-                  }).success(function(item){
-                    $uibModalInstance.close(item);
-                  }).error(function(res){
-                    $scope.tip = res.message;
-                  })
+                 if(!$scope.orgName){
+                   $scope.tip = '邮箱不能为空';
+                   return;
+                 }else{
+                   $http.put('/lapi/orgs/'+orgId+'/invite', {
+                     member_name: $scope.orgName,
+                     privileged: false
+                   }).success(function(item){
+                     $uibModalInstance.close(item);
+                   }).error(function(res){
+                     if(res.code >= 500){
+                       $scope.tip = '内部错误，请通过DaoVoice联系管理员';
+                     }else{
+                       $scope.tip = res.message;
+                     }
+                   })
+                 }
                 }else if(isaddpeople == 'org'){
-                  $http.post('/lapi/orgs', {
-                   name : $scope.orgName
-                  }).success(function(item){
-                    $uibModalInstance.close(item);
-                  }).error(function(res){
-                    $scope.tip = res.message;
-                  })
+                  if(!$scope.orgName){
+                    $scope.tip = '名称不能为空';
+                    return;
+                  }else{
+                    $http.post('/lapi/orgs', {
+                      name : $scope.orgName
+                    }).success(function(item){
+                      $uibModalInstance.close(item);
+                      $rootScope.delOrgs = true;
+                    }).error(function(res){
+                      console.log(res);
+                      if(res.code >= 500){
+                        $scope.tip = '内部错误，请通过DaoVoice联系管理员';
+                      }else{
+                        $scope.tip = res.message;
+                      }
+                    })
+                  }
                 }else{
                   $uibModalInstance.close( $scope.orgName);
                 }

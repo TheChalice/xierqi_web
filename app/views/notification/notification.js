@@ -11,8 +11,8 @@ angular.module('console.notification', [
 
     ]
   }
-]) .controller('notificationCtrl', ['$http','Addmodal','Confirm','$scope',
-  function ($http,Addmodal,Confirm,$scope) {
+]) .controller('notificationCtrl', ['$http','Addmodal','Confirm','$scope','$rootScope',
+  function ($http,Addmodal,Confirm,$scope,$rootScope) {
     $scope.grid={
       st:null,
       et:null,
@@ -112,6 +112,7 @@ angular.module('console.notification', [
         method:'PUT',
       }).success(function(data){
         $scope.sitenotify.data.results[ind].data.accepted=true;
+        $rootScope.delOrgs = true;
       }).error(function(data,header,config,status){
       });
 

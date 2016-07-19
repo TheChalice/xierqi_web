@@ -23,27 +23,45 @@ angular.module("console.header", [
                           });
 
                   }
-                  if($rootScope.delOrgs){
-                      $http({
-                          url:'/lapi/orgs/'+$state.params.useorg,
-                          method:'GET'
-                      }).success(function(data,header,config,status,orgid){
-                          $scope.checked = data.name;
-                      }).error(function(data,header,config,status){
-                      });
-                  }
+                  //if($rootScope.delOrgs){
+                  //    $http({
+                  //        url:'/lapi/orgs/'+$state.params.useorg,
+                  //        method:'GET'
+                  //    }).success(function(data,header,config,status,orgid){
+                  //        $scope.checked = data.name;
+                  //    }).error(function(data,header,config,status){
+                  //    });
+                  //}
+                  $scope.$watch('delOrgs', function (n,o) {
+                      if(n == o){
+                          return;
+                      }
+                      if(n){
+                          $scope.checked = $rootScope.namespace;
+                          $http({
+                              url:'/lapi/orgs',
+                              method:'GET'
+                          }).success(function(data,header,config,status,orgid){
+                              $scope.userorgs = data.orgnazitions;
+                              $rootScope.delOrgs = false;
+                          }).error(function(data,header,config,status){
+                          });
+                      }else{
+                          $rootScope.isorg = false;
+                      }
+                  })
                   $scope.$watch('$state.params.useorg', function (n,o) {
                       if(n == o){
                           return;
                       }
                       if($state.params.useorg){
-                          $scope.isorg = true;
+                          $rootScope.isorg = true;
                           $scope.neworgid = $state.params.useorg
                       }else{
-                          $scope.isorg = false;
+                          $rootScope.isorg = false;
                       }
                   })
-                  $scope.isorg = false;
+                  $rootScope.isorg = false;
                   $scope.$watch('namespace', function (n,o) {
                       console.log('new',n);
                       if (n) {

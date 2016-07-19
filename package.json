@@ -4,7 +4,6 @@
   "description": "angular seed",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/.bin/http-server -a localhost -p 9000 -c-1",
     "build": "node node_modules/.bin/r.js -o conf/build.js"
   },
   "repository": {
@@ -18,7 +17,6 @@
   },
   "homepage": "https://github.com/lanyuechen/angular-seed#readme",
   "devDependencies": {
-    "http-server": "^0.8.5",
     "requirejs": "^2.1.22"
   }
 }
