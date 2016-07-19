@@ -27,7 +27,7 @@
                     </small>
                     <small ng-if="credentials.usernamechange&&frm.username.$dirty && frm.username.$error.pattern&&!frm.username.$error.maxlength&&!frm.username.$error.minlength"
                            class="err-tip pull-right">
-                        <i class="fa fa-info-circle"></i>&nbsp;用户名不合法
+                        <i class="fa fa-info-circle"></i>&nbsp;用户名只能包含小写字母和数字
                     </small>
                 </p><!--ng-blur='usernamelose()'-->
                 <input type="text" name="username"
@@ -37,7 +37,7 @@
                        ng-model="credentials.username"
                        required ng-minlength="2"
                        ng-maxlength="63"
-                       ng-pattern="/^[a-zA-Z\d]\w+$/"/>
+                       ng-pattern="/^[a-z0-9\d]+$/"/>
 
                 <p class="modal-msg text-left" style="margin: 20px 0 5px 0;font-size:14px;color:#5a6378;">
                     <span class="require">邮箱</span>&nbsp;&nbsp;
