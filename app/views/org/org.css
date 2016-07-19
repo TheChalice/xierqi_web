@@ -331,3 +331,6 @@ article .peie {
 #removefmem{
     color: white;
 }
+.invitation:hover {
+    color: #469450;
+}

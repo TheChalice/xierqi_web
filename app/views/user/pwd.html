@@ -14,7 +14,7 @@
         </p>
         <!--<button ng-click="look()">test</button>-->
         <input type="password" name="oldpwd" class="form-control" ng-model="credentials.oldpwd" ng-blur="credentials.oldpwdchange=true"
-               ng-focus="credentials.oldpwdchange=false" required ng-pattern="/^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{4,18}$/">
+               ng-focus="credentials.oldpwdchange=false" required>
 
         <!--newpwd-->
         <p class="modal-msg text-left" style="margin: 20px 0 5px 0;font-size:14px;color:#5a6378;">
@@ -31,7 +31,7 @@
             <small ng-if="credentials.repwdchange && frm.repwd.$dirty && frm.repwd.$error.required" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;确认新密码不能为空</small>
             <small ng-if="credentials.repwdchange && frm.repwd.$dirty && frm.repwd.$error.pattern && credentials.pwd != credentials.repwd" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;两次输入密码不相同</small>
         </p>
-        <input name="repwd" type="password" class="form-control" required ng-model="credentials.repwd" ng-blur="repwdchange=true"
+        <input name="repwd" type="password" class="form-control" ng-model="credentials.repwd" ng-blur="repwdchange=true"
                ng-focus="repwdchange=false" required>
         <button class="btn btn-grey btns"
                 ng-click="cancel()"
