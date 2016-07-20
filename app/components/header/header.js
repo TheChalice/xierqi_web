@@ -162,10 +162,11 @@ angular.module("console.header", [
                     $state.go('home.index');
                 };
                 $scope.setNamespace = function(namespace) {
+
                     $rootScope.namespace = namespace;
                     Cookie.set('namespace', namespace, 10 * 365 * 24 * 3600 * 1000);
                     $state.reload();
-                    $scope.checked = $rootScope.user.metadata.name;
+                    $scope.checked = namespace;
                 }
             // setting timer
                   $scope.checkInbox = function() {

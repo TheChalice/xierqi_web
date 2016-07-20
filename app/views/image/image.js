@@ -221,37 +221,39 @@ angular.module('console.image', [
                   //data.sort(function (x, y) {
                   //  return x.mysort > y.mysort ? -1 : 1;
                   //});
+                  if (data) {
+                      for (var j = 0; j < $scope.newtext.length; j++) {
+                          // 请求共有镜像平台的镜像版本
+                          $http.get('/registry/api/repositories', {params: {project_id: $scope.newtext[j].project_id}})
+                              .success(function (datalis) {
+                                  arr.push(datalis);
 
-                  for (var j = 0; j < $scope.newtext.length; j++) {
-                      // 请求共有镜像平台的镜像版本
-                      $http.get('/registry/api/repositories', {params: {project_id: $scope.newtext[j].project_id}})
-                          .success(function (datalis) {
-                              arr.push(datalis);
+                                  if (arr.length == data.length) {
+                                      console.log('newtext',arr);
 
-                              if (arr.length == data.length) {
-                                  console.log('newtext',arr);
+                                      for (var k = 0; k < arr.length; k++) {
 
-                                  for (var k = 0; k < arr.length; k++) {
+                                          if (arr[k] != null) {
+                                              for (var h = 0; h < $scope.newtext.length; h++) {
 
-                                      if (arr[k] != null) {
-                                          for (var h = 0; h < $scope.newtext.length; h++) {
+                                                  if (arr[k][0].split('/')[0] == $scope.newtext[h].name) {
 
-                                              if (arr[k][0].split('/')[0] == $scope.newtext[h].name) {
-
-                                                  $scope.newtext[h].items = arr[k];
-                                                  $scope.newtext[h].isshow = true;
+                                                      $scope.newtext[h].items = arr[k];
+                                                      $scope.newtext[h].isshow = true;
+                                                  }
                                               }
                                           }
                                       }
                                   }
-                              }
 
-                              $scope.grid.copytest = angular.copy($scope.newtext);
+                                  $scope.grid.copytest = angular.copy($scope.newtext);
 
-                          }).error(function (msg) {
-                          //TODO:失败时错误处理
-                      })
+                              }).error(function (msg) {
+                              //TODO:失败时错误处理
+                          })
+                      }
                   }
+
               }).error(function (data) {
                   // $log.info('error',data)
                   //$rootScope.user = null;
