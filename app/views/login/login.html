@@ -6,6 +6,13 @@
     <div class="loading-box" ng-show=loding>
     <img class="spinner" src="pub/img/loading.gif">
 </div>
+
+<div class="logboxworp">
+    <div class="loginL">
+        <img src="../app/pub/img/00000.png" alt="" style="width: 220px;height: 220px;margin-top:80px;">
+        <div style="margin-top: 50px;font-size: 36px;color: #5a6378">铸数工坊</div>
+        <div style="font-size: 14px;color: #5a6378;margin-top: 10px;">极速铸造云端应用&nbsp;&nbsp;探究大数据应用之美</div>
+    </div>
     <div class='loginbox'>
         <div class="modal-header">
 
@@ -16,13 +23,13 @@
         </div>
         <div class="modal-body" style="padding: 20px 30px 30px 30px;">
             <form class="form-horizontal" name="frm">
-                <p class="modal-msg text-left" style="margin: 0 0 5px 0;font-size:14px;color:#5a6378;">
+                <p class="modal-msg text-left" style="margin: 0 0 10px 0;font-size:14px;color:#5a6378;">
                     <span class="require">用户名</span>&nbsp;&nbsp;
                     <small ng-if="frm.username.$dirty && frm.username.$invalid" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;用户名不能为空</small>
                 </p>
                 <input name="username" class="form-control" placeholder="用户名" ng-model="credentials.username" required>
 
-                <p class="modal-msg text-left" style="margin: 20px 0 5px 0;font-size:14px;color:#5a6378;">
+                <p class="modal-msg text-left" style="margin: 20px 0 10px 0;font-size:14px;color:#5a6378;">
                     <span class="require">密码</span>&nbsp;&nbsp;
                     <small ng-if="frm.password.$dirty && frm.password.$invalid" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;密码不能为空</small>
                 </p>
@@ -33,12 +40,19 @@
                 </button>
             </form>
         </div>
-        <div class="modal-footer" style="padding: 0;">
-            <button ng-click="regist()" class="btn btn-block btn-regist" style="height:50px;margin:0;background:#5a6378;border-radius:0 0 2px 2px;">
+        <div class="modal-footer" style="padding: 0;border: none;">
+            <div style="margin:30px 0px 20px; text-align: center;color: #5a6378">没有&nbsp;DataFoundry&nbsp;账号?</div>
+            <button ng-click="regist()" class="btn btn-block btn-regist" style="height:50px;">
                 立即注册
             </button>
         </div>
     </div>
+</div>
+
+
+
+
+
     <div style="margin:0 auto; padding-top: 40px; padding-bottom: 30px; width: 460px; position:relative">
         <div class="line">
         </div>
@@ -64,7 +78,7 @@
         background-size:contain;
     }
     body {
-        background-color: #f7f8fb;
+        background-color: #5a6378;
     }
     #header {
         display: none;
@@ -81,6 +95,31 @@
         background-color: rgba(255, 255, 255, 0.7);
         z-index: 999;
     }
+    .loginL{
+        width: 449px;
+        height: 490px;
+        float: left;
+        background: #dadfec;
+        text-align: center;
+    }
+    .btn-regist{
+        width: 300px;
+        margin:0 auto;
+        border:1px solid #5a6378;
+        background: none;
+        border-radius: 3px;;
+        color:#5a6378 ;
+    }
+    .logboxworp{
+        width: 809px;
+        margin: 0 auto;
+        margin-top: 60px;
+        overflow: hidden;
+    }
+    .modal-footer{
+        height: 175px;
+        background-color: #e6e9f2;
+    }
     .spinner {
         margin: 250px auto;
         width: 76px;
@@ -91,6 +130,7 @@
     .modal-header{
         background-color: #E6E9F2;
         color: #5a6378;
+        border: none;
         
     }
     .modal-title {
@@ -100,13 +140,15 @@
     }
     .loginbox {
         background-color: #fff;
-        width: 460px;
-        height: 360px;
-        margin: 0 auto;
-        margin-top: 60px;
+        width: 360px;
+        float: left;
+        height: 460px;
+
     }
     .btn-regist:hover {
-        color: #c9c9c9;
+        color: #fff;
+        background: #55c45f;
+        border:1px solid #55c45f;
     }
     .modal-default {
         margin-top: -200px;
@@ -116,7 +158,7 @@
         border-bottom: 1px solid #c9d0e2;
     }
     #footerimg {
-        background-color: #f7f8fb;
+        /*background-color: #f7f8fb;*/
         position: absolute;
         top: 26px;
         left:45%;
