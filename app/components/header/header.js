@@ -32,12 +32,13 @@ angular.module("console.header", [
                   //    }).error(function(data,header,config,status){
                   //    });
                   //}
+
                   $scope.$watch('delOrgs', function (n,o) {
                       if(n == o){
                           return;
                       }
                       if(n){
-                          $scope.checked = $rootScope.namespace;
+                          $scope.checked = $rootScope.user.metadata.name;
                           $http({
                               url:'/lapi/orgs',
                               method:'GET'
@@ -64,7 +65,7 @@ angular.module("console.header", [
                   $rootScope.isorg = false;
                   $scope.$watch('namespace', function (n,o) {
                       console.log('new',n);
-                      if (n) {
+                      if (n.indexOf('org')==-1) {
                           $rootScope.timer = setInterval(function(){
                               $http({
                                   url:'/lapi/inbox_stat',
@@ -83,6 +84,8 @@ angular.module("console.header", [
                                   //console.log("Couldn't get inbox message", data)
                               });
                           },60000)
+                      }else {
+                          clearInterval($rootScope.timer);
                       }
 
 
@@ -116,10 +119,10 @@ angular.module("console.header", [
                    $scope.checked=data.name
                  })
                } else if (!$scope.checked) {
-                 $scope.checked=$rootScope.namespace;
+                 $scope.checked=$rootScope.user.metadata.name;
                }
                 $scope.gotomy=function () {
-                  $scope.checked=$rootScope.namespace;
+                  $scope.checked=$rootScope.user.metadata.name;
                     $rootScope.namespace=$rootScope.user.metadata.name;
 
                 }
@@ -145,7 +148,7 @@ angular.module("console.header", [
                       if (n) {
                           orgList.get({},function (org) {
                               $scope.userorgs = org.orgnazitions;
-                              $scope.checked = $rootScope.namespace;
+                              $scope.checked = $rootScope.user.metadata.name;
                               $rootScope.orgStatus=false;
                           })
                       }
@@ -162,7 +165,7 @@ angular.module("console.header", [
                     $rootScope.namespace = namespace;
                     Cookie.set('namespace', namespace, 10 * 365 * 24 * 3600 * 1000);
                     $state.reload();
-                    $scope.checked = namespace;
+                    $scope.checked = $rootScope.user.metadata.name;
                 }
             // setting timer
                   $scope.checkInbox = function() {

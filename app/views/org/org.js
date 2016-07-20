@@ -63,6 +63,7 @@ angular.module('console.user', [
             $rootScope.delOrgs = true;
             $rootScope.isorg = false;
             loadProject();
+            $rootScope.namespace=$rootScope.user.metadata.name;
             $state.go('console.dashboard');
           })
         })
