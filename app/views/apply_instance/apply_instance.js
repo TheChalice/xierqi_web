@@ -24,7 +24,8 @@ angular.module('console.apply_instance', [
                 }
             }
         };
-
+    $scope.bsName = $stateParams.name;
+    console.log('@@@test bsname', $stateParams.name);
     var loadBs = function(){
         console.log("$state", $stateParams.plan)
         BackingService.get({namespace:'openshift',name:$stateParams.name},function(data){
