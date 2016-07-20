@@ -32,12 +32,13 @@ angular.module("console.header", [
                   //    }).error(function(data,header,config,status){
                   //    });
                   //}
+
                   $scope.$watch('delOrgs', function (n,o) {
                       if(n == o){
                           return;
                       }
                       if(n){
-                          $scope.checked = $rootScope.namespace;
+                          $scope.checked = $rootScope.user.metadata.name;
                           $http({
                               url:'/lapi/orgs',
                               method:'GET'
@@ -64,7 +65,7 @@ angular.module("console.header", [
                   $rootScope.isorg = false;
                   $scope.$watch('namespace', function (n,o) {
                       console.log('new',n);
-                      if (n) {
+                      if (n.indexOf('org')==-1) {
                           $rootScope.timer = setInterval(function(){
                               $http({
                                   url:'/lapi/inbox_stat',
@@ -83,6 +84,8 @@ angular.module("console.header", [
                                   //console.log("Couldn't get inbox message", data)
                               });
                           },60000)
+                      }else {
+                          clearInterval($rootScope.timer);
                       }
 
 
@@ -119,11 +122,15 @@ angular.module("console.header", [
                  $scope.checked=$rootScope.namespace;
                }
                 $scope.gotomy=function () {
-                  $scope.checked=$rootScope.namespace;
+                  $scope.checked=$rootScope.user.metadata.name;
+                    $rootScope.namespace=$rootScope.user.metadata.name;
+
                 }
                 $scope.goto=function (ind) {
                   $scope.checked = $scope.userorgs[ind].name;
-                  // console.log($scope.userorgs,$scope.userorgs[ind].id);
+                    $rootScope.namespace=$scope.userorgs[ind].id;
+                    //console.log($scope.userorgs);
+                    // console.log($scope.userorgs,$scope.userorgs[ind].id);
                   //$state.go('console.org', {useorg:$scope.userorgs[ind].id})
                 }
                 orgList.get({},function (org) {
@@ -155,6 +162,7 @@ angular.module("console.header", [
                     $state.go('home.index');
                 };
                 $scope.setNamespace = function(namespace) {
+
                     $rootScope.namespace = namespace;
                     Cookie.set('namespace', namespace, 10 * 365 * 24 * 3600 * 1000);
                     $state.reload();

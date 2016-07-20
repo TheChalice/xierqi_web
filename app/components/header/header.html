@@ -29,7 +29,7 @@
                 aria-labelledby="user-menu" style="max-height: 320px;overflow-y: scroll;top:45px;right:0px;background: #f7fafc;">
                 <!--personal account-->
                 <li class='personal'>
-                    <a href="javascript:;" ng-click='gotomy()' ui-sref='console.user'><label>{{namespace}}</label>
+                    <a href="javascript:;" ng-click='gotomy()' ui-sref='console.user'><label>{{user.metadata.name}}</label>
                         <br/>
                         <span>查看个人账户</span>
                     </a>
@@ -58,7 +58,7 @@
                  aria-labelledby="user-menu" style="max-height: 320px;overflow-y: scroll;top:45px;right:0px;background: #f7fafc;">
                  <!--personal account-->
                  <li class='personal'>
-                     <a href="javascript:;" ng-click='gotomy()' ui-sref='console.user'><label>{{namespace}}</label>
+                     <a href="javascript:;" ng-click='gotomy()' ui-sref='console.user'><label>{{user.metadata.name}}</label>
                          <br/>
                          <span>切换到个人账户</span>
                      </a>
