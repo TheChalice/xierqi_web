@@ -213,6 +213,7 @@ angular.module('console.build.detail', [
                         repo: $scope.data.metadata.annotations.repo,
                         spec: {url: config}
                     }, function (data) {
+                        console.log("test repo", $scope.data.metadata.annotations.repo)
                     });
                 }
             }
