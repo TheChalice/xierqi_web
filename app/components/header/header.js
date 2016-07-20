@@ -120,10 +120,14 @@ angular.module("console.header", [
                }
                 $scope.gotomy=function () {
                   $scope.checked=$rootScope.namespace;
+                    $rootScope.namespace=$rootScope.user.metadata.name;
+
                 }
                 $scope.goto=function (ind) {
                   $scope.checked = $scope.userorgs[ind].name;
-                  // console.log($scope.userorgs,$scope.userorgs[ind].id);
+                    $rootScope.namespace=$scope.userorgs[ind].id;
+                    //console.log($scope.userorgs);
+                    // console.log($scope.userorgs,$scope.userorgs[ind].id);
                   //$state.go('console.org', {useorg:$scope.userorgs[ind].id})
                 }
                 orgList.get({},function (org) {

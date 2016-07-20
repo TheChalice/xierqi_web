@@ -203,58 +203,61 @@ angular.module('console.image', [
           }
         }
         // 请求共有镜像平台
-        $http.get('/registry/api/projects', {
-          params: {is_public: 0}
-        }).success(function (data) {
-          $scope.newtext = data;
+          if ($rootScope.namespace.indexOf('org') == -1) {
+              $http.get('/registry/api/projects', {
+                  params: {is_public: 0}
+              }).success(function (data) {
+                  $scope.newtext = data;
 
-          console.log('regstr',data);
+                  console.log('regstr',data);
 
-          var arr = [];
+                  var arr = [];
 
-          //for (var i = 0; i < data.length; i++) {
-          //  data[i].mysort = data[i].creation_time;
-          //  data[i].mysort = (new Date(data[i].mysort)).getTime()
-          //}
-          ////时间冒泡排序写法
-          //data.sort(function (x, y) {
-          //  return x.mysort > y.mysort ? -1 : 1;
-          //});
+                  //for (var i = 0; i < data.length; i++) {
+                  //  data[i].mysort = data[i].creation_time;
+                  //  data[i].mysort = (new Date(data[i].mysort)).getTime()
+                  //}
+                  ////时间冒泡排序写法
+                  //data.sort(function (x, y) {
+                  //  return x.mysort > y.mysort ? -1 : 1;
+                  //});
 
-          for (var j = 0; j < $scope.newtext.length; j++) {
-            // 请求共有镜像平台的镜像版本
-            $http.get('/registry/api/repositories', {params: {project_id: $scope.newtext[j].project_id}})
-                .success(function (datalis) {
-                  arr.push(datalis);
+                  for (var j = 0; j < $scope.newtext.length; j++) {
+                      // 请求共有镜像平台的镜像版本
+                      $http.get('/registry/api/repositories', {params: {project_id: $scope.newtext[j].project_id}})
+                          .success(function (datalis) {
+                              arr.push(datalis);
 
-                  if (arr.length == data.length) {
-                      console.log('newtext',arr);
+                              if (arr.length == data.length) {
+                                  console.log('newtext',arr);
 
-                      for (var k = 0; k < arr.length; k++) {
+                                  for (var k = 0; k < arr.length; k++) {
 
-                      if (arr[k] != null) {
-                        for (var h = 0; h < $scope.newtext.length; h++) {
+                                      if (arr[k] != null) {
+                                          for (var h = 0; h < $scope.newtext.length; h++) {
 
-                          if (arr[k][0].split('/')[0] == $scope.newtext[h].name) {
+                                              if (arr[k][0].split('/')[0] == $scope.newtext[h].name) {
 
-                            $scope.newtext[h].items = arr[k];
-                            $scope.newtext[h].isshow = true;
-                          }
-                        }
-                      }
-                    }
+                                                  $scope.newtext[h].items = arr[k];
+                                                  $scope.newtext[h].isshow = true;
+                                              }
+                                          }
+                                      }
+                                  }
+                              }
+
+                              $scope.grid.copytest = angular.copy($scope.newtext);
+
+                          }).error(function (msg) {
+                          //TODO:失败时错误处理
+                      })
                   }
-
-                  $scope.grid.copytest = angular.copy($scope.newtext);
-
-                }).error(function (msg) {
-              //TODO:失败时错误处理
-            })
+              }).error(function (data) {
+                  // $log.info('error',data)
+                  //$rootScope.user = null;
+                  // console.log('error', $rootScope)
+              });
           }
-        }).error(function (data) {
-          // $log.info('error',data)
-          //$rootScope.user = null;
-          // console.log('error', $rootScope)
-        });
+
 
       }]);
