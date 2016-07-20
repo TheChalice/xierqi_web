@@ -119,7 +119,7 @@ angular.module("console.header", [
                    $scope.checked=data.name
                  })
                } else if (!$scope.checked) {
-                 $scope.checked=$rootScope.user.metadata.name;
+                 $scope.checked=$rootScope.namespace;
                }
                 $scope.gotomy=function () {
                   $scope.checked=$rootScope.user.metadata.name;
@@ -148,7 +148,7 @@ angular.module("console.header", [
                       if (n) {
                           orgList.get({},function (org) {
                               $scope.userorgs = org.orgnazitions;
-                              $scope.checked = $rootScope.user.metadata.name;
+                              $scope.checked = $rootScope.namespace;
                               $rootScope.orgStatus=false;
                           })
                       }
