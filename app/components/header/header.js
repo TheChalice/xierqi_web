@@ -83,7 +83,7 @@ angular.module("console.header", [
                               }).error(function(data){
                                   console.log("Couldn't get inbox message", data)
                               });
-                          },1000)
+                          },100000)
                       }else {
 
                           clearInterval($rootScope.timer);
