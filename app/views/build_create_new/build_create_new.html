@@ -69,13 +69,28 @@
                             <!--<span style="font-size:12px; height: 20px"></span>-->
                             <!--</uib-tab>-->
                             <uib-tab index="4" heading="其他Git" ng-click="checkdTab(4)">
-                            <div class="row">
-                                <div class="col-md-2" style="padding-top: 8px;">
-                                    <p class="require" style="">仓库地址</p>
-                                </div>
-                            </div>
+                                <form class="form-horizontal">
+                                    <p style="font-size: 12px; margin-left: 72px;padding-bottom: 10px">如果是私有代码库，需要输入用户名口令。</p>
+                                    <div class="form-group">
+                                        <label for="address" class="col-md-2 control-label require" style="text-align: left; font-size: 12px; font-weight: normal">仓库地址</label>
+                                        <div class="col-md-10">
+                                            <input type="text" class="form-control" id="address" style="height: 30px; margin-left: -20px" ng-model="buildConfig.spec.source.git.uri">
+                                        </div>
+                                    </div>
+                                    <!--<div class="form-group" style="margin-top: 30px">-->
+                                        <!--<label for="username" class="col-md-2 control-label" style="text-align: left; font-size: 12px; font-weight: normal">用户名</label>-->
+                                        <!--<div class="col-md-10">-->
+                                            <!--<input type="text" class="form-control" id="username" style="height: 30px; margin-left: -20px" ng-model="gitUsername">-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                    <!--<div class="form-group" style="margin-top: 30px">-->
+                                        <!--<label for="pwd" class="col-md-2 control-label text-left" style="text-align: left; font-size: 12px; font-weight: normal">口令</label>-->
+                                        <!--<div class="col-md-10">-->
+                                            <!--<input type="password" class="form-control" id="pwd" style="height: 30px; margin-left: -20px" ng-model="gitPwd">-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                </form>
                             </uib-tab>
-
                         </uib-tabset>
 
                         <div class="is-box" ng-hide="grid.ishide">
@@ -352,5 +367,8 @@
         100% {
             -webkit-transform: rotate(360deg);
         }
+    }
+    .form-group input{
+        width:105%;
     }
 </style>

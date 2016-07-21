@@ -201,13 +201,13 @@ define([
             return Metrics;
         }])
         .factory('Owner', ['$resource', function($resource){
-            var Owner = $resource('/v1/repos/github/owner?namespace=:namespace', {namespace:'@namespace'}, {
+            var Owner = $resource('/v1/repos/github/owner', {namespace:'@namespace', cache:'false'}, {
                 'query': {method: 'GET'}
             });
              return Owner;
         }])
         .factory('Org', ['$resource', function($resource){
-            var Org = $resource('/v1/repos/github/orgs', {
+            var Org = $resource('/v1/repos/github/orgs', {cache:'false'
             });
             return Org;
         }])
@@ -253,7 +253,7 @@ define([
             return platformone;
         }])
         .factory('labOwner', ['$resource', function($resource){
-            var labOwner = $resource('/v1/repos/gitlab/owner',{}, {
+            var labOwner = $resource('/v1/repos/gitlab/owner',{cache:'false'}, {
             });
             return labOwner;
         }])
@@ -264,7 +264,7 @@ define([
             return psgitlab;
         }])
         .factory('laborgs', ['$resource', function($resource){
-            var laborgs = $resource('/v1/repos/gitlab/orgs',{}, {
+            var laborgs = $resource('/v1/repos/gitlab/orgs',{cache:'false'}, {
 
             });
             return laborgs;
