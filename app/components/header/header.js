@@ -167,11 +167,11 @@ angular.module("console.header", [
                     $state.go('home.index');
                 };
                 $scope.setNamespace = function(namespace,name) {
-
+                    console.log(name);
                     $rootScope.namespace = namespace;
                     Cookie.set('namespace', namespace, 10 * 365 * 24 * 3600 * 1000);
                     $state.reload();
-                    $scope.checked = namespace;
+                    $scope.checked = name;
                 }
             // setting timer
                   $scope.checkInbox = function() {
