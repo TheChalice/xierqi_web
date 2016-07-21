@@ -1,7 +1,7 @@
 'use strict';
 angular.module('home.regist', [])
-    .controller('registCtrl', ['$state','AuthService','registration','$scope', '$log', 'Alert',
-      function ($state,AuthService,registration,$scope, $log, Alert) {
+    .controller('registCtrl', ['$rootScope','$state','AuthService','registration','$scope', '$log', 'Alert',
+      function ($rootScope,$state,AuthService,registration,$scope, $log, Alert) {
       $log.info('regist');
       $scope.credentials = {
 
@@ -20,7 +20,13 @@ angular.module('home.regist', [])
               })
           })
       };
+          $scope.$watch('namespace', function (n,o) {
+              //console.log('new1',n);
+              if (n == '') {
 
+                  clearInterval($rootScope.timer);
+              }
+          })
       // $scope.cancel = function () {
       //   $state.go('home.index');
       // };

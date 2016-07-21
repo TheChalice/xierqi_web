@@ -26,6 +26,13 @@ angular.module('home.login', [])
         //     }
         //   }, timeId);
         // };
+          $scope.$watch('namespace', function (n,o) {
+              //console.log('new1',n);
+              if (n == '') {
+
+                  clearInterval($rootScope.timer);
+              }
+          })
       $log.info('login');
         $rootScope.credentials = {};
       $scope.login = function () {
