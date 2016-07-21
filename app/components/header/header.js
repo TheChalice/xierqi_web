@@ -83,8 +83,9 @@ angular.module("console.header", [
                               }).error(function(data){
                                   //console.log("Couldn't get inbox message", data)
                               });
-                          },60000)
+                          },100000)
                       }else {
+
                           clearInterval($rootScope.timer);
                       }
 
@@ -121,11 +122,13 @@ angular.module("console.header", [
                } else if (!$scope.checked) {
                  $scope.checked=$rootScope.namespace;
                }
+
                 $scope.gotomy=function () {
                   $scope.checked=$rootScope.user.metadata.name;
                     $rootScope.namespace=$rootScope.user.metadata.name;
 
                 }
+
                 $scope.goto=function (ind) {
                   $scope.checked = $scope.userorgs[ind].name;
                     $rootScope.namespace=$scope.userorgs[ind].id;
@@ -133,10 +136,12 @@ angular.module("console.header", [
                     // console.log($scope.userorgs,$scope.userorgs[ind].id);
                   //$state.go('console.org', {useorg:$scope.userorgs[ind].id})
                 }
+
                 orgList.get({},function (org) {
                   // console.log(org);
                   $scope.userorgs = org.orgnazitions;
                 })
+
                 $scope.hasBack = function(){
                     if ($state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name == "console.notification" || $state.current.name == "console.resource_management") {
                         return false
@@ -161,12 +166,12 @@ angular.module("console.header", [
                     $rootScope.namespace = "";
                     $state.go('home.index');
                 };
-                $scope.setNamespace = function(namespace) {
-
+                $scope.setNamespace = function(namespace,name) {
+                    console.log(name);
                     $rootScope.namespace = namespace;
                     Cookie.set('namespace', namespace, 10 * 365 * 24 * 3600 * 1000);
                     $state.reload();
-                    $scope.checked = namespace;
+                    $scope.checked = name;
                 }
             // setting timer
                   $scope.checkInbox = function() {

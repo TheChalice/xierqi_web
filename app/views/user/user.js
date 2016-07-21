@@ -53,7 +53,7 @@ angular.module('console.user', [
             Cookie.clear('df_access_token');
             $rootScope.user = null;
             $rootScope.namespace = "";
-            $state.go('home.index');
+            $state.go('login');
           },2000)
         })
       })
