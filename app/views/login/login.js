@@ -1,7 +1,7 @@
 'use strict';
 angular.module('home.login', [])
-    .controller('loginCtrl', ['$interval','$state','$rootScope','AuthService','$scope', '$log',
-      function ($interval,$state,$rootScope,AuthService,$scope, $log) {
+    .controller('loginCtrl', ['ModalRegist','$interval','$state','$rootScope','AuthService','$scope', '$log',
+      function (ModalRegist,$interval,$state,$rootScope,AuthService,$scope, $log) {
         
         // 进度条暂时不启用
         // var vm = $scope.vm = {};
@@ -39,7 +39,8 @@ angular.module('home.login', [])
         AuthService.login($rootScope.credentials);
       };
       $scope.regist = function () {
-        $state.go('regist');
+          ModalRegist.open();
+        //$state.go('regist');
       };
       // $scope.cancel = function () {
       //   $uibModalInstance.dismiss();
