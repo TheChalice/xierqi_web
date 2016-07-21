@@ -71,7 +71,7 @@ angular.module("console.header", [
                                   url:'/lapi/inbox_stat',
                                   method:'GET',
                               }).success(function(res){
-                                  console.log("test the inbox stat", res);
+                                  //console.log("test the inbox stat", res);
                                   if(res.data == null){
                                       res.data = {};
                                   }
@@ -81,7 +81,7 @@ angular.module("console.header", [
                                       $scope.isshow = false;
                                   };
                               }).error(function(data){
-                                  console.log("Couldn't get inbox message", data)
+                                  //console.log("Couldn't get inbox message", data)
                               });
                           },100000)
                       }else {

@@ -549,7 +549,7 @@ define(['angular'], function (angular) {
 
           $http(req).success(function (data) {
 
-            $rootScope.loding = false;
+            //$rootScope.loding = false;
 
             console.log(data);
 
@@ -558,6 +558,7 @@ define(['angular'], function (angular) {
             loadProject(credentials.username);
 
             User.get({name: '~'}, function (res) {
+              $rootScope.loding = false;
               $rootScope.user = res;
               $state.go('console.dashboard');
             });

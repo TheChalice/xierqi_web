@@ -35,7 +35,7 @@
                 </p>
                 <input name="password" type="password" class="form-control" placeholder="密码" ng-model="credentials.password" required>
 
-                <button class="btn btn-orange btn-block" ng-click="frm.$valid && login()" style="margin: 30px 0 0 0;">
+                <button class="btn btn-orange btn-block" ng-disabled="loding" ng-click="frm.$valid && login()" style="margin: 30px 0 0 0;">
                     登录
                 </button>
             </form>
