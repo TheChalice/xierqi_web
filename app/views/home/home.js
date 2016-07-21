@@ -7,6 +7,7 @@ angular.module('home', [])
           $scope.$watch('namespace', function (n,o) {
               //console.log('new1',n);
               if (n == '') {
+
                   clearInterval($rootScope.timer)
               }
           })
