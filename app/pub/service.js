@@ -46,11 +46,92 @@ define(['angular'], function (angular) {
                    }).success(function(item){
                      $uibModalInstance.close(item);
                    }).error(function(res){
-                     if(res.code >= 500){
-                       $scope.tip = '内部错误，请通过DaoVoice联系管理员';
-                     }else{
-                       $scope.tip = res.message;
+                     switch(res.code) {
+                       case 1400:
+                         $scope.tip = '请求错误';
+                         break;
+                       case 14000:
+                         $scope.tip = '组织名称太短';
+                         break;
+                       case 14001:
+                         $scope.tip = '名称太短';
+                         break;
+                       case 14002:
+                         $scope.tip = '用户名不合法';
+                         break;
+                       case 14003:
+                         $scope.tip = '操作不支持';
+                         break;
+                       case 14004:
+                         $scope.tip = '不合法的token';
+                         break;
+                       case 14005:
+                         $scope.tip = '密码不能为空';
+                         break;
+                       case 14006:
+                         $scope.tip = '密码长度必须为8-12位';
+                         break;
+                       case 14007:
+                         $scope.tip = '不合法的邮箱地址';
+                         break;
+                       case 14008:
+                         $scope.tip = '不合法的用户名';
+                         break;
+                       case 14009:
+                         $scope.tip = '该成员仍在组织中';
+                         break;
+                       case 140010:
+                         $scope.tip = '超出配额';
+                         break;
+                       case 140011:
+                         $scope.tip = '最后一名管理员禁止操作';
+                         break;
+                       case 140012:
+                         $scope.tip = '该用户已被邀请过';
+                         break;
+                       case 140013:
+                         $scope.tip = '该用户已在组织中';
+                         break;
+                       case 140014:
+                         $scope.tip = '该用户还未注册';
+                         break;
+                       case 1401:
+                         $scope.tip = '该用户未授权';
+                         break;
+                       case 1403:
+                         $scope.tip = '禁止操作';
+                         break;
+                       case 14030:
+                         $scope.tip = '没有权限';
+                         break;
+                       case 1404:
+                         $scope.tip = '不能找到';
+                         break;
+                       case 14040:
+                         $scope.tip = '不能找到组织';
+                         break;
+                       case 14041:
+                         $scope.tip = '不能找到该用户';
+                         break;
+                       case 14090:
+                         $scope.tip = '组织不存在';
+                         break;
+                       case 14091:
+                         $scope.tip = '该用户已存在';
+                         break;
+                       case 14092:
+                         $scope.tip = '该用户在LDAP已存在';
+                         break;
+                       default:
+                         $scope.tip = '内部错误，请通过DaoVoice联系管理员';
                      }
+
+                     //if(res.code >= 500){
+                     //  $scope.tip = '内部错误，请通过DaoVoice联系管理员';
+                     //}else{
+                     //  $scope.tip = res.message;
+                     //}
+
                    })
                  }
                 }else if(isaddpeople == 'org'){
@@ -65,11 +146,90 @@ define(['angular'], function (angular) {
                       $rootScope.delOrgs = true;
                     }).error(function(res){
                       console.log(res);
-                      if(res.code >= 500){
-                        $scope.tip = '内部错误，请通过DaoVoice联系管理员';
-                      }else{
-                        $scope.tip = res.message;
+                      switch(res.code) {
+                        case 1400:
+                          $scope.tip = '请求错误';
+                          break;
+                        case 14000:
+                          $scope.tip = '组织名称太短';
+                          break;
+                        case 14001:
+                          $scope.tip = '名称太短';
+                          break;
+                        case 14002:
+                          $scope.tip = '用户名不合法';
+                          break;
+                        case 14003:
+                          $scope.tip = '操作不支持';
+                          break;
+                        case 14004:
+                          $scope.tip = '不合法的token';
+                          break;
+                        case 14005:
+                          $scope.tip = '密码不能为空';
+                          break;
+                        case 14006:
+                          $scope.tip = '密码长度必须为8-12位';
+                          break;
+                        case 14007:
+                          $scope.tip = '不合法的邮箱地址';
+                          break;
+                        case 14008:
+                          $scope.tip = '不合法的用户名';
+                          break;
+                        case 14009:
+                          $scope.tip = '该成员仍在组织中';
+                          break;
+                        case 140010:
+                          $scope.tip = '超出配额';
+                          break;
+                        case 140011:
+                          $scope.tip = '最后一名管理员禁止操作';
+                          break;
+                        case 140012:
+                          $scope.tip = '该用户已被邀请过';
+                          break;
+                        case 140013:
+                          $scope.tip = '该用户已在组织中';
+                          break;
+                        case 140014:
+                          $scope.tip = '该用户还未注册';
+                          break;
+                        case 1401:
+                          $scope.tip = '该用户未授权';
+                          break;
+                        case 1403:
+                          $scope.tip = '禁止操作';
+                          break;
+                        case 14030:
+                          $scope.tip = '没有权限';
+                          break;
+                        case 1404:
+                          $scope.tip = '不能找到';
+                          break;
+                        case 14040:
+                          $scope.tip = '不能找到组织';
+                          break;
+                        case 14041:
+                          $scope.tip = '不能找到该用户';
+                          break;
+                        case 14090:
+                          $scope.tip = '组织不存在';
+                          break;
+                        case 14091:
+                          $scope.tip = '该用户已存在';
+                          break;
+                        case 14092:
+                          $scope.tip = '该用户在LDAP已存在';
+                          break;
+                        default:
+                          $scope.tip = '内部错误，请通过DaoVoice联系管理员';
                       }
+                      //if(res.code >= 500){
+                      //  $scope.tip = '内部错误，请通过DaoVoice联系管理员';
+                      //}else{
+                      //  $scope.tip = res.message;
+                      //}
                     })
                   }
                 }else{
