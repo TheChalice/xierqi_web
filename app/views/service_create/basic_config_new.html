@@ -10,9 +10,10 @@
                 </div>
                 <div class="col-md-10">
                     <input type="text" name="serviceName" ng-model="dc.metadata.name" class="form-control input-block"
-                           placeholder="创建一个服务名称" required ng-keyup="serviceNamekedown()">
+                           placeholder="创建一个服务名称" required ng-keyup="serviceNamekedown()" ng-blur="checknames()">
                     <small ng-show="frm.serviceName.$dirty && frm.serviceName.$invalid" class="fa fa-info-circle err-tip">&nbsp;请创建一个服务名,至少2个字符以上</small>
                     <small ng-show="grid.createdcerr" class="fa fa-info-circle err-tip">&nbsp;服务名称重复</small>
+                    <small ng-show="grid.servicenameerr" class="fa fa-info-circle err-tip">&nbsp;服务名称错误</small>
                 </div>
             </div>
             <hr>
