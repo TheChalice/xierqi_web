@@ -9,7 +9,7 @@ angular.module('console', [
         ]
     }
 ])
-    .controller('ConsoleCtrl', ['$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', 'user', 'Project', 'Cookie', function ($rootScope, $scope, $log, AUTH_EVENTS, User, user, Project, Cookie) {
+    .controller('ConsoleCtrl', ['$http','$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', 'user', 'Project', 'Cookie', function ($http,$rootScope, $scope, $log, AUTH_EVENTS, User, user, Project, Cookie) {
         $log.info('Console');
         $rootScope.user = user;
 
@@ -22,9 +22,24 @@ angular.module('console', [
         }
 
         var loadProject = function(){
-            $log.info("load project");
+            //$log.info("load project");
             Project.get(function(data){
+                //$rootScope.projects = data.items;
+                //var newprojects = []
+                data.items.sort(function (x, y) {
+                    return x.metadata.name > y.metadata.name ? 1 : -1;
+                });
+                angular.forEach(data.items, function (project,i) {
+                    if (/^[\u4e00-\u9fa5]+$/i.test(project.metadata.annotations['openshift.io/display-name'])) {
+                        console.log(project.metadata.annotations['openshift.io/display-name']);
+                        data.items.push(project);
+                        data.items.splice(i,1);
+                    }
+                });
+                console.log(data.items);
                 $rootScope.projects = data.items;
+
+
                 $log.info("load project success", data);
             }, function(res){
                 $log.info("find project err", res);

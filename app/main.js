@@ -35,7 +35,9 @@ require.config({
         kubernetesUI: 'pub/terminal',
         term: '../bower_components/term.js/src/term',
         highcharts: '../bower_components/highcharts/highcharts',
-        highchartsNg: '../bower_components/highcharts-ng/dist/highcharts-ng.min'
+        highchartsNg: '../bower_components/highcharts-ng/dist/highcharts-ng.min',
+        fileUpload: '../bower_components/ng-file-upload/ng-file-upload.min',
+        fileUploadShim: '../bower_components/ng-file-upload/ng-file-upload-shim.min'
     },
     shim: {
         'angular': {
@@ -78,11 +80,18 @@ require.config({
         },
         'highchartsNg': {
             deps: ['angular', 'highcharts']
+        },
+        'fileUpload' : {
+           deps: ['angular']
+        },
+        'fileUploadShim' : {
+           deps: ['angular', 'fileUpload']
         }
     },
     priority: [
         "angular"
     ],
+    waitSeconds:30,
     deps: window.__karma__ ? allTestFiles : [],
     callback: window.__karma__ ? window.__karma__.start : null,
 });

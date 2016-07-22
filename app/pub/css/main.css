@@ -237,7 +237,7 @@ a {
     border: 1px solid #c9c9c9;
     border-top: none;
     border-radius: 0 0 2px 2px;
-    padding: 50px;
+    padding: 30px 50px;
 }
 
 .tab-sm {
@@ -907,4 +907,37 @@ a {
 }
 .icon20-144 {
     background: url('../../pub/img/images_144.png')no-repeat;
+}
+.constantlyvolume {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    background: url(../img/constantlyvolume_small.png) no-repeat;
+    width: 25px;
+    height: 25px;
+}
+.constantlyvolume:hover, .constantlyvolume:active, .active .constantlyvolume, .nav-link:hover .constantlyvolume{
+    background: url(../img/constantly_volume_act.png)  no-repeat;
+}
+.configvolume {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    background: url(../img/config_volume.png) no-repeat;
+    width: 25px;
+    height: 25px;
+}
+.configvolume:hover, .configvolume:active, .active .configvolume, .nav-link:hover .configvolume{
+    background: url(../img/config_volume_act.png)  no-repeat;
+}
+.secret {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    background: url(../img/secret.png) no-repeat;
+    width: 25px;
+    height: 25px;
+}
+.secret:hover, .secret:active, .active .secret, .nav-link:hover .secret{
+    background: url(../img/secret_act.png)  no-repeat;
 }

@@ -1,6 +1,6 @@
 <div class="index">
+    <div class="bannertopbox"></div>
     <div class="banner">
-        <img style="width:100%;" src="views/home/index/img/banner.png">
     </div>
     <div class="second">
         <div class="info col-sm-7">
@@ -40,16 +40,88 @@
     <div class="Partner row">
         <div class='col-xs-12 one col-md-2'>合作伙伴</div>
         <div class="col-xs-12 col-md-10">
-            <div class="Partne Partner1 col-md-2 col-xs-4"></div>
-            <div class="Partne Partner2 col-md-2 col-xs-4"></div>
-            <div class="Partne Partner3 col-md-2 col-xs-4"></div>
-            <div class="Partner4 col-md-2 col-xs-4"></div>
-            <div class="Partner5 col-md-2 col-xs-4"></div>
-            <div class="Partner6 col-md-2 col-xs-4"></div>
+            <div class="Partne Partner1" style="padding: 0;width: 15%"></div>
+            <div class="Partne Partner2" style="padding: 0; width: 16%"></div>
+            <div class="Partne Partner3" style="padding: 0;width: 15%"></div>
+            <div class="Partner4" style="padding: 0;width: 15%"></div>
+            <div class="Partner5" style="padding: 0;width: 19%"></div>
+            <div class="Partner6" style="padding: 0;width: 18%"></div>
         </div>
 
     </div>
+    <div class="row footer">
+        <div class="col-xs-3 col-lg-2 col-sm-3 footer-td" style='text-align: center;'>
+            <p style="height: 50px;line-height: 32px;">团队介绍</p>
+            <p style="height: 50px;line-height: 32px;">合作方式</p>
+            <!--<p>联系我们</p>-->
+        </div>
+        <div class="col-xs-9 col-lg-8 col-sm-9 col-lg-offset-2 footer-lx" style='text-align: left;'>
+            <p>联系我们</p>
+            <p>电话&nbsp;:&nbsp;010-82166688</p>
+            <p>邮箱&nbsp;:&nbsp;datafoundry@asiainfo.com</p>
+            <p>地址&nbsp;:&nbsp;北京市海淀区中关村软件园二期西北旺东路10号院亚信大厦</p>
+        </div>
+        <div class="col-xs-12" style='text-align: center; margin-top: 20px;'>© 2016版权所有 北京亚信智慧数据科技有限公司 京ICP备11005544号-15 京公网安备110108007119号</div>
+    </div>
     <style>
+        .footer {
+            background: #5a6378;
+            font-size: 14px;
+            font-weight:bold;
+            color: #bdc0c7;
+            text-align: center;
+            height: 300px;
+            line-height: 50px;
+            width: 100%;
+            paddin: 0px 30px;
+            padding-top: 40px;
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        @media (max-width: 640px) {
+            #nav {
+                display: none;
+            }
+            #mobilenav {
+                display: block;
+            }
+
+            .footer {
+                height: 380px;
+            }
+
+            #header #header-brand img{
+                padding-top:30px;
+                margin-left:21%;
+                margin-right: 30px;
+            }
+            #header #btnk {
+                margin-left: 76px;
+            }
+
+            #header #header-brand {
+                padding-left: 0px;
+                padding-right: 0px;
+            }
+            .footer-td {
+                display: none;
+            }
+            .footer-lx {
+                margin-left: 7%;
+            }
+
+        }
+
+        .footer-lx p {
+            margin-bottom: 15px;
+            line-height: 30px;
+        }
+
+        .footer-td {
+            border-right: 1px solid #3d4458;
+        }
+
         h3 {
             font-size: 22px;
         }
@@ -75,8 +147,17 @@
 
         .index .banner {
             overflow: hidden;
+            background-image: url("views/home/index/img/banner.png");
+            background-repeat: no-repeat ;
+            background-position: center;
+            background-size:contain;
+            background-color: #5B6177;
         }
 
+        .bannertopbox{
+            background-color: #5B6177;
+            height: 30px;
+        }
         .index .second {
             overflow: hidden;
         }

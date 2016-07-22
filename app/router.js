@@ -32,6 +32,26 @@ define([
                 }]
               }
             })
+            .state('login', {
+              url: '/login',
+              templateUrl: 'views/login/login.html',
+              controller: 'loginCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/login/login.js')
+                }]
+              }
+            })
+            .state('regist', {
+              url: '/regist',
+              templateUrl: 'views/regist/regist.html',
+              controller: 'registCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/regist/regist.js')
+                }]
+              }
+            })
             .state('console', {
               url: '/console',
               templateUrl: 'views/console/console.html',
@@ -96,6 +116,9 @@ define([
               url: '/image',
               templateUrl: 'views/image/image.html',
               controller: 'ImageCtrl',
+              params: {
+                index: null
+              },
               resolve: {
                 dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                   return $ocLazyLoad.load(['views/image/image.js', 'views/image/image.css'])
@@ -186,7 +209,7 @@ define([
               }
             })
             .state('console.dashboard', {
-              url: '/dashboard/',
+              url: '/dashboard/:useorg',
               templateUrl: 'views/dashboard/dashboard.html',
               controller: 'dashboardCtrl',
               params: {},
@@ -207,8 +230,11 @@ define([
               }
             })
             .state('console.org', {
-              url: '/org',
+              url: '/org/:useorg',
               templateUrl: 'views/org/org.html',
+              params: {
+                useorg:''
+              },
               controller: 'orgCtrl',
               resolve: {
                 dep: ['$ocLazyLoad', function ($ocLazyLoad) {
@@ -223,6 +249,47 @@ define([
               resolve: {
                 dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                   return $ocLazyLoad.load('views/notification/notification.js')
+                }]
+              }
+            })
+            //resource management
+            .state('console.resource_management', {
+              url: '/resource_management',
+              templateUrl: 'views/resource_management/resource_management.html',
+              controller: 'resmanageCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/resource_management/resource_management.js')
+                }]
+              }
+            })
+            .state('console.create_constantly_volume', {
+              url: '/resource_create_constantly_volume',
+              templateUrl: 'views/create_constantly_volume/create_constantly_volume.html',
+              controller: 'createconvolumeCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/create_constantly_volume/create_constantly_volume.js')
+                }]
+              }
+            })
+            .state('console.create_config_volume', {
+              url: '/resource_create_config_volume',
+              templateUrl: 'views/create_config_volume/create_config_volume.html',
+              controller: 'createfigvolumeCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/create_config_volume/create_config_volume.js')
+                }]
+              }
+            })
+            .state('console.create_secret', {
+              url: '/create_secret',
+              templateUrl: 'views/create_secret/create_secret.html',
+              controller: 'createSecretCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/create_secret/create_secret.js')
                 }]
               }
             })

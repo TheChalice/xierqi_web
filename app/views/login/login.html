@@ -1,40 +1,180 @@
-<div class="modal-header">
-    <h5 class="modal-title">
-        登录
-        <a ng-click="cancel()" class="close"><span aria-hidden="true">&times;</span></a>
-    </h5>
+<!--<div class='sjgf' ui-sref='home.index'>-->
+    <!---->
+<!--</div>-->
+<!--<div class="login">-->
+    <!--loading-->
+    <div class="loading-box" ng-show=loding>
+    <img class="spinner" src="pub/img/loading.gif">
 </div>
-<div class="modal-body" style="padding: 20px 40px 30px 40px;">
-    <form class="form-horizontal" name="frm">
-        <p class="modal-msg text-left" style="margin: 0 0 5px 0;font-size:14px;color:#5a6378;">
-            <span class="require">用户名</span>&nbsp;&nbsp;
-            <small ng-if="frm.username.$dirty && frm.username.$invalid" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;用户名不能为空</small>
-        </p>
-        <input name="username" class="form-control" placeholder="邮箱/手机号/用户名" ng-model="credentials.username" required>
 
-        <p class="modal-msg text-left" style="margin: 20px 0 5px 0;font-size:14px;color:#5a6378;">
-            <span class="require">密码</span>&nbsp;&nbsp;
-            <small ng-if="frm.password.$dirty && frm.password.$invalid" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;密码不能为空</small>
-        </p>
-        <input name="password" type="password" class="form-control" placeholder="密码" ng-model="credentials.password" required>
+<div class="logboxworp">
+    <div class="loginL">
+        <img src="pub/img/00000.png" alt="" style="width: 220px;height: 220px;margin-top:80px;">
+        <div style="margin-top: 40px;font-size: 36px;color: #5a6378">铸数工坊</div>
+        <div style="font-size: 14px;color: #5a6378;margin-top: 10px;">极速铸造云端应用&nbsp;&nbsp;探究大数据应用之美</div>
+    </div>
+    <div class='loginbox'>
+        <div class="modal-header">
 
-        <button class="btn btn-orange btn-block" ng-click="frm.$valid && login()" style="margin: 30px 0 0 0;">
-            登录
-        </button>
-    </form>
+            <h5 class="modal-title">
+                登录 DataFoundry 账号
+                <!--<a ng-click="cancel()" class="close"><span aria-hidden="true">&times;</span></a>-->
+            </h5>
+        </div>
+        <div class="modal-body" style="padding: 20px 30px 30px 30px;">
+            <form class="form-horizontal" name="frm">
+                <p class="modal-msg text-left" style="margin: 0 0 10px 0;font-size:12px;color:#5a6378;">
+                    <span class="require">用户名</span>&nbsp;&nbsp;
+                    <small ng-if="frm.username.$dirty && frm.username.$invalid" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;用户名不能为空</small>
+                </p>
+                <input name="username" style="font-size: 12px;" class="form-control" placeholder="用户名" ng-model="credentials.username" required>
+
+                <p class="modal-msg text-left" style="margin: 20px 0 10px 0;font-size:12px;color:#5a6378;">
+                    <span class="require">密码</span>&nbsp;&nbsp;
+                    <small ng-if="frm.password.$dirty && frm.password.$invalid" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;密码不能为空</small>
+                </p>
+                <input name="password" style="font-size: 12px;" type="password" class="form-control" placeholder="密码" ng-model="credentials.password" required>
+
+                <button class="btn btn-orange btn-block" ng-click="frm.$valid && login()" style="margin: 30px 0 0 0;">
+                    登录
+                </button>
+            </form>
+        </div>
+        <div class="modal-footer" style="padding: 0;border: none;">
+            <div style="margin:45px 0px 20px;font-size: 16px; text-align: center;color: #5a6378">没有&nbsp;DataFoundry&nbsp;账号?</div>
+            <button ng-click="regist()" class="btn btn-block btn-regist" style="height:34px;">
+                立即注册
+            </button>
+        </div>
+    </div>
 </div>
-<div class="modal-footer" style="padding: 0;">
-    <button ng-click="regist()" class="btn btn-block btn-regist" style="height:50px;margin:0;background:#5a6378;border-radius:0 0 2px 2px;">
-        立即注册
-    </button>
-</div>
+
+
+
+
+
+    <!--<div style="margin:0 auto; padding-top: 40px; padding-bottom: 30px; width: 460px; position:relative">-->
+        <!--<div class="line">-->
+        <!--</div>-->
+        <!--<img id="footerimg" src="views/login/img/image_09.png">-->
+    <!--</div>-->
+    <!--<button class="btn btn-success" ng-click="count()">开始进度</button>-->
+    <!--<div ng-class="{progress: true, 'progress-striped': vm.striped}" class="col-md-4">-->
+        <!--<div ng-class="['progress-bar', vm.style]" ng-style="{width: vm.value + '%'}">-->
+            <!--<div ng-if="vm.showLabel">{{vm.value}}%</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+
 
 <style>
+    .sjgf {
+        background: url('pub/img/login.png')no-repeat;
+        width: 205px;
+        height: 77px;
+        margin: 0 auto;
+        margin-top: -10px;
+        background-size:contain;
+    }
+    body {
+        background-color: #5a6378;
+        padding-top:0px;
+    }
+    #header {
+        display: none;
+    }
+    .btn{
+        padding: 7px 12px;
+    }
+    /*loading 动画*/
+    .loading-box {
+        position: fixed;
+        /*overflow: hidden;*/
+        top: 0;
+        left: 0;
+        height: 100%;
+        /*top:100px;*/
+        width: 100%;
+        background-color: rgba(255, 255, 255, 0.7);
+        z-index: 999;
+    }
+    .loginL{
+        width: 449px;
+        height: 490px;
+        float: left;
+        background: #dadfec;
+        text-align: center;
+    }
+    .btn-regist{
+        width: 300px;
+        margin:0 auto;
+        border:1px solid #5a6378;
+        background: none;
+        border-radius: 3px;;
+        color:#5a6378 ;
+    }
+    .logboxworp{
+        width: 810px;
+        margin: 0 auto;
+        margin-top: 60px;
+        overflow: hidden;
+        height:490px;
+        position:absolute;
+        top:50%;
+        left:50%;
+        margin-top:-245px;
+        margin-left:-405px;
+    }
+    .modal-footer{
+        height: 175px;
+        background-color: #e6e9f2;
+    }
+    .spinner {
+        margin: 250px auto;
+        width: 76px;
+        text-align: center;
+        display: block;
+    }
+
+    .modal-header{
+        background-color: #E6E9F2;
+        color: #5a6378;
+        border: none;
+        
+    }
+    .modal-title {
+        font-size:16px;
+        font-weight:bold;
+        text-align: center;
+    }
+    .loginbox {
+        background-color: #fff;
+        width: 360px;
+        float: left;
+        height: 460px;
+
+    }
     .btn-regist:hover {
-        color: #c9c9c9;
+        color: #fff;
+        background: #55c45f;
+        border:1px solid #55c45f;
     }
     .modal-default {
         margin-top: -200px;
     }
-
+    .line {
+        width: 100%;
+        border-bottom: 1px solid #c9d0e2;
+    }
+    #footerimg {
+        /*background-color: #f7f8fb;*/
+        position: absolute;
+        top: 26px;
+        left:45%;
+        height: 30px;
+        width:50px;
+        z-index: 5;
+        padding: 0px 10px;
+    }
 </style>

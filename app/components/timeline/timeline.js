@@ -11,9 +11,9 @@ angular.module("console.timeline", [])
                 name: '=',
                 type: '@'
             },
-          controller: ['$location', 'ImageStream', '$http', 'platformone', 'platformlist', '$rootScope', '$scope', '$state', '$log', 'BuildConfig', 'Build', 'Confirm', '$stateParams', 'ImageStreamTag', 'Sort', 'ModalPullImage', 'Ws',
+            controller: ['$location', 'ImageStream', '$http', 'platformone', 'platformlist', '$rootScope', '$scope', '$state', '$log', 'BuildConfig', 'Build', 'Confirm', '$stateParams', 'ImageStreamTag', 'Sort', 'ModalPullImage', 'Ws',
             function ($location, ImageStream, $http, platformone, platformlist, $rootScope, $scope, $state, $log, BuildConfig, Build, Confirm, $stateParams, ImageStreamTag, Sort, ModalPullImage, Ws) {
-                if ($scope.name) {
+              if ($scope.name) {
 
                   var namecopy = $scope.name
                   var name = namecopy.split('/');
@@ -107,7 +107,7 @@ angular.module("console.timeline", [])
                   var str = $scope.name+':'+s.split('/')[0]+'/'+name
                   ModalPullImage.open(str)
                       .then(function(res){
-                        console.log("cmd", res);
+                        console.log("cmd1", res);
                       });
                 };
 
@@ -256,7 +256,8 @@ angular.module("console.timeline", [])
                   if (data.type == 'ERROR') {
                     $log.info("err", data.object.message);
                     Ws.clear();
-                    loadBuildHistory($scope.name);
+                    //TODO直接刷新bc会导致页面重新渲染
+                     loadBuildHistory($scope.name);
                     return;
                   }
 
@@ -334,8 +335,9 @@ angular.module("console.timeline", [])
                 $scope.pull = function(idx){
                   // console.log(idx)
                   // console.log(idx,$scope.data.status.tags[idx].tag)
-                  var name = $scope.name + '/' + $scope.date.status.tags[idx].tag;
+                  var name = $scope.name + ':' + $scope.date.status.tags[idx].tag;
                   // var name = $scope.data.items[idx].spec.output.to.name;
+                  console.log('name',name);
                   ModalPullImage.open(name, true).then(function (res) {
                     console.log("cmd", res);
                   });

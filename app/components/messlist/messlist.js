@@ -23,7 +23,9 @@ angular.module("console.messlist", [
             $scope.grid={
               st:null,
               et:null,
-              auto:null
+              auto:null,
+              page: 1,
+              size: 10,
             }
           }],
         templateUrl: 'components/messlist/messlist.html'

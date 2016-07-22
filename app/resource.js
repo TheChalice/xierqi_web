@@ -18,13 +18,17 @@ define([
                 
                 var wsscheme = "wss://";
                 if (window.location.protocol != "https:") {
+                    // wsscheme = "wss://";
                     wsscheme = "ws://";
                 }
 
                 var host = wsscheme + location.host;
-                
+
+                // var host = wsscheme;
+
                 if (params.api == 'k8s') {
                     host = host + GLOBAL.host_wss_k8s;
+                  // host=host+'dev.dataos.io:8443/api/v1';
                 } else {
                     host = host + GLOBAL.host_wss;
                 }
@@ -272,7 +276,7 @@ define([
             return labBranch;
         }])
         .factory('registration', ['$resource', function($resource){
-            var registration = $resource('/lapi/signup',{username:'@username', password:'@password', email:'@email'},{
+            var registration = $resource('/lapi/signup',{},{
                 regist: {method: 'POST'}
             });
             return registration;
@@ -289,12 +293,60 @@ define([
             })
             return pwdModify;
         }])
+
         .factory('deletepod', ['$resource', function($resource){
             var deletepod = $resource('/lapi/v1/namespaces/:namespace/pods',{namespace: '@namespace'},{
                 delete: {method: 'DELETE'}
             })
             return deletepod;
-        }]);
+        }])
+        .factory('orgList', ['$resource', function($resource){
+            var orgList = $resource('/lapi/orgs', {},{
+
+            })
+            return orgList;
+        }])
+        .factory('createOrg', ['$resource', function($resource){
+            var createOrg = $resource('/lapi/orgs', {},{
+                create: {method: 'POST'}
+            })
+            return createOrg;
+        }])
+        .factory('loadOrg', ['$resource', function($resource){
+            var loadOrg = $resource('/lapi/orgs/:org', {org:'@org'},{
+            })
+            return loadOrg;
+        }])
+        .factory('invitation', ['$resource', function($resource){
+            var invitation = $resource('/lapi/orgs/:orgs/invite', {org:'@org'},{
+                invite: {method: 'PUT'}
+            })
+            return invitation;
+        }])
+        .factory('remove', ['$resource', function($resource){
+            var remove = $resource('/lapi/orgs/:org/remove', {org:'@org'},{
+                delete: {method: 'PUT'}
+            })
+            return remove;
+        }])
+        .factory('privileged', ['$resource',function($resource){
+            var privileged = $resource('/lapi/orgs/:org/privileged', {org:'@org'},{
+                privileged: {method: 'PUT'}
+            })
+            return privileged;
+        }])
+        .factory('acception', ['$resource',function($resource){
+            var acception = $resource('/lapi/orgs/:org/accept', {org:'@org'},{
+                accept: {method: 'PUT'}
+            })
+            return acception;
+        }])
+        .factory('leave', ['$resource', function($resource){
+            var leave = $resource('/lapi/orgs/:org/leave', {org:'@org'},{
+                left: {method:'PUT'}
+            })
+        return leave;
+        }])
 });
 // http://registry.dataos.io/api/repositories/manifests?repo_name=library/alpine&tag=latest
 // https://registry.dataos.io/api/projects?is_public=1

@@ -4,8 +4,8 @@ angular.module('console.dashboard', [
         files: []
       }
     ])
-    .controller('dashboardCtrl', ['$http', '$log', '$rootScope', '$scope', 'Metrics', 'MetricsService',
-      function ($http, $log, $rootScope, $scope, Metrics, MetricsService) {
+    .controller('dashboardCtrl', ['$http', '$log', '$rootScope', '$scope', 'Metrics', 'MetricsService','Pod','DeploymentConfig','BackingServiceInstance',
+      function ($http, $log, $rootScope, $scope, Metrics, MetricsService,Pod,DeploymentConfig,BackingServiceInstance) {
         $scope.cpuData = [];
         $scope.memData = [];
         $scope.isdata = {};
@@ -73,7 +73,7 @@ angular.module('console.dashboard', [
             yAxis:[{
               // gridLineDashStyle: 'ShortDash',
               title: {
-                text: '内存 (m)',
+                text: '内存 (M)',
                 style:{
                   color: '#bec0c7'
                 }
@@ -82,7 +82,7 @@ angular.module('console.dashboard', [
           },{
               // gridLineDashStyle: 'ShortDash',
               title: {
-                text: 'cpu (%)',
+                text: 'CPU (%)',
                 style:{
                   color: '#f6a540'
                 }
@@ -99,7 +99,7 @@ angular.module('console.dashboard', [
           };
         };
 
-        var setPieChart = function (tp, dec, percent, quota) {
+        var setPieChart = function (tp, dec, percent, quota,color) {
           var percentstr = '';
           if (quota == true) {
             // percentstr = '<b style="color:#5a6378;">已用' + percent + '%</b>';
@@ -135,7 +135,7 @@ angular.module('console.dashboard', [
             },
             series: [{
               type: 'pie',
-              colors: ['#f6a540', '#c6c6c6'],
+              colors: [color, '#c6c6c6'],
               data: [
                 ['已用', percent],
                 ['未使用', 100 - percent]
@@ -180,6 +180,16 @@ angular.module('console.dashboard', [
         }, function (res) {
           $log.info('metrics cpu all', res);
           $scope.cpuData = prepareData('CPU', res);
+
+          angular.forEach($scope.cpuData,function (item,i) {
+
+
+            if (item==null) {
+              $scope.cpuData[i]=0
+            }else {
+              $scope.cpuData[i]=Math.round(item*10000)/10000
+            }
+          })
           // console.log('$scope.cpuData',$scope.cpuData)
           Metrics.mem.all.query({
             tags: 'descriptor_name:memory/usage,pod_namespace:' + $rootScope.namespace,
@@ -187,6 +197,14 @@ angular.module('console.dashboard', [
           }, function (res) {
             $log.info('metrics mem all', res);
             $scope.memData = prepareData('内存', res);
+            angular.forEach($scope.memData,function (item,i) {
+              if (item==null) {
+                $scope.memData[i]=0
+              }else {
+                $scope.memData[i]=Math.round(item*10000)/10000
+              }
+            })
+            $scope.memData
             // console.log('$scope.memData',$scope.memData)
             $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas').success(function (data, status, headers, config) {
               if (data.items[0]) {
@@ -198,10 +216,10 @@ angular.module('console.dashboard', [
                 var mem = [];
                 var memsun = 0;
                 for (var i = 0; i < $scope.cpuData.length; i++) {
-                  if ($scope.cpuData[i] != null) {
+                  if ($scope.cpuData[i] != 0) {
                     cpu.push($scope.cpuData[i])
                   }
-                  if ($scope.memData[i] != null) {
+                  if ($scope.memData[i] != 0) {
                     mem.push($scope.memData[i])
                   }
                 }
@@ -212,24 +230,64 @@ angular.module('console.dashboard', [
                   memsun += mem[w]
                 }
                 // console.log(cpusun,memsun)
-                var cpunum = 0
-                var memnum = 0
-                if (cpu.length && mem.length) {
-                  cpunum = cpusun / cpu.length / 500 * 100;
-                  memnum = memsun / mem.length / 1000000 / 250 * 100;
-                  cpunum = toDecimal(cpunum);
-                  memnum = toDecimal(memnum);
-                }
+                // var cpunum = 0
+                // var memnum = 0
+                // if (cpu.length && mem.length) {
+                //   cpunum = cpusun / cpu.length / 500 * 100;
+                //   memnum = memsun / mem.length / 1000000 / 250 * 100;
+                //   cpunum = toDecimal(cpunum);
+                //   memnum = toDecimal(memnum);
+                // }
 
                 // console.log(cpunum,memnum)
                 //quotaed
-                $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu'], cpunum, true);
-                $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnum, true);
+                var userd ={
+                  usedM:parseInt(data.items[0].status.used['limits.memory']),
+                  usedC:parseInt(data.items[0].status.used['limits.cpu']),
+                  headM:parseInt(data.items[0].status.hard['limits.memory'])*1000,
+                  headC:parseInt(data.items[0].status.hard['limits.cpu'])*1000,
+                }
+
+                console.log('数据',data);
+                console.log(userd.headC,userd.headM);
+                console.log(userd.usedC,userd.usedM);
+                userd.usedM=userd.usedM>userd.headM?userd.headM:userd.usedM;
+                userd.usedC=userd.usedC>userd.headC?userd.headC:userd.usedC;
+                console.log(userd.headC,userd.headM);
+                console.log(userd.usedC,userd.usedM);
+
+                var memnums = (userd.usedM/userd.headM)*100;
+                var cpunums = (userd.usedC/userd.headC)*100;
+                //console.log(memnums,cpunums);
+                memnums=Math.round(memnums*100)/100
+                cpunums=Math.round(cpunums*100)/100
+                // data.items[0].status.hard['limits.cpu']
+                // console.log(data.items[0].status.used['limits.memory'],data.items[0].status.used['limits.cpu']);
+                // console.log(data.items[0].status.hard['limits.memory'],data.items[0].status.hard['limits.cpu']);
+                if (memnums == 100||cpunums==100) {
+                  if (memnums == 100&&cpunums!=100) {
+                    $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true,'red');
+                    $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'G/Hz', cpunums, true,'#f6a540');
+                  }else if(cpunums==100&&memnums != 100){
+                    $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'G/Hz', cpunums, true,'red');
+                    $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true,'#f6a540');
+                  }else {
+                    $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'G/Hz', cpunums, true,'red');
+                    $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true,'red');
+
+                  }
+
+                }else {
+                  $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true,'#f6a540');
+                  $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'G/Hz', cpunums, true,'#f6a540');
+                }
+                // $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'GB', cpunums, true,'#f6a540');
                 $scope.chartConfig = setChart();
                 $scope.isdata.CpuorMem = true;
                 $scope.isdata.charts = true;
 
               } else {
+                //console.log('配额',data);
                 var cpu = [];
                 var cpusun = 0;
                 var mem = [];
@@ -254,17 +312,24 @@ angular.module('console.dashboard', [
                 if (cpusun || memsun) {
                   // var cpunum = cpusun / cpu.length / 500 * 100 || 0;
                   // var memnum = memsun / mem.length / 1000000 / 250 * 100 || 0
-                   var cpunum = cpusun / cpu.length || 0;
+                  var cpunum = cpusun / cpu.length || 0;
                   var memnum = memsun / mem.length/1000000 || 0
 
                   cpunum = toDecimal(cpunum);
                   memnum = toDecimal(memnum);
+                  memnum = Math.round(memnum*100)/100;
+                  cpunum = Math.round(cpunum*100)/100;
+                  console.log(memnum);
+
+
                   // console.log(cpunum,memnum);
                   // $scope.pieConfigCpu = setPieChart('CPU', '500m', cpunum);
                   // $scope.pieConfigMem = setPieChart('内存', '250Mi', memnum);
                   //no quota.
-                  $scope.pieConfigCpu = setPieChart('CPU', cpunum+'m', 0, false);
-                  $scope.pieConfigMem = setPieChart('内存', memnum+'Mi', 0, false);
+
+                  $scope.pieConfigCpu = setPieChart('CPU', cpunum+'%', 0, false);
+                  $scope.pieConfigMem = setPieChart('内存', memnum+'MB', 0, false);
+
                   $scope.chartConfig = setChart();
                   $scope.isdata.CpuorMem = true;
                   $scope.isdata.charts = true;
@@ -302,6 +367,42 @@ angular.module('console.dashboard', [
         $scope.isdata.charts = false;
         $scope.pieConfigCpu = setPieChart('CPU', 'loading...', 0.1);
         $scope.pieConfigMem = setPieChart('内存', 'loading...', 0.1);
+        $scope.podList = 0;
+        var podList = function(){
+          Pod.get({namespace: $scope.namespace},function(res){
+            console.log("pod...res....",res);
+            for(var i = 0; i < res.items.length; i++){
+               if(res.items[i].status.phase == 'Running'){
+                 $scope.podList ++;
+               }
+            }
+          },function(res){
+            console.log("pod...reserr....",res);
+          })
+        }
+
+        var dcList = function(){
+          DeploymentConfig.get({namespace: $rootScope.namespace}, function(data){
+            $log.info('dcList----', data);
+            $scope.dcList = data.items.length;
+          }, function(res) {
+            $log.info('dcListerr', res);
+            $scope.dcList = 0;
+            //todo ������
+          });
+        }
+        var bsiList = function(){
+          BackingServiceInstance.get({namespace: $rootScope.namespace},function(res){
+            console.log("bsiList......",res);
+            $scope.bsiList = res.items.length;
+          },function(res){
+            console.log("bsiList...bsiListerr....",res);
+            $scope.bsiList = 0;
+          })
+        }
+        podList();
+        dcList();
+        bsiList();
 
       }]);
 

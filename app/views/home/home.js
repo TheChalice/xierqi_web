@@ -1,9 +1,16 @@
 'use strict';
 
 angular.module('home', [])
-    .controller('HomeCtrl', ['$scope', '$rootScope', '$log', 'ModalLogin', 'ModalRegist', 'User', function ($scope, $rootScope, $log, ModalLogin, ModalRegist, User) {
+    .controller('HomeCtrl', ['$state','$scope', '$rootScope', '$log', 'ModalLogin', 'ModalRegist', 'User',
+      function ($state,$scope, $rootScope, $log, ModalLogin, ModalRegist, User) {
         $log.info('Home');
+          $scope.$watch('namespace', function (n,o) {
+              //console.log('new1',n);
+              if (n == '') {
 
+                  clearInterval($rootScope.timer)
+              }
+          })
         if($rootScope.user){
             return $rootScope.user;
         }
@@ -12,11 +19,13 @@ angular.module('home', [])
         });
 
         $scope.login = function(){
-            ModalLogin.open();
+            // ModalLogin.open();
+          $state.go('login');
         };
 
         $scope.regist = function(){
-            ModalRegist.open();
+             ModalRegist.open();
+          //$state.go('regist');
         };
     }]);
 

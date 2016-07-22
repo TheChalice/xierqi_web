@@ -3,7 +3,7 @@
 define(['angular'], function (angular) {
   return angular.module('myApp.service', ['angular-clipboard', 'base64'])
       .service('Confirm', ['$uibModal', function ($uibModal) {
-        this.open = function (title, txt, tip, tp, iscf) {
+        this.open = function (title, txt, tip, tp, iscf, nonstop) {
           return $uibModal.open({
             templateUrl: 'pub/tpl/confirm.html',
             size: 'default',
@@ -13,6 +13,7 @@ define(['angular'], function (angular) {
               $scope.tip = tip;
               $scope.tp = tp;
               $scope.iscf = iscf;
+              //$scope.nonstop = nonstop;
               $scope.ok = function () {
                 $uibModalInstance.close(true);
               };
@@ -23,18 +24,95 @@ define(['angular'], function (angular) {
           }).result;
         };
       }])
-      .service('Addmodal', ['$uibModal', function ($uibModal) {
-        this.open = function (title, txt, tip) {
+      .service('errcode', ['$uibModal', function ($uibModal) {
+        this.open = function (code) {
+          var errcode = {
+            '1400':'请求错误',
+            '14000':'组织名称太短',
+            '14001':'名称太短',
+            '14002':'用户名不合法',
+            '14003':'操作不支持',
+            '14004':'不合法的token',
+            '14005':'密码不能为空',
+            '14006':'密码长度必须为8-12位',
+            '14007':'不合法的邮箱地址',
+            '14008':'不合法的用户名',
+            '14009':'该成员仍在组织中',
+            '140010':'超出配额',
+            '140011':'最后一名管理员禁止操作',
+            '140012':'该用户已被邀请过',
+            '140013':'该用户已在组织中',
+            '140014':'该用户还未注册',
+            '1401':'该用户未授权',
+            '1403':'禁止操作',
+            '14030':'没有权限',
+            '1404':'不能找到',
+            '14040':'不能找到组织',
+            '14041':'不能找到该用户',
+            '14090':'组织不存在',
+            '14091':'该用户已存在',
+            '14092':'该用户在LDAP已存在',
+            '2049':'原密码错误'
+          }
+          return errcode[code] || '内部错误，请通过DaoVoice联系管理员'
+        }
+      }])
+      .service('Addmodal', ['errcode','$uibModal', function (errcode,$uibModal) {
+        this.open = function (title, txt, tip,orgId,isaddpeople) {
           return $uibModal.open({
             templateUrl: 'pub/tpl/addmodal.html',
             size: 'default',
-            controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+            controller: ['$rootScope','$scope', '$uibModalInstance','loadOrg','$http', function ($rootScope,$scope, $uibModalInstance,loadOrg,$http) {
               $scope.title = title;
               $scope.txt = txt;
               $scope.tip = tip;
               $scope.orgName = null;
               $scope.ok = function () {
-                $uibModalInstance.close($scope.orgName);
+                if(isaddpeople == 'people'){
+                 if(!$scope.orgName){
+                   $scope.tip = '邮箱不能为空';
+                   return;
+                 }else{
+                   $http.put('/lapi/orgs/'+orgId+'/invite', {
+                     member_name: $scope.orgName,
+                     privileged: false
+                   }).success(function(item){
+                     $uibModalInstance.close(item);
+                   }).error(function(res){
+                     $scope.tip=errcode.open(res.code)
+
+                     //if(res.code >= 500){
+                     //  $scope.tip = '内部错误，请通过DaoVoice联系管理员';
+                     //}else{
+                     //  $scope.tip = res.message;
+                     //}
+
+                   })
+                 }
+                }else if(isaddpeople == 'org'){
+                  if(!$scope.orgName){
+                    $scope.tip = '名称不能为空';
+                    return;
+                  }else{
+                    $http.post('/lapi/orgs', {
+                      name : $scope.orgName
+                    }).success(function(item){
+                      $uibModalInstance.close(item);
+                      $rootScope.delOrgs = true;
+                    }).error(function(res){
+                      console.log(res);
+                      $scope.tip=errcode.open(res.code)
+                      //if(res.code >= 500){
+                      //  $scope.tip = '内部错误，请通过DaoVoice联系管理员';
+                      //}else{
+                      //  $scope.tip = res.message;
+                      //}
+                    })
+                  }
+                }else{
+                  $uibModalInstance.close( $scope.orgName);
+                }
+
               };
               $scope.cancel = function () {
                 $uibModalInstance.dismiss();
@@ -44,7 +122,7 @@ define(['angular'], function (angular) {
         };
       }])
       .service('Alert', ['$uibModal', function ($uibModal) {
-        this.open = function (title, txt, err) {
+        this.open = function (title, txt, err, regist, active) {
           return $uibModal.open({
             templateUrl: 'pub/tpl/alert.html',
             size: 'default',
@@ -52,6 +130,8 @@ define(['angular'], function (angular) {
               $scope.title = title;
               $scope.txt = txt;
               $scope.err = err;
+              $scope.classify = regist;
+              $scope.activation = active;
               $scope.ok = function () {
                 $uibModalInstance.close();
               };
@@ -136,7 +216,6 @@ define(['angular'], function (angular) {
                   }
                 }
               });
-
               $scope.$watch('imageVersion', function (newVal, oldVal) {
                 if (newVal != oldVal) {
                   newVal = newVal.replace(/\\/g);
@@ -254,19 +333,20 @@ define(['angular'], function (angular) {
           return $uibModal.open({
             templateUrl: 'views/login/login.html',
             size: 'default',
-            controller: ['$scope', 'AuthService', '$uibModalInstance', 'ModalRegist', function ($scope, AuthService, $uibModalInstance, ModalRegist) {
-              $rootScope.credentials = {};
-              $scope.login = function () {
-                AuthService.login($rootScope.credentials);
-                $uibModalInstance.close();
-              };
-              $scope.regist = function () {
-                $uibModalInstance.close();
-                ModalRegist.open();
-              };
-              $scope.cancel = function () {
-                $uibModalInstance.dismiss();
-              };
+            controller: ['$scope', 'AuthService', '$uibModalInstance', 'ModalRegist', 
+              function ($scope, AuthService, $uibModalInstance, ModalRegist) {
+              // $rootScope.credentials = {};
+              // $scope.login = function () {
+              //   AuthService.login($rootScope.credentials);
+              //   $uibModalInstance.close();
+              // };
+              // $scope.regist = function () {
+              //   $uibModalInstance.close();
+              //   ModalRegist.open();
+              // };
+              // $scope.cancel = function () {
+              //   $uibModalInstance.dismiss();
+              // };
             }]
           }).result;
         }
@@ -277,15 +357,13 @@ define(['angular'], function (angular) {
           return $uibModal.open({
             templateUrl: 'views/login/regist.html',
             size: 'default',
-            controller: ['$scope', 'AuthService', '$uibModalInstance', 'registration', function ($scope, AuthService, $uibModalInstance, registration) {
+            controller: ['$scope', 'AuthService', '$uibModalInstance', 'registration', 
+              function ($scope, AuthService, $uibModalInstance, registration) {
               $scope.credentials = {};
               $scope.regist = function () {
                 //注册相关代码...
-
                 registration.regist({username: $scope.credentials.username, password: $scope.credentials.password, email: $scope.credentials.email}, function(data){
-
                 })
-
                 $uibModalInstance.close();
               };
               $scope.cancel = function () {
@@ -295,7 +373,6 @@ define(['angular'], function (angular) {
           }).result;
         }
       }])
-
       .service('ModalPwd', ['$uibModal', function ($uibModal) {
         this.open = function () {
           return $uibModal.open({
@@ -473,7 +550,8 @@ define(['angular'], function (angular) {
         };
 
       }])
-      .service('AuthService', ['$rootScope', '$http', '$base64', 'Cookie', '$state', '$log', 'Project', 'GLOBAL', 'Alert', 'User', function ($rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User) {
+      .service('AuthService', ['orgList','$rootScope', '$http', '$base64', 'Cookie', '$state', '$log', 'Project', 'GLOBAL', 'Alert', 'User',
+        function (orgList,$rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User) {
         this.login = function (credentials) {
           console.log("login");
           localStorage.setItem('Auth',$base64.encode(credentials.username + ':' + credentials.password))
@@ -507,7 +585,7 @@ define(['angular'], function (angular) {
 
           $http(req).success(function (data) {
 
-            $rootScope.loding = false;
+            //$rootScope.loding = false;
 
             console.log(data);
 
@@ -516,15 +594,18 @@ define(['angular'], function (angular) {
             loadProject(credentials.username);
 
             User.get({name: '~'}, function (res) {
+              $rootScope.loding = false;
               $rootScope.user = res;
               $state.go('console.dashboard');
             });
 
           }).error(function (data) {
-            if (data.code == 401) {
-              $rootScope.user=false;
-              $rootScope.loding = false;
-            }
+            //console.log(data);
+            //if (data.code == 401) {
+            //  //$rootScope.user=false;
+            //  $rootScope.loding = false;
+            //}
+            $state.go('login');
             $rootScope.loding = false;
             Alert.open('错误', '用户名或密码不正确');
           });
@@ -570,6 +651,7 @@ define(['angular'], function (angular) {
             return res;
           },
           responseError: function (response) {
+            //alert(11)
             $rootScope.loading = false;
             var val = CODE_MAPPING[response.status];
             if (val) {

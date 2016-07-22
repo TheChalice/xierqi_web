@@ -1,0 +1,54 @@
+<div>
+    <form class="form-horizontal" name="frm" style="margin-right: 90px; margin-left: 90px; margin-top: 40px; width: 880px;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span style="font-size: 16px; color: #5a6378">新建配置卷</span>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label text-left" style="margin-top: 10px; color: #5a6378; font-size:14px; text-align: left; font-weight: normal">配置卷名称</label>
+                    <div class="col-sm-10" style="padding-right: 40px; ">
+                        <input  style="margin-top: 10px; width: 640px;" type="text" name="name" class="form-control" required
+                                ng-pattern="/^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/" placeholder="创建一个配置卷名称">
+                        <small class="fa fa-info-circle err-tip" style="margin-top: 20px;">名称只能包括小写字母/数字/短线,短线不能在开头或结尾位置</small>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <label class="col-md-2 control-label tex-left" style="color: #5a6378; font-size:14px; text-align: left; font-weight: normal">文件配置</label>
+                    <div class="col-md-10" style="margin-top: 10px">
+                        <!--<a href="javascript:;" style="line-height: 40px; margin-top: -20px" class="href-add" ng-click="addConfig()">-->
+                            <!--<i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;添加配置文件-->
+                        <!--</a>-->
+                        <form ng-app="fileUpload" name="configform">
+                            <!--<i class="fa fa-plus-circle fa-green fa-lg"></i>-->
+                            <!--<span class="button font12" ngf-select ng-model="files" ngf-multiple="true" style="color: #55c45f">添加配置文件</span>-->
+                            <div class="button" ngf-select ng-model="files" ngf-multiple="true">Select</div>
+                            <!--drop file-->
+                            <div ngf-drop ng-model="files" class="drop-box">Drop</div>
+                            <button type="submit" ng-click="submit()">submit</button>
+                        </form>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size:14px; text-align: left; font-weight: normal">手动配置</label>
+                    <div class="col-md-10" style="margin-top: 10px">
+                        <a href="javascript:;" ng-click="addConfig()">
+                           <i class="fa fa-plus-circle fa-green fa-lg"></i>
+                            <span class="font12" style="color: #55c45f">创建</span>
+                        </a>
+                        <div class="configitem" style="margin-top: 20px; margin-bottom: 20px">
+                            <div style="margin-bottom: 20px">
+                                <input class="form-control" type="text"  style="display: inline-block; width: 300px;" placeholder="KEY">
+                                <input class="form-control" type="text" style="display: inline-block; width: 300px; margin-left: 40px;" placeholder="VALUE">
+                                <a class="fa fa-times-circle " ng-click="rmconfigitem()" style="text-decoration: none; color: #9fa7b7; margin-left: 20px;" href="javascript:;"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="javascript:;" class="btn btn-block create" style="background-color: #F8B551; margin-top: 35px; color: white; width: 880px; margin-left: 90px" >创建配置卷</a>
+    </form>
+</div>

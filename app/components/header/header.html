@@ -2,32 +2,90 @@
     <a id="header-brand" href="#">
         <img src="components/header/img/logo.png" alt="logo">
     </a>
-    <div id="header-title" class="hidden-xs">
-        <span style="float: left;cursor: pointer; margin-right: 10px" ng-click="back()" class="icon25 icon25-back" ng-if="hasBack()">
-
+    <div id="header-title" class="hidden-xs" style="margin-left: 1px">
+        <span style="float: left;cursor: pointer; margin-right: 10px" ng-click="back()"
+              class="icon25 icon25-back" ng-if="hasBack()">
         </span>
         <span style='float: left;'>{{console.state | stateTitleFilter}}</span>
     </div>
     <div id="header-menu">
-        <a class="icon25 icon25-msg" ui-sref="console.notification" uib-tooltip="消息" tooltip-placement="bottom">
-            <div class="header-dot"></div>
+        <!--消息图标-->
+        <a class="icon25 icon25-msg" ui-sref="console.notification" uib-tooltip="消息" tooltip-placement="bottom" ng-click="checkInbox()">
+            <div ng-show="isshow">
+                <div class="header-dot"></div>
+            </div>
         </a>
+
         <!--<a class="icon25 icon25-guide" href="javascript:;" uib-tooltip="指南" tooltip-placement="bottom"-->
         <!--</a>-->
 
         <span uib-dropdown on-toggle="toggled(open)">
             <a href="javascript:;" id="user-menu" uib-dropdown-toggle>
                 <img src="components/header/img/user-icon-default.png" alt="icon" class="hidden-xs">
-                <span>{{user.metadata.name}} | {{namespace}}&nbsp;&nbsp;</span>
+                <span>{{user.metadata.name}} | {{checked}}&nbsp;&nbsp;</span>
                 <i class="fa fa-chevron-circle-down" style="color: #e6e9f2;"></i>
             </a>
-            <ul class="projectname" uib-dropdown-menu aria-labelledby="user-menu" style="max-height: 300px;overflow-y: scroll;top:45px;">
-                <li ng-repeat="project in projects | orderBy: 'metadata.name'">
-                    <a href="javascript:;" ng-click="setNamespace(project.metadata.name)">{{project.metadata.name}}</a>
+            <ul ng-if="!isorg" class="projectname" uib-dropdown-menu
+                aria-labelledby="user-menu" style="max-height: 320px;overflow-y: scroll;top:45px;right:0px;background: #f7fafc;">
+                <!--personal account-->
+                <li class='personal'>
+                    <a href="javascript:;" ng-click='gotomy()' ui-sref='console.user'><label>{{user.metadata.name}}</label>
+                        <br/>
+                        <span>查看个人账户</span>
+                    </a>
+                </li>
+
+                <!--组织账户-->
+                <li class='personal' ng-repeat='org in userorgs'>
+                    <a href="javascript:;" ng-click='goto($index)' ui-sref='console.dashboard({useorg:org.id})'><label>{{org.name}}</label>
+                        <br/>
+                        <span>切换到组织账户</span>
+                    </a>
+                </li>
+
+                <!--<li ng-repeat="project in projects | orderBy: 'metadata.name'">-->
+                <li ng-repeat="project in projects">
+                    <a href="javascript:;" ng-click="setNamespace(project.metadata.name,project.metadata.annotations['openshift.io/display-name'])">{{project.metadata.annotations['openshift.io/display-name'] || project.metadata.name}}</a>
+                </li>
+                <li>
+                    <a href="javascript:;" ng-click="createOrg()">创建组织</a>
                 </li>
                 <!--<li role="separator" class="divider"></li>-->
-                <li><a href="javascript:;" ng-click="logout()">退出</a></li>
+                <li style="border-bottom: none;">
+                    <a href="javascript:;" ng-click="logout()">退出登录</a>
+                </li>
             </ul>
+             <ul ng-if="isorg" class="projectname" uib-dropdown-menu
+                 aria-labelledby="user-menu" style="max-height: 320px;overflow-y: scroll;top:45px;right:0px;background: #f7fafc;">
+                 <!--personal account-->
+                 <li class='personal'>
+                     <a href="javascript:;" ng-click='gotomy()' ui-sref='console.user'><label>{{user.metadata.name}}</label>
+                         <br/>
+                         <span>切换到个人账户</span>
+                     </a>
+                 </li>
+
+                 <!--组织账户-->
+                 <li class='personal' ng-repeat='org in userorgs'>
+                     <a href="javascript:;" ng-click='goto($index)' ui-sref='console.org({useorg:org.id})'><label>{{org.name}}</label>
+                         <br/>
+                         <span ng-if="org.id == neworgid">查看组织账户</span>
+                         <span ng-if="org.id != neworgid">切换组织账户</span>
+                     </a>
+                 </li>
+<!--切换project仅限go神使用,要问go神是谁?-->
+                 <li ng-repeat="project in projects">
+                     <a href="javascript:;" ng-click="setNamespace(project.metadata.name,project.metadata.annotations['openshift.io/display-name'])">{{project.metadata.annotations['openshift.io/display-name'] || project.metadata.name}}</a>
+                 </li>
+                 <li>
+                     <a href="javascript:;" ng-click="createOrg()">创建组织</a>
+                 </li>
+                 <!--<li role="separator" class="divider"></li>-->
+                 <li style="border-bottom: none;">
+                     <a href="javascript:;" ng-click="logout()">退出登录</a>
+                 </li>
+             </ul>
         </span>
     </div>
+
 </div>

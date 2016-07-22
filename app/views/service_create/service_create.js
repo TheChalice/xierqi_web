@@ -41,7 +41,8 @@ angular.module('console.service.create', [
               app: ""
             },
             annotations : {
-              "dadafoundry.io/images-from" : "public"
+              "dadafoundry.io/images-from" : "public",
+              "dadafoundry.io/create-by" : $rootScope.user.metadata.name
             }
           },
           spec: {
@@ -90,7 +91,8 @@ angular.module('console.service.create', [
           servicepoterr : false,
           createdcerr : false,
           isserviceName: false,
-          isimageChange: true
+          isimageChange: true,
+          servicenameerr : false
 
         };
         // $scope.grid.host=$scope.dc.metadata.name
@@ -136,6 +138,9 @@ angular.module('console.service.create', [
             "name": "",
             "labels": {
               "app": ""
+            },
+            annotations : {
+              "dadafoundry.io/create-by" : $rootScope.user.metadata.name
             }
           },
           "spec": {
@@ -158,6 +163,9 @@ angular.module('console.service.create', [
             "name": "",
             "labels": {
               "app": ""
+            },
+            annotations : {
+              "dadafoundry.io/create-by" : $rootScope.user.metadata.name
             }
           },
           "spec": {
@@ -174,12 +182,12 @@ angular.module('console.service.create', [
 
         var initContainer = function () {
           if ($stateParams.image) {
-            console.log("$stateParams.image", $stateParams.image);
+            // console.log("$stateParams.image", $stateParams.image);
             // console.log("initContainer", $scope.dc.spec.template.spec.containers.tag);
             // if (!$scope.dc.spec.template.spec.containers.tag) {
             //   $scope.named=$stateParams.image.metadata.name;
             // }
-            // console.log("initContainer", $stateParams.image.metadata.name);
+             console.log("initContainer", $stateParams.image);
 
             if ($stateParams.image.metadata) {
               var container = angular.copy($scope.containerTpl);
@@ -230,22 +238,23 @@ angular.module('console.service.create', [
               $scope.dc.spec.template.spec.containers.push(container);
               $scope.invalid.containerLength = false;
             }else {
-              if ($stateParams.image.indexOf('/') == -1) {
+              if ($stateParams.image.indexOf('@')!= -1) {
+                console.log($stateParams.image)
+                var arr=$stateParams.image.split("@");
+                console.log(arr)
                 var container = angular.copy($scope.containerTpl);
-                var proto = $stateParams.image;
-                var jingxing = $stateParams.image.split(':')[0];
-                var banben = $stateParams.image.split(':')[1];
-                // var container = angular.copy($scope.containerTpl);
-                container.image = proto;
-                // console.log($stateParams.image.metadata.name.split(':')[1]);
-                container.tag = banben;
-                // console.log($scope.dc.spec.template.spec.containers);
-                container.strname = container.name = jingxing;
+                container.image = arr[0]+"@"+arr[1];
+                container.tag = arr[2];
+                container.truename = arr[3];
+                container.strname = container.name = arr[3];
+                $scope.grid.imageChange = true;
+                $scope.grid.isimageChange = true;
               } else {
                 var container = angular.copy($scope.containerTpl);
                 container.image = 'registry.dataos.io/' + $stateParams.image.split(':')[0];
                 container.tag = $stateParams.image.split(':')[1];
-                container.strname = container.name = $stateParams.image.split(':')[0].replace('/', '-')
+                container.strname = container.name = $stateParams.image.split(':')[0].replace('/', '-');
+                container.truename = $stateParams.image.split(':')[0].replace('/', '-');;
               }
 
               $scope.portsArr = [
@@ -321,7 +330,16 @@ angular.module('console.service.create', [
             $scope.grid.createdcerr = false;
           }
         }
-
+        $scope.checknames = function(){
+          var r = /^[a-zA-Z]*[a-zA-Z][a-zA-Z]*$/;
+          if(!r.test($scope.dc.metadata.name)){
+              $scope.grid.servicenameerr = true;
+          }else if($scope.dc.metadata.name.length<2 || $scope.dc.metadata.name.length>63){
+            $scope.grid.servicenameerr = true;
+          }else{
+            $scope.grid.servicenameerr = false;
+          }
+        }
         var loadBsi = function (dc) {
           BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {
             $log.info("backingServiceInstance", res);
@@ -398,6 +416,7 @@ angular.module('console.service.create', [
           ImageSelect.open().then(function (res) {
             console.log("imageStreamTag", res);
             console.log('container', container)
+            var imagetag = '';
             container.ports = [];
             if (container.ports.length == 0) {
               container.ports.push({
@@ -408,36 +427,47 @@ angular.module('console.service.create', [
               })
             }
             if(res.ispublicimage){
-              //$scope.grid.isimageChange = false;
               container.isimageChange = false;
               var str1 =  res.imagesname.split("/");
               var strname1 = str1[0]+'/'+str1[1];
+              container.truename = strname1.replace('/', "-");
               container.image = 'registry.dataos.io/'+str1[0]+'/'+str1[1]+':'+str1[2];
+              var olsname = strname1.replace('/', "-");
               console.log(container.image)
               if (idx > 0) {
-                if (cons[idx - 1].image.split(":")[0] == 'registry.dataos.io/'+strname1) {
-                  strname1 = str1[0]+'/'+str1[1] + idx;
+                for(var i = 0 ; i < cons.length;i++){
+                  if(cons[i].name == olsname){
+                    strname1 = str1[0]+'/'+str1[1] + idx;
+                  }
                 }
               }
               container.strname = strname1.replace('/', "-");
               container.name = strname1.replace('/', "-");
               container.tag = str1[2];
+              imagetag = 'image-'+container.name;
+              $scope.dc.metadata.annotations[imagetag] = str1[2];
 
             }else{
-              //$scope.grid.isimageChange = true;
+              var dockerImageIP  = res.image.dockerImageReference.split('@');
               container.isimageChange = true;
-              container.image = res.metadata.name;
               var str = res.metadata.name.split(":");
+              //container.image = dockerImageIP[0]+':'+str[1];
+              container.image = res.image.dockerImageReference;
               var strname = str[0];
+              container.truename = str[0];
               if (idx > 0) {
-                if (cons[idx - 1].image.split(":")[0] == strname) {
-                  strname = str[0] + idx;
+                for(var i = 0 ; i < cons.length;i++){
+                  if(cons[i].name == strname){
+                    strname = str[0] + idx
+                  }
                 }
               }
               console.log("strwoshishui=0=0=0",str);
               container.strname = strname;
               container.name = strname;
               container.tag = str[1];
+              imagetag = 'image-'+container.name;
+              $scope.dc.metadata.annotations[imagetag] = str[1];
               if(res.image.dockerImageMetadata.Config.Labels){
                 container.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
                 container.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
@@ -457,6 +487,18 @@ angular.module('console.service.create', [
                     //open: true
                   });
                 }
+              }
+            }
+            console.log('$scope.dc.spec.template.spec-------------',$scope.dc)
+            var conlength = $scope.dc.spec.template.spec.containers
+            for(var i = 0 ;i < conlength.length;i++ ){
+              if(conlength[i].isimageChange == false){
+                $scope.grid.isimageChange = false;
+                $scope.grid.imageChange = false;
+                break;
+              }else{
+                $scope.grid.isimageChange = true;
+                $scope.grid.imageChange = true;
               }
             }
 
@@ -566,6 +608,7 @@ angular.module('console.service.create', [
               return
             }else{
               $scope.grid.isimageChange = true;
+              $scope.grid.imageChange = true;
             }
           }
         };
@@ -591,10 +634,13 @@ angular.module('console.service.create', [
           if ($scope.grid.configChange) {
             triggers.push({type: 'ConfigChange'});
           }
-
-          if ($scope.grid.imageChange) {
+          console.log($scope.grid.imageChange)
+          console.log($scope.grid.isimageChange)
+          if ($scope.grid.imageChange && $scope.grid.isimageChange) {
             var containers = dc.spec.template.spec.containers;
             for (var i = 0; i < containers.length; i++) {
+              var match = containers[i].truename+":"+containers[i].tag;
+             console.log('match....',match)
               triggers.push({
                 type: 'ImageChange',
                 imageChangeParams: {
@@ -602,20 +648,24 @@ angular.module('console.service.create', [
                   "containerNames": [containers[i].name],
                   "from": {
                     "kind": "ImageStreamTag",
-                    "name": containers[i].image
+                    "name": match
                   }
                 }
               });
             }
           }
           dc.spec.triggers = triggers;
+          console.log(' dc.spec.triggers',dc.spec.triggers);
         };
 
         var bindService = function (dc) {
           angular.forEach($scope.bsi.items, function (bsi) {
             var bindObj = {
               metadata: {
-                name: bsi.metadata.name
+                name: bsi.metadata.name,
+                annotations : {
+                  "dadafoundry.io/create-by" : $rootScope.user.metadata.name
+                }
               },
               resourceName: dc.metadata.name,
               bindResourceVersion: '',
@@ -791,7 +841,7 @@ angular.module('console.service.create', [
           })
         }
         $scope.createDc = function () {
-          if($scope.grid.isserviceName || $scope.grid.createdcerr){
+          if($scope.grid.isserviceName || $scope.grid.createdcerr||$scope.grid.servicenameerr){
             return;
           }
           if (!valid($scope.dc)) {
@@ -879,10 +929,13 @@ angular.module('console.service.create', [
           deleService();
           deleRoute();
           var clonedc = angular.copy(dc);
+          var arrimgs = [];
           for(var i = 0;i<clonedc.spec.template.spec.containers.length;i++){
             delete clonedc.spec.template.spec.containers[i]["commitId"];
+            delete clonedc.spec.template.spec.containers[i]["truename"];
             delete clonedc.spec.template.spec.containers[i]["ref"];
             delete clonedc.spec.template.spec.containers[i]["tag"];
+            arrimgs.push(clonedc.spec.template.spec.containers[i].isimageChange);
             delete clonedc.spec.template.spec.containers[i]["isimageChange"];
             if(clonedc.spec.template.spec.containers[i].ports){
                 delete clonedc.spec.template.spec.containers[i]["ports"];
@@ -891,9 +944,11 @@ angular.module('console.service.create', [
               delete clonedc.spec.template.spec.containers[i]["env"];
             }
           }
+          var arrimgstr = arrimgs.join();
+          clonedc.metadata.annotations["imageorpublic"] = arrimgstr;
           if($scope.grid.isimageChange == false){
             clonedc.metadata.annotations["dadafoundry.io/images-from"] = 'private';
-            delete clonedc.spec['triggers'];
+            delete clonedc.spec.triggers[1];
           }
           var isport = false;
           for (var i = 0; i < $scope.portsArr.length; i++) {
@@ -911,12 +966,6 @@ angular.module('console.service.create', [
           DeploymentConfig.create({namespace: $rootScope.namespace}, clonedc, function (res) {
             $log.info("create dc success", res);
             //var isport = false;
-            //for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
-            //  if (dc.spec.template.spec.containers[i].ports.length != 0) {
-            //    isport = true;
-            //    break;
-            //  }
-            //}
             //if (isport) {
             //  createService(dc);
             //  bindService(dc);
@@ -925,13 +974,10 @@ angular.module('console.service.create', [
             //}
             bindService(dc);
             // Toast.open('初始化成功');
-            Confirm.open("提示信息","初始化成功",null,144,true).then(function () {
-              $state.go('console.service_detail', {name: dc.metadata.name});
-            })
-            // setTimeout(function () {
-            //   $state.go('console.service_detail', {name: dc.metadata.name});
-            // }, 1000)
-            
+            //Confirm.open("提示信息","初始化成功",null,144,true).then(function () {
+            //
+            //})
+            $state.go('console.service_detail', {name: dc.metadata.name});
           }, function (res) {
             //todo 错误处理
             $log.info("create dc fail", res);

@@ -243,7 +243,7 @@ article .peie {
     margin: 0;
 }
 .list {
-    padding: 30px 0;
+    padding: 30px 0px 0px 0px;
     margin: 0 30px;
 }
 .list h3 {
@@ -318,4 +318,19 @@ article .peie {
 .active .orgbg{
     background: url(../../pub/img/orgbg_hover.png) no-repeat;
     background-size:contain;
+}
+#leave {
+    color: white;
+}
+#remove {
+    color: white;
+}
+#leavefmem{
+    coloe: white;
+}
+#removefmem{
+    color: white;
+}
+.invitation:hover {
+    color: #469450;
 }

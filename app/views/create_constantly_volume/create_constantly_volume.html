@@ -1,0 +1,64 @@
+<div>
+    <style>
+        .create:hover{
+            background-color: #e5993a;
+        }
+        .create:active{
+            background-color: #F8B551;
+        }
+        #arrow:hover {
+            background:url('views/create_constantly_volume/img/images_45.png');
+        }
+        .select {
+            background-color: white;
+            color: black;
+            height: 34px;
+            margin-top: 10px;
+            margin-left: 30px;
+        }
+    </style>
+    <form class="form-horizontal" name="frm" style="margin-right: 90px; margin-left: 90px; margin-top: 40px; width: 880px;">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span style="font-size: 16px; color: #5a6378">新建持久化卷</span>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label text-left" style="margin-top: 10px; color: #5a6378; font-size:14px; text-align: left; font-weight: normal;">持久化卷名称</label>
+                    <div class="col-sm-10" style="padding-right: 40px; ">
+                        <input  style="margin-top: 10px" type="text" name="name" class="form-control" required
+                            ng-pattern="/^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/" placeholder="创建一个持久化卷名称">
+                        <small class="fa fa-info-circle err-tip" style="margin-top: 20px;">名称只能包括小写字母/数字/短线,短线不能在开头或结尾位置</small>
+                    </div>
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label text-left" style="margin-top: 10px; color: #5a6378; font-size:14px; text-align: left; font-weight: normal;">持久化卷容量</label>
+                    <div class="col-sm-10" style="padding-right: 40px">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <input class="form-control" style="margin-top: 10px; width: 200px;" type="text" name="name" required placeholder="请输入整数">
+                            </div>
+                            <div class="col-md-2">
+                                <div class="dropdown">
+                                    <button class="btn btn-default dropdown-toggle select" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        MB
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                        <li><a href="#">MB</a></li>
+                                        <li><a href="#">GB</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-offset-7"></div>
+                        </div>
+                        <small class="fa fa-info-circle err-tip" style="margin-top: 20px;">您的配额不足,请升级套餐</small>
+                        <img src="views/create_constantly_volume/img/images_43.png" id="arrow" ng-click="updateplan()">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="javascript:;" class="btn btn-block create" style="background-color: #F8B551; margin-top: 35px; color: white;" >创建持久化卷</a>
+    </form>
+</div>

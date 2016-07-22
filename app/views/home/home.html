@@ -15,9 +15,9 @@
         }
 
         #header #header-brand img {
-            padding-top: 10px;
+            padding-top: 11px;
             padding-bottom: 7px;
-            height: 100%;
+            height: 90%;
         }
 
         #header .menu > li > a {
@@ -35,20 +35,7 @@
             color: #3c4251;
         }
 
-        .footer {
-            background: #5a6378;
-            font-size: 14px;
-            font-weight:bold;
-            color: #bdc0c7;
-            text-align: center;
-            height: 300px;
-            line-height: 50px;
-            width: 100%;
-            paddin: 0px 30px;
-            padding-top: 40px;
-            margin-left: 0;
-            margin-right: 0;
-        }
+
 
         #header .btn-green {
             padding-left: 10px;
@@ -163,7 +150,7 @@
             padding-right: 30px;
         }
         #header #header-brand img{
-            padding-top:7px;
+            padding-top:11px;
         }
         #header #header-brand {
             padding-left: 40px;
@@ -217,15 +204,15 @@
     <div id="header">
         <!--mobile -->
         <!-- pc -->
-        <a id="header-brand" href="#">
+        <a id="header-brand" style="background-color:#f8b551;" href="#">
             <img src="components/header/img/logo.png" alt="logo">
         </a>
         <form class="navbar-form navbar-right" style="margin-top: 23px;">
             <button ng-if="!user" id='btnd' ng-click="login()" type="button" class="btn btn-green btn-border btn-xs"
-                    style="margin-right:5px;">登录
+                    style="margin-right:5px;font-size: 14px;">登录
             </button>
-            <button ng-if="!user" id='btnz' ng-click="regist()" type="button" class="btn btn-green btn-xs">注册</button>
-            <a ng-if="user" id=btnk ui-sref="console.dashboard" class="btn btn-green btn-xs">控制台</a>
+            <button ng-if="!user" id='btnz' ng-click="regist()" type="button" class="btn btn-green btn-xs" style="font-size: 14px;">注册</button>
+            <a ng-if="user" id=btnk ui-sref="console.dashboard" class="btn btn-green btn-xs" style="font-size: 14px;">控制台</a>
 
             <div class="dropdown" ID="mobilenav">
                 <button data-target=".navbar-collapse" style='margin-right: -13px;' data-toggle="collapse" class="navbar-toggle" type="button">
@@ -237,48 +224,48 @@
                 </button>
                 <div class="navbar-collapse collapse navbar-right pull-right">
                     <ul class="nav navbar-nav" id="m-navs">
-                        <li><a ui-sref="home.index" target="_blank" style="color: #fff;">首页</a></li>
+                        <li><a ui-sref="home.index" target="_blank" style="color: #fff;font-size: 16px;">首页</a></li>
                         <!--
                         <li><a href="javascript:;" target="_blank" style="color: #fff;">应用市场</a></li>
                         <li><a href="javascript:;" target="_blank" style="color: #fff;">产品介绍</a></li>
                         <li><a href="javascript:;" target="_blank" style="color: #fff;">解决方案</a></li>
                         -->
-                        <li><a href="/docs" target="_blank" style="color: #fff;">帮助</a></li>
+                        <li><a href="/docs" target="_blank" style="color: #fff;font-size: 16px;">帮助</a></li>
                     </ul>
                 </div>
             </div>
         </form>
         <ul class="nav navbar-nav menu navbar-right" ID="nav">
-            <li class="active"><a ui-sref="home.index">首页</a></li>
+            <li class="active"><a ui-sref="home.index" style="font-size: 16px;">首页</a></li>
             <!--
             <li><a href="javascript:;">应用市场</a></li>
             <li><a href="javascript:;">产品介绍</a></li>
             <li><a href="javascript:;">解决方案</a></li>
             -->
-            <li><a href="/docs" target="_blank">帮助</a></li>
+            <li><a href="/docs" target="_blank" style="font-size: 16px;">帮助</a></li>
         </ul>
     </div>
     <!--loading-->
-    <div class="loading-box" ng-show=loding>
-        <img class="spinner" src="pub/img/loading.gif" alt="">
-    </div>
+    <!--<div class="loading-box" ng-show=loding>-->
+        <!--<img class="spinner" src="pub/img/loading.gif" alt="">-->
+    <!--</div>-->
 
     <div ui-view style="overflow: hidden;"></div>
 
-    <div class="row footer">
-        <div class="col-xs-3 col-lg-2 col-sm-3 footer-td" style='text-align: center;'>
-            <p>团队介绍</p>
-            <p>合作方式</p>
+    <!--<div class="row footer">-->
+        <!--<div class="col-xs-3 col-lg-2 col-sm-3 footer-td" style='text-align: center;'>-->
+            <!--<p>团队介绍</p>-->
+            <!--<p>合作方式</p>-->
+            <!--&lt;!&ndash;<p>联系我们</p>&ndash;&gt;-->
+        <!--</div>-->
+        <!--<div class="col-xs-9 col-lg-8 col-sm-9 col-lg-offset-2 footer-lx" style='text-align: left;'>-->
             <!--<p>联系我们</p>-->
-        </div>
-        <div class="col-xs-9 col-lg-8 col-sm-9 col-lg-offset-2 footer-lx" style='text-align: left;'>
-            <p>联系我们</p>
-            <p>电话:010-82166688</p>
-            <p>邮箱:datafoundry@asiainfo.com</p>
-            <p>地址:北京市海淀区中关村软件园二期西北旺东路10号院亚信大厦</p>
-        </div>
-        <div class="col-xs-12" style='text-align: center; margin-top: 20px;'>© 2016版权所有 北京亚信智慧数据科技有限公司 京ICP备11005544号-15 京公网安备110108007119号</div>
-    </div>
+            <!--<p>电话:010-82166688</p>-->
+            <!--<p>邮箱:datafoundry@asiainfo.com</p>-->
+            <!--<p>地址:北京市海淀区中关村软件园二期西北旺东路10号院亚信大厦</p>-->
+        <!--</div>-->
+        <!--<div class="col-xs-12" style='text-align: center; margin-top: 20px;'>© 2016版权所有 北京亚信智慧数据科技有限公司 京ICP备11005544号-15 京公网安备110108007119号</div>-->
+    <!--</div>-->
 
 </div>
 
