@@ -331,7 +331,7 @@ angular.module('console.service.create', [
           }
         }
         $scope.checknames = function(){
-          var r = /^[0-9a-zA-Z]*[a-zA-Z][0-9a-zA-Z]*$/;
+          var r = /^[a-zA-Z]*[a-zA-Z][a-zA-Z]*$/;
           if(!r.test($scope.dc.metadata.name)){
               $scope.grid.servicenameerr = true;
           }else if($scope.dc.metadata.name.length<2 || $scope.dc.metadata.name.length>63){
@@ -841,7 +841,7 @@ angular.module('console.service.create', [
           })
         }
         $scope.createDc = function () {
-          if($scope.grid.isserviceName || $scope.grid.createdcerr){
+          if($scope.grid.isserviceName || $scope.grid.createdcerr||$scope.grid.servicenameerr){
             return;
           }
           if (!valid($scope.dc)) {
