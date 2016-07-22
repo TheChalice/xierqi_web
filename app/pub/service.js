@@ -24,7 +24,40 @@ define(['angular'], function (angular) {
           }).result;
         };
       }])
-      .service('Addmodal', ['$uibModal', function ($uibModal) {
+      .service('errcode', ['$uibModal', function ($uibModal) {
+        this.open = function (code) {
+          var errcode = {
+            '1400':'请求错误',
+            '14000':'组织名称太短',
+            '14001':'名称太短',
+            '14002':'用户名不合法',
+            '14003':'操作不支持',
+            '14004':'不合法的token',
+            '14005':'密码不能为空',
+            '14006':'密码长度必须为8-12位',
+            '14007':'不合法的邮箱地址',
+            '14008':'不合法的用户名',
+            '14009':'该成员仍在组织中',
+            '140010':'超出配额',
+            '140011':'最后一名管理员禁止操作',
+            '140012':'该用户已被邀请过',
+            '140013':'该用户已在组织中',
+            '140014':'该用户还未注册',
+            '1401':'该用户未授权',
+            '1403':'禁止操作',
+            '14030':'没有权限',
+            '1404':'不能找到',
+            '14040':'不能找到组织',
+            '14041':'不能找到该用户',
+            '14090':'组织不存在',
+            '14091':'该用户已存在',
+            '14092':'该用户在LDAP已存在',
+            '2049':'原密码错误'
+          }
+          return errcode[code] || '内部错误，请通过DaoVoice联系管理员'
+        }
+      }])
+      .service('Addmodal', ['errcode','$uibModal', function (errcode,$uibModal) {
         this.open = function (title, txt, tip,orgId,isaddpeople) {
           return $uibModal.open({
             templateUrl: 'pub/tpl/addmodal.html',
@@ -46,11 +79,14 @@ define(['angular'], function (angular) {
                    }).success(function(item){
                      $uibModalInstance.close(item);
                    }).error(function(res){
-                     if(res.code >= 500){
-                       $scope.tip = '内部错误，请通过DaoVoice联系管理员';
-                     }else{
-                       $scope.tip = res.message;
-                     }
+                     $scope.tip=errcode.open(res.code)
+
+                     //if(res.code >= 500){
+                     //  $scope.tip = '内部错误，请通过DaoVoice联系管理员';
+                     //}else{
+                     //  $scope.tip = res.message;
+                     //}
+
                    })
                  }
                 }else if(isaddpeople == 'org'){
@@ -65,11 +101,12 @@ define(['angular'], function (angular) {
                       $rootScope.delOrgs = true;
                     }).error(function(res){
                       console.log(res);
-                      if(res.code >= 500){
-                        $scope.tip = '内部错误，请通过DaoVoice联系管理员';
-                      }else{
-                        $scope.tip = res.message;
-                      }
+                      $scope.tip=errcode.open(res.code)
+                      //if(res.code >= 500){
+                      //  $scope.tip = '内部错误，请通过DaoVoice联系管理员';
+                      //}else{
+                      //  $scope.tip = res.message;
+                      //}
                     })
                   }
                 }else{
@@ -336,7 +373,6 @@ define(['angular'], function (angular) {
           }).result;
         }
       }])
-
       .service('ModalPwd', ['$uibModal', function ($uibModal) {
         this.open = function () {
           return $uibModal.open({
@@ -549,7 +585,7 @@ define(['angular'], function (angular) {
 
           $http(req).success(function (data) {
 
-            $rootScope.loding = false;
+            //$rootScope.loding = false;
 
             console.log(data);
 
@@ -558,6 +594,7 @@ define(['angular'], function (angular) {
             loadProject(credentials.username);
 
             User.get({name: '~'}, function (res) {
+              $rootScope.loding = false;
               $rootScope.user = res;
               $state.go('console.dashboard');
             });
@@ -614,6 +651,7 @@ define(['angular'], function (angular) {
             return res;
           },
           responseError: function (response) {
+            //alert(11)
             $rootScope.loading = false;
             var val = CODE_MAPPING[response.status];
             if (val) {
