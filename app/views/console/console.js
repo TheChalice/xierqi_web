@@ -26,6 +26,9 @@ angular.module('console', [
             Project.get(function(data){
                 //$rootScope.projects = data.items;
                 //var newprojects = []
+                data.items.sort(function (x, y) {
+                    return x.metadata.name > y.metadata.name ? 1 : -1;
+                });
                 angular.forEach(data.items, function (project,i) {
                     if (/^[\u4e00-\u9fa5]+$/i.test(project.metadata.annotations['openshift.io/display-name'])) {
                         console.log(project.metadata.annotations['openshift.io/display-name']);
