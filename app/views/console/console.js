@@ -20,21 +20,13 @@ angular.module('console', [
             $rootScope.namespace = user.metadata.name;
             Cookie.set('namespace', name, 10 * 365 * 24 * 3600 * 1000);
         }
-        $http({
-            url:'/lapi/inbox_stat',
-            method:'GET',
-        }).success(function(res){
-            //console.log("test the inbox stat", res);
-        }).error(function(data){
-            //console.log("Couldn't get inbox message", data)
-        });
+
         var loadProject = function(){
-            $log.info("load project");
+            //$log.info("load project");
             Project.get(function(data){
                 //$rootScope.projects = data.items;
                 //var newprojects = []
                 angular.forEach(data.items, function (project,i) {
-
                     if (/^[\u4e00-\u9fa5]+$/i.test(project.metadata.annotations['openshift.io/display-name'])) {
                         console.log(project.metadata.annotations['openshift.io/display-name']);
                         data.items.push(project);

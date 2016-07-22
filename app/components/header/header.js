@@ -66,6 +66,22 @@ angular.module("console.header", [
                   $scope.$watch('namespace', function (n,o) {
                       console.log('new',n);
                       if (n.indexOf('org')==-1) {
+                          $http({
+                              url:'/lapi/inbox_stat',
+                              method:'GET',
+                          }).success(function(res){
+                              //console.log("test the inbox stat", res);
+                              if(res.data == null){
+                                  res.data = {};
+                              }
+                              if (res.data.sitenotify || res.data.accountms || res.data.alert){
+                                  $scope.isshow = true;
+                              }else{
+                                  $scope.isshow = false;
+                              };
+                          }).error(function(data){
+                              //console.log("Couldn't get inbox message", data)
+                          });
                           $rootScope.timer = setInterval(function(){
                               $http({
                                   url:'/lapi/inbox_stat',
