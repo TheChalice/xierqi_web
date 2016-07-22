@@ -91,7 +91,8 @@ angular.module('console.service.create', [
           servicepoterr : false,
           createdcerr : false,
           isserviceName: false,
-          isimageChange: true
+          isimageChange: true,
+          servicenameerr : false
 
         };
         // $scope.grid.host=$scope.dc.metadata.name
@@ -329,7 +330,16 @@ angular.module('console.service.create', [
             $scope.grid.createdcerr = false;
           }
         }
-
+        $scope.checknames = function(){
+          var r = /^[0-9a-zA-Z]*[a-zA-Z][0-9a-zA-Z]*$/;
+          if(!r.test($scope.dc.metadata.name)){
+              $scope.grid.servicenameerr = true;
+          }else if($scope.dc.metadata.name.length<2 || $scope.dc.metadata.name.length>63){
+            $scope.grid.servicenameerr = true;
+          }else{
+            $scope.grid.servicenameerr = false;
+          }
+        }
         var loadBsi = function (dc) {
           BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {
             $log.info("backingServiceInstance", res);
