@@ -1,6 +1,6 @@
-<div class='sjgf' ui-sref='home.index'>
-    
-</div>
+<!--<div class='sjgf' ui-sref='home.index'>-->
+    <!---->
+<!--</div>-->
 <!--<div class="login">-->
     <!--loading-->
     <div class="loading-box" ng-show=loding>
@@ -10,7 +10,7 @@
 <div class="logboxworp">
     <div class="loginL">
         <img src="pub/img/00000.png" alt="" style="width: 220px;height: 220px;margin-top:80px;">
-        <div style="margin-top: 50px;font-size: 36px;color: #5a6378">铸数工坊</div>
+        <div style="margin-top: 40px;font-size: 36px;color: #5a6378">铸数工坊</div>
         <div style="font-size: 14px;color: #5a6378;margin-top: 10px;">极速铸造云端应用&nbsp;&nbsp;探究大数据应用之美</div>
     </div>
     <div class='loginbox'>
@@ -23,27 +23,26 @@
         </div>
         <div class="modal-body" style="padding: 20px 30px 30px 30px;">
             <form class="form-horizontal" name="frm">
-                <p class="modal-msg text-left" style="margin: 0 0 10px 0;font-size:14px;color:#5a6378;">
+                <p class="modal-msg text-left" style="margin: 0 0 10px 0;font-size:12px;color:#5a6378;">
                     <span class="require">用户名</span>&nbsp;&nbsp;
                     <small ng-if="frm.username.$dirty && frm.username.$invalid" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;用户名不能为空</small>
                 </p>
-                <input name="username" class="form-control" placeholder="用户名" ng-model="credentials.username" required>
+                <input name="username" style="font-size: 12px;" class="form-control" placeholder="用户名" ng-model="credentials.username" required>
 
-                <p class="modal-msg text-left" style="margin: 20px 0 10px 0;font-size:14px;color:#5a6378;">
+                <p class="modal-msg text-left" style="margin: 20px 0 10px 0;font-size:12px;color:#5a6378;">
                     <span class="require">密码</span>&nbsp;&nbsp;
                     <small ng-if="frm.password.$dirty && frm.password.$invalid" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;密码不能为空</small>
                 </p>
-                <input name="password" type="password" class="form-control" placeholder="密码" ng-model="credentials.password" required>
+                <input name="password" style="font-size: 12px;" type="password" class="form-control" placeholder="密码" ng-model="credentials.password" required>
 
-                <button class="btn btn-orange btn-block" ng-disabled="loding" ng-click="frm.$valid && login()" style="margin: 30px 0 0 0;">
+                <button class="btn btn-orange btn-block" ng-click="frm.$valid && login()" style="margin: 30px 0 0 0;">
                     登录
                 </button>
             </form>
         </div>
         <div class="modal-footer" style="padding: 0;border: none;">
-            <div style="margin:30px 0px 20px; text-align: center;color: #5a6378">没有&nbsp;DataFoundry&nbsp;账号?</div>
-            <button ng-click="regist()" class="btn btn-block btn-regist" style="height:50px;">
-            <!--<button class="btn btn-block btn-regist" style="height:50px;">-->
+            <div style="margin:45px 0px 20px;font-size: 16px; text-align: center;color: #5a6378">没有&nbsp;DataFoundry&nbsp;账号?</div>
+            <button ng-click="regist()" class="btn btn-block btn-regist" style="height:34px;">
                 立即注册
             </button>
         </div>
@@ -54,11 +53,11 @@
 
 
 
-    <div style="margin:0 auto; padding-top: 40px; padding-bottom: 30px; width: 460px; position:relative">
-        <div class="line">
-        </div>
-        <img id="footerimg" src="views/login/img/image_09.png">
-    </div>
+    <!--<div style="margin:0 auto; padding-top: 40px; padding-bottom: 30px; width: 460px; position:relative">-->
+        <!--<div class="line">-->
+        <!--</div>-->
+        <!--<img id="footerimg" src="views/login/img/image_09.png">-->
+    <!--</div>-->
     <!--<button class="btn btn-success" ng-click="count()">开始进度</button>-->
     <!--<div ng-class="{progress: true, 'progress-striped': vm.striped}" class="col-md-4">-->
         <!--<div ng-class="['progress-bar', vm.style]" ng-style="{width: vm.value + '%'}">-->
@@ -80,9 +79,13 @@
     }
     body {
         background-color: #5a6378;
+        padding-top:0px;
     }
     #header {
         display: none;
+    }
+    .btn{
+        padding: 7px 12px;
     }
     /*loading 动画*/
     .loading-box {
@@ -112,10 +115,16 @@
         color:#5a6378 ;
     }
     .logboxworp{
-        width: 809px;
+        width: 810px;
         margin: 0 auto;
         margin-top: 60px;
         overflow: hidden;
+        height:490px;
+        position:absolute;
+        top:50%;
+        left:50%;
+        margin-top:-245px;
+        margin-left:-405px;
     }
     .modal-footer{
         height: 175px;

@@ -1,10 +1,10 @@
 <!--the origin regist-->
-<div class='sjgf' ui-sref='home.index'>
-</div>
+<!--<div class='sjgf' ui-sref='home.index'>-->
+<!--</div>-->
 <div class="logboxworp">
     <div class="loginL">
         <img src="pub/img/00000.png" alt="" style="width: 220px;height: 220px;margin-top:80px;">
-        <div style="margin-top: 50px;font-size: 36px;color: #5a6378">铸数工坊</div>
+        <div style="margin-top: 40px;font-size: 36px;color: #5a6378">铸数工坊</div>
         <div style="font-size: 14px;color: #5a6378;margin-top: 10px;">极速铸造云端应用&nbsp;&nbsp;探究大数据应用之美</div>
     </div>
     <div class="registbox">
@@ -17,7 +17,7 @@
         <div class="modal-body" style="padding: 20px 35px 30px 35px;">
             <form class="form-horizontal" name="frm">
                 <!--<button ng-click=look()>查看</button>-->
-                <p class="modal-msg text-left" style="margin: 0 0 5px 0;font-size:14px;color:#5a6378;">
+                <p class="modal-msg text-left" style="margin: 0 0 5px 0;font-size:12px;color:#5a6378;">
                     <span class="require">用户名</span>&nbsp;&nbsp;
                     <small ng-if="credentials.usernamechange&&frm.username.$dirty && frm.username.$error.required"
                            class="err-tip pull-right">
@@ -37,7 +37,7 @@
                     </small>
                 </p><!--ng-blur='usernamelose()'-->
                 <input type="text" name="username"
-                       class="form-control"
+                       class="form-control" style="font-size: 12px;"
                        ng-blur="credentials.usernamechange=true"
                        ng-focus="credentials.usernamechange=false"
                        ng-model="credentials.username"
@@ -45,7 +45,7 @@
                        ng-maxlength="63"
                        ng-pattern="/^[a-z0-9\d]+$/"/>
 
-                <p class="modal-msg text-left" style="margin: 20px 0 5px 0;font-size:14px;color:#5a6378;">
+                <p class="modal-msg text-left" style="margin: 20px 0 5px 0;font-size:12px;color:#5a6378;">
                     <span class="require">邮箱</span>&nbsp;&nbsp;
                     <small ng-if="credentials.emailchange&&frm.email.$dirty && frm.email.$error.required"
                            class="err-tip pull-right">
@@ -56,7 +56,7 @@
                         <i class="fa fa-info-circle"></i>&nbsp;这不是一个有效的邮箱
                     </small>
                 </p>
-                <input type="email"
+                <input type="email"style="font-size: 12px;"
                        name="email"
                        class="form-control"
                        ng-blur="credentials.emailchange=true"
@@ -64,7 +64,7 @@
                        ng-model="credentials.email"
                        required
                        ng-pattern="/^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/"/>
-                <p class="modal-msg text-left" style="margin: 20px 0 5px 0;font-size:14px;color:#5a6378;">
+                <p class="modal-msg text-left" style="margin: 20px 0 5px 0;font-size:12px;color:#5a6378;">
                     <span class="require">密码</span>&nbsp;&nbsp;
                     <small ng-if="credentials.passwordchange&&frm.password.$dirty && frm.password.$error.required"
                            class="err-tip pull-right">
@@ -75,7 +75,7 @@
                         <i class="fa fa-info-circle"></i>&nbsp;密码必须为8-18位的字母，数字，特殊符号
                     </small>
                 </p>
-                <input type="password"
+                <input type="password" style="font-size: 12px;"
                        name="password"
                        class="form-control"
                        ng-blur="credentials.passwordchange=true"
@@ -85,7 +85,7 @@
                        required
                        ng-pattern="/^[\@A-Za-z0-9\!\#\$\%\^\&\*\.\~]{8,18}$/"/>
 
-                <p class="modal-msg text-left" style="margin: 20px 0 5px 0;font-size:14px;color:#5a6378;">
+                <p class="modal-msg text-left" style="margin: 20px 0 5px 0;font-size:12px;color:#5a6378;">
                     <span class="require">确认密码</span>&nbsp;&nbsp;
                     <small ng-if="credentials.cfmPasswordchange&&frm.password.$dirty && frm.cfmPassword.$error.required"
                            class="err-tip pull-right">
@@ -95,7 +95,7 @@
                            class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;两次输入密码不相同
                     </small>
                 </p>
-                <input name="cfmPassword"
+                <input name="cfmPassword" style="font-size: 12px;"
                        type="password"
                        ng-blur="credentials.cfmPasswordchange=true"
                        ng-focus="credentials.cfmPasswordchange=false"
@@ -116,11 +116,11 @@
         </div>
     </div>
 </div>
-    <div style="margin:0 auto; padding-top: 70px; padding-bottom: 30px; width: 460px; position:relative">
-        <div class="line">
-        </div>
-        <img id="footerimg" src="views/login/img/image_09.png">
-    </div>
+    <!--<div style="margin:0 auto; padding-top: 70px; padding-bottom: 30px; width: 460px; position:relative">-->
+        <!--<div class="line">-->
+        <!--</div>-->
+        <!--<img id="footerimg" src="views/login/img/image_09.png">-->
+    <!--</div>-->
 </div>
 
 <style>
@@ -183,10 +183,16 @@
         padding: 0px 10px;
     }
     .logboxworp{
-        width: 809px;
+        width: 810px;
         margin: 0 auto;
         margin-top: 60px;
         overflow: hidden;
+        height:490px;
+        position:absolute;
+        top:50%;
+        left:50%;
+        margin-top:-245px;
+        margin-left:-405px;
     }
     .loginL{
         width: 449px;
@@ -196,12 +202,12 @@
         text-align: center;
     }
     .btn-disabled{
-        background: #f6a540;
-        color: #fff;
+        background: #dadfec;
+        color: #5a6378;
     }
     .btn-disabled:hover{
-        background: #e5993a ;
-        color: #fff;
+        background: #dadfec;
+        color: #5a6378;
     }
 </style>
 
