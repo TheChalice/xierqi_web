@@ -331,7 +331,7 @@ angular.module('console.service.create', [
           }
         }
         $scope.checknames = function(){
-          var r = /^[a-zA-Z]*[a-zA-Z][a-zA-Z]*$/;
+          var r = /^[a-z][a-z0-9]*$/; // 不能以数字开头,有小写字母跟数字组成;
           if(!r.test($scope.dc.metadata.name)){
               $scope.grid.servicenameerr = true;
           }else if($scope.dc.metadata.name.length<2 || $scope.dc.metadata.name.length>63){
