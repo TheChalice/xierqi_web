@@ -331,10 +331,10 @@ angular.module('console.service.create', [
           }
         }
         $scope.checknames = function(){
-          var r = /^[a-z][a-z0-9]*$/; // 不能以数字开头,有小写字母跟数字组成;
+          var r = /^[a-z][-a-z0-9]*$/; // 不能以数字开头,有小写字母跟数字组成;
           if(!r.test($scope.dc.metadata.name)){
               $scope.grid.servicenameerr = true;
-          }else if($scope.dc.metadata.name.length<2 || $scope.dc.metadata.name.length>63){
+          }else if($scope.dc.metadata.name.length<=2 || $scope.dc.metadata.name.length>24){
             $scope.grid.servicenameerr = true;
           }else{
             $scope.grid.servicenameerr = false;
