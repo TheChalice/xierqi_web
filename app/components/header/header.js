@@ -140,7 +140,7 @@ angular.module("console.header", [
                }
 
                 $scope.gotomy=function () {
-                  $scope.checked=$rootScope.user.metadata.name;
+                    $scope.checked=$rootScope.user.metadata.name;
                     $rootScope.namespace=$rootScope.user.metadata.name;
 
                 }
