@@ -614,7 +614,14 @@ angular.module('console.service.detail', [
             });
 
             if (data.type == 'ADDED') {
-              data.object.showLog = true;
+              angular.forEach($scope.rcs.items, function (item, i) {
+                if (item.metadata.name == data.object.metadata.name) {
+                  // console.log('data.object',data.object)
+                  $scope.rcs.items[i].showLog=true;
+                  //data.object.showLog = item.showLog;
+                }
+              });
+              //data.object.showLog = true;
               $rootScope.lding = false;
               if ($scope.rcs.items.length > 0) {
                 $scope.rcs.items.unshift(data.object);
@@ -622,12 +629,14 @@ angular.module('console.service.detail', [
                 $scope.rcs.items = [data.object];
               }
             } else if (data.type == "MODIFIED") {
+              data.object.showLog = true;
               // console.log('RC',$scope.rcs.items)
               $scope.baocuname=data.object.metadata.name;
               angular.forEach($scope.rcs.items, function (item, i) {
                 if (item.metadata.name == data.object.metadata.name) {
                   // console.log('data.object',data.object)
-                  data.object.showLog = item.showLog;
+                  $scope.rcs.items[i].showLog=true;
+                  //data.object.showLog = item.showLog;
                   $scope.rcs.items[i] = data.object;
 
                 }

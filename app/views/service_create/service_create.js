@@ -91,7 +91,8 @@ angular.module('console.service.create', [
           servicepoterr : false,
           createdcerr : false,
           isserviceName: false,
-          isimageChange: true
+          isimageChange: true,
+          servicenameerr : false
 
         };
         // $scope.grid.host=$scope.dc.metadata.name
@@ -329,7 +330,16 @@ angular.module('console.service.create', [
             $scope.grid.createdcerr = false;
           }
         }
-
+        $scope.checknames = function(){
+          var r = /^[a-z][a-z0-9]*$/; // 不能以数字开头,有小写字母跟数字组成;
+          if(!r.test($scope.dc.metadata.name)){
+              $scope.grid.servicenameerr = true;
+          }else if($scope.dc.metadata.name.length<2 || $scope.dc.metadata.name.length>63){
+            $scope.grid.servicenameerr = true;
+          }else{
+            $scope.grid.servicenameerr = false;
+          }
+        }
         var loadBsi = function (dc) {
           BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {
             $log.info("backingServiceInstance", res);
@@ -831,7 +841,7 @@ angular.module('console.service.create', [
           })
         }
         $scope.createDc = function () {
-          if($scope.grid.isserviceName || $scope.grid.createdcerr){
+          if($scope.grid.isserviceName || $scope.grid.createdcerr||$scope.grid.servicenameerr){
             return;
           }
           if (!valid($scope.dc)) {

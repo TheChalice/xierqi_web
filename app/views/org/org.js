@@ -122,20 +122,21 @@ angular.module('console.user', [
     $scope.leave=function (res) {
       //for(var i = 0; i < $scope.rootmembers.length; i++){
         console.log('test how many rootmember',$scope.rootmembers.length )
+
         if($scope.rootmembers.length == 1 && $scope.norootmembers == 0){
           Confirm.open("离开组织", "不能离开!", "您是最后一名管理员请先指定其他管理员,才能离开", "", true).then(function() {
             //console.log('the last rootmember', $scope.rootmembers)
           })
           }else{
-            //console.log('test leave', res);
-            Confirm.open("离开组织", "您确定要离开："+$stateParams.useorg+"吗？",null, "").then(function(){
-              leave.left({org:$stateParams.useorg}, function() {
-                $rootScope.orgStatus = true;
-                $rootScope.delOrgs = true;
-                $state.go('console.dashboard');
+              //loadOrg(data);
+              Confirm.open("离开组织", "您确定要离开 "+$scope.orgcon.name+" 吗？",null, "").then(function(){
+                leave.left({org:$stateParams.useorg}, function() {
+                  $rootScope.orgStatus = true;
+                  $rootScope.delOrgs = true;
+                  $state.go('console.dashboard');
+                })
               })
-            })
-        }
+            }
       }
 
       $scope.changetomember = function(idx){

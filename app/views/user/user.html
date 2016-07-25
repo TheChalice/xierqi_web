@@ -229,8 +229,8 @@
                             <input type="email" disabled="disabled" class="form-control" id="InputEmail" ng-model="curUserInfo.email" style="margin-left: -60px; background-color: #f7f8fb">
                         </div>
                         <div class="col-md-7 activemail" style="margin-top: 8px">
-                            <i ng-show="curUserInfo.status.active" class="fa fa-check-circle" id="activation" style="color: #55c45f; margin-left: -30px"><span style="cursor:default;margin-left: 5px">已验证</span></i>
-                            <i ng-show="!curUserInfo.status.active" class="fa fa-info-circle" id="inactivation" style="color: #ec6941"><span style="cursor:default;margin-left: 5px">未验证</span></i>
+                            <i ng-show="curUserInfo.status.active" class="fa fa-check-circle" id="activation" style="color: #55c45f; margin-left: -30px"><span style="margin-left: 5px">已验证</span></i>
+                            <i ng-show="!curUserInfo.status.active" class="fa fa-info-circle" id="inactivation" style="color: #ec6941"><span style="margin-left: 5px">未验证</span></i>
                             <span ng-show="!curUserInfo.status.active" class="sendmail" ng-click="sendemail()" type="button" style="margin-left: 40px">发送激活邮件</span>
                         </div>
                     </div>
@@ -377,8 +377,6 @@
     }
     .sendmail:hover{
         background-color: #e5993a;
-    }
-    .activemail:hover {
         cursor: pointer;
     }
     #creation {
