@@ -31,12 +31,14 @@ angular.module('console', [
                 });
                 angular.forEach(data.items, function (project,i) {
                     if (/^[\u4e00-\u9fa5]+$/i.test(project.metadata.annotations['openshift.io/display-name'])) {
-                        console.log(project.metadata.annotations['openshift.io/display-name']);
-                        data.items.push(project);
-                        data.items.splice(i,1);
+                        //console.log(project.metadata.annotations['openshift.io/display-name']);
+                        //data.items.push(project);
+                        data.items.unshift(project);
+
+                        data.items.splice(i+1,1);
                     }
                 });
-                console.log(data.items);
+                //console.log(data.items);
                 $rootScope.projects = data.items;
 
 

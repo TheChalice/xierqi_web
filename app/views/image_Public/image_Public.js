@@ -1,3 +1,15 @@
-/**
- * Created by sorcerer on 16/7/19.
- */
+'use strict';
+
+angular.module('console.image_Public', [
+        {
+            files: [
+                'components/searchbar/searchbar.js',
+                'components/timeline/timeline.js'
+            ]
+        }
+    ])
+    .controller('imagePublicCtrl', ['$scope',
+        function ($scope){
+
+        }])
+

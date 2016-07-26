@@ -4,6 +4,7 @@ angular.module('console.image', [
         files: [
           'components/searchbar/searchbar.js',
           'components/card/card.js',
+          'components/imagecard/imagecard.js',
           'views/image/image.css'
         ]
       }
@@ -138,7 +139,7 @@ angular.module('console.image', [
                 })
           }
         }
-
+        //我的镜像
         $http.get('/oapi/v1/namespaces/' + $rootScope.namespace + '/imagestreams')
             .success(function (datalist) {
               $scope.testlist = datalist.items;
@@ -146,7 +147,7 @@ angular.module('console.image', [
               $scope.grid.total = $scope.testcopy.length;
               // console.log('$scope.testcopy', $scope.testcopy)
               refresh(1)
-              // console.log('$scope.testlist',$scope.testlist)
+               console.log('$scope.testlist',$scope.testlist)
             })
         // 平台公有镜像搜索
         $scope.gsearch = function (key, txt) {
@@ -202,6 +203,71 @@ angular.module('console.image', [
                 })
           }
         }
+          //镜像中心
+          $scope.serviceper=['Datafoundry官方镜像','Docker官方镜像']
+
+          $scope.imagecenterDF=[];
+          $scope.imagecenterDoc=[];
+
+          $http.get('/registry/api/repositories', {params: {project_id:58}})
+              .success(function (data) {
+                  angular.forEach(data, function (item,i) {
+                      $http.get('/registry/api/repositories/tags', {params: {repo_name:item}})
+                          .success(function (tags) {
+                              $scope.imagecenterDF.push({name:item,tags:[],taglength:tags.length});
+                              angular.forEach(tags, function (tag,k) {
+                                  $http.get('/registry/api/repositories/manifests', {params: {repo_name:item,tag:tag}})
+                                      .success(function (tagmess) {
+                                          $scope.imagecenterDF[i].tags.push({tag:tag,item:tagmess})
+                                          //console.log($scope.imagecenterDF[$scope.imagecenterDF.length - 1].taglength, $scope.imagecenterDF[$scope.imagecenterDF.length - 1].tags.length);
+                                          if ($scope.imagecenterDF[$scope.imagecenterDF.length-1].taglength==$scope.imagecenterDF[$scope.imagecenterDF.length-1].tags.length) {
+
+                                              console.log('Datafoundry官方镜像',$scope.imagecenterDF);
+                                          }
+                                      })
+                                    })
+                                })
+                            })
+                        })
+          
+          //$http.get('/registry/api/repositories', {params: {project_id:1}})
+          //    .success(function (data) {
+          //        angular.forEach(data, function (item,i) {
+          //            $http.get('/registry/api/repositories/tags', {params: {repo_name:item}})
+          //                .success(function (tags) {
+          //                    $scope.imagecenterDoc.push({name:item,tags:[],taglength:tags.length});
+          //                    angular.forEach(tags, function (tag,k) {
+          //                        //console.log(tag);
+          //                        $http.get('/registry/api/repositories/manifests', {params: {repo_name:item,tag:tag}})
+          //                            .success(function (tagmess) {
+          //                                if ($scope.imagecenterDoc[i]) {
+          //                                    $scope.imagecenterDoc[i].tags.push({tag:tag,item:tagmess})
+          //                                }
+          //
+          //                                //console.log('Docker官方镜像',$scope.imagecenterDoc);
+          //                                if ($scope.imagecenterDoc[$scope.imagecenterDoc.length-1].taglength==$scope.imagecenterDoc[$scope.imagecenterDoc.length-1].tags.length) {
+          //                                    console.log('Docker官方镜像',$scope.imagecenterDoc);
+          //
+          //                                }
+          //                                //console.log('Docker官方镜像',tagmess);
+          //
+          //                            })
+          //                    })
+          //                })
+          //        })
+          //
+          //    })
+
+          
+          $scope.selectsc = function (tp, key) {
+              // console.log($scope.isComplete);
+              console.log(key);
+              if (key == $scope.grid[tp]) {
+                  key = 'all';
+              }
+              $scope.grid[tp] = key;
+              // console.log("$scope.itemsDevop", $scope.itemsDevop)
+          }
         // 请求共有镜像平台
           if ($rootScope.namespace.indexOf('org') == -1) {
               $http.get('/registry/api/projects', {
@@ -209,9 +275,9 @@ angular.module('console.image', [
               }).success(function (data) {
                   $scope.newtext = data;
 
-                  console.log('regstr',data);
+                  //console.log('regstr',data);
 
-                  var arr = [];
+                  $scope.arr = [];
 
                   //for (var i = 0; i < data.length; i++) {
                   //  data[i].mysort = data[i].creation_time;
@@ -226,24 +292,29 @@ angular.module('console.image', [
                           // 请求共有镜像平台的镜像版本
                           $http.get('/registry/api/repositories', {params: {project_id: $scope.newtext[j].project_id}})
                               .success(function (datalis) {
-                                  arr.push(datalis);
+                                  $scope.arr.push(datalis);
 
-                                  if (arr.length == data.length) {
-                                      console.log('newtext',arr);
+                                  if ($scope.arr.length == data.length) {
+                                      //console.log('newtext',$scope.arr);
+                                      //angular.forEach($scope.arr, function (item,i) {
+                                      //    console.log('1',item);
+                                      //})
 
-                                      for (var k = 0; k < arr.length; k++) {
+                                      for (var k = 0; k < $scope.arr.length; k++) {
 
-                                          if (arr[k] != null) {
+
+                                          if ($scope.arr[k] != null) {
                                               for (var h = 0; h < $scope.newtext.length; h++) {
 
-                                                  if (arr[k][0].split('/')[0] == $scope.newtext[h].name) {
-
-                                                      $scope.newtext[h].items = arr[k];
-                                                      $scope.newtext[h].isshow = true;
+                                                  if ($scope.arr[k][0].split('/')[0] == $scope.newtext[h].name) {
+                                                      $scope.newtext[h].items = $scope.arr[k];
+                                                      //$scope.newtext[h].isshow = true;
                                                   }
                                               }
                                           }
                                       }
+
+                                      //console.log('newtext1',$scope.newtext);
                                   }
 
                                   $scope.grid.copytest = angular.copy($scope.newtext);
@@ -253,6 +324,7 @@ angular.module('console.image', [
                           })
                       }
                   }
+
 
               }).error(function (data) {
                   // $log.info('error',data)
