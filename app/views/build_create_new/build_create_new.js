@@ -63,7 +63,7 @@ angular.module('console.build_create_new', [
 
         $scope.completionDeadlineMinutes = 30;
         var thisindex = 0;
-        var createBuildConfig = function(labsecret) {
+        var createBuildConfig = function(labsecret,imageStreamTag) {
             if($scope.grid.ishide == false){
                 $scope.buildConfig.spec.completionDeadlineSeconds = $scope.completionDeadlineMinutes * 60;
                 $scope.buildConfig.spec.source.git.ref = $scope.branch[$scope.grid.branch].name;
@@ -80,8 +80,14 @@ angular.module('console.build_create_new', [
                 $scope.buildConfig.spec.source.git.uri = $scope.labusername[$scope.grid.labusers].repos[$scope.grid.labproject].ssh_url_to_repo;
                 $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ":" + $scope.labBranchData.msg[$scope.grid.labbranch].name;
                 $scope.buildConfig.metadata.annotations.repo = $scope.labusername[$scope.grid.labusers].repos[$scope.grid.labproject].id.toString();
-            }else if($scope.checkdTab.value== 4){
-                $scope.buildConfig.spec.source.git.uri = '';
+            }else if($scope.grid.ishide == true && $scope.grid.labcon == false){
+                console.log("@@@testtab4BuildConfig", imageStreamTag);
+                $scope.buildConfig.spec.completionDeadlineSeconds = $scope.completionDeadlineMinutes * 60;
+                $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ':latest';
+                $scope.buildConfig.spec.triggers = [];
+                //$scope.buildConfig.spec.source.git.uri = '';
+                //$scope.buildConfig.spec.source.sourceSecret.name = '';
+                delete $scope.buildConfig.spec.source['sourceSecret']
             }
 
             BuildConfig.create({namespace: $rootScope.namespace},$scope.buildConfig, function(res){
@@ -113,6 +119,9 @@ angular.module('console.build_create_new', [
                     getlabsecret($scope.labHost,$scope.labobjs[$scope.grid.labproject].id);
                 }else if($scope.grid.ishide == false){
                     createBuildConfig();
+                }else if($scope.grid.ishide == true && $scope.grid.labcon == false){
+                    createBuildConfig('a');
+                    console.log('test imagestream with tab4', res)
                 }
               
             },function(res){
@@ -142,7 +151,7 @@ angular.module('console.build_create_new', [
             };
             BuildConfig.instantiate.create({namespace: $rootScope.namespace, name: name}, buildRequest, function(){
                 $log.info("build instantiate success");
-                $state.go('console.build_detail', {name: name, from: 'create'})
+                $state.go('console.build_detail', {name: name, from: 'create/new'})
             }, function(res){
                 console.log("uildConfig.instantiate.create",res);
                 //todo 错误处理
