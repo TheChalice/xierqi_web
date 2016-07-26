@@ -243,12 +243,14 @@ angular.module('console.service', [
                 angular.forEach($scope.items, function(item, i){
                     if (item.rc.metadata.name == data.object.metadata.name) {
                         $scope.items[i].rc = data.object;
+                        console.log('updatedata========',data);
+                        console.log('$scope.items[i]-----------',$scope.items[i]);
                         isNormal($scope.items);
                         $scope.$apply();
                     }
                 });
-                console.log('updatedata',data);
-                console.log('$scope.items',$scope.items);
+
+
 
             }
         }
