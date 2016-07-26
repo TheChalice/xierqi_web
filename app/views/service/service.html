@@ -62,7 +62,7 @@
                 </td>
                 <td><span uib-tooltip="{{dc.metadata.creationTimestamp  | timescon}}">{{dc.metadata.creationTimestamp | dateRelative}}</span></td>
                 <td>{{dc.ismn}}</td>
-                <td><span style="color: #f6a540">{{dc.status.replicas || 0}}</span>/{{dc.spec.replicas}}</td>
+                <td><span style="color: #f6a540">{{dc.rc.spec.replicas || 0}}</span>/{{dc.spec.replicas}}</td>
                 <td>
                     <a class="href-orange" href="http://{{dc.route.spec.host}}" target="_blank">{{dc.route.spec.host}}</a>
                 </td>
