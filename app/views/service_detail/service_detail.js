@@ -190,7 +190,7 @@ angular.module('console.service.detail', [
             });
             for(var i = 0 ;i < $scope.dc.spec.template.spec.containers.length; i++){
               var imagetag = 'image-'+$scope.dc.spec.template.spec.containers[i].name;
-              if($scope.dc.metadata.annotations[imagetag]){
+              if($scope.dc.metadata.annotations&&$scope.dc.metadata.annotations[imagetag]){
                 $scope.dc.spec.template.spec.containers[i].tag = $scope.dc.metadata.annotations[imagetag];
               }else{
                 angular.forEach($scope.dc.spec.template.spec.containers, function (item) {
