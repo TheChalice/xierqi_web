@@ -214,18 +214,20 @@ angular.module('console.image', [
                   angular.forEach(data, function (item,i) {
                       $http.get('/registry/api/repositories/tags', {params: {repo_name:item}})
                           .success(function (tags) {
-                              $scope.imagecenterDF.push({name:item,tags:[],taglength:tags.length});
-                              angular.forEach(tags, function (tag,k) {
-                                  $http.get('/registry/api/repositories/manifests', {params: {repo_name:item,tag:tag}})
+                              $scope.imagecenterDF.push({name:item,latest:{},taglength:tags.length});
+
+                              $http.get('/registry/api/repositories/manifests', {params: {repo_name:item,tag:'latest'}})
                                       .success(function (tagmess) {
-                                          $scope.imagecenterDF[i].tags.push({tag:tag,item:tagmess})
+                                          $scope.imagecenterDF[i].latest=tagmess;
+                                          //$scope.imagecenterDF[i].tags.push({tag:'latest',item:tagmess})
+
                                           //console.log($scope.imagecenterDF[$scope.imagecenterDF.length - 1].taglength, $scope.imagecenterDF[$scope.imagecenterDF.length - 1].tags.length);
-                                          if ($scope.imagecenterDF[$scope.imagecenterDF.length-1].taglength==$scope.imagecenterDF[$scope.imagecenterDF.length-1].tags.length) {
+                                          //if ($scope.imagecenterDF[$scope.imagecenterDF.length-1].taglength==$scope.imagecenterDF[$scope.imagecenterDF.length-1].tags.length) {
 
                                               console.log('Datafoundry官方镜像',$scope.imagecenterDF);
-                                          }
+                                          //}
                                       })
-                                    })
+
                                 })
                             })
                         })

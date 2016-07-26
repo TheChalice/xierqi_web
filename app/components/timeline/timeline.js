@@ -199,6 +199,21 @@ angular.module("console.timeline", [])
                   });
                 };
 
+                var loadImageStreamTag = function(item){
+                  ImageStreamTag.get({namespace: $rootScope.namespace, name: item.spec.output.to.name}, function(data){
+                  item.bsi = data;
+                  if (data.image.dockerImageMetadata.Config.Labels) {
+                    $scope.gitStore[item.spec.output.to.name] = {
+                      id: data.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'],
+                      ref: data.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref']
+                    }
+                  }
+
+
+                }, function (res) {
+                  //todo 错误处理
+                });
+              };
 
                 var emit = function(enable){
                   $scope.$emit('image-enable', enable);
