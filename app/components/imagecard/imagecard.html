@@ -2,16 +2,16 @@
     <div class="thumb-content">
         <div class="thumb-slide">
             <div class="thumb-op">
-                <p><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{item.status.tags[0].items[0].created | dateRelative}}</p>
+                <p><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{item.lasttag.Created | dateRelative}}</p>
                 <p><i class="fa fa-flag-o"></i>&nbsp;&nbsp;<!--{{gitStore[item.spec.output.to.name]["ref"]}} - -->
-                    {{item.status.tags[0].tag | limitTo: 7}}</p>
+                    {{item.lasttag.Parent | limitTo: 7}}</p>
                 <p class="thumb-btn">
                     <a class="btn btn-green"
-                       ng-if='item.status.tags[0].tag&&item.status.tags[0].items[0].created'
+                       ng-if='item.canbuid'
                        href="javascript:;"
                        ui-sref="console.service_create({image:item.status.tags[0].items[0].dockerImageReference+'@'+item.status.tags[0].tag+'@'+item.metadata.name})">部署最新版本</a>
                     <a class="btn btn-gray"
-                       ng-if='!item.status.tags[0].tag || !item.status.tags[0].items[0].created'
+                       ng-if='!item.canbuid'
                        href="javascript:;"
                        disabled='ture'>暂无最新版本</a>
 
@@ -21,7 +21,7 @@
         </div>
     </div>
     <div class="caption">
-        <a class="href-orange" style='white-space:nowrap;overflow: hidden;text-overflow: ellipsis' ui-sref="console.image_Public({name:item.metadata.name,bc:item.metadata.name})">{{item.metadata.name}}</a>
+        <a class="href-orange" style='white-space:nowrap;overflow: hidden;text-overflow: ellipsis' ui-sref="console.image_Public({name:item.name,bc:item.name})">{{item.name}}</a>
         <div>
         <span class="download" style="margin-right: 60px;margin-top: 10px;">
             <i class="down" ng-class="{'active':checkedd}" ng-click="checkedd=!checkedd"></i>123

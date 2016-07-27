@@ -11,11 +11,16 @@
                 <div class="panel-heading">
             <span class="panel-title">
                 <span class="icon25 icon25-panel-repository">
-                </span>&nbsp;&nbsp;{{date.metadata.name}}
+                </span>&nbsp;&nbsp;{{name}}
             </span>
                     <a class="btn pull-right btn-green"
-                       ng-disabled=busBtn.dianh
+                       ng-if="items.length>0"
+                       ng-disabled=false
                        ui-sref="console.service_create({image:date.status.dockerImageRepository+'@'+date.metadata.name+'@'+date.status.tags[0].tag})">部署最新版本</a>
+                    <a class="btn pull-right btn-orange"
+                       ng-if="items.length==0"
+                       ng-disabled=true>暂无最新版本</a>
+
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -26,8 +31,8 @@
                                 </div>
                                 <div class="media-body">
                                     <h4 class="media-heading">创建时间</h4>
-                                    <small uib-tooltip="{{date.status.tags[0].items[0].created | timescon}}">
-                                        {{date.status.tags[0].items[0].created | dateRelative}}
+                                    <small uib-tooltip="{{items[items.length-1].tagcen.Created | timescon}}">
+                                        {{items[items.length-1].tagcen.Created  | dateRelative}}
                                     </small>
                                 </div>
                             </div>
@@ -39,10 +44,8 @@
                                 </div>
                                 <div class="media-body">
                                     <h4 class="media-heading">更新时间</h4>
-                                    <small>
-                                <span>
-                                {{date.metadata.name}}:{{date.status.tags[0].tag | limitTo: 7}}
-                            </span>
+                                    <small uib-tooltip="{{items[0].tagcen.Created | timescon}}">
+                                        {{items[0].tagcen.Created  | dateRelative}}
                                     </small>
                                 </div>
                             </div>
@@ -85,9 +88,7 @@
                                 <div class="media-body">
                                     <h4 class="media-heading">版本数量</h4>
                                     <small>
-                                <span>
-                                {{date.metadata.name}}:{{date.status.tags[0].tag | limitTo: 7}}
-                            </span>
+                                        {{items.length}}
                                     </small>
                                 </div>
                             </div>
@@ -101,7 +102,7 @@
 
     <div>
         <uib-tabset class="tab-default">
-            <uib-tab index="1">
+            <uib-tab index="1" ng-if="false">
                 <uib-tab-heading>
                     <i class="fa fa-file-o fa-lg"></i>&nbsp;&nbsp;概览
                 </uib-tab-heading>
@@ -113,38 +114,32 @@
                 </uib-tab-heading>
                 <div class="timeline">
                     <ul>
-                        <li ng-repeat="item in data.items">
-
-                            <label uib-tooltip="{{item.metadata.creationTimestamp | timescon}}">
+                        <li ng-repeat="item in items">
+                            <label uib-tooltip="{{item.tagcen.Created | timescon}}">
                                 <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                                {{item.metadata.creationTimestamp | dateRelative}}
+                                {{item.tagcen.Created | dateRelative}}
                             </label>
                             <div class="container-fluid">
                                 <div class="row">
+                                    <div class="col-sm-4">
                                     <div style='white-space:nowrap;overflow: hidden;text-overflow: ellipsis'>
                                         <i class="fa fa-flag-o"></i>&nbsp;
                                         <!--<span ng-if="item.spec.revision.git.ref">-->
-                                        <span>{{item.spec.revision.git.ref}}:{{item.spec.revision.git.commit| limitTo: 7}}</span>
+                                        <span>{{name}}:{{item.tag | limitTo: 7}}</span>
                                     </div>
                                 </div>
-                                <div class="col-sm-2"></div>
                                 <div class="col-sm-4">
 
                                 </div>
-                                <div class="col-sm-3 text-right">
+                                <div class="col-sm-4 text-right">
                                     <a class="icon25 icon25-download" uib-tooltip="拉取" href="javascript:;"
                                        ng-click="pull(item.name)"></a>
                                     <a class="icon25 icon25-start" uib-tooltip="部署"
                                        ui-sref="console.service_create({image: item.bsi})"></a>
                                     <!--<a class="icon25 icon25-start" uib-tooltip="部署" ui-sref="console.service_create()"></a>-->
-                                    <a class="icon25 icon25-delete" uib-tooltip="删除" href="javascript:;"
-                                       ng-show='isshow'
-                                       ng-click="delete($index)"></a>
                                 </div>
-
                             </div>
-
-
+                            </div>
                         </li>
                     </ul>
                 </div>
