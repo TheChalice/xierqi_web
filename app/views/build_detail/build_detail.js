@@ -41,8 +41,6 @@ angular.module('console.build.detail', [
                     data.spec.source.git.uri='https://'+parser.hostname+parser.pathname
                 }
 
-
-
                 //var parser = document.createElement('a');
                 //
                 //parser.href = host;
@@ -231,7 +229,6 @@ angular.module('console.build.detail', [
 
                     })
                 }else{
-
                     WebhookLabDel.del({
                         host: 'https://code.dataos.io',
                         namespace: $rootScope.namespace,
