@@ -1661,7 +1661,7 @@ angular.module('console.service.detail', [
           }else{
             dc.metadata.annotations["dadafoundry.io/images-from"] = 'public';
             patchdc.metadata.annotations["dadafoundry.io/images-from"] = 'public';
-            patchdc.spec.triggers = dc.spec.triggers;
+            patchdc.spec.triggers = $scope.dc.spec.triggers;
           }
           var isport = false;
           for (var i = 0; i < $scope.portsArr.length; i++) {
