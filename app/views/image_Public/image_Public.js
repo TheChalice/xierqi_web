@@ -8,8 +8,8 @@ angular.module('console.image_Public', [
             ]
         }
     ])
-    .controller('imagePublicCtrl', ['$http','$state','$scope',
-        function ($http,$state,$scope){
+    .controller('imagePublicCtrl', ['ModalPullImage','$http','$state','$scope',
+        function (ModalPullImage,$http,$state,$scope){
             //console.log($state.params.name);
             $scope.name=$state.params.name;
             $scope.items=[]
@@ -36,6 +36,16 @@ angular.module('console.image_Public', [
                                 }
                             })
                     })
-                })
+                });
+            $scope.pull = function(name){
+
+                var s = $scope.name;
+
+                var str = $scope.name+':'+s.split('/')[0]+'/'+name
+                ModalPullImage.open(str)
+                    .then(function(res){
+                        console.log("cmd1", res);
+                    });
+            };
         }])
 
