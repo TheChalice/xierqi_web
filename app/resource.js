@@ -349,7 +349,7 @@ define([
         }])
         .factory('configmaps', ['$resource', function($resource){
             var configmaps = $resource('/api/v1/namespaces/:namespace/configmaps', {namespace:'@namespace'},{
-                creat: {method:'POST'},
+                create: {method:'POST'},
                 delete: {method:'DELETE'}
             })
             return configmaps;

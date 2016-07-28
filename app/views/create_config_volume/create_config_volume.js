@@ -4,7 +4,7 @@ angular.module('console.create_constantly_volume', [
         files:[
         ]
     }
-]).controller('createfigvolumeCtrl',['$scope','Upload',function($scope){
+]).controller('createfigvolumeCtrl',['$rootScope','$scope','configmaps',function($rootScope,$scope,configmaps){
    $scope.volume = {
         "kind": "ConfigMap",
             "apiVersion": "v1",
@@ -97,5 +97,10 @@ angular.module('console.create_constantly_volume', [
             $scope.grid.configpost = false;
             $scope.grid.configno = true;
         }
+    }
+    $scope.cearteconfig = function(){
+        configmaps.create({namespace: $rootScope.namespace},$scope.volume , function (res) {
+            console.log('createconfig----',res);
+        })
     }
 }])
