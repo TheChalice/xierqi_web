@@ -239,6 +239,10 @@ angular.module("console.header", [
                     return "新建密钥";
                 case "console.config_detail":
                     return "配置卷详情";
+                case "console.secret_detail":
+                    return "密钥详情";
+                case "console.constantly_detail":
+                    return "持久卷详情";
             }
         };
     }]);

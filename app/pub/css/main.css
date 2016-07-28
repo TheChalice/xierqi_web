@@ -949,3 +949,27 @@ a {
 .icon20-paper{
     background-image: url(../img/paper-active.png);
 }
+.secreticon {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    background: url(../img/secret.png) no-repeat;
+    width: 25px;
+    height: 25px;
+}
+.configicon {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    background: url(../img/config_volume.png) no-repeat;
+    width: 25px;
+    height: 25px;
+}
+/*green adding button*/
+.href-add {
+    color: #55c45f;
+    text-decoration: none;
+}
+.href-add:hover {
+    color: #469450;
+}
