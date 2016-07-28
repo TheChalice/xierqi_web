@@ -135,6 +135,26 @@ define([
                 }]
               }
             })
+            .state('console.image_Public', {
+              url: '/imagePublic/:bc/:name',
+              templateUrl: 'views/image_Public/image_Public.html',
+              controller: 'imagePublicCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load(['views/image_Public/image_Public.js'])
+                }]
+              }
+            })
+            .state('console.image_regstry', {
+              url: '/image_regstry/:bc/:name',
+              templateUrl: 'views/image_Public/image_regstry.html',
+              controller: 'imagePublicCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load(['views/image_Public/image_Public.js'])
+                }]
+              }
+            })
             .state('console.service', {
               url: '/service',
               templateUrl: 'views/service/service.html',
@@ -290,6 +310,36 @@ define([
               resolve: {
                 dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                   return $ocLazyLoad.load('views/create_secret/create_secret.js')
+                }]
+              }
+            })
+            .state('console.config_detail', {
+              url:'/config_volume_detail',
+              templateUrl:'views/config_detail/config_detail.html',
+              controller: 'configDetailCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/config_detail/config_detail.js')
+                }]
+              }
+            })
+            .state('console.secret_detail', {
+              url:'/secret_detail',
+              templateUrl:'views/secret_detail/secret_detail.html',
+              controller: 'secretDetailCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/secret_detail/secret_detail.js')
+                }]
+              }
+            })
+            .state('console.constantly_detail', {
+              url: '/constantly_volume_detail',
+              templateUrl: 'views/constantly_detail/constantly_detail.html',
+              controller: 'constDetailCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/constantly_detail/constantly_detail.js')
                 }]
               }
             })
