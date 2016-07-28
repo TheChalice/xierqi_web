@@ -157,6 +157,17 @@ define(['angular'], function (angular) {
           }).result;
         }
       }])
+      .service('ChooseSecret', ['$uibModal',function($uibModal){
+        this.open = function() {
+          return $uibModal.open({
+            templateUrl: 'pub/tpl/choosSecret.html',
+            size: 'default',
+            controller: ['$scope', '$uibModalInstance', '$log', function ($scope, $uibModalInstance, $log) {
+
+            }]
+          })
+        }
+      }])
       .service('ModalPullImage', ['$rootScope', '$uibModal', 'clipboard', function ($rootScope, $uibModal, clipboard) {
         this.open = function (name, yuorself) {
           return $uibModal.open({

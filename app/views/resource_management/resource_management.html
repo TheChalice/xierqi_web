@@ -46,36 +46,64 @@
                 <i class="configvolume"></i>&nbsp;&nbsp;配置卷
             </uib-tab-heading>
             <div>
-                <div class="row" style="margin-top: -20px">
+                <div class="row">
                     <div class="col-sm-7 col-xs-4">
                         <a class="btn btn-green" style="margin-right: 20px" ui-sref="console.create_config_volume">
                             <i class="fa fa-plus fa-lg"></i>
                             <span class="hidden-xs"> 新建配置卷</span>
                         </a>
-                        <a class="btn btn-skyblue" ng-click="refresh()" style="height: 34px; width: 36px; padding: 5px 5px;">
+                        <a class="btn btn-skyblue" ng-click="loadconfigmaps()" style="height: 34px; width: 36px; padding: 5px 5px;">
                             <i class="fa fa-refresh fa-lg"></i>
                         </a>
                     </div>
                     <div class="col-sm-5 col-xs-8" style="padding-left: 0;">
                         <div class="pull-right">
-                            <c-search search="search"></c-search>
+                            <!----------------------------------------->
+                            <div class="searchbar">
+                                <div class="input-group">
+                                    <input type="text" class="form-control"
+                                           ng-model="grid.txt"
+                                           ng-keydown="search(grid.txt)"
+                                           placeholder="搜索关键字">
+                                            <span class="input-group-btn">
+                                                <a class="btn" ng-click="search(grid.txt)"></a>
+                                            </span>
+                                </div>
+                            </div>
+
+                            <!----------------------------------------->
                         </div>
                     </div>
                 </div>
                 <div class="table-responsive" style="margin-top: 30px">
-                    <table class="table-hover table-default" style="table-layout:fixed; width: 100%;">
+                    <table class="table-hover table-default" style="table-layout:fixed; width: 100%; border-bottom: none;">
                         <tr>
                             <div class="row">
                                 <th class='col-lg-2 col-md-2 col-sm-1'>配置卷名称</th>
                                 <th class='col-lg-2 col-md-2 col-sm-2'>创建时间</th>
                             </div>
                         </tr>
-                        <tr>
-                            <td>abc</td>
-                            <td>1分钟前</td>
+                        <tr ng-repeat="items in pageitems">
+                            <td style="border-bottom: 1px solid #CCCCCC;">{{items.metadata.name}}</td>
+                            <td style="border-bottom: 1px solid #CCCCCC;"><span uib-tooltip="{{items.metadata.creationTimestamp  | timescon}}">{{items.metadata.creationTimestamp | dateRelative}} </span></td>
                         </tr>
                     </table>
                 </div>
+            </div>
+            <div class="text-right" ng-if="grid.total > 2">
+                <uib-pagination class="pagination"
+                                ng-model="grid.page"
+                                total-items="grid.total"
+                                items-per-page="grid.size"
+                                class="pagination-sm"
+                                boundary-links="true"
+                                max-size="12"
+                                rotate="true"
+                                previous-text="上一页"
+                                next-text="下一页"
+                                first-text="首页"
+                                last-text="末页">
+                </uib-pagination>
             </div>
         </uib-tab>
         <uib-tab index="3">
@@ -83,36 +111,61 @@
                 <i class="secret"></i>&nbsp;&nbsp;密钥
             </uib-tab-heading>
             <div>
-                <div class="row" style="margin-top: -20px">
+                <div class="row">
                     <div class="col-sm-7 col-xs-4">
                         <a class="btn btn-green" style="margin-right: 20px" ui-sref="console.create_secret">
                             <i class="fa fa-plus fa-lg"></i>
                             <span class="hidden-xs"> 新建密钥</span>
                         </a>
-                        <a class="btn btn-skyblue" ng-click="refresh()" style="height: 34px; width: 36px; padding: 5px 5px;">
+                        <a class="btn btn-skyblue" ng-click="loadsecrets()" style="height: 34px; width: 36px; padding: 5px 5px;">
                             <i class="fa fa-refresh fa-lg"></i>
                         </a>
                     </div>
                     <div class="col-sm-5 col-xs-8" style="padding-left: 0;">
                         <div class="pull-right">
-                            <c-search search="search"></c-search>
+                            <div class="searchbar">
+                                <div class="input-group">
+                                    <input type="text" class="form-control"
+                                           ng-model="secrets.txt"
+                                           ng-keydown="scretssearch(secrets.txt)"
+                                           placeholder="搜索关键字">
+                                            <span class="input-group-btn">
+                                                <a class="btn" ng-click="scretssearch(secrets.txt)"></a>
+                                            </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="table-responsive" style="margin-top: 30px">
-                    <table class="table-hover table-default" style="table-layout:fixed; width: 100%;">
+                    <table class="table-hover table-default" style="table-layout:fixed; width: 100%;border-bottom: none;">
                         <tr>
                             <div class="row">
                                 <th class='col-lg-2 col-md-2 col-sm-1'>密钥名称</th>
                                 <th class='col-lg-2 col-md-2 col-sm-2'>创建时间</th>
                             </div>
                         </tr>
-                        <tr>
-                            <td>abc</td>
-                            <td>1分钟前</td>
+                        <tr ng-repeat="items in scretspageitems">
+                            <td style="border-bottom: 1px solid #CCCCCC;">{{items.metadata.name}}</td>
+                            <td style="border-bottom: 1px solid #CCCCCC;"><span uib-tooltip="{{items.metadata.creationTimestamp  | timescon}}">{{items.metadata.creationTimestamp | dateRelative}}</span></td>
                         </tr>
                     </table>
                 </div>
+            </div>
+            <div class="text-right" ng-if="secrets.total > 2">
+                <uib-pagination class="pagination"
+                                ng-model="secrets.page"
+                                total-items="secrets.total"
+                                items-per-page="secrets.size"
+                                class="pagination-sm"
+                                boundary-links="true"
+                                max-size="12"
+                                rotate="true"
+                                previous-text="上一页"
+                                next-text="下一页"
+                                first-text="首页"
+                                last-text="末页">
+                </uib-pagination>
             </div>
         </uib-tab>
     </uib-tabset>

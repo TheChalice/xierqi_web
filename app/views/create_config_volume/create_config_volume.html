@@ -8,7 +8,7 @@
                 <div class="form-group">
                     <label class="col-sm-2 control-label text-left" style="margin-top: 10px; color: #5a6378; font-size:14px; text-align: left; font-weight: normal">配置卷名称</label>
                     <div class="col-sm-10" style="padding-right: 40px; ">
-                        <input  style="margin-top: 10px; width: 640px;" type="text" name="name" class="form-control" required
+                        <input ng-model="volume.metadata.name"  style="margin-top: 10px; width: 640px;" type="text" name="name" class="form-control" required
                                 ng-pattern="/^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/" placeholder="创建一个配置卷名称">
                         <small class="fa fa-info-circle err-tip" style="margin-top: 20px;">名称只能包括小写字母/数字/短线,短线不能在开头或结尾位置</small>
                     </div>
@@ -16,39 +16,60 @@
                 <hr>
                 <div class="row">
                     <label class="col-md-2 control-label tex-left" style="color: #5a6378; font-size:14px; text-align: left; font-weight: normal">文件配置</label>
-                    <div class="col-md-10" style="margin-top: 10px">
-                        <!--<a href="javascript:;" style="line-height: 40px; margin-top: -20px" class="href-add" ng-click="addConfig()">-->
-                            <!--<i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;添加配置文件-->
-                        <!--</a>-->
-                        <form ng-app="fileUpload" name="configform">
-                            <!--<i class="fa fa-plus-circle fa-green fa-lg"></i>-->
-                            <!--<span class="button font12" ngf-select ng-model="files" ngf-multiple="true" style="color: #55c45f">添加配置文件</span>-->
-                            <div class="button" ngf-select ng-model="files" ngf-multiple="true">Select</div>
-                            <!--drop file-->
-                            <div ngf-drop ng-model="files" class="drop-box">Drop</div>
-                            <button type="submit" ng-click="submit()">submit</button>
-                        </form>
+                    <div class="col-md-10">
+                        <a href="javascript:;" style="line-height: 40px; margin-top: -20px" class="href-add test11">
+                            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;添加配置文件
+                            <input type="file" id="file-input" value="选择" />
+                        </a>
+                        <!--<input type="file" id="file-input" value="选择" />-->
+                        <!--<h3>Contents of the file:</h3>-->
+                        <!--<pre id="file-content"></pre>-->
+                    </div>
+                    <div class="col-md-10" style="margin-left:17%;" ng-repeat="item in configarr">
+                        <div class="filelink">{{item}}</div>
+                        <div style="line-height: 36px;" class="col-md-1">
+                            <a href="javascript:;" style="text-decoration: none; color: #9fa7b7; margin-left: 20px;"  ng-click="delvolume(item,$index)" class="fa fa-times-circle "></a>
+                        </div>
                     </div>
                 </div>
                 <hr>
                 <div class="row">
                     <label class="col-sm-2 control-label text-left" style="color: #5a6378; font-size:14px; text-align: left; font-weight: normal">手动配置</label>
                     <div class="col-md-10" style="margin-top: 10px">
-                        <a href="javascript:;" ng-click="addConfig()">
+                        <a href="javascript:;" ng-click="addConfig($index)">
                            <i class="fa fa-plus-circle fa-green fa-lg"></i>
                             <span class="font12" style="color: #55c45f">创建</span>
                         </a>
                         <div class="configitem" style="margin-top: 20px; margin-bottom: 20px">
-                            <div style="margin-bottom: 20px">
-                                <input class="form-control" type="text"  style="display: inline-block; width: 300px;" placeholder="KEY">
-                                <input class="form-control" type="text" style="display: inline-block; width: 300px; margin-left: 40px;" placeholder="VALUE">
-                                <a class="fa fa-times-circle " ng-click="rmconfigitem()" style="text-decoration: none; color: #9fa7b7; margin-left: 20px;" href="javascript:;"></a>
+                            <div style="margin-bottom: 20px" ng-repeat="item in configitems">
+                                <input class="form-control" type="text"  style="display: inline-block; width: 300px;" placeholder="KEY" ng-blur="checkVname(item.idx1)" ng-model="item.idx1">
+                                <input class="form-control" type="text" style="display: inline-block; width: 300px; margin-left: 40px;" placeholder="VALUE" ng-model="item.idx2" ng-blur="checkvobj($index)">
+                                <a class="fa fa-times-circle " ng-click="rmconfigitem($index)" style="text-decoration: none; color: #9fa7b7; margin-left: 20px;" href="javascript:;"></a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <a href="javascript:;" class="btn btn-block create" style="background-color: #F8B551; margin-top: 35px; color: white; width: 880px; margin-left: 90px" >创建配置卷</a>
+        <a href="javascript:;" ng-if="grid.configpost" class="btn btn-block create" style="background-color: #F8B551; margin-top: 35px; color: white; width: 880px;" ng-click="cearteconfig()">创建配置卷</a>
+        <a href="javascript:;" ng-if="grid.configno" disabled="disabled" class="btn btn-block create" style="background-color: #CCCCCC; margin-top: 35px; color: white; width: 880px;" >创建配置卷</a>
     </form>
 </div>
+<style>
+    .test11{
+        position: relative;
+    }
+    #file-input{
+      position:absolute; right:0; top:0; opacity:0; filter:alpha(opacity=0); width: 110px;
+        height: 24px
+    }
+    .filelink{
+        width: 614px;
+        height: 36px;
+        line-height: 36px;
+        float: left;
+        border:1px solid #ccc;
+        background: #EEE;
+
+    }
+</style>
