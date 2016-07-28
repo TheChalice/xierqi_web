@@ -256,188 +256,189 @@ angular.module('console.build.detail', [
             $scope.isshow=true;
             $scope.gitStore = {};
 
-            //$scope.$on('timeline', function(e, type, data){
-            //    $scope.data.items = $scope.data.items || [];
-            //    console.log("type", type, "data", data);
-            //    if (type == 'add') {
-            //        data.showLog = true;
-            //        $scope.data.items.unshift(data);
-            //    }
-            //});
-            //
-            ////获取build记录
-            //var loadBuildHistory = function (name) {
-            //     console.log('name',name)
-            //    Build.get({namespace: $rootScope.namespace, labelSelector: 'buildconfig=' + name}, function(data){
-            //        //console.log("history", data);
-            //        data.items = Sort.sort(data.items, -1); //排序
-            //        $scope.data = data;
-            //
-            //        //fillHistory(data.items);
-            //
-            //        emit(imageEnable(data.items));
-            //        $scope.resourceVersion = data.metadata.resourceVersion;
-            //        watchBuilds(data.metadata.resourceVersion);
-            //    }, function(res){
-            //        //todo 错误处理
-            //    });
-            //};
-            //
-            //var loglast= function () {
-            //    setTimeout(function () {
-            //        $('#sa').scrollTop(1000000)
-            //    },200)
-            //}
-            //
-            //var fillHistory = function(items){
-            //    var tags = [];
-            //    for (var i = 0; i < items.length; i++) {
-            //        if (!items[i].spec.output || !items[i].spec.output.to || !items[i].spec.output.to.name) {
-            //            continue;
-            //        }
-            //        if (tags.indexOf(items[i].spec.output.to.name) != -1) {
-            //            continue;
-            //        }
-            //        tags.push(items[i].spec.output.to.name);
-            //    }
-            //    angular.forEach(items, function(item){
-            //        loadImageStreamTag(item);
-            //    });
-            //};
-            //
-            //var loadImageStreamTag = function(item){
-            //    ImageStreamTag.get({namespace: $rootScope.namespace, name: item.spec.output.to.name}, function(data){
-            //        item.bsi = data;
-            //        if (data.image.dockerImageMetadata.Config.Labels) {
-            //            $scope.gitStore[item.spec.output.to.name] = {
-            //                id: data.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'],
-            //                ref: data.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref']
-            //            }
-            //        }
-            //
-            //
-            //    }, function (res) {
-            //        //todo 错误处理
-            //    });
-            //};
-            //
-            //var emit = function(enable){
-            //    $scope.$emit('image-enable', enable);
-            //};
-            //
-            //var imageEnable = function(items){
-            //    if (!items || items.length == 0) {
-            //        return false;
-            //    }
-            //    for (var i = 0; i < items.length; i++) {
-            //        if (items[i].status.phase == 'Complete') {
-            //            return true;
-            //        }
-            //    }
-            //    return false;
-            //};
-            //
-            //var watchBuilds = function(resourceVersion) {
-            //    Ws.watch({
-            //        resourceVersion: resourceVersion,
-            //        namespace: $rootScope.namespace,
-            //        type: 'builds',
-            //        name: ''
-            //    }, function(res){
-            //        var data = JSON.parse(res.data);
-            //        updateBuilds(data);
-            //    }, function(){
-            //        $log.info("webSocket start");
-            //    }, function(){
-            //        $log.info("webSocket stop");
-            //        var key = Ws.key($rootScope.namespace, 'builds', '');
-            //        if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
-            //            return;
-            //        }
-            //        watchBuilds($scope.resourceVersion);
-            //    });
-            //};
-            //
-            //var updateBuilds = function (data) {
-            //    if (data.type == 'ERROR') {
-            //        $log.info("err", data.object.message);
-            //        Ws.clear();
-            //        //TODO直接刷新bc会导致页面重新渲染
-            //        loadBuildHistory($scope.name);
-            //        return;
-            //    }
-            //
-            //    $scope.resourceVersion = data.object.metadata.resourceVersion;
-            //
-            //    if (data.type == 'ADDED') {
-            //
-            //    } else if (data.type == "MODIFIED") {
-            //        //todo  这种方式非常不好,尽快修改
-            //        angular.forEach($scope.data.items, function(item, i){
-            //            if (item.metadata.name == data.object.metadata.name) {
-            //                data.object.showLog = $scope.data.items[i].showLog;
-            //                if (data.object.status.phase == 'Complete') {
-            //                    emit(true);
-            //                }
-            //                Build.log.get({namespace: $rootScope.namespace, name: data.object.metadata.name}, function(res){
-            //                    var result = "";
-            //                    for(var k in res){
-            //                        if (/^\d+$/.test(k)) {
-            //                            result += res[k];
-            //                        }
-            //                    }
-            //                    data.object.buildLog = result;
-            //                    $scope.data.items[i] = data.object;
-            //                    loglast()
-            //
-            //                }, function(){
-            //                    $scope.data.items[i] = data.object;
-            //                });
-            //            }
-            //        });
-            //    }
-            //};
-            //
-            //loadBuildHistory($state.params.name);
-            //
-            ////如果是新创建的打开第一个日志,并监控
-            //if ($stateParams.from == "create") {
-            //    $scope.$watch("data", function(newVal, oldVal){
-            //        if (newVal != oldVal) {
-            //            if (newVal.items.length > 0) {
-            //                $scope.getLog(0);
-            //            }
-            //        }
-            //    });
-            //}
-            //
-            //$scope.getLog = function(idx){
-            //    var o = $scope.data.items[idx];
-            //    o.showLog = !o.showLog;
-            //
-            //    if (o.status.phase == "Pending") {
-            //        return;
-            //    }
-            //    //存储已经调取过的log
-            //    if (o.buildLog) {
-            //        loglast()
-            //        return;
-            //    }
-            //    Build.log.get({namespace: $rootScope.namespace, name: o.metadata.name}, function(res){
-            //        var result = "";
-            //        for(var k in res){
-            //            if (/^\d+$/.test(k)) {
-            //                result += res[k];
-            //            }
-            //        }
-            //        o.buildLog = result;
-            //        loglast()
-            //    }, function(res){
-            //        console.log("res", res);
-            //        o.buildLog = res.data.message;
-            //    });
-            //};
-            //
+            $scope.$on('timeline', function(e, type, data){
+                $scope.databuild.items = $scope.databuild.items || [];
+                console.log("type", type, "data", data);
+                if (type == 'add') {
+                    data.showLog = true;
+                    $scope.databuild.items.unshift(data);
+                }
+            });
+
+            //获取build记录
+            var loadBuildHistory = function (name) {
+                 console.log('name',name)
+                Build.get({namespace: $rootScope.namespace, labelSelector: 'buildconfig=' + name}, function(data){
+                    //console.log("history", data);
+                    data.items = Sort.sort(data.items, -1); //排序
+                    $scope.databuild = data;
+
+                    //fillHistory(data.items);
+
+                    emit(imageEnable(data.items));
+                    $scope.resourceVersion = data.metadata.resourceVersion;
+                    watchBuilds(data.metadata.resourceVersion);
+                }, function(res){
+                    //todo 错误处理
+                });
+            };
+
+            var loglast= function () {
+                setTimeout(function () {
+                    $('#sa').scrollTop(1000000)
+                },200)
+            }
+
+            var fillHistory = function(items){
+                var tags = [];
+                for (var i = 0; i < items.length; i++) {
+                    if (!items[i].spec.output || !items[i].spec.output.to || !items[i].spec.output.to.name) {
+                        continue;
+                    }
+                    if (tags.indexOf(items[i].spec.output.to.name) != -1) {
+                        continue;
+                    }
+                    tags.push(items[i].spec.output.to.name);
+                }
+                angular.forEach(items, function(item){
+                    loadImageStreamTag(item);
+                });
+            };
+
+            var loadImageStreamTag = function(item){
+                ImageStreamTag.get({namespace: $rootScope.namespace, name: item.spec.output.to.name}, function(data){
+                    item.bsi = data;
+                    if (data.image.dockerImageMetadata.Config.Labels) {
+                        $scope.gitStore[item.spec.output.to.name] = {
+                            id: data.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'],
+                            ref: data.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref']
+                        }
+                    }
+
+
+                }, function (res) {
+                    //todo 错误处理
+                });
+            };
+
+            var emit = function(enable){
+                $scope.$emit('image-enable', enable);
+            };
+
+            var imageEnable = function(items){
+                if (!items || items.length == 0) {
+                    return false;
+                }
+                for (var i = 0; i < items.length; i++) {
+                    if (items[i].status.phase == 'Complete') {
+                        return true;
+                    }
+                }
+                return false;
+            };
+
+            var watchBuilds = function(resourceVersion) {
+                Ws.watch({
+                    resourceVersion: resourceVersion,
+                    namespace: $rootScope.namespace,
+                    type: 'builds',
+                    name: ''
+                }, function(res){
+                    var data = JSON.parse(res.data);
+                    updateBuilds(data);
+                }, function(){
+                    $log.info("webSocket start");
+                }, function(){
+                    $log.info("webSocket stop");
+                    var key = Ws.key($rootScope.namespace, 'builds', '');
+                    if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
+                        return;
+                    }
+                    watchBuilds($scope.resourceVersion);
+                });
+            };
+
+            var updateBuilds = function (data) {
+                if (data.type == 'ERROR') {
+                    $log.info("err", data.object.message);
+                    Ws.clear();
+                    //TODO直接刷新bc会导致页面重新渲染
+                    loadBuildHistory($scope.name);
+                    return;
+                }
+
+                $scope.resourceVersion = data.object.metadata.resourceVersion;
+
+                if (data.type == 'ADDED') {
+
+                } else if (data.type == "MODIFIED") {
+                    //todo  这种方式非常不好,尽快修改
+                    angular.forEach($scope.databuild.items, function(item, i){
+                        if (item.metadata.name == data.object.metadata.name) {
+                            data.object.showLog = $scope.databuild.items[i].showLog;
+                            if (data.object.status.phase == 'Complete') {
+                                emit(true);
+                            }
+                            Build.log.get({namespace: $rootScope.namespace, name: data.object.metadata.name}, function(res){
+                                var result = "";
+                                for(var k in res){
+                                    if (/^\d+$/.test(k)) {
+                                        result += res[k];
+                                    }
+                                }
+                                data.object.buildLog = result;
+                                $scope.databuild.items[i] = data.object;
+                                loglast()
+
+                            }, function(){
+                                $scope.databuild.items[i] = data.object;
+                            });
+                        }
+                    });
+                }
+            };
+
+            loadBuildHistory($state.params.name);
+
+            //如果是新创建的打开第一个日志,并监控
+            if ($stateParams.from == "create") {
+                $scope.$watch("databuild", function(newVal, oldVal){
+                    console.log(newVal);
+                    if (newVal != oldVal) {
+                        if (newVal.items.length > 0) {
+                            $scope.getLog(0);
+                        }
+                    }
+                });
+            }
+
+            $scope.getLog = function(idx){
+                var o = $scope.databuild.items[idx];
+                o.showLog = !o.showLog;
+
+                if (o.status.phase == "Pending") {
+                    return;
+                }
+                //存储已经调取过的log
+                if (o.buildLog) {
+                    loglast()
+                    return;
+                }
+                Build.log.get({namespace: $rootScope.namespace, name: o.metadata.name}, function(res){
+                    var result = "";
+                    for(var k in res){
+                        if (/^\d+$/.test(k)) {
+                            result += res[k];
+                        }
+                    }
+                    o.buildLog = result;
+                    loglast()
+                }, function(res){
+                    console.log("res", res);
+                    o.buildLog = res.data.message;
+                });
+            };
+
             //$scope.pull = function(idx){
             //    // console.log(idx)
             //    // console.log(idx,$scope.data.status.tags[idx].tag)
@@ -448,87 +449,59 @@ angular.module('console.build.detail', [
             //        console.log("cmd", res);
             //    });
             //};
-            //
-            //$scope.delete = function(idx){
-            //    var title = "删除构建";
-            //    var msg = "您确定要删除构建吗?";
-            //    var tip = "删除构建将清除构建的所有历史数据以及相关的镜像,该操作不能被恢复";
-            //    if ($scope.data.items[idx]) {
-            //        var name = $scope.data.items[idx].metadata.name;
-            //        if (!name) {
-            //            return;
-            //        }
-            //        Confirm.open(title, msg, tip, 'recycle').then(function () {
-            //            Build.remove({namespace: $rootScope.namespace, name: name}, function () {
-            //                $log.info("deleted");
-            //                for (var i = 0; i < $scope.data.items.length; i++) {
-            //                    if (name == $scope.data.items[i].metadata.name) {
-            //                        $scope.data.items.splice(i, 1)
-            //                    }
-            //                }
-            //
-            //                $scope.$watch('data', function (n, o) {
-            //                    console.log(n.items.length);
-            //                    if (n.items.length == '0') {
-            //                        $rootScope.testq = 'finsh'
-            //                    }
-            //                })
-            //                // if (idx == '0') {
-            //                //   $rootScope.testq.type = 'delete';
-            //                //   $rootScope.testq.git = $scope.data.items[0].spec.revision.git.commit;
-            //                // }
-            //            }, function (res) {
-            //                //todo 错误处理
-            //                $log.info("err", res);
-            //            });
-            //        });
-            //    } else {
-            //        Confirm.open(title, msg, tip, 'recycle').then(function () {
-            //            console.log($scope.date)
-            //            var name = $scope.date.status.tags[idx].tag
-            //            // alert(name)master
-            //            if (!name) {
-            //                return;
-            //            }
-            //            ImageStreamTag.delete({
-            //                namespace: $rootScope.namespace,
-            //                name: $scope.name + ':' + name
-            //            }, function (data) {
-            //                for (var i = 0; i < $scope.date.status.tags.length; i++) {
-            //                    if (name == $scope.date.status.tags[i].tag) {
-            //                        $scope.date.status.tags.splice(i, 1)
-            //                    }
-            //                }
-            //                $scope.$watch('date.status', function (n, o) {
-            //                    console.log(n.tags.length);
-            //                    if (n.tags.length == '0') {
-            //                        $rootScope.testq = 'finsh'
-            //                    }
-            //                })
-            //            })
-            //
-            //        })
-            //    }
-            //
-            //};
-            //
-            //$scope.stop = function(idx){
-            //    var o = $scope.data.items[idx];
-            //    o.status.cancelled = true;
-            //    Confirm.open("终止构建", "您确定要终止本次构建吗?", "", "stop").then(function(){
-            //        Build.put({namespace: $rootScope.namespace, name: o.metadata.name}, o, function(res){
-            //            $log.info("stop build success");
-            //            $scope.data.items[idx] = res;
-            //        }, function(res){
-            //            if(res.data.code== 409){
-            //                Confirm.open("提示信息","初始化中不能终止，请稍后再试",null,144,true);
-            //            }
-            //        });
-            //    });
-            //};
-            //
-            //$scope.$on('$destroy', function(){
-            //    Ws.clear();
-            //});
+
+            $scope.delete = function(idx){
+                var title = "删除构建";
+                var msg = "您确定要删除构建吗?";
+                var tip = "删除构建将清除构建的所有历史数据以及相关的镜像,该操作不能被恢复";
+
+                    var name = $scope.databuild.items[idx].metadata.name;
+                    if (!name) {
+                        return;
+                    }
+                    Confirm.open(title, msg, tip, 'recycle').then(function () {
+                        Build.remove({namespace: $rootScope.namespace, name: name}, function () {
+                            $log.info("deleted");
+                            for (var i = 0; i < $scope.databuild.items.length; i++) {
+                                if (name == $scope.databuild.items[i].metadata.name) {
+                                    $scope.databuild.items.splice(i, 1)
+                                }
+                            }
+
+                            $scope.$watch('databuild', function (n, o) {
+                                console.log(n.items.length);
+                                if (n.items.length == '0') {
+                                    $rootScope.testq = 'finsh'
+                                }
+                            })
+                            // if (idx == '0') {
+                            //   $rootScope.testq.type = 'delete';
+                            //   $rootScope.testq.git = $scope.data.items[0].spec.revision.git.commit;
+                            // }
+                        }, function (res) {
+                            //todo 错误处理
+                            $log.info("err", res);
+                        });
+                    });
+                }
+
+            $scope.stop = function(idx){
+                var o = $scope.databuild.items[idx];
+                o.status.cancelled = true;
+                Confirm.open("终止构建", "您确定要终止本次构建吗?", "", "stop").then(function(){
+                    Build.put({namespace: $rootScope.namespace, name: o.metadata.name}, o, function(res){
+                        $log.info("stop build success");
+                        $scope.databuild.items[idx] = res;
+                    }, function(res){
+                        if(res.data.code== 409){
+                            Confirm.open("提示信息","初始化中不能终止，请稍后再试",null,144,true);
+                        }
+                    });
+                });
+            };
+
+            $scope.$on('$destroy', function(){
+                Ws.clear();
+            });
     }]);
 
