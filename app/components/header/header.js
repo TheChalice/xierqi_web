@@ -236,7 +236,9 @@ angular.module("console.header", [
                 case "console.create_config_volume":
                     return "新建配置卷";
                 case "console.create_secret":
-                    return "新建密钥"
+                    return "新建密钥";
+                case "console.config_detail":
+                    return "配置卷详情";
             }
         };
     }]);

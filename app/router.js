@@ -293,5 +293,15 @@ define([
                 }]
               }
             })
+            .state('console.config_detail', {
+              url:'/config_detail',
+              templateUrl:'views/config_detail/config_detail.html',
+              controller: 'configDetailCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/config_detail/config_detail.js')
+                }]
+              }
+            })
       }]);
 });

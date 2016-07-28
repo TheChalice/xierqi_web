@@ -941,3 +941,11 @@ a {
 .secret:hover, .secret:active, .active .secret, .nav-link:hover .secret{
     background: url(../img/secret_act.png)  no-repeat;
 }
+
+/*.icon20-paper {*/
+    /*background-image: url(../img/paper.png);*/
+    /*color:#f6a540;*/
+/*}*/
+.icon20-paper{
+    background-image: url(../img/paper-active.png);
+}
