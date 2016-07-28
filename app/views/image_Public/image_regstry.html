@@ -10,11 +10,11 @@
                 </span>&nbsp;&nbsp;{{name}}
             </span>
             <a class="btn pull-right btn-green"
-               ng-if="date.status.tags.length>0"
+               ng-if="items.length>0"
                ng-disabled=false
-               ui-sref="console.service_create({image:date.status.tags[0].items[0].dockerImageReference+'@'+date.status.tags[0].tag+'@'+date.metadata.name})">部署最新版本</a>
+               ui-sref="console.service_create({image:name+':'+items[0].tag})">部署最新版本</a>
             <a class="btn pull-right btn-orange"
-               ng-if="!date.status.tags.length"
+               ng-if="items.length==0"
                ng-disabled=true>暂无最新版本</a>
         </div>
         <div class="panel-body">
@@ -26,8 +26,8 @@
                         </div>
                         <div class="media-body">
                             <h4 class="media-heading">更新时间</h4>
-                            <small uib-tooltip="{{date.status.tags[0].items[0].created | timescon}}">
-                                {{date.status.tags[0].items[0].created | dateRelative}}
+                            <small uib-tooltip="{{items[0].tagcen.Created | timescon}}">
+                                {{items[0].tagcen.Created  | dateRelative}}
                             </small>
                         </div>
                     </div>
@@ -41,7 +41,7 @@
                             <h4 class="media-heading">最新版本</h4>
                             <small>
                                 <span>
-                                {{name}}:{{date.status.tags[0].tag}}
+                                {{name}}:{{items[0].tag | limitTo: 7}}
                             </span>
                             </small>
                         </div>
@@ -64,10 +64,10 @@
                 </uib-tab-heading>
                 <div class="timeline">
                     <ul>
-                        <li ng-repeat="item in date.status.tags">
-                            <label uib-tooltip="{{item.items[0].created | timescon}}">
+                        <li ng-repeat="item in items">
+                            <label uib-tooltip="{{item.tagcen.Created | timescon}}">
                                 <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                                {{item.items[0].created | dateRelative}}
+                                {{item.tagcen.Created | dateRelative}}
                             </label>
                             <div class="container-fluid">
                                 <div class="row">
@@ -75,7 +75,7 @@
                                         <div style='white-space:nowrap;overflow: hidden;text-overflow: ellipsis'>
                                             <i class="fa fa-flag-o"></i>&nbsp;
                                             <!--<span ng-if="item.spec.revision.git.ref">-->
-                                            <span>{{name}}:{{item.tag}}</span>
+                                            <span>{{name}}:{{item.tag | limitTo: 7}}</span>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
@@ -85,9 +85,7 @@
                                         <a class="icon25 icon25-download" uib-tooltip="拉取" href="javascript:;"
                                            ng-click="pull(item.tag)"></a>
                                         <a class="icon25 icon25-start" uib-tooltip="部署"
-                                           ui-sref="console.service_create({image:item.items[0].dockerImageReference+'@'+item.tag+'@'+name})"></a>
-                                        <a class="icon25 icon25-delete" uib-tooltip="删除" href="javascript:;"
-                                           ng-click="delete($index)"></a>
+                                           ui-sref="console.service_create({image:name+':'+item.tag})"></a>
                                         <!--<a class="icon25 icon25-start" uib-tooltip="部署" ui-sref="console.service_create()"></a>-->
                                     </div>
                                 </div>
@@ -136,5 +134,3 @@
         background:url("pub/img/starh.png");
     }
 </style>
-
-
