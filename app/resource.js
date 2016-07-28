@@ -349,12 +349,18 @@ define([
         }])
         .factory('configmaps', ['$resource', function($resource){
             var configmaps = $resource('/api/v1/namespaces/:namespace/configmaps', {namespace:'@namespace'},{
-                creat: {method:'POST'},
+                create: {method:'POST'},
                 delete: {method:'DELETE'}
             })
             return configmaps;
         }])
-
+        .factory('secretskey', ['$resource', function($resource){
+            var secretskey = $resource('/api/v1/namespaces/:namespace/secrets', {namespace:'@namespace'},{
+                create: {method:'POST'},
+                delete: {method:'DELETE'}
+            })
+            return secretskey;
+        }])
 });
 // http://registry.dataos.io/api/repositories/manifests?repo_name=library/alpine&tag=latest
 // https://registry.dataos.io/api/projects?is_public=1
