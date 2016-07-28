@@ -3,7 +3,6 @@
 angular.module('console.build.detail', [
     {
         files: [
-            'components/timeline/timeline.js',
             'components/checkbox/checkbox.js',
             'views/build_detail/build_detail.css'
         ]
