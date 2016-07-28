@@ -4,149 +4,69 @@ angular.module('console.image_detail', [
         {
             files: [
                 'components/searchbar/searchbar.js',
-                'components/timeline/timeline.js',
                 'views/image_detail/image_detail.css'
             ]
         }
     ])
-    .controller('ImageDetailCtrl', ['ImageStream', '$http', 'platformone', 'platformlist', '$location', '$rootScope', '$scope', '$log', 'ImageStreamTag', '$stateParams',
-      function (ImageStream, $http, platformone, platformlist, $location, $rootScope, $scope, $log, ImageStreamTag, $stateParams) {
-        $log.info('ImageDetailCtrl');
-        $scope.bcName = $stateParams.bc;
-        $scope.bsName = $stateParams.name;
-        console.log($stateParams.bc, $stateParams.name)
-        var str = $location.url().split('/')[3];
-        // console.log('str',str)
-        if (str.indexOf('~2F') != -1) {
-          // console.log(2);
-          // $scope.orgimage=true;
-          $scope.myimage = false;
-          
-          $rootScope.testq='hasver'
-          $scope.busBtn = {
-            name:'部署最新版本',
-            dianh:false,
-            diang:true
-          }
-          $scope.$watch('testq',function (n,o) {
-            console.log('new',n)
-            if (n == 'finsh') {
-              // console.log(1);
-              $scope.busBtn = {
-                name:'暂无最新版本',
-                dianh:true,
-                diang:false
-              }
-              $scope.data=null;
-            }
-          })
-          $scope.nameone=$location.url().split('/')[3].split('~2F').join('/');
+    .controller('ImageDetailCtrl', ['Confirm','ModalPullImage', '$state', 'ImageStream', '$http', 'platformone', 'platformlist', '$location', '$rootScope', '$scope', '$log', 'ImageStreamTag', '$stateParams',
+        function (Confirm,ModalPullImage, $state, ImageStream, $http, platformone, platformlist, $location, $rootScope, $scope, $log, ImageStreamTag, $stateParams) {
 
-          // console.log('$scope.name',$scope.nameone);
 
-          platformlist.query({id:$scope.nameone},function (data) {
-            console.log('data', data);
-            data.reverse();
-            $scope.newname = data[0];
-            var arr = [];
-            for (var i = 0; i < data.length; i++) {
-              $http.get('/registry/api/repositories/manifests',
-                  {params: {repo_name: $scope.nameone,tag:data[i]}})
-                  .success(function (datalis) {
-                    arr.push(datalis)
-                  }).then(function () {
-                if (arr.length == data.length) {
-                  for (var i = 0; i < arr.length; i++) {
-                    arr[i].mysort = arr[i].Created;
-                    arr[i].mysort = (new Date(arr[i].mysort)).getTime()
-                  }
-                  arr.sort(function (x, y) {
-                    return x.mysort > y.mysort ? -1 : 1;
-                  });
-                  // console.log(arr);
-                  $scope.newlist=arr[0];
-                  var namet = $scope.nameone.split('/')[0];
-                  // console.log('$scope.data',namet+':'+$scope.newname)
-                  $scope.data = namet+':'+$scope.newname
+            $scope.name = $state.params.bc
+            ImageStream.get({namespace: $rootScope.namespace, name: $scope.name}, function (data) {
+                //console.log(data)
+                if (data.status.tags) {
+                    angular.forEach(data.status.tags, function (tag, i) {
+                        data.status.tags[i].mysort = data.status.tags[i].items[0].created;
+                        data.status.tags[i].mysort = (new Date(data.status.tags[i].mysort)).getTime()
+                    })
+                    data.status.tags.sort(function (x, y) {
+                        return x.mysort > y.mysort ? -1 : 1;
+                    });
                 }
-              })
-            }
-          })
 
-        }else {
-          // console.log(1)
-          // console.log('1',$scope.bcName);
-          // $scope.orgimage=false;
-          $scope.myimage = true;
-          $rootScope.testq='hasver'
-          ImageStream.get({namespace: $rootScope.namespace, name: $scope.bcName}, function (data) {
-            console.log(data)
-            if (data.status.tags && data.status.tags[0].items) {
-              for (var i = 0; i < data.status.tags.length; i++) {
-                data.status.tags[i].mysort = data.status.tags[i].items[0].created;
-                data.status.tags[i].mysort = (new Date(data.status.tags[i].mysort)).getTime()
-              }
-              data.status.tags.sort(function (x, y) {
-                return x.mysort > y.mysort ? -1 : 1;
-              });
-            }
-            $scope.date = data;
-          })
-          $scope.busBtn = {
-            name:'部署最新版本',
-            dianh:false,
-            diang:true
-          }
-          $scope.$watch('testq',function (n,o) {
-            console.log('new',n)
-            if (n == 'finsh') {
-              // console.log(1)
-              $scope.busBtn = {
-                name:'暂无最新版本',
-                dianh:true,
-                diang:false
-              }
-              $scope.nameone = null;
-              $scope.date = null;
-              $scope.item = null;
-              $scope.data=null;
-            }
-          })
-          console.log($stateParams.name);
-          // var loadImageDetail = function(){
-          //   //传imagename的参数
-          //   $rootScope.loading = true;
-          //   ImageStreamTag.get({namespace: $rootScope.namespace, name: $stateParams["name"]}, function(data){
-          //     $log.info('data',data);
-          //     $scope.data = data;
-          //
-          //     var gitUrl = data.image.dockerImageMetadata.Config.Labels['io.openshift.build.source-location'];
-          //     var ref = data.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
-          //
-          //     if (gitUrl) {
-          //       var matches = gitUrl.match(/^https:\/\/github.com\/([^/]+)\/([^.]+)(\.git)?$/);
-          //     }
-          //      // console.log('matches', matches);
-          //     if(matches){
-          //       loadReadme(matches[1], matches[2], ref);
-          //     }
-          //   }, function(res){
-          //     //todo 错误处理
-          //   });
-          // };
-          //
-          // loadImageDetail();
-
-          // var loadReadme = function(owner, repo, ref) {
-          //   var url = 'https://raw.githubusercontent.com/'+ owner +'/'+ repo +'/'+ ref +'/README.md';
-          //   $.get(url, function(data){
-          //     // console.log('data',data)
-          //     $scope.readme = data;
-          //     $scope.$apply();
-          //   });
-          // };
-        }
+                $scope.date = data;
+                console.log($scope.date);
+            })
+            $scope.pull = function (name) {
+                var s = $scope.name;
+                var str = $scope.name + ':' + name
+                ModalPullImage.open(str)
+                    .then(function (res) {
+                        console.log("cmd1", res);
+                    });
+            };
+            $scope.delete = function (idx) {
 
 
+                var title = "删除镜像版本";
+                var msg = "您确定要删除该镜像版本吗?";
+                var tip = "";
 
-    }]);
+
+                    Confirm.open(title, msg, tip, 'recycle').then(function () {
+                        console.log($scope.date)
+                        var name = $scope.date.status.tags[idx].tag
+                        // alert(name)master
+                        if (!name) {
+                            return;
+                        }
+                        ImageStreamTag.delete({
+                            namespace: $rootScope.namespace,
+                            name: $scope.name + ':' + name
+                        }, function (data) {
+                            for (var i = 0; i < $scope.date.status.tags.length; i++) {
+                                if (name == $scope.date.status.tags[i].tag) {
+                                    $scope.date.status.tags.splice(i, 1)
+                                }
+                            }
+
+                        })
+
+                    })
+
+
+            };
+
+
+        }]);

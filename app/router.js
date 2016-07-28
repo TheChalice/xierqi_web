@@ -135,6 +135,26 @@ define([
                 }]
               }
             })
+            .state('console.image_Public', {
+              url: '/imagePublic/:bc/:name',
+              templateUrl: 'views/image_Public/image_Public.html',
+              controller: 'imagePublicCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load(['views/image_Public/image_Public.js'])
+                }]
+              }
+            })
+            .state('console.image_regstry', {
+              url: '/image_regstry/:bc/:name',
+              templateUrl: 'views/image_Public/image_regstry.html',
+              controller: 'imagePublicCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load(['views/image_Public/image_Public.js'])
+                }]
+              }
+            })
             .state('console.service', {
               url: '/service',
               templateUrl: 'views/service/service.html',
