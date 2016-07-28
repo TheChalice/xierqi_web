@@ -268,7 +268,7 @@ angular.module('console.build.detail', [
             var loadBuildHistory = function (name) {
                  console.log('name',name)
                 Build.get({namespace: $rootScope.namespace, labelSelector: 'buildconfig=' + name}, function(data){
-                    //console.log("history", data);
+                    console.log("history", data);
                     data.items = Sort.sort(data.items, -1); //排序
                     $scope.databuild = data;
 
