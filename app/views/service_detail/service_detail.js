@@ -9,8 +9,8 @@ angular.module('console.service.detail', [
         ]
       }
     ])
-    .controller('ServiceDetailCtrl', ['$http','$state', '$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamTag', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal', 'Secret', 'ImageSelect', 'Service', 'ImageService',
-      function ($http,$state, $rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamTag, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret, ImageSelect, Service, ImageService) {
+    .controller('ServiceDetailCtrl', ['$http','$state', '$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamTag', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal', 'Secret', 'ImageSelect', 'Service', 'BackingServiceInstanceBd','ImageService',
+      function ($http,$state, $rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamTag, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret, ImageSelect, Service, BackingServiceInstanceBd,ImageService) {
         //获取服务列表
         $scope.servicepoterr = false;
         
@@ -860,16 +860,49 @@ angular.module('console.service.detail', [
             //todo 错误处理
           });
         };
+        var delBing = function(bindings){
+          angular.forEach(bindings, function (binding) {
+            var bindObj = {
+              metadata: {
+                name: binding.metadata.name,
+                annotations : {
+                  "dadafoundry.io/create-by" : $rootScope.user.metadata.name
+                }
+              },
+              resourceName: $scope.dc.metadata.name,
+              bindResourceVersion: '',
+              bindKind: 'DeploymentConfig'
+            };
+            // console.log(bindObj)
+            BackingServiceInstanceBd.put({namespace: $rootScope.namespace, name: binding.metadata.name},
+                bindObj, function (res) {
+                   console.log('解绑定', res);
+                   Toast.open('解除绑定');
+                }, function (res) {
 
+                });
+          });
+
+        }
         $scope.delete = function () {
+          console.log('---------------',$scope.bsi.items);
+          var bindings = [];
+          for(var i = 0 ; i < $scope.bsi.items.length;i++){
+            if($scope.bsi.items[i].bind){
+              bindings.push($scope.bsi.items[i]);
+            }
+          }
+          console.log('---------------++++++',bindings);
           Confirm.open("删除服务", "您确定要删除服务吗?", "删除服务将解绑持久化卷和外部服务,此操作不能被撤销", 'recycle').then(function () {
             if ($scope.rcs.items.length > 0) {
               rmRcs($scope.dc.metadata.name);
-              
+
             } else {
               rmDc($scope.dc.metadata.name);
             }
-
+            if(bindings.length>0){
+              delBing(bindings);
+            }
             // var labelSelector = 'deployment config='+$scope.dc.metadata.name;
             // deletepod.delete({namespace: $rootScope.namespace,labelSelector: labelSelector},function (data) {
             //   console.log(data)
