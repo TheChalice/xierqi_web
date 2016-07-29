@@ -8,8 +8,8 @@ angular.module('console.service.create', [
         ]
       }
     ])
-    .controller('ServiceCreateCtrl', ['Confirm', 'Toast', '$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service',
-      function (Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service) {
+    .controller('ServiceCreateCtrl', ['Confirm', 'Toast', '$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service', 'ChooseSecret',
+      function (Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service, ChooseSecret) {
         $log.info('ServiceCreate');
         $scope.checkEnv = false;
 
@@ -248,13 +248,17 @@ angular.module('console.service.create', [
                 container.truename = arr[3];
                 container.strname = container.name = arr[3];
                 $scope.grid.imageChange = true;
+                container.isimageChange = true;
                 $scope.grid.isimageChange = true;
               } else {
                 var container = angular.copy($scope.containerTpl);
                 container.image = 'registry.dataos.io/' + $stateParams.image.split(':')[0];
                 container.tag = $stateParams.image.split(':')[1];
                 container.strname = container.name = $stateParams.image.split(':')[0].replace('/', '-');
-                container.truename = $stateParams.image.split(':')[0].replace('/', '-');;
+                container.truename = $stateParams.image.split(':')[0].replace('/', '-');
+                $scope.grid.imageChange = false;
+                container.isimageChange = false;
+                $scope.grid.isimageChange = false;
               }
 
               $scope.portsArr = [
@@ -290,6 +294,9 @@ angular.module('console.service.create', [
           isConflict();
         };
 
+        $scope.addVolume = function(){
+          ChooseSecret.open();
+        }
         var loadSecrets = function () {
           Secret.get({namespace: $rootScope.namespace}, function (res) {
             $log.info("secrets", res);
@@ -841,6 +848,14 @@ angular.module('console.service.create', [
           })
         }
         $scope.createDc = function () {
+          var i;
+          for(i =0; i< $scope.envs.length; i++){
+            if ($scope.envs[i].name == '' || $scope.envs[i].value == ''){
+              $scope.checkEnv = true;
+              return;
+            }
+          }
+
           if($scope.grid.isserviceName || $scope.grid.createdcerr||$scope.grid.servicenameerr){
             return;
           }

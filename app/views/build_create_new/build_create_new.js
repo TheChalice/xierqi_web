@@ -63,7 +63,7 @@ angular.module('console.build_create_new', [
 
         $scope.completionDeadlineMinutes = 30;
         var thisindex = 0;
-        var createBuildConfig = function(labsecret,imageStreamTag) {
+        var createBuildConfig = function(labsecret) {
             if($scope.grid.ishide == false){
                 $scope.buildConfig.spec.completionDeadlineSeconds = $scope.completionDeadlineMinutes * 60;
                 $scope.buildConfig.spec.source.git.ref = $scope.branch[$scope.grid.branch].name;
@@ -81,7 +81,6 @@ angular.module('console.build_create_new', [
                 $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ":" + $scope.labBranchData.msg[$scope.grid.labbranch].name;
                 $scope.buildConfig.metadata.annotations.repo = $scope.labusername[$scope.grid.labusers].repos[$scope.grid.labproject].id.toString();
             }else if($scope.grid.ishide == true && $scope.grid.labcon == false){
-                console.log("@@@testtab4BuildConfig", imageStreamTag);
                 $scope.buildConfig.spec.completionDeadlineSeconds = $scope.completionDeadlineMinutes * 60;
                 $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ':latest';
                 $scope.buildConfig.spec.triggers = [];
@@ -121,7 +120,6 @@ angular.module('console.build_create_new', [
                     createBuildConfig();
                 }else if($scope.grid.ishide == true && $scope.grid.labcon == false){
                     createBuildConfig('a');
-                    console.log('test imagestream with tab4', res)
                 }
               
             },function(res){

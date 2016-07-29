@@ -4,7 +4,7 @@
             <span class="panel-title">
                 <span class="icon25 icon25-panel"></span>&nbsp;&nbsp;{{data.metadata.name}}
             </span>
-            <a class="btn btn-gray pull-right" style=" padding: 5px 10px; margin-left: 15px; height:34px; width:36px" ng-click="delete()"><i class="fa fa-trash-o fa-lg"></i></a>
+            <a class="btn btn-gray pull-right" style=" padding: 5px 10px; margin-left: 15px; height:34px; width:36px" ng-click="deletes()"><i class="fa fa-trash-o fa-lg"></i></a>
             <a class="btn btn-green pull-right" ng-click="startBuild()">构建</a>
         </div>
         <div class="panel-body">
@@ -27,7 +27,7 @@
                         </div>
                         <div class="media-body tell" style="width: 100%;">
                             <h4 class="media-heading">代码URL</h4>
-                            <div class=till style='position: absolute; top: -30px; padding: 0 8px; border-radius:3px; left: 0; background-color: black; color: white'>
+                            <div class=till style='position: absolute; top: -6px; padding: 0 8px; border-radius:3px; left: 0; background-color: black; color: white'>
                                 {{data.spec.source.git.uri}}
                             </div>
                             <small>
@@ -58,7 +58,60 @@
             <uib-tab-heading>
                 <span class="icon20 icon20-log"></span> 构建记录
             </uib-tab-heading>
-            <c-timeline name="bcName" type="build"></c-timeline>
+            <div class="timeline">
+                <ul>
+                    <li ng-repeat="item in databuild.items">
+                        <label uib-tooltip="{{item.metadata.creationTimestamp | timescon}}">
+                            <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                            {{item.metadata.creationTimestamp | dateRelative}}
+                        </label>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-sm-2">
+                        <span class="icon12 icon12-{{item.status.phase}}"
+                              ng-class="{'fa-spin': item.status.phase == 'Running' || item.status.phase == 'Pending'}"></span>
+                                    <!--switch to Chinese-->
+                                    {{item.status.phase | phaseFilter}}
+                                </div>
+
+                                <div class="col-sm-3 tell" style='position: relative;'>
+                                    <div class=till style='position: absolute;top: -30px;padding: 0 8px;border-radius:3px;left: 0;background-color: black;color: white'>
+                                        {{data.metadata.name}}:{{item.spec.revision.git.commit | limitTo: 7}}</div>
+                                    <div style='white-space:nowrap;overflow: hidden;text-overflow: ellipsis'>
+                                        <i class="fa fa-flag-o"></i>&nbsp;
+                                        <!--<span ng-if="item.spec.revision.git.ref">-->
+                                        <span>{{data.metadata.name}}:{{item.spec.revision.git.commit | limitTo: 7}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                        <span>
+                            构建时长:{{item.status.duration | duration}}
+                        </span>
+                                </div>
+                                <div class="col-sm-3 text-right">
+                                    <a ng-if="item.status.phase == 'Complete'"
+                                       ui-sref="console.image_detail({bc: item.metadata.labels.buildconfig, name: item.spec.output.to.name})"
+                                       class="icon25 icon25-forward" uib-tooltip="查看镜像"></a>
+                                    <a ng-if="item.status.phase !== 'Pending' && item.status.phase !== 'Running' && item.status.phase !== 'New'"
+                                       ng-click="delete($index)" class="icon25 icon25-delete" uib-tooltip="删除"
+                                       href="javascript:;"></a>
+                                    <a ng-if="item.status.phase == 'Pending' || item.status.phase == 'Running' || item.status.phase == 'New'"
+                                       ng-click="stop($index)" class="icon25 icon25-stop" uib-tooltip="终止" href="javascript:;"></a>
+                                    <a class="icon25 icon25-collapse" uib-tooltip="查看日志" ng-click="getLog($index,item)"
+                                       href="javascript:;"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div uib-collapse="!item.showLog">
+                            <div class="well well-log" style='overflow: auto'>
+                                <pre id='sa'>{{item.buildLog}}</pre>
+                            </div>
+                        </div>
+
+                    </li>
+                </ul>
+            </div>
+            <!--<c-timeline name="bcName" type="build"></c-timeline>-->
         </uib-tab>
         <uib-tab index="2">
             <uib-tab-heading>
@@ -119,3 +172,11 @@
         </uib-tab>
     </uib-tabset>
 </div>
+<style>
+    .till{
+        display: none;
+    }
+    .tell:hover>.till{
+        display: block;
+    }
+</style>

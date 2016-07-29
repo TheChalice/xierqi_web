@@ -28,15 +28,15 @@
                    class="btn btn-block" ng-click="frm.$valid && jump(!grid.checked)"
                    ng-class="{'btn-orange':frm.$valid, 'btn-disabled': frm.$invalid}"
                    ng-disabled="frm.$invalid" >
-                    <span ng-if="!grid.checked">进入高级配置</span>
-                    <span ng-if="grid.checked">返回基础配置</span>
+                    <span ng-if="!grid.checked" style="color: white;">进入高级配置</span>
+                    <span ng-if="grid.checked" style="color: white;">返回基础配置</span>
                 </a>
             </div>
             <div class="col-md-6" style="padding-left: 40px;">
                 <a href="javascript:;" ng-click="frm.$valid && createDc()"
                    class="btn btn-block"
                    ng-class="{'btn-orange':frm.$valid, 'btn-disabled': frm.$invalid}"
-                   ng-disabled="frm.$invalid">
+                   ng-disabled="frm.$invalid" style="color: white">
                     创建服务
                 </a>
             </div>
