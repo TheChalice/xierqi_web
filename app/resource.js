@@ -201,7 +201,7 @@ define([
             return Metrics;
         }])
         .factory('Owner', ['$resource', function($resource){
-            var Owner = $resource('/v1/repos/github/owner', {namespace:'@namespace', cache:'false'}, {
+            var Owner = $resource('/v1/repos/github/owner', {namespace:'@namespace', cache:'@cache'}, {
                 'query': {method: 'GET'}
             });
              return Owner;
@@ -253,7 +253,7 @@ define([
             return platformone;
         }])
         .factory('labOwner', ['$resource', function($resource){
-            var labOwner = $resource('/v1/repos/gitlab/owner',{cache:'false'}, {
+            var labOwner = $resource('/v1/repos/gitlab/owner',{cache:'@cache'}, {
             });
             return labOwner;
         }])
