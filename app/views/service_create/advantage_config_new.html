@@ -117,7 +117,7 @@
                             环境变量设置
                         </div>
                         <div class="panel-body" style="padding-bottom: 0;">
-                    <span ng-if="envs.length > 0">
+                            <span ng-if="envs.length > 0">
                         <div class="row key-value-bar" style="margin-bottom: 15px" ng-repeat="env in envs">
                             <div class="col-md-5">
                                 <div style="float: left;line-height: 36px;">键&nbsp;&nbsp;</div>
@@ -137,7 +137,7 @@
                         </div>
                     </span>
                         </div>
-                        <small ng-show="checkEnv" class="fa fa-info-circle err-tip">&nbsp;环境变量设置错误</small>
+                        <small ng-show="checkEnv" class="fa fa-info-circle err-tip" style="margin-left: 36px; margin-bottom: 15px;">&nbsp;环境变量不能为空</small>
                     </div>
                 </div>
             </div>

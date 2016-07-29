@@ -844,6 +844,14 @@ angular.module('console.service.create', [
           })
         }
         $scope.createDc = function () {
+          var i;
+          for(i =0; i< $scope.envs.length; i++){
+            if ($scope.envs[i].name == '' || $scope.envs[i].value == ''){
+              $scope.checkEnv = true;
+              return;
+            }
+          }
+
           if($scope.grid.isserviceName || $scope.grid.createdcerr||$scope.grid.servicenameerr){
             return;
           }
