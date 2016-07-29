@@ -248,13 +248,17 @@ angular.module('console.service.create', [
                 container.truename = arr[3];
                 container.strname = container.name = arr[3];
                 $scope.grid.imageChange = true;
+                container.isimageChange = true;
                 $scope.grid.isimageChange = true;
               } else {
                 var container = angular.copy($scope.containerTpl);
                 container.image = 'registry.dataos.io/' + $stateParams.image.split(':')[0];
                 container.tag = $stateParams.image.split(':')[1];
                 container.strname = container.name = $stateParams.image.split(':')[0].replace('/', '-');
-                container.truename = $stateParams.image.split(':')[0].replace('/', '-');;
+                container.truename = $stateParams.image.split(':')[0].replace('/', '-');
+                $scope.grid.imageChange = false;
+                container.isimageChange = false;
+                $scope.grid.isimageChange = false;
               }
 
               $scope.portsArr = [
