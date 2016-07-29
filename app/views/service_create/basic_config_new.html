@@ -58,7 +58,7 @@
                             <hr>
                             <div style="margin-bottom: 20px;">
                                 <a href="javascript:;" class="btn btn-orange"
-                                   ng-click="selectImage($index)">选择镜像</a><span class="require"></span>
+                                   ng-click="selectImage($index)" style="color: white">选择镜像</a><span class="require"></span>
                                 <br>
                                 <small ng-if="!container.image && container.emptyImage"
                                        class="fa fa-info-circle err-tip">&nbsp;请选择镜像
@@ -72,26 +72,27 @@
                                         镜像版本:&nbsp;&nbsp;{{container.tag}}
                                     </p>
                                 </div>
-                                <hr>
-                                <div>
-                                    <a href="javascript:;" style="font-size: 14px;" class="href-add" ng-click="addVolume()">
-                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;添加卷
-                                    </a>
-                                    <div>
+                                <!--添加卷-->
+                                <!--<hr>-->
+                                <!--<div>-->
+                                    <!--<a href="javascript:;" style="font-size: 14px;" class="href-add" ng-click="addVolume()">-->
+                                        <!--<i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;添加卷-->
+                                    <!--</a>-->
+                                    <!--<div>-->
 
-                                    </div>
-                                </div>
+                                    <!--</div>-->
+                                <!--</div>-->
                                 <!--<h4>挂载secret卷&nbsp;&nbsp;&nbsp;&nbsp;-->
                                     <!--<a href="javascript:;"-->
                                        <!--class="fa fa-plus-circle fa-lg href-add" style="font-size: 14px;">-->
                                         <!--&nbsp;&nbsp;创建</a>-->
                                 <!--</h4>-->
-
-                                <div class="secretbox">
-                                    <div class="boxname" style="height: 60px; width: 80px; border: 1px solid #c9c9c9; margin-top: 20px">
-                                        <p>密钥</p>
-                                    </div>
-                                </div>
+                                <!--adding secret-->
+                                <!--<div class="secretbox">-->
+                                    <!--<div class="boxname" style="height: 60px; width: 80px; border: 1px solid #c9c9c9; margin-top: 20px">-->
+                                        <!--<p>密钥</p>-->
+                                    <!--</div>-->
+                                <!--</div>-->
 
                                 <!--<div class="secret-bar" ng-repeat="vm in container.volumeMounts">-->
                                     <!--<div class="dropdown dropdown-select" style="width: 200px;margin: 0 15px 15px 0;">-->
