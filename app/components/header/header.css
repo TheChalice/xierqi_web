@@ -113,6 +113,7 @@
     font-size:12px;
     padding-top:0px;
     padding-bottom:0px;
+    display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
 }
 
 .dropdown-menu > li > a:hover{
@@ -122,6 +123,7 @@
     color: #f8b551;
     padding-top: 7px;
 }
+
 @media (max-width: 758px) {
     #header {
         height: 50px;
