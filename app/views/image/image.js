@@ -581,8 +581,10 @@ angular.module('console.image', [
             $scope.isComplete='';
 
             $scope.selectsc = function (tp, key) {
-
-                console.log(key);
+                if (!$scope.imagecentercopy) {
+                    return
+                }
+                //console.log(key);
                 if (key == 'doc') {
                     $scope.isComplete={class:'doc'};
                     $scope.imagecenter=$filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
