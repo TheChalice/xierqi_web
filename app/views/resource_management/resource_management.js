@@ -8,12 +8,12 @@ angular.module('console.resource_management', [
 ]).controller('resmanageCtrl',['$rootScope','$scope','configmaps','secretskey',function($rootScope,$scope,configmaps,secretskey){
     $scope.grid = {
         page: 1,
-        size: 2,
+        size: 10,
         txt :''
     };
     $scope.secrets = {
         page: 1,
-        size: 2,
+        size: 10,
         txt :''
     };
 

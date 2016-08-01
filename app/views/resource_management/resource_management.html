@@ -11,7 +11,7 @@
                             <i class="fa fa-plus fa-lg"></i>
                             <span class="hidden-xs"> 新建持久化卷</span>
                         </a>
-                        <a class="btn btn-skyblue" ng-click="refresh()" style="height: 34px; width: 36px; padding: 5px 5px;">
+                        <a class="btn btn-skyblue" ng-click="" style="height: 34px; width: 36px; padding: 5px 5px;">
                             <i class="fa fa-refresh fa-lg"></i>
                         </a>
                     </div>
@@ -90,7 +90,7 @@
                     </table>
                 </div>
             </div>
-            <div class="text-right" ng-if="grid.total > 2">
+            <div class="text-right" ng-if="grid.total > 10">
                 <uib-pagination class="pagination"
                                 ng-model="grid.page"
                                 total-items="grid.total"
@@ -156,7 +156,7 @@
                     </table>
                 </div>
             </div>
-            <div class="text-right" ng-if="secrets.total > 2">
+            <div class="text-right" ng-if="secrets.total > 10">
                 <uib-pagination class="pagination"
                                 ng-model="secrets.page"
                                 total-items="secrets.total"

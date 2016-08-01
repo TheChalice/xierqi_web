@@ -26,10 +26,10 @@
                         <!--<h3>Contents of the file:</h3>-->
                         <!--<pre id="file-content"></pre>-->
                     </div>
-                    <div class="col-md-10" style="margin-left:17%;" ng-repeat="item in configarr">
-                        <div class="filelink">{{item}}</div>
+                    <div class="col-md-10" style="margin-left:17%;" ng-repeat="item in volume.configarr">
+                        <div class="filelink">{{item.key}}</div>
                         <div style="line-height: 36px;" class="col-md-1">
-                            <a href="javascript:;" style="text-decoration: none; color: #9fa7b7; margin-left: 20px;"  ng-click="delvolume(item,$index)" class="fa fa-times-circle "></a>
+                            <a href="javascript:;" style="text-decoration: none; color: #9fa7b7; margin-left: 20px;"  ng-click="deletekv($index)" class="fa fa-times-circle "></a>
                         </div>
                     </div>
                 </div>
@@ -42,10 +42,10 @@
                             <span class="font12" style="color: #55c45f">创建</span>
                         </a>
                         <div class="configitem" style="margin-top: 20px; margin-bottom: 20px">
-                            <div style="margin-bottom: 20px" ng-repeat="item in configitems">
-                                <input class="form-control" type="text" style="display: inline-block; width: 300px;" placeholder="KEY" ng-keyup="checkVname(item.idx1,$index)" ng-model="item.idx1" ng-pattern="">
-                                <input class="form-control" type="text" style="display: inline-block; width: 300px; margin-left: 40px;" placeholder="VALUE" ng-model="item.idx2" ng-blur="checkvobjb($index)" ng-keyup="checkvobj($index)">
-                                <a class="fa fa-times-circle " ng-click="rmconfigitem($index)" style="text-decoration: none; color: #9fa7b7; margin-left: 20px;" href="javascript:;"></a>
+                            <div style="margin-bottom: 20px" ng-repeat="item in volume.configitems">
+                                <input class="form-control" type="text" style="display: inline-block; width: 300px;" placeholder="KEY" ng-model="item.key">
+                                <input class="form-control" type="text" style="display: inline-block; width: 300px; margin-left: 40px;" placeholder="VALUE" ng-model="item.value">
+                                <a class="fa fa-times-circle " ng-click="rmovekv($index)" style="text-decoration: none; color: #9fa7b7; margin-left: 20px;" href="javascript:;"></a>
                             </div>
                         </div>
                     </div>
