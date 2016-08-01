@@ -367,6 +367,7 @@ angular.module('console.build.detail', [
 
                 if (data.type == 'ADDED') {
 
+
                 } else if (data.type == "MODIFIED") {
                     //todo  这种方式非常不好,尽快修改
                     angular.forEach($scope.databuild.items, function(item, i){
