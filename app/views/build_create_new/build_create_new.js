@@ -63,6 +63,7 @@ angular.module('console.build_create_new', [
 
         $scope.completionDeadlineMinutes = 30;
         var thisindex = 0;
+
         var createBuildConfig = function(labsecret) {
             if($scope.grid.ishide == false){
                 $scope.buildConfig.spec.completionDeadlineSeconds = $scope.completionDeadlineMinutes * 60;
@@ -159,8 +160,9 @@ angular.module('console.build_create_new', [
         $scope.usernames = [];
         var hubobj = {};
         $scope.owner = null;
-        $scope.loadOwner = function(){
-            Owner.query({namespace: $rootScope.namespace},function(res) {
+        $scope.loadOwner = function(cache){
+            console.log(cache);
+            Owner.query({namespace: $rootScope.namespace,cache:cache},function(res) {
                 $log.info("owner", res);
                 $scope.owner = res.msg;
                 hubobj = res.msg.infos[0];
@@ -195,8 +197,8 @@ angular.module('console.build_create_new', [
                 }
             });
         };
-        $scope.loadOrg = function() {
-            Org.get(function(data) {
+        $scope.loadOrg = function(cache) {
+            Org.get({cache:cache},function(data) {
                 $log.info("org", data);
                 $scope.usernames = [];
                 $scope.usernames[0] = hubobj;
@@ -212,8 +214,8 @@ angular.module('console.build_create_new', [
         $scope.refresh = function() {
             $scope.runninghub = true;
             $scope.grid.ishide= false;
-            $scope.loadOwner();
-            $scope.loadOrg();
+            $scope.loadOwner('false');
+            $scope.loadOrg('false');
         };
 
         var getlabsecret = function(ht,pjId){

@@ -30,7 +30,7 @@ angular.module('console', [
                     return x.metadata.name > y.metadata.name ? 1 : -1;
                 });
                 angular.forEach(data.items, function (project,i) {
-                    if (/^[\u4e00-\u9fa5]+$/i.test(project.metadata.annotations['openshift.io/display-name'])) {
+                    if (/^[\u4e00-\u9fa5]/i.test(project.metadata.annotations['openshift.io/display-name'])) {
                         //console.log(project.metadata.annotations['openshift.io/display-name']);
                         //data.items.push(project);
                         data.items.unshift(project);

@@ -132,7 +132,31 @@ angular.module('console.service', [
                   });
           };
         $scope.refresh = function(){
-            serviceList();
+            //serviceList();
+            $scope.running=true;
+            DeploymentConfig.get({namespace: $rootScope.namespace}, function(data){
+                $log.info('serviceList----', data);
+                data.items = Sort.sort(data.items, -1);
+
+                //$scope.items = data.items;
+
+                RouteList(data.items);
+                loadBsi(data.items);
+                refresh(1);
+                replicationcls(data.items);
+                $scope.resourceVersion = data.metadata.resourceVersion;
+                watchRcs(data.metadata.resourceVersion);
+                $scope.grid.total = data.items.length;
+                for(var i = 0 ; i < $scope.items.length; i++){
+                    loadPods($scope.items[i]);
+                }
+                $scope.running=false;
+                $scope.data = data;
+
+            }, function(res) {
+                $log.info('serviceList', res);
+                //todo ������
+            });
           $scope.grid.page=1;
         };
         //////pod数

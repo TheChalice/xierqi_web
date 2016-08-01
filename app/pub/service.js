@@ -49,7 +49,7 @@ define(['angular'], function (angular) {
             '1404':'不能找到',
             '14040':'不能找到组织',
             '14041':'不能找到该用户',
-            '14090':'组织不存在',
+            '14090':'组织已存在',
             '14091':'该用户已存在',
             '14092':'该用户在LDAP已存在',
             '2049':'原密码错误'
@@ -563,10 +563,10 @@ define(['angular'], function (angular) {
       }])
       .service('AuthService', ['orgList','$rootScope', '$http', '$base64', 'Cookie', '$state', '$log', 'Project', 'GLOBAL', 'Alert', 'User',
         function (orgList,$rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User) {
+
         this.login = function (credentials) {
           console.log("login");
           localStorage.setItem('Auth',$base64.encode(credentials.username + ':' + credentials.password))
-
           $rootScope.loding = true;
 
           var req = {
@@ -596,9 +596,10 @@ define(['angular'], function (angular) {
 
           $http(req).success(function (data) {
 
+
             //$rootScope.loding = false;
 
-            console.log(data);
+            console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&"+data);
 
             Cookie.set('df_access_token', data.access_token, 10 * 365 * 24 * 3600 * 1000);
 
@@ -608,6 +609,17 @@ define(['angular'], function (angular) {
               $rootScope.loding = false;
               $rootScope.user = res;
               $state.go('console.dashboard');
+              var inputDaovoice = function() {
+                daovoice('init', {
+                  app_id: "b31d2fb1",
+                  user_id: "user.metadata.uid", // 必填: 该用户在您系统上的唯一ID
+                  //email: "daovoice@example.com", // 选填:  该用户在您系统上的主邮箱
+                  name: $rootScope.user.metadata.name, // 选填: 用户名
+                  signed_up: parseInt((new Date($rootScope.user.metadata.creationTimestamp)).getTime() / 1000) // 选填: 用户的注册时间，用Unix时间戳表示
+                });
+                daovoice('update');
+              }
+              inputDaovoice();
             });
 
           }).error(function (data) {
@@ -619,6 +631,13 @@ define(['angular'], function (angular) {
             $state.go('login');
             $rootScope.loding = false;
             Alert.open('错误', '用户名或密码不正确');
+            var daovoicefailed = function(){
+              daovoice('init', {
+                app_id: "b31d2fb1"
+              });
+              daovoice('update');
+            }
+            daovoicefailed();
           });
         };
       }])
