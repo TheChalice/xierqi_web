@@ -275,6 +275,9 @@ define([
             //resource management
             .state('console.resource_management', {
               url: '/resource_management',
+              params: {
+                index: null
+              },
               templateUrl: 'views/resource_management/resource_management.html',
               controller: 'resmanageCtrl',
               resolve: {
