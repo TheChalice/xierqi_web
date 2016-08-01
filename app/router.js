@@ -317,7 +317,7 @@ define([
               }
             })
             .state('console.config_detail', {
-              url:'/config_volume_detail',
+              url:'/configMap/:name',
               templateUrl:'views/config_detail/config_detail.html',
               controller: 'configDetailCtrl',
               resolve: {
@@ -327,7 +327,7 @@ define([
               }
             })
             .state('console.secret_detail', {
-              url:'/secret_detail',
+              url:'/secret/:name',
               templateUrl:'views/secret_detail/secret_detail.html',
               controller: 'secretDetailCtrl',
               resolve: {
@@ -337,7 +337,7 @@ define([
               }
             })
             .state('console.constantly_detail', {
-              url: '/constantly_volume_detail',
+              url: '/persistentVolume/:name',
               templateUrl: 'views/constantly_detail/constantly_detail.html',
               controller: 'constDetailCtrl',
               resolve: {

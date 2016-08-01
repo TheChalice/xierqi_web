@@ -26,7 +26,7 @@
                         <tr>
                             <div class="row">
                                 <th class='col-lg-2 col-md-2 col-sm-1'>持久化卷名称</th>
-                                <th class='col-lg-2 col-md-2 col-sm-2'>创建时间</th>
+                                <th class='col-lg-2 col-md-2 col-sm-2' >创建时间</th>
                                 <th class='col-lg-2 col-md-2 col-sm-2'>持久化卷大小</th>
                                 <th class='col-lg-3 col-md-3 col-sm-2'>挂载服务数量</th>
                             </div>
@@ -146,7 +146,11 @@
                             </div>
                         </tr>
                         <tr ng-repeat="items in scretspageitems">
-                            <td style="border-bottom: 1px solid #CCCCCC;">{{items.metadata.name}}</td>
+                            <td style="border-bottom: 1px solid #CCCCCC;">
+                                <a ui-sref="console.secret_detail({name: items.metadata.name})">
+                                    {{items.metadata.name}}
+                                </a>
+                            </td>
                             <td style="border-bottom: 1px solid #CCCCCC;"><span uib-tooltip="{{items.metadata.creationTimestamp  | timescon}}">{{items.metadata.creationTimestamp | dateRelative}}</span></td>
                         </tr>
                     </table>
