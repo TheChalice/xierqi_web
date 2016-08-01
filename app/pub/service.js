@@ -608,9 +608,7 @@ define(['angular'], function (angular) {
             User.get({name: '~'}, function (res) {
               $rootScope.loding = false;
               $rootScope.user = res;
-              console.log("ffffffff");
               $state.go('console.dashboard');
-              console.log("$$$$$$$$$$$$$$test daovoice", res);
               var inputDaovoice = function() {
                 daovoice('init', {
                   app_id: "b31d2fb1",
