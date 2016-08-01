@@ -355,6 +355,7 @@ angular.module('console.build.detail', [
             };
 
             var updateBuilds = function (data) {
+                console.log('ws状态',data);
                 if (data.type == 'ERROR') {
                     $log.info("err", data.object.message);
                     Ws.clear();
