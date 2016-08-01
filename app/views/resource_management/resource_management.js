@@ -31,11 +31,16 @@ angular.module('console.resource_management', [
     $scope.loadconfigmaps = function(){
         configmaps.get({namespace: $rootScope.namespace},function(res){
             console.log(res);
-            $scope.configitems = res.items
-            $scope.grid.total = $scope.configitems.length;
-            $scope.grid.page = 1;
-            $scope.grid.txt = '';
-            refresh(1);
+            if(!res.items){
+                $scope.configitems = [];
+            }else{
+                $scope.configitems = res.items;
+            }
+                $scope.grid.total = $scope.configitems.length;
+                $scope.grid.page = 1;
+                $scope.grid.txt = '';
+                refresh(1);
+
         })
     }
     $scope.search = function () {
