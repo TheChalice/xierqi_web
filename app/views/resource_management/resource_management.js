@@ -31,7 +31,12 @@ angular.module('console.resource_management', [
     $scope.loadconfigmaps = function(){
         configmaps.get({namespace: $rootScope.namespace},function(res){
             console.log(res);
-            $scope.configitems = res.items
+            if(res.items){
+                $scope.configitems = res.items
+            }else{
+                $scope.configitems = [];
+            }
+
             $scope.grid.total = $scope.configitems.length;
             $scope.grid.page = 1;
             $scope.grid.txt = '';
@@ -62,7 +67,11 @@ angular.module('console.resource_management', [
     $scope.loadsecrets = function(){
         secretskey.get({namespace:$rootScope.namespace},function(res){
             console.log('-------loadsecrets',res);
-            $scope.secretitems = res.items;
+            if(res.items){
+                $scope.secretitems = res.items;
+            }else{
+                $scope.secretitems = []
+            }
             $scope.secrets.total = $scope.secretitems.length;
             $scope.secrets.page = 1;
             $scope.secrets.txt = '';
