@@ -360,7 +360,7 @@ define([
             return listConfig;
         }])
         .factory('secretskey', ['$resource', function($resource){
-            var secretskey = $resource('/api/v1/namespaces/:namespace/secrets', {namespace:'@namespace'},{
+            var secretskey = $resource('/api/v1/namespaces/:namespace/secrets/:name', {namespace:'@namespace',name:'@name'},{
                 create: {method:'POST'},
                 delete: {method:'DELETE'}
             })

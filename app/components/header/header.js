@@ -119,8 +119,12 @@ angular.module("console.header", [
                 }
                 $scope.back = function(){
                   //console.log($state);
-                  if ($state.current.name == "console.image_detail"&&$state.params.name.indexOf('/')!=-1) {
-                    $state.go('console.image',{index:2})
+                  if ($state.current.name == "console.image_detail") {
+                    $state.go('console.image',{index:1})
+                  }else if($state.current.name == "console.image_Public"){
+                      $state.go('console.image',{index:3})
+                  }else if($state.current.name == "console.image_regstry"){
+                      $state.go('console.image',{index:2})
                   }else {
                     $window.history.back();
                   }
@@ -210,7 +214,11 @@ angular.module("console.header", [
                 case "console.image":
                     return "镜像仓库";
                 case "console.image_detail":
-                    return "镜像仓库";
+                    return "镜像详情";
+                case "console.image_Public":
+                    return "镜像详情";
+                case "console.image_regstry":
+                    return "镜像详情";
                 case "console.service":
                     return "服务部署";
                 case "console.service_detail":

@@ -11,7 +11,7 @@ angular.module('console.build.detail', [
     .controller('BuildDetailCtrl', ['Ws','Sort','GLOBAL', '$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'UUID', 'WebhookLab', 'WebhookHub','WebhookLabDel', 'WebhookHubDel','ImageStream'
         , function (Ws,Sort,GLOBAL, $rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, UUID, WebhookLab, WebhookHub, WebhookLabDel, WebhookHubDel,ImageStream) {
             $scope.grid = {};
-            console.log('路由',$state);
+            //console.log('路由',$state);
             $scope.grid.checked = false;
         $scope.bcName = $stateParams.name;
         $scope.$on('image-enable', function(e, enable){
@@ -26,7 +26,7 @@ angular.module('console.build.detail', [
                 if (data.spec.source.git.uri.split(':')[0] == 'ssh') {
                     var host = data.spec.source.git.uri.replace('git@','').replace('.git','');
 
-                    console.log(host.split('/'));
+                    //console.log(host.split('/'));
 
                     var parser = document.createElement('a');
 
@@ -36,9 +36,9 @@ angular.module('console.build.detail', [
 
                     var post = parser.host.split(':')[0];
                     parser.host=post;
-                    console.log(parser.href);
-                    console.log(parser.hostname);
-                    console.log(parser.pathname);
+                    //console.log(parser.href);
+                    //console.log(parser.hostname);
+                    //console.log(parser.pathname);
                     data.spec.source.git.uri='https://'+parser.hostname+parser.pathname
                 }
 
@@ -180,7 +180,7 @@ angular.module('console.build.detail', [
         };
 
         var getConfig = function(triggers){
-            console.log(triggers)
+            //console.log(triggers)
             var str = "";
             for (var k in triggers){
                 if (triggers[k].type == 'GitHub'){
@@ -215,7 +215,7 @@ angular.module('console.build.detail', [
                         repo: $scope.data.metadata.annotations.repo,
                         spec: {url: config}
                     }, function (data) {
-                        console.log("test repo", $scope.data.metadata.annotations.repo)
+                        //console.log("test repo", $scope.data.metadata.annotations.repo)
                     });
                 }
             }
@@ -252,26 +252,30 @@ angular.module('console.build.detail', [
             $scope.isshow=true;
             $scope.gitStore = {};
 
-            $scope.$on('timeline', function(e, type, data){
-                $scope.databuild.items = $scope.databuild.items || [];
-                console.log("type", type, "data", data);
-                if (type == 'add') {
-                    data.showLog = true;
-                    $scope.databuild.items.unshift(data);
-                }
-            });
+            //$scope.$on('timeline', function(e, type, data){
+            //    $scope.databuild.items = $scope.databuild.items || [];
+            //    //console.log("type", type, "data", data);
+            //    if (type == 'add') {
+            //        data.showLog = true;
+            //        $scope.databuild.items.unshift(data);
+            //    }
+            //});
 
             //获取build记录
             var loadBuildHistory = function (name) {
-                 console.log('name',name)
+                 //console.log('name',name)
                 Build.get({namespace: $rootScope.namespace, labelSelector: 'buildconfig=' + name}, function(data){
-                    console.log("history", data);
+                    //console.log("history", data);
                     data.items = Sort.sort(data.items, -1); //排序
                     $scope.databuild = data;
-
+                    //console.log($scope.databuild);
+                    if ($stateParams.from == "create/new") {
+                        $scope.databuild.items[0].showLog = true;
+                    }
+                    console.log($scope.databuild);
                     //fillHistory(data.items);
 
-                    emit(imageEnable(data.items));
+                    //emit(imageEnable(data.items));
                     $scope.resourceVersion = data.metadata.resourceVersion;
                     watchBuilds(data.metadata.resourceVersion);
                 }, function(res){
@@ -367,7 +371,8 @@ angular.module('console.build.detail', [
                 $scope.resourceVersion = data.object.metadata.resourceVersion;
 
                 if (data.type == 'ADDED') {
-
+                    data.object.showLog = true;
+                    $scope.databuild.items.unshift(data.object);
 
                 } else if (data.type == "MODIFIED") {
                     //todo  这种方式非常不好,尽快修改
@@ -401,10 +406,13 @@ angular.module('console.build.detail', [
             //如果是新创建的打开第一个日志,并监控
             if ($stateParams.from == "create") {
                 $scope.$watch("databuild", function(newVal, oldVal){
-                    console.log(newVal);
+                    //console.log(newVal);
+
                     if (newVal != oldVal) {
                         if (newVal.items.length > 0) {
+
                             $scope.getLog(0);
+                            $scope.databuild.items[0].object.showLog = true;
                         }
                     }
                 });
@@ -432,7 +440,7 @@ angular.module('console.build.detail', [
                     o.buildLog = result;
                     loglast()
                 }, function(res){
-                    console.log("res", res);
+                    //console.log("res", res);
                     o.buildLog = res.data.message;
                 });
             };
@@ -467,7 +475,7 @@ angular.module('console.build.detail', [
                             }
 
                             $scope.$watch('databuild', function (n, o) {
-                                console.log(n.items.length);
+                                //console.log(n.items.length);
                                 if (n.items.length == '0') {
                                     $rootScope.testq = 'finsh'
                                 }

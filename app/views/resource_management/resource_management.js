@@ -5,7 +5,7 @@ angular.module('console.resource_management', [
             'components/searchbar/searchbar.js',
         ]
     }
-]).controller('resmanageCtrl',['$rootScope','$scope','configmaps','secretskey',function($rootScope,$scope,configmaps,secretskey){
+]).controller('resmanageCtrl',['$state','$rootScope','$scope','configmaps','secretskey',function($state,$rootScope,$scope,configmaps,secretskey){
     $scope.grid = {
         page: 1,
         size: 10,
@@ -16,6 +16,11 @@ angular.module('console.resource_management', [
         size: 10,
         txt :''
     };
+    if ($state.params.index) {
+        $scope.check = $state.params.index
+    } else {
+        $scope.check = false
+    }
 
   //////////////////  配置卷
     $scope.$watch('grid.page', function(newVal, oldVal){
@@ -67,7 +72,11 @@ angular.module('console.resource_management', [
     $scope.loadsecrets = function(){
         secretskey.get({namespace:$rootScope.namespace},function(res){
             console.log('-------loadsecrets',res);
-            $scope.secretitems = res.items;
+            if(res.items){
+                $scope.secretitems = res.items;
+            }else{
+                $scope.secretitems = []
+            }
             $scope.secrets.total = $scope.secretitems.length;
             $scope.secrets.page = 1;
             $scope.secrets.txt = '';
