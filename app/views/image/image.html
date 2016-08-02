@@ -155,7 +155,7 @@
             <uib-tab-heading>
                 <i class="noticebg imagecenter"></i>&nbsp;&nbsp;镜像中心
             </uib-tab-heading>
-            <div class="row" style="margin-bottom: 30px;">
+            <div class="row" style="margin-bottom: 30px;position: relative;">
                 <div class="fenlei col-sm-6">
                      <label>提供者</label>
                         <!--<div class="btn-group fw">-->
@@ -166,7 +166,7 @@
                         </div>
 
                 </div>
-                <div class="input-group col-sm-4 col-sm-offset-8 searchbar" style="margin-left: 65%;">
+                <div class="input-group col-sm-4 col-sm-offset-8 searchbar" id="sousuo">
                     <input type="text" class="form-control" ng-model="ctxt"
                            ng-focus="showTip=true;" placeholder="搜索镜像" ng-keyup="imagecenterreg('all', ctxt,$event)">
                     <span class="input-group-btn">
@@ -291,7 +291,9 @@
     .list-group-item a:hover {
         color: #e5993a;
     }
-
+    #sousuo {
+        position: absolute;
+    }
     .list-group-item:last-child {
         border-bottom-right-radius: 0;
         border-bottom-left-radius: 0;
