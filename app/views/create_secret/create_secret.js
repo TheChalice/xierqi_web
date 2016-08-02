@@ -78,7 +78,7 @@ angular.module('console.create_secret', [
                 secretskey.create({namespace: $rootScope.namespace},$scope.secrets , function (res) {
                     $scope.grid.nameerr = false;
                     console.log('createconfig----',res);
-                    $state.go('console.resource_management', {idx:1});
+                    $state.go('console.resource_management',{index:3});
                 },function(res){
                     if(res.status == 409){
                         $scope.grid.nameerr = true;
