@@ -371,6 +371,18 @@ define([
             })
             return listSecret;
         }])
+        .factory('modifySecret', ['$resource', function($resource){
+            var modifySecret = $resource('/api/v1/namespaces/:namespace/secrets/:name', {namespace:'@namespace', name:'@name'}, {
+                update: {method:'PUT'}
+            })
+            return modifySecret;
+        }])
+        .factory('deleteSecret', ['$resource', function($resource){
+            var deleteSecret = $resource('/api/v1/namespaces/:namespace/secrets/:name', {namespace:'@namespace', name:'@name'}, {
+                delete: {method:'DELETE'}
+            })
+            return deleteSecret;
+        }])
 });
 // http://registry.dataos.io/api/repositories/manifests?repo_name=library/alpine&tag=latest
 // https://registry.dataos.io/api/projects?is_public=1
