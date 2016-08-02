@@ -119,8 +119,12 @@ angular.module("console.header", [
                 }
                 $scope.back = function(){
                   //console.log($state);
-                  if ($state.current.name == "console.image_detail"&&$state.params.name.indexOf('/')!=-1) {
-                    $state.go('console.image',{index:2})
+                  if ($state.current.name == "console.image_detail") {
+                    $state.go('console.image',{index:1})
+                  }else if($state.current.name == "console.image_Public"){
+                      $state.go('console.image',{index:3})
+                  }else if($state.current.name == "console.image_regstry"){
+                      $state.go('console.image',{index:2})
                   }else {
                     $window.history.back();
                   }
