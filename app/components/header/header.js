@@ -210,7 +210,11 @@ angular.module("console.header", [
                 case "console.image":
                     return "镜像仓库";
                 case "console.image_detail":
-                    return "镜像仓库";
+                    return "镜像详情";
+                case "console.image_Public":
+                    return "镜像详情";
+                case "console.image_regstry":
+                    return "镜像详情";
                 case "console.service":
                     return "服务部署";
                 case "console.service_detail":
