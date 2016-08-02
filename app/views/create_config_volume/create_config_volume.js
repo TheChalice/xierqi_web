@@ -72,17 +72,12 @@ angular.module('console.create_constantly_volume', [
                     var arr = n.configitems.concat(n.configarr);
                     arr.sort(by("key"));
                 }
-
-
                 //console.log(arr);
-
                 if (arr&&arr.length > 0) {
                     var kong = false;
                     var r = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
-
                     angular.forEach(arr, function (item, i) {
                         if (arr[i] && arr[i + 1]) {
-
                             if (arr[i].key == arr[i + 1].key) {
                                 kong = true;
                             }
