@@ -988,7 +988,13 @@ a {
     width: 20%;
     float: left;
 }
-
+.secret_detail {
+    color: #55c45f;
+    text-decoration: none;
+}
+.secret_detail:hover{
+    color: #469450;
+}
 @media (min-width: 768px) {
     .col-sm-1-5 {
         width: 20%;

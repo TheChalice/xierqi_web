@@ -8,7 +8,9 @@ angular.module('console.build_create_new', [
     .controller ('BuildcCtrl', ['$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch','labOwner','psgitlab','laborgs','labBranch','ImageStream', 'BuildConfig', 'Alert','$http', 'Cookie',
         function($rootScope, $scope, $state, $log, Owner, Org, Branch,labOwner,psgitlab,laborgs,labBranch,ImageStream, BuildConfig, Alert, $http, Cookie) {
         $scope.running = false;
+
         $scope.runninghub = false;
+
         $scope.buildConfig = {
             metadata: {
                 name: '',
@@ -41,8 +43,11 @@ angular.module('console.build_create_new', [
                 completionDeadlineSeconds: 1800
             }
         };
+
         $scope.dianl=false;
+
         $scope.dianbl=true;
+
       // 实时监听按钮点亮
       var timer = setInterval(function () {
         if ($scope.buildConfig.metadata.name && $scope.grid.labbranch!=null) {

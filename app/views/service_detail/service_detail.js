@@ -147,18 +147,7 @@ angular.module('console.service.detail', [
                 }
                 $scope.savend =angular.copy(res.spec.template.spec.containers[0].volumeMounts);
                 res.spec.template.spec.containers[0].volumeMounts=[];
-                // console.log($scope.savend)
-                // console.log('$scope.savend1',$scope.savend)
-                // $scope.dc.spec.template.spec.containers[0]={
-                //   volumeMounts:[{
-                //     name:'pic'
-                //   }]
-                // }
-                // angular.forEach($scope.dc.spec.template.spec.containers, function (item) {
-                //   angular.forEach(item.volumeMounts, function (volume) {
-                //     item.volumeMounts=[];
-                //   })
-                // })
+
               }
             }
             angular.forEach($scope.dc.spec.template.spec.containers, function (item) {
@@ -170,23 +159,6 @@ angular.module('console.service.detail', [
               if (!item.volumeMounts || item.volumeMounts.length == 0) {
                 item.volumeMounts = [{}];
               }
-              //var name = getIst(item.name);
-              //if (name) {
-              //  var foos = name.split(':');
-              //  if (foos.length > 1) {
-              //    //item.image = foos[0];
-              //    item.tag = foos[1];
-              //  }
-              //} else {
-              //  item.tag = ImageService.tag(item);
-              //}
-              //var tagstr = item.image;
-              //if(tagstr.indexOf('@') != -1){
-              //  item.tag = tagstr.split('@')[1];
-              //}else{
-              //  item.tag = tagstr.split(':')[1];
-              //}
-
             });
             for(var i = 0 ;i < $scope.dc.spec.template.spec.containers.length; i++){
               var imagetag = 'image-'+$scope.dc.spec.template.spec.containers[i].name;
@@ -518,6 +490,7 @@ angular.module('console.service.detail', [
         };
         //执行log
         var updateRcs = function (data) {
+
           console.log('data.type',data.type);
           DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (dcdata) {
             $scope.dc = dcdata

@@ -354,12 +354,22 @@ define([
             })
             return configmaps;
         }])
+        .factory('listConfig', ['$resource', function($resource){
+            var listConfig = $resource('/api/v1/namespaces/:namespace/configmaps/:name',{namespace:'@namespace', name:'@name'}, {
+            })
+            return listConfig;
+        }])
         .factory('secretskey', ['$resource', function($resource){
             var secretskey = $resource('/api/v1/namespaces/:namespace/secrets/:name', {namespace:'@namespace',name:'@name'},{
                 create: {method:'POST'},
                 delete: {method:'DELETE'}
             })
             return secretskey;
+        }])
+        .factory('listSecret', ['$resource', function($resource){
+            var listSecret = $resource('/api/v1/namespaces/:namespace/secrets/:name', {namespace:'@namespace', name:'@name'}, {
+            })
+            return listSecret;
         }])
 });
 // http://registry.dataos.io/api/repositories/manifests?repo_name=library/alpine&tag=latest
