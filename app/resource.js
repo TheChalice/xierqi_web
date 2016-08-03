@@ -383,6 +383,12 @@ define([
             })
             return deleteSecret;
         }])
+        .factory('delSecret', ['$resource', function($resource){
+            var delSecret = $resource('/api/v1/namespaces/:namespace/secrets', {namespace:'@namespace'}, {
+                del: {method:'DELETE'}
+            })
+            return delSecret;
+        }])
 });
 // http://registry.dataos.io/api/repositories/manifests?repo_name=library/alpine&tag=latest
 // https://registry.dataos.io/api/projects?is_public=1
