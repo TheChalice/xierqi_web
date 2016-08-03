@@ -2,7 +2,7 @@
         <div class="panel panel-default" style="margin-bottom: 50px">
             <div class="panel-heading">
             <span class="panel-title">
-                <span class="icon25 configicon"></span>&nbsp;&nbsp;PVC Name
+                <span class="icon25 configicon"></span>&nbsp;&nbsp;{{item.metadata.name}}
             </span>
                 <a class="btn btn-gray pull-right" style=" padding: 5px 10px; margin-left: 15px; height:34px; width:36px" ng-click="delete()"><i class="fa fa-trash-o fa-lg"></i></a>
             </div>
@@ -15,7 +15,7 @@
                             </div>
                             <div class="media-body">
                                 <h4 class="media-heading">更新时间</h4>
-                                <small style="color: #5a6378;"></small>
+                                <small style="color: #5a6378;" uib-tooltip="{{item.metadata.creationTimestamp | timescon}}">{{item.metadata.creationTimestamp | dateRelative}}</small>
                             </div>
                         </div>
                     </div>

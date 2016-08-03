@@ -6,7 +6,10 @@ angular.module('console.config_detail', [
         ]
     }
 ])
-    .controller('configDetailCtrl', ['$state', '$http', '$scope', '$rootScope',
-        function($state, $http, $scope, $rootScope){
-
+    .controller('configDetailCtrl', ['$state', '$http', '$scope', '$rootScope', 'listConfig', '$stateParams',
+        function($state, $http, $scope, $rootScope, listConfig, $stateParams){
+            listConfig.get({namespace: $rootScope.namespace, name:$stateParams.name}, function(res){
+                console.log(res);
+                $scope.item = res;
+            })
         }]);
