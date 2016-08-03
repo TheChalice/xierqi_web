@@ -6,8 +6,8 @@ angular.module('console.secret_detail', [
             ]
         }
     ])
-    .controller('secretDetailCtrl', ['$state', '$http', '$scope', '$rootScope', 'listSecret', 'modifySecret', 'deleteSecret','$stateParams',
-        function($state, $http, $scope, $rootScope, listSecret, modifySecret, deleteSecret,$stateParams){
+    .controller('secretDetailCtrl', ['$state', '$http', '$scope', '$rootScope', 'listSecret', 'modifySecret', 'deleteSecret','$stateParams', 'delSecret',
+        function($state, $http, $scope, $rootScope, listSecret, modifySecret, deleteSecret,$stateParams, delSecret){
             $scope.gird = {
                 status: false
             }
@@ -52,8 +52,13 @@ angular.module('console.secret_detail', [
                     $scope.item.data[k] = Base64.encode(v);
                 }
                 modifySecret.update({namespace: $rootScope.namespace, name:$stateParams.name}, $scope.item,function(res){
-                    console.log('test the item', res)
+                    console.log('test the item', res);
                     Toast.open('保存成功')
+                })
+            }
+            $scope.delete = function(){
+                delSecret.del({namespace: $rootScope.namespace},function(){
+                   $state.go('console.resource_management', {index:3})
                 })
             }
         }]);
