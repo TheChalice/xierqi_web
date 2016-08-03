@@ -83,7 +83,7 @@ angular.module("console.header", [
                             }).error(function (data) {
                                 //console.log("Couldn't get inbox message", data)
                             });
-                            $rootScope.timer = setInterval(function () {
+                            $scope.timer = setInterval(function () {
                                 $http({
                                     url: '/lapi/inbox_stat',
                                     method: 'GET',
@@ -103,12 +103,14 @@ angular.module("console.header", [
                                 });
                             }, 100000)
                         } else {
-
-                            clearInterval($rootScope.timer);
+                            clearInterval($scope.timer);
                         }
 
 
-                    })
+                    });
+                    $scope.$on('$destroy', function(){
+                        clearInterval($scope.timer);
+                    });
                     $scope.createOrg = function () {
                         Addmodal.open('创建组织', '组织名称', '', '', 'org').then(function (res) {
                             orgList.get({}, function (org) {
@@ -170,15 +172,24 @@ angular.module("console.header", [
                             images[i] = new Image()
                             images[i].src = arguments[i]
                         }
-                    }
+                    };
+
                     preload(
+                        "components/sidebar/img/build-active.png",
+                        "components/sidebar/img/dashboard-active.png",
+                        "components/sidebar/img/deployment-active.png",
+                        "components/sidebar/img/make-active.png",
+                        "components/sidebar/img/repository-active.png",
+                        "components/sidebar/img/resource-active.png",
+                        "components/sidebar/img/service-active.png",
                         "pub/img/myimageh.png",
                         "pub/img/registimageh.png",
                         "pub/img/imagecenterh.png",
                         "pub/img/myimage.png",
                         "pub/img/registimage.png",
                         "pub/img/imagecenter.png"
-                    )
+                    );
+
                     $scope.hasBack = function () {
                         if ($state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name == "console.notification" || $state.current.name == "console.resource_management") {
                             return false
