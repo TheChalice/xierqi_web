@@ -19,18 +19,18 @@ angular.module('console.image', [
             if (condition.name === '') {
                 return items;
             }
-                angular.forEach(items, function (item) {
-                    if (condition.class === item.class) {
-                        filtered.push(item);
-                    }
-                });
+            angular.forEach(items, function (item) {
+                if (condition.class === item.class) {
+                    filtered.push(item);
+                }
+            });
             //console.log(filtered);
             return filtered;
 
         };
     })
-    .controller('ImageCtrl', ['$filter','$state', '$q', '$http', 'platform', '$rootScope', '$scope', '$log', 'ImageStreamTag', 'BuildConfig', 'Build', 'GLOBAL', 'Sort',
-        function ($filter,$state, $q, $http, platform, $rootScope, $scope, $log, ImageStreamTag, BuildConfig, Build, GLOBAL, Sort) {
+    .controller('ImageCtrl', ['$filter', '$state', '$q', '$http', 'platform', '$rootScope', '$scope', '$log', 'ImageStreamTag', 'BuildConfig', 'Build', 'GLOBAL', 'Sort',
+        function ($filter, $state, $q, $http, platform, $rootScope, $scope, $log, ImageStreamTag, BuildConfig, Build, GLOBAL, Sort) {
             // 数组去重
             console.log('$state', $state.params.index);
             if ($state.params.index) {
@@ -55,13 +55,17 @@ angular.module('console.image', [
                 return res;
             }
             // 分页对象
+            var end = $q.defer();
+            $scope.$on('$destroy', function(){
+                end.resolve();
+            });
             $scope.grid = {
                 page: 1,
                 repertoryspage: 1,
                 imagecenterpage: 1,
                 size: 8,
                 copytest: {},
-                search:false
+                search: false
             };
             // 存储commit id 和 分支,angular修改数组内元素属性不能触发刷新
             $scope.gitStore = {};
@@ -69,8 +73,8 @@ angular.module('console.image', [
             $scope.$watch('grid.page', function (newVal, oldVal) {
                 if (newVal != oldVal) {
                     if ($scope.grid.search) {
-                        refresh(newVal,'search');
-                    }else {
+                        refresh(newVal, 'search');
+                    } else {
                         refresh(newVal);
                     }
 
@@ -79,8 +83,8 @@ angular.module('console.image', [
             $scope.$watch('grid.repertoryspage', function (newVal, oldVal) {
                 if (newVal != oldVal) {
                     if ($scope.grid.search) {
-                        repertorysrefresh(newVal,'search');
-                    }else {
+                        repertorysrefresh(newVal, 'search');
+                    } else {
                         repertorysrefresh(newVal);
                     }
                 }
@@ -88,21 +92,21 @@ angular.module('console.image', [
             $scope.$watch('grid.imagecenterpage', function (newVal, oldVal) {
                 if (newVal != oldVal) {
                     if ($scope.grid.search) {
-                        imagecenterrefresh(newVal,'search');
-                    }else {
+                        imagecenterrefresh(newVal, 'search');
+                    } else {
                         imagecenterrefresh(newVal);
                     }
                 }
             });
             // myimage控制换页方法
-            var refresh = function (page,type) {
+            var refresh = function (page, type) {
                 var skip = (page - 1) * $scope.grid.size;
                 if (type) {
-                    $scope.grid.search=true;
+                    $scope.grid.search = true;
                     $scope.testlist = $scope.grid.myimagecopy.slice(skip, skip + $scope.grid.size);
                     //console.log($scope.grid.myimagecopy);
                     $scope.grid.total = $scope.grid.myimagecopy.length;
-                }else {
+                } else {
                     $scope.testlist = $scope.testcopy.slice(skip, skip + $scope.grid.size);
                     //console.log($scope.testcopy);
                     $scope.grid.total = $scope.testcopy.length;
@@ -110,13 +114,13 @@ angular.module('console.image', [
 
             };
             // regimage控制换页方法
-            var repertorysrefresh = function (page,type) {
+            var repertorysrefresh = function (page, type) {
                 var skip = (page - 1) * $scope.grid.size;
                 if (type) {
-                    $scope.grid.search=true;
+                    $scope.grid.search = true;
                     $scope.repertorys = $scope.grid.regimagecopy.slice(skip, skip + $scope.grid.size);
                     $scope.grid.repertorystotal = $scope.grid.regimagecopy.length;
-                }else {
+                } else {
                     $scope.repertorys = $scope.repertoryscopy.slice(skip, skip + $scope.grid.size);
                     $scope.grid.repertorystotal = $scope.repertoryscopy.length;
                 }
@@ -124,21 +128,20 @@ angular.module('console.image', [
                 //console.log('1212121212121212122',$scope.repertorys);
             };
             // imagecenter控制换页方法
-            var imagecenterrefresh = function (page,type) {
+            var imagecenterrefresh = function (page, type) {
                 //console.log(page);
                 var skip = (page - 1) * $scope.grid.size;
-                if (type=='tag') {
+                if (type == 'tag') {
                     $scope.imagecenter = $scope.typeimagecenter.slice(skip, skip + $scope.grid.size);
                     $scope.grid.imagecentertotal = $scope.typeimagecenter.length;
-                }else if(type=='search'){
-                    $scope.grid.search=true;
+                } else if (type == 'search') {
+                    $scope.grid.search = true;
                     $scope.imagecenter = $scope.grid.cenimagecopy.slice(skip, skip + $scope.grid.size);
                     $scope.grid.imagecentertotal = $scope.grid.cenimagecopy.length;
-                }else {
+                } else {
                     $scope.imagecenter = $scope.imagecentercopy.slice(skip, skip + $scope.grid.size);
                     $scope.grid.imagecentertotal = $scope.imagecentercopy.length;
                 }
-
 
 
                 //console.log('1212121212121212122',$scope.repertorys);
@@ -155,11 +158,11 @@ angular.module('console.image', [
             // 私有镜像平台键盘搜索
             $scope.search = function (key, txt) {
                 if (!txt) {
-                    $scope.grid.search=false;
+                    $scope.grid.search = false;
                     refresh(1);
                     return;
                 }
-                var imagearr=[];
+                var imagearr = [];
                 txt = txt.replace(/\//g, '\\/');
                 var reg = eval('/' + txt + '/');
                 for (var i = 0; i < $scope.testcopy.length; i++) {
@@ -167,21 +170,21 @@ angular.module('console.image', [
                         imagearr.push($scope.testcopy[i]);
                     }
                 }
-                $scope.testlist=imagearr;
-                $scope.grid.myimagecopy=angular.copy($scope.testlist);
-                refresh(1,'search');
+                $scope.testlist = imagearr;
+                $scope.grid.myimagecopy = angular.copy($scope.testlist);
+                refresh(1, 'search');
             };
 
             //共有镜像搜索
-            $scope.searchreg= function (key,txt,event) {
+            $scope.searchreg = function (key, txt, event) {
                 if (event) {
                     if (event.keyCode == 13) {
                         if (!txt) {
-                            $scope.grid.search=false;
+                            $scope.grid.search = false;
                             repertorysrefresh(1);
                             return;
                         }
-                        var imagearr=[];
+                        var imagearr = [];
                         txt = txt.replace(/\//g, '\\/');
                         var reg = eval('/' + txt + '/');
                         for (var i = 0; i < $scope.repertoryscopy.length; i++) {
@@ -189,17 +192,17 @@ angular.module('console.image', [
                                 imagearr.push($scope.repertoryscopy[i]);
                             }
                         }
-                        $scope.repertorys=imagearr;
-                        $scope.grid.regimagecopy=angular.copy($scope.repertorys);
-                        repertorysrefresh(1,'search');
+                        $scope.repertorys = imagearr;
+                        $scope.grid.regimagecopy = angular.copy($scope.repertorys);
+                        repertorysrefresh(1, 'search');
                     }
-                }else {
+                } else {
                     if (!txt) {
-                        $scope.grid.search=false;
+                        $scope.grid.search = false;
                         repertorysrefresh(1);
                         return;
                     }
-                    var imagearr=[];
+                    var imagearr = [];
                     txt = txt.replace(/\//g, '\\/');
                     var reg = eval('/' + txt + '/');
                     for (var i = 0; i < $scope.repertoryscopy.length; i++) {
@@ -207,22 +210,22 @@ angular.module('console.image', [
                             imagearr.push($scope.repertoryscopy[i]);
                         }
                     }
-                    $scope.repertorys=imagearr;
-                    $scope.grid.regimagecopy=angular.copy($scope.repertorys);
-                    repertorysrefresh(1,'search');
+                    $scope.repertorys = imagearr;
+                    $scope.grid.regimagecopy = angular.copy($scope.repertorys);
+                    repertorysrefresh(1, 'search');
                 }
             }
 
             //镜像中心搜索
-            $scope.imagecenterreg= function (key,txt,event) {
+            $scope.imagecenterreg = function (key, txt, event) {
                 if (event) {
                     if (event.keyCode == 13) {
                         if (!txt) {
-                            $scope.grid.search=false;
+                            $scope.grid.search = false;
                             imagecenterrefresh(1);
                             return;
                         }
-                        var imagearr=[];
+                        var imagearr = [];
                         txt = txt.replace(/\//g, '\\/');
                         var reg = eval('/' + txt + '/');
                         for (var i = 0; i < $scope.imagecentercopy.length; i++) {
@@ -231,17 +234,17 @@ angular.module('console.image', [
                             }
                         }
                         console.log(imagearr);
-                        $scope.imagecenter=imagearr;
-                        $scope.grid.cenimagecopy=angular.copy($scope.imagecenter);
-                        imagecenterrefresh(1,'search');
+                        $scope.imagecenter = imagearr;
+                        $scope.grid.cenimagecopy = angular.copy($scope.imagecenter);
+                        imagecenterrefresh(1, 'search');
                     }
-                }else {
+                } else {
                     if (!txt) {
-                        $scope.grid.search=false;
+                        $scope.grid.search = false;
                         imagecenterrefresh(1);
                         return;
                     }
-                    var imagearr=[];
+                    var imagearr = [];
                     txt = txt.replace(/\//g, '\\/');
                     var reg = eval('/' + txt + '/');
                     for (var i = 0; i < $scope.imagecentercopy.length; i++) {
@@ -249,9 +252,9 @@ angular.module('console.image', [
                             imagearr.push($scope.imagecentercopy[i]);
                         }
                     }
-                    $scope.imagecenter=imagearr;
-                    $scope.grid.cenimagecopy=angular.copy($scope.imagecenter);
-                    imagecenterrefresh(1,'search');
+                    $scope.imagecenter = imagearr;
+                    $scope.grid.cenimagecopy = angular.copy($scope.imagecenter);
+                    imagecenterrefresh(1, 'search');
                 }
             }
             // 平台公有镜像键盘搜索(api版)
@@ -378,6 +381,7 @@ angular.module('console.image', [
             // 请求共有镜像平台
             if ($rootScope.namespace.indexOf('org') == -1) {
                 $http.get('/registry/api/projects', {
+                    timeout:end.promise,
                     params: {is_public: 0}
                 }).success(function (data) {
                     $scope.newtext = data;
@@ -397,7 +401,9 @@ angular.module('console.image', [
                     //});
                     if (data) {
                         angular.forEach(data, function (repertory, i) {
-                            $http.get('/registry/api/repositories', {params: {project_id: repertory.project_id}})
+                            $http.get('/registry/api/repositories', {
+                                timeout:end.promise,
+                                params: {project_id: repertory.project_id}})
                                 .success(function (images) {
                                     $scope.tipnum += images.length
                                     //$scope.arr.push(datalis)
@@ -479,15 +485,18 @@ angular.module('console.image', [
                 });
             }
             //镜像中心
-            $scope.serviceper = [{name:'Datafoundry官方镜像',class:'df'},{name:'Docker官方镜像',class:'doc'}]
+            $scope.serviceper = [{name: 'Datafoundry官方镜像', class: 'df'}, {name: 'Docker官方镜像', class: 'doc'}]
 
             $scope.imagecenterDF = [];
             $scope.imagecenterDoc = [];
             var loaddf = function (fn) {
-                $http.get('/registry/api/repositories', {params: {project_id: 58}})
+                $http.get('/registry/api/repositories', {
+                    timeout:end.promise,
+                    params: {project_id: 58}})
                     .success(function (data) {
                         angular.forEach(data, function (item, i) {
                             $http.get('/registry/api/repositories/manifests', {
+                                    timeout:end.promise,
                                     params: {
                                         repo_name: item,
                                         tag: 'latest'
@@ -523,12 +532,13 @@ angular.module('console.image', [
                     })
             }
 
-            $http.get('/registry/api/repositories', {params: {project_id: 1}})
+            $http.get('/registry/api/repositories', {timeout:end.promise,params: {project_id: 1}})
                 .success(function (data) {
                     angular.forEach(data, function (item, i) {
                         //$http.get('/registry/api/repositories/tags', {params: {repo_name: item}})
                         //    .success(function (tags) {
                         $http.get('/registry/api/repositories/manifests', {
+                                timeout:end.promise,
                                 params: {
                                     repo_name: item,
                                     tag: 'latest'
@@ -578,7 +588,7 @@ angular.module('console.image', [
                         //})
                     })
                 })
-            $scope.isComplete='';
+            $scope.isComplete = '';
 
             $scope.selectsc = function (tp, key) {
                 if (!$scope.imagecentercopy) {
@@ -586,28 +596,28 @@ angular.module('console.image', [
                 }
                 //console.log(key);
                 if (key == 'doc') {
-                    $scope.isComplete={class:'doc'};
-                    $scope.imagecenter=$filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
+                    $scope.isComplete = {class: 'doc'};
+                    $scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
                     //console.log($scope.imagecenter);
-                    $scope.typeimagecenter=angular.copy($scope.imagecenter);
+                    $scope.typeimagecenter = angular.copy($scope.imagecenter);
                     $scope.grid.imagecentertotal = $scope.imagecenter.length;
                     //console.log($scope.imagecenter);
-                    imagecenterrefresh(1,'tag');
+                    imagecenterrefresh(1, 'tag');
                 } else {
-                    $scope.isComplete={class:'df'};
+                    $scope.isComplete = {class: 'df'};
                     //console.log($scope.imagecenter);
-                    $scope.imagecenter=$filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
+                    $scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
                     //console.log($scope.imagecenter);
-                    $scope.typeimagecenter=angular.copy($scope.imagecenter);
+                    $scope.typeimagecenter = angular.copy($scope.imagecenter);
                     $scope.grid.imagecentertotal = $scope.imagecenter.length;
                     //$scope.grid.imagecentertotal = $scope.imagecenter.length;
                     //imagecenterrefresh(1);
-                    imagecenterrefresh(1,'tag');
+                    imagecenterrefresh(1, 'tag');
                 }
                 if (key == $scope.grid[tp]) {
                     key = 'all';
-                    $scope.isComplete='';
-                    $scope.imagecenter=$filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
+                    $scope.isComplete = '';
+                    $scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
                     //console.log($scope.imagecenter);
                     $scope.grid.imagecentertotal = $scope.imagecenter.length;
                     imagecenterrefresh(1);

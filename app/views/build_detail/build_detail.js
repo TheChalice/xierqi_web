@@ -375,7 +375,7 @@ angular.module('console.build.detail', [
                     $scope.databuild.items.unshift(data.object);
 
                 } else if (data.type == "MODIFIED") {
-                    //todo  这种方式非常不好,尽快修改
+                    // 这种方式非常不好,尽快修改
                     angular.forEach($scope.databuild.items, function(item, i){
                         if (item.metadata.name == data.object.metadata.name) {
                             data.object.showLog = $scope.databuild.items[i].showLog;
