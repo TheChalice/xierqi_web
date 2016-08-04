@@ -5,8 +5,8 @@ angular.module('console.build_create_new', [
         ]
     }
 ])
-    .controller ('BuildcCtrl', ['$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch','labOwner','psgitlab','laborgs','labBranch','ImageStream', 'BuildConfig', 'Alert','$http', 'Cookie',
-        function($rootScope, $scope, $state, $log, Owner, Org, Branch,labOwner,psgitlab,laborgs,labBranch,ImageStream, BuildConfig, Alert, $http, Cookie) {
+    .controller ('BuildcCtrl', ['$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch','labOwner','psgitlab','laborgs','labBranch','ImageStream', 'BuildConfig', 'Alert','$http','Cookie','$base64', 'secretskey',
+        function($rootScope, $scope, $state, $log, Owner, Org, Branch,labOwner,psgitlab,laborgs,labBranch,ImageStream, BuildConfig, Alert, $http, Cookie, $base64, secretskey) {
         $scope.running = false;
 
         $scope.runninghub = false;
@@ -68,7 +68,20 @@ angular.module('console.build_create_new', [
 
         $scope.completionDeadlineMinutes = 30;
         var thisindex = 0;
-
+        var createBC = function(){
+                BuildConfig.create({namespace: $rootScope.namespace},$scope.buildConfig, function(res){
+                    $log.info("buildConfig",res);
+                    createBuild(res.metadata.name);
+                    $scope.creating = false;
+                }, function(res){
+                    $scope.creating = false;
+                    if (res.data.code == 409) {
+                        Alert.open('错误', "构建名称重复", true);
+                    } else {
+                        Alert.open('错误', res.data.message, true);
+                    }
+                });
+        }
         var createBuildConfig = function(labsecret) {
             if($scope.grid.ishide == false){
                 $scope.buildConfig.spec.completionDeadlineSeconds = $scope.completionDeadlineMinutes * 60;
@@ -78,6 +91,7 @@ angular.module('console.build_create_new', [
                 $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ":" + $scope.branch[$scope.grid.branch].name;
                 $scope.buildConfig.metadata.annotations.repo = $scope.usernames[$scope.grid.user].repos[$scope.grid.project].name;
                 $scope.buildConfig.metadata.annotations.user =  $scope.usernames[$scope.grid.user].login;
+                createBC();
             }else if($scope.grid.labcon == true){
                 $scope.buildConfig.spec.completionDeadlineSeconds = $scope.completionDeadlineMinutes * 60;
                 $scope.buildConfig.spec.source.git.ref = $scope.labBranchData.msg[$scope.grid.labbranch].name;
@@ -86,27 +100,22 @@ angular.module('console.build_create_new', [
                 $scope.buildConfig.spec.source.git.uri = $scope.labusername[$scope.grid.labusers].repos[$scope.grid.labproject].ssh_url_to_repo;
                 $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ":" + $scope.labBranchData.msg[$scope.grid.labbranch].name;
                 $scope.buildConfig.metadata.annotations.repo = $scope.labusername[$scope.grid.labusers].repos[$scope.grid.labproject].id.toString();
+                createBC();
             }else if($scope.grid.ishide == true && $scope.grid.labcon == false){
+
                 $scope.buildConfig.spec.completionDeadlineSeconds = $scope.completionDeadlineMinutes * 60;
                 $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ':latest';
                 $scope.buildConfig.spec.triggers = [];
-                //$scope.buildConfig.spec.source.git.uri = '';
-                //$scope.buildConfig.spec.source.sourceSecret.name = '';
-                delete $scope.buildConfig.spec.source['sourceSecret']
+                secretskey.create({namespace: $rootScope.namespace}, secret, function(item){
+                    $scope.buildConfig.spec.source.sourceSecret.name = secret.metadata.name;
+                    createBC();
+                },function(res){
+                    if(res.status==409){
+                        $scope.buildConfig.spec.source.sourceSecret.name = secret.metadata.name;
+                        createBC();
+                    }
+                })
             }
-
-            BuildConfig.create({namespace: $rootScope.namespace},$scope.buildConfig, function(res){
-                $log.info("buildConfig",res);
-                createBuild(res.metadata.name);
-                $scope.creating = false;
-            }, function(res){
-                $scope.creating = false;
-                if (res.data.code == 409) {
-                    Alert.open('错误', "构建名称重复", true);
-                } else {
-                    Alert.open('错误', res.data.message, true);
-                }
-            });
         };
         $scope.create = function() {
             $scope.creating = true;
@@ -476,5 +485,20 @@ angular.module('console.build_create_new', [
         $scope.loadlabOwner();
         $scope.loadOwner();
 
+            var baseun= $base64.encode($scope.gitUsername);
+            var basepwd = $base64.encode($scope.gitPwd);
+            var secret = {
+                "kind": "Secret",
+                "apiVersion": "v1",
+                "metadata": {
+                    "name": "custom-git-builder-"+$rootScope.user.metadata.name
+                },
+                "data": {
+                        username: baseun,
+                        password: basepwd
+
+                },
+                "type": "Opaque"
+            }
     }]);
 
