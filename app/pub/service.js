@@ -56,6 +56,26 @@ define(['angular'], function (angular) {
                 }
                 return errcode[code] || '内部错误，请通过DaoVoice联系管理员'
             }
+        }]) .service('by', ['$uibModal', function ($uibModal) {
+            this.open = function (name) {
+                return function (o, p) {
+                        var a, b;
+                        if (typeof o === "object" && typeof p === "object" && o && p) {
+                            a = o[name];
+                            b = p[name];
+                            if (a === b) {
+                                return 0;
+                            }
+                            if (typeof a === typeof b) {
+                                return a < b ? -1 : 1;
+                            }
+                            return typeof a < typeof b ? -1 : 1;
+                        } else {
+                            throw ("error");
+                        }
+                    }
+
+            }
         }])
         .service('by', ['$uibModal', function ($uibModal) {
             this.open= function (name) {
