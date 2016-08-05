@@ -358,9 +358,10 @@ define([
         return leave;
         }])
         .factory('configmaps', ['$resource', function($resource){
-            var configmaps = $resource('/api/v1/namespaces/:namespace/configmaps', {namespace:'@namespace'},{
+            var configmaps = $resource('/api/v1/namespaces/:namespace/configmaps/:name', {namespace:'@namespace', name:'@name'},{
                 create: {method:'POST'},
-                delete: {method:'DELETE'}
+                delete: {method:'DELETE'},
+                updata: {method:'PUT'}
             })
             return configmaps;
         }])
@@ -372,7 +373,8 @@ define([
         .factory('secretskey', ['$resource', function($resource){
             var secretskey = $resource('/api/v1/namespaces/:namespace/secrets/:name', {namespace:'@namespace',name:'@name'},{
                 create: {method:'POST'},
-                delete: {method:'DELETE'}
+                delete: {method:'DELETE'},
+                updata: {method:'PUT'}
             })
             return secretskey;
         }])

@@ -54,12 +54,16 @@ angular.module('console.create_constantly_volume', [
         var reader = new FileReader();
         reader.onload = function (e) {
             var content = e.target.result;
-            $scope.volume.configarr.push({key: thisfilename, value: content})
+            $scope.volume.configarr.push({key: thisfilename, value: content,showLog:false})
 
             $scope.$apply();
         };
         reader.readAsText(file);
     };
+
+    $scope.getLog= function (idx) {
+        $scope.volume.configarr[idx].showLog=!$scope.volume.configarr[idx].showLog
+    }
 
     $scope.deletekv = function (idx) {
         $scope.volume.configarr.splice(idx, 1);
@@ -86,7 +90,7 @@ angular.module('console.create_constantly_volume', [
                     if (!item.key || !item.value) {
                         $scope.grid.keynull = true;
                         kong = true;
-                    }else {
+                    } else {
                         if (arr[i] && arr[i + 1]) {
                             if (arr[i].key == arr[i + 1].key) {
                                 $scope.grid.keychongfu = true;
@@ -112,12 +116,15 @@ angular.module('console.create_constantly_volume', [
         }
 
     }, true);
+
     $scope.rmovekv = function (idx) {
         $scope.volume.configitems.splice(idx, 1);
     }
 
+    $scope.add = function () {
+        document.getElementById('file-input').addEventListener('change', readSingleFile, false);
+    }
 
-    document.getElementById('file-input').addEventListener('change', readSingleFile, false);
 
     $scope.delvolume = function (v, idx) {
         $scope.volume.data.length--
@@ -129,7 +136,7 @@ angular.module('console.create_constantly_volume', [
     /////手动配置
 
     $scope.addConfig = function () {
-        $scope.grid.configpost = false;
+
         $scope.volume.configitems.push({key: '', value: ''});
 
     }
@@ -143,6 +150,7 @@ angular.module('console.create_constantly_volume', [
 
 
         delete $scope.volume.configitems;
+        delete $scope.volume.configarr;
         configmaps.create({namespace: $rootScope.namespace}, $scope.volume, function (res) {
             console.log('createconfig----', res);
             $state.go('console.resource_management', {index: 2});
