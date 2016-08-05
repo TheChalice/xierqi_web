@@ -204,6 +204,7 @@ angular.module('console.secret_detail', [
                 }, $scope.item, function (res) {
                     console.log('test the item', res);
                     Toast.open('保存成功')
+                    $state.go('console.resource_management', {index: 3})
                 })
             }
             $scope.delete = function () {
