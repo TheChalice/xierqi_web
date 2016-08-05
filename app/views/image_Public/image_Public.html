@@ -4,14 +4,13 @@
     <!--</div>-->
     <div class="panel panel-default" style="margin-bottom: 50px">
         <div class="row">
-            <div class="" style="position: relative;margin-left: 15px;width: 13%;height: 125px;padding: 0;background-image:url(pub/img/box.png);background-position: center;background-repeat: no-repeat;float: left;">
-                <i class="star" style="position: absolute;bottom: 10px;right: 10px;" ng-class="{'active':checkeds}" ng-click="checkeds=!checkeds"></i>
+            <div class="" style="position: relative;border-right: 1px solid #c9c9c9;margin-left: 15px;width: 13%;height: 125px;padding: 0;background-color: #F8F9FB;background-image:url(pub/img/box.png);background-position: center;background-repeat: no-repeat;float: left;">
+                <!--<i class="star" style="position: absolute;bottom: 10px;right: 10px;" ng-class="{'active':checkeds}" ng-click="checkeds=!checkeds"></i>-->
             </div>
             <div class="col-sm-10" style="width: 85%;padding-left: 0;float: left;padding-right: 0;">
                 <div class="panel-heading">
             <span class="panel-title">
-                <span class="icon25 icon25-panel-repository">
-                </span>&nbsp;&nbsp;{{name}}
+                {{lastname}}
             </span>
                     <a class="btn pull-right btn-green"
                        ng-if="items.length>0"
@@ -27,7 +26,7 @@
                         <div class="col-sm-1-5">
                             <div class="media media-sm">
                                 <div class="media-left">
-                                    <i class="fa fa-clock-o fa-2x"></i>
+                                    <i class="fa creattime fa-2x"></i>
                                 </div>
                                 <div class="media-body">
                                     <h4 class="media-heading">创建时间</h4>
@@ -40,7 +39,7 @@
                         <div class="col-sm-1-5">
                             <div class="media media-sm">
                                 <div class="media-left">
-                                    <i class="fa creattime fa-2x"></i>
+                                    <i class="fa miaobiao fa-2x"></i>
                                 </div>
                                 <div class="media-body">
                                     <h4 class="media-heading">更新时间</h4>
@@ -83,7 +82,7 @@
                         <div class="col-sm-1-5">
                             <div class="media media-sm">
                                 <div class="media-left">
-                                    <i class="fa fa-flag-o fa-2x"></i>
+                                    <i class="fa qizi fa-2x"></i>
                                 </div>
                                 <div class="media-body">
                                     <h4 class="media-heading">版本数量</h4>
@@ -167,7 +166,23 @@
         display: inline-block;
         background: url("pub/img/pull.png")no-repeat;
     }
-
+    .qizi {
+        width: 26px;
+        height: 26px;
+        display: inline-block;
+        background: url("pub/img/qizi.png")no-repeat;
+    }
+    .miaobiao {
+        width: 26px;
+        height: 30px;
+        display: inline-block;
+        background: url("pub/img/miaobiao.png")no-repeat;
+    }
+    /*.maiqn{*/
+        /*margin-left:160px;*/
+        /*min-height:500px;*/
+        /*overflow:hidden;*/
+        /*[;margin-left:0;]!*safari hack*!}*/
     .star {
         display: inline-block;
         cursor: pointer;

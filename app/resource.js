@@ -216,6 +216,16 @@ define([
             });
             return Branch;
         }])
+        .factory('WebhookLabget', ['$resource', function($resource){
+            var WebhookLabget = $resource('/v1/repos/source/gitlab/webhooks?namespace=:namespace&build=:build',{namespace:'@namespace', build:'@build'}, {
+            });
+            return WebhookLabget;
+        }])
+        .factory('WebhookGitget', ['$resource', function($resource){
+            var WebhookGitget = $resource('/v1/repos/source/github/webhooks?namespace=:namespace&build=:build',{namespace:'@namespace', build:'@build'}, {
+            })
+            return WebhookGitget;
+        }])
         .factory('WebhookLab',['$resource', function($resource){
             var WebhookLab = $resource('/v1/repos/source/gitlab/webhooks',{}, {
                 check: {method: 'POST'}
@@ -348,9 +358,10 @@ define([
         return leave;
         }])
         .factory('configmaps', ['$resource', function($resource){
-            var configmaps = $resource('/api/v1/namespaces/:namespace/configmaps', {namespace:'@namespace'},{
+            var configmaps = $resource('/api/v1/namespaces/:namespace/configmaps/:name', {namespace:'@namespace', name:'@name'},{
                 create: {method:'POST'},
-                delete: {method:'DELETE'}
+                delete: {method:'DELETE'},
+                updata: {method:'PUT'}
             })
             return configmaps;
         }])
@@ -362,7 +373,8 @@ define([
         .factory('secretskey', ['$resource', function($resource){
             var secretskey = $resource('/api/v1/namespaces/:namespace/secrets/:name', {namespace:'@namespace',name:'@name'},{
                 create: {method:'POST'},
-                delete: {method:'DELETE'}
+                delete: {method:'DELETE'},
+                updata: {method:'PUT'}
             })
             return secretskey;
         }])
@@ -370,6 +382,24 @@ define([
             var listSecret = $resource('/api/v1/namespaces/:namespace/secrets/:name', {namespace:'@namespace', name:'@name'}, {
             })
             return listSecret;
+        }])
+        .factory('modifySecret', ['$resource', function($resource){
+            var modifySecret = $resource('/api/v1/namespaces/:namespace/secrets/:name', {namespace:'@namespace', name:'@name'}, {
+                update: {method:'PUT'}
+            })
+            return modifySecret;
+        }])
+        .factory('deleteSecret', ['$resource', function($resource){
+            var deleteSecret = $resource('/api/v1/namespaces/:namespace/secrets/:name', {namespace:'@namespace', name:'@name'}, {
+                delete: {method:'DELETE'}
+            })
+            return deleteSecret;
+        }])
+        .factory('delSecret', ['$resource', function($resource){
+            var delSecret = $resource('/api/v1/namespaces/:namespace/secrets', {namespace:'@namespace'}, {
+                del: {method:'DELETE'}
+            })
+            return delSecret;
         }])
         .factory('serviceaccounts', ['$resource', function($resource){
             var serviceaccounts = $resource('/api/v1/namespaces/:namespace/serviceaccounts/deployer', {namespace:'@namespace'}, {

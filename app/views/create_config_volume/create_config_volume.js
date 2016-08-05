@@ -3,7 +3,7 @@ angular.module('console.create_constantly_volume', [
     {
         files: []
     }
-]).controller('createfigvolumeCtrl', ['$state','$rootScope', '$scope', 'configmaps', function ($state,$rootScope, $scope, configmaps) {
+]).controller('createfigvolumeCtrl', ['$state', '$rootScope', '$scope', 'configmaps', function ($state, $rootScope, $scope, configmaps) {
     $scope.volume = {
         "kind": "ConfigMap",
         "apiVersion": "v1",
@@ -16,7 +16,10 @@ angular.module('console.create_constantly_volume', [
 
     }
     $scope.grid = {
-        configpost: false
+        configpost: false,
+        keychongfu: false,
+        keybuhefa: false,
+        keynull: false
     }
     var by = function (name) {
         return function (o, p) {
@@ -51,12 +54,16 @@ angular.module('console.create_constantly_volume', [
         var reader = new FileReader();
         reader.onload = function (e) {
             var content = e.target.result;
-            $scope.volume.configarr.push({key: thisfilename, value: content})
+            $scope.volume.configarr.push({key: thisfilename, value: content,showLog:false})
 
             $scope.$apply();
         };
         reader.readAsText(file);
     };
+
+    $scope.getLog= function (idx) {
+        $scope.volume.configarr[idx].showLog=!$scope.volume.configarr[idx].showLog
+    }
 
     $scope.deletekv = function (idx) {
         $scope.volume.configarr.splice(idx, 1);
@@ -65,55 +72,59 @@ angular.module('console.create_constantly_volume', [
     $scope.$watch('volume', function (n, o) {
         if (n == o) {
             return
-        } else {
-            //console.log(n);
-            if (n.metadata.name) {
-                if (n.configitems) {
-                    var arr = n.configitems.concat(n.configarr);
-                    arr.sort(by("key"));
-                }
+        }
+        //console.log(n);
+        $scope.grid.keychongfu = false;
+        $scope.grid.keynull = false;
+        $scope.grid.keybuhefa = false;
+        if (n.metadata.name && n.configitems) {
 
+            var arr = n.configitems.concat(n.configarr);
+            arr.sort(by("key"));
 
-                //console.log(arr);
+            if (arr && arr.length > 0) {
+                var kong = false;
+                var r = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
+                angular.forEach(arr, function (item, i) {
 
-                if (arr&&arr.length > 0) {
-                    var kong = false;
-                    var r = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
-
-                    angular.forEach(arr, function (item, i) {
+                    if (!item.key || !item.value) {
+                        $scope.grid.keynull = true;
+                        kong = true;
+                    } else {
                         if (arr[i] && arr[i + 1]) {
-
                             if (arr[i].key == arr[i + 1].key) {
+                                $scope.grid.keychongfu = true;
                                 kong = true;
                             }
                         }
                         if (!r.test(arr[i].key)) {
-                            console.log(arr[i].key);
+                            $scope.grid.keybuhefa = true;
                             kong = true;
                         }
-                        if (!item.key || !item.value) {
-                            kong = true;
-                        }
-                    });
-                    if (!kong) {
-                        $scope.grid.configpost = true
-                    } else {
-                        $scope.grid.configpost = false
                     }
+                });
+                if (!kong) {
+                    $scope.grid.configpost = true
                 } else {
                     $scope.grid.configpost = false
                 }
             } else {
                 $scope.grid.configpost = false
             }
+        } else {
+            $scope.grid.configpost = false
         }
+
     }, true);
+
     $scope.rmovekv = function (idx) {
         $scope.volume.configitems.splice(idx, 1);
     }
 
+    $scope.add = function () {
+        document.getElementById('file-input').addEventListener('change', readSingleFile, false);
+    }
 
-    document.getElementById('file-input').addEventListener('change', readSingleFile, false);
 
     $scope.delvolume = function (v, idx) {
         $scope.volume.data.length--
@@ -125,7 +136,7 @@ angular.module('console.create_constantly_volume', [
     /////手动配置
 
     $scope.addConfig = function () {
-        $scope.grid.configpost = false;
+
         $scope.volume.configitems.push({key: '', value: ''});
 
     }
@@ -136,11 +147,13 @@ angular.module('console.create_constantly_volume', [
         angular.forEach(arr, function (item, i) {
             $scope.volume.data[item.key] = item.value;
         })
-        delete $scope.volume.configarr;
+
+
         delete $scope.volume.configitems;
+        delete $scope.volume.configarr;
         configmaps.create({namespace: $rootScope.namespace}, $scope.volume, function (res) {
             console.log('createconfig----', res);
-            $state.go('console.resource_management',{index:2});
+            $state.go('console.resource_management', {index: 2});
             //$state.go('console.build_detail', {name: name, from: 'create'})
         })
     }

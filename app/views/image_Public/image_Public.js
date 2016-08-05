@@ -11,6 +11,7 @@ angular.module('console.image_Public', [
         function (ModalPullImage,$http,$state,$scope){
             //console.log($state.params.name);
             $scope.name=$state.params.name;
+            $scope.lastname=$state.params.name.split('/')[1];
             $scope.items=[]
             $http.get('/registry/api/repositories/tags', {params: {repo_name:$state.params.name}})
                 .success(function (tags) {

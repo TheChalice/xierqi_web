@@ -84,21 +84,16 @@
                             </div>
                         </tr>
                         <tr ng-repeat="items in pageitems">
-                            <td style="border-bottom: 1px solid #CCCCCC;">{{items.metadata.name}}</td>
+                            <td style="border-bottom: 1px solid #CCCCCC;">
+                                <a ui-sref="console.config_detail({name: items.metadata.name})" style="color:#f6a540">{{items.metadata.name}}</a>
+                                </td>
                             <td style="border-bottom: 1px solid #CCCCCC;"><span uib-tooltip="{{items.metadata.creationTimestamp  | timescon}}">{{items.metadata.creationTimestamp | dateRelative}} </span></td>
                         </tr>
                     </table>
                 </div>
             </div>
-            <div class="text-right" ng-if="grid.total > 10">
-                <uib-pagination class="pagination"
-                                ng-model="grid.page"
-                                total-items="grid.total"
-                                items-per-page="grid.size"
-                                class="pagination-sm"
-                                boundary-links="true"
-                                max-size="12"
-                                rotate="true"
+            <div class="text-right" ng-if="grid.total > 10" style="margin-top: 30px;">
+                <uib-pagination class="pagination pagination-sm" ng-model="grid.page" total-items="grid.total" items-per-page="grid.size" boundary-links="true" max-size="12" rotate="true"
                                 previous-text="上一页"
                                 next-text="下一页"
                                 first-text="首页"
@@ -146,8 +141,8 @@
                             </div>
                         </tr>
                         <tr ng-repeat="items in scretspageitems">
-                            <td style="border-bottom: 1px solid #CCCCCC;">
-                                <a ui-sref="console.secret_detail({name: items.metadata.name})">
+                            <td style="border-bottom: 1px solid #CCCCCC;" >
+                                <a class="listitem" ui-sref="console.secret_detail({name: items.metadata.name})" style="color:#f6a540">
                                     {{items.metadata.name}}
                                 </a>
                             </td>
@@ -156,15 +151,8 @@
                     </table>
                 </div>
             </div>
-            <div class="text-right" ng-if="secrets.total > 10">
-                <uib-pagination class="pagination"
-                                ng-model="secrets.page"
-                                total-items="secrets.total"
-                                items-per-page="secrets.size"
-                                class="pagination-sm"
-                                boundary-links="true"
-                                max-size="12"
-                                rotate="true"
+            <div class="text-right" ng-if="secrets.total > 10" style="margin-top: 30px;">
+                <uib-pagination class="pagination pagination-sm" ng-model="secrets.page" total-items="secrets.total" items-per-page="secrets.size" boundary-links="true" max-size="12" rotate="true"
                                 previous-text="上一页"
                                 next-text="下一页"
                                 first-text="首页"
@@ -173,4 +161,9 @@
             </div>
         </uib-tab>
     </uib-tabset>
+    <style>
+        .listitem:hover{
+            color: #e5993a;
+        }
+    </style>
 </div>
