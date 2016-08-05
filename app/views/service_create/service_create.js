@@ -8,8 +8,8 @@ angular.module('console.service.create', [
         ]
       }
     ])
-    .controller('ServiceCreateCtrl', ['Confirm', 'Toast', '$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service', 'ChooseSecret',
-      function (Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service, ChooseSecret) {
+    .controller('ServiceCreateCtrl', ['Confirm', 'Toast', '$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service', 'ChooseSecret','$base64','secretskey','serviceaccounts',
+      function (Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service, ChooseSecret,$base64,secretskey,serviceaccounts) {
         $log.info('ServiceCreate');
         $scope.checkEnv = false;
 
@@ -92,7 +92,9 @@ angular.module('console.service.create', [
           createdcerr : false,
           isserviceName: false,
           isimageChange: true,
-          servicenameerr : false
+          servicenameerr : false,
+          imagePullSecrets : false
+
 
         };
         // $scope.grid.host=$scope.dc.metadata.name
@@ -179,7 +181,15 @@ angular.module('console.service.create', [
             }
           }
         };
-
+        // 仓库镜像时需要先获取该数据添加到imagePullSecrets字段中
+        var getserviceaccounts = function(){
+          serviceaccounts.get({namespace:$rootScope.namespace},function(res){
+              $scope.serviceas = res
+              console.log('----------------------',res);
+          })
+        }
+        getserviceaccounts();
+        // 判断从镜像仓库跳转过来时属于哪种镜像
         var initContainer = function () {
           if ($stateParams.image) {
             // console.log("$stateParams.image", $stateParams.image);
@@ -200,9 +210,7 @@ angular.module('console.service.create', [
 
               // console.log($stateParams.image.metadata.name.split(':')[1]);
               container.tag=$stateParams.image.metadata.name.split(':')[1];
-              console.log($scope.dc.spec.template.spec.containers);
               container.strname=container.name=$stateParams.image.metadata.name.split(':')[0]
-              console.log($stateParams.image.metadata.name.split(':')[0]);
               container.ports = [];
               var exposedPorts = $stateParams.image.image.dockerImageMetadata.Config.ExposedPorts;
               if (!$stateParams.image.image.dockerImageMetadata.Config.ExposedPorts) {
@@ -238,6 +246,7 @@ angular.module('console.service.create', [
               $scope.dc.spec.template.spec.containers.push(container);
               $scope.invalid.containerLength = false;
             }else {
+              //  私有镜像
               if ($stateParams.image.indexOf('@')!= -1) {
                 console.log($stateParams.image)
                 var arr=$stateParams.image.split("@");
@@ -251,7 +260,17 @@ angular.module('console.service.create', [
                 container.isimageChange = true;
                 $scope.grid.isimageChange = true;
               } else {
+                // 公共镜像
                 var container = angular.copy($scope.containerTpl);
+                var arrtest = $stateParams.image.split(':');
+                if(arrtest.length > 2){
+                  $scope.grid.imagePullSecrets = true;
+                  $scope.dc.spec.template.spec.imagePullSecrets = [
+                    {
+                      "name": "registry-dockercfg-"+$rootScope.user.metadata.name
+                    }
+                  ]
+                }
                 container.image = 'registry.dataos.io/' + $stateParams.image.split(':')[0];
                 container.tag = $stateParams.image.split(':')[1];
                 container.strname = container.name = $stateParams.image.split(':')[0].replace('/', '-');
@@ -281,13 +300,13 @@ angular.module('console.service.create', [
           var o = $scope.pods.items[idx];
           ContainerModal.open(o);
         };
-
+        //  添加容器
         $scope.addContainer = function () {
           console.log("addContainer");
           $scope.dc.spec.template.spec.containers.push(angular.copy($scope.containerTpl));
           $scope.invalid.containerLength = false;
         };
-
+        // 删除容器
         $scope.rmContainer = function (idx) {
           console.log("rmContainer");
           $scope.dc.spec.template.spec.containers.splice(idx, 1);
@@ -297,6 +316,7 @@ angular.module('console.service.create', [
         $scope.addVolume = function(){
           ChooseSecret.open();
         }
+        //  挂载卷
         var loadSecrets = function () {
           Secret.get({namespace: $rootScope.namespace}, function (res) {
             $log.info("secrets", res);
@@ -308,6 +328,7 @@ angular.module('console.service.create', [
         };
         
         loadSecrets();
+        //  获取dc列表,用于在创建dc时验证dc名称是否重复
         var serviceNameArr = [];
         var loadDcList = function(){
           DeploymentConfig.get({namespace: $rootScope.namespace}, function(data){
@@ -321,7 +342,7 @@ angular.module('console.service.create', [
         }
 
         loadDcList();
-        
+        // 验证dc名称规范
         $scope.serviceNamekedown = function(){
             for(var i = 0; i < serviceNameArr.length;i++){
               if(serviceNameArr[i] == $scope.dc.metadata.name){
@@ -337,6 +358,7 @@ angular.module('console.service.create', [
             $scope.grid.createdcerr = false;
           }
         }
+        // 验证dc名称规范
         $scope.checknames = function(){
           var r = /^[a-z][-a-z0-9]*[a-z0-9]$/; // 不能以数字开头,有小写字母跟数字组成;
           if(!r.test($scope.dc.metadata.name)){
@@ -347,6 +369,7 @@ angular.module('console.service.create', [
             $scope.grid.servicenameerr = false;
           }
         }
+        // 获取后端服务列表
         var loadBsi = function (dc) {
           BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {
             $log.info("backingServiceInstance", res);
@@ -371,7 +394,7 @@ angular.module('console.service.create', [
         };
 
         loadBsi();
-
+        //   添加挂载卷
         $scope.addSecret = function (name, idx, last,hashKeys) {
           $log.info('$scope.dcdc.spec.template.spec.containers-=-=-=-=-=-=-=', $scope.dc.spec.template.spec.containers)
           var containers = $scope.dc.spec.template.spec.containers;
@@ -417,12 +440,12 @@ angular.module('console.service.create', [
         $scope.addEnv = function(){
           $scope.envs.push({name: '', value: ''});
         }
+        //// 选择镜像
         $scope.selectImage = function (idx) {
           var container = $scope.dc.spec.template.spec.containers[idx];
           var cons = $scope.dc.spec.template.spec.containers;
           ImageSelect.open().then(function (res) {
             console.log("imageStreamTag", res);
-            console.log('container', container)
             var imagetag = '';
             container.ports = [];
             if (container.ports.length == 0) {
@@ -434,13 +457,13 @@ angular.module('console.service.create', [
               })
             }
             if(res.ispublicimage){
+              /////公共镜像
               container.isimageChange = false;
               var str1 =  res.imagesname.split("/");
               var strname1 = str1[0]+'/'+str1[1];
               container.truename = strname1.replace('/', "-");
               container.image = 'registry.dataos.io/'+str1[0]+'/'+str1[1]+':'+str1[2];
               var olsname = strname1.replace('/', "-");
-              console.log(container.image)
               if (idx > 0) {
                 for(var i = 0 ; i < cons.length;i++){
                   if(cons[i].name == olsname){
@@ -452,11 +475,19 @@ angular.module('console.service.create', [
               container.name = strname1.replace('/', "-");
               container.tag = str1[2];
               imagetag = 'image-'+container.name;
+              ////仓库镜像
+              if(res.imagePullSecrets){
+                container.imagePullSecrets = true;
+              }else{
+                delete container["imagePullSecrets"];
+              }
               $scope.dc.metadata.annotations[imagetag] = str1[2];
 
             }else{
-              var dockerImageIP  = res.image.dockerImageReference.split('@');
+             // 私有镜像
+              //var dockerImageIP  = res.image.dockerImageReference.split('@');
               container.isimageChange = true;
+              delete container["imagePullSecrets"] ;
               var str = res.metadata.name.split(":");
               //container.image = dockerImageIP[0]+':'+str[1];
               container.image = res.image.dockerImageReference;
@@ -469,7 +500,6 @@ angular.module('console.service.create', [
                   }
                 }
               }
-              console.log("strwoshishui=0=0=0",str);
               container.strname = strname;
               container.name = strname;
               container.tag = str[1];
@@ -496,7 +526,6 @@ angular.module('console.service.create', [
                 }
               }
             }
-            console.log('$scope.dc.spec.template.spec-------------',$scope.dc)
             var conlength = $scope.dc.spec.template.spec.containers
             for(var i = 0 ;i < conlength.length;i++ ){
               if(conlength[i].isimageChange == false){
@@ -691,28 +720,11 @@ angular.module('console.service.create', [
             }
           });
         };
-
+        // 创建服务
         var createService = function (dc) {
 
           prepareService($scope.service, dc);
           var ps = [];
-          //var containers = dc.spec.template.spec.containers;
-          //
-          //for (var i = 0; i < containers.length; i++) {
-          //  var ports = containers[i].ports;
-          //  for (var j = 0; j < ports.length; j++) {
-          //    //if (!ports[j].open) {
-          //    //  continue;
-          //    //}
-          //    var val = ports[j].protocol.toUpperCase()
-          //    ps.push({
-          //      name: ports[j].hostPort + '-' + ports[j].protocol.toLowerCase(),
-          //      port: parseInt(ports[j].hostPort),
-          //      protocol: val,
-          //      targetPort: parseInt(ports[j].containerPort)
-          //    });
-          //  }
-          //}
           if ($scope.portsArr) {
             var ports =$scope.portsArr;
             for (var j = 0; j < ports.length; j++) {
@@ -796,7 +808,7 @@ angular.module('console.service.create', [
           route.spec.to.name = service.metadata.name;
           route.spec.port.targetPort = $scope.grid.port + '-tcp';
         };
-
+        // 创建路由
         var createRoute = function (service) {
           prepareRoute($scope.route, service);
 
@@ -833,6 +845,7 @@ angular.module('console.service.create', [
           }
           return true;
         };
+        //  删除同名服务,创建dc之前执行该方法
         var deleService = function(){
           Service.delete({namespace: $rootScope.namespace,name:$scope.dc.metadata.name}, function (res) {
               console.log("deleService-yes",res);
@@ -840,6 +853,7 @@ angular.module('console.service.create', [
               console.log("deleService-no",res);
           })
         }
+        //  删除同名路由,创建dc之前执行该方法
         var deleRoute = function(){
           Route.delete({namespace: $rootScope.namespace,name:$scope.dc.metadata.name}, function (res) {
             console.log("deleRoute-yes",res);
@@ -847,6 +861,8 @@ angular.module('console.service.create', [
             console.log("deleRoute-no",res);
           })
         }
+
+        // 创建dc
         $scope.createDc = function () {
           var i;
           for(i =0; i< $scope.envs.length; i++){
@@ -865,6 +881,7 @@ angular.module('console.service.create', [
 
           $rootScope.lding = true;
           var dc = angular.copy($scope.dc);
+          console.log('xiugaiDC--------------------------',dc);
           for(var i = 0 ;i < dc.spec.template.spec.containers.length;i++ ){
             if(dc.spec.template.spec.containers[i].isimageChange == false){
               $scope.grid.isimageChange = false;
@@ -958,12 +975,40 @@ angular.module('console.service.create', [
             if(clonedc.spec.template.spec.containers[i].env.length == 0){
               delete clonedc.spec.template.spec.containers[i]["env"];
             }
+            if(clonedc.spec.template.spec.containers[i].imagePullSecrets){
+              $scope.grid.imagePullSecrets = true;
+              var imgps = [
+                {
+                  "name": "registry-dockercfg-"+$rootScope.user.metadata.name
+                }
+              ]
+              clonedc.spec.template.spec.imagePullSecrets = imgps.concat($scope.serviceas.imagePullSecrets);
+              delete clonedc.spec.template.spec.containers[i]["imagePullSecrets"];
+            }
+          }
+          if($scope.grid.imagePullSecrets){
+            var nameandps = localStorage.getItem("Auth");
+            var newnameandps = $base64.decode(nameandps);
+            console.log('nameandps----------',nameandps);
+            var registryobjs = {
+              "registry.dataos.io": {
+                "auth": nameandps,
+                "email": "builder@registry.dataos.io",
+                "password": newnameandps.split(':')[1],
+                "username": newnameandps.split(':')[0]
+              }
+            }
+            registryobjs = JSON.stringify(registryobjs)
+            var isdockercfg = $base64.encode(registryobjs);
+          }else{
+            delete dc.spec.template.spec["imagePullSecrets"];
           }
           var arrimgstr = arrimgs.join();
           clonedc.metadata.annotations["imageorpublic"] = arrimgstr;
-          if($scope.grid.isimageChange == false){
+          if($scope.grid.isimageChange){
             clonedc.metadata.annotations["dadafoundry.io/images-from"] = 'private';
-            delete clonedc.spec.triggers[1];
+          }else{
+            clonedc.spec.triggers[0] = clonedc.spec.triggers[0];
           }
           var isport = false;
           for (var i = 0; i < $scope.portsArr.length; i++) {
@@ -978,28 +1023,47 @@ angular.module('console.service.create', [
           if ($scope.grid.route) {
             createRoute(dc);
           }
-          DeploymentConfig.create({namespace: $rootScope.namespace}, clonedc, function (res) {
-            $log.info("create dc success", res);
-            //var isport = false;
-            //if (isport) {
-            //  createService(dc);
-            //  bindService(dc);
-            //} else {
-            //  $state.go('console.service_detail', {name: dc.metadata.name});
-            //}
-            bindService(dc);
-            // Toast.open('初始化成功');
-            //Confirm.open("提示信息","初始化成功",null,144,true).then(function () {
-            //
-            //})
-            $state.go('console.service_detail', {name: dc.metadata.name});
-          }, function (res) {
-            //todo 错误处理
-            $log.info("create dc fail", res);
-            if(res.status == 409){
-             $scope.grid.createdcerr = true;
+          var createDcfn = function(){
+            DeploymentConfig.create({namespace: $rootScope.namespace}, clonedc, function (res) {
+              $log.info("create dc success", res);
+              bindService(dc);
+              $state.go('console.service_detail', {name: dc.metadata.name});
+            }, function (res) {
+              //todo 错误处理
+              $log.info("create dc fail", res);
+              if(res.status == 409){
+                $scope.grid.createdcerr = true;
+              }
+            });
+          }
+          console.log('$scope.grid.imagePullSecrets-----',$scope.grid.imagePullSecrets)
+          if($scope.grid.imagePullSecrets){
+            var secretsobj = {
+              "kind": "Secret",
+              "apiVersion": "v1",
+              "metadata": {
+                "name": "registry-dockercfg-"+$rootScope.user.metadata.name
+              },
+              "data": {
+                ".dockercfg": isdockercfg
+
+              },
+              "type": "kubernetes.io/dockercfg"
+
             }
-          });
+
+            secretskey.create({namespace: $rootScope.namespace},secretsobj, function (res) {
+              createDcfn();
+            },function(res){
+              if(res.status == 409){
+                createDcfn();
+              }
+            })
+          }else{
+            createDcfn();
+          }
+
+
         };
       }]);
 

@@ -375,7 +375,7 @@ angular.module('console.image', [
             //}
 
 
-            // 请求共有镜像平台
+            // 请求共有镜像平台   仓库镜像
             if ($rootScope.namespace.indexOf('org') == -1) {
                 $http.get('/registry/api/projects', {
                     params: {is_public: 0}

@@ -213,6 +213,9 @@ define(['angular'], function (angular) {
               $scope.test = {
                 'items':[]
               };
+              $scope.imgcon = {
+                items : []
+              }
               $scope.$watch('imageName', function (newVal, oldVal) {
                 if (newVal != oldVal) {
                   newVal = newVal.replace(/\\/g);
@@ -256,7 +259,7 @@ define(['angular'], function (angular) {
                   })
                 }else if(idx == 1){
                   $http.get('/registry/api/projects', {
-                    params: {is_public: 1}
+                    params: {is_public: 0}
                   }).success(function (data) {
                     for(var i = 0 ; i < data.length; i++){
                       $http.get('/registry/api/repositories', {params: {project_id:data[i].project_id}})
@@ -274,6 +277,25 @@ define(['angular'], function (angular) {
                     }
 
                   })
+                }else if(idx == 2){
+                  //////镜像中心
+                  $http.get('/registry/api/repositories', {params: {project_id: 1}})
+                      .success(function (data) {
+                           var arr2 = data;
+                           $http.get('/registry/api/repositories', {params: {project_id: 58}})
+                                 .success(function (msg) {
+                                   arr2 = arr2.concat(msg);
+                                   for(var j = 0 ; j < arr2.length; j++ ){
+                                     var str2 = {
+                                       'name' : arr2[j]
+                                     }
+                                     $scope.imgcon.items.push(str2);
+                                   }
+                                   $scope.images = $scope.imgcon ;
+                            })
+                      })
+                  $scope.images = $scope.imgcon
+                  console.log(' $scope.imgcon $scope.imgcon $scope.imgcon', $scope.imgcon)
                 }
               };
               $scope.selectImage = function (idx) {
@@ -308,13 +330,33 @@ define(['angular'], function (angular) {
                         'items' : data,
                         'ist' : {
                           'imagesname' :$scope.test.items[idx].name+'/'+data[i],
-                          'ispublicimage' : true
+                          'ispublicimage' : true,
+                          imagePullSecrets : true
                         }
                       };
                       $scope.test.items[idx].status.tags.push(test2)
                     }
                     $scope.imageTags = $scope.test.items[idx].status.tags;
                   })
+                }else if($scope.grid.cat == 2){
+                  $scope.grid.image = idx;
+                  $http.get('/registry/api/repositories/tags', {params: {repo_name:$scope.imgcon.items[idx].name}})
+                      .success(function (tagmsg) {
+                        $scope.imgcon.items[idx].status = {};
+                        $scope.imgcon.items[idx].status.tags = [];
+                        for(var i = 0 ; i < tagmsg.length; i++){
+                          var tagmsgobj = {
+                            'tag' : tagmsg[i],
+                            'items' : tagmsg,
+                            'ist' : {
+                              'imagesname' :$scope.imgcon.items[idx].name+'/'+tagmsg[i],
+                              'ispublicimage' : true,
+                            }
+                          };
+                          $scope.imgcon.items[idx].status.tags.push(tagmsgobj)
+                        }
+                        $scope.imageTags = $scope.imgcon.items[idx].status.tags;
+                      });
                 }
               };
 
