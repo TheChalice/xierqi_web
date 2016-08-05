@@ -238,67 +238,6 @@ define(['angular'], function (angular) {
             };
         }])
         .service('ImageSelect', ['$uibModal', function ($uibModal) {
-            this.open = function () {
-                return $uibModal.open({
-                    templateUrl: 'pub/tpl/modal_choose_image.html',
-                    size: 'default modal-lg',
-                    controller: ['$rootScope', '$scope', '$uibModalInstance', 'images', 'ImageStreamTag', 'ImageStream', '$http', 'platformlist', function ($rootScope, $scope, $uibModalInstance, images, ImageStreamTag, ImageStream, $http, platformlist) {
-                        console.log('images', images);
-                        $scope.grid = {
-                            cat: 0,
-                            image: null,
-                            version_x: null,
-                            version_y: null
-                        };
-                        $scope.test = {
-                            'items': []
-                        };
-                        $scope.$watch('imageName', function (newVal, oldVal) {
-                            if (newVal != oldVal) {
-                                newVal = newVal.replace(/\\/g);
-                                if ($scope.grid.cat == 0) {
-                                    angular.forEach($scope.images.items, function (image) {
-                                        image.hide = !(new RegExp(newVal)).test(image.metadata.name);
-                                    });
-                                } else {
-                                    angular.forEach($scope.images.items, function (image) {
-                                        image.hide = !(new RegExp(newVal)).test(image.name);
-                                    });
-                                }
-                            }
-                        });
-                        $scope.$watch('imageVersion', function (newVal, oldVal) {
-                            if (newVal != oldVal) {
-                                newVal = newVal.replace(/\\/g);
-                                if ($scope.grid.cat == 0) {
-                                    angular.forEach($scope.imageTags, function (item, i) {
-                                        item.hide = !(new RegExp(newVal)).test(item.tag);
-                                    });
-                                } else {
-                                    angular.forEach($scope.imageTags, function (item, i) {
-                                        item.hide = !(new RegExp(newVal)).test(item.tag);
-                                    });
-                                }
-              } else {
-                $scope.name = name;
-              }
-              $scope.cmd = 'docker pull registry.dataos.io/' + $scope.name;
-              $scope.cancel = function () {
-                $uibModalInstance.dismiss();
-              };
-              $scope.success = function () {
-                $log.info('Copied!');
-                $uibModalInstance.close(true);
-              };
-              $scope.fail = function (err) {
-                $scope.tip = '该浏览器不支持复制,请手动选中输入框中内容,通过Ctrl+c复制';
-                $log.error('Error!', err);
-              };
-            }]
-          }).result;
-        };
-      }])
-      .service('ImageSelect', ['$uibModal', function ($uibModal) {
         this.open = function () {
           return $uibModal.open({
             templateUrl: 'pub/tpl/modal_choose_image.html',
