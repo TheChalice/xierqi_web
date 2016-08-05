@@ -104,10 +104,12 @@ angular.module('console.secret_detail', [
             listSecret.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (res) {
                 $scope.item = res;
                 $scope.item.secretarr = [];
+                $scope.item.newarr = [];
+
                 //$scope.item.change = false;
                 $scope.change = false;
                 angular.forEach(res.data, function (res, i) {
-                    $scope.item.secretarr.push({key: i, value: res});
+                    $scope.item.secretarr.push({key: i, value: res,showLog:false});
                 });
                 //console.log($scope.item.secretarr);
             })
@@ -115,7 +117,7 @@ angular.module('console.secret_detail', [
                 $scope.item.secretarr[idx].showLog=!$scope.item.secretarr[idx].showLog;
             }
             $scope.addSecret = function () {
-                $scope.item.secretarr.push({key: '', value: ''});
+                $scope.item.newarr.push({key: '', value: ''});
                 //$scope.item.newarr.push({key: '', value: ''});
             }
 
@@ -133,8 +135,9 @@ angular.module('console.secret_detail', [
                     $scope.grid.keychongfu = false;
                     $scope.grid.keynull = false;
                     $scope.grid.keybuhefa = false;
-                    if (n.secretarr) {
-                        var arr = angular.copy(n.secretarr);
+                    if (n.secretarr.length>0||n.newarr.length>0) {
+                        var arr = n.secretarr.concat(n.newarr);
+                        //var arr = angular.copy(n.secretarr);
                         //console.log(arr);
                         arr.sort(by.open("key"));
                         angular.forEach(arr, function (item, i) {
@@ -159,13 +162,23 @@ angular.module('console.secret_detail', [
                         } else {
                             $scope.grid.status = false
                         }
+                    }else {
+                        $scope.grid.status = false
                     }
 
                 }
 
-            }, true)
-            $scope.rmsecret = function (idx) {
+            }, true);
+            $scope.getLog= function (idx) {
+                console.log($scope.item.secretarr[idx].showLog);
+                $scope.item.secretarr[idx].showLog=!$scope.item.secretarr[idx].showLog
+            }
+
+            $scope.deletekv = function (idx) {
                 $scope.item.secretarr.splice(idx, 1);
+            };
+            $scope.rmsecret = function (idx) {
+                $scope.item.newarr.splice(idx, 1);
                 //deleteSecret.delete({namespace: $rootScope.namespace, name:$stateParams.name},function(){
                 //    $scope.secretarr.splice(idx,1);
                 //    //if($scope.secretarr.length <= 0){
@@ -193,10 +206,17 @@ angular.module('console.secret_detail', [
                 //    $scope.item.data[k] = Base64.encode(v);
                 //}
                 $scope.item.data={}
-                angular.forEach($scope.item.secretarr, function (item,i) {
+                if ($scope.item.secretarr) {
+                    var arr = $scope.item.secretarr.concat($scope.item.newarr);
+                }else {
+                    var arr = $scope.item.newarr.concat($scope.item.secretarr);
+                }
+                //var arr = $scope.item.secretarr.concat($scope.item.newarr);
+                angular.forEach(arr, function (item,i) {
                     $scope.item.data[item.key] = Base64.encode(item.value);
                 });
                 delete $scope.item.secretarr;
+                delete $scope.item.newarr;
                 modifySecret.update({
                     namespace: $rootScope.namespace,
                     name: $stateParams.name
