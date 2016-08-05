@@ -68,8 +68,8 @@
                         <div class="container-fluid">
                             <div class="row">
                                 <div class="col-sm-2">
-                        <span class="icon12 icon12-{{item.status.phase}}"
-                              ng-class="{'fa-spin': item.status.phase == 'Running' || item.status.phase == 'Pending'}"></span>
+                                    <span class="icon12 icon12-{{item.status.phase}}"
+                                    ng-class="{'fa-spin': item.status.phase == 'Running' || item.status.phase == 'Pending'}"></span>
                                     <!--switch to Chinese-->
                                     {{item.status.phase | phaseFilter}}
                                 </div>
@@ -84,9 +84,7 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
-                        <span>
-                            构建时长:{{item.status.duration | duration}}
-                        </span>
+                                    <span>构建时长:{{item.status.duration | duration}}</span>
                                 </div>
                                 <div class="col-sm-3 text-right">
                                     <a ng-if="item.status.phase == 'Complete'"

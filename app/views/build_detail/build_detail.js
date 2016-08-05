@@ -8,12 +8,12 @@ angular.module('console.build.detail', [
             ]
         }
     ])
-    .controller('BuildDetailCtrl', ['Ws', 'Sort', 'GLOBAL', '$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'UUID', 'WebhookLab', 'WebhookHub', 'WebhookLabDel', 'WebhookHubDel', 'ImageStream'
-        , function (Ws, Sort, GLOBAL, $rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, UUID, WebhookLab, WebhookHub, WebhookLabDel, WebhookHubDel, ImageStream) {
+    .controller('BuildDetailCtrl', ['Ws', 'Sort', 'GLOBAL', '$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'UUID', 'WebhookLab', 'WebhookHub', 'WebhookLabDel', 'WebhookHubDel', 'ImageStream', 'WebhookLabget', 'WebhookGitget'
+        , function (Ws, Sort, GLOBAL, $rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, UUID, WebhookLab, WebhookHub, WebhookLabDel, WebhookHubDel, ImageStream, WebhookLabget, WebhookGitget) {
             $scope.grid = {};
 
             //console.log('路由',$state);
-            $scope.grid.checked = false;
+            //$scope.grid.checked = false;
 
             $scope.bcName = $stateParams.name;
 
@@ -26,6 +26,7 @@ angular.module('console.build.detail', [
                     $log.info('data', data);
                     //$log.info('labsecrect is',data.spec.source.sourceSecret.name);
                     $scope.data = data;
+                    var host = $scope.data.spec.source.git.uri;
                     if (data.spec.source.git.uri.split(':')[0] == 'ssh') {
                         var host = data.spec.source.git.uri.replace('git@', '').replace('.git', '');
 
@@ -64,6 +65,8 @@ angular.module('console.build.detail', [
                         //$scope.grid.checked = 'start';
                         //$scope.grid.checkedLocal = true;
                     }
+                    checkWebStatus();
+
                 }, function (res) {
                     //错误处理
                 });
@@ -195,13 +198,32 @@ angular.module('console.build.detail', [
                     }
                 }
             };
-
-            var createWebhook = function () {
+            var checkWebStatus = function(){
+                var host = $scope.data.spec.source.git.uri;
+                if (getSourceHost(host) === 'github.com') {
+                    WebhookGitget.get({namespace: $rootScope.namespace, build: $stateParams.name}, function (item) {
+                        if (item.code == 1404) {
+                            $scope.grid.checked = false;
+                        } else {
+                            $scope.grid.checked = true;
+                        }
+                    })
+                } else{
+                    WebhookLabget.get({namespace: $rootScope.namespace, build: $stateParams.name},function(res){
+                        if(res.code == 1404){
+                            $scope.grid.checked = false;
+                        }else{
+                            $scope.grid.checked = true;
+                        }
+                    });
+                }
+            }
+            var createWebhook = function(){
                 var host = $scope.data.spec.source.git.uri;
                 var triggers = $scope.data.spec.triggers;
                 var config = getConfig(triggers);
                 if ($scope.grid.checked) {
-                    if (getSourceHost(host) === 'github.com') {
+                    if (getSourceHost(host)==='github.com') {
                         //$log.info("user is", $scope.data.metadata.annotations.user);
                         WebhookHub.check({
                             host: 'https://github.com',
@@ -209,9 +231,8 @@ angular.module('console.build.detail', [
                             build: $stateParams.name,
                             user: $scope.data.metadata.annotations.user,
                             repo: $scope.data.metadata.annotations.repo,
-                            spec: {events: ['push', 'pull_request', 'status'], config: {url: config}}
+                            spec: {events: ['push', 'pull_request', 'status'],config: {url:config}}
                         }, function (item) {
-
                         });
                     } else {
                         WebhookLab.check({
@@ -227,19 +248,19 @@ angular.module('console.build.detail', [
                 }
             };
 
-            var deleteWebhook = function () {
+            var deleteWebhook = function(){
                 var host = $scope.data.spec.source.git.uri;
                 if (!$scope.grid.checked) {
-                    if (getSourceHost(host) === 'github.com') {
+                    if (getSourceHost(host)==='github.com'){
                         WebhookHubDel.del({
                             namespace: $rootScope.namespace,
                             build: $stateParams.name,
                             user: $scope.data.metadata.annotations.user,
                             repo: $scope.data.metadata.annotations.repo
-                        }, function (item1) {
+                        },function(item1) {
 
                         })
-                    } else {
+                    }else{
                         WebhookLabDel.del({
                             host: 'https://code.dataos.io',
                             namespace: $rootScope.namespace,
@@ -254,15 +275,6 @@ angular.module('console.build.detail', [
 
             $scope.isshow = true;
             $scope.gitStore = {};
-
-            //$scope.$on('timeline', function(e, type, data){
-            //    $scope.databuild.items = $scope.databuild.items || [];
-            //    //console.log("type", type, "data", data);
-            //    if (type == 'add') {
-            //        data.showLog = true;
-            //        $scope.databuild.items.unshift(data);
-            //    }
-            //});
 
             //获取build记录
             var loadBuildHistory = function (name) {
@@ -516,5 +528,6 @@ angular.module('console.build.detail', [
             $scope.$on('$destroy', function () {
                 Ws.clear();
             });
+
         }]);
 
