@@ -216,6 +216,16 @@ define([
             });
             return Branch;
         }])
+        .factory('WebhookLabget', ['$resource', function($resource){
+            var WebhookLabget = $resource('/v1/repos/source/gitlab/webhooks?namespace=:namespace&build=:build',{namespace:'@namespace', build:'@build'}, {
+            });
+            return WebhookLabget;
+        }])
+        .factory('WebhookGitget', ['$resource', function($resource){
+            var WebhookGitget = $resource('/v1/repos/source/github/webhooks?namespace=:namespace&build=:build',{namespace:'@namespace', build:'@build'}, {
+            })
+            return WebhookGitget;
+        }])
         .factory('WebhookLab',['$resource', function($resource){
             var WebhookLab = $resource('/v1/repos/source/gitlab/webhooks',{}, {
                 check: {method: 'POST'}
