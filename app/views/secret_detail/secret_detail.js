@@ -103,19 +103,18 @@ angular.module('console.secret_detail', [
             //list the detail of current secret
             listSecret.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (res) {
                 $scope.item = res;
-
                 $scope.item.secretarr = [];
                 //$scope.item.change = false;
                 $scope.change = false;
                 angular.forEach(res.data, function (res, i) {
                     $scope.item.secretarr.push({key: i, value: res});
                 });
-
-
                 //console.log($scope.item.secretarr);
             })
+            $scope.getLog= function (idx) {
+                $scope.item.secretarr[idx].showLog=!$scope.item.secretarr[idx].showLog;
+            }
             $scope.addSecret = function () {
-
                 $scope.item.secretarr.push({key: '', value: ''});
                 //$scope.item.newarr.push({key: '', value: ''});
             }
