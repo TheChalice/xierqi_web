@@ -419,7 +419,7 @@ define([
             return serviceaccounts;
         }])
         .factory('volume', ['$resource', function($resource){
-            var volume = $resource('/lapi/v1/namespaces/{namespace}/volumes', {namespace:'@namespace'}, {
+            var volume = $resource('/lapi/v1/namespaces/:namespace/volumes', {namespace:'@namespace'}, {
                 create: {method:'POST'}
             })
             return volume;
