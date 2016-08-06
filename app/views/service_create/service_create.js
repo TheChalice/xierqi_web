@@ -313,21 +313,6 @@ angular.module('console.service.create', [
           isConflict();
         };
 
-        $scope.addVolume = function(){
-          ChooseSecret.open();
-        }
-        //  挂载卷
-        var loadSecrets = function () {
-          Secret.get({namespace: $rootScope.namespace}, function (res) {
-            $log.info("secrets", res);
-
-            $scope.secrets = res;
-          }, function (res) {
-            $log.info("load secrets err", res);
-          });
-        };
-        
-        loadSecrets();
         //  获取dc列表,用于在创建dc时验证dc名称是否重复
         var serviceNameArr = [];
         var loadDcList = function(){
@@ -394,7 +379,56 @@ angular.module('console.service.create', [
         };
 
         loadBsi();
+
+        //////获取密钥列表
+        //var loadsecretsList = function(){
+        //  secretskey.get({namespace:$rootScope.namespace},function(res){
+        //    console.log('-------loadsecrets',res);
+        //    if(res.items){
+        //        $scope.loadsecretsitems = res.items;
+        //    }
+        //  })
+        //}
+        //loadsecretsList();
         //   添加挂载卷
+
+
+
+        var cintainersidx;
+        $scope.addVolume = function(idx){
+        var olength = $scope.dc.spec.template.spec.volumes.length;
+          cintainersidx = idx;
+          ChooseSecret.open(olength,cintainersidx).then(function (volumesobj) {
+            console.log('------------------------',volumesobj);
+
+          });
+        }
+        //  挂载卷
+        //$scope.secretarr = [];
+        //$scope.configmap = [];
+        //$scope.addsecretarr = function(){
+        //  alert(1);
+        //  $scope.secretarr.push({
+        //    "myname": "",
+        //    "secret": {
+        //    "secretName":$scope.testname
+        //    },
+        //    mountPath : '22222'
+        //  });
+        //}
+        //$scope.addconfigmap = function(){
+        //
+        //}
+        var loadSecrets = function () {
+          Secret.get({namespace: $rootScope.namespace}, function (res) {
+            $log.info("secrets", res);
+
+            $scope.secrets = res;
+          }, function (res) {
+            $log.info("load secrets err", res);
+          });
+        };
+        loadSecrets();
         $scope.addSecret = function (name, idx, last,hashKeys) {
           $log.info('$scope.dcdc.spec.template.spec.containers-=-=-=-=-=-=-=', $scope.dc.spec.template.spec.containers)
           var containers = $scope.dc.spec.template.spec.containers;
@@ -414,6 +448,23 @@ angular.module('console.service.create', [
             container.volumeMounts.splice(idx, 1);
           }
         };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         //$scope.addEnv = function (name, idx, last) {
         //  if (last) {     //添加

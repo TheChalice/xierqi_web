@@ -198,14 +198,101 @@ define(['angular'], function (angular) {
             }
         }])
         .service('ChooseSecret', ['$uibModal', function ($uibModal) {
-            this.open = function () {
+            this.open = function (olength,cintainersidx) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/choosSecret.html',
                     size: 'default',
-                    controller: ['$scope', '$uibModalInstance', '$log', function ($scope, $uibModalInstance, $log) {
+                    controller: ['$scope', '$uibModalInstance', '$log','secretskey', '$rootScope','configmaps',function ($scope, $uibModalInstance, $log,secretskey,$rootScope,configmaps) {
+                        $scope.secretarr = [];
+                        $scope.configmap = [];
+                        //$scope.outerIndex;
+                        $scope.$watch('testname',function(n,o){
+                            console.log('==================nnnnnn',n);
+                        })
+                        $scope.addsecretarr = function(){
+                            $scope.secretarr.push({
+                                "myname": "",
+                                "secret": {
+                                    "secretName":'名称'
+                                },
+                                mountPath : ''
+                            });
+                        }
+                        $scope.changesecrename = function(idx,val){
+                            $scope.secretarr[idx].secret.secretName = val
+                        }
+                        ////获取密钥列表
+                        var loadsecretsList = function(){
+                            secretskey.get({namespace:$rootScope.namespace},function(res){
+                                console.log('-------loadsecrets',res);
+                                if(res.items){
+                                    $scope.loadsecretsitems = res.items;
+                                }
+                            })
+                        }
+                        loadsecretsList();
 
+                        //////配置卷
+                        ///获取配置卷列表////
+                        var loadconfigmaps = function(){
+                            configmaps.get({namespace: $rootScope.namespace},function(res){
+                                if(res.items){
+                                    $scope.configmapitem = res.items;
+                                }
+                            })
+                        }
+                        loadconfigmaps();
+                        $scope.addconfigmap = function(){
+                            $scope.configmap.push({
+                                "myname": "",
+                                "configMap": {
+                                    "name":'名称'
+                                },
+                                mountPath : ''
+                            });
+                        }
+                        $scope.changeconfigname = function(idx,val){
+                            $scope.configmap[idx].configMap.name = val
+                        }
+                        ///  确定选择所选挂载卷
+                        $scope.ok = function(){
+                            var thisvolumes = [];
+                            var thisvolumeMounts = [];
+                            for(var i = 0 ; i < $scope.secretarr.length; i++ ){
+                                var volumeval =  {
+                                    "name": "volumes"+(i+olength),
+                                        "secret": {
+                                    "secretName": $scope.secretarr[i].secret.secretName
+                                     }
+
+                                }
+                                var mountsval =  {
+                                    "name": "volumes"+(i+olength),
+                                    "mountPath": $scope.secretarr[i].mountPath
+                                }
+                                thisvolumes.push(volumeval);
+                                thisvolumeMounts.push(mountsval)
+                            }
+                            for(var j = 0 ; j < $scope.configmap.length; j++ ){
+                                var volumeval =  {
+                                    "name": "volumes"+(j+olength+$scope.secretarr.length),
+                                    "configMap": {
+                                        "name": $scope.configmap[j].configMap.name
+                                    }
+
+                                }
+                                var mountsval =  {
+                                    "name": "volumes"+(j+olength+$scope.secretarr.length),
+                                    "mountPath": $scope.configmap[j].mountPath
+                                }
+                                thisvolumes.push(volumeval);
+                                thisvolumeMounts.push(mountsval);
+                            }
+
+                            $uibModalInstance.close({arr1:thisvolumes,arr2:thisvolumeMounts});
+                        }
                     }]
-                })
+                }).result
             }
         }])
         .service('ModalPullImage', ['$rootScope', '$uibModal', 'clipboard', function ($rootScope, $uibModal, clipboard) {
