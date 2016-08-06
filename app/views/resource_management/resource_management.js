@@ -5,7 +5,8 @@ angular.module('console.resource_management', [
             'components/searchbar/searchbar.js',
         ]
     }
-]).controller('resmanageCtrl',['$state','$rootScope','$scope','configmaps','secretskey',function($state,$rootScope,$scope,configmaps,secretskey){
+]).controller('resmanageCtrl',['persistent','$state','$rootScope','$scope','configmaps','secretskey',
+    function(persistent,$state,$rootScope,$scope,configmaps,secretskey){
     $scope.grid = {
         page: 1,
         size: 10,
@@ -23,6 +24,12 @@ angular.module('console.resource_management', [
     } else {
         $scope.check = false
     }
+        persistent.get({namespace: $rootScope.namespace}, function (res) {
+            console.log('chijiu',res);
+            $scope.persistents=res;
+        }, function (err) {
+
+        })
 
   //////////////////  配置卷
     $scope.$watch('grid.page', function(newVal, oldVal){

@@ -401,6 +401,12 @@ define([
             })
             return delSecret;
         }])
+        .factory('persistent', ['$resource', function($resource){
+            var persistent = $resource('/api/v1/namespaces/:namespace/persistentvolumeclaims/:name', {namespace:'@namespace', name:'@name'}, {
+                del: {method:'DELETE'}
+            })
+            return persistent;
+        }])
         .factory('serviceaccounts', ['$resource', function($resource){
             var serviceaccounts = $resource('/api/v1/namespaces/:namespace/serviceaccounts/deployer', {namespace:'@namespace'}, {
             })

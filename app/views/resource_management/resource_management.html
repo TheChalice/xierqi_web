@@ -31,10 +31,10 @@
                                 <th class='col-lg-3 col-md-3 col-sm-2'>挂载服务数量</th>
                             </div>
                         </tr>
-                        <tr>
-                            <td>abc</td>
-                            <td>1分钟前</td>
-                            <td>100GB</td>
+                        <tr ng-repeat="item in persistents.items">
+                            <td><a class="listitem" ui-sref="console.constantly_detail({name: items.metadata.name})" style="color:#f6a540">{{item.metadata.name}}</a></td>
+                            <td>{{item.metadata.creationTimestamp | dateRelative}}</td>
+                            <td>{{item.spec.resources.requests.storage}}</td>
                             <td>5</td>
                         </tr>
                     </table>
