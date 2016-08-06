@@ -111,7 +111,16 @@ angular.module('console.service.detail', [
                 }
               }
             }
+            var r = /^(image-)/;
             for (var i = 0; i < res.spec.template.spec.containers.length; i++) {
+              var imagetag = 'image-'+res.spec.template.spec.containers[i].name;
+              angular.forEach(res.metadata.annotations,function(v,k){
+                if(r.test(k)){
+                  if(k != imagetag){
+                    delete res.metadata.annotations[k];
+                  }
+                }
+              })
               if (!res.spec.template.spec.containers[i].ports) {
                 res.spec.template.spec.containers[i].ports = [{
                   //conflict: false,
@@ -169,6 +178,15 @@ angular.module('console.service.detail', [
             });
             for(var i = 0 ;i < $scope.dc.spec.template.spec.containers.length; i++){
               var imagetag = 'image-'+$scope.dc.spec.template.spec.containers[i].name;
+              angular.forEach($scope.dc.metadata.annotations,function(v,k){
+                if(r.test(k)){
+                  if(k != imagetag){
+                    console.log('cacacacacacaca',k);
+                    console.log('$scope.dc.metadata.annotations[k]',$scope.dc.metadata.annotations[k]);
+                    delete $scope.dc.metadata.annotations[k];
+                  }
+                }
+              })
               if($scope.dc.metadata.annotations && $scope.dc.metadata.annotations[imagetag]){
                 $scope.dc.spec.template.spec.containers[i].tag = $scope.dc.metadata.annotations[imagetag];
               }else{
@@ -188,7 +206,7 @@ angular.module('console.service.detail', [
             loadPods(res.metadata.name);
             loadService(res.metadata.name);
             //isConflict();   //判断端口是否冲突
-            console.log('-=-=-=-=-=-=-=-=-=-=-$scope.dc',$scope.dc);
+            console.log('woshisuiuiuiui-=-=-=-=-=-=-=-=-=-=-$scope.dc',$scope.dc);
 
           }, function (res) {
             //todo 错误处理
@@ -1163,8 +1181,6 @@ angular.module('console.service.detail', [
               container.isimageChange = true;
               var arr = res.metadata.name.split(':');
               container.tag = arr[1];
-              imagetag = 'image-'+container.name;
-              $scope.dc.metadata.annotations[imagetag] = arr[1];
               if (arr.length > 1) {
                 container.name = arr[0];
               }
@@ -1176,6 +1192,8 @@ angular.module('console.service.detail', [
                   }
                 }
               }
+              imagetag = 'image-'+container.name;
+              $scope.dc.metadata.annotations[imagetag] = arr[1];
             }
             for(var i = 0 ;i < $scope.dc.spec.template.spec.containers.length;i++ ){
               if($scope.dc.spec.template.spec.containers[i].isimageChange != false && $scope.dc.spec.template.spec.containers[i].isimageChange != true){
