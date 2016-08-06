@@ -39,6 +39,13 @@ angular.module('console.resource_management', [
                         //volitem.metadata.name==dcitem.spec.template.spec.volumes
                     })
                 })
+                angular.forEach(res.items, function (item,i) {
+                    res.items[i].sorttime=(new Date(item.metadata.creationTimestamp)).getTime()
+                })
+                //console.log($scope.items);
+                res.items.sort(function (x, y) {
+                    return x.sorttime > y.sorttime ? -1 : 1;
+                });
                 $scope.persistents=res;
                 //console.log('chijiu',res);
             })

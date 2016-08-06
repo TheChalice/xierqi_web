@@ -3,7 +3,7 @@ angular.module('console.create_constantly_volume', [
     {
         files: []
     }
-]).controller('createconvolumeCtrl', ['$rootScope','volume','$scope', function ($rootScope,volume,$scope) {
+]).controller('createconvolumeCtrl', ['$state','$rootScope','volume','$scope', function ($state,$rootScope,volume,$scope) {
     $scope.danwei = 'GB';
     $scope.grid = {
         inved: false,
@@ -22,10 +22,10 @@ angular.module('console.create_constantly_volume', [
         if (n && n !== "") {
             console.log(n);
             if (n < 10 || n > 200) {
-                console.log('不过');
+                //console.log('不过');
                 $scope.grid.num=false
             } else {
-                console.log('过');
+                //console.log('过');
                 $scope.grid.num=true
             }
         }
@@ -59,6 +59,7 @@ angular.module('console.create_constantly_volume', [
         console.log($scope.volume);
         volume.create({namespace: $rootScope.namespace},$scope.volume, function (res) {
             //alert(11111)
+            $state.go('console.resource_management',{index:1});
         }, function (err) {
 
         })
