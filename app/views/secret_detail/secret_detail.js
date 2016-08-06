@@ -135,36 +135,39 @@ angular.module('console.secret_detail', [
                     $scope.grid.keychongfu = false;
                     $scope.grid.keynull = false;
                     $scope.grid.keybuhefa = false;
-                    if (n.secretarr.length>0||n.newarr.length>0) {
-                        var arr = n.secretarr.concat(n.newarr);
-                        //var arr = angular.copy(n.secretarr);
-                        //console.log(arr);
-                        arr.sort(by.open("key"));
-                        angular.forEach(arr, function (item, i) {
-                            if (!item.key || !item.value) {
-                                kong = true
-                            }else {
-                                if (arr[i] && arr[i + 1]) {
-                                    if (arr[i].key == arr[i + 1].key) {
-                                        $scope.grid.keychongfu = true;
+                    if (n.secretarr||n.newarr) {
+                        if (n.secretarr.length>0||n.newarr.length>0) {
+                            var arr = n.secretarr.concat(n.newarr);
+                            //var arr = angular.copy(n.secretarr);
+                            //console.log(arr);
+                            arr.sort(by.open("key"));
+                            angular.forEach(arr, function (item, i) {
+                                if (!item.key || !item.value) {
+                                    kong = true
+                                }else {
+                                    if (arr[i] && arr[i + 1]) {
+                                        if (arr[i].key == arr[i + 1].key) {
+                                            $scope.grid.keychongfu = true;
+                                            kong = true;
+                                        }
+                                    }
+                                    if (!r.test(arr[i].key)) {
+                                        $scope.grid.keybuhefa = true;
                                         kong = true;
                                     }
                                 }
-                                if (!r.test(arr[i].key)) {
-                                    $scope.grid.keybuhefa = true;
-                                    kong = true;
-                                }
-                            }
-                        })
+                            })
 
-                        if (!kong) {
-                            $scope.grid.status = true
-                        } else {
+                            if (!kong) {
+                                $scope.grid.status = true
+                            } else {
+                                $scope.grid.status = false
+                            }
+                        }else {
                             $scope.grid.status = false
                         }
-                    }else {
-                        $scope.grid.status = false
                     }
+
 
                 }
 
