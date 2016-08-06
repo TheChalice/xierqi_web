@@ -408,7 +408,7 @@ define([
             return persistent;
         }])
         .factory('delvolume', ['$resource', function($resource){
-            var delvolume = $resource('/lapi/v1/namespaces/:namespace/volume/:name', {namespace:'@namespace', name:'@name'}, {
+            var delvolume = $resource('/lapi/v1/namespaces/:namespace/volumes/:name', {namespace:'@namespace', name:'@name'}, {
                 del: {method:'DELETE'}
             })
             return delvolume;
@@ -419,7 +419,7 @@ define([
             return serviceaccounts;
         }])
         .factory('volume', ['$resource', function($resource){
-            var volume = $resource('/lapi/v1/namespaces/{namespace}/volume', {namespace:'@namespace'}, {
+            var volume = $resource('/lapi/v1/namespaces/{namespace}/volumes', {namespace:'@namespace'}, {
                 create: {method:'POST'}
             })
             return volume;

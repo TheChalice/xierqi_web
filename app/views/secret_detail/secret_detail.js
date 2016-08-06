@@ -4,8 +4,8 @@ angular.module('console.secret_detail', [
             files: []
         }
     ])
-    .controller('secretDetailCtrl', ['Toast','by', '$state', '$http', '$scope', '$rootScope', 'listSecret', 'modifySecret', 'deleteSecret', '$stateParams', 'delSecret',
-        function (Toast,by, $state, $http, $scope, $rootScope, listSecret, modifySecret, deleteSecret, $stateParams, delSecret) {
+    .controller('secretDetailCtrl', ['Confirm','Toast','by', '$state', '$http', '$scope', '$rootScope', 'listSecret', 'modifySecret', 'deleteSecret', '$stateParams', 'delSecret',
+        function (Confirm,Toast,by, $state, $http, $scope, $rootScope, listSecret, modifySecret, deleteSecret, $stateParams, delSecret) {
             $scope.grid = {
                 status: false,
 
@@ -230,8 +230,18 @@ angular.module('console.secret_detail', [
                 })
             }
             $scope.delete = function () {
-                delSecret.del({namespace: $rootScope.namespace}, function () {
-                    $state.go('console.resource_management', {index: 3})
+                //delSecret.del({namespace: $rootScope.namespace}, function () {
+                //    $state.go('console.resource_management', {index: 3})
+                //})
+                Confirm.open("删除密钥", "您确定要删除密钥吗？", "密钥已经挂载在容器中,删除此密钥,容器启动将异常", "stop").then(function(){
+
+                    delSecret.del({namespace: $rootScope.namespace}, function () {
+                        $state.go('console.resource_management', {index: 3})
+                    },function (err) {
+                        Confirm.open("删除密钥", "删除密钥失败", "持久化卷已经挂载在容器中,您需要先停止服务,         卸载持久化卷后,才能删除.", null,true)
+                    })
+
+
                 })
             }
         }]);
