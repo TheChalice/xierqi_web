@@ -202,6 +202,7 @@ angular.module('console.service', [
                 }
             });
         }
+
         var isNormal = function(servicedata){
             $log.info('servicedata---test',servicedata)
             for(var i = 0;i<servicedata.length;i++){
