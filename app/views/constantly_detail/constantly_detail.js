@@ -6,8 +6,8 @@ angular.module('console.constantly_detail', [
             ]
         }
     ])
-    .controller('constDetailCtrl', ['volume','DeploymentConfig','persistent','$stateParams','$state', '$http', '$scope', '$rootScope',
-        function(volume,DeploymentConfig,persistent,$stateParams,$state, $http, $scope, $rootScope){
+    .controller('constDetailCtrl', ['delvolume','volume','DeploymentConfig','persistent','$stateParams','$state', '$http', '$scope', '$rootScope',
+        function(delvolume,volume,DeploymentConfig,persistent,$stateParams,$state, $http, $scope, $rootScope){
             console.log($stateParams.name);
             $scope.name=$stateParams.name
             persistent.get({namespace: $rootScope.namespace,name:$stateParams.name}, function (res) {
@@ -27,4 +27,9 @@ angular.module('console.constantly_detail', [
             }, function (err) {
 
             })
+            $scope.delete= function () {
+                delvolume.del({namespace: $rootScope.namespace,name:$stateParams.name}, function (res) {
+                    console.log(res);
+                })
+            }
         }]);

@@ -407,6 +407,12 @@ define([
             })
             return persistent;
         }])
+        .factory('delvolume', ['$resource', function($resource){
+            var delvolume = $resource('/lapi/v1/namespaces/:namespace/volume/:name', {namespace:'@namespace', name:'@name'}, {
+                del: {method:'DELETE'}
+            })
+            return delvolume;
+        }])
         .factory('serviceaccounts', ['$resource', function($resource){
             var serviceaccounts = $resource('/api/v1/namespaces/:namespace/serviceaccounts/deployer', {namespace:'@namespace'}, {
             })

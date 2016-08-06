@@ -58,7 +58,7 @@ angular.module('console.create_constantly_volume', [
         //console.log($scope.frm);
         console.log($scope.volume);
         volume.create({namespace: $rootScope.namespace},$scope.volume, function (res) {
-            alert(11111)
+            //alert(11111)
         }, function (err) {
 
         })
