@@ -32,10 +32,10 @@
                             </div>
                         </tr>
                         <tr ng-repeat="item in persistents.items">
-                            <td><a class="listitem" ui-sref="console.constantly_detail({name: items.metadata.name})" style="color:#f6a540">{{item.metadata.name}}</a></td>
+                            <td><a class="listitem" ui-sref="console.constantly_detail({name:item.metadata.name})" style="color:#f6a540">{{item.metadata.name}}</a></td>
                             <td>{{item.metadata.creationTimestamp | dateRelative}}</td>
                             <td>{{item.spec.resources.requests.storage}}</td>
-                            <td>5</td>
+                            <td>{{item.arr.length}}</td>
                         </tr>
                     </table>
                 </div>
@@ -142,7 +142,7 @@
                         </tr>
                         <tr ng-repeat="items in scretspageitems">
                             <td style="border-bottom: 1px solid #CCCCCC;" >
-                                <a class="listitem" ui-sref="console.secret_detail({name: items.metadata.name})" style="color:#f6a540">
+                                <a class="listitem" ui-sref="console.secret_detail({name:items.metadata.name})" style="color:#f6a540">
                                     {{items.metadata.name}}
                                 </a>
                             </td>

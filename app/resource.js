@@ -407,12 +407,22 @@ define([
             })
             return persistent;
         }])
+        .factory('delvolume', ['$resource', function($resource){
+            var delvolume = $resource('/lapi/v1/namespaces/:namespace/volumes/:name', {namespace:'@namespace', name:'@name'}, {
+                del: {method:'DELETE'}
+            })
+            return delvolume;
+        }])
         .factory('serviceaccounts', ['$resource', function($resource){
             var serviceaccounts = $resource('/api/v1/namespaces/:namespace/serviceaccounts/deployer', {namespace:'@namespace'}, {
             })
             return serviceaccounts;
         }])
+        .factory('volume', ['$resource', function($resource){
+            var volume = $resource('/lapi/v1/namespaces/:namespace/volumes', {namespace:'@namespace'}, {
+                create: {method:'POST'}
+            })
+            return volume;
+        }])
 });
-// http://registry.dataos.io/api/repositories/manifests?repo_name=library/alpine&tag=latest
-// https://registry.dataos.io/api/projects?is_public=1
-// https://registry.dataos.io/api/repositories/tags?repo_name=openshift/node
+
