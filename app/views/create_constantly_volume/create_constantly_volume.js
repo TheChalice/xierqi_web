@@ -3,7 +3,7 @@ angular.module('console.create_constantly_volume', [
     {
         files: []
     }
-]).controller('createconvolumeCtrl', ['$scope', function ($scope) {
+]).controller('createconvolumeCtrl', ['$rootScope','volume','$scope', function ($rootScope,volume,$scope) {
     $scope.danwei = 'GB';
     $scope.grid = {
         inved: false,
@@ -57,5 +57,11 @@ angular.module('console.create_constantly_volume', [
     $scope.creat = function () {
         //console.log($scope.frm);
         console.log($scope.volume);
+        volume.create({namespace: $rootScope.namespace},$scope.volume, function (res) {
+            alert(11111)
+        }, function (err) {
+
+        })
+
     }
 }])

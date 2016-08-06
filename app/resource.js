@@ -412,7 +412,11 @@ define([
             })
             return serviceaccounts;
         }])
+        .factory('volume', ['$resource', function($resource){
+            var volume = $resource('/lapi/v1/namespaces/{namespace}/volume', {namespace:'@namespace'}, {
+                create: {method:'POST'}
+            })
+            return volume;
+        }])
 });
-// http://registry.dataos.io/api/repositories/manifests?repo_name=library/alpine&tag=latest
-// https://registry.dataos.io/api/projects?is_public=1
-// https://registry.dataos.io/api/repositories/tags?repo_name=openshift/node
+

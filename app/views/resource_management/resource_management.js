@@ -5,8 +5,8 @@ angular.module('console.resource_management', [
             'components/searchbar/searchbar.js',
         ]
     }
-]).controller('resmanageCtrl',['persistent','$state','$rootScope','$scope','configmaps','secretskey',
-    function(persistent,$state,$rootScope,$scope,configmaps,secretskey){
+]).controller('resmanageCtrl',['DeploymentConfig','persistent','$state','$rootScope','$scope','configmaps','secretskey',
+    function(DeploymentConfig,persistent,$state,$rootScope,$scope,configmaps,secretskey){
     $scope.grid = {
         page: 1,
         size: 10,
@@ -25,8 +25,25 @@ angular.module('console.resource_management', [
         $scope.check = false
     }
         persistent.get({namespace: $rootScope.namespace}, function (res) {
-            console.log('chijiu',res);
-            $scope.persistents=res;
+
+            DeploymentConfig.get({namespace: $rootScope.namespace}, function (resdc) {
+                //console.log('dc',resdc);
+                angular.forEach(res.items, function (volitem,i) {
+                    res.items[i].arr=[]
+                    angular.forEach(resdc.items, function (dcitem,k) {
+                        angular.forEach(dcitem.spec.template.spec.volumes, function (dcvolitem,j) {
+                            if (volitem.metadata.name == dcvolitem.persistentVolumeClaim.claimName) {
+                                res.items[i].arr.push(dcitem.metadata.name)
+                            }
+                        })
+                        //volitem.metadata.name==dcitem.spec.template.spec.volumes
+                    })
+                })
+                $scope.persistents=res;
+                //console.log('chijiu',res);
+            })
+
+
         }, function (err) {
 
         })
