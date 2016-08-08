@@ -7,7 +7,8 @@
             <div>
                 <div class="row">
                     <div class="col-sm-7 col-xs-4">
-                        <a class="btn btn-green" style="margin-right: 20px; " ui-sref="console.create_constantly_volume">
+                        <a class="btn btn-green" style="margin-right: 20px; "
+                           ui-sref="console.create_constantly_volume">
                             <i class="fa fa-plus fa-lg"></i>
                             <span class="hidden-xs"> 新建持久化卷</span>
                         </a>
@@ -22,18 +23,27 @@
                     </div>
                 </div>
                 <div class="table-responsive" style="margin-top: 30px">
-                    <table class="table-hover table-default" style="table-layout:fixed; width: 100%; border-bottom: none;">
+                    <table class="table-hover table-default"
+                           style="table-layout:fixed; width: 100%; border-bottom: none;">
                         <tr style="border-bottom: 1px solid #CCCCCC;">
                             <div class="row">
                                 <th class='col-lg-2 col-md-2 col-sm-1'>持久化卷名称</th>
-                                <th class='col-lg-2 col-md-2 col-sm-2' >创建时间</th>
+                                <th class='col-lg-2 col-md-2 col-sm-1'>持久化卷状态</th>
+                                <th class='col-lg-2 col-md-2 col-sm-2'>创建时间</th>
                                 <th class='col-lg-2 col-md-2 col-sm-2'>持久化卷大小</th>
                                 <th class='col-lg-3 col-md-3 col-sm-2'>挂载服务数量</th>
                             </div>
                         </tr>
                         <tr ng-repeat="item in persistents.items">
-                            <td style="border-bottom: 1px solid #CCCCCC;"><a class="listitem" ui-sref="console.constantly_detail({name:item.metadata.name})" style="color:#f6a540">{{item.metadata.name}}</a></td>
-                            <td style="border-bottom: 1px solid #CCCCCC;">{{item.metadata.creationTimestamp | dateRelative}}</td>
+                            <td style="border-bottom: 1px solid #CCCCCC;"><a class="listitem" ui-sref="console.constantly_detail({name:item.metadata.name})" style="color:#f6a540">{{item.metadata.name}}</a>
+                            </td>
+                            <td style="border-bottom: 1px solid #CCCCCC;"> <span class="icon12 icon12-{{item.status.phase}}"
+                                    ng-class="{'fa-spin':item.status.phase == 'Pending'}"></span>
+                                {{item.status.phase | bsiphaseFilter}}
+                            </td>
+                            <td style="border-bottom: 1px solid #CCCCCC;">{{item.metadata.creationTimestamp |
+                                dateRelative}}
+                            </td>
                             <td style="border-bottom: 1px solid #CCCCCC;">{{item.spec.resources.requests.storage}}</td>
                             <td style="border-bottom: 1px solid #CCCCCC;">{{item.arr.length}}</td>
                         </tr>
@@ -52,7 +62,8 @@
                             <i class="fa fa-plus fa-lg"></i>
                             <span class="hidden-xs"> 新建配置卷</span>
                         </a>
-                        <a class="btn btn-skyblue" ng-click="loadconfigmaps()" style="height: 34px; width: 36px; padding: 5px 5px;">
+                        <a class="btn btn-skyblue" ng-click="loadconfigmaps()"
+                           style="height: 34px; width: 36px; padding: 5px 5px;">
                             <i class="fa fa-refresh fa-lg"></i>
                         </a>
                     </div>
@@ -76,7 +87,8 @@
                     </div>
                 </div>
                 <div class="table-responsive" style="margin-top: 30px">
-                    <table class="table-hover table-default" style="table-layout:fixed; width: 100%; border-bottom: none;">
+                    <table class="table-hover table-default"
+                           style="table-layout:fixed; width: 100%; border-bottom: none;">
                         <tr>
                             <div class="row">
                                 <th class='col-lg-2 col-md-2 col-sm-1'>配置卷名称</th>
@@ -86,14 +98,17 @@
                         <tr ng-repeat="items in pageitems">
                             <td style="border-bottom: 1px solid #CCCCCC;">
                                 <a ui-sref="console.config_detail({name: items.metadata.name})" style="color:#f6a540">{{items.metadata.name}}</a>
-                                </td>
-                            <td style="border-bottom: 1px solid #CCCCCC;"><span uib-tooltip="{{items.metadata.creationTimestamp  | timescon}}">{{items.metadata.creationTimestamp | dateRelative}} </span></td>
+                            </td>
+                            <td style="border-bottom: 1px solid #CCCCCC;"><span
+                                    uib-tooltip="{{items.metadata.creationTimestamp  | timescon}}">{{items.metadata.creationTimestamp | dateRelative}} </span>
+                            </td>
                         </tr>
                     </table>
                 </div>
             </div>
             <div class="text-right" ng-if="grid.total > 10" style="margin-top: 30px;">
-                <uib-pagination class="pagination pagination-sm" ng-model="grid.page" total-items="grid.total" items-per-page="grid.size" boundary-links="true" max-size="12" rotate="true"
+                <uib-pagination class="pagination pagination-sm" ng-model="grid.page" total-items="grid.total"
+                                items-per-page="grid.size" boundary-links="true" max-size="12" rotate="true"
                                 previous-text="上一页"
                                 next-text="下一页"
                                 first-text="首页"
@@ -112,7 +127,8 @@
                             <i class="fa fa-plus fa-lg"></i>
                             <span class="hidden-xs"> 新建密钥</span>
                         </a>
-                        <a class="btn btn-skyblue" ng-click="loadsecrets()" style="height: 34px; width: 36px; padding: 5px 5px;">
+                        <a class="btn btn-skyblue" ng-click="loadsecrets()"
+                           style="height: 34px; width: 36px; padding: 5px 5px;">
                             <i class="fa fa-refresh fa-lg"></i>
                         </a>
                     </div>
@@ -133,7 +149,8 @@
                     </div>
                 </div>
                 <div class="table-responsive" style="margin-top: 30px">
-                    <table class="table-hover table-default" style="table-layout:fixed; width: 100%;border-bottom: none;">
+                    <table class="table-hover table-default"
+                           style="table-layout:fixed; width: 100%;border-bottom: none;">
                         <tr>
                             <div class="row">
                                 <th class='col-lg-2 col-md-2 col-sm-1'>密钥名称</th>
@@ -141,18 +158,22 @@
                             </div>
                         </tr>
                         <tr ng-repeat="items in scretspageitems">
-                            <td style="border-bottom: 1px solid #CCCCCC;" >
-                                <a class="listitem" ui-sref="console.secret_detail({name:items.metadata.name})" style="color:#f6a540">
+                            <td style="border-bottom: 1px solid #CCCCCC;">
+                                <a class="listitem" ui-sref="console.secret_detail({name:items.metadata.name})"
+                                   style="color:#f6a540">
                                     {{items.metadata.name}}
                                 </a>
                             </td>
-                            <td style="border-bottom: 1px solid #CCCCCC;"><span uib-tooltip="{{items.metadata.creationTimestamp  | timescon}}">{{items.metadata.creationTimestamp | dateRelative}}</span></td>
+                            <td style="border-bottom: 1px solid #CCCCCC;"><span
+                                    uib-tooltip="{{items.metadata.creationTimestamp  | timescon}}">{{items.metadata.creationTimestamp | dateRelative}}</span>
+                            </td>
                         </tr>
                     </table>
                 </div>
             </div>
             <div class="text-right" ng-if="secrets.total > 10" style="margin-top: 30px;">
-                <uib-pagination class="pagination pagination-sm" ng-model="secrets.page" total-items="secrets.total" items-per-page="secrets.size" boundary-links="true" max-size="12" rotate="true"
+                <uib-pagination class="pagination pagination-sm" ng-model="secrets.page" total-items="secrets.total"
+                                items-per-page="secrets.size" boundary-links="true" max-size="12" rotate="true"
                                 previous-text="上一页"
                                 next-text="下一页"
                                 first-text="首页"
@@ -162,7 +183,7 @@
         </uib-tab>
     </uib-tabset>
     <style>
-        .listitem:hover{
+        .listitem:hover {
             color: #e5993a;
         }
     </style>

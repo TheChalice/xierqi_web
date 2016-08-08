@@ -143,6 +143,7 @@ angular.module('console.create_constantly_volume', [
 
 
     $scope.cearteconfig = function () {
+        $scope.loaded=true;
         var arr = $scope.volume.configitems.concat($scope.volume.configarr);
         angular.forEach(arr, function (item, i) {
             $scope.volume.data[item.key] = item.value;
@@ -153,8 +154,11 @@ angular.module('console.create_constantly_volume', [
         delete $scope.volume.configarr;
         configmaps.create({namespace: $rootScope.namespace}, $scope.volume, function (res) {
             console.log('createconfig----', res);
+            $scope.loaded=false;
             $state.go('console.resource_management', {index: 2});
             //$state.go('console.build_detail', {name: name, from: 'create'})
+        }, function (res) {
+            $state.go('console.create_constantly_volume');
         })
     }
 }])

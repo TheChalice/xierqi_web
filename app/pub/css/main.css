@@ -196,6 +196,9 @@ a {
 .icon12-Cancelled {
     background-image: url(../img/stop.png);
 }
+.icon12-Bound {
+    background-image: url(../img/complete.png);
+}
 .icon12-New {
     background-image: url(../img/refresh.png);
 }
@@ -1015,4 +1018,20 @@ a {
         float: left;
     }
 }
-
+.loading-box {
+    position: fixed;
+    /*overflow: hidden;*/
+    top: 0;
+    left: 0;
+    height: 100%;
+    /*top:100px;*/
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    z-index: 999;
+}
+.spinner {
+    margin: 250px auto;
+    width: 76px;
+    text-align: center;
+    display: block;
+}
