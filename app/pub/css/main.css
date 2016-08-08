@@ -196,6 +196,9 @@ a {
 .icon12-Cancelled {
     background-image: url(../img/stop.png);
 }
+.icon12-Bound {
+    background-image: url(../img/complete.png);
+}
 .icon12-New {
     background-image: url(../img/refresh.png);
 }
