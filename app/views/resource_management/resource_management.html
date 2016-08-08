@@ -10,10 +10,10 @@
                         <a class="btn btn-green" style="margin-right: 20px; "
                            ui-sref="console.create_constantly_volume">
                             <i class="fa fa-plus fa-lg"></i>
-                            <span class="hidden-xs"> 新建持久化卷</span>
+                            <span class="hidden-xs">新建持久化卷</span>
                         </a>
-                        <a class="btn btn-skyblue" ng-click="" style="height: 34px; width: 36px; padding: 5px 5px;">
-                            <i class="fa fa-refresh fa-lg"></i>
+                        <a class="btn btn-skyblue" ng-click="constantlyvolume()" style="height: 34px; width: 36px; padding: 5px 5px;">
+                            <i class="fa fa-refresh fa-lg"ng-class="{'fa-spin': grid.constantlyvolume}"></i>
                         </a>
                     </div>
                     <div class="col-sm-5 col-xs-8" style="padding-left: 0;">
@@ -23,8 +23,7 @@
                     </div>
                 </div>
                 <div class="table-responsive" style="margin-top: 30px">
-                    <table class="table-hover table-default"
-                           style="table-layout:fixed; width: 100%; border-bottom: none;">
+                    <table class="table-hover table-default" style="table-layout:fixed; width: 100%; border-bottom: none;">
                         <tr style="border-bottom: 1px solid #CCCCCC;">
                             <div class="row">
                                 <th class='col-lg-2 col-md-2 col-sm-1'>持久化卷名称</th>
@@ -38,8 +37,8 @@
                             <td style="border-bottom: 1px solid #CCCCCC;"><a class="listitem" ui-sref="console.constantly_detail({name:item.metadata.name})" style="color:#f6a540">{{item.metadata.name}}</a>
                             </td>
                             <td style="border-bottom: 1px solid #CCCCCC;"> <span class="icon12 icon12-{{item.status.phase}}"
-                                    ng-class="{'fa-spin':item.status.phase == 'Pending'}"></span>
-                                {{item.status.phase | bsiphaseFilter}}
+                                    ng-class="{'fa-spin':item.status.phase == 'Pending','fa-unspin':item.status.phase == 'Bound'}"></span>
+                                {{item.status.phase | bandFilter}}
                             </td>
                             <td style="border-bottom: 1px solid #CCCCCC;">{{item.metadata.creationTimestamp |
                                 dateRelative}}
