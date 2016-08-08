@@ -56,29 +56,29 @@ define(['angular'], function (angular) {
                 }
                 return errcode[code] || '内部错误，请通过DaoVoice联系管理员'
             }
-        }]) .service('by', ['$uibModal', function ($uibModal) {
+        }]).service('by', ['$uibModal', function ($uibModal) {
             this.open = function (name) {
                 return function (o, p) {
-                        var a, b;
-                        if (typeof o === "object" && typeof p === "object" && o && p) {
-                            a = o[name];
-                            b = p[name];
-                            if (a === b) {
-                                return 0;
-                            }
-                            if (typeof a === typeof b) {
-                                return a < b ? -1 : 1;
-                            }
-                            return typeof a < typeof b ? -1 : 1;
-                        } else {
-                            throw ("error");
+                    var a, b;
+                    if (typeof o === "object" && typeof p === "object" && o && p) {
+                        a = o[name];
+                        b = p[name];
+                        if (a === b) {
+                            return 0;
                         }
+                        if (typeof a === typeof b) {
+                            return a < b ? -1 : 1;
+                        }
+                        return typeof a < typeof b ? -1 : 1;
+                    } else {
+                        throw ("error");
                     }
+                }
 
             }
         }])
         .service('by', ['$uibModal', function ($uibModal) {
-            this.open= function (name) {
+            this.open = function (name) {
                 return function (o, p) {
                     var a, b;
                     if (typeof o === "object" && typeof p === "object" && o && p) {
@@ -198,174 +198,262 @@ define(['angular'], function (angular) {
             }
         }])
         .service('ChooseSecret', ['$uibModal', function ($uibModal) {
-            this.open = function (olength,secretsobj) {
+            this.open = function (olength, secretsobj) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/choosSecret.html',
                     size: 'default',
-                    controller: ['$scope', '$uibModalInstance', '$log','secretskey', '$rootScope','configmaps','persistent','$state',function ($scope, $uibModalInstance, $log,secretskey,$rootScope,configmaps,persistent,$state) {
-                        $scope.secretarr = secretsobj.secretarr;
-                        $scope.configmap = secretsobj.configmap;
-                        $scope.persistentarr = secretsobj.persistentarr;
-                        //$scope.outerIndex;
-                        $scope.$watch('testname',function(n,o){
-                            console.log('==================nnnnnn',n);
-                        })
-                        ////添加密钥
-                        $scope.addsecretarr = function(){
-                            $scope.secretarr.push({
-                                "myname": "",
-                                "secret": {
-                                    "secretName":'名称'
+                    controller: ['by', '$scope', '$uibModalInstance', '$log', 'secretskey', '$rootScope', 'configmaps', 'persistent', '$state',
+                        function (by, $scope, $uibModalInstance, $log, secretskey, $rootScope, configmaps, persistent, $state) {
+                            $scope.secretarr = secretsobj.secretarr;
+                            $scope.configmap = secretsobj.configmap;
+                            $scope.persistentarr = secretsobj.persistentarr;
+                            //$scope.outerIndex;
+                            $scope.isok = false;
+                            $scope.grid = {
+                                secretarr: {
+                                    kong: false,
+                                    chongfu: false,
+                                    buhefa: false
                                 },
-                                mountPath : ''
-                            });
-                        }
-                        ////删除密钥
-                        $scope.delsecretarr = function(idx){
-                            $scope.secretarr.splice(idx, 1);
-                        }
-                        $scope.changesecrename = function(idx,val){
-                            $scope.secretarr[idx].secret.secretName = val
-                        }
-                        ////获取密钥列表
-                        var loadsecretsList = function(){
-                            secretskey.get({namespace:$rootScope.namespace},function(res){
-                                console.log('-------loadsecrets',res);
-                                if(res.items){
-                                    $scope.loadsecretsitems = res.items;
-                                }
-                            })
-                        }
-                        loadsecretsList();
-
-                        //////配置卷
-                        ///获取配置卷列表////
-                        var loadconfigmaps = function(){
-                            configmaps.get({namespace: $rootScope.namespace},function(res){
-                                if(res.items){
-                                    $scope.configmapitem = res.items;
-                                }
-                            })
-                        }
-                        loadconfigmaps();
-
-                        ///添加配置卷  ///
-                        $scope.addconfigmap = function(){
-                            $scope.configmap.push({
-                                "myname": "",
-                                "configMap": {
-                                    "name":'名称'
+                                configmap: {
+                                    kong: false,
+                                    chongfu: false,
+                                    buhefa: false
                                 },
-                                mountPath : ''
-                            });
-                        }
-                        ////////删除配置卷
-                        $scope.delconfigmap = function(idx){
-                            $scope.configmap.splice(idx, 1);
-                        }
-                        $scope.changeconfigname = function(idx,val){
-                            $scope.configmap[idx].configMap.name = val
-                        }
-                        ////////持久化卷
-                        ///获取持久化卷
-                        var loadpersistent = function(){
-                            persistent.get({namespace: $rootScope.namespace},function(res){
-                                if(res.items){
-                                    $scope.persistentitem = res.items;
+                                persistentarr: {
+                                    kong: false,
+                                    chongfu: false,
+                                    buhefa: false
                                 }
-                            })
-                        }
-                        loadpersistent();
-                        //////添加持久化卷
-                        $scope.addpersistent = function(){
-                            $scope.persistentarr.push({
-                                "myname": "",
-                                "persistentVolumeClaim": {
-                                    "claimName":'名称'
-                                },
-                                mountPath : ''
-                            });
-                        }
-                        ///删除持久化卷
-                        $scope.delpersistent = function(idx){
-                            $scope.persistentarr.splice(idx, 1);
-                        }
-                        $scope.changepersistentname = function(idx,val){
-                            $scope.persistentarr[idx].persistentVolumeClaim.claimName = val
-                        }
-                        $scope.govolume = function(){
-                            $state.go('console.resource_management')
-                            $uibModalInstance.dismiss();
-                        };
-                        ///  确定选择所选挂载卷
-                        $scope.ok = function(){
-                            var thisvolumes = [];
-                            var thisvolumeMounts = [];
-                            for(var i = 0 ; i < $scope.secretarr.length; i++ ){
-                                var volumeval =  {
-                                    "name": "volumes"+(i+olength),
-                                        "secret": {
-                                    "secretName": $scope.secretarr[i].secret.secretName
-                                     }
-
-                                }
-                                var mountsval =  {
-                                    "name": "volumes"+(i+olength),
-                                    "mountPath": $scope.secretarr[i].mountPath
-                                }
-                                if($scope.secretarr[i].secret.secretName == '名称' || !$scope.secretarr[i].mountPath){
-                                    alert('密钥不能为空')
-                                    return;
-                                }
-                                thisvolumes.push(volumeval);
-                                thisvolumeMounts.push(mountsval)
                             }
-                            for(var j = 0 ; j < $scope.configmap.length; j++ ){
-                                var volumeval =  {
-                                    "name": "volumes"+(j+olength+$scope.secretarr.length),
+                            $scope.obj = {
+                                secretarr: $scope.secretarr,
+                                configmap: $scope.configmap,
+                                persistentarr: $scope.persistentarr
+                            }
+                            $
+                            $scope.$watch('obj', function (n, o) {
+                                if (n == o) {
+                                    return
+                                }
+                                var kong = false;
+                                var r = /^\/(([a-zA-Z0-9_-])+(\.)?)*(:\d+)?(\/((\.)?(\?)?=?&?[a-zA-Z0-9_-](\?)?)*)*$/i;
+                                var obj = angular.copy(n);
+                                angular.forEach(obj, function (items, i) {
+                                    items.sort(by.open("mountPath"));
+                                    if (!kong) {
+                                        angular.forEach(items, function (item, k) {
+                                            if (item.secret && item.secret.secretName == '名称') {
+                                                $scope.grid[i].kong=true;
+                                                kong = true
+                                            }
+                                            if (item.configMap && item.configMap.name == '名称') {
+                                                $scope.grid[i].kong=true;
+                                                kong = true
+                                            }
+                                            if (item.persistentVolumeClaim && item.persistentVolumeClaim.claimName == '名称') {
+                                                $scope.grid[i].kong=true;
+                                                kong = true
+                                            }
+                                            if (!r.test(item.mountPath)) {
+                                                //alert('bhf')
+                                                $scope.grid[i].buhefa=true;
+                                                kong = true
+                                            }
+                                            if (items[k] && items[k + 1]) {
+                                                if (items[k].mountPath == items[k + 1].mountPath) {
+                                                    //alert('cf')
+                                                    $scope.grid[i].chongfu=true;
+                                                    kong = true
+                                                }
+                                            }
+
+                                        })
+                                    }
+
+
+                                })
+                                if (!kong) {
+                                    $scope.isok = true
+                                } else {
+                                    $scope.isok = false
+                                }
+                                //console.log('==================nnnnnn',n);
+                            }, true)
+                            ////添加密钥
+                            $scope.addsecretarr = function () {
+                                $scope.secretarr.push({
+                                    "myname": "",
+                                    "secret": {
+                                        "secretName": '名称'
+                                    },
+                                    mountPath: ''
+                                });
+                            }
+                            ////删除密钥
+                            $scope.delsecretarr = function (idx) {
+                                $scope.secretarr.splice(idx, 1);
+                            }
+                            $scope.changesecrename = function (idx, val) {
+                                $scope.secretarr[idx].secret.secretName = val
+                            }
+                            ////获取密钥列表
+                            var loadsecretsList = function () {
+                                secretskey.get({namespace: $rootScope.namespace}, function (res) {
+                                    console.log('-------loadsecrets', res);
+                                    if (res.items) {
+                                        $scope.loadsecretsitems = res.items;
+                                    }
+                                })
+                            }
+                            loadsecretsList();
+
+                            //////配置卷
+                            ///获取配置卷列表////
+                            var loadconfigmaps = function () {
+                                configmaps.get({namespace: $rootScope.namespace}, function (res) {
+                                    if (res.items) {
+                                        $scope.configmapitem = res.items;
+                                    }
+                                })
+                            }
+                            loadconfigmaps();
+
+                            ///添加配置卷  ///
+                            $scope.addconfigmap = function () {
+                                $scope.configmap.push({
+                                    "myname": "",
                                     "configMap": {
-                                        "name": $scope.configmap[j].configMap.name
-                                    }
-
-                                }
-                                var mountsval =  {
-                                    "name": "volumes"+(j+olength+$scope.secretarr.length),
-                                    "mountPath": $scope.configmap[j].mountPath
-                                }
-                                if($scope.configmap[j].configMap.name == '名称' || !$scope.configmap[j].mountPath){
-                                    alert('2不能为空')
-                                    return;
-                                }
-                                thisvolumes.push(volumeval);
-                                thisvolumeMounts.push(mountsval);
+                                        "name": '名称'
+                                    },
+                                    mountPath: ''
+                                });
                             }
-                            for(var j = 0 ; j < $scope.persistentarr.length; j++ ){
-                                var volumeval =  {
-                                    "name": "volumes"+(j+olength+$scope.secretarr.length+$scope.configmap.length),
+                            ////////删除配置卷
+                            $scope.delconfigmap = function (idx) {
+                                $scope.configmap.splice(idx, 1);
+                            }
+                            $scope.changeconfigname = function (idx, val) {
+                                $scope.configmap[idx].configMap.name = val
+                            }
+                            ////////持久化卷
+
+                            ///获取持久化卷
+
+                            var loadpersistent = function () {
+
+                                persistent.get({namespace: $rootScope.namespace}, function (res) {
+                                    if (res.items) {
+                                        console.log(res);
+                                        $scope.persistentitem = [];
+                                        angular.forEach(res.items, function (item, i) {
+                                            if (item.status.phase == "Bound") {
+                                                $scope.persistentitem.push(item)
+                                            }
+                                        })
+                                        //$scope.persistentitem = res.items;
+                                    }
+                                })
+                            }
+                            loadpersistent();
+                            //////添加持久化卷
+                            $scope.addpersistent = function () {
+                                $scope.persistentarr.push({
+                                    "myname": "",
                                     "persistentVolumeClaim": {
-                                        "claimName": $scope.persistentarr[j].persistentVolumeClaim.claimName
+                                        "claimName": '名称'
+                                    },
+                                    mountPath: ''
+                                });
+                            }
+                            ///删除持久化卷
+                            $scope.delpersistent = function (idx) {
+                                $scope.persistentarr.splice(idx, 1);
+                            }
+                            $scope.changepersistentname = function (idx, val) {
+                                $scope.persistentarr[idx].persistentVolumeClaim.claimName = val
+                            }
+                            $scope.govolume = function () {
+                                $state.go('console.resource_management')
+                                $uibModalInstance.dismiss();
+                            };
+                            ///  确定选择所选挂载卷
+                            $scope.ok = function () {
+                                var thisvolumes = [];
+                                var thisvolumeMounts = [];
+                                for (var i = 0; i < $scope.secretarr.length; i++) {
+                                    var volumeval = {
+                                        "name": "volumes" + (i + olength),
+                                        "secret": {
+                                            "secretName": $scope.secretarr[i].secret.secretName
+                                        }
+
+                                    }
+                                    var mountsval = {
+                                        "name": "volumes" + (i + olength),
+                                        "mountPath": $scope.secretarr[i].mountPath
+                                    }
+                                    if ($scope.secretarr[i].secret.secretName == '名称' || !$scope.secretarr[i].mountPath) {
+                                        alert('密钥不能为空')
+                                        return;
+                                    }
+                                    thisvolumes.push(volumeval);
+                                    thisvolumeMounts.push(mountsval)
+                                }
+                                for (var j = 0; j < $scope.configmap.length; j++) {
+                                    var volumeval = {
+                                        "name": "volumes" + (j + olength + $scope.secretarr.length),
+                                        "configMap": {
+                                            "name": $scope.configmap[j].configMap.name
+                                        }
+
+                                    }
+                                    var mountsval = {
+                                        "name": "volumes" + (j + olength + $scope.secretarr.length),
+                                        "mountPath": $scope.configmap[j].mountPath
+                                    }
+                                    if ($scope.configmap[j].configMap.name == '名称' || !$scope.configmap[j].mountPath) {
+                                        alert('2不能为空')
+                                        return;
+                                    }
+                                    thisvolumes.push(volumeval);
+                                    thisvolumeMounts.push(mountsval);
+                                }
+                                for (var j = 0; j < $scope.persistentarr.length; j++) {
+                                    var volumeval = {
+                                        "name": "volumes" + (j + olength + $scope.secretarr.length + $scope.configmap.length),
+                                        "persistentVolumeClaim": {
+                                            "claimName": $scope.persistentarr[j].persistentVolumeClaim.claimName
+                                        }
+
+                                    }
+                                    var mountsval = {
+                                        "name": "volumes" + (j + olength + $scope.secretarr.length + $scope.configmap.length),
+                                        "mountPath": $scope.persistentarr[j].mountPath
+                                    }
+                                    console.log('$scope.persistentarr[j].mountPath', $scope.persistentarr[j].mountPath)
+                                    if ($scope.persistentarr[j].persistentVolumeClaim.claimName == '名称' || !$scope.persistentarr[j].mountPath) {
+                                        alert('3不能为空')
+                                        return;
                                     }
 
+                                    thisvolumes.push(volumeval);
+                                    thisvolumeMounts.push(mountsval);
                                 }
-                                var mountsval =  {
-                                    "name": "volumes"+(j+olength+$scope.secretarr.length+$scope.configmap.length),
-                                    "mountPath": $scope.persistentarr[j].mountPath
-                                }
-                                console.log('$scope.persistentarr[j].mountPath',$scope.persistentarr[j].mountPath)
-                                if($scope.persistentarr[j].persistentVolumeClaim.claimName == '名称' || !$scope.persistentarr[j].mountPath){
-                                    alert('3不能为空')
-                                    return;
-                                }
-
-                                thisvolumes.push(volumeval);
-                                thisvolumeMounts.push(mountsval);
+                                $uibModalInstance.close({
+                                    arr1: thisvolumes,
+                                    arr2: thisvolumeMounts,
+                                    arr3: {
+                                        "secretarr": $scope.secretarr,
+                                        "configmap": $scope.configmap,
+                                        "persistentarr": $scope.persistentarr
+                                    }
+                                });
                             }
-                            $uibModalInstance.close({arr1:thisvolumes,arr2:thisvolumeMounts,arr3:{"secretarr":$scope.secretarr,"configmap":$scope.configmap,"persistentarr":$scope.persistentarr}});
-                        }
-                        $scope.cancel = function () {
-                            $uibModalInstance.dismiss();
-                        };
-                    }]
+                            $scope.cancel = function () {
+                                $uibModalInstance.dismiss();
+                            };
+                        }]
                 }).result
             }
         }])
@@ -403,7 +491,7 @@ define(['angular'], function (angular) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/modal_choose_image.html',
                     size: 'default modal-lg',
-                    controller: ['$rootScope', '$scope', '$uibModalInstance', 'images', 'ImageStreamTag','ImageStream','$http','platformlist' ,function ($rootScope, $scope, $uibModalInstance, images, ImageStreamTag,ImageStream,$http,platformlist) {
+                    controller: ['$rootScope', '$scope', '$uibModalInstance', 'images', 'ImageStreamTag', 'ImageStream', '$http', 'platformlist', function ($rootScope, $scope, $uibModalInstance, images, ImageStreamTag, ImageStream, $http, platformlist) {
                         console.log('images', images);
                         $scope.grid = {
                             cat: 0,
@@ -412,10 +500,10 @@ define(['angular'], function (angular) {
                             version_y: null
                         };
                         $scope.test = {
-                            'items':[]
+                            'items': []
                         };
                         $scope.imgcon = {
-                            items : []
+                            items: []
                         }
                         $scope.$watch('imageName', function (newVal, oldVal) {
                             if (newVal != oldVal) {
@@ -424,7 +512,7 @@ define(['angular'], function (angular) {
                                     angular.forEach($scope.images.items, function (image) {
                                         image.hide = !(new RegExp(newVal)).test(image.metadata.name);
                                     });
-                                }else{
+                                } else {
                                     angular.forEach($scope.images.items, function (image) {
                                         image.hide = !(new RegExp(newVal)).test(image.name);
                                     });
@@ -434,12 +522,12 @@ define(['angular'], function (angular) {
                         $scope.$watch('imageVersion', function (newVal, oldVal) {
                             if (newVal != oldVal) {
                                 newVal = newVal.replace(/\\/g);
-                                if($scope.grid.cat == 0) {
+                                if ($scope.grid.cat == 0) {
                                     angular.forEach($scope.imageTags, function (item, i) {
                                         item.hide = !(new RegExp(newVal)).test(item.tag);
                                     });
-                                }else{
-                                    angular.forEach($scope.imageTags,function(item, i){
+                                } else {
+                                    angular.forEach($scope.imageTags, function (item, i) {
                                         item.hide = !(new RegExp(newVal)).test(item.tag);
                                     });
                                 }
@@ -452,33 +540,33 @@ define(['angular'], function (angular) {
                             $scope.imageTags = {};
                             $scope.images = {};
                             $scope.grid.image = null;
-                            console.log("1223",idx);
+                            console.log("1223", idx);
                             $scope.grid.cat = idx;
-                            if(idx == 0 ){
-                                ImageStream.get({namespace: $rootScope.namespace},function(res){
+                            if (idx == 0) {
+                                ImageStream.get({namespace: $rootScope.namespace}, function (res) {
                                     $scope.images = res;
                                 })
-                            }else if(idx == 1){
+                            } else if (idx == 1) {
                                 $http.get('/registry/api/projects', {
                                     params: {is_public: 0}
                                 }).success(function (data) {
-                                    for(var i = 0 ; i < data.length; i++){
-                                        $http.get('/registry/api/repositories', {params: {project_id:data[i].project_id}})
+                                    for (var i = 0; i < data.length; i++) {
+                                        $http.get('/registry/api/repositories', {params: {project_id: data[i].project_id}})
                                             .success(function (res) {
-                                                if(res){
-                                                    for(var j = 0 ; j < res.length; j++ ){
+                                                if (res) {
+                                                    for (var j = 0; j < res.length; j++) {
                                                         var str = {
-                                                            'name' : res[j]
+                                                            'name': res[j]
                                                         }
                                                         $scope.test.items.push(str);
                                                     }
-                                                    $scope.images = $scope.test ;
+                                                    $scope.images = $scope.test;
                                                 }
                                             })
                                     }
 
                                 })
-                            }else if(idx == 2){
+                            } else if (idx == 2) {
                                 //////镜像中心
                                 $http.get('/registry/api/repositories', {params: {project_id: 1}})
                                     .success(function (data) {
@@ -486,13 +574,13 @@ define(['angular'], function (angular) {
                                         $http.get('/registry/api/repositories', {params: {project_id: 58}})
                                             .success(function (msg) {
                                                 arr2 = arr2.concat(msg);
-                                                for(var j = 0 ; j < arr2.length; j++ ){
+                                                for (var j = 0; j < arr2.length; j++) {
                                                     var str2 = {
-                                                        'name' : arr2[j]
+                                                        'name': arr2[j]
                                                     }
                                                     $scope.imgcon.items.push(str2);
                                                 }
-                                                $scope.images = $scope.imgcon ;
+                                                $scope.images = $scope.imgcon;
                                             })
                                     })
                                 $scope.images = $scope.imgcon
@@ -502,11 +590,11 @@ define(['angular'], function (angular) {
                         $scope.selectImage = function (idx) {
                             $scope.grid.version_x = null;
                             $scope.grid.version_y = null;
-                            if($scope.grid.cat == 0){
+                            if ($scope.grid.cat == 0) {
                                 $scope.grid.image = idx;
                                 var image = $scope.images.items[idx];
                                 angular.forEach(image.status.tags, function (item) {
-                                    if(image.metadata.name){
+                                    if (image.metadata.name) {
                                         ImageStreamTag.get({
                                             namespace: $rootScope.namespace,
                                             name: image.metadata.name + ':' + item.tag
@@ -520,38 +608,38 @@ define(['angular'], function (angular) {
                                 console.log("get image stream tag err", image.status.tags);
                                 $scope.imageTags = image.status.tags;
                                 console.log('test tag.items', $scope.imageTags)
-                            }else if($scope.grid.cat == 1){
+                            } else if ($scope.grid.cat == 1) {
                                 $scope.grid.image = idx;
-                                platformlist.query({id:$scope.test.items[idx].name},function (data){
+                                platformlist.query({id: $scope.test.items[idx].name}, function (data) {
                                     $scope.test.items[idx].status = {};
                                     $scope.test.items[idx].status.tags = [];
-                                    for(var i = 0 ; i < data.length; i++){
+                                    for (var i = 0; i < data.length; i++) {
                                         var test2 = {
-                                            'tag' : data[i],
-                                            'items' : data,
-                                            'ist' : {
-                                                'imagesname' :$scope.test.items[idx].name+'/'+data[i],
-                                                'ispublicimage' : true,
-                                                imagePullSecrets : true
+                                            'tag': data[i],
+                                            'items': data,
+                                            'ist': {
+                                                'imagesname': $scope.test.items[idx].name + '/' + data[i],
+                                                'ispublicimage': true,
+                                                imagePullSecrets: true
                                             }
                                         };
                                         $scope.test.items[idx].status.tags.push(test2)
                                     }
                                     $scope.imageTags = $scope.test.items[idx].status.tags;
                                 })
-                            }else if($scope.grid.cat == 2){
+                            } else if ($scope.grid.cat == 2) {
                                 $scope.grid.image = idx;
-                                $http.get('/registry/api/repositories/tags', {params: {repo_name:$scope.imgcon.items[idx].name}})
+                                $http.get('/registry/api/repositories/tags', {params: {repo_name: $scope.imgcon.items[idx].name}})
                                     .success(function (tagmsg) {
                                         $scope.imgcon.items[idx].status = {};
                                         $scope.imgcon.items[idx].status.tags = [];
-                                        for(var i = 0 ; i < tagmsg.length; i++){
+                                        for (var i = 0; i < tagmsg.length; i++) {
                                             var tagmsgobj = {
-                                                'tag' : tagmsg[i],
-                                                'items' : tagmsg,
-                                                'ist' : {
-                                                    'imagesname' :$scope.imgcon.items[idx].name+'/'+tagmsg[i],
-                                                    'ispublicimage' : true,
+                                                'tag': tagmsg[i],
+                                                'items': tagmsg,
+                                                'ist': {
+                                                    'imagesname': $scope.imgcon.items[idx].name + '/' + tagmsg[i],
+                                                    'ispublicimage': true,
                                                 }
                                             };
                                             $scope.imgcon.items[idx].status.tags.push(tagmsgobj)
@@ -948,6 +1036,7 @@ define(['angular'], function (angular) {
                         });
 
                     }
+
                     denglu()
                     //$http(req).success(function (data) {
                     //  console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&"+data);
