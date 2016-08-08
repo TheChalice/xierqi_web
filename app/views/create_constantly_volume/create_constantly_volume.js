@@ -30,35 +30,14 @@ angular.module('console.create_constantly_volume', [
             }
         }
     })
-    //$scope.$watch('volume', function (n,o) {
-    //    if (n == o) {
-    //        return
-    //    }
-    //
-    //    var r = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
-    //
-    //    if (n.name) {
-    //        if (!r.test(n.name)) {
-    //            $scope.grid.inved=true
-    //        }else {
-    //            $scope.grid.inved=false
-    //
-    //        }
-    //    }
-    //    if (n.size) {
-    //        if (n < 10 || n > 200) {
-    //            $scope.grid.num=true
-    //        } else {
-    //            $scope.grid.num=false
-    //        }
-    //    }
-    //
-    //},true);
+
     $scope.creat = function () {
         //console.log($scope.frm);
+        $scope.loaded=true;
         console.log($scope.volume);
         volume.create({namespace: $rootScope.namespace},$scope.volume, function (res) {
             //alert(11111)
+            $scope.loaded=false;
             $state.go('console.resource_management',{index:1});
         }, function (err) {
 
