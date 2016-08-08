@@ -133,6 +133,10 @@ angular.module('console.build.detail', [
                 if (newVal == "start") {
                     return;
                 }
+                if ($scope.selection) {
+                    $scope.selection=false;
+                    return
+                }
                 if (newVal != oldVal) {
                     $scope.saveTrigger();
                 }
@@ -201,22 +205,34 @@ angular.module('console.build.detail', [
             var checkWebStatus = function(){
                 var host = $scope.data.spec.source.git.uri;
                 if (getSourceHost(host) === 'github.com') {
-                    WebhookGitget.get({namespace: $rootScope.namespace, build: $stateParams.name}, function (item) {
-                        if (item.code == 1404) {
-                            $scope.grid.checked = false;
-                        } else {
+                    WebhookGitget.get({namespace: $rootScope.namespace, build: $stateParams.name}, function (res) {
+                        console.log('666',res);
+                        if (res.code == 1200) {
                             $scope.grid.checked = true;
                         }
-                    })
-                } else{
-                    WebhookLabget.get({namespace: $rootScope.namespace, build: $stateParams.name},function(res){
-                        if(res.code == 1404){
+
+                    }, function (res) {
+                        console.log('666',res);
+                        if (res.data.code == 1404) {
                             $scope.grid.checked = false;
-                        }else{
+                        }
+                    })
+                } else {
+                    WebhookLabget.get({namespace: $rootScope.namespace, build: $stateParams.name},function(res){
+
+                        if (res.code == 1200) {
                             $scope.grid.checked = true;
+                        }
+
+
+                    }, function (res) {
+
+                        if (res.data.code == 1404) {
+                            $scope.grid.checked = false;
                         }
                     });
                 }
+                $scope.selection=true
             }
             var createWebhook = function(){
                 var host = $scope.data.spec.source.git.uri;
@@ -271,7 +287,6 @@ angular.module('console.build.detail', [
                     }
                 }
             }
-
 
             $scope.isshow = true;
             $scope.gitStore = {};
