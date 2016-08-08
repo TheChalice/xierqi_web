@@ -395,74 +395,27 @@ angular.module('console.service.create', [
 
 
         var cintainersidx;
+        $scope.secretsobj = {
+
+            secretarr : []
+          ,
+
+            configmap : []
+          ,
+
+            persistentarr : []
+
+        }
         $scope.addVolume = function(idx){
         var olength = $scope.dc.spec.template.spec.volumes.length;
           cintainersidx = idx;
-          ChooseSecret.open(olength,cintainersidx).then(function (volumesobj) {
+          ChooseSecret.open(olength,$scope.secretsobj).then(function (volumesobj) {
             console.log('------------------------',volumesobj);
-
+            $scope.dc.spec.template.spec.containers[idx].volumeMounts = volumesobj.arr2;
+            $scope.dc.spec.template.spec.volumes = $scope.dc.spec.template.spec.volumes.concat(volumesobj.arr1);
+            $scope.secretsobj = volumesobj.arr3
           });
         }
-        //  挂载卷
-        //$scope.secretarr = [];
-        //$scope.configmap = [];
-        //$scope.addsecretarr = function(){
-        //  alert(1);
-        //  $scope.secretarr.push({
-        //    "myname": "",
-        //    "secret": {
-        //    "secretName":$scope.testname
-        //    },
-        //    mountPath : '22222'
-        //  });
-        //}
-        //$scope.addconfigmap = function(){
-        //
-        //}
-        var loadSecrets = function () {
-          Secret.get({namespace: $rootScope.namespace}, function (res) {
-            $log.info("secrets", res);
-
-            $scope.secrets = res;
-          }, function (res) {
-            $log.info("load secrets err", res);
-          });
-        };
-        loadSecrets();
-        $scope.addSecret = function (name, idx, last,hashKeys) {
-          $log.info('$scope.dcdc.spec.template.spec.containers-=-=-=-=-=-=-=', $scope.dc.spec.template.spec.containers)
-          var containers = $scope.dc.spec.template.spec.containers;
-          var volumes = $scope.dc.spec.template.spec.volumes;
-          var container = null;
-          for (var i = 0; i < containers.length; i++) {
-            if (containers[i].$$hashKey == hashKeys) {
-              container = containers[i];
-            }
-          }
-          if (!container) {
-            return;
-          }
-          if (last) {     //添加
-            container.volumeMounts.push({});
-          } else {
-            container.volumeMounts.splice(idx, 1);
-          }
-        };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -704,15 +657,12 @@ angular.module('console.service.create', [
           var containers = dc.spec.template.spec.containers;
           for (var i = 0; i < containers.length; i++) {
             var container = containers[i];
-            for (var j = 0; j < container.volumeMounts.length;) {
-              if (!container.volumeMounts[j].name || !container.volumeMounts[j].mountPath) {
-                //$log.info("remove " + j + " from volumeMounts total has " + container.volumeMounts.length);
-                container.volumeMounts.splice(j, 1);
-                j = 0;
-              } else {
-                j++;
-              }
+            if(container.volumeMounts.length ==0 ){
+               delete container["volumeMounts"];
             }
+          }
+          if(dc.spec.template.spec.volumes.length == 0){
+            delete dc.spec.template.spec["volumes"];
           }
         };
 
@@ -947,21 +897,21 @@ angular.module('console.service.create', [
           for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
             $scope.dc.spec.template.spec.containers[i].name = dc.spec.template.spec.containers[i].strname;
             delete dc.spec.template.spec.containers[i]["strname"];
-            for (var j = 0; j < dc.spec.template.spec.containers[i].volumeMounts.length; j++) {
-              if (dc.spec.template.spec.containers[i].volumeMounts[j].name) {
-                flog++;
-                var volume1 = "volume" + flog;
-                dc.spec.template.spec.volumes.push(
-                    {
-                      "name": volume1,
-                      "secret": {
-                        "secretName": dc.spec.template.spec.containers[i].volumeMounts[j].name
-                      }
-                    }
-                );
-                dc.spec.template.spec.containers[i].volumeMounts[j].name = volume1;
-              }
-            }
+            //for (var j = 0; j < dc.spec.template.spec.containers[i].volumeMounts.length; j++) {
+            //  if (dc.spec.template.spec.containers[i].volumeMounts[j].name) {
+            //    flog++;
+            //    var volume1 = "volume" + flog;
+            //    dc.spec.template.spec.volumes.push(
+            //        {
+            //          "name": volume1,
+            //          "secret": {
+            //            "secretName": dc.spec.template.spec.containers[i].volumeMounts[j].name
+            //          }
+            //        }
+            //    );
+            //    dc.spec.template.spec.containers[i].volumeMounts[j].name = volume1;
+            //  }
+            //}
             if (cons[i].ports) {
               var testlength = cons[i].ports.length;
               for (var k = 0; k < testlength; k++) {

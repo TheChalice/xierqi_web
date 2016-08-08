@@ -198,17 +198,19 @@ define(['angular'], function (angular) {
             }
         }])
         .service('ChooseSecret', ['$uibModal', function ($uibModal) {
-            this.open = function (olength,cintainersidx) {
+            this.open = function (olength,secretsobj) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/choosSecret.html',
                     size: 'default',
-                    controller: ['$scope', '$uibModalInstance', '$log','secretskey', '$rootScope','configmaps',function ($scope, $uibModalInstance, $log,secretskey,$rootScope,configmaps) {
-                        $scope.secretarr = [];
-                        $scope.configmap = [];
+                    controller: ['$scope', '$uibModalInstance', '$log','secretskey', '$rootScope','configmaps','persistent','$state',function ($scope, $uibModalInstance, $log,secretskey,$rootScope,configmaps,persistent,$state) {
+                        $scope.secretarr = secretsobj.secretarr;
+                        $scope.configmap = secretsobj.configmap;
+                        $scope.persistentarr = secretsobj.persistentarr;
                         //$scope.outerIndex;
                         $scope.$watch('testname',function(n,o){
                             console.log('==================nnnnnn',n);
                         })
+                        ////添加密钥
                         $scope.addsecretarr = function(){
                             $scope.secretarr.push({
                                 "myname": "",
@@ -217,6 +219,10 @@ define(['angular'], function (angular) {
                                 },
                                 mountPath : ''
                             });
+                        }
+                        ////删除密钥
+                        $scope.delsecretarr = function(idx){
+                            $scope.secretarr.splice(idx, 1);
                         }
                         $scope.changesecrename = function(idx,val){
                             $scope.secretarr[idx].secret.secretName = val
@@ -242,6 +248,8 @@ define(['angular'], function (angular) {
                             })
                         }
                         loadconfigmaps();
+
+                        ///添加配置卷  ///
                         $scope.addconfigmap = function(){
                             $scope.configmap.push({
                                 "myname": "",
@@ -251,9 +259,44 @@ define(['angular'], function (angular) {
                                 mountPath : ''
                             });
                         }
+                        ////////删除配置卷
+                        $scope.delconfigmap = function(idx){
+                            $scope.configmap.splice(idx, 1);
+                        }
                         $scope.changeconfigname = function(idx,val){
                             $scope.configmap[idx].configMap.name = val
                         }
+                        ////////持久化卷
+                        ///获取持久化卷
+                        var loadpersistent = function(){
+                            persistent.get({namespace: $rootScope.namespace},function(res){
+                                if(res.items){
+                                    $scope.persistentitem = res.items;
+                                }
+                            })
+                        }
+                        loadpersistent();
+                        //////添加持久化卷
+                        $scope.addpersistent = function(){
+                            $scope.persistentarr.push({
+                                "myname": "",
+                                "persistentVolumeClaim": {
+                                    "claimName":'名称'
+                                },
+                                mountPath : ''
+                            });
+                        }
+                        ///删除持久化卷
+                        $scope.delpersistent = function(idx){
+                            $scope.persistentarr.splice(idx, 1);
+                        }
+                        $scope.changepersistentname = function(idx,val){
+                            $scope.persistentarr[idx].persistentVolumeClaim.claimName = val
+                        }
+                        $scope.govolume = function(){
+                            $state.go('console.resource_management')
+                            $uibModalInstance.dismiss();
+                        };
                         ///  确定选择所选挂载卷
                         $scope.ok = function(){
                             var thisvolumes = [];
@@ -270,6 +313,10 @@ define(['angular'], function (angular) {
                                     "name": "volumes"+(i+olength),
                                     "mountPath": $scope.secretarr[i].mountPath
                                 }
+                                if($scope.secretarr[i].secret.secretName == '名称' || !$scope.secretarr[i].mountPath){
+                                    alert('密钥不能为空')
+                                    return;
+                                }
                                 thisvolumes.push(volumeval);
                                 thisvolumeMounts.push(mountsval)
                             }
@@ -285,12 +332,39 @@ define(['angular'], function (angular) {
                                     "name": "volumes"+(j+olength+$scope.secretarr.length),
                                     "mountPath": $scope.configmap[j].mountPath
                                 }
+                                if($scope.configmap[j].configMap.name == '名称' || !$scope.configmap[j].mountPath){
+                                    alert('2不能为空')
+                                    return;
+                                }
                                 thisvolumes.push(volumeval);
                                 thisvolumeMounts.push(mountsval);
                             }
+                            for(var j = 0 ; j < $scope.persistentarr.length; j++ ){
+                                var volumeval =  {
+                                    "name": "volumes"+(j+olength+$scope.secretarr.length+$scope.configmap.length),
+                                    "persistentVolumeClaim": {
+                                        "claimName": $scope.persistentarr[j].persistentVolumeClaim.claimName
+                                    }
 
-                            $uibModalInstance.close({arr1:thisvolumes,arr2:thisvolumeMounts});
+                                }
+                                var mountsval =  {
+                                    "name": "volumes"+(j+olength+$scope.secretarr.length+$scope.configmap.length),
+                                    "mountPath": $scope.persistentarr[j].mountPath
+                                }
+                                console.log('$scope.persistentarr[j].mountPath',$scope.persistentarr[j].mountPath)
+                                if($scope.persistentarr[j].persistentVolumeClaim.claimName == '名称' || !$scope.persistentarr[j].mountPath){
+                                    alert('3不能为空')
+                                    return;
+                                }
+
+                                thisvolumes.push(volumeval);
+                                thisvolumeMounts.push(mountsval);
+                            }
+                            $uibModalInstance.close({arr1:thisvolumes,arr2:thisvolumeMounts,arr3:{"secretarr":$scope.secretarr,"configmap":$scope.configmap,"persistentarr":$scope.persistentarr}});
                         }
+                        $scope.cancel = function () {
+                            $uibModalInstance.dismiss();
+                        };
                     }]
                 }).result
             }
