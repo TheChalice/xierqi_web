@@ -124,6 +124,21 @@ define(['angular', 'moment'], function (angular, moment) {
                 }
             };
         }])
+        .filter('bandFilter',[function(){
+            return function(phase){
+                if(phase == 'band'){
+                    return "已挂载"
+                }else if(phase == 'Unbound'){
+                    return "未绑定"
+                }else if(phase == 'Pending'){
+                    return "正在创建"
+                }else if(phase == 'Bound'){
+                    return "空闲"
+                }else{
+                    return phase || "-"
+                }
+            };
+        }])
         .filter("timescon",[function(){
             return function(times){
                 if(times){

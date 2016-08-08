@@ -24,11 +24,16 @@ angular.module('console.resource_management', [
         } else {
             $scope.check = false
         }
-        function persistentlist() {
+        $scope.constantlyvolume= function () {
+            $scope.grid.constantlyvolume=true;
+            persistentlist('nows');
+        }
+        function persistentlist(nows) {
             persistent.get({namespace: $rootScope.namespace}, function (res) {
 
                 DeploymentConfig.get({namespace: $rootScope.namespace}, function (resdc) {
-                    //console.log('dc',resdc);
+                    console.log('dc',resdc);
+                    $scope.grid.constantlyvolume=false;
                     angular.forEach(res.items, function (volitem, i) {
                         res.items[i].arr = []
                         angular.forEach(resdc.items, function (dcitem, k) {
@@ -43,6 +48,9 @@ angular.module('console.resource_management', [
 
                     if (res.items && res.items.length > 0) {
                         angular.forEach(res.items, function (item, i) {
+                            if (item.arr.length > 0) {
+                                res.items[i].status.phase='band'
+                            }
                             res.items[i].sorttime = (new Date(item.metadata.creationTimestamp)).getTime()
                         })
                         console.log($scope.items);
@@ -51,7 +59,10 @@ angular.module('console.resource_management', [
                             return x.sorttime > y.sorttime ? -1 : 1;
                         });
                         $scope.resourceVersion = res.metadata.resourceVersion;
-                        watchPc(res.metadata.resourceVersion);
+                        if (!nows) {
+                            watchPc(res.metadata.resourceVersion);
+                        }
+                        //物理刷新不重启ws
                         $scope.persistents = res;
                         console.log('chijiu', res);
                     }
@@ -104,7 +115,10 @@ angular.module('console.resource_management', [
                 //$scope.rcs.items.push(data.object);
             } else if (data.type == "MODIFIED") {
                 angular.forEach($scope.persistents, function (item,i) {
-                    item.metadata.name
+                    if (item.metadata.name == data.object.metadata.name) {
+                        $scope.persistents[i]=data.object;
+                        $scope.$apply();
+                    }
                 })
                 //angular.forEach($scope.items, function(item, i){
                 //    if (item.rc.metadata.name == data.object.metadata.name) {
