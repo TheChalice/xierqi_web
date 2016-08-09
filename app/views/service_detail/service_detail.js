@@ -675,7 +675,10 @@ angular.module('console.service.detail', [
               data.object.log = result;
             }, function (res) {
               //todo 错误处理
-              data.object.log = res.data.message;
+              if (res.data) {
+                data.object.log = res.data.message;
+              }
+
             });
 
             if (data.type == 'ADDED') {
