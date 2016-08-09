@@ -91,7 +91,7 @@
                                             <td class="col-md-10" style="padding:0;border: 0px; border-bottom: 1px solid #dddddd; border-right: 1px solid #dddddd;">
                                                 <div ng-repeat="secretarr in secretsobj.secretarr">
                                                     <div style="border-bottom: 1px solid #ddd;height: 30px;line-height: 30px;">{{secretarr.secret.secretName}}</div>
-                                                    <div style="height: 30px;line-height: 30px;border-bottom: 1px solid #ddd;">{{secretarr.mountPath}}</div>
+                                                    <div style="height: 30px;line-height: 30px;">{{secretarr.mountPath}}</div>
                                                 </div>
 
                                             </td>
@@ -103,7 +103,7 @@
                                             <td class="col-md-10" style="padding:0;border: 0px; border-bottom: 1px solid #dddddd; border-right: 1px solid #dddddd;">
                                                 <div ng-repeat="configmap in secretsobj.configmap">
                                                     <div style="border-bottom: 1px solid #ddd;height: 30px;line-height: 30px;">{{configmap.configMap.name}}</div>
-                                                    <div style="height: 30px;line-height: 30px;border-bottom: 1px solid #ddd;">{{configmap.mountPath}}</div>
+                                                    <div style="height: 30px;line-height: 30px;">{{configmap.mountPath}}</div>
                                                 </div>
                                             </td>
                                         </tr>
@@ -114,7 +114,7 @@
                                             <td class="col-md-10" style="padding:0;" style="padding:0;border: 0px; border-bottom: 1px solid #dddddd; border-right: 1px solid #dddddd;">
                                                 <div  ng-repeat="persistentarr in secretsobj.persistentarr">
                                                     <div style="border-bottom: 1px solid #ddd;height: 30px;line-height: 30px;">{{persistentarr.persistentVolumeClaim.claimName}}</div>
-                                                    <div style="height: 30px;line-height: 30px;border-bottom: 1px solid #ddd;">{{persistentarr.mountPath}}</div>
+                                                    <div style="height: 30px;line-height: 30px;">{{persistentarr.mountPath}}</div>
                                                 </div>
                                             </td>
                                         </tr>
