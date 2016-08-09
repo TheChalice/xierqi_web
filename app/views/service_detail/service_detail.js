@@ -1282,12 +1282,12 @@ angular.module('console.service.detail', [
           var containers = dc.spec.template.spec.containers;
           for (var i = 0; i < containers.length; i++) {
             var container = containers[i];
-            if(container.volumeMounts.length == 0 ){
+            if(container.volumeMounts&&container.volumeMounts.length == 0 ){
               delete container["volumeMounts"];
             }
 
           }
-          if(dc.spec.template.spec.volumes.length == 0){
+          if(dc.spec.template.spec.volumes&&dc.spec.template.spec.volumes.length == 0){
             delete dc.spec.template.spec["volumes"];
           }
         };
