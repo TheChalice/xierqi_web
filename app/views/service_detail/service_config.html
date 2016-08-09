@@ -35,25 +35,53 @@
                             镜像版本:&nbsp;&nbsp;{{container.tag}}
                         </p>
                     </div>
+                    <hr>
+                    <div>
+                        <a href="javascript:;" style="font-size: 14px;" class="href-add" ng-click="addVolume($index)">
+                            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;添加卷
+                        </a>
+                        <div>
 
-                    <h4>挂载secret卷&nbsp;&nbsp;&nbsp;&nbsp;
-                        <a href="javascript:;" class="fa fa-plus-circle fa-lg href-add">
-                            &nbsp;&nbsp;创建</a></h4>
-
-                    <div class="secret-bar" ng-repeat="vm in container.volumeMounts">
-                        <div class="dropdown dropdown-select" style="width: 200px;margin: 0 15px 15px 0;">
-                            <button class="btn dropdown-toggle" data-toggle="dropdown">
-                                <span>{{vm.name || '请选择'}}</span>
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu">
-                                <li ng-repeat="s in secrets.items">
-                                    <a href="javascript:;" ng-click="vm.name = s.metadata.name">{{s.metadata.name}}</a>
-                                </li>
-                            </ul>
                         </div>
-                        <input ng-model="vm.mountPath" style="width: 300px;display: inline-block;margin: 0 15px 15px 0;" type="text" class="form-control">
-                        <a href="javascript:;" ng-click="addSecret(container.name, $index, $last)" class="fa fa-lg" ng-class="{'fa-times-circle':!$last, 'fa-plus-circle':$last}"></a>
+                    </div>
+
+                    <div>
+                        <table class="table table-bordered" border="0" cellpadding="0" cellspacing="0">
+                            <tr ng-if="secretsobj.secretarr.length">
+                                <td class="col-md-2" style="padding:0; border: 1px solid #ddd;text-align: center;vertical-align: middle;background: #f7f8fb;" >
+                                    密钥
+                                </td>
+                                <td class="col-md-10" style="padding:0;border: 0px; border-bottom: 1px solid #dddddd; border-right: 1px solid #dddddd;">
+                                    <div ng-repeat="secretarr in secretsobj.secretarr">
+                                        <div style="border-bottom: 1px solid #ddd;height: 30px;line-height: 30px;">{{secretarr.secret.secretName}}</div>
+                                        <div style="height: 30px;line-height: 30px;border-bottom: 1px solid #ddd;">{{secretarr.mountPath}}</div>
+                                    </div>
+
+                                </td>
+                            </tr>
+                            <tr  ng-if="secretsobj.configmap.length">
+                                <td class="col-md-2" style="padding:0;  border: 1px solid #ddd;text-align: center;vertical-align: middle;background: #f7f8fb;">
+                                    配置卷
+                                </td>
+                                <td class="col-md-10" style="padding:0;border: 0px; border-bottom: 1px solid #dddddd; border-right: 1px solid #dddddd;">
+                                    <div ng-repeat="configmap in secretsobj.configmap">
+                                        <div style="border-bottom: 1px solid #ddd;height: 30px;line-height: 30px;">{{configmap.configMap.name}}</div>
+                                        <div style="height: 30px;line-height: 30px;border-bottom: 1px solid #ddd;">{{configmap.mountPath}}</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr  ng-if="secretsobj.persistentarr.length">
+                                <td class="col-md-2" style="padding:0; border: 1px solid #ddd; text-align: center;vertical-align: middle;background: #f7f8fb;">
+                                    持久化卷
+                                </td>
+                                <td class="col-md-10" style="padding:0;" style="padding:0;border: 0px; border-bottom: 1px solid #dddddd; border-right: 1px solid #dddddd;">
+                                    <div  ng-repeat="persistentarr in secretsobj.persistentarr">
+                                        <div style="border-bottom: 1px solid #ddd;height: 30px;line-height: 30px;">{{persistentarr.persistentVolumeClaim.claimName}}</div>
+                                        <div style="height: 30px;line-height: 30px;border-bottom: 1px solid #ddd;">{{persistentarr.mountPath}}</div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
 
                     <h4 ng-if="false">容器资源限额</h4>

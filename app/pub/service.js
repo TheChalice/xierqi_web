@@ -203,6 +203,7 @@ define(['angular'], function (angular) {
                     templateUrl: 'pub/tpl/choosSecret.html',
                     size: 'default',
                     controller: ['$scope', '$uibModalInstance', '$log','secretskey', '$rootScope','configmaps','persistent','$state',function ($scope, $uibModalInstance, $log,secretskey,$rootScope,configmaps,persistent,$state) {
+                        console.log('secretsobjvsecretsobj',secretsobj);
                         $scope.secretarr = secretsobj.secretarr;
                         $scope.configmap = secretsobj.configmap;
                         $scope.persistentarr = secretsobj.persistentarr;
