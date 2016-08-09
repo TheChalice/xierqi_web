@@ -44,8 +44,8 @@
                     <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
                     {{item.metadata.creationTimestamp | dateRelative}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <span ng-if="item.type=='Error'">严重告警</span>
-                    <span ng-if="item.type=='Warning'">一般告警</span>
-                    <span ng-if="item.type=='Normal'">告警</span>
+                    <span ng-if="item.type=='Warning'">告警</span>
+                    <span ng-if="item.type=='Normal'">一般告警</span>
                 </label>
                 <div class="container-fluid">
                     {{item.message}}

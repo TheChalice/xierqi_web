@@ -594,8 +594,12 @@ angular.module('console.service.detail', [
                 });
               }
             }
+
+            console.log('url',$scope.dc);
             loadService(dcdata.metadata.name);
             $scope.dc = dcdata;
+            loadRoutes()
+
             var labelSelector = 'openshift.io/deployment-config.name=' + $scope.dc.metadata.name;
             ReplicationController.get({namespace: $rootScope.namespace, labelSelector: labelSelector}, function (res) {
               res.items = Sort.sort(res.items, -1);
@@ -614,10 +618,14 @@ angular.module('console.service.detail', [
               if ($scope.getroutes.items[i].spec.to.name == $scope.dc.metadata.name) {
                 $scope.dc.route = $scope.getroutes.items[i];
                 $scope.grid.route = true;
-                if($scope.dc.route.spec.port){
+                if($scope.dc.route&&$scope.dc.route.spec.port){
                   $scope.grid.port = parseInt($scope.dc.route.spec.port.targetPort.replace(/-.*/, ''));
+
                 }
-                $scope.grid.host = $scope.dc.route.spec.host.replace($scope.grid.suffix, '');
+                if ($scope.dc.route) {
+                  $scope.grid.host = $scope.dc.route.spec.host.replace($scope.grid.suffix, '');
+                }
+
 
               }
             }
@@ -667,7 +675,10 @@ angular.module('console.service.detail', [
               data.object.log = result;
             }, function (res) {
               //todo 错误处理
-              data.object.log = res.data.message;
+              if (res.data) {
+                data.object.log = res.data.message;
+              }
+
             });
 
             if (data.type == 'ADDED') {
