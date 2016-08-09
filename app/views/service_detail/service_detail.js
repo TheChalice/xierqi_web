@@ -1154,7 +1154,11 @@ angular.module('console.service.detail', [
 /////////////挂载卷
         var cintainersidx;
         $scope.addVolume = function(idx){
-          var olength = $scope.onlyDC.spec.template.spec.volumes.length;
+          var olength = 0;
+          if($scope.onlyDC.spec.template.spec.volumes){
+            olength = $scope.onlyDC.spec.template.spec.volumes.length;
+          }
+
           cintainersidx = idx;
           ChooseSecret.open(olength,$scope.secretsobj).then(function (volumesobj) {
             console.log('------------------------',volumesobj);

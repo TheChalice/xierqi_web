@@ -407,7 +407,10 @@ angular.module('console.service.create', [
 
         }
         $scope.addVolume = function(idx){
-        var olength = $scope.dc.spec.template.spec.volumes.length;
+          var olength = 0;
+          if($scope.onlyDC.spec.template.spec.volumes){
+            olength = $scope.onlyDC.spec.template.spec.volumes.length;
+          }
           cintainersidx = idx;
           ChooseSecret.open(olength,$scope.secretsobj).then(function (volumesobj) {
             console.log('------------------------',volumesobj);
