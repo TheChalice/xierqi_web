@@ -101,6 +101,9 @@ angular.module('console.service.detail', [
         var loadDc = function (name) {
           DeploymentConfig.get({namespace: $rootScope.namespace, name: name}, function (res) {
             // $log.info("deploymentConfigs", res);
+            if(!res.metadata.annotations){
+              res.metadata.annotations = {};
+            }
             $scope.dc = res;
             $scope.onlyDC = res;
             $scope.secretsobj = {
@@ -1602,10 +1605,15 @@ angular.module('console.service.detail', [
             }
           }
           if($scope.grid.isimageChange == false){
-            dc.metadata.annotations["dadafoundry.io/images-from"] = 'public';
+            if( dc.metadata.annotations){
+              dc.metadata.annotations["dadafoundry.io/images-from"] = 'public';
+            }
+
             dc.spec.triggers=[{type: 'ConfigChange'}];
           }else{
-            dc.metadata.annotations["dadafoundry.io/images-from"] = 'private';
+            if(dc.metadata.annotations){
+              dc.metadata.annotations["dadafoundry.io/images-from"] = 'private';
+            }
             dc.spec.triggers = $scope.dc.spec.triggers;
           }
           var isport = false;
