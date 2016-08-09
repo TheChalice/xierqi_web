@@ -577,14 +577,14 @@ angular.module('console.service.detail', [
 
           console.log('data.type',data.type);
           DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (dcdata) {
-            $scope.dc = dcdata
+            //$scope.dc = dcdata
             $scope.getdc.spec.replicas = dcdata.spec.replicas;
-            for(var i = 0 ;i < $scope.dc.spec.template.spec.containers.length; i++){
-              var imagetag = 'image-'+$scope.dc.spec.template.spec.containers[i].name;
-              if($scope.dc.metadata.annotations[imagetag]){
-                $scope.dc.spec.template.spec.containers[i].tag = $scope.dc.metadata.annotations[imagetag];
+            for(var i = 0 ;i < dcdata.spec.template.spec.containers.length; i++){
+              var imagetag = 'image-'+dcdata.spec.template.spec.containers[i].name;
+              if(dcdata.metadata.annotations[imagetag]){
+                dcdata.spec.template.spec.containers[i].tag = dcdata.metadata.annotations[imagetag];
               }else{
-                angular.forEach($scope.dc.spec.template.spec.containers, function (item) {
+                angular.forEach(dcdata.spec.template.spec.containers, function (item) {
                   var tagstr = item.image;
                   if(tagstr.indexOf('@') != -1){
                     item.tag = tagstr.split('@')[1];
@@ -595,7 +595,7 @@ angular.module('console.service.detail', [
               }
             }
 
-            console.log('url',$scope.dc);
+            console.log('url',dcdata);
             loadService(dcdata.metadata.name);
             $scope.dc = dcdata;
             loadRoutes()
