@@ -9,8 +9,8 @@ angular.module('console.service.detail', [
         ]
       }
     ])
-    .controller('ServiceDetailCtrl', ['$http','$state', '$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamTag', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal', 'Secret', 'ImageSelect', 'Service', 'BackingServiceInstanceBd','ImageService','serviceaccounts',
-      function ($http,$state, $rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamTag, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret, ImageSelect, Service, BackingServiceInstanceBd,ImageService,serviceaccounts) {
+    .controller('ServiceDetailCtrl', ['$http','$state', '$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamTag', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal', 'Secret', 'ImageSelect', 'Service', 'BackingServiceInstanceBd','ImageService','serviceaccounts','ChooseSecret',
+      function ($http,$state, $rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamTag, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret, ImageSelect, Service, BackingServiceInstanceBd,ImageService,serviceaccounts,ChooseSecret) {
         //获取服务列表
         $scope.servicepoterr = false;
         
@@ -101,6 +101,70 @@ angular.module('console.service.detail', [
         var loadDc = function (name) {
           DeploymentConfig.get({namespace: $rootScope.namespace, name: name}, function (res) {
             // $log.info("deploymentConfigs", res);
+            if(!res.metadata.annotations){
+              res.metadata.annotations = {};
+            }
+            $scope.dc = res;
+            $scope.onlyDC = res;
+            $scope.secretsobj = {
+
+              secretarr : []
+              ,
+
+              configmap : []
+              ,
+
+              persistentarr : []
+
+            }
+            var allvolumeMounts = [];
+            for(var i = 0 ; i < res.spec.template.spec.containers.length;i++){
+              var coni = res.spec.template.spec.containers[i];
+              if(coni.volumeMounts){
+                allvolumeMounts = allvolumeMounts.concat(coni.volumeMounts);
+              }
+            }
+            if(res.spec.template.spec.volumes){
+              var vols = res.spec.template.spec.volumes
+              for(var j = 0 ;j<vols.length;j++){
+                for(var k = 0 ; k < allvolumeMounts.length; k++){
+                   if(allvolumeMounts[k].name == vols[j].name){
+                     vols[j].mountPath = allvolumeMounts[k].mountPath;
+                   }
+                }
+                if(vols[j].secret){
+                  $scope.secretsobj.secretarr.push({
+                    "myname": vols[j].name,
+                    "secret": {
+                      "secretName":vols[j].secret.secretName
+                    },
+                    mountPath : vols[j].mountPath
+                  })
+                }else if(vols[j].configMap){
+                  $scope.secretsobj.configmap.push({
+                    "myname": vols[j].name,
+                    "configMap": {
+                      "name":vols[j].configMap.name
+                    },
+                    mountPath : vols[j].mountPath
+                  })
+
+                }else if(vols[j].persistentVolumeClaim){
+                  $scope.secretsobj.persistentarr.push({
+                    "myname": vols[j].name,
+                    "persistentVolumeClaim": {
+                      "claimName":vols[j].persistentVolumeClaim.claimName
+                    },
+                    mountPath : vols[j].mountPath
+                  })
+                }
+              }
+            }
+
+
+            console.log('$scope.secretsobj$scope.secretsobj$scope.secretsobj',$scope.secretsobj);
+
+
             if(res.metadata.annotations){
               if(res.metadata.annotations["dadafoundry.io/images-from"]){
                 if(res.metadata.annotations["dadafoundry.io/images-from"] == 'private'){
@@ -132,7 +196,7 @@ angular.module('console.service.detail', [
               }
 
             }
-            $scope.dc = res;
+
             $scope.getdc = angular.copy(res);
             getEnvs(res.spec.template.spec.containers);
             angular.forEach($scope.dc.spec.triggers, function (trigger) {
@@ -146,36 +210,36 @@ angular.module('console.service.detail', [
               }
             });
 
-            var volumeMap = {};
-            // console.log('secretName',res.spec.template.spec.volumes[0].secret);
-            if (res.spec.template.spec.volumes) {
-              for (var i = 0; i < res.spec.template.spec.volumes.length; i++) {
-                if (res.spec.template.spec.volumes[i].secret) {
-                  volumeMap[res.spec.template.spec.volumes[i].name] = res.spec.template.spec.volumes[i].secret.secretName;
-                }
-              }
-              // console.log('volumeMap',$.isEmptyObject(volumeMap));
-              if ($.isEmptyObject(volumeMap)) {
-                // console.log(res.spec.template.spec.containers[0]);
-
-                if (!res.spec.template.spec.containers[0].volumeMounts) {
-                  res.spec.template.spec.containers[0].volumeMounts=[];
-                }
-                $scope.savend =angular.copy(res.spec.template.spec.containers[0].volumeMounts);
-                res.spec.template.spec.containers[0].volumeMounts=[];
-
-              }
-            }
-            angular.forEach($scope.dc.spec.template.spec.containers, function (item) {
-              angular.forEach(item.volumeMounts, function (volume) {
-                if (volumeMap[volume.name]) {
-                  volume.name = volumeMap[volume.name];
-                }
-              });
-              if (!item.volumeMounts || item.volumeMounts.length == 0) {
-                item.volumeMounts = [{}];
-              }
-            });
+            //var volumeMap = {};
+            //// console.log('secretName',res.spec.template.spec.volumes[0].secret);
+            //if (res.spec.template.spec.volumes) {
+            //  for (var i = 0; i < res.spec.template.spec.volumes.length; i++) {
+            //    if (res.spec.template.spec.volumes[i].secret) {
+            //      volumeMap[res.spec.template.spec.volumes[i].name] = res.spec.template.spec.volumes[i].secret.secretName;
+            //    }
+            //  }
+            //  // console.log('volumeMap',$.isEmptyObject(volumeMap));
+            //  if ($.isEmptyObject(volumeMap)) {
+            //    // console.log(res.spec.template.spec.containers[0]);
+            //
+            //    if (!res.spec.template.spec.containers[0].volumeMounts) {
+            //      res.spec.template.spec.containers[0].volumeMounts=[];
+            //    }
+            //    $scope.savend =angular.copy(res.spec.template.spec.containers[0].volumeMounts);
+            //    res.spec.template.spec.containers[0].volumeMounts=[];
+            //
+            //  }
+            //}
+            //angular.forEach($scope.dc.spec.template.spec.containers, function (item) {
+            //  angular.forEach(item.volumeMounts, function (volume) {
+            //    if (volumeMap[volume.name]) {
+            //      volume.name = volumeMap[volume.name];
+            //    }
+            //  });
+            //  if (!item.volumeMounts || item.volumeMounts.length == 0) {
+            //    item.volumeMounts = [{}];
+            //  }
+            //});
             for(var i = 0 ;i < $scope.dc.spec.template.spec.containers.length; i++){
               var imagetag = 'image-'+$scope.dc.spec.template.spec.containers[i].name;
               angular.forEach($scope.dc.metadata.annotations,function(v,k){
@@ -206,7 +270,6 @@ angular.module('console.service.detail', [
             loadPods(res.metadata.name);
             loadService(res.metadata.name);
             //isConflict();   //判断端口是否冲突
-            console.log('woshisuiuiuiui-=-=-=-=-=-=-=-=-=-=-$scope.dc',$scope.dc);
 
           }, function (res) {
             //todo 错误处理
@@ -432,11 +495,6 @@ angular.module('console.service.detail', [
             }else {
               $scope.rcs = res;
             }
-
-
-
-
-            // console.log('log',$scope.rcs.items.log);
             watchRcs(res.metadata.resourceVersion);
           }, function (res) {
             //todo 错误处理
@@ -554,7 +612,7 @@ angular.module('console.service.detail', [
                 continue;
               }
               if ($scope.getroutes.items[i].spec.to.name == $scope.dc.metadata.name) {
-                $scope.dc.route = $scope.getroutes.items[i];
+                $scope.onlyDC.route = $scope.getroutes.items[i];
                 $scope.grid.route = true;
                 if($scope.dc.route.spec.port){
                   $scope.grid.port = parseInt($scope.dc.route.spec.port.targetPort.replace(/-.*/, ''));
@@ -769,9 +827,7 @@ angular.module('console.service.detail', [
         };
 
         $scope.startRc = function (idx) {
-          // statos.dianj=true;
           var o = $scope.rcs.items[idx];
-          // $log.info('0-0-0-0-0-0-0', $scope.rcs);
           if (!o.dc) {
             return;
           }
@@ -1095,35 +1151,24 @@ angular.module('console.service.detail', [
           // console.log("rmContainer");
           $scope.dc.spec.template.spec.containers.splice(idx, 1);
         };
-
-        var loadSecrets = function () {
-          Secret.get({namespace: $rootScope.namespace}, function (res) {
-            // $log.info("secrets", res);
-
-            $scope.secrets = res;
-          }, function (res) {
-            // $log.info("load secrets err", res);
+/////////////挂载卷
+        var cintainersidx;
+        $scope.addVolume = function(idx){
+          var olength = $scope.onlyDC.spec.template.spec.volumes.length;
+          cintainersidx = idx;
+          ChooseSecret.open(olength,$scope.secretsobj).then(function (volumesobj) {
+            console.log('------------------------',volumesobj);
+            $scope.onlyDC.spec.template.spec.containers[idx].volumeMounts = volumesobj.arr2;
+            $scope.onlyDC.spec.template.spec.volumes = volumesobj.arr1;
+            $scope.secretsobj = volumesobj.arr3
+            console.log('-=-=-=-=-=-=-=-=-',$scope.onlyDC);
           });
-        };
-        loadSecrets();
+        }
 
-        $scope.addSecret = function (name, idx, last) {
-          var containers = $scope.dc.spec.template.spec.containers;
-          var container = null;
-          for (var i = 0; i < containers.length; i++) {
-            if (containers[i].name == name) {
-              container = containers[i];
-            }
-          }
-          if (!container) {
-            return;
-          }
-          if (last) {     //添加
-            container.volumeMounts.push({});
-          } else {
-            container.volumeMounts.splice(idx, 1);
-          }
-        };
+
+
+
+
 
         $scope.delEnv = function (idx) {
                 $scope.envs.splice(idx, 1);
@@ -1232,38 +1277,22 @@ angular.module('console.service.detail', [
           });
         };
 
-        //var prepareVolume = function (dc) {
-        //  var containers = dc.spec.template.spec.containers;
-        //  for (var i = 0; i < containers.length; i++) {
-        //    var container = containers[i];
-        //    for (var j = 0; j < container.volumeMounts.length; j++) {
-        //      if (!container.volumeMounts[j].name || !container.volumeMounts[j].mountPath) {
-        //        container.volumeMounts.splice(j, 1);
-        //      }
-        //    }
-        //  }
-        //};
+
         var prepareVolume = function (dc) {
           var containers = dc.spec.template.spec.containers;
           for (var i = 0; i < containers.length; i++) {
             var container = containers[i];
-            if (container.volumeMounts) {
-              for (var j = 0; j < container.volumeMounts.length;) {
-                if (!container.volumeMounts[j].name || !container.volumeMounts[j].mountPath) {
-                  // $log.info("remove " + j + " from volumeMounts total has " + container.volumeMounts.length);
-                  container.volumeMounts.splice(j, 1);
-                  j = 0;
-                } else {
-                  j++;
-                }
-              }
+            if(container.volumeMounts.length == 0 ){
+              delete container["volumeMounts"];
             }
 
+          }
+          if(dc.spec.template.spec.volumes.length == 0){
+            delete dc.spec.template.spec["volumes"];
           }
         };
 
         var prepareTrigger = function (dc) {
-          console.log('_+_+_+_+_+_+_+_',dc);
           var triggers = [];
           if ($scope.grid.configChange) {
             triggers.push({type: 'ConfigChange'});
@@ -1497,31 +1526,14 @@ angular.module('console.service.detail', [
           $rootScope.lding = true;
           // $scope.dc.spec.template.spec.containers[0].volumeMounts=[];
           // $scope.dc.spec.template.spec.containers[0].volumeMounts.push({mountPath:'/app/pic'})
-          var dc = angular.copy($scope.dc);
+          var dc = angular.copy($scope.onlyDC);
           var cons = angular.copy($scope.dc.spec.template.spec.containers);
           DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (datadc) {
-            dc.spec.template.spec.volumes = [];
+            //dc.spec.template.spec.volumes = [];
             dc.metadata.resourceVersion = datadc.metadata.resourceVersion;
             dc.status.latestVersion = datadc.status.latestVersion+1;
             var flog = 0;
             for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
-              if(dc.spec.template.spec.containers[i].volumeMounts){
-                  for (var j = 0; j < dc.spec.template.spec.containers[i].volumeMounts.length; j++) {
-                    if (dc.spec.template.spec.containers[i].volumeMounts[j].name) {
-                      flog++;
-                      var volume1 = "volume" + flog;
-                      dc.spec.template.spec.volumes.push(
-                          {
-                            "name": volume1,
-                            "secret": {
-                              "secretName": dc.spec.template.spec.containers[i].volumeMounts[j].name
-                            }
-                          }
-                      );
-                      dc.spec.template.spec.containers[i].volumeMounts[j].name = volume1;
-                    }
-                  }
-              }
               if (cons[i].ports) {
                 var testlength = cons[i].ports.length;
                 for (var k = 0; k < testlength; k++) {
@@ -1539,17 +1551,13 @@ angular.module('console.service.detail', [
 
             }
           // console.log('$scope.savend',$scope.savend)
-          if ($scope.savend) {
-            dc.spec.template.spec.containers[0].volumeMounts=$scope.savend;
-          }
+          //if ($scope.savend) {
+          //  dc.spec.template.spec.containers[0].volumeMounts=$scope.savend;
+          //}
 
-            // $log.info("-=-=-=-=-=--=-=", dc);
-            prepareVolume($scope.dc);
-            prepareTrigger($scope.dc);
-            prepareEnv($scope.dc);
-
-            // $log.info("update dc", dc);
-            //var copedc = angular.copy(dc);
+            prepareVolume($scope.onlyDC);
+            prepareTrigger($scope.onlyDC);
+            prepareEnv($scope.onlyDC);
             for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
               if(dc.spec.template.spec.containers[i].truename){
                 delete dc.spec.template.spec.containers[i]["truename"];
@@ -1597,10 +1605,15 @@ angular.module('console.service.detail', [
             }
           }
           if($scope.grid.isimageChange == false){
-            dc.metadata.annotations["dadafoundry.io/images-from"] = 'public';
+            if( dc.metadata.annotations){
+              dc.metadata.annotations["dadafoundry.io/images-from"] = 'public';
+            }
+
             dc.spec.triggers=[{type: 'ConfigChange'}];
           }else{
-            dc.metadata.annotations["dadafoundry.io/images-from"] = 'private';
+            if(dc.metadata.annotations){
+              dc.metadata.annotations["dadafoundry.io/images-from"] = 'private';
+            }
             dc.spec.triggers = $scope.dc.spec.triggers;
           }
           var isport = false;
@@ -1611,15 +1624,13 @@ angular.module('console.service.detail', [
             }
           }
           if (isport == true && iscreatesv == false && createports == true) {
-            createService($scope.dc);
+            createService($scope.onlyDC);
           }else if(isport == true && iscreatesv == true && createports == true){
-            updateService($scope.dc);
+            updateService($scope.onlyDC);
           }
           var isimgsecret = false;
-          delete dc.spec.template.spec["volumes"];
           for(var i = 0 ; i < dc.spec.template.spec.containers.length ; i++ ){
             delete dc.spec.template.spec.containers[i]["tag"];
-            delete dc.spec.template.spec.containers[i]["volumeMounts"];
             delete dc.spec.template.spec.containers[i]["isimageChange"];
             if (dc.spec.template.spec.containers[i].ports) {
               delete dc.spec.template.spec.containers[i]["ports"];
@@ -1638,7 +1649,6 @@ angular.module('console.service.detail', [
           if($scope.dc.spec.template.spec.imagePullSecrets && !isimgsecret){
             delete dc.spec.template.spec["imagePullSecrets"];
           }
-
             DeploymentConfig.put({namespace: $rootScope.namespace, name: dc.metadata.name}, dc, function (res) {
               // $log.info("update dc success", res);
               $scope.getdc.spec.replicas = $scope.dc.spec.replicas;
