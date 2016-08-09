@@ -38,7 +38,7 @@ angular.module('console.resource_management', [
                         res.items[i].arr = []
                         angular.forEach(resdc.items, function (dcitem, k) {
                             angular.forEach(dcitem.spec.template.spec.volumes, function (dcvolitem, j) {
-                                if (volitem.metadata.name == dcvolitem.persistentVolumeClaim.claimName) {
+                                if (dcvolitem.persistentVolumeClaim&&volitem.metadata.name == dcvolitem.persistentVolumeClaim.claimName) {
                                     res.items[i].arr.push(dcitem.metadata.name)
                                 }
                             })
