@@ -168,8 +168,11 @@ angular.module('console.service.detail', [
             if(res.metadata.annotations){
               if(res.metadata.annotations["dadafoundry.io/images-from"]){
                 if(res.metadata.annotations["dadafoundry.io/images-from"] == 'private'){
+                  if(res.spec.triggers.length>1){
+                    $scope.grid.imageChange = true;
+                  }
                   $scope.grid.isimageChange = true;
-                  $scope.grid.imageChange = true;
+
                 }else{
                   $scope.grid.isimageChange = false;
                 }
