@@ -612,7 +612,7 @@ angular.module('console.service.detail', [
                 continue;
               }
               if ($scope.getroutes.items[i].spec.to.name == $scope.dc.metadata.name) {
-                $scope.onlyDC.route = $scope.getroutes.items[i];
+                $scope.dc.route = $scope.getroutes.items[i];
                 $scope.grid.route = true;
                 if($scope.dc.route.spec.port){
                   $scope.grid.port = parseInt($scope.dc.route.spec.port.targetPort.replace(/-.*/, ''));
@@ -1282,6 +1282,9 @@ angular.module('console.service.detail', [
           var containers = dc.spec.template.spec.containers;
           for (var i = 0; i < containers.length; i++) {
             var container = containers[i];
+            if(!container.volumeMounts){
+              return;
+            }
             if(container.volumeMounts.length == 0 ){
               delete container["volumeMounts"];
             }
