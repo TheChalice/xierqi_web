@@ -236,6 +236,10 @@ define(['angular'], function (angular) {
                                 if (n == o) {
                                     return
                                 }
+                                if ($scope.grid.change) {
+                                    $scope.grid.change=false;
+                                    return
+                                }
                                 var kong = false;
                                 var r = /^\/(([a-zA-Z0-9_-])+(\.)?)*(:\d+)?(\/((\.)?(\?)?=?&?[a-zA-Z0-9_-](\?)?)*)*$/i;
                                 var obj = angular.copy(n);
@@ -255,22 +259,31 @@ define(['angular'], function (angular) {
                                                 $scope.grid[i].kong=true;
                                                 kong = true
                                             }
-                                            if (!r.test(item.mountPath)) {
-                                                //alert('bhf')
-                                                $scope.grid[i].buhefa=true;
-                                                kong = true
-                                            }
-                                            if (items[k] && items[k + 1]) {
-                                                if (items[k].mountPath == items[k + 1].mountPath) {
-                                                    //alert('cf')
-                                                    $scope.grid[i].chongfu=true;
+                                            if (item.mountPath !== '') {
+                                                if (!r.test(item.mountPath)) {
+                                                    //alert('bhf')
+                                                    $scope.grid[i].buhefa=true;
                                                     kong = true
                                                 }
+                                                if (items[k] && items[k + 1]) {
+                                                    if (items[k].mountPath == items[k + 1].mountPath) {
+                                                        //alert('cf')
+                                                        $scope.grid[i].chongfu=true;
+                                                        kong = true
+                                                    }
+                                                }
+                                            }else {
+                                                kong=true
                                             }
+
 
                                         })
                                     }
-
+                                    if (!kong) {
+                                        $scope.grid[i].chongfu=false;
+                                        $scope.grid[i].buhefa=false;
+                                        $scope.grid[i].kong=false;
+                                    }
 
                                 })
                                 if (!kong) {
@@ -282,6 +295,7 @@ define(['angular'], function (angular) {
                             }, true)
                             ////添加密钥
                             $scope.addsecretarr = function () {
+                                $scope.grid.change=true;
                                 $scope.secretarr.push({
                                     "myname": "",
                                     "secret": {
@@ -321,6 +335,7 @@ define(['angular'], function (angular) {
 
                             ///添加配置卷  ///
                             $scope.addconfigmap = function () {
+                                $scope.grid.change=true;
                                 $scope.configmap.push({
                                     "myname": "",
                                     "configMap": {
@@ -358,6 +373,7 @@ define(['angular'], function (angular) {
                             loadpersistent();
                             //////添加持久化卷
                             $scope.addpersistent = function () {
+                                $scope.grid.change=true;
                                 $scope.persistentarr.push({
                                     "myname": "",
                                     "persistentVolumeClaim": {
