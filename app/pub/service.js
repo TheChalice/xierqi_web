@@ -467,6 +467,10 @@ define(['angular'], function (angular) {
                                 });
                             }
                             $scope.cancel = function () {
+                                //$uibModalInstance.close();
+                                //$scope.secretarr=[]
+                                //$scope.configmap=[]
+                                //$scope.persistentarr=[]
                                 $uibModalInstance.dismiss();
                             };
                         }]

@@ -1661,11 +1661,12 @@ angular.module('console.service.detail', [
           controller: ['$rootScope', '$scope', '$uibModalInstance', 'Pod', function ($rootScope, $scope, $uibModalInstance, Pod) {
             $scope.grid = {};
             $scope.pod = pod;
-            // console.log("pod-=-=-=-=-++++",pod);
+             console.log("pod-=-=-=-=-++++",pod);
             $scope.ok = function () {
               $uibModalInstance.close(true);
             };
             $scope.cancel = function () {
+
               $uibModalInstance.dismiss();
             };
 
