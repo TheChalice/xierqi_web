@@ -131,9 +131,9 @@ define(['angular', 'moment'], function (angular, moment) {
                 }else if(phase == 'Unbound'){
                     return "未绑定"
                 }else if(phase == 'Pending'){
-                    return "正在创建"
+                    return "创建中"
                 }else if(phase == 'Bound'){
-                    return "空闲"
+                    return "未挂载"
                 }else{
                     return phase || "-"
                 }

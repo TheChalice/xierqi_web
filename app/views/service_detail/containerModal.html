@@ -29,7 +29,7 @@
                     </span>
                 </td>
                 <td>
-                    <span ng-if="container.resources.limits">{{container.resources}}</span>
+                    <span ng-if="container.resources.limits">CPU:{{container.resources.limits.cpu}}<br/>内存:{{container.resources.limits.memory}}</span>
                     <span ng-if="!container.resources.limits">无限制</span>
                 </td>
                 <td>{{container.image | imageStreamName}}</td>
