@@ -9,8 +9,8 @@ angular.module('console.service.detail', [
         ]
       }
     ])
-    .controller('ServiceDetailCtrl', ['$http','$state', '$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamTag', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal', 'Secret', 'ImageSelect', 'Service', 'BackingServiceInstanceBd','ImageService','serviceaccounts','ChooseSecret',
-      function ($http,$state, $rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamTag, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret, ImageSelect, Service, BackingServiceInstanceBd,ImageService,serviceaccounts,ChooseSecret) {
+    .controller('ServiceDetailCtrl', ['$http','$state', '$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamTag', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal', 'Secret', 'ImageSelect', 'Service', 'BackingServiceInstanceBd','ImageService','serviceaccounts','ChooseSecret','$base64','secretskey',
+      function ($http,$state, $rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamTag, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret, ImageSelect, Service, BackingServiceInstanceBd,ImageService,serviceaccounts,ChooseSecret,$base64,secretskey) {
         //获取服务列表
         $scope.servicepoterr = false;
         
@@ -584,7 +584,7 @@ angular.module('console.service.detail', [
             $scope.getdc.spec.replicas = dcdata.spec.replicas;
             for(var i = 0 ;i < dcdata.spec.template.spec.containers.length; i++){
               var imagetag = 'image-'+dcdata.spec.template.spec.containers[i].name;
-              if(dcdata.metadata.annotations[imagetag]){
+              if(dcdata.metadata.annotations && dcdata.metadata.annotations[imagetag]){
                 dcdata.spec.template.spec.containers[i].tag = dcdata.metadata.annotations[imagetag];
               }else{
                 angular.forEach(dcdata.spec.template.spec.containers, function (item) {
@@ -1208,11 +1208,11 @@ angular.module('console.service.detail', [
 
         $scope.selectImage = function (idx) {
           var arrimgstr = [];
-          if($scope.dc.metadata.annotations.imageorpublic){
-            arrimgstr = $scope.dc.metadata.annotations.imageorpublic.split(",");
+          if($scope.onlyDC.metadata.annotations.imageorpublic){
+            arrimgstr = $scope.onlyDC.metadata.annotations.imageorpublic.split(",");
           }
-          var container = $scope.dc.spec.template.spec.containers[idx];
-          var cons = $scope.dc.spec.template.spec.containers;
+          var container = $scope.onlyDC.spec.template.spec.containers[idx];
+          var cons = $scope.onlyDC.spec.template.spec.containers;
           ImageSelect.open().then(function (res) {
             console.log("imageStreamTag", res);
             var imagetag = '';
@@ -1235,13 +1235,17 @@ angular.module('console.service.detail', [
               container.tag = str1[2];
               imagetag = 'image-'+container.name;
               $scope.dc.metadata.annotations[imagetag] = str1[2];
+              ////仓库镜像
               if(res.imagePullSecrets){
                 container.imagePullSecrets = true;
+              }else{
+                delete container["imagePullSecrets"];
               }
 
             }else{
               container.image = res.image.dockerImageReference
               container.isimageChange = true;
+              delete container["imagePullSecrets"] ;
               var arr = res.metadata.name.split(':');
               container.tag = arr[1];
               if (arr.length > 1) {
@@ -1256,13 +1260,13 @@ angular.module('console.service.detail', [
                 }
               }
               imagetag = 'image-'+container.name;
-              $scope.dc.metadata.annotations[imagetag] = arr[1];
+              $scope.onlyDC.metadata.annotations[imagetag] = arr[1];
             }
-            for(var i = 0 ;i < $scope.dc.spec.template.spec.containers.length;i++ ){
-              if($scope.dc.spec.template.spec.containers[i].isimageChange != false && $scope.dc.spec.template.spec.containers[i].isimageChange != true){
-                $scope.dc.spec.template.spec.containers[i].isimageChange = arrimgstr[i];
+            for(var i = 0 ;i < $scope.onlyDC.spec.template.spec.containers.length;i++ ){
+              if($scope.onlyDC.spec.template.spec.containers[i].isimageChange != false && $scope.onlyDC.spec.template.spec.containers[i].isimageChange != true){
+                $scope.onlyDC.spec.template.spec.containers[i].isimageChange = arrimgstr[i];
               }
-              if($scope.dc.spec.template.spec.containers[i].isimageChange == false){
+              if($scope.onlyDC.spec.template.spec.containers[i].isimageChange == false){
                 //公共镜像
                 $scope.grid.isimageChange = false;
                 $scope.grid.imageChange = false;
@@ -1658,18 +1662,44 @@ angular.module('console.service.detail', [
             }
             if(dc.spec.template.spec.containers[i].imagePullSecrets){
               isimgsecret = true;
+              var flog = true;
               var imgps = [
                 {
                   "name": "registry-dockercfg-"+$rootScope.user.metadata.name
                 }
               ]
-              dc.spec.template.spec.imagePullSecrets = imgps.concat($scope.serviceas.imagePullSecrets);
+              angular.forEach($scope.serviceas.imagePullSecrets,function(v,k){
+                if(v.name == imgps[0].name){
+                     flog = false;
+                  }
+              })
+              if(flog){
+                dc.spec.template.spec.imagePullSecrets = imgps.concat($scope.serviceas.imagePullSecrets);
+              }else{
+                dc.spec.template.spec.imagePullSecrets = $scope.serviceas.imagePullSecrets;
+              }
+
               delete dc.spec.template.spec.containers[i]["imagePullSecrets"];
             }
           }
           if($scope.dc.spec.template.spec.imagePullSecrets && !isimgsecret){
             delete dc.spec.template.spec["imagePullSecrets"];
           }
+          if(isimgsecret){
+            var nameandps = localStorage.getItem("Auth");
+            var newnameandps = $base64.decode(nameandps);
+            var registryobjs = {
+              "registry.dataos.io": {
+                "auth": nameandps,
+                "email": "builder@registry.dataos.io",
+                "password": newnameandps.split(':')[1],
+                "username": newnameandps.split(':')[0]
+              }
+            }
+            registryobjs = JSON.stringify(registryobjs)
+            var isdockercfg = $base64.encode(registryobjs);
+          }
+          var updatedcput = function(dc){
             DeploymentConfig.put({namespace: $rootScope.namespace, name: dc.metadata.name}, dc, function (res) {
               // $log.info("update dc success", res);
               $scope.getdc.spec.replicas = $scope.dc.spec.replicas;
@@ -1679,6 +1709,34 @@ angular.module('console.service.detail', [
               //todo 错误处理
               // $log.info("update dc fail", res);
             });
+          }
+            console.log('isimgsecretisimgsecretisimgsecretisimgsecret',isimgsecret);
+          if(isimgsecret){
+              var secretsobj = {
+                "kind": "Secret",
+                "apiVersion": "v1",
+                "metadata": {
+                  "name": "registry-dockercfg-"+$rootScope.user.metadata.name
+                },
+                "data": {
+                  ".dockercfg": isdockercfg
+
+                },
+                "type": "kubernetes.io/dockercfg"
+
+              }
+
+              secretskey.create({namespace: $rootScope.namespace},secretsobj, function (res) {
+                updatedcput(dc);
+              },function(res){
+                if(res.status == 409){
+                  updatedcput(dc);
+                }
+              })
+          }else{
+             updatedcput(dc);
+          }
+
           })
 
         };

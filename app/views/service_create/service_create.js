@@ -246,6 +246,7 @@ angular.module('console.service.create', [
               $scope.dc.spec.template.spec.containers.push(container);
               $scope.invalid.containerLength = false;
             }else {
+              var imagetag = '';
               //  私有镜像
               if ($stateParams.image.indexOf('@')!= -1) {
                 console.log($stateParams.image)
@@ -259,6 +260,8 @@ angular.module('console.service.create', [
                 $scope.grid.imageChange = true;
                 container.isimageChange = true;
                 $scope.grid.isimageChange = true;
+                imagetag = 'image-'+container.name;
+                $scope.dc.metadata.annotations[imagetag] = arr[2];
               } else {
                 // 公共镜像
                 var container = angular.copy($scope.containerTpl);
@@ -278,6 +281,8 @@ angular.module('console.service.create', [
                 $scope.grid.imageChange = false;
                 container.isimageChange = false;
                 $scope.grid.isimageChange = false;
+                imagetag = 'image-'+container.name;
+                $scope.dc.metadata.annotations[imagetag] = $stateParams.image.split(':')[1];
               }
 
               $scope.portsArr = [
@@ -660,7 +665,7 @@ angular.module('console.service.create', [
           var containers = dc.spec.template.spec.containers;
           for (var i = 0; i < containers.length; i++) {
             var container = containers[i];
-            if(container.volumeMounts.length ==0 ){
+            if(container.volumeMounts.length == 1 ){
                delete container["volumeMounts"];
             }
           }
@@ -981,12 +986,22 @@ angular.module('console.service.create', [
             }
             if(clonedc.spec.template.spec.containers[i].imagePullSecrets){
               $scope.grid.imagePullSecrets = true;
+              var flog = true;
               var imgps = [
                 {
                   "name": "registry-dockercfg-"+$rootScope.user.metadata.name
                 }
               ]
-              clonedc.spec.template.spec.imagePullSecrets = imgps.concat($scope.serviceas.imagePullSecrets);
+              angular.forEach($scope.serviceas.imagePullSecrets,function(v,k){
+                if(k == imgps.name){
+                  flog = false;
+                }
+              })
+              if(flog){
+                clonedc.spec.template.spec.imagePullSecrets = imgps.concat($scope.serviceas.imagePullSecrets);
+              }else{
+                clonedc.spec.template.spec.imagePullSecrets =$scope.serviceas.imagePullSecrets;
+              }
               delete clonedc.spec.template.spec.containers[i]["imagePullSecrets"];
             }
           }
