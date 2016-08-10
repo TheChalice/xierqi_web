@@ -1669,8 +1669,8 @@ angular.module('console.service.detail', [
                 }
               ]
               angular.forEach($scope.serviceas.imagePullSecrets,function(v,k){
-                  if(v.name == imgps.name){
-                    flog = false;
+                if(v.name == imgps[0].name){
+                     flog = false;
                   }
               })
               if(flog){
