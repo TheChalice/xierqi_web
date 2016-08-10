@@ -9,8 +9,8 @@ angular.module('console.service.detail', [
         ]
       }
     ])
-    .controller('ServiceDetailCtrl', ['$http','$state', '$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamTag', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal', 'Secret', 'ImageSelect', 'Service', 'BackingServiceInstanceBd','ImageService','serviceaccounts','ChooseSecret',
-      function ($http,$state, $rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamTag, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret, ImageSelect, Service, BackingServiceInstanceBd,ImageService,serviceaccounts,ChooseSecret) {
+    .controller('ServiceDetailCtrl', ['$http','$state', '$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamTag', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal', 'Secret', 'ImageSelect', 'Service', 'BackingServiceInstanceBd','ImageService','serviceaccounts','ChooseSecret','$base64','secretskey',
+      function ($http,$state, $rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamTag, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret, ImageSelect, Service, BackingServiceInstanceBd,ImageService,serviceaccounts,ChooseSecret,$base64,secretskey) {
         //获取服务列表
         $scope.servicepoterr = false;
         
@@ -1235,13 +1235,17 @@ angular.module('console.service.detail', [
               container.tag = str1[2];
               imagetag = 'image-'+container.name;
               $scope.dc.metadata.annotations[imagetag] = str1[2];
+              ////仓库镜像
               if(res.imagePullSecrets){
                 container.imagePullSecrets = true;
+              }else{
+                delete container["imagePullSecrets"];
               }
 
             }else{
               container.image = res.image.dockerImageReference
               container.isimageChange = true;
+              delete container["imagePullSecrets"] ;
               var arr = res.metadata.name.split(':');
               container.tag = arr[1];
               if (arr.length > 1) {
@@ -1658,18 +1662,45 @@ angular.module('console.service.detail', [
             }
             if(dc.spec.template.spec.containers[i].imagePullSecrets){
               isimgsecret = true;
+              var flog = true;
               var imgps = [
                 {
                   "name": "registry-dockercfg-"+$rootScope.user.metadata.name
                 }
               ]
-              dc.spec.template.spec.imagePullSecrets = imgps.concat($scope.serviceas.imagePullSecrets);
+              angular.forEach($scope.serviceas.imagePullSecrets,function(v,k){
+                  if(k == imgps.name){
+                    flog = false;
+                  }
+              })
+              if(flog){
+                dc.spec.template.spec.imagePullSecrets = imgps.concat($scope.serviceas.imagePullSecrets);
+              }else{
+                dc.spec.template.spec.imagePullSecrets =$scope.serviceas.imagePullSecrets;
+              }
+
               delete dc.spec.template.spec.containers[i]["imagePullSecrets"];
             }
           }
           if($scope.dc.spec.template.spec.imagePullSecrets && !isimgsecret){
             delete dc.spec.template.spec["imagePullSecrets"];
           }
+          if(isimgsecret){
+            var nameandps = localStorage.getItem("Auth");
+            var newnameandps = $base64.decode(nameandps);
+            console.log('nameandps----------',nameandps);
+            var registryobjs = {
+              "registry.dataos.io": {
+                "auth": nameandps,
+                "email": "builder@registry.dataos.io",
+                "password": newnameandps.split(':')[1],
+                "username": newnameandps.split(':')[0]
+              }
+            }
+            registryobjs = JSON.stringify(registryobjs)
+            var isdockercfg = $base64.encode(registryobjs);
+          }
+          var updatedcput = function(dc){
             DeploymentConfig.put({namespace: $rootScope.namespace, name: dc.metadata.name}, dc, function (res) {
               // $log.info("update dc success", res);
               $scope.getdc.spec.replicas = $scope.dc.spec.replicas;
@@ -1679,6 +1710,33 @@ angular.module('console.service.detail', [
               //todo 错误处理
               // $log.info("update dc fail", res);
             });
+          }
+          if(isimgsecret){
+              var secretsobj = {
+                "kind": "Secret",
+                "apiVersion": "v1",
+                "metadata": {
+                  "name": "registry-dockercfg-"+$rootScope.user.metadata.name
+                },
+                "data": {
+                  ".dockercfg": isdockercfg
+
+                },
+                "type": "kubernetes.io/dockercfg"
+
+              }
+
+              secretskey.create({namespace: $rootScope.namespace},secretsobj, function (res) {
+                updatedcput(dc);
+              },function(res){
+                if(res.status == 409){
+                  updatedcput(dc);
+                }
+              })
+          }else{
+             updatedcput(dc);
+          }
+
           })
 
         };

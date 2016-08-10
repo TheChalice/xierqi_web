@@ -665,7 +665,7 @@ angular.module('console.service.create', [
           var containers = dc.spec.template.spec.containers;
           for (var i = 0; i < containers.length; i++) {
             var container = containers[i];
-            if(container.volumeMounts.length ==0 ){
+            if(container.volumeMounts.length == 1 ){
                delete container["volumeMounts"];
             }
           }
@@ -986,12 +986,22 @@ angular.module('console.service.create', [
             }
             if(clonedc.spec.template.spec.containers[i].imagePullSecrets){
               $scope.grid.imagePullSecrets = true;
+              var flog = true;
               var imgps = [
                 {
                   "name": "registry-dockercfg-"+$rootScope.user.metadata.name
                 }
               ]
-              clonedc.spec.template.spec.imagePullSecrets = imgps.concat($scope.serviceas.imagePullSecrets);
+              angular.forEach($scope.serviceas.imagePullSecrets,function(v,k){
+                if(k == imgps.name){
+                  flog = false;
+                }
+              })
+              if(flog){
+                clonedc.spec.template.spec.imagePullSecrets = imgps.concat($scope.serviceas.imagePullSecrets);
+              }else{
+                clonedc.spec.template.spec.imagePullSecrets =$scope.serviceas.imagePullSecrets;
+              }
               delete clonedc.spec.template.spec.containers[i]["imagePullSecrets"];
             }
           }
