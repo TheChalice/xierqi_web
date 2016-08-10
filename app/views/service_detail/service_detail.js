@@ -1578,9 +1578,9 @@ angular.module('console.service.detail', [
           //  dc.spec.template.spec.containers[0].volumeMounts=$scope.savend;
           //}
 
-            prepareVolume($scope.onlyDC);
-            prepareTrigger($scope.onlyDC);
-            prepareEnv($scope.onlyDC);
+            prepareVolume($scope.dc);
+            prepareTrigger($scope.dc);
+            prepareEnv($scope.dc);
             for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
               if(dc.spec.template.spec.containers[i].truename){
                 delete dc.spec.template.spec.containers[i]["truename"];
@@ -1647,9 +1647,9 @@ angular.module('console.service.detail', [
             }
           }
           if (isport == true && iscreatesv == false && createports == true) {
-            createService($scope.onlyDC);
+            createService($scope.dc);
           }else if(isport == true && iscreatesv == true && createports == true){
-            updateService($scope.onlyDC);
+            updateService($scope.dc);
           }
           var isimgsecret = false;
           for(var i = 0 ; i < dc.spec.template.spec.containers.length ; i++ ){
