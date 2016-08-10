@@ -246,6 +246,7 @@ angular.module('console.service.create', [
               $scope.dc.spec.template.spec.containers.push(container);
               $scope.invalid.containerLength = false;
             }else {
+              var imagetag = '';
               //  私有镜像
               if ($stateParams.image.indexOf('@')!= -1) {
                 console.log($stateParams.image)
@@ -259,6 +260,8 @@ angular.module('console.service.create', [
                 $scope.grid.imageChange = true;
                 container.isimageChange = true;
                 $scope.grid.isimageChange = true;
+                imagetag = 'image-'+container.name;
+                $scope.dc.metadata.annotations[imagetag] = arr[2];
               } else {
                 // 公共镜像
                 var container = angular.copy($scope.containerTpl);
@@ -278,6 +281,8 @@ angular.module('console.service.create', [
                 $scope.grid.imageChange = false;
                 container.isimageChange = false;
                 $scope.grid.isimageChange = false;
+                imagetag = 'image-'+container.name;
+                $scope.dc.metadata.annotations[imagetag] = $stateParams.image.split(':')[1];
               }
 
               $scope.portsArr = [

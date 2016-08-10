@@ -584,7 +584,7 @@ angular.module('console.service.detail', [
             $scope.getdc.spec.replicas = dcdata.spec.replicas;
             for(var i = 0 ;i < dcdata.spec.template.spec.containers.length; i++){
               var imagetag = 'image-'+dcdata.spec.template.spec.containers[i].name;
-              if(dcdata.metadata.annotations[imagetag]){
+              if(dcdata.metadata.annotations && dcdata.metadata.annotations[imagetag]){
                 dcdata.spec.template.spec.containers[i].tag = dcdata.metadata.annotations[imagetag];
               }else{
                 angular.forEach(dcdata.spec.template.spec.containers, function (item) {
