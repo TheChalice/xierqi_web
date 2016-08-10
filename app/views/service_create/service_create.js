@@ -408,7 +408,7 @@ angular.module('console.service.create', [
         }
         $scope.addVolume = function(idx){
           var olength = 0;
-          if($scope.onlyDC.spec.template.spec.volumes){
+          if($scope.dc.spec.template.spec.volumes){
             olength = $scope.dc.spec.template.spec.volumes.length;
           }
           cintainersidx = idx;
