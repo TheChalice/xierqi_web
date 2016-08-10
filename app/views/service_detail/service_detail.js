@@ -1208,11 +1208,11 @@ angular.module('console.service.detail', [
 
         $scope.selectImage = function (idx) {
           var arrimgstr = [];
-          if($scope.dc.metadata.annotations.imageorpublic){
-            arrimgstr = $scope.dc.metadata.annotations.imageorpublic.split(",");
+          if($scope.onlyDC.metadata.annotations.imageorpublic){
+            arrimgstr = $scope.onlyDC.metadata.annotations.imageorpublic.split(",");
           }
-          var container = $scope.dc.spec.template.spec.containers[idx];
-          var cons = $scope.dc.spec.template.spec.containers;
+          var container = $scope.onlyDC.spec.template.spec.containers[idx];
+          var cons = $scope.onlyDC.spec.template.spec.containers;
           ImageSelect.open().then(function (res) {
             console.log("imageStreamTag", res);
             var imagetag = '';
@@ -1260,13 +1260,13 @@ angular.module('console.service.detail', [
                 }
               }
               imagetag = 'image-'+container.name;
-              $scope.dc.metadata.annotations[imagetag] = arr[1];
+              $scope.onlyDC.metadata.annotations[imagetag] = arr[1];
             }
-            for(var i = 0 ;i < $scope.dc.spec.template.spec.containers.length;i++ ){
-              if($scope.dc.spec.template.spec.containers[i].isimageChange != false && $scope.dc.spec.template.spec.containers[i].isimageChange != true){
-                $scope.dc.spec.template.spec.containers[i].isimageChange = arrimgstr[i];
+            for(var i = 0 ;i < $scope.onlyDC.spec.template.spec.containers.length;i++ ){
+              if($scope.onlyDC.spec.template.spec.containers[i].isimageChange != false && $scope.onlyDC.spec.template.spec.containers[i].isimageChange != true){
+                $scope.onlyDC.spec.template.spec.containers[i].isimageChange = arrimgstr[i];
               }
-              if($scope.dc.spec.template.spec.containers[i].isimageChange == false){
+              if($scope.onlyDC.spec.template.spec.containers[i].isimageChange == false){
                 //公共镜像
                 $scope.grid.isimageChange = false;
                 $scope.grid.imageChange = false;
@@ -1669,14 +1669,14 @@ angular.module('console.service.detail', [
                 }
               ]
               angular.forEach($scope.serviceas.imagePullSecrets,function(v,k){
-                  if(k == imgps.name){
+                  if(v.name == imgps.name){
                     flog = false;
                   }
               })
               if(flog){
                 dc.spec.template.spec.imagePullSecrets = imgps.concat($scope.serviceas.imagePullSecrets);
               }else{
-                dc.spec.template.spec.imagePullSecrets =$scope.serviceas.imagePullSecrets;
+                dc.spec.template.spec.imagePullSecrets = $scope.serviceas.imagePullSecrets;
               }
 
               delete dc.spec.template.spec.containers[i]["imagePullSecrets"];
@@ -1688,7 +1688,6 @@ angular.module('console.service.detail', [
           if(isimgsecret){
             var nameandps = localStorage.getItem("Auth");
             var newnameandps = $base64.decode(nameandps);
-            console.log('nameandps----------',nameandps);
             var registryobjs = {
               "registry.dataos.io": {
                 "auth": nameandps,
@@ -1711,6 +1710,7 @@ angular.module('console.service.detail', [
               // $log.info("update dc fail", res);
             });
           }
+            console.log('isimgsecretisimgsecretisimgsecretisimgsecret',isimgsecret);
           if(isimgsecret){
               var secretsobj = {
                 "kind": "Secret",
