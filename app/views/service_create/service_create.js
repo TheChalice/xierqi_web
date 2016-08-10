@@ -111,7 +111,6 @@ angular.module('console.service.create', [
           "env": [],
           "resources": {},
           "imagePullPolicy": "Always",
-          volumeMounts: [{}]
         };
 
         $scope.triggerConfigTpl = {
@@ -665,7 +664,7 @@ angular.module('console.service.create', [
           var containers = dc.spec.template.spec.containers;
           for (var i = 0; i < containers.length; i++) {
             var container = containers[i];
-            if(container.volumeMounts.length == 1 ){
+            if(container.volumeMounts && container.volumeMounts.length == 0 ){
                delete container["volumeMounts"];
             }
           }
@@ -1008,7 +1007,6 @@ angular.module('console.service.create', [
           if($scope.grid.imagePullSecrets){
             var nameandps = localStorage.getItem("Auth");
             var newnameandps = $base64.decode(nameandps);
-            console.log('nameandps----------',nameandps);
             var registryobjs = {
               "registry.dataos.io": {
                 "auth": nameandps,

@@ -248,8 +248,6 @@ angular.module('console.service.detail', [
               angular.forEach($scope.dc.metadata.annotations,function(v,k){
                 if(r.test(k)){
                   if(k != imagetag){
-                    console.log('cacacacacacaca',k);
-                    console.log('$scope.dc.metadata.annotations[k]',$scope.dc.metadata.annotations[k]);
                     delete $scope.dc.metadata.annotations[k];
                   }
                 }
@@ -1169,15 +1167,15 @@ angular.module('console.service.detail', [
         var cintainersidx;
         $scope.addVolume = function(idx){
           var olength = 0;
-          if($scope.onlyDC.spec.template.spec.volumes){
-            olength = $scope.onlyDC.spec.template.spec.volumes.length;
+          if($scope.dc.spec.template.spec.volumes){
+            olength = $scope.dc.spec.template.spec.volumes.length;
           }
 
           cintainersidx = idx;
           ChooseSecret.open(olength,$scope.secretsobj).then(function (volumesobj) {
             console.log('------------------------',volumesobj);
-            $scope.onlyDC.spec.template.spec.containers[idx].volumeMounts = volumesobj.arr2;
-            $scope.onlyDC.spec.template.spec.volumes = volumesobj.arr1;
+            $scope.dc.spec.template.spec.containers[idx].volumeMounts = volumesobj.arr2;
+            $scope.dc.spec.template.spec.volumes = volumesobj.arr1;
             $scope.secretsobj = volumesobj.arr3
             console.log('-=-=-=-=-=-=-=-=-',$scope.onlyDC);
           });
@@ -1208,11 +1206,11 @@ angular.module('console.service.detail', [
 
         $scope.selectImage = function (idx) {
           var arrimgstr = [];
-          if($scope.onlyDC.metadata.annotations.imageorpublic){
-            arrimgstr = $scope.onlyDC.metadata.annotations.imageorpublic.split(",");
+          if($scope.dc.metadata.annotations.imageorpublic){
+            arrimgstr = $scope.dc.metadata.annotations.imageorpublic.split(",");
           }
-          var container = $scope.onlyDC.spec.template.spec.containers[idx];
-          var cons = $scope.onlyDC.spec.template.spec.containers;
+          var container = $scope.dc.spec.template.spec.containers[idx];
+          var cons = $scope.dc.spec.template.spec.containers;
           ImageSelect.open().then(function (res) {
             console.log("imageStreamTag", res);
             var imagetag = '';
@@ -1260,13 +1258,13 @@ angular.module('console.service.detail', [
                 }
               }
               imagetag = 'image-'+container.name;
-              $scope.onlyDC.metadata.annotations[imagetag] = arr[1];
+              $scope.dc.metadata.annotations[imagetag] = arr[1];
             }
-            for(var i = 0 ;i < $scope.onlyDC.spec.template.spec.containers.length;i++ ){
-              if($scope.onlyDC.spec.template.spec.containers[i].isimageChange != false && $scope.onlyDC.spec.template.spec.containers[i].isimageChange != true){
-                $scope.onlyDC.spec.template.spec.containers[i].isimageChange = arrimgstr[i];
+            for(var i = 0 ;i < $scope.dc.spec.template.spec.containers.length;i++ ){
+              if($scope.dc.spec.template.spec.containers[i].isimageChange != false && $scope.dc.spec.template.spec.containers[i].isimageChange != true){
+                $scope.dc.spec.template.spec.containers[i].isimageChange = arrimgstr[i];
               }
-              if($scope.onlyDC.spec.template.spec.containers[i].isimageChange == false){
+              if($scope.dc.spec.template.spec.containers[i].isimageChange == false){
                 //公共镜像
                 $scope.grid.isimageChange = false;
                 $scope.grid.imageChange = false;
@@ -1307,7 +1305,7 @@ angular.module('console.service.detail', [
             if(!container.volumeMounts){
               return;
             }
-            if(container.volumeMounts.length == 0 ){
+            if(container.volumeMounts && container.volumeMounts.length == 0 ){
               delete container["volumeMounts"];
             }
 
@@ -1551,7 +1549,7 @@ angular.module('console.service.detail', [
           $rootScope.lding = true;
           // $scope.dc.spec.template.spec.containers[0].volumeMounts=[];
           // $scope.dc.spec.template.spec.containers[0].volumeMounts.push({mountPath:'/app/pic'})
-          var dc = angular.copy($scope.onlyDC);
+          var dc = angular.copy($scope.dc);
           var cons = angular.copy($scope.dc.spec.template.spec.containers);
           DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (datadc) {
             //dc.spec.template.spec.volumes = [];
