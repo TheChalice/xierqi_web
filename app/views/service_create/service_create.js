@@ -1044,7 +1044,7 @@ angular.module('console.service.create', [
             DeploymentConfig.create({namespace: $rootScope.namespace}, clonedc, function (res) {
               $log.info("create dc success", res);
               bindService(dc);
-              $state.go('console.service_detail', {name: dc.metadata.name});
+              $state.go('console.service_detail', {name: dc.metadata.name, from: 'create'});
             }, function (res) {
               //todo 错误处理
               $log.info("create dc fail", res);

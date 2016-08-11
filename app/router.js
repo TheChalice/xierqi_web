@@ -180,6 +180,9 @@ define([
             })
             .state('console.service_detail', {
               url: '/service/:name',
+              params: {
+                from: null
+              },
               templateUrl: 'views/service_detail/service_detail.html',
               controller: 'ServiceDetailCtrl',
               resolve: {
