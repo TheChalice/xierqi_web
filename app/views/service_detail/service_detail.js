@@ -9,9 +9,9 @@ angular.module('console.service.detail', [
         ]
       }
     ])
-    .controller('ServiceDetailCtrl', ['$http','$state', '$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamTag', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal', 'Secret', 'ImageSelect', 'Service', 'BackingServiceInstanceBd','ImageService','serviceaccounts','ChooseSecret','$base64','secretskey',
-      function ($http,$state, $rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamTag, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret, ImageSelect, Service, BackingServiceInstanceBd,ImageService,serviceaccounts,ChooseSecret,$base64,secretskey) {
-        //获取服务列表
+    .controller('ServiceDetailCtrl', ['$sce','ansi_ups','$http','$state', '$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamTag', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal', 'Secret', 'ImageSelect', 'Service', 'BackingServiceInstanceBd','ImageService','serviceaccounts','ChooseSecret','$base64','secretskey',
+      function ($sce,ansi_ups,$http,$state, $rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamTag, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret, ImageSelect, Service, BackingServiceInstanceBd,ImageService,serviceaccounts,ChooseSecret,$base64,secretskey) {
+    //获取服务列表
         $scope.servicepoterr = false;
         
         // console.log('$rootScope',$rootScope);
@@ -25,7 +25,7 @@ angular.module('console.service.detail', [
         var getserviceaccounts = function(){
           serviceaccounts.get({namespace:$rootScope.namespace},function(res){
             $scope.serviceas = res
-            console.log('----------------------',res);
+            //console.log('----------------------',res);
           })
         }
         getserviceaccounts();
@@ -162,7 +162,7 @@ angular.module('console.service.detail', [
             }
 
 
-            console.log('$scope.secretsobj$scope.secretsobj$scope.secretsobj',$scope.secretsobj);
+            //console.log('$scope.secretsobj$scope.secretsobj$scope.secretsobj',$scope.secretsobj);
 
 
             if(res.metadata.annotations){
@@ -248,6 +248,8 @@ angular.module('console.service.detail', [
               angular.forEach($scope.dc.metadata.annotations,function(v,k){
                 if(r.test(k)){
                   if(k != imagetag){
+                    //console.log('cacacacacacaca',k);
+                    //console.log('$scope.dc.metadata.annotations[k]',$scope.dc.metadata.annotations[k]);
                     delete $scope.dc.metadata.annotations[k];
                   }
                 }
@@ -445,7 +447,7 @@ angular.module('console.service.detail', [
         
         $scope.$watch('dc.status.replicas',function (n,o) {
           // $scope.$watch('dc.spec.replicas',function (w,t) {
-            // console.log(n == w)
+          //   console.log(n == w)
             if ($scope.dc) {
               if (n == 0) {
                 $scope.dc.state ='ready'; //未启动
@@ -486,7 +488,7 @@ angular.module('console.service.detail', [
             $scope.resourceVersion = res.metadata.resourceVersion;
             
             if (oldname) {
-              console.log('shoulog',oldname);
+              //console.log('shoulog',oldname);
               angular.forEach($scope.rcs.items, function (item, i) {
                 // console.log(item.metadata.name, oldname);
                 if (item.metadata.name == oldname) {
@@ -496,6 +498,7 @@ angular.module('console.service.detail', [
             }else {
               $scope.rcs = res;
             }
+            $scope.rcs.items[0].showLog=true;
             watchRcs(res.metadata.resourceVersion);
           }, function (res) {
             //todo 错误处理
@@ -596,7 +599,7 @@ angular.module('console.service.detail', [
               }
             }
 
-            console.log('url',dcdata);
+            //console.log('url',dcdata);
             loadService(dcdata.metadata.name);
             $scope.dc = dcdata;
             loadRoutes()
@@ -638,7 +641,7 @@ angular.module('console.service.detail', [
               Ws.clear();
               //TODO直接刷新rc会导致页面重新渲染
               // if (!$scope.test) {
-              console.log('data.object.metadata.name',data)
+              //console.log('data.object.metadata.name',data)
               loadRcs($scope.dc.metadata.name,$scope.baocuname);
 
               // }
@@ -665,15 +668,19 @@ angular.module('console.service.detail', [
                 if (/^\d+$/.test(k)) {
                   result += res[k];
                 }
-
               }
-              loglast()
               if (result == '') {
                 result=$scope.test
               }else {
                 $scope.test =result
               }
-              data.object.log = result;
+              var html = ansi_ups.ansi_to_html(result);
+              //var result = ansi_ups.open().ansi_to_html(result);
+              //alert(11111)
+              //console.log(html);
+              //o.log = $sce.trustAsHtml(html);
+              loglast()
+              data.object.log = $sce.trustAsHtml(html);
             }, function (res) {
               //todo 错误处理
               if (res.data) {
@@ -683,31 +690,46 @@ angular.module('console.service.detail', [
             });
 
             if (data.type == 'ADDED') {
-              angular.forEach($scope.rcs.items, function (item, i) {
-                if (item.metadata.name == data.object.metadata.name) {
-                  // console.log('data.object',data.object)
-                  $scope.rcs.items[i].showLog=true;
-                  //data.object.showLog = item.showLog;
-                }
-              });
+              //data.object.showLog=true
+              //angular.forEach($scope.rcs.items, function (item, i) {
+              //  if (item.metadata.name == data.object.metadata.name) {
+              //    // console.log('data.object',data.object)
+              //    $scope.rcs.items[i].showLog=true;
+              //    //data.object.showLog = item.showLog;
+              //  }
+              //});
               //data.object.showLog = true;
               $rootScope.lding = false;
+              data.object.showLog = true;
               if ($scope.rcs.items.length > 0) {
                 $scope.rcs.items.unshift(data.object);
               } else {
                 $scope.rcs.items = [data.object];
               }
+              //if ($scope.rcs.items.length > 0) {
+              //  $scope.rcs.items.unshift(data.object);
+              //} else {
+              //  $scope.rcs.items = [data.object];
+              //}
             } else if (data.type == "MODIFIED") {
-              data.object.showLog = true;
+              //data.object.showLog = true;
               // console.log('RC',$scope.rcs.items)
               $scope.baocuname=data.object.metadata.name;
-              angular.forEach($scope.rcs.items, function (item, i) {
+              //angular.forEach($scope.rcs.items, function (item, i) {
+              //  if (item.metadata.name == data.object.metadata.name) {
+              //    //if (item.metadata.annotations['openshift.io/deployment-config.latest-version'] == data.object.metadata.annotations['openshift.io/deployment-config.latest-version']) {
+              //    data.object.showLog=$scope.rcs.items[i].showLog
+              //      // console.log('data.object',data.object)
+              //    //$scope.rcs.items[i].showLog=true;
+              //    //data.object.showLog = item.showLog;
+              //    $scope.rcs.items[i] = data.object;
+              //
+              //  }
+              //});
+              angular.forEach($scope.rcs.items, function(item, i){
                 if (item.metadata.name == data.object.metadata.name) {
-                  // console.log('data.object',data.object)
-                  $scope.rcs.items[i].showLog=true;
-                  //data.object.showLog = item.showLog;
+                  data.object.showLog = item.showLog;
                   $scope.rcs.items[i] = data.object;
-
                 }
               });
             }
@@ -722,7 +744,7 @@ angular.module('console.service.detail', [
         
         $scope.$watch('dc.state',function (n,o) {
 
-          console.log('new',n);
+          //console.log('new',n);
 
           if (n != 'normal') {
             $scope.startBtn = {
@@ -730,7 +752,7 @@ angular.module('console.service.detail', [
               dianlz:false,
               dianl:true
             }
-            console.log(statos)
+            //console.log(statos)
             if (!statos.start&&statos.dianj&&statos.repeat=='stop') {
               Toast.open('服务已停止');
               statos.repeat=null;
@@ -927,6 +949,7 @@ angular.module('console.service.detail', [
             //todo 错误处理
           });
         };
+
         var delBing = function(bindings){
           angular.forEach(bindings, function (binding) {
             var bindObj = {
@@ -943,7 +966,7 @@ angular.module('console.service.detail', [
             // console.log(bindObj)
             BackingServiceInstanceBd.put({namespace: $rootScope.namespace, name: binding.metadata.name},
                 bindObj, function (res) {
-                   console.log('解绑定', res);
+                   //console.log('解绑定', res);
                    Toast.open('解除绑定');
                 }, function (res) {
 
@@ -952,14 +975,14 @@ angular.module('console.service.detail', [
 
         }
         $scope.delete = function () {
-          console.log('---------------',$scope.bsi.items);
+          //console.log('---------------',$scope.bsi.items);
           var bindings = [];
           for(var i = 0 ; i < $scope.bsi.items.length;i++){
             if($scope.bsi.items[i].bind){
               bindings.push($scope.bsi.items[i]);
             }
           }
-          console.log('---------------++++++',bindings);
+          //console.log('---------------++++++',bindings);
           Confirm.open("删除服务", "您确定要删除服务吗?", "删除服务将解绑持久化卷和外部服务,此操作不能被撤销", 'recycle').then(function () {
             if ($scope.rcs.items.length > 0) {
               rmRcs($scope.dc.metadata.name);
@@ -983,19 +1006,24 @@ angular.module('console.service.detail', [
 
           var o = $scope.rcs.items[idx];
           o.showLog = !o.showLog;
+          //console.log(o.showLog);
           if (!o.showLog) {
             $scope.baocuname=null;
+            o.log=null;
           }else {
             $scope.baocuname=o.metadata.name;
           }
 
           o.showConfig = false;
-          if ($scope.test) {
-            o.log=$scope.test
-          }
+          //if ($scope.test) {
+          //  o.log=$scope.test
+          //}
           //存储已经调取过的log
-          // console.log(o.log)
+          // console.log(o.log);
+
           if (o.log) {
+
+            //o.log = $sce.trustAsHtml(o.log);
             loglast()
             return;
           }else {
@@ -1007,33 +1035,43 @@ angular.module('console.service.detail', [
                   result += res[k];
                 }
               }
-              loglast()
               if (result == '') {
                 result=$scope.test
               }else {
                 $scope.test =result
               }
-              o.log = result;
+              var html = ansi_ups.ansi_to_html(result);
+              //var result = ansi_ups.open().ansi_to_html(result);
+              //alert(11111)
+              //console.log(html);
+              o.log = $sce.trustAsHtml(html);
+              loglast()
+              //if (result == '') {
+              //  result=$scope.test
+              //}else {
+              //  $scope.test =result
+              //}
+              //o.log = result;
             }, function (res) {
               //todo 错误处理
               o.log = res.data.message;
             });
           }
 
-          DeploymentConfig.log.get({namespace: $rootScope.namespace, name: $scope.dc.metadata.name}, function (res) {
-            var result = "";
-            for (var k in res) {
-              if (/^\d+$/.test(k)) {
-                result += res[k];
-              }
-            }
-            o.log = result;
-            loglast()
-
-          }, function (res) {
-            //todo 错误处理
-            o.log = res.data.message;
-          });
+          //DeploymentConfig.log.get({namespace: $rootScope.namespace, name: $scope.dc.metadata.name}, function (res) {
+          //  var result = "";
+          //  for (var k in res) {
+          //    if (/^\d+$/.test(k)) {
+          //      result += res[k];
+          //    }
+          //  }
+          //  o.log = result;
+          //  loglast()
+          //
+          //}, function (res) {
+          //  //todo 错误处理
+          //  o.log = res.data.message;
+          //});
         };
 
         $scope.getConfig = function (idx) {
@@ -1173,11 +1211,11 @@ angular.module('console.service.detail', [
 
           cintainersidx = idx;
           ChooseSecret.open(olength,$scope.secretsobj).then(function (volumesobj) {
-            console.log('------------------------',volumesobj);
+            //console.log('------------------------',volumesobj);
             $scope.dc.spec.template.spec.containers[idx].volumeMounts = volumesobj.arr2;
             $scope.dc.spec.template.spec.volumes = volumesobj.arr1;
             $scope.secretsobj = volumesobj.arr3
-            console.log('-=-=-=-=-=-=-=-=-',$scope.onlyDC);
+            //console.log('-=-=-=-=-=-=-=-=-',$scope.onlyDC);
           });
         }
 
@@ -1212,7 +1250,7 @@ angular.module('console.service.detail', [
           var container = $scope.dc.spec.template.spec.containers[idx];
           var cons = $scope.dc.spec.template.spec.containers;
           ImageSelect.open().then(function (res) {
-            console.log("imageStreamTag", res);
+            //console.log("imageStreamTag", res);
             var imagetag = '';
             if(res.ispublicimage){
               var str1 =  res.imagesname.split("/");
@@ -1490,10 +1528,10 @@ angular.module('console.service.detail', [
             if ($scope.grid.route) {
               createRoute(res);
             }
-            $state.go('console.service_detail', {name: dc.metadata.name});
+            //$state.go('console.service_detail', {name: dc.metadata.name});
           }, function (res) {
             // $log.info("create service fail", res);
-            $state.go('console.service_detail', {name: dc.metadata.name});
+            //$state.go('console.service_detail', {name: dc.metadata.name});
           });
         };
         
@@ -1708,7 +1746,7 @@ angular.module('console.service.detail', [
               // $log.info("update dc fail", res);
             });
           }
-            console.log('isimgsecretisimgsecretisimgsecretisimgsecret',isimgsecret);
+            //console.log('isimgsecretisimgsecretisimgsecretisimgsecret',isimgsecret);
           if(isimgsecret){
               var secretsobj = {
                 "kind": "Secret",
@@ -1745,7 +1783,8 @@ angular.module('console.service.detail', [
         return $uibModal.open({
           templateUrl: 'views/service_detail/logModal.html',
           size: 'default modal-lg',
-          controller: ['$rootScope', '$scope', '$uibModalInstance', 'Pod', function ($rootScope, $scope, $uibModalInstance, Pod) {
+          controller: ['$sce','ansi_ups','$rootScope', '$scope', '$uibModalInstance', 'Pod',
+            function ($sce,ansi_ups,$rootScope, $scope, $uibModalInstance, Pod) {
             $scope.grid = {};
             $scope.pod = pod;
             // console.log("pod-=-=-=-=-++++",pod);
@@ -1755,7 +1794,11 @@ angular.module('console.service.detail', [
             $scope.cancel = function () {
               $uibModalInstance.dismiss();
             };
-
+            var loglast= function () {
+              setTimeout(function () {
+                $('#sc').scrollTop(1000000)
+              },200)
+            }
             $scope.getLog = function (pod) {
               var params = {
                 namespace: $rootScope.namespace,
@@ -1770,7 +1813,11 @@ angular.module('console.service.detail', [
                     result += res[k];
                   }
                 }
-                $scope.log = result;
+                var html = ansi_ups.ansi_to_html(result);
+                //var result = ansi_ups.open().ansi_to_html(result);
+                //alert(11111)
+                //console.log(html);
+                $scope.log = $sce.trustAsHtml(html);
                 loglast()
 
               }, function (res) {
@@ -1790,7 +1837,8 @@ angular.module('console.service.detail', [
         return $uibModal.open({
           templateUrl: 'views/service_detail/containerModal.html',
           size: 'default modal-lg',
-          controller: ['$rootScope', '$scope', '$log', '$uibModalInstance', 'ImageStream', 'Pod', 'Ws', 'Metrics', 'MetricsService', function ($rootScope, $scope, $log, $uibModalInstance, ImageStream, Pod, Ws, Metrics, MetricsService) {
+          controller: ['$sce','ansi_ups','$rootScope', '$scope', '$log', '$uibModalInstance', 'ImageStream', 'Pod', 'Ws', 'Metrics', 'MetricsService',
+            function ($sce,ansi_ups,$rootScope, $scope, $log, $uibModalInstance, ImageStream, Pod, Ws, Metrics, MetricsService) {
             $scope.pod = pod;
             // console.log("pod-=-=-=-=-!!!!",pod);
             $scope.grid = {
@@ -1882,8 +1930,13 @@ angular.module('console.service.detail', [
                     result += res[k];
                   }
                 }
-                $scope.log = result;
 
+                var html = ansi_ups.ansi_to_html(result);
+                //var result = ansi_ups.open().ansi_to_html(result);
+                //alert(11111)
+                //console.log(html);
+                $scope.log = $sce.trustAsHtml(html);
+                //$scope.log = result;
                 loglast()
                 
                 // console.log(result);

@@ -212,7 +212,9 @@ angular.module("console.header", [
                         Cookie.clear('namespace');
                         $rootScope.user = null;
                         $rootScope.namespace = "";
+                        clearInterval($scope.timer)
                         $state.go('home.index');
+
                     };
                     $scope.setNamespace = function (namespace, name) {
                         console.log(name);
