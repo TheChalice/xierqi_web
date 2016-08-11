@@ -18,6 +18,7 @@ angular.module("console.header", [
                             url: '/lapi/orgs/' + $state.params.useorg,
                             method: 'GET'
                         }).success(function (data, header, config, status, orgid) {
+                            //alert(data.name)
                             $scope.checked = data.name;
                         }).error(function (data, header, config, status) {
                         });
@@ -38,6 +39,7 @@ angular.module("console.header", [
                             return;
                         }
                         if (n) {
+                            //alert()
                             $scope.checked = $rootScope.user.metadata.name;
                             $http({
                                 url: '/lapi/orgs',
@@ -143,7 +145,12 @@ angular.module("console.header", [
                             // console.log('112',data.name)
                             $scope.checked = data.name
                         })
+                    } else if ($rootScope.huancun&&$rootScope.huancun.name) {
+
+                        $scope.checked = $rootScope.huancun.name;
+                        $rootScope.huancun.name=false
                     } else if (!$scope.checked) {
+
                         $scope.checked = $rootScope.namespace;
                     }
 
@@ -201,12 +208,22 @@ angular.module("console.header", [
                         if (n) {
                             orgList.get({}, function (org) {
                                 $scope.userorgs = org.orgnazitions;
+                                //alert(11)
                                 $scope.checked = $rootScope.namespace;
+
                                 $rootScope.orgStatus = false;
+
                             })
                         }
                     })
+                    $scope.$watch('checked', function (n,o) {
+                        if (n == o) {
+                            return
+                        }
+                        console.log('checked', n);
+                    })
                     //console.log('$rootScope',$rootScope);
+                    $rootScope.huancun={}
                     $scope.logout = function () {
                         Cookie.clear('df_access_token');
                         Cookie.clear('namespace');
@@ -216,12 +233,16 @@ angular.module("console.header", [
                         $state.go('home.index');
 
                     };
+                    $scope.change=false;
                     $scope.setNamespace = function (namespace, name) {
-                        console.log(name);
+                        //console.log(namespace);
                         $rootScope.namespace = namespace;
                         Cookie.set('namespace', namespace, 10 * 365 * 24 * 3600 * 1000);
                         $state.reload();
+                        //$scope.change=true;
                         $scope.checked = name;
+                        $rootScope.huancun.name=name;
+                        console.log('$scope.checked',$scope.checked);
                     }
                     // setting timer
                     $scope.checkInbox = function () {
