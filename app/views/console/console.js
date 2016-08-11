@@ -27,7 +27,12 @@ angular.module('console', [
                 //$rootScope.projects = data.items;
                 //var newprojects = [];
                 angular.forEach(data.items, function (item,i) {
-                    data.items[i].sortname=item.metadata.annotations['openshift.io/display-name']||item.metadata.name;
+                    if (item.metadata.name == $rootScope.namespace) {
+                        data.items.splice(i,1);
+                    }else {
+                        data.items[i].sortname=item.metadata.annotations['openshift.io/display-name']||item.metadata.name;
+                    }
+
                 })
                 data.items.sort(function (x, y) {
                     return x.sortname > y.sortname ? 1 : -1;
