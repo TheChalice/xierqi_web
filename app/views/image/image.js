@@ -315,8 +315,27 @@ angular.module('console.image', [
             //我的镜像
             $http.get('/oapi/v1/namespaces/' + $rootScope.namespace + '/imagestreams')
                 .success(function (datalist) {
+                    //console.log('$scope.testlist', datalist.items);
+                    //$scope.testlist = datalist.items;
+
+                    angular.forEach(datalist.items, function (item, i) {
+                        if (item.status.tags&&item.status.tags.length > 0) {
+                            angular.forEach(item.status.tags, function (tag,k) {
+                                item.status.tags[k].sorttime=(new Date(tag.items[0].created)).getTime()
+                            })
+                            datalist.items[i].status.tags.sort(function (x,y) {
+                                return x.sorttime > y.sorttime ? -1 : 1;
+                            })
+                        }
+                        //datalist.items[i].sorttime = (new Date(item.metadata.creationTimestamp)).getTime()
+                    })
+                    //datalist.items.sort(function (x, y) {
+                    //    return x.sorttime > y.sorttime ? -1 : 1;
+                    //});
+                    console.log('$scope.testlist', datalist.items);
                     $scope.testlist = datalist.items;
-                    $scope.testcopy = angular.copy(datalist.items)
+                    $scope.testcopy = angular.copy(datalist.items);
+
                     $scope.grid.total = $scope.testcopy.length;
                     // console.log('$scope.testcopy', $scope.testcopy)
                     refresh(1)

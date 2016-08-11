@@ -263,7 +263,7 @@ angular.module('console.service', [
             $scope.resourceVersion = data.object.metadata.resourceVersion;
 
             if (data.type == 'ADDED') {
-                $scope.rcs.items.push(data.object);
+                $scope.rcs.items.shift(data.object);
             }else if (data.type == "MODIFIED") {
                 angular.forEach($scope.items, function(item, i){
                     if (item.rc.metadata.name == data.object.metadata.name) {
