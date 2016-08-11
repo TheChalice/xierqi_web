@@ -499,7 +499,11 @@ angular.module('console.service.detail', [
             }else {
               $scope.rcs = res;
             }
-            $scope.rcs.items[0].showLog=true;
+            if ($stateParams.from == "create") {
+              //$scope.databuild.items[0].showLog = true;
+              $scope.rcs.items[0].showLog=true;
+            }
+
             watchRcs(res.metadata.resourceVersion);
           }, function (res) {
             //todo 错误处理
