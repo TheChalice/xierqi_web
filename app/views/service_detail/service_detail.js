@@ -20,7 +20,8 @@ angular.module('console.service.detail', [
           port: 0,
           host: '',
           suffix: '.'+$rootScope.namespace+'.app.dataos.io',
-          isimageChange : true
+          isimageChange : true,
+          imagePullSecrets : false
         };
         var getserviceaccounts = function(){
           serviceaccounts.get({namespace:$rootScope.namespace},function(res){
@@ -1212,6 +1213,7 @@ angular.module('console.service.detail', [
           var container = $scope.dc.spec.template.spec.containers[idx];
           var cons = $scope.dc.spec.template.spec.containers;
           ImageSelect.open().then(function (res) {
+            $scope.grid.imagePullSecrets = true;
             console.log("imageStreamTag", res);
             var imagetag = '';
             if(res.ispublicimage){
@@ -1680,7 +1682,9 @@ angular.module('console.service.detail', [
               delete dc.spec.template.spec.containers[i]["imagePullSecrets"];
             }
           }
-          if($scope.dc.spec.template.spec.imagePullSecrets && !isimgsecret){
+          if(!$scope.grid.imagePullSecrets && $scope.dc.spec.template.spec.imagePullSecrets){
+            dc.spec.template.spec.imagePullSecrets = $scope.dc.spec.template.spec.imagePullSecrets
+          }else if($scope.dc.spec.template.spec.imagePullSecrets && !isimgsecret){
             delete dc.spec.template.spec["imagePullSecrets"];
           }
           if(isimgsecret){
