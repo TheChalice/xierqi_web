@@ -203,7 +203,7 @@ angular.module('console.build_create_new', [
                         }
                     }
                 }else{
-                    if(data.data.msg){
+                    if(data.data && data.data.msg){
                         Alert.open('错误', data.data.msg, true);
                         $scope.grid.ishide = true;
                         $scope.runninghub = false;
