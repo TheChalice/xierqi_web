@@ -111,7 +111,7 @@
             <div class="container-box" style="margin-bottom: 0;background: #fff;">
                 <div style="margin-bottom: 20px;">
                     <input ng-model="container.name" style="width: 95%;display: inline-block;" type="text" class="form-control" placeholder="请设置容器名称"><span class="require"></span>
-                    <small ng-show="!container.name && container.emptyName" class="fa fa-info-circle err-tip">&nbsp;请设置容器名,至少2个字符以上</small>
+                    <small ng-show="!container.name && container.emptyName" class="fa fa-info-circle err-tip">&nbsp;请设置容器名，至少2个字符以上</small>
                 </div>
                 <hr>
                 <div style="margin-bottom: 20px;">
@@ -407,8 +407,8 @@
     </div>
     <hr style="margin-top: 20px;" ng-if="false">
     <small ng-show="servicepoterr" class="fa fa-info-circle err-tip">&nbsp;端口填写错误</small>
-    <small ng-show="grid.conflict" class="fa fa-info-circle err-tip">&nbsp;容器端口冲突,请修改</small>
-    <small ng-show="grid.serviceConflict" class="fa fa-info-circle err-tip">&nbsp;服务端口冲突,请修改</small>
+    <small ng-show="grid.conflict" class="fa fa-info-circle err-tip">&nbsp;容器端口冲突，请修改</small>
+    <small ng-show="grid.serviceConflict" class="fa fa-info-circle err-tip">&nbsp;服务端口冲突，请修改</small>
     <button class="btn btn-orange btn-block" ng-click="updateDc()">更新(会自动触发重新部署)</button>
 
 </div>

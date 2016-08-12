@@ -889,7 +889,7 @@ angular.module('console.service.detail', [
 
         $scope.stopRc = function (idx) {
           var o = $scope.rcs.items[idx];
-          Confirm.open("终止部署", "您确定要终止本次部署吗?", "", 'stop').then(function () {
+          Confirm.open("终止部署", "您确定要终止本次部署吗？", "", 'stop').then(function () {
             o.metadata.annotations['openshift.io/deployment.cancelled'] = 'true';
             ReplicationController.put({namespace: $rootScope.namespace, name: o.metadata.name}, o, function (res) {
               // $log.info("stop rc success", res);
@@ -988,7 +988,7 @@ angular.module('console.service.detail', [
             }
           }
           //console.log('---------------++++++',bindings);
-          Confirm.open("删除服务", "您确定要删除服务吗?", "删除服务将解绑持久化卷和外部服务,此操作不能被撤销", 'recycle').then(function () {
+          Confirm.open("删除服务", "您确定要删除服务吗？", "删除服务将解绑持久化卷和外部服务，此操作不能被撤销", 'recycle').then(function () {
             if ($scope.rcs.items.length > 0) {
               rmRcs($scope.dc.metadata.name);
 
