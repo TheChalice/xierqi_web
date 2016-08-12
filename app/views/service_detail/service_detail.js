@@ -1796,7 +1796,7 @@ angular.module('console.service.detail', [
             function ($sce,ansi_ups,$rootScope, $scope, $uibModalInstance, Pod) {
             $scope.grid = {};
             $scope.pod = pod;
-            // console.log("pod-=-=-=-=-++++",pod);
+             console.log("pod-=-=-=-=-++++",pod);
             $scope.ok = function () {
               $uibModalInstance.close(true);
             };
@@ -1849,7 +1849,7 @@ angular.module('console.service.detail', [
           controller: ['$sce','ansi_ups','$rootScope', '$scope', '$log', '$uibModalInstance', 'ImageStream', 'Pod', 'Ws', 'Metrics', 'MetricsService',
             function ($sce,ansi_ups,$rootScope, $scope, $log, $uibModalInstance, ImageStream, Pod, Ws, Metrics, MetricsService) {
             $scope.pod = pod;
-            // console.log("pod-=-=-=-=-!!!!",pod);
+             console.log("pod-=-=-=-=-!!!!",pod);
             $scope.grid = {
               show: false,
               mem: false,
@@ -1924,7 +1924,11 @@ angular.module('console.service.detail', [
               // console.log("sinceTime", $scope.grid.st);
               $scope.getLog($scope.container.name);
             };
-
+              var loglast= function () {
+                setTimeout(function () {
+                  $('#sc').scrollTop(1000000)
+                },200)
+              }
             $scope.getLog = function (container) {
               var params = {
                 namespace: $rootScope.namespace,
