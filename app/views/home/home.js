@@ -24,8 +24,8 @@ angular.module('home', [])
         };
 
         $scope.regist = function(){
-             //ModalRegist.open();
-          $state.go('regist');
+             ModalRegist.open();
+          //$state.go('regist');
         };
     }]);
 
