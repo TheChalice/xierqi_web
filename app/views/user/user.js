@@ -121,7 +121,7 @@ angular.module('console.user', [
       console.log('privilegednum', privilegednum);
       console.log('$rootScope.user.metadata.name', $rootScope.user.metadata.name);
       if ((privilegeds && privilegednum > 1) || !privilegeds){
-        Confirm.open("离开组织", "您确定要离开"+oname+"吗?", "", "").then(function(){
+        Confirm.open("离开组织", "您确定要离开"+oname+"吗？", "", "").then(function(){
           leave.left({org:orgid}, function() {
             // console.log('test leave', res);
             $scope.orgList.splice(idx,1)
@@ -132,7 +132,7 @@ angular.module('console.user', [
         })
       }
       if (privilegeds && privilegednum == 1 ){
-        Confirm.open("离开组织", "不能离开!", "您是最后一名管理员请先指定其他管理员,才能离开", "", true).then(function(){
+        Confirm.open("离开组织", "不能离开！", "您是最后一名管理员请先指定其他管理员，才能离开", "", true).then(function(){
         })
       }
     }
@@ -140,7 +140,7 @@ angular.module('console.user', [
       $http.post('/lapi/send_verify_email', {
       }).success(function(){
         //alert('激活邮件已发送!')
-        Toast.open('激活邮件发送成功!');
+        Toast.open('激活邮件发送成功！');
           console.log('test send email', item);
       })
     }

@@ -115,10 +115,25 @@ define(['angular', 'moment'], function (angular, moment) {
                     return "已绑定"
                 }else if(phase == 'Unbound'){
                     return "未绑定"
-                }else if(phase == 'Provisioning'){
+                }else if(phase == 'Provisioning' || phase == 'Pending'){
                     return "正在创建"
                 }else if(phase == 'Deleted'){
                     return "正在注销"
+                }else{
+                    return phase || "-"
+                }
+            };
+        }])
+        .filter('bandFilter',[function(){
+            return function(phase){
+                if(phase == 'band'){
+                    return "已挂载"
+                }else if(phase == 'Unbound'){
+                    return "未绑定"
+                }else if(phase == 'Pending'){
+                    return "创建中"
+                }else if(phase == 'Bound'){
+                    return "未挂载"
                 }else{
                     return phase || "-"
                 }

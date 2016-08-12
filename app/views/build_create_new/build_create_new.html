@@ -27,7 +27,7 @@
                                required
                                ng-pattern="/^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/"
                                style="width: 613px;">
-                        <small ng-if="frm.name.$viewValue != '' && frm.name.$invalid">名称只能包括小写字母/数字/短线,短线不能在开头或结尾位置
+                        <small ng-if="frm.name.$viewValue != '' && frm.name.$invalid">名称只能包括小写字母/数字/短线，短线不能在开头或结尾位置
                         </small>
                     </div>
                 </div>
@@ -38,9 +38,9 @@
                         <uib-tabset class="tab-default">
                             <!--gitlab-->
                             <uib-tab index="1" heading="代码仓库" ng-click="checkdTab(1)">
-                                <div class="tabinfo" style="height: 70px">
+                                <div class="tabinfo" style="height: 50px">
                                     <a class="btn pull-right" ng-class="{'running':running,}" uib-tooltip="同步代码源"
-                                       ng-click="loadlabOwner()" style="margin-top: -30px; margin-right: -20px">
+                                       ng-click="loadlabOwner()" style="margin-top: -20px; margin-right: -10px">
                                         <i class="fa fa-green fa-lg fa-refresh"></i>
                                     </a>
                                     <img style="float: left;margin-right: 20px;"
@@ -52,9 +52,9 @@
                             </uib-tab>
                             <!--github-->
                             <uib-tab index="2" heading="GitHub" ng-click="checkdTab(2)">
-                                <div class="tabinfo" style="height: 70px">
+                                <div class="tabinfo" style="height: 50px">
                                     <a class="btn pull-right" ng-class="{'running':runninghub}" uib-tooltip="同步代码源"
-                                       ng-click="refresh()" style="margin-top: -30px; margin-right: -20px">
+                                       ng-click="refresh()" style="margin-top: -20px; margin-right: -10px">
                                         <i class="fa fa-green fa-lg fa-refresh"></i>
                                     </a>
                                     <img style="float: left;margin-right: 20px;"
@@ -68,14 +68,29 @@
                             <!--<img src="views/build_create_new/img/gitlab.png">-->
                             <!--<span style="font-size:12px; height: 20px"></span>-->
                             <!--</uib-tab>-->
-                            <!--<uib-tab index="4" heading="其他Git" ng-click="checkdTab(4)">-->
-                            <!--<div class="row">-->
-                                <!--<div class="col-md-2" style="padding-top: 8px;">-->
-                                    <!--<p class="require" style="">仓库地址</p>-->
-                                <!--</div>-->
-                            <!--</div>-->
-                            <!--</uib-tab>-->
-
+                            <uib-tab index="4" heading="其他Git" ng-click="checkdTab(4)">
+                                <form class="form-horizontal">
+                                    <p style="font-size: 12px; margin-left: 72px;padding-bottom: 10px">如果是私有代码库，需要输入用户名口令。</p>
+                                    <div class="form-group">
+                                        <label for="address" class="col-md-2 control-label require" style="text-align: left; font-size: 12px; font-weight: normal">仓库地址</label>
+                                        <div class="col-md-10">
+                                            <input type="text" class="form-control" id="address" style="height: 30px; margin-left: -20px" ng-model="buildConfig.spec.source.git.uri">
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin-top: 30px">
+                                        <label for="username" class="col-md-2 control-label" style="text-align: left; font-size: 12px; font-weight: normal">用户名</label>
+                                        <div class="col-md-10">
+                                            <input type="text" class="form-control" id="username" style="height: 30px; margin-left: -20px" ng-model="gitUsername">
+                                        </div>
+                                    </div>
+                                    <div class="form-group" style="margin-top: 30px">
+                                        <label for="pwd" class="col-md-2 control-label text-left" style="text-align: left; font-size: 12px; font-weight: normal">口令</label>
+                                        <div class="col-md-10">
+                                            <input type="password" class="form-control" id="pwd" style="height: 30px; margin-left: -20px" ng-model="gitPwd">
+                                        </div>
+                                    </div>
+                                </form>
+                            </uib-tab>
                         </uib-tabset>
 
                         <div class="is-box" ng-hide="grid.ishide">
@@ -234,9 +249,9 @@
                         <input ng-model="completionDeadlineMinutes" name="cdm" min="1" max="60"
                                style="width: 80px;display: inline-block;" type="number" class="form-control" required>
                         <span style="display: inline-block; margin-right: 20px">mins</span>
-                        <span class="font12">&nbsp;&nbsp;构建超时时长请不要超过60Mins.</span><br>
+                        <span class="font12">&nbsp;&nbsp;构建超时时长请不要超过60分钟。</span><br>
                         <small ng-if="frm.cdm.$invalid" class="fa fa-exclamation-circle"
-                               style="font-size: 12px;color: #ec6941; margin-top: 10px">&nbsp;您设置的时长超过了限制,请重新设置
+                               style="font-size: 12px;color: #ec6941; margin-top: 10px">&nbsp;您设置的时长超过了限制，请重新设置
                         </small>
                     </div>
                 </div>
@@ -352,5 +367,8 @@
         100% {
             -webkit-transform: rotate(360deg);
         }
+    }
+    .form-group input{
+        width:105%;
     }
 </style>

@@ -23,13 +23,13 @@
                     <h3>POD配置</h3>
                 </div>
                 <div class="col-md-10">
-                    <a href="javascript:;" style="line-height: 40px;" class="href-add" ng-click="addContainer()">
-                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;创建容器
+                    <a href="javascript:;" style="line-height: 40px; margin-bottom: 10px" class="href-add" ng-click="addContainer()">
+                       <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;<span style="font-size: 12px">创建容器</span>
                     </a>
                     <br>
                     <small ng-show="invalid.containerLength" class="fa fa-info-circle err-tip">您至少需要设置一个容器</small>
                     <div ng-repeat="container in dc.spec.template.spec.containers"
-                         style="border:1px solid #c9c9c9;border-radius:2px;margin-bottom: 15px;">
+                         style="border:1px solid #c9c9c9;border-radius:2px;margin-bottom: 15px; margin-top: 10px">
                         <div class="container-fluid container-bar" style="border: none;background: #f7f8fb;">
                             <div class="row">
                                 <div class="col-sm-6">
@@ -58,7 +58,7 @@
                             <hr>
                             <div style="margin-bottom: 20px;">
                                 <a href="javascript:;" class="btn btn-orange"
-                                   ng-click="selectImage($index)">选择镜像</a><span class="require"></span>
+                                   ng-click="selectImage($index)" style="color: white">选择镜像</a><span class="require"></span>
                                 <br>
                                 <small ng-if="!container.image && container.emptyImage"
                                        class="fa fa-info-circle err-tip">&nbsp;请选择镜像
@@ -72,32 +72,53 @@
                                         镜像版本:&nbsp;&nbsp;{{container.tag}}
                                     </p>
                                 </div>
+                                <!--添加卷-->
                                 <hr>
+                                <div>
+                                    <a href="javascript:;" style="font-size: 14px;" class="href-add" ng-click="addVolume($index)">
+                                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;添加卷
+                                    </a>
+                                    <div>
 
-                                <h4>挂载secret卷&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <a href="javascript:;"
-                                       class="fa fa-plus-circle fa-lg href-add" style="font-size: 14px;">
-                                        &nbsp;&nbsp;创建</a>
-                                </h4>
-
-                                <div class="secret-bar" ng-repeat="vm in container.volumeMounts">
-                                    <div class="dropdown dropdown-select" style="width: 200px;margin: 0 15px 15px 0;">
-                                        <button class="btn dropdown-toggle" data-toggle="dropdown">
-                                            <span>{{vm.name || '请选择'}}</span>
-                                            <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li ng-repeat="s in secrets.items">
-                                                <a href="javascript:;" ng-click="vm.name = s.metadata.name">{{s.metadata.name}}</a>
-                                            </li>
-                                        </ul>
                                     </div>
-                                    <input ng-model="vm.mountPath"
-                                           style="width: 300px;display: inline-block;margin: 0 15px 15px 0;" type="text"
-                                           class="form-control">
-                                    <a href="javascript:;" ng-click="addSecret(container.name, $index, $last,container.$$hashKey)"
-                                       class="fa fa-lg"
-                                       ng-class="{'fa-times-circle':!$last, 'fa-plus-circle':$last}"></a>
+                                </div>
+                                <div style="margin-top:20px;">
+                                    <table class="table table-bordered" border="0" cellpadding="0" cellspacing="0" style="border:0px;border-top:1px solid #ddd">
+                                        <tr ng-if="secretsobj.secretarr.length">
+                                            <td class="col-md-2" style="padding:0; border: 1px solid #ddd;text-align: center;vertical-align: middle;background: #f7f8fb;" >
+                                               密钥
+                                             </td>
+                                            <td class="col-md-10" style="padding:0;border: 0px;" border="0">
+                                                <div ng-repeat="secretarr in secretsobj.secretarr">
+                                                    <div style="border-bottom: 1px solid #ddd;height: 30px;line-height: 30px;border-right:1px solid #ddd ;padding-left:15px;">{{secretarr.secret.secretName}}</div>
+                                                    <div style="height: 30px;line-height: 30px;border-bottom: 1px solid #ddd;border-right:1px solid #ddd ;padding-left:15px;">{{secretarr.mountPath}}</div>
+                                                </div>
+
+                                            </td>
+                                        </tr>
+                                        <tr  ng-if="secretsobj.configmap.length">
+                                            <td class="col-md-2" style="padding:0;  border: 1px solid #ddd;text-align: center;vertical-align: middle;background: #f7f8fb;">
+                                                配置卷
+                                            </td>
+                                            <td class="col-md-10" style="padding:0;border: 0px;" border="0">
+                                                <div ng-repeat="configmap in secretsobj.configmap">
+                                                    <div style="border-bottom: 1px solid #ddd;height: 30px;border-right:1px solid #ddd ;line-height: 30px;padding-left:15px;">{{configmap.configMap.name}}</div>
+                                                    <div style="height: 30px;line-height: 30px;border-bottom: 1px solid #ddd;border-right:1px solid #ddd ;padding-left:15px;">{{configmap.mountPath}}</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr  ng-if="secretsobj.persistentarr.length">
+                                            <td class="col-md-2" style="padding:0; border: 1px solid #ddd; text-align: center;vertical-align: middle;background: #f7f8fb;">
+                                                持久化卷
+                                            </td>
+                                            <td class="col-md-10" style="padding:0;border: 0px;" border="0">
+                                                <div  ng-repeat="persistentarr in secretsobj.persistentarr">
+                                                    <div style="border-bottom: 1px solid #ddd;height: 30px;line-height: 30px;border-right:1px solid #ddd ;padding-left:15px;">{{persistentarr.persistentVolumeClaim.claimName}}</div>
+                                                    <div style="height: 30px;line-height: 30px;border-bottom: 1px solid #ddd;border-right:1px solid #ddd ;padding-left:15px;">{{persistentarr.mountPath}}</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
                                 </div>
                             </div>
                         </div>

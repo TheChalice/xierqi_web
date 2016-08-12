@@ -135,6 +135,26 @@ define([
                 }]
               }
             })
+            .state('console.image_Public', {
+              url: '/imagePublic/:bc/:name',
+              templateUrl: 'views/image_Public/image_Public.html',
+              controller: 'imagePublicCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load(['views/image_Public/image_Public.js'])
+                }]
+              }
+            })
+            .state('console.image_regstry', {
+              url: '/image_regstry/:bc/:name',
+              templateUrl: 'views/image_Public/image_regstry.html',
+              controller: 'imagePublicCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load(['views/image_Public/image_Public.js'])
+                }]
+              }
+            })
             .state('console.service', {
               url: '/service',
               templateUrl: 'views/service/service.html',
@@ -160,6 +180,9 @@ define([
             })
             .state('console.service_detail', {
               url: '/service/:name',
+              params: {
+                from: null
+              },
               templateUrl: 'views/service_detail/service_detail.html',
               controller: 'ServiceDetailCtrl',
               resolve: {
@@ -255,6 +278,9 @@ define([
             //resource management
             .state('console.resource_management', {
               url: '/resource_management',
+              params: {
+                index: null
+              },
               templateUrl: 'views/resource_management/resource_management.html',
               controller: 'resmanageCtrl',
               resolve: {
@@ -264,7 +290,7 @@ define([
               }
             })
             .state('console.create_constantly_volume', {
-              url: '/resource_create_constantly_volume',
+              url: '/resource_create_persistentVolume',
               templateUrl: 'views/create_constantly_volume/create_constantly_volume.html',
               controller: 'createconvolumeCtrl',
               resolve: {
@@ -274,7 +300,7 @@ define([
               }
             })
             .state('console.create_config_volume', {
-              url: '/resource_create_config_volume',
+              url: '/resource_create_configMap',
               templateUrl: 'views/create_config_volume/create_config_volume.html',
               controller: 'createfigvolumeCtrl',
               resolve: {
@@ -290,6 +316,36 @@ define([
               resolve: {
                 dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                   return $ocLazyLoad.load('views/create_secret/create_secret.js')
+                }]
+              }
+            })
+            .state('console.config_detail', {
+              url:'/configMap/:name',
+              templateUrl:'views/config_detail/config_detail.html',
+              controller: 'configDetailCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/config_detail/config_detail.js')
+                }]
+              }
+            })
+            .state('console.secret_detail', {
+              url:'/secret/:name',
+              templateUrl:'views/secret_detail/secret_detail.html',
+              controller: 'secretDetailCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/secret_detail/secret_detail.js')
+                }]
+              }
+            })
+            .state('console.constantly_detail', {
+              url: '/persistentVolume/:name',
+              templateUrl: 'views/constantly_detail/constantly_detail.html',
+              controller: 'constDetailCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/constantly_detail/constantly_detail.js')
                 }]
               }
             })

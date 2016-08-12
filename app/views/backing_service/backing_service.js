@@ -46,7 +46,8 @@ angular.module('console.backing_service', [
         }
       };
     })
-    .controller('BackingServiceCtrl', ['$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'BackingServiceInstanceBd', 'Confirm', 'Toast', 'Ws', '$filter', function ($log, $rootScope, $scope, BackingService, BackingServiceInstance, ServiceSelect, BackingServiceInstanceBd, Confirm, Toast, Ws, $filter) {
+    .controller('BackingServiceCtrl', ['$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'BackingServiceInstanceBd', 'Confirm', 'Toast', 'Ws', '$filter',
+      function ($log, $rootScope, $scope, BackingService, BackingServiceInstance, ServiceSelect, BackingServiceInstanceBd, Confirm, Toast, Ws, $filter) {
       // 数组去重方法
       Array.prototype.unique = function () {
         this.sort(); //先排序
@@ -502,9 +503,9 @@ angular.module('console.backing_service', [
         if ($scope.myservice[id].item[idx].spec.binding) {
           var curlength = $scope.myservice[id].item[idx].spec.binding.length;
           if (curlength > 0) {
-            Confirm.open('删除后端服务实例', '该实例已绑定服务,不能删除', '', '', true)
+            Confirm.open('删除后端服务实例', '该实例已绑定服务，不能删除', '', '', true)
           } else {
-            Confirm.open('删除后端服务实例', '您确定要删除该实例吗?此操作不可恢复', '', '', false).then(function () {
+            Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
               BackingServiceInstance.del({
                 namespace: $rootScope.namespace,
                 name: $scope.myservice[id].item[idx].metadata.name
@@ -517,7 +518,7 @@ angular.module('console.backing_service', [
             });
           }
         } else {
-          Confirm.open('删除后端服务实例', '您确定要删除该实例吗?此操作不可恢复', '', '', false).then(function () {
+          Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
             BackingServiceInstance.del({
               namespace: $rootScope.namespace,
               name: $scope.myservice[id].item[idx].metadata.name

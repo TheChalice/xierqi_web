@@ -1,12 +1,12 @@
 <div id="service">
-    <div class="row" style="margin-top: -20px">
+    <div class="row">
         <div class="col-sm-6 col-xs-4">
             <a class="btn btn-green" ui-sref="console.service_create" style="margin-right:20px;">
                 <i class="fa fa-plus fa-lg"></i>
                 <span class="hidden-xs"> 新建服务</span>
             </a>
             <a class="btn btn-skyblue" ng-click="refresh(page)" style="height: 34px; width: 36px; padding: 5px 5px;">
-                <i class="fa fa-refresh fa-lg"></i>
+                <i class="fa fa-refresh fa-lg" ng-class="{'zhuan':running}"></i>
             </a>
         </div>
         <div class="col-sm-6 col-xs-8" style="padding-left: 0;">
@@ -45,13 +45,13 @@
     <div class="table-responsive" style="margin-top: 20px;">
         <table class="table table-hover table-default">
             <tr>
-                <th>服务名称</th>
-                <th>最近部署时间</th>
-                <th>状态</th>
-                <th>pod个数<br>正常/期望</th>
-                <th>路由URL</th>
-                <th>后端服务</th>
-                <th style='text-align: left; padding-left: 17px;'>操作</th>
+                <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">服务名称</th>
+                <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">最近部署时间</th>
+                <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">状态</th>
+                <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">pod个数<br>正常/期望</th>
+                <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">路由URL</th>
+                <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">后端服务</th>
+                <th style='text-align: left; padding-left: 17px;vertical-align: middle;padding-top:13px;padding-bottom:13px;'>操作</th>
             </tr>
             <!--<tr ng-repeat="bc in items">-->
             <tr ng-repeat="dc in items">
@@ -62,7 +62,7 @@
                 </td>
                 <td><span uib-tooltip="{{dc.metadata.creationTimestamp  | timescon}}">{{dc.metadata.creationTimestamp | dateRelative}}</span></td>
                 <td>{{dc.ismn}}</td>
-                <td><span style="color: #f6a540">{{dc.status.replicas || 0}}</span>/{{dc.spec.replicas}}</td>
+                <td><span style="color: #f6a540">{{dc.rc.spec.replicas || 0}}</span>/{{dc.spec.replicas}}</td>
                 <td>
                     <a class="href-orange" href="http://{{dc.route.spec.host}}" target="_blank">{{dc.route.spec.host}}</a>
                 </td>

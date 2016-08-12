@@ -5,9 +5,12 @@ angular.module('console.build_create_new', [
         ]
     }
 ])
-    .controller ('BuildcCtrl', ['$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch','labOwner','psgitlab','laborgs','labBranch','ImageStream', 'BuildConfig', 'Alert','$http', 'Cookie',function($rootScope, $scope, $state, $log, Owner, Org, Branch,labOwner,psgitlab,laborgs,labBranch,ImageStream, BuildConfig, Alert, $http, Cookie) {
+    .controller ('BuildcCtrl', ['$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch','labOwner','psgitlab','laborgs','labBranch','ImageStream', 'BuildConfig', 'Alert','$http','Cookie','$base64', 'secretskey',
+        function($rootScope, $scope, $state, $log, Owner, Org, Branch,labOwner,psgitlab,laborgs,labBranch,ImageStream, BuildConfig, Alert, $http, Cookie, $base64, secretskey) {
         $scope.running = false;
+
         $scope.runninghub = false;
+
         $scope.buildConfig = {
             metadata: {
                 name: '',
@@ -40,8 +43,11 @@ angular.module('console.build_create_new', [
                 completionDeadlineSeconds: 1800
             }
         };
+
         $scope.dianl=false;
+
         $scope.dianbl=true;
+
       // 实时监听按钮点亮
       var timer = setInterval(function () {
         if ($scope.buildConfig.metadata.name && $scope.grid.labbranch!=null) {
@@ -50,14 +56,32 @@ angular.module('console.build_create_new', [
         }else if ($scope.buildConfig.metadata.name && $scope.grid.branch!=null) {
           $scope.dianl=true;
           $scope.dianbl=false;
-        }else {
+        }else if ($scope.buildConfig.metadata.name&& $scope.buildConfig.spec.source.git.uri!=null) {
+           $scope.dianl=true;
+           $scope.dianbl=false;
+        }
+        else {
           $scope.dianl=false;
           $scope.dianbl=true;
         }
-      },20)
+      },20);
 
         $scope.completionDeadlineMinutes = 30;
         var thisindex = 0;
+        var createBC = function(){
+                BuildConfig.create({namespace: $rootScope.namespace},$scope.buildConfig, function(res){
+                    $log.info("buildConfig",res);
+                    createBuild(res.metadata.name);
+                    $scope.creating = false;
+                }, function(res){
+                    $scope.creating = false;
+                    if (res.data.code == 409) {
+                        Alert.open('错误', "构建名称重复", true);
+                    } else {
+                        Alert.open('错误', res.data.message, true);
+                    }
+                });
+        }
         var createBuildConfig = function(labsecret) {
             if($scope.grid.ishide == false){
                 $scope.buildConfig.spec.completionDeadlineSeconds = $scope.completionDeadlineMinutes * 60;
@@ -67,29 +91,31 @@ angular.module('console.build_create_new', [
                 $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ":" + $scope.branch[$scope.grid.branch].name;
                 $scope.buildConfig.metadata.annotations.repo = $scope.usernames[$scope.grid.user].repos[$scope.grid.project].name;
                 $scope.buildConfig.metadata.annotations.user =  $scope.usernames[$scope.grid.user].login;
+                createBC();
             }else if($scope.grid.labcon == true){
                 $scope.buildConfig.spec.completionDeadlineSeconds = $scope.completionDeadlineMinutes * 60;
                 $scope.buildConfig.spec.source.git.ref = $scope.labBranchData.msg[$scope.grid.labbranch].name;
                 $scope.buildConfig.spec.source.sourceSecret.name = labsecret;
-              console.log($scope.labusername,$scope.grid.labusers);
-              $scope.buildConfig.spec.source.git.uri = $scope.labusername[$scope.grid.labusers].repos[$scope.grid.labproject].ssh_url_to_repo;
+                console.log($scope.labusername,$scope.grid.labusers);
+                $scope.buildConfig.spec.source.git.uri = $scope.labusername[$scope.grid.labusers].repos[$scope.grid.labproject].ssh_url_to_repo;
                 $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ":" + $scope.labBranchData.msg[$scope.grid.labbranch].name;
                 $scope.buildConfig.metadata.annotations.repo = $scope.labusername[$scope.grid.labusers].repos[$scope.grid.labproject].id.toString();
+                createBC();
+            }else if($scope.grid.ishide == true && $scope.grid.labcon == false){
 
+                $scope.buildConfig.spec.completionDeadlineSeconds = $scope.completionDeadlineMinutes * 60;
+                $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ':latest';
+                $scope.buildConfig.spec.triggers = [];
+                secretskey.create({namespace: $rootScope.namespace}, secret, function(item){
+                    $scope.buildConfig.spec.source.sourceSecret.name = secret.metadata.name;
+                    createBC();
+                },function(res){
+                    if(res.status==409){
+                        $scope.buildConfig.spec.source.sourceSecret.name = secret.metadata.name;
+                        createBC();
+                    }
+                })
             }
-
-            BuildConfig.create({namespace: $rootScope.namespace},$scope.buildConfig, function(res){
-                $log.info("buildConfig",res);
-                createBuild(res.metadata.name);
-                $scope.creating = false;
-            }, function(res){
-                $scope.creating = false;
-                if (res.data.code == 409) {
-                    Alert.open('错误', "构建名称重复", true);
-                } else {
-                    Alert.open('错误', res.data.message, true);
-                }
-            });
         };
         $scope.create = function() {
             $scope.creating = true;
@@ -107,6 +133,8 @@ angular.module('console.build_create_new', [
                     getlabsecret($scope.labHost,$scope.labobjs[$scope.grid.labproject].id);
                 }else if($scope.grid.ishide == false){
                     createBuildConfig();
+                }else if($scope.grid.ishide == true && $scope.grid.labcon == false){
+                    createBuildConfig('a');
                 }
               
             },function(res){
@@ -136,7 +164,7 @@ angular.module('console.build_create_new', [
             };
             BuildConfig.instantiate.create({namespace: $rootScope.namespace, name: name}, buildRequest, function(){
                 $log.info("build instantiate success");
-                $state.go('console.build_detail', {name: name, from: 'create'})
+                $state.go('console.build_detail', {name: name, from: 'create/new'})
             }, function(res){
                 console.log("uildConfig.instantiate.create",res);
                 //todo 错误处理
@@ -146,8 +174,9 @@ angular.module('console.build_create_new', [
         $scope.usernames = [];
         var hubobj = {};
         $scope.owner = null;
-        $scope.loadOwner = function(){
-            Owner.query({namespace: $rootScope.namespace},function(res) {
+        $scope.loadOwner = function(cache){
+            console.log(cache);
+            Owner.query({namespace: $rootScope.namespace,cache:cache},function(res) {
                 $log.info("owner", res);
                 $scope.owner = res.msg;
                 hubobj = res.msg.infos[0];
@@ -174,16 +203,16 @@ angular.module('console.build_create_new', [
                         }
                     }
                 }else{
-                    if(data.data.msg){
+                    if(data.data && data.data.msg){
                         Alert.open('错误', data.data.msg, true);
                         $scope.grid.ishide = true;
                         $scope.runninghub = false;
                     }
                 }
             });
-        }
-        $scope.loadOrg = function() {
-            Org.get(function(data) {
+        };
+        $scope.loadOrg = function(cache) {
+            Org.get({cache:cache},function(data) {
                 $log.info("org", data);
                 $scope.usernames = [];
                 $scope.usernames[0] = hubobj;
@@ -195,13 +224,13 @@ angular.module('console.build_create_new', [
                 }
                 $scope.runninghub = false;
             });
-        }
+        };
         $scope.refresh = function() {
             $scope.runninghub = true;
             $scope.grid.ishide= false;
-            $scope.loadOwner();
-            $scope.loadOrg();
-        }
+            $scope.loadOwner('false');
+            $scope.loadOrg('false');
+        };
 
         var getlabsecret = function(ht,pjId){
             var objJson = {
@@ -212,7 +241,7 @@ angular.module('console.build_create_new', [
                 $scope.grid.labsecret = data.msg.secret;
                 createBuildConfig(data.msg.secret)
             })
-        }
+        };
 
         $scope.chooseUser = null;
         $scope.chooseProject = null;
@@ -246,7 +275,7 @@ angular.module('console.build_create_new', [
           }
             // $scope.grid.dian=dian;
             // $scope.grid.user = idx;
-        }
+        };
 
         $scope.selectProject = function(idx,choose) {
           if ($scope.chooseProject&&$scope.grid.project==idx) {
@@ -326,7 +355,11 @@ angular.module('console.build_create_new', [
                     $scope.grid.labcon = false;
                 }
             }
-        }
+            else if(val == 4){
+                $scope.grid.ishide = true;
+                $scope.grid.labcon = false;
+            }
+        };
 
         $scope.labowner = null;
 
@@ -352,7 +385,7 @@ angular.module('console.build_create_new', [
                     Alert.open('错误', data.data.msg, true);
                 }
             });
-        }
+        };
 
         var loadlaborgs = function(){
             laborgs.get({},function(data) {
@@ -374,7 +407,7 @@ angular.module('console.build_create_new', [
             },function(data){
                 $log.info("laborgs-------err",data)
             });
-        }
+        };
 
         $scope.choooseUser = null;
 
@@ -404,7 +437,7 @@ angular.module('console.build_create_new', [
                 })
               $scope.grid.labusers = idx;
             }
-        }
+        };
 
         $scope.selectLabProject = function(idx, chooose){
             var labId = $scope.labobjs[idx].id;
@@ -422,7 +455,7 @@ angular.module('console.build_create_new', [
             }, function (data) {
                 $log.info("selectLabProject--=-=err", data)
             })
-        }
+        };
 
         $scope.selectlabBranch = function(idx, chooose){
           if ($scope.choooseBranch && $scope.grid.labbranch === idx){
@@ -433,7 +466,7 @@ angular.module('console.build_create_new', [
               $scope.grid.labbranch = idx;
               $scope.choooseBranch = chooose;
             }
-        }
+        };
         $scope.creatgitlab = function(){
             psgitlab.create({},$scope.psgitlab,function(res){
                 //$log.info('psgitlab-----0000',res);
@@ -446,11 +479,26 @@ angular.module('console.build_create_new', [
                 $scope.grid.cdm = true;
                 $scope.grid.creatlaberr = res.data.msg;
             })
-        }
+        };
         $scope.grid.labcon = true;
         $scope.grid.ishide = true;
         $scope.loadlabOwner();
         $scope.loadOwner();
-        // $scope.loadOrg();
-    }])
+
+            var baseun= $base64.encode($scope.gitUsername);
+            var basepwd = $base64.encode($scope.gitPwd);
+            var secret = {
+                "kind": "Secret",
+                "apiVersion": "v1",
+                "metadata": {
+                    "name": "custom-git-builder-"+$rootScope.user.metadata.name
+                },
+                "data": {
+                        username: baseun,
+                        password: basepwd
+
+                },
+                "type": "Opaque"
+            }
+    }]);
 

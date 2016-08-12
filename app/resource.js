@@ -201,13 +201,13 @@ define([
             return Metrics;
         }])
         .factory('Owner', ['$resource', function($resource){
-            var Owner = $resource('/v1/repos/github/owner?namespace=:namespace', {namespace:'@namespace'}, {
+            var Owner = $resource('/v1/repos/github/owner', {namespace:'@namespace', cache:'@cache'}, {
                 'query': {method: 'GET'}
             });
              return Owner;
         }])
         .factory('Org', ['$resource', function($resource){
-            var Org = $resource('/v1/repos/github/orgs', {
+            var Org = $resource('/v1/repos/github/orgs', {cache:'false'
             });
             return Org;
         }])
@@ -215,6 +215,16 @@ define([
             var Branch = $resource('/v1/repos/github/users/:users/repos/:repos',{users:'@users',repos:'@repos'}, {
             });
             return Branch;
+        }])
+        .factory('WebhookLabget', ['$resource', function($resource){
+            var WebhookLabget = $resource('/v1/repos/source/gitlab/webhooks?namespace=:namespace&build=:build',{namespace:'@namespace', build:'@build'}, {
+            });
+            return WebhookLabget;
+        }])
+        .factory('WebhookGitget', ['$resource', function($resource){
+            var WebhookGitget = $resource('/v1/repos/source/github/webhooks?namespace=:namespace&build=:build',{namespace:'@namespace', build:'@build'}, {
+            })
+            return WebhookGitget;
         }])
         .factory('WebhookLab',['$resource', function($resource){
             var WebhookLab = $resource('/v1/repos/source/gitlab/webhooks',{}, {
@@ -253,7 +263,7 @@ define([
             return platformone;
         }])
         .factory('labOwner', ['$resource', function($resource){
-            var labOwner = $resource('/v1/repos/gitlab/owner',{}, {
+            var labOwner = $resource('/v1/repos/gitlab/owner',{cache:'@cache'}, {
             });
             return labOwner;
         }])
@@ -264,7 +274,7 @@ define([
             return psgitlab;
         }])
         .factory('laborgs', ['$resource', function($resource){
-            var laborgs = $resource('/v1/repos/gitlab/orgs',{}, {
+            var laborgs = $resource('/v1/repos/gitlab/orgs',{cache:'false'}, {
 
             });
             return laborgs;
@@ -347,7 +357,72 @@ define([
             })
         return leave;
         }])
+        .factory('configmaps', ['$resource', function($resource){
+            var configmaps = $resource('/api/v1/namespaces/:namespace/configmaps/:name', {namespace:'@namespace', name:'@name'},{
+                create: {method:'POST'},
+                delete: {method:'DELETE'},
+                updata: {method:'PUT'}
+            })
+            return configmaps;
+        }])
+        .factory('listConfig', ['$resource', function($resource){
+            var listConfig = $resource('/api/v1/namespaces/:namespace/configmaps/:name',{namespace:'@namespace', name:'@name'}, {
+            })
+            return listConfig;
+        }])
+        .factory('secretskey', ['$resource', function($resource){
+            var secretskey = $resource('/api/v1/namespaces/:namespace/secrets/:name', {namespace:'@namespace',name:'@name'},{
+                create: {method:'POST'},
+                delete: {method:'DELETE'},
+                updata: {method:'PUT'}
+            })
+            return secretskey;
+        }])
+        .factory('listSecret', ['$resource', function($resource){
+            var listSecret = $resource('/api/v1/namespaces/:namespace/secrets/:name', {namespace:'@namespace', name:'@name'}, {
+            })
+            return listSecret;
+        }])
+        .factory('modifySecret', ['$resource', function($resource){
+            var modifySecret = $resource('/api/v1/namespaces/:namespace/secrets/:name', {namespace:'@namespace', name:'@name'}, {
+                update: {method:'PUT'}
+            })
+            return modifySecret;
+        }])
+        .factory('deleteSecret', ['$resource', function($resource){
+            var deleteSecret = $resource('/api/v1/namespaces/:namespace/secrets/:name', {namespace:'@namespace', name:'@name'}, {
+                delete: {method:'DELETE'}
+            })
+            return deleteSecret;
+        }])
+        .factory('delSecret', ['$resource', function($resource){
+            var delSecret = $resource('/api/v1/namespaces/:namespace/secrets', {namespace:'@namespace'}, {
+                del: {method:'DELETE'}
+            })
+            return delSecret;
+        }])
+        .factory('persistent', ['$resource', function($resource){
+            var persistent = $resource('/api/v1/namespaces/:namespace/persistentvolumeclaims/:name', {namespace:'@namespace', name:'@name'}, {
+                del: {method:'DELETE'}
+            })
+            return persistent;
+        }])
+        .factory('delvolume', ['$resource', function($resource){
+            var delvolume = $resource('/lapi/v1/namespaces/:namespace/volumes/:name', {namespace:'@namespace', name:'@name'}, {
+                del: {method:'DELETE'}
+            })
+            return delvolume;
+        }])
+        .factory('serviceaccounts', ['$resource', function($resource){
+            var serviceaccounts = $resource('/api/v1/namespaces/:namespace/serviceaccounts/deployer', {namespace:'@namespace'}, {
+            })
+            return serviceaccounts;
+        }])
+        .factory('volume', ['$resource', function($resource){
+            var volume = $resource('/lapi/v1/namespaces/:namespace/volumes', {namespace:'@namespace'}, {
+                create: {method:'POST'}
+            })
+            return volume;
+        }])
 });
-// http://registry.dataos.io/api/repositories/manifests?repo_name=library/alpine&tag=latest
-// https://registry.dataos.io/api/projects?is_public=1
-// https://registry.dataos.io/api/repositories/tags?repo_name=openshift/node
+

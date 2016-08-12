@@ -196,6 +196,12 @@ a {
 .icon12-Cancelled {
     background-image: url(../img/stop.png);
 }
+.icon12-band {
+    background-image: url(../img/complete.png);
+}
+.icon12-Bound {
+    background-image: url(../img/refresh.png);
+}
 .icon12-New {
     background-image: url(../img/refresh.png);
 }
@@ -940,4 +946,109 @@ a {
 }
 .secret:hover, .secret:active, .active .secret, .nav-link:hover .secret{
     background: url(../img/secret_act.png)  no-repeat;
+}
+.icon20-paper{
+    background-image: url(../img/paper-active.png);
+}
+.secreticon {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    background: url(../img/secret.png) no-repeat;
+    width: 25px;
+    height: 25px;
+}
+.configicon {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    background: url(../img/config_volume.png) no-repeat;
+    width: 25px;
+    height: 25px;
+}
+/*green adding button*/
+.href-add {
+    color: #55c45f;
+    text-decoration: none;
+}
+.href-add:hover {
+    color: #469450;
+}
+/*bootstorp五等份*/
+.col-xs-1-5,
+.col-sm-1-5,
+.col-md-1-5,
+.col-lg-1-5 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.col-xs-1-5 {
+    width: 20%;
+    float: left;
+}
+.secret_detail .add a{
+    color: #55c45f;
+}
+.secret_detail .add a:hover{
+    color: #469450;
+}
+.secret_detail.href-add {
+    color: #55c45f;
+    text-decoration: none;
+}
+.secret_detail.href-add:hover{
+    color: #469450;
+}
+
+@media (min-width: 768px) {
+    .col-sm-1-5 {
+        width: 20%;
+        float: left;
+    }
+}
+@media (min-width: 992px) {
+    .col-md-1-5 {
+        width: 20%;
+        float: left;
+    }
+}
+@media (min-width: 1200px) {
+    .col-lg-1-5 {
+        width: 20%;
+        float: left;
+    }
+}
+.loading-box {
+    position: fixed;
+    /*overflow: hidden;*/
+    top: 0;
+    left: 0;
+    height: 100%;
+    /*top:100px;*/
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    z-index: 999;
+}
+.spinner {
+    margin: 250px auto;
+    width: 76px;
+    text-align: center;
+    display: block;
+}
+.fa-unspin {
+    -webkit-animation: spin 2s infinite linear;
+    -moz-animation: spin 2s infinite linear;
+    -o-animation: spin 2s infinite linear;
+    animation: unspin 2s infinite linear;
+}
+@keyframes unspin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(-359deg);
+    }
 }
