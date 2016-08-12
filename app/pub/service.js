@@ -430,7 +430,6 @@ define(['angular'], function (angular) {
                                         $uibModalInstance.close(item);
                                     }).error(function (res) {
                                         $scope.tip = errcode.open(res.code)
-
                                         //if(res.code >= 500){
                                         //  $scope.tip = '内部错误，请通过DaoVoice联系管理员';
                                         //}else{

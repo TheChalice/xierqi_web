@@ -97,7 +97,7 @@ angular.module('console.build.detail', [
 
             $scope.deletes = function () {
                 var name = $scope.data.metadata.name;
-                Confirm.open("删除构建", "您确定要删除构建吗?", "删除构建将清除构建的所有历史数据以及相关的镜像该操作不能被恢复", 'recycle').then(function () {
+                Confirm.open("删除构建", "您确定要删除构建吗？", "删除构建将清除构建的所有历史数据以及相关的镜像该操作不能被恢复", 'recycle').then(function () {
                     BuildConfig.remove({namespace: $rootScope.namespace, name: name}, {}, function () {
                         $log.info("remove buildConfig success");
                         removeIs($scope.data.metadata.name);
@@ -492,7 +492,7 @@ angular.module('console.build.detail', [
 
             $scope.delete = function (idx) {
                 var title = "删除构建";
-                var msg = "您确定要删除构建吗?";
+                var msg = "您确定要删除构建吗？";
                 var tip = "删除构建将清除构建的所有历史数据以及相关的镜像,该操作不能被恢复";
 
                 var name = $scope.databuild.items[idx].metadata.name;
@@ -528,7 +528,7 @@ angular.module('console.build.detail', [
             $scope.stop = function (idx) {
                 var o = $scope.databuild.items[idx];
                 o.status.cancelled = true;
-                Confirm.open("终止构建", "您确定要终止本次构建吗?", "", "stop").then(function () {
+                Confirm.open("终止构建", "您确定要终止本次构建吗？", "", "stop").then(function () {
                     Build.put({namespace: $rootScope.namespace, name: o.metadata.name}, o, function (res) {
                         $log.info("stop build success");
                         $scope.databuild.items[idx] = res;
