@@ -200,7 +200,7 @@ angular.module('console.build', [
                     $scope.items[idx].build = res;
                 }, function(res){
                     if(res.data.code== 409){
-                        Confirm.open("提示信息","当数据正在New的时候，构建不能停止，请等到正在构建时，在请求停止。");
+                        Confirm.open("提示信息","当数据正在New的时候，构建不能停止，请等到正在构建时，再请求停止。");
                     }
                 });
             });

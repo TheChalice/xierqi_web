@@ -124,7 +124,7 @@ angular.module('console.user', [
         console.log('test how many rootmember',$scope.rootmembers.length )
 
         if($scope.rootmembers.length == 1 && $scope.norootmembers == 0){
-          Confirm.open("离开组织", "不能离开!", "您是最后一名管理员请先指定其他管理员,才能离开", "", true).then(function() {
+          Confirm.open("离开组织", "不能离开！", "您是最后一名管理员请先指定其他管理员，才能离开。", "", true).then(function() {
             //console.log('the last rootmember', $scope.rootmembers)
           })
           }else{
