@@ -1924,7 +1924,11 @@ angular.module('console.service.detail', [
               // console.log("sinceTime", $scope.grid.st);
               $scope.getLog($scope.container.name);
             };
-
+              var loglast= function () {
+                setTimeout(function () {
+                  $('#sc').scrollTop(1000000)
+                },200)
+              }
             $scope.getLog = function (container) {
               var params = {
                 namespace: $rootScope.namespace,
