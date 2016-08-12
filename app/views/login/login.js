@@ -39,8 +39,8 @@ angular.module('home.login', [])
         AuthService.login($rootScope.credentials);
       };
       $scope.regist = function () {
-          //ModalRegist.open();
-        $state.go('regist');
+          ModalRegist.open();
+        //$state.go('regist');
       };
       // $scope.cancel = function () {
       //   $uibModalInstance.dismiss();
