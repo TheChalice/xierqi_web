@@ -17,7 +17,7 @@
                     </div>
                     <div class="ban4">
                         <p>状态: {{item.status.phase | bsiphaseFilter}}</p>
-                        <p>创建时间: {{item.metadata.creationTimestamp | dateRelative}}</p>
+                        <p><span uib-tooltip="{{item.metadata.creationTimestamp | timescon}}">创建时间: {{item.metadata.creationTimestamp | dateRelative}}</span></p>
                     </div>
                     <div class="ban4">
                         <p>套餐名称:
@@ -94,6 +94,7 @@
     .ban4 {
         width: 25%;
         float: left;
+        /*text-align: center;*/
     }
 
     #t4:after {
