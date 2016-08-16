@@ -109,8 +109,17 @@ angular.module('console.service.create', [
           image: "",    //imageStreamTag
           //ports: [{protocol: ""}],
           "env": [],
+
           "resources": {},
           "imagePullPolicy": "Always",
+          secretsobj : {
+              secretarr : []
+              ,
+              configmap : []
+              ,
+              persistentarr : []
+
+           }
         };
 
         $scope.triggerConfigTpl = {
@@ -399,28 +408,28 @@ angular.module('console.service.create', [
 
 
         var cintainersidx;
-        $scope.secretsobj = {
-
-            secretarr : []
-          ,
-
-            configmap : []
-          ,
-
-            persistentarr : []
-
-        }
+        //$scope.secretsobj = {
+        //
+        //    secretarr : []
+        //  ,
+        //
+        //    configmap : []
+        //  ,
+        //
+        //    persistentarr : []
+        //
+        //}
         $scope.addVolume = function(idx){
           var olength = 0;
           if($scope.dc.spec.template.spec.volumes){
             olength = $scope.dc.spec.template.spec.volumes.length;
           }
           cintainersidx = idx;
-          ChooseSecret.open(olength,$scope.secretsobj).then(function (volumesobj) {
+          ChooseSecret.open(olength,$scope.dc.spec.template.spec.containers[idx].secretsobj).then(function (volumesobj) {
             console.log('------------------------',volumesobj);
             $scope.dc.spec.template.spec.containers[idx].volumeMounts = volumesobj.arr2;
             $scope.dc.spec.template.spec.volumes = $scope.dc.spec.template.spec.volumes.concat(volumesobj.arr1);
-            $scope.secretsobj = volumesobj.arr3
+            $scope.dc.spec.template.spec.containers[idx].secretsobj = volumesobj.arr3
           });
         }
 
@@ -972,6 +981,7 @@ angular.module('console.service.create', [
           var arrimgs = [];
           for(var i = 0;i<clonedc.spec.template.spec.containers.length;i++){
             delete clonedc.spec.template.spec.containers[i]["commitId"];
+            delete clonedc.spec.template.spec.containers[i]["secretsobj"];
             delete clonedc.spec.template.spec.containers[i]["truename"];
             delete clonedc.spec.template.spec.containers[i]["ref"];
             delete clonedc.spec.template.spec.containers[i]["tag"];
