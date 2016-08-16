@@ -1906,6 +1906,12 @@ angular.module('console.service.detail', [
                             mem: false,
                             cpu: false
                         };
+                        var loglast = function () {
+                            setTimeout(function () {
+                                $('#sc').scrollTop(1000000);
+
+                            }, 200)
+                        }
                         $scope.ok = function () {
                             $uibModalInstance.close(true);
                         };
@@ -1981,6 +1987,9 @@ angular.module('console.service.detail', [
                                     //alert(11111)
                                     //console.log(html);
                                     $scope.log = $sce.trustAsHtml(html);
+                                    loglast()
+                                    $scope.$apply();
+
                                 }
 
                                 //loglast()
@@ -2012,11 +2021,7 @@ angular.module('console.service.detail', [
                             // console.log("sinceTime", $scope.grid.st);
                             $scope.getLog($scope.container.name);
                         };
-                        var loglast = function () {
-                            setTimeout(function () {
-                                $('#sc').scrollTop(1000000)
-                            }, 200)
-                        }
+
                         $scope.getLog = function (container) {
                             var params = {
                                 namespace: $rootScope.namespace,
