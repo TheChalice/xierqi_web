@@ -32,7 +32,8 @@
                                     <div class="row">
                                         <div class="col-md-5" style="border-right: 1px solid #c9c9c9;">
                                             <label><i class="faa faa-price"></i>&nbsp;&nbsp;价格</label>
-                                            <p ng-repeat="cost in plan.metadata.costs">
+                                            <p ng-show="plan.free">Free</p>
+                                            <p ng-show="!plan.free" ng-repeat="cost in plan.metadata.costs">
                                                 {{cost.unit}}:&nbsp;€{{cost.amount.eur}}&nbsp;|&nbsp;${{cost.amount.usd}} <br>
                                             </p>
                                         </div>

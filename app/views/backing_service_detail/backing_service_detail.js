@@ -6,16 +6,18 @@ angular.module('console.backing_service_detail', [
         ]
       }
     ])
-    .controller('BackingServiceInstanceCtrl',
-        ['$log', '$scope', '$rootScope', '$stateParams', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'Confirm', 'BackingServiceInstanceBd', '$state', 'Toast', 'Ws'
+    .controller('BackingServiceInstanceCtrl', ['$log', '$scope', '$rootScope', '$stateParams', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'Confirm', 'BackingServiceInstanceBd', '$state', 'Toast', 'Ws'
           , function ($log, $scope, $rootScope, $stateParams, BackingService, BackingServiceInstance, ServiceSelect, Confirm, BackingServiceInstanceBd, $state, Toast, Ws) {
       $scope.grid={}
       var cuename = $stateParams.name;
+
       console.log('$stateParams', $stateParams)
+
       $scope.grid.active = $stateParams.index;
+
       var loadBs = function () {
         BackingService.get({namespace: 'openshift', name: cuename}, function (data) {
-          $log.info('loadBs=====', data);
+          $log.info('价格', data);
           if (data.metadata.annotations) {
             $scope.ltype = data.metadata.annotations.Class
                       }
@@ -27,7 +29,7 @@ angular.module('console.backing_service_detail', [
           }
           $scope.data = data;
           var plans = data.spec.plans;
-          $log.info("plan display", plans);
+          //$log.info("plan display", plans);
           for (var i = 0; i < plans.length; i++) {
             if (plans[i].name == $stateParams.plan) {
               $scope.grid.checked = i;
@@ -68,7 +70,9 @@ angular.module('console.backing_service_detail', [
 
         //$state.go('console.backing_service_detail', {name: item.spec.provisioning.backingservice_name, plan: item.spec.provisioning.backingservice_plan_name});
       };
+
       loadBs();
+
       var filterBsi = function (bsi) {
         var items = [];
         for (var i = 0; i < bsi.items.length; i++) {
@@ -91,6 +95,7 @@ angular.module('console.backing_service_detail', [
           $log.info("loadBsi err", res);
         });
       };
+
       loadBsi();
 
       $scope.delBsi = function (idx) {
@@ -246,6 +251,7 @@ angular.module('console.backing_service_detail', [
           });
         }
       };
+
       $scope.bindModal = function (idx) {
         var bindings = $scope.bsi.items[idx].spec.binding || [];
         ServiceSelect.open(bindings).then(function (res) {
