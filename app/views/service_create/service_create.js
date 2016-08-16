@@ -20,18 +20,27 @@ angular.module('console.service.create', [
             protocol: ""
           }
         ]
-        $scope.addprot = function (ind, last) {
-          if (last) {     //添加
+        //$scope.addprot = function (ind, last) {
+        //  if (last) {     //添加
+        //    $scope.portsArr.unshift({
+        //      containerPort: "",
+        //      protocol: "",
+        //      hostPort: "",
+        //    })
+        //  } else {
+        //    $scope.portsArr.splice(ind, 1);
+        //  }
+        //};
+        $scope.addprot = function () {
             $scope.portsArr.unshift({
               containerPort: "",
               protocol: "",
               hostPort: "",
             })
-          } else {
-            $scope.portsArr.splice(ind, 1);
-          }
         };
-
+        $scope.delprot = function(idx){
+          $scope.portsArr.splice(idx, 1);
+        }
         $scope.dc = {
           kind: "DeploymentConfig",
           apiVersion: "v1",
@@ -663,6 +672,9 @@ angular.module('console.service.create', [
           if (!valid($scope.dc)) {
             return;
           }
+          if(!prepareport()){
+            return;
+          }
 
           $scope.grid.checked = d;
           window.scrollTo(0,0);
@@ -892,6 +904,30 @@ angular.module('console.service.create', [
           })
         }
 
+        /////验证环境变量
+        var prepareport = function(){
+          var createports = true;
+          if ($scope.portsArr) {
+            for (var j = 0; j < $scope.portsArr.length; j++) {
+              if ($scope.portsArr[j].hostPort && $scope.portsArr[j].protocol && $scope.portsArr[j].containerPort) {
+                if ($scope.portsArr[j].containerPort || $scope.portsArr[j].hostPort) {
+                  if ($scope.portsArr[j].containerPort < 1 || $scope.portsArr[j].containerPort > 65535 || $scope.portsArr[j].hostPort < 1 || $scope.portsArr[j].hostPort > 64435) {
+                    createports = false;
+                    $scope.grid.ervicepoterr = true;
+                  }
+                }
+              } else if (!$scope.portsArr[j].hostPort && !$scope.portsArr[j].containerPort && !$scope.portsArr[j].protocol) {
+                createports = true;
+              } else {
+                createports = false;
+                $scope.grid.servicepoterr = true;
+                // console.log("33333");
+              }
+            }
+          }
+          return createports;
+        }
+
         // 创建dc
         $scope.createDc = function () {
           var i;
@@ -964,27 +1000,8 @@ angular.module('console.service.create', [
           if (!$scope.grid.auto) {
             dc.spec.replicas = 0;
           }
-          var createports = true;
-          if ($scope.portsArr) {
-            for (var j = 0; j < $scope.portsArr.length; j++) {
-              if ($scope.portsArr[j].hostPort && $scope.portsArr[j].protocol && $scope.portsArr[j].containerPort) {
-                if ($scope.portsArr[j].containerPort || $scope.portsArr[j].hostPort) {
-                  if ($scope.portsArr[j].containerPort < 1 || $scope.portsArr[j].containerPort > 65535 || $scope.portsArr[j].hostPort < 1 || $scope.portsArr[j].hostPort > 64435) {
-                    createports = false;
-                    $scope.grid.ervicepoterr = true;
-                  }
-                }
-              } else if (!$scope.portsArr[j].hostPort && !$scope.portsArr[j].containerPort && !$scope.portsArr[j].protocol) {
-                createports = true;
-              } else {
-                createports = false;
-                $scope.grid.servicepoterr = true;
-                // console.log("33333");
-              }
-            }
-          }
-          console.log(createports);
-          if(createports == false){
+          console.log(prepareport());
+          if(prepareport() == false){
             return;
           }
           console.log("------------------",$scope.dc);

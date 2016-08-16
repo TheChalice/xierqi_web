@@ -137,6 +137,9 @@
                     <h3>端口开放</h3>
                 </div>
                 <div class="col-md-10">
+                    <a ng-click="addprot()" class="href-add" style="line-height: 40px; margin-bottom: 10px" href="javascript:;">
+                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;<span style="font-size: 12px">添加端口</span>
+                    </a>
                     <div class="table-responsive">
                         <table class="table table-hover table-default sub-table">
                             <tr>
@@ -190,8 +193,8 @@
                                         </div>
                                         <div class="col-sm-3">
                                             <a href="javascript:;" style='color: #9fa7b7;'
-                                               ng-click="addprot($index,$last)" class="fa fa-lg"
-                                               ng-class="{'fa-times-circle':!$last, 'fa-plus-circle':$last}"></a>
+                                               ng-click="delprot($index)" class="fa fa-lg fa-times-circle"
+                                               ></a>
                                         </div>
                                     </div>
                                 </td>

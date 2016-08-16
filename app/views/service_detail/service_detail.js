@@ -1253,17 +1253,27 @@ angular.module('console.service.detail', [
             $scope.addEnv = function () {
                 $scope.envs.push({name: '', value: ''});
             }
-            $scope.addprot = function (ind, last) {
-                if (last) {     //添加
-                    $scope.portsArr.unshift({
-                        containerPort: "",
-                        protocol: "",
-                        hostPort: "",
-                    })
-                } else {
-                    $scope.portsArr.splice(ind, 1);
-                }
+            //$scope.addprot = function (ind, last) {
+            //    if (last) {     //添加
+            //        $scope.portsArr.unshift({
+            //            containerPort: "",
+            //            protocol: "",
+            //            hostPort: "",
+            //        })
+            //    } else {
+            //        $scope.portsArr.splice(ind, 1);
+            //    }
+            //};
+            $scope.addprot = function () {
+                $scope.portsArr.unshift({
+                    containerPort: "",
+                    protocol: "",
+                    hostPort: "",
+                })
             };
+            $scope.delprot = function(idx){
+                $scope.portsArr.splice(idx, 1);
+            }
 
             $scope.selectImage = function (idx) {
                 var arrimgstr = [];

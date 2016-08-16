@@ -150,7 +150,9 @@
         </div>
     </div>
 
-    <h3>端口开放&nbsp;<span class="require"></span></h3>
+    <h3>端口开放&nbsp; <a ng-click="addprot()" class="href-add" style="line-height: 40px; margin-bottom: 10px" href="javascript:;">
+        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;<span style="font-size: 12px">添加端口</span>
+    </a></h3>
 
     <div class="table-responsive" style="margin-bottom: 30px;overflow: hidden;">
         <table class="table table-hover table-default sub-table" style="padding-bottom: 20px;">
@@ -203,9 +205,9 @@
                             <input type="text"  ng-class="{'input-error':port.serviceConflict}" ng-model="port.hostPort" class="input-small">
                         </div>
                         <div class="col-sm-3">
-                            <a href="javascript:;" style='color: #9fa7b7;' ng-click="addprot($index,$last)"
-                               class="fa fa-lg"
-                               ng-class="{'fa-times-circle':!$last, 'fa-plus-circle':$last}"></a>
+                            <a href="javascript:;" style='color: #9fa7b7;' ng-click="delprot($index)"
+                               class="fa fa-lg fa-times-circle"
+                               ></a>
                         </div>
                     </div>
                 </td>
