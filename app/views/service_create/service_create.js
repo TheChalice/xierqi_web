@@ -448,6 +448,7 @@ angular.module('console.service.create', [
           //  }
           //}
         };
+
         $scope.addEnv = function(){
           $scope.envs.push({name: '', value: ''});
         }
@@ -639,9 +640,21 @@ angular.module('console.service.create', [
         };
 
         $scope.jump = function (d) {
+          var i;
+          for(i =0; i< $scope.envs.length; i++){
+            if ($scope.envs[i].name == '' || $scope.envs[i].value == ''){
+              $scope.checkEnv = true;
+              return;
+            }
+          }
+
+          if($scope.grid.isserviceName || $scope.grid.createdcerr||$scope.grid.servicenameerr){
+            return;
+          }
           if (!valid($scope.dc)) {
             return;
           }
+
           $scope.grid.checked = d;
           window.scrollTo(0,0);
           for (var i = 0; i < $scope.portsArr.length; i++) {
