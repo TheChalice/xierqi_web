@@ -109,6 +109,64 @@ angular.module('console.service.detail', [
                         res.metadata.annotations = {};
                     }
                     $scope.dc = res;
+                    //console.log('isdcmap', res.spec.template.spec.volumes);
+                    $scope.maps=angular.copy(res.spec.template.spec.volumes);
+                    console.log('isdcmap', $scope.maps);
+                    function dcvomap(name){
+                        var obj={};
+                        angular.forEach($scope.maps, function (map,i) {
+                            if (map.name == name) {
+                                if (map.secret) {
+                                    obj={
+                                        myname:name,
+                                        secret: {
+                                            secretName: map.secret.secretName
+                                        },
+                                        mountPath: null
+                                    };
+                                    //obj=map.secret.secretName
+
+
+                                }
+                                if (map.configMap) {
+                                    obj={
+                                        myname:name,
+                                        configMap: {
+                                            name: map.configMap.name
+                                        },
+                                        mountPath: null
+                                    };
+                                }
+                            }
+                        })
+                        return obj;
+                    }
+                    console.log('isdc', res.spec.template.spec.containers);
+                    angular.forEach(res.spec.template.spec.containers, function (container,i) {
+                        res.spec.template.spec.containers[i].vol={
+                            secretarr: [],
+                            configmap: [],
+                            persistentarr: []
+                        }
+                        angular.forEach(container.volumeMounts, function (volumeMount,k) {
+                            console.log(volumeMount.mountPath);
+                            var obj = dcvomap(volumeMount.name)
+                            //var obj={};
+
+                            obj['mountPath']=volumeMount.mountPath;
+                            if (obj.secret) {
+                                res.spec.template.spec.containers[i].vol.secretarr.push(obj);
+                            }
+                            if (obj.configMap) {
+                                res.spec.template.spec.containers[i].vol.configmap.push(obj);
+                            }
+                            //console.log(obj);
+                            //res.spec.template.spec.containers[i].vol.push(obj)
+                            //console.log('卷',dcvomap(volumeMount.name));
+
+                        })
+                    })
+                    console.log(res.spec.template.spec.containers);
                     $scope.onlyDC = res;
                     $scope.secretsobj = {
 
@@ -164,11 +222,7 @@ angular.module('console.service.detail', [
                             }
                         }
                     }
-
-
                     //console.log('$scope.secretsobj$scope.secretsobj$scope.secretsobj',$scope.secretsobj);
-
-
                     if (res.metadata.annotations) {
                         if (res.metadata.annotations["dadafoundry.io/images-from"]) {
                             if (res.metadata.annotations["dadafoundry.io/images-from"] == 'private') {
