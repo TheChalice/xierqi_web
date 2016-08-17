@@ -101,7 +101,7 @@ angular.module('console.service.detail', [
                 }
                 return null;
             };
-            var test = function(res){
+            var changevol = function(res){
                 $scope.maps=angular.copy(res.spec.template.spec.volumes);
                 console.log('isdcmap', $scope.maps);
                 function dcvomap(name){
@@ -159,7 +159,7 @@ angular.module('console.service.detail', [
                     }
 
                     //console.log('isdcmap', res.spec.template.spec.volumes);
-                    test(res);
+                    changevol(res);
                     console.log(res.spec.template.spec.containers);
                     $scope.onlyDC = res;
                     $scope.dc = res;
@@ -608,7 +608,7 @@ angular.module('console.service.detail', [
                     //console.log('url',dcdata);
                     loadService(dcdata.metadata.name);
                     $scope.dc = dcdata;
-                    test(dcdata);
+                    changevol(dcdata);
                     loadRoutes()
 
                     var labelSelector = 'openshift.io/deployment-config.name=' + $scope.dc.metadata.name;
