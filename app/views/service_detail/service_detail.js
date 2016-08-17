@@ -561,6 +561,7 @@ angular.module('console.service.detail', [
                     if ($stateParams.from == "create" && $scope.rcs.items&&$scope.rcs.items[0]) {
                         //$scope.databuild.items[0].showLog = true;
                         $scope.rcs.items[0].showLog = true;
+                        $rootScope.lding = false;
                     }
 
                     watchRcs(res.metadata.resourceVersion);
@@ -753,6 +754,7 @@ angular.module('console.service.detail', [
                     data.object.log = $sce.trustAsHtml(html);
                 }, function (res) {
                     //todo 错误处理
+                    $rootScope.lding = false;
                     if (res.data) {
                         data.object.log = res.data.message;
                     }
@@ -784,6 +786,7 @@ angular.module('console.service.detail', [
                 } else if (data.type == "MODIFIED") {
                     //data.object.showLog = true;
                     // console.log('RC',$scope.rcs.items)
+                    //$rootScope.lding = false;
                     $scope.baocuname = data.object.metadata.name;
                     //angular.forEach($scope.rcs.items, function (item, i) {
                     //  if (item.metadata.name == data.object.metadata.name) {
