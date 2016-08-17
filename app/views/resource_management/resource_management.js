@@ -114,12 +114,18 @@ angular.module('console.resource_management', [
             if (data.type == 'ADDED') {
                 //$scope.rcs.items.push(data.object);
             } else if (data.type == "MODIFIED") {
-                angular.forEach($scope.persistents, function (item,i) {
+                //console.log(data);
+                angular.forEach($scope.persistents.items, function (item,i) {
+
                     if (item.metadata.name == data.object.metadata.name) {
-                        $scope.persistents[i]=data.object;
+
+                        $scope.persistents.items[i]=data.object
+                        //$scope.persistents.items[i].status.phase=data.object.status.phase
+                        //$scope.persistents[i]=data.object;
                         $scope.$apply();
                     }
                 })
+                console.log('ws',$scope.persistents.items);
                 //angular.forEach($scope.items, function(item, i){
                 //    if (item.rc.metadata.name == data.object.metadata.name) {
                 //        $scope.items[i].rc = data.object;
@@ -139,7 +145,9 @@ angular.module('console.resource_management', [
                 refresh(newVal);
             }
         });
-
+        $scope.$on('$destroy', function () {
+            Ws.clear();
+        });
         var refresh = function (page) {
             var skip = (page - 1) * $scope.grid.size;
             $scope.pageitems = $scope.configitems.slice(skip, skip + $scope.grid.size);
