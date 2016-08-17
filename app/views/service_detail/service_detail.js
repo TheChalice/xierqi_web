@@ -1253,9 +1253,11 @@ angular.module('console.service.detail', [
                     $scope.dc.spec.template.spec.containers[idx].vol = volumesobj.arr3;
                     console.log('-----------------------dc-+++',$scope.dc);
                     var thisvolumes = [];
+                    var flog = 0;
                     for(var i = 0 ; i < $scope.dc.spec.template.spec.containers.length;i++){
                        var conis = $scope.dc.spec.template.spec.containers[i];
                         for (var j = 0; j < conis.vol.secretarr.length; j++) {
+                            conis.volumeMounts[j].name = 'volumes'+flog;
                             var volumeval = {
                                 "name":conis.volumeMounts[j].name,
                                 "secret": {
@@ -1264,26 +1266,31 @@ angular.module('console.service.detail', [
 
                             }
                             thisvolumes.push(volumeval);
+                            flog++;
                         }
                         for (var j = 0; j < conis.vol.configmap.length; j++) {
+                            conis.volumeMounts[j].name = 'volumes'+flog;
                             var volumeval = {
-                                "name": conis.volumeMounts[j].myname,
+                                "name": conis.volumeMounts[j].name,
                                 "configMap": {
                                     "name": conis.vol.configmap[j].configMap.name
                                 }
 
                             }
                             thisvolumes.push(volumeval);
+                            flog++;
                         }
                         for (var j = 0; j < conis.vol.persistentarr.length; j++) {
+                            conis.volumeMounts[j].name = 'volumes'+flog;
                             var volumeval = {
-                                "name": conis.volumeMounts[j].myname,
+                                "name": conis.volumeMounts[j].name,
                                 "persistentVolumeClaim": {
                                     "claimName": conis.vol.persistentarr[j].persistentVolumeClaim.claimName
                                 }
 
                             }
                             thisvolumes.push(volumeval);
+                            flog++;
                         }
                     }
                     $scope.dc.spec.template.spec.volumes = thisvolumes;
