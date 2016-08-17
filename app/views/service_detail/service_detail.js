@@ -1255,23 +1255,31 @@ angular.module('console.service.detail', [
                     var thisvolumes = [];
                     var flog = 0;
                     for(var i = 0 ; i < $scope.dc.spec.template.spec.containers.length;i++){
+                      var copycons = [] ;
                        var conis = $scope.dc.spec.template.spec.containers[i];
                         for (var j = 0; j < conis.vol.secretarr.length; j++) {
-                            conis.volumeMounts[j].name = 'volumes'+flog;
-                            var volumeval = {
-                                "name":conis.volumeMounts[j].name,
+                            copycons.push({
+                              mountPath : conis.vol.secretarr[j].mountPath,
+                              name : 'volumes'+flog
+                            })
+                          var volumeval = {
+                                "name":'volumes'+flog,
                                 "secret": {
                                     "secretName": conis.vol.secretarr[j].secret.secretName
                                 }
 
                             }
-                            thisvolumes.push(volumeval);
-                            flog++;
+                          thisvolumes.push(volumeval);
+                          flog++;
                         }
+
                         for (var j = 0; j < conis.vol.configmap.length; j++) {
-                            conis.volumeMounts[j].name = 'volumes'+flog;
+                          copycons.push({
+                            mountPath : conis.vol.configmap[j].mountPath,
+                            name : 'volumes'+flog
+                          })
                             var volumeval = {
-                                "name": conis.volumeMounts[j].name,
+                                "name": 'volumes'+flog,
                                 "configMap": {
                                     "name": conis.vol.configmap[j].configMap.name
                                 }
@@ -1281,9 +1289,12 @@ angular.module('console.service.detail', [
                             flog++;
                         }
                         for (var j = 0; j < conis.vol.persistentarr.length; j++) {
-                            conis.volumeMounts[j].name = 'volumes'+flog;
+                          copycons.push({
+                            mountPath : conis.vol.persistentarr[j].mountPath,
+                            name : 'volumes'+flog
+                          })
                             var volumeval = {
-                                "name": conis.volumeMounts[j].name,
+                                "name": 'volumes'+flog,
                                 "persistentVolumeClaim": {
                                     "claimName": conis.vol.persistentarr[j].persistentVolumeClaim.claimName
                                 }
@@ -1292,6 +1303,7 @@ angular.module('console.service.detail', [
                             thisvolumes.push(volumeval);
                             flog++;
                         }
+                      $scope.dc.spec.template.spec.containers[i].volumeMounts = copycons;
                     }
                     $scope.dc.spec.template.spec.volumes = thisvolumes;
                     console.log('-----------------------dc-',$scope.dc);
