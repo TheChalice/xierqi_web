@@ -20,18 +20,27 @@ angular.module('console.service.create', [
             protocol: ""
           }
         ]
-        $scope.addprot = function (ind, last) {
-          if (last) {     //添加
+        //$scope.addprot = function (ind, last) {
+        //  if (last) {     //添加
+        //    $scope.portsArr.unshift({
+        //      containerPort: "",
+        //      protocol: "",
+        //      hostPort: "",
+        //    })
+        //  } else {
+        //    $scope.portsArr.splice(ind, 1);
+        //  }
+        //};
+        $scope.addprot = function () {
             $scope.portsArr.unshift({
               containerPort: "",
               protocol: "",
               hostPort: "",
             })
-          } else {
-            $scope.portsArr.splice(ind, 1);
-          }
         };
-
+        $scope.delprot = function(idx){
+          $scope.portsArr.splice(idx, 1);
+        }
         $scope.dc = {
           kind: "DeploymentConfig",
           apiVersion: "v1",
@@ -109,8 +118,17 @@ angular.module('console.service.create', [
           image: "",    //imageStreamTag
           //ports: [{protocol: ""}],
           "env": [],
+
           "resources": {},
           "imagePullPolicy": "Always",
+          secretsobj : {
+              secretarr : []
+              ,
+              configmap : []
+              ,
+              persistentarr : []
+
+           }
         };
 
         $scope.triggerConfigTpl = {
@@ -399,28 +417,28 @@ angular.module('console.service.create', [
 
 
         var cintainersidx;
-        $scope.secretsobj = {
-
-            secretarr : []
-          ,
-
-            configmap : []
-          ,
-
-            persistentarr : []
-
-        }
+        //$scope.secretsobj = {
+        //
+        //    secretarr : []
+        //  ,
+        //
+        //    configmap : []
+        //  ,
+        //
+        //    persistentarr : []
+        //
+        //}
         $scope.addVolume = function(idx){
           var olength = 0;
           if($scope.dc.spec.template.spec.volumes){
             olength = $scope.dc.spec.template.spec.volumes.length;
           }
           cintainersidx = idx;
-          ChooseSecret.open(olength,$scope.secretsobj).then(function (volumesobj) {
+          ChooseSecret.open(olength,$scope.dc.spec.template.spec.containers[idx].secretsobj).then(function (volumesobj) {
             console.log('------------------------',volumesobj);
             $scope.dc.spec.template.spec.containers[idx].volumeMounts = volumesobj.arr2;
             $scope.dc.spec.template.spec.volumes = $scope.dc.spec.template.spec.volumes.concat(volumesobj.arr1);
-            $scope.secretsobj = volumesobj.arr3
+            $scope.dc.spec.template.spec.containers[idx].secretsobj = volumesobj.arr3
           });
         }
 
@@ -448,6 +466,7 @@ angular.module('console.service.create', [
           //  }
           //}
         };
+
         $scope.addEnv = function(){
           $scope.envs.push({name: '', value: ''});
         }
@@ -639,9 +658,24 @@ angular.module('console.service.create', [
         };
 
         $scope.jump = function (d) {
+          var i;
+          for(i =0; i< $scope.envs.length; i++){
+            if ($scope.envs[i].name == '' || $scope.envs[i].value == ''){
+              $scope.checkEnv = true;
+              return;
+            }
+          }
+
+          if($scope.grid.isserviceName || $scope.grid.createdcerr||$scope.grid.servicenameerr){
+            return;
+          }
           if (!valid($scope.dc)) {
             return;
           }
+          if(!prepareport()){
+            return;
+          }
+
           $scope.grid.checked = d;
           window.scrollTo(0,0);
           for (var i = 0; i < $scope.portsArr.length; i++) {
@@ -870,6 +904,30 @@ angular.module('console.service.create', [
           })
         }
 
+        /////验证环境变量
+        var prepareport = function(){
+          var createports = true;
+          if ($scope.portsArr) {
+            for (var j = 0; j < $scope.portsArr.length; j++) {
+              if ($scope.portsArr[j].hostPort && $scope.portsArr[j].protocol && $scope.portsArr[j].containerPort) {
+                if ($scope.portsArr[j].containerPort || $scope.portsArr[j].hostPort) {
+                  if ($scope.portsArr[j].containerPort < 1 || $scope.portsArr[j].containerPort > 65535 || $scope.portsArr[j].hostPort < 1 || $scope.portsArr[j].hostPort > 64435) {
+                    createports = false;
+                    $scope.grid.ervicepoterr = true;
+                  }
+                }
+              } else if (!$scope.portsArr[j].hostPort && !$scope.portsArr[j].containerPort && !$scope.portsArr[j].protocol) {
+                createports = true;
+              } else {
+                createports = false;
+                $scope.grid.servicepoterr = true;
+                // console.log("33333");
+              }
+            }
+          }
+          return createports;
+        }
+
         // 创建dc
         $scope.createDc = function () {
           var i;
@@ -942,27 +1000,8 @@ angular.module('console.service.create', [
           if (!$scope.grid.auto) {
             dc.spec.replicas = 0;
           }
-          var createports = true;
-          if ($scope.portsArr) {
-            for (var j = 0; j < $scope.portsArr.length; j++) {
-              if ($scope.portsArr[j].hostPort && $scope.portsArr[j].protocol && $scope.portsArr[j].containerPort) {
-                if ($scope.portsArr[j].containerPort || $scope.portsArr[j].hostPort) {
-                  if ($scope.portsArr[j].containerPort < 1 || $scope.portsArr[j].containerPort > 65535 || $scope.portsArr[j].hostPort < 1 || $scope.portsArr[j].hostPort > 64435) {
-                    createports = false;
-                    $scope.grid.ervicepoterr = true;
-                  }
-                }
-              } else if (!$scope.portsArr[j].hostPort && !$scope.portsArr[j].containerPort && !$scope.portsArr[j].protocol) {
-                createports = true;
-              } else {
-                createports = false;
-                $scope.grid.servicepoterr = true;
-                // console.log("33333");
-              }
-            }
-          }
-          console.log(createports);
-          if(createports == false){
+          console.log(prepareport());
+          if(prepareport() == false){
             return;
           }
           console.log("------------------",$scope.dc);
@@ -972,6 +1011,7 @@ angular.module('console.service.create', [
           var arrimgs = [];
           for(var i = 0;i<clonedc.spec.template.spec.containers.length;i++){
             delete clonedc.spec.template.spec.containers[i]["commitId"];
+            delete clonedc.spec.template.spec.containers[i]["secretsobj"];
             delete clonedc.spec.template.spec.containers[i]["truename"];
             delete clonedc.spec.template.spec.containers[i]["ref"];
             delete clonedc.spec.template.spec.containers[i]["tag"];

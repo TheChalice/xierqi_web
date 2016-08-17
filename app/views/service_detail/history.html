@@ -81,7 +81,7 @@
             <!--<div class="collapse" ng-class="{'in': item.showLog}">-->
             <div uib-collapse="!item.showLog">
                 <div class="well well-log">
-                    <pre id='sc' ng-bind-html=item.log></pre>
+                    <pre id='sc'>{{item.log}}</pre>
                 </div>
             </div>
             <div uib-collapse="!item.showConfig">
