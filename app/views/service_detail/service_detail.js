@@ -687,21 +687,23 @@ angular.module('console.service.detail', [
                     } else {
                         $scope.test = result
                     }
-                    var html = ansi_ups.ansi_to_html(result);
+                    //var html = ansi_ups.ansi_to_html(result);
                     //var result = ansi_ups.open().ansi_to_html(result);
                     //alert(11111)
                     //console.log(html);
                     //o.log = $sce.trustAsHtml(html);
                     loglast()
                     if(data.object.log){
-                        data.object.log = $sce.trustAsHtml(html);
+                        //data.object.log = $sce.trustAsHtml(html);
+                        data.object.log = result;
+
                     }
                 }, function (res) {
                     //todo 错误处理
                     if (res.data ) {
-                        var html = ansi_ups.ansi_to_html(res.data.message)
-                        data.object.log = $sce.trustAsHtml(html);
-                        //data.object.log = res.data.message;
+                        //var html = ansi_ups.ansi_to_html(res.data.message)
+                        //data.object.log = $sce.trustAsHtml(html);
+                        data.object.log = res.data.message;
                     }
 
                 });
@@ -1068,11 +1070,12 @@ angular.module('console.service.detail', [
                         } else {
                             $scope.test = result
                         }
-                        var html = ansi_ups.ansi_to_html(result);
+                        //var html = ansi_ups.ansi_to_html(result);
                         //var result = ansi_ups.open().ansi_to_html(result);
                         //alert(11111)
                         //console.log(html);
-                        o.log = $sce.trustAsHtml(html);
+                        o.log = result;
+                        //o.log = $sce.trustAsHtml(html);
                         loglast()
                         //if (result == '') {
                         //  result=$scope.test
