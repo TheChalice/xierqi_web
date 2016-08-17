@@ -558,7 +558,7 @@ angular.module('console.service.detail', [
                     } else {
                         $scope.rcs = res;
                     }
-                    if ($stateParams.from == "create" && $scope.rcs.items) {
+                    if ($stateParams.from == "create" && $scope.rcs.items&&$scope.rcs.items[0]) {
                         //$scope.databuild.items[0].showLog = true;
                         $scope.rcs.items[0].showLog = true;
                     }
