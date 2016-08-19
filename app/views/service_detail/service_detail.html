@@ -43,7 +43,8 @@
                         <div class="media-body">
                             <h4 class="media-heading">路由URL</h4>
                             <small>
-                                <a class="href-orange text-overflow" href="http://{{dc.route.spec.host}}" target="_blank">{{dc.route.spec.host}}</a>
+                                <a class="href-orange text-overflow" ng-if="dc.state == 'normal'" href="http://{{dc.route.spec.host}}" target="_blank">{{dc.route.spec.host}}</a>
+                                <a class="href-orange text-overflow" style="color: #5B6177;cursor: no-drop;" ng-if="dc.state !== 'normal'" target="_blank">{{dc.route.spec.host}}</a>
                             </small>
                         </div>
                     </div>
