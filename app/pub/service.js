@@ -448,6 +448,7 @@ define(['angular'], function (angular) {
                                         name: $scope.orgName
                                     }).success(function (item) {
                                         //$state.go()
+                                        $state.go('console.org', {useorg:item.id})
                                         $uibModalInstance.close(item);
 
                                         $rootScope.delOrgs = true;
