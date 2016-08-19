@@ -25,7 +25,8 @@ angular.module('console.build_create_new', [
                     type: 'Git',
                     git: {
                         uri: '',
-                        ref: ''
+                        ref: '',
+                        contextDir :'.'
                     },
                     sourceSecret: {
                         name: ''
@@ -49,6 +50,7 @@ angular.module('console.build_create_new', [
         $scope.dianbl=true;
 
         // 实时监听按钮点亮
+        var r = /^\/(([a-zA-Z0-9_-])+(\.)?)*(:\d+)?(\/((\.)?(\?)?=?&?[a-zA-Z0-9_-](\?)?)*)*$/i;
         var timer = setInterval(function () {
         if ($scope.buildConfig.metadata.name && $scope.grid.labbranch!=null) {
           $scope.dianl=true;
@@ -56,11 +58,7 @@ angular.module('console.build_create_new', [
         }else if ($scope.buildConfig.metadata.name && $scope.grid.branch!=null) {
           $scope.dianl=true;
           $scope.dianbl=false;
-        }else if ($scope.buildConfig.metadata.name&& $scope.buildConfig.spec.source.git.uri!=null) {
-           $scope.dianl=true;
-           $scope.dianbl=false;
-        }
-        else {
+        }else {
           $scope.dianl=false;
           $scope.dianbl=true;
         }
