@@ -412,7 +412,8 @@ define(['angular'], function (angular) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/addmodal.html',
                     size: 'default',
-                    controller: ['$rootScope', '$scope', '$uibModalInstance', 'loadOrg', '$http', function ($rootScope, $scope, $uibModalInstance, loadOrg, $http) {
+                    controller: ['$state','$rootScope', '$scope', '$uibModalInstance', 'loadOrg', '$http',
+                        function ($state,$rootScope, $scope, $uibModalInstance, loadOrg, $http) {
                         $scope.title = title;
                         $scope.txt = txt;
                         $scope.tip = tip;
@@ -446,7 +447,9 @@ define(['angular'], function (angular) {
                                     $http.post('/lapi/orgs', {
                                         name: $scope.orgName
                                     }).success(function (item) {
+                                        //$state.go()
                                         $uibModalInstance.close(item);
+
                                         $rootScope.delOrgs = true;
                                     }).error(function (res) {
                                         console.log(res);
