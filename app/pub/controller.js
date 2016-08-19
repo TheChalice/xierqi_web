@@ -9,9 +9,9 @@ define(['angular'], function (angular) {
             $rootScope.$on(AUTH_EVENTS.loginNeeded, function () {
                 $log.info(AUTH_EVENTS.loginNeeded);
                 Cookie.clear('namespace');
-              Cookie.clear('df_access_token');
-              $rootScope.user = null;
-              $rootScope.namespace = "";
+                Cookie.clear('df_access_token');
+                $rootScope.user = null;
+                $rootScope.namespace = "";
                 $state.go('home.index');
             });
             $rootScope.$on(AUTH_EVENTS.loginSuccess, function () {

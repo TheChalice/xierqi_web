@@ -103,7 +103,7 @@ angular.module("console.header", [
                                 }).error(function (data) {
                                     //console.log("Couldn't get inbox message", data)
                                 });
-                            }, 100000)
+                            }, 1000000)
                         } else {
                             clearInterval($scope.timer);
                         }
