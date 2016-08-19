@@ -42,7 +42,7 @@ angular.module('console.user', [
         //({useorg:org.id})
         loadOrg();
         loadProject();
-        $state.go('console.org', {useorg:res.id})
+        //$state.go('console.org', {useorg:res.id})
         //console.log('zuzhi',res);
 
       })
