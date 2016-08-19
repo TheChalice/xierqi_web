@@ -294,7 +294,7 @@ define([
             return platformone;
         }])
         .factory('labOwner', ['$resource', function($resource){
-            var labOwner = $resource('/v1/repos/gitlab/owner',{cache:'@cache'}, {
+            var labOwner = $resource('/v1/repos/gitlab/owner',{}, {
             });
             return labOwner;
         }])
@@ -305,7 +305,7 @@ define([
             return psgitlab;
         }])
         .factory('laborgs', ['$resource', function($resource){
-            var laborgs = $resource('/v1/repos/gitlab/orgs',{cache:'false'}, {
+            var laborgs = $resource('/v1/repos/gitlab/orgs',{}, {
 
             });
             return laborgs;
