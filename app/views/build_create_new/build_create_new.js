@@ -48,8 +48,8 @@ angular.module('console.build_create_new', [
 
         $scope.dianbl=true;
 
-      // 实时监听按钮点亮
-      var timer = setInterval(function () {
+        // 实时监听按钮点亮
+        var timer = setInterval(function () {
         if ($scope.buildConfig.metadata.name && $scope.grid.labbranch!=null) {
           $scope.dianl=true;
           $scope.dianbl=false;
@@ -271,6 +271,7 @@ angular.module('console.build_create_new', [
             newarr.sort(function(x,y){
               return x.names > y.names ? 1 : -1;
             })
+             $scope.githubarr=angular.copy(newarr)
             thisindex = idx;
           }
             // $scope.grid.dian=dian;
@@ -360,7 +361,39 @@ angular.module('console.build_create_new', [
                 $scope.grid.labcon = false;
             }
         };
-
+        //$scope.search= function (txt) {
+        //    //reposobj
+        //}
+        $scope.$watch('txt', function (newVal, oldVal) {
+            if (newVal != oldVal&&$scope.reposobj) {
+                //console.log($scope.githubarr,$scope.reposobj,newVal);
+                newVal = newVal.replace(/\\/g);
+                var arr= [];
+                    angular.forEach($scope.githubarr, function (image) {
+                        if (RegExp(newVal).test(image.name)) {
+                            console.log(image.name);
+                            arr.push(image)
+                        }
+                    });
+                //console.log(arr);
+                $scope.reposobj=arr;
+            }
+        });
+            $scope.$watch('text', function (newVal, oldVal) {
+            if (newVal != oldVal&&$scope.labobjs) {
+                //console.log($scope.labarr,$scope.labobjs,newVal);
+                newVal = newVal.replace(/\\/g);
+                var arr= [];
+                    angular.forEach($scope.labarr, function (image) {
+                        if (RegExp(newVal).test(image.name)) {
+                            //console.log(image.name);
+                            arr.push(image)
+                        }
+                    });
+                //console.log(arr);
+                $scope.labobjs=arr;
+            }
+        });
         $scope.labowner = null;
 
         $scope.loadlabOwner = function(){
@@ -423,7 +456,7 @@ angular.module('console.build_create_new', [
                 $scope.grid.labbranch = null;
                 $scope.labobjs=null;
                 $scope.labBranchData.msg=null;
-            }else{
+            }else {
                 $scope.grid.user = idx;
                 $scope.choooseUser = chooose;
                 $scope.labobjs = $scope.labusername[idx].repos;
@@ -435,6 +468,7 @@ angular.module('console.build_create_new', [
                 labproject.sort(function(x,y){
                     return x.projecrnames > y.projecrnames ? 1 : -1;
                 })
+                $scope.labarr=angular.copy($scope.labobjs);
               $scope.grid.labusers = idx;
             }
         };
