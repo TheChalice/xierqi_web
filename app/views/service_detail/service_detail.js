@@ -101,6 +101,7 @@ angular.module('console.service.detail', [
                 }
                 return null;
             };
+
             var changevol = function(res){
                 $scope.maps=angular.copy(res.spec.template.spec.volumes);
                 console.log('isdcmap', $scope.maps);
@@ -149,7 +150,7 @@ angular.module('console.service.detail', [
 
                     })
                 })
-            }
+            };
 
             var loadDc = function (name) {
                 DeploymentConfig.get({namespace: $rootScope.namespace, name: name}, function (res) {
@@ -160,10 +161,15 @@ angular.module('console.service.detail', [
 
                     //console.log('isdcmap', res.spec.template.spec.volumes);
                     changevol(res);
-                    console.log(res.spec.template.spec.containers);
+                    //console.log(res.spec.template.spec.containers);
                     $scope.onlyDC = res;
                     $scope.dc = res;
+                    console.log('dc',$scope.dc.metadata.labels);
+                    if ($scope.dc.metadata.labels && $scope.dc.metadata.labels.app) {
+                        $scope.grid.labelSelector='app%3D'+$scope.dc.metadata.labels.app;
+                    }
 
+                    loadeventws()
                     if (res.metadata.annotations) {
                         if (res.metadata.annotations["dadafoundry.io/images-from"]) {
                             if (res.metadata.annotations["dadafoundry.io/images-from"] == 'private') {
@@ -560,6 +566,40 @@ angular.module('console.service.detail', [
                     // $log.info("loadBsi err", res);
                 });
             };
+            var loadeventws = function () {
+                Event.get({namespace: $rootScope.namespace}, function (res) {
+
+                     $log.info("events", res.metadata.resourceVersion);
+                    $scope.resource=res.metadata.resourceVersion;
+                    watchevent(res.metadata.resourceVersion);
+                }, function (res) {
+                    //todo 错误处理
+                    // $log.info("loadEvents err", res)
+                });
+            }
+            function watchevent(resourceVersion){
+                Ws.watch({
+                    api: 'k8s',
+                    resourceVersion: resourceVersion,
+                    namespace: $rootScope.namespace,
+                    type: 'events',
+                    name: ''
+                    //app:$scope.grid.labelSelector
+                }, function (res) {
+                    var data = JSON.parse(res.data);
+                    //updateRcs(data);
+                    console.log('eventdata', data);
+                }, function () {
+                    $log.info("webSocket startRC");
+                }, function () {
+                    $log.info("webSocket stopRC");
+                    //var key = Ws.key($rootScope.namespace, 'replicationcontrollers', '');
+                    //if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
+                    //    return;
+                    //}
+                    //watchevent($scope.resourceVersion);
+                });
+            }
 
             var watchRcs = function (resourceVersion) {
                 Ws.watch({
@@ -584,7 +624,6 @@ angular.module('console.service.detail', [
             };
             //执行log
             var updateRcs = function (data) {
-
                 console.log('data.type', data.type);
                 DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (dcdata) {
                     //$scope.dc = dcdata
@@ -2079,6 +2118,7 @@ angular.module('console.service.detail', [
                                 //watchpod($scope.resourceVersion);
                             });
                         };
+
                         $scope.containerDetail = function (idx) {
                             var o = pod.spec.containers[idx];
                             $scope.grid.show = true;

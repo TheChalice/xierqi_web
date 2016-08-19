@@ -41,6 +41,12 @@ define([
                         '&limitBytes=10485760'+
                         '&container='+ params.pod +
                         '&access_token=' + Cookie.get("df_access_token");
+                }else if(params.app){
+                    var url = host + '/namespaces/' + params.namespace + '/'+ params.type + params.name +
+                        '?watch=true' +
+                        '&resourceVersion='+ params.resourceVersion +
+                        '&labelSelector='+ params.app +
+                        '&access_token=' + Cookie.get("df_access_token");
                 }else {
                     var url = host + '/namespaces/' + params.namespace + '/'+ params.type + params.name +
                         '?watch=true' +

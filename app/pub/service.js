@@ -1261,63 +1261,17 @@ define(['angular'], function (angular) {
                             $log.info("find project err", res);
                         });
                     };
-                    //function denglu(){
-                    //  $http(req).then(function(data){
-                    //    // success handler
-                    //    console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&",data.data);
-                    //
-                    //    Cookie.set('df_access_token', data.data.access_token, 10 * 365 * 24 * 3600 * 1000);
-                    //
-                    //    loadProject(credentials.username);
-                    //
-                    //    User.get({name: '~'}, function (res) {
-                    //      $rootScope.loding = false;
-                    //      $rootScope.user = res;
-                    //      $state.go('console.dashboard');
-                    //      var inputDaovoice = function() {
-                    //        daovoice('init', {
-                    //          app_id: "b31d2fb1",
-                    //          user_id: "user.metadata.uid", // 必填: 该用户在您系统上的唯一ID
-                    //          //email: "daovoice@example.com", // 选填:  该用户在您系统上的主邮箱
-                    //          name: $rootScope.user.metadata.name, // 选填: 用户名
-                    //          signed_up: parseInt((new Date($rootScope.user.metadata.creationTimestamp)).getTime() / 1000) // 选填: 用户的注册时间，用Unix时间戳表示
-                    //        });
-                    //        daovoice('update');
-                    //      }
-                    //      inputDaovoice();
-                    //    });
-                    //  },function(reject){
-                    //    // error handler
-                    //    if(reject.status === -1) {
-                    //      // $http timeout
-                    //      console.log(1);
-                    //      denglu()
-                    //    } else {
-                    //      $state.go('login');
-                    //      console.log('登录报错',reject);
-                    //      $rootScope.loding = false;
-                    //      Alert.open('错误', '用户名或密码不正确');
-                    //      var daovoicefailed = function(){
-                    //        daovoice('init', {
-                    //          app_id: "b31d2fb1"
-                    //        });
-                    //        daovoice('update');
-                    //      }
-                    //      daovoicefailed();
-                    //      // response error status from server
-                    //    }
-                    //  });
+
+                    //try {
+                    //    localStorage.getItem("code");
+                    //} catch (e) {
+                    //    alert(e.message);
+                    //    localStorage.setItem('cade',0)
                     //}
-                    //
-                    //
-                    //$timeout(function() {
-                    //  deferred.resolve(); // this aborts the request!
-                    //}, 10000);
-                    //
-                    //denglu()
+                    //localStorage.setItem('codenum','0')
                     function denglu() {
                         $http(req).success(function (data) {
-                            console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&" + data);
+                            //console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&" + data);
 
                             Cookie.set('df_access_token', data.access_token, 10 * 365 * 24 * 3600 * 1000);
 
@@ -1326,7 +1280,9 @@ define(['angular'], function (angular) {
                             User.get({name: '~'}, function (res) {
                                 $rootScope.loding = false;
                                 $rootScope.user = res;
+                                //localStorage.setItem('cade',null)
                                 $state.go('console.dashboard');
+
                                 var inputDaovoice = function () {
                                     daovoice('init', {
                                         app_id: "b31d2fb1",
@@ -1356,6 +1312,17 @@ define(['angular'], function (angular) {
                             } else {
                                 $rootScope.loding = false;
                                 Alert.open('错误', '用户名或密码不正确');
+                                var codenum = localStorage.getItem("code");
+                                console.log(codenum);
+                                if (codenum) {
+                                    codenum=parseInt(codenum);
+                                    codenum+=1
+                                    localStorage.setItem('code',codenum)
+                                }else {
+                                    localStorage.setItem('code',1)
+                                }
+
+
                                 var daovoicefailed = function () {
                                     daovoice('init', {
                                         app_id: "b31d2fb1"
@@ -1370,55 +1337,7 @@ define(['angular'], function (angular) {
                     }
 
                     denglu()
-                    //$http(req).success(function (data) {
-                    //  console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&"+data);
-                    //
-                    //  Cookie.set('df_access_token', data.access_token, 10 * 365 * 24 * 3600 * 1000);
-                    //
-                    //  loadProject(credentials.username);
-                    //
-                    //  User.get({name: '~'}, function (res) {
-                    //    $rootScope.loding = false;
-                    //    $rootScope.user = res;
-                    //    $state.go('console.dashboard');
-                    //    var inputDaovoice = function() {
-                    //      daovoice('init', {
-                    //        app_id: "b31d2fb1",
-                    //        user_id: "user.metadata.uid", // 必填: 该用户在您系统上的唯一ID
-                    //        //email: "daovoice@example.com", // 选填:  该用户在您系统上的主邮箱
-                    //        name: $rootScope.user.metadata.name, // 选填: 用户名
-                    //        signed_up: parseInt((new Date($rootScope.user.metadata.creationTimestamp)).getTime() / 1000) // 选填: 用户的注册时间，用Unix时间戳表示
-                    //      });
-                    //      daovoice('update');
-                    //    }
-                    //    inputDaovoice();
-                    //  });
-                    //
-                    //}).error(function (data) {
-                    //  //console.log(data);
-                    //  //if (data.code == 401) {
-                    //  //  //$rootScope.user=false;
-                    //  //  $rootScope.loding = false;
-                    //  //}
-                    //  $state.go('login');
-                    //  console.log('登录报错',data);
-                    //  if (data.indexOf('502')!=-1) {
-                    //    //$rootScope.loding = false;
-                    //    //alert('超时了');
-                    //
-                    //  }else {
-                    //    $rootScope.loding = false;
-                    //    Alert.open('错误', '用户名或密码不正确');
-                    //    var daovoicefailed = function(){
-                    //      daovoice('init', {
-                    //        app_id: "b31d2fb1"
-                    //      });
-                    //      daovoice('update');
-                    //    }
-                    //    daovoicefailed();
-                    //  }
-                    //
-                    //});
+
                 };
             }])
         .factory('AuthInterceptor', ['$rootScope', '$q', 'AUTH_EVENTS', 'Cookie', function ($rootScope, $q, AUTH_EVENTS, Cookie) {

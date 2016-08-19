@@ -34,6 +34,26 @@
                     <small ng-if="frm.password.$dirty && frm.password.$invalid" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;密码不能为空</small>
                 </p>
                 <input name="password" style="font-size: 12px;" type="password" class="form-control" placeholder="密码" ng-model="credentials.password" required>
+                <div class="yanzheng" ng-if="false">
+                    <p class="modal-msg text-left" style="margin: 20px 0 5px 0;font-size:12px;color:#5a6378;">
+                        <span class="require">验证码</span>&nbsp;&nbsp;
+                        <small ng-if="yzmchange&&frm.code.$dirty && frm.code.$error.required"
+                               class="err-tip pull-right">
+                            <i class="fa fa-info-circle"></i>&nbsp;验证码不能为空
+                        </small>
+                        <small ng-if="yzmchange&&credentials.codeerror" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;验证码不正确
+                        </small>
+                    </p>
+                    <div style="position: relative; height: 40px;width: 100%;">
+                        <input name="code" style="float: left;width: 50%;font-size: 12px;"
+                               type="text"
+                               ng-blur="yzmchange=true"
+                               ng-focus="yzmchange=false"
+                               class="form-control"
+                               ng-model="code" required/>
+                        <div ng-click="changecode()" class="code">{{yzcode}}</div>
+                    </div>
+                </div>
 
                 <button class="btn btn-orange btn-block" ng-click="frm.$valid && login()" style="margin: 30px 0 0 0; color: white">
                     登录
@@ -41,7 +61,7 @@
             </form>
         </div>
         <div class="modal-footer" style="padding: 0;border: none;">
-            <div style="margin:45px 0px 20px;font-size: 16px; text-align: center;color: #5a6378">没有&nbsp;DataFoundry&nbsp;账号?</div>
+            <div class="nocode" style="font-size: 16px; text-align: center;color: #5a6378">没有&nbsp;DataFoundry&nbsp;账号?</div>
             <button ng-click="regist()" class="btn btn-block btn-regist" style="height:34px;">
                 立即注册
             </button>
@@ -69,6 +89,12 @@
 
 
 <style>
+    .nocode {
+        margin:45px 0px 20px;
+    }
+    .modal-footer .havecode {
+        margin:10px 0px 10px;
+    }
     .sjgf {
         background: url('pub/img/login.png')no-repeat;
         width: 205px;
@@ -80,6 +106,18 @@
     body {
         background-color: #5a6378;
         padding-top:0px;
+    }
+    .code {
+        /*background-color: rebeccapurple;*/
+        width: 50%;
+        height: 34px;
+        float: left;
+        text-align: center;
+        word-spacing:8px;
+        letter-spacing:8px;
+        font-size: 20px;
+        line-height: 34px;
+        cursor: pointer;
     }
     #header {
         display: none;
