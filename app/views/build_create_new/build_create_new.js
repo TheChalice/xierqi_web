@@ -13,7 +13,6 @@ angular.module('console.build_create_new', [
 
         $scope.buildConfig = {
             metadata: {
-                name: '',
                 annotations:{
                   'datafoundry.io/create-by':$rootScope.user.metadata.name,
                   repo:''
@@ -25,9 +24,9 @@ angular.module('console.build_create_new', [
                     type: 'Git',
                     git: {
                         uri: '',
-                        ref: '',
-                        contextDir :'.'
+                        ref: ''
                     },
+                    contextDir :'',
                     sourceSecret: {
                         name: ''
                     }
@@ -58,6 +57,9 @@ angular.module('console.build_create_new', [
         }else if ($scope.buildConfig.metadata.name && $scope.grid.branch!=null) {
           $scope.dianl=true;
           $scope.dianbl=false;
+        }else if ($scope.buildConfig.metadata.name&& $scope.buildConfig.spec.source.git.uri!=null) {
+            $scope.dianl=true;
+            $scope.dianbl=false;
         }else {
           $scope.dianl=false;
           $scope.dianbl=true;
@@ -67,6 +69,12 @@ angular.module('console.build_create_new', [
         $scope.completionDeadlineMinutes = 30;
         var thisindex = 0;
         var createBC = function(){
+            if ($scope.buildConfig.spec.source&&$scope.buildConfig.spec.source.contextDir == '') {
+                delete $scope.buildConfig.spec.source.contextDir;
+            }
+            if ($scope.buildConfig.spec.source.git&&$scope.buildConfig.spec.source.git.ref == '') {
+                delete $scope.buildConfig.spec.source.git.ref;
+            }
                 BuildConfig.create({namespace: $rootScope.namespace},$scope.buildConfig, function(res){
                     $log.info("buildConfig",res);
                     createBuild(res.metadata.name);
@@ -104,12 +112,27 @@ angular.module('console.build_create_new', [
                 $scope.buildConfig.spec.completionDeadlineSeconds = $scope.completionDeadlineMinutes * 60;
                 $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ':latest';
                 $scope.buildConfig.spec.triggers = [];
-                secretskey.create({namespace: $rootScope.namespace}, secret, function(item){
-                    $scope.buildConfig.spec.source.sourceSecret.name = secret.metadata.name;
+                //console.log(secret);
+                $scope.secret = {
+                    "kind": "Secret",
+                    "apiVersion": "v1",
+                    "metadata": {
+                        "name": "custom-git-builder-"+$rootScope.user.metadata.name+'-'+$scope.buildConfig.metadata.name
+                    },
+                    "data": {
+                        username: baseun,
+                        password: basepwd
+
+                    },
+                    "type": "Opaque"
+                }
+                secretskey.create({namespace: $rootScope.namespace}, $scope.secret, function(item){
+                    //alert(11111)
+                    $scope.buildConfig.spec.source.sourceSecret.name = $scope.secret.metadata.name;
                     createBC();
                 },function(res){
                     if(res.status==409){
-                        $scope.buildConfig.spec.source.sourceSecret.name = secret.metadata.name;
+                        $scope.buildConfig.spec.source.sourceSecret.name = $scope.secret.metadata.name;
                         createBC();
                     }
                 })
@@ -119,7 +142,7 @@ angular.module('console.build_create_new', [
             $scope.creating = true;
             var imageStream = {
                 metadata: {
-                  annotations:{
+                  annotations: {
                     'datafoundry.io/create-by':$rootScope.user.metadata.name,
                   },
                   name: $scope.buildConfig.metadata.name
@@ -567,6 +590,7 @@ angular.module('console.build_create_new', [
         };
 
         $scope.creatgitlab = function(){
+
             psgitlab.create({},$scope.psgitlab,function(res){
                 //$log.info('psgitlab-----0000',res);
                 $scope.loadlabOwner('click');
@@ -586,18 +610,6 @@ angular.module('console.build_create_new', [
 
             var baseun= $base64.encode($scope.gitUsername);
             var basepwd = $base64.encode($scope.gitPwd);
-            var secret = {
-                "kind": "Secret",
-                "apiVersion": "v1",
-                "metadata": {
-                    "name": "custom-git-builder-"+$rootScope.user.metadata.name
-                },
-                "data": {
-                        username: baseun,
-                        password: basepwd
 
-                },
-                "type": "Opaque"
-            }
     }]);
 
