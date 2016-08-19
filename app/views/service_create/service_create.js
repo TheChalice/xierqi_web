@@ -14,11 +14,11 @@ angular.module('console.service.create', [
         $scope.checkEnv = false;
 
         $scope.portsArr = [
-          {
-            containerPort: "",
-            hostPort: "",
-            protocol: ""
-          }
+          //{
+          //  containerPort: "",
+          //  hostPort: "",
+          //  protocol: ""
+          //}
         ]
         //$scope.addprot = function (ind, last) {
         //  if (last) {     //添加
@@ -368,6 +368,7 @@ angular.module('console.service.create', [
         // 验证dc名称规范
         $scope.checknames = function(){
           var r = /^[a-z][-a-z0-9]*[a-z0-9]$/; // 不能以数字开头,有小写字母跟数字组成;
+          console.log('!r.test($scope.dc.metadata.name)',!r.test($scope.dc.metadata.name))
           if(!r.test($scope.dc.metadata.name)){
               $scope.grid.servicenameerr = true;
           }else if($scope.dc.metadata.name.length<2 || $scope.dc.metadata.name.length>24){
