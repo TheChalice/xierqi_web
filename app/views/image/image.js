@@ -118,11 +118,56 @@ angular.module('console.image', [
                 var skip = (page - 1) * $scope.grid.size;
                 if (type) {
                     $scope.grid.search = true;
-                    $scope.repertorys = $scope.grid.regimagecopy.slice(skip, skip + $scope.grid.size);
+                    $scope.repertoryspoj = $scope.grid.regimagecopy.slice(skip, skip + $scope.grid.size);
+
                     $scope.grid.repertorystotal = $scope.grid.regimagecopy.length;
+                    $scope.repertorys=[];
+                    angular.forEach($scope.repertoryspoj, function (image) {
+                        //    angular.forEach(images, function (image, k) {
+                        //
+                        $http.get('/registry/api/repositories/manifests', {
+                                params: {
+                                    repo_name: image,
+                                    tag: 'latest'
+                                }
+                            })
+                            .success(function (lasttag) {
+
+                                $scope.repertorys.push({name: image, lasttag: lasttag, canbuid: true});
+                                //console.log($scope.repertorys.length,$scope.tipnum);
+
+                            }).error(function (err) {
+                            $scope.repertorys.push({name: image, lasttag: null, canbuid: false});
+
+                        })
+                        //    })
+                    })
                 } else {
-                    $scope.repertorys = $scope.repertoryscopy.slice(skip, skip + $scope.grid.size);
+                    $scope.repertoryspoj = $scope.repertoryscopy.slice(skip, skip + $scope.grid.size);
                     $scope.grid.repertorystotal = $scope.repertoryscopy.length;
+                    //console.log($scope.repertoryspoj);
+                    $scope.repertorys=[];
+                    angular.forEach($scope.repertoryspoj, function (image) {
+                    //    angular.forEach(images, function (image, k) {
+                    //
+                            $http.get('/registry/api/repositories/manifests', {
+                                    params: {
+                                        repo_name: image,
+                                        tag: 'latest'
+                                    }
+                                })
+                                .success(function (lasttag) {
+
+                                    $scope.repertorys.push({name: image, lasttag: lasttag, canbuid: true});
+                                    //console.log($scope.repertorys.length,$scope.tipnum);
+
+                                }).error(function (err) {
+                                $scope.repertorys.push({name: image, lasttag: null, canbuid: false});
+
+                            })
+                    //    })
+                    })
+
                 }
 
                 //console.log('1212121212121212122',$scope.repertorys);
@@ -188,12 +233,12 @@ angular.module('console.image', [
                         txt = txt.replace(/\//g, '\\/');
                         var reg = eval('/' + txt + '/');
                         for (var i = 0; i < $scope.repertoryscopy.length; i++) {
-                            if (reg.test($scope.repertoryscopy[i].name)) {
+                            if (reg.test($scope.repertoryscopy[i])) {
                                 imagearr.push($scope.repertoryscopy[i]);
                             }
                         }
-                        $scope.repertorys = imagearr;
-                        $scope.grid.regimagecopy = angular.copy($scope.repertorys);
+                        $scope.repertoryspoj = imagearr;
+                        $scope.grid.regimagecopy = angular.copy($scope.repertoryspoj);
                         repertorysrefresh(1, 'search');
                     }
                 } else {
@@ -206,12 +251,12 @@ angular.module('console.image', [
                     txt = txt.replace(/\//g, '\\/');
                     var reg = eval('/' + txt + '/');
                     for (var i = 0; i < $scope.repertoryscopy.length; i++) {
-                        if (reg.test($scope.repertoryscopy[i].name)) {
+                        if (reg.test($scope.repertoryscopy[i])) {
                             imagearr.push($scope.repertoryscopy[i]);
                         }
                     }
-                    $scope.repertorys = imagearr;
-                    $scope.grid.regimagecopy = angular.copy($scope.repertorys);
+                    $scope.repertoryspoj = imagearr;
+                    $scope.grid.regimagecopy = angular.copy($scope.repertoryspoj);
                     repertorysrefresh(1, 'search');
                 }
             }
@@ -259,60 +304,7 @@ angular.module('console.image', [
             }
             // 平台公有镜像键盘搜索(api版)
 
-            //$scope.ksearch = function (key, txt, event) {
-            //    if (event.keyCode == 13) {
-            //        if (!txt) {
-            //            // console.log($scope.grid.copytest)
-            //            $scope.newtext = $scope.grid.copytest;
-            //            console.log($scope.newtext)
-            //            $scope.opened = true;
-            //            return;
-            //        }
-            //        var namelist = [];
-            //        txt = txt.replace(/\//g, '\\/');
-            //        $http.get('/registry/api/search',
-            //            {params: {q: txt}})
-            //            .success(function (data) {
-            //                console.log(data);
-            //                for (var i = 0; i < data.repository.length; i++) {
-            //                    // console.log(data.repository[i].project_name);
-            //                    namelist.push(data.repository[i].project_name)
-            //                }
-            //                namelist = namelist.unique();
-            //                var item = [];
-            //                for (var j = 0; j < namelist.length; j++) {
-            //                    item.push({name: namelist[j], items: []});
-            //                    for (var k = 0; k < data.repository.length; k++) {
-            //                        if (namelist[j] === data.repository[k].project_name) {
-            //                            item[j].items.push(data.repository[k].repository_name);
-            //                        }
-            //                    }
-            //                }
-            //
-            //                for (var q = 0; q < $scope.grid.copytest.length; q++) {
-            //                    for (var r = 0; r < item.length; r++) {
-            //                        if (item[r].name === $scope.grid.copytest[q].name) {
-            //                            item[r].creation_time = $scope.grid.copytest[q].creation_time;
-            //                            item[r].mysort = $scope.grid.copytest[q].mysort;
-            //                        }
-            //                    }
-            //                }
-            //                item.sort(function (x, y) {
-            //                    return x.mysort > y.mysort ? -1 : 1;
-            //                });
-            //
-            //                if (item[0].name) {
-            //                    // console.log(item);
-            //                    $scope.newtext = item;
-            //                    $scope.opened = false;
-            //                } else {
-            //                    $scope.test = null;
-            //                }
-            //
-            //            })
-            //    }
-            //}
-            //我的镜像
+
             $http.get('/oapi/v1/namespaces/' + $rootScope.namespace + '/imagestreams')
                 .success(function (datalist) {
                     //console.log('$scope.testlist', datalist.items);
@@ -341,60 +333,7 @@ angular.module('console.image', [
                     refresh(1)
                     //console.log('$scope.testlist', $scope.testlist)
                 })
-            // 平台公有镜像搜索
-            //$scope.gsearch = function (key, txt) {
-            //    if (event.keyCode == 13) {
-            //        if (!txt) {
-            //            // console.log($scope.grid.copytest)
-            //            $scope.newtext = $scope.grid.copytest;
-            //            console.log($scope.newtext)
-            //            $scope.opened = true;
-            //            return;
-            //        }
-            //        var namelist = [];
-            //        txt = txt.replace(/\//g, '\\/');
-            //        $http.get('/registry/api/search',
-            //            {params: {q: txt}})
-            //            .success(function (data) {
-            //                console.log(data);
-            //                for (var i = 0; i < data.repository.length; i++) {
-            //                    // console.log(data.repository[i].project_name);
-            //                    namelist.push(data.repository[i].project_name)
-            //                }
-            //                namelist = namelist.unique();
-            //                var item = [];
-            //                for (var j = 0; j < namelist.length; j++) {
-            //                    item.push({name: namelist[j], items: []});
-            //                    for (var k = 0; k < data.repository.length; k++) {
-            //                        if (namelist[j] === data.repository[k].project_name) {
-            //                            item[j].items.push(data.repository[k].repository_name);
-            //                        }
-            //                    }
-            //                }
-            //
-            //                for (var q = 0; q < $scope.grid.copytest.length; q++) {
-            //                    for (var r = 0; r < item.length; r++) {
-            //                        if (item[r].name === $scope.grid.copytest[q].name) {
-            //                            item[r].creation_time = $scope.grid.copytest[q].creation_time;
-            //                            item[r].mysort = $scope.grid.copytest[q].mysort;
-            //                        }
-            //                    }
-            //                }
-            //                item.sort(function (x, y) {
-            //                    return x.mysort > y.mysort ? -1 : 1;
-            //                });
-            //
-            //                if (item[0].name) {
-            //                    // console.log(item);
-            //                    $scope.newtext = item;
-            //                    $scope.opened = false;
-            //                } else {
-            //                    $scope.test = null;
-            //                }
-            //
-            //            })
-            //    }
-            //}
+
 
 
             // 请求共有镜像平台   仓库镜像
@@ -407,8 +346,9 @@ angular.module('console.image', [
 
                     //console.log('regstr',data);
 
-                    //$scope.arr = [];
+                    $scope.arr = [];
                     $scope.repertorys = []
+                    $scope.repertoryspoj=[]
                     $scope.tipnum = 0
                     //for (var i = 0; i < data.length; i++) {
                     //  data[i].mysort = data[i].creation_time;
@@ -424,76 +364,53 @@ angular.module('console.image', [
                                 timeout:end.promise,
                                 params: {project_id: repertory.project_id}})
                                 .success(function (images) {
-                                    $scope.tipnum += images.length
-                                    //$scope.arr.push(datalis)
-                                    //if ($scope.arr.length == data.length) {
-                                    //
-                                    //}
-                                    angular.forEach(images, function (image, k) {
-                                        $http.get('/registry/api/repositories/manifests', {
-                                                params: {
-                                                    repo_name: image,
-                                                    tag: 'latest'
-                                                }
+                                    //$scope.tipnum += images.length
+                                    $scope.arr.push(images);
+                                    if ($scope.arr.length == data.length) {
+                                        //console.log('regstr',$scope.arr);
+                                        angular.forEach($scope.arr, function (items,k) {
+                                            angular.forEach(items, function (item,j) {
+                                                $scope.repertoryspoj.push(item);
                                             })
-                                            .success(function (lasttag) {
-
-                                                $scope.repertorys.push({name: image, lasttag: lasttag, canbuid: true});
-                                                //console.log($scope.repertorys.length,$scope.tipnum);
-                                                if ($scope.repertorys.length == $scope.tipnum) {
-                                                    //console.log('镜像仓库',$scope.repertorys);
-                                                    $scope.repertoryscopy = angular.copy($scope.repertorys)
-                                                    $scope.grid.repertorystotal = $scope.repertorys.length;
-                                                    repertorysrefresh(1)
-                                                }
-                                            }).error(function (err) {
-                                            $scope.repertorys.push({name: image, lasttag: null, canbuid: false});
-                                            if ($scope.repertorys.length == $scope.tipnum) {
-                                                //console.log('镜像仓库',$scope.repertorys);
-                                                $scope.repertoryscopy = angular.copy($scope.repertorys)
-                                                $scope.grid.repertorystotal = $scope.repertorys.length;
-
-                                                repertorysrefresh(1)
-                                            }
                                         })
-                                    })
+                                        console.log('regstr',$scope.repertoryspoj);
+                                        $scope.repertoryscopy = angular.copy($scope.repertoryspoj)
+                                        $scope.grid.repertorystotal = $scope.repertoryspoj.length;
+                                        repertorysrefresh(1)
+
+                                    }
+                                    //angular.forEach(images, function (image, k) {
+                                    //    $http.get('/registry/api/repositories/manifests', {
+                                    //            params: {
+                                    //                repo_name: image,
+                                    //                tag: 'latest'
+                                    //            }
+                                    //        })
+                                    //        .success(function (lasttag) {
+                                    //
+                                    //            $scope.repertorys.push({name: image, lasttag: lasttag, canbuid: true});
+                                    //            //console.log($scope.repertorys.length,$scope.tipnum);
+                                    //            if ($scope.repertorys.length == $scope.tipnum) {
+                                    //                //console.log('镜像仓库',$scope.repertorys);
+                                    //                $scope.repertoryscopy = angular.copy($scope.repertorys)
+                                    //                $scope.grid.repertorystotal = $scope.repertorys.length;
+                                    //                repertorysrefresh(1)
+                                    //            }
+                                    //        }).error(function (err) {
+                                    //        $scope.repertorys.push({name: image, lasttag: null, canbuid: false});
+                                    //        if ($scope.repertorys.length == $scope.tipnum) {
+                                    //            //console.log('镜像仓库',$scope.repertorys);
+                                    //            $scope.repertoryscopy = angular.copy($scope.repertorys)
+                                    //            $scope.grid.repertorystotal = $scope.repertorys.length;
+                                    //
+                                    //            repertorysrefresh(1)
+                                    //        }
+                                    //    })
+                                    //})
                                 })
                         })
-                        //for (var j = 0; j < $scope.newtext.length; j++) {
-                        //    // 请求共有镜像平台的镜像版本
-                        //    $http.get('/registry/api/repositories', {params: {project_id: $scope.newtext[j].project_id}})
-                        //        .success(function (datalis) {
-                        //            $scope.arr.push(datalis);
-                        //
-                        //            if ($scope.arr.length == data.length) {
-                        //                //console.log('newtext',$scope.arr);
-                        //                //angular.forEach($scope.arr, function (item,i) {
-                        //                //    console.log('1',item);
-                        //                //})
-                        //
-                        //                for (var k = 0; k < $scope.arr.length; k++) {
-                        //
-                        //
-                        //                    if ($scope.arr[k] != null) {
-                        //                        for (var h = 0; h < $scope.newtext.length; h++) {
-                        //
-                        //                            if ($scope.arr[k][0].split('/')[0] == $scope.newtext[h].name) {
-                        //                                $scope.newtext[h].items = $scope.arr[k];
-                        //                                //$scope.newtext[h].isshow = true;
-                        //                            }
-                        //                        }
-                        //                    }
-                        //                }
-                        //
-                        //                //console.log('newtext1',$scope.newtext);
-                        //            }
-                        //
-                        //            $scope.grid.copytest = angular.copy($scope.newtext);
-                        //
-                        //        }).error(function (msg) {
-                        //        //TODO:失败时错误处理
-                        //    })
-                        //}
+
+
                     }
 
 
@@ -508,105 +425,105 @@ angular.module('console.image', [
 
             $scope.imagecenterDF = [];
             $scope.imagecenterDoc = [];
-            var loaddf = function (fn) {
-                $http.get('/registry/api/repositories', {
-                    timeout:end.promise,
-                    params: {project_id: 58}})
-                    .success(function (data) {
-                        angular.forEach(data, function (item, i) {
-                            $http.get('/registry/api/repositories/manifests', {
-                                    timeout:end.promise,
-                                    params: {
-                                        repo_name: item,
-                                        tag: 'latest'
-                                    }
-                                })
-                                .success(function (tagmess) {
-                                    $scope.imagecenterDF.push({
-                                        name: item,
-                                        lasttag: tagmess,
-                                        canbuild: true,
-                                        class: 'df'
-                                    });
-                                    if ($scope.imagecenterDF.length == data.length) {
-                                        if (fn) {
-                                            fn()
-                                        }
-                                        console.log('Datafoundry官方镜像', $scope.imagecenterDF);
-
-                                    }
-
-
-                                }).error(function (err) {
-                                $scope.imagecenterDF.push({name: item, lasttag: null, canbuild: false, class: 'df'});
-                                if ($scope.imagecenterDF.length == data.length) {
-                                    if (fn) {
-                                        fn()
-                                    }
-                                    console.log('Datafoundry官方镜像', $scope.imagecenterDF);
-                                }
-
-                            })
-                        })
-                    })
-            }
-
-            $http.get('/registry/api/repositories', {timeout:end.promise,params: {project_id: 1}})
-                .success(function (data) {
-                    angular.forEach(data, function (item, i) {
-                        //$http.get('/registry/api/repositories/tags', {params: {repo_name: item}})
-                        //    .success(function (tags) {
-                        $http.get('/registry/api/repositories/manifests', {
-                                timeout:end.promise,
-                                params: {
-                                    repo_name: item,
-                                    tag: 'latest'
-                                }
-                            })
-                            .success(function (tagmess) {
-                                $scope.imagecenterDoc.push({
-                                    name: item,
-                                    lasttag: tagmess,
-                                    canbuild: true,
-                                    class: 'doc'
-                                });
-                                //$scope.imagecenterDF[i].latest = tagmess;
-                                //console.log($scope.imagecenterDoc.length, data.length);
-                                //console.log('docker官方镜像', $scope.imagecenterDoc);
-                                if ($scope.imagecenterDoc.length == data.length) {
-                                    loaddf(function () {
-                                        $scope.imagecenter = $scope.imagecenterDoc.concat($scope.imagecenterDF);
-                                        $scope.imagecentercopy = angular.copy($scope.imagecenter);
-                                        $scope.grid.imagecentertotal = $scope.imagecentercopy.length
-                                        imagecenterrefresh(1);
-                                        if ($scope.imagecentercopy) {
-                                            console.log($scope.imagecentercopy);
-                                        }
-                                    })
-
-                                    //console.log('docker官方镜像', $scope.imagecenterDoc);
-                                }
-                            }).error(function (err) {
-                            $scope.imagecenterDoc.push({name: item, lasttag: null, canbuild: false, class: 'doc'});
-                            //console.log($scope.imagecenterDoc.length,data.length);
-                            if ($scope.imagecenterDoc.length == data.length) {
-                                loaddf(function () {
-                                    $scope.imagecenter = $scope.imagecenterDoc.concat($scope.imagecenterDF);
-                                    $scope.imagecentercopy = angular.copy($scope.imagecenter)
-                                    $scope.grid.imagecentertotal = $scope.imagecentercopy.length
-                                    imagecenterrefresh(1);
-                                    if ($scope.imagecentercopy) {
-                                        console.log($scope.imagecentercopy);
-                                    }
-                                })
-
-                                //console.log('docker官方镜像', $scope.imagecenterDoc);
-                            }
-                        })
-
-                        //})
-                    })
-                })
+            //var loaddf = function (fn) {
+            //    $http.get('/registry/api/repositories', {
+            //        timeout:end.promise,
+            //        params: {project_id: 58}})
+            //        .success(function (data) {
+            //            angular.forEach(data, function (item, i) {
+            //                $http.get('/registry/api/repositories/manifests', {
+            //                        timeout:end.promise,
+            //                        params: {
+            //                            repo_name: item,
+            //                            tag: 'latest'
+            //                        }
+            //                    })
+            //                    .success(function (tagmess) {
+            //                        $scope.imagecenterDF.push({
+            //                            name: item,
+            //                            lasttag: tagmess,
+            //                            canbuild: true,
+            //                            class: 'df'
+            //                        });
+            //                        if ($scope.imagecenterDF.length == data.length) {
+            //                            if (fn) {
+            //                                fn()
+            //                            }
+            //                            console.log('Datafoundry官方镜像', $scope.imagecenterDF);
+            //
+            //                        }
+            //
+            //
+            //                    }).error(function (err) {
+            //                    $scope.imagecenterDF.push({name: item, lasttag: null, canbuild: false, class: 'df'});
+            //                    if ($scope.imagecenterDF.length == data.length) {
+            //                        if (fn) {
+            //                            fn()
+            //                        }
+            //                        console.log('Datafoundry官方镜像', $scope.imagecenterDF);
+            //                    }
+            //
+            //                })
+            //            })
+            //        })
+            //}
+            //
+            //$http.get('/registry/api/repositories', {timeout:end.promise,params: {project_id: 1}})
+            //    .success(function (data) {
+            //        angular.forEach(data, function (item, i) {
+            //            //$http.get('/registry/api/repositories/tags', {params: {repo_name: item}})
+            //            //    .success(function (tags) {
+            //            $http.get('/registry/api/repositories/manifests', {
+            //                    timeout:end.promise,
+            //                    params: {
+            //                        repo_name: item,
+            //                        tag: 'latest'
+            //                    }
+            //                })
+            //                .success(function (tagmess) {
+            //                    $scope.imagecenterDoc.push({
+            //                        name: item,
+            //                        lasttag: tagmess,
+            //                        canbuild: true,
+            //                        class: 'doc'
+            //                    });
+            //                    //$scope.imagecenterDF[i].latest = tagmess;
+            //                    //console.log($scope.imagecenterDoc.length, data.length);
+            //                    //console.log('docker官方镜像', $scope.imagecenterDoc);
+            //                    if ($scope.imagecenterDoc.length == data.length) {
+            //                        loaddf(function () {
+            //                            $scope.imagecenter = $scope.imagecenterDoc.concat($scope.imagecenterDF);
+            //                            $scope.imagecentercopy = angular.copy($scope.imagecenter);
+            //                            $scope.grid.imagecentertotal = $scope.imagecentercopy.length
+            //                            imagecenterrefresh(1);
+            //                            if ($scope.imagecentercopy) {
+            //                                console.log($scope.imagecentercopy);
+            //                            }
+            //                        })
+            //
+            //                        //console.log('docker官方镜像', $scope.imagecenterDoc);
+            //                    }
+            //                }).error(function (err) {
+            //                $scope.imagecenterDoc.push({name: item, lasttag: null, canbuild: false, class: 'doc'});
+            //                //console.log($scope.imagecenterDoc.length,data.length);
+            //                if ($scope.imagecenterDoc.length == data.length) {
+            //                    loaddf(function () {
+            //                        $scope.imagecenter = $scope.imagecenterDoc.concat($scope.imagecenterDF);
+            //                        $scope.imagecentercopy = angular.copy($scope.imagecenter)
+            //                        $scope.grid.imagecentertotal = $scope.imagecentercopy.length
+            //                        imagecenterrefresh(1);
+            //                        if ($scope.imagecentercopy) {
+            //                            console.log($scope.imagecentercopy);
+            //                        }
+            //                    })
+            //
+            //                    //console.log('docker官方镜像', $scope.imagecenterDoc);
+            //                }
+            //            })
+            //
+            //            //})
+            //        })
+            //    })
             $scope.isComplete = '';
 
             $scope.selectsc = function (tp, key) {
