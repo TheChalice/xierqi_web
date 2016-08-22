@@ -56,7 +56,7 @@ angular.module('console.image', [
             }
             // 分页对象
             var end = $q.defer();
-            $scope.$on('$destroy', function(){
+            $scope.$on('$destroy', function () {
                 end.resolve();
             });
             $scope.grid = {
@@ -121,7 +121,7 @@ angular.module('console.image', [
                     $scope.repertoryspoj = $scope.grid.regimagecopy.slice(skip, skip + $scope.grid.size);
 
                     $scope.grid.repertorystotal = $scope.grid.regimagecopy.length;
-                    $scope.repertorys=[];
+                    $scope.repertorys = [];
                     angular.forEach($scope.repertoryspoj, function (image) {
                         //    angular.forEach(images, function (image, k) {
                         //
@@ -146,26 +146,26 @@ angular.module('console.image', [
                     $scope.repertoryspoj = $scope.repertoryscopy.slice(skip, skip + $scope.grid.size);
                     $scope.grid.repertorystotal = $scope.repertoryscopy.length;
                     //console.log($scope.repertoryspoj);
-                    $scope.repertorys=[];
+                    $scope.repertorys = [];
                     angular.forEach($scope.repertoryspoj, function (image) {
-                    //    angular.forEach(images, function (image, k) {
-                    //
-                            $http.get('/registry/api/repositories/manifests', {
-                                    params: {
-                                        repo_name: image,
-                                        tag: 'latest'
-                                    }
-                                })
-                                .success(function (lasttag) {
-
-                                    $scope.repertorys.push({name: image, lasttag: lasttag, canbuid: true});
-                                    //console.log($scope.repertorys.length,$scope.tipnum);
-
-                                }).error(function (err) {
-                                $scope.repertorys.push({name: image, lasttag: null, canbuid: false});
-
+                        //    angular.forEach(images, function (image, k) {
+                        //
+                        $http.get('/registry/api/repositories/manifests', {
+                                params: {
+                                    repo_name: image,
+                                    tag: 'latest'
+                                }
                             })
-                    //    })
+                            .success(function (lasttag) {
+
+                                $scope.repertorys.push({name: image, lasttag: lasttag, canbuid: true});
+                                //console.log($scope.repertorys.length,$scope.tipnum);
+
+                            }).error(function (err) {
+                            $scope.repertorys.push({name: image, lasttag: null, canbuid: false});
+
+                        })
+                        //    })
                     })
 
                 }
@@ -176,16 +176,64 @@ angular.module('console.image', [
             var imagecenterrefresh = function (page, type) {
                 //console.log(page);
                 var skip = (page - 1) * $scope.grid.size;
-                if (type == 'tag') {
-                    $scope.imagecenter = $scope.typeimagecenter.slice(skip, skip + $scope.grid.size);
-                    $scope.grid.imagecentertotal = $scope.typeimagecenter.length;
-                } else if (type == 'search') {
+                if (type == 'search') {
+                    //console.log($scope.typeimagecenter);
                     $scope.grid.search = true;
                     $scope.imagecenter = $scope.grid.cenimagecopy.slice(skip, skip + $scope.grid.size);
                     $scope.grid.imagecentertotal = $scope.grid.cenimagecopy.length;
+                    angular.forEach($scope.imagecenter, function (image, k) {
+                        $http.get('/registry/api/repositories/manifests', {
+                                timeout: end.promise,
+                                params: {
+                                    repo_name: image.name,
+                                    tag: 'latest'
+                                }
+                            })
+                            .success(function (docdata) {
+                                image.lasttag = docdata;
+                            }).error(function (err) {
+                            image.canbuid = false;
+                        })
+
+                    })
+
+                } else if (type == 'tag' || $scope.cententtype == 'type') {
+                    $scope.imagecenter = $scope.typeimagecenter.slice(skip, skip + $scope.grid.size);
+                    $scope.grid.imagecentertotal = $scope.typeimagecenter.length;
+                    angular.forEach($scope.imagecenter, function (image, k) {
+                        $http.get('/registry/api/repositories/manifests', {
+                                timeout: end.promise,
+                                params: {
+                                    repo_name: image.name,
+                                    tag: 'latest'
+                                }
+                            })
+                            .success(function (docdata) {
+                                image.lasttag = docdata;
+                            }).error(function (err) {
+                            image.canbuid = false;
+                        })
+
+                    })
                 } else {
                     $scope.imagecenter = $scope.imagecentercopy.slice(skip, skip + $scope.grid.size);
                     $scope.grid.imagecentertotal = $scope.imagecentercopy.length;
+                    angular.forEach($scope.imagecenter, function (image, k) {
+                        $http.get('/registry/api/repositories/manifests', {
+                                timeout: end.promise,
+                                params: {
+                                    repo_name: image.name,
+                                    tag: 'latest'
+                                }
+                            })
+                            .success(function (docdata) {
+                                image.lasttag = docdata;
+                            }).error(function (err) {
+                            image.canbuid = false;
+                        })
+
+                    })
+
                 }
 
 
@@ -263,9 +311,12 @@ angular.module('console.image', [
 
             //镜像中心搜索
             $scope.imagecenterreg = function (key, txt, event) {
+                $scope.cententsearch = 'search';
                 if (event) {
                     if (event.keyCode == 13) {
+
                         if (!txt) {
+                            $scope.cententsearch = false;
                             $scope.grid.search = false;
                             imagecenterrefresh(1);
                             return;
@@ -273,9 +324,22 @@ angular.module('console.image', [
                         var imagearr = [];
                         txt = txt.replace(/\//g, '\\/');
                         var reg = eval('/' + txt + '/');
-                        for (var i = 0; i < $scope.imagecentercopy.length; i++) {
-                            if (reg.test($scope.imagecentercopy[i].name)) {
-                                imagearr.push($scope.imagecentercopy[i]);
+                        //console.log($scope.typeimagecenter,$scope.cententtype);
+                        if ($scope.cententtype == 'type') {
+                            for (var i = 0; i < $scope.typeimagecenter.length; i++) {
+                                //console.log($scope.typeimagecenter[i].name);
+                                if (reg.test($scope.typeimagecenter[i].name)) {
+                                    //console.log($scope.typeimagecenter[i].name);
+                                    imagearr.push($scope.typeimagecenter[i]);
+                                }
+                            }
+
+                        } else {
+                            for (var i = 0; i < $scope.imagecentercopy.length; i++) {
+                                //console.log($scope.imagecentercopy[i].name);
+                                if (reg.test($scope.imagecentercopy[i].name)) {
+                                    imagearr.push($scope.imagecentercopy[i]);
+                                }
                             }
                         }
                         console.log(imagearr);
@@ -292,9 +356,17 @@ angular.module('console.image', [
                     var imagearr = [];
                     txt = txt.replace(/\//g, '\\/');
                     var reg = eval('/' + txt + '/');
-                    for (var i = 0; i < $scope.imagecentercopy.length; i++) {
-                        if (reg.test($scope.imagecentercopy[i].name)) {
-                            imagearr.push($scope.imagecentercopy[i]);
+                    if ($scope.cententtype == 'type') {
+                        for (var i = 0; i < $scope.typeimagecenter.length; i++) {
+                            if (reg.test($scope.typeimagecenter[i].name)) {
+                                imagearr.push($scope.typeimagecenter[i]);
+                            }
+                        }
+                    } else {
+                        for (var i = 0; i < $scope.imagecentercopy.length; i++) {
+                            if (reg.test($scope.imagecentercopy[i].name)) {
+                                imagearr.push($scope.imagecentercopy[i]);
+                            }
                         }
                     }
                     $scope.imagecenter = imagearr;
@@ -311,11 +383,11 @@ angular.module('console.image', [
                     //$scope.testlist = datalist.items;
 
                     angular.forEach(datalist.items, function (item, i) {
-                        if (item.status.tags&&item.status.tags.length > 0) {
-                            angular.forEach(item.status.tags, function (tag,k) {
-                                item.status.tags[k].sorttime=(new Date(tag.items[0].created)).getTime()
+                        if (item.status.tags && item.status.tags.length > 0) {
+                            angular.forEach(item.status.tags, function (tag, k) {
+                                item.status.tags[k].sorttime = (new Date(tag.items[0].created)).getTime()
                             })
-                            datalist.items[i].status.tags.sort(function (x,y) {
+                            datalist.items[i].status.tags.sort(function (x, y) {
                                 return x.sorttime > y.sorttime ? -1 : 1;
                             })
                         }
@@ -335,11 +407,10 @@ angular.module('console.image', [
                 })
 
 
-
-            // 请求共有镜像平台   仓库镜像
+            // 请求仓库镜像
             if ($rootScope.namespace.indexOf('org') == -1) {
                 $http.get('/registry/api/projects', {
-                    timeout:end.promise,
+                    timeout: end.promise,
                     params: {is_public: 0}
                 }).success(function (data) {
                     $scope.newtext = data;
@@ -348,7 +419,7 @@ angular.module('console.image', [
 
                     $scope.arr = [];
                     $scope.repertorys = []
-                    $scope.repertoryspoj=[]
+                    $scope.repertoryspoj = []
                     $scope.tipnum = 0
                     //for (var i = 0; i < data.length; i++) {
                     //  data[i].mysort = data[i].creation_time;
@@ -361,52 +432,26 @@ angular.module('console.image', [
                     if (data) {
                         angular.forEach(data, function (repertory, i) {
                             $http.get('/registry/api/repositories', {
-                                timeout:end.promise,
-                                params: {project_id: repertory.project_id}})
+                                    timeout: end.promise,
+                                    params: {project_id: repertory.project_id}
+                                })
                                 .success(function (images) {
                                     //$scope.tipnum += images.length
                                     $scope.arr.push(images);
                                     if ($scope.arr.length == data.length) {
                                         //console.log('regstr',$scope.arr);
-                                        angular.forEach($scope.arr, function (items,k) {
-                                            angular.forEach(items, function (item,j) {
+                                        angular.forEach($scope.arr, function (items, k) {
+                                            angular.forEach(items, function (item, j) {
                                                 $scope.repertoryspoj.push(item);
                                             })
                                         })
-                                        console.log('regstr',$scope.repertoryspoj);
+                                        console.log('regstr', $scope.repertoryspoj);
                                         $scope.repertoryscopy = angular.copy($scope.repertoryspoj)
                                         $scope.grid.repertorystotal = $scope.repertoryspoj.length;
                                         repertorysrefresh(1)
 
                                     }
-                                    //angular.forEach(images, function (image, k) {
-                                    //    $http.get('/registry/api/repositories/manifests', {
-                                    //            params: {
-                                    //                repo_name: image,
-                                    //                tag: 'latest'
-                                    //            }
-                                    //        })
-                                    //        .success(function (lasttag) {
-                                    //
-                                    //            $scope.repertorys.push({name: image, lasttag: lasttag, canbuid: true});
-                                    //            //console.log($scope.repertorys.length,$scope.tipnum);
-                                    //            if ($scope.repertorys.length == $scope.tipnum) {
-                                    //                //console.log('镜像仓库',$scope.repertorys);
-                                    //                $scope.repertoryscopy = angular.copy($scope.repertorys)
-                                    //                $scope.grid.repertorystotal = $scope.repertorys.length;
-                                    //                repertorysrefresh(1)
-                                    //            }
-                                    //        }).error(function (err) {
-                                    //        $scope.repertorys.push({name: image, lasttag: null, canbuid: false});
-                                    //        if ($scope.repertorys.length == $scope.tipnum) {
-                                    //            //console.log('镜像仓库',$scope.repertorys);
-                                    //            $scope.repertoryscopy = angular.copy($scope.repertorys)
-                                    //            $scope.grid.repertorystotal = $scope.repertorys.length;
-                                    //
-                                    //            repertorysrefresh(1)
-                                    //        }
-                                    //    })
-                                    //})
+
                                 })
                         })
 
@@ -449,81 +494,63 @@ angular.module('console.image', [
             //                            if (fn) {
             //                                fn()
             //                            }
-            //                            console.log('Datafoundry官方镜像', $scope.imagecenterDF);
+            //                            //console.log('Datafoundry官方镜像', $scope.imagecenterDF);
             //
             //                        }
             //
             //
             //                    }).error(function (err) {
-            //                    $scope.imagecenterDF.push({name: item, lasttag: null, canbuild: false, class: 'df'});
+            //                    $scope.imagecenterDF.push({
+            //                        name: item,
+            //                        lasttag: null,
+            //                        canbuild: false,
+            //                        class: 'df'});
             //                    if ($scope.imagecenterDF.length == data.length) {
             //                        if (fn) {
             //                            fn()
             //                        }
-            //                        console.log('Datafoundry官方镜像', $scope.imagecenterDF);
+            //                        //console.log('Datafoundry官方镜像', $scope.imagecenterDF);
             //                    }
             //
             //                })
             //            })
             //        })
             //}
-            //
-            //$http.get('/registry/api/repositories', {timeout:end.promise,params: {project_id: 1}})
-            //    .success(function (data) {
-            //        angular.forEach(data, function (item, i) {
-            //            //$http.get('/registry/api/repositories/tags', {params: {repo_name: item}})
-            //            //    .success(function (tags) {
-            //            $http.get('/registry/api/repositories/manifests', {
-            //                    timeout:end.promise,
-            //                    params: {
-            //                        repo_name: item,
-            //                        tag: 'latest'
-            //                    }
-            //                })
-            //                .success(function (tagmess) {
-            //                    $scope.imagecenterDoc.push({
-            //                        name: item,
-            //                        lasttag: tagmess,
-            //                        canbuild: true,
-            //                        class: 'doc'
-            //                    });
-            //                    //$scope.imagecenterDF[i].latest = tagmess;
-            //                    //console.log($scope.imagecenterDoc.length, data.length);
-            //                    //console.log('docker官方镜像', $scope.imagecenterDoc);
-            //                    if ($scope.imagecenterDoc.length == data.length) {
-            //                        loaddf(function () {
-            //                            $scope.imagecenter = $scope.imagecenterDoc.concat($scope.imagecenterDF);
-            //                            $scope.imagecentercopy = angular.copy($scope.imagecenter);
-            //                            $scope.grid.imagecentertotal = $scope.imagecentercopy.length
-            //                            imagecenterrefresh(1);
-            //                            if ($scope.imagecentercopy) {
-            //                                console.log($scope.imagecentercopy);
-            //                            }
-            //                        })
-            //
-            //                        //console.log('docker官方镜像', $scope.imagecenterDoc);
-            //                    }
-            //                }).error(function (err) {
-            //                $scope.imagecenterDoc.push({name: item, lasttag: null, canbuild: false, class: 'doc'});
-            //                //console.log($scope.imagecenterDoc.length,data.length);
-            //                if ($scope.imagecenterDoc.length == data.length) {
-            //                    loaddf(function () {
-            //                        $scope.imagecenter = $scope.imagecenterDoc.concat($scope.imagecenterDF);
-            //                        $scope.imagecentercopy = angular.copy($scope.imagecenter)
-            //                        $scope.grid.imagecentertotal = $scope.imagecentercopy.length
-            //                        imagecenterrefresh(1);
-            //                        if ($scope.imagecentercopy) {
-            //                            console.log($scope.imagecentercopy);
-            //                        }
-            //                    })
-            //
-            //                    //console.log('docker官方镜像', $scope.imagecenterDoc);
-            //                }
-            //            })
-            //
-            //            //})
-            //        })
-            //    })
+
+            $http.get('/registry/api/repositories', {timeout: end.promise, params: {project_id: 1}})
+                .success(function (docdata) {
+                    angular.forEach(docdata, function (docitem, i) {
+                        $scope.imagecenterDoc.push({
+                            name: docitem,
+                            lasttag: null,
+                            canbuild: true,
+                            class: 'doc'
+                        });
+                    })
+                    $http.get('/registry/api/repositories', {
+                            timeout: end.promise,
+                            params: {project_id: 58}
+                        })
+                        .success(function (dfdata) {
+                            angular.forEach(dfdata, function (dfitem, k) {
+                                $scope.imagecenterDF.push({
+                                    name: dfitem,
+                                    lasttag: null,
+                                    canbuild: true,
+                                    class: 'df'
+                                });
+                            });
+                            $scope.imagecenterpoj = $scope.imagecenterDoc.concat($scope.imagecenterDF);
+                            console.log('imagecenterpoj', $scope.imagecenterpoj);
+                            $scope.imagecentercopy = angular.copy($scope.imagecenterpoj);
+                            $scope.grid.imagecentertotal = $scope.imagecentercopy.length
+                            imagecenterrefresh(1);
+
+                        })
+                }).error(function (err) {
+
+            })
+
             $scope.isComplete = '';
 
             $scope.selectsc = function (tp, key) {
@@ -531,6 +558,7 @@ angular.module('console.image', [
                     return
                 }
                 //console.log(key);
+                $scope.cententtype = 'type'
                 if (key == 'doc') {
                     $scope.isComplete = {class: 'doc'};
                     $scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
@@ -538,6 +566,7 @@ angular.module('console.image', [
                     $scope.typeimagecenter = angular.copy($scope.imagecenter);
                     $scope.grid.imagecentertotal = $scope.imagecenter.length;
                     //console.log($scope.imagecenter);
+                    $scope.grid.imagecenterpage = 1
                     imagecenterrefresh(1, 'tag');
                 } else {
                     $scope.isComplete = {class: 'df'};
@@ -548,14 +577,17 @@ angular.module('console.image', [
                     $scope.grid.imagecentertotal = $scope.imagecenter.length;
                     //$scope.grid.imagecentertotal = $scope.imagecenter.length;
                     //imagecenterrefresh(1);
+                    $scope.grid.imagecenterpage = 1
                     imagecenterrefresh(1, 'tag');
                 }
                 if (key == $scope.grid[tp]) {
+                    $scope.cententtype = false
                     key = 'all';
                     $scope.isComplete = '';
                     $scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
                     //console.log($scope.imagecenter);
                     $scope.grid.imagecentertotal = $scope.imagecenter.length;
+                    $scope.grid.imagecenterpage = 1
                     imagecenterrefresh(1);
 
                 }
