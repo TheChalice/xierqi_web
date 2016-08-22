@@ -349,6 +349,7 @@ angular.module('console.image', [
                     }
                 } else {
                     if (!txt) {
+                        $scope.cententsearch = false;
                         $scope.grid.search = false;
                         imagecenterrefresh(1);
                         return;
@@ -559,11 +560,19 @@ angular.module('console.image', [
                 }
                 //console.log(key);
                 $scope.cententtype = 'type'
+
                 if (key == 'doc') {
                     $scope.isComplete = {class: 'doc'};
-                    $scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
-                    //console.log($scope.imagecenter);
-                    $scope.typeimagecenter = angular.copy($scope.imagecenter);
+                    if ($scope.cententsearch == 'search') {
+                        $scope.imagecenter = $filter("imagefilter")($scope.grid.cenimagecopy, $scope.isComplete);
+                        //console.log($scope.imagecenter);
+                        $scope.typeimagecenter = angular.copy($scope.imagecenter);
+                    }else {
+                        $scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
+                        //console.log($scope.imagecenter);
+                        $scope.typeimagecenter = angular.copy($scope.imagecenter);
+                    }
+
                     $scope.grid.imagecentertotal = $scope.imagecenter.length;
                     //console.log($scope.imagecenter);
                     $scope.grid.imagecenterpage = 1
@@ -571,9 +580,15 @@ angular.module('console.image', [
                 } else {
                     $scope.isComplete = {class: 'df'};
                     //console.log($scope.imagecenter);
-                    $scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
-                    //console.log($scope.imagecenter);
-                    $scope.typeimagecenter = angular.copy($scope.imagecenter);
+                    if ($scope.cententsearch == 'search') {
+                        $scope.imagecenter = $filter("imagefilter")($scope.grid.cenimagecopy, $scope.isComplete);
+                        //console.log($scope.imagecenter);
+                        $scope.typeimagecenter = angular.copy($scope.imagecenter);
+                    }else {
+                        $scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
+                        //console.log($scope.imagecenter);
+                        $scope.typeimagecenter = angular.copy($scope.imagecenter);
+                    }
                     $scope.grid.imagecentertotal = $scope.imagecenter.length;
                     //$scope.grid.imagecentertotal = $scope.imagecenter.length;
                     //imagecenterrefresh(1);
@@ -584,11 +599,22 @@ angular.module('console.image', [
                     $scope.cententtype = false
                     key = 'all';
                     $scope.isComplete = '';
-                    $scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
-                    //console.log($scope.imagecenter);
+                    if ($scope.cententsearch == 'search') {
+                        //alert(11)
+                        $scope.imagecenter = $filter("imagefilter")($scope.grid.cenimagecopy, $scope.isComplete);
+                        //console.log($scope.imagecenter);
+                        //$scope.typeimagecenter = angular.copy($scope.imagecenter);
+                    }else {
+
+                        $scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
+                        //console.log($scope.imagecenter);
+                        //$scope.typeimagecenter = angular.copy($scope.imagecenter);
+                    }
+                    //$scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
+                    console.log($scope.imagecenter);
                     $scope.grid.imagecentertotal = $scope.imagecenter.length;
-                    $scope.grid.imagecenterpage = 1
-                    imagecenterrefresh(1);
+                    $scope.grid.imagecenterpage = 1;
+                    imagecenterrefresh(1,'tag');
 
                 }
                 $scope.grid[tp] = key;
