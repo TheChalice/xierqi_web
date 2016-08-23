@@ -9,7 +9,7 @@
                     <h3 class="require">服务名称</h3>
                 </div>
                 <div class="col-md-10">
-                    <input type="text" name="serviceName" ng-model="dc.metadata.name" class="form-control input-block"
+                    <input  type="text" name="serviceName" ng-model="dc.metadata.name" class="form-control input-block foucsinput"
                            placeholder="创建一个服务名称" required ng-keyup="serviceNamekedown()" ng-blur="checknames()">
                     <small ng-show="frm.serviceName.$dirty && frm.serviceName.$invalid" class="fa fa-info-circle err-tip">&nbsp;请创建一个服务名,至少2个字符以上</small>
                     <small ng-show="grid.createdcerr" class="fa fa-info-circle err-tip">&nbsp;服务名称重复</small>
@@ -45,9 +45,9 @@
                         <div class="container-box" style="margin-bottom: 0;">
                             <div style="margin-bottom: 20px;">
 
-                                <input ng-model="container.strname"
+                                <input ng-model="container.name"
                                        style="width: 95%;display: inline-block;"
-                                       type="text" class="form-control"
+                                       type="text" class="form-control foucsinput"
                                        placeholder="请设置容器名称">
                                 <span class="require"></span>
                                 <small ng-show="!container.name && container.emptyName"
@@ -140,7 +140,7 @@
                     <a ng-click="addprot()" class="href-add" style="line-height: 40px; margin-bottom: 10px" href="javascript:;">
                         <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;<span style="font-size: 12px">添加端口</span>
                     </a>
-                    <div class="table-responsive">
+                    <div class="table-responsive" ng-show="portsArr.length">
                         <table class="table table-hover table-default sub-table">
                             <tr>
                                 <!--<th style="width: 20%;">容器名称</th>-->
@@ -174,7 +174,7 @@
                                         <div class="col-sm-3">服务端口</div>
                                         <div class="col-sm-3"></div>
                                     </div>
-                                    <div class="row"  style="margin-top: 15px;" ng-repeat="port in portsArr">
+                                    <div  class="row"  style="margin-top: 15px;" ng-repeat="port in portsArr">
                                         <div class="col-sm-3">
                                             <!--<input type="text" readonly class="input-small" ng-model="port.protocol">-->
                                             <select class="input-small" ng-model='port.protocol'>

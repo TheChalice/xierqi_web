@@ -503,7 +503,9 @@ angular.module('console.service.create', [
                 }
               }
               container.strname = strname1.replace('/', "-");
-              container.name = strname1.replace('/', "-");
+              if(container.name == ''){
+                container.name = strname1.replace('/', "-");
+              }
               container.tag = str1[2];
               imagetag = 'image-'+container.name;
               ////仓库镜像
@@ -532,7 +534,10 @@ angular.module('console.service.create', [
                 }
               }
               container.strname = strname;
-              container.name = strname;
+              if(container.name == ''){
+                container.name = strname;
+              }
+              //container.name = strname;
               container.tag = str[1];
               imagetag = 'image-'+container.name;
               $scope.dc.metadata.annotations[imagetag] = str[1];
@@ -568,8 +573,9 @@ angular.module('console.service.create', [
                 $scope.grid.imageChange = true;
               }
             }
-
+            console.log('_+_+_+_+_+_+',$scope.dc);
           });
+
         };
 
         $scope.updatePorts = function () {
@@ -961,7 +967,7 @@ angular.module('console.service.create', [
           var cons = angular.copy($scope.dc.spec.template.spec.containers);
           var flog = 0;
           for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
-            $scope.dc.spec.template.spec.containers[i].name = dc.spec.template.spec.containers[i].strname;
+            //$scope.dc.spec.template.spec.containers[i].name = dc.spec.template.spec.containers[i].strname;
             delete dc.spec.template.spec.containers[i]["strname"];
             //for (var j = 0; j < dc.spec.template.spec.containers[i].volumeMounts.length; j++) {
             //  if (dc.spec.template.spec.containers[i].volumeMounts[j].name) {
