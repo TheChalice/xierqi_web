@@ -32,7 +32,7 @@ angular.module('console.image', [
     .controller('ImageCtrl', ['$filter', '$state', '$q', '$http', 'platform', '$rootScope', '$scope', '$log', 'ImageStreamTag', 'BuildConfig', 'Build', 'GLOBAL', 'Sort',
         function ($filter, $state, $q, $http, platform, $rootScope, $scope, $log, ImageStreamTag, BuildConfig, Build, GLOBAL, Sort) {
             // 数组去重
-            console.log('$state', $state.params.index);
+            //console.log('$state', $state.params.index);
             if ($state.params.index) {
                 $scope.check = $state.params.index
             } else {
@@ -342,7 +342,7 @@ angular.module('console.image', [
                                 }
                             }
                         }
-                        console.log(imagearr);
+                        //console.log(imagearr);
                         $scope.imagecenter = imagearr;
                         $scope.grid.cenimagecopy = angular.copy($scope.imagecenter);
                         imagecenterrefresh(1, 'search');
@@ -397,7 +397,7 @@ angular.module('console.image', [
                     //datalist.items.sort(function (x, y) {
                     //    return x.sorttime > y.sorttime ? -1 : 1;
                     //});
-                    console.log('$scope.testlist', datalist.items);
+                    //console.log('$scope.testlist', datalist.items);
                     $scope.testlist = datalist.items;
                     $scope.testcopy = angular.copy(datalist.items);
 
@@ -446,7 +446,7 @@ angular.module('console.image', [
                                                 $scope.repertoryspoj.push(item);
                                             })
                                         })
-                                        console.log('regstr', $scope.repertoryspoj);
+                                        //console.log('regstr', $scope.repertoryspoj);
                                         $scope.repertoryscopy = angular.copy($scope.repertoryspoj)
                                         $scope.grid.repertorystotal = $scope.repertoryspoj.length;
                                         repertorysrefresh(1)
@@ -542,7 +542,7 @@ angular.module('console.image', [
                                 });
                             });
                             $scope.imagecenterpoj = $scope.imagecenterDoc.concat($scope.imagecenterDF);
-                            console.log('imagecenterpoj', $scope.imagecenterpoj);
+                            //console.log('imagecenterpoj', $scope.imagecenterpoj);
                             $scope.imagecentercopy = angular.copy($scope.imagecenterpoj);
                             $scope.grid.imagecentertotal = $scope.imagecentercopy.length
                             imagecenterrefresh(1);
@@ -611,7 +611,7 @@ angular.module('console.image', [
                         //$scope.typeimagecenter = angular.copy($scope.imagecenter);
                     }
                     //$scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
-                    console.log($scope.imagecenter);
+                    //console.log($scope.imagecenter);
                     $scope.grid.imagecentertotal = $scope.imagecenter.length;
                     $scope.grid.imagecenterpage = 1;
                     imagecenterrefresh(1,'tag');
