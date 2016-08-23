@@ -10,7 +10,6 @@ angular.module('console.build_create_new', [
         $scope.running = false;
 
         $scope.runninghub = false;
-
         $scope.buildConfig = {
             metadata: {
                 annotations:{
