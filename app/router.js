@@ -126,7 +126,7 @@ define([
               }
             })
             .state('console.image_detail', {
-              url: '/image/:bc/:name',
+              url: '/image/myimage/:bc/:name',
               templateUrl: 'views/image_detail/image_detail.html',
               controller: 'ImageDetailCtrl',
               resolve: {
@@ -136,7 +136,7 @@ define([
               }
             })
             .state('console.image_Public', {
-              url: '/imagePublic/:bc/:name',
+              url: '/image/imagePublic/:bc/:name',
               templateUrl: 'views/image_Public/image_Public.html',
               controller: 'imagePublicCtrl',
               resolve: {
@@ -146,7 +146,7 @@ define([
               }
             })
             .state('console.image_regstry', {
-              url: '/image_regstry/:bc/:name',
+              url: '/image/image_regstry/:bc/:name',
               templateUrl: 'views/image_Public/image_regstry.html',
               controller: 'imagePublicCtrl',
               resolve: {
@@ -320,7 +320,7 @@ define([
               }
             })
             .state('console.config_detail', {
-              url:'/configMap/:name',
+              url:'/resource_management/configMap/:name',
               templateUrl:'views/config_detail/config_detail.html',
               controller: 'configDetailCtrl',
               resolve: {
@@ -330,7 +330,7 @@ define([
               }
             })
             .state('console.secret_detail', {
-              url:'/secret/:name',
+              url:'/resource_management/secret/:name',
               templateUrl:'views/secret_detail/secret_detail.html',
               controller: 'secretDetailCtrl',
               resolve: {
@@ -340,7 +340,7 @@ define([
               }
             })
             .state('console.constantly_detail', {
-              url: '/persistentVolume/:name',
+              url: '/resource_management/persistentVolume/:name',
               templateUrl: 'views/constantly_detail/constantly_detail.html',
               controller: 'constDetailCtrl',
               resolve: {
