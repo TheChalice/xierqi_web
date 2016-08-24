@@ -37,6 +37,17 @@
                     </div>
                     <hr>
                     <div>
+                        <label ng-if="container.isshow" ng-class="{'active': container.isimageChange}" ng-click="container.isimageChange=!container.isimageChange" style="cursor: pointer;">
+                            <i class="faa faa-check"></i>
+                            &nbsp;&nbsp;镜像变化触发自动部署
+                        </label>
+                        <label ng-if="!container.isshow" style="cursor: pointer;color: #CCCCCC;">
+                            <i class="faa faa-check"></i>
+                            &nbsp;&nbsp;镜像变化触发自动部署
+                        </label>
+                    </div>
+                    <hr>
+                    <div>
                         <a href="javascript:;" style="font-size: 14px;" class="href-add" ng-click="addVolume($index)">
                             <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;添加卷
                         </a>
@@ -125,6 +136,17 @@
                         <p style="margin-bottom: 20px;">
                             镜像版本:&nbsp;&nbsp;{{container.tag}}
                         </p>
+                    </div>
+                    <hr>
+                    <div>
+                        <label ng-if="container.isshow" ng-class="{'active': container.isimageChange}" ng-click="container.isimageChange=!container.isimageChange" style="cursor: pointer;">
+                            <i class="faa faa-check"></i>
+                            &nbsp;&nbsp;镜像变化触发自动部署
+                        </label>
+                        <label ng-if="!container.isshow" style="cursor: pointer; color: #CCCCCC;">
+                            <i class="faa faa-check"></i>
+                            &nbsp;&nbsp;镜像变化触发自动部署
+                        </label>
                     </div>
                     <hr>
 
@@ -395,16 +417,14 @@
             <h3>自动部署</h3>
         </div>
         <div class="col-md-5">
-            <!--<labe ng-if="grid.isimageChange"><input type="checkbox"  ng-model="grid.imageChange">&nbsp;&nbsp;镜像变化触发自动部署</labe>-->
-            <label ng-if="grid.isimageChange" ng-class="{'active': grid.imageChange}" ng-click="grid.imageChange=!grid.imageChange" style="cursor: pointer;">
-                <i class="faa faa-check"></i>
-                &nbsp;&nbsp;镜像变化触发自动部署
-            </label>
-            <!--<labe ng-if="!grid.isimageChange"><input type="checkbox"  disabled="disabled" ng-model="grid.imageChange">&nbsp;&nbsp;镜像变化触发自动部署</labe>-->
-            <label ng-if="!grid.isimageChange" style="cursor: pointer; color: #CCCCCC">
-                <i class="faa faa-check"></i>
-                &nbsp;&nbsp;镜像变化触发自动部署
-            </label>
+            <!--<label ng-if="grid.isimageChange" ng-class="{'active': grid.imageChange}" ng-click="grid.imageChange=!grid.imageChange" style="cursor: pointer;">-->
+                <!--<i class="faa faa-check"></i>-->
+                <!--&nbsp;&nbsp;镜像变化触发自动部署-->
+            <!--</label>-->
+            <!--<label ng-if="!grid.isimageChange" style="cursor: pointer; color: #CCCCCC">-->
+                <!--<i class="faa faa-check"></i>-->
+                <!--&nbsp;&nbsp;镜像变化触发自动部署-->
+            <!--</label>-->
         </div>
         <div class="col-md-5">
             <!--<labe><input type="checkbox" ng-model="grid.configChange">&nbsp;&nbsp;配置变化触发自动部署</labe>-->

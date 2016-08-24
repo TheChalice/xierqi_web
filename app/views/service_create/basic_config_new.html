@@ -72,6 +72,18 @@
                                         镜像版本:&nbsp;&nbsp;{{container.tag}}
                                     </p>
                                 </div>
+                                <hr>
+                                <div>
+                                    <label ng-if="container.isshow" ng-class="{'active': container.isimageChange}" ng-click="container.isimageChange=!container.isimageChange" style="cursor: pointer;">
+                                        <i class="faa faa-check"></i>
+                                        &nbsp;&nbsp;镜像变化触发自动部署
+                                    </label>
+                                    <label ng-if="!container.isshow" style="cursor: pointer;color: #cccccc;">
+                                        <i class="faa faa-check"></i>
+                                        &nbsp;&nbsp;镜像变化触发自动部署
+                                    </label>
+                                </div>
+
                                 <!--添加卷-->
                                 <hr>
                                 <div>

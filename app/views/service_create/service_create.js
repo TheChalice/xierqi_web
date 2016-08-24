@@ -121,6 +121,7 @@ angular.module('console.service.create', [
 
           "resources": {},
           "imagePullPolicy": "Always",
+          isimageChange: true,
           secretsobj : {
               secretarr : []
               ,
@@ -490,6 +491,7 @@ angular.module('console.service.create', [
             if(res.ispublicimage){
               /////公共镜像
               container.isimageChange = false;
+              container.isshow = false;
               var str1 =  res.imagesname.split("/");
               var strname1 = str1[0]+'/'+str1[1];
               container.truename = strname1.replace('/', "-");
@@ -514,12 +516,26 @@ angular.module('console.service.create', [
               }else{
                 delete container["imagePullSecrets"];
               }
+              container.triggerImageTpl = {
+                "type": "ImageChange",
+                "imageChangeParams": {
+                  "automatic": true,
+                  "containerNames": [
+                    container.name          //todo 高级配置,手动填充
+                  ],
+                  "from": {
+                    "kind": "ImageStreamTag",
+                    "name": container.name +":"+ container.tag  //ruby-hello-world:latest
+                  }
+                }
+              };
               $scope.dc.metadata.annotations[imagetag] = str1[2];
 
             }else{
              // 私有镜像
               //var dockerImageIP  = res.image.dockerImageReference.split('@');
               container.isimageChange = true;
+              container.isshow = true;
               delete container["imagePullSecrets"] ;
               var str = res.metadata.name.split(":");
               //container.image = dockerImageIP[0]+':'+str[1];
@@ -540,6 +556,19 @@ angular.module('console.service.create', [
               //container.name = strname;
               container.tag = str[1];
               imagetag = 'image-'+container.name;
+              container.triggerImageTpl = {
+                "type": "ImageChange",
+                "imageChangeParams": {
+                  "automatic": true,
+                  "containerNames": [
+                    container.name          //todo 高级配置,手动填充
+                  ],
+                  "from": {
+                    "kind": "ImageStreamTag",
+                    "name": container.name +":"+ container.tag  //ruby-hello-world:latest
+                  }
+                }
+              };
               $scope.dc.metadata.annotations[imagetag] = str[1];
               if(res.image.dockerImageMetadata.Config.Labels){
                 container.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
@@ -689,16 +718,16 @@ angular.module('console.service.create', [
             $scope.portsArr[i].conflict=false;
             $scope.portsArr[i].serviceConflict=false;
           }
-          var conlength = $scope.dc.spec.template.spec.containers;
-          for(var i = 0 ;i < conlength.length;i++ ){
-            if(conlength[i].isimageChange == false){
-              $scope.grid.isimageChange = false;
-              return
-            }else{
-              $scope.grid.isimageChange = true;
-              $scope.grid.imageChange = true;
-            }
-          }
+          //var conlength = $scope.dc.spec.template.spec.containers;
+          //for(var i = 0 ;i < conlength.length;i++ ){
+          //  if(conlength[i].isimageChange == false){
+          //    $scope.grid.isimageChange = false;
+          //    return
+          //  }else{
+          //    $scope.grid.isimageChange = true;
+          //    $scope.grid.imageChange = true;
+          //  }
+          //}
         };
 
         var prepareVolume = function (dc) {
@@ -715,32 +744,32 @@ angular.module('console.service.create', [
         };
 
         var prepareTrigger = function (dc) {
-          var triggers = [];
+          //var triggers = [];
           if ($scope.grid.configChange) {
-            triggers.push({type: 'ConfigChange'});
+            dc.spec.triggers.push({type: 'ConfigChange'});
           }
-          console.log($scope.grid.imageChange)
-          console.log($scope.grid.isimageChange)
-          if ($scope.grid.imageChange && $scope.grid.isimageChange) {
-            var containers = dc.spec.template.spec.containers;
-            for (var i = 0; i < containers.length; i++) {
-              var match = containers[i].truename+":"+containers[i].tag;
-             console.log('match....',match)
-              triggers.push({
-                type: 'ImageChange',
-                imageChangeParams: {
-                  "automatic": true,
-                  "containerNames": [containers[i].name],
-                  "from": {
-                    "kind": "ImageStreamTag",
-                    "name": match
-                  }
-                }
-              });
-            }
-          }
-          dc.spec.triggers = triggers;
-          console.log(' dc.spec.triggers',dc.spec.triggers);
+          //console.log($scope.grid.imageChange)
+          //console.log($scope.grid.isimageChange)
+          //if ($scope.grid.imageChange && $scope.grid.isimageChange) {
+          //  var containers = dc.spec.template.spec.containers;
+          //  for (var i = 0; i < containers.length; i++) {
+          //    var match = containers[i].truename+":"+containers[i].tag;
+          //   console.log('match....',match)
+          //    triggers.push({
+          //      type: 'ImageChange',
+          //      imageChangeParams: {
+          //        "automatic": true,
+          //        "containerNames": [containers[i].name],
+          //        "from": {
+          //          "kind": "ImageStreamTag",
+          //          "name": match
+          //        }
+          //      }
+          //    });
+          //  }
+          //}
+          //dc.spec.triggers = triggers;
+          //console.log(' dc.spec.triggers',dc.spec.triggers);
         };
 
         var bindService = function (dc) {
@@ -954,36 +983,25 @@ angular.module('console.service.create', [
 
           $rootScope.lding = true;
           var dc = angular.copy($scope.dc);
-          console.log('xiugaiDC--------------------------',dc);
-          for(var i = 0 ;i < dc.spec.template.spec.containers.length;i++ ){
-            if(dc.spec.template.spec.containers[i].isimageChange == false){
-              $scope.grid.isimageChange = false;
-              break;
-            }else{
-              $scope.grid.isimageChange = true;
-            }
-          }
+          //console.log('xiugaiDC--------------------------',dc);
+          //for(var i = 0 ;i < dc.spec.template.spec.containers.length;i++ ){
+          //  if(dc.spec.template.spec.containers[i].isimageChange == false){
+          //    $scope.grid.isimageChange = false;
+          //    break;
+          //  }else{
+          //    $scope.grid.isimageChange = true;
+          //  }
+          //}
 
           var cons = angular.copy($scope.dc.spec.template.spec.containers);
           var flog = 0;
           for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
             //$scope.dc.spec.template.spec.containers[i].name = dc.spec.template.spec.containers[i].strname;
             delete dc.spec.template.spec.containers[i]["strname"];
-            //for (var j = 0; j < dc.spec.template.spec.containers[i].volumeMounts.length; j++) {
-            //  if (dc.spec.template.spec.containers[i].volumeMounts[j].name) {
-            //    flog++;
-            //    var volume1 = "volume" + flog;
-            //    dc.spec.template.spec.volumes.push(
-            //        {
-            //          "name": volume1,
-            //          "secret": {
-            //            "secretName": dc.spec.template.spec.containers[i].volumeMounts[j].name
-            //          }
-            //        }
-            //    );
-            //    dc.spec.template.spec.containers[i].volumeMounts[j].name = volume1;
-            //  }
-            //}
+            if(dc.spec.template.spec.containers[i].isimageChange){
+              console.log('111111111111');
+              dc.spec.triggers.push(dc.spec.template.spec.containers[i].triggerImageTpl)
+            }
             if (cons[i].ports) {
               var testlength = cons[i].ports.length;
               for (var k = 0; k < testlength; k++) {
@@ -1011,18 +1029,20 @@ angular.module('console.service.create', [
           if(prepareport() == false){
             return;
           }
-          console.log("------------------",$scope.dc);
+
           deleService();
           deleRoute();
           var clonedc = angular.copy(dc);
-          var arrimgs = [];
+          //var arrimgs = [];
           for(var i = 0;i<clonedc.spec.template.spec.containers.length;i++){
             delete clonedc.spec.template.spec.containers[i]["commitId"];
+            delete clonedc.spec.template.spec.containers[i]["triggerImageTpl"];
             delete clonedc.spec.template.spec.containers[i]["secretsobj"];
             delete clonedc.spec.template.spec.containers[i]["truename"];
             delete clonedc.spec.template.spec.containers[i]["ref"];
             delete clonedc.spec.template.spec.containers[i]["tag"];
-            arrimgs.push(clonedc.spec.template.spec.containers[i].isimageChange);
+            delete clonedc.spec.template.spec.containers[i]["isshow"];
+            //arrimgs.push(clonedc.spec.template.spec.containers[i].isimageChange);
             delete clonedc.spec.template.spec.containers[i]["isimageChange"];
             if(clonedc.spec.template.spec.containers[i].ports){
                 delete clonedc.spec.template.spec.containers[i]["ports"];
@@ -1067,13 +1087,13 @@ angular.module('console.service.create', [
           }else{
             delete dc.spec.template.spec["imagePullSecrets"];
           }
-          var arrimgstr = arrimgs.join();
-          clonedc.metadata.annotations["imageorpublic"] = arrimgstr;
-          if($scope.grid.isimageChange){
-            clonedc.metadata.annotations["dadafoundry.io/images-from"] = 'private';
-          }else{
-            clonedc.spec.triggers[0] = clonedc.spec.triggers[0];
-          }
+          //var arrimgstr = arrimgs.join();
+          //clonedc.metadata.annotations["imageorpublic"] = arrimgstr;
+          //if($scope.grid.isimageChange){
+          //  clonedc.metadata.annotations["dadafoundry.io/images-from"] = 'private';
+          //}else{
+          //  clonedc.spec.triggers[0] = clonedc.spec.triggers[0];
+          //}
           var isport = false;
           for (var i = 0; i < $scope.portsArr.length; i++) {
             if ($scope.portsArr[i].hostPort) {

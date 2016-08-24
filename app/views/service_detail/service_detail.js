@@ -154,35 +154,32 @@ angular.module('console.service.detail', [
 
             var loadDc = function (name) {
                 DeploymentConfig.get({namespace: $rootScope.namespace, name: name}, function (res) {
-                    // $log.info("deploymentConfigs", res);
                     if (!res.metadata.annotations) {
                         res.metadata.annotations = {};
                     }
-
-                    //console.log('isdcmap', res.spec.template.spec.volumes);
                     changevol(res);
-                    //console.log(res.spec.template.spec.containers);
-                    $scope.onlyDC = res;
+                    console.log('$scope.dc.metadata.annotations[imagetag]',res);
                     $scope.dc = res;
-                    console.log('dc',$scope.dc.metadata.labels);
+                    var copyannotations = angular.copy(res.metadata.annotations);
                     if ($scope.dc.metadata.labels && $scope.dc.metadata.labels.app) {
                         $scope.grid.labelSelector='app%3D'+$scope.dc.metadata.labels.app;
                     }
 
                     loadeventws()
-                    if (res.metadata.annotations) {
-                        if (res.metadata.annotations["dadafoundry.io/images-from"]) {
-                            if (res.metadata.annotations["dadafoundry.io/images-from"] == 'private') {
-                                if (res.spec.triggers.length > 1) {
-                                    $scope.grid.imageChange = true;
-                                }
-                                $scope.grid.isimageChange = true;
+                    //if (res.metadata.annotations) {
+                    //    if (res.metadata.annotations["dadafoundry.io/images-from"]) {
+                    //        if (res.metadata.annotations["dadafoundry.io/images-from"] == 'private') {
+                    //            if (res.spec.triggers.length > 1) {
+                    //                $scope.grid.imageChange = true;
+                    //            }
+                    //            $scope.grid.isimageChange = true;
+                    //
+                    //        } else {
+                    //            $scope.grid.isimageChange = false;
+                    //        }
+                    //    }
+                    //}
 
-                            } else {
-                                $scope.grid.isimageChange = false;
-                            }
-                        }
-                    }
                     var r = /^(image-)/;
                     for (var i = 0; i < res.spec.template.spec.containers.length; i++) {
                         var imagetag = 'image-' + res.spec.template.spec.containers[i].name;
@@ -208,59 +205,21 @@ angular.module('console.service.detail', [
                     $scope.getdc = angular.copy(res);
                     getEnvs(res.spec.template.spec.containers);
                     angular.forEach($scope.dc.spec.triggers, function (trigger) {
-                        if (res.metadata.annotations) {
-                            if (trigger.type == 'ImageChange' && res.metadata.annotations["dadafoundry.io/images-from"] == 'public') {
-                                $scope.grid.imageChange = true;
-                            }
-                        }
+                        //if (res.metadata.annotations) {
+                        //    if (trigger.type == 'ImageChange' && res.metadata.annotations["dadafoundry.io/images-from"] == 'public') {
+                        //        $scope.grid.imageChange = true;
+                        //    }
+                        //}
                         if (trigger.type == 'ConfigChange') {
                             $scope.grid.configChange = true;
                         }
                     });
 
-                    //var volumeMap = {};
-                    //// console.log('secretName',res.spec.template.spec.volumes[0].secret);
-                    //if (res.spec.template.spec.volumes) {
-                    //  for (var i = 0; i < res.spec.template.spec.volumes.length; i++) {
-                    //    if (res.spec.template.spec.volumes[i].secret) {
-                    //      volumeMap[res.spec.template.spec.volumes[i].name] = res.spec.template.spec.volumes[i].secret.secretName;
-                    //    }
-                    //  }
-                    //  // console.log('volumeMap',$.isEmptyObject(volumeMap));
-                    //  if ($.isEmptyObject(volumeMap)) {
-                    //    // console.log(res.spec.template.spec.containers[0]);
-                    //
-                    //    if (!res.spec.template.spec.containers[0].volumeMounts) {
-                    //      res.spec.template.spec.containers[0].volumeMounts=[];
-                    //    }
-                    //    $scope.savend =angular.copy(res.spec.template.spec.containers[0].volumeMounts);
-                    //    res.spec.template.spec.containers[0].volumeMounts=[];
-                    //
-                    //  }
-                    //}
-                    //angular.forEach($scope.dc.spec.template.spec.containers, function (item) {
-                    //  angular.forEach(item.volumeMounts, function (volume) {
-                    //    if (volumeMap[volume.name]) {
-                    //      volume.name = volumeMap[volume.name];
-                    //    }
-                    //  });
-                    //  if (!item.volumeMounts || item.volumeMounts.length == 0) {
-                    //    item.volumeMounts = [{}];
-                    //  }
-                    //});
+
                     for (var i = 0; i < $scope.dc.spec.template.spec.containers.length; i++) {
                         var imagetag = 'image-' + $scope.dc.spec.template.spec.containers[i].name;
-                        angular.forEach($scope.dc.metadata.annotations, function (v, k) {
-                            if (r.test(k)) {
-                                if (k != imagetag) {
-                                    //console.log('cacacacacacaca',k);
-                                    //console.log('$scope.dc.metadata.annotations[k]',$scope.dc.metadata.annotations[k]);
-                                    delete $scope.dc.metadata.annotations[k];
-                                }
-                            }
-                        })
-                        if ($scope.dc.metadata.annotations && $scope.dc.metadata.annotations[imagetag]) {
-                            $scope.dc.spec.template.spec.containers[i].tag = $scope.dc.metadata.annotations[imagetag];
+                        if (copyannotations && copyannotations[imagetag]) {
+                            $scope.dc.spec.template.spec.containers[i].tag = copyannotations[imagetag];
                         } else {
                             angular.forEach($scope.dc.spec.template.spec.containers, function (item) {
                                 var tagstr = item.image;
@@ -271,7 +230,32 @@ angular.module('console.service.detail', [
                                 }
                             });
                         }
+                        if($scope.dc.spec.triggers){
+                            for(var j = 0 ; j < $scope.dc.spec.triggers.length;j++){
+                                if($scope.dc.spec.triggers[j].type == "ImageChange"){
+                                    if($scope.dc.spec.triggers[j].imageChangeParams.containerNames[0] == $scope.dc.spec.template.spec.containers[i].name){
+                                        $scope.dc.spec.template.spec.containers[i].isimageChange = true;
+                                        $scope.dc.spec.template.spec.containers[i].isshow = true;
+                                        $scope.dc.spec.template.spec.containers[i].triggerImageTpl = {
+                                            "type": "ImageChange",
+                                            "imageChangeParams": {
+                                                "automatic": true,
+                                                "containerNames": [
+                                                    $scope.dc.spec.template.spec.containers[i].name          //todo 高级配置,手动填充
+                                                ],
+                                                "from": {
+                                                    "kind": "ImageStreamTag",
+                                                    "name": $scope.dc.spec.template.spec.containers[i].name +":"+ $scope.dc.spec.template.spec.containers[i].tag  //ruby-hello-world:latest
+                                                }
+                                            }
+                                        };
+                                    }
+                                }
+                            }
+                        }
+
                     }
+                    console.log('$scope.dc$scope.dc$scope.dc___________',$scope.dc)
                     loadRcs(res.metadata.name);
                     loadRoutes();
                     loadBsi($scope.dc.metadata.name);
@@ -726,37 +710,20 @@ angular.module('console.service.detail', [
                     } else {
                         $scope.test = result
                     }
-                    //var html = ansi_ups.ansi_to_html(result);
-                    //var result = ansi_ups.open().ansi_to_html(result);
-                    //alert(11111)
-                    //console.log(html);
-                    //o.log = $sce.trustAsHtml(html);
                     loglast()
                     if(data.object.log){
-                        //data.object.log = $sce.trustAsHtml(html);
                         data.object.log = result;
 
                     }
                 }, function (res) {
                     //todo 错误处理
                     if (res.data ) {
-                        //var html = ansi_ups.ansi_to_html(res.data.message)
-                        //data.object.log = $sce.trustAsHtml(html);
                         data.object.log = res.data.message;
                     }
 
                 });
 
                 if (data.type == 'ADDED') {
-                    //data.object.showLog=true
-                    //angular.forEach($scope.rcs.items, function (item, i) {
-                    //  if (item.metadata.name == data.object.metadata.name) {
-                    //    // console.log('data.object',data.object)
-                    //    $scope.rcs.items[i].showLog=true;
-                    //    //data.object.showLog = item.showLog;
-                    //  }
-                    //});
-                    //data.object.showLog = true;
                     $rootScope.lding = false;
                     data.object.showLog = true;
                     if ($scope.rcs.items.length > 0) {
@@ -764,11 +731,6 @@ angular.module('console.service.detail', [
                     } else {
                         $scope.rcs.items = [data.object];
                     }
-                    //if ($scope.rcs.items.length > 0) {
-                    //  $scope.rcs.items.unshift(data.object);
-                    //} else {
-                    //  $scope.rcs.items = [data.object];
-                    //}
                 } else if (data.type == "MODIFIED") {
                     //data.object.showLog = true;
                     // console.log('RC',$scope.rcs.items)
@@ -1259,14 +1221,15 @@ angular.module('console.service.detail', [
                     //  hostPort: "",
                     //  //open: ""
                     //}],
-                    volumeMounts: [{}],
+                    volumeMounts: [],
                     vol: {
                         secretarr: [],
                         configmap: [],
                         persistentarr: []
                     },
                     show: true,
-                    new: true
+                    new: true,
+                    isshow : false
                 });
                 //$scope.dc.spec.template.spec.containers.push({ports: [portsobj]});
                 // $log.info('dccdcdcdcdcdcdcdcdcd-0-0', $scope.dc.spec.template.spec)
@@ -1386,7 +1349,7 @@ angular.module('console.service.detail', [
                 var container = $scope.dc.spec.template.spec.containers[idx];
                 var cons = $scope.dc.spec.template.spec.containers;
                 ImageSelect.open().then(function (res) {
-                    //console.log("imageStreamTag", res);
+                    console.log("imageStreamTag", res);
                     $scope.grid.imagePullSecrets = true;
                     console.log("imageStreamTag", res);
                     var imagetag = '';
@@ -1397,6 +1360,7 @@ angular.module('console.service.detail', [
                         container.truename = strname1.replace('/', "-");
                         container.image = 'registry.dataos.io/' + str1[0] + '/' + str1[1] + ':' + str1[2];
                         container.isimageChange = false;
+                        container.isshow = false;
                         if (idx > 0) {
                             for (var i = 0; i < cons.length; i++) {
                                 if (cons[i].name == olsname) {
@@ -1408,6 +1372,19 @@ angular.module('console.service.detail', [
                         container.name = strname1.replace('/', "-");
                         container.tag = str1[2];
                         imagetag = 'image-' + container.name;
+                        container.triggerImageTpl = {
+                            "type": "ImageChange",
+                            "imageChangeParams": {
+                                "automatic": true,
+                                "containerNames": [
+                                    container.name          //todo 高级配置,手动填充
+                                ],
+                                "from": {
+                                    "kind": "ImageStreamTag",
+                                    "name": container.name +":"+ container.tag  //ruby-hello-world:latest
+                                }
+                            }
+                        };
                         $scope.dc.metadata.annotations[imagetag] = str1[2];
                         ////仓库镜像
                         if (res.imagePullSecrets) {
@@ -1418,6 +1395,7 @@ angular.module('console.service.detail', [
 
                     } else {
                         container.image = res.image.dockerImageReference
+                        container.isshow = true;
                         container.isimageChange = true;
                         delete container["imagePullSecrets"];
                         var arr = res.metadata.name.split(':');
@@ -1434,23 +1412,37 @@ angular.module('console.service.detail', [
                             }
                         }
                         imagetag = 'image-' + container.name;
+                        container.triggerImageTpl = {
+                            "type": "ImageChange",
+                            "imageChangeParams": {
+                                "automatic": true,
+                                "containerNames": [
+                                    container.name          //todo 高级配置,手动填充
+                                ],
+                                "from": {
+                                    "kind": "ImageStreamTag",
+                                    "name": arr[0] +":"+ container.tag  //ruby-hello-world:latest
+                                }
+                            }
+                        };
                         $scope.dc.metadata.annotations[imagetag] = arr[1];
                     }
-                    for (var i = 0; i < $scope.dc.spec.template.spec.containers.length; i++) {
-                        if ($scope.dc.spec.template.spec.containers[i].isimageChange != false && $scope.dc.spec.template.spec.containers[i].isimageChange != true) {
-                            $scope.dc.spec.template.spec.containers[i].isimageChange = arrimgstr[i];
-                        }
-                        if ($scope.dc.spec.template.spec.containers[i].isimageChange == false) {
-                            //公共镜像
-                            $scope.grid.isimageChange = false;
-                            $scope.grid.imageChange = false;
-                            break;
-                        } else {
-                            $scope.grid.isimageChange = true;
-                            $scope.grid.imageChange = true;
-
-                        }
-                    }
+                    console.log('__----------_____',$scope.dc);
+                    //for (var i = 0; i < $scope.dc.spec.template.spec.containers.length; i++) {
+                    //    if ($scope.dc.spec.template.spec.containers[i].isimageChange != false && $scope.dc.spec.template.spec.containers[i].isimageChange != true) {
+                    //        $scope.dc.spec.template.spec.containers[i].isimageChange = arrimgstr[i];
+                    //    }
+                    //    if ($scope.dc.spec.template.spec.containers[i].isimageChange == false) {
+                    //        //公共镜像
+                    //        $scope.grid.isimageChange = false;
+                    //        $scope.grid.imageChange = false;
+                    //        break;
+                    //    } else {
+                    //        $scope.grid.isimageChange = true;
+                    //        $scope.grid.imageChange = true;
+                    //
+                    //    }
+                    //}
                     //var arr = res.metadata.name.split(':');
                     //if (arr.length > 1) {
                     //  container.name = arr[0];
@@ -1478,42 +1470,49 @@ angular.module('console.service.detail', [
                 var containers = dc.spec.template.spec.containers;
                 for (var i = 0; i < containers.length; i++) {
                     var container = containers[i];
-                    if (!container.volumeMounts) {
-                        return;
-                    }
+                    //if (!container.volumeMounts) {
+                    //    return;
+                    //}
                     if (container.volumeMounts && container.volumeMounts.length == 0) {
+
                         delete container["volumeMounts"];
                     }
 
                 }
-                if (dc.spec.template.spec.volumes.length == 0) {
+                if (dc.spec.template.spec.volumes && dc.spec.template.spec.volumes.length == 0) {
                     delete dc.spec.template.spec["volumes"];
                 }
             };
 
             var prepareTrigger = function (dc) {
-                var triggers = [];
-                if ($scope.grid.configChange) {
-                    triggers.push({type: 'ConfigChange'});
-                }
+                //var triggers = [];
+                //if ($scope.grid.configChange) {
+                //    dc.spec.triggers.push({type: 'ConfigChange'});
+                //}
 
-                if ($scope.grid.imageChange) {
-                    var containers = dc.spec.template.spec.containers;
-                    for (var i = 0; i < containers.length; i++) {
-                        // $log.info('containers=====', containers[i]);
-                        triggers.push({
-                            type: 'ImageChange',
-                            imageChangeParams: {
-                                "automatic": true,
-                                "containerNames": [containers[i].name],
-                                "from": {
-                                    "kind": "ImageStreamTag",
-                                    "name": containers[i].name + ':' + containers[i].tag
-                                }
-                            }
-                        });
-                    }
-                }
+                //if ($scope.grid.imageChange) {
+                //    var containers = dc.spec.template.spec.containers;
+                //    for (var i = 0; i < containers.length; i++) {
+                //        // $log.info('containers=====', containers[i]);
+                //        triggers.push({
+                //            type: 'ImageChange',
+                //            imageChangeParams: {
+                //                "automatic": true,
+                //                "containerNames": [containers[i].name],
+                //                "from": {
+                //                    "kind": "ImageStreamTag",
+                //                    "name": containers[i].name + ':' + containers[i].tag
+                //                }
+                //            }
+                //        });
+                //    }
+                //}
+                //for(var i = 0 ; i < dc.spec.template.spec.containers ; i++){
+                //    if(dc.spec.template.spec.containers[i].isimageChange){
+                //        console.log('111111111111');
+                //        dc.spec.triggers.push(dc.spec.template.spec.containers[i].triggerImageTpl)
+                //    }
+                //}
                 dc.spec.triggers = triggers;
             };
 
@@ -1610,6 +1609,9 @@ angular.module('console.service.detail', [
                 var containers = dc.spec.template.spec.containers;
                 for (var i = 0; i < containers.length; i++) {
                     containers[i].env = $scope.envs;
+                    if(containers[i].env && containers[i].env.length == 0){
+                        delete containers[i]['env'];
+                    }
                 }
             };
 
@@ -1757,10 +1759,21 @@ angular.module('console.service.detail', [
                     //  dc.spec.template.spec.containers[0].volumeMounts=$scope.savend;
                     //}
 
-                    prepareVolume($scope.dc);
-                    prepareTrigger($scope.dc);
-                    prepareEnv($scope.dc);
+                    prepareVolume(dc);
+                    //prepareTrigger(dc);
+                    dc.spec.triggers = [];
+                    if ($scope.grid.configChange) {
+                        dc.spec.triggers.push({type: 'ConfigChange'});
+                    }
+                    prepareEnv(dc);
                     for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
+                        if(dc.spec.template.spec.containers[i].isimageChange){
+                            dc.spec.triggers.push(dc.spec.template.spec.containers[i].triggerImageTpl);
+                            delete dc.spec.template.spec.containers[i]["isimageChange"];
+                        }
+                        if (dc.spec.template.spec.containers[i].triggerImageTpl) {
+                            delete dc.spec.template.spec.containers[i]["triggerImageTpl"];
+                        }
                         if (dc.spec.template.spec.containers[i].truename) {
                             delete dc.spec.template.spec.containers[i]["truename"];
                         }
@@ -1791,33 +1804,32 @@ angular.module('console.service.detail', [
                             }
                         }
                     }
-
                     if (createports == false) {
                         return;
                     }
                     if ($scope.grid.route) {
                         updateRoute(dc);
                     }
-                    for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
-                        if (dc.spec.template.spec.containers[i].isimageChange == false) {
-                            $scope.grid.isimageChange = false;
-                            break;
-                        } else {
-                            $scope.grid.isimageChange = true;
-                        }
-                    }
-                    if ($scope.grid.isimageChange == false) {
-                        if (dc.metadata.annotations) {
-                            dc.metadata.annotations["dadafoundry.io/images-from"] = 'public';
-                        }
-
-                        dc.spec.triggers = [{type: 'ConfigChange'}];
-                    } else {
-                        if (dc.metadata.annotations) {
-                            dc.metadata.annotations["dadafoundry.io/images-from"] = 'private';
-                        }
-                        dc.spec.triggers = $scope.dc.spec.triggers;
-                    }
+                    //for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
+                    //    if (dc.spec.template.spec.containers[i].isimageChange == false) {
+                    //        $scope.grid.isimageChange = false;
+                    //        break;
+                    //    } else {
+                    //        $scope.grid.isimageChange = true;
+                    //    }
+                    //}
+                    //if ($scope.grid.isimageChange == false) {
+                    //    if (dc.metadata.annotations) {
+                    //        dc.metadata.annotations["dadafoundry.io/images-from"] = 'public';
+                    //    }
+                    //
+                    //    dc.spec.triggers = [{type: 'ConfigChange'}];
+                    //} else {
+                    //    if (dc.metadata.annotations) {
+                    //        dc.metadata.annotations["dadafoundry.io/images-from"] = 'private';
+                    //    }
+                    //    dc.spec.triggers = $scope.dc.spec.triggers;
+                    //}
                     var isport = false;
                     for (var i = 0; i < $scope.portsArr.length; i++) {
                         if ($scope.portsArr[i].hostPort) {
@@ -1837,6 +1849,15 @@ angular.module('console.service.detail', [
                         delete dc.spec.template.spec.containers[i]["isimageChange"];
                         if (dc.spec.template.spec.containers[i].ports) {
                             delete dc.spec.template.spec.containers[i]["ports"];
+                        }
+                        if (dc.spec.template.spec.containers[i].new) {
+                            delete dc.spec.template.spec.containers[i]["new"];
+                        }
+                        if (dc.spec.template.spec.containers[i].show) {
+                            delete dc.spec.template.spec.containers[i]["show"];
+                        }
+                        if (dc.spec.template.spec.containers[i].isshow) {
+                            delete dc.spec.template.spec.containers[i]["isshow"];
                         }
                         if (dc.spec.template.spec.containers[i].imagePullSecrets) {
                             isimgsecret = true;
@@ -1893,7 +1914,6 @@ angular.module('console.service.detail', [
                             // $log.info("update dc fail", res);
                         });
                     }
-                    //console.log('isimgsecretisimgsecretisimgsecretisimgsecret',isimgsecret);
                     if (isimgsecret) {
                         var secretsobj = {
                             "kind": "Secret",
@@ -1965,9 +1985,6 @@ angular.module('console.service.detail', [
                                     }
                                 }
                                 var html = ansi_ups.ansi_to_html(result);
-                                //var result = ansi_ups.open().ansi_to_html(result);
-                                //alert(11111)
-                                //console.log(html);
                                 $scope.log = $sce.trustAsHtml(html);
                                 loglast()
 
@@ -2097,9 +2114,6 @@ angular.module('console.service.detail', [
                                 if (res.data && typeof res.data == "string") {
                                     $scope.result += $base64.decode(res.data);
                                     var html = ansi_ups.ansi_to_html($scope.result);
-                                    //var result = ansi_ups.open().ansi_to_html(result);
-                                    //alert(11111)
-                                    //console.log(html);
                                     $scope.log = $sce.trustAsHtml(html);
                                     loglast()
                                     $scope.$apply();
@@ -2149,26 +2163,6 @@ angular.module('console.service.detail', [
                                 console.log(podcenter.metadata.resourceVersion);
                                 watchpod(podcenter.metadata.resourceVersion, container)
                             })
-                            //Pod.log.get(params, function (res) {
-                            //  var result = "";
-                            //  for (var k in res) {
-                            //    if (/^\d+$/.test(k)) {
-                            //      result += res[k];
-                            //    }
-                            //  }
-                            //
-                            //  var html = ansi_ups.ansi_to_html(result);
-                            //  //var result = ansi_ups.open().ansi_to_html(result);
-                            //  //alert(11111)
-                            //  //console.log(html);
-                            //  $scope.log = $sce.trustAsHtml(html);
-                            //$scope.log = result;
-
-
-                            //  // console.log(result);
-                            //}, function (res) {
-                            //  $scope.log = res.data.message;
-                            //});
                         };
 
                         $scope.terminalSelect = function () {
