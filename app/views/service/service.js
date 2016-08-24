@@ -92,40 +92,42 @@ angular.module('console.service', [
 
         serviceList();
           var loadPods = function (itemarr) {
+                  console.log('itemarritemarritemarritemarritemarr',itemarr)
                   var labelSelector = 'deploymentconfig=' + itemarr.metadata.name;
-                    itemarr.status.replicas = 0;
+
                   Pod.get({namespace: $scope.namespace, labelSelector: labelSelector}, function (res) {
-                      $scope.pods = res;
-                      $scope.pods.items = res.items;
+                      itemarr.status.replicas = 0;
+                      //$scope.pods = res;
+                      //$scope.pods.items = res.items;
                       for(var i = 0;i < res.items.length; i++){
-                          $scope.pods.items[i].reason = res.items[i].status.phase;
-                          if(res.items[i].status.reason != null && res.items[i].status.reason != ""){
-                              $scope.pods.items[i].reason = res.items[i].status.reason;
-                          }
-                          if(res.items[i].status.containerStatuses){
-                              for(var j = 0 ;j < res.items[i].status.containerStatuses.length;j++){
-                                  var container =  res.items[i].status.containerStatuses[j];
-                                  if (container.state.waiting != null && container.state.waiting.reason != "" ){
-                                      $scope.pods.items[i].reason = container.state.waiting.reason
-                                  } else if (container.state.terminated != null && container.state.terminated.reason != "") {
-                                      $scope.pods.items[i].reason = container.state.terminated.reason
-                                  }else if (container.state.terminated != null && container.state.terminated.reason == "") {
-                                      if (container.state.terminated.signal != 0) {
-                                          $scope.pods.items[i].reason = "Signal:%d"+container.state.terminated.signal;
-                                      } else {
-                                          $scope.pods.items[i].reason = "ExitCode:"+container.state.terminated.exitCode;
-                                      }
-                                  }
-                              }
-                          }
-                          if (res.items[i].metadata.deletionTimestamp != null ){
-                              $scope.pods.items[i].reason = "Terminating"
-                          }
-                          if($scope.pods.items[i].reason == 'Running'){
+                          //$scope.pods.items[i].reason = res.items[i].status.phase;
+                          //if(res.items[i].status.reason != null && res.items[i].status.reason != ""){
+                          //    $scope.pods.items[i].reason = res.items[i].status.reason;
+                          //}
+                          //if(res.items[i].status.containerStatuses){
+                          //    for(var j = 0 ;j < res.items[i].status.containerStatuses.length;j++){
+                          //        var container =  res.items[i].status.containerStatuses[j];
+                          //        if (container.state.waiting != null && container.state.waiting.reason != "" ){
+                          //            $scope.pods.items[i].reason = container.state.waiting.reason
+                          //        } else if (container.state.terminated != null && container.state.terminated.reason != "") {
+                          //            $scope.pods.items[i].reason = container.state.terminated.reason
+                          //        }else if (container.state.terminated != null && container.state.terminated.reason == "") {
+                          //            if (container.state.terminated.signal != 0) {
+                          //                $scope.pods.items[i].reason = "Signal:%d"+container.state.terminated.signal;
+                          //            } else {
+                          //                $scope.pods.items[i].reason = "ExitCode:"+container.state.terminated.exitCode;
+                          //            }
+                          //        }
+                          //    }
+                          //}
+                          //if (res.items[i].metadata.deletionTimestamp != null ){
+                          //    $scope.pods.items[i].reason = "Terminating"
+                          //}
+                          if(res.items[i].status.phase == 'Running'){
                               itemarr.status.replicas++;
                           }
                       }
-                      // $log.info("pods", $scope.pods.items);
+                       //$log.info("$scope.dcdcdcdcdcdcdcdcd", itemarr.metadata.name+"------"+itemarr.status.replicas);
                   }, function (res) {
                       //todo 错误处理
                       // $log.info("loadPods err", res);
@@ -181,7 +183,7 @@ angular.module('console.service', [
                     var cTt = items[i].metadata.name +'-'+ items[i].status.latestVersion;
                     items[i].rc = $scope.rcMap[cTt];
                 }
-                isNormal(items);
+                //isNormal(items);
                 $scope.resourceVersion = data.metadata.resourceVersion;
                 //watchBuilds(data.metadata.resourceVersion);
             });
@@ -206,24 +208,33 @@ angular.module('console.service', [
         var isNormal = function(servicedata){
             $log.info('servicedata---test',servicedata)
             for(var i = 0;i<servicedata.length;i++){
-                var dcspr = servicedata[i].spec.replicas;
-                if(servicedata[i].rc){
-                    var rcpsr = servicedata[i].rc.spec.replicas;
-                    var rcstr = servicedata[i].rc.status.replicas;
-                    if(rcpsr == rcstr && dcspr > 0 && rcstr == 0 || rcpsr == dcspr && rcstr == 0){
-                        servicedata[i].ismn = '未启动';
-                    }else if(rcstr == dcspr && dcspr > 0 && rcpsr == 0){
-                        servicedata[i].ismn = '异常';
-                    }else if(rcstr == dcspr && rcpsr == dcspr && dcspr > 0){
-                        servicedata[i].ismn = '正常';
-                    }else if(rcpsr < dcspr && dcspr == rcstr){
-                        servicedata[i].ismn = '警告';
-                    }
+                //var dcspr = servicedata[i].spec.replicas;
+                //if(servicedata[i].rc){
+                //    var rcpsr = servicedata[i].rc.spec.replicas;
+                //    var rcstr = servicedata[i].rc.status.replicas;
+                //    if(rcpsr == rcstr && dcspr > 0 && rcstr == 0 || rcpsr == dcspr && rcstr == 0){
+                //        servicedata[i].ismn = '未启动';
+                //    }else if(rcstr == dcspr && dcspr > 0 && rcpsr == 0){
+                //        servicedata[i].ismn = '异常';
+                //    }else if(rcstr == dcspr && rcpsr == dcspr && dcspr > 0){
+                //        servicedata[i].ismn = '正常';
+                //    }else if(rcpsr < dcspr && dcspr == rcstr){
+                //        servicedata[i].ismn = '警告';
+                //    }
+                //}else{
+                //    if(dcspr > 0){
+                //        servicedata[i].ismn = '未启动';
+                //    }
+                //
+                //}
+                if(servicedata[i].spec.replicas == 0){
+                    servicedata[i].ismn = '未启动';
+                }else if(servicedata[i].spec.replicas != servicedata[i].status.replicas){
+                    servicedata[i].ismn = '异常';
+                }else if(servicedata[i].spec.replicas == servicedata[i].status.replicas){
+                    servicedata[i].ismn = '正常';
                 }else{
-                    if(dcspr > 0){
-                        servicedata[i].ismn = '未启动';
-                    }
-
+                    servicedata[i].ismn = '警告';
                 }
             }
         }
@@ -262,24 +273,52 @@ angular.module('console.service', [
 
             $scope.resourceVersion = data.object.metadata.resourceVersion;
 
+
             if (data.type == 'ADDED') {
                 $scope.rcs.items.shift(data.object);
             }else if (data.type == "MODIFIED") {
-                angular.forEach($scope.items, function(item, i){
-                    if (item.rc.metadata.name == data.object.metadata.name) {
-                        $scope.items[i].rc = data.object;
-                        console.log('updatedata========',data);
-                        console.log('$scope.items[i]-----------',$scope.items[i]);
-                        isNormal($scope.items);
-                        $scope.$apply();
+                DeploymentConfig.get({namespace: $rootScope.namespace}, function(data){
+                    //$log.info('serviceList----', data);
+                    //data.items = Sort.sort(data.items, -1);
+                    //$scope.data = data;
+                    //$scope.resourceVersion = data.metadata.resourceVersion;
+                    //watchRcs(data.metadata.resourceVersion);
+                    //$scope.grid.total = data.items.length;
+                    for(var  j = 0 ; j < data.items.length; j++){
+                        for(var k = 0 ; k < $scope.items.length; k++){
+                            if(data.items[j].metadata.name == $scope.items[k].metadata.name){
+                                $scope.items[k].spec.replicas = data.items[j].spec.replicas
+                            }
+                        }
                     }
-                });
+                    for(var i = 0 ; i < $scope.items.length; i++){
+                        loadPods($scope.items[i]);
+                    }
 
+                }, function(res) {
+                    $log.info('serviceList', res);
+                    //todo ������
+                });
+                //angular.forEach($scope.items, function(item, i){
+                //    if (item.rc.metadata.name == data.object.metadata.name) {
+                //        $scope.items[i].rc = data.object;
+                //        console.log('updatedata========',data);
+                //        console.log('$scope.items[i]-----------',$scope.items[i]);
+                //        isNormal($scope.items);
+                //        $scope.$apply();
+                //    }
+                //});
+                //
 
 
             }
         }
-
+          $scope.$watch('items', function (n, o) {
+             if(n == o){
+                 return;
+             }
+              isNormal($scope.items);
+          },true)
         $scope.startDc = function(idx){
             $log.info('$scope.items[idx]$scope.items[idx]',$scope.items[idx])
              var thisRc = $scope.items[idx].rc;
