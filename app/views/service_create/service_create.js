@@ -475,9 +475,10 @@ angular.module('console.service.create', [
         //// 选择镜像
         $scope.selectImage = function (idx) {
           var container = $scope.dc.spec.template.spec.containers[idx];
+          console.log('container2',container);
           var cons = $scope.dc.spec.template.spec.containers;
           ImageSelect.open().then(function (res) {
-            console.log("imageStreamTag", res);
+            console.log("imageStreamTag2", res);
             var imagetag = '';
             container.ports = [];
             if (container.ports.length == 0) {
@@ -1022,9 +1023,10 @@ angular.module('console.service.create', [
           prepareVolume(dc);
           prepareTrigger(dc);
           prepareEnv(dc);
-          if (!$scope.grid.auto) {
-            dc.spec.replicas = 0;
-          }
+
+          //if (!$scope.grid.auto) {
+          //  dc.spec.replicas = 0;
+          //}
           console.log(prepareport());
           if(prepareport() == false){
             return;

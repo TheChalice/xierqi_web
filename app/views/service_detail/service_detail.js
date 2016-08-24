@@ -255,7 +255,6 @@ angular.module('console.service.detail', [
                         }
 
                     }
-                    console.log('$scope.dc$scope.dc$scope.dc___________',$scope.dc)
                     loadRcs(res.metadata.name);
                     loadRoutes();
                     loadBsi($scope.dc.metadata.name);
@@ -550,17 +549,22 @@ angular.module('console.service.detail', [
                     // $log.info("loadBsi err", res);
                 });
             };
+            //$scope.events=[];
             var loadeventws = function () {
                 Event.get({namespace: $rootScope.namespace}, function (res) {
+                    if (!$scope.eventsws) {
+                        $scope.eventsws=res
+                    }
 
-                     $log.info("events", res.metadata.resourceVersion);
+                    $log.info("events", res);
                     $scope.resource=res.metadata.resourceVersion;
                     watchevent(res.metadata.resourceVersion);
                 }, function (res) {
                     //todo 错误处理
                     // $log.info("loadEvents err", res)
                 });
-            }
+            };
+            loadeventws()
             function watchevent(resourceVersion){
                 Ws.watch({
                     api: 'k8s',
@@ -573,6 +577,7 @@ angular.module('console.service.detail', [
                     var data = JSON.parse(res.data);
                     //updateRcs(data);
                     console.log('eventdata', data);
+                    updateEvent(data);
                 }, function () {
                     $log.info("webSocket startRC");
                 }, function () {
@@ -584,7 +589,13 @@ angular.module('console.service.detail', [
                     //watchevent($scope.resourceVersion);
                 });
             }
-
+            var updateEvent= function (data) {
+                if (data.type == "ADDED") {
+                    $scope.eventsws.items.unshift(data.object);
+                    $scope.$apply()
+                }
+                console.log($scope.eventsws);
+            }
             var watchRcs = function (resourceVersion) {
                 Ws.watch({
                     api: 'k8s',

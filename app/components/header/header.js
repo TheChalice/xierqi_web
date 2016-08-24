@@ -50,7 +50,7 @@ angular.module("console.header", [
                             }).error(function (data, header, config, status) {
                             });
                         } else {
-                            $rootScope.isorg = false;
+                            //$rootScope.isorg = false;
                         }
                     })
                     $scope.$watch('$state.params.useorg', function (n, o) {
@@ -58,16 +58,20 @@ angular.module("console.header", [
                             return;
                         }
                         if ($state.params.useorg) {
-                            $rootScope.isorg = true;
+                            //$rootScope.isorg = true;
                             $scope.neworgid = $state.params.useorg
                         } else {
-                            $rootScope.isorg = false;
+                            //$rootScope.isorg = false;
                         }
                     })
-                    $rootScope.isorg = false;
+                    //$rootScope.isorg = false;
                     $scope.$watch('namespace', function (n, o) {
                         console.log('new', n);
+                        if (n == o) {
+                            return
+                        }
                         if (n.indexOf('org') == -1) {
+                            $rootScope.isorg=false;
                             $http({
                                 url: '/lapi/inbox_stat',
                                 method: 'GET',
@@ -106,6 +110,7 @@ angular.module("console.header", [
                             }, 1000000)
                         } else {
                             clearInterval($scope.timer);
+                            $rootScope.isorg=true;
                         }
 
 
@@ -163,9 +168,17 @@ angular.module("console.header", [
                     $scope.goto = function (ind) {
                         $scope.checked = $scope.userorgs[ind].name;
                         $rootScope.namespace = $scope.userorgs[ind].id;
-                        //console.log($scope.userorgs);
-                        // console.log($scope.userorgs,$scope.userorgs[ind].id);
-                        //$state.go('console.org', {useorg:$scope.userorgs[ind].id})
+                        $scope.neworgid = $scope.userorgs[ind].id
+                        console.log('路由',$state);
+                        if ($state.current.name == 'console.apply_instance'||$state.current.name == 'console.build_create_new'||$state.current.name == 'console.service_create') {
+                            return
+                        }else if($state.current.url.indexOf(':')!==-1&&$state.current.name!=='console.dashboard'){
+                            //$location.url('/'+)
+                            console.log($state.current.url.split('/')[1]);
+                            $location.url('/console/'+$state.current.url.split('/')[1])
+                        }
+                        //console.log('路由',$state);
+
                     }
 
                     orgList.get({}, function (org) {
