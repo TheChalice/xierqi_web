@@ -277,9 +277,23 @@ angular.module('console.service.create', [
                 container.strname = container.name = arr[3];
                 $scope.grid.imageChange = true;
                 container.isimageChange = true;
+                container.isshow = true;
                 $scope.grid.isimageChange = true;
-                imagetag = 'image-'+container.name;
-                $scope.dc.metadata.annotations[imagetag] = arr[2];
+                imagetag = 'dadafoundry.io/image-'+container.name;
+                container.triggerImageTpl = {
+                  "type": "ImageChange",
+                  "imageChangeParams": {
+                    "automatic": true,
+                    "containerNames": [
+                      container.name          //todo 高级配置,手动填充
+                    ],
+                    "from": {
+                      "kind": "ImageStreamTag",
+                      "name": arr[3] +":"+ container.tag  //ruby-hello-world:latest
+                    }
+                  }
+                };
+                $scope.dc.metadata.annotations[imagetag] = arr[2]+":"+arr[3];
               } else {
                 // 公共镜像
                 var container = angular.copy($scope.containerTpl);
@@ -298,9 +312,23 @@ angular.module('console.service.create', [
                 container.truename = $stateParams.image.split(':')[0].replace('/', '-');
                 $scope.grid.imageChange = false;
                 container.isimageChange = false;
+                container.isshow = false;
                 $scope.grid.isimageChange = false;
-                imagetag = 'image-'+container.name;
-                $scope.dc.metadata.annotations[imagetag] = $stateParams.image.split(':')[1];
+                imagetag = 'dadafoundry.io/image-'+container.name;
+                container.triggerImageTpl = {
+                  "type": "ImageChange",
+                  "imageChangeParams": {
+                    "automatic": true,
+                    "containerNames": [
+                      container.name          //todo 高级配置,手动填充
+                    ],
+                    "from": {
+                      "kind": "ImageStreamTag",
+                      "name": container.truename +":"+ container.tag  //ruby-hello-world:latest
+                    }
+                  }
+                };
+                $scope.dc.metadata.annotations[imagetag] = container.truename+":"+$stateParams.image.split(':')[1];
               }
 
               $scope.portsArr = [
@@ -510,7 +538,7 @@ angular.module('console.service.create', [
                 container.name = strname1.replace('/', "-");
               }
               container.tag = str1[2];
-              imagetag = 'image-'+container.name;
+              imagetag = 'dadafoundry.io/image-'+container.name;
               ////仓库镜像
               if(res.imagePullSecrets){
                 container.imagePullSecrets = true;
@@ -530,7 +558,7 @@ angular.module('console.service.create', [
                   }
                 }
               };
-              $scope.dc.metadata.annotations[imagetag] = str1[2];
+              $scope.dc.metadata.annotations[imagetag] = container.truename+":"+str1[2];
 
             }else{
              // 私有镜像
@@ -556,7 +584,7 @@ angular.module('console.service.create', [
               }
               //container.name = strname;
               container.tag = str[1];
-              imagetag = 'image-'+container.name;
+              imagetag = 'dadafoundry.io/image-'+container.name;
               container.triggerImageTpl = {
                 "type": "ImageChange",
                 "imageChangeParams": {
@@ -570,7 +598,7 @@ angular.module('console.service.create', [
                   }
                 }
               };
-              $scope.dc.metadata.annotations[imagetag] = str[1];
+              $scope.dc.metadata.annotations[imagetag] =  str[0]+":"+str[1];
               if(res.image.dockerImageMetadata.Config.Labels){
                 container.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
                 container.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
@@ -1035,7 +1063,7 @@ angular.module('console.service.create', [
           deleService();
           deleRoute();
           var clonedc = angular.copy(dc);
-          //var arrimgs = [];
+          var arrimgs = [];
           for(var i = 0;i<clonedc.spec.template.spec.containers.length;i++){
             delete clonedc.spec.template.spec.containers[i]["commitId"];
             delete clonedc.spec.template.spec.containers[i]["triggerImageTpl"];
@@ -1044,7 +1072,7 @@ angular.module('console.service.create', [
             delete clonedc.spec.template.spec.containers[i]["ref"];
             delete clonedc.spec.template.spec.containers[i]["tag"];
             delete clonedc.spec.template.spec.containers[i]["isshow"];
-            //arrimgs.push(clonedc.spec.template.spec.containers[i].isimageChange);
+            arrimgs.push(clonedc.spec.template.spec.containers[i].isimageChange);
             delete clonedc.spec.template.spec.containers[i]["isimageChange"];
             if(clonedc.spec.template.spec.containers[i].ports){
                 delete clonedc.spec.template.spec.containers[i]["ports"];
@@ -1089,8 +1117,8 @@ angular.module('console.service.create', [
           }else{
             delete dc.spec.template.spec["imagePullSecrets"];
           }
-          //var arrimgstr = arrimgs.join();
-          //clonedc.metadata.annotations["imageorpublic"] = arrimgstr;
+          var arrimgstr = arrimgs.join();
+          clonedc.metadata.annotations["imageorpublic"] = arrimgstr;
           //if($scope.grid.isimageChange){
           //  clonedc.metadata.annotations["dadafoundry.io/images-from"] = 'private';
           //}else{
