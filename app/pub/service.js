@@ -494,6 +494,26 @@ define(['angular'], function (angular) {
                     }]
                 }).result;
             };
+        }]).service('diploma', ['$uibModal', function ($uibModal) {
+            this.open = function (obj) {
+                return $uibModal.open({
+                    templateUrl: 'pub/tpl/diploma.html',
+                    size: 'default modal-lg',
+                    controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+                        $scope.diploma = obj;
+
+                        //$scope.err = err;
+                        //$scope.classify = regist;
+                        //$scope.activation = active;
+                        $scope.ok = function () {
+                            $uibModalInstance.close();
+                        };
+                        $scope.cancel = function () {
+                            $uibModalInstance.dismiss();
+                        };
+                    }]
+                }).result;
+            };
         }])
         .service('Toast', ['$uibModal', function ($uibModal) {
             this.open = function (txt, timeout) {
