@@ -1233,7 +1233,7 @@ define(['angular'], function (angular) {
             function ($timeout, $q, orgList, $rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User) {
 
                 this.login = function (credentials) {
-                    console.log("login");
+                    console.log("login",credentials);
                     localStorage.setItem('Auth', $base64.encode(credentials.username + ':' + credentials.password))
                     $rootScope.loding = true;
                     var deferred = $q.defer();
@@ -1277,11 +1277,12 @@ define(['angular'], function (angular) {
                             Cookie.set('df_access_token', data.access_token, 10 * 365 * 24 * 3600 * 1000);
 
                             loadProject(credentials.username);
-
                             User.get({name: '~'}, function (res) {
                                 $rootScope.loding = false;
                                 $rootScope.user = res;
                                 //localStorage.setItem('cade',null)
+                                localStorage.setItem("code", 1);
+                                $rootScope.loginyanzheng = false;
                                 $state.go('console.dashboard');
 
                                 var inputDaovoice = function () {
@@ -1318,7 +1319,11 @@ define(['angular'], function (angular) {
                                 if (codenum) {
                                     codenum=parseInt(codenum);
                                     codenum+=1
-                                    localStorage.setItem('code',codenum)
+                                    localStorage.setItem('code',codenum);
+                                    if(codenum > 3 ){
+                                        $rootScope.loginyanzheng = true;
+                                    }
+
                                 }else {
                                     localStorage.setItem('code',1)
                                 }

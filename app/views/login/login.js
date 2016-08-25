@@ -2,7 +2,17 @@
 angular.module('home.login', [])
     .controller('loginCtrl', ['ModalRegist','$interval','$state','$rootScope','AuthService','$scope', '$log',
       function (ModalRegist,$interval,$state,$rootScope,AuthService,$scope, $log) {
-        
+          $('.loginname').focus();
+          $scope.loginerror = {}
+          var flog = localStorage.getItem("code");
+         var vm = $scope.vm = {
+              code : ''
+          }
+          if(flog > 3 ){
+              $rootScope.loginyanzheng = true;
+          }else if(flog <=3 || !flog){
+              $rootScope.loginyanzheng = false;
+          }
         // 进度条暂时不启用
         // var vm = $scope.vm = {};
         // vm.value = 0;
@@ -49,14 +59,20 @@ angular.module('home.login', [])
           $scope.changecode = function () {
               codenum()
           };
-          $scope.$watch('code', function (n,o) {
+          //$scope.$watch('aaaa', function (n,o) {
+          //    console.log(n);
+          //})
+          $scope.$watch('vm.code', function (n,o) {
+              console.log(n);
+              console.log($scope.yzcode);
               if (n == o) {
                   return
               }
+
               if (n !== $scope.yzcode) {
-                  $scope.credentials.codeerror=true
+                  $scope.loginerror.codeerror=true
               }else {
-                  $scope.credentials.codeerror=false
+                  $scope.loginerror.codeerror=false
               }
           })
           $scope.$watch('namespace', function (n,o) {
