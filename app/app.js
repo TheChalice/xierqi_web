@@ -20,7 +20,8 @@ define([
     'highchartsNg',
     'fileUpload',
     'fileUploadShim',
-    'angularticsgoogleanalytics'
+    //'angulartics',
+    //'angularticsgoogleanalytics'
 ], function (angular) {
 
     // 声明应用及其依赖
@@ -38,7 +39,8 @@ define([
         'hc.marked',
         'highcharts-ng',
         'ngFileUpload',
-        'angularticsgoogleanalytics'
+        //'angulartics',
+        //'angularticsgoogleanalytics'
     ]);
 
     myApp.constant('GLOBAL', {

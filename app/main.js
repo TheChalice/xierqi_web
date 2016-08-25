@@ -38,7 +38,8 @@ require.config({
         highchartsNg: '../bower_components/highcharts-ng/dist/highcharts-ng.min',
         fileUpload: '../bower_components/ng-file-upload/ng-file-upload.min',
         fileUploadShim: '../bower_components/ng-file-upload/ng-file-upload-shim.min',
-        angularticsgoogleanalytics: '../bower_components/angulartics-google-analytics/dist/angulartics-ga.min'
+        angulartics: '../bower_components/angulartics/dist/angulartics.min',
+        angularticsgoogleanalytics: '../bower_components/angulartics-google-analytics/lib/angulartics-ga',
     },
     shim: {
         'angular': {
@@ -88,8 +89,11 @@ require.config({
         'fileUploadShim' : {
            deps: ['angular', 'fileUpload']
         },
-        'angularticsgoogleanalytics' : {
+        'angulartics' : {
             deps: ['angular']
+        },
+        'angularticsgoogleanalytics' : {
+            deps: ['angular','angulartics']
         }
     },
     priority: [
