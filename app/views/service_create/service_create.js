@@ -8,8 +8,8 @@ angular.module('console.service.create', [
         ]
       }
     ])
-    .controller('ServiceCreateCtrl', ['Confirm', 'Toast', '$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service', 'ChooseSecret','$base64','secretskey','serviceaccounts',
-      function (Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service, ChooseSecret,$base64,secretskey,serviceaccounts) {
+    .controller('ServiceCreateCtrl', ['diploma','Confirm', 'Toast', '$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service', 'ChooseSecret','$base64','secretskey','serviceaccounts',
+      function (diploma,Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service, ChooseSecret,$base64,secretskey,serviceaccounts) {
         $log.info('ServiceCreate');
         $scope.checkEnv = false;
 
@@ -113,9 +113,103 @@ angular.module('console.service.create', [
           isimageChange: true,
           servicenameerr : false,
           imagePullSecrets : false
-
-
         };
+        $scope.tlsroutes=[];
+        $scope.savetls= function () {
+
+          prepareRoute($scope.route,$scope.dc);
+          if ($scope.grid.tlsset == 'Passthrough') {
+            $scope.route.spec.tls.termination=$scope.grid.tlsset;
+
+          }else if($scope.grid.tlsset == 'Edge'){
+            $scope.route.spec.tls.termination=$scope.grid.tlsset;
+            $scope.route.spec.tls.insecureEdgeTerminationPolicy=$scope.grid.httpset;
+            if ($scope.grid.zsfile.value) {
+              $scope.route.spec.tls.certificate=$scope.grid.zsfile.value
+            }
+            if ($scope.grid.syfile.value) {
+              $scope.route.spec.tls.value=$scope.grid.syfile.value
+            }
+            if ($scope.grid.cafile.value) {
+              $scope.route.spec.tls.caCertificate=$scope.grid.cafile.value
+            }
+          }else if($scope.grid.tlsset == 'Re-encrypt'){
+            $scope.route.spec.tls.termination=$scope.grid.tlsset;
+            if ($scope.grid.zsfile.value) {
+              $scope.route.spec.tls.certificate=$scope.grid.zsfile.value
+            }
+            if ($scope.grid.syfile.value) {
+              $scope.route.spec.tls.key=$scope.grid.syfile.value
+            }
+            if ($scope.grid.cafile.value) {
+              $scope.route.spec.tls.caCertificate=$scope.grid.cafile.value
+            }
+            if ($scope.grid.mcafile.value) {
+              $scope.route.spec.tls.destinationCACertificate=$scope.grid.mcafile.value
+            }
+          }else {
+            delete $scope.route.spec.tls
+          }
+
+          Route.create({namespace: $rootScope.namespace}, $scope.route, function (res) {
+            $log.info("create route success", res);
+            //$scope.route = res;
+
+            //var obj=angular.copy($scope.route);
+            res.spec.zhengshu={};
+            res.spec.zhengshu.zsfile=angular.copy($scope.grid.zsfile)
+            res.spec.zhengshu.syfile=angular.copy($scope.grid.syfile)
+            res.spec.zhengshu.cafile=angular.copy($scope.grid.cafile)
+            res.spec.zhengshu.mcafile=angular.copy($scope.grid.mcafile)
+            $scope.tlsroutes.push(res);
+            $log.info("create route fail", res);
+            //复原router
+            $scope.grid.cname='域名';
+            $scope.grid.host='';
+            $scope.grid.zsfile={};
+            $scope.grid.syfile={};
+            $scope.grid.mcafile={};
+            $scope.grid.cafile={};
+            $scope.grid.tlsshow=false;
+            $scope.grid.tlsset='None';
+            $scope.grid.httpset='None';
+            $scope.route = {
+              "kind": "Route",
+              "apiVersion": "v1",
+              "metadata": {
+                "name": "",
+                "labels": {
+                  "app": ""
+                },
+                annotations : {
+                  "dadafoundry.io/create-by" : $rootScope.user.metadata.name
+                }
+              },
+              "spec": {
+                "host": "",
+                "to": {
+                  "kind": "Service",
+                  "name": ""
+                },
+                "port": {
+                  "targetPort": ""
+                },
+                "tls":{}
+              }
+            };
+            $scope.grid.tlsshow=false
+          }, function (res) {
+            $log.info("create route fail", res);
+          });
+
+          
+        }
+        $scope.showdiploma= function (idx) {
+          //$scope.tlsroutes[idx].spec.zhengshu
+          diploma.open($scope.tlsroutes[idx].spec.zhengshu).then(function () {
+            
+          })
+        }
         function readSingleFile(e,name) {
           //alert(1111)
           var thisfilename = document.getElementById(name).value;
@@ -161,7 +255,7 @@ angular.module('console.service.create', [
             readSingleFile(e,'mcafile')
           }, false);
         }
-        // $scope.grid.host=$scope.dc.metadata.name
+
         $scope.invalid = {};
 
         $scope.envs = [];
@@ -988,7 +1082,7 @@ angular.module('console.service.create', [
               $scope.route.spec.tls.certificate=$scope.grid.zsfile.value
             }
             if ($scope.grid.syfile.value) {
-              $scope.route.spec.tls.value=$scope.grid.syfile.value
+              $scope.route.spec.tls.key=$scope.grid.syfile.value
             }
             if ($scope.grid.cafile.value) {
               $scope.route.spec.tls.caCertificate=$scope.grid.cafile.value
@@ -998,8 +1092,8 @@ angular.module('console.service.create', [
             if ($scope.grid.zsfile.value) {
               $scope.route.spec.tls.certificate=$scope.grid.zsfile.value
             }
-            if ($scope.grid.syfile.value) {
-              $scope.route.spec.tls.value=$scope.grid.syfile.value
+            if ($scope.grid.syfile.key) {
+              $scope.route.spec.tls.key=$scope.grid.syfile.value
             }
             if ($scope.grid.cafile.value) {
               $scope.route.spec.tls.caCertificate=$scope.grid.cafile.value
