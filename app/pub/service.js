@@ -1313,7 +1313,7 @@ define(['angular'], function (angular) {
                                 return;
                             } else {
                                 $rootScope.loding = false;
-                                Alert.open('错误', '用户名或密码不正确');
+                                Alert.open('请重新登录', '用户名或密码不正确');
                                 var codenum = localStorage.getItem("code");
                                 console.log(codenum);
                                 if (codenum) {
