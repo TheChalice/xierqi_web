@@ -15,7 +15,7 @@ angular.module('console.service.create', [
 
         $scope.portsArr = [
           //{
-          //  containerPort: "",
+          //  containRouteerPort: "",
           //  hostPort: "",
           //  protocol: ""
           //}
@@ -38,9 +38,11 @@ angular.module('console.service.create', [
               hostPort: "",
             })
         };
+
         $scope.delprot = function(idx){
           $scope.portsArr.splice(idx, 1);
-        }
+        };
+
         $scope.dc = {
           kind: "DeploymentConfig",
           apiVersion: "v1",
@@ -88,7 +90,15 @@ angular.module('console.service.create', [
         $scope.grid = {
           ports: [],
           port: 0,
+          cname:'域名',
           host: '',
+          zsfile:{},
+          syfile:{},
+          cafile:{},
+          mcafile:{},
+          tlsshow:false,
+          tlsset:'None',
+          httpset:'None',
           suffix: '.'+$rootScope.namespace+'.app.dataos.io',
           imageChange: false,
           configChange: true,
@@ -106,6 +116,51 @@ angular.module('console.service.create', [
 
 
         };
+        function readSingleFile(e,name) {
+          //alert(1111)
+          var thisfilename = document.getElementById(name).value;
+          //console.log(this);
+          if (thisfilename.indexOf('\\')) {
+            var arr = thisfilename.split('\\');
+            thisfilename = arr[arr.length - 1]
+          }
+          var file = e.target.files[0];
+          if (!file) {
+            return;
+          }
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            var content = e.target.result;
+
+            $scope.grid[name]={key: thisfilename, value: content}
+            $scope.$apply();
+          };
+          reader.readAsText(file);
+        };
+        $scope.addzhengshu = function () {
+
+          document.getElementById('zsfile').addEventListener('change', function (e) {
+            readSingleFile(e,'zsfile')
+          }, false);
+        }
+        $scope.addsy = function () {
+
+          document.getElementById('syfile').addEventListener('change', function (e) {
+            readSingleFile(e,'syfile')
+          }, false);
+        }
+        $scope.addca = function () {
+
+          document.getElementById('cafile').addEventListener('change', function (e) {
+            readSingleFile(e,'cafile')
+          }, false);
+        }
+        $scope.addmca = function () {
+
+          document.getElementById('mcafile').addEventListener('change', function (e) {
+            readSingleFile(e,'mcafile')
+          }, false);
+        }
         // $scope.grid.host=$scope.dc.metadata.name
         $scope.invalid = {};
 
@@ -175,7 +230,7 @@ angular.module('console.service.create', [
             "sessionAffinity": "None"
           }
         };
-
+//Route
         $scope.route = {
           "kind": "Route",
           "apiVersion": "v1",
@@ -196,7 +251,8 @@ angular.module('console.service.create', [
             },
             "port": {
               "targetPort": ""
-            }
+            },
+            "tls":{}
           }
         };
         // 仓库镜像时需要先获取该数据添加到imagePullSecrets字段中
@@ -206,6 +262,7 @@ angular.module('console.service.create', [
               console.log('----------------------',res);
           })
         }
+
         getserviceaccounts();
         // 判断从镜像仓库跳转过来时属于哪种镜像
         var initContainer = function () {
@@ -639,8 +696,9 @@ angular.module('console.service.create', [
         $scope.updatePorts = function () {
           $scope.grid.ports = [];
           //angular.forEach($scope.dc.spec.template.spec.containers, function (item) {
-            angular.forEach($scope.portsArr, function (port) {
-              if ($scope.grid.ports.indexOf(port.hostPort) == -1) {
+          //console.log('tpc端口',$scope.portsArr);
+          angular.forEach($scope.portsArr, function (port) {
+              if ($scope.grid.ports.indexOf(port.hostPort) == -1&&port.protocol=="TCP") {
                 $scope.grid.ports.push(port.hostPort);
               }
             });
@@ -918,6 +976,40 @@ angular.module('console.service.create', [
         // 创建路由
         var createRoute = function (service) {
           prepareRoute($scope.route, service);
+          //alert(111)
+          console.log('route',$scope.grid);
+          if ($scope.grid.tlsset == 'Passthrough') {
+            $scope.route.spec.tls.termination=$scope.grid.tlsset;
+
+          }else if($scope.grid.tlsset == 'Edge'){
+            $scope.route.spec.tls.termination=$scope.grid.tlsset;
+            $scope.route.spec.tls.insecureEdgeTerminationPolicy=$scope.grid.httpset;
+            if ($scope.grid.zsfile.value) {
+              $scope.route.spec.tls.certificate=$scope.grid.zsfile.value
+            }
+            if ($scope.grid.syfile.value) {
+              $scope.route.spec.tls.value=$scope.grid.syfile.value
+            }
+            if ($scope.grid.cafile.value) {
+              $scope.route.spec.tls.caCertificate=$scope.grid.cafile.value
+            }
+          }else if($scope.grid.tlsset == 'Re-encrypt'){
+            $scope.route.spec.tls.termination=$scope.grid.tlsset;
+            if ($scope.grid.zsfile.value) {
+              $scope.route.spec.tls.certificate=$scope.grid.zsfile.value
+            }
+            if ($scope.grid.syfile.value) {
+              $scope.route.spec.tls.value=$scope.grid.syfile.value
+            }
+            if ($scope.grid.cafile.value) {
+              $scope.route.spec.tls.caCertificate=$scope.grid.cafile.value
+            }
+            if ($scope.grid.mcafile.value) {
+              $scope.route.spec.tls.destinationCACertificate=$scope.grid.mcafile.value
+            }
+          }else {
+            delete $scope.route.spec.tls
+          }
 
           Route.create({namespace: $rootScope.namespace}, $scope.route, function (res) {
             $log.info("create route success", res);

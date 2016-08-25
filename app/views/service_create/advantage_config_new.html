@@ -10,7 +10,8 @@
                 </div>
                 <div class="col-md-10">
                     <label style="font-size: 12px; font-weight: normal;">POD数量&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                    <input ng-model="dc.spec.replicas" min="0" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control">
+                    <input ng-model="dc.spec.replicas" min="0" max="10" style="width: 80px;display: inline-block;"
+                           type="number" class="form-control">
                     <hr>
                     <div ng-if="false">
                         <label style="font-size: 12px; font-weight: normal;">自动伸缩&nbsp;&nbsp;&nbsp;&nbsp;</label>
@@ -18,9 +19,15 @@
                         <br>
                         <div ng-if="rubustCheck">
                             <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">资源阈值&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                            <span style="font-size: 12px">POD最小数量  <input min="0" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control"></span>
-                            <span style="font-size: 12px">POD最大数量  <input min="0" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control"></span>
-                            <span style="font-size: 12px">CPU平均利用率 <input min="0" max="10"  style="width: 80px;display: inline-block;" type="number" class="form-control"></span>
+                            <span style="font-size: 12px">POD最小数量  <input min="0" max="10"
+                                                                          style="width: 80px;display: inline-block;"
+                                                                          type="number" class="form-control"></span>
+                            <span style="font-size: 12px">POD最大数量  <input min="0" max="10"
+                                                                          style="width: 80px;display: inline-block;"
+                                                                          type="number" class="form-control"></span>
+                            <span style="font-size: 12px">CPU平均利用率 <input min="0" max="10"
+                                                                          style="width: 80px;display: inline-block;"
+                                                                          type="number" class="form-control"></span>
                         </div>
                         <hr>
                     </div>
@@ -32,9 +39,11 @@
                         </button>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Always'">Always</a>
+                                <a href="javascript:;"
+                                   ng-click="dc.spec.template.spec.restartPolicy = 'Always'">Always</a>
                                 <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'OnFailure'">OnFailure</a>
-                                <a href="javascript:;" ng-click="dc.spec.template.spec.restartPolicy = 'Never'">Never</a>
+                                <a href="javascript:;"
+                                   ng-click="dc.spec.template.spec.restartPolicy = 'Never'">Never</a>
                             </li>
                         </ul>
                     </div>
@@ -50,22 +59,191 @@
                     <c-checkbox checked="grid.route"></c-checkbox>
                     <br>
                     <div ng-if="grid.route">
-                        <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">服务端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;"></label>
                         <div class="dropdown dropdown-select" style="width: 80px;">
                             <button class="btn dropdown-toggle" data-toggle="dropdown" ng-click="updatePorts()">
-                                <span>{{grid.port || '请选择'}}</span>
+                                <span>{{grid.port || '端口'}}</span>
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu">
                                 <li ng-repeat="port in grid.ports">
-                                    <a href="javascript:;" ng-click="grid.port = port">{{port}}</a>
+                                    <a href="javascript:;" ng-click="grid.port = port">{{port+'(TCP)'}}</a>
                                 </li>
                             </ul>
                         </div>
+                        <div class="dropdown dropdown-select" style="width: 80px;">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown" ng-click="updatePorts()">
+                                <span>{{grid.cname}}</span>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="javascript:;" ng-click="grid.cname = '域名'">{{'域名'}}</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:;" ng-click="grid.cname = 'cname'">{{'cname'}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="dropdown dropdown-select" style="width: 200px;">
+                            <div class="input-group">
+                                <input style="width: 160px;display: inline-block;"
+                                       ng-model="grid.host" type="text" class="form-control">
+                                <span class="input-group-btn">
+                                <button class="btn btn-default" ng-if="grid.cname == '域名'"
+                                        style="color: black;border-color:#8c8c8c;background: #e6e6e6;height: 34px;font-size: 12px;"
+                                        type="button">{{grid.suffix}}
+                                </button>
+                                <span ng-if="grid.cname == 'cname'" style="color: black;height: 34px;font-size: 12px;">需将cname指向router.app.dataos.io</span>
+                                </span>
+                            </div><!-- /input-group -->
+                        </div>
+                        <!--<label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">域名&nbsp;&nbsp;&nbsp;&nbsp;</label>-->
+                        <!--<input style="width: 160px;display: inline-block;"-->
+                        <!--ng-model="grid.host" type="text" class="form-control">-->
+                        <!--<button class="btn btn-default" ng-if="grid.cname == '域名'"-->
+                        <!--style="height: 34px;font-size: 12px;">{{grid.suffix}}-->
+                        <!--</button>-->
+                        <!--<button class="btn btn-default" ng-if="grid.cname == 'cname'"-->
+                        <!--style="height: 34px;font-size: 12px;">需将cname指向router.app.dataos.io-->
+                        <!--</button>-->
+                        <br>
+                        <p style="margin-top: 35px;" ng-if="!grid.tlsshow">
+                            <a style="font-size: 12px;cursor: pointer; font-weight: bolder;color: #e5993a"
+                               ng-click="grid.tlsshow=true">TLS设置</a></p>
+                        <div ng-if="grid.tlsshow">
+                            <label style="margin-top: 35px;font-size: 12px; font-weight: normal;">TLS设置&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <!--<p style="margin-top: 35px;font-size: 18px;">TLS设置</p>-->
+                            <div class="dropdown dropdown-select" style="width: 270px">
+                                <button class="btn dropdown-toggle" data-toggle="dropdown" ng-click="updatePorts()">
+                                    <span>{{grid.tlsset}}</span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="javascript:;" ng-click="grid.tlsset = 'None'">{{'None'}}</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;" ng-click="grid.tlsset = 'Edge'">{{'Edge'}}</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;"
+                                           ng-click="grid.tlsset = 'Passthrough'">{{'Passthrough'}}</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;"
+                                           ng-click="grid.tlsset = 'Re-encrypt'">{{'Re-encrypt'}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <br>
+                            <label style="margin-top: 35px;font-size: 12px; font-weight: normal;">HTTP协议设置&nbsp;&nbsp;&nbsp;&nbsp;</label>
 
-                        <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">域名&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                        <input style="width: 160px;display: inline-block;" ng-model="grid.host" type="text" class="form-control">
-                        <span style="font-size: 12px;">{{grid.suffix}}</span>
+                            <!--<p style="margin-top: 35px;font-size: 18px;">HTTP协议设置</p>-->
+                            <div class="dropdown dropdown-select" style="width: 237px;" ng-if="grid.tlsset=='Edge'">
+                                <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                    <span>{{grid.httpset}}</span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="javascript:;" ng-click="grid.httpset = 'None'">{{'None'}}</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;" ng-click="grid.httpset = 'Allow'">{{'Allow'}}</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:;" ng-click="grid.httpset = 'Redirect'">{{'Redirect'}}</a>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div class="dropdown dropdown-select" style="width: 237px;" ng-if="grid.tlsset!=='Edge'">
+                                <button class="btn dropdown-toggle" style="background-color: #c9c9c9;cursor: no-drop;"
+                                        data-toggle="dropdown">
+                                    <span>None</span>
+                                    <span class="caret"></span>
+                                </button>
+                            </div>
+                            <div ng-if="grid.tlsset=='Re-encrypt'||grid.tlsset=='Edge'">
+                                <br>
+                                <label style="margin-top: 35px;font-size: 12px; font-weight: normal;">证书&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <div class="dropdown dropdown-select" style="width: 293px;">
+                                    <div class="input-group">
+                                        <span class="form-control">{{grid.zsfile.key}}</span>
+
+                            <span class="input-group-btn" style="position: relative;">
+                                <span class="btn btn-default"
+                                      style="color: black;border-color:#8c8c8c;background: #e6e6e6;"
+                                      ng-click="addzhengshu()">上传
+                                    <input type="file" class="file-input" id="zsfile" value="选择"/>
+                                </span>
+
+
+                            </span>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-if="grid.tlsset=='Re-encrypt'||grid.tlsset=='Edge'">
+                                <br>
+                                <label style="margin-top: 35px;font-size: 12px; font-weight: normal;">私钥&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <div class="dropdown dropdown-select" style="width: 293px;">
+                                    <div class="input-group">
+                                        <span class="form-control">{{grid.syfile.key}}</span>
+                            <span class="input-group-btn" style="position: relative;">
+                                <span class="btn btn-default"
+                                      style="color: black;border-color:#8c8c8c;background: #e6e6e6;"
+                                      ng-click="addsy()">上传
+                                    <input type="file" class="file-input" id="syfile" value="选择"/>
+                                </span>
+                            </span>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div ng-if="grid.tlsset=='Re-encrypt'||grid.tlsset=='Edge'">
+                                <br>
+
+                                <label style="margin-top: 35px;font-size: 12px; font-weight: normal;">CA证书&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <div class="dropdown dropdown-select" style="width: 276px;">
+                                    <div class="input-group">
+                                        <span class="form-control">{{grid.cafile.key}}</span>
+                            <span class="input-group-btn" style="position: relative;">
+                                <span class="btn btn-default"
+                                    style="color: black;border-color:#8c8c8c;background: #e6e6e6;"
+                                        ng-click="addca()">上传
+                                    <input type="file" class="file-input" id="cafile" value="选择"/>
+                                </span>
+                            </span>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div ng-if="grid.tlsset=='Re-encrypt'">
+                                <br>
+                                <label style="margin-top: 35px;font-size: 12px; font-weight: normal;">目的地CA证书&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <div class="dropdown dropdown-select" style="width: 240px;">
+                                    <div class="input-group">
+                                        <span class="form-control">{{grid.mcafile.key}}</span>
+                            <span class="input-group-btn" style="position: relative;">
+                                <span class="btn btn-default"
+                                      style="color: black;border-color:#8c8c8c;background: #e6e6e6;"
+                                      ng-click="addmca()">上传
+                                    <input type="file" class="file-input" id="mcafile" value="选择"/>
+                                </span>
+                            </span>
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -76,19 +254,20 @@
                     <h3>后端服务绑定</h3>
                 </div>
                 <div class="col-md-10">
-                    <a href="javascript:;" class="href-add">
-                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;<span style="font-size: 12px">创建</span>
-                    </a>
+                    <!--<a href="javascript:;" class="href-add">-->
+                        <!--<i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;<span style="font-size: 12px">创建</span>-->
+                    <!--</a>-->
                 </div>
                 <div class="col-md-9 col-md-offset-2">
                     <div class="panel panel-default sub-panel">
-                        <div class="panel-heading">
-                            后端服务实例
-                        </div>
+                        <!--<div class="panel-heading">-->
+                        <!--后端服务实例-->
+                        <!--</div>-->
                         <div class="panel-body" style="padding-bottom: 0;">
                             <div class="row">
                                 <div class="col-md-6" ng-repeat="item in bsi.items">
-                                    <div class="tabandimage" ng-class="{'selected': item.bind}" ng-click="item.bind = !item.bind">
+                                    <div class="tabandimage" ng-class="{'selected': item.bind}"
+                                         ng-click="item.bind = !item.bind">
                                         <i class="faa faa-image" style="float: left;margin-right: 10px;"></i>
                                         <i class="faa faa-image-mark" ng-show="item.bind"></i>
                                         <p style="margin: 10px 0 5px 0;">{{item.metadata.name}}</p>
@@ -113,9 +292,9 @@
                 </div>
                 <div class="col-md-9 col-md-offset-2" ng-if="envs.length>0">
                     <div class="panel panel-default sub-panel">
-                        <div class="panel-heading">
-                            环境变量设置
-                        </div>
+                        <!--<div class="panel-heading">-->
+                        <!--环境变量设置-->
+                        <!--</div>-->
                         <div class="panel-body" style="padding-bottom: 0;">
                             <span ng-if="envs.length > 0">
                         <div class="row key-value-bar" style="margin-bottom: 15px" ng-repeat="env in envs">
@@ -137,7 +316,9 @@
                         </div>
                     </span>
                         </div>
-                        <small ng-show="checkEnv" class="fa fa-info-circle err-tip" style="margin-left: 36px; margin-bottom: 15px;">&nbsp;环境变量不能为空</small>
+                        <small ng-show="checkEnv" class="fa fa-info-circle err-tip"
+                               style="margin-left: 36px; margin-bottom: 15px;">&nbsp;环境变量不能为空
+                        </small>
                     </div>
                 </div>
             </div>
@@ -148,17 +329,18 @@
                     <h3>自动部署</h3>
                 </div>
                 <!--<div class="col-md-5">-->
-                    <!--<label ng-if="grid.isimageChange" ng-class="{'active': grid.imageChange}" ng-click="grid.imageChange=!grid.imageChange" style="cursor: pointer;">-->
-                        <!--<i class="faa faa-check"></i>-->
-                        <!--&nbsp;&nbsp;镜像变化触发自动部署-->
-                    <!--</label>-->
-                    <!--<label ng-if="!grid.isimageChange" style="cursor: pointer;">-->
-                        <!--<i class="faa faa-check"></i>-->
-                        <!--&nbsp;&nbsp;镜像变化触发自动部署-->
-                    <!--</label>-->
+                <!--<label ng-if="grid.isimageChange" ng-class="{'active': grid.imageChange}" ng-click="grid.imageChange=!grid.imageChange" style="cursor: pointer;">-->
+                <!--<i class="faa faa-check"></i>-->
+                <!--&nbsp;&nbsp;镜像变化触发自动部署-->
+                <!--</label>-->
+                <!--<label ng-if="!grid.isimageChange" style="cursor: pointer;">-->
+                <!--<i class="faa faa-check"></i>-->
+                <!--&nbsp;&nbsp;镜像变化触发自动部署-->
+                <!--</label>-->
                 <!--</div>-->
                 <div class="col-md-5">
-                    <label ng-class="{'active': grid.configChange}" ng-click="grid.configChange=!grid.configChange" style="cursor: pointer;">
+                    <label ng-class="{'active': grid.configChange}" ng-click="grid.configChange=!grid.configChange"
+                           style="cursor: pointer;">
                         <i class="faa faa-check"></i>
                         &nbsp;&nbsp;配置变化触发自动部署
                     </label>
@@ -167,3 +349,14 @@
         </div>
     </div>
 </div>
+<style>
+    .file-input {
+        position: absolute;
+        width: 54px;
+        height: 34px;
+        top: 0;
+        right: 0;
+        filter: alpha(opacity:0);
+        opacity: 0;
+    }
+</style>
