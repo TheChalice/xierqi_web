@@ -3,7 +3,7 @@ angular.module('console.create_constantly_volume', [
     {
         files: []
     }
-]).controller('createconvolumeCtrl', ['$state', '$rootScope', 'volume', '$scope', function ($state, $rootScope, volume, $scope) {
+]).controller('createconvolumeCtrl', ['Toast','$state', '$rootScope', 'volume', '$scope', function (Toast,$state, $rootScope, volume, $scope) {
     $scope.danwei = 'GB';
     $scope.grid = {
         inved: false,
@@ -28,10 +28,18 @@ angular.module('console.create_constantly_volume', [
             console.log(n);
             if (n < 10 || n > 200) {
                 //console.log('不过');
+
                 $scope.grid.num = false
             } else {
                 //console.log('过');
-                $scope.grid.num = true
+                console.log('11',n % 10);
+                if (n % 10 == 0) {
+                    $scope.grid.num = true
+                }else {
+                    $scope.grid.num = false
+
+                }
+
             }
         }
     })
@@ -45,7 +53,8 @@ angular.module('console.create_constantly_volume', [
             $scope.loaded = false;
             $state.go('console.resource_management', {index: 1});
         }, function (err) {
-
+            $scope.loaded = false;
+            Toast.open('构建失败,请重试');
         })
 
     }
