@@ -18,12 +18,85 @@ angular.module('console.service.detail', [
             $scope.grid = {
                 ports: [],
                 port: 0,
+                cname:'域名',
                 host: '',
+                zsfile:{},
+                syfile:{},
+                cafile:{},
+                mcafile:{},
+                tlsshow:false,
+                tlsset:'none',
+                httpset:'None',
                 suffix: '.' + $rootScope.namespace + '.app.dataos.io',
                 isimageChange: true,
                 imagePullSecrets: false
             };
+            function readSingleFile(e,name) {
+                //alert(1111)
+                var thisfilename = document.getElementById(name).value;
+                //console.log(this);
+                if (thisfilename.indexOf('\\')) {
+                    var arr = thisfilename.split('\\');
+                    thisfilename = arr[arr.length - 1]
+                }
+                var file = e.target.files[0];
+                if (!file) {
+                    return;
+                }
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var content = e.target.result;
 
+                    $scope.grid[name]={key: thisfilename, value: content}
+                    if (name == 'zsfile') {
+                        $scope.routeconf.spec.tls.certificate=$scope.grid.zsfile.value;
+                    }else if(name == 'syfile'){
+                        $scope.routeconf.spec.tls.key=$scope.grid.syfile.value;
+                    }else if(name == 'cafile'){
+                        $scope.routeconf.spec.tls.caCertificate=$scope.grid.cafile.value;
+                    }else if(name == 'mcafile'){
+                        $scope.routeconf.spec.tls.destinationCACertificate=$scope.grid.mcafile.value;
+                    }
+                    console.log($scope.grid.zsfile);
+                    $scope.$apply();
+                };
+                reader.readAsText(file);
+            };
+
+            $scope.addzhengshu = function () {
+
+                document.getElementById('zsfile').addEventListener('change', function (e) {
+                    readSingleFile(e,'zsfile')
+
+
+                }, false);
+
+            }
+            $scope.addsy = function () {
+
+                document.getElementById('syfile').addEventListener('change', function (e) {
+                    readSingleFile(e,'syfile')
+
+                }, false);
+
+            }
+            $scope.addca = function () {
+
+                document.getElementById('cafile').addEventListener('change', function (e) {
+                    readSingleFile(e,'cafile')
+
+                }, false);
+
+            }
+            $scope.addmca = function () {
+
+                document.getElementById('mcafile').addEventListener('change', function (e) {
+                    readSingleFile(e,'mcafile')
+
+                }, false);
+
+
+            }
             var getserviceaccounts = function () {
                 serviceaccounts.get({namespace: $rootScope.namespace}, function (res) {
                     $scope.serviceas = res
@@ -513,6 +586,26 @@ angular.module('console.service.detail', [
             var loadRoutes = function () {
                 Route.get({namespace: $rootScope.namespace}, function (res) {
                     // $log.info("routes", res);
+                    if (!$scope.routeconf) {
+
+                        angular.forEach(res.items, function (myroute,i) {
+                            if (myroute.spec.to.name == $scope.dc.metadata.name) {
+                                $scope.routeconf=angular.copy(myroute);
+                            }
+                        })
+                        if ($scope.grid.tlsset) {
+                            $scope.grid.tlsset=$scope.routeconf.spec.tls.termination
+                            if ($scope.grid.tlsset == 'edge') {
+                                $scope.grid.httpset=$scope.routeconf.spec.tls.insecureEdgeTerminationPolicy
+                            }
+
+
+                        }
+
+                        console.log('$scope.routeconf111111',$scope.routeconf);
+
+                    }
+
                     $scope.getroutes = res;
 
                     for (var i = 0; i < res.items.length; i++) {
