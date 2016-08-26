@@ -128,7 +128,7 @@ angular.module('console.service.create', [
               $scope.route.spec.tls.certificate=$scope.grid.zsfile.value
             }
             if ($scope.grid.syfile.value) {
-              $scope.route.spec.tls.value=$scope.grid.syfile.value
+              $scope.route.spec.tls.key=$scope.grid.syfile.value
             }
             if ($scope.grid.cafile.value) {
               $scope.route.spec.tls.caCertificate=$scope.grid.cafile.value
@@ -156,11 +156,11 @@ angular.module('console.service.create', [
             //$scope.route = res;
 
             //var obj=angular.copy($scope.route);
-            res.spec.zhengshu={};
-            res.spec.zhengshu.zsfile=angular.copy($scope.grid.zsfile)
-            res.spec.zhengshu.syfile=angular.copy($scope.grid.syfile)
-            res.spec.zhengshu.cafile=angular.copy($scope.grid.cafile)
-            res.spec.zhengshu.mcafile=angular.copy($scope.grid.mcafile)
+            //res.spec.zhengshu={};
+            //res.spec.zhengshu.zsfile=angular.copy($scope.grid.zsfile)
+            //res.spec.zhengshu.syfile=angular.copy($scope.grid.syfile)
+            //res.spec.zhengshu.cafile=angular.copy($scope.grid.cafile)
+            //res.spec.zhengshu.mcafile=angular.copy($scope.grid.mcafile)
             $scope.tlsroutes.push(res);
             $log.info("create route fail", res);
             //复原router
@@ -206,10 +206,11 @@ angular.module('console.service.create', [
         }
         $scope.showdiploma= function (idx) {
           //$scope.tlsroutes[idx].spec.zhengshu
-          diploma.open($scope.tlsroutes[idx].spec.zhengshu).then(function () {
+          diploma.open($scope.tlsroutes[idx]).then(function () {
             
           })
         }
+
         function readSingleFile(e,name) {
           //alert(1111)
           var thisfilename = document.getElementById(name).value;
@@ -231,6 +232,7 @@ angular.module('console.service.create', [
           };
           reader.readAsText(file);
         };
+
         $scope.addzhengshu = function () {
 
           document.getElementById('zsfile').addEventListener('change', function (e) {

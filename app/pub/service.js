@@ -501,7 +501,7 @@ define(['angular'], function (angular) {
                     size: 'default modal-lg',
                     controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
                         $scope.diploma = obj;
-
+                        console.log($scope.diploma,obj);
                         //$scope.err = err;
                         //$scope.classify = regist;
                         //$scope.activation = active;
