@@ -416,7 +416,7 @@
                     <!--<p style="margin-top: 35px;font-size: 18px;">TLS设置</p>-->
                     <div class="dropdown dropdown-select" style="width: 270px">
                         <button class="btn dropdown-toggle" data-toggle="dropdown" ng-click="updatePorts()">
-                            <span>{{grid.tlsset}}</span>
+                            <span>{{grid.tlsset||'none'}}</span>
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
@@ -806,16 +806,16 @@
         <div class="col-md-2">
             <h3>自动部署</h3>
         </div>
-        <div class="col-md-5">
-            <!--<label ng-if="grid.isimageChange" ng-class="{'active': grid.imageChange}" ng-click="grid.imageChange=!grid.imageChange" style="cursor: pointer;">-->
-            <!--<i class="faa faa-check"></i>-->
-            <!--&nbsp;&nbsp;镜像变化触发自动部署-->
-            <!--</label>-->
-            <!--<label ng-if="!grid.isimageChange" style="cursor: pointer; color: #CCCCCC">-->
-            <!--<i class="faa faa-check"></i>-->
-            <!--&nbsp;&nbsp;镜像变化触发自动部署-->
-            <!--</label>-->
-        </div>
+        <!--<div class="col-md-5">-->
+            <!--&lt;!&ndash;<label ng-if="grid.isimageChange" ng-class="{'active': grid.imageChange}" ng-click="grid.imageChange=!grid.imageChange" style="cursor: pointer;">&ndash;&gt;-->
+            <!--&lt;!&ndash;<i class="faa faa-check"></i>&ndash;&gt;-->
+            <!--&lt;!&ndash;&nbsp;&nbsp;镜像变化触发自动部署&ndash;&gt;-->
+            <!--&lt;!&ndash;</label>&ndash;&gt;-->
+            <!--&lt;!&ndash;<label ng-if="!grid.isimageChange" style="cursor: pointer; color: #CCCCCC">&ndash;&gt;-->
+            <!--&lt;!&ndash;<i class="faa faa-check"></i>&ndash;&gt;-->
+            <!--&lt;!&ndash;&nbsp;&nbsp;镜像变化触发自动部署&ndash;&gt;-->
+            <!--&lt;!&ndash;</label>&ndash;&gt;-->
+        <!--</div>-->
         <div class="col-md-5">
             <!--<labe><input type="checkbox" ng-model="grid.configChange">&nbsp;&nbsp;配置变化触发自动部署</labe>-->
             <label ng-class="{'active': grid.configChange}" ng-click="grid.configChange=!grid.configChange"

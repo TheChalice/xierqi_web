@@ -26,7 +26,7 @@ angular.module('console.service.detail', [
                 mcafile:{},
                 tlsshow:false,
                 tlsset:'none',
-                httpset:'None',
+                httpset:'Allow',
                 suffix: '.' + $rootScope.namespace + '.app.dataos.io',
                 isimageChange: true,
                 imagePullSecrets: false
@@ -601,16 +601,21 @@ angular.module('console.service.detail', [
                                 $scope.routeconf=angular.copy(myroute);
                             }
                         })
-                        if ($scope.grid.tlsset&&$scope.routeconf.spec.tls) {
+                        console.log('$scope.routeconf111111',$scope.routeconf);
+
+                        if ($scope.grid.tlsset&&$scope.routeconf) {
+                            if (!$scope.routeconf.spec.tls) {
+                                $scope.routeconf.spec.tls={}
+                            }
                             $scope.grid.tlsset=$scope.routeconf.spec.tls.termination
                             if ($scope.grid.tlsset == 'edge') {
                                 $scope.grid.httpset=$scope.routeconf.spec.tls.insecureEdgeTerminationPolicy
                             }
-
-
+                        }else if(!$scope.routeconf) {
+                            $scope.routeconf=angular.copy($scope.route)
                         }
 
-                        console.log('$scope.routeconf111111',$scope.routeconf);
+
 
                     }
 
@@ -664,6 +669,14 @@ angular.module('console.service.detail', [
             var loadeventws = function () {
                 Event.get({namespace: $rootScope.namespace}, function (res) {
                     if (!$scope.eventsws) {
+                        $scope.eventsws=[]
+                        angular.forEach(res.items, function (event,i) {
+                            if (event.involvedObject.name.split('-')[0]== $scope.dc.metadata.name) {
+                                //res.items.splice(i,1);
+                                console.log(event);
+                                $scope.eventsws.push(event)
+                            }
+                        })
                         $scope.eventsws=res
                     }
 
@@ -702,8 +715,13 @@ angular.module('console.service.detail', [
             }
             var updateEvent= function (data) {
                 if (data.type == "ADDED") {
-                    $scope.eventsws.items.unshift(data.object);
-                    $scope.$apply()
+
+                    if (data.object.involvedObject.name.split('-')[0] == $scope.dc.metadata.name) {
+                        $scope.eventsws.items.unshift(data.object);
+                        console.log(data.object.involvedObject.name.split('-')[0]==$scope.dc.metadata.name);
+                        $scope.$apply()
+                    }
+
                 }
                 //console.log($scope.eventsws);
             }
@@ -1489,7 +1507,17 @@ angular.module('console.service.detail', [
             $scope.delprot = function(idx){
                 $scope.portsArr.splice(idx, 1);
             }
-
+            $scope.updatePorts = function () {
+                $scope.grid.ports = [];
+                //angular.forEach($scope.dc.spec.template.spec.containers, function (item) {
+                //console.log('tpc端口',$scope.portsArr);
+                angular.forEach($scope.portsArr, function (port) {
+                    if ($scope.grid.ports.indexOf(port.hostPort) == -1&&port.protocol=="TCP") {
+                        $scope.grid.ports.push(port.hostPort);
+                    }
+                });
+                //});
+            };
             $scope.selectImage = function (idx) {
                 var container = $scope.dc.spec.template.spec.containers[idx];
                 var cons = $scope.dc.spec.template.spec.containers;
@@ -1801,7 +1829,8 @@ angular.module('console.service.detail', [
                     },
                     "port": {
                         "targetPort": ""
-                    }
+                    },
+                    tls:{}
                 }
             };
 
@@ -1866,20 +1895,91 @@ angular.module('console.service.detail', [
                 if (dc.route) {     //route存在,更新route
                     dc.route.spec.host = $scope.grid.host + $scope.grid.suffix;
                     dc.route.spec.port.targetPort = $scope.grid.port + '-tcp';
+                    console.log($scope.routeconf);
+                    if ($scope.grid.tlsset == 'passthrough') {
+                        $scope.routeconf.spec.tls.termination=$scope.grid.tlsset;
+                        delete $scope.routeconf.spec.tls.insecureEdgeTerminationPolicy
+                        delete $scope.routeconf.spec.tls.certificate
+                        delete $scope.routeconf.spec.tls.caCertificate
+                        delete $scope.routeconf.spec.tls.key
+                        delete $scope.routeconf.spec.tls.destinationCACertificate
+
+                    }else if($scope.grid.tlsset == 'edge'){
+                        $scope.routeconf.spec.tls.termination=$scope.grid.tlsset;
+                        $scope.routeconf.spec.tls.insecureEdgeTerminationPolicy=$scope.grid.httpset;
+                        delete $scope.routeconf.spec.tls.destinationCACertificate
+
+                    }else if($scope.grid.tlsset == 're-encrypt'){
+                        $scope.routeconf.spec.tls.termination=$scope.grid.tlsset;
+                        delete $scope.routeconf.spec.tls.insecureEdgeTerminationPolicy
+                        delete $scope.routeconf.spec.tls.insecureEdgeTerminationPolicy
+                    }else {
+                        delete $scope.routeconf.spec.tls
+                    }
                     Route.put({
                         namespace: $rootScope.namespace,
                         name: dc.route.metadata.name
-                    }, dc.route, function (res) {
-                        // $log.info("create route success", res);
+                    }, $scope.routeconf, function (res) {
+                         $log.info("create route success", res);
+                        //alert(111)
+                        if ($scope.grid.zsfile) {
+                            $scope.grid.zsfile.key=null;
+                        }
+                        if ($scope.grid.syfile) {
+                            $scope.grid.syfile.key=null;
+                        }
+                        if ($scope.grid.cafile) {
+                            $scope.grid.cafile.key=null;
+                        }
+                        if ($scope.grid.mcafile) {
+                            $scope.grid.mcafile.key=null;
+                        }
+
                         $scope.route = res;
                     }, function (res) {
                         // $log.info("create route fail", res);
                     });
                 } else {            //route不存在,创建route
                     prepareRoute($scope.route, dc);
+
+                    console.log($scope.grid);
+                    if ($scope.grid.tlsset == 'passthrough') {
+                        $scope.route.spec.tls.termination=$scope.grid.tlsset;
+
+                    }else if($scope.grid.tlsset == 'edge'){
+                        $scope.route.spec.tls.termination=$scope.grid.tlsset;
+                        $scope.route.spec.tls.insecureEdgeTerminationPolicy=$scope.grid.httpset;
+                        if ($scope.grid.zsfile.value) {
+                            $scope.route.spec.tls.certificate=$scope.grid.zsfile.value
+                        }
+                        if ($scope.grid.syfile.value) {
+                            $scope.route.spec.tls.key=$scope.grid.syfile.value
+                        }
+                        if ($scope.grid.cafile.value) {
+                            $scope.route.spec.tls.caCertificate=$scope.grid.cafile.value
+                        }
+                    }else if($scope.grid.tlsset == 're-encrypt'){
+                        $scope.route.spec.tls.termination=$scope.grid.tlsset;
+                        if ($scope.grid.zsfile.value) {
+                            $scope.route.spec.tls.certificate=$scope.grid.zsfile.value
+                        }
+                        if ($scope.grid.syfile.key) {
+                            $scope.route.spec.tls.key=$scope.grid.syfile.value
+                        }
+                        if ($scope.grid.cafile.value) {
+                            $scope.route.spec.tls.caCertificate=$scope.grid.cafile.value
+                        }
+                        if ($scope.grid.mcafile.value) {
+                            $scope.route.spec.tls.destinationCACertificate=$scope.grid.mcafile.value
+                        }
+                    }else {
+                        delete $scope.route.spec.tls
+                    }
+                    console.log('createRoute',$scope.route);
                     Route.create({namespace: $rootScope.namespace}, $scope.route, function (res) {
                         // $log.info("create route success", res);
                         $scope.route = res;
+
                     }, function (res) {
                         // $log.info("create route fail", res);
                     });
