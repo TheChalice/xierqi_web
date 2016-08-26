@@ -34,24 +34,24 @@
     </div>
 
 
-    <h2>告警信息 <a class="href-orange pull-right" href="javascript:;">查看更多告警详情</a></h2>
-    <hr>
+    <!--<h2>告警信息 <a class="href-orange pull-right" href="javascript:;">查看更多告警详情</a></h2>-->
+    <!--<hr>-->
 
-    <div class="timeline">
-        <ul>
-            <li ng-repeat="item in events.items">
-                <label>
-                    <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                    {{item.metadata.creationTimestamp | dateRelative}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <span ng-if="item.type=='Error'">严重告警</span>
-                    <span ng-if="item.type=='Warning'">告警</span>
-                    <span ng-if="item.type=='Normal'">一般告警</span>
-                </label>
-                <div class="container-fluid">
-                    {{item.message}}
-                </div>
-            </li>
-        </ul>
-    </div>
+    <!--<div class="timeline">-->
+        <!--<ul>-->
+            <!--<li ng-repeat="item in events.items">-->
+                <!--<label>-->
+                    <!--<span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;-->
+                    <!--{{item.metadata.creationTimestamp | dateRelative}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
+                    <!--<span ng-if="item.type=='Error'">严重告警</span>-->
+                    <!--<span ng-if="item.type=='Warning'">告警</span>-->
+                    <!--<span ng-if="item.type=='Normal'">一般告警</span>-->
+                <!--</label>-->
+                <!--<div class="container-fluid">-->
+                    <!--{{item.message}}-->
+                <!--</div>-->
+            <!--</li>-->
+        <!--</ul>-->
+    <!--</div>-->
 
 </div>
