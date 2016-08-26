@@ -98,7 +98,7 @@ angular.module('console.service.create', [
           mcafile:{},
           tlsshow:false,
           tlsset:'None',
-          httpset:'None',
+          httpset:'Allow',
           suffix: '.'+$rootScope.namespace+'.app.dataos.io',
           imageChange: false,
           configChange: true,

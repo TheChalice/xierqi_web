@@ -26,7 +26,7 @@ angular.module('console.service.detail', [
                 mcafile:{},
                 tlsshow:false,
                 tlsset:'none',
-                httpset:'None',
+                httpset:'Allow',
                 suffix: '.' + $rootScope.namespace + '.app.dataos.io',
                 isimageChange: true,
                 imagePullSecrets: false
@@ -669,6 +669,14 @@ angular.module('console.service.detail', [
             var loadeventws = function () {
                 Event.get({namespace: $rootScope.namespace}, function (res) {
                     if (!$scope.eventsws) {
+                        $scope.eventsws=[]
+                        angular.forEach(res.items, function (event,i) {
+                            if (event.involvedObject.name.split('-')[0]== $scope.dc.metadata.name) {
+                                //res.items.splice(i,1);
+                                console.log(event);
+                                $scope.eventsws.push(event)
+                            }
+                        })
                         $scope.eventsws=res
                     }
 
@@ -707,8 +715,13 @@ angular.module('console.service.detail', [
             }
             var updateEvent= function (data) {
                 if (data.type == "ADDED") {
-                    $scope.eventsws.items.unshift(data.object);
-                    $scope.$apply()
+
+                    if (data.object.involvedObject.name.split('-')[0] == $scope.dc.metadata.name) {
+                        $scope.eventsws.items.unshift(data.object);
+                        console.log(data.object.involvedObject.name.split('-')[0]==$scope.dc.metadata.name);
+                        $scope.$apply()
+                    }
+
                 }
                 //console.log($scope.eventsws);
             }
