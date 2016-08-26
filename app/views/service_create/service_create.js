@@ -681,13 +681,21 @@ angular.module('console.service.create', [
               var olsname = strname1.replace('/', "-");
               if (idx > 0) {
                 for(var i = 0 ; i < cons.length;i++){
-                  if(cons[i].name == olsname){
+                  if(i != idx){
+                    if(container.name && cons[i].name == container.name){
+                      strname1 = str1[0]+'/'+str1[1] + idx;
+                    }
+                  }
+                }
+              }else{
+                for(var i = 1 ; i < cons.length;i++){
+                  if(container.name && cons[i].name == container.name){
                     strname1 = str1[0]+'/'+str1[1] + idx;
                   }
                 }
               }
               container.strname = strname1.replace('/', "-");
-              if(container.name == ''){
+              if(!container.name){
                 container.name = strname1.replace('/', "-");
               }
               container.tag = str1[2];
@@ -707,7 +715,7 @@ angular.module('console.service.create', [
                   ],
                   "from": {
                     "kind": "ImageStreamTag",
-                    "name": container.name +":"+ container.tag  //ruby-hello-world:latest
+                    "name": container.strname +":"+ container.tag  //ruby-hello-world:latest
                   }
                 }
               };
@@ -726,13 +734,24 @@ angular.module('console.service.create', [
               container.truename = str[0];
               if (idx > 0) {
                 for(var i = 0 ; i < cons.length;i++){
-                  if(cons[i].name == strname){
-                    strname = str[0] + idx
+                  if(i != idx){
+                    if(container.name && cons[i].name == container.name){
+                      strname = str[0] + idx
+                      container.name = strname;
+                    }
                   }
+
                 }
+              }else{
+                  for(var i = 1 ; i < cons.length;i++){
+                      if(container.name && cons[i].name == container.name){
+                        strname = str[0] + idx
+                        container.name = strname;
+                    }
+                  }
               }
               container.strname = strname;
-              if(container.name == ''){
+              if(!container.name){
                 container.name = strname;
               }
               //container.name = strname;
@@ -747,7 +766,7 @@ angular.module('console.service.create', [
                   ],
                   "from": {
                     "kind": "ImageStreamTag",
-                    "name": container.name +":"+ container.tag  //ruby-hello-world:latest
+                    "name": container.truename +":"+ container.tag  //ruby-hello-world:latest
                   }
                 }
               };
@@ -1311,11 +1330,6 @@ angular.module('console.service.create', [
           arrisshow = arrisshow.join();
           clonedc.metadata.annotations["dadafoundry.io/imageorpublic"] = arrimgstr;
           clonedc.metadata.annotations["dadafoundry.io/imageorisshow"] = arrisshow;
-          //if($scope.grid.isimageChange){
-          //  clonedc.metadata.annotations["dadafoundry.io/images-from"] = 'private';
-          //}else{
-          //  clonedc.spec.triggers[0] = clonedc.spec.triggers[0];
-          //}
           var isport = false;
           for (var i = 0; i < $scope.portsArr.length; i++) {
             if ($scope.portsArr[i].hostPort) {

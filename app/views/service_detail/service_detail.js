@@ -312,19 +312,19 @@ angular.module('console.service.detail', [
                                     if($scope.dc.spec.triggers[j].imageChangeParams.containerNames[0] == $scope.dc.spec.template.spec.containers[i].name){
                                         $scope.dc.spec.template.spec.containers[i].isimageChange = true;
                                         $scope.dc.spec.template.spec.containers[i].isshow = true;
-                                        $scope.dc.spec.template.spec.containers[i].triggerImageTpl = {
-                                            "type": "ImageChange",
-                                            "imageChangeParams": {
-                                                "automatic": true,
-                                                "containerNames": [
-                                                    $scope.dc.spec.template.spec.containers[i].name          //todo 高级配置,手动填充
-                                                ],
-                                                "from": {
-                                                    "kind": "ImageStreamTag",
-                                                    "name": $scope.dc.spec.template.spec.containers[i].name +":"+ $scope.dc.spec.template.spec.containers[i].tag  //ruby-hello-world:latest
-                                                }
-                                            }
-                                        };
+                                        //$scope.dc.spec.template.spec.containers[i].triggerImageTpl = {
+                                        //    "type": "ImageChange",
+                                        //    "imageChangeParams": {
+                                        //        "automatic": true,
+                                        //        "containerNames": [
+                                        //            $scope.dc.spec.template.spec.containers[i].name          //todo 高级配置,手动填充
+                                        //        ],
+                                        //        "from": {
+                                        //            "kind": "ImageStreamTag",
+                                        //            "name": $scope.dc.spec.template.spec.containers[i].name +":"+ $scope.dc.spec.template.spec.containers[i].tag  //ruby-hello-world:latest
+                                        //        }
+                                        //    }
+                                        //};
                                     }
                                 }
                             }
@@ -731,58 +731,58 @@ angular.module('console.service.detail', [
             //执行log
             var updateRcs = function (data) {
                 console.log('data.type', data.type);
-                DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (dcdata) {
-                    $scope.dc = dcdata;
-                    var copyannotations = angular.copy(dcdata.metadata.annotations);
-                    $scope.getdc.spec.replicas = dcdata.spec.replicas;
-                    for (var i = 0; i < dcdata.spec.template.spec.containers.length; i++) {
-                        var imagetag = 'dadafoundry.io/image-' + dcdata.spec.template.spec.containers[i].name;
-                        if (dcdata.metadata.annotations && dcdata.metadata.annotations[imagetag]) {
-                            var tagarr = dcdata.metadata.annotations[imagetag].split(":");
-                            dcdata.spec.template.spec.containers[i].tag = tagarr[1];
-                            dcdata.spec.template.spec.containers[i].imagename = tagarr[0];
-                        } else {
-                            angular.forEach(dcdata.spec.template.spec.containers, function (item) {
-                                var tagstr = item.image;
-                                if (tagstr.indexOf('@') != -1) {
-                                    item.tag = tagstr.split('@')[1];
-                                } else {
-                                    item.tag = tagstr.split(':')[1];
-                                }
-                            });
-                        }
-                        if(dcdata.spec.triggers){
-                            for(var j = 0 ; j < dcdata.spec.triggers.length;j++){
-                                if(dcdata.spec.triggers[j].type == "ImageChange"){
-                                    if(dcdata.spec.triggers[j].imageChangeParams.containerNames[0] == dcdata.spec.template.spec.containers[i].name){
-                                        if(!$scope.dc.spec.template.spec.containers[i].isshow){
-                                            $scope.dc.spec.template.spec.containers[i].isimageChange = true;
-                                            $scope.dc.spec.template.spec.containers[i].isshow = true;
-                                        }
-
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    if(copyannotations["dadafoundry.io/imageorpublic"]){
-                        var imageorpublic = $scope.arrimgstr =copyannotations["dadafoundry.io/imageorpublic"].split(",");
-                        var imageorisshow = $scope.arrisshow = copyannotations["dadafoundry.io/imageorisshow"].split(",");
-                        for(var i = 0 ; i < imageorpublic.length; i++){
-                            if(imageorpublic[i] == 'true' && imageorisshow[i] == 'true'){
-                                $scope.dc.spec.template.spec.containers[i].isimageChange = true;
-                                $scope.dc.spec.template.spec.containers[i].isshow = true;
-                            }else if(imageorpublic[i] == 'false' && imageorisshow[i] == 'true'){
-                                $scope.dc.spec.template.spec.containers[i].isimageChange = false;
-                                $scope.dc.spec.template.spec.containers[i].isshow = true;
-                            }else if(imageorpublic[i] == 'false' && imageorisshow[i] == 'false'){
-                                $scope.dc.spec.template.spec.containers[i].isimageChange = false;
-                                $scope.dc.spec.template.spec.containers[i].isshow = false;
-                            }
-                        }
-                    }
-                    loadService(dcdata.metadata.name);
-                    changevol(dcdata);
+                //DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (dcdata) {
+                    //$scope.dc = dcdata;
+                    //var copyannotations = angular.copy(dcdata.metadata.annotations);
+                    //$scope.getdc.spec.replicas = dcdata.spec.replicas;
+                    //for (var i = 0; i < dcdata.spec.template.spec.containers.length; i++) {
+                    //    var imagetag = 'dadafoundry.io/image-' + dcdata.spec.template.spec.containers[i].name;
+                    //    if (dcdata.metadata.annotations && dcdata.metadata.annotations[imagetag]) {
+                    //        var tagarr = dcdata.metadata.annotations[imagetag].split(":");
+                    //        dcdata.spec.template.spec.containers[i].tag = tagarr[1];
+                    //        dcdata.spec.template.spec.containers[i].imagename = tagarr[0];
+                    //    } else {
+                    //        angular.forEach(dcdata.spec.template.spec.containers, function (item) {
+                    //            var tagstr = item.image;
+                    //            if (tagstr.indexOf('@') != -1) {
+                    //                item.tag = tagstr.split('@')[1];
+                    //            } else {
+                    //                item.tag = tagstr.split(':')[1];
+                    //            }
+                    //        });
+                    //    }
+                    //    if(dcdata.spec.triggers){
+                    //        for(var j = 0 ; j < dcdata.spec.triggers.length;j++){
+                    //            if(dcdata.spec.triggers[j].type == "ImageChange"){
+                    //                if(dcdata.spec.triggers[j].imageChangeParams.containerNames[0] == dcdata.spec.template.spec.containers[i].name){
+                    //                    if(!$scope.dc.spec.template.spec.containers[i].isshow){
+                    //                        $scope.dc.spec.template.spec.containers[i].isimageChange = true;
+                    //                        $scope.dc.spec.template.spec.containers[i].isshow = true;
+                    //                    }
+                    //
+                    //                }
+                    //            }
+                    //        }
+                    //    }
+                    //}
+                    //if(copyannotations["dadafoundry.io/imageorpublic"]){
+                    //    var imageorpublic = $scope.arrimgstr =copyannotations["dadafoundry.io/imageorpublic"].split(",");
+                    //    var imageorisshow = $scope.arrisshow = copyannotations["dadafoundry.io/imageorisshow"].split(",");
+                    //    for(var i = 0 ; i < imageorpublic.length; i++){
+                    //        if(imageorpublic[i] == 'true' && imageorisshow[i] == 'true'){
+                    //            $scope.dc.spec.template.spec.containers[i].isimageChange = true;
+                    //            $scope.dc.spec.template.spec.containers[i].isshow = true;
+                    //        }else if(imageorpublic[i] == 'false' && imageorisshow[i] == 'true'){
+                    //            $scope.dc.spec.template.spec.containers[i].isimageChange = false;
+                    //            $scope.dc.spec.template.spec.containers[i].isshow = true;
+                    //        }else if(imageorpublic[i] == 'false' && imageorisshow[i] == 'false'){
+                    //            $scope.dc.spec.template.spec.containers[i].isimageChange = false;
+                    //            $scope.dc.spec.template.spec.containers[i].isshow = false;
+                    //        }
+                    //    }
+                    //}
+                    loadService($scope.dc.metadata.name);
+                    changevol($scope.dc);
                     loadRoutes()
 
                     var labelSelector = 'openshift.io/deployment-config.name=' + $scope.dc.metadata.name;
@@ -798,7 +798,7 @@ angular.module('console.service.detail', [
                                 $scope.dc.status.phase = res.items[i].metadata.annotations['openshift.io/deployment.phase'];
                             }
                         }
-                    })
+                    //})
                     for (var i = 0; i < $scope.getroutes.items.length; i++) {
                         if ($scope.getroutes.items[i].spec.to.kind != 'Service') {
                             continue;
@@ -1506,32 +1506,43 @@ angular.module('console.service.detail', [
                         container.isimageChange = false;
                         container.isshow = false;
                         $scope.arrimgstr[idx] = false;
-                        $scope. arrisshow[idx] = false;
+                        $scope.arrisshow[idx] = false;
                         if (idx > 0) {
-                            for (var i = 0; i < cons.length; i++) {
-                                if (cons[i].name == olsname) {
+                            if( i != idx){
+                                for (var i = 0; i < cons.length; i++) {
+                                    if (cons[i].name == olsname && !container.name) {
+                                        strname1 = str1[0] + '/' + str1[1] + idx;
+                                    }
+                                }
+                            }
+                        }else{
+                            for (var i = 1; i < cons.length; i++) {
+                                if (cons[i].name == olsname && !container.name) {
                                     strname1 = str1[0] + '/' + str1[1] + idx;
                                 }
                             }
                         }
                         container.strname = strname1.replace('/', "-");
-                        container.name = strname1.replace('/', "-");
+                        container.imagename = container.strname;
+                        if(!container.name){
+                            container.name = strname1.replace('/', "-");
+                        }
                         container.tag = str1[2];
-                        imagetag = 'dadafoundry.io/image-' + container.name;
-                        container.triggerImageTpl = {
-                            "type": "ImageChange",
-                            "imageChangeParams": {
-                                "automatic": true,
-                                "containerNames": [
-                                    container.name          //todo 高级配置,手动填充
-                                ],
-                                "from": {
-                                    "kind": "ImageStreamTag",
-                                    "name": container.name +":"+ container.tag  //ruby-hello-world:latest
-                                }
-                            }
-                        };
-                        $scope.dc.metadata.annotations[imagetag] = container.truename+":"+str1[2];
+                        //imagetag = 'dadafoundry.io/image-' + container.name;
+                        //container.triggerImageTpl = {
+                        //    "type": "ImageChange",
+                        //    "imageChangeParams": {
+                        //        "automatic": true,
+                        //        "containerNames": [
+                        //            container.name          //todo 高级配置,手动填充
+                        //        ],
+                        //        "from": {
+                        //            "kind": "ImageStreamTag",
+                        //            "name":  container.strname +":"+ container.tag  //ruby-hello-world:latest
+                        //        }
+                        //    }
+                        //};
+                        //$scope.dc.metadata.annotations[imagetag] = container.truename+":"+str1[2];
                         ////仓库镜像
                         if (res.imagePullSecrets) {
                             container.imagePullSecrets = true;
@@ -1548,32 +1559,43 @@ angular.module('console.service.detail', [
                         delete container["imagePullSecrets"];
                         var arr = res.metadata.name.split(':');
                         container.tag = arr[1];
-                        if (arr.length > 1) {
+                        console.log('vbvbvbvbvbvbvbvbvbvb',container.name)
+                        if (arr.length > 1 && !container.name) {
                             container.name = arr[0];
                         }
                         container.truename = arr[0];
                         if (idx > 0) {
-                            for (var i = 0; i < cons.length; i++) {
-                                if (cons[i].name == arr[0]) {
+                            if(i != idx){
+                                for (var i = 0; i < (cons.length)-1; i++) {
+                                    if (cons[i].name == arr[0] && cons[i].name == container.name) {
+                                        container.name = arr[0] + idx
+                                    }
+                                }
+                            }
+                        }else{
+                            for (var i = 0; i < (cons.length)-1; i++) {
+                                if (cons[i].name == arr[0] && cons[i].name == container.name) {
                                     container.name = arr[0] + idx
                                 }
                             }
                         }
-                        imagetag = 'dadafoundry.io/image-' + container.name;
-                        container.triggerImageTpl = {
-                            "type": "ImageChange",
-                            "imageChangeParams": {
-                                "automatic": true,
-                                "containerNames": [
-                                    container.name          //todo 高级配置,手动填充
-                                ],
-                                "from": {
-                                    "kind": "ImageStreamTag",
-                                    "name": arr[0] +":"+ container.tag  //ruby-hello-world:latest
-                                }
-                            }
-                        };
-                        $scope.dc.metadata.annotations[imagetag] = arr[0]+":"+arr[1];
+
+                        //imagetag = 'dadafoundry.io/image-' + container.name;
+                        //container.triggerImageTpl = {
+                        //    "type": "ImageChange",
+                        //    "imageChangeParams": {
+                        //        "automatic": true,
+                        //        "containerNames": [
+                        //            container.name          //todo 高级配置,手动填充
+                        //        ],
+                        //        "from": {
+                        //            "kind": "ImageStreamTag",
+                        //            "name": arr[0] +":"+ container.tag  //ruby-hello-world:latest
+                        //        }
+                        //    }
+                        //};
+                        container.imagename = arr[0];
+                        //$scope.dc.metadata.annotations[imagetag] = arr[0]+":"+arr[1];
                     }
                     //for (var i = 0; i < $scope.dc.spec.template.spec.containers.length; i++) {
                     //    if ($scope.dc.spec.template.spec.containers[i].isimageChange != false && $scope.dc.spec.template.spec.containers[i].isimageChange != true) {
@@ -1884,6 +1906,7 @@ angular.module('console.service.detail', [
                     dc.metadata.resourceVersion = datadc.metadata.resourceVersion;
                     dc.status.latestVersion = datadc.status.latestVersion + 1;
                     var flog = 0;
+                    console.log("123456789123456789",dc);
                     for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
                         if (cons[i].ports) {
                             var testlength = cons[i].ports.length;
@@ -1900,12 +1923,10 @@ angular.module('console.service.detail', [
                             dc.spec.template.spec.containers[i].ports = cons[i].ports;
                         }
 
-                    }
-                    // console.log('$scope.savend',$scope.savend)
-                    //if ($scope.savend) {
-                    //  dc.spec.template.spec.containers[0].volumeMounts=$scope.savend;
-                    //}
+                        var imagetag = 'dadafoundry.io/image-' + dc.spec.template.spec.containers[i].name;
+                        dc.metadata.annotations[imagetag] = dc.spec.template.spec.containers[i].name+":"+dc.spec.template.spec.containers[i].tag;
 
+                    }
                     prepareVolume(dc);
                     //prepareTrigger(dc);
                     dc.spec.triggers = [];
@@ -1914,8 +1935,8 @@ angular.module('console.service.detail', [
                     }
                     prepareEnv(dc);
                     for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
-                        if(dc.spec.template.spec.containers[i].isimageChange){
-                            if(!dc.spec.template.spec.containers[i].triggerImageTpl){
+                        if(dc.spec.template.spec.containers[i].hasOwnProperty("isimageChange")){
+                            if(!dc.spec.template.spec.containers[i].triggerImageTpl && dc.spec.template.spec.containers[i].isimageChange){
                                 dc.spec.template.spec.containers[i].triggerImageTpl = {
                                     "type": "ImageChange",
                                     "imageChangeParams": {
@@ -1929,10 +1950,10 @@ angular.module('console.service.detail', [
                                         }
                                     }
                                 };
+                                dc.spec.triggers.push(dc.spec.template.spec.containers[i].triggerImageTpl);
                             }
                             $scope.arrimgstr.push(dc.spec.template.spec.containers[i].isimageChange);
-                            dc.spec.triggers.push(dc.spec.template.spec.containers[i].triggerImageTpl);
-                            delete dc.spec.template.spec.containers[i]["isimageChange"];
+
                         }
                         dc.metadata.annotations["dadafoundry.io/imageorpublic"] = $scope.arrimgstr.join();
                         if (dc.spec.template.spec.containers[i].imagename) {
