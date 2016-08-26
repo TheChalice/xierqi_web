@@ -601,18 +601,21 @@ angular.module('console.service.detail', [
                                 $scope.routeconf=angular.copy(myroute);
                             }
                         })
-                        if ($scope.grid.tlsset&&$scope.routeconf&&$scope.routeconf.spec.tls) {
+                        console.log('$scope.routeconf111111',$scope.routeconf);
+
+                        if ($scope.grid.tlsset&&$scope.routeconf) {
+                            if (!$scope.routeconf.spec.tls) {
+                                $scope.routeconf.spec.tls={}
+                            }
                             $scope.grid.tlsset=$scope.routeconf.spec.tls.termination
                             if ($scope.grid.tlsset == 'edge') {
                                 $scope.grid.httpset=$scope.routeconf.spec.tls.insecureEdgeTerminationPolicy
                             }
-
-
-                        }else {
+                        }else if(!$scope.routeconf) {
                             $scope.routeconf=angular.copy($scope.route)
                         }
 
-                        //console.log('$scope.routeconf111111',$scope.routeconf);
+
 
                     }
 
@@ -1857,7 +1860,27 @@ angular.module('console.service.detail', [
                 if (dc.route) {     //route存在,更新route
                     dc.route.spec.host = $scope.grid.host + $scope.grid.suffix;
                     dc.route.spec.port.targetPort = $scope.grid.port + '-tcp';
-                    console.log(dc.route, $scope.routeconf);
+                    console.log($scope.routeconf);
+                    if ($scope.grid.tlsset == 'passthrough') {
+                        $scope.routeconf.spec.tls.termination=$scope.grid.tlsset;
+                        delete $scope.routeconf.spec.tls.insecureEdgeTerminationPolicy
+                        delete $scope.routeconf.spec.tls.certificate
+                        delete $scope.routeconf.spec.tls.caCertificate
+                        delete $scope.routeconf.spec.tls.key
+                        delete $scope.routeconf.spec.tls.destinationCACertificate
+
+                    }else if($scope.grid.tlsset == 'edge'){
+                        $scope.routeconf.spec.tls.termination=$scope.grid.tlsset;
+                        $scope.routeconf.spec.tls.insecureEdgeTerminationPolicy=$scope.grid.httpset;
+                        delete $scope.routeconf.spec.tls.destinationCACertificate
+
+                    }else if($scope.grid.tlsset == 're-encrypt'){
+                        $scope.routeconf.spec.tls.termination=$scope.grid.tlsset;
+                        delete $scope.routeconf.spec.tls.insecureEdgeTerminationPolicy
+                        delete $scope.routeconf.spec.tls.insecureEdgeTerminationPolicy
+                    }else {
+                        delete $scope.routeconf.spec.tls
+                    }
                     Route.put({
                         namespace: $rootScope.namespace,
                         name: dc.route.metadata.name
