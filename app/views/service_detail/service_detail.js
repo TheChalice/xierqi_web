@@ -601,7 +601,7 @@ angular.module('console.service.detail', [
                                 $scope.routeconf=angular.copy(myroute);
                             }
                         })
-                        if ($scope.grid.tlsset) {
+                        if ($scope.grid.tlsset&&$scope.routeconf.spec.tls) {
                             $scope.grid.tlsset=$scope.routeconf.spec.tls.termination
                             if ($scope.grid.tlsset == 'edge') {
                                 $scope.grid.httpset=$scope.routeconf.spec.tls.insecureEdgeTerminationPolicy
@@ -687,7 +687,7 @@ angular.module('console.service.detail', [
                 }, function (res) {
                     var data = JSON.parse(res.data);
                     //updateRcs(data);
-                    console.log('eventdata', data);
+                    //console.log('eventdata', data);
                     updateEvent(data);
                 }, function () {
                     $log.info("webSocket startRC");
@@ -705,7 +705,7 @@ angular.module('console.service.detail', [
                     $scope.eventsws.items.unshift(data.object);
                     $scope.$apply()
                 }
-                console.log($scope.eventsws);
+                //console.log($scope.eventsws);
             }
             var watchRcs = function (resourceVersion) {
                 Ws.watch({
