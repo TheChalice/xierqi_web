@@ -1252,7 +1252,9 @@ angular.module('console.service.create', [
           deleRoute();
           var clonedc = angular.copy(dc);
           var arrimgs = [];
+          var arrisshow = [];
           for(var i = 0;i<clonedc.spec.template.spec.containers.length;i++){
+            arrisshow.push(clonedc.spec.template.spec.containers[i].isshow);
             delete clonedc.spec.template.spec.containers[i]["commitId"];
             delete clonedc.spec.template.spec.containers[i]["triggerImageTpl"];
             delete clonedc.spec.template.spec.containers[i]["secretsobj"];
@@ -1306,7 +1308,9 @@ angular.module('console.service.create', [
             delete dc.spec.template.spec["imagePullSecrets"];
           }
           var arrimgstr = arrimgs.join();
-          clonedc.metadata.annotations["imageorpublic"] = arrimgstr;
+          arrisshow = arrisshow.join();
+          clonedc.metadata.annotations["dadafoundry.io/imageorpublic"] = arrimgstr;
+          clonedc.metadata.annotations["dadafoundry.io/imageorisshow"] = arrisshow;
           //if($scope.grid.isimageChange){
           //  clonedc.metadata.annotations["dadafoundry.io/images-from"] = 'private';
           //}else{
