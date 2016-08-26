@@ -78,8 +78,8 @@ angular.module('console.service', [
                 $scope.resourceVersion = data.metadata.resourceVersion;
                 watchRcs(data.metadata.resourceVersion);
                 $scope.grid.total = data.items.length;
-                for(var i = 0 ; i < $scope.items.length; i++){
-                    loadPods($scope.items[i]);
+                for(var i = 0 ; i < data.items.length; i++){
+                    loadPods(data.items[i]);
                 }
 
 
@@ -92,42 +92,42 @@ angular.module('console.service', [
 
         serviceList();
           var loadPods = function (itemarr) {
-                  console.log('itemarritemarritemarritemarritemarr',itemarr)
+                  //console.log('itemarritemarritemarritemarritemarr',itemarr)
                   var labelSelector = 'deploymentconfig=' + itemarr.metadata.name;
 
                   Pod.get({namespace: $scope.namespace, labelSelector: labelSelector}, function (res) {
                       itemarr.status.replicas = 0;
-                      //$scope.pods = res;
-                      //$scope.pods.items = res.items;
+                      $scope.pods = res;
+                      $scope.pods.items = res.items;
                       for(var i = 0;i < res.items.length; i++){
-                          //$scope.pods.items[i].reason = res.items[i].status.phase;
-                          //if(res.items[i].status.reason != null && res.items[i].status.reason != ""){
-                          //    $scope.pods.items[i].reason = res.items[i].status.reason;
-                          //}
-                          //if(res.items[i].status.containerStatuses){
-                          //    for(var j = 0 ;j < res.items[i].status.containerStatuses.length;j++){
-                          //        var container =  res.items[i].status.containerStatuses[j];
-                          //        if (container.state.waiting != null && container.state.waiting.reason != "" ){
-                          //            $scope.pods.items[i].reason = container.state.waiting.reason
-                          //        } else if (container.state.terminated != null && container.state.terminated.reason != "") {
-                          //            $scope.pods.items[i].reason = container.state.terminated.reason
-                          //        }else if (container.state.terminated != null && container.state.terminated.reason == "") {
-                          //            if (container.state.terminated.signal != 0) {
-                          //                $scope.pods.items[i].reason = "Signal:%d"+container.state.terminated.signal;
-                          //            } else {
-                          //                $scope.pods.items[i].reason = "ExitCode:"+container.state.terminated.exitCode;
-                          //            }
-                          //        }
-                          //    }
-                          //}
-                          //if (res.items[i].metadata.deletionTimestamp != null ){
-                          //    $scope.pods.items[i].reason = "Terminating"
-                          //}
-                          if(res.items[i].status.phase == 'Running'){
+                          $scope.pods.items[i].reason = res.items[i].status.phase;
+                          if(res.items[i].status.reason != null && res.items[i].status.reason != ""){
+                              $scope.pods.items[i].reason = res.items[i].status.reason;
+                          }
+                          if(res.items[i].status.containerStatuses){
+                              for(var j = 0 ;j < res.items[i].status.containerStatuses.length;j++){
+                                  var container =  res.items[i].status.containerStatuses[j];
+                                  if (container.state.waiting != null && container.state.waiting.reason != "" ){
+                                      $scope.pods.items[i].reason = container.state.waiting.reason
+                                  } else if (container.state.terminated != null && container.state.terminated.reason != "") {
+                                      $scope.pods.items[i].reason = container.state.terminated.reason
+                                  }else if (container.state.terminated != null && container.state.terminated.reason == "") {
+                                      if (container.state.terminated.signal != 0) {
+                                          $scope.pods.items[i].reason = "Signal:%d"+container.state.terminated.signal;
+                                      } else {
+                                          $scope.pods.items[i].reason = "ExitCode:"+container.state.terminated.exitCode;
+                                      }
+                                  }
+                              }
+                          }
+                          if (res.items[i].metadata.deletionTimestamp != null ){
+                              $scope.pods.items[i].reason = "Terminating"
+                          }
+                          if($scope.pods.items[i].reason == 'Running'){
                               itemarr.status.replicas++;
                           }
                       }
-                       //$log.info("$scope.dcdcdcdcdcdcdcdcd", itemarr.metadata.name+"------"+itemarr.status.replicas);
+                       $log.info("$scope.dcdcdcdcdcdcdcdcd", itemarr.metadata.name+"------"+itemarr.status.replicas);
                   }, function (res) {
                       //todo 错误处理
                       // $log.info("loadPods err", res);
@@ -149,8 +149,8 @@ angular.module('console.service', [
                 $scope.resourceVersion = data.metadata.resourceVersion;
                 watchRcs(data.metadata.resourceVersion);
                 $scope.grid.total = data.items.length;
-                for(var i = 0 ; i < $scope.items.length; i++){
-                    loadPods($scope.items[i]);
+                for(var i = 0 ; i <data.items.length; i++){
+                    loadPods(data.items[i]);
                 }
                 $scope.running=false;
                 $scope.data = data;
@@ -291,8 +291,8 @@ angular.module('console.service', [
                             }
                         }
                     }
-                    for(var i = 0 ; i < $scope.items.length; i++){
-                        loadPods($scope.items[i]);
+                    for(var i = 0 ; i < data.items.length; i++){
+                        loadPods(data.items[i]);
                     }
 
                 }, function(res) {
