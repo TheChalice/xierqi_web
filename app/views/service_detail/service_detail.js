@@ -215,7 +215,8 @@ angular.module('console.service.detail', [
                         }
                     });
 
-
+                    $scope.arrimgstr = [];
+                    $scope.arrisshow = [];
                     for (var i = 0; i < $scope.dc.spec.template.spec.containers.length; i++) {
                         var imagetag = 'dadafoundry.io/image-' + $scope.dc.spec.template.spec.containers[i].name;
                         if (copyannotations && copyannotations[imagetag]) {
@@ -255,13 +256,20 @@ angular.module('console.service.detail', [
                                 }
                             }
                         }
-                        if(copyannotations.imageorpublic){
-                            var imageorpublic = copyannotations.imageorpublic.split(",");
-                            for(var i = 0 ; i < imageorpublic.length; i++){
-                                if(imageorpublic[i] == 'true' && !$scope.dc.spec.template.spec.containers[i].isimageChange){
-                                    $scope.dc.spec.template.spec.containers[i].isimageChange = false;
-                                    $scope.dc.spec.template.spec.containers[i].isshow = true;
-                                }
+                    }
+                    if(copyannotations["dadafoundry.io/imageorpublic"]){
+                        var imageorpublic = $scope.arrimgstr =copyannotations["dadafoundry.io/imageorpublic"].split(",");
+                        var imageorisshow = $scope.arrisshow = copyannotations["dadafoundry.io/imageorisshow"].split(",");
+                        for(var i = 0 ; i < imageorpublic.length; i++){
+                            if(imageorpublic[i] == 'true' && imageorisshow[i] == 'true'){
+                                $scope.dc.spec.template.spec.containers[i].isimageChange = true;
+                                $scope.dc.spec.template.spec.containers[i].isshow = true;
+                            }else if(imageorpublic[i] == 'false' && imageorisshow[i] == 'true'){
+                                $scope.dc.spec.template.spec.containers[i].isimageChange = false;
+                                $scope.dc.spec.template.spec.containers[i].isshow = true;
+                            }else if(imageorpublic[i] == 'false' && imageorisshow[i] == 'false'){
+                                $scope.dc.spec.template.spec.containers[i].isimageChange = false;
+                                $scope.dc.spec.template.spec.containers[i].isshow = false;
                             }
                         }
                     }
@@ -632,6 +640,7 @@ angular.module('console.service.detail', [
                 console.log('data.type', data.type);
                 DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (dcdata) {
                     $scope.dc = dcdata;
+                    var copyannotations = angular.copy(dcdata.metadata.annotations);
                     $scope.getdc.spec.replicas = dcdata.spec.replicas;
                     for (var i = 0; i < dcdata.spec.template.spec.containers.length; i++) {
                         var imagetag = 'dadafoundry.io/image-' + dcdata.spec.template.spec.containers[i].name;
@@ -662,13 +671,20 @@ angular.module('console.service.detail', [
                                 }
                             }
                         }
-                        if(dcdata.metadata.annotations.imageorpublic){
-                            var imageorpublic = dcdata.metadata.annotations.imageorpublic.split(",");
-                            for(var i = 0 ; i < imageorpublic.length; i++){
-                                if(imageorpublic[i] == 'true' && !$scope.dc.spec.template.spec.containers[i].isimageChange){
-                                    $scope.dc.spec.template.spec.containers[i].isimageChange = false;
-                                    $scope.dc.spec.template.spec.containers[i].isshow = true;
-                                }
+                    }
+                    if(copyannotations["dadafoundry.io/imageorpublic"]){
+                        var imageorpublic = $scope.arrimgstr =copyannotations["dadafoundry.io/imageorpublic"].split(",");
+                        var imageorisshow = $scope.arrisshow = copyannotations["dadafoundry.io/imageorisshow"].split(",");
+                        for(var i = 0 ; i < imageorpublic.length; i++){
+                            if(imageorpublic[i] == 'true' && imageorisshow[i] == 'true'){
+                                $scope.dc.spec.template.spec.containers[i].isimageChange = true;
+                                $scope.dc.spec.template.spec.containers[i].isshow = true;
+                            }else if(imageorpublic[i] == 'false' && imageorisshow[i] == 'true'){
+                                $scope.dc.spec.template.spec.containers[i].isimageChange = false;
+                                $scope.dc.spec.template.spec.containers[i].isshow = true;
+                            }else if(imageorpublic[i] == 'false' && imageorisshow[i] == 'false'){
+                                $scope.dc.spec.template.spec.containers[i].isimageChange = false;
+                                $scope.dc.spec.template.spec.containers[i].isshow = false;
                             }
                         }
                     }
@@ -1382,10 +1398,6 @@ angular.module('console.service.detail', [
             }
 
             $scope.selectImage = function (idx) {
-                var arrimgstr = [];
-                if ($scope.dc.metadata.annotations.imageorpublic) {
-                    arrimgstr = $scope.dc.metadata.annotations.imageorpublic.split(",");
-                }
                 var container = $scope.dc.spec.template.spec.containers[idx];
                 var cons = $scope.dc.spec.template.spec.containers;
                 ImageSelect.open().then(function (res) {
@@ -1400,6 +1412,8 @@ angular.module('console.service.detail', [
                         container.image = 'registry.dataos.io/' + str1[0] + '/' + str1[1] + ':' + str1[2];
                         container.isimageChange = false;
                         container.isshow = false;
+                        $scope.arrimgstr[idx] = false;
+                        $scope. arrisshow[idx] = false;
                         if (idx > 0) {
                             for (var i = 0; i < cons.length; i++) {
                                 if (cons[i].name == olsname) {
@@ -1436,6 +1450,8 @@ angular.module('console.service.detail', [
                         container.image = res.image.dockerImageReference
                         container.isshow = true;
                         container.isimageChange = true;
+                        $scope.arrimgstr[idx] = true;
+                        $scope.arrisshow[idx] = true;
                         delete container["imagePullSecrets"];
                         var arr = res.metadata.name.split(':');
                         container.tag = arr[1];
@@ -1766,7 +1782,8 @@ angular.module('console.service.detail', [
                     $scope.portsArr[q].serviceConflict = false;
                 }
                 $rootScope.lding = true;
-
+                $scope.arrimgstr = [];
+                $scope.dc.metadata.annotations["dadafoundry.io/imageorisshow"] = $scope.arrisshow.join();
                 var dc = angular.copy($scope.dc);
                 var cons = angular.copy($scope.dc.spec.template.spec.containers);
                 DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (datadc) {
@@ -1820,9 +1837,11 @@ angular.module('console.service.detail', [
                                     }
                                 };
                             }
+                            $scope.arrimgstr.push(dc.spec.template.spec.containers[i].isimageChange);
                             dc.spec.triggers.push(dc.spec.template.spec.containers[i].triggerImageTpl);
                             delete dc.spec.template.spec.containers[i]["isimageChange"];
                         }
+                        dc.metadata.annotations["dadafoundry.io/imageorpublic"] = $scope.arrimgstr.join();
                         if (dc.spec.template.spec.containers[i].imagename) {
                             delete dc.spec.template.spec.containers[i]["imagename"];
                         }
