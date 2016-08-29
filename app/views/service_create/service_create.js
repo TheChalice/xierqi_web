@@ -728,7 +728,131 @@ angular.module('console.service.create', [
                             }
                         };
                         $scope.dc.metadata.annotations[imagetag] = container.truename + ":" + str1[2];
+        $scope.addEnv = function(){
+          $scope.envs.push({name: '', value: ''});
+        }
+        //// 选择镜像
+        $scope.selectImage = function (idx) {
+          var container = $scope.dc.spec.template.spec.containers[idx];
+          console.log('container2',container);
+          var cons = $scope.dc.spec.template.spec.containers;
+          ImageSelect.open().then(function (res) {
+            console.log("imageStreamTag2", res);
+            var imagetag = '';
+            container.ports = [];
+            if (container.ports.length == 0) {
+              container.ports.push({
+                containerPort: '',
+                hostPort: '',
+                protocol: '',
+                //open: true
+              })
+            }
+            if(res.ispublicimage){
+              /////公共镜像
+              container.isimageChange = false;
+              container.isshow = false;
+              var str1 =  res.imagesname.split("/");
+              var strname1 = str1[0]+'/'+str1[1];
+              container.truename = strname1.replace('/', "-");
+              container.image = 'registry.dataos.io/'+str1[0]+'/'+str1[1]+':'+str1[2];
+              var olsname = strname1.replace('/', "-");
+              if (idx > 0) {
+                for(var i = 0 ; i < cons.length;i++){
+                  if(i != idx){
+                    if(container.name && cons[i].name == container.name){
+                      strname1 = str1[0]+'/'+str1[1] + idx;
+                    }
+                  }
+                }
+              }else{
+                for(var i = 1 ; i < cons.length;i++){
+                  if(container.name && cons[i].name == container.name){
+                    strname1 = str1[0]+'/'+str1[1] + idx;
+                  }
+                }
+              }
+              container.strname = strname1.replace('/', "-");
+              if(!container.name){
+                container.name = strname1.replace('/', "-");
+              }
+              container.tag = str1[2];
+              imagetag = 'dadafoundry.io/image-'+container.name;
+              ////仓库镜像
+              if(res.imagePullSecrets){
+                container.imagePullSecrets = true;
+              }else{
+                delete container["imagePullSecrets"];
+              }
+              container.triggerImageTpl = {
+                "type": "ImageChange",
+                "imageChangeParams": {
+                  "automatic": true,
+                  "containerNames": [
+                    container.name          //todo 高级配置,手动填充
+                  ],
+                  "from": {
+                    "kind": "ImageStreamTag",
+                    "name": container.strname +":"+ container.tag  //ruby-hello-world:latest
+                  }
+                }
+              };
+              $scope.dc.metadata.annotations[imagetag] = container.truename+":"+str1[2];
 
+            }else{
+             // 私有镜像
+              //var dockerImageIP  = res.image.dockerImageReference.split('@');
+              container.isimageChange = true;
+              container.isshow = true;
+              delete container["imagePullSecrets"] ;
+              var str = res.metadata.name.split(":");
+              //container.image = dockerImageIP[0]+':'+str[1];
+              container.image = res.image.dockerImageReference;
+              var strname = str[0];
+              container.truename = str[0];
+              if (idx > 0) {
+                for(var i = 0 ; i < cons.length;i++){
+                  if(i != idx){
+                    if(container.name && cons[i].name == container.name){
+                      strname = str[0] + idx
+                      container.name = strname;
+                    }
+                  }
+
+                }
+              }else{
+                  for(var i = 1 ; i < cons.length;i++){
+                      if(container.name && cons[i].name == container.name){
+                        strname = str[0] + idx
+                        container.name = strname;
+                    }
+                  }
+              }
+              container.strname = strname;
+              if(!container.name){
+                container.name = strname;
+              }
+              //container.name = strname;
+              container.tag = str[1];
+              imagetag = 'dadafoundry.io/image-'+container.name;
+              container.triggerImageTpl = {
+                "type": "ImageChange",
+                "imageChangeParams": {
+                  "automatic": true,
+                  "containerNames": [
+                    container.name          //todo 高级配置,手动填充
+                  ],
+                  "from": {
+                    "kind": "ImageStreamTag",
+                    "name": container.truename +":"+ container.tag  //ruby-hello-world:latest
+                  }
+                }
+              };
+              $scope.dc.metadata.annotations[imagetag] =  str[0]+":"+str[1];
+              if(res.image.dockerImageMetadata.Config.Labels){
+                container.ref = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.ref'];
+                container.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
+              }
                     } else {
                         // 私有镜像
                         //var dockerImageIP  = res.image.dockerImageReference.split('@');
@@ -1263,6 +1387,105 @@ angular.module('console.service.create', [
                     return;
                 }
 
+          deleService();
+          deleRoute();
+          var clonedc = angular.copy(dc);
+          var arrimgs = [];
+          var arrisshow = [];
+          for(var i = 0;i<clonedc.spec.template.spec.containers.length;i++){
+            arrisshow.push(clonedc.spec.template.spec.containers[i].isshow);
+            delete clonedc.spec.template.spec.containers[i]["commitId"];
+            delete clonedc.spec.template.spec.containers[i]["triggerImageTpl"];
+            delete clonedc.spec.template.spec.containers[i]["secretsobj"];
+            delete clonedc.spec.template.spec.containers[i]["truename"];
+            delete clonedc.spec.template.spec.containers[i]["ref"];
+            delete clonedc.spec.template.spec.containers[i]["tag"];
+            delete clonedc.spec.template.spec.containers[i]["isshow"];
+            arrimgs.push(clonedc.spec.template.spec.containers[i].isimageChange);
+            delete clonedc.spec.template.spec.containers[i]["isimageChange"];
+            if(clonedc.spec.template.spec.containers[i].ports){
+                delete clonedc.spec.template.spec.containers[i]["ports"];
+            }
+            if(clonedc.spec.template.spec.containers[i].env.length == 0){
+              delete clonedc.spec.template.spec.containers[i]["env"];
+            }
+            if(clonedc.spec.template.spec.containers[i].imagePullSecrets){
+              $scope.grid.imagePullSecrets = true;
+              var flog = true;
+              var imgps = [
+                {
+                  "name": "registry-dockercfg-"+$rootScope.user.metadata.name
+                }
+              ]
+              angular.forEach($scope.serviceas.imagePullSecrets,function(v,k){
+                if(v.name == imgps[0].name){
+                  flog = false;
+                }
+              })
+              if(flog){
+                clonedc.spec.template.spec.imagePullSecrets = imgps.concat($scope.serviceas.imagePullSecrets);
+              }else{
+                clonedc.spec.template.spec.imagePullSecrets =$scope.serviceas.imagePullSecrets;
+              }
+              delete clonedc.spec.template.spec.containers[i]["imagePullSecrets"];
+            }
+          }
+          if($scope.grid.imagePullSecrets){
+            var nameandps = localStorage.getItem("Auth");
+            var newnameandps = $base64.decode(nameandps);
+            var registryobjs = {
+              "registry.dataos.io": {
+                "auth": nameandps,
+                "email": "builder@registry.dataos.io",
+                "password": newnameandps.split(':')[1],
+                "username": newnameandps.split(':')[0]
+              }
+            }
+            registryobjs = JSON.stringify(registryobjs)
+            var isdockercfg = $base64.encode(registryobjs);
+          }else{
+            delete dc.spec.template.spec["imagePullSecrets"];
+          }
+          var arrimgstr = arrimgs.join();
+          arrisshow = arrisshow.join();
+          clonedc.metadata.annotations["dadafoundry.io/imageorpublic"] = arrimgstr;
+          clonedc.metadata.annotations["dadafoundry.io/imageorisshow"] = arrisshow;
+          var isport = false;
+          for (var i = 0; i < $scope.portsArr.length; i++) {
+            if ($scope.portsArr[i].hostPort) {
+              isport = true;
+              break;
+            }
+          }
+          if (isport) {
+            createService(dc);
+          }
+          if ($scope.grid.route) {
+            createRoute(dc);
+          }
+          var createDcfn = function(){
+            DeploymentConfig.create({namespace: $rootScope.namespace}, clonedc, function (res) {
+              $log.info("create dc success", res);
+              bindService(dc);
+              $state.go('console.service_detail', {name: dc.metadata.name, from: 'create'});
+            }, function (res) {
+              //todo 错误处理
+              $log.info("create dc fail", res);
+              if(res.status == 409){
+                $scope.grid.createdcerr = true;
+              }
+            });
+          }
+          console.log('$scope.grid.imagePullSecrets-----',$scope.grid.imagePullSecrets)
+          if($scope.grid.imagePullSecrets){
+            var secretsobj = {
+              "kind": "Secret",
+              "apiVersion": "v1",
+              "metadata": {
+                "name": "registry-dockercfg-"+$rootScope.user.metadata.name
+              },
+              "data": {
+                ".dockercfg": isdockercfg
                 deleService();
                 deleRoute();
                 var clonedc = angular.copy(dc);
