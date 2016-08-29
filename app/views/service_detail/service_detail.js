@@ -18,20 +18,20 @@ angular.module('console.service.detail', [
             $scope.grid = {
                 ports: [],
                 port: 0,
-                cname:'域名',
+                cname: '域名',
                 host: '',
-                zsfile:{},
-                syfile:{},
-                cafile:{},
-                mcafile:{},
-                tlsshow:false,
-                tlsset:'none',
-                httpset:'Allow',
+                zsfile: {},
+                syfile: {},
+                cafile: {},
+                mcafile: {},
+                tlsshow: false,
+                tlsset: 'none',
+                httpset: 'Allow',
                 suffix: '.' + $rootScope.namespace + '.app.dataos.io',
                 isimageChange: true,
                 imagePullSecrets: false
             };
-            function readSingleFile(e,name) {
+            function readSingleFile(e, name) {
                 //alert(1111)
                 var thisfilename = document.getElementById(name).value;
                 //console.log(this);
@@ -47,15 +47,15 @@ angular.module('console.service.detail', [
                 reader.onload = function (e) {
                     var content = e.target.result;
 
-                    $scope.grid[name]={key: thisfilename, value: content}
+                    $scope.grid[name] = {key: thisfilename, value: content}
                     if (name == 'zsfile') {
-                        $scope.routeconf.spec.tls.certificate=$scope.grid.zsfile.value;
-                    }else if(name == 'syfile'){
-                        $scope.routeconf.spec.tls.key=$scope.grid.syfile.value;
-                    }else if(name == 'cafile'){
-                        $scope.routeconf.spec.tls.caCertificate=$scope.grid.cafile.value;
-                    }else if(name == 'mcafile'){
-                        $scope.routeconf.spec.tls.destinationCACertificate=$scope.grid.mcafile.value;
+                        $scope.routeconf.spec.tls.certificate = $scope.grid.zsfile.value;
+                    } else if (name == 'syfile') {
+                        $scope.routeconf.spec.tls.key = $scope.grid.syfile.value;
+                    } else if (name == 'cafile') {
+                        $scope.routeconf.spec.tls.caCertificate = $scope.grid.cafile.value;
+                    } else if (name == 'mcafile') {
+                        $scope.routeconf.spec.tls.destinationCACertificate = $scope.grid.mcafile.value;
                     }
                     console.log($scope.grid.zsfile);
                     $scope.$apply();
@@ -66,7 +66,7 @@ angular.module('console.service.detail', [
             $scope.addzhengshu = function () {
 
                 document.getElementById('zsfile').addEventListener('change', function (e) {
-                    readSingleFile(e,'zsfile')
+                    readSingleFile(e, 'zsfile')
 
 
                 }, false);
@@ -75,7 +75,7 @@ angular.module('console.service.detail', [
             $scope.addsy = function () {
 
                 document.getElementById('syfile').addEventListener('change', function (e) {
-                    readSingleFile(e,'syfile')
+                    readSingleFile(e, 'syfile')
 
                 }, false);
 
@@ -83,7 +83,7 @@ angular.module('console.service.detail', [
             $scope.addca = function () {
 
                 document.getElementById('cafile').addEventListener('change', function (e) {
-                    readSingleFile(e,'cafile')
+                    readSingleFile(e, 'cafile')
 
                 }, false);
 
@@ -91,7 +91,7 @@ angular.module('console.service.detail', [
             $scope.addmca = function () {
 
                 document.getElementById('mcafile').addEventListener('change', function (e) {
-                    readSingleFile(e,'mcafile')
+                    readSingleFile(e, 'mcafile')
 
                 }, false);
 
@@ -175,16 +175,16 @@ angular.module('console.service.detail', [
                 return null;
             };
 
-            var changevol = function(res){
-                $scope.maps=angular.copy(res.spec.template.spec.volumes);
+            var changevol = function (res) {
+                $scope.maps = angular.copy(res.spec.template.spec.volumes);
                 console.log('isdcmap', $scope.maps);
-                function dcvomap(name){
-                    var obj={};
-                    angular.forEach($scope.maps, function (map,i) {
+                function dcvomap(name) {
+                    var obj = {};
+                    angular.forEach($scope.maps, function (map, i) {
                         if (map.name == name) {
                             if (map.secret) {
-                                obj={
-                                    myname:name,
+                                obj = {
+                                    myname: name,
                                     secret: {
                                         secretName: map.secret.secretName
                                     },
@@ -192,8 +192,8 @@ angular.module('console.service.detail', [
                                 };
                             }
                             if (map.configMap) {
-                                obj={
-                                    myname:name,
+                                obj = {
+                                    myname: name,
                                     configMap: {
                                         name: map.configMap.name
                                     },
@@ -204,16 +204,17 @@ angular.module('console.service.detail', [
                     })
                     return obj;
                 }
-                angular.forEach(res.spec.template.spec.containers, function (container,i) {
-                    res.spec.template.spec.containers[i].vol={
+
+                angular.forEach(res.spec.template.spec.containers, function (container, i) {
+                    res.spec.template.spec.containers[i].vol = {
                         secretarr: [],
                         configmap: [],
                         persistentarr: []
                     }
-                    angular.forEach(container.volumeMounts, function (volumeMount,k) {
+                    angular.forEach(container.volumeMounts, function (volumeMount, k) {
                         console.log(volumeMount.mountPath);
                         var obj = dcvomap(volumeMount.name)
-                        obj['mountPath']=volumeMount.mountPath;
+                        obj['mountPath'] = volumeMount.mountPath;
                         if (obj.secret) {
                             res.spec.template.spec.containers[i].vol.secretarr.push(obj);
                         }
@@ -231,11 +232,11 @@ angular.module('console.service.detail', [
                         res.metadata.annotations = {};
                     }
                     changevol(res);
-                    console.log('$scope.dc.metadata.annotations[imagetag]',res);
+                    console.log('$scope.dc.metadata.annotations[imagetag]', res);
                     $scope.dc = res;
                     var copyannotations = angular.copy(res.metadata.annotations);
                     if ($scope.dc.metadata.labels && $scope.dc.metadata.labels.app) {
-                        $scope.grid.labelSelector='app%3D'+$scope.dc.metadata.labels.app;
+                        $scope.grid.labelSelector = 'app%3D' + $scope.dc.metadata.labels.app;
                     }
 
                     loadeventws()
@@ -306,10 +307,10 @@ angular.module('console.service.detail', [
                                 }
                             });
                         }
-                        if($scope.dc.spec.triggers){
-                            for(var j = 0 ; j < $scope.dc.spec.triggers.length;j++){
-                                if($scope.dc.spec.triggers[j].type == "ImageChange"){
-                                    if($scope.dc.spec.triggers[j].imageChangeParams.containerNames[0] == $scope.dc.spec.template.spec.containers[i].name){
+                        if ($scope.dc.spec.triggers) {
+                            for (var j = 0; j < $scope.dc.spec.triggers.length; j++) {
+                                if ($scope.dc.spec.triggers[j].type == "ImageChange") {
+                                    if ($scope.dc.spec.triggers[j].imageChangeParams.containerNames[0] == $scope.dc.spec.template.spec.containers[i].name) {
                                         $scope.dc.spec.template.spec.containers[i].isimageChange = true;
                                         $scope.dc.spec.template.spec.containers[i].isshow = true;
                                         //$scope.dc.spec.template.spec.containers[i].triggerImageTpl = {
@@ -330,17 +331,17 @@ angular.module('console.service.detail', [
                             }
                         }
                     }
-                    if(copyannotations["dadafoundry.io/imageorpublic"]){
-                        var imageorpublic = $scope.arrimgstr =copyannotations["dadafoundry.io/imageorpublic"].split(",");
+                    if (copyannotations["dadafoundry.io/imageorpublic"]) {
+                        var imageorpublic = $scope.arrimgstr = copyannotations["dadafoundry.io/imageorpublic"].split(",");
                         var imageorisshow = $scope.arrisshow = copyannotations["dadafoundry.io/imageorisshow"].split(",");
-                        for(var i = 0 ; i < imageorpublic.length; i++){
-                            if(imageorpublic[i] == 'true' && imageorisshow[i] == 'true'){
+                        for (var i = 0; i < imageorpublic.length; i++) {
+                            if (imageorpublic[i] == 'true' && imageorisshow[i] == 'true') {
                                 $scope.dc.spec.template.spec.containers[i].isimageChange = true;
                                 $scope.dc.spec.template.spec.containers[i].isshow = true;
-                            }else if(imageorpublic[i] == 'false' && imageorisshow[i] == 'true'){
+                            } else if (imageorpublic[i] == 'false' && imageorisshow[i] == 'true') {
                                 $scope.dc.spec.template.spec.containers[i].isimageChange = false;
                                 $scope.dc.spec.template.spec.containers[i].isshow = true;
-                            }else if(imageorpublic[i] == 'false' && imageorisshow[i] == 'false'){
+                            } else if (imageorpublic[i] == 'false' && imageorisshow[i] == 'false') {
                                 $scope.dc.spec.template.spec.containers[i].isimageChange = false;
                                 $scope.dc.spec.template.spec.containers[i].isshow = false;
                             }
@@ -579,7 +580,7 @@ angular.module('console.service.detail', [
                     } else {
                         $scope.rcs = res;
                     }
-                    if ($stateParams.from == "create" && $scope.rcs.items&&$scope.rcs.items[0]) {
+                    if ($stateParams.from == "create" && $scope.rcs.items && $scope.rcs.items[0]) {
                         //$scope.databuild.items[0].showLog = true;
                         $scope.rcs.items[0].showLog = true;
                         $rootScope.lding = false;
@@ -596,25 +597,24 @@ angular.module('console.service.detail', [
                     // $log.info("routes", res);
                     if (!$scope.routeconf) {
 
-                        angular.forEach(res.items, function (myroute,i) {
+                        angular.forEach(res.items, function (myroute, i) {
                             if (myroute.spec.to.name == $scope.dc.metadata.name) {
-                                $scope.routeconf=angular.copy(myroute);
+                                $scope.routeconf = angular.copy(myroute);
                             }
                         })
-                        console.log('$scope.routeconf111111',$scope.routeconf);
+                        console.log('$scope.routeconf111111', $scope.routeconf);
 
-                        if ($scope.grid.tlsset&&$scope.routeconf) {
+                        if ($scope.grid.tlsset && $scope.routeconf) {
                             if (!$scope.routeconf.spec.tls) {
-                                $scope.routeconf.spec.tls={}
+                                $scope.routeconf.spec.tls = {}
                             }
-                            $scope.grid.tlsset=$scope.routeconf.spec.tls.termination
+                            $scope.grid.tlsset = $scope.routeconf.spec.tls.termination
                             if ($scope.grid.tlsset == 'edge') {
-                                $scope.grid.httpset=$scope.routeconf.spec.tls.insecureEdgeTerminationPolicy
+                                $scope.grid.httpset = $scope.routeconf.spec.tls.insecureEdgeTerminationPolicy
                             }
-                        }else if(!$scope.routeconf) {
-                            $scope.routeconf=angular.copy($scope.route)
+                        } else if (!$scope.routeconf) {
+                            $scope.routeconf = angular.copy($scope.route)
                         }
-
 
 
                     }
@@ -669,19 +669,25 @@ angular.module('console.service.detail', [
             var loadeventws = function () {
                 Event.get({namespace: $rootScope.namespace}, function (res) {
                     if (!$scope.eventsws) {
-                        $scope.eventsws=[]
-                        angular.forEach(res.items, function (event,i) {
-                            if (event.involvedObject.name.split('-')[0]== $scope.dc.metadata.name) {
-                                //res.items.splice(i,1);
-                                console.log(event);
-                                $scope.eventsws.push(event)
+                        $scope.eventsws = []
+                        var arr = []
+                        angular.forEach(res.items, function (event, i) {
+                            if (event.involvedObject.kind !== 'BackingServiceInstance') {
+
+                                if ($scope.dc && event.involvedObject.name.split('-')[0] == $scope.dc.metadata.name) {
+                                    //res.items.splice(i, 1);
+                                    arr.push(event)
+                                    //$scope.$apply()
+                                }
                             }
+
                         })
-                        $scope.eventsws=res
+                        console.log('eventsws',arr);
+                        $scope.eventsws.items = arr
                     }
 
-                    $log.info("events", res);
-                    $scope.resource=res.metadata.resourceVersion;
+                    //$log.info("events", res);
+                    $scope.resource = res.metadata.resourceVersion;
                     watchevent(res.metadata.resourceVersion);
                 }, function (res) {
                     //todo 错误处理
@@ -689,7 +695,7 @@ angular.module('console.service.detail', [
                 });
             };
             loadeventws()
-            function watchevent(resourceVersion){
+            function watchevent(resourceVersion) {
                 Ws.watch({
                     api: 'k8s',
                     resourceVersion: resourceVersion,
@@ -713,12 +719,13 @@ angular.module('console.service.detail', [
                     //watchevent($scope.resourceVersion);
                 });
             }
-            var updateEvent= function (data) {
+
+            var updateEvent = function (data) {
                 if (data.type == "ADDED") {
 
                     if (data.object.involvedObject.name.split('-')[0] == $scope.dc.metadata.name) {
                         $scope.eventsws.items.unshift(data.object);
-                        console.log(data.object.involvedObject.name.split('-')[0]==$scope.dc.metadata.name);
+                        console.log(data.object.involvedObject.name.split('-')[0] == $scope.dc.metadata.name);
                         $scope.$apply()
                     }
 
@@ -750,72 +757,72 @@ angular.module('console.service.detail', [
             var updateRcs = function (data) {
                 console.log('data.type', data.type);
                 //DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (dcdata) {
-                    //$scope.dc = dcdata;
-                    //var copyannotations = angular.copy(dcdata.metadata.annotations);
-                    //$scope.getdc.spec.replicas = dcdata.spec.replicas;
-                    //for (var i = 0; i < dcdata.spec.template.spec.containers.length; i++) {
-                    //    var imagetag = 'dadafoundry.io/image-' + dcdata.spec.template.spec.containers[i].name;
-                    //    if (dcdata.metadata.annotations && dcdata.metadata.annotations[imagetag]) {
-                    //        var tagarr = dcdata.metadata.annotations[imagetag].split(":");
-                    //        dcdata.spec.template.spec.containers[i].tag = tagarr[1];
-                    //        dcdata.spec.template.spec.containers[i].imagename = tagarr[0];
-                    //    } else {
-                    //        angular.forEach(dcdata.spec.template.spec.containers, function (item) {
-                    //            var tagstr = item.image;
-                    //            if (tagstr.indexOf('@') != -1) {
-                    //                item.tag = tagstr.split('@')[1];
-                    //            } else {
-                    //                item.tag = tagstr.split(':')[1];
-                    //            }
-                    //        });
-                    //    }
-                    //    if(dcdata.spec.triggers){
-                    //        for(var j = 0 ; j < dcdata.spec.triggers.length;j++){
-                    //            if(dcdata.spec.triggers[j].type == "ImageChange"){
-                    //                if(dcdata.spec.triggers[j].imageChangeParams.containerNames[0] == dcdata.spec.template.spec.containers[i].name){
-                    //                    if(!$scope.dc.spec.template.spec.containers[i].isshow){
-                    //                        $scope.dc.spec.template.spec.containers[i].isimageChange = true;
-                    //                        $scope.dc.spec.template.spec.containers[i].isshow = true;
-                    //                    }
-                    //
-                    //                }
-                    //            }
-                    //        }
-                    //    }
-                    //}
-                    //if(copyannotations["dadafoundry.io/imageorpublic"]){
-                    //    var imageorpublic = $scope.arrimgstr =copyannotations["dadafoundry.io/imageorpublic"].split(",");
-                    //    var imageorisshow = $scope.arrisshow = copyannotations["dadafoundry.io/imageorisshow"].split(",");
-                    //    for(var i = 0 ; i < imageorpublic.length; i++){
-                    //        if(imageorpublic[i] == 'true' && imageorisshow[i] == 'true'){
-                    //            $scope.dc.spec.template.spec.containers[i].isimageChange = true;
-                    //            $scope.dc.spec.template.spec.containers[i].isshow = true;
-                    //        }else if(imageorpublic[i] == 'false' && imageorisshow[i] == 'true'){
-                    //            $scope.dc.spec.template.spec.containers[i].isimageChange = false;
-                    //            $scope.dc.spec.template.spec.containers[i].isshow = true;
-                    //        }else if(imageorpublic[i] == 'false' && imageorisshow[i] == 'false'){
-                    //            $scope.dc.spec.template.spec.containers[i].isimageChange = false;
-                    //            $scope.dc.spec.template.spec.containers[i].isshow = false;
-                    //        }
-                    //    }
-                    //}
-                    loadService($scope.dc.metadata.name);
-                    changevol($scope.dc);
-                    loadRoutes()
+                //$scope.dc = dcdata;
+                //var copyannotations = angular.copy(dcdata.metadata.annotations);
+                //$scope.getdc.spec.replicas = dcdata.spec.replicas;
+                //for (var i = 0; i < dcdata.spec.template.spec.containers.length; i++) {
+                //    var imagetag = 'dadafoundry.io/image-' + dcdata.spec.template.spec.containers[i].name;
+                //    if (dcdata.metadata.annotations && dcdata.metadata.annotations[imagetag]) {
+                //        var tagarr = dcdata.metadata.annotations[imagetag].split(":");
+                //        dcdata.spec.template.spec.containers[i].tag = tagarr[1];
+                //        dcdata.spec.template.spec.containers[i].imagename = tagarr[0];
+                //    } else {
+                //        angular.forEach(dcdata.spec.template.spec.containers, function (item) {
+                //            var tagstr = item.image;
+                //            if (tagstr.indexOf('@') != -1) {
+                //                item.tag = tagstr.split('@')[1];
+                //            } else {
+                //                item.tag = tagstr.split(':')[1];
+                //            }
+                //        });
+                //    }
+                //    if(dcdata.spec.triggers){
+                //        for(var j = 0 ; j < dcdata.spec.triggers.length;j++){
+                //            if(dcdata.spec.triggers[j].type == "ImageChange"){
+                //                if(dcdata.spec.triggers[j].imageChangeParams.containerNames[0] == dcdata.spec.template.spec.containers[i].name){
+                //                    if(!$scope.dc.spec.template.spec.containers[i].isshow){
+                //                        $scope.dc.spec.template.spec.containers[i].isimageChange = true;
+                //                        $scope.dc.spec.template.spec.containers[i].isshow = true;
+                //                    }
+                //
+                //                }
+                //            }
+                //        }
+                //    }
+                //}
+                //if(copyannotations["dadafoundry.io/imageorpublic"]){
+                //    var imageorpublic = $scope.arrimgstr =copyannotations["dadafoundry.io/imageorpublic"].split(",");
+                //    var imageorisshow = $scope.arrisshow = copyannotations["dadafoundry.io/imageorisshow"].split(",");
+                //    for(var i = 0 ; i < imageorpublic.length; i++){
+                //        if(imageorpublic[i] == 'true' && imageorisshow[i] == 'true'){
+                //            $scope.dc.spec.template.spec.containers[i].isimageChange = true;
+                //            $scope.dc.spec.template.spec.containers[i].isshow = true;
+                //        }else if(imageorpublic[i] == 'false' && imageorisshow[i] == 'true'){
+                //            $scope.dc.spec.template.spec.containers[i].isimageChange = false;
+                //            $scope.dc.spec.template.spec.containers[i].isshow = true;
+                //        }else if(imageorpublic[i] == 'false' && imageorisshow[i] == 'false'){
+                //            $scope.dc.spec.template.spec.containers[i].isimageChange = false;
+                //            $scope.dc.spec.template.spec.containers[i].isshow = false;
+                //        }
+                //    }
+                //}
+                loadService($scope.dc.metadata.name);
+                changevol($scope.dc);
+                loadRoutes()
 
-                    var labelSelector = 'openshift.io/deployment-config.name=' + $scope.dc.metadata.name;
-                    ReplicationController.get({
-                        namespace: $rootScope.namespace,
-                        labelSelector: labelSelector
-                    }, function (res) {
-                        res.items = Sort.sort(res.items, -1);
-                        for (var i = 0; i < res.items.length; i++) {
-                            res.items[i].dc = JSON.parse(res.items[i].metadata.annotations['openshift.io/encoded-deployment-config']);
-                            if (res.items[i].metadata.name == $scope.dc.metadata.name + '-' + $scope.dc.status.latestVersion) {
-                                //$scope.dc.status.replicas = res.items[i].status.replicas;
-                                $scope.dc.status.phase = res.items[i].metadata.annotations['openshift.io/deployment.phase'];
-                            }
+                var labelSelector = 'openshift.io/deployment-config.name=' + $scope.dc.metadata.name;
+                ReplicationController.get({
+                    namespace: $rootScope.namespace,
+                    labelSelector: labelSelector
+                }, function (res) {
+                    res.items = Sort.sort(res.items, -1);
+                    for (var i = 0; i < res.items.length; i++) {
+                        res.items[i].dc = JSON.parse(res.items[i].metadata.annotations['openshift.io/encoded-deployment-config']);
+                        if (res.items[i].metadata.name == $scope.dc.metadata.name + '-' + $scope.dc.status.latestVersion) {
+                            //$scope.dc.status.replicas = res.items[i].status.replicas;
+                            $scope.dc.status.phase = res.items[i].metadata.annotations['openshift.io/deployment.phase'];
                         }
+                    }
                     //})
                     for (var i = 0; i < $scope.getroutes.items.length; i++) {
                         if ($scope.getroutes.items[i].spec.to.kind != 'Service') {
@@ -880,13 +887,13 @@ angular.module('console.service.detail', [
                         $scope.test = result
                     }
                     loglast()
-                    if(data.object.log){
+                    if (data.object.log) {
                         data.object.log = result;
 
                     }
                 }, function (res) {
                     //todo 错误处理
-                    if (res.data ) {
+                    if (res.data) {
                         data.object.log = res.data.message;
                     }
 
@@ -1305,14 +1312,14 @@ angular.module('console.service.detail', [
                     $scope.pods = res;
 
                     $scope.pods.items = res.items;
-                    angular.forEach($scope.pods.items, function (pod,i) {
+                    angular.forEach($scope.pods.items, function (pod, i) {
                         if (pod.spec.containers.length) {
-                            angular.forEach(pod.spec.containers, function (rongqi,k) {
-                                rongqi.podname=pod.metadata.name
+                            angular.forEach(pod.spec.containers, function (rongqi, k) {
+                                rongqi.podname = pod.metadata.name
                             })
                         }
                     })
-                    console.log('POD000',$scope.pods);
+                    console.log('POD000', $scope.pods);
                     $scope.dc.status.replicas = 0;
                     for (var i = 0; i < res.items.length; i++) {
                         $scope.pods.items[i].reason = res.items[i].status.phase;
@@ -1379,19 +1386,19 @@ angular.module('console.service.detail', [
                 LogModal.open(name);
             };
 
-            $scope.containerModal = function (name,idx) {
+            $scope.containerModal = function (name, idx) {
                 //var o = $scope.pods.items[idx];
                 var obj = {};
-                angular.forEach($scope.pods.items, function (pod,i) {
+                angular.forEach($scope.pods.items, function (pod, i) {
 
                     if (pod.metadata.name == name) {
-                        obj=pod
+                        obj = pod
                     }
                 })
-                console.log('pod',obj);
-                console.log('pod',obj.spec.containers[idx]);
+                console.log('pod', obj);
+                console.log('pod', obj.spec.containers[idx]);
                 var pod = obj.spec.containers[idx];
-                ContainerModal.open(obj,pod);
+                ContainerModal.open(obj, pod);
             };
 
             $scope.addContainer = function () {
@@ -1417,7 +1424,7 @@ angular.module('console.service.detail', [
                     },
                     show: true,
                     new: true,
-                    isshow : false
+                    isshow: false
                 });
                 //$scope.dc.spec.template.spec.containers.push({ports: [portsobj]});
                 // $log.info('dccdcdcdcdcdcdcdcdcd-0-0', $scope.dc.spec.template.spec)
@@ -1432,8 +1439,8 @@ angular.module('console.service.detail', [
             $scope.addVolume = function (idx) {
                 var olength = 0;
                 if ($scope.dc.spec.template.spec.volumes) {
-                    olength = $scope.dc.spec.template.spec.volumes.length+1;
-                }else{
+                    olength = $scope.dc.spec.template.spec.volumes.length + 1;
+                } else {
                     $scope.dc.spec.template.spec.volumes = [];
                 }
                 cintainersidx = idx;
@@ -1442,32 +1449,32 @@ angular.module('console.service.detail', [
                     $scope.dc.spec.template.spec.containers[idx].vol = volumesobj.arr3;
                     var thisvolumes = [];
                     var flog = 0;
-                    for(var i = 0 ; i < $scope.dc.spec.template.spec.containers.length;i++){
-                      var copycons = [] ;
-                       var conis = $scope.dc.spec.template.spec.containers[i];
+                    for (var i = 0; i < $scope.dc.spec.template.spec.containers.length; i++) {
+                        var copycons = [];
+                        var conis = $scope.dc.spec.template.spec.containers[i];
                         for (var j = 0; j < conis.vol.secretarr.length; j++) {
                             copycons.push({
-                              mountPath : conis.vol.secretarr[j].mountPath,
-                              name : 'volumes'+flog
+                                mountPath: conis.vol.secretarr[j].mountPath,
+                                name: 'volumes' + flog
                             })
-                          var volumeval = {
-                                "name":'volumes'+flog,
+                            var volumeval = {
+                                "name": 'volumes' + flog,
                                 "secret": {
                                     "secretName": conis.vol.secretarr[j].secret.secretName
                                 }
 
                             }
-                          thisvolumes.push(volumeval);
-                          flog++;
+                            thisvolumes.push(volumeval);
+                            flog++;
                         }
 
                         for (var j = 0; j < conis.vol.configmap.length; j++) {
-                          copycons.push({
-                            mountPath : conis.vol.configmap[j].mountPath,
-                            name : 'volumes'+flog
-                          })
+                            copycons.push({
+                                mountPath: conis.vol.configmap[j].mountPath,
+                                name: 'volumes' + flog
+                            })
                             var volumeval = {
-                                "name": 'volumes'+flog,
+                                "name": 'volumes' + flog,
                                 "configMap": {
                                     "name": conis.vol.configmap[j].configMap.name
                                 }
@@ -1477,12 +1484,12 @@ angular.module('console.service.detail', [
                             flog++;
                         }
                         for (var j = 0; j < conis.vol.persistentarr.length; j++) {
-                          copycons.push({
-                            mountPath : conis.vol.persistentarr[j].mountPath,
-                            name : 'volumes'+flog
-                          })
+                            copycons.push({
+                                mountPath: conis.vol.persistentarr[j].mountPath,
+                                name: 'volumes' + flog
+                            })
                             var volumeval = {
-                                "name": 'volumes'+flog,
+                                "name": 'volumes' + flog,
                                 "persistentVolumeClaim": {
                                     "claimName": conis.vol.persistentarr[j].persistentVolumeClaim.claimName
                                 }
@@ -1491,10 +1498,10 @@ angular.module('console.service.detail', [
                             thisvolumes.push(volumeval);
                             flog++;
                         }
-                      $scope.dc.spec.template.spec.containers[i].volumeMounts = copycons;
+                        $scope.dc.spec.template.spec.containers[i].volumeMounts = copycons;
                     }
                     $scope.dc.spec.template.spec.volumes = thisvolumes;
-                    console.log('-----------------------dc-',$scope.dc);
+                    console.log('-----------------------dc-', $scope.dc);
                 });
             }
 
@@ -1523,7 +1530,7 @@ angular.module('console.service.detail', [
                     hostPort: "",
                 })
             };
-            $scope.delprot = function(idx){
+            $scope.delprot = function (idx) {
                 $scope.portsArr.splice(idx, 1);
             }
             $scope.updatePorts = function () {
@@ -1531,7 +1538,7 @@ angular.module('console.service.detail', [
                 //angular.forEach($scope.dc.spec.template.spec.containers, function (item) {
                 //console.log('tpc端口',$scope.portsArr);
                 angular.forEach($scope.portsArr, function (port) {
-                    if ($scope.grid.ports.indexOf(port.hostPort) == -1&&port.protocol=="TCP") {
+                    if ($scope.grid.ports.indexOf(port.hostPort) == -1 && port.protocol == "TCP") {
                         $scope.grid.ports.push(port.hostPort);
                     }
                 });
@@ -1555,14 +1562,14 @@ angular.module('console.service.detail', [
                         $scope.arrimgstr[idx] = false;
                         $scope.arrisshow[idx] = false;
                         if (idx > 0) {
-                            if( i != idx){
+                            if (i != idx) {
                                 for (var i = 0; i < cons.length; i++) {
                                     if (cons[i].name == olsname && !container.name) {
                                         strname1 = str1[0] + '/' + str1[1] + idx;
                                     }
                                 }
                             }
-                        }else{
+                        } else {
                             for (var i = 1; i < cons.length; i++) {
                                 if (cons[i].name == olsname && !container.name) {
                                     strname1 = str1[0] + '/' + str1[1] + idx;
@@ -1571,7 +1578,7 @@ angular.module('console.service.detail', [
                         }
                         container.strname = strname1.replace('/', "-");
                         container.imagename = container.strname;
-                        if(!container.name){
+                        if (!container.name) {
                             container.name = strname1.replace('/', "-");
                         }
                         container.tag = str1[2];
@@ -1606,21 +1613,21 @@ angular.module('console.service.detail', [
                         delete container["imagePullSecrets"];
                         var arr = res.metadata.name.split(':');
                         container.tag = arr[1];
-                        console.log('vbvbvbvbvbvbvbvbvbvb',container.name)
+                        console.log('vbvbvbvbvbvbvbvbvbvb', container.name)
                         if (arr.length > 1 && !container.name) {
                             container.name = arr[0];
                         }
                         container.truename = arr[0];
                         if (idx > 0) {
-                            if(i != idx){
-                                for (var i = 0; i < (cons.length)-1; i++) {
+                            if (i != idx) {
+                                for (var i = 0; i < (cons.length) - 1; i++) {
                                     if (cons[i].name == arr[0] && cons[i].name == container.name) {
                                         container.name = arr[0] + idx
                                     }
                                 }
                             }
-                        }else{
-                            for (var i = 0; i < (cons.length)-1; i++) {
+                        } else {
+                            for (var i = 0; i < (cons.length) - 1; i++) {
                                 if (cons[i].name == arr[0] && cons[i].name == container.name) {
                                     container.name = arr[0] + idx
                                 }
@@ -1825,7 +1832,7 @@ angular.module('console.service.detail', [
                 var containers = dc.spec.template.spec.containers;
                 for (var i = 0; i < containers.length; i++) {
                     containers[i].env = $scope.envs;
-                    if(containers[i].env && containers[i].env.length == 0){
+                    if (containers[i].env && containers[i].env.length == 0) {
                         delete containers[i]['env'];
                     }
                 }
@@ -1849,7 +1856,7 @@ angular.module('console.service.detail', [
                     "port": {
                         "targetPort": ""
                     },
-                    tls:{}
+                    tls: {}
                 }
             };
 
@@ -1916,42 +1923,42 @@ angular.module('console.service.detail', [
                     dc.route.spec.port.targetPort = $scope.grid.port + '-tcp';
                     console.log($scope.routeconf);
                     if ($scope.grid.tlsset == 'passthrough') {
-                        $scope.routeconf.spec.tls.termination=$scope.grid.tlsset;
+                        $scope.routeconf.spec.tls.termination = $scope.grid.tlsset;
                         delete $scope.routeconf.spec.tls.insecureEdgeTerminationPolicy
                         delete $scope.routeconf.spec.tls.certificate
                         delete $scope.routeconf.spec.tls.caCertificate
                         delete $scope.routeconf.spec.tls.key
                         delete $scope.routeconf.spec.tls.destinationCACertificate
 
-                    }else if($scope.grid.tlsset == 'edge'){
-                        $scope.routeconf.spec.tls.termination=$scope.grid.tlsset;
-                        $scope.routeconf.spec.tls.insecureEdgeTerminationPolicy=$scope.grid.httpset;
+                    } else if ($scope.grid.tlsset == 'edge') {
+                        $scope.routeconf.spec.tls.termination = $scope.grid.tlsset;
+                        $scope.routeconf.spec.tls.insecureEdgeTerminationPolicy = $scope.grid.httpset;
                         delete $scope.routeconf.spec.tls.destinationCACertificate
 
-                    }else if($scope.grid.tlsset == 're-encrypt'){
-                        $scope.routeconf.spec.tls.termination=$scope.grid.tlsset;
+                    } else if ($scope.grid.tlsset == 're-encrypt') {
+                        $scope.routeconf.spec.tls.termination = $scope.grid.tlsset;
                         delete $scope.routeconf.spec.tls.insecureEdgeTerminationPolicy
                         delete $scope.routeconf.spec.tls.insecureEdgeTerminationPolicy
-                    }else {
+                    } else {
                         delete $scope.routeconf.spec.tls
                     }
                     Route.put({
                         namespace: $rootScope.namespace,
                         name: dc.route.metadata.name
                     }, $scope.routeconf, function (res) {
-                         $log.info("create route success", res);
+                        $log.info("create route success", res);
                         //alert(111)
                         if ($scope.grid.zsfile) {
-                            $scope.grid.zsfile.key=null;
+                            $scope.grid.zsfile.key = null;
                         }
                         if ($scope.grid.syfile) {
-                            $scope.grid.syfile.key=null;
+                            $scope.grid.syfile.key = null;
                         }
                         if ($scope.grid.cafile) {
-                            $scope.grid.cafile.key=null;
+                            $scope.grid.cafile.key = null;
                         }
                         if ($scope.grid.mcafile) {
-                            $scope.grid.mcafile.key=null;
+                            $scope.grid.mcafile.key = null;
                         }
 
                         $scope.route = res;
@@ -1963,38 +1970,38 @@ angular.module('console.service.detail', [
 
                     console.log($scope.grid);
                     if ($scope.grid.tlsset == 'passthrough') {
-                        $scope.route.spec.tls.termination=$scope.grid.tlsset;
+                        $scope.route.spec.tls.termination = $scope.grid.tlsset;
 
-                    }else if($scope.grid.tlsset == 'edge'){
-                        $scope.route.spec.tls.termination=$scope.grid.tlsset;
-                        $scope.route.spec.tls.insecureEdgeTerminationPolicy=$scope.grid.httpset;
+                    } else if ($scope.grid.tlsset == 'edge') {
+                        $scope.route.spec.tls.termination = $scope.grid.tlsset;
+                        $scope.route.spec.tls.insecureEdgeTerminationPolicy = $scope.grid.httpset;
                         if ($scope.grid.zsfile.value) {
-                            $scope.route.spec.tls.certificate=$scope.grid.zsfile.value
+                            $scope.route.spec.tls.certificate = $scope.grid.zsfile.value
                         }
                         if ($scope.grid.syfile.value) {
-                            $scope.route.spec.tls.key=$scope.grid.syfile.value
+                            $scope.route.spec.tls.key = $scope.grid.syfile.value
                         }
                         if ($scope.grid.cafile.value) {
-                            $scope.route.spec.tls.caCertificate=$scope.grid.cafile.value
+                            $scope.route.spec.tls.caCertificate = $scope.grid.cafile.value
                         }
-                    }else if($scope.grid.tlsset == 're-encrypt'){
-                        $scope.route.spec.tls.termination=$scope.grid.tlsset;
+                    } else if ($scope.grid.tlsset == 're-encrypt') {
+                        $scope.route.spec.tls.termination = $scope.grid.tlsset;
                         if ($scope.grid.zsfile.value) {
-                            $scope.route.spec.tls.certificate=$scope.grid.zsfile.value
+                            $scope.route.spec.tls.certificate = $scope.grid.zsfile.value
                         }
                         if ($scope.grid.syfile.key) {
-                            $scope.route.spec.tls.key=$scope.grid.syfile.value
+                            $scope.route.spec.tls.key = $scope.grid.syfile.value
                         }
                         if ($scope.grid.cafile.value) {
-                            $scope.route.spec.tls.caCertificate=$scope.grid.cafile.value
+                            $scope.route.spec.tls.caCertificate = $scope.grid.cafile.value
                         }
                         if ($scope.grid.mcafile.value) {
-                            $scope.route.spec.tls.destinationCACertificate=$scope.grid.mcafile.value
+                            $scope.route.spec.tls.destinationCACertificate = $scope.grid.mcafile.value
                         }
-                    }else {
+                    } else {
                         delete $scope.route.spec.tls
                     }
-                    console.log('createRoute',$scope.route);
+                    console.log('createRoute', $scope.route);
                     Route.create({namespace: $rootScope.namespace}, $scope.route, function (res) {
                         // $log.info("create route success", res);
                         $scope.route = res;
@@ -2025,7 +2032,7 @@ angular.module('console.service.detail', [
                     dc.metadata.resourceVersion = datadc.metadata.resourceVersion;
                     dc.status.latestVersion = datadc.status.latestVersion + 1;
                     var flog = 0;
-                    console.log("123456789123456789",dc);
+                    console.log("123456789123456789", dc);
                     for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
                         if (cons[i].ports) {
                             var testlength = cons[i].ports.length;
@@ -2043,7 +2050,7 @@ angular.module('console.service.detail', [
                         }
 
                         var imagetag = 'dadafoundry.io/image-' + dc.spec.template.spec.containers[i].name;
-                        dc.metadata.annotations[imagetag] = dc.spec.template.spec.containers[i].name+":"+dc.spec.template.spec.containers[i].tag;
+                        dc.metadata.annotations[imagetag] = dc.spec.template.spec.containers[i].name + ":" + dc.spec.template.spec.containers[i].tag;
 
                     }
                     prepareVolume(dc);
@@ -2054,8 +2061,8 @@ angular.module('console.service.detail', [
                     }
                     prepareEnv(dc);
                     for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
-                        if(dc.spec.template.spec.containers[i].hasOwnProperty("isimageChange")){
-                            if(!dc.spec.template.spec.containers[i].triggerImageTpl && dc.spec.template.spec.containers[i].isimageChange){
+                        if (dc.spec.template.spec.containers[i].hasOwnProperty("isimageChange")) {
+                            if (!dc.spec.template.spec.containers[i].triggerImageTpl && dc.spec.template.spec.containers[i].isimageChange) {
                                 dc.spec.template.spec.containers[i].triggerImageTpl = {
                                     "type": "ImageChange",
                                     "imageChangeParams": {
@@ -2065,7 +2072,7 @@ angular.module('console.service.detail', [
                                         ],
                                         "from": {
                                             "kind": "ImageStreamTag",
-                                            "name": dc.spec.template.spec.containers[i].imagename +":"+ dc.spec.template.spec.containers[i].tag  //ruby-hello-world:latest
+                                            "name": dc.spec.template.spec.containers[i].imagename + ":" + dc.spec.template.spec.containers[i].tag  //ruby-hello-world:latest
                                         }
                                     }
                                 };
@@ -2331,7 +2338,7 @@ angular.module('console.service.detail', [
         };
     }])
     .service('ContainerModal', ['$uibModal', function ($uibModal) {
-        this.open = function (pod,obj) {
+        this.open = function (pod, obj) {
             return $uibModal.open({
                 templateUrl: 'views/service_detail/containerModal.html',
                 size: 'default modal-lg',
@@ -2441,8 +2448,8 @@ angular.module('console.service.detail', [
                         };
 
                         //$scope.containerDetail = function (idx) {
-                            //var o = pod.spec.containers[idx];
-                            //$scope.grid.show = true;
+                        //var o = pod.spec.containers[idx];
+                        //$scope.grid.show = true;
 
                         //};
 
@@ -2570,11 +2577,11 @@ angular.module('console.service.detail', [
                                 $scope.grid.cpu = false;
                             });
                         };
-                        console.log('$scope.container',obj.name);
+                        console.log('$scope.container', obj.name);
                         $scope.container = obj.name;
                         $scope.getLog(obj.name);
                         //terminal(o.name);
-                        getMetrics(pod,obj);
+                        getMetrics(pod, obj);
                         $scope.chartConfigIo = setChart('网络IO', []);
                     }]
             }).result;
