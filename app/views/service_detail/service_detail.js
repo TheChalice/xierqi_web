@@ -1303,7 +1303,16 @@ angular.module('console.service.detail', [
                 $scope.dc.status.replicas = 0;
                 Pod.get({namespace: $scope.namespace, labelSelector: labelSelector}, function (res) {
                     $scope.pods = res;
+
                     $scope.pods.items = res.items;
+                    angular.forEach($scope.pods.items, function (pod,i) {
+                        if (pod.spec.containers.length) {
+                            angular.forEach(pod.spec.containers, function (rongqi,k) {
+                                rongqi.podname=pod.metadata.name
+                            })
+                        }
+                    })
+                    console.log('POD000',$scope.pods);
                     $scope.dc.status.replicas = 0;
                     for (var i = 0; i < res.items.length; i++) {
                         $scope.pods.items[i].reason = res.items[i].status.phase;
@@ -1365,14 +1374,24 @@ angular.module('console.service.detail', [
                 });
             };
 
-            $scope.logModal = function (idx) {
-                var o = $scope.pods.items[idx];
-                LogModal.open(o.metadata.name);
+            $scope.logModal = function (name) {
+                //var o = $scope.pods.items[idx];
+                LogModal.open(name);
             };
 
-            $scope.containerModal = function (idx) {
-                var o = $scope.pods.items[idx];
-                ContainerModal.open(o);
+            $scope.containerModal = function (name,idx) {
+                //var o = $scope.pods.items[idx];
+                var obj = {};
+                angular.forEach($scope.pods.items, function (pod,i) {
+
+                    if (pod.metadata.name == name) {
+                        obj=pod
+                    }
+                })
+                console.log('pod',obj);
+                console.log('pod',obj.spec.containers[idx]);
+                var pod = obj.spec.containers[idx];
+                ContainerModal.open(obj,pod);
             };
 
             $scope.addContainer = function () {
@@ -2291,7 +2310,7 @@ angular.module('console.service.detail', [
         };
     }])
     .service('ContainerModal', ['$uibModal', function ($uibModal) {
-        this.open = function (pod) {
+        this.open = function (pod,obj) {
             return $uibModal.open({
                 templateUrl: 'views/service_detail/containerModal.html',
                 size: 'default modal-lg',
@@ -2400,14 +2419,11 @@ angular.module('console.service.detail', [
                             });
                         };
 
-                        $scope.containerDetail = function (idx) {
-                            var o = pod.spec.containers[idx];
-                            $scope.grid.show = true;
-                            $scope.container = o;
-                            $scope.getLog(o.name);
-                            //terminal(o.name);
-                            getMetrics(pod, o);
-                        };
+                        //$scope.containerDetail = function (idx) {
+                            //var o = pod.spec.containers[idx];
+                            //$scope.grid.show = true;
+
+                        //};
 
                         $scope.back = function () {
                             $scope.grid.show = false;
@@ -2533,7 +2549,11 @@ angular.module('console.service.detail', [
                                 $scope.grid.cpu = false;
                             });
                         };
-
+                        console.log('$scope.container',obj.name);
+                        $scope.container = obj.name;
+                        $scope.getLog(obj.name);
+                        //terminal(o.name);
+                        getMetrics(pod,obj);
                         $scope.chartConfigIo = setChart('网络IO', []);
                     }]
             }).result;
