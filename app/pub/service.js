@@ -816,14 +816,19 @@ define(['angular'], function (angular) {
                     templateUrl: 'pub/tpl/modal_pull_image.html',
                     size: 'default',
                     controller: ['$scope', '$uibModalInstance', '$log', function ($scope, $uibModalInstance, $log) {
-                        console.log(name)
-                        if (!yuorself) {
-                            $scope.name = name.split('/')[1] ? name.split(':')[0] + ':' + name.split(':')[1].split('/')[1] : name;
-
-                        } else {
+                        //console.log(name)
+                        //if (!yuorself) {
+                        //    $scope.name = name.split('/')[1] ? name.split(':')[0] + ':' + name.split(':')[1].split('/')[1] : name;
+                        //
+                        //} else {
                             $scope.name = name;
+                        //}
+                        if (yuorself=='project') {
+                            $scope.cmd = 'docker pull registry.dataos.io/project/' + $scope.name;
+                        }else {
+                            $scope.cmd = 'docker pull registry.dataos.io/' + $scope.name;
                         }
-                        $scope.cmd = 'docker pull registry.dataos.io/' + $scope.name;
+
                         $scope.cancel = function () {
                             $uibModalInstance.dismiss();
                         };

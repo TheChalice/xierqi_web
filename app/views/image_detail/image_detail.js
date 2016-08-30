@@ -28,10 +28,12 @@ angular.module('console.image_detail', [
                 $scope.date = data;
                 console.log($scope.date);
             })
+
             $scope.pull = function (name) {
                 var s = $scope.name;
-                var str = $scope.name + ':' + name
-                ModalPullImage.open(str)
+                console.log(name);
+                var str =$scope.name + ':' + name
+                ModalPullImage.open(str,'project')
                     .then(function (res) {
                         console.log("cmd1", res);
                     });
