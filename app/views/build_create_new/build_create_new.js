@@ -224,13 +224,13 @@ angular.module('console.build_create_new', [
                         // + "%26redirect_url=" + window.location.href ;
                         var authurl =  "namespace=" + $rootScope.namespace
                             + "&bearer=" + Cookie.get("df_access_token")
-                            + "&redirect_url=" + window.location.href ;
+                            + "&redirect_url=" + window.location.href;
                         $log.info(authurl);
                         if($scope.grid.isfirst == 2){
                             window.location = data.data.msg + "?"+ encodeURIComponent(authurl);
                         }
                     }
-                }else{
+                }else {
                     if(data.data && data.data.msg){
                         Alert.open('错误', data.data.msg, true);
                         $scope.grid.ishide = true;
