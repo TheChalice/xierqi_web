@@ -417,7 +417,7 @@ angular.module('console.build_create_new', [
                 $scope.grid.labproject = null;
                 $scope.choooseProject = null;
                 $scope.grid.labbranch = null;
-                $scope.labBranchData.msg = null;
+                //$scope.labBranchData.msg = null;
                 $scope.grid.project=null;
                 $scope.chooseProject = null;
                 $scope.branch=null;
@@ -443,7 +443,7 @@ angular.module('console.build_create_new', [
                 $scope.grid.labproject = null;
                 $scope.choooseProject = null;
                 $scope.grid.labbranch = null;
-                $scope.labBranchData.msg = null;
+                //$scope.labBranchData.msg = null;
                 $scope.grid.project=null;
                 $scope.chooseProject = null;
                 $scope.branch=null;
