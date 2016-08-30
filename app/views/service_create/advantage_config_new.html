@@ -62,7 +62,7 @@
                             <span class="check-btn"></span>
                         </span>
                         <!--<small >请选择一个TPC端口</small>-->
-                        <small ng-if="grid.noroute" class="fa fa-info-circle err-tip">请添加一个TPC端口</small>
+                        <small ng-if="grid.noroute" class="fa fa-info-circle err-tip">请返回基础设置添加端口</small>
                     </span>
 
                     <br>
@@ -265,12 +265,13 @@
                 <div class="col-md-2">
                     <h3>后端服务绑定</h3>
                 </div>
-                <div class="col-md-10">
+                <div class="col-md-10" ng-if="!bsi.items.length">
+                    <span>none</span>
                     <!--<a href="javascript:;" class="href-add">-->
                     <!--<i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;<span style="font-size: 12px">创建</span>-->
                     <!--</a>-->
                 </div>
-                <div class="col-md-9 col-md-offset-2">
+                <div class="col-md-10 col-md-offset-2" ng-if="bsi.items.length">
                     <div class="panel panel-default sub-panel">
                         <!--<div class="panel-heading">-->
                         <!--后端服务实例-->
