@@ -56,31 +56,18 @@
                     <h3>路由设置</h3>
                 </div>
                 <div class="col-md-10">
-                    <c-checkbox checked="grid.route"></c-checkbox>
+                    <c-checkbox ng-if="portsArr.length>0" checked="grid.route"></c-checkbox>
+                    <span class="my-checkbox" ng-if="!portsArr.length" ng-click="grid.noroute=true">
+                        <span class="checkbox-check">
+                            <span class="check-btn"></span>
+                        </span>
+                        <!--<small >请选择一个TPC端口</small>-->
+                        <small ng-if="grid.noroute" class="fa fa-info-circle err-tip">请添加一个TPC端口</small>
+                    </span>
 
                     <br>
                     <div ng-if="grid.route" style="margin-top: 35px;">
-                        <!--<div class="table-responsive" style="margin-bottom: 35px;" ng-if="tlsroutes.length!==0">-->
-                            <!--<table class="table table-hover table-default sub-table">-->
-                                <!--<tr>-->
-                                    <!--<th>Host名称</th>-->
-                                    <!--<th class="text-center">操作</th>-->
-                                <!--</tr>-->
-                                <!--&lt;!&ndash;<tr>&ndash;&gt;-->
-                                    <!--<tr ng-repeat="rout in tlsroutes">-->
-                                    <!--<td>-->
-                                        <!--<span>{{rout.spec.host}}</span>-->
-                                        <!--&lt;!&ndash;<span uib-tooltip="{{pod.metadata.name}}" style="display: block; width: 70px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{pod.metadata.name| limitTo: 12}}</span>&ndash;&gt;-->
-                                    <!--</td>-->
 
-                                    <!--<td class="text-center">-->
-                                        <!--&lt;!&ndash;<a class="btn btn-orange btn-xs" ng-click="containerModal($index)">查看容器</a>&ndash;&gt;-->
-                                        <!--<a class="btn btn-orange btn-xs" ng-click="showdiploma($index)">查看证书</a>-->
-                                    <!--</td>-->
-                                <!--</tr>-->
-                            <!--</table>-->
-                        <!--</div>-->
-                        <!--<label style="font-size: 12px; font-weight: normal;  margin-top: 35px;"></label>-->
                         <div class="dropdown dropdown-select" style="width: 80px;">
                             <button class="btn dropdown-toggle" data-toggle="dropdown" ng-click="updatePorts()">
                                 <span>{{grid.port || '端口'}}</span>
@@ -120,10 +107,10 @@
                             </div><!-- /input-group -->
                         </div>
                         <br>
-                        <p style="margin-top: 35px;" ng-if="!grid.tlsshow">
-                            <a style="font-size: 14px;margin-left: 2px;cursor: pointer; font-weight: bolder;color: #e5993a"
-                               ng-click="grid.tlsshow=true">TLS设置</a></p>
-                        <div ng-if="grid.tlsshow">
+                        <!--<p style="margin-top: 35px;" ng-if="!grid.tlsshow">-->
+                        <!--<a style="font-size: 14px;margin-left: 2px;cursor: pointer; font-weight: bolder;color: #e5993a"-->
+                        <!--ng-click="grid.tlsshow=true">TLS设置</a></p>-->
+                        <div>
                             <label style="margin-top: 35px;font-size: 12px; font-weight: normal;">TLS设置&nbsp;&nbsp;&nbsp;&nbsp;</label>
                             <!--<p style="margin-top: 35px;font-size: 18px;">TLS设置</p>-->
                             <div class="dropdown dropdown-select" style="width: 270px">
@@ -167,7 +154,8 @@
                                             <a href="javascript:;" ng-click="grid.httpset = 'Allow'">{{'Allow'}}</a>
                                         </li>
                                         <li>
-                                            <a href="javascript:;" ng-click="grid.httpset = 'Redirect'">{{'Redirect'}}</a>
+                                            <a href="javascript:;"
+                                               ng-click="grid.httpset = 'Redirect'">{{'Redirect'}}</a>
                                         </li>
 
                                     </ul>
@@ -175,11 +163,11 @@
                             </div>
 
                             <!--<div class="dropdown dropdown-select" style="width: 237px;" ng-if="grid.tlsset!=='Edge'">-->
-                                <!--<button class="btn dropdown-toggle" style="background-color: #c9c9c9;cursor: no-drop;"-->
-                                        <!--data-toggle="dropdown">-->
-                                    <!--<span>None</span>-->
-                                    <!--<span class="caret"></span>-->
-                                <!--</button>-->
+                            <!--<button class="btn dropdown-toggle" style="background-color: #c9c9c9;cursor: no-drop;"-->
+                            <!--data-toggle="dropdown">-->
+                            <!--<span>None</span>-->
+                            <!--<span class="caret"></span>-->
+                            <!--</button>-->
                             <!--</div>-->
                             <div ng-if="grid.tlsset=='Re-encrypt'||grid.tlsset=='Edge'">
                                 <br>
@@ -227,8 +215,8 @@
                                         <span class="form-control">{{grid.cafile.key}}</span>
                             <span class="input-group-btn" style="position: relative;">
                                 <span class="btn btn-default"
-                                    style="color: black;border-color:#8c8c8c;background: #e6e6e6;"
-                                        ng-click="addca()">上传
+                                      style="color: black;border-color:#8c8c8c;background: #e6e6e6;"
+                                      ng-click="addca()">上传
                                     <input type="file" class="file-input" id="cafile" value="选择"/>
                                 </span>
                             </span>
@@ -257,12 +245,12 @@
                             </div>
                             <br>
                             <!--<div class="row" style="margin-top: 35px;">-->
-                                <!--<div class="col-md-10"></div>-->
-                                <!--<div class="col-md-2">-->
-                                    <!--<a class="btn btn-orange btn-xs"-->
-                                       <!--style="vertical-align: middle;width: 80px;height: 35px;font-size: 14px;padding: 6px;"-->
-                                       <!--ng-click="savetls()">保存</a>-->
-                                <!--</div>-->
+                            <!--<div class="col-md-10"></div>-->
+                            <!--<div class="col-md-2">-->
+                            <!--<a class="btn btn-orange btn-xs"-->
+                            <!--style="vertical-align: middle;width: 80px;height: 35px;font-size: 14px;padding: 6px;"-->
+                            <!--ng-click="savetls()">保存</a>-->
+                            <!--</div>-->
 
                             <!--</div>-->
 
@@ -279,7 +267,7 @@
                 </div>
                 <div class="col-md-10">
                     <!--<a href="javascript:;" class="href-add">-->
-                        <!--<i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;<span style="font-size: 12px">创建</span>-->
+                    <!--<i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;<span style="font-size: 12px">创建</span>-->
                     <!--</a>-->
                 </div>
                 <div class="col-md-9 col-md-offset-2">

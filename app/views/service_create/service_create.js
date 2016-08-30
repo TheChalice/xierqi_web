@@ -92,6 +92,7 @@ angular.module('console.service.create', [
                 port: 0,
                 cname:'域名',
                 host: '',
+                noroute:false,
                 zsfile:{},
                 syfile:{},
                 cafile:{},
