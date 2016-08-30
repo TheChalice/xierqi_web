@@ -413,10 +413,15 @@ angular.module('console.build_create_new', [
                     });
                 //console.log(arr);
                 //$scope.grid.project = null;
-                //$scope.grid.labproject = null;
-                //$scope.choooseProject = null;
-                //$scope.grid.labbranch = null;
-                //$scope.labBranchData.msg = null;
+                console.log($scope.grid.labproject, $scope.choooseProject, $scope.grid.labbranch);
+                $scope.grid.labproject = null;
+                $scope.choooseProject = null;
+                $scope.grid.labbranch = null;
+                $scope.labBranchData.msg = null;
+                $scope.grid.project=null;
+                $scope.chooseProject = null;
+                $scope.branch=null;
+                $scope.grid.branch = null;
                 $scope.reposobj=arr;
             }
         });
@@ -434,6 +439,15 @@ angular.module('console.build_create_new', [
                         }
                     });
                 //console.log(arr);
+                console.log($scope.grid.labproject, $scope.choooseProject, $scope.grid.labbranch);
+                $scope.grid.labproject = null;
+                $scope.choooseProject = null;
+                $scope.grid.labbranch = null;
+                $scope.labBranchData.msg = null;
+                $scope.grid.project=null;
+                $scope.chooseProject = null;
+                $scope.branch=null;
+                $scope.grid.branch = null;
                 $scope.labobjs=arr;
             }
         });

@@ -673,7 +673,6 @@ angular.module('console.service.detail', [
                         var arr = []
                         angular.forEach(res.items, function (event, i) {
                             if (event.involvedObject.kind !== 'BackingServiceInstance') {
-
                                 if ($scope.dc && event.involvedObject.name.split('-')[0] == $scope.dc.metadata.name) {
                                     //res.items.splice(i, 1);
                                     arr.push(event)

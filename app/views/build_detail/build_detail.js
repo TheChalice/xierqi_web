@@ -206,6 +206,7 @@ angular.module('console.build.detail', [
                     }
                 }
             };
+
             var checkWebStatus = function(){
                 var host = $scope.data.spec.source.git.uri;
                 if (getSourceHost(host) === 'github.com') {
@@ -238,6 +239,7 @@ angular.module('console.build.detail', [
                 }
                 $scope.selection=true
             }
+
             var createWebhook = function(){
                 var host = $scope.data.spec.source.git.uri;
                 var triggers = $scope.data.spec.triggers;
