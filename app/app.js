@@ -19,7 +19,9 @@ define([
     'kubernetesUI',
     'highchartsNg',
     'fileUpload',
-    'fileUploadShim'
+    'fileUploadShim',
+    'angulartics',
+    'angularticsgoogleanalytics'
 ], function (angular) {
 
     // 声明应用及其依赖
@@ -36,7 +38,9 @@ define([
         'myApp.version',
         'hc.marked',
         'highcharts-ng',
-        'ngFileUpload'
+        'ngFileUpload',
+        'angulartics',
+        'angulartics.google.analytics'
     ]);
 
     myApp.constant('GLOBAL', {

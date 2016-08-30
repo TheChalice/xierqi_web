@@ -56,7 +56,7 @@
                         <i class="fa fa-info-circle"></i>&nbsp;这不是一个有效的邮箱
                     </small>
                 </p>
-                <input type="email"style="font-size: 12px;"
+                <input type="email" style="font-size: 12px;"
                        name="email"
                        class="form-control"
                        ng-blur="credentials.emailchange=true"
@@ -87,7 +87,7 @@
 
                 <p class="modal-msg text-left" style="margin: 20px 0 5px 0;font-size:12px;color:#5a6378;">
                     <span class="require">确认密码</span>&nbsp;&nbsp;
-                    <small ng-if="credentials.cfmPasswordchange&&frm.password.$dirty && frm.cfmPassword.$error.required"
+                    <small ng-if="credentials.cfmPasswordchange&&frm.cfmPassword.$dirty && frm.cfmPassword.$error.required"
                            class="err-tip pull-right">
                         <i class="fa fa-info-circle"></i>&nbsp;确认密码不能为空
                     </small>
@@ -101,14 +101,37 @@
                        ng-focus="credentials.cfmPasswordchange=false"
                        class="form-control"
                        ng-model="credentials.cfmPassword" required/>
+                <p class="modal-msg text-left" style="margin: 20px 0 5px 0;font-size:12px;color:#5a6378;">
+                    <span class="require">验证码</span>&nbsp;&nbsp;
+                    <small ng-if="credentials.yzmchange&&frm.code.$dirty && frm.code.$error.required"
+                           class="err-tip pull-right">
+                        <i class="fa fa-info-circle"></i>&nbsp;验证码不能为空
+                    </small>
+                    <small ng-if="credentials.yzmchange&&credentials.codeerror"
+                           class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;验证码不正确
+                    </small>
+                </p>
+                <div style="position: relative; height: 40px;width: 100%;">
+                    <input name="code" style="float: left;width: 50%;font-size: 12px;"
+                           type="text"
+                           ng-blur="credentials.yzmchange=true"
+                           ng-focus="credentials.yzmchange=false"
+                           class="form-control"
+                           ng-model="code" required/>
+                    <div ng-click="changecode()" class="code">{{yzcode}}</div>
+                </div>
+
                 <p class='xieyi'>
-                    <a href="javascript:;" ng-class="{'active': xieyi}" ng-click="xieyi=!xieyi" style="text-decoration: none;color: #5a6378;font-size: 12px;">
+                    <a href="javascript:;" ng-class="{'active': xieyi}" ng-click="xieyi=!xieyi"
+                       style="text-decoration: none;color: #5a6378;font-size: 12px;">
                         <i class="faa faa-check"></i>&nbsp;&nbsp;我已阅读并接受《DataFoundry的会员服务协议》
                     </a>
                 </p>
+
+
                 <button class="btn btn-block btn-disabled" id="regist" ng-disabled="frm.$invalid"
-                        ng-class="{'btn-orange':xieyi&&credentials.password === credentials.cfmPassword&&frm.$valid, 'btn-disabled': !xieyi&&credentials.password !== credentials.cfmPassword||frm.$invalid}"
-                        ng-click="xieyi&&credentials.password === credentials.cfmPassword&&frm.$valid && regist()"
+                        ng-class="{'btn-orange':!credentials.codeerror&&xieyi&&credentials.password === credentials.cfmPassword&&frm.$valid, 'btn-disabled': credentials.codeerror&&!xieyi&&credentials.password !== credentials.cfmPassword||frm.$invalid}"
+                        ng-click="!credentials.codeerror&&xieyi&&credentials.password === credentials.cfmPassword&&frm.$valid && regist()"
                         style="margin: 20px 0 0 0;">
                     注册
                 </button>
@@ -116,107 +139,136 @@
         </div>
     </div>
 </div>
-    <!--<div style="margin:0 auto; padding-top: 70px; padding-bottom: 30px; width: 460px; position:relative">-->
-        <!--<div class="line">-->
-        <!--</div>-->
-        <!--<img id="footerimg" src="views/login/img/image_09.png">-->
-    <!--</div>-->
+<!--<div style="margin:0 auto; padding-top: 70px; padding-bottom: 30px; width: 460px; position:relative">-->
+<!--<div class="line">-->
+<!--</div>-->
+<!--<img id="footerimg" src="views/login/img/image_09.png">-->
+<!--</div>-->
 </div>
 
 <style>
     .sjgf {
-        background: url('pub/img/login.png')no-repeat;
+        background: url('pub/img/login.png') no-repeat;
         width: 205px;
         height: 60px;
         margin: 0 auto;
         /*margin-top: 60px;*/
-        background-size:contain;
+        background-size: contain;
     }
+
     #header {
         display: none;
     }
+
     body {
         background-color: #5a6378;
     }
 
-    .modal-body {
-        /*background-color: #fff;*/
-
+    .code {
+        /*background-color: rebeccapurple;*/
+        width: 50%;
+        height: 34px;
+        float: left;
+        text-align: center;
+        word-spacing:8px;
+        letter-spacing:8px;
+        font-size: 20px;
+        line-height: 34px;
+        cursor: pointer;
     }
+
+    .modal-body {
+        background-color: #fff;
+        height: 570px;
+    }
+
     .registbox {
         background-color: #f7f8fb;
         width: 360px;
         height: 490px;
         float: left;
     }
-    .modal-header{
+
+    .modal-header {
         background-color: #E6E9F2;
         color: #5a6378;
 
     }
+
     .modal-title {
-        font-size:16px;
-        font-weight:bold;
+        font-size: 16px;
+        font-weight: bold;
         text-align: center;
     }
+
     .modal-default {
         margin-top: -200px;
     }
+
     .xieyi {
         height: 30px;
         line-height: 30px;
         margin-bottom: 0;
         margin-top: 10px;
     }
+
     .line {
         width: 100%;
         border-bottom: 1px solid #c9d0e2;
     }
+
     #footerimg {
         /*background-color: #f7f8fb;*/
         position: absolute;
         top: 56px;
-        left:45%;
+        left: 45%;
         height: 30px;
-        width:50px;
+        width: 50px;
         z-index: 5;
         padding: 0px 10px;
     }
-    .logboxworp{
+
+    .logboxworp {
         width: 810px;
         margin: 0 auto;
         margin-top: 60px;
         overflow: hidden;
-        height:490px;
-        position:absolute;
-        top:50%;
-        left:50%;
-        margin-top:-245px;
-        margin-left:-405px;
+        /*height: 490px;*/
+        height: 570px;
+
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -245px;
+        margin-left: -405px;
     }
-    .loginL{
+
+    .loginL {
         width: 449px;
-        height: 490px;
+        /*height: 490px;*/
+        height: 590px;
         float: left;
         background: #dadfec;
         text-align: center;
     }
-    .btn-disabled{
+
+    .btn-disabled {
         background: #dadfec;
         color: #5a6378;
     }
-    .btn-disabled:hover{
+
+    .btn-disabled:hover {
         background: #dadfec;
         color: #5a6378;
     }
 </style>
 
 <!--<div class="modal-header">-->
-    <!--<h5 class="modal-title">-->
-        <!--注册-->
-        <!--<a ng-click="cancel()" class="close"><span aria-hidden="true">&times;</span></a>-->
-    <!--</h5>-->
+<!--<h5 class="modal-title">-->
+<!--注册-->
+<!--<a ng-click="cancel()" class="close"><span aria-hidden="true">&times;</span></a>-->
+<!--</h5>-->
 <!--</div>-->
 <!--<div class="modal-body" style="padding: 20px 40px 30px 40px;">-->
-    <!--<p>请发送 NT 账号、邮箱名、部门名称、产品名称至邮箱 <a href="mailto:datafoundry@asiainfo.com?Subject=申请账号">datafoundry@asiainfo.com</a> 申请账号。</p>-->
+<!--<p>请发送 NT 账号、邮箱名、部门名称、产品名称至邮箱 <a href="mailto:datafoundry@asiainfo.com?Subject=申请账号">datafoundry@asiainfo.com</a> 申请账号。</p>-->
 <!--</div>-->

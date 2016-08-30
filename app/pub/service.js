@@ -412,7 +412,8 @@ define(['angular'], function (angular) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/addmodal.html',
                     size: 'default',
-                    controller: ['$rootScope', '$scope', '$uibModalInstance', 'loadOrg', '$http', function ($rootScope, $scope, $uibModalInstance, loadOrg, $http) {
+                    controller: ['$state','$rootScope', '$scope', '$uibModalInstance', 'loadOrg', '$http',
+                        function ($state,$rootScope, $scope, $uibModalInstance, loadOrg, $http) {
                         $scope.title = title;
                         $scope.txt = txt;
                         $scope.tip = tip;
@@ -446,7 +447,10 @@ define(['angular'], function (angular) {
                                     $http.post('/lapi/orgs', {
                                         name: $scope.orgName
                                     }).success(function (item) {
+                                        //$state.go()
+                                        $state.go('console.org', {useorg:item.id})
                                         $uibModalInstance.close(item);
+
                                         $rootScope.delOrgs = true;
                                     }).error(function (res) {
                                         console.log(res);
@@ -481,6 +485,26 @@ define(['angular'], function (angular) {
                         $scope.err = err;
                         $scope.classify = regist;
                         $scope.activation = active;
+                        $scope.ok = function () {
+                            $uibModalInstance.close();
+                        };
+                        $scope.cancel = function () {
+                            $uibModalInstance.dismiss();
+                        };
+                    }]
+                }).result;
+            };
+        }]).service('diploma', ['$uibModal', function ($uibModal) {
+            this.open = function (obj) {
+                return $uibModal.open({
+                    templateUrl: 'pub/tpl/diploma.html',
+                    size: 'default modal-lg',
+                    controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+                        $scope.diploma = obj;
+                        console.log($scope.diploma,obj);
+                        //$scope.err = err;
+                        //$scope.classify = regist;
+                        //$scope.activation = active;
                         $scope.ok = function () {
                             $uibModalInstance.close();
                         };
@@ -792,14 +816,19 @@ define(['angular'], function (angular) {
                     templateUrl: 'pub/tpl/modal_pull_image.html',
                     size: 'default',
                     controller: ['$scope', '$uibModalInstance', '$log', function ($scope, $uibModalInstance, $log) {
-                        console.log(name)
-                        if (!yuorself) {
-                            $scope.name = name.split('/')[1] ? name.split(':')[0] + ':' + name.split(':')[1].split('/')[1] : name;
-
-                        } else {
+                        //console.log(name)
+                        //if (!yuorself) {
+                        //    $scope.name = name.split('/')[1] ? name.split(':')[0] + ':' + name.split(':')[1].split('/')[1] : name;
+                        //
+                        //} else {
                             $scope.name = name;
+                        //}
+                        if (yuorself=='project') {
+                            $scope.cmd = 'docker pull registry.dataos.io/project/' + $scope.name;
+                        }else {
+                            $scope.cmd = 'docker pull registry.dataos.io/' + $scope.name;
                         }
-                        $scope.cmd = 'docker pull registry.dataos.io/' + $scope.name;
+
                         $scope.cancel = function () {
                             $uibModalInstance.dismiss();
                         };
@@ -1229,7 +1258,7 @@ define(['angular'], function (angular) {
             function ($timeout, $q, orgList, $rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User) {
 
                 this.login = function (credentials) {
-                    console.log("login");
+                    console.log("login",credentials);
                     localStorage.setItem('Auth', $base64.encode(credentials.username + ':' + credentials.password))
                     $rootScope.loding = true;
                     var deferred = $q.defer();
@@ -1258,72 +1287,29 @@ define(['angular'], function (angular) {
                             $log.info("find project err", res);
                         });
                     };
-                    //function denglu(){
-                    //  $http(req).then(function(data){
-                    //    // success handler
-                    //    console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&",data.data);
-                    //
-                    //    Cookie.set('df_access_token', data.data.access_token, 10 * 365 * 24 * 3600 * 1000);
-                    //
-                    //    loadProject(credentials.username);
-                    //
-                    //    User.get({name: '~'}, function (res) {
-                    //      $rootScope.loding = false;
-                    //      $rootScope.user = res;
-                    //      $state.go('console.dashboard');
-                    //      var inputDaovoice = function() {
-                    //        daovoice('init', {
-                    //          app_id: "b31d2fb1",
-                    //          user_id: "user.metadata.uid", // 必填: 该用户在您系统上的唯一ID
-                    //          //email: "daovoice@example.com", // 选填:  该用户在您系统上的主邮箱
-                    //          name: $rootScope.user.metadata.name, // 选填: 用户名
-                    //          signed_up: parseInt((new Date($rootScope.user.metadata.creationTimestamp)).getTime() / 1000) // 选填: 用户的注册时间，用Unix时间戳表示
-                    //        });
-                    //        daovoice('update');
-                    //      }
-                    //      inputDaovoice();
-                    //    });
-                    //  },function(reject){
-                    //    // error handler
-                    //    if(reject.status === -1) {
-                    //      // $http timeout
-                    //      console.log(1);
-                    //      denglu()
-                    //    } else {
-                    //      $state.go('login');
-                    //      console.log('登录报错',reject);
-                    //      $rootScope.loding = false;
-                    //      Alert.open('错误', '用户名或密码不正确');
-                    //      var daovoicefailed = function(){
-                    //        daovoice('init', {
-                    //          app_id: "b31d2fb1"
-                    //        });
-                    //        daovoice('update');
-                    //      }
-                    //      daovoicefailed();
-                    //      // response error status from server
-                    //    }
-                    //  });
+
+                    //try {
+                    //    localStorage.getItem("code");
+                    //} catch (e) {
+                    //    alert(e.message);
+                    //    localStorage.setItem('cade',0)
                     //}
-                    //
-                    //
-                    //$timeout(function() {
-                    //  deferred.resolve(); // this aborts the request!
-                    //}, 10000);
-                    //
-                    //denglu()
+                    //localStorage.setItem('codenum','0')
                     function denglu() {
                         $http(req).success(function (data) {
-                            console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&" + data);
+                            //console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&" + data);
 
                             Cookie.set('df_access_token', data.access_token, 10 * 365 * 24 * 3600 * 1000);
 
                             loadProject(credentials.username);
-
                             User.get({name: '~'}, function (res) {
                                 $rootScope.loding = false;
                                 $rootScope.user = res;
+                                //localStorage.setItem('cade',null)
+                                localStorage.setItem("code", 1);
+                                $rootScope.loginyanzheng = false;
                                 $state.go('console.dashboard');
+
                                 var inputDaovoice = function () {
                                     daovoice('init', {
                                         app_id: "b31d2fb1",
@@ -1352,7 +1338,22 @@ define(['angular'], function (angular) {
                                 return;
                             } else {
                                 $rootScope.loding = false;
-                                Alert.open('错误', '用户名或密码不正确');
+                                Alert.open('请重新登录', '用户名或密码不正确');
+                                var codenum = localStorage.getItem("code");
+                                console.log(codenum);
+                                if (codenum) {
+                                    codenum=parseInt(codenum);
+                                    codenum+=1
+                                    localStorage.setItem('code',codenum);
+                                    if(codenum > 3 ){
+                                        $rootScope.loginyanzheng = true;
+                                    }
+
+                                }else {
+                                    localStorage.setItem('code',1)
+                                }
+
+
                                 var daovoicefailed = function () {
                                     daovoice('init', {
                                         app_id: "b31d2fb1"
@@ -1367,55 +1368,7 @@ define(['angular'], function (angular) {
                     }
 
                     denglu()
-                    //$http(req).success(function (data) {
-                    //  console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&"+data);
-                    //
-                    //  Cookie.set('df_access_token', data.access_token, 10 * 365 * 24 * 3600 * 1000);
-                    //
-                    //  loadProject(credentials.username);
-                    //
-                    //  User.get({name: '~'}, function (res) {
-                    //    $rootScope.loding = false;
-                    //    $rootScope.user = res;
-                    //    $state.go('console.dashboard');
-                    //    var inputDaovoice = function() {
-                    //      daovoice('init', {
-                    //        app_id: "b31d2fb1",
-                    //        user_id: "user.metadata.uid", // 必填: 该用户在您系统上的唯一ID
-                    //        //email: "daovoice@example.com", // 选填:  该用户在您系统上的主邮箱
-                    //        name: $rootScope.user.metadata.name, // 选填: 用户名
-                    //        signed_up: parseInt((new Date($rootScope.user.metadata.creationTimestamp)).getTime() / 1000) // 选填: 用户的注册时间，用Unix时间戳表示
-                    //      });
-                    //      daovoice('update');
-                    //    }
-                    //    inputDaovoice();
-                    //  });
-                    //
-                    //}).error(function (data) {
-                    //  //console.log(data);
-                    //  //if (data.code == 401) {
-                    //  //  //$rootScope.user=false;
-                    //  //  $rootScope.loding = false;
-                    //  //}
-                    //  $state.go('login');
-                    //  console.log('登录报错',data);
-                    //  if (data.indexOf('502')!=-1) {
-                    //    //$rootScope.loding = false;
-                    //    //alert('超时了');
-                    //
-                    //  }else {
-                    //    $rootScope.loding = false;
-                    //    Alert.open('错误', '用户名或密码不正确');
-                    //    var daovoicefailed = function(){
-                    //      daovoice('init', {
-                    //        app_id: "b31d2fb1"
-                    //      });
-                    //      daovoice('update');
-                    //    }
-                    //    daovoicefailed();
-                    //  }
-                    //
-                    //});
+
                 };
             }])
         .factory('AuthInterceptor', ['$rootScope', '$q', 'AUTH_EVENTS', 'Cookie', function ($rootScope, $q, AUTH_EVENTS, Cookie) {
@@ -1427,7 +1380,7 @@ define(['angular'], function (angular) {
             };
             return {
                 request: function (config) {
-                    if (/login/.test(config.url)) {
+                    if (/\/login/.test(config.url)) {
                         return config;
                     }
                     var token = Cookie.get('df_access_token');
@@ -1435,10 +1388,10 @@ define(['angular'], function (angular) {
                         config.headers["Authorization"] = "Bearer " + token;
                     }
 
-                    if (/hawkular/.test(config.url)) {
+                    if (/\/hawkular/.test(config.url)) {
                         config.headers["Hawkular-Tenant"] = $rootScope.namespace;
                     }
-                    if (/registry/.test(config.url)) {
+                    if (/\/registry/.test(config.url)) {
                         var Auth = localStorage.getItem("Auth")
                         config.headers["Authorization"] = "Basic " + Auth;
                     }

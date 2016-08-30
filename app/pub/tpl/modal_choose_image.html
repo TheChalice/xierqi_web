@@ -20,7 +20,7 @@
                 <div class="col-xs-6">
                     <h2>镜像</h2>
                     <div class="is-box-search">
-                        <input type="text" class="form-control" ng-model="imageName" placeholder="镜像名称">
+                        <input type="text" class="form-control" ng-model="imageName" placeholder="镜像">
                     </div>
                     <div class="is-box-wrap">
                         <ul>
@@ -35,7 +35,7 @@
                 <div class="col-xs-6">
                     <h2>镜像版本</h2>
                     <div class="is-box-search">
-                        <input type="text" class="form-control" ng-model="imageVersion" placeholder="commit id">
+                        <input type="text" class="form-control" ng-model="imageVersion" placeholder="Tag">
                     </div>
                     <div class="is-box-wrap">
                         <ul ng-repeat="(k, tag) in imageTags" ng-show="!tag.hide">

@@ -39,8 +39,12 @@ angular.module('console.user', [
         //    $rootScope.orgStatus = true;
         //  }
         //})
+        //({useorg:org.id})
         loadOrg();
         loadProject();
+        //$state.go('console.org', {useorg:res.id})
+        //console.log('zuzhi',res);
+
       })
     }
     $scope.updatePwd = function() {

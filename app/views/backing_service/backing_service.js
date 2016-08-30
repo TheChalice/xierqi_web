@@ -81,6 +81,9 @@ angular.module('console.backing_service', [
                 Class: '其他'
               };
             }
+            if (!arr[l].spec.metadata.providerDisplayName) {
+              arr[l].spec.metadata.providerDisplayName='其他'
+            }
             $scope.providers.push(arr[l].spec.metadata.providerDisplayName)
             $scope.cation.push(arr[l].metadata.annotations.Class)
           }
@@ -93,6 +96,7 @@ angular.module('console.backing_service', [
           // item.spec.metadata.providerDisplayName
           //服务提供者分组
           for (var j = 0; j < arr.length; j++) {
+
             for (var b = 0; b < $scope.providers.length; b++) {
               if (arr[j].spec.metadata.providerDisplayName === $scope.providers[b]) {
                 arr[j].providerDisplayName = $scope.providers[b];

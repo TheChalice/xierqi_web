@@ -34,19 +34,50 @@ define([
                 }
 
                 params.name = params.name ? '/' + params.name : '';
-                var url = host + '/namespaces/' + params.namespace + '/'+ params.type + params.name +
-                          '?watch=true' +
-                          '&resourceVersion='+ params.resourceVersion +
-                          '&access_token=' + Cookie.get("df_access_token");
-                $ws({
-                    method: 'WATCH',
-                    url: url,
-                    onclose: onclose,
-                    onmessage: onmessage,
-                    onopen: onopen
-                }).then(function(ws){
-                    $rootScope.watches[Ws.key(params.namespace, params.type, params.name)] = ws;
-                });
+                if (params.pod) {
+                    var url = host + '/namespaces/' + params.namespace + '/'+ params.type + params.name +
+                        '?follow=true' +
+                        '&tailLines=1000'+
+                        '&limitBytes=10485760'+
+                        '&container='+ params.pod +
+                        '&access_token=' + Cookie.get("df_access_token");
+                }else if(params.app){
+                    var url = host + '/namespaces/' + params.namespace + '/'+ params.type + params.name +
+                        '?watch=true' +
+                        '&resourceVersion='+ params.resourceVersion +
+                        '&labelSelector='+ params.app +
+                        '&access_token=' + Cookie.get("df_access_token");
+                }else {
+                    var url = host + '/namespaces/' + params.namespace + '/'+ params.type + params.name +
+                        '?watch=true' +
+                        '&resourceVersion='+ params.resourceVersion +
+                        '&access_token=' + Cookie.get("df_access_token");
+                }
+                if (params.protocols) {
+                    $ws({
+                        method: 'WATCH',
+                        url: url,
+                        onclose: onclose,
+                        onmessage: onmessage,
+                        onopen: onopen,
+                        protocols:params.protocols
+                    }).then(function(ws){
+                        $rootScope.watches[Ws.key(params.namespace, params.type, params.name)] = ws;
+                    });
+                }else {
+                    $ws({
+                        method: 'WATCH',
+                        url: url,
+                        onclose: onclose,
+                        onmessage: onmessage,
+                        onopen: onopen,
+
+                    }).then(function(ws){
+                        $rootScope.watches[Ws.key(params.namespace, params.type, params.name)] = ws;
+                    });
+                }
+
+
             };
 
             Ws.key = function(namespace, type, name){
@@ -263,7 +294,7 @@ define([
             return platformone;
         }])
         .factory('labOwner', ['$resource', function($resource){
-            var labOwner = $resource('/v1/repos/gitlab/owner',{cache:'@cache'}, {
+            var labOwner = $resource('/v1/repos/gitlab/owner',{}, {
             });
             return labOwner;
         }])
@@ -274,7 +305,7 @@ define([
             return psgitlab;
         }])
         .factory('laborgs', ['$resource', function($resource){
-            var laborgs = $resource('/v1/repos/gitlab/orgs',{cache:'false'}, {
+            var laborgs = $resource('/v1/repos/gitlab/orgs',{}, {
 
             });
             return laborgs;

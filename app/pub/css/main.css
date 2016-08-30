@@ -1044,6 +1044,11 @@ a {
     -o-animation: spin 2s infinite linear;
     animation: unspin 2s infinite linear;
 }
+.foucsinput:focus{
+    /*-webkit-transition:border linear .2s,-webkit-box-shadow linear .5s;*/
+    border-color:#f00;
+    -webkit-box-shadow:0 0 1px #f6a540;
+}
 @keyframes unspin {
     0% {
         transform: rotate(0deg);

@@ -9,36 +9,36 @@
 </div>
 <div class="modal-body" style="padding: 25px 40px;text-align: left;">
 
-    <div class="table-responsive" ng-if="!grid.show">
-        <table class="table table-hover table-default sub-table">
-            <tr>
-                <th>容器名称</th>
-                <th>运行状态</th>
-                <th>容器资源</th>
-                <th>镜像名称</th>
-                <th>镜像版本</th>
-            </tr>
-            <tr ng-repeat="container in pod.spec.containers">
-                <td><a href="javascript:;" ng-click="containerDetail($index)" class="href-orange">{{container.name}}</a></td>
-                <td>
-                    <span ng-repeat="(k, v) in container.status.state" ng-show="v.hasOwnProperty('reason')">
-                        {{v.reason}}
-                    </span>
-                     <span ng-repeat="(k, v) in container.status.state" ng-show="v.hasOwnProperty('startedAt')">
-                        {{k}}
-                    </span>
-                </td>
-                <td>
-                    <span ng-if="container.resources.limits">CPU:{{container.resources.limits.cpu}}<br/>内存:{{container.resources.limits.memory}}</span>
-                    <span ng-if="!container.resources.limits">无限制</span>
-                </td>
-                <td>{{container.image | imageStreamName}}</td>
-                <td>{{container.tag || 'latest'}}</td>
-            </tr>
-        </table>
-    </div>
+    <!--<div class="table-responsive" ng-if="!grid.show">-->
+        <!--<table class="table table-hover table-default sub-table">-->
+            <!--<tr>-->
+                <!--<th>容器名称</th>-->
+                <!--<th>运行状态</th>-->
+                <!--<th>容器资源</th>-->
+                <!--<th>镜像名称</th>-->
+                <!--<th>镜像版本</th>-->
+            <!--</tr>-->
+            <!--<tr ng-repeat="container in pod.spec.containers">-->
+                <!--<td><a href="javascript:;" ng-click="containerDetail($index)" class="href-orange">{{container.name}}</a></td>-->
+                <!--<td>-->
+                    <!--<span ng-repeat="(k, v) in container.status.state" ng-show="v.hasOwnProperty('reason')">-->
+                        <!--{{v.reason}}-->
+                    <!--</span>-->
+                     <!--<span ng-repeat="(k, v) in container.status.state" ng-show="v.hasOwnProperty('startedAt')">-->
+                        <!--{{k}}-->
+                    <!--</span>-->
+                <!--</td>-->
+                <!--<td>-->
+                    <!--<span ng-if="container.resources.limits">CPU:{{container.resources.limits.cpu}}<br/>内存:{{container.resources.limits.memory}}</span>-->
+                    <!--<span ng-if="!container.resources.limits">无限制</span>-->
+                <!--</td>-->
+                <!--<td>{{container.image | imageStreamName}}</td>-->
+                <!--<td>{{container.tag || 'latest'}}</td>-->
+            <!--</tr>-->
+        <!--</table>-->
+    <!--</div>-->
 
-    <div ng-if="grid.show" class="container-detail">
+    <div class="container-detail">
         <h2><a href="javascript:;" ng-click="back()" class="faa faa-back"></a>&nbsp;&nbsp;{{container.name}}</h2>
         <uib-tabset class="tab-default" active="active">
             <uib-tab index="1" heading="日志">
@@ -53,7 +53,7 @@
                 </div>
 
                 <div class="well well-log" style="margin: 0;">
-                    <pre>{{log}}</pre>
+                    <pre style="color:#e4e4e4" id="sc" ng-bind-html=log></pre>
                 </div>
             </uib-tab>
             <uib-tab index="2" heading="性能监控">

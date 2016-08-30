@@ -8,8 +8,8 @@ angular.module('console.build.detail', [
             ]
         }
     ])
-    .controller('BuildDetailCtrl', ['Ws', 'Sort', 'GLOBAL', '$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'UUID', 'WebhookLab', 'WebhookHub', 'WebhookLabDel', 'WebhookHubDel', 'ImageStream', 'WebhookLabget', 'WebhookGitget'
-        , function (Ws, Sort, GLOBAL, $rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, UUID, WebhookLab, WebhookHub, WebhookLabDel, WebhookHubDel, ImageStream, WebhookLabget, WebhookGitget) {
+    .controller('BuildDetailCtrl', ['deleteSecret','Ws', 'Sort', 'GLOBAL', '$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'UUID', 'WebhookLab', 'WebhookHub', 'WebhookLabDel', 'WebhookHubDel', 'ImageStream', 'WebhookLabget', 'WebhookGitget'
+        , function (deleteSecret,Ws, Sort, GLOBAL, $rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, UUID, WebhookLab, WebhookHub, WebhookLabDel, WebhookHubDel, ImageStream, WebhookLabget, WebhookGitget) {
             $scope.grid = {};
 
             //console.log('路由',$state);
@@ -100,6 +100,10 @@ angular.module('console.build.detail', [
                 Confirm.open("删除构建", "您确定要删除构建吗？", "删除构建将清除构建的所有历史数据以及相关的镜像该操作不能被恢复", 'recycle').then(function () {
                     BuildConfig.remove({namespace: $rootScope.namespace, name: name}, {}, function () {
                         $log.info("remove buildConfig success");
+
+                        deleteSecret.delete({namespace: $rootScope.namespace, name: "custom-git-builder-"+$rootScope.user.metadata.name+'-'+name}),{}, function (res) {
+
+                        }
                         removeIs($scope.data.metadata.name);
                         removeBuilds($scope.data.metadata.name);
 
@@ -202,6 +206,7 @@ angular.module('console.build.detail', [
                     }
                 }
             };
+
             var checkWebStatus = function(){
                 var host = $scope.data.spec.source.git.uri;
                 if (getSourceHost(host) === 'github.com') {
@@ -234,6 +239,7 @@ angular.module('console.build.detail', [
                 }
                 $scope.selection=true
             }
+
             var createWebhook = function(){
                 var host = $scope.data.spec.source.git.uri;
                 var triggers = $scope.data.spec.triggers;

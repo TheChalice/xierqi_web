@@ -1,17 +1,4 @@
-<style>
-    .zhuan {
-        animation: rotate 1s infinite linear;
-    }
 
-    @keyframes rotate {
-        0% {
-            transform: rotate(0deg);
-        }
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-</style>
 <div>
     <form class="form-horizontal" name="frm" style="margin-right: 90px; margin-left: 90px;">
         <div class="panel panel-default">
@@ -46,7 +33,7 @@
                                     <img style="float: left;margin-right: 20px;"
                                          src="views/build_create_new/img/images02_178.png">
                                 <span style="font-size:12px; height: 20px">DataFoundry 提供的代码仓库
-                                    （<a href="https://code.dataos.io" target="view_window">https://code.dataos.io</a>） 是可靠的自托管的 Git 项目仓库，
+                                    （<a href="https://code.dataos.io" target="view_window">https://code.dataos.io</a>）是可靠的自托管的 Git 项目仓库，
                                     可通过Web 界面进行访问公开的或者私人项目。</span>
                                 </div>
                             </uib-tab>
@@ -72,20 +59,26 @@
                                 <form class="form-horizontal">
                                     <p style="font-size: 12px; margin-left: 72px;padding-bottom: 10px">如果是私有代码库，需要输入用户名口令。</p>
                                     <div class="form-group">
-                                        <label for="address" class="col-md-2 control-label require" style="text-align: left; font-size: 12px; font-weight: normal">仓库地址</label>
-                                        <div class="col-md-10">
+                                        <label for="address" class="col-md-3 control-label require" style="text-align: left; font-size: 12px; font-weight: normal">仓库地址</label>
+                                        <div class="col-md-9">
                                             <input type="text" class="form-control" id="address" style="height: 30px; margin-left: -20px" ng-model="buildConfig.spec.source.git.uri">
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="address" class="col-md-3 control-label" style="text-align: left; font-size: 12px; font-weight: normal">Dockerfile路径</label>
+                                        <div class="col-md-9">
+                                            <input type="text" placeholder="." class="form-control" id="" style="height: 30px; margin-left: -20px" ng-model="buildConfig.spec.source.contextDir">
+                                        </div>
+                                    </div>
                                     <div class="form-group" style="margin-top: 30px">
-                                        <label for="username" class="col-md-2 control-label" style="text-align: left; font-size: 12px; font-weight: normal">用户名</label>
-                                        <div class="col-md-10">
+                                        <label for="username" class="col-md-3 control-label" style="text-align: left; font-size: 12px; font-weight: normal">用户名</label>
+                                        <div class="col-md-9">
                                             <input type="text" class="form-control" id="username" style="height: 30px; margin-left: -20px" ng-model="gitUsername">
                                         </div>
                                     </div>
                                     <div class="form-group" style="margin-top: 30px">
-                                        <label for="pwd" class="col-md-2 control-label text-left" style="text-align: left; font-size: 12px; font-weight: normal">口令</label>
-                                        <div class="col-md-10">
+                                        <label for="pwd" class="col-md-3 control-label text-left" style="text-align: left; font-size: 12px; font-weight: normal">口令</label>
+                                        <div class="col-md-9">
                                             <input type="password" class="form-control" id="pwd" style="height: 30px; margin-left: -20px" ng-model="gitPwd">
                                         </div>
                                     </div>
@@ -117,6 +110,19 @@
                                     项目
                                 </div>
                                 <div class="panel-body">
+                                    <div class="searchbar" style="border-left: none;border-right: none;">
+
+                                            <div class="input-group">
+                                                <input type="text" class="form-control"
+                                                       ng-model="txt"
+                                                       placeholder="搜索关键字">
+                                            <span class="input-group-btn">
+                                                <a class="btn" ng-click="search(txt)"></a>
+                                            </span>
+                                            </div>
+
+
+                                    </div>
                                     <ul>
                                         <li class="labcon" ng-repeat="project in reposobj">
                                             <a href="javascript:;" uib-tooltip="{{project.name}}"
@@ -174,6 +180,16 @@
                                     项目
                                 </div>
                                 <div class="panel-body">
+                                    <div class="searchbar" style="border-right: none;border-left: none;">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control"
+                                                       ng-model="text"
+                                                       placeholder="搜索关键字">
+                                            <span class="input-group-btn">
+                                                <a class="btn"></a>
+                                            </span>
+                                            </div>
+                                        </div>
                                     <ul>
                                         <li class="labcon" ng-repeat="project in labobjs">
                                             <a href="javascript:;" uib-tooltip="{{project.name}}"
@@ -268,6 +284,19 @@
 
 
 <style>
+    .zhuan {
+        animation: rotate 1s infinite linear;
+    }
+
+    @keyframes rotate {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
     .is-box {
         margin-top: 30px;
     }

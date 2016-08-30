@@ -43,7 +43,8 @@
                         <div class="media-body">
                             <h4 class="media-heading">路由URL</h4>
                             <small>
-                                <a class="href-orange text-overflow" href="http://{{dc.route.spec.host}}" target="_blank">{{dc.route.spec.host}}</a>
+                                <a class="href-orange text-overflow" ng-if="dc.state == 'normal'" href="http://{{dc.route.spec.host}}" target="_blank">{{dc.route.spec.host}}</a>
+                                <a class="href-orange text-overflow" style="color: #5B6177;cursor: no-drop;" ng-if="dc.state !== 'normal'" target="_blank">{{dc.route.spec.host}}</a>
                             </small>
                         </div>
                     </div>
@@ -66,17 +67,23 @@
     <uib-tabset class="tab-default" active="active">
         <uib-tab index="1">
             <uib-tab-heading>
+                <i class="faa faa-edit"></i> 部署事件
+            </uib-tab-heading>
+            <div ng-include="'views/service_detail/service_event.html'"></div>
+        </uib-tab>
+        <uib-tab index="2">
+            <uib-tab-heading>
                 <i class="faa faa-edit"></i> 部署记录
             </uib-tab-heading>
             <div ng-include="'views/service_detail/history.html'"></div>
         </uib-tab>
-        <uib-tab index="2">
+        <uib-tab index="3">
             <uib-tab-heading>
                 <i class="faa faa-target"></i> 服务监控
             </uib-tab-heading>
             <div ng-include="'views/service_detail/service_ctrl.html'"></div>
         </uib-tab>
-        <uib-tab index="3">
+        <uib-tab index="4">
             <uib-tab-heading>
                 <i class="faa faa-text"></i> 配置信息
             </uib-tab-heading>

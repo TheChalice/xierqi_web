@@ -1,57 +1,57 @@
-<div class="service-ctrl">
+<div class="service-ctrl" style="padding-bottom: 200px;">
 
     <h2>POD信息</h2>
     <hr>
 
-    <div class="table-responsive" style="margin-bottom: 30px;">
-        <table class="table table-hover table-default sub-table">
-            <tr>
-                <th>名称</th>
-                <th>运行状态</th>
-                <th>运行时长</th>
-                <th>重启策略</th>
-                <th>重启次数</th>
-                <th>容器个数</th>
-                <th class="text-center">操作</th>
-            </tr>
-            <tr ng-repeat="pod in pods.items">
-                <td>
-                    <span uib-tooltip="{{pod.metadata.name}}" style="display: block; width: 70px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{pod.metadata.name| limitTo: 12}}</span>
-                </td>
-                <td>
-                    <span uib-tooltip="{{pod.reason}}" class="text-{{pod.reason}}">{{pod.reason}}</span>
-                </td>
-                <td>{{pod.status.startTime | duration2}}</td>
-                <td>{{pod.spec.restartPolicy}}</td>
-                <td>0</td>
-                <td>{{pod.spec.containers.length}}</td>
-                <td class="text-center">
-                    <a class="btn btn-orange btn-xs" ng-click="containerModal($index)">查看容器</a>
-                    <a class="btn btn-orange btn-xs" ng-click="logModal($index)">查看日志</a>
-                </td>
-            </tr>
-        </table>
-    </div>
+    <ul class="row rongqi" style="padding: 0;list-style: none; margin-bottom: 30px;border: 1px solid #e6e9f2;">
+        <li class="col-md-12" style="background-color: #e6e9f2; height: 40px;padding-top: 10px;">
+
+                <div class="col-md-2">名称</div>
+                <div class="col-md-2">运行状态</div>
+                <div class="col-md-2">运行时长</div>
+                <div class="col-md-2">重启策略</div>
+                <div class="col-md-2">重启次数</div>
+                <div class="col-md-2">容器个数</div>
 
 
-    <h2>告警信息 <a class="href-orange pull-right" href="javascript:;">查看更多告警详情</a></h2>
-    <hr>
+        </li>
+        <li class="col-md-12" ng-repeat="pod in pods.items" style="padding-top: 10px;padding-left: 0px;padding-right: 0px;padding-bottom:10px;">
+                <div class="col-md-2">
+                    <span uib-tooltip="{{pod.metadata.name}}">{{pod.metadata.name| limitTo: 18}}
+                    <span class="caret" role="button" ng-click="grid.animeta=true" data-toggle="collapse" data-parent="#accordion" href={{"#"+pod.metadata.name}} aria-expanded="true" aria-controls="collapseOne"></span>
+                </span></div>
+                <div class="col-md-2"><span uib-tooltip="{{pod.reason}}" class="text-{{pod.reason}}">{{pod.reason}}</span></div>
+                <div class="col-md-2">{{pod.status.startTime | duration2}}</div>
+                <div class="col-md-2">{{pod.spec.restartPolicy}}</div>
+                <div class="col-md-2">0</div>
+                <div class="col-md-2">{{pod.spec.containers.length}}</div>
+                <div id={{pod.metadata.name}} class="panel-collapse collapse col-md-12" style="padding: 11px 0;position: relative;" role="tabpanel" aria-labelledby="headingOne">
+                   <div class="row">
+                       <div class="col-md-12" style="margin-bottom: 10px;" ng-repeat="container in pod.spec.containers">
+                           <div class="col-md-2"><span>{{container.name}}</span></div>
+                           <div class="col-md-2"><a class="btn btn-orange btn-xs" ng-click="containerModal(container.podname,$index)">查看容器</a></div>
+                           <div class="col-md-8"></div>
+                       </div>
 
-    <div class="timeline">
-        <ul>
-            <li ng-repeat="item in events.items">
-                <label>
-                    <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                    {{item.metadata.creationTimestamp | dateRelative}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <span ng-if="item.type=='Error'">严重告警</span>
-                    <span ng-if="item.type=='Warning'">告警</span>
-                    <span ng-if="item.type=='Normal'">一般告警</span>
-                </label>
-                <div class="container-fluid">
-                    {{item.message}}
-                </div>
-            </li>
-        </ul>
-    </div>
+                   </div>
+                    <!--<div style="border: 1px solid #e6e9f2;border-top: none;">-->
+                    <!--<table class="table table-hover table-default sub-table">-->
+                        <!--<tr ng-repeat="container in pod.spec.containers">-->
+                            <!--&lt;!&ndash;<td><a href="javascript:;" ng-click="containerDetail($index)">{{container.name}}</a></td>&ndash;&gt;-->
+                            <!--<td style="text-align: center;">-->
+                                <!--<a class="btn btn-orange btn-xs" ng-click="containerModal(container.podname,$index)">查看容器</a></td>-->
+                        <!--</tr>-->
+                    <!--</table>-->
+                <!--</div>-->
 
+            </div>
+        </li>
+
+    </ul>
+
+<style>
+    .rongqi li {
+        text-align: center;
+    }
+</style>
 </div>
