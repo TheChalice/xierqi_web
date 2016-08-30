@@ -31,7 +31,7 @@ angular.module('console.image_detail', [
 
             $scope.pull = function (name) {
                 var s = $scope.name;
-                console.log(name);
+                //console.log(name);
                 var str =$scope.name + ':' + name
                 ModalPullImage.open(str,'project')
                     .then(function (res) {

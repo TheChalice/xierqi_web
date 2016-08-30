@@ -407,10 +407,16 @@ angular.module('console.build_create_new', [
                     angular.forEach($scope.githubarr, function (image) {
                         if (RegExp(newVal).test(image.name)) {
                             console.log(image.name);
+
                             arr.push(image)
                         }
                     });
                 //console.log(arr);
+                //$scope.grid.project = null;
+                //$scope.grid.labproject = null;
+                //$scope.choooseProject = null;
+                //$scope.grid.labbranch = null;
+                //$scope.labBranchData.msg = null;
                 $scope.reposobj=arr;
             }
         });
@@ -423,7 +429,8 @@ angular.module('console.build_create_new', [
                     angular.forEach($scope.labarr, function (image) {
                         if (RegExp(newVal).test(image.name)) {
                             //console.log(image.name);
-                            arr.push(image)
+                            arr.push(image);
+
                         }
                     });
                 //console.log(arr);

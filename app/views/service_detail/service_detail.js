@@ -729,6 +729,13 @@ angular.module('console.service.detail', [
                         $scope.$apply()
                     }
 
+                }else if(data.type == "MODIFIED"){
+                    if (data.object.involvedObject.name.split('-')[0] == $scope.dc.metadata.name) {
+                        $scope.eventsws.items.unshift(data.object);
+                        console.log(data.object.involvedObject.name.split('-')[0] == $scope.dc.metadata.name);
+                        $scope.$apply()
+                    }
+
                 }
                 //console.log($scope.eventsws);
             }
