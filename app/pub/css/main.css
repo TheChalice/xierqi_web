@@ -206,6 +206,32 @@ a {
     background-image: url(../img/refresh.png);
 }
 
+.star-13 {
+    display: inline-block;
+    cursor: pointer;
+    width: 13px;
+    height: 13px;
+    background:url(../img/star.png);
+}
+.star-13:hover{
+    background:url(../img/starh.png);
+}
+.download-13 {
+    display: inline-block;
+    cursor: pointer;
+    width: 13px;
+    height: 13px;
+    background:url(../img/download.png)  center center no-repeat;
+    background-size: 13px 13px;
+}
+.download-13:hover{
+    background:url(../img/download-hover.png)  center center no-repeat;
+    background-size: 13px 13px;
+
+}
+.star-13-active {
+    background:url("../../pub/img/starh.png") no-repeat;
+}
 /*输入框*/
 .form-control {
     border: 1px solid #c9c9c9;
