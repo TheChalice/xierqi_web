@@ -177,7 +177,7 @@ angular.module('console.service.detail', [
 
             var changevol = function (res) {
                 $scope.maps = angular.copy(res.spec.template.spec.volumes);
-                console.log('isdcmap', $scope.maps);
+                //console.log('isdcmap', $scope.maps);
                 function dcvomap(name) {
                     var obj = {};
                     angular.forEach($scope.maps, function (map, i) {
@@ -681,8 +681,15 @@ angular.module('console.service.detail', [
                             }
 
                         })
-                        console.log('eventsws',arr);
-                        $scope.eventsws.items = arr
+                        //console.log('eventsws', arr);
+                        angular.forEach(arr, function (item,i) {
+                                    arr[i].mysort=-(new Date(item.metadata.creationTimestamp)).getTime()
+                                })
+                                arr.sort(function (x, y) {
+                                    return x.mysort > y.mysort ? -1 : 1;
+                                });
+                        $scope.eventsws.items =arr;
+                        //sortevent($scope.eventsws.items);
                     }
 
                     //$log.info("events", res);
@@ -719,25 +726,43 @@ angular.module('console.service.detail', [
                 });
             }
 
+            //function sortevent(arr){
+            //    angular.forEach(arr, function (item,i) {
+            //        arr[i].mysort=-(new Date(item.metadata.creationTimestamp)).getTime()
+            //    })
+            //    //arr.sort(function (x, y) {
+            //    //    return x.mysort > y.mysort ? -1 : 1;
+            //    //});
+            //    //console.log(arr);
+            //    return arr
+            //
+            //}
+
             var updateEvent = function (data) {
                 if (data.type == "ADDED") {
 
                     if (data.object.involvedObject.name.split('-')[0] == $scope.dc.metadata.name) {
-                        $scope.eventsws.items.unshift(data.object);
-                        console.log(data.object.involvedObject.name.split('-')[0] == $scope.dc.metadata.name);
+                        data.object.mysort = -(new Date(data.object.metadata.creationTimestamp)).getTime()
+                        $scope.eventsws.items.push(data.object);
+
+                        //$scope.eventsws.items=sortevent($scope.eventsws.items)
+                        //console.log(data.object.involvedObject.name.split('-')[0] == $scope.dc.metadata.name);
                         $scope.$apply()
                     }
 
-                }else if(data.type == "MODIFIED"){
+                } else if (data.type == "MODIFIED") {
                     if (data.object.involvedObject.name.split('-')[0] == $scope.dc.metadata.name) {
-                        $scope.eventsws.items.unshift(data.object);
-                        console.log(data.object.involvedObject.name.split('-')[0] == $scope.dc.metadata.name);
+                        data.object.mysort = -(new Date(data.object.metadata.creationTimestamp)).getTime()
+                        $scope.eventsws.items.push(data.object);
+                        //$scope.eventsws.items=sortevent($scope.eventsws.items)
+                        //console.log(data.object.involvedObject.name.split('-')[0] == $scope.dc.metadata.name);
                         $scope.$apply()
                     }
 
                 }
                 //console.log($scope.eventsws);
             }
+
             var watchRcs = function (resourceVersion) {
                 Ws.watch({
                     api: 'k8s',
@@ -1183,7 +1208,8 @@ angular.module('console.service.detail', [
                         });
                 });
 
-            }
+            };
+
             $scope.delete = function () {
                 //console.log('---------------',$scope.bsi.items);
                 var bindings = [];
@@ -1325,7 +1351,7 @@ angular.module('console.service.detail', [
                             })
                         }
                     })
-                    console.log('POD000', $scope.pods);
+                    //console.log('POD000', $scope.pods);
                     $scope.dc.status.replicas = 0;
                     for (var i = 0; i < res.items.length; i++) {
                         $scope.pods.items[i].reason = res.items[i].status.phase;
@@ -1442,6 +1468,7 @@ angular.module('console.service.detail', [
             };
 /////////////挂载卷
             var cintainersidx;
+
             $scope.addVolume = function (idx) {
                 var olength = 0;
                 if ($scope.dc.spec.template.spec.volumes) {
@@ -1515,6 +1542,7 @@ angular.module('console.service.detail', [
             $scope.delEnv = function (idx) {
                 $scope.envs.splice(idx, 1);
             };
+
             $scope.addEnv = function () {
                 $scope.envs.push({name: '', value: ''});
             }
@@ -1536,9 +1564,11 @@ angular.module('console.service.detail', [
                     hostPort: "",
                 })
             };
+
             $scope.delprot = function (idx) {
                 $scope.portsArr.splice(idx, 1);
-            }
+            };
+
             $scope.updatePorts = function () {
                 $scope.grid.ports = [];
                 //angular.forEach($scope.dc.spec.template.spec.containers, function (item) {
@@ -1550,6 +1580,7 @@ angular.module('console.service.detail', [
                 });
                 //});
             };
+
             $scope.selectImage = function (idx) {
                 var container = $scope.dc.spec.template.spec.containers[idx];
                 var cons = $scope.dc.spec.template.spec.containers;
@@ -1693,7 +1724,6 @@ angular.module('console.service.detail', [
                     isConflict();
                 });
             };
-
 
             var prepareVolume = function (dc) {
                 var containers = dc.spec.template.spec.containers;
