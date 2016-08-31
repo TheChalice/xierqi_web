@@ -180,7 +180,7 @@ angular.module('console.service.detail', [
                 //console.log('isdcmap', $scope.maps);
                 function dcvomap(name) {
                     var obj = {};
-                    console.log('$scope.maps',$scope.maps);
+                    //console.log('$scope.maps',$scope.maps);
                     angular.forEach($scope.maps, function (map, i) {
                         if (map.name == name) {
                             if (map.secret) {
