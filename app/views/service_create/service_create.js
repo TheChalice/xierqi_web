@@ -626,9 +626,9 @@ angular.module('console.service.create', [
                 },function (close) {
                     console.log(close);
                     if (close == 'cancel') {
-                        $scope.dc.spec.template.spec.containers[idx].volumeMounts = null;
-                        $scope.dc.spec.template.spec.volumes =null;
-                        $scope.dc.spec.template.spec.containers[idx].secretsobj = null;
+                        $scope.dc.spec.template.spec.containers[idx].volumeMounts = [];
+                        $scope.dc.spec.template.spec.volumes =[];
+                        $scope.dc.spec.template.spec.containers[idx].secretsobj = [];
                     }
                 });
             }
