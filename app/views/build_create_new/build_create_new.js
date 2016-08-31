@@ -92,7 +92,7 @@ angular.module('console.build_create_new', [
         }
 
         var createBuildConfig = function(labsecret) {
-            if($scope.grid.ishide == false){
+            if($scope.grid.ishide == false) {
                 $scope.buildConfig.spec.completionDeadlineSeconds = $scope.completionDeadlineMinutes * 60;
                 $scope.buildConfig.spec.source.git.ref = $scope.branch[$scope.grid.branch].name;
                 $scope.buildConfig.spec.source.sourceSecret.name = $scope.owner.secret;

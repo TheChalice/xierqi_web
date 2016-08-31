@@ -180,6 +180,7 @@ angular.module('console.service.detail', [
                 //console.log('isdcmap', $scope.maps);
                 function dcvomap(name) {
                     var obj = {};
+                    console.log('$scope.maps',$scope.maps);
                     angular.forEach($scope.maps, function (map, i) {
                         if (map.name == name) {
                             if (map.secret) {
@@ -196,6 +197,15 @@ angular.module('console.service.detail', [
                                     myname: name,
                                     configMap: {
                                         name: map.configMap.name
+                                    },
+                                    mountPath: null
+                                };
+                            }
+                            if (map.persistentVolumeClaim) {
+                                obj = {
+                                    myname: name,
+                                    persistentVolumeClaim: {
+                                        claimName: map.persistentVolumeClaim.claimName
                                     },
                                     mountPath: null
                                 };
@@ -220,6 +230,9 @@ angular.module('console.service.detail', [
                         }
                         if (obj.configMap) {
                             res.spec.template.spec.containers[i].vol.configmap.push(obj);
+                        }
+                        if (obj.persistentVolumeClaim) {
+                            res.spec.template.spec.containers[i].vol.persistentarr.push(obj);
                         }
 
                     })
