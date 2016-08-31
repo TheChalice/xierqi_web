@@ -200,6 +200,15 @@ angular.module('console.service.detail', [
                                     mountPath: null
                                 };
                             }
+                            if (map.persistentVolumeClaim) {
+                                obj = {
+                                    myname: name,
+                                    persistentVolumeClaim: {
+                                        claimName: map.persistentVolumeClaim.claimName
+                                    },
+                                    mountPath: null
+                                };
+                            }
                         }
                     })
                     return obj;
@@ -220,6 +229,9 @@ angular.module('console.service.detail', [
                         }
                         if (obj.configMap) {
                             res.spec.template.spec.containers[i].vol.configmap.push(obj);
+                        }
+                        if (obj.persistentVolumeClaim) {
+                            res.spec.template.spec.containers[i].vol.persistentarr.push(obj);
                         }
 
                     })
