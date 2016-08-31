@@ -364,7 +364,14 @@
             <h3>路由设置</h3>
         </div>
         <div class="col-md-10">
-            <c-checkbox checked="grid.route"></c-checkbox>
+                    <c-checkbox ng-if="portsArr[0].protocol!==''" checked="grid.route"></c-checkbox>
+                    <span class="my-checkbox" ng-if="portsArr[0].protocol===''" ng-click="grid.noroute=true">
+                        <span class="checkbox-check">
+                            <span class="check-btn"></span>
+                        </span>
+                        <!--<small >请选择一个TPC端口</small>-->
+                        <small ng-if="grid.noroute" class="fa fa-info-circle err-tip">请添加端口</small>
+                    </span>
             <br>
             <div ng-if="grid.route" style="margin-top: 35px;">
 
@@ -399,23 +406,23 @@
                         <input style="width: 160px;display: inline-block;"
                                ng-model="grid.host" type="text" class="form-control">
                                 <span class="input-group-btn">
-                                <button class="btn btn-default" ng-if="grid.cname == '域名'"
-                                        style="color: black;border-color:#8c8c8c;background: #e6e6e6;height: 34px;font-size: 12px;"
-                                        type="button">{{grid.suffix}}
-                                </button>
+                                <span ng-if="grid.cname == '域名'"
+                                        style="line-height: 21px;display: inline-block;padding: 6px 12px;color: black;border-color:#8c8c8c;background: #e6e6e6;height: 34px;font-size: 12px;"
+                                        >{{grid.suffix}}
+                                </span>
                                 <span ng-if="grid.cname == 'cname'" style="color: black;height: 34px;font-size: 12px;">需将cname指向router.app.dataos.io</span>
                                 </span>
                     </div><!-- /input-group -->
                 </div>
                 <br>
-                <p style="margin-top: 35px;" ng-if="!grid.tlsshow">
-                    <a style="font-size: 14px;margin-left: 2px;cursor: pointer; font-weight: bolder;color: #e5993a"
-                       ng-click="grid.tlsshow=true">TLS设置</a></p>
-                <div ng-if="grid.tlsshow">
+                <!--<p style="margin-top: 35px;" ng-if="!grid.tlsshow">-->
+                    <!--<a style="font-size: 14px;margin-left: 2px;cursor: pointer; font-weight: bolder;color: #e5993a"-->
+                       <!--ng-click="grid.tlsshow=true">TLS设置</a></p>-->
+                <div>
                     <label style="margin-top: 35px;font-size: 12px; font-weight: normal;">TLS设置&nbsp;&nbsp;&nbsp;&nbsp;</label>
                     <!--<p style="margin-top: 35px;font-size: 18px;">TLS设置</p>-->
                     <div class="dropdown dropdown-select" style="width: 270px">
-                        <button class="btn dropdown-toggle" data-toggle="dropdown" ng-click="updatePorts()">
+                        <button class="btn dropdown-toggle" data-toggle="dropdown">
                             <span>{{grid.tlsset||'none'}}</span>
                             <span class="caret"></span>
                         </button>
@@ -729,12 +736,13 @@
         <div class="col-md-2">
             <h3>后端服务绑定</h3>
         </div>
-        <!--<div class="col-md-10">-->
+        <div class="col-md-10" ng-if="!bsi.items.length">
+            <span>无</span>
             <!--&lt;!&ndash;<a ui-sref="console.backing_service" class="href-add">&ndash;&gt;-->
                 <!--&lt;!&ndash;<i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;<span style="font-size: 12px">创建</span>&ndash;&gt;-->
             <!--&lt;!&ndash;</a>&ndash;&gt;-->
-        <!--</div>-->
-        <div class="col-md-9">
+        </div>
+        <div class="col-md-9" ng-if="bsi.items.length">
             <div class="panel panel-default sub-panel">
                 <!--<div class="panel-heading">-->
                     <!--后端服务实例-->

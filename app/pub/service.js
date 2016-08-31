@@ -552,6 +552,7 @@ define(['angular'], function (angular) {
         .service('ChooseSecret', ['$uibModal', function ($uibModal) {
             this.open = function (olength, secretsobj) {
                 return $uibModal.open({
+                    backdrop:false,
                     templateUrl: 'pub/tpl/choosSecret.html',
                     size: 'default',
                     controller: ['by', '$scope', '$uibModalInstance', '$log', 'secretskey', '$rootScope', 'configmaps', 'persistent', '$state',
@@ -781,7 +782,7 @@ define(['angular'], function (angular) {
                                         "mountPath": $scope.configmap[j].mountPath
                                     }
                                     if ($scope.configmap[j].configMap.name == '名称' || !$scope.configmap[j].mountPath) {
-                                        alert('2不能为空')
+                                        //alert('2不能为空')
                                         return;
                                     }
                                     thisvolumes.push(volumeval);
@@ -801,7 +802,7 @@ define(['angular'], function (angular) {
                                     }
                                     console.log('$scope.persistentarr[j].mountPath', $scope.persistentarr[j].mountPath)
                                     if ($scope.persistentarr[j].persistentVolumeClaim.claimName == '名称' || !$scope.persistentarr[j].mountPath) {
-                                        alert('3不能为空')
+                                        //alert('3不能为空')
                                         return;
                                     }
 
@@ -823,7 +824,7 @@ define(['angular'], function (angular) {
                                 //$scope.secretarr=[]
                                 //$scope.configmap=[]
                                 //$scope.persistentarr=[]
-                                $uibModalInstance.dismiss();
+                                $uibModalInstance.dismiss('cancel');
                             };
                         }]
                 }).result
@@ -835,14 +836,19 @@ define(['angular'], function (angular) {
                     templateUrl: 'pub/tpl/modal_pull_image.html',
                     size: 'default',
                     controller: ['$scope', '$uibModalInstance', '$log', function ($scope, $uibModalInstance, $log) {
-                        console.log(name)
-                        if (!yuorself) {
-                            $scope.name = name.split('/')[1] ? name.split(':')[0] + ':' + name.split(':')[1].split('/')[1] : name;
-
-                        } else {
+                        //console.log(name)
+                        //if (!yuorself) {
+                        //    $scope.name = name.split('/')[1] ? name.split(':')[0] + ':' + name.split(':')[1].split('/')[1] : name;
+                        //
+                        //} else {
                             $scope.name = name;
+                        //}
+                        if (yuorself=='project') {
+                            $scope.cmd = 'docker pull registry.dataos.io/project/' + $scope.name;
+                        }else {
+                            $scope.cmd = 'docker pull registry.dataos.io/' + $scope.name;
                         }
-                        $scope.cmd = 'docker pull registry.dataos.io/' + $scope.name;
+
                         $scope.cancel = function () {
                             $uibModalInstance.dismiss();
                         };
@@ -1394,7 +1400,7 @@ define(['angular'], function (angular) {
             };
             return {
                 request: function (config) {
-                    if (/login/.test(config.url)) {
+                    if (/\/login/.test(config.url)) {
                         return config;
                     }
                     var token = Cookie.get('df_access_token');
@@ -1402,10 +1408,10 @@ define(['angular'], function (angular) {
                         config.headers["Authorization"] = "Bearer " + token;
                     }
 
-                    if (/hawkular/.test(config.url)) {
+                    if (/\/hawkular/.test(config.url)) {
                         config.headers["Hawkular-Tenant"] = $rootScope.namespace;
                     }
-                    if (/registry/.test(config.url)) {
+                    if (/\/registry/.test(config.url)) {
                         var Auth = localStorage.getItem("Auth")
                         config.headers["Authorization"] = "Basic " + Auth;
                     }

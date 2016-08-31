@@ -92,6 +92,7 @@ angular.module('console.service.create', [
                 port: 0,
                 cname:'域名',
                 host: '',
+                noroute:false,
                 zsfile:{},
                 syfile:{},
                 cafile:{},
@@ -622,6 +623,13 @@ angular.module('console.service.create', [
                     $scope.dc.spec.template.spec.containers[idx].volumeMounts = volumesobj.arr2;
                     $scope.dc.spec.template.spec.volumes = $scope.dc.spec.template.spec.volumes.concat(volumesobj.arr1);
                     $scope.dc.spec.template.spec.containers[idx].secretsobj = volumesobj.arr3
+                },function (close) {
+                    console.log(close);
+                    if (close == 'cancel') {
+                        $scope.dc.spec.template.spec.containers[idx].volumeMounts = [];
+                        $scope.dc.spec.template.spec.volumes =[];
+                        $scope.dc.spec.template.spec.containers[idx].secretsobj = [];
+                    }
                 });
             }
 

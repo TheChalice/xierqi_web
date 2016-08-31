@@ -16,22 +16,33 @@
 
         </li>
         <li class="col-md-12" ng-repeat="pod in pods.items" style="padding-top: 10px;padding-left: 0px;padding-right: 0px;padding-bottom:10px;">
-                <div class="col-md-2"><span uib-tooltip="{{pod.metadata.name}}">{{pod.metadata.name| limitTo: 18}}<span class="caret" role="button" data-toggle="collapse" data-parent="#accordion" href={{"#"+pod.metadata.name}} aria-expanded="true" aria-controls="collapseOne"></span></span></div>
+                <div class="col-md-2">
+                    <span uib-tooltip="{{pod.metadata.name}}">{{pod.metadata.name| limitTo: 18}}
+                    <!--<span class="caret" role="button" ng-click="grid.animeta=true" data-toggle="collapse" data-parent="#accordion" aria-expanded="true" aria-controls="collapseOne"></span>-->
+                </span></div>
                 <div class="col-md-2"><span uib-tooltip="{{pod.reason}}" class="text-{{pod.reason}}">{{pod.reason}}</span></div>
                 <div class="col-md-2">{{pod.status.startTime | duration2}}</div>
                 <div class="col-md-2">{{pod.spec.restartPolicy}}</div>
                 <div class="col-md-2">0</div>
                 <div class="col-md-2">{{pod.spec.containers.length}}</div>
-                <div id={{pod.metadata.name}} class="panel-collapse collapse col-md-12" style="padding: 11px 0;position: relative;" role="tabpanel" aria-labelledby="headingOne">
-                    <div class="table-responsive" style="padding:20px;border: 1px solid #e6e9f2;border-top: none;">
-                    <table class="table table-hover table-default sub-table">
-                        <tr ng-repeat="container in pod.spec.containers">
-                            <td><a href="javascript:;" ng-click="containerDetail($index)" class="href-orange">{{container.name}}</a></td>
-                            <td style="text-align: center;">
-                                <a class="btn btn-orange btn-xs" ng-click="containerModal(container.podname,$index)">查看容器</a></td>
-                        </tr>
-                    </table>
-                </div>
+                <div class="panel-collapse collapse in col-md-12" style="padding: 0;padding-top: 0;padding-bottom: 10px;position: relative;" role="tabpanel" aria-labelledby="headingOne">
+                   <div class="row">
+                       <div class="col-md-12" style="margin-bottom: 10px;" ng-repeat="container in pod.spec.containers">
+                           <div class="col-md-2" style=""><span class="glyphicon glyphicon-tasks" style="color:#f8b551;font-size:12px;" aria-hidden="true"></span><span style="font-size: 10px;">{{container.name}}</span></div>
+                           <div class="col-md-8"></div>
+                           <div class="col-md-2"><a class="btn btn-orange btn-xs" style="padding: 0 6px;" ng-click="containerModal(container.podname,$index)">查看容器</a></div>
+                       </div>
+
+                   </div>
+                    <!--<div style="border: 1px solid #e6e9f2;border-top: none;">-->
+                    <!--<table class="table table-hover table-default sub-table">-->
+                        <!--<tr ng-repeat="container in pod.spec.containers">-->
+                            <!--&lt;!&ndash;<td><a href="javascript:;" ng-click="containerDetail($index)">{{container.name}}</a></td>&ndash;&gt;-->
+                            <!--<td style="text-align: center;">-->
+                                <!--<a class="btn btn-orange btn-xs" ng-click="containerModal(container.podname,$index)">查看容器</a></td>-->
+                        <!--</tr>-->
+                    <!--</table>-->
+                <!--</div>-->
 
             </div>
         </li>

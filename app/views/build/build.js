@@ -112,7 +112,7 @@ angular.module('console.build', [
                 if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
                     return;
                 }
-                watchBuilds($scope.resourceVersion);
+                //watchBuilds($scope.resourceVersion);
             });
         };
 
@@ -120,7 +120,7 @@ angular.module('console.build', [
             if (data.type == 'ERROR') {
                 $log.info("err", data.object.message);
                 Ws.clear();
-                loadBuilds($scope.data.items);
+                //loadBuilds($scope.data.items);
                 return;
             }
 

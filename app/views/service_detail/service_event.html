@@ -2,36 +2,52 @@
 
     <!--<h2>EVENT信息</h2>-->
     <!--<hr>-->
+    <div class="row rongqi" style="padding: 0;list-style: none; margin-bottom: 30px;border: 1px solid #e6e9f2;border-bottom: none;">
+        <div class="col-md-12" style="background-color: #e6e9f2; height: 40px;padding-top: 10px;">
 
-    <div class="table-responsive" style="margin-bottom: 30px;">
-        <table class="table table-hover table-default sub-table">
-            <tr>
-                <th>时间</th>
-                <th>名称</th>
-                <th>类型</th>
-                <th>状态</th>
-                <th>事件</th>
-            </tr>
-            <tr ng-repeat="event in eventsws.items">
-                <td>
+            <div class="col-md-1 biaotou">时间</div>
+            <div class="col-md-2 biaotou">名称</div>
+            <div class="col-md-2 biaotou">类型</div>
+            <div class="col-md-1 biaotou">状态</div>
+            <div class="col-md-6 biaotou">事件</div>
+            <!--<div class="col-md-2">容器个数</div>-->
 
-                    <span uib-tooltip="{{event.metadata.creationTimestamp | duration2}}">{{event.metadata.creationTimestamp | duration2}}</span>
-                    <!--<span uib-tooltip="{{event.metadata.creationTimestamp | duration2}}" style="display: block; width: 70px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{pod.metadata.name| limitTo: 12}}</span>-->
-                </td>
-                <td>
 
-                    <!--<span uib-tooltip="{{event.involvedObject.name}}"  style="display: block; width: 70px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{event.involvedObject.name | limitTo: 12}}</span>-->
-                    <span uib-tooltip="{{event.involvedObject.name}}">{{event.involvedObject.name}}</span>
-                </td>
-                <td>{{event.involvedObject.kind}}</td>
-                <td>{{event.type}}</td>
-                <td>
-                    <span uib-tooltip="{{event.message}}">{{event.message | limitTo: 50}}</span>
-                </td>
-            </tr>
-        </table>
+        </div>
+        <div class="col-md-12 event" ng-repeat="event in eventsws.items  | orderBy : 'mysort'" style="padding-top: 10px;padding-left: 0px;padding-right: 0px;padding-bottom:10px;">
+            <div class="col-md-1 paddingeve" style="text-align: center;" ng-class="{'paddingevent':event.message.length>130,'paddingeventz':event.message.length>65&&event.message.length<=130}" uib-tooltip="{{event.metadata.creationTimestamp | timescon}}"><span style="">{{event.metadata.creationTimestamp | duration2}}</span></div>
+            <div class="col-md-2 paddingeve" style="text-align: center;" ng-class="{'paddingevent':event.message.length>130,'paddingeventz':event.message.length>65&&event.message.length<=130}"><span uib-tooltip="{{event.involvedObject.name}}">{{event.involvedObject.name}}</span></div>
+            <div class="col-md-2 paddingeve" style="text-align: center;" ng-class="{'paddingevent':event.message.length>130,'paddingeventz':event.message.length>65&&event.message.length<=130}"><span style="word-wrap: break-word;text-align: center;">{{event.involvedObject.kind}}</span></div>
+            <div class="col-md-1 paddingeve" style="text-align: center;" ng-class="{'paddingevent':event.message.length>130,'paddingeventz':event.message.length>65&&event.message.length<=130}"><span style="word-wrap: break-word;">{{event.type}}</span></div>
+            <div class="col-md-6"><span style="word-break:break-all;">{{event.message}}<br><small style="color:#5a6378;font-size: 10px;">出现{{event.count}}次</small></span></div>
+
+        </div>
+
     </div>
+
 <style>
+    .biaotou {
+        text-align: center;
+    }
+    .event .paddingeve {
+        padding: 1% 0;
+    }
+    .event .paddingeventz {
+        padding: 2% 0;
+    }
+    .event .paddingevent {
+        padding: 5% 0;
+    }
+
+    .rongqi >div {
+        /*text-align: center;*/
+        border-bottom: 1px solid #e6e9f2;
+    }
+    .table-default.sub-table > tbody > tr {
+        display: table-row;
+        vertical-align: inherit;
+        vertical-align: middle;
+    }
     .table-default.sub-table > tbody > tr > td {
         padding: 12px 10px;
     }

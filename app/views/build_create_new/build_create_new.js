@@ -224,13 +224,13 @@ angular.module('console.build_create_new', [
                         // + "%26redirect_url=" + window.location.href ;
                         var authurl =  "namespace=" + $rootScope.namespace
                             + "&bearer=" + Cookie.get("df_access_token")
-                            + "&redirect_url=" + window.location.href ;
+                            + "&redirect_url=" + window.location.href;
                         $log.info(authurl);
                         if($scope.grid.isfirst == 2){
                             window.location = data.data.msg + "?"+ encodeURIComponent(authurl);
                         }
                     }
-                }else{
+                }else {
                     if(data.data && data.data.msg){
                         Alert.open('错误', data.data.msg, true);
                         $scope.grid.ishide = true;
@@ -407,10 +407,21 @@ angular.module('console.build_create_new', [
                     angular.forEach($scope.githubarr, function (image) {
                         if (RegExp(newVal).test(image.name)) {
                             console.log(image.name);
+
                             arr.push(image)
                         }
                     });
                 //console.log(arr);
+                //$scope.grid.project = null;
+                console.log($scope.grid.labproject, $scope.choooseProject, $scope.grid.labbranch);
+                $scope.grid.labproject = null;
+                $scope.choooseProject = null;
+                $scope.grid.labbranch = null;
+                //$scope.labBranchData.msg = null;
+                $scope.grid.project=null;
+                $scope.chooseProject = null;
+                $scope.branch=null;
+                $scope.grid.branch = null;
                 $scope.reposobj=arr;
             }
         });
@@ -423,10 +434,20 @@ angular.module('console.build_create_new', [
                     angular.forEach($scope.labarr, function (image) {
                         if (RegExp(newVal).test(image.name)) {
                             //console.log(image.name);
-                            arr.push(image)
+                            arr.push(image);
+
                         }
                     });
                 //console.log(arr);
+                console.log($scope.grid.labproject, $scope.choooseProject, $scope.grid.labbranch);
+                $scope.grid.labproject = null;
+                $scope.choooseProject = null;
+                $scope.grid.labbranch = null;
+                //$scope.labBranchData.msg = null;
+                $scope.grid.project=null;
+                $scope.chooseProject = null;
+                $scope.branch=null;
+                $scope.grid.branch = null;
                 $scope.labobjs=arr;
             }
         });
