@@ -867,6 +867,7 @@ define(['angular'], function (angular) {
         .service('ImageSelect', ['$uibModal', function ($uibModal) {
             this.open = function () {
                 return $uibModal.open({
+                    backdrop:false,
                     templateUrl: 'pub/tpl/modal_choose_image.html',
                     size: 'default modal-lg',
                     controller: ['$rootScope', '$scope', '$uibModalInstance', 'images', 'ImageStreamTag', 'ImageStream', '$http', 'platformlist', function ($rootScope, $scope, $uibModalInstance, images, ImageStreamTag, ImageStream, $http, platformlist) {
@@ -1033,7 +1034,7 @@ define(['angular'], function (angular) {
                         };
 
                         $scope.cancel = function () {
-                            $uibModalInstance.dismiss();
+                            $uibModalInstance.dismiss('cancel');
                         };
                         $scope.ok = function () {
                             console.log("===", $scope.imageTags);
