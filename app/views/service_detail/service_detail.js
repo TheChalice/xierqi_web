@@ -31,6 +31,7 @@ angular.module('console.service.detail', [
                 isimageChange: true,
                 imagePullSecrets: false
             };
+
             function readSingleFile(e, name) {
                 //alert(1111)
                 var thisfilename = document.getElementById(name).value;
@@ -72,6 +73,7 @@ angular.module('console.service.detail', [
                 }, false);
 
             }
+
             $scope.addsy = function () {
 
                 document.getElementById('syfile').addEventListener('change', function (e) {
@@ -80,6 +82,7 @@ angular.module('console.service.detail', [
                 }, false);
 
             }
+
             $scope.addca = function () {
 
                 document.getElementById('cafile').addEventListener('change', function (e) {
@@ -88,6 +91,7 @@ angular.module('console.service.detail', [
                 }, false);
 
             }
+
             $scope.addmca = function () {
 
                 document.getElementById('mcafile').addEventListener('change', function (e) {
@@ -97,6 +101,7 @@ angular.module('console.service.detail', [
 
 
             }
+
             var getserviceaccounts = function () {
                 serviceaccounts.get({namespace: $rootScope.namespace}, function (res) {
                     $scope.serviceas = res
@@ -713,7 +718,9 @@ angular.module('console.service.detail', [
                     // $log.info("loadEvents err", res)
                 });
             };
+
             loadeventws()
+
             function watchevent(resourceVersion) {
                 Ws.watch({
                     api: 'k8s',

@@ -1083,3 +1083,15 @@ a {
         transform: rotate(-359deg);
     }
 }
+.myimage{
+    background: url(../../pub/img/myimage.png) no-repeat;
+    background-size:contain;
+}
+.nav-link:hover i.myimage{
+    background: url(../../pub/img/myimageh.png) no-repeat;
+    background-size:contain;
+}
+.active .myimage{
+    background: url(../../pub/img/myimageh.png) no-repeat;
+    background-size:contain;
+}
