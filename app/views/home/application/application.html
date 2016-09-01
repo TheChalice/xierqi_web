@@ -73,7 +73,7 @@
                                                         <div class="caption">
                                                                <p>SAAS平台服务</p>
                                                                <p>提供者:平台</p>
-                                                               <a class="btn btn-orange"  style='cursor:default;'>创建</a>
+                                                               <a class="btn btn-orange1"  style='cursor:default;' ng-click="createsaas()">创建</a>
                                                         </div>
                                                  </div>
                                           </div>
@@ -114,7 +114,7 @@
                             <div class="panel-heading">
                                    <span>SAAS服务</span>
                                    <div style="float:right;margin-right:15px;">
-                                          <span class="color-orange">查看我的收藏</span>
+                                          <!--<span class="color-orange" ng-click="checkcollect()">查看我的收藏</span>-->
                                           <!--<span class="color-orange" ng-click="howpushimg()">如何拉取镜像?</span>-->
                                    </div>
                             </div>
@@ -159,7 +159,8 @@
                                                                                     <a class="btn btn-green"
                                                                                        ng-if='true'
                                                                                        href="javascript:;"
-                                                                                       ui-sref="">部署最新版本</a>
+                                                                                       ng-click="deployimg()"
+                                                                                       >部署最新版本</a>
                                                                              </p>
                                                                       </div>
                                                                       <div style="position: relative;">

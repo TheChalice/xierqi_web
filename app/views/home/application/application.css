@@ -135,14 +135,14 @@
 .caption p {
     font-size: 14px;
 }
-.btn-orange{
+.btn-orange1{
     width: 120px;
     height: 36px;
     line-height: 36px;
     background-color: #f6a540;
     padding:0px;
 }
-.btn-orange:hover {
+.btn-orange1:hover {
     background-color: #f8b551;
 }
 .btn-skyblue{

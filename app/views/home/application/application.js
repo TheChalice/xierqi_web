@@ -8,7 +8,7 @@ angular.module('home.application', [
         ]
     }
 ])
-    .controller('applicationCtrl', ['$scope', '$log','simpleAlert', function ($scope, $log,simpleAlert) {
+    .controller('applicationCtrl', ['$scope', '$log','$state','$rootScope', function ($scope, $log,$state,$rootScope) {
            $scope.grid = {
                active : 1,
                hotimglist :1
@@ -35,4 +35,25 @@ angular.module('home.application', [
         //$scope.howpushimg = function(){
         //    simpleAlert.open('拉取镜像说明','<p>11<p/><p>22<p/>');
         //}
+        $scope.checkcollect = function(){
+            if(!$rootScope.user){
+                $state.go('login');
+            }else{
+                alert(1);
+            }
+        }
+        $scope.createsaas = function(){
+            if(!$rootScope.user){
+                $state.go('login');
+            }else{
+                $state.go('login');
+            }
+        }
+        $scope.deployimg = function(){
+            if(!$rootScope.user){
+                $state.go('login',{type : 'q',name : 'aaa'+':latest'+':registryjump'});
+            }else{
+                $state.go('console.service_create',{image:'aaa'+':latest'+':registryjump'});
+            }
+        }
     }]);

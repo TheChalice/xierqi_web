@@ -63,7 +63,7 @@ define([
               }
             })
             .state('login', {
-              url: '/login',
+              url: '/login/:type/:name',
               templateUrl: 'views/login/login.html',
               controller: 'loginCtrl',
               resolve: {
@@ -106,6 +106,16 @@ define([
               resolve: {
                 dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                   return $ocLazyLoad.load('views/build/build.js')
+                }]
+              }
+            })
+            .state('console.create_saas', {
+              url: '/create_saas',
+              templateUrl: 'views/create_saas/create_saas.html',
+              controller: 'create_saasCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/create_saas/create_saas.js')
                 }]
               }
             })
