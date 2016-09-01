@@ -3,6 +3,7 @@ angular.module('home.login', [])
     .controller('loginCtrl', ['ModalRegist','$interval','$state','$rootScope','AuthService','$scope', '$log','$stateParams',
       function (ModalRegist,$interval,$state,$rootScope,AuthService,$scope, $log,$stateParams) {
           console.log("+_+_+_+_+_+_+_+", $stateParams);
+          var stateParams = $stateParams;
           $('.loginname').focus();
           $scope.loginerror = {}
           var flog = localStorage.getItem("code");
@@ -86,7 +87,12 @@ angular.module('home.login', [])
       $log.info('login');
         $rootScope.credentials = {};
       $scope.login = function () {
-        AuthService.login($rootScope.credentials);
+        if($stateParams.type){
+            AuthService.login($rootScope.credentials,$stateParams);
+        }else{
+            AuthService.login($rootScope.credentials,$stateParams);
+        }
+
       };
       $scope.regist = function () {
           ModalRegist.open();

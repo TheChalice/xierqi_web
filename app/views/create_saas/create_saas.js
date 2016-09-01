@@ -8,7 +8,8 @@ angular.module('console.create_saas', [
             ]
         }
     ])
-    .controller('create_saasCtrl', ['$scope', '$log', function ($scope, $log) {
+    .controller('create_saasCtrl', ['$scope', '$log','$stateParams', function ($scope, $log,$stateParams) {
+        console.log("+_+_+_+_+_+_+_+", $stateParams);
 
     }]);
 

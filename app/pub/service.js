@@ -1278,8 +1278,9 @@ define(['angular'], function (angular) {
         .service('AuthService', ['$timeout', '$q', 'orgList', '$rootScope', '$http', '$base64', 'Cookie', '$state', '$log', 'Project', 'GLOBAL', 'Alert', 'User',
             function ($timeout, $q, orgList, $rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User) {
 
-                this.login = function (credentials) {
+                this.login = function (credentials,stateParams) {
                     console.log("login",credentials);
+                    console.log("login",stateParams);
                     localStorage.setItem('Auth', $base64.encode(credentials.username + ':' + credentials.password))
                     $rootScope.loding = true;
                     var deferred = $q.defer();
@@ -1329,7 +1330,18 @@ define(['angular'], function (angular) {
                                 //localStorage.setItem('cade',null)
                                 localStorage.setItem("code", 1);
                                 $rootScope.loginyanzheng = false;
-                                $state.go('console.dashboard');
+                                if(stateParams){
+                                    if(stateParams.type == 'saas'){
+                                        $state.go('console.create_saas',{name:stateParams.name});
+                                    }else if(stateParams.type == 'image'){
+                                        $state.go('console.service_create',{image:stateParams.name});
+                                    }else{
+                                        //  TODO 查看收藏功能
+                                    }
+                                }else{
+                                    $state.go('console.dashboard');
+                                }
+
 
                                 var inputDaovoice = function () {
                                     daovoice('init', {

@@ -44,14 +44,14 @@ angular.module('home.application', [
         }
         $scope.createsaas = function(){
             if(!$rootScope.user){
-                $state.go('login');
+                $state.go('login',{type : 'saas',name : 'saas'});
             }else{
-                $state.go('login');
+                $state.go('console.create_saas',{name:'saas'});
             }
         }
         $scope.deployimg = function(){
             if(!$rootScope.user){
-                $state.go('login',{type : 'q',name : 'aaa'+':latest'+':registryjump'});
+                $state.go('login',{type : 'image',name : 'aaa'+':latest'+':registryjump'});
             }else{
                 $state.go('console.service_create',{image:'aaa'+':latest'+':registryjump'});
             }

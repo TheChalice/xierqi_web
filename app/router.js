@@ -110,7 +110,7 @@ define([
               }
             })
             .state('console.create_saas', {
-              url: '/create_saas',
+              url: '/create_saas/:name',
               templateUrl: 'views/create_saas/create_saas.html',
               controller: 'create_saasCtrl',
               resolve: {

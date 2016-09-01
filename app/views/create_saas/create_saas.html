@@ -30,11 +30,6 @@
                             </span>
                         </a>
                         <div class="secretitem row" style="margin-top: 20px; margin-bottom: 20px">
-                            <!--<div style="margin-bottom: 20px" ng-repeat="items in secrets.secretsarr">-->
-                            <!--<input class="form-control" type="text"  style="display: inline-block; width: 300px;" placeholder="KEY" ng-model="items.key">-->
-                            <!--<textarea class="form-control" style="display: inline-block;height: 34px; width: 300px; margin-left: 40px; max-width: 300px;" placeholder="VALUE" ng-model="items.value"></textarea>-->
-                            <!--<a class="fa fa-times-circle " ng-click="rmsecret($index)" style="text-decoration: none; color: #9fa7b7; margin-left: 10px;" href="javascript:;"></a>-->
-                            <!--</div>-->
                             <div class="col-md-12" style="margin-bottom: 20px;padding: 0;"
                                  ng-repeat="item in secrets.secretsarr">
                                 <input class="col-md-5 key" type="text" placeholder="KEY" ng-model="item.key">
@@ -48,8 +43,8 @@
                 </div>
             </div>
         </div>
-        <a href="javascript:;" ng-if="grid.secreteno" class="btn btn-block create" style="background-color: #F8B551; margin-top: 35px; color: white; width: 880px;" ng-click="postsecret()">创建密钥</a>
-        <a href="javascript:;" ng-if="!grid.secreteno" disabled="disabled" class="btn btn-block create" style="background-color: #ccc; margin-top: 35px; color: white; width: 880px;">创建密钥</a>
+        <a href="javascript:;" ng-if="grid.secreteno" class="btn btn-block create" style="background-color: #F8B551; margin-top: 35px; color: white;" ng-click="postsecret()">创建</a>
+        <a href="javascript:;" ng-if="!grid.secreteno" disabled="disabled" class="btn btn-block create" style="background-color: #ccc; margin-top: 35px; color: white; ">创建</a>
 
     </form>
 </div>
