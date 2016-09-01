@@ -48,7 +48,7 @@ angular.module('console.build_create_new', [
         $scope.dianbl=true;
 
         // 实时监听按钮点亮
-        var r = /^\/(([a-zA-Z0-9_-])+(\.)?)*(:\d+)?(\/((\.)?(\?)?=?&?[a-zA-Z0-9_-](\?)?)*)*$/i;
+        var r = /^[a-z][-a-z0-9]*[a-z0-9]$/i;
 
         var timer = setInterval(function () {
         if ($scope.buildConfig.metadata.name && $scope.grid.labbranch!=null) {
@@ -67,7 +67,20 @@ angular.module('console.build_create_new', [
       },20);
 
         $scope.completionDeadlineMinutes = 30;
-
+           $scope.$watch('buildConfig.metadata.name', function (n,o) {
+               if (n == o) {
+                   return
+               }
+               if (n) {
+                   if (!r.test(n)) {
+                       console.log('no');
+                       $scope.nameerr=true
+                   }else {
+                       console.log('yes');
+                       $scope.nameerr=false
+                   }
+               }
+           })
         var thisindex = 0;
 
         var createBC = function(){
@@ -92,7 +105,7 @@ angular.module('console.build_create_new', [
         }
 
         var createBuildConfig = function(labsecret) {
-            if($scope.grid.ishide == false){
+            if($scope.grid.ishide == false) {
                 $scope.buildConfig.spec.completionDeadlineSeconds = $scope.completionDeadlineMinutes * 60;
                 $scope.buildConfig.spec.source.git.ref = $scope.branch[$scope.grid.branch].name;
                 $scope.buildConfig.spec.source.sourceSecret.name = $scope.owner.secret;
