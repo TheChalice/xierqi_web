@@ -1,5 +1,5 @@
 'use strict';
-angular.module('console.create_constantly_volume', [
+angular.module('console.create_config_volume', [
     {
         files: []
     }
@@ -158,7 +158,7 @@ angular.module('console.create_constantly_volume', [
             $state.go('console.resource_management', {index: 2});
             //$state.go('console.build_detail', {name: name, from: 'create'})
         }, function (res) {
-            $state.go('console.create_constantly_volume');
+            $state.go('console.create_config_volume');
         })
     }
 }])
