@@ -233,6 +233,9 @@ define([
             })
             .state('console.backing_service', {
               url: '/backing_service',
+              params: {
+                index: null
+              },
               templateUrl: 'views/backing_service/backing_service.html',
               controller: 'BackingServiceCtrl',
               resolve: {

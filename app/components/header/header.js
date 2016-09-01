@@ -315,6 +315,8 @@ angular.module("console.header", [
                     return "密钥详情";
                 case "console.constantly_detail":
                     return "持久卷详情";
+                case "console.create_saas":
+                    return "新建服务实例";
             }
         };
     }]);
