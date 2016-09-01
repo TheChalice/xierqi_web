@@ -188,7 +188,7 @@ angular.module('console.create_secret', [
     }, true);
 
     $scope.checknames = function () {
-        var r = /^[a-z][-a-z0-9]*[a-z0-9]$/;
+        var r =/^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
         if (!r.test($scope.secrets.metadata.name)) {
             $scope.grid.secretnames = false;
         } else {
