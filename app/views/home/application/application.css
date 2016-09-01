@@ -213,3 +213,12 @@
     top:0px;
     left:0px;
 }
+.imgwrop1{
+    width: 60px;
+    height: 60px;
+    background: url("img/DF-10.png") center center no-repeat;
+    background-size:cover;
+    position: absolute;
+    top:0px;
+    left:0px;
+}
