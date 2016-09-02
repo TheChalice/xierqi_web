@@ -90,7 +90,7 @@ angular.module('home.login', [])
         if($stateParams.type){
             AuthService.login($rootScope.credentials,$stateParams);
         }else{
-            AuthService.login($rootScope.credentials,$stateParams);
+            AuthService.login($rootScope.credentials);
         }
 
       };
