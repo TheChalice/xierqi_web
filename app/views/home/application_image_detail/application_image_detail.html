@@ -15,7 +15,8 @@
                         <a class="btn pull-right btn-green"
                            ng-if="items.length>0"
                            ng-disabled=false
-                           ui-sref="console.service_create({image:name+':'+item[0].tag})">部署最新版本</a>
+                           ng-click="deployimg(name+':'+item[0].tag)"
+                            >部署最新版本</a>
                         <a class="btn pull-right btn-orange"
                            ng-if="items.length==0"
                            ng-disabled=true>暂无最新版本</a>
@@ -134,7 +135,7 @@
                                             <a class="icon25 icon25-download" uib-tooltip="拉取" href="javascript:;"
                                                ng-click="pull(item.tag)"></a>
                                             <a class="icon25 icon25-start" uib-tooltip="部署"
-                                               ui-sref="console.service_create({image:name+':'+item.tag})"></a>
+                                              ng-click="deployimg(name+':'+item.tag)"></a>
                                             <!--<a class="icon25 icon25-start" uib-tooltip="部署" ui-sref="console.service_create()"></a>-->
                                         </div>
                                     </div>

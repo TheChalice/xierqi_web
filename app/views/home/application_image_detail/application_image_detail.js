@@ -11,7 +11,7 @@ angular.module('home.application_image_detail', [
             ]
         }
     ])
-    .controller('application_image_detailCtrl', ['ModalPullImage','$http','$state','$scope', function (ModalPullImage,$http,$state,$scope) {
+    .controller('application_image_detailCtrl', ['ModalPullImage','$http','$state','$scope','$rootScope',function (ModalPullImage,$http,$state,$scope,$rootScope) {
         $scope.name=$state.params.name;
         $scope.lastname=$state.params.name;
         $scope.items=[]
@@ -49,5 +49,11 @@ angular.module('home.application_image_detail', [
                     console.log("cmd1", res);
                 });
         };
-
+        $scope.deployimg = function(obj){
+            if(!$rootScope.user){
+                $state.go('login',{type : 'image',name : obj});
+            }else{
+                $state.go('console.service_create',{name:obj});
+            }
+        }
     }]);

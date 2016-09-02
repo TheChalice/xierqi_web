@@ -75,7 +75,7 @@
                                                         <div class="caption">
                                                                <p class="href-orange" style="cursor: pointer" ui-sref="home.application_saas_detail({id:catobj.appId})">{{catobj.name}}</p>
                                                                <p>提供者:{{catobj.provider}}</p>
-                                                               <a class="btn btn-orange1"  style='cursor:default;' ng-click="createsaas(catobj.name)">创建</a>
+                                                               <a class="btn btn-orange1"  style='cursor:default;' ng-click="createsaas(catobj.appId)">创建</a>
                                                         </div>
                                                  </div>
                                           </div>
@@ -154,7 +154,8 @@
                                                                                     <a class="btn btn-green"
                                                                                        ng-if='item.lasttag.Created'
                                                                                        href="javascript:;"
-                                                                                       ui-sref="console.service_create({image:item.name+':latest'})">部署最新版本</a>
+                                                                                       ng-click="deployimg(item.name+':latest')"
+                                                                                       >部署最新版本</a>
                                                                                     <a class="btn btn-gray"
                                                                                        ng-if='!item.lasttag.Created'
                                                                                        href="javascript:;"

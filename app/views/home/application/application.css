@@ -240,3 +240,6 @@
     color: black;
     font-weight: bold;
 }
+.thumbnail > .thumb-content > .thumb-slide > img {
+    margin: 30px auto;
+}

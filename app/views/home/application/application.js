@@ -86,14 +86,14 @@ angular.module('home.application', [
                 $state.go('console.create_saas',{name:name});
             }
         }
-        /////部署镜像
-        $scope.deployimg = function(){
-            if(!$rootScope.user){
-                $state.go('login',{type : 'image',name : 'aaa'+':latest'+':registryjump'});
-            }else{
-                $state.go('console.service_create',{image:'aaa'+':latest'+':registryjump'});
-            }
-        }
+        ///////部署镜像
+        //$scope.deployimg = function(){
+        //    if(!$rootScope.user){
+        //        $state.go('login',{type : 'image',name : 'aaa'+':latest'+':registryjump'});
+        //    }else{
+        //        $state.go('console.service_create',{image:'aaa'+':latest'+':registryjump'});
+        //    }
+        //}
         var test = function(){
             saas.get({},function(data){
                 console.log('------------------',data);
@@ -491,4 +491,12 @@ angular.module('home.application', [
                 }
             });
         };
+        ////////////////部署镜像
+        $scope.deployimg = function(obj){
+            if(!$rootScope.user){
+                $state.go('login',{type : 'image',name : obj});
+            }else{
+                $state.go('console.service_create',{name:obj});
+            }
+        }
     }]);
