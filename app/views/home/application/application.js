@@ -82,14 +82,14 @@ angular.module('home.application', [
                 return
             }
             if (n) {
-                var obj={
+                var obj= {
                     category:[
                         {name:"email",obj:[]},
                         {name:"storage",obj:[]}
                     ]
                 }
                 var txt = n.replace(/\//g, '\\/');
-                var reg = eval('/' + txt + '/');
+                var reg = eval('/' + txt + '/i');
                 angular.forEach($scope.saas.category, function (items,i) {
                     angular.forEach(items.obj, function (item,k) {
                         if (reg.test(item.name)) {
@@ -451,19 +451,19 @@ angular.module('home.application', [
         }
         ///////saas搜索
 
-        $scope.search = function () {
-            if (!$scope.secrets.txt) {
-                return;
-            }
-            $scope.secrets.txt = $scope.secrets.txt.replace(/\//g, '\\/');
-            $scope.secrets.txt = $scope.secrets.txt.replace(/\./g, '\\.');
-            var reg = eval('/' + $scope.secrets.txt + '/');
-            angular.forEach($scope.secretitems, function (item) {
-                if (reg.test(item.metadata.name)) {
-                    $scope.scretspageitems.push(item);
-                }
-            });
-        };
+        //$scope.search = function () {
+        //    if (!$scope.secrets.txt) {
+        //        return;
+        //    }
+        //    $scope.secrets.txt = $scope.secrets.txt.replace(/\//g, '\\/');
+        //    $scope.secrets.txt = $scope.secrets.txt.replace(/\./g, '\\.');
+        //    var reg = eval('/' + $scope.secrets.txt + '/');
+        //    angular.forEach($scope.secretitems, function (item) {
+        //        if (reg.test(item.metadata.name)) {
+        //            $scope.scretspageitems.push(item);
+        //        }
+        //    });
+        //};
         ////////////////部署镜像
         $scope.deployimg = function(obj){
             if(!$rootScope.user){
