@@ -234,7 +234,7 @@
     font-weight: normal;
 }
 .fenlei .btn.active {
-    background: #fff url("views/backing_service/img/images_48.png") no-repeat scroll 0 0;
+    background: #fff url("img/images_48.png") no-repeat scroll 0 0;
     border-color: #f6a540;
     box-shadow: 0 0 0 rgba(0, 0, 0, 0.125) inset;
     color: black;
