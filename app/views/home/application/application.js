@@ -77,7 +77,33 @@ angular.module('home.application', [
                 alert(1);
             }
         }
+        $scope.$watch('grid.txt', function (n, o) {
+            if (n == o) {
+                return
+            }
+            if (n) {
+                var obj={
+                    category:[
+                        {name:"email",obj:[]},
+                        {name:"storage",obj:[]}
+                    ]
+                }
+                var txt = n.replace(/\//g, '\\/');
+                var reg = eval('/' + txt + '/');
+                angular.forEach($scope.saas.category, function (items,i) {
+                    angular.forEach(items.obj, function (item,k) {
+                        if (reg.test(item.name)) {
+                            obj.category[i].obj.push(item);
+                        }
+                    })
+                })
+                $scope.saas=obj;
+                //$scope.diyservice=arr;
+            }else if(n==""){
+                $scope.saas=$scope.saascopy
+            }
 
+        })
         /////创建saas服务
         $scope.createsaas = function(name){
             if(!$rootScope.user){
@@ -99,6 +125,7 @@ angular.module('home.application', [
                 console.log('------------------',data);
             })
         }
+
         test();
 
         ///////监控翻页
@@ -246,53 +273,8 @@ angular.module('home.application', [
         $scope.serviceper = [{name: 'Datafoundry官方镜像', class: 'df'}, {name: 'Docker官方镜像', class: 'doc'}]
 
         $scope.imagecenterDF = [];
+
         $scope.imagecenterDoc = [];
-        //var loaddf = function (fn) {
-        //    $http.get('/registry/api/repositories', {
-        //        timeout:end.promise,
-        //        params: {project_id: 58}})
-        //        .success(function (data) {
-        //            angular.forEach(data, function (item, i) {
-        //                $http.get('/registry/api/repositories/manifests', {
-        //                        timeout:end.promise,
-        //                        params: {
-        //                            repo_name: item,
-        //                            tag: 'latest'
-        //                        }
-        //                    })
-        //                    .success(function (tagmess) {
-        //                        $scope.imagecenterDF.push({
-        //                            name: item,
-        //                            lasttag: tagmess,
-        //                            canbuild: true,
-        //                            class: 'df'
-        //                        });
-        //                        if ($scope.imagecenterDF.length == data.length) {
-        //                            if (fn) {
-        //                                fn()
-        //                            }
-        //                            //console.log('Datafoundry官方镜像', $scope.imagecenterDF);
-        //
-        //                        }
-        //
-        //
-        //                    }).error(function (err) {
-        //                    $scope.imagecenterDF.push({
-        //                        name: item,
-        //                        lasttag: null,
-        //                        canbuild: false,
-        //                        class: 'df'});
-        //                    if ($scope.imagecenterDF.length == data.length) {
-        //                        if (fn) {
-        //                            fn()
-        //                        }
-        //                        //console.log('Datafoundry官方镜像', $scope.imagecenterDF);
-        //                    }
-        //
-        //                })
-        //            })
-        //        })
-        //}
 
         $http.get('/registry/api/repositories', {params: {project_id: 1}})
             .success(function (docdata) {
@@ -452,7 +434,10 @@ angular.module('home.application', [
                             $scope.saas.category[i].obj.push(item[j])
                         }
                     }
+
                 }
+                console.log('$scope.saas.category', $scope.saas.category);
+                $scope.saascopy=angular.copy($scope.saas);
                 $scope.saas.provider = $scope.saas.provider.unique()
             })
         }
