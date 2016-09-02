@@ -1,10 +1,12 @@
 <div class="application">
        <div class="cptitle">应用中心</div>
+       <!-----------镜像中心暂时不实现所以先隐藏切换------------->
        <div class="cptable">
               <span ng-class="{'active':grid.active==1}" ng-click="changeTb(1)">SAAS服务</span><span ng-class="{'active':grid.active==2}" ng-click="changeTb(2)">镜像中心</span>
        </div>
        <div ng-show="grid.active==1">
-              <div class="cpleft">
+              <!------------热门先不实现所以暂时改宽度为100%;需要实现时删掉该行内样式-------------->
+              <div class="cpleft" style="width: 100%;">
                      <div class="panel panel-default">
                             <div class="panel-heading">
                                    <span>SAAS服务</span>
@@ -82,34 +84,35 @@
 
                      </div>
               </div>
-              <div class="cpright">
-                     <div class="panel panel-default">
+              <!--------热门saas暂时不实现该功能------------->
+              <!--<div class="cpright">-->
+                     <!--<div class="panel panel-default">-->
 
-                            <div class="panel-heading">
-                                   <div class="hot-top-name"> 热门SAAS</div>
-                            </div>
-                            <div class="panel-body"  style="padding: 0px;padding-bottom: 30px;">
-                                   <div class="row hotcon" style="padding: 0px;margin-top:20px;">
-                                          <div class="listidx">1</div>
-                                          <div class="col-md-3">
-                                                 <div class="hotlistimg">
+                            <!--<div class="panel-heading">-->
+                                   <!--<div class="hot-top-name"> 热门SAAS</div>-->
+                            <!--</div>-->
+                            <!--<div class="panel-body"  style="padding: 0px;padding-bottom: 30px;">-->
+                                   <!--<div class="row hotcon" style="padding: 0px;margin-top:20px;">-->
+                                          <!--<div class="listidx">1</div>-->
+                                          <!--<div class="col-md-3">-->
+                                                 <!--<div class="hotlistimg">-->
 
-                                                 </div>
+                                                 <!--</div>-->
 
-                                          </div>
-                                          <div class="col-md-9" style="margin-top:10px;">
-                                                 <p class="hotconname">SAAS服务名称</p>
-                                                 <p>提供者:aaa</p>
-                                                 <p>服务类型:bbb</p>
-                                          </div>
-                                   </div>
-                            </div>
-                     </div>
-              </div>
+                                          <!--</div>-->
+                                          <!--<div class="col-md-9" style="margin-top:10px;">-->
+                                                 <!--<p class="hotconname">SAAS服务名称</p>-->
+                                                 <!--<p>提供者:aaa</p>-->
+                                                 <!--<p>服务类型:bbb</p>-->
+                                          <!--</div>-->
+                                   <!--</div>-->
+                            <!--</div>-->
+                     <!--</div>-->
+              <!--</div>-->
        </div>
        <div ng-show="grid.active==2">
 
-              <div class="cpleft">
+              <div class="cpleft" style="width: 100%">
                      <div class="panel panel-default">
                             <div class="panel-heading">
                                    <span>SAAS服务</span>
@@ -123,12 +126,12 @@
                                           <div class="col-sm-6">
                                                  <div class="dropdown dropdown-select" style="width: 200px; height: 35px;float:left;margin:0px;">
                                                         <button class="btn dropdown-toggle" data-toggle="dropdown" style="">
-                                                               <span>提供者</span>
+                                                               <span>{{test}}</span>
                                                                <span class="caret"></span>
                                                         </button>
                                                         <ul class="dropdown-menu" style="height: 88px;margin-top: -1px;overflow-y: auto">
-                                                               <li >
-                                                                      <a href="javascript:;">222222</a>
+                                                               <li ng-repeat="ser in serviceper" ng-click="selectsc(ser.class,ser.name)">
+                                                                      <a href="javascript:;">{{ser.name}}</a>
                                                                </li>
                                                         </ul>
                                                  </div>
@@ -148,34 +151,41 @@
                                           </div>
                                    </div>
                                    <div class="row">
-                                          <div class="fen">
+                                          <div class="fen" ng-repeat="imgitem in imagecenterpoj">
                                                  <div class="thumbnail">
                                                         <div class="thumb-content">
                                                                <div class="thumb-slide">
                                                                       <div class="thumb-op">
-                                                                             <p><i class="fa fa-clock-o"></i>&nbsp;&nbsp;1111</p>
-                                                                             <p><i class="fa fa-flag-o"></i>&nbsp;&nbsp;222222</p>
+                                                                             <p><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{imgitem.lasttag.Created | dateRelative}}</p>
+                                                                             <p ng-if="imgitem.canbuid"><i class="fa fa-flag-o" ></i>&nbsp;&nbsp;latest</p>
+                                                                             <p ng-if="!imgitem.canbuid"><i class="fa fa-flag-o" ></i>&nbsp;&nbsp;-</p>
                                                                              <p class="thumb-btn">
                                                                                     <a class="btn btn-green"
-                                                                                       ng-if='true'
+                                                                                       ng-if='imgitem.canbuid'
                                                                                        href="javascript:;"
                                                                                        ng-click="deployimg()"
                                                                                        >部署最新版本</a>
+                                                                                    <a class="btn btn-gray"
+                                                                                       ng-if='!imgitem.canbuid'
+                                                                                       href="javascript:;"
+                                                                                    >暂无最新版本</a>
                                                                              </p>
                                                                       </div>
                                                                       <div style="position: relative;">
-                                                                             <div class="imgwrop"></div>
+                                                                             <div ng-if="imgitem.class == 'doc'" class="imgwrop"></div>
+                                                                             <div ng-if="imgitem.class == 'df'" class="imgwrop1"></div>
                                                                              <img src="components/card/img/image.png" alt="" style="width: 66px; height: 66px;margin-top:20px;">
                                                                              <p style="margin-top:15px;">Docker官方镜像</p>
                                                                       </div>
                                                                </div>
                                                         </div>
                                                         <div class="caption">
-                                                              <p class="hotconname">imagename</p>
-                                                              <div class="row">
-                                                                     <div class="col-md-6" ><i class="download-13" uib-tooltip="拉取"></i>&nbsp;&nbsp;1</div>
-                                                                     <div class="col-md-6"><i class="star-13" uib-tooltip="收藏"></i>&nbsp;&nbsp;2</div>
-                                                              </div>
+                                                              <p class="hotconname">{{imgitem.name}}</p>
+                                                               <!----------拉取收藏功能暂时不实现--------->
+                                                              <!--<div class="row">-->
+                                                                     <!--<div class="col-md-6" ><i class="download-13" uib-tooltip="拉取"></i>&nbsp;&nbsp;1</div>-->
+                                                                     <!--<div class="col-md-6"><i class="star-13" uib-tooltip="收藏"></i>&nbsp;&nbsp;2</div>-->
+                                                              <!--</div>-->
                                                         </div>
                                                  </div>
                                           </div>
@@ -183,8 +193,25 @@
                             </div>
 
                      </div>
+                     <div class="text-right" ng-if="grid.total > 8">
+                            <uib-pagination
+                                    ng-model="grid.page"
+                                    total-items="grid.total"
+                                    items-per-page="grid.size"
+                                    class="pagination-sm"
+                                    boundary-links="true"
+                                    boundary-link-numbers="true"
+                                    max-size="5"
+                                    force-ellipses="'5'"
+                                    rotate="true"
+                                    previous-text="上一页"
+                                    next-text="下一页"
+                                    first-text="首页"
+                                    last-text="末页">
+                            </uib-pagination>
+                     </div>
               </div>
-              <div class="cpright">
+              <div class="cpright" ng-if="false">
                      <div class="panel panel-default">
 
                             <div class="panel-heading">
