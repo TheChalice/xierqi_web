@@ -117,14 +117,14 @@
                            class="form-control"
                            placeholder="搜索后端服务名称"
                            ng-keydown=mykeysearch($event)
-                           ng-model="grid.myhtxt">
+                           ng-model="grid.mydivtxt">
                     <!--ng-model="txt" ng-focus="showTip=true;" -->
                     <span class="input-group-btn" id=inputb>
-                        <a class="btn" ng-click="mysearch()"></a>
+                        <a class="btn" ng-click="mydiysearch()"></a>
                     </span>
                 </div>
             </div>
-            <div ng-include="'views/backing_service/backing_service_instance.html'">
+            <div ng-include="'views/backing_service/backing_service_custom.html'">
             </div>
         </uib-tab>
     </uib-tabset>

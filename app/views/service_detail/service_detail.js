@@ -1442,7 +1442,6 @@ angular.module('console.service.detail', [
                 //var o = $scope.pods.items[idx];
                 var obj = {};
                 angular.forEach($scope.pods.items, function (pod, i) {
-
                     if (pod.metadata.name == name) {
                         obj = pod
                     }
