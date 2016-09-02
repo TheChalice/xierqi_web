@@ -53,7 +53,7 @@ angular.module('home.application_image_detail', [
             if(!$rootScope.user){
                 $state.go('login',{type : 'image',name : obj});
             }else{
-                $state.go('console.service_create',{name:obj});
+                $state.go('console.service_create',{image:obj});
             }
         }
     }]);
