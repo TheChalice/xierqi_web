@@ -214,9 +214,13 @@ angular.module('console.backing_service', [
               $scope.diyservice=[];
               angular.forEach(res.items, function (item,i) {
                 if (item.metadata.annotations&&item.metadata.annotations['USER-PROVIDED-SERVICE'] == "true") {
+                  item.mysort=(new Date(item.metadata.creationTimestamp)).getTime()
                   $scope.diyservice.push(item);
                 }
-              })
+              });
+              $scope.diyservice.sort(function (x, y) {
+                return x.mysort > y.mysort ? -1 : 1;
+              });
                console.log('$scope.myservice',$scope.diyservice);
               for (var d = 0; d < $scope.cation.length; d++) {
                 var arr1 = $filter("myfilter")($scope.myservice[d].item, $scope.isComplete);
