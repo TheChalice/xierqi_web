@@ -15,6 +15,7 @@ angular.module('home.application_image_detail', [
         $scope.name=$state.params.name;
         $scope.lastname=$state.params.name;
         $scope.items=[]
+        $("#application2").css("minHeight",$(window).height());
         $http.get('/registry/api/repositories/tags', {params: {repo_name:$state.params.name}})
             .success(function (tags) {
                 //console.log(tags);
