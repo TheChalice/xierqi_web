@@ -8,11 +8,16 @@ angular.module('console.create_saas', [
             ]
         }
     ])
-    .controller('create_saasCtrl',['$scope','$rootScope', 'creatapp', '$state','$stateParams',
-        function ($scope, $rootScope, creatapp, $state,$stateParams) {
+    .controller('create_saasCtrl',['saas','$scope','$rootScope', 'creatapp', '$state','$stateParams',
+        function (saas,$scope, $rootScope, creatapp, $state,$stateParams) {
             console.log('$stateParams', $stateParams.name);
             if ($stateParams.name) {
-                $scope.saasname=$stateParams.name
+                //$scope.saasname=$stateParams.name;
+                saas.get({id:$stateParams.name}, function (res) {
+                    console.log(res);
+                    $scope.saasname=res.data.name;
+                    $scope.url=res.data.url;
+                })
             }else {
                 $scope.saasname=false
             }
