@@ -15,6 +15,8 @@ angular.module('home.application_saas_detail', [
             console.log('-------cat',res);
         })
         /////创建saas服务
+        //$('#application1').($(window).height());
+        $("#application1").css("minHeight",$(window).height());
         $scope.createsaas = function(name){
             if(!$rootScope.user){
                 $state.go('login',{type : 'saas',name : name});
