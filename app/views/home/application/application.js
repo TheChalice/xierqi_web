@@ -82,6 +82,7 @@ angular.module('home.application', [
                 return
             }
             if (n) {
+                $scope.saas=$scope.saascopy
                 var obj= {
                     category:[
                         {name:"email",obj:[]},
