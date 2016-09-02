@@ -301,7 +301,7 @@ angular.module('home.application', [
                             });
                         });
                         $scope.imagecenterpoj = $scope.imagecenterDoc.concat($scope.imagecenterDF);
-                        console.log('imagecenterpoj', $scope.imagecenterpoj);
+                        //console.log('imagecenterpoj', $scope.imagecenterpoj);
                         $scope.imagecentercopy = angular.copy($scope.imagecenterpoj);
                         $scope.grid.imagecentertotal = $scope.imagecentercopy.length
                         imagecenterrefresh(1);
