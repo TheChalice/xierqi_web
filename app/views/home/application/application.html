@@ -75,7 +75,7 @@
                                                         <div class="caption">
                                                                <p class="href-orange" style="cursor: pointer" ui-sref="home.application_saas_detail({id:catobj.appId})">{{catobj.name}}</p>
                                                                <p>提供者:{{catobj.provider}}</p>
-                                                               <a class="btn btn-orange1"  style='cursor:default;' ng-click="createsaas(catobj.appId)">创建</a>
+                                                               <a class="btn btn-orange1"  style='cursor:default;' ng-click="createsaas(catobj.name)">创建</a>
                                                         </div>
                                                  </div>
                                           </div>
@@ -166,7 +166,7 @@
                                                                </div>
                                                         </div>
                                                         <div class="caption">
-                                                               <a class="href-orange" style='white-space:nowrap;overflow: hidden;text-overflow: ellipsis' ui-sref="console.image_Public({name:item.name,bc:item.name})">{{item.name}}</a>
+                                                               <a class="href-orange" style='white-space:nowrap;overflow: hidden;text-overflow: ellipsis' ui-sref="home.application_image_detail({name:item.name})">{{item.name}}</a>
                                                                <div  ng-if="false">
                                                                        <span class="download" style="margin-right: 60px;margin-top: 10px;">
                                                                            <i class="down" ng-class="{'active':checkedd}" ng-click="checkedd=!checkedd"></i>123

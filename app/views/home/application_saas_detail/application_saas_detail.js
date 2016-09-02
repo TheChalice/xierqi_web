@@ -15,11 +15,11 @@ angular.module('home.application_saas_detail', [
             console.log('-------cat',res);
         })
         /////创建saas服务
-        $scope.createsaas = function(id){
+        $scope.createsaas = function(name){
             if(!$rootScope.user){
-                $state.go('login',{type : 'saas',id : id});
+                $state.go('login',{type : 'saas',name : name});
             }else{
-                $state.go('console.create_saas',{id:id});
+                $state.go('console.create_saas',{name:name});
             }
         }
     }]);

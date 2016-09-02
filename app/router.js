@@ -33,7 +33,7 @@ define([
               }
             })
             .state('home.application_image_detail', {
-              url: '/application_image_detail',
+              url: '/application_image_detail/:name',
               templateUrl: 'views/home/application_image_detail/application_image_detail.html',
               controller: 'application_image_detailCtrl',
               resolve: {
@@ -63,7 +63,7 @@ define([
               }
             })
             .state('login', {
-              url: '/login/:type/:id',
+              url: '/login/:type/:name',
               templateUrl: 'views/login/login.html',
               controller: 'loginCtrl',
               resolve: {
