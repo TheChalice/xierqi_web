@@ -2,12 +2,12 @@
  * Created by jxy on 16/8/30.
  */
 angular.module('home.application', [
-    {
-        files: [
-            'views/home/application/application.css'
-        ]
-    }
-])
+        {
+            files: [
+                'views/home/application/application.css'
+            ]
+        }
+    ])
     .filter('imagefilter', function () {
         // 分类过滤器
         return function (items, condition) {
@@ -28,15 +28,15 @@ angular.module('home.application', [
 
         };
     })
-    .controller('applicationCtrl', ['$scope', '$log','$state','$rootScope','saas','$http','$filter', function ($scope, $log,$state,$rootScope,saas,$http,$filter) {
-           //$scope.grid = {
-           //    active : 1,
-           //    hotimglist :1,
-           //    total : '',
-           //    page : 1,
-           //    size : 8,
-           //
-           //}
+    .controller('applicationCtrl', ['$scope', '$log', '$state', '$rootScope', 'saas', '$http', '$filter', function ($scope, $log, $state, $rootScope, saas, $http, $filter) {
+        //$scope.grid = {
+        //    active : 1,
+        //    hotimglist :1,
+        //    total : '',
+        //    page : 1,
+        //    size : 8,
+        //
+        //}
         $scope.grid = {
             page: 1,
             repertoryspage: 1,
@@ -44,23 +44,23 @@ angular.module('home.application', [
             size: 8,
             copytest: {},
             search: false,
-            active : 1,
-            hotimglist :1,
-            txt : ''
+            active: 1,
+            hotimglist: 1,
+            txt: ''
         };
         ////////////SAAS,镜像切换
-        $scope.changeTb = function(num){
-            if(num == 1){
+        $scope.changeTb = function (num) {
+            if (num == 1) {
                 $scope.grid.active = 1
-            }else if(num == 2){
+            } else if (num == 2) {
                 $scope.grid.active = 2
             }
         }
         ////// 热门镜像排行切换
-        $scope.changehotTab = function(idx){
-            if(idx == 1){
+        $scope.changehotTab = function (idx) {
+            if (idx == 1) {
                 $scope.grid.hotimglist = 1
-            }else if(idx == 2){
+            } else if (idx == 2) {
                 $scope.grid.hotimglist = 2
             }
         }
@@ -70,35 +70,63 @@ angular.module('home.application', [
         //$scope.howpushimg = function(){
         //    simpleAlert.open('拉取镜像说明','<p>11<p/><p>22<p/>');
         //}
-        $scope.checkcollect = function(){
-            if(!$rootScope.user){
+        $scope.checkcollect = function () {
+            if (!$rootScope.user) {
                 $state.go('login');
-            }else{
-                alert(1);
+            } else {
+                //alert(1);
             }
         }
+        $scope.$watch('grid.txt', function (n, o) {
+            if (n == o) {
+                return
+            }
+            if (n) {
+                var obj={
+                    category:[
+                        {name:"email",obj:[]},
+                        {name:"storage",obj:[]}
+                    ]
+                }
+                var txt = n.replace(/\//g, '\\/');
+                var reg = eval('/' + txt + '/');
+                angular.forEach($scope.saas.category, function (items,i) {
+                    angular.forEach(items.obj, function (item,k) {
+                        if (reg.test(item.name)) {
+                            obj.category[i].obj.push(item);
+                        }
+                    })
+                })
+                $scope.saas=obj;
+                //$scope.diyservice=arr;
+            }else if(n==""){
+                $scope.saas=$scope.saascopy
+            }
 
+        })
         /////创建saas服务
-        $scope.createsaas = function(name){
-            if(!$rootScope.user){
-                $state.go('login',{type : 'saas',name : name});
-            }else{
-                $state.go('console.create_saas',{name:name});
+        $scope.createsaas = function (name) {
+            if (!$rootScope.user) {
+                $state.go('login', {type: 'saas', name: name});
+            } else {
+                $state.go('console.create_saas', {name: name});
             }
         }
         /////部署镜像
-        $scope.deployimg = function(){
-            if(!$rootScope.user){
-                $state.go('login',{type : 'image',name : 'aaa'+':latest'+':registryjump'});
-            }else{
-                $state.go('console.service_create',{image:'aaa'+':latest'+':registryjump'});
+        $scope.deployimg = function () {
+            if (!$rootScope.user) {
+                $state.go('login', {type: 'image', name: 'aaa' + ':latest' + ':registryjump'});
+            } else {
+                $state.go('console.service_create', {image: 'aaa' + ':latest' + ':registryjump'});
             }
         }
-        var test = function(){
-            saas.get({},function(data){
-                console.log('------------------',data);
+
+        var test = function () {
+            saas.get({}, function (data) {
+                console.log('------------------', data);
             })
         }
+
         test();
 
         ///////监控翻页
@@ -246,53 +274,8 @@ angular.module('home.application', [
         $scope.serviceper = [{name: 'Datafoundry官方镜像', class: 'df'}, {name: 'Docker官方镜像', class: 'doc'}]
 
         $scope.imagecenterDF = [];
+
         $scope.imagecenterDoc = [];
-        //var loaddf = function (fn) {
-        //    $http.get('/registry/api/repositories', {
-        //        timeout:end.promise,
-        //        params: {project_id: 58}})
-        //        .success(function (data) {
-        //            angular.forEach(data, function (item, i) {
-        //                $http.get('/registry/api/repositories/manifests', {
-        //                        timeout:end.promise,
-        //                        params: {
-        //                            repo_name: item,
-        //                            tag: 'latest'
-        //                        }
-        //                    })
-        //                    .success(function (tagmess) {
-        //                        $scope.imagecenterDF.push({
-        //                            name: item,
-        //                            lasttag: tagmess,
-        //                            canbuild: true,
-        //                            class: 'df'
-        //                        });
-        //                        if ($scope.imagecenterDF.length == data.length) {
-        //                            if (fn) {
-        //                                fn()
-        //                            }
-        //                            //console.log('Datafoundry官方镜像', $scope.imagecenterDF);
-        //
-        //                        }
-        //
-        //
-        //                    }).error(function (err) {
-        //                    $scope.imagecenterDF.push({
-        //                        name: item,
-        //                        lasttag: null,
-        //                        canbuild: false,
-        //                        class: 'df'});
-        //                    if ($scope.imagecenterDF.length == data.length) {
-        //                        if (fn) {
-        //                            fn()
-        //                        }
-        //                        //console.log('Datafoundry官方镜像', $scope.imagecenterDF);
-        //                    }
-        //
-        //                })
-        //            })
-        //        })
-        //}
 
         $http.get('/registry/api/repositories', {params: {project_id: 1}})
             .success(function (docdata) {
@@ -343,7 +326,7 @@ angular.module('home.application', [
                     $scope.imagecenter = $filter("imagefilter")($scope.grid.cenimagecopy, $scope.isComplete);
                     //console.log($scope.imagecenter);
                     $scope.typeimagecenter = angular.copy($scope.imagecenter);
-                }else {
+                } else {
                     $scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
                     //console.log($scope.imagecenter);
                     $scope.typeimagecenter = angular.copy($scope.imagecenter);
@@ -360,7 +343,7 @@ angular.module('home.application', [
                     $scope.imagecenter = $filter("imagefilter")($scope.grid.cenimagecopy, $scope.isComplete);
                     //console.log($scope.imagecenter);
                     $scope.typeimagecenter = angular.copy($scope.imagecenter);
-                }else {
+                } else {
                     $scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
                     //console.log($scope.imagecenter);
                     $scope.typeimagecenter = angular.copy($scope.imagecenter);
@@ -380,7 +363,7 @@ angular.module('home.application', [
                     $scope.imagecenter = $filter("imagefilter")($scope.grid.cenimagecopy, $scope.isComplete);
                     //console.log($scope.imagecenter);
                     //$scope.typeimagecenter = angular.copy($scope.imagecenter);
-                }else {
+                } else {
 
                     $scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
                     //console.log($scope.imagecenter);
@@ -390,27 +373,12 @@ angular.module('home.application', [
                 //console.log($scope.imagecenter);
                 $scope.grid.imagecentertotal = $scope.imagecenter.length;
                 $scope.grid.imagecenterpage = 1;
-                imagecenterrefresh(1,'tag');
+                imagecenterrefresh(1, 'tag');
 
             }
             $scope.grid[tp] = key;
 
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         //////////////////////////saas
@@ -425,55 +393,58 @@ angular.module('home.application', [
             return res;
         }
         $scope.saas = {
-            category : [],
-            provider : [],
+            category: [],
+            provider: [],
         };
-        $scope.searchname  = {
-            categoryname : '分类',
-            providername : '提供者'
+        $scope.searchname = {
+            categoryname: '分类',
+            providername: '提供者'
         }
-        var loadsaas = function(){
-            saas.get({},function(res){
+        var loadsaas = function () {
+            saas.get({}, function (res) {
                 var item = res.data.results;
                 var arr1 = []
-                for(var i = 1;i < item.length; i++){
+                for (var i = 1; i < item.length; i++) {
                     arr1.push(item[i].category)
                     $scope.saas.provider.push(item[i].provider)
                 }
                 arr1 = arr1.unique();
-                for(var i = 0;i < arr1.length;i++){
+                for (var i = 0; i < arr1.length; i++) {
                     $scope.saas.category[i] = {
-                        name : '',
-                        obj : []
+                        name: '',
+                        obj: []
                     };
                     $scope.saas.category[i].name = arr1[i];
-                    for(var j = 0 ; j < item.length;j++){
-                        if(arr1[i] == item[j].category){
+                    for (var j = 0; j < item.length; j++) {
+                        if (arr1[i] == item[j].category) {
                             $scope.saas.category[i].obj.push(item[j])
                         }
                     }
+
                 }
+                console.log('$scope.saas.category', $scope.saas.category);
+                $scope.saascopy=angular.copy($scope.saas);
                 $scope.saas.provider = $scope.saas.provider.unique()
             })
         }
         loadsaas();
 
         /////////分类筛选
-        $scope.clickcat = function(cat){
+        $scope.clickcat = function (cat) {
             $scope.searchname.categoryname = cat
 
         }
         ////////提供者筛选
-        $scope.clickpro = function(pro){
+        $scope.clickpro = function (pro) {
             var thiscat;
-            if($scope.searchname.categoryname == '分类'){
+            if ($scope.searchname.categoryname == '分类') {
                 thiscat = ''
-            }else{
+            } else {
                 thiscat = $scope.searchname.categoryname
             }
             $scope.searchname.providername = pro
-            saas.get({category:thiscat,provider:pro},function(res){
-                console.log('-------cat',res);
+            saas.get({category: thiscat, provider: pro}, function (res) {
+                console.log('-------cat', res);
             })
         }
         ///////saas搜索
