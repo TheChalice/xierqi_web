@@ -29,14 +29,25 @@ angular.module('home.application', [
         };
     })
     .controller('applicationCtrl', ['$scope', '$log','$state','$rootScope','saas','$http','$filter', function ($scope, $log,$state,$rootScope,saas,$http,$filter) {
-           $scope.grid = {
-               active : 1,
-               hotimglist :1,
-               total : '',
-               page : 1,
-               size : 8,
-
-           }
+           //$scope.grid = {
+           //    active : 1,
+           //    hotimglist :1,
+           //    total : '',
+           //    page : 1,
+           //    size : 8,
+           //
+           //}
+        $scope.grid = {
+            page: 1,
+            repertoryspage: 1,
+            imagecenterpage: 1,
+            size: 8,
+            copytest: {},
+            search: false,
+            active : 1,
+            hotimglist :1,
+            txt : ''
+        };
         ////////////SAAS,镜像切换
         $scope.changeTb = function(num){
             if(num == 1){
@@ -68,11 +79,11 @@ angular.module('home.application', [
         }
 
         /////创建saas服务
-        $scope.createsaas = function(){
+        $scope.createsaas = function(id){
             if(!$rootScope.user){
-                $state.go('login',{type : 'saas',name : 'saas'});
+                $state.go('login',{type : 'saas',id : id});
             }else{
-                $state.go('console.create_saas',{name:'saas'});
+                $state.go('console.create_saas',{id:id});
             }
         }
         /////部署镜像
@@ -90,7 +101,148 @@ angular.module('home.application', [
         }
         test();
 
-        /////////////////////////////////////////////////////////镜像中心
+        ///////监控翻页
+        $scope.$watch('grid.imagecenterpage', function (newVal, oldVal) {
+            if (newVal != oldVal) {
+                if ($scope.grid.search) {
+                    imagecenterrefresh(newVal, 'search');
+                } else {
+                    imagecenterrefresh(newVal);
+                }
+            }
+        });
+        //////镜像中心分页
+        var imagecenterrefresh = function (page, type) {
+            //console.log(page);
+            var skip = (page - 1) * $scope.grid.size;
+            if (type == 'search') {
+                //console.log($scope.typeimagecenter);
+                $scope.grid.search = true;
+                $scope.imagecenter = $scope.grid.cenimagecopy.slice(skip, skip + $scope.grid.size);
+                $scope.grid.imagecentertotal = $scope.grid.cenimagecopy.length;
+                angular.forEach($scope.imagecenter, function (image, k) {
+                    $http.get('/registry/api/repositories/manifests', {
+                            //timeout: end.promise,
+                            params: {
+                                repo_name: image.name,
+                                tag: 'latest'
+                            }
+                        })
+                        .success(function (docdata) {
+                            image.lasttag = docdata;
+                        }).error(function (err) {
+                        image.canbuid = false;
+                    })
+
+                })
+
+            } else if (type == 'tag' || $scope.cententtype == 'type') {
+                $scope.imagecenter = $scope.typeimagecenter.slice(skip, skip + $scope.grid.size);
+                $scope.grid.imagecentertotal = $scope.typeimagecenter.length;
+                angular.forEach($scope.imagecenter, function (image, k) {
+                    $http.get('/registry/api/repositories/manifests', {
+                            //timeout: end.promise,
+                            params: {
+                                repo_name: image.name,
+                                tag: 'latest'
+                            }
+                        })
+                        .success(function (docdata) {
+                            image.lasttag = docdata;
+                        }).error(function (err) {
+                        image.canbuid = false;
+                    })
+
+                })
+            } else {
+                $scope.imagecenter = $scope.imagecentercopy.slice(skip, skip + $scope.grid.size);
+                $scope.grid.imagecentertotal = $scope.imagecentercopy.length;
+                angular.forEach($scope.imagecenter, function (image, k) {
+                    $http.get('/registry/api/repositories/manifests', {
+                            //timeout: end.promise,
+                            params: {
+                                repo_name: image.name,
+                                tag: 'latest'
+                            }
+                        })
+                        .success(function (docdata) {
+                            image.lasttag = docdata;
+                        }).error(function (err) {
+                        image.canbuid = false;
+                    })
+
+                })
+
+            }
+        };
+
+        //镜像中心搜索
+        $scope.imagecenterreg = function (key, txt, event) {
+            $scope.cententsearch = 'search';
+            if (event) {
+                if (event.keyCode == 13) {
+
+                    if (!txt) {
+                        $scope.cententsearch = false;
+                        $scope.grid.search = false;
+                        imagecenterrefresh(1);
+                        return;
+                    }
+                    var imagearr = [];
+                    txt = txt.replace(/\//g, '\\/');
+                    var reg = eval('/' + txt + '/');
+                    //console.log($scope.typeimagecenter,$scope.cententtype);
+                    if ($scope.cententtype == 'type') {
+                        for (var i = 0; i < $scope.typeimagecenter.length; i++) {
+                            //console.log($scope.typeimagecenter[i].name);
+                            if (reg.test($scope.typeimagecenter[i].name)) {
+                                //console.log($scope.typeimagecenter[i].name);
+                                imagearr.push($scope.typeimagecenter[i]);
+                            }
+                        }
+
+                    } else {
+                        for (var i = 0; i < $scope.imagecentercopy.length; i++) {
+                            //console.log($scope.imagecentercopy[i].name);
+                            if (reg.test($scope.imagecentercopy[i].name)) {
+                                imagearr.push($scope.imagecentercopy[i]);
+                            }
+                        }
+                    }
+                    //console.log(imagearr);
+                    $scope.imagecenter = imagearr;
+                    $scope.grid.cenimagecopy = angular.copy($scope.imagecenter);
+                    imagecenterrefresh(1, 'search');
+                }
+            } else {
+                if (!txt) {
+                    $scope.cententsearch = false;
+                    $scope.grid.search = false;
+                    imagecenterrefresh(1);
+                    return;
+                }
+                var imagearr = [];
+                txt = txt.replace(/\//g, '\\/');
+                var reg = eval('/' + txt + '/');
+                if ($scope.cententtype == 'type') {
+                    for (var i = 0; i < $scope.typeimagecenter.length; i++) {
+                        if (reg.test($scope.typeimagecenter[i].name)) {
+                            imagearr.push($scope.typeimagecenter[i]);
+                        }
+                    }
+                } else {
+                    for (var i = 0; i < $scope.imagecentercopy.length; i++) {
+                        if (reg.test($scope.imagecentercopy[i].name)) {
+                            imagearr.push($scope.imagecentercopy[i]);
+                        }
+                    }
+                }
+                $scope.imagecenter = imagearr;
+                $scope.grid.cenimagecopy = angular.copy($scope.imagecenter);
+                imagecenterrefresh(1, 'search');
+            }
+        }
+        //镜像中心
         $scope.serviceper = [{name: 'Datafoundry官方镜像', class: 'df'}, {name: 'Docker官方镜像', class: 'doc'}]
 
         $scope.imagecenterDF = [];
@@ -141,13 +293,14 @@ angular.module('home.application', [
         //            })
         //        })
         //}
+
         $http.get('/registry/api/repositories', {params: {project_id: 1}})
             .success(function (docdata) {
                 angular.forEach(docdata, function (docitem, i) {
                     $scope.imagecenterDoc.push({
                         name: docitem,
                         lasttag: null,
-                        canbuild: false,
+                        canbuild: true,
                         class: 'doc'
                     });
                 })
@@ -160,103 +313,182 @@ angular.module('home.application', [
                             $scope.imagecenterDF.push({
                                 name: dfitem,
                                 lasttag: null,
-                                canbuild: false,
-                                class: 'df',
+                                canbuild: true,
+                                class: 'df'
                             });
                         });
                         $scope.imagecenterpoj = $scope.imagecenterDoc.concat($scope.imagecenterDF);
-                        //console.log('++++++++++++++', $scope.imagecenterpoj);
-                        angular.forEach($scope.imagecenterpoj, function (item, i) {
-                            $http.get('/registry/api/repositories/manifests', {
-                                    params: {
-                                        repo_name: $scope.imagecenterpoj[i].name,
-                                        tag: 'latest'
-                                    }
-                                })
-                                .success(function (lasttag) {
-                                    $scope.imagecenterpoj[i].lasttag = lasttag;
-                                    $scope.imagecenterpoj[i].canbuid = true;
-                                    if($scope.imagecenterpoj.length == i+1){
-                                        $scope.imagecentercopy = angular.copy($scope.imagecenterpoj);
-                                        $scope.grid.total = $scope.imagecentercopy.length;
-                                        refresh(1);
-                                    }
-
-                                }).error(function (err) {
-                                $scope.imagecenterpoj[i].lasttag = null;
-                                $scope.imagecenterpoj[i].canbuid = false;
-                                if($scope.imagecenterpoj.length == i+1){
-                                    $scope.imagecentercopy = angular.copy($scope.imagecenterpoj);
-                                    $scope.grid.total = $scope.imagecentercopy.length;
-                                    refresh(1);
-                                }
-
-                            })
-
-                        });
-                        //console.log('imagecenterpoj', $scope.imagecenterpoj);
+                        console.log('imagecenterpoj', $scope.imagecenterpoj);
+                        $scope.imagecentercopy = angular.copy($scope.imagecenterpoj);
+                        $scope.grid.imagecentertotal = $scope.imagecentercopy.length
+                        imagecenterrefresh(1);
 
                     })
             }).error(function (err) {
 
         })
-        // 控制换页方法
-        var refresh = function (page,tag) {
-            if (tag) {
-                var skip = (page - 1) * $scope.grid.size;
-                $scope.imagecenterpoj = $scope.apple.slice(skip, skip + $scope.grid.size);
-                $scope.grid.total = $scope.apple.length;
-            }else{
-                var skip = (page - 1) * $scope.grid.size;
-                $scope.imagecenterpoj = $scope.imagecentercopy.slice(skip, skip + $scope.grid.size);
-                $scope.grid.total = $scope.imagecentercopy.length;
+
+        $scope.isComplete = '';
+
+        $scope.selectsc = function (tp, key) {
+            if (!$scope.imagecentercopy) {
+                return
             }
+            //console.log(key);
+            $scope.cententtype = 'type'
 
-
-
-        };
-        // 监视分页的页数控制换页
-        $scope.$watch('grid.page', function (newVal, oldVal) {
-            if (newVal != oldVal) {
-                //if ($scope.grid.search) {
-                //    refresh(newVal, 'search');
-                //} else {
-                if($scope.flog){
-                    refresh(newVal,'tag');
-                }else{
-                    refresh(newVal);
-                }
-
-                //}
-
-            }
-        });
-
-        $scope.test = '提供者'
-        $scope.selectsc = function (key,name) {
-            $scope.flog='tag'
-            $scope.test = name
             if (key == 'doc') {
                 $scope.isComplete = {class: 'doc'};
-                $scope.imagecenterpoj = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
-                $scope.apple = angular.copy($scope.imagecenterpoj);
-                $scope.grid.total = $scope.imagecenterpoj.length;
-                $scope.grid.page = 1
-                refresh(1,'tag');
+                if ($scope.cententsearch == 'search') {
+                    $scope.imagecenter = $filter("imagefilter")($scope.grid.cenimagecopy, $scope.isComplete);
+                    //console.log($scope.imagecenter);
+                    $scope.typeimagecenter = angular.copy($scope.imagecenter);
+                }else {
+                    $scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
+                    //console.log($scope.imagecenter);
+                    $scope.typeimagecenter = angular.copy($scope.imagecenter);
+                }
+
+                $scope.grid.imagecentertotal = $scope.imagecenter.length;
+                //console.log($scope.imagecenter);
+                $scope.grid.imagecenterpage = 1
+                imagecenterrefresh(1, 'tag');
             } else {
                 $scope.isComplete = {class: 'df'};
-                $scope.imagecenterpoj = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
-                $scope.apple = angular.copy($scope.imagecenterpoj);
-                $scope.grid.total = $scope.imagecenterpoj.length;
-                $scope.grid.page = 1
-               refresh(1,'tag');
+                //console.log($scope.imagecenter);
+                if ($scope.cententsearch == 'search') {
+                    $scope.imagecenter = $filter("imagefilter")($scope.grid.cenimagecopy, $scope.isComplete);
+                    //console.log($scope.imagecenter);
+                    $scope.typeimagecenter = angular.copy($scope.imagecenter);
+                }else {
+                    $scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
+                    //console.log($scope.imagecenter);
+                    $scope.typeimagecenter = angular.copy($scope.imagecenter);
+                }
+                $scope.grid.imagecentertotal = $scope.imagecenter.length;
+                //$scope.grid.imagecentertotal = $scope.imagecenter.length;
+                //imagecenterrefresh(1);
+                $scope.grid.imagecenterpage = 1
+                imagecenterrefresh(1, 'tag');
             }
+            if (key == $scope.grid[tp]) {
+                $scope.cententtype = false
+                key = 'all';
+                $scope.isComplete = '';
+                if ($scope.cententsearch == 'search') {
+                    //alert(11)
+                    $scope.imagecenter = $filter("imagefilter")($scope.grid.cenimagecopy, $scope.isComplete);
+                    //console.log($scope.imagecenter);
+                    //$scope.typeimagecenter = angular.copy($scope.imagecenter);
+                }else {
+
+                    $scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
+                    //console.log($scope.imagecenter);
+                    //$scope.typeimagecenter = angular.copy($scope.imagecenter);
+                }
+                //$scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
+                //console.log($scope.imagecenter);
+                $scope.grid.imagecentertotal = $scope.imagecenter.length;
+                $scope.grid.imagecenterpage = 1;
+                imagecenterrefresh(1,'tag');
+
+            }
+            $scope.grid[tp] = key;
+
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         //////////////////////////saas
+        Array.prototype.unique = function () {
+            this.sort(); //先排序
+            var res = [this[0]];
+            for (var i = 1; i < this.length; i++) {
+                if (this[i] !== res[res.length - 1]) {
+                    res.push(this[i]);
+                }
+            }
+            return res;
+        }
+        $scope.saas = {
+            category : [],
+            provider : [],
+        };
+        $scope.searchname  = {
+            categoryname : '分类',
+            providername : '提供者'
+        }
         var loadsaas = function(){
             saas.get({},function(res){
-                    console.log('-+_+_+_+_',res);
+                var item = res.data.results;
+                var arr1 = []
+                for(var i = 1;i < item.length; i++){
+                    arr1.push(item[i].category)
+                    $scope.saas.provider.push(item[i].provider)
+                }
+                arr1 = arr1.unique();
+                for(var i = 0;i < arr1.length;i++){
+                    $scope.saas.category[i] = {
+                        name : '',
+                        obj : []
+                    };
+                    $scope.saas.category[i].name = arr1[i];
+                    for(var j = 0 ; j < item.length;j++){
+                        if(arr1[i] == item[j].category){
+                            $scope.saas.category[i].obj.push(item[j])
+                        }
+                    }
+                }
+                $scope.saas.provider = $scope.saas.provider.unique()
             })
         }
         loadsaas();
+
+        /////////分类筛选
+        $scope.clickcat = function(cat){
+            $scope.searchname.categoryname = cat
+
+        }
+        ////////提供者筛选
+        $scope.clickpro = function(pro){
+            var thiscat;
+            if($scope.searchname.categoryname == '分类'){
+                thiscat = ''
+            }else{
+                thiscat = $scope.searchname.categoryname
+            }
+            $scope.searchname.providername = pro
+            saas.get({category:thiscat,provider:pro},function(res){
+                console.log('-------cat',res);
+            })
+        }
+        ///////saas搜索
+
+        $scope.search = function () {
+            if (!$scope.secrets.txt) {
+                return;
+            }
+            $scope.secrets.txt = $scope.secrets.txt.replace(/\//g, '\\/');
+            $scope.secrets.txt = $scope.secrets.txt.replace(/\./g, '\\.');
+            var reg = eval('/' + $scope.secrets.txt + '/');
+            angular.forEach($scope.secretitems, function (item) {
+                if (reg.test(item.metadata.name)) {
+                    $scope.scretspageitems.push(item);
+                }
+            });
+        };
     }]);

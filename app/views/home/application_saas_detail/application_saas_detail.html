@@ -9,11 +9,12 @@
                         <div class="col-sm-10" style="width: 85%;padding-left: 0;float: left;padding-right: 0;">
                             <div class="panel-heading">
                                 <span class="panel-title">
-                                   11111
+                                   {{saasobj.name}}
                                 </span>
                                 <a class="btn pull-right btn-green"
                                    ng-if="true"
                                    ng-disabled=false
+                                   ng-click="createsaas(saasobj.appId)"
                                 >创建</a>
                             </div>
                             <div class="panel-body" style="padding-top:0px;padding-bottom:0px;">
@@ -22,7 +23,7 @@
                                         <div class="media media-sm">
                                             <div class="media-body">
                                                 <p style="margin-top:10px;">服务分类</p>
-                                                <p style="margin-top:10px;">Devops</p>
+                                                <p style="margin-top:10px;">{{saasobj.category}}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -30,7 +31,7 @@
                                         <div class="media media-sm">
                                             <div class="media-body">
                                                 <p style="margin-top:10px;">提供者</p>
-                                                <p style="margin-top:10px;">第三方</p>
+                                                <p style="margin-top:10px;">{{saasobj.provider}}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -53,11 +54,11 @@
                                     <span class="panel-title">SAAS服务简介</span>
                                 </div>
                                 <div class="panel-body">
-
+                                    {{saasobj.description}}
                                 </div>
                             </div>
                         </div>
-                        <div class="plan">
+                        <div class="plan" ng-if="false">
                             <div class="panel panel-default panel-xxx" style="min-height: 110px;">
                                 <div class="panel-heading">
                                     <span class="panel-title">收费标准</span>
@@ -72,7 +73,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="plan" >
+                        <div class="plan" ng-if="false" >
                             <div class="panel panel-default panel-xxx" style="min-height: 110px;">
                                 <div class="panel-heading">
                                     <span class="panel-title">使用说明</span>

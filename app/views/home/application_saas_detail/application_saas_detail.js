@@ -8,6 +8,18 @@ angular.module('home.application_saas_detail', [
             ]
         }
     ])
-    .controller('application_saas_detailCtrl', ['$scope', '$log', function ($scope, $log) {
-
+    .controller('application_saas_detailCtrl', ['$scope', '$log','$stateParams','saas','$rootScope','$state', function ($scope, $log,$stateParams,saas,$rootScope,$state) {
+        console.log('lalallalal----',$stateParams);
+        saas.get({id:$stateParams.id},function(res){
+            $scope.saasobj = res.data;
+            console.log('-------cat',res);
+        })
+        /////创建saas服务
+        $scope.createsaas = function(id){
+            if(!$rootScope.user){
+                $state.go('login',{type : 'saas',id : id});
+            }else{
+                $state.go('console.create_saas',{id:id});
+            }
+        }
     }]);

@@ -17,28 +17,28 @@
                             <div class="panel-body">
                                    <div class="row" style="padding:30px 15px;">
                                           <div class="col-sm-6">
-                                                 <div class="dropdown dropdown-select" style="width: 200px; height: 35px;float:left;margin:0px;">
-                                                        <button class="btn dropdown-toggle" data-toggle="dropdown" style="">
-                                                               <span>提供者</span>
-                                                               <span class="caret"></span>
-                                                        </button>
-                                                        <ul class="dropdown-menu" style="height: 88px;margin-top: -1px;overflow-y: auto">
-                                                               <li >
-                                                                      <a href="javascript:;">222222</a>
-                                                               </li>
-                                                        </ul>
-                                                 </div>
-                                                 <div class="dropdown dropdown-select" style="width: 200px; height: 35px;float:left;margin:0px;margin-left: 20px;">
-                                                        <button class="btn dropdown-toggle" data-toggle="dropdown" style="">
-                                                               <span>分类</span>
-                                                               <span class="caret"></span>
-                                                        </button>
-                                                        <ul class="dropdown-menu" style="height: 88px;margin-top: -1px;overflow-y: auto">
-                                                               <li >
-                                                                      <a href="javascript:;">222222</a>
-                                                               </li>
-                                                        </ul>
-                                                 </div>
+                                                 <!--<div class="dropdown dropdown-select" style="width: 200px; height: 35px;float:left;margin:0px;">-->
+                                                        <!--<button class="btn dropdown-toggle" data-toggle="dropdown" style="">-->
+                                                               <!--<span>{{searchname.providername}}</span>-->
+                                                               <!--<span class="caret"></span>-->
+                                                        <!--</button>-->
+                                                        <!--<ul class="dropdown-menu" style="height: 88px;margin-top: -1px;overflow-y: auto">-->
+                                                               <!--<li ng-repeat="per in saas.provider">-->
+                                                                      <!--<a href="javascript:;" ng-click="clickpro(per)">{{per}}</a>-->
+                                                               <!--</li>-->
+                                                        <!--</ul>-->
+                                                 <!--</div>-->
+                                                 <!--<div class="dropdown dropdown-select" style="width: 200px; height: 35px;float:left;margin:0px;margin-left: 20px;">-->
+                                                        <!--<button class="btn dropdown-toggle" data-toggle="dropdown" style="">-->
+                                                               <!--<span>{{searchname.categoryname}}</span>-->
+                                                               <!--<span class="caret"></span>-->
+                                                        <!--</button>-->
+                                                        <!--<ul class="dropdown-menu" style="height: 88px;margin-top: -1px;overflow-y: auto">-->
+                                                               <!--<li ng-repeat="cat in saas.category">-->
+                                                                      <!--<a href="javascript:;" ng-click="clickcat(cat.name)">{{cat.name}}</a>-->
+                                                               <!--</li>-->
+                                                        <!--</ul>-->
+                                                 <!--</div>-->
                                           </div>
                                           <div class="col-sm-6">
                                                  <div class="searchbar">
@@ -54,16 +54,16 @@
                                                  </div>
                                           </div>
                                    </div>
-                                   <div class="row">
+                                   <div class="row" ng-repeat="cat in saas.category">
                                           <div class="contitle">
-                                                 <span class='biaoti'>通讯</span>
+                                                 <span class='biaoti'>{{cat.name}}</span>
                                           </div>
-                                          <div class="fen">
+                                          <div class="fen" ng-repeat="catobj in cat.obj">
                                                  <div class="thumbnail">
                                                         <div class="thumb-content">
                                                                <div class="thumb-slide">
                                                                       <div class="thumb-op">
-                                                                             <small>SAAS简介:啦啦啦</small>
+                                                                             <small>SAAS简介:{{catobj.description}}</small>
                                                                              <p class="thumb-btn">
                                                                                     <a class="btn btn-skyblue" href="javascript:;">
                                                                                            查看详情</a>
@@ -73,9 +73,9 @@
                                                                </div>
                                                         </div>
                                                         <div class="caption">
-                                                               <p>SAAS平台服务</p>
-                                                               <p>提供者:平台</p>
-                                                               <a class="btn btn-orange1"  style='cursor:default;' ng-click="createsaas()">创建</a>
+                                                               <p class="href-orange" style="cursor: pointer" ui-sref="home.application_saas_detail({id:catobj.appId})">{{catobj.name}}</p>
+                                                               <p>提供者:{{catobj.provider}}</p>
+                                                               <a class="btn btn-orange1"  style='cursor:default;' ng-click="createsaas(catobj.appId)">创建</a>
                                                         </div>
                                                  </div>
                                           </div>
@@ -115,99 +115,89 @@
               <div class="cpleft" style="width: 100%">
                      <div class="panel panel-default">
                             <div class="panel-heading">
-                                   <span>SAAS服务</span>
+                                   <span>镜像中心</span>
                                    <div style="float:right;margin-right:15px;">
                                           <!--<span class="color-orange" ng-click="checkcollect()">查看我的收藏</span>-->
                                           <!--<span class="color-orange" ng-click="howpushimg()">如何拉取镜像?</span>-->
                                    </div>
                             </div>
                             <div class="panel-body">
-                                   <div class="row" style="padding:30px 15px;">
-                                          <div class="col-sm-6">
-                                                 <div class="dropdown dropdown-select" style="width: 200px; height: 35px;float:left;margin:0px;">
-                                                        <button class="btn dropdown-toggle" data-toggle="dropdown" style="">
-                                                               <span>{{test}}</span>
-                                                               <span class="caret"></span>
-                                                        </button>
-                                                        <ul class="dropdown-menu" style="height: 88px;margin-top: -1px;overflow-y: auto">
-                                                               <li ng-repeat="ser in serviceper" ng-click="selectsc(ser.class,ser.name)">
-                                                                      <a href="javascript:;">{{ser.name}}</a>
-                                                               </li>
-                                                        </ul>
+                                   <div class="row" style="margin-bottom: 30px;position: relative;">
+                                          <div class="fenlei col-sm-6">
+                                                 <label>提供者</label>
+                                                 <!--<div class="btn-group fw">-->
+
+                                                 <div class="btn-group fw" style="margin-left: 30px;" ng-repeat='item in serviceper'>
+                                                        <label class="btn pull-left sc" ng-class="{'active':grid.vendor == item.class}"
+                                                               ng-click="selectsc('vendor',item.class)">{{item.name}}</label>
                                                  </div>
+
                                           </div>
-                                          <div class="col-sm-6">
-                                                 <div class="searchbar">
-                                                        <div class="input-group">
-                                                               <input type="text" class="form-control"
-                                                                      ng-model="grid.txt"
-                                                                      ng-keydown="search(grid.txt)"
-                                                                      placeholder="搜索镜像中心">
-                                                   <span class="input-group-btn">
-                                                       <a class="btn" ng-click="search(grid.txt)"></a>
-                                                   </span>
-                                                        </div>
-                                                 </div>
+                                          <div class="input-group col-sm-4 col-sm-offset-8 searchbar" id="sousuo">
+                                                 <input type="text" class="form-control" ng-model="ctxt"
+                                                        ng-focus="showTip=true;" placeholder="搜索镜像" ng-keyup="imagecenterreg('all', ctxt,$event)">
+                                                       <span class="input-group-btn">
+                                                           <a class="btn" ng-click="imagecenterreg('all', ctxt)"></a>
+                                                       </span>
                                           </div>
                                    </div>
                                    <div class="row">
-                                          <div class="fen" ng-repeat="imgitem in imagecenterpoj">
+                                          <div class="fen" ng-repeat="item in imagecenter">
                                                  <div class="thumbnail">
                                                         <div class="thumb-content">
                                                                <div class="thumb-slide">
                                                                       <div class="thumb-op">
-                                                                             <p><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{imgitem.lasttag.Created | dateRelative}}</p>
-                                                                             <p ng-if="imgitem.canbuid"><i class="fa fa-flag-o" ></i>&nbsp;&nbsp;latest</p>
-                                                                             <p ng-if="!imgitem.canbuid"><i class="fa fa-flag-o" ></i>&nbsp;&nbsp;-</p>
+                                                                             <p><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{item.lasttag.Created | dateRelative}}</p>
+                                                                             <p><i class="fa fa-flag-o"></i>&nbsp;&nbsp;
+                                                                                    {{item.lasttag.Parent | limitTo: 7}}</p>
                                                                              <p class="thumb-btn">
                                                                                     <a class="btn btn-green"
-                                                                                       ng-if='imgitem.canbuid'
+                                                                                       ng-if='item.lasttag.Created'
                                                                                        href="javascript:;"
-                                                                                       ng-click="deployimg()"
-                                                                                       >部署最新版本</a>
+                                                                                       ui-sref="console.service_create({image:item.name+':latest'})">部署最新版本</a>
                                                                                     <a class="btn btn-gray"
-                                                                                       ng-if='!imgitem.canbuid'
+                                                                                       ng-if='!item.lasttag.Created'
                                                                                        href="javascript:;"
-                                                                                    >暂无最新版本</a>
+                                                                                       disabled='ture'>暂无最新版本</a>
+
                                                                              </p>
                                                                       </div>
-                                                                      <div style="position: relative;">
-                                                                             <div ng-if="imgitem.class == 'doc'" class="imgwrop"></div>
-                                                                             <div ng-if="imgitem.class == 'df'" class="imgwrop1"></div>
-                                                                             <img src="components/card/img/image.png" alt="" style="width: 66px; height: 66px;margin-top:20px;">
-                                                                             <p style="margin-top:15px;">Docker官方镜像</p>
-                                                                      </div>
+                                                                      <img src="components/card/img/image.png" alt="image">
                                                                </div>
                                                         </div>
                                                         <div class="caption">
-                                                              <p class="hotconname">{{imgitem.name}}</p>
-                                                               <!----------拉取收藏功能暂时不实现--------->
-                                                              <!--<div class="row">-->
-                                                                     <!--<div class="col-md-6" ><i class="download-13" uib-tooltip="拉取"></i>&nbsp;&nbsp;1</div>-->
-                                                                     <!--<div class="col-md-6"><i class="star-13" uib-tooltip="收藏"></i>&nbsp;&nbsp;2</div>-->
-                                                              <!--</div>-->
+                                                               <a class="href-orange" style='white-space:nowrap;overflow: hidden;text-overflow: ellipsis' ui-sref="console.image_Public({name:item.name,bc:item.name})">{{item.name}}</a>
+                                                               <div  ng-if="false">
+                                                                       <span class="download" style="margin-right: 60px;margin-top: 10px;">
+                                                                           <i class="down" ng-class="{'active':checkedd}" ng-click="checkedd=!checkedd"></i>123
+                                                                       </span>
+                                                                       <span class="stars">
+                                                                           <i class="star" ng-class="{'active':checkeds}" ng-click="checkeds=!checkeds"></i>123
+                                                                       </span>
+                                                               </div>
                                                         </div>
+
                                                  </div>
                                           </div>
                                    </div>
                             </div>
 
                      </div>
-                     <div class="text-right" ng-if="grid.total > 8">
+                     <div class="text-right" ng-if="grid.imagecentertotal > 8">
                             <uib-pagination
-                                    ng-model="grid.page"
-                                    total-items="grid.total"
+                                    ng-model="grid.imagecenterpage"
+                                    total-items="grid.imagecentertotal"
                                     items-per-page="grid.size"
                                     class="pagination-sm"
                                     boundary-links="true"
                                     boundary-link-numbers="true"
-                                    max-size="5"
-                                    force-ellipses="'5'"
-                                    rotate="true"
+                                    max-size="3"
+                                    force-ellipses="'3'"
                                     previous-text="上一页"
                                     next-text="下一页"
                                     first-text="首页"
-                                    last-text="末页">
+                                    last-text="末页"
+                                    rotate="true">
                             </uib-pagination>
                      </div>
               </div>

@@ -465,7 +465,7 @@ define([
             return volume;
         }])
         .factory('saas', ['$resource', function($resource){
-            var saas = $resource('/saasappapi/v1/apps/:id', {id:'@id',orderby:'@orderby',category:'@category',provider:'@provider'}, {
+            var saas = $resource('/saas/v1/apps/:id', {id:'@id',orderby:'@orderby',category:'@category',provider:'@provider'}, {
                 create: {method:'POST'},
                 delete: {method:'DELETE'},
                 put: {method:'PUT'}

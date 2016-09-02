@@ -43,7 +43,7 @@ define([
               }
             })
             .state('home.application_saas_detail', {
-              url: '/application_saas_detail',
+              url: '/application_saas_detail/:id',
               templateUrl: 'views/home/application_saas_detail/application_saas_detail.html',
               controller: 'application_saas_detailCtrl',
               resolve: {
@@ -63,7 +63,7 @@ define([
               }
             })
             .state('login', {
-              url: '/login/:type/:name',
+              url: '/login/:type/:id',
               templateUrl: 'views/login/login.html',
               controller: 'loginCtrl',
               resolve: {

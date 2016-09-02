@@ -11,6 +11,6 @@ angular.module('home.application_image_detail', [
             ]
         }
     ])
-    .controller('application_image_detailCtrl', ['$scope', '$log', function ($scope, $log) {
+    .controller('application_image_detailCtrl', ['$scope', '$log','$stateParams', function ($scope, $log,$stateParams) {
 
     }]);
