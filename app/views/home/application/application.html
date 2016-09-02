@@ -2,16 +2,16 @@
        <!--<div class="cptitle">应用中心</div>-->
        <!-----------镜像中心暂时不实现所以先隐藏切换------------->
        <div class="cptable">
-              <span ng-class="{'active':grid.active==1}" ng-click="changeTb(1)">SAAS服务</span><span ng-class="{'active':grid.active==2}" ng-click="changeTb(2)">镜像中心</span>
+              <span ng-class="{'active':grid.active==1}" ng-click="changeTb(1)">SaaS服务</span><span ng-class="{'active':grid.active==2}" ng-click="changeTb(2)">镜像中心</span>
        </div>
        <div ng-show="grid.active==1" style="width: 78%;margin:0 auto;">
               <!------------热门先不实现所以暂时改宽度为100%;需要实现时删掉该行内样式-------------->
               <div class="cpleft" style="width: 100%;">
                      <div class="panel panel-default">
                             <div class="panel-heading">
-                                   <span>SAAS服务</span>
+                                   <span>SaaS服务</span>
                                    <div style="float:right;margin-right:15px;">
-                                          <!--<span class="color-orange" ng-click="howSaas()">如何申请使用SAAS服务?</span>-->
+                                          <!--<span class="color-orange" ng-click="howSaas()">如何申请使用SaaS服务?</span>-->
                                    </div>
                             </div>
                             <div class="panel-body">
@@ -46,7 +46,7 @@
                                                                <input type="text" class="form-control"
                                                                       ng-model="grid.txt"
                                                                       ng-keydown="search(grid.txt)"
-                                                                      placeholder="搜索SAAS服务">
+                                                                      placeholder="搜索SaaS服务">
                                                    <span class="input-group-btn">
                                                        <a class="btn" ng-click="search(grid.txt)"></a>
                                                    </span>
@@ -90,7 +90,7 @@
                      <!--<div class="panel panel-default">-->
 
                             <!--<div class="panel-heading">-->
-                                   <!--<div class="hot-top-name"> 热门SAAS</div>-->
+                                   <!--<div class="hot-top-name"> 热门SaaS</div>-->
                             <!--</div>-->
                             <!--<div class="panel-body"  style="padding: 0px;padding-bottom: 30px;">-->
                                    <!--<div class="row hotcon" style="padding: 0px;margin-top:20px;">-->
@@ -102,7 +102,7 @@
 
                                           <!--</div>-->
                                           <!--<div class="col-md-9" style="margin-top:10px;">-->
-                                                 <!--<p class="hotconname">SAAS服务名称</p>-->
+                                                 <!--<p class="hotconname">SaaS服务名称</p>-->
                                                  <!--<p>提供者:aaa</p>-->
                                                  <!--<p>服务类型:bbb</p>-->
                                           <!--</div>-->
