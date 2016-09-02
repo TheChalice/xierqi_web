@@ -28,15 +28,15 @@ angular.module('home.application', [
 
         };
     })
-    .controller('applicationCtrl', ['$scope', '$log','$state','$rootScope','saas','$http','$filter', function ($scope, $log,$state,$rootScope,saas,$http,$filter) {
-           //$scope.grid = {
-           //    active : 1,
-           //    hotimglist :1,
-           //    total : '',
-           //    page : 1,
-           //    size : 8,
-           //
-           //}
+    .controller('applicationCtrl', ['$scope', '$log', '$state', '$rootScope', 'saas', '$http', '$filter', function ($scope, $log, $state, $rootScope, saas, $http, $filter) {
+        //$scope.grid = {
+        //    active : 1,
+        //    hotimglist :1,
+        //    total : '',
+        //    page : 1,
+        //    size : 8,
+        //
+        //}
         $scope.grid = {
             page: 1,
             repertoryspage: 1,
@@ -105,11 +105,11 @@ angular.module('home.application', [
 
         })
         /////创建saas服务
-        $scope.createsaas = function(name){
-            if(!$rootScope.user){
-                $state.go('login',{type : 'saas',name : name});
-            }else{
-                $state.go('console.create_saas',{name:name});
+        $scope.createsaas = function (name) {
+            if (!$rootScope.user) {
+                $state.go('login', {type: 'saas', name: name});
+            } else {
+                $state.go('console.create_saas', {name: name});
             }
         }
         ///////部署镜像
@@ -325,7 +325,7 @@ angular.module('home.application', [
                     $scope.imagecenter = $filter("imagefilter")($scope.grid.cenimagecopy, $scope.isComplete);
                     //console.log($scope.imagecenter);
                     $scope.typeimagecenter = angular.copy($scope.imagecenter);
-                }else {
+                } else {
                     $scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
                     //console.log($scope.imagecenter);
                     $scope.typeimagecenter = angular.copy($scope.imagecenter);
@@ -342,7 +342,7 @@ angular.module('home.application', [
                     $scope.imagecenter = $filter("imagefilter")($scope.grid.cenimagecopy, $scope.isComplete);
                     //console.log($scope.imagecenter);
                     $scope.typeimagecenter = angular.copy($scope.imagecenter);
-                }else {
+                } else {
                     $scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
                     //console.log($scope.imagecenter);
                     $scope.typeimagecenter = angular.copy($scope.imagecenter);
@@ -362,7 +362,7 @@ angular.module('home.application', [
                     $scope.imagecenter = $filter("imagefilter")($scope.grid.cenimagecopy, $scope.isComplete);
                     //console.log($scope.imagecenter);
                     //$scope.typeimagecenter = angular.copy($scope.imagecenter);
-                }else {
+                } else {
 
                     $scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
                     //console.log($scope.imagecenter);
@@ -372,27 +372,12 @@ angular.module('home.application', [
                 //console.log($scope.imagecenter);
                 $scope.grid.imagecentertotal = $scope.imagecenter.length;
                 $scope.grid.imagecenterpage = 1;
-                imagecenterrefresh(1,'tag');
+                imagecenterrefresh(1, 'tag');
 
             }
             $scope.grid[tp] = key;
 
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         //////////////////////////saas
@@ -407,30 +392,30 @@ angular.module('home.application', [
             return res;
         }
         $scope.saas = {
-            category : [],
-            provider : [],
+            category: [],
+            provider: [],
         };
-        $scope.searchname  = {
-            categoryname : '分类',
-            providername : '提供者'
+        $scope.searchname = {
+            categoryname: '分类',
+            providername: '提供者'
         }
-        var loadsaas = function(){
-            saas.get({},function(res){
+        var loadsaas = function () {
+            saas.get({}, function (res) {
                 var item = res.data.results;
                 var arr1 = []
-                for(var i = 1;i < item.length; i++){
+                for (var i = 1; i < item.length; i++) {
                     arr1.push(item[i].category)
                     $scope.saas.provider.push(item[i].provider)
                 }
                 arr1 = arr1.unique();
-                for(var i = 0;i < arr1.length;i++){
+                for (var i = 0; i < arr1.length; i++) {
                     $scope.saas.category[i] = {
-                        name : '',
-                        obj : []
+                        name: '',
+                        obj: []
                     };
                     $scope.saas.category[i].name = arr1[i];
-                    for(var j = 0 ; j < item.length;j++){
-                        if(arr1[i] == item[j].category){
+                    for (var j = 0; j < item.length; j++) {
+                        if (arr1[i] == item[j].category) {
                             $scope.saas.category[i].obj.push(item[j])
                         }
                     }
