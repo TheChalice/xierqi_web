@@ -401,12 +401,15 @@ angular.module('home.application', [
         }
         var loadsaas = function () {
             saas.get({}, function (res) {
+
                 var item = res.data.results;
+
                 var arr1 = []
-                for (var i = 1; i < item.length; i++) {
+                for (var i = 0; i < item.length; i++) {
                     arr1.push(item[i].category)
                     $scope.saas.provider.push(item[i].provider)
                 }
+
                 arr1 = arr1.unique();
                 for (var i = 0; i < arr1.length; i++) {
                     $scope.saas.category[i] = {
