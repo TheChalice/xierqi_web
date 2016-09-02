@@ -39,9 +39,9 @@ angular.module('console.image_Public', [
                 });
             $scope.pull = function(name){
 
-                var s = $scope.name;
+                //var s = $scope.name;
 
-                var str = $scope.name+':'+s.split('/')[0]+'/'+name
+                var str = $scope.name+':'+name
                 ModalPullImage.open(str)
                     .then(function(res){
                         console.log("cmd1", res);

@@ -43,10 +43,8 @@ angular.module('home.application_image_detail', [
 
             });
         $scope.pull = function(name){
-
-            var s = $scope.name;
-
-            var str = $scope.name+':'+s.split('/')[0]+'/'+name
+            //var s = $scope.name;
+            var str = $scope.name+':'+name
             ModalPullImage.open(str)
                 .then(function(res){
                     console.log("cmd1", res);

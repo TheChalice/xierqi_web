@@ -841,12 +841,15 @@ define(['angular'], function (angular) {
                         //    $scope.name = name.split('/')[1] ? name.split(':')[0] + ':' + name.split(':')[1].split('/')[1] : name;
                         //
                         //} else {
-                            $scope.name = name;
+
+                        var names=name
                         //}
                         if (yuorself=='project') {
-                            $scope.cmd = 'docker pull registry.dataos.io/project/' + $scope.name;
+                            $scope.name = name;
+                            $scope.cmd = 'docker pull registry.dataos.io/'+ $rootScope.namespace+'/'+ $scope.name;
                         }else {
-                            $scope.cmd = 'docker pull registry.dataos.io/' + $scope.name;
+                            $scope.name = names.split('/')[1];
+                            $scope.cmd = 'docker pull registry.dataos.io/' +name;
                         }
 
                         $scope.cancel = function () {
