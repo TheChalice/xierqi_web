@@ -36,8 +36,11 @@ angular.module('home.application_image_detail', [
                                 });
                                 //console.log($scope.items);
                             }
+                            $scope.firsttag = $scope.items[0].tag;
                         })
                 })
+
+
             });
         $scope.pull = function(name){
 

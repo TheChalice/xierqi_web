@@ -1,21 +1,24 @@
 <div class="application">
-    <div class="appdetailtop"><span class="backapp">应用中心</span><span>SAAS详情</span></div>
+    <div class="appdetailtop"><span class="backapp" ui-sref="home.application">应用中心</span><span>SAAS详情</span></div>
     <div class="appdetailcon">
        <!-------------------------------->
         <div class="panel panel-default" style="margin-bottom: 50px">
                 <div class="row">
-                        <div class="" style="position: relative;border-right: 1px solid #c9c9c9;margin-left: 15px;width: 13%;height: 125px;padding: 0;background-color: #F8F9FB;background-image:url(pub/img/box.png);background-position: center;background-repeat: no-repeat;float: left;">
+                        <div ng-if="!saasobj.iconUrl" class="col-sm-2" style="position: relative;border-right: 1px solid #c9c9c9;height: 125px;padding: 0;background-color: #F8F9FB;background-image:url(pub/img/box.png);background-position: center;background-repeat: no-repeat;">
                         </div>
-                        <div class="col-sm-10" style="width: 85%;padding-left: 0;float: left;padding-right: 0;">
+                        <div ng-if="saasobj.iconUrl"class="col-sm-2" style="position: relative;border-right: 1px solid #c9c9c9;height: 125px;padding: 0;background-color: #F8F9FB;background-image:url({{saasobj.iconUrl}});background-position: center;background-repeat: no-repeat;-webkit-background-size: ;background-size: 70px 70px;">
+                        </div>
+                        <div class="col-sm-10" style="padding-left: 0;padding-right: 0;">
                             <div class="panel-heading">
                                 <span class="panel-title">
                                    {{saasobj.name}}
                                 </span>
                                 <a class="btn pull-right btn-green"
+                                   style="margin-right: 20px;"
                                    ng-if="true"
                                    ng-disabled=false
                                    ng-click="createsaas(saasobj.appId)"
-                                >创建</a>
+                                >新建</a>
                             </div>
                             <div class="panel-body" style="padding-top:0px;padding-bottom:0px;">
                                 <div class="row">

@@ -1,5 +1,5 @@
 <div class="application">
-       <div class="cptitle">应用中心</div>
+       <!--<div class="cptitle">应用中心</div>-->
        <!-----------镜像中心暂时不实现所以先隐藏切换------------->
        <div class="cptable">
               <span ng-class="{'active':grid.active==1}" ng-click="changeTb(1)">SAAS服务</span><span ng-class="{'active':grid.active==2}" ng-click="changeTb(2)">镜像中心</span>
@@ -125,16 +125,16 @@
                             <div class="panel-body">
                                    <div class="row" style="margin-bottom: 30px;position: relative;">
                                           <div class="fenlei col-sm-6">
-                                                 <label>提供者</label>
+                                                 <!--<label>提供者</label>-->
                                                  <!--<div class="btn-group fw">-->
 
-                                                 <div class="btn-group fw" style="margin-left: 30px;" ng-repeat='item in serviceper'>
+                                                 <div class="btn-group fw" style="margin-left: 14px;" ng-repeat='item in serviceper'>
                                                         <label class="btn pull-left sc" ng-class="{'active':grid.vendor == item.class}"
                                                                ng-click="selectsc('vendor',item.class)">{{item.name}}</label>
                                                  </div>
 
                                           </div>
-                                          <div class="input-group col-sm-4 col-sm-offset-8 searchbar" id="sousuo">
+                                          <div class="input-group col-sm-6  searchbar" id="sousuo">
                                                  <input type="text" class="form-control" ng-model="ctxt"
                                                         ng-focus="showTip=true;" placeholder="搜索镜像" ng-keyup="imagecenterreg('all', ctxt,$event)">
                                                        <span class="input-group-btn">
