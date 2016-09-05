@@ -2395,7 +2395,7 @@ angular.module('console.service.detail', [
     .service('ContainerModal', ['$uibModal', function ($uibModal) {
         this.open = function (pod, obj) {
             return $uibModal.open({
-                backdrop:false,
+                backdrop:'static',
                 templateUrl: 'views/service_detail/containerModal.html',
                 size: 'default modal-lg',
                 controller: ['$base64', '$sce', 'ansi_ups', '$rootScope', '$scope', '$log', '$uibModalInstance', 'ImageStream', 'Pod', 'Ws', 'Metrics', 'MetricsService',
