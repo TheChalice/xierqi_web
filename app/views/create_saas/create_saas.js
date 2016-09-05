@@ -107,7 +107,7 @@ angular.module('console.create_saas', [
                 arr.sort(by("key"));
                 if (arr && arr.length > 0) {
                     var kong = false;
-                    var r = /^\.?[a-z0-9A-Z]([-a-z0-9A-Z]*[a-z0-9A-Z])?(\.[a-z0-9A-Z]([-a-z0-9A-Z]*[a-z0-9A-Z])?)*$/;
+                    var r = /^[a-zA-Z][a-zA-Z0-9_]{1,20}$/;
                     angular.forEach(arr, function (item, i) {
 
                         if (!item.key || !item.value) {

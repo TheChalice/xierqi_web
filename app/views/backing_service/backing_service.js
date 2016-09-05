@@ -168,7 +168,7 @@ angular.module('console.backing_service', [
                     //我的后端服务json
                     var loadBsi = function () {
                         BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {
-                            $log.info("backingServiceInstance", res);
+                            //$log.info("backingServiceInstance", res);
                             $scope.resourceVersion = res.metadata.resourceVersion;
                             watchBsi($scope.resourceVersion);
                             $scope.bsi = res;
@@ -210,9 +210,11 @@ angular.module('console.backing_service', [
                                     }
                                 }
                             }
+                            //console.log('$scope.myservice', $scope.myservice);
+                            var bciarr=angular.copy(res.items)
                             //自定义后端服务渲染数组
                             $scope.diyservice = [];
-                            angular.forEach(res.items, function (item, i) {
+                            angular.forEach(bciarr, function (item, i) {
                                 if (item.metadata.annotations && item.metadata.annotations['USER-PROVIDED-SERVICE'] == "true") {
                                     item.mysort = (new Date(item.metadata.creationTimestamp)).getTime()
                                     $scope.diyservice.push(item);
@@ -221,7 +223,7 @@ angular.module('console.backing_service', [
                             $scope.diyservice.sort(function (x, y) {
                                 return x.mysort > y.mysort ? -1 : 1;
                             });
-                            console.log('$scope.myservice', $scope.diyservice);
+                            console.log('$scope.diyservice', $scope.diyservice);
                             $scope.diyservicecopy=angular.copy($scope.diyservice)
                             for (var d = 0; d < $scope.cation.length; d++) {
                                 var arr1 = $filter("myfilter")($scope.myservice[d].item, $scope.isComplete);

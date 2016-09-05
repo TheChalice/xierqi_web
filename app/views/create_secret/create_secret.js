@@ -198,7 +198,7 @@ angular.module('console.create_secret', [
         //console.log($scope.grid.secretnames)
     }
     $scope.checkedkv = function () {
-        var r = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/; // key值的验证;
+        var r = /^[a-zA-Z][a-zA-Z0-9_]{1,20}$/; // key值的验证;
         for (var i = 0; i < $scope.secretsarr.length; i++) {
             if ($scope.secretsarr[i].key && $scope.secretsarr[i].value && r.test($scope.secretsarr[i].key)) {
                 $scope.grid.secreteno = true;
