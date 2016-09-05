@@ -41,22 +41,7 @@
     <div class="container-detail">
         <!--<h2><a href="javascript:;" ng-click="back()" class="faa faa-back"></a>&nbsp;&nbsp;{{container.name}}</h2>-->
         <uib-tabset class="tab-default" active="active">
-            <uib-tab index="1" heading="日志">
-                <!--<div style="margin-bottom: 15px;" class="row">-->
-                    <!--<div class="col-md-4">-->
-                        <!--<input type="text" class="form-control" placeholder="关键字" style="margin-right: 20px;">-->
-                    <!--</div>-->
-                    <!--<div class="col-md-8">-->
-                        <!--<date-pick st="grid.st" et="grid.et"></date-pick>-->
-                        <!--<a style="margin-left: 15px;" href="javascript:;" class="btn btn-orange" ng-click="search()">搜索</a>-->
-                    <!--</div>-->
-                <!--</div>-->
-
-                <div class="well well-log" style="margin: 0;">
-                    <pre style="color:#e4e4e4" id="sc" ng-bind-html=log></pre>
-                </div>
-            </uib-tab>
-            <uib-tab index="2" heading="性能监控">
+            <uib-tab index="1" heading="性能监控">
                 <div>
                     <div ng-if="!grid.cpu" class="graph">
                         <p>CPU</p>
@@ -73,6 +58,22 @@
                     <highchart ng-if="false" style="width:100%" config="chartConfigIo"></highchart>
                 </div>
             </uib-tab>
+            <uib-tab index="2" heading="日志">
+                <!--<div style="margin-bottom: 15px;" class="row">-->
+                    <!--<div class="col-md-4">-->
+                        <!--<input type="text" class="form-control" placeholder="关键字" style="margin-right: 20px;">-->
+                    <!--</div>-->
+                    <!--<div class="col-md-8">-->
+                        <!--<date-pick st="grid.st" et="grid.et"></date-pick>-->
+                        <!--<a style="margin-left: 15px;" href="javascript:;" class="btn btn-orange" ng-click="search()">搜索</a>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <div class="well well-log" style="margin: 0;">
+                    <pre style="color:#e4e4e4" id="sc" ng-bind-html=log></pre>
+                </div>
+            </uib-tab>
+
             <uib-tab index="3" heading="Terminal" ng-click="terminalSelect()">
                 <kubernetes-container-terminal pod="pod" container="container.name" prevent="!terminalTabWasSelected">
                 </kubernetes-container-terminal>

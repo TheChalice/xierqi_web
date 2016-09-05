@@ -17,7 +17,7 @@
         </li>
         <li class="col-md-12" ng-repeat="pod in pods.items" style="padding-top: 10px;padding-left: 0px;padding-right: 0px;padding-bottom:10px;">
                 <div class="col-md-2">
-                    <span uib-tooltip="{{pod.metadata.name}}">{{pod.metadata.name| limitTo: 18}}
+                    <span uib-tooltip="{{pod.metadata.name}}" style="display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{pod.metadata.name}}
                     <!--<span class="caret" role="button" ng-click="grid.animeta=true" data-toggle="collapse" data-parent="#accordion" aria-expanded="true" aria-controls="collapseOne"></span>-->
                 </span></div>
                 <div class="col-md-2"><span uib-tooltip="{{pod.reason}}" class="text-{{pod.reason}}">{{pod.reason}}</span></div>

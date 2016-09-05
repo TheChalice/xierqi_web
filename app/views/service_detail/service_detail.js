@@ -1974,8 +1974,10 @@ angular.module('console.service.detail', [
 
             var updateRoute = function (dc) {
                 if (dc.route) {     //route存在,更新route
-                    dc.route.spec.host = $scope.grid.host + $scope.grid.suffix;
-                    dc.route.spec.port.targetPort = $scope.grid.port + '-tcp';
+                    //dc.route.spec.host = $scope.grid.host + $scope.grid.suffix;
+                    $scope.routeconf.spec.host = $scope.grid.host + $scope.grid.suffix;
+                    //dc.route.spec.port.targetPort = $scope.grid.port + '-tcp';
+                    $scope.routeconf.spec.port.targetPort = $scope.grid.port + '-tcp';
                     console.log($scope.routeconf);
                     if ($scope.grid.tlsset == 'passthrough') {
                         $scope.routeconf.spec.tls.termination = $scope.grid.tlsset;
