@@ -19,6 +19,7 @@ define(['angular', 'moment'], function (angular, moment) {
                     return "-";
                 }
                 var duration = moment.duration(um / 1000000);
+                //console.log(duration);
                 var humanizedDuration = [];
                 var years = duration.years();
                 var months = duration.months();
@@ -144,6 +145,22 @@ define(['angular', 'moment'], function (angular, moment) {
                 if(times){
                    //var timesfilter = times.replace(/[a-zA-Z]/g,'');
                     return moment(times).format('YYYY-MM-DD HH:mm:ss');
+                }
+            }
+        }])
+        .filter("duration3",[function(){
+            return function(times){
+                if(times){
+                   //var timesfilter = times.replace(/[a-zA-Z]/g,'');
+                    return moment(times).fromNow();
+                }
+            }
+        }])
+        .filter("timescon2",[function(){
+            return function(times){
+                if(times){
+                   //var timesfilter = times.replace(/[a-zA-Z]/g,'');
+                    return moment(times).format('HH:mm:ss');
                 }
             }
         }])
