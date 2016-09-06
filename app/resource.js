@@ -409,6 +409,15 @@ define([
             })
             return secretskey;
         }])
+         .factory('creatapp', ['$resource', function($resource){
+            var creatapp = $resource('/oapi/v1/namespaces/:namespace/backingserviceinstances', {namespace:'@namespace'},{
+                create: {method:'POST'},
+                delete: {method:'DELETE'},
+                updata: {method:'PUT'}
+            })
+            return creatapp;
+        }])
+
         .factory('listSecret', ['$resource', function($resource){
             var listSecret = $resource('/api/v1/namespaces/:namespace/secrets/:name', {namespace:'@namespace', name:'@name'}, {
             })
@@ -454,6 +463,14 @@ define([
                 create: {method:'POST'}
             })
             return volume;
+        }])
+        .factory('saas', ['$resource', function($resource){
+            var saas = $resource('/saas/v1/apps/:id', {id:'@id',orderby:'@orderby',category:'@category',provider:'@provider'}, {
+                create: {method:'POST'},
+                delete: {method:'DELETE'},
+                put: {method:'PUT'}
+            })
+            return saas;
         }])
 });
 

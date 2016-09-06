@@ -22,6 +22,36 @@ define([
               },
               abstract: true
             })
+            .state('home.application', {
+              url: '/application',
+              templateUrl: 'views/home/application/application.html',
+              controller: 'applicationCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/home/application/application.js')
+                }]
+              }
+            })
+            .state('home.application_image_detail', {
+              url: '/application_image_detail/:name',
+              templateUrl: 'views/home/application_image_detail/application_image_detail.html',
+              controller: 'application_image_detailCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/home/application_image_detail/application_image_detail.js')
+                }]
+              }
+            })
+            .state('home.application_saas_detail', {
+              url: '/application_saas_detail/:id',
+              templateUrl: 'views/home/application_saas_detail/application_saas_detail.html',
+              controller: 'application_saas_detailCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/home/application_saas_detail/application_saas_detail.js')
+                }]
+              }
+            })
             .state('home.index', {
               url: '/index',
               templateUrl: 'views/home/index/index.html',
@@ -33,7 +63,7 @@ define([
               }
             })
             .state('login', {
-              url: '/login',
+              url: '/login/:type/:name',
               templateUrl: 'views/login/login.html',
               controller: 'loginCtrl',
               resolve: {
@@ -76,6 +106,16 @@ define([
               resolve: {
                 dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                   return $ocLazyLoad.load('views/build/build.js')
+                }]
+              }
+            })
+            .state('console.create_saas', {
+              url: '/create_saas/:name',
+              templateUrl: 'views/create_saas/create_saas.html',
+              controller: 'create_saasCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/create_saas/create_saas.js')
                 }]
               }
             })
@@ -193,6 +233,9 @@ define([
             })
             .state('console.backing_service', {
               url: '/backing_service',
+              params: {
+                index: null
+              },
               templateUrl: 'views/backing_service/backing_service.html',
               controller: 'BackingServiceCtrl',
               resolve: {

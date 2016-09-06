@@ -494,7 +494,26 @@ define(['angular'], function (angular) {
                     }]
                 }).result;
             };
-        }]).service('diploma', ['$uibModal', function ($uibModal) {
+        }])
+        .service('simpleAlert', ['$uibModal', function ($uibModal) {
+            this.open = function (title, txt) {
+                return $uibModal.open({
+                    templateUrl: 'pub/tpl/simpleAlert.html',
+                    size: 'default',
+                    controller: ['$scope', '$uibModalInstance','$sce', function ($scope, $uibModalInstance,$sce) {
+                        $scope.title = title;
+                        $scope.txt = $sce.trustAsHtml(txt);
+                        $scope.ok = function () {
+                            $uibModalInstance.close();
+                        };
+                        $scope.cancel = function () {
+                            $uibModalInstance.dismiss();
+                        };
+                    }]
+                }).result;
+            };
+        }])
+        .service('diploma', ['$uibModal', function ($uibModal) {
             this.open = function (obj) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/diploma.html',
@@ -533,6 +552,7 @@ define(['angular'], function (angular) {
         .service('ChooseSecret', ['$uibModal', function ($uibModal) {
             this.open = function (olength, secretsobj) {
                 return $uibModal.open({
+                    backdrop:'static',
                     templateUrl: 'pub/tpl/choosSecret.html',
                     size: 'default',
                     controller: ['by', '$scope', '$uibModalInstance', '$log', 'secretskey', '$rootScope', 'configmaps', 'persistent', '$state',
@@ -762,7 +782,7 @@ define(['angular'], function (angular) {
                                         "mountPath": $scope.configmap[j].mountPath
                                     }
                                     if ($scope.configmap[j].configMap.name == '名称' || !$scope.configmap[j].mountPath) {
-                                        alert('2不能为空')
+                                        //alert('2不能为空')
                                         return;
                                     }
                                     thisvolumes.push(volumeval);
@@ -782,7 +802,7 @@ define(['angular'], function (angular) {
                                     }
                                     console.log('$scope.persistentarr[j].mountPath', $scope.persistentarr[j].mountPath)
                                     if ($scope.persistentarr[j].persistentVolumeClaim.claimName == '名称' || !$scope.persistentarr[j].mountPath) {
-                                        alert('3不能为空')
+                                        //alert('3不能为空')
                                         return;
                                     }
 
@@ -804,7 +824,7 @@ define(['angular'], function (angular) {
                                 //$scope.secretarr=[]
                                 //$scope.configmap=[]
                                 //$scope.persistentarr=[]
-                                $uibModalInstance.dismiss();
+                                $uibModalInstance.dismiss('cancel');
                             };
                         }]
                 }).result
@@ -821,12 +841,15 @@ define(['angular'], function (angular) {
                         //    $scope.name = name.split('/')[1] ? name.split(':')[0] + ':' + name.split(':')[1].split('/')[1] : name;
                         //
                         //} else {
-                            $scope.name = name;
+
+                        var names=name
                         //}
                         if (yuorself=='project') {
-                            $scope.cmd = 'docker pull registry.dataos.io/project/' + $scope.name;
+                            $scope.name = name;
+                            $scope.cmd = 'docker pull registry.dataos.io/'+ $rootScope.namespace+'/'+ $scope.name;
                         }else {
-                            $scope.cmd = 'docker pull registry.dataos.io/' + $scope.name;
+                            $scope.name = names.split('/')[1];
+                            $scope.cmd = 'docker pull registry.dataos.io/' +name;
                         }
 
                         $scope.cancel = function () {
@@ -847,6 +870,7 @@ define(['angular'], function (angular) {
         .service('ImageSelect', ['$uibModal', function ($uibModal) {
             this.open = function () {
                 return $uibModal.open({
+                    backdrop:'static',
                     templateUrl: 'pub/tpl/modal_choose_image.html',
                     size: 'default modal-lg',
                     controller: ['$rootScope', '$scope', '$uibModalInstance', 'images', 'ImageStreamTag', 'ImageStream', '$http', 'platformlist', function ($rootScope, $scope, $uibModalInstance, images, ImageStreamTag, ImageStream, $http, platformlist) {
@@ -1013,7 +1037,7 @@ define(['angular'], function (angular) {
                         };
 
                         $scope.cancel = function () {
-                            $uibModalInstance.dismiss();
+                            $uibModalInstance.dismiss('cancel');
                         };
                         $scope.ok = function () {
                             console.log("===", $scope.imageTags);
@@ -1257,8 +1281,9 @@ define(['angular'], function (angular) {
         .service('AuthService', ['$timeout', '$q', 'orgList', '$rootScope', '$http', '$base64', 'Cookie', '$state', '$log', 'Project', 'GLOBAL', 'Alert', 'User',
             function ($timeout, $q, orgList, $rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User) {
 
-                this.login = function (credentials) {
+                this.login = function (credentials,stateParams) {
                     console.log("login",credentials);
+                    console.log("login",stateParams);
                     localStorage.setItem('Auth', $base64.encode(credentials.username + ':' + credentials.password))
                     $rootScope.loding = true;
                     var deferred = $q.defer();
@@ -1308,7 +1333,18 @@ define(['angular'], function (angular) {
                                 //localStorage.setItem('cade',null)
                                 localStorage.setItem("code", 1);
                                 $rootScope.loginyanzheng = false;
-                                $state.go('console.dashboard');
+                                if(stateParams){
+                                    if(stateParams.type == 'saas'){
+                                        $state.go('console.create_saas',{name:stateParams.name});
+                                    }else if(stateParams.type == 'image'){
+                                        $state.go('console.service_create',{image:stateParams.name});
+                                    }else{
+                                        //  TODO 查看收藏功能
+                                    }
+                                }else{
+                                    $state.go('console.dashboard');
+                                }
+
 
                                 var inputDaovoice = function () {
                                     daovoice('init', {

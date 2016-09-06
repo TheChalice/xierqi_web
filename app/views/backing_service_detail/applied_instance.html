@@ -50,14 +50,8 @@
                         </div>
                         <div id="{{item.metadata.name}}-{{bsisv.bind_deploymentconfig}}" class="panel-collapse collapse" role="tabpanel">
                             <div class="panel-body">
-                                <div>
-                                    <p><strong>Host:</strong><br>{{bsisv.credentials.Host}}</p>
-                                    <p><strong>Name:</strong><br>{{bsisv.credentials.Name}}</p>
-                                    <p><strong>Password:</strong><br>{{bsisv.credentials.Password}}</p>
-                                    <p><strong>Port:</strong><br>{{bsisv.credentials.Port}}</p>
-                                    <p><strong>Uri:</strong><br>{{bsisv.credentials.Uri}}</p>
-                                    <p><strong>Username:</strong><br>{{bsisv.credentials.Username}}</p>
-                                    <p><strong>Vhost:</strong><br>{{bsisv.credentials.Vhost}}</p>
+                                <div ng-repeat="(k, v) in bsisv.credentials" ng-if='bsisv.credentials' >
+                                    <p style="word-break: keep-all"><strong>{{k}}: </strong>{{v}}</p>
                                 </div>
                             </div>
                         </div>
