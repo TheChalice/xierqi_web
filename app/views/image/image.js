@@ -38,6 +38,9 @@ angular.module('console.image', [
             } else {
                 $scope.check = false
             }
+            $scope.imagecenterDF = [];
+            $scope.fyshow = true;
+            $scope.imagecenterDoc = [];
             Array.prototype.unique = function () {
                 var res = [this[0]];
                 for (var i = 1; i < this.length; i++) {
@@ -56,9 +59,11 @@ angular.module('console.image', [
             }
             // 分页对象
             var end = $q.defer();
+
             $scope.$on('$destroy', function () {
                 end.resolve();
             });
+
             $scope.grid = {
                 page: 1,
                 repertoryspage: 1,
@@ -80,6 +85,7 @@ angular.module('console.image', [
 
                 }
             });
+
             $scope.$watch('grid.repertoryspage', function (newVal, oldVal) {
                 if (newVal != oldVal) {
                     if ($scope.grid.search) {
@@ -89,6 +95,7 @@ angular.module('console.image', [
                     }
                 }
             });
+
             $scope.$watch('grid.imagecenterpage', function (newVal, oldVal) {
                 if (newVal != oldVal) {
                     if ($scope.grid.search) {
@@ -239,9 +246,6 @@ angular.module('console.image', [
 
                 //console.log('1212121212121212122',$scope.repertorys);
             };
-
-
-            $scope.fyshow = true;
             // 在searchbar组件中调用
             $scope.doSearch = function (txt) {
                 // 使搜索框失去焦点
@@ -375,15 +379,19 @@ angular.module('console.image', [
                     imagecenterrefresh(1, 'search');
                 }
             }
-            // 平台公有镜像键盘搜索(api版)
 
-
+            // 我的镜像
             $http.get('/oapi/v1/namespaces/' + $rootScope.namespace + '/imagestreams')
                 .success(function (datalist) {
                     //console.log('$scope.testlist', datalist.items);
                     //$scope.testlist = datalist.items;
 
                     angular.forEach(datalist.items, function (item, i) {
+                        //ImageStreamTag.get({namespace: $rootScope.namespace, name: item.metadata.name}, function (data) {
+                        //    console.log(data);
+                        //}, function (res) {
+                        //
+                        //});
                         if (item.status.tags && item.status.tags.length > 0) {
                             angular.forEach(item.status.tags, function (tag, k) {
                                 item.status.tags[k].sorttime = (new Date(tag.items[0].created)).getTime()
@@ -398,6 +406,7 @@ angular.module('console.image', [
                     //    return x.sorttime > y.sorttime ? -1 : 1;
                     //});
                     //console.log('$scope.testlist', datalist.items);
+
                     $scope.testlist = datalist.items;
                     $scope.testcopy = angular.copy(datalist.items);
 
@@ -469,8 +478,7 @@ angular.module('console.image', [
             //镜像中心
             $scope.serviceper = [{name: 'Datafoundry官方镜像', class: 'df'}, {name: 'Docker官方镜像', class: 'doc'}]
 
-            $scope.imagecenterDF = [];
-            $scope.imagecenterDoc = [];
+
             //var loaddf = function (fn) {
             //    $http.get('/registry/api/repositories', {
             //        timeout:end.promise,
