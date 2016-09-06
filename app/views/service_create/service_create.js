@@ -115,7 +115,9 @@ angular.module('console.service.create', [
                 servicenameerr: false,
                 imagePullSecrets: false
             };
+
             $scope.tlsroutes = [];
+
             $scope.savetls = function () {
 
                 prepareRoute($scope.route, $scope.dc);
@@ -154,14 +156,7 @@ angular.module('console.service.create', [
 
                 Route.create({namespace: $rootScope.namespace}, $scope.route, function (res) {
                     $log.info("create route success", res);
-                    //$scope.route = res;
 
-                    //var obj=angular.copy($scope.route);
-                    //res.spec.zhengshu={};
-                    //res.spec.zhengshu.zsfile=angular.copy($scope.grid.zsfile)
-                    //res.spec.zhengshu.syfile=angular.copy($scope.grid.syfile)
-                    //res.spec.zhengshu.cafile=angular.copy($scope.grid.cafile)
-                    //res.spec.zhengshu.mcafile=angular.copy($scope.grid.mcafile)
                     $scope.tlsroutes.push(res);
                     $log.info("create route fail", res);
                     //复原router
@@ -205,6 +200,7 @@ angular.module('console.service.create', [
 
 
             }
+
             $scope.showdiploma = function (idx) {
                 //$scope.tlsroutes[idx].spec.zhengshu
                 diploma.open($scope.tlsroutes[idx]).then(function () {
@@ -240,18 +236,21 @@ angular.module('console.service.create', [
                     readSingleFile(e, 'zsfile')
                 }, false);
             }
+
             $scope.addsy = function () {
 
                 document.getElementById('syfile').addEventListener('change', function (e) {
                     readSingleFile(e, 'syfile')
                 }, false);
             }
+
             $scope.addca = function () {
 
                 document.getElementById('cafile').addEventListener('change', function (e) {
                     readSingleFile(e, 'cafile')
                 }, false);
             }
+
             $scope.addmca = function () {
 
                 document.getElementById('mcafile').addEventListener('change', function (e) {
@@ -515,6 +514,26 @@ angular.module('console.service.create', [
             $scope.rmContainer = function (idx) {
                 console.log("rmContainer");
                 $scope.dc.spec.template.spec.containers.splice(idx, 1);
+
+                $scope.portsArr = [];
+                //路由端口需清空
+                $scope.grid.port = '';
+                console.log('$scope.dc.spec.template.spec.containers', $scope.dc.spec.template.spec.containers);
+                angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
+                    if (ports.port) {
+                        angular.forEach(ports.port, function (port, k) {
+                            var strarr = port.split('/');
+                            var val = strarr[1].toUpperCase();
+                            $scope.portsArr.push({
+                                containerPort: strarr[0],
+                                hostPort: '',
+                                protocol: val,
+                                //open: true
+                            });
+                        })
+                    }
+
+                })
                 isConflict();
             };
 
@@ -659,8 +678,9 @@ angular.module('console.service.create', [
             $scope.addEnv = function () {
                 $scope.envs.push({name: '', value: ''});
             }
-            //// 选择镜像
+            //// 选择镜像节流阀
             $scope.chooesimage = false;
+
             $scope.selectImage = function (idx) {
 
                 if (!$scope.chooesimage) {
@@ -669,7 +689,7 @@ angular.module('console.service.create', [
                     //console.log('container2',container);
                     var cons = $scope.dc.spec.template.spec.containers;
                     ImageSelect.open().then(function (res) {
-                        //console.log("imageStreamTag2", res);
+                        console.log("imageStreamTag2", res);
                         var imagetag = '';
                         container.ports = [];
                         if (container.ports.length == 0) {
@@ -767,6 +787,7 @@ angular.module('console.service.create', [
                             //container.name = strname;
                             container.tag = str[1];
                             imagetag = 'dadafoundry.io/image-' + container.name;
+
                             container.triggerImageTpl = {
                                 "type": "ImageChange",
                                 "imageChangeParams": {
@@ -786,22 +807,48 @@ angular.module('console.service.create', [
                                 container.commitId = res.image.dockerImageMetadata.Config.Labels['io.openshift.build.commit.id'];
                             }
 
+                            container.port = [];
+                            angular.forEach(res.image.dockerImageMetadata.Config.ExposedPorts, function (item, i) {
+                                container.port.push(i)
+                            })
+                            //var exposedPorts = res.image.dockerImageMetadata.Config.ExposedPorts;
+                            //console.log('exposedPorts', exposedPorts);
 
-                            var exposedPorts = res.image.dockerImageMetadata.Config.ExposedPorts;
-                            for (var k in exposedPorts) {
-                                var arr = k.split('/');
-                                if (arr.length == 2) {
-                                    container.ports = [];
-                                    var val = arr[1].toUpperCase()
-                                    container.ports.push({
-                                        containerPort: '',
+                            //for (var k in exposedPorts) {
+                            //    var arr = k.split('/');
+                            //    if (arr.length == 2) {
+                            //        $scope.portsArr = [];
+                            //        var val = arr[1].toUpperCase();
+                            //        $scope.portsArr.push({
+                            //            containerPort:arr[0],
+                            //            hostPort: '',
+                            //            protocol: val,
+                            //            //open: true
+                            //        });
+                            //    }
+                            //}
+                        }
+                        $scope.portsArr = [];
+                        //路由端口需清空
+                        $scope.grid.port = '';
+                        console.log('$scope.dc.spec.template.spec.containers', $scope.dc.spec.template.spec.containers);
+                        angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
+                            if (ports.port) {
+                                angular.forEach(ports.port, function (port, k) {
+                                    var strarr = port.split('/');
+                                    var val = strarr[1].toUpperCase();
+                                    $scope.portsArr.push({
+                                        containerPort: strarr[0],
                                         hostPort: '',
-                                        protocol: '',
+                                        protocol: val,
                                         //open: true
                                     });
-                                }
+                                })
                             }
-                        }
+                            //delete $scope.dc.spec.template.spec.containers[i].port
+                        })
+
+
                         var conlength = $scope.dc.spec.template.spec.containers
                         for (var i = 0; i < conlength.length; i++) {
                             if (conlength[i].isimageChange == false) {
@@ -1043,7 +1090,7 @@ angular.module('console.service.create', [
                 } else {
                     $scope.service.spec.ports = null;
                 }
-                $log.info('$scope.service0-0-0-0-', $scope.service.spec.ports);
+                //$log.info('$scope.service0-0-0-0-', $scope.service.spec.ports);
                 Service.create({namespace: $rootScope.namespace}, $scope.service, function (res) {
                     $log.info("create service success", res);
                     $scope.service = res;
@@ -1218,6 +1265,13 @@ angular.module('console.service.create', [
 
             // 创建dc
             $scope.createDc = function () {
+
+                angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
+                    if (ports.port) {
+                        delete $scope.dc.spec.template.spec.containers[i].port}
+
+                })
+                console.log('$scope.dc',$scope.dc);
                 var i;
                 for (i = 0; i < $scope.envs.length; i++) {
                     if ($scope.envs[i].name == '' || $scope.envs[i].value == '') {
