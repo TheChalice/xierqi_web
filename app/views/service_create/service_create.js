@@ -458,7 +458,7 @@ angular.module('console.service.create', [
                                     var val = strarr[1].toUpperCase();
                                     $scope.portsArr.push({
                                         containerPort: strarr[0],
-                                        hostPort: '',
+                                        hostPort: strarr[0],
                                         protocol: val,
                                     });
                                 })
@@ -538,7 +538,7 @@ angular.module('console.service.create', [
                             var val = strarr[1].toUpperCase();
                             $scope.portsArr.push({
                                 containerPort: strarr[0],
-                                hostPort: '',
+                                hostPort: strarr[0],
                                 protocol: val,
                                 //open: true
                             });
@@ -839,7 +839,7 @@ angular.module('console.service.create', [
                                     var val = strarr[1].toUpperCase();
                                     $scope.portsArr.push({
                                         containerPort: strarr[0],
-                                        hostPort: '',
+                                        hostPort: strarr[0],
                                         protocol: val,
                                         //open: true
                                     });
