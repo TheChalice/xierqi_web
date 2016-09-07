@@ -231,7 +231,8 @@ define([
               templateUrl: 'views/service_create/service_create.html',
               controller: 'ServiceCreateCtrl',
               params: {
-                image: null
+                image: null,
+                ports: null
               },
               resolve: {
                 dep: ['$ocLazyLoad', function ($ocLazyLoad) {
