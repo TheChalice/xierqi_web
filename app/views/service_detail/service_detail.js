@@ -58,7 +58,7 @@ angular.module('console.service.detail', [
                     } else if (name == 'mcafile') {
                         $scope.routeconf.spec.tls.destinationCACertificate = $scope.grid.mcafile.value;
                     }
-                    console.log($scope.grid.zsfile);
+                    //console.log($scope.grid.zsfile);
                     $scope.$apply();
                 };
                 reader.readAsText(file);
@@ -227,7 +227,7 @@ angular.module('console.service.detail', [
                         persistentarr: []
                     }
                     angular.forEach(container.volumeMounts, function (volumeMount, k) {
-                        console.log(volumeMount.mountPath);
+                        //console.log(volumeMount.mountPath);
                         var obj = dcvomap(volumeMount.name)
                         obj['mountPath'] = volumeMount.mountPath;
                         if (obj.secret) {
@@ -250,7 +250,7 @@ angular.module('console.service.detail', [
                         res.metadata.annotations = {};
                     }
                     changevol(res);
-                    console.log('$scope.dc.metadata.annotations[imagetag]', res);
+                    //console.log('$scope.dc.metadata.annotations[imagetag]', res);
                     $scope.dc = res;
                     var copyannotations = angular.copy(res.metadata.annotations);
                     if ($scope.dc.metadata.labels && $scope.dc.metadata.labels.app) {
@@ -620,7 +620,7 @@ angular.module('console.service.detail', [
                                 $scope.routeconf = angular.copy(myroute);
                             }
                         })
-                        console.log('$scope.routeconf111111', $scope.routeconf);
+                        //console.log('$scope.routeconf111111', $scope.routeconf);
 
                         if ($scope.grid.tlsset && $scope.routeconf) {
                             if (!$scope.routeconf.spec.tls) {
@@ -806,7 +806,7 @@ angular.module('console.service.detail', [
             };
             //执行log
             var updateRcs = function (data) {
-                console.log('data.type', data.type);
+                //console.log('data.type', data.type);
                 //DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (dcdata) {
                 //$scope.dc = dcdata;
                 //var copyannotations = angular.copy(dcdata.metadata.annotations);
@@ -2374,7 +2374,7 @@ angular.module('console.service.detail', [
                             }, function (res) {
                                 var data = JSON.parse(res.data);
                                 //updateRcs(data);
-                                console.log(data);
+                                //console.log(data);
                             }, function () {
                                 $log.info("webSocket startRC");
                             }, function () {
@@ -2403,7 +2403,7 @@ angular.module('console.service.detail', [
                 controller: ['$base64', '$sce', 'ansi_ups', '$rootScope', '$scope', '$log', '$uibModalInstance', 'ImageStream', 'Pod', 'Ws', 'Metrics', 'MetricsService',
                     function ($base64, $sce, ansi_ups, $rootScope, $scope, $log, $uibModalInstance, ImageStream, Pod, Ws, Metrics, MetricsService) {
                         $scope.pod = pod;
-                        console.log("pod-=-=-=-=-!!!!", pod);
+                        //console.log("pod-=-=-=-=-!!!!", pod);
                         $scope.grid = {
                             show: false,
                             mem: false,
@@ -2527,9 +2527,9 @@ angular.module('console.service.detail', [
                                 container: container,
                                 sinceTime: $scope.grid.st ? $scope.grid.st.toISOString() : (new Date(0)).toISOString()
                             };
-                            console.log('container', container);
+                            //console.log('container', container);
                             Pod.get({namespace: $rootScope.namespace, name: pod.metadata.name}, function (podcenter) {
-                                console.log(podcenter.metadata.resourceVersion);
+                                //console.log(podcenter.metadata.resourceVersion);
                                 watchpod(podcenter.metadata.resourceVersion, container)
                             })
                         };
@@ -2635,7 +2635,7 @@ angular.module('console.service.detail', [
                                 $scope.grid.cpu = false;
                             });
                         };
-                        console.log('$scope.container', obj.name);
+                        //console.log('$scope.container', obj.name);
                         $scope.container = obj.name;
                         $scope.getLog(obj.name);
                         //terminal(o.name);

@@ -363,6 +363,7 @@ angular.module('console.service.create', [
             // 判断从镜像仓库跳转过来时属于哪种镜像
             var initContainer = function () {
                 if ($stateParams.image) {
+
                     // console.log("$stateParams.image", $stateParams.image);
                     // console.log("initContainer", $scope.dc.spec.template.spec.containers.tag);
                     // if (!$scope.dc.spec.template.spec.containers.tag) {
@@ -418,6 +419,7 @@ angular.module('console.service.create', [
                         $scope.invalid.containerLength = false;
                     } else {
                         var imagetag = '';
+                        console.log('私有镜像', $stateParams.ports);
                         //  私有镜像
                         if ($stateParams.image.indexOf('@') != -1) {
                             console.log($stateParams.image)
@@ -447,6 +449,22 @@ angular.module('console.service.create', [
                                 }
                             };
                             $scope.dc.metadata.annotations[imagetag] = arr[2] + ":" + arr[3];
+                            $scope.portsArr = []
+                            if ($stateParams.ports.length>0) {
+                                var arr=angular.copy($stateParams.ports)
+                                angular.forEach(arr, function (port,i) {
+
+                                    var strarr = port.split('/');
+                                    var val = strarr[1].toUpperCase();
+                                    $scope.portsArr.push({
+                                        containerPort: strarr[0],
+                                        hostPort: '',
+                                        protocol: val,
+                                    });
+                                })
+
+                            }
+
                         } else {
                             // 公共镜像
                             var container = angular.copy($scope.containerTpl);
@@ -482,15 +500,10 @@ angular.module('console.service.create', [
                                 }
                             };
                             $scope.dc.metadata.annotations[imagetag] = container.truename + ":" + $stateParams.image.split(':')[1];
+                            $scope.portsArr = []
                         }
 
-                        $scope.portsArr = [
-                            {
-                                containerPort: "",
-                                hostPort: "",
-                                protocol: ""
-                            }
-                        ]
+
 
                         $scope.dc.spec.template.spec.containers.push(container);
                         $scope.invalid.containerLength = false;
@@ -512,13 +525,13 @@ angular.module('console.service.create', [
             };
             // 删除容器
             $scope.rmContainer = function (idx) {
-                console.log("rmContainer");
+                //console.log("rmContainer");
                 $scope.dc.spec.template.spec.containers.splice(idx, 1);
 
                 $scope.portsArr = [];
                 //路由端口需清空
                 $scope.grid.port = '';
-                console.log('$scope.dc.spec.template.spec.containers', $scope.dc.spec.template.spec.containers);
+                //console.log('$scope.dc.spec.template.spec.containers', $scope.dc.spec.template.spec.containers);
                 angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
                     if (ports.port) {
                         angular.forEach(ports.port, function (port, k) {
