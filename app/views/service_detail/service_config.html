@@ -387,30 +387,30 @@
                         </li>
                     </ul>
                 </div>
-                <div class="dropdown dropdown-select" style="width: 80px;">
+                <div class="dropdown dropdown-select" style="width: 120px;">
                     <button class="btn dropdown-toggle" data-toggle="dropdown" ng-click="updatePorts()">
                         <span>{{grid.cname}}</span>
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" style="width: 80px;">
                         <li>
-                            <a href="javascript:;" ng-click="grid.cname = '域名'">{{'域名'}}</a>
+                            <a href="javascript:;" ng-click="grid.cname = '系统域名'">{{'系统域名'}}</a>
                         </li>
                         <li>
-                            <a href="javascript:;" ng-click="grid.cname = 'cname'">{{'cname'}}</a>
+                            <a href="javascript:;" ng-click="grid.cname = '自定义域名'">{{'自定义域名'}}</a>
                         </li>
                     </ul>
                 </div>
-                <div class="dropdown dropdown-select" style="width: 200px;">
-                    <div class="input-group">
-                        <input style="width: 160px;display: inline-block;"
-                               ng-model="grid.host" type="text" class="form-control">
-                                <span class="input-group-btn">
-                                <span ng-if="grid.cname == '域名'"
-                                        style="line-height: 21px;display: inline-block;padding: 6px 12px;color: black;border-color:#8c8c8c;background: #e6e6e6;height: 34px;font-size: 12px;"
+                <div class="dropdown dropdown-select" style="width: 412px; border: 1px solid #ccc;">
+                    <div class="input-group" style="width:100%">
+                        <input style="width: 35%;display: inline-block;border: none;font-size: 12px;height: 32px;"
+                               ng-model="grid.host" type="text" class="form-control" placeholder="请输入域名前缀">
+                                <span class="input-group-btn" style="width:65%;display: inline-block;">
+                                <span ng-if="grid.cname == '系统域名'"
+                                        style="line-height: 21px;width:100%;display: inline-block;padding: 6px 12px;color: black;border-color:#8c8c8c;height: 32px;font-size: 12px;"
                                         >{{grid.suffix}}
                                 </span>
-                                <span ng-if="grid.cname == 'cname'" style="color: black;height: 34px;font-size: 12px;">需将cname指向router.app.dataos.io</span>
+                                <span ng-if="grid.cname == '自定义域名'" style="line-height: 21px;width:100%;display: inline-block;padding: 6px 12px;color: black;border-color:#8c8c8c;height: 32px;font-size: 12px;">需将cname指向router.app.dataos.io</span>
                                 </span>
                     </div><!-- /input-group -->
                 </div>
@@ -419,9 +419,12 @@
                     <!--<a style="font-size: 14px;margin-left: 2px;cursor: pointer; font-weight: bolder;color: #e5993a"-->
                        <!--ng-click="grid.tlsshow=true">TLS设置</a></p>-->
                 <div>
-                    <label style="margin-top: 35px;font-size: 12px; font-weight: normal;">TLS设置&nbsp;&nbsp;&nbsp;&nbsp;</label>
+
                     <!--<p style="margin-top: 35px;font-size: 18px;">TLS设置</p>-->
-                    <div class="dropdown dropdown-select" style="width: 270px">
+                    <div class="dropdown dropdown-select" style="width: 620px">
+                        <br/>
+                        <label style="font-size: 12px; font-weight: normal;">TLS设置&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <br/>
                         <button class="btn dropdown-toggle" data-toggle="dropdown">
                             <span>{{grid.tlsset||'none'}}</span>
                             <span class="caret"></span>
@@ -446,10 +449,11 @@
                     <div ng-if="grid.tlsset=='edge'">
                         <br>
 
-                        <label style="margin-top: 35px;font-size: 12px; font-weight: normal;">HTTP协议设置&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <label style="font-size: 12px; font-weight: normal;">HTTP协议设置&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                        <br/>
 
                         <!--<p style="margin-top: 35px;font-size: 18px;">HTTP协议设置</p>-->
-                        <div class="dropdown dropdown-select" style="width: 237px;">
+                        <div class="dropdown dropdown-select" style="width: 620px;">
                             <button class="btn dropdown-toggle" data-toggle="dropdown">
                                 <span>{{grid.httpset}}</span>
                                 <span class="caret"></span>
@@ -468,262 +472,162 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="timeline timee col-md-12" style="margin-top: 35px;padding: 0;">
-                        <ul style="border: none;">
-                            <li ng-if="grid.tlsset=='edge'||grid.tlsset=='re-encrypt'">
-                                <!--<h4>证书</h4>-->
-                                <div class="container-fluid diantiao" style="margin-left: 0;padding: 3px 15px;">
-                                    <div class="row">
-                                        <div class="col-sm-2 mt">
-                                            <!--<input style="width: 100%;" type="text" ng-model=diploma.zsfile.key placeholder="文件名称">-->
-                                            证书
-                                        </div>
+                    <div class="timeline timee col-md-12" style="margin-top: 35px;padding: 0;width:620px;">
+                        <ul style="border: none;padding:0px;">
+                            <li ng-if="grid.tlsset=='edge'||grid.tlsset=='re-encrypt'" style="left:0;">
+                                <label style="font-size: 12px; font-weight: normal;">证书&nbsp;&nbsp;&nbsp;&nbsp;</label><br/>
+                                <div class="row" style="margin:0px;">
+                                     <div class="container-fluid diantiao col-sm-11" style="margin-left: 0;padding:0px;border: 1px solid #c9c9c9;">
+                                         <div class="row" style="margin:0px;">
+                                              <div class="col-md-10">
+                                                  <span class="form-control" style="border: none;height:30px;">{{grid.zsfile.key}}</span>
+                                              </div>
+                                              <div class="col-md-2" style="margin:0px;pading:0px; text-align: right;padding:0px;">
+                                                  <div class="dropdown dropdown-select">
+                                                      <div class="input-group">
 
-                                        <div class="col-sm-7">
-                                            <div class="dropdown dropdown-select" style="width: 293px;">
-                                                <div class="input-group">
                                                     <span class="input-group-btn" style="position: relative;">
-                                                        <span class="btn btn-default"
-                                                              style="color: white;text-shadow:0 0 0 #fff;border: none;border-color:#8c8c8c;background: #f6a540;padding: 2px 12px;"
+                                                        <span class="btn btn-default btn_file"
+                                                              style="margin:0px"
                                                               ng-click="addzhengshu()">上传
-                                                            <input type="file" class="file-input" id="zsfile" value="选择"/>
+                                                            <input type="file" class="file-input" id="zsfile" value="选择" style="height:auto;"/>
                                                         </span>
                                                     </span>
-                                                    <span class="form-control" style="border: none;">{{grid.zsfile.key}}</span>
-                                                </div>
-                                            </div>
+
+
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                         </div>
                                         </div>
-                                        <div class="col-sm-3 text-right">
-                                            <a class="icon25 icon25-collapse" style="margin-top: 5px;" ng-click="zhengshu=!zhengshu"
-                                               href="javascript:;"></a>
-                                        </div>
+                                    <div class="col-sm-1" style="padding:0px;">
+                                        <a class="icon25 icon25-collapse" uib-tooltip="查看" style="margin-top: 5px;margin-left:15px;" ng-click="zhengshu=!zhengshu"
+                                           href="javascript:;"></a>
                                     </div>
                                 </div>
                                 <div uib-collapse="!zhengshu">
                                     <div class="well well-log"
-                                         style='overflow: auto;background-color: #fff; margin-top: 15px;margin-left: 0;border: 1px solid #c9c9c9;'>
+                                         style='overflow: auto;background-color: #fff; margin-top: 15px;margin-left: 0;border: 1px solid #c9c9c9;width:620px;'>
                                         <textarea ng-model="routeconf.spec.tls.certificate" class="testt"></textarea>
                                     </div>
                                 </div>
 
                             </li>
-                            <li ng-if="grid.tlsset=='edge'||grid.tlsset=='re-encrypt'">
-                                <!--<h4>密钥</h4>-->
-                                <div class="container-fluid diantiao" style="margin-left: 0;padding: 3px 15px;">
-                                    <div class="row">
-                                        <div class="col-sm-2 mt">
-                                            <!--<input style="width: 100%;" type="text" ng-model=diploma.zsfile.key placeholder="文件名称">-->
-                                            密钥
-                                        </div>
-
-                                        <div class="col-sm-7">
-                                            <div class="dropdown dropdown-select" style="width: 293px;">
-                                                <div class="input-group">
+                            <!------------------------------------>
+                            <li ng-if="grid.tlsset=='edge'||grid.tlsset=='re-encrypt'" style="left:0;">
+                                <label style="font-size: 12px; font-weight: normal;">密钥&nbsp;&nbsp;&nbsp;&nbsp;</label><br/>
+                                <div class="row" style="margin:0px;">
+                                    <div class="container-fluid diantiao col-sm-11" style="margin-left: 0;padding:0px;border: 1px solid #c9c9c9;">
+                                        <div class="row" style="margin:0px;">
+                                            <div class="col-md-10">
+                                                <span class="form-control" style="border: none;height:30px;">{{grid.syfile.key}}</span>
+                                            </div>
+                                            <div class="col-md-2" style="margin:0px;pading:0px; text-align: right;padding:0px;">
+                                                <div class="dropdown dropdown-select">
+                                                    <div class="input-group">
                                                     <span class="input-group-btn" style="position: relative;">
-                                                        <span class="btn btn-default"
-                                                              style="color: white;text-shadow:0 0 0 #fff;border: none;border-color:#8c8c8c;background: #f6a540;padding: 2px 12px;"
+                                                        <span class="btn btn-default btn_file"
+                                                              style="margin:0px;"
                                                               ng-click="addsy()">上传
-                                                            <input type="file" class="file-input" id="syfile" value="选择"/>
+                                                            <input type="file" class="file-input" id="syfile" value="选择" style="height:auto;"/>
                                                         </span>
                                                     </span>
-                                                    <span class="form-control" style="border: none;">{{grid.syfile.key}}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-3 text-right">
-
-                                            <a class="icon25 icon25-collapse mt" style="margin-top: 5px;" ng-click="miyao=!miyao"
-                                               href="javascript:;"></a>
-
-
-                                        </div>
+                                    </div>
+                                    <div class="col-sm-1" style="padding:0px;">
+                                        <a class="icon25 icon25-collapse" uib-tooltip="查看" style="margin-top: 5px;margin-left:15px;" ng-click="miyao=!miyao"
+                                           href="javascript:;"></a>
                                     </div>
                                 </div>
                                 <div uib-collapse="!miyao">
                                     <div class="well well-log"
-                                         style='overflow: auto;background-color: #fff; margin-top: 15px;margin-left: 0;border: 1px solid #c9c9c9;'>
+                                         style='overflow: auto;background-color: #fff; margin-top: 15px;margin-left: 0;border: 1px solid #c9c9c9;width:620px;'>
                                         <textarea ng-model="routeconf.spec.tls.key" class="testt"></textarea>
                                     </div>
                                 </div>
 
                             </li>
-                            <li ng-if="grid.tlsset=='edge'||grid.tlsset=='re-encrypt'">
-                                <!--<h4>CA证书</h4>-->
-                                <div class="container-fluid diantiao" style="margin-left: 0;padding: 3px 15px;">
-                                    <div class="row">
-                                        <div class="col-sm-2 mt">
-                                            <!--<input style="width: 100%;" type="text" ng-model=diploma.zsfile.key placeholder="文件名称">-->
-                                            CA证书
-                                        </div>
 
-                                        <div class="col-sm-7">
-                                            <div class="dropdown dropdown-select" style="width: 293px;">
-                                            <div class="input-group">
+                            <li ng-if="grid.tlsset=='edge'||grid.tlsset=='re-encrypt'" style="left:0;">
+                                <label style="font-size: 12px; font-weight: normal;">CA证书&nbsp;&nbsp;&nbsp;&nbsp;</label><br/>
+                                <div class="row" style="margin:0px;">
+                                    <div class="container-fluid diantiao col-sm-11" style="margin-left: 0;padding:0px;border: 1px solid #c9c9c9;">
+                                        <div class="row" style="margin:0px;">
+                                            <div class="col-md-10">
+                                                <span class="form-control" style="border: none;height:30px;">{{grid.cafile.key}}</span>
+                                            </div>
+                                            <div class="col-md-2" style="margin:0px;pading:0px; text-align: right;padding:0px;">
+                                                <div class="dropdown dropdown-select">
+                                                    <div class="input-group">
                                                     <span class="input-group-btn" style="position: relative;">
-                                                        <span class="btn btn-default"
-                                                              style="color: white;text-shadow:0 0 0 #fff;border: none;border-color:#8c8c8c;background: #f6a540;padding: 2px 12px;"
+                                                        <span class="btn btn-default btn_file"
+                                                              style="margin:0px;"
                                                               ng-click="addca()">上传
-                                                            <input type="file" class="file-input" id="cafile" value="选择"/>
+                                                            <input type="file" class="file-input" id="cafile" value="选择" style="height:auto;"/>
                                                         </span>
                                                     </span>
-                                                <span class="form-control" style="border: none;">{{grid.cafile.key}}</span>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        </div>
-                                        <div class="col-sm-3 text-right">
-
-                                            <a class="icon25 icon25-collapse mt" style="margin-top: 5px;" ng-click="cazhengshu=!cazhengshu"
-                                               href="javascript:;"></a>
-
-
-                                        </div>
+                                    </div>
+                                    <div class="col-sm-1" style="padding:0px;">
+                                        <a class="icon25 icon25-collapse" uib-tooltip="查看" style="margin-top: 5px;margin-left:15px;" ng-click="cazhengshu=!cazhengshu"
+                                           href="javascript:;"></a>
                                     </div>
                                 </div>
                                 <div uib-collapse="!cazhengshu">
                                     <div class="well well-log"
-                                         style='overflow: auto;background-color: #fff; margin-top: 15px;margin-left: 0;border: 1px solid #c9c9c9;'>
+                                         style='overflow: auto;background-color: #fff; margin-top: 15px;margin-left: 0;border: 1px solid #c9c9c9;width:620px;'>
                                         <textarea ng-model="routeconf.spec.tls.caCertificate" class="testt"></textarea>
                                     </div>
                                 </div>
 
                             </li>
-                            <li ng-if="grid.tlsset=='re-encrypt'">
-                                <!--<h4>目标CA证书</h4>-->
-                                <div class="container-fluid diantiao" style="margin-left: 0;padding: 3px 15px;">
-                                    <div class="row">
-                                        <div class="col-sm-2 mt">
-                                            <!--<input style="width: 100%;" type="text" ng-model=diploma.zsfile.key placeholder="文件名称">-->
-                                            目标CA证书
-                                        </div>
-
-                                        <div class="col-sm-7">
-                                            <div class="dropdown dropdown-select" style="width: 293px;">
-                                                <div class="input-group">
+                            <li ng-if="grid.tlsset=='re-encrypt'" style="left:0;">
+                                <label style="font-size: 12px; font-weight: normal;">目标CA证书&nbsp;&nbsp;&nbsp;&nbsp;</label><br/>
+                                <div class="row" style="margin:0px;">
+                                    <div class="container-fluid diantiao col-sm-11" style="margin-left: 0;padding:0px;border: 1px solid #c9c9c9;">
+                                        <div class="row" style="margin:0px;">
+                                            <div class="col-md-10">
+                                                <span class="form-control" style="border: none;height:30px;">{{grid.mcafile.key}}</span>
+                                            </div>
+                                            <div class="col-md-2" style="margin:0px;pading:0px; text-align: right;padding:0px;">
+                                                <div class="dropdown dropdown-select">
+                                                    <div class="input-group">
                                                     <span class="input-group-btn" style="position: relative;">
-                                                        <span class="btn btn-default"
-                                                              style="color: white;text-shadow:0 0 0 #fff;border: none;border-color:#8c8c8c;background: #f6a540;padding: 2px 12px;"
+                                                        <span class="btn btn-default btn_file"
+                                                              style="margin:0px;"
                                                               ng-click="addmca()">上传
-                                                            <input type="file" class="file-input" id="mcafile" value="选择"/>
+                                                            <input type="file" class="file-input" id="mcafile" value="选择" style="height:auto;"/>
                                                         </span>
                                                     </span>
-                                                    <span class="form-control" style="border: none;">{{grid.mcafile.key}}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-3 text-right">
-
-                                            <a class="icon25 icon25-collapse mt" style="margin-top: 5px;" ng-click="mcazhengshu=!mcazhengshu"
-                                               href="javascript:;"></a>
-
-
-                                        </div>
+                                    </div>
+                                    <div class="col-sm-1" style="padding:0px;">
+                                        <a class="icon25 icon25-collapse" uib-tooltip="查看" style="margin-top: 5px;margin-left:15px;" ng-click="mcazhengshu=!mcazhengshu"
+                                           href="javascript:;"></a>
                                     </div>
                                 </div>
                                 <div uib-collapse="!mcazhengshu">
                                     <div class="well well-log"
-                                         style='overflow: auto;background-color: #fff; margin-top: 15px;margin-left: 0;border: 1px solid #c9c9c9;'>
-                                        <textarea ng-model="routeconf.spec.tls.destinationCACertificate"
-                                                  class="testt"></textarea>
+                                         style='overflow: auto;background-color: #fff; margin-top: 15px;margin-left: 0;border: 1px solid #c9c9c9;width:620px;'>
+                                        <textarea ng-model="routeconf.spec.tls.destinationCACertificate"></textarea>
                                     </div>
                                 </div>
 
                             </li>
+
+
                         </ul>
 
                     </div>
-                    <!--<div class="dropdown dropdown-select" style="width: 237px;" ng-if="grid.tlsset!=='edge'">-->
-                    <!--<button class="btn dropdown-toggle" style="background-color: #c9c9c9;cursor: no-drop;"-->
-                    <!--data-toggle="dropdown">-->
-                    <!--<span>None</span>-->
-                    <!--<span class="caret"></span>-->
-                    <!--</button>-->
-                    <!--</div>-->
-                    <!--<div ng-if="grid.tlsset=='re-encrypt'||grid.tlsset=='edge'">-->
-                    <!--<br>-->
-                    <!--<label style="margin-top: 35px;font-size: 12px; font-weight: normal;">证书&nbsp;&nbsp;&nbsp;&nbsp;</label>-->
-                    <!--<div class="dropdown dropdown-select" style="width: 293px;">-->
-                    <!--<div class="input-group">-->
-                    <!--<span class="form-control">{{grid.zsfile.key}}</span>-->
-
-                    <!--<span class="input-group-btn" style="position: relative;">-->
-                    <!--<span class="btn btn-default"-->
-                    <!--style="color: black;border-color:#8c8c8c;background: #e6e6e6;"-->
-                    <!--ng-click="addzhengshu()">上传-->
-                    <!--<input type="file" class="file-input" id="zsfile" value="选择"/>-->
-                    <!--</span>-->
-
-
-                    <!--</span>-->
-
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</div>-->
-
-                    <!--<div ng-if="grid.tlsset=='re-encrypt'||grid.tlsset=='edge'">-->
-                    <!--<br>-->
-                    <!--<label style="margin-top: 35px;font-size: 12px; font-weight: normal;">私钥&nbsp;&nbsp;&nbsp;&nbsp;</label>-->
-                    <!--<div class="dropdown dropdown-select" style="width: 293px;">-->
-                    <!--<div class="input-group">-->
-                    <!--<span class="form-control">{{grid.syfile.key}}</span>-->
-                    <!--<span class="input-group-btn" style="position: relative;">-->
-                    <!--<span class="btn btn-default"-->
-                    <!--style="color: black;border-color:#8c8c8c;background: #e6e6e6;"-->
-                    <!--ng-click="addsy()">上传-->
-                    <!--<input type="file" class="file-input" id="syfile" value="选择"/>-->
-                    <!--</span>-->
-                    <!--</span>-->
-
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</div>-->
-
-                    <!--<div ng-if="grid.tlsset=='re-encrypt'||grid.tlsset=='edge'">-->
-                    <!--<br>-->
-
-                    <!--<label style="margin-top: 35px;font-size: 12px; font-weight: normal;">CA证书&nbsp;&nbsp;&nbsp;&nbsp;</label>-->
-                    <!--<div class="dropdown dropdown-select" style="width: 276px;">-->
-                    <!--<div class="input-group">-->
-                    <!--<span class="form-control">{{grid.cafile.key}}</span>-->
-                    <!--<span class="input-group-btn" style="position: relative;">-->
-                    <!--<span class="btn btn-default"-->
-                    <!--style="color: black;border-color:#8c8c8c;background: #e6e6e6;"-->
-                    <!--ng-click="addca()">上传-->
-                    <!--<input type="file" class="file-input" id="cafile" value="选择"/>-->
-                    <!--</span>-->
-                    <!--</span>-->
-
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</div>-->
-
-
-                    <!--<div ng-if="grid.tlsset=='re-encrypt'">-->
-                    <!--<br>-->
-                    <!--<label style="margin-top: 35px;font-size: 12px; font-weight: normal;">目的地CA证书&nbsp;&nbsp;&nbsp;&nbsp;</label>-->
-                    <!--<div class="dropdown dropdown-select" style="width: 240px;">-->
-                    <!--<div class="input-group">-->
-                    <!--<span class="form-control">{{grid.mcafile.key}}</span>-->
-                    <!--<span class="input-group-btn" style="position: relative;">-->
-                    <!--<span class="btn btn-default"-->
-                    <!--style="color: black;border-color:#8c8c8c;background: #e6e6e6;"-->
-                    <!--ng-click="addmca()">上传-->
-                    <!--<input type="file" class="file-input" id="mcafile" value="选择"/>-->
-                    <!--</span>-->
-                    <!--</span>-->
-
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <br>
-                    <!--<div class="row" style="margin-top: 35px;">-->
-                    <!--<div class="col-md-10"></div>-->
-                    <!--<div class="col-md-2">-->
-                    <!--<a class="btn btn-orange btn-xs"-->
-                    <!--style="vertical-align: middle;width: 80px;height: 35px;font-size: 14px;padding: 6px;"-->
-                    <!--ng-click="savetls()">保存</a>-->
-                    <!--</div>-->
-
-                    <!--</div>-->
 
 
                 </div>

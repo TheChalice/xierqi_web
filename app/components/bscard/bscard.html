@@ -6,9 +6,9 @@
             <div class="thumb-op">
                 <small>{{item.spec.description}}</small>
                 <p class="thumb-btn">
-                    <a ng-if="!test" class="btn btn-skyblue" href="javascript:;" ui-sref="console.backing_service_detail({name: item.metadata.name,type:item.metadata.annotations.Class})">
+                    <a ng-if="!bkservice" class="btn btn-skyblue" href="javascript:;" ui-sref="console.backing_service_detail({name: item.metadata.name,type:item.metadata.annotations.Class})">
                         查看详情</a>
-                    <a ng-if="test" class="btn btn-skyblue" href="javascript:;" ui-sref="home.index_backing_Sdetail({name: item.metadata.name})">
+                    <a ng-if="bkservice" class="btn btn-skyblue" href="javascript:;" ui-sref="home.index_backing_Sdetail({name: item.metadata.name})">
                         查看详情</a>
                 </p>
             </div>

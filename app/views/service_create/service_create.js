@@ -90,7 +90,7 @@ angular.module('console.service.create', [
             $scope.grid = {
                 ports: [],
                 port: 0,
-                cname: '域名',
+                cname: '系统域名',
                 host: '',
                 noroute: false,
                 zsfile: {},

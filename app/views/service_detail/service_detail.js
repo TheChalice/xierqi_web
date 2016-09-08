@@ -18,7 +18,7 @@ angular.module('console.service.detail', [
             $scope.grid = {
                 ports: [],
                 port: 0,
-                cname: '域名',
+                cname: '系统域名',
                 host: '',
                 zsfile: {},
                 syfile: {},
