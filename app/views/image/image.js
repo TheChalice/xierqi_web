@@ -387,11 +387,7 @@ angular.module('console.image', [
                     //$scope.testlist = datalist.items;
 
                     angular.forEach(datalist.items, function (item, i) {
-                        //ImageStreamTag.get({namespace: $rootScope.namespace, name: item.metadata.name}, function (data) {
-                        //    console.log(data);
-                        //}, function (res) {
-                        //
-                        //});
+
                         if (item.status.tags && item.status.tags.length > 0) {
                             angular.forEach(item.status.tags, function (tag, k) {
                                 item.status.tags[k].sorttime = (new Date(tag.items[0].created)).getTime()
@@ -399,20 +395,33 @@ angular.module('console.image', [
                             datalist.items[i].status.tags.sort(function (x, y) {
                                 return x.sorttime > y.sorttime ? -1 : 1;
                             })
+                            //console.log(item.metadata.name, item.status.tags[0].tag);
+                            datalist.items[i].status.tags[0].port=[]
+                            ImageStreamTag.get({namespace: $rootScope.namespace, name: item.metadata.name+':'+item.status.tags[0].tag}, function (data) {
+                                //console.log(data);
+                                angular.forEach(data.image.dockerImageMetadata.ContainerConfig.ExposedPorts, function (port,k) {
+                                    datalist.items[i].status.tags[0].port.push(k);
+                                })
+                                //console.log(datalist.items[i].status.tags[0]);
+                                $scope.testlist = datalist.items;
+
+                                //datalist.items.sort(function (x, y) {
+                                //    return x.sorttime > y.sorttime ? -1 : 1;
+                                //});
+                                //console.log('$scope.testlist', $scope.testlist);
+                                $scope.testcopy = angular.copy(datalist.items);
+
+                                $scope.grid.total = $scope.testcopy.length;
+                                // console.log('$scope.testcopy', $scope.testcopy)
+                                refresh(1)
+                            }, function (res) {
+
+                            });
                         }
+
                         //datalist.items[i].sorttime = (new Date(item.metadata.creationTimestamp)).getTime()
                     })
-                    //datalist.items.sort(function (x, y) {
-                    //    return x.sorttime > y.sorttime ? -1 : 1;
-                    //});
-                    //console.log('$scope.testlist', datalist.items);
 
-                    $scope.testlist = datalist.items;
-                    $scope.testcopy = angular.copy(datalist.items);
-
-                    $scope.grid.total = $scope.testcopy.length;
-                    // console.log('$scope.testcopy', $scope.testcopy)
-                    refresh(1)
                     //console.log('$scope.testlist', $scope.testlist)
                 })
 

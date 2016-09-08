@@ -1,7 +1,7 @@
 <div class="service-ctrl" style="padding-bottom: 200px;">
 
-    <h2>POD信息</h2>
-    <hr>
+    <!--<h2>POD信息</h2>-->
+    <!--<hr>-->
 
     <ul class="row rongqi" style="padding: 0;list-style: none; margin-bottom: 30px;border: 1px solid #e6e9f2;border-bottom: none;">
         <li class="col-md-12" style="background-color: #e6e9f2; height: 40px;padding-top: 10px;">
@@ -34,7 +34,8 @@
                 <div id={{pod.metadata.name}} class="panel-collapse collapse col-md-12" style="padding: 0;padding-top: 0;padding-bottom: 10px;position: relative;" role="tabpanel" aria-labelledby="headingOne">
                    <div class="row" style="margin: 0;padding-left: 20px;padding-right: 20px;">
                        <div class="col-md-12 sss" style="" ng-repeat="container in pod.spec.containers">
-                           <div class="col-md-4" style="text-align: left;padding-left: 6px;"><span class="glyphicon glyphicon-tasks" style="color:#f8b551;font-size:12px;" aria-hidden="true"></span><span style="font-size: 10px;">{{container.name}}</span></div>
+                           <div class="col-md-4" style="text-align: left;padding-left: 6px;"><span class="glyphicon glyphicon-tasks" style="color:#f8b551;font-size:12px;" aria-hidden="true"></span>
+                               <span style="font-size: 10px;margin-left: 10px;">{{container.name}}</span></div>
                            <div class="col-md-6"></div>
                            <div class="col-md-2" style="padding-right: 0;">
                                <a class="href-orange" style=" font-size: 12px;cursor: pointer;padding: 0 6px;" ng-click="containerModal(container.podname,$index)">查看容器</a></div>
