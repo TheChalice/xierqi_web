@@ -472,5 +472,11 @@ define([
             })
             return saas;
         }])
+        .factory('newBackingService', ['$resource', 'GLOBAL', function($resource){
+            var newBackingService= $resource('/lapi/v1/backingservices/:name', {name: '@name'},{
+
+            });
+            return newBackingService;
+        }])
 });
 
