@@ -40,6 +40,7 @@ angular.module('console.service.create', [
             };
 
             $scope.delprot = function (idx) {
+                $scope.grid.port = '端口';
                 $scope.portsArr.splice(idx, 1);
             };
 
@@ -529,7 +530,7 @@ angular.module('console.service.create', [
 
                 $scope.portsArr = [];
                 //路由端口需清空
-                $scope.grid.port = '';
+                $scope.grid.port = '端口';
                 //console.log('$scope.dc.spec.template.spec.containers', $scope.dc.spec.template.spec.containers);
                 angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
                     if (ports.port) {
@@ -829,9 +830,9 @@ angular.module('console.service.create', [
 
                         $scope.portsArr = [];
                         //路由端口需清空
-                        $scope.grid.port = '';
-                        console.log($scope.dc.spec.template.spec.containers);
-                        console.log('$scope.dc.spec.template.spec.containers', $scope.dc.spec.template.spec.containers);
+                        $scope.grid.port = '端口';
+                        //console.log($scope.dc.spec.template.spec.containers);
+                        //console.log('$scope.dc.spec.template.spec.containers', $scope.dc.spec.template.spec.containers);
                         angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
                             if (ports.port) {
                                 angular.forEach(ports.port, function (port, k) {
