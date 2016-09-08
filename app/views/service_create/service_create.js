@@ -40,6 +40,7 @@ angular.module('console.service.create', [
             };
 
             $scope.delprot = function (idx) {
+                $scope.grid.port = '端口';
                 $scope.portsArr.splice(idx, 1);
             };
 
@@ -363,6 +364,7 @@ angular.module('console.service.create', [
             // 判断从镜像仓库跳转过来时属于哪种镜像
             var initContainer = function () {
                 if ($stateParams.image) {
+
                     // console.log("$stateParams.image", $stateParams.image);
                     // console.log("initContainer", $scope.dc.spec.template.spec.containers.tag);
                     // if (!$scope.dc.spec.template.spec.containers.tag) {
@@ -418,6 +420,7 @@ angular.module('console.service.create', [
                         $scope.invalid.containerLength = false;
                     } else {
                         var imagetag = '';
+                        console.log('私有镜像', $stateParams.ports);
                         //  私有镜像
                         if ($stateParams.image.indexOf('@') != -1) {
                             console.log($stateParams.image)
@@ -447,6 +450,22 @@ angular.module('console.service.create', [
                                 }
                             };
                             $scope.dc.metadata.annotations[imagetag] = arr[2] + ":" + arr[3];
+                            $scope.portsArr = []
+                            if ($stateParams.ports.length > 0) {
+                                var arr = angular.copy($stateParams.ports)
+                                angular.forEach(arr, function (port, i) {
+
+                                    var strarr = port.split('/');
+                                    var val = strarr[1].toUpperCase();
+                                    $scope.portsArr.push({
+                                        containerPort: strarr[0],
+                                        hostPort: strarr[0],
+                                        protocol: val,
+                                    });
+                                })
+
+                            }
+
                         } else {
                             // 公共镜像
                             var container = angular.copy($scope.containerTpl);
@@ -482,15 +501,9 @@ angular.module('console.service.create', [
                                 }
                             };
                             $scope.dc.metadata.annotations[imagetag] = container.truename + ":" + $stateParams.image.split(':')[1];
+                            $scope.portsArr = []
                         }
 
-                        $scope.portsArr = [
-                            {
-                                containerPort: "",
-                                hostPort: "",
-                                protocol: ""
-                            }
-                        ]
 
                         $scope.dc.spec.template.spec.containers.push(container);
                         $scope.invalid.containerLength = false;
@@ -512,13 +525,13 @@ angular.module('console.service.create', [
             };
             // 删除容器
             $scope.rmContainer = function (idx) {
-                console.log("rmContainer");
+                //console.log("rmContainer");
                 $scope.dc.spec.template.spec.containers.splice(idx, 1);
 
                 $scope.portsArr = [];
                 //路由端口需清空
-                $scope.grid.port = '';
-                console.log('$scope.dc.spec.template.spec.containers', $scope.dc.spec.template.spec.containers);
+                $scope.grid.port = '端口';
+                //console.log('$scope.dc.spec.template.spec.containers', $scope.dc.spec.template.spec.containers);
                 angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
                     if (ports.port) {
                         angular.forEach(ports.port, function (port, k) {
@@ -526,7 +539,7 @@ angular.module('console.service.create', [
                             var val = strarr[1].toUpperCase();
                             $scope.portsArr.push({
                                 containerPort: strarr[0],
-                                hostPort: '',
+                                hostPort: strarr[0],
                                 protocol: val,
                                 //open: true
                             });
@@ -689,7 +702,7 @@ angular.module('console.service.create', [
                     //console.log('container2',container);
                     var cons = $scope.dc.spec.template.spec.containers;
                     ImageSelect.open().then(function (res) {
-                        console.log("imageStreamTag2", res);
+                        //console.log("imageStreamTag2", res);
                         var imagetag = '';
                         container.ports = [];
                         if (container.ports.length == 0) {
@@ -749,6 +762,7 @@ angular.module('console.service.create', [
                                     }
                                 }
                             };
+                            container.port=[]
                             $scope.dc.metadata.annotations[imagetag] = container.truename + ":" + str1[2];
 
                         } else {
@@ -811,27 +825,14 @@ angular.module('console.service.create', [
                             angular.forEach(res.image.dockerImageMetadata.Config.ExposedPorts, function (item, i) {
                                 container.port.push(i)
                             })
-                            //var exposedPorts = res.image.dockerImageMetadata.Config.ExposedPorts;
-                            //console.log('exposedPorts', exposedPorts);
 
-                            //for (var k in exposedPorts) {
-                            //    var arr = k.split('/');
-                            //    if (arr.length == 2) {
-                            //        $scope.portsArr = [];
-                            //        var val = arr[1].toUpperCase();
-                            //        $scope.portsArr.push({
-                            //            containerPort:arr[0],
-                            //            hostPort: '',
-                            //            protocol: val,
-                            //            //open: true
-                            //        });
-                            //    }
-                            //}
                         }
+
                         $scope.portsArr = [];
                         //路由端口需清空
-                        $scope.grid.port = '';
-                        console.log('$scope.dc.spec.template.spec.containers', $scope.dc.spec.template.spec.containers);
+                        $scope.grid.port = '端口';
+                        //console.log($scope.dc.spec.template.spec.containers);
+                        //console.log('$scope.dc.spec.template.spec.containers', $scope.dc.spec.template.spec.containers);
                         angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
                             if (ports.port) {
                                 angular.forEach(ports.port, function (port, k) {
@@ -839,7 +840,7 @@ angular.module('console.service.create', [
                                     var val = strarr[1].toUpperCase();
                                     $scope.portsArr.push({
                                         containerPort: strarr[0],
-                                        hostPort: '',
+                                        hostPort: strarr[0],
                                         protocol: val,
                                         //open: true
                                     });
@@ -1268,10 +1269,11 @@ angular.module('console.service.create', [
 
                 angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
                     if (ports.port) {
-                        delete $scope.dc.spec.template.spec.containers[i].port}
+                        delete $scope.dc.spec.template.spec.containers[i].port
+                    }
 
                 })
-                console.log('$scope.dc',$scope.dc);
+                console.log('$scope.dc', $scope.dc);
                 var i;
                 for (i = 0; i < $scope.envs.length; i++) {
                     if ($scope.envs[i].name == '' || $scope.envs[i].value == '') {
