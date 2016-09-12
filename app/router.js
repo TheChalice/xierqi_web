@@ -32,6 +32,27 @@ define([
                 }]
               }
             })
+            .state('home.index_backing_service', {
+              url: '/index_backing_service',
+              templateUrl: 'views/home/index_backing_service/index_backing_service.html',
+              controller: 'index_backing_serviceCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/home/index_backing_service/index_backing_service.js')
+                }]
+              }
+            })
+            .state('home.index_backing_Sdetail', {
+              url: '/index_backing_Sdetail/:name',
+
+              templateUrl: 'views/home/index_backing_Sdetail/index_backing_Sdetail.html',
+              controller: 'index_backing_SdetailCtrl',
+              resolve: {
+                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                  return $ocLazyLoad.load('views/home/index_backing_Sdetail/index_backing_Sdetail.js')
+                }]
+              }
+            })
             .state('home.application_image_detail', {
               url: '/application_image_detail/:name',
               templateUrl: 'views/home/application_image_detail/application_image_detail.html',
@@ -210,7 +231,8 @@ define([
               templateUrl: 'views/service_create/service_create.html',
               controller: 'ServiceCreateCtrl',
               params: {
-                image: null
+                image: null,
+                ports: null
               },
               resolve: {
                 dep: ['$ocLazyLoad', function ($ocLazyLoad) {

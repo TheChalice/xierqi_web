@@ -14,11 +14,10 @@ angular.module('console.service.detail', [
             //获取服务列表
             $scope.servicepoterr = false;
 
-            // console.log('$rootScope',$rootScope);
             $scope.grid = {
                 ports: [],
                 port: 0,
-                cname: '域名',
+                cname: '系统域名',
                 host: '',
                 zsfile: {},
                 syfile: {},
@@ -31,7 +30,7 @@ angular.module('console.service.detail', [
                 isimageChange: true,
                 imagePullSecrets: false
             };
-
+            $scope.portsArr=[];
             function readSingleFile(e, name) {
                 //alert(1111)
                 var thisfilename = document.getElementById(name).value;
@@ -58,7 +57,7 @@ angular.module('console.service.detail', [
                     } else if (name == 'mcafile') {
                         $scope.routeconf.spec.tls.destinationCACertificate = $scope.grid.mcafile.value;
                     }
-                    console.log($scope.grid.zsfile);
+                    //console.log($scope.grid.zsfile);
                     $scope.$apply();
                 };
                 reader.readAsText(file);
@@ -227,7 +226,7 @@ angular.module('console.service.detail', [
                         persistentarr: []
                     }
                     angular.forEach(container.volumeMounts, function (volumeMount, k) {
-                        console.log(volumeMount.mountPath);
+                        //console.log(volumeMount.mountPath);
                         var obj = dcvomap(volumeMount.name)
                         obj['mountPath'] = volumeMount.mountPath;
                         if (obj.secret) {
@@ -250,7 +249,7 @@ angular.module('console.service.detail', [
                         res.metadata.annotations = {};
                     }
                     changevol(res);
-                    console.log('$scope.dc.metadata.annotations[imagetag]', res);
+                    //console.log('$scope.dc.metadata.annotations[imagetag]', res);
                     $scope.dc = res;
                     var copyannotations = angular.copy(res.metadata.annotations);
                     if ($scope.dc.metadata.labels && $scope.dc.metadata.labels.app) {
@@ -396,6 +395,7 @@ angular.module('console.service.detail', [
                         $scope.portMap[port.targetPort + ''] = port.port;
 
                     }
+
                     for (var i = 0; i < $scope.dc.spec.template.spec.containers.length; i++) {
                         //if($scope.dc.spec.template.spec.containers[i].ports){
                         $scope.dc.spec.template.spec.containers[i].ports = [];
@@ -423,12 +423,7 @@ angular.module('console.service.detail', [
 
                 }, function (res) {
                     iscreatesv = false;
-                    // $log.info("load service err", res);
-                    $scope.portsArr = [{
-                        containerPort: "",
-                        protocol: "",
-                        hostPort: "",
-                    }]
+
                     updatePorts($scope.dc.spec.template.spec.containers);
                 });
             };
@@ -620,7 +615,7 @@ angular.module('console.service.detail', [
                                 $scope.routeconf = angular.copy(myroute);
                             }
                         })
-                        console.log('$scope.routeconf111111', $scope.routeconf);
+                        //console.log('$scope.routeconf111111', $scope.routeconf);
 
                         if ($scope.grid.tlsset && $scope.routeconf) {
                             if (!$scope.routeconf.spec.tls) {
@@ -806,7 +801,7 @@ angular.module('console.service.detail', [
             };
             //执行log
             var updateRcs = function (data) {
-                console.log('data.type', data.type);
+                //console.log('data.type', data.type);
                 //DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (dcdata) {
                 //$scope.dc = dcdata;
                 //var copyannotations = angular.copy(dcdata.metadata.annotations);
@@ -1484,6 +1479,25 @@ angular.module('console.service.detail', [
             $scope.rmContainer = function (idx) {
                 // console.log("rmContainer");
                 $scope.dc.spec.template.spec.containers.splice(idx, 1);
+                $scope.portsArr = [];
+                //路由端口需清空
+                $scope.grid.port = '';
+                //console.log('$scope.dc.spec.template.spec.containers', $scope.dc.spec.template.spec.containers);
+                angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
+                    if (ports.port) {
+                        angular.forEach(ports.port, function (port, k) {
+                            var strarr = port.split('/');
+                            var val = strarr[1].toUpperCase();
+                            $scope.portsArr.push({
+                                containerPort: strarr[0],
+                                hostPort: strarr[0],
+                                protocol: val,
+                                //open: true
+                            });
+                        })
+                    }
+
+                })
             };
 /////////////挂载卷
             var cintainersidx;
@@ -1608,6 +1622,7 @@ angular.module('console.service.detail', [
                     $scope.grid.imagePullSecrets = true;
                     var imagetag = '';
                     if (res.ispublicimage) {
+                        //共有镜像
                         var str1 = res.imagesname.split("/");
                         var strname1 = str1[0] + '/' + str1[1];
                         var olsname = strname1.replace('/', "-");
@@ -1638,22 +1653,7 @@ angular.module('console.service.detail', [
                             container.name = strname1.replace('/', "-");
                         }
                         container.tag = str1[2];
-                        //imagetag = 'dadafoundry.io/image-' + container.name;
-                        //container.triggerImageTpl = {
-                        //    "type": "ImageChange",
-                        //    "imageChangeParams": {
-                        //        "automatic": true,
-                        //        "containerNames": [
-                        //            container.name          //todo 高级配置,手动填充
-                        //        ],
-                        //        "from": {
-                        //            "kind": "ImageStreamTag",
-                        //            "name":  container.strname +":"+ container.tag  //ruby-hello-world:latest
-                        //        }
-                        //    }
-                        //};
-                        //$scope.dc.metadata.annotations[imagetag] = container.truename+":"+str1[2];
-                        ////仓库镜像
+                        container.port=[]
                         if (res.imagePullSecrets) {
                             container.imagePullSecrets = true;
                         } else {
@@ -1661,6 +1661,7 @@ angular.module('console.service.detail', [
                         }
 
                     } else {
+                        //私有镜像
                         container.image = res.image.dockerImageReference
                         container.isshow = true;
                         container.isimageChange = true;
@@ -1669,7 +1670,7 @@ angular.module('console.service.detail', [
                         delete container["imagePullSecrets"];
                         var arr = res.metadata.name.split(':');
                         container.tag = arr[1];
-                        console.log('vbvbvbvbvbvbvbvbvbvb', container.name)
+                        //console.log('vbvbvbvbvbvbvbvbvbvb', container.name)
                         if (arr.length > 1 && !container.name) {
                             container.name = arr[0];
                         }
@@ -1704,8 +1705,13 @@ angular.module('console.service.detail', [
                         //        }
                         //    }
                         //};
+                        container.port = [];
+                        angular.forEach(res.image.dockerImageMetadata.Config.ExposedPorts, function (item, i) {
+                            container.port.push(i)
+                        })
                         container.imagename = arr[0];
-                        //$scope.dc.metadata.annotations[imagetag] = arr[0]+":"+arr[1];
+
+
                     }
                     //for (var i = 0; i < $scope.dc.spec.template.spec.containers.length; i++) {
                     //    if ($scope.dc.spec.template.spec.containers[i].isimageChange != false && $scope.dc.spec.template.spec.containers[i].isimageChange != true) {
@@ -1726,6 +1732,26 @@ angular.module('console.service.detail', [
                     //if (arr.length > 1) {
                     //  container.name = arr[0];
                     //}
+                    $scope.portsArr = [];
+                    //路由端口需清空
+                    $scope.grid.port = '';
+                    //console.log($scope.dc.spec.template.spec.containers);
+                    console.log('$scope.dc.spec.template.spec.containers', $scope.dc.spec.template.spec.containers);
+                    angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
+                        if (ports.port) {
+                            angular.forEach(ports.port, function (port, k) {
+                                var strarr = port.split('/');
+                                var val = strarr[1].toUpperCase();
+                                $scope.portsArr.push({
+                                    containerPort: strarr[0],
+                                    hostPort: strarr[0],
+                                    protocol: val,
+                                    //open: true
+                                });
+                            })
+                        }
+                        //delete $scope.dc.spec.template.spec.containers[i].port
+                    })
 
                     // container.ports = [];
                     //var exposedPorts = res.image.dockerImageMetadata.Config.ExposedPorts;
@@ -2072,6 +2098,12 @@ angular.module('console.service.detail', [
 //点击更新
             $scope.updateDc = function () {
                 // console.log('点击更新');
+                angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
+                    if (ports.port) {
+                        delete $scope.dc.spec.template.spec.containers[i].port
+                    }
+
+                })
                 if (isConflict()) {
                     return
                 }
@@ -2374,7 +2406,7 @@ angular.module('console.service.detail', [
                             }, function (res) {
                                 var data = JSON.parse(res.data);
                                 //updateRcs(data);
-                                console.log(data);
+                                //console.log(data);
                             }, function () {
                                 $log.info("webSocket startRC");
                             }, function () {
@@ -2403,7 +2435,7 @@ angular.module('console.service.detail', [
                 controller: ['$base64', '$sce', 'ansi_ups', '$rootScope', '$scope', '$log', '$uibModalInstance', 'ImageStream', 'Pod', 'Ws', 'Metrics', 'MetricsService',
                     function ($base64, $sce, ansi_ups, $rootScope, $scope, $log, $uibModalInstance, ImageStream, Pod, Ws, Metrics, MetricsService) {
                         $scope.pod = pod;
-                        console.log("pod-=-=-=-=-!!!!", pod);
+                        //console.log("pod-=-=-=-=-!!!!", pod);
                         $scope.grid = {
                             show: false,
                             mem: false,
@@ -2527,9 +2559,9 @@ angular.module('console.service.detail', [
                                 container: container,
                                 sinceTime: $scope.grid.st ? $scope.grid.st.toISOString() : (new Date(0)).toISOString()
                             };
-                            console.log('container', container);
+                            //console.log('container', container);
                             Pod.get({namespace: $rootScope.namespace, name: pod.metadata.name}, function (podcenter) {
-                                console.log(podcenter.metadata.resourceVersion);
+                                //console.log(podcenter.metadata.resourceVersion);
                                 watchpod(podcenter.metadata.resourceVersion, container)
                             })
                         };
@@ -2635,7 +2667,7 @@ angular.module('console.service.detail', [
                                 $scope.grid.cpu = false;
                             });
                         };
-                        console.log('$scope.container', obj.name);
+                        //console.log('$scope.container', obj.name);
                         $scope.container = obj.name;
                         $scope.getLog(obj.name);
                         //terminal(o.name);

@@ -1338,6 +1338,8 @@ define(['angular'], function (angular) {
                                         $state.go('console.create_saas',{name:stateParams.name});
                                     }else if(stateParams.type == 'image'){
                                         $state.go('console.service_create',{image:stateParams.name});
+                                    }else if(stateParams.type == 'bkservice'){
+                                        $state.go('console.apply_instance',{name:stateParams.name});
                                     }else{
                                         //  TODO 查看收藏功能
                                     }
