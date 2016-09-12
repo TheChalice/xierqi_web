@@ -103,26 +103,27 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="panel panel-default col-md-4" style="margin-right: 30px">
+                            <div class="panel panel-default col-md-4" style="margin-right: 30px;position: relative;">
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/project.png">
                                     项目
                                 </div>
-                                <div class="panel-body">
-                                    <div class="searchbar" style="border-left: none;border-right: none;">
+                                <div class="searchbar" style="border-left: none;border-right: none;position: absolute; top: 54px;left:0;width: 100%;">
 
-                                            <div class="input-group">
-                                                <input type="text" class="form-control"
-                                                       ng-model="txt"
-                                                       placeholder="搜索关键字">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control"
+                                               ng-model="txt"
+                                               placeholder="搜索关键字">
                                             <span class="input-group-btn">
                                                 <a class="btn" ng-click="search(txt)"></a>
                                             </span>
-                                            </div>
-
-
                                     </div>
-                                    <ul>
+
+
+                                </div>
+                                <div class="panel-body">
+
+                                    <ul style="margin-top:36px;">
                                         <li class="labcon" ng-repeat="project in reposobj">
                                             <a href="javascript:;" uib-tooltip="{{project.name}}"
                                                ng-class="{'active': grid.project == $index}"
@@ -173,23 +174,24 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="panel panel-default second col-sm-4" style="margin-right: 30px">
+                            <div class="panel panel-default second col-sm-4" style="margin-right: 30px;position: relative;">
                                 <div class="panel-heading">
                                     <img src="views/build_create_new/img/project.png">
                                     项目
                                 </div>
-                                <div class="panel-body">
-                                    <div class="searchbar" style="border-right: none;border-left: none;">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control"
-                                                       ng-model="text"
-                                                       placeholder="搜索关键字">
+                                <div class="searchbar" style="border-right: none;border-left: none;position: absolute; top: 54px;left:0;width: 100%;">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control"
+                                               ng-model="text"
+                                               placeholder="搜索关键字">
                                             <span class="input-group-btn">
                                                 <a class="btn"></a>
                                             </span>
-                                            </div>
-                                        </div>
-                                    <ul>
+                                    </div>
+                                </div>
+                                <div class="panel-body">
+
+                                    <ul style="margin-top:36px;">
                                         <li class="labcon" ng-repeat="project in labobjs">
                                             <a href="javascript:;" uib-tooltip="{{project.name}}"
                                                ng-class="{'active': grid.labproject == $index}"

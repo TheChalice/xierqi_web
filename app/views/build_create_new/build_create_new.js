@@ -325,7 +325,7 @@ angular.module('console.build_create_new', [
         };
 
         $scope.selectProject = function(idx,choose) {
-          if ($scope.chooseProject&&$scope.grid.project==idx) {
+          if ($scope.chooseProject && $scope.grid.project==idx) {
               $scope.grid.project=null;
               $scope.chooseProject = null;
               $scope.branch=null;
@@ -436,6 +436,7 @@ angular.module('console.build_create_new', [
                 $scope.branch=null;
                 $scope.grid.branch = null;
                 $scope.reposobj=arr;
+                $scope.usernames[thisindex].repos = arr;
             }
         });
 
@@ -611,6 +612,7 @@ angular.module('console.build_create_new', [
         };
 
         $scope.selectLabProject = function(idx, chooose){
+            console.log('_+_+_+_+_+_+_+', $scope.labobjs[idx]);
             var labId = $scope.labobjs[idx].id;
             labBranch.get({repo:labId},function(data) {
                 if ($scope.choooseProject && $scope.grid.labproject == idx) {
