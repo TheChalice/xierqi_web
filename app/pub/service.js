@@ -1416,7 +1416,7 @@ define(['angular'], function (angular) {
             };
             return {
                 request: function (config) {
-                    if (/\/login/.test(config.url)) {
+                    if (/^\/login/.test(config.url)) {
                         return config;
                     }
                     var token = Cookie.get('df_access_token');
@@ -1424,10 +1424,10 @@ define(['angular'], function (angular) {
                         config.headers["Authorization"] = "Bearer " + token;
                     }
 
-                    if (/\/hawkular/.test(config.url)) {
+                    if (/^\/hawkular/.test(config.url)) {
                         config.headers["Hawkular-Tenant"] = $rootScope.namespace;
                     }
-                    if (/\/registry/.test(config.url)) {
+                    if (/^\/registry/.test(config.url)) {
                         var Auth = localStorage.getItem("Auth")
                         config.headers["Authorization"] = "Basic " + Auth;
                     }
