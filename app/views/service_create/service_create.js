@@ -449,7 +449,7 @@ angular.module('console.service.create', [
                                     }
                                 }
                             };
-                            $scope.dc.metadata.annotations[imagetag] = arr[2] + ":" + arr[3];
+                            $scope.dc.metadata.annotations[imagetag] = arr[3] + ":" + arr[2];
                             $scope.portsArr = []
                             if ($stateParams.ports.length > 0) {
                                 var arr = angular.copy($stateParams.ports)

@@ -19,7 +19,7 @@
             <div class="col-md-2 paddingeve" style="text-align: center;" ng-class="{'paddingevent':event.message.length>170,'paddingeventz':event.message.length>65&&event.message.length<=170}"><span uib-tooltip="{{event.involvedObject.name}}">{{event.involvedObject.name}}</span></div>
             <div class="col-md-2 paddingeve" style="text-align: center;" ng-class="{'paddingevent':event.message.length>170,'paddingeventz':event.message.length>65&&event.message.length<=170}"><span style="word-wrap: break-word;text-align: center;">{{event.involvedObject.kind}}</span></div>
             <div class="col-md-1 paddingeve" style="text-align: center;" ng-class="{'paddingevent':event.message.length>170,'paddingeventz':event.message.length>65&&event.message.length<=170}"><span style="word-wrap: break-word;">{{event.type}}</span></div>
-            <div class="col-md-6"><span style="word-break:break-all;">{{event.message}}<br><small style="color:#5a6378;font-size: 10px;">出现{{event.count}}次</small></span></div>
+            <div class="col-md-6"><span style="word-break:break-all;word-wrap: break-word;">{{event.message}}<br><small style="color:#5a6378;font-size: 10px;">出现{{event.count}}次</small></span></div>
 
         </div>
         <div class="col-md-12 load7" ng-if="!eventsws.items.length" style="padding: 0;overflow: hidden;">

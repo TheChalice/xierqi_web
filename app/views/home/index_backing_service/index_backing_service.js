@@ -255,12 +255,12 @@ angular.module('home.index_backing_service', [
                         $scope.market[k].showTab = true;
                         //$scope.myservice[k].showTab = true;
                     }
-                    for (var d = 0; d < $scope.cation.length; d++) {
+                    //for (var d = 0; d < $scope.cation.length; d++) {
                         //var arr1 = $filter("myfilter")($scope.myservice[d].item, $scope.isComplete);
-                        if (arr1.length == 0) {
+                        //if (arr1.length == 0) {
                             //$scope.myservice[d].showTab = false
-                        }
-                    }
+                        //}
+                    //}
                 }
                 $scope.grid[tp] = key;
                 // console.log("$scope.itemsDevop", $scope.itemsDevop)
