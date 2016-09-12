@@ -8,8 +8,8 @@ angular.module('console.service.create', [
             ]
         }
     ])
-    .controller('ServiceCreateCtrl', ['diploma', 'Confirm', 'Toast', '$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service', 'ChooseSecret', '$base64', 'secretskey', 'serviceaccounts',
-        function (diploma, Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service, ChooseSecret, $base64, secretskey, serviceaccounts) {
+    .controller('ServiceCreateCtrl', ['by','diploma', 'Confirm', 'Toast', '$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service', 'ChooseSecret', '$base64', 'secretskey', 'serviceaccounts',
+        function (by,diploma, Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service, ChooseSecret, $base64, secretskey, serviceaccounts) {
             $log.info('ServiceCreate');
             $scope.checkEnv = false;
 
@@ -98,6 +98,8 @@ angular.module('console.service.create', [
                 syfile: {},
                 cafile: {},
                 mcafile: {},
+                namerepeat:false,
+                rexnameerr:false,
                 tlsshow: false,
                 tlsset: 'None',
                 httpset: 'Allow',
@@ -552,11 +554,16 @@ angular.module('console.service.create', [
 
             //  获取dc列表,用于在创建dc时验证dc名称是否重复
             var serviceNameArr = [];
+            
             var loadDcList = function () {
                 DeploymentConfig.get({namespace: $rootScope.namespace}, function (data) {
                     for (var i = 0; i < data.items.length; i++) {
                         serviceNameArr.push(data.items[i].metadata.name);
                     }
+                    serviceNameArr.sort();
+                    $scope.grid.namerepeat=true;
+                    //console.log('serviceNameArr',serviceNameArr);
+
                 }, function (res) {
                     $log.info('loadDcList', res);
                     //todo ������
@@ -564,34 +571,67 @@ angular.module('console.service.create', [
             }
 
             loadDcList();
-            // 验证dc名称规范
-            $scope.serviceNamekedown = function () {
-                for (var i = 0; i < serviceNameArr.length; i++) {
-                    if (serviceNameArr[i] == $scope.dc.metadata.name) {
-                        $scope.grid.createdcerr = true;
-                        break;
-                    } else {
-                        $scope.grid.createdcerr = false;
-                        $scope.grid.isserviceName = false;
+
+
+
+            $scope.$watch('dc.metadata.name', function (n,o) {
+                if (n == o) {
+                    return
+                }
+                var r = /^[a-z][-a-z0-9]*[a-z0-9]$/;
+                if (!r.test(n)) {
+                    $scope.grid.rexnameerr = true; 
+                }else {
+                    $scope.grid.rexnameerr = false;
+                }
+                if ($scope.grid.namerepeat) {
+                    var repeat=false;
+                    angular.forEach(serviceNameArr, function (item,i) {
+                        if (!repeat) {
+                            if (item===n) {
+                                repeat=true;
+                            }
+                        }
+
+                    })
+                    if (!repeat) {
+
+                        $scope.grid.servicenameerr=false;
+                    }else {
+                        $scope.grid.servicenameerr=true;
                     }
                 }
-                if (!$scope.dc.metadata.name) {
-                    $scope.grid.isserviceName = true;
-                    $scope.grid.createdcerr = false;
-                }
-            }
+                
+            })
             // 验证dc名称规范
-            $scope.checknames = function () {
-                var r = /^[a-z][-a-z0-9]*[a-z0-9]$/; // 不能以数字开头,有小写字母跟数字组成;
-                console.log('!r.test($scope.dc.metadata.name)', !r.test($scope.dc.metadata.name))
-                if (!r.test($scope.dc.metadata.name)) {
-                    $scope.grid.servicenameerr = true;
-                } else if ($scope.dc.metadata.name.length < 2 || $scope.dc.metadata.name.length > 24) {
-                    $scope.grid.servicenameerr = true;
-                } else {
-                    $scope.grid.servicenameerr = false;
-                }
-            }
+            
+            //$scope.serviceNamekedown = function () {
+            //    for (var i = 0; i < serviceNameArr.length; i++) {
+            //        if (serviceNameArr[i] == $scope.dc.metadata.name) {
+            //            $scope.grid.createdcerr = true;
+            //            break;
+            //        } else {
+            //            $scope.grid.createdcerr = false;
+            //            $scope.grid.isserviceName = false;
+            //        }
+            //    }
+            //    if (!$scope.dc.metadata.name) {
+            //        $scope.grid.isserviceName = true;
+            //        $scope.grid.createdcerr = false;
+            //    }
+            //}
+            // 验证dc名称规范
+            //$scope.checknames = function () {
+            //    var r = /^[a-z][-a-z0-9]*[a-z0-9]$/; // 不能以数字开头,有小写字母跟数字组成;
+            //    //console.log('!r.test($scope.dc.metadata.name)', !r.test($scope.dc.metadata.name))
+            //    if (!r.test($scope.dc.metadata.name)) {
+            //        $scope.grid.servicenameerr = true;
+            //    } else if ($scope.dc.metadata.name.length < 2 || $scope.dc.metadata.name.length > 24) {
+            //        $scope.grid.servicenameerr = true;
+            //    } else {
+            //        $scope.grid.servicenameerr = false;
+            //    }
+            //}
             // 获取后端服务列表
             var loadBsi = function (dc) {
                 BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {
