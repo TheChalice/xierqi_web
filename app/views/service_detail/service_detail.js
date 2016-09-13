@@ -308,41 +308,49 @@ angular.module('console.service.detail', [
 
                     $scope.arrimgstr = [];
                     $scope.arrisshow = [];
-                    for (var i = 0; i < $scope.dc.spec.template.spec.containers.length; i++) {
-                        var imagetag = 'dadafoundry.io/image-' + $scope.dc.spec.template.spec.containers[i].name;
+                    var test = function(image) {
+                        if (!image) {
+                            return "";
+                        }
+                        var match = image.match(/\/([^/]*)@sha256/);
+                        return match[1];
+                    };
+                    angular.forEach($scope.dc.spec.template.spec.containers, function (item) {
+                        var imagetag = 'dadafoundry.io/image-' + item.name;
                         if (copyannotations && copyannotations[imagetag]) {
                             var tagarr = copyannotations[imagetag].split(":")
                             $scope.dc.spec.template.spec.containers[i].tag = tagarr[1];
                             $scope.dc.spec.template.spec.containers[i].imagename = tagarr[0];
                         } else {
-                            angular.forEach($scope.dc.spec.template.spec.containers, function (item) {
-                                var tagstr = item.image;
-                                if (tagstr.indexOf('@') != -1) {
-                                    item.tag = tagstr.split('@')[1];
-                                } else {
-                                    item.tag = tagstr.split(':')[1];
+                        var coni = item.image;
+                        if(coni.indexOf('@') != -1){
+                            ImageStream.get({namespace: $rootScope.namespace,name : test(coni)},function(res){
+
+                                for(var i = 0 ; i < res.status.tags.length; i++){
+                                     for (var  j = 0 ; j < res.status.tags[i].items.length; j++){
+                                         if(coni.split('@')[1] == res.status.tags[i].items[j].image){
+                                             item.tag = res.status.tags[i].tag;
+                                         }
+                                     }
                                 }
-                            });
+                            })
+                        }else if(coni.indexOf(':') != -1){
+                            item.tag = coni.split(':')[1];
+                        }else{
+                            item.tag = '';
                         }
+                        }
+
+
+                    });
+
+                    for (var i = 0; i < $scope.dc.spec.template.spec.containers.length; i++) {
                         if ($scope.dc.spec.triggers) {
                             for (var j = 0; j < $scope.dc.spec.triggers.length; j++) {
                                 if ($scope.dc.spec.triggers[j].type == "ImageChange") {
                                     if ($scope.dc.spec.triggers[j].imageChangeParams.containerNames[0] == $scope.dc.spec.template.spec.containers[i].name) {
                                         $scope.dc.spec.template.spec.containers[i].isimageChange = true;
                                         $scope.dc.spec.template.spec.containers[i].isshow = true;
-                                        //$scope.dc.spec.template.spec.containers[i].triggerImageTpl = {
-                                        //    "type": "ImageChange",
-                                        //    "imageChangeParams": {
-                                        //        "automatic": true,
-                                        //        "containerNames": [
-                                        //            $scope.dc.spec.template.spec.containers[i].name          //todo 高级配置,手动填充
-                                        //        ],
-                                        //        "from": {
-                                        //            "kind": "ImageStreamTag",
-                                        //            "name": $scope.dc.spec.template.spec.containers[i].name +":"+ $scope.dc.spec.template.spec.containers[i].tag  //ruby-hello-world:latest
-                                        //        }
-                                        //    }
-                                        //};
                                     }
                                 }
                             }
