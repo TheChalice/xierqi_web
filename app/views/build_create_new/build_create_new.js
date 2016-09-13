@@ -87,10 +87,10 @@ angular.module('console.build_create_new', [
                }
                if (n) {
                    if (!r.test(n)) {
-                       console.log('no');
+                       //console.log('no');
                        $scope.nameerr=true
                    }else {
-                       console.log('yes');
+                       //console.log('yes');
                        $scope.nameerr=false
                    }
                }
@@ -221,7 +221,7 @@ angular.module('console.build_create_new', [
                 $log.info("build instantiate success");
                 $state.go('console.build_detail', {name: name, from: 'create/new'})
             }, function(res){
-                console.log("uildConfig.instantiate.create",res);
+                //console.log("uildConfig.instantiate.create",res);
                 //todo 错误处理
             });
         };
@@ -233,7 +233,7 @@ angular.module('console.build_create_new', [
         $scope.owner = null;
 
         $scope.loadOwner = function(cache){
-            console.log(cache);
+            //console.log(cache);
             Owner.query({namespace: $rootScope.namespace,cache:cache},function(res) {
                 $log.info("owner", res);
                 $scope.owner = res.msg;
@@ -310,7 +310,7 @@ angular.module('console.build_create_new', [
         $scope.chooseBranch = null;
 
         $scope.selectUser = function(idx,choose) {
-            console.log($scope.grid.project, $scope.grid.branch);
+            //console.log($scope.grid.project, $scope.grid.branch);
           if ($scope.chooseUser&&$scope.grid.user==idx) {
             $scope.grid.user=null;
             $scope.chooseUser=null;
@@ -436,14 +436,14 @@ angular.module('console.build_create_new', [
                 var arr= [];
                     angular.forEach($scope.githubarr, function (image) {
                         if (RegExp(newVal).test(image.name)) {
-                            console.log(image.name);
+                            //console.log(image.name);
 
                             arr.push(image)
                         }
                     });
                 //console.log(arr);
                 //$scope.grid.project = null;
-                console.log($scope.grid.labproject, $scope.choooseProject, $scope.grid.labbranch);
+                //console.log($scope.grid.labproject, $scope.choooseProject, $scope.grid.labbranch);
                 $scope.grid.labproject = null;
                 $scope.choooseProject = null;
                 $scope.grid.labbranch = null;
@@ -470,7 +470,7 @@ angular.module('console.build_create_new', [
                         }
                     });
                 //console.log(arr);
-                console.log($scope.grid.labproject, $scope.choooseProject, $scope.grid.labbranch);
+                //console.log($scope.grid.labproject, $scope.choooseProject, $scope.grid.labbranch);
                 $scope.grid.labproject = null;
                 $scope.choooseProject = null;
                 $scope.grid.labbranch = null;
@@ -629,7 +629,7 @@ angular.module('console.build_create_new', [
         };
 
         $scope.selectLabProject = function(idx, chooose){
-            console.log('_+_+_+_+_+_+_+', $scope.labobjs[idx]);
+            //console.log('_+_+_+_+_+_+_+', $scope.labobjs[idx]);
             var labId = $scope.labobjs[idx].id;
             labBranch.get({repo:labId},function(data) {
                 if ($scope.choooseProject && $scope.grid.labproject == idx) {
