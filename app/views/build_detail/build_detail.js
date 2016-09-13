@@ -8,8 +8,8 @@ angular.module('console.build.detail', [
             ]
         }
     ])
-    .controller('BuildDetailCtrl', ['deleteSecret','Ws', 'Sort', 'GLOBAL', '$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'UUID', 'WebhookLab', 'WebhookHub', 'WebhookLabDel', 'WebhookHubDel', 'ImageStream', 'WebhookLabget', 'WebhookGitget'
-        , function (deleteSecret,Ws, Sort, GLOBAL, $rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, UUID, WebhookLab, WebhookHub, WebhookLabDel, WebhookHubDel, ImageStream, WebhookLabget, WebhookGitget) {
+    .controller('BuildDetailCtrl', ['deleteSecret', 'Ws', 'Sort', 'GLOBAL', '$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'UUID', 'WebhookLab', 'WebhookHub', 'WebhookLabDel', 'WebhookHubDel', 'ImageStream', 'WebhookLabget', 'WebhookGitget'
+        , function (deleteSecret, Ws, Sort, GLOBAL, $rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, UUID, WebhookLab, WebhookHub, WebhookLabDel, WebhookHubDel, ImageStream, WebhookLabget, WebhookGitget) {
             $scope.grid = {};
 
             //console.log('路由',$state);
@@ -85,7 +85,7 @@ angular.module('console.build.detail', [
                     namespace: $rootScope.namespace,
                     name: name
                 }, buildRequest, function (res) {
-                    $log.info("build instantiate success");
+                    $log.info("build instantiate success", res);
                     $scope.active = 1;  //打开记录标签
                     $scope.$broadcast('timeline', 'add', res);
                     createWebhook();
@@ -101,7 +101,10 @@ angular.module('console.build.detail', [
                     BuildConfig.remove({namespace: $rootScope.namespace, name: name}, {}, function () {
                         $log.info("remove buildConfig success");
 
-                        deleteSecret.delete({namespace: $rootScope.namespace, name: "custom-git-builder-"+$rootScope.user.metadata.name+'-'+name}),{}, function (res) {
+                        deleteSecret.delete({
+                            namespace: $rootScope.namespace,
+                            name: "custom-git-builder-" + $rootScope.user.metadata.name + '-' + name
+                        }), {}, function (res) {
 
                         }
                         removeIs($scope.data.metadata.name);
@@ -138,7 +141,7 @@ angular.module('console.build.detail', [
                     return;
                 }
                 if ($scope.selection) {
-                    $scope.selection=false;
+                    $scope.selection = false;
                     return
                 }
                 if (newVal != oldVal) {
@@ -148,18 +151,18 @@ angular.module('console.build.detail', [
 
             $scope.saveTrigger = function () {
                 var name = $scope.data.metadata.name;
-                if ($scope.grid.checked) {
-                    $scope.data.spec.triggers = [
-                        {
-                            type: 'GitHub',
-                            github: {
-                                secret: UUID.guid().replace(/-/g, "")
-                            }
-                        }
-                    ];
-                } else {
-                    $scope.data.spec.triggers = [];
-                }
+                //if ($scope.grid.checked) {
+                //    $scope.data.spec.triggers = [
+                //        {
+                //            type: 'GitHub',
+                //            github: {
+                //                secret: UUID.guid().replace(/-/g, "")
+                //            }
+                //        }
+                //    ];
+                //} else {
+                //    $scope.data.spec.triggers = [];
+                //}
                 BuildConfig.put({namespace: $rootScope.namespace, name: name}, $scope.data, function (res) {
                     $log.info("put success", res);
                     $scope.data = res;
@@ -167,6 +170,7 @@ angular.module('console.build.detail', [
                     $scope.grid.checkedLocal = $scope.grid.checked;
                     deleteWebhook();
                     createWebhook();
+
                 }, function (res) {
                     //todo 错误处理
                     $log.info("put failed");
@@ -196,18 +200,28 @@ angular.module('console.build.detail', [
                 return l.hostname;
             };
 
-            var getConfig = function (triggers) {
+            var getConfig = function (triggers, type) {
                 //console.log(triggers)
-                var str = "";
-                for (var k in triggers) {
-                    if (triggers[k].type == 'GitHub') {
-                        str = GLOBAL.host_webhooks + '/namespaces/' + $rootScope.namespace + '/buildconfigs/' + $scope.data.metadata.name + '/webhooks/' + triggers[k].github.secret + '/github'
-                        return str;
-                    }
+                var str = ''
+                if (type == 'github'&&triggers[0].github) {
+                    str = GLOBAL.host_webhooks + '/namespaces/' + $rootScope.namespace + '/buildconfigs/' + $scope.data.metadata.name + '/webhooks/' + triggers[0].github.secret + '/github'
+                    return str;
+                }else if(type == 'gitlab'&&triggers[1].generic){
+                    str = GLOBAL.host_webhooks + '/namespaces/' + $rootScope.namespace + '/buildconfigs/' + $scope.data.metadata.name + '/webhooks/' + triggers[1].generic.secret + '/gitlab'
+                    return str;
                 }
+
+
+                //var str = "";
+                //for (var k in triggers) {
+                //    if (triggers[k].type == 'GitHub') {
+                //        str = GLOBAL.host_webhooks + '/namespaces/' + $rootScope.namespace + '/buildconfigs/' + $scope.data.metadata.name + '/webhooks/' + triggers[k].github.secret + '/github'
+                //        return str;
+                //    }
+                //}
             };
 
-            var checkWebStatus = function(){
+            var checkWebStatus = function () {
                 var host = $scope.data.spec.source.git.uri;
                 if (getSourceHost(host) === 'github.com') {
                     WebhookGitget.get({namespace: $rootScope.namespace, build: $stateParams.name}, function (res) {
@@ -223,7 +237,7 @@ angular.module('console.build.detail', [
                         }
                     })
                 } else {
-                    WebhookLabget.get({namespace: $rootScope.namespace, build: $stateParams.name},function(res){
+                    WebhookLabget.get({namespace: $rootScope.namespace, build: $stateParams.name}, function (res) {
 
                         if (res.code == 1200) {
                             $scope.grid.checked = true;
@@ -237,15 +251,18 @@ angular.module('console.build.detail', [
                         }
                     });
                 }
-                $scope.selection=true
+                $scope.selection = true
             }
 
-            var createWebhook = function(){
+            var createWebhook = function () {
                 var host = $scope.data.spec.source.git.uri;
                 var triggers = $scope.data.spec.triggers;
-                var config = getConfig(triggers);
+                console.log('triggers', triggers);
+
+
                 if ($scope.grid.checked) {
-                    if (getSourceHost(host)==='github.com') {
+                    var config = getConfig(triggers, 'github');
+                    if (getSourceHost(host) === 'github.com') {
                         //$log.info("user is", $scope.data.metadata.annotations.user);
                         WebhookHub.check({
                             host: 'https://github.com',
@@ -253,10 +270,11 @@ angular.module('console.build.detail', [
                             build: $stateParams.name,
                             user: $scope.data.metadata.annotations.user,
                             repo: $scope.data.metadata.annotations.repo,
-                            spec: {events: ['push', 'pull_request', 'status'],config: {url:config}}
+                            spec: {events: ['push', 'pull_request', 'status'], config: {url: config}}
                         }, function (item) {
                         });
                     } else {
+                        var config = getConfig(triggers, 'gitlab');
                         WebhookLab.check({
                             host: 'https://code.dataos.io',
                             namespace: $rootScope.namespace,
@@ -270,19 +288,19 @@ angular.module('console.build.detail', [
                 }
             };
 
-            var deleteWebhook = function(){
+            var deleteWebhook = function () {
                 var host = $scope.data.spec.source.git.uri;
                 if (!$scope.grid.checked) {
-                    if (getSourceHost(host)==='github.com'){
+                    if (getSourceHost(host) === 'github.com') {
                         WebhookHubDel.del({
                             namespace: $rootScope.namespace,
                             build: $stateParams.name,
                             user: $scope.data.metadata.annotations.user,
                             repo: $scope.data.metadata.annotations.repo
-                        },function(item1) {
+                        }, function (item1) {
 
                         })
-                    }else{
+                    } else {
                         WebhookLabDel.del({
                             host: 'https://code.dataos.io',
                             namespace: $rootScope.namespace,
@@ -297,7 +315,7 @@ angular.module('console.build.detail', [
             $scope.isshow = true;
             $scope.gitStore = {};
 
-            //获取build记录
+//获取build记录
             var loadBuildHistory = function (name) {
                 //console.log('name',name)
                 Build.get({namespace: $rootScope.namespace, labelSelector: 'buildconfig=' + name}, function (data) {
@@ -443,7 +461,7 @@ angular.module('console.build.detail', [
 
             loadBuildHistory($state.params.name);
 
-            //如果是新创建的打开第一个日志,并监控
+//如果是新创建的打开第一个日志,并监控
             if ($stateParams.from == "create") {
                 $scope.$watch("databuild", function (newVal, oldVal) {
                     //console.log(newVal);
@@ -485,16 +503,16 @@ angular.module('console.build.detail', [
                 });
             };
 
-            //$scope.pull = function(idx){
-            //    // console.log(idx)
-            //    // console.log(idx,$scope.data.status.tags[idx].tag)
-            //    var name = $scope.name + ':' + $scope.date.status.tags[idx].tag;
-            //    // var name = $scope.data.items[idx].spec.output.to.name;
-            //    console.log('name',name);
-            //    ModalPullImage.open(name, true).then(function (res) {
-            //        console.log("cmd", res);
-            //    });
-            //};
+//$scope.pull = function(idx){
+//    // console.log(idx)
+//    // console.log(idx,$scope.data.status.tags[idx].tag)
+//    var name = $scope.name + ':' + $scope.date.status.tags[idx].tag;
+//    // var name = $scope.data.items[idx].spec.output.to.name;
+//    console.log('name',name);
+//    ModalPullImage.open(name, true).then(function (res) {
+//        console.log("cmd", res);
+//    });
+//};
 
             $scope.delete = function (idx) {
                 var title = "删除构建";
@@ -550,5 +568,6 @@ angular.module('console.build.detail', [
                 Ws.clear();
             });
 
-        }]);
+        }])
+;
 

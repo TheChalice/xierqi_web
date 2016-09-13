@@ -400,6 +400,7 @@ angular.module('console.image', [
                             ImageStreamTag.get({namespace: $rootScope.namespace, name: item.metadata.name+':'+item.status.tags[0].tag}, function (data) {
                                 //console.log(data);
                                 angular.forEach(data.image.dockerImageMetadata.ContainerConfig.ExposedPorts, function (port,k) {
+
                                     datalist.items[i].status.tags[0].port.push(k);
                                 })
                                 //console.log(datalist.items[i].status.tags[0]);
