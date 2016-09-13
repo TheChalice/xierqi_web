@@ -211,13 +211,13 @@ angular.module('console.build.detail', [
                 var host = $scope.data.spec.source.git.uri;
                 if (getSourceHost(host) === 'github.com') {
                     WebhookGitget.get({namespace: $rootScope.namespace, build: $stateParams.name}, function (res) {
-                        console.log('666',res);
+                        //console.log('666',res);
                         if (res.code == 1200) {
                             $scope.grid.checked = true;
                         }
 
                     }, function (res) {
-                        console.log('666',res);
+                        //console.log('666',res);
                         if (res.data.code == 1404) {
                             $scope.grid.checked = false;
                         }
