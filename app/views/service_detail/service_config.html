@@ -35,7 +35,7 @@
                             镜像:&nbsp;&nbsp;{{container.image | imageStreamName}}
                         </p>
                         <p style="margin-bottom: 30px;">
-                            Tag:&nbsp;&nbsp;{{container.tag}}
+                            Tag:&nbsp;&nbsp;{{container.tag || "latest"}}
                         </p>
                     </div>
                     <hr>
