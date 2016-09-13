@@ -881,6 +881,23 @@ define(['angular'], function (angular) {
                             version_x: null,
                             version_y: null
                         };
+                        $scope.cansever = false
+                        $scope.$watch('grid', function (n,o) {
+                            if (n == o) {
+                                return
+                            }
+                            console.log(n);
+                            if (n.image||n.image===0) {
+                                if (n.version_x || n.version_x === 0) {
+                                    $scope.cansever = true
+                                }else {
+                                    $scope.cansever = false
+                                }
+
+                            }else {
+                                $scope.cansever = false
+                            }
+                        },true)
                         $scope.test = {
                             'items': []
                         };
