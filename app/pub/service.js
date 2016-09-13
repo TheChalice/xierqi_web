@@ -78,332 +78,332 @@ define(['angular'], function (angular) {
             }
         }]).service('ansi_ups', ['$uibModal', function ($uibModal) {
             //this.open = function (Date) {
-                var ansi_up,
-                    VERSION = "1.3.0",
+            var ansi_up,
+                VERSION = "1.3.0",
 
-                // check for nodeJS
-                    hasModule = (typeof module !== 'undefined'),
+            // check for nodeJS
+                hasModule = (typeof module !== 'undefined'),
 
-                // Normal and then Bright
-                    ANSI_COLORS = [
-                        [
-                            {color: "0, 0, 0", 'class': "ansi-black"},
-                            {color: "187, 0, 0", 'class': "ansi-red"},
-                            {color: "0, 187, 0", 'class': "ansi-green"},
-                            {color: "187, 187, 0", 'class': "ansi-yellow"},
-                            {color: "0, 0, 187", 'class': "ansi-blue"},
-                            {color: "187, 0, 187", 'class': "ansi-magenta"},
-                            {color: "0, 187, 187", 'class': "ansi-cyan"},
-                            {color: "255,255,255", 'class': "ansi-white"}
-                        ],
-                        [
-                            {color: "85, 85, 85", 'class': "ansi-bright-black"},
-                            {color: "255, 85, 85", 'class': "ansi-bright-red"},
-                            {color: "0, 255, 0", 'class': "ansi-bright-green"},
-                            {color: "255, 255, 85", 'class': "ansi-bright-yellow"},
-                            {color: "85, 85, 255", 'class': "ansi-bright-blue"},
-                            {color: "255, 85, 255", 'class': "ansi-bright-magenta"},
-                            {color: "85, 255, 255", 'class': "ansi-bright-cyan"},
-                            {color: "255, 255, 255", 'class': "ansi-bright-white"}
-                        ]
+            // Normal and then Bright
+                ANSI_COLORS = [
+                    [
+                        {color: "0, 0, 0", 'class': "ansi-black"},
+                        {color: "187, 0, 0", 'class': "ansi-red"},
+                        {color: "0, 187, 0", 'class': "ansi-green"},
+                        {color: "187, 187, 0", 'class': "ansi-yellow"},
+                        {color: "0, 0, 187", 'class': "ansi-blue"},
+                        {color: "187, 0, 187", 'class': "ansi-magenta"},
+                        {color: "0, 187, 187", 'class': "ansi-cyan"},
+                        {color: "255,255,255", 'class': "ansi-white"}
                     ],
+                    [
+                        {color: "85, 85, 85", 'class': "ansi-bright-black"},
+                        {color: "255, 85, 85", 'class': "ansi-bright-red"},
+                        {color: "0, 255, 0", 'class': "ansi-bright-green"},
+                        {color: "255, 255, 85", 'class': "ansi-bright-yellow"},
+                        {color: "85, 85, 255", 'class': "ansi-bright-blue"},
+                        {color: "255, 85, 255", 'class': "ansi-bright-magenta"},
+                        {color: "85, 255, 255", 'class': "ansi-bright-cyan"},
+                        {color: "255, 255, 255", 'class': "ansi-bright-white"}
+                    ]
+                ],
 
-                // 256 Colors Palette
-                    PALETTE_COLORS;
+            // 256 Colors Palette
+                PALETTE_COLORS;
 
-                function Ansi_Up() {
-                    this.fg = this.bg = this.fg_truecolor = this.bg_truecolor = null;
-                    this.bright = 0;
+            function Ansi_Up() {
+                this.fg = this.bg = this.fg_truecolor = this.bg_truecolor = null;
+                this.bright = 0;
+            }
+
+            Ansi_Up.prototype.setup_palette = function () {
+                PALETTE_COLORS = [];
+                // Index 0..15 : System color
+                (function () {
+                    var i, j;
+                    for (i = 0; i < 2; ++i) {
+                        for (j = 0; j < 8; ++j) {
+                            PALETTE_COLORS.push(ANSI_COLORS[i][j]['color']);
+                        }
+                    }
+                })();
+
+                // Index 16..231 : RGB 6x6x6
+                // https://gist.github.com/jasonm23/2868981#file-xterm-256color-yaml
+                (function () {
+                    var levels = [0, 95, 135, 175, 215, 255];
+                    var format = function (r, g, b) {
+                        return levels[r] + ', ' + levels[g] + ', ' + levels[b]
+                    };
+                    var r, g, b;
+                    for (r = 0; r < 6; ++r) {
+                        for (g = 0; g < 6; ++g) {
+                            for (b = 0; b < 6; ++b) {
+                                PALETTE_COLORS.push(format.call(this, r, g, b));
+                            }
+                        }
+                    }
+                })();
+
+                // Index 232..255 : Grayscale
+                (function () {
+                    var level = 8;
+                    var format = function (level) {
+                        return level + ', ' + level + ', ' + level
+                    };
+                    var i;
+                    for (i = 0; i < 24; ++i, level += 10) {
+                        PALETTE_COLORS.push(format.call(this, level));
+                    }
+                })();
+            };
+
+            Ansi_Up.prototype.escape_for_html = function (txt) {
+                return txt.replace(/[&<>]/gm, function (str) {
+                    if (str == "&") return "&amp;";
+                    if (str == "<") return "&lt;";
+                    if (str == ">") return "&gt;";
+                });
+            };
+
+            Ansi_Up.prototype.linkify = function (txt) {
+                return txt.replace(/(https?:\/\/[^\s]+)/gm, function (str) {
+                    return "<a href=\"" + str + "\">" + str + "</a>";
+                });
+            };
+
+            Ansi_Up.prototype.ansi_to_html = function (txt, options) {
+                return this.process(txt, options, true);
+            };
+
+            Ansi_Up.prototype.ansi_to_text = function (txt) {
+                var options = {};
+                return this.process(txt, options, false);
+            };
+
+            Ansi_Up.prototype.process = function (txt, options, markup) {
+                var self = this;
+                if (txt) {
+                    var raw_text_chunks = txt.split(/\033\[/);
+                    var first_chunk = raw_text_chunks.shift(); // the first chunk is not the result of the split
+
+                    var color_chunks = raw_text_chunks.map(function (chunk) {
+                        return self.process_chunk(chunk, options, markup);
+                    });
+
+                    color_chunks.unshift(first_chunk);
+
+                    return color_chunks.join('');
                 }
 
-                Ansi_Up.prototype.setup_palette = function () {
-                    PALETTE_COLORS = [];
-                    // Index 0..15 : System color
-                    (function () {
-                        var i, j;
-                        for (i = 0; i < 2; ++i) {
-                            for (j = 0; j < 8; ++j) {
-                                PALETTE_COLORS.push(ANSI_COLORS[i][j]['color']);
-                            }
-                        }
-                    })();
 
-                    // Index 16..231 : RGB 6x6x6
-                    // https://gist.github.com/jasonm23/2868981#file-xterm-256color-yaml
-                    (function () {
-                        var levels = [0, 95, 135, 175, 215, 255];
-                        var format = function (r, g, b) {
-                            return levels[r] + ', ' + levels[g] + ', ' + levels[b]
-                        };
-                        var r, g, b;
-                        for (r = 0; r < 6; ++r) {
-                            for (g = 0; g < 6; ++g) {
-                                for (b = 0; b < 6; ++b) {
-                                    PALETTE_COLORS.push(format.call(this, r, g, b));
-                                }
-                            }
-                        }
-                    })();
+            };
 
-                    // Index 232..255 : Grayscale
-                    (function () {
-                        var level = 8;
-                        var format = function (level) {
-                            return level + ', ' + level + ', ' + level
-                        };
-                        var i;
-                        for (i = 0; i < 24; ++i, level += 10) {
-                            PALETTE_COLORS.push(format.call(this, level));
-                        }
-                    })();
-                };
+            Ansi_Up.prototype.process_chunk = function (text, options, markup) {
 
-                Ansi_Up.prototype.escape_for_html = function (txt) {
-                    return txt.replace(/[&<>]/gm, function (str) {
-                        if (str == "&") return "&amp;";
-                        if (str == "<") return "&lt;";
-                        if (str == ">") return "&gt;";
-                    });
-                };
+                // Are we using classes or styles?
+                options = typeof options == 'undefined' ? {} : options;
+                var use_classes = typeof options.use_classes != 'undefined' && options.use_classes;
+                var key = use_classes ? 'class' : 'color';
 
-                Ansi_Up.prototype.linkify = function (txt) {
-                    return txt.replace(/(https?:\/\/[^\s]+)/gm, function (str) {
-                        return "<a href=\"" + str + "\">" + str + "</a>";
-                    });
-                };
+                // Each 'chunk' is the text after the CSI (ESC + '[') and before the next CSI/EOF.
+                //
+                // This regex matches four groups within a chunk.
+                //
+                // The first and third groups match code type.
+                // We supported only SGR command. It has empty first group and 'm' in third.
+                //
+                // The second group matches all of the number+semicolon command sequences
+                // before the 'm' (or other trailing) character.
+                // These are the graphics or SGR commands.
+                //
+                // The last group is the text (including newlines) that is colored by
+                // the other group's commands.
+                var matches = text.match(/^([!\x3c-\x3f]*)([\d;]*)([\x20-\x2c]*[\x40-\x7e])([\s\S]*)/m);
 
-                Ansi_Up.prototype.ansi_to_html = function (txt, options) {
-                    return this.process(txt, options, true);
-                };
+                if (!matches) return text;
 
-                Ansi_Up.prototype.ansi_to_text = function (txt) {
-                    var options = {};
-                    return this.process(txt, options, false);
-                };
+                var orig_txt = matches[4];
+                var nums = matches[2].split(';');
 
-                Ansi_Up.prototype.process = function (txt, options, markup) {
-                    var self = this;
-                    if (txt) {
-                        var raw_text_chunks = txt.split(/\033\[/);
-                        var first_chunk = raw_text_chunks.shift(); // the first chunk is not the result of the split
+                // We currently support only "SGR" (Select Graphic Rendition)
+                // Simply ignore if not a SGR command.
+                if (matches[1] !== '' || matches[3] !== 'm') {
+                    return orig_txt;
+                }
 
-                        var color_chunks = raw_text_chunks.map(function (chunk) {
-                            return self.process_chunk(chunk, options, markup);
-                        });
+                if (!markup) {
+                    return orig_txt;
+                }
 
-                        color_chunks.unshift(first_chunk);
+                var self = this;
 
-                        return color_chunks.join('');
-                    }
+                while (nums.length > 0) {
+                    var num_str = nums.shift();
+                    var num = parseInt(num_str);
 
-
-                };
-
-                Ansi_Up.prototype.process_chunk = function (text, options, markup) {
-
-                    // Are we using classes or styles?
-                    options = typeof options == 'undefined' ? {} : options;
-                    var use_classes = typeof options.use_classes != 'undefined' && options.use_classes;
-                    var key = use_classes ? 'class' : 'color';
-
-                    // Each 'chunk' is the text after the CSI (ESC + '[') and before the next CSI/EOF.
-                    //
-                    // This regex matches four groups within a chunk.
-                    //
-                    // The first and third groups match code type.
-                    // We supported only SGR command. It has empty first group and 'm' in third.
-                    //
-                    // The second group matches all of the number+semicolon command sequences
-                    // before the 'm' (or other trailing) character.
-                    // These are the graphics or SGR commands.
-                    //
-                    // The last group is the text (including newlines) that is colored by
-                    // the other group's commands.
-                    var matches = text.match(/^([!\x3c-\x3f]*)([\d;]*)([\x20-\x2c]*[\x40-\x7e])([\s\S]*)/m);
-
-                    if (!matches) return text;
-
-                    var orig_txt = matches[4];
-                    var nums = matches[2].split(';');
-
-                    // We currently support only "SGR" (Select Graphic Rendition)
-                    // Simply ignore if not a SGR command.
-                    if (matches[1] !== '' || matches[3] !== 'm') {
-                        return orig_txt;
-                    }
-
-                    if (!markup) {
-                        return orig_txt;
-                    }
-
-                    var self = this;
-
-                    while (nums.length > 0) {
-                        var num_str = nums.shift();
-                        var num = parseInt(num_str);
-
-                        if (isNaN(num) || num === 0) {
-                            self.fg = self.bg = null;
-                            self.bright = 0;
-                        } else if (num === 1) {
-                            self.bright = 1;
-                        } else if (num == 39) {
-                            self.fg = null;
-                        } else if (num == 49) {
-                            self.bg = null;
-                        } else if ((num >= 30) && (num < 38)) {
-                            self.fg = ANSI_COLORS[self.bright][(num % 10)][key];
-                        } else if ((num >= 90) && (num < 98)) {
-                            self.fg = ANSI_COLORS[1][(num % 10)][key];
-                        } else if ((num >= 40) && (num < 48)) {
-                            self.bg = ANSI_COLORS[0][(num % 10)][key];
-                        } else if ((num >= 100) && (num < 108)) {
-                            self.bg = ANSI_COLORS[1][(num % 10)][key];
-                        } else if (num === 38 || num === 48) { // extend color (38=fg, 48=bg)
-                            (function () {
-                                var is_foreground = (num === 38);
-                                if (nums.length >= 1) {
-                                    var mode = nums.shift();
-                                    if (mode === '5' && nums.length >= 1) { // palette color
-                                        var palette_index = parseInt(nums.shift());
-                                        if (palette_index >= 0 && palette_index <= 255) {
-                                            if (!use_classes) {
-                                                if (!PALETTE_COLORS) {
-                                                    self.setup_palette.call(self);
-                                                }
-                                                if (is_foreground) {
-                                                    self.fg = PALETTE_COLORS[palette_index];
-                                                } else {
-                                                    self.bg = PALETTE_COLORS[palette_index];
-                                                }
+                    if (isNaN(num) || num === 0) {
+                        self.fg = self.bg = null;
+                        self.bright = 0;
+                    } else if (num === 1) {
+                        self.bright = 1;
+                    } else if (num == 39) {
+                        self.fg = null;
+                    } else if (num == 49) {
+                        self.bg = null;
+                    } else if ((num >= 30) && (num < 38)) {
+                        self.fg = ANSI_COLORS[self.bright][(num % 10)][key];
+                    } else if ((num >= 90) && (num < 98)) {
+                        self.fg = ANSI_COLORS[1][(num % 10)][key];
+                    } else if ((num >= 40) && (num < 48)) {
+                        self.bg = ANSI_COLORS[0][(num % 10)][key];
+                    } else if ((num >= 100) && (num < 108)) {
+                        self.bg = ANSI_COLORS[1][(num % 10)][key];
+                    } else if (num === 38 || num === 48) { // extend color (38=fg, 48=bg)
+                        (function () {
+                            var is_foreground = (num === 38);
+                            if (nums.length >= 1) {
+                                var mode = nums.shift();
+                                if (mode === '5' && nums.length >= 1) { // palette color
+                                    var palette_index = parseInt(nums.shift());
+                                    if (palette_index >= 0 && palette_index <= 255) {
+                                        if (!use_classes) {
+                                            if (!PALETTE_COLORS) {
+                                                self.setup_palette.call(self);
+                                            }
+                                            if (is_foreground) {
+                                                self.fg = PALETTE_COLORS[palette_index];
                                             } else {
-                                                var klass = (palette_index >= 16)
-                                                    ? ('ansi-palette-' + palette_index)
-                                                    : ANSI_COLORS[palette_index > 7 ? 1 : 0][palette_index % 8]['class'];
-                                                if (is_foreground) {
-                                                    self.fg = klass;
-                                                } else {
-                                                    self.bg = klass;
-                                                }
+                                                self.bg = PALETTE_COLORS[palette_index];
+                                            }
+                                        } else {
+                                            var klass = (palette_index >= 16)
+                                                ? ('ansi-palette-' + palette_index)
+                                                : ANSI_COLORS[palette_index > 7 ? 1 : 0][palette_index % 8]['class'];
+                                            if (is_foreground) {
+                                                self.fg = klass;
+                                            } else {
+                                                self.bg = klass;
                                             }
                                         }
-                                    } else if (mode === '2' && nums.length >= 3) { // true color
-                                        var r = parseInt(nums.shift());
-                                        var g = parseInt(nums.shift());
-                                        var b = parseInt(nums.shift());
-                                        if ((r >= 0 && r <= 255) && (g >= 0 && g <= 255) && (b >= 0 && b <= 255)) {
-                                            var color = r + ', ' + g + ', ' + b;
-                                            if (!use_classes) {
-                                                if (is_foreground) {
-                                                    self.fg = color;
-                                                } else {
-                                                    self.bg = color;
-                                                }
+                                    }
+                                } else if (mode === '2' && nums.length >= 3) { // true color
+                                    var r = parseInt(nums.shift());
+                                    var g = parseInt(nums.shift());
+                                    var b = parseInt(nums.shift());
+                                    if ((r >= 0 && r <= 255) && (g >= 0 && g <= 255) && (b >= 0 && b <= 255)) {
+                                        var color = r + ', ' + g + ', ' + b;
+                                        if (!use_classes) {
+                                            if (is_foreground) {
+                                                self.fg = color;
                                             } else {
-                                                if (is_foreground) {
-                                                    self.fg = 'ansi-truecolor';
-                                                    self.fg_truecolor = color;
-                                                } else {
-                                                    self.bg = 'ansi-truecolor';
-                                                    self.bg_truecolor = color;
-                                                }
+                                                self.bg = color;
+                                            }
+                                        } else {
+                                            if (is_foreground) {
+                                                self.fg = 'ansi-truecolor';
+                                                self.fg_truecolor = color;
+                                            } else {
+                                                self.bg = 'ansi-truecolor';
+                                                self.bg_truecolor = color;
                                             }
                                         }
                                     }
                                 }
-                            })();
-                        }
+                            }
+                        })();
                     }
+                }
 
-                    if ((self.fg === null) && (self.bg === null)) {
-                        return orig_txt;
-                    } else {
-                        var styles = [];
-                        var classes = [];
-                        var data = {};
-                        var render_data = function (data) {
-                            var fragments = [];
-                            var key;
-                            for (key in data) {
-                                if (data.hasOwnProperty(key)) {
-                                    fragments.push('data-' + key + '="' + this.escape_for_html(data[key]) + '"');
-                                }
-                            }
-                            return fragments.length > 0 ? ' ' + fragments.join(' ') : '';
-                        };
-
-                        if (self.fg) {
-                            if (use_classes) {
-                                classes.push(self.fg + "-fg");
-                                if (self.fg_truecolor !== null) {
-                                    data['ansi-truecolor-fg'] = self.fg_truecolor;
-                                    self.fg_truecolor = null;
-                                }
-                            } else {
-                                styles.push("color:rgb(" + self.fg + ")");
+                if ((self.fg === null) && (self.bg === null)) {
+                    return orig_txt;
+                } else {
+                    var styles = [];
+                    var classes = [];
+                    var data = {};
+                    var render_data = function (data) {
+                        var fragments = [];
+                        var key;
+                        for (key in data) {
+                            if (data.hasOwnProperty(key)) {
+                                fragments.push('data-' + key + '="' + this.escape_for_html(data[key]) + '"');
                             }
                         }
-                        if (self.bg) {
-                            if (use_classes) {
-                                classes.push(self.bg + "-bg");
-                                if (self.bg_truecolor !== null) {
-                                    data['ansi-truecolor-bg'] = self.bg_truecolor;
-                                    self.bg_truecolor = null;
-                                }
-                            } else {
-                                styles.push("background-color:rgb(" + self.bg + ")");
-                            }
-                        }
+                        return fragments.length > 0 ? ' ' + fragments.join(' ') : '';
+                    };
+
+                    if (self.fg) {
                         if (use_classes) {
-                            return '<span class="' + classes.join(' ') + '"' + render_data.call(self, data) + '>' + orig_txt + '</span>';
+                            classes.push(self.fg + "-fg");
+                            if (self.fg_truecolor !== null) {
+                                data['ansi-truecolor-fg'] = self.fg_truecolor;
+                                self.fg_truecolor = null;
+                            }
                         } else {
-                            return '<span style="' + styles.join(';') + '"' + render_data.call(self, data) + '>' + orig_txt + '</span>';
+                            styles.push("color:rgb(" + self.fg + ")");
                         }
                     }
-                };
-
-                // Module exports
-                //ansi_up = {
-
-                this.escape_for_html = function (txt) {
-                    var a2h = new Ansi_Up();
-                    return a2h.escape_for_html(txt);
-                };
-
-                    this.linkify = function (txt) {
-                        var a2h = new Ansi_Up();
-                        return a2h.linkify(txt);
-                    };
-
-                    this.ansi_to_html = function (txt, options) {
-                        var a2h = new Ansi_Up();
-                        return a2h.ansi_to_html(txt, options);
-                    };
-
-                    this.ansi_to_text = function (txt) {
-                        var a2h = new Ansi_Up();
-                        return a2h.ansi_to_text(txt);
-                    };
-
-                    this.ansi_to_html_obj = function () {
-                        return new Ansi_Up();
+                    if (self.bg) {
+                        if (use_classes) {
+                            classes.push(self.bg + "-bg");
+                            if (self.bg_truecolor !== null) {
+                                data['ansi-truecolor-bg'] = self.bg_truecolor;
+                                self.bg_truecolor = null;
+                            }
+                        } else {
+                            styles.push("background-color:rgb(" + self.bg + ")");
+                        }
                     }
-                //};
+                    if (use_classes) {
+                        return '<span class="' + classes.join(' ') + '"' + render_data.call(self, data) + '>' + orig_txt + '</span>';
+                    } else {
+                        return '<span style="' + styles.join(';') + '"' + render_data.call(self, data) + '>' + orig_txt + '</span>';
+                    }
+                }
+            };
 
-                // CommonJS module is defined
-                if (hasModule) {
+            // Module exports
+            //ansi_up = {
+
+            this.escape_for_html = function (txt) {
+                var a2h = new Ansi_Up();
+                return a2h.escape_for_html(txt);
+            };
+
+            this.linkify = function (txt) {
+                var a2h = new Ansi_Up();
+                return a2h.linkify(txt);
+            };
+
+            this.ansi_to_html = function (txt, options) {
+                var a2h = new Ansi_Up();
+                return a2h.ansi_to_html(txt, options);
+            };
+
+            this.ansi_to_text = function (txt) {
+                var a2h = new Ansi_Up();
+                return a2h.ansi_to_text(txt);
+            };
+
+            this.ansi_to_html_obj = function () {
+                return new Ansi_Up();
+            }
+            //};
+
+            // CommonJS module is defined
+            if (hasModule) {
+                return ansi_up;
+            }
+            /*global ender:false */
+            if (typeof window !== 'undefined' && typeof ender === 'undefined') {
+                window.ansi_up = ansi_up;
+            }
+            /*global define:false */
+            if (typeof define === "function" && define.amd) {
+                define("ansi_up", [], function () {
                     return ansi_up;
-                }
-                /*global ender:false */
-                if (typeof window !== 'undefined' && typeof ender === 'undefined') {
-                    window.ansi_up = ansi_up;
-                }
-                /*global define:false */
-                if (typeof define === "function" && define.amd) {
-                    define("ansi_up", [], function () {
-                        return ansi_up;
-                    });
-                }
+                });
+            }
 
             //}
         }])
@@ -412,65 +412,65 @@ define(['angular'], function (angular) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/addmodal.html',
                     size: 'default',
-                    controller: ['$state','$rootScope', '$scope', '$uibModalInstance', 'loadOrg', '$http',
-                        function ($state,$rootScope, $scope, $uibModalInstance, loadOrg, $http) {
-                        $scope.title = title;
-                        $scope.txt = txt;
-                        $scope.tip = tip;
-                        $scope.orgName = null;
-                        $scope.ok = function () {
-                            if (isaddpeople == 'people') {
-                                if (!$scope.orgName) {
-                                    $scope.tip = '邮箱不能为空';
-                                    return;
+                    controller: ['$state', '$rootScope', '$scope', '$uibModalInstance', 'loadOrg', '$http',
+                        function ($state, $rootScope, $scope, $uibModalInstance, loadOrg, $http) {
+                            $scope.title = title;
+                            $scope.txt = txt;
+                            $scope.tip = tip;
+                            $scope.orgName = null;
+                            $scope.ok = function () {
+                                if (isaddpeople == 'people') {
+                                    if (!$scope.orgName) {
+                                        $scope.tip = '邮箱不能为空';
+                                        return;
+                                    } else {
+                                        $http.put('/lapi/orgs/' + orgId + '/invite', {
+                                            member_name: $scope.orgName,
+                                            privileged: false
+                                        }).success(function (item) {
+                                            $uibModalInstance.close(item);
+                                        }).error(function (res) {
+                                            $scope.tip = errcode.open(res.code)
+                                            //if(res.code >= 500){
+                                            //  $scope.tip = '内部错误，请通过DaoVoice联系管理员';
+                                            //}else{
+                                            //  $scope.tip = res.message;
+                                            //}
+
+                                        })
+                                    }
+                                } else if (isaddpeople == 'org') {
+                                    if (!$scope.orgName) {
+                                        $scope.tip = '名称不能为空';
+                                        return;
+                                    } else {
+                                        $http.post('/lapi/orgs', {
+                                            name: $scope.orgName
+                                        }).success(function (item) {
+                                            //$state.go()
+                                            $state.go('console.org', {useorg: item.id})
+                                            $uibModalInstance.close(item);
+
+                                            $rootScope.delOrgs = true;
+                                        }).error(function (res) {
+                                            console.log(res);
+                                            $scope.tip = errcode.open(res.code)
+                                            //if(res.code >= 500){
+                                            //  $scope.tip = '内部错误，请通过DaoVoice联系管理员';
+                                            //}else{
+                                            //  $scope.tip = res.message;
+                                            //}
+                                        })
+                                    }
                                 } else {
-                                    $http.put('/lapi/orgs/' + orgId + '/invite', {
-                                        member_name: $scope.orgName,
-                                        privileged: false
-                                    }).success(function (item) {
-                                        $uibModalInstance.close(item);
-                                    }).error(function (res) {
-                                        $scope.tip = errcode.open(res.code)
-                                        //if(res.code >= 500){
-                                        //  $scope.tip = '内部错误，请通过DaoVoice联系管理员';
-                                        //}else{
-                                        //  $scope.tip = res.message;
-                                        //}
-
-                                    })
+                                    $uibModalInstance.close($scope.orgName);
                                 }
-                            } else if (isaddpeople == 'org') {
-                                if (!$scope.orgName) {
-                                    $scope.tip = '名称不能为空';
-                                    return;
-                                } else {
-                                    $http.post('/lapi/orgs', {
-                                        name: $scope.orgName
-                                    }).success(function (item) {
-                                        //$state.go()
-                                        $state.go('console.org', {useorg:item.id})
-                                        $uibModalInstance.close(item);
 
-                                        $rootScope.delOrgs = true;
-                                    }).error(function (res) {
-                                        console.log(res);
-                                        $scope.tip = errcode.open(res.code)
-                                        //if(res.code >= 500){
-                                        //  $scope.tip = '内部错误，请通过DaoVoice联系管理员';
-                                        //}else{
-                                        //  $scope.tip = res.message;
-                                        //}
-                                    })
-                                }
-                            } else {
-                                $uibModalInstance.close($scope.orgName);
-                            }
-
-                        };
-                        $scope.cancel = function () {
-                            $uibModalInstance.dismiss();
-                        };
-                    }]
+                            };
+                            $scope.cancel = function () {
+                                $uibModalInstance.dismiss();
+                            };
+                        }]
                 }).result;
             };
         }])
@@ -500,7 +500,7 @@ define(['angular'], function (angular) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/simpleAlert.html',
                     size: 'default',
-                    controller: ['$scope', '$uibModalInstance','$sce', function ($scope, $uibModalInstance,$sce) {
+                    controller: ['$scope', '$uibModalInstance', '$sce', function ($scope, $uibModalInstance, $sce) {
                         $scope.title = title;
                         $scope.txt = $sce.trustAsHtml(txt);
                         $scope.ok = function () {
@@ -520,7 +520,7 @@ define(['angular'], function (angular) {
                     size: 'default modal-lg',
                     controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
                         $scope.diploma = obj;
-                        console.log($scope.diploma,obj);
+                        console.log($scope.diploma, obj);
                         //$scope.err = err;
                         //$scope.classify = regist;
                         //$scope.activation = active;
@@ -552,7 +552,7 @@ define(['angular'], function (angular) {
         .service('ChooseSecret', ['$uibModal', function ($uibModal) {
             this.open = function (olength, secretsobj) {
                 return $uibModal.open({
-                    backdrop:'static',
+                    backdrop: 'static',
                     templateUrl: 'pub/tpl/choosSecret.html',
                     size: 'default',
                     controller: ['by', '$scope', '$uibModalInstance', '$log', 'secretskey', '$rootScope', 'configmaps', 'persistent', '$state',
@@ -842,14 +842,14 @@ define(['angular'], function (angular) {
                         //
                         //} else {
 
-                        var names=name
+                        var names = name
                         //}
-                        if (yuorself=='project') {
+                        if (yuorself == 'project') {
                             $scope.name = name;
-                            $scope.cmd = 'docker pull registry.dataos.io/'+ $rootScope.namespace+'/'+ $scope.name;
-                        }else {
+                            $scope.cmd = 'docker pull registry.dataos.io/' + $rootScope.namespace + '/' + $scope.name;
+                        } else {
                             $scope.name = names.split('/')[1];
-                            $scope.cmd = 'docker pull registry.dataos.io/' +name;
+                            $scope.cmd = 'docker pull registry.dataos.io/' + name;
                         }
 
                         $scope.cancel = function () {
@@ -870,7 +870,7 @@ define(['angular'], function (angular) {
         .service('ImageSelect', ['$uibModal', function ($uibModal) {
             this.open = function () {
                 return $uibModal.open({
-                    backdrop:'static',
+                    backdrop: 'static',
                     templateUrl: 'pub/tpl/modal_choose_image.html',
                     size: 'default modal-lg',
                     controller: ['$rootScope', '$scope', '$uibModalInstance', 'images', 'ImageStreamTag', 'ImageStream', '$http', 'platformlist', function ($rootScope, $scope, $uibModalInstance, images, ImageStreamTag, ImageStream, $http, platformlist) {
@@ -881,6 +881,23 @@ define(['angular'], function (angular) {
                             version_x: null,
                             version_y: null
                         };
+                        $scope.cansever = false
+                        $scope.$watch('grid', function (n,o) {
+                            if (n == o) {
+                                return
+                            }
+                            console.log(n);
+                            if (n.image||n.image===0) {
+                                if (n.version_x || n.version_x === 0) {
+                                    $scope.cansever = true
+                                }else {
+                                    $scope.cansever = false
+                                }
+
+                            }else {
+                                $scope.cansever = false
+                            }
+                        },true)
                         $scope.test = {
                             'items': []
                         };
@@ -1146,6 +1163,26 @@ define(['angular'], function (angular) {
                 return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
             };
         }])
+        .service('randomWord', [function () {
+
+            this.word = function (randomFlag, min, max) {
+                var str = "",
+                    range = min,
+                    arr = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+
+                // 随机产生
+                if (randomFlag) {
+                    range = Math.round(Math.random() * (max - min)) + min;
+                }
+                for (var i = 0; i < range; i++) {
+                    var pos = Math.round(Math.random() * (arr.length - 1));
+                    str += arr[pos];
+                }
+                return str;
+            }
+
+
+        }])
         .service('Cookie', [function () {
             this.set = function (key, val, expires) {
                 var date = new Date();
@@ -1281,9 +1318,9 @@ define(['angular'], function (angular) {
         .service('AuthService', ['$timeout', '$q', 'orgList', '$rootScope', '$http', '$base64', 'Cookie', '$state', '$log', 'Project', 'GLOBAL', 'Alert', 'User',
             function ($timeout, $q, orgList, $rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User) {
 
-                this.login = function (credentials,stateParams) {
-                    console.log("login",credentials);
-                    console.log("login",stateParams);
+                this.login = function (credentials, stateParams) {
+                    console.log("login", credentials);
+                    console.log("login", stateParams);
                     localStorage.setItem('Auth', $base64.encode(credentials.username + ':' + credentials.password))
                     $rootScope.loding = true;
                     var deferred = $q.defer();
@@ -1333,17 +1370,17 @@ define(['angular'], function (angular) {
                                 //localStorage.setItem('cade',null)
                                 localStorage.setItem("code", 1);
                                 $rootScope.loginyanzheng = false;
-                                if(stateParams){
-                                    if(stateParams.type == 'saas'){
-                                        $state.go('console.create_saas',{name:stateParams.name});
-                                    }else if(stateParams.type == 'image'){
-                                        $state.go('console.service_create',{image:stateParams.name});
-                                    }else if(stateParams.type == 'bkservice'){
-                                        $state.go('console.apply_instance',{name:stateParams.name});
-                                    }else{
+                                if (stateParams) {
+                                    if (stateParams.type == 'saas') {
+                                        $state.go('console.create_saas', {name: stateParams.name});
+                                    } else if (stateParams.type == 'image') {
+                                        $state.go('console.service_create', {image: stateParams.name});
+                                    } else if (stateParams.type == 'bkservice') {
+                                        $state.go('console.apply_instance', {name: stateParams.name});
+                                    } else {
                                         //  TODO 查看收藏功能
                                     }
-                                }else{
+                                } else {
                                     $state.go('console.dashboard');
                                 }
 
@@ -1380,15 +1417,15 @@ define(['angular'], function (angular) {
                                 var codenum = localStorage.getItem("code");
                                 console.log(codenum);
                                 if (codenum) {
-                                    codenum=parseInt(codenum);
-                                    codenum+=1
-                                    localStorage.setItem('code',codenum);
-                                    if(codenum > 3 ){
+                                    codenum = parseInt(codenum);
+                                    codenum += 1
+                                    localStorage.setItem('code', codenum);
+                                    if (codenum > 3) {
                                         $rootScope.loginyanzheng = true;
                                     }
 
-                                }else {
-                                    localStorage.setItem('code',1)
+                                } else {
+                                    localStorage.setItem('code', 1)
                                 }
 
 

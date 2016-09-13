@@ -804,7 +804,7 @@ angular.module('console.service.detail', [
                     if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
                         return;
                     }
-                    watchRcs($scope.resourceVersion);
+                    //watchRcs($scope.resourceVersion);
                 });
             };
             //执行log
@@ -905,7 +905,7 @@ angular.module('console.service.detail', [
                         //TODO直接刷新rc会导致页面重新渲染
                         // if (!$scope.test) {
                         //console.log('data.object.metadata.name',data)
-                        loadRcs($scope.dc.metadata.name, $scope.baocuname);
+                        //loadRcs($scope.dc.metadata.name, $scope.baocuname);
 
                         // }
                         //暂定处理
@@ -924,34 +924,34 @@ angular.module('console.service.detail', [
                         data.object.metadata.annotations['openshift.io/deployment.phase'] = 'Cancelled';
                     }
                 })
-                DeploymentConfig.log.get({
-                    namespace: $rootScope.namespace,
-                    name: $scope.dc.metadata.name
-                }, function (res) {
-                    $rootScope.lding = false;
-                    var result = "";
-                    for (var k in res) {
-                        if (/^\d+$/.test(k)) {
-                            result += res[k];
-                        }
-                    }
-                    if (result == '') {
-                        result = $scope.test
-                    } else {
-                        $scope.test = result
-                    }
-                    loglast()
-                    if (data.object.log) {
-                        data.object.log = result;
-
-                    }
-                }, function (res) {
-                    //todo 错误处理
-                    if (res.data) {
-                        data.object.log = res.data.message;
-                    }
-
-                });
+                //DeploymentConfig.log.get({
+                //    namespace: $rootScope.namespace,
+                //    name: $scope.dc.metadata.name
+                //}, function (res) {
+                //    $rootScope.lding = false;
+                //    var result = "";
+                //    for (var k in res) {
+                //        if (/^\d+$/.test(k)) {
+                //            result += res[k];
+                //        }
+                //    }
+                //    if (result == '') {
+                //        result = $scope.test
+                //    } else {
+                //        $scope.test = result
+                //    }
+                //    loglast()
+                //    if (data.object.log) {
+                //        data.object.log = result;
+                //
+                //    }
+                //}, function (res) {
+                //    //todo 错误处理
+                //    if (res.data) {
+                //        data.object.log = res.data.message;
+                //    }
+                //
+                //});
 
                 if (data.type == 'ADDED') {
                     $rootScope.lding = false;

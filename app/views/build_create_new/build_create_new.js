@@ -5,8 +5,8 @@ angular.module('console.build_create_new', [
         ]
     }
 ])
-    .controller ('BuildcCtrl', ['$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch','labOwner','psgitlab','laborgs','labBranch','ImageStream', 'BuildConfig', 'Alert','$http','Cookie','$base64', 'secretskey',
-        function($rootScope, $scope, $state, $log, Owner, Org, Branch,labOwner,psgitlab,laborgs,labBranch,ImageStream, BuildConfig, Alert, $http, Cookie, $base64, secretskey) {
+    .controller ('BuildcCtrl', ['randomWord','$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch','labOwner','psgitlab','laborgs','labBranch','ImageStream', 'BuildConfig', 'Alert','$http','Cookie','$base64', 'secretskey',
+        function(randomWord,$rootScope, $scope, $state, $log, Owner, Org, Branch,labOwner,psgitlab,laborgs,labBranch,ImageStream, BuildConfig, Alert, $http, Cookie, $base64, secretskey) {
         $scope.running = false;
 
         $scope.runninghub = false;
@@ -18,7 +18,19 @@ angular.module('console.build_create_new', [
                 },
             },
             spec: {
-                triggers: [],
+                triggers: [
+                    {
+                        type: "GitHub",
+                        github: {
+                            secret:randomWord.word(false,25)
+                        }
+                    }, {
+                        type: "Generic",
+                        generic: {
+                            secret: randomWord.word(false,20)
+                        }
+                    }
+                ],
                 source: {
                     type: 'Git',
                     git: {
@@ -48,6 +60,7 @@ angular.module('console.build_create_new', [
         $scope.dianbl=true;
 
         // 实时监听按钮点亮
+
         var r = /^[a-z][-a-z0-9]*[a-z0-9]$/i;
 
         var timer = setInterval(function () {
@@ -67,7 +80,8 @@ angular.module('console.build_create_new', [
       },20);
 
         $scope.completionDeadlineMinutes = 30;
-           $scope.$watch('buildConfig.metadata.name', function (n,o) {
+
+        $scope.$watch('buildConfig.metadata.name', function (n,o) {
                if (n == o) {
                    return
                }
@@ -81,6 +95,7 @@ angular.module('console.build_create_new', [
                    }
                }
            })
+
         var thisindex = 0;
 
         var createBC = function(){
@@ -103,18 +118,20 @@ angular.module('console.build_create_new', [
                     }
                 });
         }
-
+            //console.log('随机数',randomWord.word(false,25).length,randomWord.word(false,25));
         var createBuildConfig = function(labsecret) {
             if($scope.grid.ishide == false) {
                 $scope.buildConfig.spec.completionDeadlineSeconds = $scope.completionDeadlineMinutes * 60;
                 $scope.buildConfig.spec.source.git.ref = $scope.branch[$scope.grid.branch].name;
                 $scope.buildConfig.spec.source.sourceSecret.name = $scope.owner.secret;
+
                 $scope.buildConfig.spec.source.git.uri = $scope.usernames[$scope.grid.user].repos[$scope.grid.project].clone_url;
                 $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ":" + $scope.branch[$scope.grid.branch].name;
                 $scope.buildConfig.metadata.annotations.repo = $scope.usernames[$scope.grid.user].repos[$scope.grid.project].name;
                 $scope.buildConfig.metadata.annotations.user =  $scope.usernames[$scope.grid.user].login;
                 createBC();
             }else if($scope.grid.labcon == true){
+
                 $scope.buildConfig.spec.completionDeadlineSeconds = $scope.completionDeadlineMinutes * 60;
                 $scope.buildConfig.spec.source.git.ref = $scope.labBranchData.msg[$scope.grid.labbranch].name;
                 $scope.buildConfig.spec.source.sourceSecret.name = labsecret;
