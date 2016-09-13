@@ -393,7 +393,7 @@ angular.module('console.image', [
                                 item.status.tags[k].sorttime = (new Date(tag.items[0].created)).getTime()
                             })
                             datalist.items[i].status.tags.sort(function (x, y) {
-                                return x.sorttime > y.sorttime ? -1 : 1;
+                                return x.sorttime > y.sorttime ? 1 : -1;
                             })
                             //console.log(item.metadata.name, item.status.tags[0].tag);
                             datalist.items[i].status.tags[0].port=[]
