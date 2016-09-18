@@ -30,7 +30,9 @@ angular.module('console.service.detail', [
                 isimageChange: true,
                 imagePullSecrets: false
             };
+
             $scope.portsArr=[];
+
             function readSingleFile(e, name) {
                 //alert(1111)
                 var thisfilename = document.getElementById(name).value;
@@ -693,7 +695,7 @@ angular.module('console.service.detail', [
                         var arr = []
                         angular.forEach(res.items, function (event, i) {
                             if (event.involvedObject.kind !== 'BackingServiceInstance') {
-                                if ($scope.dc && event.involvedObject.name.split('-')[0] == $scope.dc.metadata.name) {
+                                if ($scope.dc && event.involvedObject.name.split('-')[0] == $scope.dc.metadata.name&&event.involvedObject.name.split('-')[2]!='build') {
                                     //res.items.splice(i, 1);
                                     arr.push(event)
                                     //$scope.$apply()
@@ -709,10 +711,10 @@ angular.module('console.service.detail', [
                                     return x.mysort > y.mysort ? -1 : 1;
                                 });
                         $scope.eventsws.items =arr;
-                        //sortevent($scope.eventsws.items);
+
                     }
 
-                    //$log.info("events", res);
+
                     $scope.resource = res.metadata.resourceVersion;
                     watchevent(res.metadata.resourceVersion);
                 }, function (res) {
@@ -1841,41 +1843,44 @@ angular.module('console.service.detail', [
             };
 
             var bindService = function (dc) {
-                angular.forEach($scope.bsi.items, function (bsi) {
-                    var bindObj = {
-                        metadata: {
-                            name: bsi.metadata.name,
-                            annotations: {
-                                "dadafoundry.io/create-by": $rootScope.user.metadata.name
-                            }
-                        },
-                        resourceName: dc.metadata.name,
-                        bindResourceVersion: '',
-                        bindKind: 'DeploymentConfig'
-                    };
+                if ($scope.bsi) {
+                    angular.forEach($scope.bsi.items, function (bsi) {
+                        var bindObj = {
+                            metadata: {
+                                name: bsi.metadata.name,
+                                annotations: {
+                                    "dadafoundry.io/create-by": $rootScope.user.metadata.name
+                                }
+                            },
+                            resourceName: dc.metadata.name,
+                            bindResourceVersion: '',
+                            bindKind: 'DeploymentConfig'
+                        };
 
-                    if (isBind(bsi, dc) && !bsi.bind) {  //绑定设置为不绑定
-                        BackingServiceInstance.bind.put({
-                            namespace: $rootScope.namespace,
-                            name: bsi.metadata.name
-                        }, bindObj, function (res) {
-                            // $log.info("unbind service success", res);
-                        }, function (res) {
-                            // $log.info("unbind service fail", res);
-                        });
-                    }
+                        if (isBind(bsi, dc) && !bsi.bind) {  //绑定设置为不绑定
+                            BackingServiceInstance.bind.put({
+                                namespace: $rootScope.namespace,
+                                name: bsi.metadata.name
+                            }, bindObj, function (res) {
+                                // $log.info("unbind service success", res);
+                            }, function (res) {
+                                // $log.info("unbind service fail", res);
+                            });
+                        }
 
-                    if (!isBind(bsi, dc) && bsi.bind) {  //未绑定设置为绑定
-                        BackingServiceInstance.bind.create({
-                            namespace: $rootScope.namespace,
-                            name: bsi.metadata.name
-                        }, bindObj, function (res) {
-                            // $log.info("bind service success", res);
-                        }, function (res) {
-                            // $log.info("bind service fail", res);
-                        });
-                    }
-                });
+                        if (!isBind(bsi, dc) && bsi.bind) {  //未绑定设置为绑定
+                            BackingServiceInstance.bind.create({
+                                namespace: $rootScope.namespace,
+                                name: bsi.metadata.name
+                            }, bindObj, function (res) {
+                                // $log.info("bind service success", res);
+                            }, function (res) {
+                                // $log.info("bind service fail", res);
+                            });
+                        }
+                    });
+                }
+
             };
 
             var updateService = function (dc) {
