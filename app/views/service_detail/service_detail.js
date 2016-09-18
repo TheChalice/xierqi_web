@@ -319,8 +319,8 @@ angular.module('console.service.detail', [
                         var imagetag = 'dadafoundry.io/image-' + item.name;
                         if (copyannotations && copyannotations[imagetag]) {
                             var tagarr = copyannotations[imagetag].split(":")
-                            $scope.dc.spec.template.spec.containers[i].tag = tagarr[1];
-                            $scope.dc.spec.template.spec.containers[i].imagename = tagarr[0];
+                            item.tag = tagarr[1];
+                            item.imagename = tagarr[0];
                         } else {
                         var coni = item.image;
                         if(coni.indexOf('@') != -1){
@@ -343,7 +343,6 @@ angular.module('console.service.detail', [
 
 
                     });
-
                     for (var i = 0; i < $scope.dc.spec.template.spec.containers.length; i++) {
                         if ($scope.dc.spec.triggers) {
                             for (var j = 0; j < $scope.dc.spec.triggers.length; j++) {
