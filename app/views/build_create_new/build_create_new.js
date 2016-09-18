@@ -136,9 +136,9 @@ angular.module('console.build_create_new', [
                 $scope.buildConfig.spec.source.git.ref = $scope.labBranchData.msg[$scope.grid.labbranch].name;
                 $scope.buildConfig.spec.source.sourceSecret.name = labsecret;
                 //console.log($scope.labusername,$scope.grid.labusers);
-                $scope.buildConfig.spec.source.git.uri = $scope.labusername[$scope.grid.labusers].repos[$scope.grid.labproject].ssh_url_to_repo;
+                $scope.buildConfig.spec.source.git.uri = $scope.labobjs[$scope.grid.labproject].ssh_url_to_repo;
                 $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ":" + $scope.labBranchData.msg[$scope.grid.labbranch].name;
-                $scope.buildConfig.metadata.annotations.repo = $scope.labusername[$scope.grid.labusers].repos[$scope.grid.labproject].id.toString();
+                $scope.buildConfig.metadata.annotations.repo = $scope.labobjs[$scope.grid.labproject].id.toString();
                 createBC();
             }else if($scope.grid.ishide == true && $scope.grid.labcon == false){
 
@@ -629,7 +629,7 @@ angular.module('console.build_create_new', [
         };
 
         $scope.selectLabProject = function(idx, chooose){
-            //console.log('_+_+_+_+_+_+_+', $scope.labobjs[idx]);
+            console.log('_+_+_+_+_+_+_+', $scope.labobjs[idx]);
             var labId = $scope.labobjs[idx].id;
             labBranch.get({repo:labId},function(data) {
                 if ($scope.choooseProject && $scope.grid.labproject == idx) {
