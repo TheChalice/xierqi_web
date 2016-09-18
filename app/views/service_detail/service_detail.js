@@ -353,8 +353,14 @@ angular.module('console.service.detail', [
                                         $scope.dc.spec.template.spec.containers[i].isimageChange = true;
                                         $scope.dc.spec.template.spec.containers[i].isshow = true;
                                     }
+                                }else {
+                                    $scope.dc.spec.template.spec.containers[i].isimageChange = false;
+                                    $scope.dc.spec.template.spec.containers[i].isshow = true;
                                 }
                             }
+                        }else{
+                            $scope.dc.spec.template.spec.containers[i].isimageChange = false;
+                            $scope.dc.spec.template.spec.containers[i].isshow = true;
                         }
                     }
                     if (copyannotations["dadafoundry.io/imageorpublic"]) {
@@ -775,7 +781,8 @@ angular.module('console.service.detail', [
                     }
 
                 } else if (data.type == "MODIFIED") {
-                    if (data.object.involvedObject.name.split('-')[0] == $scope.dc.metadata.name) {
+
+                    if ($scope.dc && data.object.involvedObject.name.split('-')[0] == $scope.dc.metadata.name) {
                         data.object.mysort = -(new Date(data.object.metadata.creationTimestamp)).getTime()
                         $scope.eventsws.items.push(data.object);
                         //$scope.eventsws.items=sortevent($scope.eventsws.items)
