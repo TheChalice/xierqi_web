@@ -270,7 +270,7 @@ angular.module('console.build.detail', [
                             build: $stateParams.name,
                             user: $scope.data.metadata.annotations.user,
                             repo: $scope.data.metadata.annotations.repo,
-                            spec: {events: ['push', 'pull_request', 'status'], config: {url: config}}
+                            spec: {"active":true,events: ['push', 'pull_request', 'status'], config: {url: config}}
                         }, function (item) {
                         });
                     } else {
