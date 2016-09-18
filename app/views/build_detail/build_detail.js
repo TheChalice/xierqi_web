@@ -109,7 +109,28 @@ angular.module('console.build.detail', [
                         }
                         removeIs($scope.data.metadata.name);
                         removeBuilds($scope.data.metadata.name);
+                        var host = $scope.data.spec.source.git.uri;
+                        if (!$scope.grid.checked) {
+                            if (getSourceHost(host) === 'github.com') {
+                                WebhookHubDel.del({
+                                    namespace: $rootScope.namespace,
+                                    build: $stateParams.name,
+                                    user: $scope.data.metadata.annotations.user,
+                                    repo: $scope.data.metadata.annotations.repo
+                                }, function (item1) {
 
+                                })
+                            } else {
+                                WebhookLabDel.del({
+                                    host: 'https://code.dataos.io',
+                                    namespace: $rootScope.namespace,
+                                    build: $stateParams.name,
+                                    repo: $scope.data.metadata.annotations.repo
+                                }, function (data2) {
+
+                                });
+                            }
+                        }
                         $state.go("console.build");
                     }, function (res) {
                         //todo 错误处理
@@ -270,7 +291,7 @@ angular.module('console.build.detail', [
                             build: $stateParams.name,
                             user: $scope.data.metadata.annotations.user,
                             repo: $scope.data.metadata.annotations.repo,
-                            spec: {events: ['push', 'pull_request', 'status'], config: {url: config}}
+                            spec: {"active":true,events: ['push', 'pull_request', 'status'], config: {url: config}}
                         }, function (item) {
                         });
                     } else {
@@ -307,6 +328,7 @@ angular.module('console.build.detail', [
                             build: $stateParams.name,
                             repo: $scope.data.metadata.annotations.repo
                         }, function (data2) {
+
                         });
                     }
                 }
