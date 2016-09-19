@@ -614,7 +614,7 @@ angular.module('console.service.detail', [
                     if ($stateParams.from == "create" && $scope.rcs.items && $scope.rcs.items[0]) {
                         //$scope.databuild.items[0].showLog = true;
                         $scope.rcs.items[0].showLog = true;
-                        $rootScope.lding = false;
+                        //$rootScope.lding = false;
                     }
 
                     watchRcs(res.metadata.resourceVersion);
@@ -965,7 +965,7 @@ angular.module('console.service.detail', [
                 //});
 
                 if (data.type == 'ADDED') {
-                    $rootScope.lding = false;
+                    //$rootScope.lding = false;
                     data.object.showLog = true;
                     if ($scope.rcs.items.length > 0) {
                         $scope.rcs.items.unshift(data.object);
@@ -2133,7 +2133,7 @@ angular.module('console.service.detail', [
                     $scope.portsArr[q].conflict = false;
                     $scope.portsArr[q].serviceConflict = false;
                 }
-                $rootScope.lding = true;
+                //$rootScope.lding = true;
                 $scope.arrimgstr = [];
                 $scope.dc.metadata.annotations["dadafoundry.io/imageorisshow"] = $scope.arrisshow.join();
                 var dc = angular.copy($scope.dc);

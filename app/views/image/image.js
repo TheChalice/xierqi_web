@@ -383,29 +383,32 @@ angular.module('console.image', [
             // 我的镜像
             $http.get('/oapi/v1/namespaces/' + $rootScope.namespace + '/imagestreams')
                 .success(function (datalist) {
-                    //console.log('$scope.testlist', datalist.items);
+
                     //$scope.testlist = datalist.items;
 
                     angular.forEach(datalist.items, function (item, i) {
 
                         if (item.status.tags && item.status.tags.length > 0) {
                             angular.forEach(item.status.tags, function (tag, k) {
-                                item.status.tags[k].sorttime = (new Date(tag.items[0].created)).getTime()
+                                if (tag.tag.split('-')[1]) {
+                                    datalist.items[i].status.tags.splice(k, 1)
+                                }
                             })
-                            datalist.items[i].status.tags.sort(function (x, y) {
-                                return x.sorttime > y.sorttime ? 1 : -1;
-                            })
+
                             //console.log(item.metadata.name, item.status.tags[0].tag);
-                            datalist.items[i].status.tags[0].port=[]
-                            ImageStreamTag.get({namespace: $rootScope.namespace, name: item.metadata.name+':'+item.status.tags[0].tag}, function (data) {
+                            datalist.items[i].status.tags[0].port = []
+                            ImageStreamTag.get({
+                                namespace: $rootScope.namespace,
+                                name: item.metadata.name + ':' + item.status.tags[0].tag
+                            }, function (data) {
                                 //console.log(data);
-                                angular.forEach(data.image.dockerImageMetadata.ContainerConfig.ExposedPorts, function (port,k) {
+                                angular.forEach(data.image.dockerImageMetadata.ContainerConfig.ExposedPorts, function (port, k) {
 
                                     datalist.items[i].status.tags[0].port.push(k);
                                 })
                                 //console.log(datalist.items[i].status.tags[0]);
                                 $scope.testlist = datalist.items;
-
+                                console.log('datalist.items',datalist.items);
                                 //datalist.items.sort(function (x, y) {
                                 //    return x.sorttime > y.sorttime ? -1 : 1;
                                 //});
@@ -423,7 +426,7 @@ angular.module('console.image', [
                         //datalist.items[i].sorttime = (new Date(item.metadata.creationTimestamp)).getTime()
                     })
 
-                    //console.log('$scope.testlist', $scope.testlist)
+                    console.log('$scope.testlist', $scope.testlist)
                 })
 
 
@@ -585,7 +588,7 @@ angular.module('console.image', [
                         $scope.imagecenter = $filter("imagefilter")($scope.grid.cenimagecopy, $scope.isComplete);
                         //console.log($scope.imagecenter);
                         $scope.typeimagecenter = angular.copy($scope.imagecenter);
-                    }else {
+                    } else {
                         $scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
                         //console.log($scope.imagecenter);
                         $scope.typeimagecenter = angular.copy($scope.imagecenter);
@@ -602,7 +605,7 @@ angular.module('console.image', [
                         $scope.imagecenter = $filter("imagefilter")($scope.grid.cenimagecopy, $scope.isComplete);
                         //console.log($scope.imagecenter);
                         $scope.typeimagecenter = angular.copy($scope.imagecenter);
-                    }else {
+                    } else {
                         $scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
                         //console.log($scope.imagecenter);
                         $scope.typeimagecenter = angular.copy($scope.imagecenter);
@@ -622,7 +625,7 @@ angular.module('console.image', [
                         $scope.imagecenter = $filter("imagefilter")($scope.grid.cenimagecopy, $scope.isComplete);
                         //console.log($scope.imagecenter);
                         //$scope.typeimagecenter = angular.copy($scope.imagecenter);
-                    }else {
+                    } else {
 
                         $scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
                         //console.log($scope.imagecenter);
@@ -632,7 +635,7 @@ angular.module('console.image', [
                     //console.log($scope.imagecenter);
                     $scope.grid.imagecentertotal = $scope.imagecenter.length;
                     $scope.grid.imagecenterpage = 1;
-                    imagecenterrefresh(1,'tag');
+                    imagecenterrefresh(1, 'tag');
 
                 }
                 $scope.grid[tp] = key;

@@ -1313,7 +1313,7 @@ angular.module('console.service.create', [
                     }
 
                 })
-                console.log('$scope.dc', $scope.dc);
+                //console.log('$scope.dc', $scope.dc);
                 var i;
                 for (i = 0; i < $scope.envs.length; i++) {
                     if ($scope.envs[i].name == '' || $scope.envs[i].value == '') {
@@ -1329,7 +1329,7 @@ angular.module('console.service.create', [
                     return;
                 }
 
-                $rootScope.lding = true;
+                //$rootScope.lding = true;
                 var dc = angular.copy($scope.dc);
                 //console.log('xiugaiDC--------------------------',dc);
                 //for(var i = 0 ;i < dc.spec.template.spec.containers.length;i++ ){
@@ -1347,7 +1347,7 @@ angular.module('console.service.create', [
                     //$scope.dc.spec.template.spec.containers[i].name = dc.spec.template.spec.containers[i].strname;
                     delete dc.spec.template.spec.containers[i]["strname"];
                     if (dc.spec.template.spec.containers[i].isimageChange) {
-                        console.log('111111111111');
+                        //console.log('111111111111');
                         dc.spec.triggers.push(dc.spec.template.spec.containers[i].triggerImageTpl)
                     }
                     if (cons[i].ports) {
