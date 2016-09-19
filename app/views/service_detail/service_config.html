@@ -35,7 +35,7 @@
                             镜像:&nbsp;&nbsp;{{container.image | imageStreamName}}
                         </p>
                         <p style="margin-bottom: 30px;">
-                            Tag:&nbsp;&nbsp;{{container.tag}}
+                            Tag:&nbsp;&nbsp;{{container.tag || "latest"}}
                         </p>
                     </div>
                     <hr>
@@ -374,7 +374,7 @@
                     </span>
             <br>
             <div ng-if="grid.route" style="margin-top: 35px;">
-
+                <div><small ng-if="!grid.port" class="fa fa-info-circle err-tip"> 请填写tpc端口</small></div>
                 <!--<label style="font-size: 12px; font-weight: normal;  margin-top: 35px;"></label>-->
                 <div class="dropdown dropdown-select" style="width: 80px;">
                     <button class="btn dropdown-toggle" data-toggle="dropdown" ng-click="updatePorts()">
@@ -749,6 +749,7 @@
             <a ng-if="checkedthird" class="btn btn-orange">性能监测配置</a>
         </div>
     </div>
+
     <hr style="margin-top: 20px;" ng-if="false">
 
     <div class="row" ng-if="false">
@@ -761,7 +762,9 @@
             <a ng-if="checkedforth" class="btn btn-orange">告警服务配置</a>
         </div>
     </div>
+
     <hr style="margin-top: 20px;" ng-if="false">
+
     <small ng-show="servicepoterr" class="fa fa-info-circle err-tip">&nbsp;端口填写错误</small>
     <small ng-show="grid.conflict" class="fa fa-info-circle err-tip">&nbsp;容器端口冲突，请修改</small>
     <small ng-show="grid.serviceConflict" class="fa fa-info-circle err-tip">&nbsp;服务端口冲突，请修改</small>
