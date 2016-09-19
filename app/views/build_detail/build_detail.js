@@ -228,7 +228,7 @@ angular.module('console.build.detail', [
                     str = GLOBAL.host_webhooks + '/namespaces/' + $rootScope.namespace + '/buildconfigs/' + $scope.data.metadata.name + '/webhooks/' + triggers[0].github.secret + '/github'
                     return str;
                 }else if(type == 'gitlab'&&triggers[1].generic){
-                    str = GLOBAL.host_webhooks + '/namespaces/' + $rootScope.namespace + '/buildconfigs/' + $scope.data.metadata.name + '/webhooks/' + triggers[1].generic.secret + '/gitlab'
+                    str = GLOBAL.host_webhooks + '/namespaces/' + $rootScope.namespace + '/buildconfigs/' + $scope.data.metadata.name + '/webhooks/' + triggers[1].generic.secret + '/generic'
                     return str;
                 }
 
