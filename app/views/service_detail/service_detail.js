@@ -353,14 +353,17 @@ angular.module('console.service.detail', [
                                         $scope.dc.spec.template.spec.containers[i].isimageChange = true;
                                         $scope.dc.spec.template.spec.containers[i].isshow = true;
                                     }
-                                }else {
+                                }else if($scope.dc.spec.template.spec.containers[i].image.indexOf('172.30.188.59:5000') != -1){
                                     $scope.dc.spec.template.spec.containers[i].isimageChange = false;
                                     $scope.dc.spec.template.spec.containers[i].isshow = true;
                                 }
                             }
-                        }else{
+                        }else if($scope.dc.spec.template.spec.containers[i].image.indexOf('172.30.188.59:5000') != -1){
                             $scope.dc.spec.template.spec.containers[i].isimageChange = false;
                             $scope.dc.spec.template.spec.containers[i].isshow = true;
+                        }else {
+                            $scope.dc.spec.template.spec.containers[i].isimageChange = false;
+                            $scope.dc.spec.template.spec.containers[i].isshow = false;
                         }
                     }
                     if (copyannotations["dadafoundry.io/imageorpublic"]) {
