@@ -365,6 +365,16 @@ angular.module('console.service.detail', [
                             $scope.dc.spec.template.spec.containers[i].isimageChange = false;
                             $scope.dc.spec.template.spec.containers[i].isshow = false;
                         }
+                        if($scope.dc.spec.template.spec.containers[i].readinessProbe){
+                             $scope.dc.spec.template.spec.containers[i].doset = true;
+                             if($scope.dc.spec.template.spec.containers[i].readinessProbe.httpGet){
+                                 $scope.dc.spec.template.spec.containers[i].dosetcon = 'HTTP'
+                             }else if($scope.dc.spec.template.spec.containers[i].readinessProbe.tcpSocket){
+                                 $scope.dc.spec.template.spec.containers[i].dosetcon = 'TCP'
+                             }else if($scope.dc.spec.template.spec.containers[i].readinessProbe.exec){
+                                 $scope.dc.spec.template.spec.containers[i].dosetcon = '命令'
+                             }
+                        }
                     }
                     if (copyannotations["dadafoundry.io/imageorpublic"]) {
                         var imageorpublic = $scope.arrimgstr = copyannotations["dadafoundry.io/imageorpublic"].split(",");
