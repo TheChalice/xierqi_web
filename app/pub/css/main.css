@@ -39,6 +39,7 @@ a {
 
 .btn-green {
     background-color: #55c45f;
+    -webkit-transition:all 1s;
 }
 
 .btn-green:hover {
@@ -1299,7 +1300,7 @@ a {
 .active .myimage {
     background: url(../../pub/img/myimageh.png) no-repeat;
     background-size: contain;
-}
+}.btn-green
 
 /*!* 设置滚动条的样式 *!*/
 /*::-webkit-scrollbar {*/
