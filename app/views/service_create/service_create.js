@@ -94,6 +94,7 @@ angular.module('console.service.create', [
                 cname: '系统域名',
                 host: '',
                 noroute: false,
+                cando:false,
                 zsfile: {},
                 syfile: {},
                 cafile: {},
