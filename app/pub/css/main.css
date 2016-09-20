@@ -1300,7 +1300,13 @@ a {
     background: url(../../pub/img/myimageh.png) no-repeat;
     background-size: contain;
 }
-
+.mt20 {
+    margin-top: 20px;
+}
+.mt10 {
+    margin-top: 10px;
+    margin:0 15px;
+}
 /*!* 设置滚动条的样式 *!*/
 /*::-webkit-scrollbar {*/
     /*width: 12px;*/

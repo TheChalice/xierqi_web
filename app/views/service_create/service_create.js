@@ -8,8 +8,8 @@ angular.module('console.service.create', [
             ]
         }
     ])
-    .controller('ServiceCreateCtrl', ['by','diploma', 'Confirm', 'Toast', '$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service', 'ChooseSecret', '$base64', 'secretskey', 'serviceaccounts',
-        function (by,diploma, Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service, ChooseSecret, $base64, secretskey, serviceaccounts) {
+    .controller('ServiceCreateCtrl', ['by', 'diploma', 'Confirm', 'Toast', '$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service', 'ChooseSecret', '$base64', 'secretskey', 'serviceaccounts',
+        function (by, diploma, Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service, ChooseSecret, $base64, secretskey, serviceaccounts) {
             $log.info('ServiceCreate');
             $scope.checkEnv = false;
 
@@ -78,7 +78,19 @@ angular.module('console.service.create', [
                             "terminationGracePeriodSeconds": 30,
                             "dnsPolicy": "ClusterFirst",
                             "securityContext": {},
-                            'volumes': []
+                            'volumes': [],
+                            "readinessProbe": {
+                                "httpGet": {
+                                    "path": "",
+                                    "port": 5678,
+                                    "scheme": "HTTP"
+                                },
+                                "initialDelaySeconds": 3,
+                                "timeoutSeconds": 1,
+                                "periodSeconds": 10,
+                                "successThreshold": 1,
+                                "failureThreshold": 3
+                            },
                         }
                     },
                     test: false
@@ -94,13 +106,14 @@ angular.module('console.service.create', [
                 cname: '系统域名',
                 host: '',
                 noroute: false,
-                cando:false,
+                cando: false,
+                doset: 'HTTP',
                 zsfile: {},
                 syfile: {},
                 cafile: {},
                 mcafile: {},
-                namerepeat:false,
-                rexnameerr:false,
+                namerepeat: false,
+                rexnameerr: false,
                 tlsshow: false,
                 tlsset: 'None',
                 httpset: 'Allow',
@@ -119,7 +132,27 @@ angular.module('console.service.create', [
                 servicenameerr: false,
                 imagePullSecrets: false
             };
+            $scope.$watch('grid.doset', function (n, o) {
+                if (n == o) {
+                    return
+                }
+                if (n === 'HTTP') {
+                    $scope.dc.spec.template.spec.readinessProbe.httpGet = {
+                        path: null,
+                        port: null,
+                        scheme: "HTTP"
+                    }
+                } else if (n === '命令') {
+                    $scope.dc.spec.template.spec.readinessProbe.exec = {
+                        command: []
 
+                    }
+                } else if (n === 'TCP') {
+                    $scope.dc.spec.template.spec.readinessProbe.tcpSocket = {
+                            "port": 5678
+                    }
+                }
+            })
             $scope.tlsroutes = [];
 
             $scope.savetls = function () {
@@ -555,14 +588,14 @@ angular.module('console.service.create', [
 
             //  获取dc列表,用于在创建dc时验证dc名称是否重复
             var serviceNameArr = [];
-            
+
             var loadDcList = function () {
                 DeploymentConfig.get({namespace: $rootScope.namespace}, function (data) {
                     for (var i = 0; i < data.items.length; i++) {
                         serviceNameArr.push(data.items[i].metadata.name);
                     }
                     serviceNameArr.sort();
-                    $scope.grid.namerepeat=true;
+                    $scope.grid.namerepeat = true;
                     //console.log('serviceNameArr',serviceNameArr);
 
                 }, function (res) {
@@ -574,38 +607,37 @@ angular.module('console.service.create', [
             loadDcList();
 
 
-
-            $scope.$watch('dc.metadata.name', function (n,o) {
+            $scope.$watch('dc.metadata.name', function (n, o) {
                 if (n == o) {
                     return
                 }
                 var r = /^[a-z][-a-z0-9]*[a-z0-9]$/;
                 if (!r.test(n)) {
-                    $scope.grid.rexnameerr = true; 
-                }else {
+                    $scope.grid.rexnameerr = true;
+                } else {
                     $scope.grid.rexnameerr = false;
                 }
                 if ($scope.grid.namerepeat) {
-                    var repeat=false;
-                    angular.forEach(serviceNameArr, function (item,i) {
+                    var repeat = false;
+                    angular.forEach(serviceNameArr, function (item, i) {
                         if (!repeat) {
-                            if (item===n) {
-                                repeat=true;
+                            if (item === n) {
+                                repeat = true;
                             }
                         }
 
                     })
                     if (!repeat) {
 
-                        $scope.grid.servicenameerr=false;
-                    }else {
-                        $scope.grid.servicenameerr=true;
+                        $scope.grid.servicenameerr = false;
+                    } else {
+                        $scope.grid.servicenameerr = true;
                     }
                 }
-                
+
             })
             // 验证dc名称规范
-            
+
             //$scope.serviceNamekedown = function () {
             //    for (var i = 0; i < serviceNameArr.length; i++) {
             //        if (serviceNameArr[i] == $scope.dc.metadata.name) {
@@ -718,15 +750,7 @@ angular.module('console.service.create', [
             //  }
             //};
             $scope.delEnv = function (idx) {
-                //if (last) {     //添加
-                //  $scope.envs.push({name: '', value: ''});
-                //} else {
-                //  for (var i = 0; i < $scope.envs.length; i++) {
-                //    if ($scope.envs[i].name == name) {
                 $scope.envs.splice(idx, 1);
-                //    }
-                //  }
-                //}
             };
 
             $scope.addEnv = function () {
@@ -803,7 +827,7 @@ angular.module('console.service.create', [
                                     }
                                 }
                             };
-                            container.port=[]
+                            container.port = []
                             $scope.dc.metadata.annotations[imagetag] = container.truename + ":" + str1[2];
 
                         } else {
