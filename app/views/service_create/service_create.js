@@ -79,18 +79,7 @@ angular.module('console.service.create', [
                             "dnsPolicy": "ClusterFirst",
                             "securityContext": {},
                             'volumes': [],
-                            "readinessProbe": {
-                                "httpGet": {
-                                    "path": "",
-                                    "port": 5678,
-                                    "scheme": "HTTP"
-                                },
-                                "initialDelaySeconds": 3,
-                                "timeoutSeconds": 1,
-                                "periodSeconds": 10,
-                                "successThreshold": 1,
-                                "failureThreshold": 3
-                            },
+
                         }
                     },
                     test: false
@@ -132,27 +121,7 @@ angular.module('console.service.create', [
                 servicenameerr: false,
                 imagePullSecrets: false
             };
-            $scope.$watch('grid.doset', function (n, o) {
-                if (n == o) {
-                    return
-                }
-                if (n === 'HTTP') {
-                    $scope.dc.spec.template.spec.readinessProbe.httpGet = {
-                        path: null,
-                        port: null,
-                        scheme: "HTTP"
-                    }
-                } else if (n === '命令') {
-                    $scope.dc.spec.template.spec.readinessProbe.exec = {
-                        command: []
 
-                    }
-                } else if (n === 'TCP') {
-                    $scope.dc.spec.template.spec.readinessProbe.tcpSocket = {
-                            "port": 5678
-                    }
-                }
-            })
             $scope.tlsroutes = [];
 
             $scope.savetls = function () {
@@ -306,10 +275,23 @@ angular.module('console.service.create', [
                 image: "",    //imageStreamTag
                 //ports: [{protocol: ""}],
                 "env": [],
-
+                cando: false,
+                doset: "HTTP",
                 "resources": {},
                 "imagePullPolicy": "Always",
                 isimageChange: true,
+                "readinessProbe": {
+                    "httpGet": {
+                        "path": "",
+                        "port": "",
+                        "scheme": "HTTP"
+                    },
+                    "initialDelaySeconds": '',
+                    "timeoutSeconds": '',
+                    "periodSeconds": 10,
+                    "successThreshold": 1,
+                    "failureThreshold": 3
+                },
                 secretsobj: {
                     secretarr: []
                     ,
@@ -320,6 +302,48 @@ angular.module('console.service.create', [
                 }
             };
 
+            $scope.addcando= function (inner, outer) {
+                $scope.dc.spec.template.spec.containers[outer].readinessProbe.exec.command.push({key:null});
+            }
+            $scope.deletecando= function (inner, outer) {
+                $scope.dc.spec.template.spec.containers[outer].readinessProbe.exec.command.splice(inner, 1);
+            }
+            $scope.$watch('dc.spec.template.spec.containers', function (n, o) {
+                if (n === o) {
+                    return;
+                }
+                if (n && o) {
+                    angular.forEach(n, function (nitem, i) {
+                        if (n[i] && o[i]) {
+                            if (n[i].doset !== o[i].doset) {
+                                //alert(3)
+                                delete $scope.dc.spec.template.spec.containers[i].readinessProbe.exec;
+                                delete $scope.dc.spec.template.spec.containers[i].readinessProbe.httpGet;
+                                delete $scope.dc.spec.template.spec.containers[i].readinessProbe.tcpSocket;
+
+                                if (n[i].doset === 'HTTP') {
+                                    $scope.dc.spec.template.spec.containers[i].readinessProbe.httpGet = {
+                                        path: null,
+                                        port: null,
+                                        scheme: "HTTP"
+                                    }
+                                } else if (n[i].doset === '命令') {
+                                    $scope.dc.spec.template.spec.containers[i].readinessProbe.exec = {
+                                        command: [{key:null}]
+
+                                    }
+                                } else if (n[i].doset === 'TCP') {
+                                    $scope.dc.spec.template.spec.containers[i].readinessProbe.tcpSocket = {
+                                        "port": null
+                                    }
+                                }
+                            }
+                        }
+
+                    })
+                }
+
+            }, true)
             $scope.triggerConfigTpl = {
                 "type": "ConfigChange"
             };
@@ -557,6 +581,7 @@ angular.module('console.service.create', [
             $scope.addContainer = function () {
                 console.log("addContainer");
                 $scope.dc.spec.template.spec.containers.push(angular.copy($scope.containerTpl));
+
                 $scope.invalid.containerLength = false;
             };
             // 删除容器
@@ -1331,10 +1356,31 @@ angular.module('console.service.create', [
 
             // 创建dc
             $scope.createDc = function () {
+                //console.log($scope.dc.spec.template.spec.containers);
 
                 angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
+
+                    if (ports.readinessProbe.httpGet) {
+                        $scope.dc.spec.template.spec.containers[i].readinessProbe.httpGet.port = parseInt(ports.readinessProbe.httpGet.port)
+
+                    } else if (ports.readinessProbe.tcpSocket) {
+                        $scope.dc.spec.template.spec.containers[i].readinessProbe.tcpSocket.port = parseInt(ports.readinessProbe.tcpSocket.port)
+
+                    }
+                    if (ports.doset === '命令'&&ports.readinessProbe.exec) {
+                        ports.readinessProbe.exec.command
+                        angular.forEach(ports.readinessProbe.exec.command, function (item,k) {
+                            $scope.dc.spec.template.spec.containers[i].readinessProbe.exec.command[k]=item.key
+                        })
+                    }
+                    $scope.dc.spec.template.spec.containers[i].readinessProbe.initialDelaySeconds = parseInt(ports.readinessProbe.initialDelaySeconds)
+                    $scope.dc.spec.template.spec.containers[i].readinessProbe.timeoutSeconds = parseInt(ports.readinessProbe.timeoutSeconds)
                     if (ports.port) {
                         delete $scope.dc.spec.template.spec.containers[i].port
+                    }
+                    if (ports.cando || ports.doset) {
+                        delete $scope.dc.spec.template.spec.containers[i].cando
+                        delete $scope.dc.spec.template.spec.containers[i].doset
                     }
 
                 })
