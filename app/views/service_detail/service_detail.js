@@ -1476,6 +1476,87 @@ angular.module('console.service.detail', [
                 ContainerModal.open(obj, pod);
             };
 
+            /////////////探针开关
+            $scope.survey = function(idx){
+                if($scope.dc.spec.template.spec.containers[idx].doset){
+                    $scope.dc.spec.template.spec.containers[idx].doset = false;
+                    delete  $scope.dc.spec.template.spec.containers[idx].readinessProbe;
+                }else{
+                    $scope.dc.spec.template.spec.containers[idx].doset = true;
+                    $scope.dc.spec.template.spec.containers[idx].dosetcon = "HTTP";
+                    $scope.dc.spec.template.spec.containers[idx].readinessProbe={
+                        "httpGet":{
+                            "path":"",
+                            "port":"",
+                            "scheme":"HTTP"
+                        },
+                        "initialDelaySeconds":"",
+                        "timeoutSeconds":"",
+                        "periodSeconds":10,
+                        "successThreshold":1,
+                        "failureThreshold":3
+                    }
+                }
+            }
+            ////////////////监控探类型变化
+            $scope.$watch('dc.spec.template.spec.containers', function (n, o) {
+                if(n == o){
+                    return;
+                }
+              angular.forEach(n,function(item,i){
+                  if(o && n && n[i] && o[i]){
+                      if(n[i].dosetcon != o[i].dosetcon){
+                          if(n[i].dosetcon == "HTTP"){
+                              $scope.dc.spec.template.spec.containers[i].readinessProbe={
+                                  "httpGet":{
+                                      "path":"",
+                                      "port":"",
+                                      "scheme":"HTTP"
+                                  },
+                                  "initialDelaySeconds":"",
+                                  "timeoutSeconds":"",
+                                  "periodSeconds":10,
+                                  "successThreshold":1,
+                                  "failureThreshold":3
+                              }
+                          }else if(n[i].dosetcon == "命令"){
+                              $scope.dc.spec.template.spec.containers[i].readinessProbe={
+                                  "exec":{
+                                      "command":[
+                                            ""
+                                        ]
+                                 },
+                                  "initialDelaySeconds":"",
+                                  "timeoutSeconds":"",
+                                  "periodSeconds":10,
+                                  "successThreshold":1,
+                                  "failureThreshold":3
+                              }
+                          }else if(n[i].dosetcon == "TCP"){
+                              $scope.dc.spec.template.spec.containers[i].readinessProbe={
+                                  "tcpSocket":{
+                                      "port":""
+                                  },
+                                  "initialDelaySeconds":"",
+                                  "timeoutSeconds":"",
+                                  "periodSeconds":10,
+                                  "successThreshold":1,
+                                  "failureThreshold":3
+                              }
+                          }
+                      }
+                  }
+              })
+            },true)
+
+            /////////////////////探针添加命令选项
+            $scope.addexec = function(conidx,idx,first){
+                if (first) {     //添加
+                    $scope.dc.spec.template.spec.containers[conidx].readinessProbe.exec.command.push("");
+                } else {
+                    $scope.dc.spec.template.spec.containers[conidx].readinessProbe.exec.command.splice(idx, 1);
+                }
+            }
             $scope.addContainer = function () {
                 var container = $scope.dc.spec.template.spec.containers;
                 // $log.info("addContainer", container);
@@ -1499,7 +1580,8 @@ angular.module('console.service.detail', [
                     },
                     show: true,
                     new: true,
-                    isshow: false
+                    isshow: false,
+                    doset : false
                 });
                 //$scope.dc.spec.template.spec.containers.push({ports: [portsobj]});
                 // $log.info('dccdcdcdcdcdcdcdcdcd-0-0', $scope.dc.spec.template.spec)
@@ -2287,6 +2369,12 @@ angular.module('console.service.detail', [
                         }
                         if (dc.spec.template.spec.containers[i].new) {
                             delete dc.spec.template.spec.containers[i]["new"];
+                        }
+                        if (dc.spec.template.spec.containers[i].doset) {
+                            delete dc.spec.template.spec.containers[i]["doset"];
+                        }
+                        if (dc.spec.template.spec.containers[i].dosetcon) {
+                            delete dc.spec.template.spec.containers[i]["dosetcon"];
                         }
                         if (dc.spec.template.spec.containers[i].show) {
                             delete dc.spec.template.spec.containers[i]["show"];

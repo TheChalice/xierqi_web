@@ -8,7 +8,7 @@
         </a>
     </h3>
 
-    <div ng-repeat="container in dc.spec.template.spec.containers" ng-class="{'bg-gray': container.show}">
+    <div ng-repeat="container in dc.spec.template.spec.containers" ng-class="{'bg-gray': container.show}" ng-init="outindex=$index">
         <div ng-if="!container.new">
             <div class="container-fluid container-bar">
                 <div class="row">
@@ -117,12 +117,16 @@
                     <!-------------------------->
 
 
-                    <div style="margin-top:20px;" class="row">
+                    <div style="margin:20px 0px 0px;padding:0px 0px 20px;" class="row">
                         <div class="col-md-2" style="padding-top: 5px">
                             <h3>可用性探测</h3>
                         </div>
                         <div class="col-md-10">
-                            <c-checkbox checked="container.doset"></c-checkbox>
+                                    <span class="my-checkbox">
+                                        <span class="checkbox-check" ng-class="{active: container.doset}" ng-click="survey($index)">
+                                            <span class="check-btn"></span>
+                                        </span>
+                                    </span>
                         </div>
                         <div ng-if="container.doset" style="margin-top:20px;" class="row">
                             <div class="col-md-12 mt10">
@@ -130,7 +134,7 @@
                                     <br/>
                                     <label style="font-size: 14px; font-weight: normal;">类型&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                     <br/>
-                                    <div class="col-md-11" style="padding-top: 5px">
+                                    <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
                                         <div class="dropdown dropdown-select" style="width: 100%;">
                                             <button class="btn dropdown-toggle" data-toggle="dropdown">
                                                 <span>{{container.dosetcon}}</span>
@@ -160,7 +164,7 @@
                                         <br/>
                                         <label style="font-size: 14px; font-weight: normal;">路径&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                         <br/>
-                                        <div class="col-md-11" style="padding-top: 5px">
+                                        <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
                                             <input type="text" name="candopath"
                                                    class="form-control" style="font-size: 12px;"
                                                    ng-model="container.readinessProbe.httpGet.path"
@@ -175,19 +179,14 @@
                                         <br/>
                                         <label style="font-size: 14px; font-weight: normal;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                         <br/>
-                                        <div class="col-md-11" style="padding-top: 5px">
+                                        <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
                                             <input type="number" name="candoport"
                                                    class="form-control" style="font-size: 12px;"
                                                    ng-model="container.readinessProbe.httpGet.port"
                                                    required
                                                    placeholder="1"/>
-
                                         </div>
-
-
                                         <br>
-
-
                                     </div>
                                 </div>
                             </div>
@@ -197,8 +196,8 @@
                                         <br/>
                                         <label style="font-size: 14px; font-weight: normal;">命令&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                         <br/>
-                                        <div class="row" ng-repeat="com in container.readinessProbe.exec.command track by $index">
-                                            <div class="col-md-11" style="padding-top: 5px">
+                                        <div class="row" ng-repeat="com in container.readinessProbe.exec.command track by $index" ng-init="innerindex=$index">
+                                            <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
                                                 <input type="text" name="candoname"
                                                        class="form-control" style="font-size: 12px;"
                                                        ng-model=com
@@ -207,7 +206,7 @@
 
                                             </div>
                                             <div class="col-md-1" style="height: 39px;line-height: 39px;">
-                                                <i class="fa fa-plus-circle fa-lg"></i>
+                                                <i class="fa fa-lg" ng-click="addexec(outindex,innerindex, $first)" ng-class="{'fa-times-circle':!$first, 'fa-plus-circle':$first}"></i>
                                             </div>
                                         </div>
                                         <br>
@@ -220,10 +219,10 @@
                                         <br/>
                                         <label style="font-size: 14px; font-weight: normal;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                         <br/>
-                                        <div class="col-md-11" style="padding-top: 5px">
+                                        <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
                                             <input type="number" name="candoname"
                                                    class="form-control" style="font-size: 12px;"
-                                                   ng-model="credentials.username"
+                                                   ng-model="container.readinessProbe.tcpSocket.port"
                                                    required
                                                    placeholder="1"/>
 
@@ -242,7 +241,7 @@
                                     <br/>
                                     <label style="font-size: 14px; font-weight: normal;">探测时间&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                     <br/>
-                                    <div class="col-md-11" style="padding-top: 5px;">
+                                    <div class="col-md-11" style="padding-top: 5px;;padding-left:0px;">
                                         <div class="dropdown dropdown-select"
                                              style="width: 100%; border: 1px solid #ccc;">
                                             <div class="input-group" style="width:100%">
@@ -253,15 +252,9 @@
                                                               style="width:5%;display: inline-block;">
                                                             <span style="line-height: 21px;width:100%;display: inline-block;padding: 6px 12px;color: black;border-color:#8c8c8c;height: 32px;font-size: 12px;">{{'秒'}}</span></span>
                                             </div>
-                                            <!-- /input-group -->
                                         </div>
-
                                     </div>
-
-
                                     <br>
-
-
                                 </div>
                             </div>
                             <div class="col-md-12 mt10">
@@ -269,7 +262,7 @@
                                     <br/>
                                     <label style="font-size: 14px; font-weight: normal;">超时&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                     <br/>
-                                    <div class="col-md-11" style="padding-top: 5px;">
+                                    <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
                                         <div class="dropdown dropdown-select"
                                              style="width: 100%; border: 1px solid #ccc;">
                                             <div class="input-group" style="width:100%">
@@ -280,25 +273,16 @@
                                                               style="width:5%;display: inline-block;">
                                                             <span style="line-height: 21px;width:100%;display: inline-block;padding: 6px 12px;color: black;border-color:#8c8c8c;height: 32px;font-size: 12px;">{{'秒'}}</span></span>
                                             </div>
-                                            <!-- /input-group -->
                                         </div>
 
                                     </div>
-
-
                                     <br>
-
-
                                 </div>
                             </div>
 
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
 
 
 
@@ -431,7 +415,179 @@
                         </table>
                     </div>
                 </div>
+                <!-------------------------->
+
+
+                <div style="margin:20px 0px 0px;padding:0px 0px 20px;" class="row">
+                    <div class="col-md-2" style="padding-top: 5px;padding-left:0px;">
+                        <h3>可用性探测</h3>
+                    </div>
+                    <div class="col-md-10">
+                        <!--<c-checkbox checked="container.doset"></c-checkbox>-->
+                    <span class="my-checkbox">
+                        <span class="checkbox-check" ng-class="{active: container.doset}" ng-click="survey($index)">
+                            <span class="check-btn"></span>
+                        </span>
+                        <!--<span ng-if="text" class="checkbox-text">{{text}}</span>-->
+                    </span>
+                    </div>
+                    <div ng-if="container.doset" style="margin-top:20px;" class="row">
+                        <div class="col-md-12 mt10">
+                            <div>
+                                <label style="font-size: 14px; font-weight: normal;">类型&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <br/>
+                                <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
+                                    <div class="dropdown dropdown-select" style="width: 100%;">
+                                        <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                            <span>{{container.dosetcon}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="javascript:;" ng-click="container.dosetcon = 'HTTP'">{{'HTTP'}}</a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;" ng-click="container.dosetcon = '命令'">{{'命令'}}</a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;" ng-click="container.dosetcon = 'TCP'">{{'TCP'}}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                        <div class="dohttp" ng-if="container.dosetcon === 'HTTP'">
+                            <div class="col-md-12 mt10">
+                                <div>
+                                    <br/>
+                                    <label style="font-size: 14px; font-weight: normal;">路径&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                    <br/>
+                                    <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
+                                        <input type="text" name="candopath"
+                                               class="form-control" style="font-size: 12px;"
+                                               ng-model="container.readinessProbe.httpGet.path"
+                                               required
+                                               placeholder="/"/>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mt10">
+                                <div>
+                                    <br/>
+                                    <label style="font-size: 14px; font-weight: normal;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                    <br/>
+                                    <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
+                                        <input type="number" name="candoport"
+                                               class="form-control" style="font-size: 12px;"
+                                               ng-model="container.readinessProbe.httpGet.port"
+                                               required
+                                               placeholder="1"/>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dohttp" ng-if="container.dosetcon === '命令'">
+                            <div class="col-md-12 mt10">
+                                <div>
+                                    <br/>
+                                    <label style="font-size: 14px; font-weight: normal;">命令&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                    <br/>
+                                    <div class="row" ng-repeat="com in container.readinessProbe.exec.command track by $index" ng-init="innerindex=$index">
+                                        <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
+                                            <input type="text" name="candoname"
+                                                   class="form-control" style="font-size: 12px;"
+                                                   ng-model=com
+                                                   required
+                                                   placeholder="1"/>
+
+                                        </div>
+                                        <div class="col-md-1" style="height: 39px;line-height: 39px;">
+                                            <i class="fa fa-lg" ng-click="addexec(outindex,innerindex, $first)" ng-class="{'fa-times-circle':!$first, 'fa-plus-circle':$first}"></i>
+                                        </div>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dohttp" ng-if="container.dosetcon === 'TCP'">
+                            <div class="col-md-12 mt10">
+                                <div>
+                                    <br/>
+                                    <label style="font-size: 14px; font-weight: normal;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                    <br/>
+                                    <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
+                                        <input type="number"
+                                               class="form-control" style="font-size: 12px;"
+                                               ng-model="container.readinessProbe.tcpSocket.port"
+                                               required
+                                               placeholder="1"/>
+
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 mt10">
+                            <div>
+                                <br/>
+                                <label style="font-size: 14px; font-weight: normal;">探测时间&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <br/>
+                                <div class="col-md-11" style="padding-top: 5px;;padding-left:0px;">
+                                    <div class="dropdown dropdown-select"
+                                         style="width: 100%; border: 1px solid #ccc;">
+                                        <div class="input-group" style="width:100%">
+                                            <input style="width: 95%;display: inline-block;border: none;font-size: 12px;height: 32px;"
+                                                   ng-model="container.readinessProbe.initialDelaySeconds" type="text" class="form-control"
+                                                   placeholder="1">
+                                                        <span class="input-group-btn"
+                                                              style="width:5%;display: inline-block;">
+                                                            <span style="line-height: 21px;width:100%;display: inline-block;padding: 6px 12px;color: black;border-color:#8c8c8c;height: 32px;font-size: 12px;">{{'秒'}}</span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt10">
+                            <div>
+                                <br/>
+                                <label style="font-size: 14px; font-weight: normal;">超时&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <br/>
+                                <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
+                                    <div class="dropdown dropdown-select"
+                                         style="width: 100%; border: 1px solid #ccc;">
+                                        <div class="input-group" style="width:100%">
+                                            <input style="width: 95%;display: inline-block;border: none;font-size: 12px;height: 32px;"
+                                                   ng-model="container.readinessProbe.timeoutSeconds" type="text" class="form-control"
+                                                   placeholder="1">
+                                                        <span class="input-group-btn"
+                                                              style="width:5%;display: inline-block;">
+                                                            <span style="line-height: 21px;width:100%;display: inline-block;padding: 6px 12px;color: black;border-color:#8c8c8c;height: 32px;font-size: 12px;">{{'秒'}}</span></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+
+
+
+
+                <!-------------------------->
             </div>
+
         </div>
     </div>
 
