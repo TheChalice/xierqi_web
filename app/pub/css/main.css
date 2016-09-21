@@ -48,6 +48,7 @@ a {
 
 .btn-gray {
     background-color: #9fa7b7;
+    -webkit-transition:all 1s;
 }
 
 .btn-gray:hover {
@@ -56,6 +57,7 @@ a {
 
 .btn-skyblue {
     background-color: #57d1ea;
+    -webkit-transition:all 1s;
 }
 
 .btn-skyblue:hover {
@@ -64,6 +66,7 @@ a {
 
 .btn-orange {
     background-color: #f6a540;
+    -webkit-transition:all 1s;
 }
 
 .btn-orange:hover {
@@ -72,6 +75,7 @@ a {
 
 .btn-Iknow {
     background-color: #f6a540;
+    -webkit-transition:all 1s;
 }
 
 .btn-Iknow:hover {

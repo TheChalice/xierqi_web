@@ -21,7 +21,7 @@
 .icon25-stop:hover {
     background-image: url(img/stop-hover.png);
 }
-.row {
+.row_set {
     white-space:nowrap;
 }
 @media (max-width: 1201px) {
