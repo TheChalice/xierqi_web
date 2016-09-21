@@ -157,7 +157,7 @@
                                     <div class="col-md-10">
                                         <c-checkbox checked="container.cando"></c-checkbox>
                                     </div>
-                                    <div ng-if="container.cando" style="margin-top:20px;" class="row">
+                                    <div ng-if="container.cando" style="margin-top:20px;margin-bottom: 24px;" class="row">
                                         <div class="col-md-12 mt10">
                                             <div>
                                                 <br/>
@@ -165,7 +165,7 @@
                                                 <br/>
                                                 <div class="col-md-11" style="padding-top: 5px">
                                                     <div class="dropdown dropdown-select" style="width: 100%;">
-                                                        <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                                        <button class="btn dropdown-toggle" data-toggle="dropdown" ng-blur="false" >
                                                             <span>{{container.doset}}</span>
                                                             <span class="caret"></span>
                                                         </button>
@@ -235,10 +235,11 @@
                                                     <br/>
                                                     <div ng-repeat="com in container.readinessProbe.exec.command track by $index" ng-init="innerIndex = $index">
                                                         <div class="col-md-11" style="padding-top: 5px">
-                                                            <input type="text" name="candocmd"
+                                                            <input type="text" name="comkey"
                                                                    class="form-control" style="font-size: 12px;"
                                                                    ng-model="com.key"
                                                                    required
+                                                                   ng-keypress="($event.which === 13)?addcando(innerIndex,outerIndex):0"
                                                                    placeholder="1"/>
 
                                                         </div>
@@ -276,7 +277,7 @@
                                         <div class="col-md-12 mt10">
                                             <div>
                                                 <br/>
-                                                <label style="font-size: 14px; font-weight: normal;">探测时间&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                <label style="font-size: 14px; font-weight: normal;">初始延迟&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                                 <br/>
                                                 <div class="col-md-11" style="padding-top: 5px;">
                                                     <div class="dropdown dropdown-select"
