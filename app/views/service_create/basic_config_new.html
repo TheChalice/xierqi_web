@@ -212,11 +212,22 @@
                                                     <label style="font-size: 14px; font-weight: normal;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                                     <br/>
                                                     <div class="col-md-11" style="padding-top: 5px">
-                                                        <input type="text" name="candoport"
-                                                               class="form-control" style="font-size: 12px;"
-                                                               ng-model="container.readinessProbe.httpGet.port"
-                                                               required
-                                                               placeholder="1"/>
+                                                        <!--<input type="text" name="candoport"-->
+                                                               <!--class="form-control" style="font-size: 12px;"-->
+                                                               <!--ng-model="container.readinessProbe.httpGet.port"-->
+                                                               <!--required-->
+                                                               <!--placeholder="1"/>-->
+                                                        <div class="dropdown dropdown-select" style="width: 100%;">
+                                                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                                                <span>{{container.readinessProbe.httpGet.port || "请选择端口"}}</span>
+                                                                <span class="caret"></span>
+                                                            </button>
+                                                            <ul class="dropdown-menu">
+                                                                <li ng-repeat="port in portsArr">
+                                                                    <a href="javascript:;" ng-click="container.readinessProbe.httpGet.port = port.containerPort">{{port.containerPort}}</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
 
                                                     </div>
 
@@ -258,11 +269,22 @@
                                                     <label style="font-size: 14px; font-weight: normal;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                                     <br/>
                                                     <div class="col-md-11" style="padding-top: 5px">
-                                                        <input type="text" name="candotcp"
-                                                               class="form-control" style="font-size: 12px;"
-                                                               ng-model="container.readinessProbe.tcpSocket.port"
-                                                               required
-                                                               placeholder="1"/>
+                                                        <!--<input type="text" name="candotcp"-->
+                                                               <!--class="form-control" style="font-size: 12px;"-->
+                                                               <!--ng-model="container.readinessProbe.tcpSocket.port"-->
+                                                               <!--required-->
+                                                               <!--placeholder="1"/>-->
+                                                        <div class="dropdown dropdown-select" style="width: 100%;">
+                                                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                                                <span>{{container.readinessProbe.tcpSocket.port || "请选择端口"}}</span>
+                                                                <span class="caret"></span>
+                                                            </button>
+                                                            <ul class="dropdown-menu">
+                                                                <li ng-repeat="port in portsArr">
+                                                                    <a href="javascript:;" ng-click="container.readinessProbe.tcpSocket.port = port.containerPort">{{port.containerPort}}</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
 
                                                     </div>
 

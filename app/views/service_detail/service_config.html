@@ -180,11 +180,22 @@
                                         <label style="font-size: 14px; font-weight: normal;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                         <br/>
                                         <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
-                                            <input type="number" name="candoport"
-                                                   class="form-control" style="font-size: 12px;"
-                                                   ng-model="container.readinessProbe.httpGet.port"
-                                                   required
-                                                   placeholder="1"/>
+                                            <!--<input type="number" name="candoport"-->
+                                                   <!--class="form-control" style="font-size: 12px;"-->
+                                                   <!--ng-model="container.readinessProbe.httpGet.port"-->
+                                                   <!--required-->
+                                                   <!--placeholder="1"/>-->
+                                            <div class="dropdown dropdown-select" style="width: 100%;">
+                                                <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                                    <span>{{container.readinessProbe.httpGet.port || "请选择端口"}}</span>
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li ng-repeat="port in portsArr">
+                                                        <a href="javascript:;" ng-click="container.readinessProbe.httpGet.port = port.containerPort">{{port.containerPort}}</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                         <br>
                                     </div>
@@ -197,16 +208,17 @@
                                         <label style="font-size: 14px; font-weight: normal;">命令&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                         <br/>
                                         <div class="row" ng-repeat="com in container.readinessProbe.exec.command track by $index" ng-init="innerindex=$index">
-                                            <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
+                                            <div class="col-md-11" style="padding-top: 5px;">
                                                 <input type="text" name="candoname"
                                                        class="form-control" style="font-size: 12px;"
                                                        ng-model=com
                                                        required
+                                                       ng-keypress="($event.which === 13)?addexec(outindex,innerindex):0"
                                                        placeholder="1"/>
 
                                             </div>
                                             <div class="col-md-1" style="height: 39px;line-height: 39px;">
-                                                <i class="fa fa-lg" ng-click="addexec(outindex,innerindex, $first)" ng-class="{'fa-times-circle':!$first, 'fa-plus-circle':$first}"></i>
+                                                <i class="fa fa-lg" style="cursor: pointer" ng-click="innerindex==0?addexec(outindex,innerindex):deleexec(outindex,innerindex)" ng-class="{'fa-times-circle':!$first, 'fa-plus-circle':$first}"></i>
                                             </div>
                                         </div>
                                         <br>
@@ -220,11 +232,22 @@
                                         <label style="font-size: 14px; font-weight: normal;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                         <br/>
                                         <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
-                                            <input type="number" name="candoname"
-                                                   class="form-control" style="font-size: 12px;"
-                                                   ng-model="container.readinessProbe.tcpSocket.port"
-                                                   required
-                                                   placeholder="1"/>
+                                            <!--<input type="number" name="candoname"-->
+                                                   <!--class="form-control" style="font-size: 12px;"-->
+                                                   <!--ng-model="container.readinessProbe.tcpSocket.port"-->
+                                                   <!--required-->
+                                                   <!--placeholder="1"/>-->
+                                            <div class="dropdown dropdown-select" style="width: 100%;">
+                                                <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                                    <span>{{container.readinessProbe.tcpSocket.port || "请选择端口"}}</span>
+                                                    <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li ng-repeat="port in portsArr">
+                                                        <a href="javascript:;" ng-click="container.readinessProbe.tcpSocket.port = port.containerPort">{{port.containerPort}}</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
 
                                         </div>
 
@@ -480,11 +503,22 @@
                                     <label style="font-size: 14px; font-weight: normal;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                     <br/>
                                     <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
-                                        <input type="number" name="candoport"
-                                               class="form-control" style="font-size: 12px;"
-                                               ng-model="container.readinessProbe.httpGet.port"
-                                               required
-                                               placeholder="1"/>
+                                        <!--<input type="number" name="candoport"-->
+                                               <!--class="form-control" style="font-size: 12px;"-->
+                                               <!--ng-model="container.readinessProbe.httpGet.port"-->
+                                               <!--required-->
+                                               <!--placeholder="1"/>-->
+                                        <div class="dropdown dropdown-select" style="width: 100%;">
+                                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                                <span>{{container.readinessProbe.httpGet.port || "请选择端口"}}</span>
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li ng-repeat="port in portsArr">
+                                                    <a href="javascript:;" ng-click="container.readinessProbe.httpGet.port = port.containerPort">{{port.containerPort}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                     <br>
                                 </div>
@@ -497,16 +531,17 @@
                                     <label style="font-size: 14px; font-weight: normal;">命令&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                     <br/>
                                     <div class="row" ng-repeat="com in container.readinessProbe.exec.command track by $index" ng-init="innerindex=$index">
-                                        <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
+                                        <div class="col-md-11" style="padding-top: 5px;">
                                             <input type="text" name="candoname"
                                                    class="form-control" style="font-size: 12px;"
                                                    ng-model=com
                                                    required
+                                                   ng-keypress="($event.which === 13)?addexec(outindex,innerindex):0"
                                                    placeholder="1"/>
 
                                         </div>
                                         <div class="col-md-1" style="height: 39px;line-height: 39px;">
-                                            <i class="fa fa-lg" ng-click="addexec(outindex,innerindex, $first)" ng-class="{'fa-times-circle':!$first, 'fa-plus-circle':$first}"></i>
+                                            <i class="fa fa-lg" style="cursor: pointer" ng-click="innerindex==0?addexec(outindex,innerindex):deleexec(outindex,innerindex)" ng-class="{'fa-times-circle':!$first, 'fa-plus-circle':$first}"></i>
                                         </div>
                                     </div>
                                     <br>
@@ -520,11 +555,22 @@
                                     <label style="font-size: 14px; font-weight: normal;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                     <br/>
                                     <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
-                                        <input type="number"
-                                               class="form-control" style="font-size: 12px;"
-                                               ng-model="container.readinessProbe.tcpSocket.port"
-                                               required
-                                               placeholder="1"/>
+                                        <!--<input type="number"-->
+                                               <!--class="form-control" style="font-size: 12px;"-->
+                                               <!--ng-model="container.readinessProbe.tcpSocket.port"-->
+                                               <!--required-->
+                                               <!--placeholder="1"/>-->
+                                        <div class="dropdown dropdown-select" style="width: 100%;">
+                                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                                <span>{{container.readinessProbe.tcpSocket.port || "请选择端口"}}</span>
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li ng-repeat="port in portsArr">
+                                                    <a href="javascript:;" ng-click="container.readinessProbe.tcpSocket.port = port.containerPort">{{port.containerPort}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
 
                                     </div>
                                     <br>
