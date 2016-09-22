@@ -42,7 +42,7 @@ angular.module('console.service.detail', [
             $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas').success(function (data) {
                 //console.log('配额', data.items[0].spec.hard['requests.cpu']);
                 //console.log('配额', data.items[0].spec.hard['requests.memory']);
-                if (data.items[0].spec.hard) {
+                if (data.items&&data.items[0]&&data.items[0].spec) {
                     $scope.grid.cpunum = data.items[0].spec.hard['requests.cpu']
                     var gi = data.items[0].spec.hard['requests.memory'].replace('Gi', '')
                     var mb = parseInt(gi) * 1000;

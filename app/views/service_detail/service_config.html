@@ -536,8 +536,7 @@
                                                    class="form-control" style="font-size: 12px;"
                                                    ng-model=com
                                                    required
-                                                   ng-keypress="($event.which === 13)?addexec(outindex,innerindex):0"
-                                                   placeholder="1"/>
+                                                   ng-keypress="($event.which === 13)?addexec(outindex,innerindex):0"/>
 
                                         </div>
                                         <div class="col-md-1" style="height: 39px;line-height: 39px;">
@@ -1117,7 +1116,7 @@
             <div ng-if="quota.doquota">
                 <div class="col-md-12" style="padding: 0;">
                     <div class="col-md-4"style="padding: 0;">
-                        <input class="form-control" ng-model="quota.cpu" style="margin-top: 10px; width: 100%;" type="text" name="num" required placeholder="请输入整数">
+                        <input class="form-control" ng-model="quota.cpu" style="margin-top: 10px; width: 100%;" type="text" name="num" required>
                         <small class="fa fa-info-circle err-tip" ng-if="grid.cpuerr" style="margin-top: 20px;">
                             提示：您输入数量超过可用数量</small>
                     </div>
@@ -1125,7 +1124,7 @@
                         可用CPU:{{grid.cpunum}}个
                     </div>
                     <div class="col-md-3"style="padding: 0;">
-                        <input class="form-control" ng-model="quota.memory" style="margin-top: 10px; width: 100%;" type="text" name="num" required placeholder="请输入整数">
+                        <input class="form-control" ng-model="quota.memory" style="margin-top: 10px; width: 100%;" type="text" name="num" required>
                         <small class="fa fa-info-circle err-tip" ng-if="grid.memoryerr" style="margin-top: 20px;">
                             提示：您输入数量超过可用数量</small>
                     </div>
