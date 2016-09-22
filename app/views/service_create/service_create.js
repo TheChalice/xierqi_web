@@ -171,11 +171,14 @@ angular.module('console.service.create', [
             $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas').success(function (data) {
                 //console.log('配额', data.items[0].spec.hard['requests.cpu']);
                 //console.log('配额', data.items[0].spec.hard['requests.memory']);
-                $scope.grid.cpunum = data.items[0].spec.hard['requests.cpu']
-                var gi = data.items[0].spec.hard['requests.memory'].replace('Gi', '')
-                var mb = parseInt(gi) * 1000;
-                var gb = mb / 1024;
-                $scope.grid.megnum = gi;
+                if (data.items[0].spec.hard) {
+                    $scope.grid.cpunum = data.items[0].spec.hard['requests.cpu']
+                    var gi = data.items[0].spec.hard['requests.memory'].replace('Gi', '')
+                    var mb = parseInt(gi) * 1000;
+                    var gb = mb / 1024;
+                    $scope.grid.megnum = gi;
+                }
+
 
             })
 
