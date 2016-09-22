@@ -1423,7 +1423,6 @@ angular.module('console.service.create', [
                             $scope.dc.spec.template.spec.containers[i].resources.requests.memory=parseInt($scope.quota.memory)+'Mi';
                         }else if($scope.quota.danwei = 'GB'){
                             $scope.dc.spec.template.spec.containers[i].resources.requests.memory=$scope.quota.memory+'G';
-
                         }
                         $scope.dc.spec.template.spec.containers[i].resources.requests.cpu=parseInt($scope.quota.cpu);
 
