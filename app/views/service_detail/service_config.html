@@ -8,7 +8,7 @@
         </a>
     </h3>
 
-    <div ng-repeat="container in dc.spec.template.spec.containers" ng-class="{'bg-gray': container.show}" ng-init="outindex=$index">
+    <div class="continerboxs" ng-repeat="container in dc.spec.template.spec.containers" ng-class="{'bg-gray': container.show}" ng-init="outindex=$index">
         <div ng-if="!container.new">
             <div class="container-fluid container-bar">
                 <div class="row">
@@ -203,7 +203,7 @@
                             </div>
                             <div class="dohttp" ng-if="container.dosetcon === '命令'">
                                 <div class="col-md-12 mt10">
-                                    <div>
+                                    <div class="commandwrop">
                                         <br/>
                                         <label style="font-size: 14px; font-weight: normal;">命令&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                         <br/>
@@ -211,14 +211,14 @@
                                             <div class="col-md-11" style="padding-top: 5px;">
                                                 <input type="text" name="candoname"
                                                        class="form-control" style="font-size: 12px;"
-                                                       ng-model=com
+                                                       ng-model=com.key
                                                        required
-                                                       ng-keypress="($event.which === 13)?addexec(outindex,innerindex):0"
+                                                       ng-keypress="($event.which === 13)?addexec(outindex,innerindex,$event):0"
                                                        placeholder="1"/>
 
                                             </div>
                                             <div class="col-md-1" style="height: 39px;line-height: 39px;">
-                                                <i class="fa fa-lg" style="cursor: pointer" ng-click="innerindex==0?addexec(outindex,innerindex):deleexec(outindex,innerindex)" ng-class="{'fa-times-circle':!$first, 'fa-plus-circle':$first}"></i>
+                                                <i class="fa fa-lg" style="cursor: pointer" ng-click="innerindex==0?addexec(outindex,innerindex,$event):deleexec(outindex,innerindex)" ng-class="{'fa-times-circle':!$first, 'fa-plus-circle':$first}"></i>
                                             </div>
                                         </div>
                                         <br>
@@ -534,7 +534,7 @@
                                         <div class="col-md-11" style="padding-top: 5px;">
                                             <input type="text" name="candoname"
                                                    class="form-control" style="font-size: 12px;"
-                                                   ng-model=com
+                                                   ng-model=com.key
                                                    required
                                                    ng-keypress="($event.which === 13)?addexec(outindex,innerindex):0"
                                                    placeholder="1"/>

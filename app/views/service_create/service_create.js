@@ -360,7 +360,11 @@ angular.module('console.service.create', [
             };
 
             $scope.addcando = function (inner, outer) {
-                $scope.dc.spec.template.spec.containers[outer].readinessProbe.exec.command.push({key: null});
+                var newidx = inner+1;
+                $scope.dc.spec.template.spec.containers[outer].readinessProbe.exec.command.splice(newidx,0,{key: null});
+                setTimeout(function(){
+                    $('.continerboxs .containerval').eq(outer).find('.commandwrop').find('input').eq(newidx).focus();
+                },100)
             }
             $scope.deletecando = function (inner, outer) {
                 $scope.dc.spec.template.spec.containers[outer].readinessProbe.exec.command.splice(inner, 1);
