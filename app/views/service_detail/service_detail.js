@@ -1550,12 +1550,12 @@ angular.module('console.service.detail', [
             },true)
 
             /////////////////////探针添加命令选项
-            $scope.addexec = function(conidx,idx,first){
-                if (first) {     //添加
+            $scope.addexec = function(conidx){
                     $scope.dc.spec.template.spec.containers[conidx].readinessProbe.exec.command.push("");
-                } else {
-                    $scope.dc.spec.template.spec.containers[conidx].readinessProbe.exec.command.splice(idx, 1);
-                }
+
+            }
+            $scope.deleexec = function(conidx,idx){
+                $scope.dc.spec.template.spec.containers[conidx].readinessProbe.exec.command.splice(idx, 1);
             }
             $scope.addContainer = function () {
                 var container = $scope.dc.spec.template.spec.containers;
