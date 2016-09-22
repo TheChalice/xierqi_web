@@ -8,8 +8,8 @@ angular.module('console.service.create', [
             ]
         }
     ])
-    .controller('ServiceCreateCtrl', ['by', 'diploma', 'Confirm', 'Toast', '$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service', 'ChooseSecret', '$base64', 'secretskey', 'serviceaccounts',
-        function (by, diploma, Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service, ChooseSecret, $base64, secretskey, serviceaccounts) {
+    .controller('ServiceCreateCtrl', ['$http', 'by', 'diploma', 'Confirm', 'Toast', '$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service', 'ChooseSecret', '$base64', 'secretskey', 'serviceaccounts',
+        function ($http, by, diploma, Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service, ChooseSecret, $base64, secretskey, serviceaccounts) {
             $log.info('ServiceCreate');
             $scope.checkEnv = false;
 
@@ -96,9 +96,8 @@ angular.module('console.service.create', [
                 host: '',
                 noroute: false,
                 doquota: false,
-                danwei:'MB',
-                quotamemory:null,
-                quotacpu:null,
+                quotamemory: null,
+                quotacpu: null,
                 zsfile: {},
                 syfile: {},
                 cafile: {},
@@ -123,7 +122,54 @@ angular.module('console.service.create', [
                 servicenameerr: false,
                 imagePullSecrets: false
             };
+            $scope.quota = {
+                unit: 'MiB',
+                cpu: null,
+                memory: null
+            }
 
+            $scope.$watch('quota', function (n, o) {
+                if (n === o) {
+                    return;
+                }
+                if ($scope.grid.cpunum || $scope.grid.megnum) {
+                    //console.log(n.cpu, $scope.grid.cpunum);
+                    //console.log(n.memory, $scope.grid.megnum);
+                    if (n && n.cpu > $scope.grid.cpunum) {
+                        $scope.grid.cpuerr = true;
+                    } else {
+                        $scope.grid.cpuerr = false;
+                    }
+                    console.log($scope.quota.unit);
+                    if (n && n.memory) {
+                        if ($scope.quota.unit === 'MiB') {
+                            if (n.memory > ($scope.grid.megnum * 1000)) {
+                                $scope.grid.memoryerr = true;
+                            } else {
+                                $scope.grid.memoryerr = false;
+                            }
+                        } else if ($scope.quota.unit === 'GiB') {
+                            if (n.memory > $scope.grid.megnum) {
+                                $scope.grid.memoryerr = true;
+                            } else {
+                                $scope.grid.memoryerr = false;
+                            }
+                        }
+                    } else {
+                        $scope.grid.memoryerr = false;
+                    }
+                }
+            }, true)
+            $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas').success(function (data) {
+                //console.log('配额', data.items[0].spec.hard['requests.cpu']);
+                //console.log('配额', data.items[0].spec.hard['requests.memory']);
+                $scope.grid.cpunum = data.items[0].spec.hard['requests.cpu']
+                var gi = data.items[0].spec.hard['requests.memory'].replace('Gi', '')
+                var mb = parseInt(gi) * 1000;
+                var gb = mb / 1024;
+                $scope.grid.megnum = gi;
+
+            })
             $scope.tlsroutes = [];
 
             $scope.savetls = function () {
@@ -279,7 +325,16 @@ angular.module('console.service.create', [
                 "env": [],
                 cando: false,
                 doset: "HTTP",
-                "resources": {},
+                "resources": {
+                    "limits": {
+                        "cpu": null,
+                        "memory": null
+                    },
+                    "requests": {
+                        "cpu": null,
+                        "memory": null
+                    }
+                },
                 "imagePullPolicy": "Always",
                 isimageChange: true,
                 "readinessProbe": {
@@ -304,10 +359,10 @@ angular.module('console.service.create', [
                 }
             };
 
-            $scope.addcando= function (inner, outer) {
-                $scope.dc.spec.template.spec.containers[outer].readinessProbe.exec.command.push({key:null});
+            $scope.addcando = function (inner, outer) {
+                $scope.dc.spec.template.spec.containers[outer].readinessProbe.exec.command.push({key: null});
             }
-            $scope.deletecando= function (inner, outer) {
+            $scope.deletecando = function (inner, outer) {
                 $scope.dc.spec.template.spec.containers[outer].readinessProbe.exec.command.splice(inner, 1);
             }
             $scope.$watch('dc.spec.template.spec.containers', function (n, o) {
@@ -331,7 +386,7 @@ angular.module('console.service.create', [
                                     }
                                 } else if (n[i].doset === '命令') {
                                     $scope.dc.spec.template.spec.containers[i].readinessProbe.exec = {
-                                        command: [{key:null}]
+                                        command: [{key: null}]
 
                                     }
                                 } else if (n[i].doset === 'TCP') {
@@ -1359,24 +1414,42 @@ angular.module('console.service.create', [
             // 创建dc
             $scope.createDc = function () {
                 //console.log($scope.dc.spec.template.spec.containers);
-
+                console.log('$scope.quota', $scope.quota);
                 angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
+                    if ($scope.quota.cpu || $scope.quota.memory) {
+                        $scope.dc.spec.template.spec.containers[i].resources.limits.cpu = parseFloat($scope.grid.cpunum);
+                        $scope.dc.spec.template.spec.containers[i].resources.limits.memory = $scope.grid.megnum + 'Gi';
+                        if ($scope.quota.unit === 'MiB') {
+                            $scope.dc.spec.template.spec.containers[i].resources.requests.memory = parseFloat($scope.quota.memory) + 'Mi';
+                        } else if ($scope.quota.unit === 'GiB') {
+                            $scope.dc.spec.template.spec.containers[i].resources.requests.memory = parseFloat($scope.quota.memory) + 'Gi';
+                        }
+                        $scope.dc.spec.template.spec.containers[i].resources.requests.cpu = parseFloat($scope.quota.cpu);
 
-                    if (ports.readinessProbe.httpGet) {
-                        $scope.dc.spec.template.spec.containers[i].readinessProbe.httpGet.port = parseInt(ports.readinessProbe.httpGet.port)
-
-                    } else if (ports.readinessProbe.tcpSocket) {
-                        $scope.dc.spec.template.spec.containers[i].readinessProbe.tcpSocket.port = parseInt(ports.readinessProbe.tcpSocket.port)
-
+                    } else {
+                        delete $scope.dc.spec.template.spec.containers[i].resources
                     }
-                    if (ports.doset === '命令'&&ports.readinessProbe.exec) {
-                        ports.readinessProbe.exec.command
-                        angular.forEach(ports.readinessProbe.exec.command, function (item,k) {
-                            $scope.dc.spec.template.spec.containers[i].readinessProbe.exec.command[k]=item.key
-                        })
+
+                    if (ports.cando) {
+                        if (ports.readinessProbe.httpGet) {
+                            $scope.dc.spec.template.spec.containers[i].readinessProbe.httpGet.port = parseInt(ports.readinessProbe.httpGet.port)
+
+                        } else if (ports.readinessProbe.tcpSocket) {
+                            $scope.dc.spec.template.spec.containers[i].readinessProbe.tcpSocket.port = parseInt(ports.readinessProbe.tcpSocket.port)
+
+                        }
+                        if (ports.doset === '命令' && ports.readinessProbe.exec) {
+
+                            angular.forEach(ports.readinessProbe.exec.command, function (item, k) {
+                                $scope.dc.spec.template.spec.containers[i].readinessProbe.exec.command[k] = item.key
+                            })
+                        }
+                        $scope.dc.spec.template.spec.containers[i].readinessProbe.initialDelaySeconds = parseInt(ports.readinessProbe.initialDelaySeconds)
+                        $scope.dc.spec.template.spec.containers[i].readinessProbe.timeoutSeconds = parseInt(ports.readinessProbe.timeoutSeconds)
+                    } else {
+                        delete $scope.dc.spec.template.spec.containers[i].readinessProbe
                     }
-                    $scope.dc.spec.template.spec.containers[i].readinessProbe.initialDelaySeconds = parseInt(ports.readinessProbe.initialDelaySeconds)
-                    $scope.dc.spec.template.spec.containers[i].readinessProbe.timeoutSeconds = parseInt(ports.readinessProbe.timeoutSeconds)
+
                     if (ports.port) {
                         delete $scope.dc.spec.template.spec.containers[i].port
                     }
