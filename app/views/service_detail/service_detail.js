@@ -310,7 +310,7 @@ angular.module('console.service.detail', [
                     changevol(res);
                     $scope.dc = res;
 
-                    console.log(res, $scope.dc.spec.template.spec.containers[0].resources.requests.memory);
+                    //console.log(res, $scope.dc.spec.template.spec.containers[0].resources.requests.memory);
                     if ($scope.dc.spec.template.spec.containers[0].resources && $scope.dc.spec.template.spec.containers[0].resources.limits) {
                         $scope.quota.doquota = true;
                         if ($scope.dc.spec.template.spec.containers[0].resources.requests.cpu.indexOf('m') !== -1) {
