@@ -130,8 +130,8 @@ angular.module('console.service.create', [
 
             $scope.$watch('quota', function (n, o) {
                 if (n === o) {
-                    return
-                };
+                    return;
+                }
                 if ($scope.grid.cpunum || $scope.grid.megnum) {
                     //console.log(n.cpu, $scope.grid.cpunum);
                     //console.log(n.memory, $scope.grid.megnum);
