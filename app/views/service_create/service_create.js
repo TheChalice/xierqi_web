@@ -129,10 +129,9 @@ angular.module('console.service.create', [
             }
 
             $scope.$watch('quota', function (n, o) {
-                if (n == o) {
+                if (n === o) {
                     return
-                }
-                ;
+                };
                 if ($scope.grid.cpunum || $scope.grid.megnum) {
                     //console.log(n.cpu, $scope.grid.cpunum);
                     //console.log(n.memory, $scope.grid.megnum);
@@ -1415,19 +1414,19 @@ angular.module('console.service.create', [
             // 创建dc
             $scope.createDc = function () {
                 //console.log($scope.dc.spec.template.spec.containers);
-                console.log('$scope.quota',$scope.quota);
+                console.log('$scope.quota', $scope.quota);
                 angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
                     if ($scope.quota.cpu || $scope.quota.memory) {
-                        $scope.dc.spec.template.spec.containers[i].resources.limits.cpu=parseInt($scope.grid.cpunum);
-                        $scope.dc.spec.template.spec.containers[i].resources.limits.memory=$scope.grid.megnum+'Gi';
+                        $scope.dc.spec.template.spec.containers[i].resources.limits.cpu = parseFloat($scope.grid.cpunum);
+                        $scope.dc.spec.template.spec.containers[i].resources.limits.memory = $scope.grid.megnum + 'Gi';
                         if ($scope.quota.unit === 'MiB') {
-                            $scope.dc.spec.template.spec.containers[i].resources.requests.memory=parseInt($scope.quota.memory)+'Mi';
-                        }else if($scope.quota.unit === 'GiB'){
-                            $scope.dc.spec.template.spec.containers[i].resources.requests.memory=parseInt($scope.quota.memory)+'Gi';
+                            $scope.dc.spec.template.spec.containers[i].resources.requests.memory = parseFloat($scope.quota.memory) + 'Mi';
+                        } else if ($scope.quota.unit === 'GiB') {
+                            $scope.dc.spec.template.spec.containers[i].resources.requests.memory = parseFloat($scope.quota.memory) + 'Gi';
                         }
-                        $scope.dc.spec.template.spec.containers[i].resources.requests.cpu=parseInt($scope.quota.cpu);
+                        $scope.dc.spec.template.spec.containers[i].resources.requests.cpu = parseFloat($scope.quota.cpu);
 
-                    }else {
+                    } else {
                         delete $scope.dc.spec.template.spec.containers[i].resources
                     }
 
@@ -1447,7 +1446,7 @@ angular.module('console.service.create', [
                         }
                         $scope.dc.spec.template.spec.containers[i].readinessProbe.initialDelaySeconds = parseInt(ports.readinessProbe.initialDelaySeconds)
                         $scope.dc.spec.template.spec.containers[i].readinessProbe.timeoutSeconds = parseInt(ports.readinessProbe.timeoutSeconds)
-                    }else {
+                    } else {
                         delete $scope.dc.spec.template.spec.containers[i].readinessProbe
                     }
 
