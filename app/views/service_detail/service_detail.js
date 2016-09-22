@@ -341,7 +341,7 @@ angular.module('console.service.detail', [
                     //    }
                     //}
 
-                    var r = /^(dadafoundry.io\/mage-)/;
+                    var r = /^(dadafoundry.io\/image-)/;
                     for (var i = 0; i < res.spec.template.spec.containers.length; i++) {
                         var imagetag = 'dadafoundry.io/image-' + res.spec.template.spec.containers[i].name;
                         angular.forEach(res.metadata.annotations, function (v, k) {
