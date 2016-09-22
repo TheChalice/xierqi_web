@@ -42,7 +42,7 @@ angular.module('console.service.detail', [
             $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas').success(function (data) {
                 //console.log('配额', data.items[0].spec.hard['requests.cpu']);
                 //console.log('配额', data.items[0].spec.hard['requests.memory']);
-                if (data.items[0].spec.hard) {
+                if (data.items&&data.items[0]&&data.items[0].spec) {
                     $scope.grid.cpunum = data.items[0].spec.hard['requests.cpu']
                     var gi = data.items[0].spec.hard['requests.memory'].replace('Gi', '')
                     var mb = parseInt(gi) * 1000;
@@ -310,7 +310,7 @@ angular.module('console.service.detail', [
                     changevol(res);
                     $scope.dc = res;
 
-                    console.log(res, $scope.dc.spec.template.spec.containers[0].resources.requests.memory);
+                    //console.log(res, $scope.dc.spec.template.spec.containers[0].resources.requests.memory);
                     if ($scope.dc.spec.template.spec.containers[0].resources && $scope.dc.spec.template.spec.containers[0].resources.limits) {
                         $scope.quota.doquota = true;
                         if ($scope.dc.spec.template.spec.containers[0].resources.requests.cpu.indexOf('m') !== -1) {
