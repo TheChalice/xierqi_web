@@ -81,15 +81,15 @@
 .projectname  > li {
     margin-top: 0px;
     padding:0px;
-    height: 60px;
+    height: 52px;
     border-bottom: 1px solid #dfe4ef;
 }
 
 .projectname > li:hover {
     margin-top: 0px;
     padding:0px;
-    height: 60px;
-    line-height: 60px;
+    height: 52px;
+    line-height: 52px;
 }
 .projectname>.personal>a{
     color: #F8B551;
@@ -123,7 +123,10 @@
     color: #f8b551;
     padding-top: 7px;
 }
+/*20160920 jia begin*/
+.dropdown-menu{min-width:200px;}
 
+/*20160920 jia end*/
 @media (max-width: 758px) {
     #header {
         height: 50px;

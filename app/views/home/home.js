@@ -11,6 +11,10 @@ angular.module('home', [])
                   clearInterval($rootScope.timer)
               }
           })
+          $scope.where= function (now) {
+              console.log(now);
+              $scope.whereclick=now
+          }
         if($rootScope.user){
             return $rootScope.user;
         }

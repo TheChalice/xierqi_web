@@ -886,7 +886,16 @@ define(['angular'], function (angular) {
                             if (n == o) {
                                 return
                             }
-                            console.log(n);
+                            //console.log(n);
+
+                            if (n.image === 0&&!$scope.imageTags) {
+                                $scope.isxs = true
+                            }else if(n.image&&!$scope.imageTags){
+                                $scope.isxs = true
+                            }else {
+                                $scope.isxs = false
+                            }
+                            console.log(n.image,$scope.imageTags,$scope.isxs);
                             if (n.image||n.image===0) {
                                 if (n.version_x || n.version_x === 0) {
                                     $scope.cansever = true

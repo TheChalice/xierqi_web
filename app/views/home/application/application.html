@@ -76,7 +76,7 @@
                                                         <div class="caption">
                                                                <p class="href-orange"  >{{catobj.name}}</p>
                                                                <p style="font-size: 12px">提供者: {{catobj.provider}}</p>
-                                                               <a class="btn btn-orange1"  style='cursor:default;' ng-click="createsaas(catobj.appId)">创建</a>
+                                                               <a class="btn btn-orange1"  style='cursor:pointer;' ng-click="createsaas(catobj.appId)">创建</a>
                                                         </div>
                                                  </div>
                                           </div>
@@ -128,8 +128,8 @@
                                                  <!--<label>提供者</label>-->
                                                  <!--<div class="btn-group fw">-->
 
-                                                 <div class="btn-group fw" style="margin-left: 14px;" ng-repeat='item in serviceper'>
-                                                        <label class="btn pull-left sc" ng-class="{'active':grid.vendor == item.class}"
+                                                 <div class="btn-group fw" style="margin-left: 14px;" ng-repeat='item in serviceper'><!--Docker官方镜像 jia 20160922 添加pull_width -->
+                                                        <label class="btn pull-left sc pull_width" ng-class="{'active':grid.vendor == item.class}"
                                                                ng-click="selectsc('vendor',item.class)">{{item.name}}</label>
                                                  </div>
 

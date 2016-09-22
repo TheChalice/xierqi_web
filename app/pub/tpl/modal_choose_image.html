@@ -38,7 +38,7 @@
                         <input type="text" class="form-control" ng-model="imageVersion" placeholder="Tag">
                     </div>
                     <div class="is-box-wrap">
-                        <p ng-if="!imageTags&&grid.image">构建失败,无tag</p>
+                        <p ng-if="isxs">构建失败,无tag</p>
                         <ul ng-repeat="(k, tag) in imageTags" ng-show="!tag.hide">
                             <li ng-repeat="(j, o) in tag.items" ng-show="j < 1">
                                 <a href="javascript:;" ng-class="{'active': grid.version_x == k && grid.version_y == j}" ng-click="selectVersion(k, j)">

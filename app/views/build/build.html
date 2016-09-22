@@ -6,7 +6,7 @@
                 <span class="hidden-xs">新建构建</span>
             </a>
             <a class="btn btn-skyblue" ng-click="refresh()" style="height: 34px; width: 36px; padding: 5px 5px;">
-                <i class="fa fa-refresh fa-lg"></i>
+                <i class="fa fa-refresh fa-lg" style="vertical-align:bottom;"></i><!-- 20160921 jia 代码构建 loading处理按钮向下问题-->
             </a>
         </div>
         <div class="col-sm-5 col-xs-8" style="padding-left: 0; ">
@@ -18,7 +18,7 @@
     <div class="table-responsive" style="margin-top: 20px;">
         <table class="table table-hover table-default" style=table-layout:fixed;>
             <tr>
-                <div class=row>
+                <div class="row row_set"><!-- 20160921 jia 服务分类模块问题 -->
                     <th class='col-lg-2 col-md-2 col-sm-1'>构建名称</th>
                     <th class='col-lg-2 col-md-2 col-sm-2'>最近构建状态</th>
                     <th class='col-lg-2 col-md-2 col-sm-2'>最近构建时间</th>
@@ -45,7 +45,7 @@
                     <!--<i ng-if="false" class="fa fa-television">&nbsp;自动</i>-->
                 <!--</td>-->
                 <td class="text-center threec" style="text-align: center;">
-                    <div class="row" style='white-space: nowrap; text-align: center;'>
+                    <div class="row" style='white-space: nowrap; text-align: center;margin-left:10px;margin-right:10px;'>
                         <a class="icon25 icon25-source col-lg-4 col-md-4 col-sm-4" href="{{bc.spec.source.git.uri}}"
                            uib-tooltip="查看代码源" target="_blank"></a>
                         <a class="icon25 icon25-image col-lg-4 col-md-4 col-sm-4"
