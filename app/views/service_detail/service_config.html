@@ -758,8 +758,8 @@
             <h3>路由设置</h3>
         </div>
         <div class="col-md-10">
-                    <c-checkbox ng-if="portsArr[0].protocol!==''" checked="grid.route"></c-checkbox>
-                    <span class="my-checkbox" ng-if="portsArr[0].protocol===''" ng-click="grid.noroute=true">
+                    <c-checkbox ng-if="portsArr.length>0" checked="grid.route"></c-checkbox>
+                    <span class="my-checkbox" ng-if="!portsArr.length" ng-click="grid.noroute=true">
                         <span class="checkbox-check">
                             <span class="check-btn"></span>
                         </span>
@@ -1136,8 +1136,8 @@
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                <li><a ng-click="quota.unit='MiB'">MiB</a></li>
-                                <li><a ng-click="quota.unit='GiB'">GiB</a></li>
+                                <li><a ng-click="quota.unit='MB'">MB</a></li>
+                                <li><a ng-click="quota.unit='GB'">GB</a></li>
                             </ul>
                         </div>
 

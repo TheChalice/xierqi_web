@@ -369,9 +369,9 @@
                     <h3>配额限制</h3>
                 </div>
                 <div class="col-md-10">
-                    <c-checkbox checked="grid.doquota"></c-checkbox>
+                    <c-checkbox checked="quota.doquota"></c-checkbox>
                     <br>
-                    <div ng-if="grid.doquota">
+                    <div ng-if="quota.doquota">
                         <div class="col-md-12" style="padding: 0;">
                             <div class="col-md-4"style="padding: 0;">
                                 <input class="form-control" ng-model="quota.cpu" style="margin-top: 10px; width: 100%;" type="number" name="num" required placeholder="请输入整数">
@@ -393,14 +393,14 @@
                                         <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                    <li><a ng-click="quota.unit='MiB'">MiB</a></li>
-                                    <li><a ng-click="quota.unit='GiB'">GiB</a></li>
+                                    <li><a ng-click="quota.unit='MB'">MB</a></li>
+                                    <li><a ng-click="quota.unit='GB'">GB</a></li>
                                     </ul>
                                 </div>
 
                             </div>
                             <div class="col-md-2"style="padding: 0;text-align: center;line-height: 54px;">
-                                可用内存:{{grid.megnum}}GiB
+                                可用内存:{{grid.megnum}}GB
                             </div>
                         </div>
                     </div>

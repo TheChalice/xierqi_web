@@ -15,7 +15,7 @@ angular.module('console.service.detail', [
             $scope.servicepoterr = false;
             $scope.quota = {
                 doquota: false,
-                unit: 'MiB',
+                unit: 'MB',
                 cpu: null,
                 memory: null
             }
@@ -42,11 +42,14 @@ angular.module('console.service.detail', [
             $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas').success(function (data) {
                 //console.log('配额', data.items[0].spec.hard['requests.cpu']);
                 //console.log('配额', data.items[0].spec.hard['requests.memory']);
-                $scope.grid.cpunum = data.items[0].spec.hard['requests.cpu']
-                var gi = data.items[0].spec.hard['requests.memory'].replace('Gi', '')
-                var mb = parseInt(gi) * 1000;
-                var gb = mb / 1024;
-                $scope.grid.megnum = gi;
+                if (data.items[0].spec.hard) {
+                    $scope.grid.cpunum = data.items[0].spec.hard['requests.cpu']
+                    var gi = data.items[0].spec.hard['requests.memory'].replace('Gi', '')
+                    var mb = parseInt(gi) * 1000;
+                    var gb = mb / 1024;
+                    $scope.grid.megnum = gi;
+                }
+
 
             })
 
@@ -56,22 +59,25 @@ angular.module('console.service.detail', [
                 }
 
                 if ($scope.grid.cpunum || $scope.grid.megnum) {
-                    //console.log(n.cpu, $scope.grid.cpunum);
-                    //console.log(n.memory, $scope.grid.megnum);
-                    if (n && n.cpu > $scope.grid.cpunum) {
-                        $scope.grid.cpuerr = true;
-                    } else {
-                        $scope.grid.cpuerr = false;
+                    console.log(n.cpu, $scope.grid.cpunum);
+                    console.log(n.memory, $scope.grid.megnum);
+                    if (n.cpu) {
+                        if (parseFloat(n.cpu) > parseFloat($scope.grid.cpunum)) {
+                            $scope.grid.cpuerr = true;
+                        } else {
+                            $scope.grid.cpuerr = false;
+                        }
                     }
-                    if (n && n.memory) {
-                        if ($scope.quota.unit === 'MiB') {
-                            if (n.memory > ($scope.grid.megnum * 1000)) {
+
+                    if (n.memory) {
+                        if ($scope.quota.unit === 'MB') {
+                            if (parseFloat(n.memory) > (parseFloat($scope.grid.megnum) * 1000)) {
                                 $scope.grid.memoryerr = true;
                             } else {
                                 $scope.grid.memoryerr = false;
                             }
-                        } else if ($scope.quota.unit === 'GiB') {
-                            if (n.memory > $scope.grid.megnum) {
+                        } else if ($scope.quota.unit === 'GB') {
+                            if (parseFloat(n.memory) > parseFloat($scope.grid.megnum)) {
                                 $scope.grid.memoryerr = true;
                             } else {
                                 $scope.grid.memoryerr = false;
@@ -80,6 +86,7 @@ angular.module('console.service.detail', [
                     } else {
                         $scope.grid.memoryerr = false;
                     }
+                    console.log($scope.grid.memoryerr, $scope.grid.cpuerr);
                 }
             }, true)
 
@@ -2280,30 +2287,35 @@ angular.module('console.service.detail', [
             $scope.updateDc = function () {
                 // console.log('点击更新');
                 angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
-                    if ($scope.quota.cpu || $scope.quota.memory) {
-                        $scope.dc.spec.template.spec.containers[i].resources = {
-                            "limits": {
-                                "cpu": null,
-                                "memory": null
-                            },
-                            "requests": {
-                                "cpu": null,
-                                "memory": null
+                    if ($scope.quota.doquota) {
+                        if ($scope.quota.cpu || $scope.quota.memory) {
+                            $scope.dc.spec.template.spec.containers[i].resources = {
+                                "limits": {
+                                    "cpu": null,
+                                    "memory": null
+                                },
+                                "requests": {
+                                    "cpu": null,
+                                    "memory": null
+                                }
+                            };
+                            $scope.dc.spec.template.spec.containers[i].resources.limits.cpu = parseFloat($scope.grid.cpunum);
+                            $scope.dc.spec.template.spec.containers[i].resources.limits.memory = $scope.grid.megnum + 'Gi';
+                            if ($scope.quota.unit === 'MB') {
+                                $scope.dc.spec.template.spec.containers[i].resources.requests.memory = parseFloat($scope.quota.memory) + 'Mi';
+                            } else if ($scope.quota.unit === 'GB') {
+                                $scope.dc.spec.template.spec.containers[i].resources.requests.memory = parseFloat($scope.quota.memory) + 'Gi';
                             }
-                        };
-                        $scope.dc.spec.template.spec.containers[i].resources.limits.cpu = parseFloat($scope.grid.cpunum);
-                        $scope.dc.spec.template.spec.containers[i].resources.limits.memory = $scope.grid.megnum + 'Gi';
-                        if ($scope.quota.unit === 'MiB') {
-                            $scope.dc.spec.template.spec.containers[i].resources.requests.memory = parseFloat($scope.quota.memory) + 'Mi';
-                        } else if ($scope.quota.unit === 'GiB') {
-                            $scope.dc.spec.template.spec.containers[i].resources.requests.memory = parseFloat($scope.quota.memory) + 'Gi';
+
+                            $scope.dc.spec.template.spec.containers[i].resources.requests.cpu = parseFloat($scope.quota.cpu);
+
+                        } else {
+                            delete $scope.dc.spec.template.spec.containers[i].resources
                         }
-
-                        $scope.dc.spec.template.spec.containers[i].resources.requests.cpu = parseFloat($scope.quota.cpu);
-
                     } else {
                         delete $scope.dc.spec.template.spec.containers[i].resources
                     }
+
                     if (ports.port) {
                         delete $scope.dc.spec.template.spec.containers[i].port;
                     }
