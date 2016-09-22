@@ -445,7 +445,11 @@ angular.module('console.service.detail', [
                                 $scope.dc.spec.template.spec.containers[i].dosetcon = 'HTTP'
                             } else if ($scope.dc.spec.template.spec.containers[i].readinessProbe.tcpSocket) {
                                 $scope.dc.spec.template.spec.containers[i].dosetcon = 'TCP'
-                            } else if ($scope.dc.spec.template.spec.containers[i].readinessProbe.exec) {
+                            } else if ($scope.dc.spec.template.spec.containers[i].readinessProbe.exec){
+                                var copyexex = angular.copy($scope.dc.spec.template.spec.containers[i].readinessProbe.exec.command)
+                                for(var k = 0 ; k < copyexex.length; k++ ){
+                                    $scope.dc.spec.template.spec.containers[i].readinessProbe.exec.command[k] = {key : copyexex[k]};
+                                }
                                 $scope.dc.spec.template.spec.containers[i].dosetcon = '命令'
                             }
                         }
@@ -2372,10 +2376,22 @@ angular.module('console.service.detail', [
                     }
                     prepareEnv(dc);
                     for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
-                        if (dc.spec.template.spec.containers.readinessProbe && dc.spec.template.spec.containers.dosetcon.doset === '命令' && dc.spec.template.spec.containers.readinessProbe.exec) {
-                            angular.forEach(ports.readinessProbe.exec.command, function (item, k) {
-                                $scope.dc.spec.template.spec.containers[i].readinessProbe.exec.command[k] = item.key
-                            })
+
+                        if (dc.spec.template.spec.containers.doset) {
+                            if (dc.spec.template.spec.containers.readinessProbe.httpGet) {
+                                dc.spec.template.spec.containers[i].readinessProbe.httpGet.port = parseInt(dc.spec.template.spec.containers[i].readinessProbe.httpGet.port)
+
+                            } else if (dc.spec.template.spec.containers.readinessProbe.tcpSocket) {
+                                dc.spec.template.spec.containers[i].readinessProbe.tcpSocket.port = parseInt(dc.spec.template.spec.containers[i].readinessProbe.tcpSocket.port)
+
+                            }
+                            if (dc.spec.template.spec.containers[i].readinessProbe && dc.spec.template.spec.containers[i].dosetcon.doset === '命令' && dc.spec.template.spec.containers[i].readinessProbe.exec) {
+                                angular.forEach(dc.spec.template.spec.containers[i].readinessProbe.exec.command, function (item, k) {
+                                   dc.spec.template.spec.containers[i].readinessProbe.exec.command[k] = item.key
+                                })
+                            }
+                            dc.spec.template.spec.containers[i].readinessProbe.initialDelaySeconds = parseInt(dc.spec.template.spec.containers[i].readinessProbe.initialDelaySeconds)
+                            dc.spec.template.spec.containers[i].readinessProbe.timeoutSeconds = parseInt(dc.spec.template.spec.containers[i].readinessProbe.timeoutSeconds)
                         }
 
                         if (dc.spec.template.spec.containers[i].hasOwnProperty("isimageChange")) {
