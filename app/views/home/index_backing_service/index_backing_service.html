@@ -1,5 +1,5 @@
 <div class="idx-bs" id="idx-bs">
-    <div class="tabs row" style='padding-left: 12px;position: relative;'>
+    <div class="tabs row" style='padding-left:0px;position: relative;'>
         <div  class='col-mb-1' style='margin-right: 20px;'>
             <label>服务分类</label>
         </div>
@@ -26,7 +26,7 @@
                    ng-keydown=keysearch($event)
                    ng-model="grid.txt">
             <!--ng-model="txt" ng-focus="showTip=true;" -->
-                    <span class="input-group-btn" id=inputa>
+                    <span class="input-group-btn" style="background:#fff;" id=inputa><!--搜索背景颜色处理 jia 20160922-->
                         <a class="btn" ng-click="search()"></a>
                     </span>
         </div>
