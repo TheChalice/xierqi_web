@@ -389,18 +389,18 @@
                             <div class="col-md-1"style="padding: 0;">
                                 <div class="dropdown">
                                     <button id="btnout" class="btn btn-default dropdown-toggle select" style="margin-top: 10px;" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        {{quota.danwei}}
+                                        {{quota.unit}}
                                         <span class="caret"></span>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                    <li><a ng-click="quota.danwei='MB'">MB</a></li>
-                                    <li><a ng-click="quota.danwei='GB'">GB</a></li>
+                                    <li><a ng-click="quota.unit='MiB'">MiB</a></li>
+                                    <li><a ng-click="quota.unit='GiB'">GiB</a></li>
                                     </ul>
                                 </div>
 
                             </div>
                             <div class="col-md-2"style="padding: 0;text-align: center;line-height: 54px;">
-                                可用内存:{{grid.megnum}}GB
+                                可用内存:{{grid.megnum}}GiB
                             </div>
                         </div>
                     </div>

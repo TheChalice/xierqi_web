@@ -123,7 +123,7 @@ angular.module('console.service.create', [
                 imagePullSecrets: false
             };
             $scope.quota = {
-                danwei: 'MB',
+                unit: 'MiB',
                 cpu: null,
                 memory: null
             }
@@ -134,21 +134,22 @@ angular.module('console.service.create', [
                 }
                 ;
                 if ($scope.grid.cpunum || $scope.grid.megnum) {
-                    console.log(n.cpu, $scope.grid.cpunum);
-                    console.log(n.memory, $scope.grid.megnum);
+                    //console.log(n.cpu, $scope.grid.cpunum);
+                    //console.log(n.memory, $scope.grid.megnum);
                     if (n && n.cpu > $scope.grid.cpunum) {
                         $scope.grid.cpuerr = true;
                     } else {
                         $scope.grid.cpuerr = false;
                     }
+                    console.log($scope.quota.unit);
                     if (n && n.memory) {
-                        if ($scope.quota.danwei === 'MB') {
+                        if ($scope.quota.unit === 'MiB') {
                             if (n.memory > ($scope.grid.megnum * 1000)) {
                                 $scope.grid.memoryerr = true;
                             } else {
                                 $scope.grid.memoryerr = false;
                             }
-                        } else if ($scope.quota.danwei === 'GB') {
+                        } else if ($scope.quota.unit === 'GiB') {
                             if (n.memory > $scope.grid.megnum) {
                                 $scope.grid.memoryerr = true;
                             } else {
@@ -161,8 +162,8 @@ angular.module('console.service.create', [
                 }
             }, true)
             $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas').success(function (data) {
-                console.log('配额', data.items[0].spec.hard['requests.cpu']);
-                console.log('配额', data.items[0].spec.hard['requests.memory']);
+                //console.log('配额', data.items[0].spec.hard['requests.cpu']);
+                //console.log('配额', data.items[0].spec.hard['requests.memory']);
                 $scope.grid.cpunum = data.items[0].spec.hard['requests.cpu']
                 var gi = data.items[0].spec.hard['requests.memory'].replace('Gi', '')
                 var mb = parseInt(gi) * 1000;
@@ -1414,15 +1415,15 @@ angular.module('console.service.create', [
             // 创建dc
             $scope.createDc = function () {
                 //console.log($scope.dc.spec.template.spec.containers);
-
+                console.log('$scope.quota',$scope.quota);
                 angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
                     if ($scope.quota.cpu || $scope.quota.memory) {
                         $scope.dc.spec.template.spec.containers[i].resources.limits.cpu=parseInt($scope.grid.cpunum);
                         $scope.dc.spec.template.spec.containers[i].resources.limits.memory=$scope.grid.megnum+'Gi';
-                        if ($scope.quota.danwei = 'MB') {
+                        if ($scope.quota.unit === 'MiB') {
                             $scope.dc.spec.template.spec.containers[i].resources.requests.memory=parseInt($scope.quota.memory)+'Mi';
-                        }else if($scope.quota.danwei = 'GB'){
-                            $scope.dc.spec.template.spec.containers[i].resources.requests.memory=$scope.quota.memory+'G';
+                        }else if($scope.quota.unit === 'GiB'){
+                            $scope.dc.spec.template.spec.containers[i].resources.requests.memory=parseInt($scope.quota.memory)+'Gi';
                         }
                         $scope.dc.spec.template.spec.containers[i].resources.requests.cpu=parseInt($scope.quota.cpu);
 
