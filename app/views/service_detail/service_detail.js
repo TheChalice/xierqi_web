@@ -1597,7 +1597,7 @@ angular.module('console.service.detail', [
                                 $scope.dc.spec.template.spec.containers[i].readinessProbe = {
                                     "exec": {
                                         "command": [
-                                            ""
+                                            {key : ''}
                                         ]
                                     },
                                     "initialDelaySeconds": "",
@@ -1624,8 +1624,13 @@ angular.module('console.service.detail', [
             }, true)
 
             /////////////////////探针添加命令选项
-            $scope.addexec = function (conidx) {
-                $scope.dc.spec.template.spec.containers[conidx].readinessProbe.exec.command.push("");
+            $scope.addexec = function (conidx,idx,e) {
+                var obj = {key : ''}
+                var newidx = idx+1;
+                $scope.dc.spec.template.spec.containers[conidx].readinessProbe.exec.command.splice(newidx,0,obj);
+                setTimeout(function(){
+                    $('.service-config > div.continerboxs').eq(conidx).find('.commandwrop').find('input').eq(newidx).focus();
+                },100)
 
             }
             $scope.deleexec = function (conidx, idx) {
@@ -2367,6 +2372,11 @@ angular.module('console.service.detail', [
                     }
                     prepareEnv(dc);
                     for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
+                        if (dc.spec.template.spec.containers.readinessProbe && dc.spec.template.spec.containers.dosetcon.doset === '命令' && dc.spec.template.spec.containers.readinessProbe.exec) {
+                            angular.forEach(ports.readinessProbe.exec.command, function (item, k) {
+                                $scope.dc.spec.template.spec.containers[i].readinessProbe.exec.command[k] = item.key
+                            })
+                        }
 
                         if (dc.spec.template.spec.containers[i].hasOwnProperty("isimageChange")) {
                             if (!dc.spec.template.spec.containers[i].triggerImageTpl && dc.spec.template.spec.containers[i].isimageChange) {

@@ -23,7 +23,7 @@
                 <div class="col-md-2" style="padding-top: 8px;">
                     <h3>POD配置</h3>
                 </div>
-                <div class="col-md-10">
+                <div class="col-md-10 continerboxs">
                     <a href="javascript:;" style="line-height: 40px; margin-bottom: 10px" class="href-add"
                        ng-click="addContainer()">
                         <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;<span style="font-size: 12px">创建容器</span>
@@ -31,7 +31,7 @@
                     <br>
                     <small ng-show="invalid.containerLength" class="fa fa-info-circle err-tip">您至少需要设置一个容器</small>
                     <div ng-repeat="container in dc.spec.template.spec.containers" ng-init="outerIndex = $index"
-                         style="border:1px solid #c9c9c9;border-radius:2px;margin-bottom: 15px; margin-top: 10px">
+                         style="border:1px solid #c9c9c9;border-radius:2px;margin-bottom: 15px; margin-top: 10px"; class="containerval">
                         <div class="container-fluid container-bar" style="border: none;background: #f7f8fb;">
                             <div class="row">
                                 <div class="col-sm-6">
@@ -240,7 +240,7 @@
                                         </div>
                                         <div class="dohttp" ng-if="container.doset === '命令'">
                                             <div class="col-md-12 mt10">
-                                                <div>
+                                                <div class="commandwrop">
                                                     <br/>
                                                     <label style="font-size: 14px; font-weight: normal;">命令&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                                     <br/>
