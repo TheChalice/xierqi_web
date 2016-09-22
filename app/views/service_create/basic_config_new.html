@@ -163,12 +163,12 @@
                                                 <br/>
                                                 <label style="font-size: 14px; font-weight: normal;">类型&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                                 <br/>
-                                                <div class="col-md-11" style="padding-top: 5px">
+                                                <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
                                                     <div class="dropdown dropdown-select" style="width: 100%;">
-                                                        <button class="btn dropdown-toggle" data-toggle="dropdown" ng-blur="false" >
+                                                        <span class="btn dropdown-toggle" data-toggle="dropdown" ng-blur="false" >
                                                             <span>{{container.doset}}</span>
                                                             <span class="caret"></span>
-                                                        </button>
+                                                        </span>
                                                         <ul class="dropdown-menu">
                                                             <li>
                                                                 <a href="javascript:;"
@@ -196,7 +196,7 @@
                                                     <br/>
                                                     <label style="font-size: 14px; font-weight: normal;">路径&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                                     <br/>
-                                                    <div class="col-md-11" style="padding-top: 5px">
+                                                    <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
                                                         <input type="text" name="candopath"
                                                                class="form-control" style="font-size: 12px;"
                                                                ng-model="container.readinessProbe.httpGet.path"
@@ -211,7 +211,7 @@
                                                     <br/>
                                                     <label style="font-size: 14px; font-weight: normal;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                                     <br/>
-                                                    <div class="col-md-11" style="padding-top: 5px">
+                                                    <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
                                                         <!--<input type="text" name="candoport"-->
                                                                <!--class="form-control" style="font-size: 12px;"-->
                                                                <!--ng-model="container.readinessProbe.httpGet.port"-->
@@ -245,7 +245,7 @@
                                                     <label style="font-size: 14px; font-weight: normal;">命令&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                                     <br/>
                                                     <div ng-repeat="com in container.readinessProbe.exec.command track by $index" ng-init="innerIndex = $index">
-                                                        <div class="col-md-11" style="padding-top: 5px">
+                                                        <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
                                                             <input type="text" name="comkey"
                                                                    class="form-control" style="font-size: 12px;"
                                                                    ng-model="com.key"
@@ -268,7 +268,7 @@
                                                     <br/>
                                                     <label style="font-size: 14px; font-weight: normal;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                                     <br/>
-                                                    <div class="col-md-11" style="padding-top: 5px">
+                                                    <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
                                                         <!--<input type="text" name="candotcp"-->
                                                                <!--class="form-control" style="font-size: 12px;"-->
                                                                <!--ng-model="container.readinessProbe.tcpSocket.port"-->
@@ -301,7 +301,7 @@
                                                 <br/>
                                                 <label style="font-size: 14px; font-weight: normal;">初始延迟&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                                 <br/>
-                                                <div class="col-md-11" style="padding-top: 5px;">
+                                                <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
                                                     <div class="dropdown dropdown-select"
                                                          style="width: 100%; border: 1px solid #ccc;">
                                                         <div class="input-group" style="width:100%">
@@ -329,7 +329,7 @@
                                                 <br/>
                                                 <label style="font-size: 14px; font-weight: normal;">超时&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                                 <br/>
-                                                <div class="col-md-11" style="padding-top: 5px;">
+                                                <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
                                                     <div class="dropdown dropdown-select"
                                                          style="width: 100%; border: 1px solid #ccc;">
                                                         <div class="input-group" style="width:100%">
