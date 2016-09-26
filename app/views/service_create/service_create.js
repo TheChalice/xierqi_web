@@ -373,10 +373,19 @@ angular.module('console.service.create', [
 
             $scope.addcando = function (inner, outer) {
                 var newidx = inner+1;
-                $scope.dc.spec.template.spec.containers[outer].readinessProbe.exec.command.splice(newidx,0,{key: null});
-                setTimeout(function(){
-                    $('.continerboxs .containerval').eq(outer).find('.commandwrop').find('input').eq(newidx).focus();
-                },100)
+                //$scope.dc.spec.template.spec.containers[outer].readinessProbe.exec.command.splice(newidx,0,{key: null});
+                $scope.dc.spec.template.spec.containers[outer].readinessProbe.exec.command.push({key: null})
+                if (inner === 0) {
+
+                    setTimeout(function(){
+                        $('.continerboxs .containerval').eq(outer).find('.commandwrop').find('input').eq($scope.dc.spec.template.spec.containers[outer].readinessProbe.exec.command.length-1).focus();
+                    },100)
+                }else {
+                    setTimeout(function(){
+                        $('.continerboxs .containerval').eq(outer).find('.commandwrop').find('input').eq(newidx).focus();
+                    },100)
+                }
+
             }
 
             $scope.deletecando = function (inner, outer) {

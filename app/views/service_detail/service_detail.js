@@ -1629,13 +1629,25 @@ angular.module('console.service.detail', [
 
             /////////////////////探针添加命令选项
             $scope.addexec = function (conidx,idx,e) {
-                var obj = {key : ''}
+                //var obj = {key : ''}
+                //var newidx = idx+1;
+                //$scope.dc.spec.template.spec.containers[conidx].readinessProbe.exec.command.splice(newidx,0,obj);
+                //setTimeout(function(){
+                //    $('.service-config > div.continerboxs').eq(conidx).find('.commandwrop').find('input').eq(newidx).focus();
+                //},100)
                 var newidx = idx+1;
-                $scope.dc.spec.template.spec.containers[conidx].readinessProbe.exec.command.splice(newidx,0,obj);
-                setTimeout(function(){
-                    $('.service-config > div.continerboxs').eq(conidx).find('.commandwrop').find('input').eq(newidx).focus();
-                },100)
+                //$scope.dc.spec.template.spec.containers[outer].readinessProbe.exec.command.splice(newidx,0,{key: null});
+                $scope.dc.spec.template.spec.containers[conidx].readinessProbe.exec.command.push({key: null})
+                if (idx === 0) {
 
+                    setTimeout(function(){
+                        $('.service-config > div.continerboxs').eq(conidx).find('.commandwrop').find('input').eq($scope.dc.spec.template.spec.containers[conidx].readinessProbe.exec.command.length-1).focus();
+                    },100)
+                }else {
+                    setTimeout(function(){
+                        $('.service-config > div.continerboxs').eq(conidx).find('.commandwrop').find('input').eq(newidx).focus();
+                    },100)
+                }
             }
             $scope.deleexec = function (conidx, idx) {
                 $scope.dc.spec.template.spec.containers[conidx].readinessProbe.exec.command.splice(idx, 1);
