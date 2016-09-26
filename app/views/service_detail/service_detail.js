@@ -739,14 +739,14 @@ angular.module('console.service.detail', [
                     }
 
                     $scope.getroutes = res;
-
+                    console.log('$scope.getroutes', $scope.getroutes);
                     for (var i = 0; i < res.items.length; i++) {
                         if (res.items[i].spec.to.kind != 'Service') {
                             continue;
                         }
                         //console.log("$scope.dc.metadata.name--0-0-0-0",$scope.dc.metadata.name);
                         //console.log("res.items[i].spec.to.name--0-0-0-0",res.items[i].spec.to.name);
-                        if (res.items[i].spec.to.name == $scope.dc.metadata.name) {
+                        if (res.items[i].spec.to.name === $scope.dc.metadata.name) {
                             $scope.dc.route = res.items[i];
                             $scope.grid.route = true;
                             if ($scope.dc.route.spec.port) {
