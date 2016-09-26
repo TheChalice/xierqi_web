@@ -12,7 +12,7 @@ angular.module('home', [])
               }
           })
           $scope.where= function (now) {
-              console.log(now);
+              //console.log(now)
               $scope.whereclick=now
           }
         if($rootScope.user){
