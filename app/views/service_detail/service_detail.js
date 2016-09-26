@@ -739,7 +739,7 @@ angular.module('console.service.detail', [
                     }
 
                     $scope.getroutes = res;
-                    console.log('$scope.getroutes', $scope.getroutes);
+                    //console.log('$scope.getroutes', $scope.getroutes);
                     for (var i = 0; i < res.items.length; i++) {
                         if (res.items[i].spec.to.kind != 'Service') {
                             continue;
