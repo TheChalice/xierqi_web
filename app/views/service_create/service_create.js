@@ -373,10 +373,19 @@ angular.module('console.service.create', [
 
             $scope.addcando = function (inner, outer) {
                 var newidx = inner+1;
-                $scope.dc.spec.template.spec.containers[outer].readinessProbe.exec.command.splice(newidx,0,{key: null});
-                setTimeout(function(){
-                    $('.continerboxs .containerval').eq(outer).find('.commandwrop').find('input').eq(newidx).focus();
-                },100)
+                //$scope.dc.spec.template.spec.containers[outer].readinessProbe.exec.command.splice(newidx,0,{key: null});
+                $scope.dc.spec.template.spec.containers[outer].readinessProbe.exec.command.push({key: null})
+                if (inner === 0) {
+
+                    setTimeout(function(){
+                        $('.continerboxs .containerval').eq(outer).find('.commandwrop').find('input').eq($scope.dc.spec.template.spec.containers[outer].readinessProbe.exec.command.length-1).focus();
+                    },100)
+                }else {
+                    setTimeout(function(){
+                        $('.continerboxs .containerval').eq(outer).find('.commandwrop').find('input').eq(newidx).focus();
+                    },100)
+                }
+
             }
 
             $scope.deletecando = function (inner, outer) {
@@ -391,27 +400,32 @@ angular.module('console.service.create', [
                     angular.forEach(n, function (nitem, i) {
                         if (n[i] && o[i]) {
                             if (n[i].doset !== o[i].doset) {
-                                //alert(3)
-                                delete $scope.dc.spec.template.spec.containers[i].readinessProbe.exec;
-                                delete $scope.dc.spec.template.spec.containers[i].readinessProbe.httpGet;
-                                delete $scope.dc.spec.template.spec.containers[i].readinessProbe.tcpSocket;
 
-                                if (n[i].doset === 'HTTP') {
-                                    $scope.dc.spec.template.spec.containers[i].readinessProbe.httpGet = {
-                                        path: null,
-                                        port: null,
-                                        scheme: "HTTP"
-                                    }
-                                } else if (n[i].doset === '命令') {
-                                    $scope.dc.spec.template.spec.containers[i].readinessProbe.exec = {
-                                        command: [{key: null}]
+                                if ($scope && $scope.dc && $scope.dc.spec.template&&$scope.dc.spec.template.spec.containers[i].readinessProbe) {
+                                    //alert(3)
+                                    //console.log($scope.dc.spec.template.spec.containers[i].readinessProbe);
+                                    delete $scope.dc.spec.template.spec.containers[i].readinessProbe.exec;
+                                    delete $scope.dc.spec.template.spec.containers[i].readinessProbe.httpGet;
+                                    delete $scope.dc.spec.template.spec.containers[i].readinessProbe.tcpSocket;
 
-                                    }
-                                } else if (n[i].doset === 'TCP') {
-                                    $scope.dc.spec.template.spec.containers[i].readinessProbe.tcpSocket = {
-                                        "port": null
+                                    if (n[i].doset === 'HTTP') {
+                                        $scope.dc.spec.template.spec.containers[i].readinessProbe.httpGet = {
+                                            path: null,
+                                            port: null,
+                                            scheme: "HTTP"
+                                        }
+                                    } else if (n[i].doset === '命令') {
+                                        $scope.dc.spec.template.spec.containers[i].readinessProbe.exec = {
+                                            command: [{key: null}]
+
+                                        }
+                                    } else if (n[i].doset === 'TCP') {
+                                        $scope.dc.spec.template.spec.containers[i].readinessProbe.tcpSocket = {
+                                            "port": null
+                                        }
                                     }
                                 }
+
                             }
                         }
 
@@ -1624,6 +1638,7 @@ angular.module('console.service.create', [
                     createService(dc);
                 }
                 if ($scope.grid.route) {
+                    console.log('$scope.grid.port',$scope.grid.port);
                     createRoute(dc);
                 }
                 var createDcfn = function () {

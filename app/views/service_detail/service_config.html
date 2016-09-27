@@ -767,7 +767,9 @@
                     </span>
             <br>
             <div ng-if="grid.route" style="margin-top: 35px;">
-                <div><small ng-if="!grid.port" class="fa fa-info-circle err-tip"> 请填写tpc端口</small></div>
+                <div>
+                    <small ng-if="!grid.port" class="fa fa-info-circle err-tip">请填写tpc端口</small>
+                </div>
                 <!--<label style="font-size: 12px; font-weight: normal;  margin-top: 35px;"></label>-->
                 <div class="dropdown dropdown-select" style="width: 80px;">
                     <button class="btn dropdown-toggle" data-toggle="dropdown" ng-click="updatePorts()">
