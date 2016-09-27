@@ -117,6 +117,12 @@ define([
                   }
                   return User.get({name: '~'}).$promise;
                 }]
+                //account: ['$rootScope', 'account', function ($rootScope, account) {
+                //  if ($rootScope.account) {
+                //    return $rootScope.account;
+                //  }
+                //  return account.get().$promise;
+                //}]
               },
               abstract: true
             })

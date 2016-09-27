@@ -1324,8 +1324,8 @@ define(['angular'], function (angular) {
             };
 
         }])
-        .service('AuthService', ['$timeout', '$q', 'orgList', '$rootScope', '$http', '$base64', 'Cookie', '$state', '$log', 'Project', 'GLOBAL', 'Alert', 'User',
-            function ($timeout, $q, orgList, $rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User) {
+        .service('AuthService', ['account','$timeout', '$q', 'orgList', '$rootScope', '$http', '$base64', 'Cookie', '$state', '$log', 'Project', 'GLOBAL', 'Alert', 'User',
+            function (account,$timeout, $q, orgList, $rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User) {
 
                 this.login = function (credentials, stateParams) {
                     console.log("login", credentials);
@@ -1390,6 +1390,16 @@ define(['angular'], function (angular) {
                                         //  TODO 查看收藏功能
                                     }
                                 } else {
+                                    //获取套餐
+                                    account.get({}, function (data) {
+                                        console.log('套餐', data);
+                                        //$rootScope.payment=data;
+                                        if (data.purchased) {
+                                            //跳转dashboard
+                                        }else{
+                                            //跳转购买套餐
+                                        }
+                                    })
                                     $state.go('console.dashboard');
                                 }
 
