@@ -362,12 +362,12 @@ angular.module('home.application', [
                     //alert(11)
                     $scope.imagecenter = $filter("imagefilter")($scope.grid.cenimagecopy, $scope.isComplete);
                     //console.log($scope.imagecenter);
-                    //$scope.typeimagecenter = angular.copy($scope.imagecenter);
+                    $scope.typeimagecenter = angular.copy($scope.imagecenter);
                 } else {
 
                     $scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
                     //console.log($scope.imagecenter);
-                    //$scope.typeimagecenter = angular.copy($scope.imagecenter);
+                    $scope.typeimagecenter = angular.copy($scope.imagecenter);
                 }
                 //$scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
                 //console.log($scope.imagecenter);
