@@ -50,5 +50,9 @@ angular.module('home.introduce', [
                 $state.go('console.dashboard');
             }
         }
-
+        $('.imgover').mouseover(function(){
+            $(this).siblings('.imgdown').stop().slideDown(200);
+        }).mouseout(function(){
+            $(this).siblings('.imgdown').stop().slideUp(200);
+        })
     }]);

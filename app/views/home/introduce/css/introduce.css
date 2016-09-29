@@ -115,11 +115,10 @@ background:#c9c9c9;}
     font-weight:bold;
     color: #bdc0c7;
     text-align: center;
-    height: 300px;
-    line-height: 50px;
+    line-height: 30px;
     width: 100%;
     paddin: 0px 30px;
-    padding-top: 40px;
+    padding-top: 20px;
     margin-left: 0;
     margin-right: 0;
 }
@@ -164,13 +163,16 @@ background:#c9c9c9;}
     background: #469450;
 }
 .footer-lx p {
-    margin-bottom: 15px;
-    line-height: 30px;
+    line-height: 20px;
 }
 
 .footer-td {
     border-right: 1px solid #3d4458;
 }
+.imgdown{
+    display: none;
+}
 
-#particles-js{ width: 100%; height: 100%; background-color: #002B5A; background-image: url(''); background-size: cover; background-position: 50% 50%; background-repeat: no-repeat; }
+
+#particles-js{ width: 100%; height: 100%; background-color: #202538; background-image: url(''); background-size: cover; background-position: 50% 50%; background-repeat: no-repeat; }
 
