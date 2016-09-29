@@ -581,7 +581,15 @@ define([
             var balance = $resource('/payment/v1/balance', {}, {});
             return balance;
         }])
-        .factory('checkout', ['$resource', 'GLOBAL', function ($resource) {//充值
+        .factory('market', ['$resource', 'GLOBAL', function ($resource) {//套餐
+            var market = $resource('/payment/v1/market', {}, {});
+            return market;
+        }])
+        .factory('amount', ['$resource', 'GLOBAL', function ($resource) {//获取套餐
+            var amount = $resource('/payment/v1/amount', {}, {});
+            return amount;
+        }])
+        .factory('checkout', ['$resource', 'GLOBAL', function ($resource) {//选择套餐
             var checkout = $resource('/payment/v1/checkout', {}, {
                 create: {method: 'POST'}
             });
