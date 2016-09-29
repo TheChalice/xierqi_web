@@ -601,7 +601,7 @@ angular.module('console.service.create', [
                             };
                             $scope.dc.metadata.annotations[imagetag] = arr[3] + ":" + arr[2];
                             $scope.portsArr = []
-                            if ($stateParams.ports.length > 0) {
+                            if ($stateParams.ports&&$stateParams.ports.length > 0) {
                                 var arr = angular.copy($stateParams.ports)
                                 angular.forEach(arr, function (port, i) {
 
