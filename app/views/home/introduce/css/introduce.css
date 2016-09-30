@@ -113,10 +113,14 @@ color:#fff;font-size:12px;-webkit-transition:all 0.6s;transition:all 0.6s;-webki
 }
 .testcon{
     overflow: hidden;
+    margin:0;padding:0;
 }
 .testcon li{
     background-size: contain;
     background-repeat: no-repeat;
+}
+.fontcolor{
+    color: #f8b551;
 }
 .footer {
     background: #5a6378;

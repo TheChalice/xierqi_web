@@ -21,14 +21,14 @@
                     </div>
                     <div class="col-md-3">
                         <div class="imgover">
-                            <div class="funbg" style="background-image: url('views/home/introduce/img/DF-17.png');"></div>
+                            <div class="funbg" style="background-image: url('views/home/introduce/img/DF-111.png');"></div>
                             <p style="text-align: center;">后端服务</p>
                         </div>
                         <div style="margin-top:30px;font-size:12px;" class="imgdown">预置数十种高可用后端服务，即买即用，与应用代码完美集成，使得开发者可以将更多精力投入到代码开发中</div>
                     </div>
                     <div class="col-md-3">
                         <div class="imgover">
-                            <div class="funbg" style="background-image: url('views/home/introduce/img/DF-111.png');"></div>
+                            <div class="funbg" style="background-image: url('views/home/introduce/img/DF-17.png');"></div>
                             <p style="text-align: center;">大数据分析</p>
                         </div>
                         <div style="margin-top:30px;font-size:12px;" class="imgdown">为数据分析师预置了多种大数据应用服务，只需要数十秒即可获得一个Tensorflow集群，开启深度学习奇幻之旅</div>
@@ -69,13 +69,15 @@
 
                         <div class="col-md-6">
                                 <div class="row firstnomgtp" ng-repeat="item in yytg">
-                                    <div class="col-md-2">
-                                        <div class="smallbg" style="background-image: url({{item.img}});" ng-mouseover="tabchange('yytg',$index)"></div>
-                                    </div>
-                                    <div class="col-md-10" style="padding:0px;">
-                                        <p style="font-size:18px;">{{item.fun}}</p>
-                                        <p style="font-size: 12px;">{{item.funcon}}</p>
-                                    </div>
+                                   <div ng-mouseover="tabchange('yytg',$index)">
+                                       <div class="col-md-2">
+                                           <div class="smallbg" style="background-image: url({{item.img}});"></div>
+                                       </div>
+                                       <div class="col-md-10" style="padding:0px;" ng-class="{true:'fontcolor'}[grid.yytg==$index]">
+                                           <p style="font-size:18px;">{{item.fun}}</p>
+                                           <p style="font-size: 12px;">{{item.funcon}}</p>
+                                       </div>
+                                   </div>
                                 </div>
                         </div>
 
@@ -107,13 +109,16 @@
 
                     <div class="col-md-6">
                         <div class="row firstnomgtp" ng-repeat="item in hdfw">
-                            <div class="col-md-2">
-                                <div class="smallbg" style="background-image: url({{item.img}});" ng-mouseover="tabchange('hdfw',$index)"></div>
+                            <div ng-mouseover="tabchange('hdfw',$index)">
+                                <div class="col-md-2">
+                                    <div class="smallbg" style="background-image: url({{item.img}});" ></div>
+                                </div>
+                                <div class="col-md-10" style="padding:0px;" ng-class="{true:'fontcolor'}[grid.hdfw==$index]">
+                                    <p style="font-size:18px;">{{item.fun}}</p>
+                                    <p style="font-size: 12px;">{{item.funcon}}</p>
+                                </div>
                             </div>
-                            <div class="col-md-10" style="padding:0px;">
-                                <p style="font-size:18px;">{{item.fun}}</p>
-                                <p style="font-size: 12px;">{{item.funcon}}</p>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -121,7 +126,7 @@
         </div>
 
         <div class="page page4">
-            <div class="contain">
+            <div class="contain" style="position: relative;">
                 <div class="row" style="height: 40%;">
                     <div class="col-md-6" style="height: 100%;">
                         <div style="display:inline-block;vertical-align: middle ">
@@ -136,44 +141,47 @@
                         <div class="bigbg" style="background-image: url('views/home/introduce/img/DF-26.png');"></div>
                     </div>
                 </div>
-                <div class="row" style="height: 24%;width:90%;margin:0 auto;">
-                    <ul class="accordion" style="height: 100%;">
-                        <li class="active">
-                            <div style="width: 200px;height: 100%; float:left;">
-                                <div class="ability" style="background-image:url('views/home/introduce/img/DF-20.png');">
+                <div class="row" style="height: 24%;width:100%;">
+                    <div style="width: 100%;height: 100%;margin:0 auto;">
+                        <ul class="accordion" style="height: 100%;">
+                            <li class="active">
+                                <div style="width: 200px;height: 100%; float:left;">
+                                    <div class="ability" style="background-image:url('views/home/introduce/img/DF-20.png');border-left: 1px solid;border-right: 1px solid #fff;">
 
+                                    </div>
+                                    <div class="accordioncon">一体化平台</div>
                                 </div>
-                                <div class="accordioncon">一体化平台</div>
-                            </div>
-                            
-                            <div class="abilitycon" style="height: 100%;">
-                                <span style="padding-top:10%;display:inline-block;">去中心化,可靠的一站式数据采购</span>
-                            </div>
 
-                        </li>
-                        <li>
-                            <div style="width: 200px;height: 100%; float:left;">
-                                <div class="ability" style="background-image:url('views/home/introduce/img/DF-21.png');">
-
+                                <div class="abilitycon" style="height: 100%;">
+                                    <span style="padding-top:20%;display:inline-block;padding-left:3%;">去中心化,可靠的一站式数据采购</span>
                                 </div>
-                                <div class="accordioncon">轻松部署分析工具</div>
-                            </div>
-                            <div class="abilitycon" style="height: 100%;"><span style="padding-top:20%;display:inline-block;">快速方便的搭建大数据分析工具</span></div>
-                        </li>
-                        <li>
-                            <div style="width: 200px;height: 100%; float:left;">
-                                <div class="ability" style="background-image:url('views/home/introduce/img/DF-19.png');">
 
+                            </li>
+                            <li>
+                                <div style="width: 200px;height: 100%; float:left;">
+                                    <div class="ability" style="background-image:url('views/home/introduce/img/DF-21.png');border-left: 1px solid;border-right: 1px solid #fff;">
+
+                                    </div>
+                                    <div class="accordioncon">轻松部署分析工具</div>
                                 </div>
-                                <div class="accordioncon">海量行业数据</div>
-                            </div>
-                            <div class="abilitycon" style="height: 100%;"><span style="padding-top:20%;display:inline-block;">包括气象、交通、金融等多个领域的海量数据</span></div>
-                        </li>
-                    </ul>
+                                <div class="abilitycon" style="height: 100%;"><span style="padding-top:20%;display:inline-block;padding-left:3%;">快速方便的搭建大数据分析工具</span></div>
+                            </li>
+                            <li>
+                                <div style="width: 200px;height: 100%; float:left;">
+                                    <div class="ability" style="background-image:url('views/home/introduce/img/DF-19.png');border-right: 1px solid #fff;">
+
+                                    </div>
+                                    <div class="accordioncon">海量行业数据</div>
+                                </div>
+                                <div class="abilitycon" style="height: 100%;"><span style="padding-top:15%;display:inline-block;padding-left:3%;">包括气象、交通、金融等多个领域的海量数据</span></div>
+                            </li>
+                        </ul>
+                    </div>
+
 
 
                 </div>
-                <div class="row" style="height:15%">
+                <div class="row" style="height:25%;position: absolute;left:0;bottom:5%;width: 100%;">
                     <h4 style="font-size: 18px;margin:30px 0px; text-align: center;">涉及行业</h4>
                     <div style="width: 100%;">
                         <div class="row" style="width: 14.2%;float: left;padding:0px;margin:0px;">
@@ -249,12 +257,14 @@
 
                     <div class="col-md-6">
                         <div class="row firstnomgtp" ng-repeat="item in cxjc">
-                            <div class="col-md-2">
-                                <div class="smallbg" style="background-image: url({{item.img}});" ng-mouseover="tabchange('cxjc',$index)"></div>
-                            </div>
-                            <div class="col-md-10" style="padding:0px;">
-                                <p style="font-size:18px;">{{item.fun}}</p>
-                                <p style="font-size: 12px;">{{item.funcon}}</p>
+                            <div ng-mouseover="tabchange('cxjc',$index)">
+                                <div class="col-md-2">
+                                    <div class="smallbg" style="background-image: url({{item.img}});" ></div>
+                                </div>
+                                <div class="col-md-10" style="padding:0px;" ng-class="{true:'fontcolor'}[grid.cxjcidx==$index]">
+                                    <p style="font-size:18px;">{{item.fun}}</p>
+                                    <p style="font-size: 12px;">{{item.funcon}}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
