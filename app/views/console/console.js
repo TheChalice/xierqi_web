@@ -11,6 +11,7 @@ angular.module('console', [
     ])
     .controller('ConsoleCtrl', ['$http', '$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', 'user', 'Project', 'Cookie',
         function ($http, $rootScope, $scope, $log, AUTH_EVENTS, User, user, Project, Cookie) {
+
             $log.info('Console');
             $rootScope.user = user;
             //$rootScope.payment = account;
