@@ -43,6 +43,7 @@ angular.module('home.introduce', [
             }, 200 );
         })
         $scope.experience = function(){
+            window.onmousewheel = document.onmousewheel=true;
             if(!$rootScope.user){
                 $state.go('login');
             }else{

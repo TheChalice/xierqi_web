@@ -22,27 +22,14 @@ angular.module('home', [])
                 $rootScope.user = res;
             });
             //路由监听事件
-//            $rootScope.$on('$stateChangeStart',
-//                function (event, toState, toParams, fromState, fromParams) {
-//                    console.log(event);
-//                    console.log(toState);
-//                    if (toState.name !== "home.introduce") {
-//                        User.get({name: '~'}, function (res) {
-//                            $rootScope.user = res;
-//                        });
-//                    }
-//                    //console.log(toParams);
-//                    //console.log(fromState);
-//                    //console.log(fromParams);
-//                    //if (toState.name == "homePage") {
-//                    //    //获取参数之后可以调请求判断需要渲染什么页面，渲染不同的页面通过 $location 实现
-//                    //    if (toParams.id == 10) {
-//                    //        //$location.path();//获取路由地址
-//                    //        // $location.path('/validation').replace();
-//                    //        // event.preventDefault()可以阻止模板解析
-//                    //    }
-//                    //}
-//                })
+            $rootScope.$on('$stateChangeStart',
+                function (event, toState, toParams, fromState, fromParams) {
+                    //console.log(toState);
+                    if (toState.name !== "home.introduce") {
+                        window.onmousewheel = document.onmousewheel=true;
+                    }
+
+                })
 //            // stateChangeSuccess  当模板解析完成后触发
 //            $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
 //                //console.log(event);
