@@ -23,7 +23,8 @@ angular.module('home', [])
             });
             //$scope.top = []
             //路由监听事件
-            console.log($state.current.name);
+            //console.log($state.current.name);
+
             switch($state.current.name)
             {
                 case 'home.index':
@@ -62,7 +63,7 @@ angular.module('home', [])
                             $scope.whereclick = '首页'
                     }
                     if (toState.name !== "home.introduce") {
-                        $('html').css('overflow','scroll');
+                        $('html').css('overflow','auto');
                         window.onmousewheel = document.onmousewheel=true;
                     }else {
                         $('html').css('overflow','hidden');

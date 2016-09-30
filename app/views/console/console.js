@@ -11,7 +11,7 @@ angular.module('console', [
     ])
     .controller('ConsoleCtrl', ['$http', '$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', 'user', 'Project', 'Cookie',
         function ($http, $rootScope, $scope, $log, AUTH_EVENTS, User, user, Project, Cookie) {
-            $('html').css('overflow','scroll');
+            $('html').css('overflow','auto');
             $log.info('Console');
             $rootScope.user = user;
             //$rootScope.payment = account;
