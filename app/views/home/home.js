@@ -11,23 +11,59 @@ angular.module('home', [])
                     clearInterval($rootScope.timer)
                 }
             })
-            $scope.where = function (now) {
-                //console.log(now)
-                $scope.whereclick = now
-            }
+            //$scope.where = function (now) {
+            //    //console.log(now)
+            //    $scope.whereclick = now
+            //}
             if ($rootScope.user) {
                 return $rootScope.user;
             }
             User.get({name: '~'}, function (res) {
                 $rootScope.user = res;
             });
+            //$scope.top = []
             //路由监听事件
+            //console.log($state.current.name);
+
+            switch($state.current.name)
+            {
+                case 'home.index':
+                    $scope.whereclick = '首页'
+                    break;
+                case 'home.introduce':
+                    $scope.whereclick = '产品'
+                    break;
+                case 'home.application':
+                    $scope.whereclick = '应用市场'
+                    break;
+                case 'home.index_backing_service':
+                    $scope.whereclick = '服务市场'
+                    break;
+                default:
+                    $scope.whereclick = '首页'
+            }
             $rootScope.$on('$stateChangeStart',
                 function (event, toState, toParams, fromState, fromParams) {
-                    //console.log(toState);
-
+                    console.log(toState.name);
+                    switch(toState.name)
+                    {
+                        case 'home.index':
+                            $scope.whereclick = '首页'
+                            break;
+                        case 'home.introduce':
+                            $scope.whereclick = '产品'
+                            break;
+                        case 'home.application':
+                            $scope.whereclick = '应用市场'
+                            break;
+                        case 'home.index_backing_service':
+                            $scope.whereclick = '服务市场'
+                            break;
+                        default:
+                            $scope.whereclick = '首页'
+                    }
                     if (toState.name !== "home.introduce") {
-                        $('html').css('overflow','scroll');
+                        $('html').css('overflow','auto');
                         window.onmousewheel = document.onmousewheel=true;
                     }else {
                         $('html').css('overflow','hidden');
