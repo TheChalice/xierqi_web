@@ -28,7 +28,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="imgover">
-                            <div class="funbg" style="background-image: url('views/home/introduce/img/DF-16.png');"></div>
+                            <div class="funbg" style="background-image: url('views/home/introduce/img/DF-111.png');"></div>
                             <p style="text-align: center;">大数据分析</p>
                         </div>
                         <div style="margin-top:30px;font-size:12px;" class="imgdown">为数据分析师预置了多种大数据应用服务，只需要数十秒即可获得一个Tensorflow集群，开启深度学习奇幻之旅</div>
@@ -60,10 +60,10 @@
                             <div class="bigbg" style="background-image: url('views/home/introduce/img/DF-24.png');"></div>
                         </div>
                     </div>
-                    <div class="row" style="height: 40%;">
+                    <div class="row" style="height: 40%;margin-top:4%">
                         <div class="col-md-6" style="height:100%">
                             <ul class="testcon">
-                                <li ng-repeat="item in yytg" ng-show="grid.yytg==$index">{{$index}}</li>
+                                <li ng-repeat="item in yytg" style="background-image: url({{item.bigimg}});" ng-show="grid.yytg==$index"></li>
                             </ul>
                         </div>
 
@@ -72,9 +72,9 @@
                                     <div class="col-md-2">
                                         <div class="smallbg" style="background-image: url({{item.img}});" ng-mouseover="tabchange('yytg',$index)"></div>
                                     </div>
-                                    <div class="col-md-10">
+                                    <div class="col-md-10" style="padding:0px;">
                                         <p style="font-size:18px;">{{item.fun}}</p>
-                                        <p>{{item.funcon}}</p>
+                                        <p style="font-size: 12px;">{{item.funcon}}</p>
                                     </div>
                                 </div>
                         </div>
@@ -98,10 +98,10 @@
                         <div class="bigbg" style="background-image: url('views/home/introduce/img/DF-25.png');"></div>
                     </div>
                 </div>
-                <div class="row" style="height: 40%;">
+                <div class="row" style="height: 40%;margin-top:4%">
                     <div class="col-md-6" style="height:100%">
                         <ul class="testcon">
-                            <li ng-repeat="item in hdfw" ng-show="grid.hdfw==$index">{{$index}}</li>
+                            <li ng-repeat="item in hdfw" style="background-image: url({{item.bigimg}});" ng-show="grid.hdfw==$index"></li>
                         </ul>
                     </div>
 
@@ -110,9 +110,9 @@
                             <div class="col-md-2">
                                 <div class="smallbg" style="background-image: url({{item.img}});" ng-mouseover="tabchange('hdfw',$index)"></div>
                             </div>
-                            <div class="col-md-10">
+                            <div class="col-md-10" style="padding:0px;">
                                 <p style="font-size:18px;">{{item.fun}}</p>
-                                <p>{{item.funcon}}</p>
+                                <p style="font-size: 12px;">{{item.funcon}}</p>
                             </div>
                         </div>
                     </div>
@@ -156,7 +156,7 @@
                                 <div class="ability" style="background-image:url('views/home/introduce/img/DF-21.png');">
 
                                 </div>
-                                <div class="accordioncon">轻松快速部署</div>
+                                <div class="accordioncon">轻松部署分析工具</div>
                             </div>
                             <div class="abilitycon" style="height: 100%;"><span style="padding-top:20%;display:inline-block;">快速方便的搭建大数据分析工具</span></div>
                         </li>
@@ -167,7 +167,7 @@
                                 </div>
                                 <div class="accordioncon">海量行业数据</div>
                             </div>
-                            <div class="abilitycon" style="height: 100%;"><span style="padding-top:20%;display:inline-block;">去中心化，可靠的一站式数据采购</span></div>
+                            <div class="abilitycon" style="height: 100%;"><span style="padding-top:20%;display:inline-block;">包括气象、交通、金融等多个领域的海量数据</span></div>
                         </li>
                     </ul>
 
@@ -180,43 +180,43 @@
                             <div class="col-md-4">
                                 <div class="aboutindustry" style="background-image:url('views/home/introduce/img/images_10.png');"></div>
                             </div>
-                            <div class="col-md-8">终端数据</div>
+                            <div class="col-md-8 gohub"><a href="https://hub.dataos.io/selects">终端数据</a></div>
                         </div>
                         <div class="row" style="width: 14.2%;float: left;padding:0px;margin:0px;">
                             <div class="col-md-4">
                                 <div class="aboutindustry" style="background-image:url('views/home/introduce/img/images_16.png');"></div>
                             </div>
-                            <div class="col-md-8">时空数据</div>
+                            <div class="col-md-8 gohub"><a href="https://hub.dataos.io/selects">时空数据</a></div>
                         </div>
                         <div class="row" style="width: 14.2%;float: left;padding:0px;margin:0px;">
                             <div class="col-md-4">
                                 <div class="aboutindustry" style="background-image:url('views/home/introduce/img/images_43.png');"></div>
                             </div>
-                            <div class="col-md-8">气象环保</div>
+                            <div class="col-md-8 gohub"><a href="https://hub.dataos.io/selects">气象环保</a></div>
                         </div>
                         <div class="row" style="width: 14.2%;float: left;padding:0px;margin:0px;">
                             <div class="col-md-4">
                                 <div class="aboutindustry" style="background-image:url('views/home/introduce/img/images_39.png');"></div>
                             </div>
-                            <div class="col-md-8">金融理财</div>
+                            <div class="col-md-8 gohub"><a href="https://hub.dataos.io/selects">金融理财</a></div>
                         </div>
                         <div class="row" style="width: 14.2%;float: left;padding:0px;margin:0px;">
                             <div class="col-md-4">
                                 <div class="aboutindustry" style="background-image:url('views/home/introduce/img/images_45.png');"></div>
                             </div>
-                            <div class="col-md-8">互联网访问</div>
+                            <div class="col-md-8 gohub"><a href="https://hub.dataos.io/selects">互联网访问</a></div>
                         </div>
                         <div class="row" style="width: 14.2%;float: left;padding:0px;margin:0px;">
                             <div class="col-md-4">
                                 <div class="aboutindustry" style="background-image:url('views/home/introduce/img/images_41.png');"></div>
                             </div>
-                            <div class="col-md-8">交通运输</div>
+                            <div class="col-md-8 gohub"><a href="https://hub.dataos.io/selects">交通运输</a></div>
                         </div>
                         <div class="row" style="width: 14.2%;float: left">
                             <div class="col-md-4">
                                 <div class="aboutindustry" style="background-image:url('views/home/introduce/img/images_49.png');"></div>
                             </div>
-                            <div class="col-md-8">医疗健康</div>
+                            <div class="col-md-8 gohub"><a href="https://hub.dataos.io/selects">医疗健康</a></div>
                         </div>
                     </div>
                 </div>
@@ -238,11 +238,11 @@
                         <div class="bigbg" style="background-image: url('views/home/introduce/img/DF-22.png');"></div>
                     </div>
                 </div>
-                <div class="row testwrop" style="height: 40%;">
+                <div class="row testwrop" style="height: 40%;margin-top:4%">
                     <div class="col-md-6" style="height:100%">
-                        <div style="height:80%;height: 100%;background: #ccc">
+                        <div style="height:80%;height: 100%">
                             <ul class="testcon">
-                                <li ng-repeat="item in cxjc" ng-show="grid.cxjcidx==$index">{{$index}}</li>
+                                <li ng-repeat="item in cxjc" style="background-image: url({{item.bigimg}});" ng-show="grid.cxjcidx==$index"></li>
                             </ul>
                         </div>
                     </div>
@@ -252,9 +252,9 @@
                             <div class="col-md-2">
                                 <div class="smallbg" style="background-image: url({{item.img}});" ng-mouseover="tabchange('cxjc',$index)"></div>
                             </div>
-                            <div class="col-md-10">
+                            <div class="col-md-10" style="padding:0px;">
                                 <p style="font-size:18px;">{{item.fun}}</p>
-                                <p>{{item.funcon}}</p>
+                                <p style="font-size: 12px;">{{item.funcon}}</p>
                             </div>
                         </div>
                     </div>
@@ -265,8 +265,8 @@
         <div class="page page6">
                 <div class="contain" style="width: 100%;margin:0;">
                     <div class="row " style="height: 55%; text-align: center">
-                        <p style="font-size:46px;margin-top:5%">数十万用户正在使用铸数云存储</p>
-                        <p style="font-size: 18px;">我们每天都为数以亿计的文件数据提供云存储服务</p>
+                        <p style="font-size:46px;margin-top:7%">数十万用户正在使用铸数云服务</p>
+                        <!--<p style="font-size: 18px;">我们每天都为数以亿计的文件数据提供云存储服务</p>-->
                         <p style="margin-top:3%">
                             <span class="tbtn" ng-click="experience()">立即体验</span>
                         </p>
