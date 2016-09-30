@@ -205,6 +205,7 @@ angular.module('console.image', [
                     })
 
                 } else if (type == 'tag' || $scope.cententtype == 'type') {
+                    //console.log('typeimagecenter',$scope.typeimagecenter);
                     $scope.imagecenter = $scope.typeimagecenter.slice(skip, skip + $scope.grid.size);
                     $scope.grid.imagecentertotal = $scope.typeimagecenter.length;
                     angular.forEach($scope.imagecenter, function (image, k) {
@@ -492,52 +493,7 @@ angular.module('console.image', [
             $scope.serviceper = [{name: 'Datafoundry官方镜像', class: 'df'}, {name: 'Docker官方镜像', class: 'doc'}]
 
 
-            //var loaddf = function (fn) {
-            //    $http.get('/registry/api/repositories', {
-            //        timeout:end.promise,
-            //        params: {project_id: 58}})
-            //        .success(function (data) {
-            //            angular.forEach(data, function (item, i) {
-            //                $http.get('/registry/api/repositories/manifests', {
-            //                        timeout:end.promise,
-            //                        params: {
-            //                            repo_name: item,
-            //                            tag: 'latest'
-            //                        }
-            //                    })
-            //                    .success(function (tagmess) {
-            //                        $scope.imagecenterDF.push({
-            //                            name: item,
-            //                            lasttag: tagmess,
-            //                            canbuild: true,
-            //                            class: 'df'
-            //                        });
-            //                        if ($scope.imagecenterDF.length == data.length) {
-            //                            if (fn) {
-            //                                fn()
-            //                            }
-            //                            //console.log('Datafoundry官方镜像', $scope.imagecenterDF);
-            //
-            //                        }
-            //
-            //
-            //                    }).error(function (err) {
-            //                    $scope.imagecenterDF.push({
-            //                        name: item,
-            //                        lasttag: null,
-            //                        canbuild: false,
-            //                        class: 'df'});
-            //                    if ($scope.imagecenterDF.length == data.length) {
-            //                        if (fn) {
-            //                            fn()
-            //                        }
-            //                        //console.log('Datafoundry官方镜像', $scope.imagecenterDF);
-            //                    }
-            //
-            //                })
-            //            })
-            //        })
-            //}
+
 
             $http.get('/registry/api/repositories', {timeout: end.promise, params: {project_id: 1}})
                 .success(function (docdata) {
@@ -577,13 +533,14 @@ angular.module('console.image', [
 
             $scope.selectsc = function (tp, key) {
                 if (!$scope.imagecentercopy) {
-                    return
+                    return;
                 }
                 //console.log(key);
-                $scope.cententtype = 'type'
+                $scope.cententtype = 'type';
 
                 if (key == 'doc') {
                     $scope.isComplete = {class: 'doc'};
+
                     if ($scope.cententsearch == 'search') {
                         $scope.imagecenter = $filter("imagefilter")($scope.grid.cenimagecopy, $scope.isComplete);
                         //console.log($scope.imagecenter);
@@ -619,27 +576,30 @@ angular.module('console.image', [
                 if (key == $scope.grid[tp]) {
                     $scope.cententtype = false
                     key = 'all';
+
                     $scope.isComplete = '';
+                    //$scope.imagecenter=$scope.imagecenterpoj;
                     if ($scope.cententsearch == 'search') {
                         //alert(11)
                         $scope.imagecenter = $filter("imagefilter")($scope.grid.cenimagecopy, $scope.isComplete);
                         //console.log($scope.imagecenter);
-                        //$scope.typeimagecenter = angular.copy($scope.imagecenter);
+                        $scope.typeimagecenter = angular.copy($scope.imagecenter);
                     } else {
 
                         $scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
                         //console.log($scope.imagecenter);
-                        //$scope.typeimagecenter = angular.copy($scope.imagecenter);
+                        $scope.typeimagecenter = angular.copy($scope.imagecenter);
                     }
                     //$scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
-                    //console.log($scope.imagecenter);
+                    console.log($scope.imagecenter);
                     $scope.grid.imagecentertotal = $scope.imagecenter.length;
                     $scope.grid.imagecenterpage = 1;
                     imagecenterrefresh(1, 'tag');
 
                 }
-                $scope.grid[tp] = key;
 
+                $scope.grid[tp] = key;
+                console.log($scope.grid[tp]);
             }
 
 
