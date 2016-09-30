@@ -25,8 +25,12 @@ angular.module('home', [])
             $rootScope.$on('$stateChangeStart',
                 function (event, toState, toParams, fromState, fromParams) {
                     //console.log(toState);
+
                     if (toState.name !== "home.introduce") {
+                        $('html').css('overflow','scroll');
                         window.onmousewheel = document.onmousewheel=true;
+                    }else {
+                        $('html').css('overflow','hidden');
                     }
 
                 })
