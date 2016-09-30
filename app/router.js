@@ -22,91 +22,101 @@ define([
               },
               abstract: true
             })
+            .state('home.introduce', {
+                url: '/introduce',
+                templateUrl: 'views/home/introduce/introduce.html',
+                controller: 'introduceCtrl',
+                resolve: {
+                    dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load('views/home/introduce/introduce.js')
+                    }]
+                }
+            })
             .state('home.application', {
-              url: '/application',
-              templateUrl: 'views/home/application/application.html',
-              controller: 'applicationCtrl',
-              resolve: {
-                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                  return $ocLazyLoad.load('views/home/application/application.js')
-                }]
-              }
+                url: '/application',
+                templateUrl: 'views/home/application/application.html',
+                controller: 'applicationCtrl',
+                resolve: {
+                    dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load('views/home/application/application.js')
+                    }]
+                }
             })
             .state('home.index_backing_service', {
-              url: '/index_backing_service',
-              templateUrl: 'views/home/index_backing_service/index_backing_service.html',
-              controller: 'index_backing_serviceCtrl',
-              resolve: {
-                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                  return $ocLazyLoad.load('views/home/index_backing_service/index_backing_service.js')
-                }]
-              }
+                url: '/index_backing_service',
+                templateUrl: 'views/home/index_backing_service/index_backing_service.html',
+                controller: 'index_backing_serviceCtrl',
+                resolve: {
+                    dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load('views/home/index_backing_service/index_backing_service.js')
+                    }]
+                }
             })
             .state('home.index_backing_Sdetail', {
-              url: '/index_backing_Sdetail/:name',
+                url: '/index_backing_Sdetail/:name',
 
-              templateUrl: 'views/home/index_backing_Sdetail/index_backing_Sdetail.html',
-              controller: 'index_backing_SdetailCtrl',
-              resolve: {
-                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                  return $ocLazyLoad.load('views/home/index_backing_Sdetail/index_backing_Sdetail.js')
-                }]
-              }
+                templateUrl: 'views/home/index_backing_Sdetail/index_backing_Sdetail.html',
+                controller: 'index_backing_SdetailCtrl',
+                resolve: {
+                    dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load('views/home/index_backing_Sdetail/index_backing_Sdetail.js')
+                    }]
+                }
             })
             .state('home.application_image_detail', {
-              url: '/application_image_detail/:name',
-              templateUrl: 'views/home/application_image_detail/application_image_detail.html',
-              controller: 'application_image_detailCtrl',
-              resolve: {
-                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                  return $ocLazyLoad.load('views/home/application_image_detail/application_image_detail.js')
-                }]
-              }
+                url: '/application_image_detail/:name',
+                templateUrl: 'views/home/application_image_detail/application_image_detail.html',
+                controller: 'application_image_detailCtrl',
+                resolve: {
+                    dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load('views/home/application_image_detail/application_image_detail.js')
+                    }]
+                }
             })
             .state('home.application_saas_detail', {
-              url: '/application_saas_detail/:id',
-              templateUrl: 'views/home/application_saas_detail/application_saas_detail.html',
-              controller: 'application_saas_detailCtrl',
-              resolve: {
-                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                  return $ocLazyLoad.load('views/home/application_saas_detail/application_saas_detail.js')
-                }]
-              }
+                url: '/application_saas_detail/:id',
+                templateUrl: 'views/home/application_saas_detail/application_saas_detail.html',
+                controller: 'application_saas_detailCtrl',
+                resolve: {
+                    dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load('views/home/application_saas_detail/application_saas_detail.js')
+                    }]
+                }
             })
             .state('home.index', {
-              url: '/index',
-              templateUrl: 'views/home/index/index.html',
-              controller: 'IndexCtrl',
-              resolve: {
-                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                  return $ocLazyLoad.load('views/home/index/index.js')
-                }]
-              }
+                url: '/index',
+                templateUrl: 'views/home/index/index.html',
+                controller: 'IndexCtrl',
+                resolve: {
+                    dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load('views/home/index/index.js')
+                    }]
+                }
             })
             .state('login', {
-              url: '/login/:type/:name',
-              templateUrl: 'views/login/login.html',
-              controller: 'loginCtrl',
-              resolve: {
-                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                  return $ocLazyLoad.load('views/login/login.js')
-                }]
-              }
+                url: '/login/:type/:name',
+                templateUrl: 'views/login/login.html',
+                controller: 'loginCtrl',
+                resolve: {
+                    dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load('views/login/login.js')
+                    }]
+                }
             })
             .state('regist', {
-              url: '/regist',
-              templateUrl: 'views/regist/regist.html',
-              controller: 'registCtrl',
-              resolve: {
-                dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                  return $ocLazyLoad.load('views/regist/regist.js')
-                }]
-              }
+                url: '/regist',
+                templateUrl: 'views/regist/regist.html',
+                controller: 'registCtrl',
+                resolve: {
+                    dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load('views/regist/regist.js')
+                    }]
+                }
             })
             .state('console', {
-              url: '/console',
-              templateUrl: 'views/console/console.html',
-              controller: 'ConsoleCtrl',
+                url: '/console',
+                templateUrl: 'views/console/console.html',
+                controller: 'ConsoleCtrl',
               resolve: {
                 dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                   return $ocLazyLoad.load('views/console/console.js')
