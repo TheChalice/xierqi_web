@@ -22,6 +22,16 @@ define([
               },
               abstract: true
             })
+            .state('home.recharge', {
+                url: '/recharge',
+                templateUrl: 'views/home/recharge/recharge.html',
+                controller: 'rechargeCtrl',
+                resolve: {
+                    dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load('views/home/recharge/recharge.js')
+                    }]
+                }
+            })
             .state('home.introduce', {
                 url: '/introduce',
                 templateUrl: 'views/home/introduce/introduce.html',
@@ -430,5 +440,16 @@ define([
                 }]
               }
             })
+            .state('console.plan', {
+                url: '/plan',
+                templateUrl: 'views/plan/plan.html',
+                controller: 'planCtrl',
+                resolve: {
+                    dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load('views/plan/plan.js')
+                    }]
+                }
+            })
+
       }]);
 });

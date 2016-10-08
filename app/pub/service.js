@@ -76,7 +76,8 @@ define(['angular'], function (angular) {
                     }
                 }
             }
-        }]).service('ansi_ups', ['$uibModal', function ($uibModal) {
+        }])
+        .service('ansi_ups', ['$uibModal', function ($uibModal) {
             //this.open = function (Date) {
             var ansi_up,
                 VERSION = "1.3.0",

@@ -490,7 +490,7 @@ angular.module('console.image', [
                 });
             }
             //镜像中心
-            $scope.serviceper = [{name: 'Datafoundry官方镜像', class: 'df'}, {name: 'Docker官方镜像', class: 'doc'}]
+            $scope.serviceper = [{name: 'DataFoundry', class: 'df'}, {name: 'DockerHub', class: 'doc'}]
 
 
 
