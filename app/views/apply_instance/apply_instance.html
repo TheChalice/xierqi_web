@@ -13,6 +13,7 @@
                         <input ng-model="bsi.metadata.name" type="text" name="servicename" class="form-control input-block" placeholder="创建一个项目名称" required
                                ng-pattern="/^\w+$/">
                         <small ng-show="frm.servicename.$dirty && frm.servicename.$error.pattern" class="fa fa-info-circle err-tip" style="margin-top: 10px">项目名称只能包含小写字母和数字</small>
+                        <small ng-show="frm.servicename.$dirty && grid.error" class="fa fa-info-circle err-tip" style="margin-top: 10px">项目名称重复</small>
 
                         <small ng-show="frm.servicename.$dirty && frm.servicename.$error.required" class="fa fa-info-circle err-tip" style="margin-top: 10px">请填写一个项目名称</small>
                     </div>
