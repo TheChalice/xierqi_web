@@ -9,7 +9,8 @@ angular.module('console.apply_instance', [
 .controller('ApplyInstanceCtrl',['$log','$rootScope','$scope','BackingService', 'BackingServiceInstance', '$stateParams', '$state', function($log, $rootScope, $scope, BackingService, BackingServiceInstance, $stateParams, $state){
 
     $scope.grid = {
-        checked: 0
+        checked: 0,
+        error:false
     };
 
     $scope.bsi = {
@@ -53,9 +54,17 @@ angular.module('console.apply_instance', [
 
          $log.info("BackingServiceInstance==",$scope.bsi);
          BackingServiceInstance.create({namespace: $rootScope.namespace}, $scope.bsi,function(){
+             $scope.grid.error=false
              $log.info("build backing service instance success");
              $state.go('console.backing_service_detail', {name: $scope.data.metadata.name, index:2})
-        })
+        }, function (data) {
+             //console.log(data.status);
+             //$log.info("build backing service instance error");
+             if (data.status === 409) {
+                 $scope.grid.error=true
+             }
+         })
+
 
     };
 
