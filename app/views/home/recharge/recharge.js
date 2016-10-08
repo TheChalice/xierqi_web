@@ -1,0 +1,1 @@
+/** * Created by sorcerer on 16/10/8. */angular.module('home.recharge', [        {            files: [                'views/home/recharge/recharge.css'            ]        }    ])    .controller('rechargeCtrl', ['$scope',function ($scope) {    }]);

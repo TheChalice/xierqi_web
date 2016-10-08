@@ -1,0 +1,1 @@
+/** * Created by sorcerer on 16/10/8. */angular.module('console.plan', [        {            files: [                'views/plan/plan.css'            ]        }    ])    .controller('planCtrl', ['$scope', function ($scope) {    }]);
