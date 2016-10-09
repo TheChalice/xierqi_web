@@ -39,6 +39,7 @@ angular.module('console.service.detail', [
             };
 
             $scope.portsArr = [];
+
             $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas').success(function (data) {
                 //console.log('配额', data.items[0].spec.hard['requests.cpu']);
                 //console.log('配额', data.items[0].spec.hard['requests.memory']);
@@ -471,10 +472,10 @@ angular.module('console.service.detail', [
                         }
                     }
                     loadRcs(res.metadata.name);
-                    loadRoutes();
+
                     loadBsi($scope.dc.metadata.name);
                     loadPods(res.metadata.name);
-                    loadService(res.metadata.name);
+                    loadService(res);
                     //isConflict();   //判断端口是否冲突
 
                 }, function (res) {
@@ -492,8 +493,8 @@ angular.module('console.service.detail', [
             };
 
             var loadService = function (dc) {
-                Service.get({namespace: $rootScope.namespace, name: dc}, function (res) {
-                    // $log.info("service-=-=-=-=-=-=-=-", res);
+                Service.get({namespace: $rootScope.namespace, name: dc.metadata.name}, function (res) {
+                     $log.info("service-=-=-=-=-=-=-=-", res);
                     $scope.service = res;
 
                     for (var i = 0; i < res.spec.ports.length; i++) {
@@ -526,7 +527,7 @@ angular.module('console.service.detail', [
                     // console.log("_+_+_+_+_+ $scope.portsArr",$scope.portsArr);
                     //updatePorts($scope.dc.spec.template.spec.containers);
                     iscreatesv = true;
-
+                    loadRoutes(dc,res);
                 }, function (res) {
                     iscreatesv = false;
 
@@ -711,17 +712,13 @@ angular.module('console.service.detail', [
                 });
             };
 
-            var loadRoutes = function () {
-                Route.get({namespace: $rootScope.namespace}, function (res) {
-                    // $log.info("routes", res);
-                    if (!$scope.routeconf) {
+            var loadRoutes = function (dc,sever) {
+                console.log(sever,dc);
+                Route.get({namespace: $rootScope.namespace,name:dc.metadata.name}, function (res) {
+                     $log.info("routes", res);
 
-                        angular.forEach(res.items, function (myroute, i) {
-                            if (myroute.spec.to.name == $scope.dc.metadata.name) {
-                                $scope.routeconf = angular.copy(myroute);
-                            }
-                        })
-                        //console.log('$scope.routeconf111111', $scope.routeconf);
+                    if (!$scope.routeconf) {
+                        $scope.routeconf = angular.copy(res);
 
                         if ($scope.grid.tlsset && $scope.routeconf) {
                             if (!$scope.routeconf.spec.tls) {
@@ -734,28 +731,46 @@ angular.module('console.service.detail', [
                         } else if (!$scope.routeconf) {
                             $scope.routeconf = angular.copy($scope.route)
                         }
-
-
                     }
 
                     $scope.getroutes = res;
-                    //console.log('$scope.getroutes', $scope.getroutes);
-                    for (var i = 0; i < res.items.length; i++) {
-                        if (res.items[i].spec.to.kind != 'Service') {
-                            continue;
-                        }
-                        //console.log("$scope.dc.metadata.name--0-0-0-0",$scope.dc.metadata.name);
-                        //console.log("res.items[i].spec.to.name--0-0-0-0",res.items[i].spec.to.name);
-                        if (res.items[i].spec.to.name === $scope.dc.metadata.name) {
-                            $scope.dc.route = res.items[i];
-                            $scope.grid.route = true;
-                            if ($scope.dc.route.spec.port) {
-                                $scope.grid.port = parseInt($scope.dc.route.spec.port.targetPort.replace(/-.*/, ''));
+                    $scope.dc.route=res;
+                    $scope.grid.route = true;
+
+                    if ($scope.dc.route.spec.port) {
+
+                        angular.forEach(sever.spec.ports, function (port,i) {
+                            if ($scope.routeconf.spec.port.targetPort === port.name) {
+                                console.log('port',port);
+                                $scope.grid.port = port.targetPort
+                            }
+                        })
+                        var hoststr = $scope.dc.route.spec.host;
+                        var r =/\.app\.dataos\.io/;
+                        //$scope.grid.host = $scope.dc.route.spec.host.replace('.app.dataos.io', '');
+                        if (r.test($scope.dc.route.spec.host)) {
+                            //alert(1)
+                            var arr=hoststr.split('.')
+                            if (arr[arr.length - 4] === $rootScope.namespace) {
+                                $scope.grid.suffix='.' + $rootScope.namespace + '.app.dataos.io';
+                               // $scope.grid.host = $scope.dc.route.spec.host.replace('.app.dataos.io', '');
+                            }else {
+
+                                $scope.grid.suffix='.app.dataos.io';
                             }
                             $scope.grid.host = $scope.dc.route.spec.host.replace($scope.grid.suffix, '');
 
+                        }else {
+                            //alert(2)
+                            $scope.grid.suffix='';
+                            $scope.grid.host=$scope.dc.route.spec.host
                         }
+
+                        var arr=hoststr.split('.')
+
+                        console.log('$scope.grid.host', arr[arr.length-4]);
                     }
+
                 }, function (res) {
                     //todo 错误处理
                     // $log.info("loadRoutes err", res);
@@ -908,60 +923,10 @@ angular.module('console.service.detail', [
             };
             //执行log
             var updateRcs = function (data) {
-                //console.log('data.type', data.type);
-                //DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (dcdata) {
-                //$scope.dc = dcdata;
-                //var copyannotations = angular.copy(dcdata.metadata.annotations);
-                //$scope.getdc.spec.replicas = dcdata.spec.replicas;
-                //for (var i = 0; i < dcdata.spec.template.spec.containers.length; i++) {
-                //    var imagetag = 'dadafoundry.io/image-' + dcdata.spec.template.spec.containers[i].name;
-                //    if (dcdata.metadata.annotations && dcdata.metadata.annotations[imagetag]) {
-                //        var tagarr = dcdata.metadata.annotations[imagetag].split(":");
-                //        dcdata.spec.template.spec.containers[i].tag = tagarr[1];
-                //        dcdata.spec.template.spec.containers[i].imagename = tagarr[0];
-                //    } else {
-                //        angular.forEach(dcdata.spec.template.spec.containers, function (item) {
-                //            var tagstr = item.image;
-                //            if (tagstr.indexOf('@') != -1) {
-                //                item.tag = tagstr.split('@')[1];
-                //            } else {
-                //                item.tag = tagstr.split(':')[1];
-                //            }
-                //        });
-                //    }
-                //    if(dcdata.spec.triggers){
-                //        for(var j = 0 ; j < dcdata.spec.triggers.length;j++){
-                //            if(dcdata.spec.triggers[j].type == "ImageChange"){
-                //                if(dcdata.spec.triggers[j].imageChangeParams.containerNames[0] == dcdata.spec.template.spec.containers[i].name){
-                //                    if(!$scope.dc.spec.template.spec.containers[i].isshow){
-                //                        $scope.dc.spec.template.spec.containers[i].isimageChange = true;
-                //                        $scope.dc.spec.template.spec.containers[i].isshow = true;
-                //                    }
-                //
-                //                }
-                //            }
-                //        }
-                //    }
-                //}
-                //if(copyannotations["dadafoundry.io/imageorpublic"]){
-                //    var imageorpublic = $scope.arrimgstr =copyannotations["dadafoundry.io/imageorpublic"].split(",");
-                //    var imageorisshow = $scope.arrisshow = copyannotations["dadafoundry.io/imageorisshow"].split(",");
-                //    for(var i = 0 ; i < imageorpublic.length; i++){
-                //        if(imageorpublic[i] == 'true' && imageorisshow[i] == 'true'){
-                //            $scope.dc.spec.template.spec.containers[i].isimageChange = true;
-                //            $scope.dc.spec.template.spec.containers[i].isshow = true;
-                //        }else if(imageorpublic[i] == 'false' && imageorisshow[i] == 'true'){
-                //            $scope.dc.spec.template.spec.containers[i].isimageChange = false;
-                //            $scope.dc.spec.template.spec.containers[i].isshow = true;
-                //        }else if(imageorpublic[i] == 'false' && imageorisshow[i] == 'false'){
-                //            $scope.dc.spec.template.spec.containers[i].isimageChange = false;
-                //            $scope.dc.spec.template.spec.containers[i].isshow = false;
-                //        }
-                //    }
-                //}
-                loadService($scope.dc.metadata.name);
+
+                loadService($scope.dc);
                 changevol($scope.dc);
-                loadRoutes()
+                //loadRoutes()
 
                 var labelSelector = 'openshift.io/deployment-config.name=' + $scope.dc.metadata.name;
                 ReplicationController.get({
@@ -977,24 +942,37 @@ angular.module('console.service.detail', [
                         }
                     }
                     //})
-                    for (var i = 0; i < $scope.getroutes.items.length; i++) {
-                        if ($scope.getroutes.items[i].spec.to.kind != 'Service') {
-                            continue;
-                        }
-                        if ($scope.getroutes.items[i].spec.to.name == $scope.dc.metadata.name) {
-                            $scope.dc.route = $scope.getroutes.items[i];
-                            $scope.grid.route = true;
-                            if ($scope.dc.route && $scope.dc.route.spec.port) {
-                                $scope.grid.port = parseInt($scope.dc.route.spec.port.targetPort.replace(/-.*/, ''));
-
-                            }
-                            if ($scope.dc.route) {
-                                $scope.grid.host = $scope.dc.route.spec.host.replace($scope.grid.suffix, '');
-                            }
-
+                    if ($scope.getroutes.spec.to.name == $scope.dc.metadata.name) {
+                        $scope.dc.route = $scope.getroutes;
+                        $scope.grid.route = true;
+                        if ($scope.dc.route && $scope.dc.route.spec.port) {
+                            $scope.grid.port = parseInt($scope.dc.route.spec.port.targetPort.replace(/-.*/, ''));
 
                         }
+                        if ($scope.dc.route) {
+                            $scope.grid.host = $scope.dc.route.spec.host.replace($scope.grid.suffix, '');
+                        }
+
+
                     }
+                    //for (var i = 0; i < $scope.getroutes.items.length; i++) {
+                    //    //if ($scope.getroutes.items[i].spec.to.kind != 'Service') {
+                    //    //    continue;
+                    //    //}
+                    //    if ($scope.getroutes.items[i].spec.to.name == $scope.dc.metadata.name) {
+                    //        $scope.dc.route = $scope.getroutes.items[i];
+                    //        $scope.grid.route = true;
+                    //        if ($scope.dc.route && $scope.dc.route.spec.port) {
+                    //            $scope.grid.port = parseInt($scope.dc.route.spec.port.targetPort.replace(/-.*/, ''));
+                    //
+                    //        }
+                    //        if ($scope.dc.route) {
+                    //            $scope.grid.host = $scope.dc.route.spec.host.replace($scope.grid.suffix, '');
+                    //        }
+                    //
+                    //
+                    //    }
+                    //}
                     // console.log('执行了');
 
                     loadPods($scope.dc.metadata.name);
@@ -1705,7 +1683,7 @@ angular.module('console.service.detail', [
 
                 })
             };
-/////////////挂载卷
+            /////////////挂载卷
             var cintainersidx;
 
             $scope.addVolume = function (idx) {

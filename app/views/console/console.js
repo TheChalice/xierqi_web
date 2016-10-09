@@ -9,20 +9,10 @@ angular.module('console', [
             ]
         }
     ])
-    .controller('ConsoleCtrl', ['$http', '$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', 'user', 'Project', 'Cookie',
-        function ($http, $rootScope, $scope, $log, AUTH_EVENTS, User, user, Project, Cookie) {
-            $('html').css('overflow','auto');
-            $log.info('Console');
-            $rootScope.user = user;
-            //$rootScope.payment = account;
-            var namespace = Cookie.get('namespace');
-            if (namespace) {
-                $rootScope.namespace = namespace;
-            } else {
-                $rootScope.namespace = user.metadata.name;
-                Cookie.set('namespace', name, 10 * 365 * 24 * 3600 * 1000);
-            }
-
+    .controller('ConsoleCtrl', ['account','$http', '$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', 'user', 'Project', 'Cookie', '$state',
+        function (account,$http, $rootScope, $scope, $log, AUTH_EVENTS, User, user, Project, Cookie, $state) {
+            $('html').css('overflow', 'auto');
+            $log.info('Console', $state.current.name);
             var loadProject = function () {
                 //$log.info("load project");
                 Project.get(function (data) {
@@ -58,6 +48,58 @@ angular.module('console', [
                 });
             };
 
-            loadProject();
+            if ($state.current.name === 'console.plan' || $state.current.name === 'console.pay' || $state.current.name === 'console.noplan'||$state.current.name === 'home.index') {
+                $rootScope.projects=false;
+                $scope.showsidebar = false;
+            } else {
+                loadProject();
+                $scope.showsidebar = true;
+            }
+
+            $rootScope.user = user;
+            //account.get({}, function (data) {
+            //    console.log('套餐', data);
+            //    //$rootScope.payment=data;
+            //    if (data.purchased) {
+            //        //跳转dashboard
+            //    }else{
+            //        //跳转购买套餐
+            //    }
+            //})
+            //$scope.showsidebar=true;
+
+            $scope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+                console.log('toState.name', toState.name);
+                //account.get({}, function (data) {
+                //    console.log('套餐', data);
+                //    //$rootScope.payment=data;
+                //    if (data.purchased) {
+                //        //跳转dashboard
+                //    }else{
+                //        //跳转购买套餐
+                //    }
+                //})
+
+                if (toState.name === 'console.plan' || toState.name === 'console.pay' || toState.name === 'console.noplan'||toState.name === 'home.index') {
+                    $rootScope.projects=false;
+                    $scope.showsidebar = false;
+                } else {
+                    loadProject();
+                    $scope.showsidebar = true;
+                }
+
+            })
+            //$rootScope.payment = account;
+            var namespace = Cookie.get('namespace');
+            if (namespace) {
+                $rootScope.namespace = namespace;
+            } else {
+                $rootScope.namespace = user.metadata.name;
+                Cookie.set('namespace', name, 10 * 365 * 24 * 3600 * 1000);
+            }
+
+
+
+            //loadProject();
         }]);
 

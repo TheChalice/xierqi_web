@@ -1329,8 +1329,8 @@ define(['angular'], function (angular) {
             function (account,$timeout, $q, orgList, $rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User) {
 
                 this.login = function (credentials, stateParams) {
-                    console.log("login", credentials);
-                    console.log("login", stateParams);
+                    //console.log("login", credentials);
+                    //console.log("login", stateParams);
                     localStorage.setItem('Auth', $base64.encode(credentials.username + ':' + credentials.password))
                     $rootScope.loding = true;
                     var deferred = $q.defer();
