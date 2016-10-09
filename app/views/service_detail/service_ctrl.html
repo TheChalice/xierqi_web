@@ -17,11 +17,13 @@
         </li>
         <li class="col-md-12 hhh" ng-repeat="pod in pods.items" style="border-bottom: 1px solid #e6e9f2;padding-top: 10px;padding-left: 0px;padding-right: 0px;padding-bottom:10px;">
                 <div class="col-md-2">
-                    <span  ng-if="!pod.show" ng-click="pod.show=!pod.show" role="button" data-toggle="collapse" data-parent="#accordion" href={{"#"+pod.metadata.name}} aria-expanded="true" aria-controls="collapseOne" uib-tooltip="{{pod.metadata.name}}" style="display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{pod.metadata.name}}
+                    <span ng-if="!pod.show" ng-click="pod.show=!pod.show" role="button" data-toggle="collapse" data-parent="#accordion" href={{"#"+pod.metadata.name}} aria-expanded="true" aria-controls="collapseOne" uib-tooltip="{{pod.metadata.name}}" style="display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                        <span class="href-orange" href="">{{pod.metadata.name}}</span>
                     <span class="caret"></span>
                     <!--<span class="caret" style="border-top: none;border-bottom:4px dashed"></span>-->
                     </span>
-                    <span  ng-if="pod.show" ng-click="pod.show=!pod.show" role="button" data-toggle="collapse" data-parent="#accordion" href={{"#"+pod.metadata.name}} aria-expanded="true" aria-controls="collapseOne" uib-tooltip="{{pod.metadata.name}}" style="display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{pod.metadata.name}}
+                    <span ng-if="pod.show" ng-click="pod.show=!pod.show" role="button" data-toggle="collapse" data-parent="#accordion" href={{"#"+pod.metadata.name}} aria-expanded="true" aria-controls="collapseOne" uib-tooltip="{{pod.metadata.name}}" style="display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                        <span class="href-orange" href="">{{pod.metadata.name}}</span>
                     <!--<span class="caret"></span>-->
                     <span class="caret" style="border-top: none;border-bottom:4px dashed"></span>
                     </span>
