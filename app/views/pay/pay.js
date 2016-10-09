@@ -1,0 +1,1 @@
+/** * Created by sorcerer on 16/10/9. */angular.module('console.pay', [        {            files: [                'views/pay/pay.css'            ]        }    ])    .controller('payCtrl', ['$scope', function ($scope) {    }]);

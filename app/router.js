@@ -450,6 +450,26 @@ define([
                     }]
                 }
             })
+            .state('console.noplan', {
+                url: '/noplan',
+                templateUrl: 'views/noplan/noplan.html',
+                controller: 'noplanCtrl',
+                resolve: {
+                    dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load('views/noplan/noplan.js')
+                    }]
+                }
+            })
+            .state('console.pay', {
+                url: '/pay',
+                templateUrl: 'views/pay/pay.html',
+                controller: 'payCtrl',
+                resolve: {
+                    dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load('views/pay/pay.js')
+                    }]
+                }
+            })
 
       }]);
 });

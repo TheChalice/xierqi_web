@@ -1,0 +1,1 @@
+/** * Created by sorcerer on 16/10/9. */angular.module('console.noplan', [        {            files: [                'views/noplan/noplan.css'            ]        }    ])    .controller('noplanCtrl', ['$scope', function ($scope) {    }]);
