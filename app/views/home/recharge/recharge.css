@@ -3,7 +3,7 @@
 /*公共样式*/
 html,body{-webkit-tap-highlight-color:rgba(0,0,0,0);font:12px "微软雅黑",Helvetica;}
 img{border:0 none;height:auto; max-width: 100%;}
-ol,ul{list-style:none;margin:0;}
+ol,ul,li{list-style:none;margin:0;}
 :focus{outline:0;}
 a{ color:inherit;}
 textarea{resize:none;overflow:auto;}
@@ -26,10 +26,14 @@ input:focus,textarea:focus{outline:0}
 .h_tit{text-align:center;font-size:34px;color:#fff;padding-top:50px;}
 .h_detail{text-align:center;font-size:24px;color:#fff;padding-top:23px;}
 
-.list{width:600px;margin:0 auto;height:400px;position:absolute;bottom:0;left:0;right:0;}
+.list{width:600px;margin:0 auto;height:400px;position:absolute;bottom:0px;left:0;right:0;}
 .list li{width:200px;background:#0CBDE9;}
 .list .block{width:200px;}
-/*.list li:nth-child(1){height:203px;}*/
+
+.tab_area{width:180px;height:30px;margin:20px auto 0;line-height:30px;}
+.tab_area li{width:88px;float:left;text-align:center;cursor:pointer;font-size:14px;color:#fff;border:1px solid #fff;}
+.tab_area li:nth-child(1){border-right:0;}
+.tab_area li.active{background:rgba(255,255,255,0.4);}
 /*模块公共内容样式*/
 .block{padding-top:16px;}
 .block p{padding-left:23px;padding-right:23px;}
