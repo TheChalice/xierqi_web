@@ -48,45 +48,58 @@ angular.module('console', [
                 });
             };
 
-            if ($state.current.name === 'console.plan' || $state.current.name === 'console.pay' || $state.current.name === 'console.noplan'||$state.current.name === 'home.index') {
-                $rootScope.projects=false;
-                $scope.showsidebar = false;
-            } else {
-                loadProject();
-                $scope.showsidebar = true;
-            }
+            //if ($state.current.name === 'console.plan' || $state.current.name === 'console.pay' || $state.current.name === 'console.noplan'||$state.current.name === 'home.index') {
+            //    $rootScope.projects=false;
+            //    $scope.showsidebar = false;
+            //} else {
+            //    loadProject();
+            //    $scope.showsidebar = true;
+            //}
+            account.get({n:'1'}, function (data) {
+                console.log('套餐', data);
 
+                if (data.purchased) {
+                    //跳转dashboard
+                    $scope.showsidebar = true;
+                    loadProject();
+                }else{
+                    if ($state.current.name === 'console.plan' || $state.current.name === 'console.pay' || $state.current.name === 'console.noplan' || $state.current.name === 'home.index') {
+                        $rootScope.projects=false;
+                        $scope.showsidebar = false;
+                    } else {
+                        $state.go('console.noplan');
+                    }
+
+
+                    //跳转购买套餐
+                }
+            })
             $rootScope.user = user;
-            //account.get({}, function (data) {
-            //    console.log('套餐', data);
-            //    //$rootScope.payment=data;
-            //    if (data.purchased) {
-            //        //跳转dashboard
-            //    }else{
-            //        //跳转购买套餐
-            //    }
-            //})
-            //$scope.showsidebar=true;
+
 
             $scope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
                 console.log('toState.name', toState.name);
-                //account.get({}, function (data) {
-                //    console.log('套餐', data);
-                //    //$rootScope.payment=data;
-                //    if (data.purchased) {
-                //        //跳转dashboard
-                //    }else{
-                //        //跳转购买套餐
-                //    }
-                //})
+                account.get({n:'1'}, function (data) {
+                    //console.log('套餐', data);
+                    //$rootScope.payment=data;
+                    if (data.purchased) {
+                        loadProject();
+                            $scope.showsidebar = true;
 
-                if (toState.name === 'console.plan' || toState.name === 'console.pay' || toState.name === 'console.noplan'||toState.name === 'home.index') {
-                    $rootScope.projects=false;
-                    $scope.showsidebar = false;
-                } else {
-                    loadProject();
-                    $scope.showsidebar = true;
-                }
+                        //有plan
+                    }else{
+                        if (toState.name === 'console.plan' || toState.name === 'console.pay' || toState.name === 'console.noplan'||toState.name === 'home.index') {
+                            $rootScope.projects=false;
+                            $scope.showsidebar = false;
+                        } else {
+                            $state.go('console.noplan');
+                        }
+
+                        //跳转购买套餐
+                    }
+                })
+
+
 
             })
             //$rootScope.payment = account;
