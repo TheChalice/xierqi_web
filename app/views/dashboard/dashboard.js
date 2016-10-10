@@ -4,17 +4,40 @@ angular.module('console.dashboard', [
             files: []
         }
     ])
-    .controller('dashboardCtrl', ['recharge', 'balance', '$http', '$log', '$rootScope', '$scope', 'Metrics', 'MetricsService', 'Pod', 'DeploymentConfig', 'BackingServiceInstance',
-        function (recharge, balance, $http, $log, $rootScope, $scope, Metrics, MetricsService, Pod, DeploymentConfig, BackingServiceInstance) {
+    .controller('dashboardCtrl', ['recharge', 'balance', '$http', '$log', '$rootScope', '$scope', 'Metrics', 'MetricsService', 'Pod', 'DeploymentConfig', 'BackingServiceInstance','account','market','amount',
+        function (recharge, balance, $http, $log, $rootScope, $scope, Metrics, MetricsService, Pod, DeploymentConfig, BackingServiceInstance,account,market,amount) {
             $scope.cpuData = [];
             $scope.memData = [];
             $scope.isdata = {};
-            $scope.deposit = function () {
-                recharge.create({}, {"amount": 1234.34, namespace: $rootScope.namespace}, function (data) {
-                    console.log('充值', data);
-                })
+            //$scope.deposit = function () {
+            //    recharge.create({}, {"amount": 1234.34, namespace: $rootScope.namespace}, function (data) {
+            //        console.log('充值', data);
+            //    })
+            //}
+            $scope.plans = {
+                cpu : "4 CPU Cores",
+                ram : "8 GB RAM",
+                price : 88.88,
+                planName : '套餐一'
             }
+            account.get({n:1},function(res){
+                console.log('lalallalalalllallal',res);
+                market.get({},function(data){
+                        console.log('eeeeeeeeeeee',data);
+                    for(var i = 0 ; i < data.plans.length; i++){
+                        if(res.subscriptions.plan_id == data.plans[i].plan_id){
+                            $scope.plans.cpu = data.plans[i].description;
+                            $scope.plans.ram = data.plans[i].description2;
+                            $scope.plans.price = data.plans[i].price
+                            $scope.plans.planName = data.plans[i].plan_name;
+                        }
+                    }
 
+                })
+            })
+            amount.query({},function(res){
+                console.log('aaaã',res);
+            })
             balance.get({}, function (data) {
                 $scope.balance = data
                 console.log('balance', data);
