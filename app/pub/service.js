@@ -1392,16 +1392,18 @@ define(['angular'], function (angular) {
                                     }
                                 } else {
                                     //获取套餐
-                                    account.get({}, function (data) {
+                                    account.get({n:1}, function (data) {
                                         console.log('套餐', data);
                                         //$rootScope.payment=data;
                                         if (data.purchased) {
+                                            $state.go('console.dashboard');
                                             //跳转dashboard
                                         }else{
+                                            $state.go('console.noplan');
                                             //跳转购买套餐
                                         }
                                     })
-                                    $state.go('console.dashboard');
+                                    //$state.go('console.dashboard');
                                 }
 
 
