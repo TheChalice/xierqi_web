@@ -496,6 +496,28 @@ define(['angular'], function (angular) {
                 }).result;
             };
         }])
+        .service('Tip', ['$uibModal', function ($uibModal) {
+            this.open = function (title, txt, tip, tp, iscf, nonstop) {
+                return $uibModal.open({
+                    templateUrl: 'pub/tpl/tip.html',
+                    size: 'default',
+                    controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+                        $scope.title = title;
+                        $scope.txt = txt;
+                        $scope.tip = tip;
+                        $scope.tp = tp;
+                        $scope.iscf = iscf;
+                        //$scope.nonstop = nonstop;
+                        $scope.ok = function () {
+                            $uibModalInstance.close(true);
+                        };
+                        $scope.cancel = function () {
+                            $uibModalInstance.dismiss();
+                        };
+                    }]
+                }).result;
+            };
+        }])
         .service('simpleAlert', ['$uibModal', function ($uibModal) {
             this.open = function (title, txt) {
                 return $uibModal.open({
