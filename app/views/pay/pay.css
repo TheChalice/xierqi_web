@@ -41,14 +41,14 @@
     line-height: 30px;
     float: left;
 }
-.active{
+.payactive{
     border-color: #f6a540;
     background: url(../../views/backing_service/img/images_48.png) no-repeat #fff;
 }
-.active .paybg{
+.payactive .paybg{
     background-image: url("../../pub/img/pay02_hover.png");
 }
-.active .paybg1{
+.payactive .paybg1{
     background-image: url("../../pub/img/pay01_hover.png");
 }
 .payinput{
