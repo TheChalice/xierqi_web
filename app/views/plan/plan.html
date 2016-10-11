@@ -13,8 +13,8 @@
                         <p class="cpu_tit">{{plan.description}}</p>
                         <p class="rom_tit">{{plan.description2}}</p>
                         <p class="all_tit">所有基础的功能</p>
-                        <span ng-if="plan.canbuy" class="buy_btn trans_background" ng-click="buy(plan)">立即购买</span>
-                        <span ng-if="!plan.canbuy" class="buy_btn trans_background" ng-click="buy(plan)">已订购</span>
+                        <span ng-if="plan.canbuy==='small'||plan.canbuy==='big'" class="buy_btn trans_background" ng-click="buy(plan)">立即购买</span>
+                        <span ng-if="plan.canbuy==='check'" class="buy_btn trans_background" ng-click="buy(plan)">已订购</span>
                     </div>
                 </li>
                 <!--<li>-->

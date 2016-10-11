@@ -8,7 +8,8 @@ angular.module('console.plan', [
             ]
         }
     ])
-    .controller('planCtrl', ['Tip','$scope','$rootScope','account','Tip','market', function (Tip,$scope,$rootScope,account,Tip,market){
+    .controller('planCtrl', ['checkout','$state','Tip','$scope','$rootScope','account','Tip','market',
+        function (checkout,$state,Tip,$scope,$rootScope,account,Tip,market){
         //console.log('$rootScope.projects', $rootScope.projects);
         $scope.plans=[];
         account.get({n:'1'}, function (mydata) {
@@ -29,11 +30,12 @@ angular.module('console.plan', [
                     //if (mydata.subscriptions[0].plan_id === myplan.plan_id) {
                     //    //price
                     //}
-                    if (mydata.subscriptions[1].price < myplan.price) {
-                        myplan.canbuy = true;
-
+                    if (mydata.subscriptions[1].price === myplan.price) {
+                        myplan.canbuy='check';
+                    }else if (mydata.subscriptions[1].price < myplan.price) {
+                        myplan.canbuy = 'big';
                     }else {
-                        myplan.canbuy = false;
+                        myplan.canbuy = 'small';
                     }
                     myplan.hour = parseInt((myplan.price/30/24)*100)/100;
                 });
@@ -47,9 +49,20 @@ angular.module('console.plan', [
         //})
 
         $scope.buy= function (plan) {
-            if (plan.canbuy) {
+            if (plan.canbuy==='big') {
+                checkout.create({plan_id:plan.plan_id,namespace:$rootScope.namespace,"region":"cn-north-1"}, function (data) {
+                    console.log(data);
+                    //Tip.open('办理成功','套餐更换成功,费用将按照套餐比例计算',false,true,true).then(function () {
+                    //    $state.go('console.dashboard')
+                    //})
+                    //失败回调,钱不够
+                    Tip.open('办理失败','账户可用余额不足充值后再试','马上去充值',true).then(function () {
+                        $state.go('console.pay');
+                    })
+                })
 
-            }else {
+            }else if(plan.canbuy==='small') {
+                Tip.open('办理失败','暂不支持更换低套餐',false,true)
 
             }
         }
