@@ -497,15 +497,16 @@ define(['angular'], function (angular) {
             };
         }])
         .service('Tip', ['$uibModal', function ($uibModal) {
-            this.open = function (title, txt, tip, tp, iscf, nonstop) {
+            this.open = function (title, txt, tip, iscf) {
                 return $uibModal.open({
+                    backdrop: 'static',
                     templateUrl: 'pub/tpl/tip.html',
                     size: 'default',
                     controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
                         $scope.title = title;
                         $scope.txt = txt;
                         $scope.tip = tip;
-                        $scope.tp = tp;
+                        //$scope.tp = tp;
                         $scope.iscf = iscf;
                         //$scope.nonstop = nonstop;
                         $scope.ok = function () {
