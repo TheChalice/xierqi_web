@@ -11,8 +11,9 @@ angular.module('console.plan', [
     .controller('planCtrl', ['Tip','$scope','$rootScope','account','Tip','market', function (Tip,$scope,$rootScope,account,Tip,market){
         //console.log('$rootScope.projects', $rootScope.projects);
         $scope.plans=[];
-        account.get({n:'1'}, function (mydata) {
+        account.get({}, function (mydata) {
             console.log(mydata);
+            mydata.purchased=false;
             if (mydata.purchased) {
                 $('.plan_block_main').css("left","200px");
             }else{
