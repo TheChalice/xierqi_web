@@ -462,6 +462,9 @@ define([
             })
             .state('console.pay', {
                 url: '/pay',
+                params: {
+                    id: null
+                },
                 templateUrl: 'views/pay/pay.html',
                 controller: 'payCtrl',
                 resolve: {
