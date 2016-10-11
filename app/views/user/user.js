@@ -16,7 +16,9 @@ angular.module('console.user', [
         $scope.credentials = {};
         $scope.grid = {
             st: null,
-            et: null
+            et: null,
+            hpay :true,
+            coupon : false
         }
 
         $scope.orgName = "seferfe";
