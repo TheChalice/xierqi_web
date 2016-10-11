@@ -5,40 +5,41 @@
 
         <div class="list">
             <ul>
-                <li>
+                <li ng-repeat="plan in plans">
                     <div class="block trans_height">
-                        <p class="name_tit">基础版1</p>
-                        <p class="mon_tit">￥29<span>&nbsp;元/月 起</span></p>
-                        <p class="hour_tit">0.02元/小时</p>
-                        <p class="cpu_tit">1核  CPU</p>
-                        <p class="rom_tit">2GB  内存</p>
+                        <p class="name_tit">{{plan.plan_name}}</p>
+                        <p class="mon_tit">￥{{plan.price}}<span>&nbsp;元/月 起</span></p>
+                        <p class="hour_tit">{{plan.hour}}元/小时</p>
+                        <p class="cpu_tit">{{plan.description}}</p>
+                        <p class="rom_tit">{{plan.description2}}</p>
                         <p class="all_tit">所有基础的功能</p>
-                        <span class="buy_btn trans_background">立即购买</span>
+                        <span ng-if="plan.canbuy" class="buy_btn trans_background" ng-click="buy(plan)">立即购买</span>
+                        <span ng-if="!plan.canbuy" class="buy_btn trans_background" ng-click="buy(plan)">已订购</span>
                     </div>
                 </li>
-                <li>
-                    <div class="block trans_height">
-                        <p class="name_tit">高级版</p>
-                        <p class="mon_tit">￥159<span>&nbsp;元/月 起</span></p>
-                        <p class="hour_tit">0.02元/小时</p>
-                        <p class="cpu_tit">4核  CPU</p>
-                        <p class="rom_tit">16GB  内存</p>
-                        <p class="hard_tit">500GB  SSD硬盘</p>
-                        <p class="all_tit">所有高级版的功能</p>
-                        <span class="buy_btn trans_background">立即购买</span>
-                    </div>
-                </li>
-                <li>
-                    <div class="block trans_height">
-                        <p class="name_tit">专业版</p>
-                        <p class="mon_tit">￥59<span>&nbsp;元/月 起</span></p>
-                        <p class="hour_tit">0.08元/小时</p>
-                        <p class="cpu_tit">2核  CPU</p>
-                        <p class="rom_tit">8GB  内存</p>
-                        <p class="all_tit">所有专业版的功能</p>
-                        <span class="buy_btn trans_background">立即购买</span>
-                    </div>
-                </li>
+                <!--<li>-->
+                    <!--<div class="block trans_height">-->
+                        <!--<p class="name_tit">高级版</p>-->
+                        <!--<p class="mon_tit">￥159<span>&nbsp;元/月 起</span></p>-->
+                        <!--<p class="hour_tit">0.02元/小时</p>-->
+                        <!--<p class="cpu_tit">4核  CPU</p>-->
+                        <!--<p class="rom_tit">16GB  内存</p>-->
+                        <!--<p class="hard_tit">500GB  SSD硬盘</p>-->
+                        <!--<p class="all_tit">所有高级版的功能</p>-->
+                        <!--<span class="buy_btn trans_background">立即购买</span>-->
+                    <!--</div>-->
+                <!--</li>-->
+                <!--<li>-->
+                    <!--<div class="block trans_height">-->
+                        <!--<p class="name_tit">专业版</p>-->
+                        <!--<p class="mon_tit">￥59<span>&nbsp;元/月 起</span></p>-->
+                        <!--<p class="hour_tit">0.08元/小时</p>-->
+                        <!--<p class="cpu_tit">2核  CPU</p>-->
+                        <!--<p class="rom_tit">8GB  内存</p>-->
+                        <!--<p class="all_tit">所有专业版的功能</p>-->
+                        <!--<span class="buy_btn trans_background">立即购买</span>-->
+                    <!--</div>-->
+                <!--</li>-->
             </ul>
 
 
