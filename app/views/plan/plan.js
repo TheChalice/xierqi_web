@@ -14,7 +14,7 @@ angular.module('console.plan', [
         $scope.plans=[];
         account.get({}, function (mydata) {
             console.log(mydata);
-            mydata.purchased=false;
+            //mydata.purchased=false;
             if (mydata.purchased) {
                 $('.plan_block_main').css("left","200px");
             }else{
@@ -31,6 +31,8 @@ angular.module('console.plan', [
                     //if (mydata.subscriptions[0].plan_id === myplan.plan_id) {
                     //    //price
                     //}
+                    //myplan.description=myplan.description.replace('CPU Core','')
+                    //myplan.description2=myplan.description.replace('GB RAM','')
                     if (mydata.subscriptions[1].price === myplan.price) {
                         myplan.canbuy='check';
                     }else if (mydata.subscriptions[1].price < myplan.price) {

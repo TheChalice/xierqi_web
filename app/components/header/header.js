@@ -317,6 +317,13 @@ angular.module("console.header", [
                     return "持久卷详情";
                 case "console.create_saas":
                     return "新建服务实例";
+                case "console.pay":
+                    return "充值";
+                case "console.plan":
+                    return "套餐";
+                case "console.noplan":
+                    return "套餐";
+
             }
         };
     }]);

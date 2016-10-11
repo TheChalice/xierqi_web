@@ -40,7 +40,7 @@ input:focus,textarea:focus{outline:0}
 .p_md{margin-left:40px;margin-right:40px;}
 .cpu_tit{border-bottom:1px solid #fff;padding-top:10px;padding-bottom:20px;}
 .pic_cpu{float:left;width:62px;height:62px;}
-.plan_block_main .cpu_detail{float:left;margin-left:42px;margin-top:6px;}
+.plan_block_main .cpu_detail{float:left;margin-left:26px;margin-top:6px;}
 .cpu_detail span{display:block;}
 .cpu_name{font-size:14px;color:#fff;padding-bottom:10px;}
 .cpu_core{font-size:14px;color:#5a6378;}
