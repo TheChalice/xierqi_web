@@ -54,7 +54,7 @@ angular.module('console', [
                 $scope.showsidebar = true;
             }
             console.log($scope.showsidebar);
-            account.get({n:'1'}, function (data) {
+            account.get({}, function (data) {
                 console.log('套餐', data);
 
                 if (data.purchased) {

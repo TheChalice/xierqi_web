@@ -28,9 +28,9 @@ input:focus,textarea:focus{outline:0}
 .p_block{padding-top:25px;}
 .plan_block_main .name_tit{font-size:14px;color:#fff;text-align:center;width:206px;height:30px;margin-left:22px;}
 .name_tit img{width:206px;height:30px;}
-.name_basic{background:url("image/basic.png") no-repeat;}
-.name_pro{background:url("image/pro.png") no-repeat;}
-.name_max{background:url("image/max.png") no-repeat;}
+/*.name_basic{background:url("image/basic.png") no-repeat;}*/
+/*.name_pro{background:url("image/pro.png") no-repeat;}*/
+/*.name_max{background:url("image/max.png") no-repeat;}*/
 .p_tp{padding-bottom:48px;border-bottom:1px solid #fff;margin-left:40px;margin-right:40px;}
 .mon_tit{color:#fff;text-align:center;padding-top:47px;}
 .mon_tit .every_money{font-size:14px;font-weight:normal;}

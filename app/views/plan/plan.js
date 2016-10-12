@@ -23,25 +23,28 @@ angular.module('console.plan', [
             market.get({}, function (data) {
                 console.log(data);
                 angular.forEach(data.plans, function (plan,i) {
-                    if (plan.region === "AWS") {
+                    if (plan.region === "铸造二区") {
                         $scope.plans.push(plan);
                     }
                 })
+
                 angular.forEach($scope.plans, function (myplan,j) {
                     //if (mydata.subscriptions[0].plan_id === myplan.plan_id) {
                     //    //price
                     //}
                     //myplan.description=myplan.description.replace('CPU Core','')
                     //myplan.description2=myplan.description.replace('GB RAM','')
-                    if (mydata.subscriptions[1].price === myplan.price) {
+
+                    if (mydata.subscriptions&&mydata.subscriptions[0].price === myplan.price) {
                         myplan.canbuy='check';
-                    }else if (mydata.subscriptions[1].price < myplan.price) {
+                    }else if (!mydata.subscriptions || mydata.subscriptions[0].price < myplan.price) {
                         myplan.canbuy = 'big';
                     }else {
                         myplan.canbuy = 'small';
                     }
                     myplan.hour = parseInt((myplan.price/30/24)*100)/100;
                 });
+
 
             })
 
@@ -55,13 +58,13 @@ angular.module('console.plan', [
             if (plan.canbuy==='big') {
                 checkout.create({plan_id:plan.plan_id,namespace:$rootScope.namespace,"region":"cn-north-1"}, function (data) {
                     console.log(data);
-                    //Tip.open('办理成功','套餐更换成功,费用将按照套餐比例计算',false,true,true).then(function () {
-                    //    $state.go('console.dashboard')
-                    //})
-                    //失败回调,钱不够
-                    Tip.open('办理失败','账户可用余额不足充值后再试','马上去充值',true).then(function () {
-                        $state.go('console.pay');
+                    Tip.open('办理成功','套餐更换成功,费用将按照套餐比例计算',false,true,true).then(function () {
+                        $state.go('console.dashboard')
                     })
+                    //失败回调,钱不够
+                    //Tip.open('办理失败','账户可用余额不足充值后再试','马上去充值',true).then(function () {
+                    //    $state.go('console.pay');
+                    //})
                 })
 
             }else if(plan.canbuy==='small') {
