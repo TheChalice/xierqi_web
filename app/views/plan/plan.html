@@ -1,43 +1,110 @@
 <div class="plan_block">
     <div class="plan_block_main">
-        <p class="h_tit">简单透明的定价</p>
-        <p class="h_detail">以超高的性价比 全面助力开发者</p>
-
+        <img class="plan_pic_bt" src="views/plan/image/plan_pic_bt.png">
         <div class="list">
             <ul>
+
+                <!--<li ng-repeat="plan in plans">-->
+                <!--<div class="block trans_height">-->
+                <!--<p class="name_tit">{{plan.plan_name}}</p>-->
+                <!--<p class="mon_tit">￥{{plan.price}}<span>&nbsp;元/月 起</span></p>-->
+                <!--<p class="hour_tit">{{plan.hour}}元/小时</p>-->
+                <!--<p class="cpu_tit">{{plan.description}}</p>-->
+                <!--<p class="rom_tit">{{plan.description2}}</p>-->
+                <!--<p class="all_tit">所有基础的功能</p>-->
+                <!--<span ng-if="plan.canbuy==='small'||plan.canbuy==='big'" class="buy_btn trans_background" ng-click="buy(plan)">立即购买</span>-->
+                <!--<span ng-if="plan.canbuy==='check'" class="buy_btn trans_background" ng-click="buy(plan)">已订购</span>-->
+                <!--</div>-->
+                <!--</li>-->
+
                 <li ng-repeat="plan in plans">
-                    <div class="block trans_height">
-                        <p class="name_tit">{{plan.plan_name}}</p>
-                        <p class="mon_tit">￥{{plan.price}}<span>&nbsp;元/月 起</span></p>
-                        <p class="hour_tit">{{plan.hour}}元/小时</p>
-                        <p class="cpu_tit">{{plan.description}}</p>
-                        <p class="rom_tit">{{plan.description2}}</p>
-                        <p class="all_tit">所有基础的功能</p>
-                        <span ng-if="plan.canbuy" class="buy_btn trans_background" ng-click="buy(plan)">立即购买</span>
-                        <span ng-if="!plan.canbuy" class="buy_btn trans_background" ng-click="buy(plan)">已订购</span>
+                    <div class="p_block trans_all">
+                        <div class="p_tp">
+                            <p class="name_tit name_basic"><img src="views/plan/image/basic.png"></p>
+                            <p class="mon_tit"><span class="money">￥</span><span class="num">{{plan.price}}</span><span
+                                    class="every_money">&nbsp;元/月</span></p>
+                            <p class="hour_tit">≈ {{plan.hour}}元/小时</p>
+                        </div>
+                        <div class="p_md">
+                            <div class="cpu_tit">
+                                <img src="views/plan/image/pic_cpu.png" class="pic_cpu">
+                                <p class="cpu_detail">
+                                    <span class="cpu_name">CPU</span>
+                                    <span class="cpu_core">{{plan.description}}</span>
+                                </p>
+                            </div>
+                            <div class="cpu_tit">
+                                <img src="views/plan/image/pic_rom.png" class="pic_cpu">
+                                <p class="cpu_detail">
+                                    <span class="cpu_name">内存</span>
+                                    <span class="cpu_core">{{plan.description2}}</span>
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <span ng-if="plan.canbuy==='small'||plan.canbuy==='big'" class="buy_btn trans_background"
+                              ng-click="buy(plan)">立即购买</span>
+                        <span ng-if="plan.canbuy==='check'" class="buy_btn buyed_btn trans_background">已购买</span>
                     </div>
                 </li>
+
                 <!--<li>-->
-                    <!--<div class="block trans_height">-->
-                        <!--<p class="name_tit">高级版</p>-->
-                        <!--<p class="mon_tit">￥159<span>&nbsp;元/月 起</span></p>-->
-                        <!--<p class="hour_tit">0.02元/小时</p>-->
-                        <!--<p class="cpu_tit">4核  CPU</p>-->
-                        <!--<p class="rom_tit">16GB  内存</p>-->
-                        <!--<p class="hard_tit">500GB  SSD硬盘</p>-->
-                        <!--<p class="all_tit">所有高级版的功能</p>-->
+                    <!--<div class="p_block trans_all">-->
+                        <!--<div class="p_tp">-->
+                            <!--<p class="name_tit name_max"><img src="views/plan/image/max.png"></p>-->
+                            <!--<p class="mon_tit"><span class="money">￥</span><span class="num">469</span><span-->
+                                    <!--class="every_money">&nbsp;元/月</span></p>-->
+                            <!--<p class="hour_tit">≈ 0.63元/小时</p>-->
+                        <!--</div>-->
+                        <!--<div class="p_md">-->
+                            <!--<div class="cpu_tit">-->
+                                <!--<img src="views/plan/image/pic_cpu.png" class="pic_cpu">-->
+                                <!--<p class="cpu_detail">-->
+                                    <!--<span class="cpu_name">CPU</span>-->
+                                    <!--<span class="cpu_core"><i>2</i> cpu core</span>-->
+                                <!--</p>-->
+                            <!--</div>-->
+                            <!--<div class="cpu_tit">-->
+                                <!--<img src="views/plan/image/pic_rom.png" class="pic_cpu">-->
+                                <!--<p class="cpu_detail">-->
+                                    <!--<span class="cpu_name">内存</span>-->
+                                    <!--<span class="cpu_core"><i>8</i> GB</span>-->
+                                <!--</p>-->
+                            <!--</div>-->
+
+                        <!--</div>-->
+
                         <!--<span class="buy_btn trans_background">立即购买</span>-->
                     <!--</div>-->
                 <!--</li>-->
                 <!--<li>-->
-                    <!--<div class="block trans_height">-->
-                        <!--<p class="name_tit">专业版</p>-->
-                        <!--<p class="mon_tit">￥59<span>&nbsp;元/月 起</span></p>-->
-                        <!--<p class="hour_tit">0.08元/小时</p>-->
-                        <!--<p class="cpu_tit">2核  CPU</p>-->
-                        <!--<p class="rom_tit">8GB  内存</p>-->
-                        <!--<p class="all_tit">所有专业版的功能</p>-->
-                        <!--<span class="buy_btn trans_background">立即购买</span>-->
+                    <!--<div class="p_block trans_all">-->
+                        <!--<div class="p_tp">-->
+                            <!--<p class="name_tit name_pro"><img src="views/plan/image/pro.png"></p>-->
+                            <!--<p class="mon_tit"><span class="money">￥</span><span class="num">1699</span><span-->
+                                    <!--class="every_money">&nbsp;元/月</span></p>-->
+                            <!--<p class="hour_tit">≈ 2.28元/小时</p>-->
+                        <!--</div>-->
+                        <!--<div class="p_md">-->
+                            <!--<div class="cpu_tit">-->
+                                <!--<img src="views/plan/image/pic_cpu.png" class="pic_cpu">-->
+                                <!--<p class="cpu_detail">-->
+                                    <!--<span class="cpu_name">CPU</span>-->
+                                    <!--<span class="cpu_core"><i>4</i> cpu core</span>-->
+                                <!--</p>-->
+                            <!--</div>-->
+                            <!--<div class="cpu_tit">-->
+                                <!--<img src="views/plan/image/pic_rom.png" class="pic_cpu">-->
+                                <!--<p class="cpu_detail">-->
+                                    <!--<span class="cpu_name">内存</span>-->
+                                    <!--<span class="cpu_core"><i>16</i> GB</span>-->
+                                <!--</p>-->
+                            <!--</div>-->
+
+                        <!--</div>-->
+
+                        <!--<span class="buy_btn buyed_btn trans_background">已购买</span>-->
                     <!--</div>-->
                 <!--</li>-->
             </ul>

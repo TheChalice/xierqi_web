@@ -20,7 +20,10 @@ angular.module('console.user', [
             hpay :true,
             coupon : false
         }
-
+        console.log($stateParams);
+        if ($stateParams.index) {
+            $scope.check=$stateParams.index
+        }
         $scope.orgName = "seferfe";
         market.get({}, function (data) {
             console.log('套餐详情',data);
