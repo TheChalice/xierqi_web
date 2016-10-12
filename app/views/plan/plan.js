@@ -15,11 +15,11 @@ angular.module('console.plan', [
         account.get({}, function (mydata) {
             console.log(mydata);
             //mydata.purchased=false;
-            if (mydata.purchased) {
-                $('.plan_block_main').css("left","200px");
-            }else{
-                $('.plan_block_main').css("left","0");
-            }
+            //if (mydata.purchased) {
+            //    $('.plan_block_main').css("left","200px");
+            //}else{
+            //    $('.plan_block_main').css("left","0");
+            //}
             market.get({}, function (data) {
                 console.log(data);
                 angular.forEach(data.plans, function (plan,i) {
