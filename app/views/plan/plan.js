@@ -8,8 +8,8 @@ angular.module('console.plan', [
             ]
         }
     ])
-    .controller('planCtrl', ['checkout','$state','Tip','$scope','$rootScope','account','Tip','market',
-        function (checkout,$state,Tip,$scope,$rootScope,account,Tip,market){
+    .controller('planCtrl', ['by','checkout','$state','Tip','$scope','$rootScope','account','Tip','market',
+        function (by,checkout,$state,Tip,$scope,$rootScope,account,Tip,market){
         //console.log('$rootScope.projects', $rootScope.projects);
         $scope.plans=[];
         account.get({}, function (mydata) {
@@ -23,11 +23,11 @@ angular.module('console.plan', [
             market.get({}, function (data) {
                 console.log(data);
                 angular.forEach(data.plans, function (plan,i) {
-                    if (plan.region === "铸造二区") {
+                    if (plan.region === "铸造一区") {
                         $scope.plans.push(plan);
                     }
                 })
-
+                $scope.plans=$scope.plans.sort(by.open("price"));
                 angular.forEach($scope.plans, function (myplan,j) {
                     //if (mydata.subscriptions[0].plan_id === myplan.plan_id) {
                     //    //price
