@@ -56,6 +56,9 @@ angular.module('home', [])
                         case 'home.index':
                             $scope.whereclick = '首页'
                             break;
+                        case 'home.recharge':
+                            $scope.whereclick = '价格'
+                            break;
                         case 'home.introduce':
                             $scope.whereclick = '产品'
                             break;

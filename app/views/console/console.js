@@ -48,24 +48,23 @@ angular.module('console', [
                 });
             };
 
-            //if ($state.current.name === 'console.plan' || $state.current.name === 'console.pay' || $state.current.name === 'console.noplan'||$state.current.name === 'home.index') {
-            //    $rootScope.projects=false;
-            //    $scope.showsidebar = false;
-            //} else {
-            //    loadProject();
-            //    $scope.showsidebar = true;
-            //}
+            if ($state.current.name === 'console.plan' || $state.current.name === 'console.pay' || $state.current.name === 'console.noplan'||$state.current.name === 'home.index') {
+                $scope.showsidebar = false;
+            } else {
+                $scope.showsidebar = true;
+            }
+            console.log($scope.showsidebar);
             account.get({n:'1'}, function (data) {
                 console.log('套餐', data);
 
                 if (data.purchased) {
                     //跳转dashboard
-                    $scope.showsidebar = true;
+                    //$scope.showsidebar = true;
                     loadProject();
                 }else{
                     if ($state.current.name === 'console.plan' || $state.current.name === 'console.pay' || $state.current.name === 'console.noplan' || $state.current.name === 'home.index') {
                         $rootScope.projects=false;
-                        $scope.showsidebar = false;
+                        //$scope.showsidebar = false;
                     } else {
                         $state.go('console.noplan');
                     }
@@ -82,15 +81,20 @@ angular.module('console', [
                 account.get({n:'1'}, function (data) {
                     //console.log('套餐', data);
                     //$rootScope.payment=data;
+                    if ($state.current.name === 'console.plan' || $state.current.name === 'console.pay' || $state.current.name === 'console.noplan'||$state.current.name === 'home.index') {
+                        $scope.showsidebar = false;
+                    } else {
+                        $scope.showsidebar = true;
+                    }
                     if (data.purchased) {
                         loadProject();
-                            $scope.showsidebar = true;
+                            //$scope.showsidebar = true;
 
                         //有plan
                     }else{
                         if (toState.name === 'console.plan' || toState.name === 'console.pay' || toState.name === 'console.noplan'||toState.name === 'home.index') {
                             $rootScope.projects=false;
-                            $scope.showsidebar = false;
+                            //$scope.showsidebar = false;
                         } else {
                             $state.go('console.noplan');
                         }

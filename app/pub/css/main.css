@@ -1304,7 +1304,7 @@ a {
 .active .myimage {
     background: url(../../pub/img/myimageh.png) no-repeat;
     background-size: contain;
-<<<<<<< HEAD
+
 }
 .mt20 {
     margin-top: 20px;
@@ -1313,10 +1313,20 @@ a {
     margin-top: 10px;
     margin:0 15px;
 }
-=======
-}.btn-green
-
->>>>>>> feature/jsxfeature
+.footer {
+    background: #5a6378;
+    font-size: 14px;
+    font-weight:bold;
+    color: #bdc0c7;
+    text-align: center;
+    height: 300px;
+    line-height: 50px;
+    width: 100%;
+    paddin: 0px 30px;
+    padding-top: 40px;
+    margin-left: 0;
+    margin-right: 0;
+}
 /*!* 设置滚动条的样式 *!*/
 /*::-webkit-scrollbar {*/
     /*width: 12px;*/
