@@ -53,8 +53,8 @@ angular.module('console', [
             } else {
                 $scope.showsidebar = true;
             }
-            console.log($scope.showsidebar);
-            account.get({n:'1'}, function (data) {
+            //console.log($scope.showsidebar);
+            account.get({}, function (data) {
                 console.log('套餐', data);
 
                 if (data.purchased) {
@@ -78,7 +78,7 @@ angular.module('console', [
 
             $scope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
                 console.log('toState.name', toState.name);
-                account.get({n:'1'}, function (data) {
+                account.get({}, function (data) {
                     //console.log('套餐', data);
                     //$rootScope.payment=data;
                     if ($state.current.name === 'console.plan' || $state.current.name === 'console.pay' || $state.current.name === 'console.noplan'||$state.current.name === 'home.index') {

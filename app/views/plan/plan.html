@@ -20,7 +20,9 @@
                 <li ng-repeat="plan in plans">
                     <div class="p_block trans_all">
                         <div class="p_tp">
-                            <p class="name_tit name_basic"><img src="views/plan/image/basic.png"></p>
+                            <p class="name_tit name_basic">
+                                <img src="views/plan/image/{{plan.plan_name}}.png">
+                            </p>
                             <p class="mon_tit"><span class="money">￥</span><span class="num">{{plan.price}}</span><span
                                     class="every_money">&nbsp;元/月</span></p>
                             <p class="hour_tit">≈ {{plan.hour}}元/小时</p>

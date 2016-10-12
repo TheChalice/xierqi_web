@@ -58,7 +58,8 @@ define(['angular'], function (angular) {
             }
         }])
         .service('by', ['$uibModal', function ($uibModal) {
-            this.open = function (name) {
+            this.open = function (name,daoxu) {
+                //daoxu参数倒序排列
                 return function (o, p) {
                     var a, b;
                     if (typeof o === "object" && typeof p === "object" && o && p) {
@@ -68,9 +69,19 @@ define(['angular'], function (angular) {
                             return 0;
                         }
                         if (typeof a === typeof b) {
-                            return a < b ? -1 : 1;
+                            if (daoxu) {
+                                return a < b ? 1 : -1;
+                            }else {
+                                return a < b ? -1 : 1;
+                            }
+
                         }
-                        return typeof a < typeof b ? -1 : 1;
+                        if (daoxu) {
+                            return typeof a < typeof b ? 1 : -1;
+                        }else {
+                            return typeof a < typeof b ? -1 : 1;
+                        }
+
                     } else {
                         throw ("error");
                     }
