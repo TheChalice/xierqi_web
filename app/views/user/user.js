@@ -11,8 +11,8 @@ angular.module('console.user', [
 
         ]
     }
-]).controller('userCtrl', ['amounts', 'market', 'createOrg', '$rootScope', '$state', '$stateParams', 'Cookie', 'Toast', '$scope', 'ModalPwd', 'Addmodal', 'profile', 'pwdModify', '$http', 'Confirm', 'leave', 'orgList', 'Alert',
-    function (amounts, market, createOrg, $rootScope, $state, $stateParams, Cookie, Toast, $scope, ModalPwd, Addmodal, profile, pwdModify, $http, Confirm, leave, orgList, Alert) {
+]).controller('userCtrl', ['orders','amounts', 'market', 'createOrg', '$rootScope', '$state', '$stateParams', 'Cookie', 'Toast', '$scope', 'ModalPwd', 'Addmodal', 'profile', 'pwdModify', '$http', 'Confirm', 'leave', 'orgList', 'Alert',
+    function (orders,amounts, market, createOrg, $rootScope, $state, $stateParams, Cookie, Toast, $scope, ModalPwd, Addmodal, profile, pwdModify, $http, Confirm, leave, orgList, Alert) {
         $scope.credentials = {};
         $scope.grid = {
             st: null,
@@ -162,9 +162,12 @@ angular.module('console.user', [
                 })
             }
         }
-
-        amounts.get({}, function (data) {
+        //orders.get({}, function (orders) {
+        //    console.log(orders);
+        //})
+        amounts.get({size:500,page:1}, function (data) {
             console.log(data);
+            data.amounts.reverse()
             angular.forEach(data.amounts, function (amount,i) {
                 if (amount.description === "recharge") {
                     data.amounts[i].description='充值'

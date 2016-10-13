@@ -601,6 +601,10 @@ define([
             });
             return recharge;
         }])
+        .factory('orders', ['$resource', 'GLOBAL', function ($resource) {//获取订单
+            var orders = $resource('/payment/v1/orders', {}, {});
+            return orders;
+        }])
 
 });
 
