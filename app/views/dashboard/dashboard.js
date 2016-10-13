@@ -4,8 +4,8 @@ angular.module('console.dashboard', [
             files: []
         }
     ])
-    .controller('dashboardCtrl', ['recharge', 'balance', '$http', '$log', '$rootScope', '$scope', 'Metrics', 'MetricsService', 'Pod', 'DeploymentConfig', 'BackingServiceInstance','account','market','amount',
-        function (recharge, balance, $http, $log, $rootScope, $scope, Metrics, MetricsService, Pod, DeploymentConfig, BackingServiceInstance,account,market,amount) {
+    .controller('dashboardCtrl', ['recharge', 'balance', '$http', '$log', '$rootScope', '$scope', 'Metrics', 'MetricsService', 'Pod', 'DeploymentConfig', 'BackingServiceInstance','account','market',
+        function (recharge, balance, $http, $log, $rootScope, $scope, Metrics, MetricsService, Pod, DeploymentConfig, BackingServiceInstance,account,market) {
             $scope.cpuData = [];
             $scope.memData = [];
             $scope.isdata = {};
@@ -35,9 +35,7 @@ angular.module('console.dashboard', [
 
                 })
             })
-            amount.query({},function(res){
-                console.log('aaaã',res);
-            })
+
             balance.get({}, function (data) {
                 $scope.balance = data
                 console.log('balance', data);

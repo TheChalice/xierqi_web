@@ -585,11 +585,7 @@ define([
             var market = $resource('/payment/v1/market', {}, {});
             return market;
         }])
-        .factory('amount', ['$resource', 'GLOBAL', function ($resource) {//获取套餐
-            var amount = $resource('/payment/v1/amount', {}, {});
-            return amount;
-        }])
-        .factory('amounts', ['$resource', 'GLOBAL', function ($resource) {//获取套餐
+        .factory('amounts', ['$resource', 'GLOBAL', function ($resource) {//订单详情
             var amounts = $resource('/payment/v1/amounts', {}, {});
             return amounts;
         }])

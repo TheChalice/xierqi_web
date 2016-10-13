@@ -11,26 +11,24 @@ angular.module('console.user', [
 
         ]
     }
-]).controller('userCtrl', ['amounts','amount','market', 'createOrg', '$rootScope', '$state', '$stateParams', 'Cookie', 'Toast', '$scope', 'ModalPwd', 'Addmodal', 'profile', 'pwdModify', '$http', 'Confirm', 'leave', 'orgList', 'Alert',
-    function (amounts,amount,market, createOrg, $rootScope, $state, $stateParams, Cookie, Toast, $scope, ModalPwd, Addmodal, profile, pwdModify, $http, Confirm, leave, orgList, Alert) {
+]).controller('userCtrl', ['amounts', 'market', 'createOrg', '$rootScope', '$state', '$stateParams', 'Cookie', 'Toast', '$scope', 'ModalPwd', 'Addmodal', 'profile', 'pwdModify', '$http', 'Confirm', 'leave', 'orgList', 'Alert',
+    function (amounts, market, createOrg, $rootScope, $state, $stateParams, Cookie, Toast, $scope, ModalPwd, Addmodal, profile, pwdModify, $http, Confirm, leave, orgList, Alert) {
         $scope.credentials = {};
         $scope.grid = {
             st: null,
             et: null,
-            hpay :true,
-            coupon : false
+            hpay: true,
+            coupon: false
         }
         console.log($stateParams);
         if ($stateParams.index) {
-            $scope.check=$stateParams.index
+            $scope.check = $stateParams.index
         }
         $scope.orgName = "seferfe";
         market.get({}, function (data) {
-            console.log('套餐详情',data);
+            console.log('套餐详情', data);
         })
-        amount.query({}, function (data) {
-            console.log('套餐详情',data);
-        })
+
         //load project
         var loadProject = function () {
             $http.get('/oapi/v1/projects', {}).success(function (data) {
@@ -153,7 +151,12 @@ angular.module('console.user', [
             }
         }
         amounts.get({}, function (data) {
-            console.log(data);
+            //console.log(data);
+            angular.forEach(data.amounts, function (amount,i) {
+                amount
+            })
+            $scope.myamounts = data.amounts;
+
         })
         $scope.sendemail = function (item) {
             $http.post('/lapi/send_verify_email', {}).success(function () {

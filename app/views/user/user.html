@@ -323,21 +323,21 @@
             </uib-tab-heading>
             <div class="row" style="margin-bottom: 30px;">
                 <h5 class='col-md-12 buy'>交易记录</h5>
-                <div class="user_tp">
-                <date-pick st="grid.st" et="grid.et"></date-pick>
-                 <span style="font-size:14px;margin-left:10px;">付款方式：</span>
-                <label ng-class="{'active': grid.hpay}" ng-click="grid.hpay=!grid.hpay"
-                       style="cursor: pointer;margin-right:4px;">
-                    <i class="faa faa-check"></i>
-                    &nbsp;&nbsp;鸿支付
-                </label>
-                <label ng-class="{'active': grid.coupon}" ng-click="grid.coupon=!grid.coupon"
-                       style="cursor: pointer;">
-                    <i class="faa faa-check"></i>
-                    &nbsp;&nbsp;优惠券
-                </label>
-                    <span class="user_search trans_all">查询</span>
-                </div>
+                <!--<div class="user_tp">-->
+                <!--<date-pick st="grid.st" et="grid.et"></date-pick>-->
+                 <!--<span style="font-size:14px;margin-left:10px;">付款方式：</span>-->
+                <!--<label ng-class="{'active': grid.hpay}" ng-click="grid.hpay=!grid.hpay"-->
+                       <!--style="cursor: pointer;margin-right:4px;">-->
+                    <!--<i class="faa faa-check"></i>-->
+                    <!--&nbsp;&nbsp;鸿支付-->
+                <!--</label>-->
+                <!--<label ng-class="{'active': grid.coupon}" ng-click="grid.coupon=!grid.coupon"-->
+                       <!--style="cursor: pointer;">-->
+                    <!--<i class="faa faa-check"></i>-->
+                    <!--&nbsp;&nbsp;优惠券-->
+                <!--</label>-->
+                    <!--<span class="user_search trans_all">查询</span>-->
+                <!--</div>-->
                 <section class='col-md-12 user_list'>
                     <table class="table table-hover table-default" style="">
                         <tbody>
@@ -349,22 +349,25 @@
                             <th class="col-lg-2 col-md-2 col-sm-3">账户余额</th>
                             <th class="col-lg-2 col-md-2 col-sm-3">付款方式</th>
                         </tr>
-                        <tr>
-                            <td>1190349323</td>
-                            <td>2016/09/20</td>
-                            <td>余额充值</td>
-                            <td >￥2000</td>
+                        <tr ng-repeat="amount in myamounts">
+                            <td>{{amount.trans_id}}</td>
+                            <td>{{amount.creation_time | timescon3}}</td>
+                            <td>{{amount.description}}</td>
+                            <td>{{amount.amount}}</td>
+                            <!--<td>2016/09/20</td>-->
+                            <!--<td>余额充值</td>-->
+                            <!--<td >￥2000</td>-->
                             <td>￥2300</td>
                             <td>支付宝</td>
                         </tr>
-                        <tr>
-                            <td >1190349323</td>
-                            <td>2016/09/20</td>
-                            <td>余额充值</td>
-                            <td >￥2000</td>
-                            <td>￥2300</td>
-                            <td>支付宝</td>
-                        </tr>
+                        <!--<tr>-->
+                            <!--<td >1190349323</td>-->
+                            <!--<td>2016/09/20</td>-->
+                            <!--<td>余额充值</td>-->
+                            <!--<td >￥2000</td>-->
+                            <!--<td>￥2300</td>-->
+                            <!--<td>支付宝</td>-->
+                        <!--</tr>-->
                         </tbody></table>
 
                 </section>

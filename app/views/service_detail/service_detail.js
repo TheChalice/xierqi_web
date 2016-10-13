@@ -942,7 +942,7 @@ angular.module('console.service.detail', [
                         }
                     }
                     //})
-                    if ($scope.getroutes.spec.to.name == $scope.dc.metadata.name) {
+                    if ($scope.getroutes&&$scope.getroutes.spec.to.name === $scope.dc.metadata.name) {
                         $scope.dc.route = $scope.getroutes;
                         $scope.grid.route = true;
                         if ($scope.dc.route && $scope.dc.route.spec.port) {
