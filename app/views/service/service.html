@@ -55,8 +55,8 @@
             </tr>
             <!--<tr ng-repeat="bc in items">-->
             <tr ng-repeat="dc in items">
-                <td>
-                    <a class="href-orange" ui-sref="console.service_detail({name: dc.metadata.name})">
+                <td style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
+                    <a class="href-orange" ui-sref="console.service_detail({name: dc.metadata.name})" uib-tooltip="{{dc.metadata.name}}" tooltip-placement="top">
                         {{dc.metadata.name}}
                     </a>
                 </td>
