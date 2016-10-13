@@ -321,8 +321,6 @@ angular.module("console.header", [
                     return "充值";
                 case "console.plan":
                     return "套餐";
-                case "console.noplan":
-                    return "套餐";
 
             }
         };
