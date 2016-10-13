@@ -18,8 +18,20 @@ angular.module('console.user', [
             st: null,
             et: null,
             hpay: true,
-            coupon: false
+            coupon: false,
+            page:1,
+            size:10
         }
+        $scope.$watch('grid.page', function(newVal, oldVal){
+            if (newVal != oldVal) {
+                refresh(newVal);
+            }
+        });
+
+        var refresh = function(page) {
+            var skip = (page - 1) * $scope.grid.size;
+            $scope.myamounts = $scope.amountdata.slice(skip, skip + $scope.grid.size);
+        };
         console.log($stateParams);
         if ($stateParams.index) {
             $scope.check = $stateParams.index
@@ -131,9 +143,9 @@ angular.module('console.user', [
                     privilegednum++;
                 }
             }
-            console.log('privilegeds', privilegeds);
-            console.log('privilegednum', privilegednum);
-            console.log('$rootScope.user.metadata.name', $rootScope.user.metadata.name);
+            //console.log('privilegeds', privilegeds);
+            //console.log('privilegednum', privilegednum);
+            //console.log('$rootScope.user.metadata.name', $rootScope.user.metadata.name);
             if ((privilegeds && privilegednum > 1) || !privilegeds) {
                 Confirm.open("离开组织", "您确定要离开" + oname + "吗？", "", "").then(function () {
                     leave.left({org: orgid}, function () {
@@ -150,12 +162,20 @@ angular.module('console.user', [
                 })
             }
         }
+
         amounts.get({}, function (data) {
-            //console.log(data);
+            console.log(data);
             angular.forEach(data.amounts, function (amount,i) {
-                amount
+                if (amount.description === "recharge") {
+                    data.amounts[i].description='充值'
+                }else {
+                    data.amounts[i].description='扣费'
+                }
             })
             $scope.myamounts = data.amounts;
+            $scope.amountdata =angular.copy(data.amounts)
+            $scope.grid.total = data.amounts.length;
+            refresh(1);
 
         })
         $scope.sendemail = function (item) {
