@@ -65,6 +65,18 @@ angular.module('console.plan', [
                     //Tip.open('办理失败','账户可用余额不足充值后再试','马上去充值',true).then(function () {
                     //    $state.go('console.pay');
                     //})
+                }, function (err) {
+
+                    if (err.data.code === 3308) {
+                        Tip.open('办理失败','暂不支持更换套餐','知道了',true).then(function () {
+                            //$state.go('console.pay');
+                        })
+                    }else {
+                        Tip.open('办理失败','账户可用余额不足充值后再试','马上去充值',true).then(function () {
+                            $state.go('console.pay');
+                        })
+                    }
+
                 })
 
             }else if(plan.canbuy==='small') {
