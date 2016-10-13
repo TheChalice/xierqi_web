@@ -1,12 +1,9 @@
 <div id="home" style="margin-top: -70px;">
     <style>
+        .head{width: 100%;  position: fixed;  z-index: 999;background: #f8b551;height: 70px;}
         #header {
-            height: 70px;
-            background: #f8b551;
-            padding-right: 40px;
-            width: 100%;
-            position: fixed;
-            z-index: 999;
+            width:1200px;margin:0 auto;height:auto;overflow:hidden;
+
         }
 
         #header #header-brand {
@@ -17,7 +14,8 @@
         #header #header-brand img {
             padding-top: 11px;
             padding-bottom: 7px;
-            height: 90%;
+
+            width:138px;
         }
 
         #header .menu > li > a {
@@ -153,42 +151,10 @@
             padding-top:11px;
         }
         #header #header-brand {
-            padding-left: 40px;
+            padding-left: 0px;
             padding-right: 40px;
         }
-        @media (max-width: 640px) {
-            #nav {
-                display: none;
-            }
-            #mobilenav {
-                display: block;
-            }
 
-            .footer {
-                height: 380px;
-            }
-
-            #header #header-brand img{
-                padding-top:30px;
-                margin-left:21%;
-                margin-right: 30px;
-            }
-            #header #btnk {
-                margin-left: 76px;
-            }
-
-            #header #header-brand {
-                padding-left: 0px;
-                padding-right: 0px;
-            }
-            .footer-td {
-                display: none;
-            }
-            .footer-lx {
-                margin-left: 7%;
-            }
-
-        }
 
         .navbar-nav {
             background-color: #f8b551;
@@ -207,9 +173,9 @@
             /*border-bottom:2px solid #f6a540;*/
         }
     </style>
+    <div class="head">
     <div id="header">
-        <!--mobile -->
-        <!-- pc -->
+
         <a id="header-brand" style="background-color:#f8b551;" ng-click="where('首页')" href="#">
             <img src="components/header/img/logo.png" alt="logo">
         </a>
@@ -220,27 +186,27 @@
             <button ng-if="!user" id='btnz' ng-click="regist()" type="button" class="btn btn-green btn-xs" style="font-size: 14px;">注册</button>
             <a ng-if="user" id=btnk ui-sref="console.dashboard" class="btn btn-green btn-xs" style="font-size: 14px;">控制台</a>
 
-            <div class="dropdown" ID="mobilenav">
-                <button data-target=".navbar-collapse" style='margin-right: -13px;' data-toggle="collapse" class="navbar-toggle" type="button">
-                    <span class="sr-only">切换导航</span>
-                    <span style="background-color: #fff" class="icon-bar"></span>
-                    <span style="background-color: #fff" class="icon-bar"></span>
-                    <span style="background-color: #fff" class="icon-bar"></span>
+            <!--<div class="dropdown" ID="mobilenav">-->
+                <!--<button data-target=".navbar-collapse" style='margin-right: -13px;' data-toggle="collapse" class="navbar-toggle" type="button">-->
+                    <!--<span class="sr-only">切换导航</span>-->
+                    <!--<span style="background-color: #fff" class="icon-bar"></span>-->
+                    <!--<span style="background-color: #fff" class="icon-bar"></span>-->
+                    <!--<span style="background-color: #fff" class="icon-bar"></span>-->
 
-                </button>
-                <div class="navbar-collapse collapse navbar-right pull-right">
-                    <ul class="nav navbar-nav" id="m-navs">
-                        <li><a ui-sref="home.index" target="_blank" style="color: #fff;font-size: 16px;">首页</a></li>
-                        <!--
-                        <li><a href="javascript:;" target="_blank" style="color: #fff;">应用市场</a></li>
-                        <li><a href="javascript:;" target="_blank" style="color: #fff;">产品介绍</a></li>
-                        <li><a href="javascript:;" target="_blank" style="color: #fff;">解决方案</a></li>
-                        -->
-                        <li><a href="/docs" target="_blank" style="color: #fff;font-size: 16px;">帮助</a></li>
-                        <li><a href="/blog" target="_blank" style="color: #fff;font-size: 16px;">博客</a></li>
-                    </ul>
-                </div>
-            </div>
+                <!--</button>-->
+                <!--<div class="navbar-collapse collapse navbar-right pull-right">-->
+                    <!--<ul class="nav navbar-nav" id="m-navs">-->
+                        <!--<li><a ui-sref="home.index" target="_blank" style="color: #fff;font-size: 16px;">首页</a></li>-->
+                        <!--&lt;!&ndash;-->
+                        <!--<li><a href="javascript:;" target="_blank" style="color: #fff;">应用市场</a></li>-->
+                        <!--<li><a href="javascript:;" target="_blank" style="color: #fff;">产品介绍</a></li>-->
+                        <!--<li><a href="javascript:;" target="_blank" style="color: #fff;">解决方案</a></li>-->
+                        <!--&ndash;&gt;-->
+                        <!--<li><a href="/docs" target="_blank" style="color: #fff;font-size: 16px;">帮助</a></li>-->
+                        <!--<li><a href="/blog" target="_blank" style="color: #fff;font-size: 16px;">博客</a></li>-->
+                    <!--</ul>-->
+                <!--</div>-->
+            <!--</div>-->
         </form>
         <ul class="nav navbar-nav menu navbar-right" ID="nav">
             <li ng-class="{active:whereclick==='首页'}"><a ui-sref="home.index" style="font-size: 16px;">首页</a></li>
@@ -251,6 +217,7 @@
             <li ng-class="{active:whereclick==='文档'}"><a href="/docs" target="_blank"  style="font-size: 16px;">文档</a></li>
             <li ng-class="{active:whereclick==='博客'}"><a href="/blog" target="_blank" style="font-size: 16px;">博客</a></li>
         </ul>
+    </div>
     </div>
     <!--loading-->
     <!--<div class="loading-box" ng-show=loding>-->
@@ -275,5 +242,6 @@
     <!--</div>-->
 
 </div>
-
 </div>
+
+
