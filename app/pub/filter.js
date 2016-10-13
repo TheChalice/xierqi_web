@@ -164,6 +164,14 @@ define(['angular', 'moment'], function (angular, moment) {
                 }
             }
         }])
+        .filter("timescon3",[function(){
+            return function(times){
+                if(times){
+                   //var timesfilter = times.replace(/[a-zA-Z]/g,'');
+                    return moment(times).format('YYYY-MM-DD');
+                }
+            }
+        }])
         .filter('webhooks', ['$rootScope', 'GLOBAL', function($rootScope, GLOBAL) {
             return function(buildConfig) {
                 var triggers = buildConfig.spec.triggers;

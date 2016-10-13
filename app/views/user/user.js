@@ -11,26 +11,36 @@ angular.module('console.user', [
 
         ]
     }
-]).controller('userCtrl', ['amounts','amount','market', 'createOrg', '$rootScope', '$state', '$stateParams', 'Cookie', 'Toast', '$scope', 'ModalPwd', 'Addmodal', 'profile', 'pwdModify', '$http', 'Confirm', 'leave', 'orgList', 'Alert',
-    function (amounts,amount,market, createOrg, $rootScope, $state, $stateParams, Cookie, Toast, $scope, ModalPwd, Addmodal, profile, pwdModify, $http, Confirm, leave, orgList, Alert) {
+]).controller('userCtrl', ['orders','amounts', 'market', 'createOrg', '$rootScope', '$state', '$stateParams', 'Cookie', 'Toast', '$scope', 'ModalPwd', 'Addmodal', 'profile', 'pwdModify', '$http', 'Confirm', 'leave', 'orgList', 'Alert',
+    function (orders,amounts, market, createOrg, $rootScope, $state, $stateParams, Cookie, Toast, $scope, ModalPwd, Addmodal, profile, pwdModify, $http, Confirm, leave, orgList, Alert) {
         $scope.credentials = {};
         $scope.grid = {
             st: null,
             et: null,
-            hpay :true,
-            coupon : false
+            hpay: true,
+            coupon: false,
+            page:1,
+            size:10
         }
+        $scope.$watch('grid.page', function(newVal, oldVal){
+            if (newVal != oldVal) {
+                refresh(newVal);
+            }
+        });
+
+        var refresh = function(page) {
+            var skip = (page - 1) * $scope.grid.size;
+            $scope.myamounts = $scope.amountdata.slice(skip, skip + $scope.grid.size);
+        };
         console.log($stateParams);
         if ($stateParams.index) {
-            $scope.check=$stateParams.index
+            $scope.check = $stateParams.index
         }
         $scope.orgName = "seferfe";
         market.get({}, function (data) {
-            console.log('套餐详情',data);
+            console.log('套餐详情', data);
         })
-        amount.query({}, function (data) {
-            console.log('套餐详情',data);
-        })
+
         //load project
         var loadProject = function () {
             $http.get('/oapi/v1/projects', {}).success(function (data) {
@@ -133,9 +143,9 @@ angular.module('console.user', [
                     privilegednum++;
                 }
             }
-            console.log('privilegeds', privilegeds);
-            console.log('privilegednum', privilegednum);
-            console.log('$rootScope.user.metadata.name', $rootScope.user.metadata.name);
+            //console.log('privilegeds', privilegeds);
+            //console.log('privilegednum', privilegednum);
+            //console.log('$rootScope.user.metadata.name', $rootScope.user.metadata.name);
             if ((privilegeds && privilegednum > 1) || !privilegeds) {
                 Confirm.open("离开组织", "您确定要离开" + oname + "吗？", "", "").then(function () {
                     leave.left({org: orgid}, function () {
@@ -152,8 +162,24 @@ angular.module('console.user', [
                 })
             }
         }
-        amounts.get({}, function (data) {
+        //orders.get({}, function (orders) {
+        //    console.log(orders);
+        //})
+        amounts.get({size:500,page:1}, function (data) {
             console.log(data);
+            data.amounts.reverse()
+            angular.forEach(data.amounts, function (amount,i) {
+                if (amount.description === "recharge") {
+                    data.amounts[i].description='充值'
+                }else {
+                    data.amounts[i].description='扣费'
+                }
+            })
+            $scope.myamounts = data.amounts;
+            $scope.amountdata =angular.copy(data.amounts)
+            $scope.grid.total = data.amounts.length;
+            refresh(1);
+
         })
         $scope.sendemail = function (item) {
             $http.post('/lapi/send_verify_email', {}).success(function () {
