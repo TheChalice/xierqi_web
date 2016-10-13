@@ -1426,7 +1426,7 @@ define(['angular'], function (angular) {
                                     }
                                 } else {
                                     //获取套餐
-                                    account.get({n:1}, function (data) {
+                                    account.get({}, function (data) {
                                         console.log('套餐', data);
                                         //$rootScope.payment=data;
                                         if (data.purchased) {

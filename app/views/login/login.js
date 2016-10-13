@@ -64,8 +64,8 @@ angular.module('home.login', [])
           //    console.log(n);
           //})
           $scope.$watch('vm.code', function (n,o) {
-              console.log(n);
-              console.log($scope.yzcode);
+              //console.log(n);
+              //console.log($scope.yzcode);
               if (n == o) {
                   return
               }

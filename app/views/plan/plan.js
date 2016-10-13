@@ -8,8 +8,8 @@ angular.module('console.plan', [
             ]
         }
     ])
-    .controller('planCtrl', ['by','checkout','$state','Tip','$scope','$rootScope','account','Tip','market',
-        function (by,checkout,$state,Tip,$scope,$rootScope,account,Tip,market){
+    .controller('planCtrl', ['amounts','by','checkout','$state','Tip','$scope','$rootScope','account','Tip','market',
+        function (amounts,by,checkout,$state,Tip,$scope,$rootScope,account,Tip,market){
         //console.log('$rootScope.projects', $rootScope.projects);
         $scope.plans=[];
         account.get({}, function (mydata) {
@@ -53,12 +53,14 @@ angular.module('console.plan', [
         //Tip.open('注册账号', '激活邮件发送成功!', '', true).then(function () {
         //    $state.go('home.index');
         //})
-
+            amounts.get({}, function (data) {
+                console.log(data);
+            })
         $scope.buy= function (plan) {
             if (plan.canbuy==='big') {
                 checkout.create({plan_id:plan.plan_id,namespace:$rootScope.namespace,"region":"cn-north-1"}, function (data) {
                     console.log(data);
-                    Tip.open('办理成功','套餐更换成功,费用将按照套餐比例计算',false,true,true).then(function () {
+                    Tip.open('办理成功','套餐购买成功,费用将按照套餐比例计算',false,true,true).then(function () {
                         $state.go('console.dashboard')
                     })
                     //失败回调,钱不够
