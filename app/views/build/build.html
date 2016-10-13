@@ -6,7 +6,7 @@
                 <span class="hidden-xs">新建构建</span>
             </a>
             <a class="btn btn-skyblue" ng-click="refresh()" style="height: 34px; width: 36px; padding: 5px 5px;">
-                <i class="fa fa-refresh fa-lg" style="vertical-align:bottom;"></i><!-- 20160921 jia 代码构建 loading处理按钮向下问题-->
+                <i class="fa fa-refresh fa-lg" style=""></i><!-- 20160921 jia 代码构建 loading处理按钮向下问题-->
             </a>
         </div>
         <div class="col-sm-5 col-xs-8" style="padding-left: 0; ">
@@ -29,9 +29,9 @@
 
             </tr>
             <tr ng-repeat="bc in items">
-                <td class='buildname'>
+                <td class='buildname' style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">
                     <a class="href-orange"
-                       ui-sref="console.build_detail({name: bc.metadata.name})">{{bc.metadata.name}}</a>
+                       ui-sref="console.build_detail({name: bc.metadata.name})" uib-tooltip="{{bc.metadata.name}}" tooltip-placement="top">{{bc.metadata.name}}</a>
                 </td>
                 <td>
                     <span class="icon12 icon12-{{bc.build.status.phase}}"
@@ -90,6 +90,7 @@
         overflow: hidden;
         word-break: break-all;
         word-wrap: break-word;
+
     }
     @media screen and (max-width: 1250px) {
         #build .icon25 {
