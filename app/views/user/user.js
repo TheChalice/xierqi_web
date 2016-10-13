@@ -11,8 +11,8 @@ angular.module('console.user', [
 
         ]
     }
-]).controller('userCtrl', ['amount','market', 'createOrg', '$rootScope', '$state', '$stateParams', 'Cookie', 'Toast', '$scope', 'ModalPwd', 'Addmodal', 'profile', 'pwdModify', '$http', 'Confirm', 'leave', 'orgList', 'Alert',
-    function (amount,market, createOrg, $rootScope, $state, $stateParams, Cookie, Toast, $scope, ModalPwd, Addmodal, profile, pwdModify, $http, Confirm, leave, orgList, Alert) {
+]).controller('userCtrl', ['amounts','amount','market', 'createOrg', '$rootScope', '$state', '$stateParams', 'Cookie', 'Toast', '$scope', 'ModalPwd', 'Addmodal', 'profile', 'pwdModify', '$http', 'Confirm', 'leave', 'orgList', 'Alert',
+    function (amounts,amount,market, createOrg, $rootScope, $state, $stateParams, Cookie, Toast, $scope, ModalPwd, Addmodal, profile, pwdModify, $http, Confirm, leave, orgList, Alert) {
         $scope.credentials = {};
         $scope.grid = {
             st: null,
@@ -152,6 +152,9 @@ angular.module('console.user', [
                 })
             }
         }
+        amounts.get({}, function (data) {
+            console.log(data);
+        })
         $scope.sendemail = function (item) {
             $http.post('/lapi/send_verify_email', {}).success(function () {
                 //alert('激活邮件已发送!')
@@ -159,6 +162,7 @@ angular.module('console.user', [
                 console.log('test send email', item);
             })
         }
+
         loadInfo();
         loadOrg();
     }])

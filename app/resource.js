@@ -589,6 +589,10 @@ define([
             var amount = $resource('/payment/v1/amount', {}, {});
             return amount;
         }])
+        .factory('amounts', ['$resource', 'GLOBAL', function ($resource) {//获取套餐
+            var amounts = $resource('/payment/v1/amounts', {}, {});
+            return amounts;
+        }])
         .factory('checkout', ['$resource', 'GLOBAL', function ($resource) {//选择套餐
             var checkout = $resource('/payment/v1/checkout', {}, {
                 create: {method: 'POST'}
