@@ -77,7 +77,7 @@ angular.module('console', [
 
 
             $scope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-                console.log('toState.name', toState.name);
+                //console.log('toState.name', toState.name);
                 account.get({}, function (data) {
                     //console.log('套餐', data);
                     //$rootScope.payment=data;
