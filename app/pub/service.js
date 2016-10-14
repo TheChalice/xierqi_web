@@ -508,7 +508,7 @@ define(['angular'], function (angular) {
             };
         }])
         .service('Tip', ['$uibModal', function ($uibModal) {
-            this.open = function (title, txt, tip, iscf) {
+            this.open = function (title, txt, tip, iscf,colse) {
                 return $uibModal.open({
                     backdrop: 'static',
                     templateUrl: 'pub/tpl/tip.html',
@@ -517,6 +517,7 @@ define(['angular'], function (angular) {
                         $scope.title = title;
                         $scope.txt = txt;
                         $scope.tip = tip;
+                        $scope.close=colse;
                         //$scope.tp = tp;
                         $scope.iscf = iscf;
                         //$scope.nonstop = nonstop;
