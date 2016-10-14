@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('home', [])
-    .controller('HomeCtrl', ['$state', '$scope', '$rootScope', '$log', 'ModalLogin', 'ModalRegist', 'User',
-        function ($state, $scope, $rootScope, $log, ModalLogin, ModalRegist, User) {
+    .controller('HomeCtrl', ['account','$state', '$scope', '$rootScope', '$log', 'ModalLogin', 'ModalRegist', 'User',
+        function (account,$state, $scope, $rootScope, $log, ModalLogin, ModalRegist, User) {
             $log.info('Home');
             $scope.$watch('namespace', function (n, o) {
                 //console.log('new1',n);
@@ -49,6 +49,18 @@ angular.module('home', [])
                     images[i].src = arguments[i]
                 }
             };
+            $scope.consolein= function () {
+                account.get({}, function (data) {
+                    //console.log('套餐', data);
+                    //$rootScope.payment=data;
+
+                    if (data.purchased) {
+                        $state.go("console.dashboard")
+                    }else{
+                        $state.go("console.noplan")
+                    }
+                })
+            }
             $rootScope.$on('$stateChangeStart',
                 function (event, toState, toParams, fromState, fromParams) {
                     console.log(toState.name);

@@ -184,7 +184,7 @@
                     style="margin-right:5px;font-size: 14px;">登录
             </button>
             <button ng-if="!user" id='btnz' ng-click="regist()" type="button" class="btn btn-green btn-xs" style="font-size: 14px;">注册</button>
-            <a ng-if="user" id=btnk ui-sref="console.dashboard" class="btn btn-green btn-xs" style="font-size: 14px;">控制台</a>
+            <a ng-if="user" id=btnk ui-sref="console.dashboard" ng-click="consolein()" class="btn btn-green btn-xs" style="font-size: 14px;">控制台</a>
 
             <!--<div class="dropdown" ID="mobilenav">-->
                 <!--<button data-target=".navbar-collapse" style='margin-right: -13px;' data-toggle="collapse" class="navbar-toggle" type="button">-->

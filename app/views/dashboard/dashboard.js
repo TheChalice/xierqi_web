@@ -21,9 +21,9 @@ angular.module('console.dashboard', [
                 planName : ''
             }
             account.get({},function(res){
-                console.log('lalallalalalllallal',res);
+                //console.log('lalallalalalllallal',res);
                 market.get({},function(data){
-                        console.log('eeeeeeeeeeee',data);
+                        //console.log('eeeeeeeeeeee',data);
                     angular.forEach(data.plans, function (plan,i) {
 
                     })
@@ -43,7 +43,7 @@ angular.module('console.dashboard', [
 
             balance.get({}, function (data) {
                 $scope.balance = data
-                console.log('balance', data);
+                //console.log('balance', data);
             });
 
             var setChart = function () {
@@ -282,13 +282,13 @@ angular.module('console.dashboard', [
                                 headC: parseInt(data.items[0].status.hard['limits.cpu']) * 1000,
                             }
 
-                            console.log('数据', data);
-                            console.log(userd.headC, userd.headM);
-                            console.log(userd.usedC, userd.usedM);
+                            //console.log('数据', data);
+                            //console.log(userd.headC, userd.headM);
+                            //console.log(userd.usedC, userd.usedM);
                             userd.usedM = userd.usedM > userd.headM ? userd.headM : userd.usedM;
                             userd.usedC = userd.usedC > userd.headC ? userd.headC : userd.usedC;
-                            console.log(userd.headC, userd.headM);
-                            console.log(userd.usedC, userd.usedM);
+                            //console.log(userd.headC, userd.headM);
+                            //console.log(userd.usedC, userd.usedM);
 
                             var memnums = (userd.usedM / userd.headM) * 100;
                             var cpunums = (userd.usedC / userd.headC) * 100;
@@ -353,7 +353,7 @@ angular.module('console.dashboard', [
                                 memnum = toDecimal(memnum);
                                 memnum = Math.round(memnum * 100) / 100;
                                 cpunum = Math.round(cpunum * 100) / 100;
-                                console.log(memnum);
+                                //console.log(memnum);
 
 
                                 // console.log(cpunum,memnum);
@@ -404,14 +404,14 @@ angular.module('console.dashboard', [
             $scope.podList = 0;
             var podList = function () {
                 Pod.get({namespace: $scope.namespace}, function (res) {
-                    console.log("pod...res....", res);
+                    //console.log("pod...res....", res);
                     for (var i = 0; i < res.items.length; i++) {
                         if (res.items[i].status.phase == 'Running') {
                             $scope.podList++;
                         }
                     }
                 }, function (res) {
-                    console.log("pod...reserr....", res);
+                    //console.log("pod...reserr....", res);
                 })
             }
 
@@ -427,10 +427,10 @@ angular.module('console.dashboard', [
             }
             var bsiList = function () {
                 BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {
-                    console.log("bsiList......", res);
+                    //console.log("bsiList......", res);
                     $scope.bsiList = res.items.length;
                 }, function (res) {
-                    console.log("bsiList...bsiListerr....", res);
+                    //console.log("bsiList...bsiListerr....", res);
                     $scope.bsiList = 0;
                 })
             }
