@@ -21,16 +21,16 @@ angular.module('console.dashboard', [
                 planName : ''
             }
             account.get({},function(res){
-                //console.log('lalallalalalllallal',res);
+                console.log('lalallalalalllallal',res);
                 market.get({},function(data){
                         //console.log('eeeeeeeeeeee',data);
-                    angular.forEach(data.plans, function (plan,i) {
-
-                    })
+                    //angular.forEach(data.plans, function (plan,i) {
+                    //
+                    //})
 
                     for(var i = 0 ; i < data.plans.length; i++){
 
-                        if(res.subscriptions[0].plan_id == data.plans[i].plan_id){
+                        if(res.subscriptions&&res.subscriptions[0].plan_id == data.plans[i].plan_id){
                             $scope.plans.cpu = data.plans[i].description;
                             $scope.plans.ram = data.plans[i].description2;
                             $scope.plans.price = data.plans[i].price
