@@ -54,6 +54,7 @@ angular.module('console', [
                 $scope.showsidebar = true;
             }
             //console.log($scope.showsidebar);
+
             account.get({}, function (data) {
                 console.log('套餐', data);
 
