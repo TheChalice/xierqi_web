@@ -39,11 +39,12 @@ a {
 
 .btn-green {
     background-color: #55c45f;
+    color:#fff;
     -webkit-transition:all 1s;
 }
 
 .btn-green:hover {
-    background-color: #469450;
+    background-color: #469450;color:#fff;
 }
 
 .btn-gray {
@@ -1314,7 +1315,7 @@ a {
     margin:0 15px;
 }
 
-.footer_bt{width:100%;paddin: 0px 30px;height: 300px;
+.footer_bt{width:100%;padding: 0px 30px;height: 300px;
     padding-top: 40px; background: #5a6378;
     margin-left: 0;
     margin-right: 0;line-height: 50px;}
@@ -1327,6 +1328,9 @@ a {
 
 }
 .footer-td{padding-left:0;}
+
+.btn.focus, .btn:focus, .btn:hover{color:#fff;}
+
 /*!* 设置滚动条的样式 *!*/
 /*::-webkit-scrollbar {*/
     /*width: 12px;*/
