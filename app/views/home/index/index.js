@@ -13,14 +13,14 @@ angular.module('home.index', [])
             }
         };
 
-        preload(
-            "pub/img/01_hover.png",
-            "pub/img/02_hover.png",
-            "pub/img/03_hover.png",
-            "pub/img/04_hover.png",
-            "pub/img/05_hover.png",
-            "pub/img/06_hover.png"
-        );
+        //preload(
+        //    //"pub/img/01_hover.png",
+        //    //"pub/img/02_hover.png",
+        //    //"pub/img/03_hover.png",
+        //    //"pub/img/04_hover.png",
+        //    //"pub/img/05_hover.png",
+        //    //"pub/img/06_hover.png"
+        //);
 
     }]);
 

@@ -601,6 +601,12 @@ define([
             });
             return recharge;
         }])
+        //.factory('recharge2', ['$resource', 'GLOBAL', function ($resource) {//充值
+        //    var recharge = $resource('http://datafoundry.recharge.app.dataos.io/charge/v1/recharge', {}, {
+        //        create: {method: 'POST'}
+        //    });
+        //    return recharge;
+        //}])
         .factory('orders', ['$resource', 'GLOBAL', function ($resource) {//获取订单
             var orders = $resource('/payment/v1/orders', {}, {});
             return orders;

@@ -66,7 +66,7 @@ angular.module("console.header", [
                     })
                     //$rootScope.isorg = false;
                     $scope.$watch('namespace', function (n, o) {
-                        console.log('new', n);
+                        //console.log('new', n);
                         if (n == o) {
                             return
                         }
