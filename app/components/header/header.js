@@ -169,7 +169,7 @@ angular.module("console.header", [
                         $scope.checked = $scope.userorgs[ind].name;
                         $rootScope.namespace = $scope.userorgs[ind].id;
                         $scope.neworgid = $scope.userorgs[ind].id
-                        console.log('路由',$state);
+                        //console.log('路由',$state);
                         if ($state.current.name == 'console.apply_instance'||$state.current.name == 'console.build_create_new'||$state.current.name == 'console.service_create') {
                             return
                         }else if($state.current.url.indexOf(':')!==-1&&$state.current.name!=='console.dashboard'){
