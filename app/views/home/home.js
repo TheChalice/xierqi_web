@@ -27,19 +27,19 @@ angular.module('home', [])
 
             switch ($state.current.name) {
                 case 'home.index':
-                    $scope.whereclick = '首页'
+                    $rootScope.whereclick = '首页'
                     break;
                 case 'home.introduce':
-                    $scope.whereclick = '产品'
+                    $rootScope.whereclick = '产品'
                     break;
                 case 'home.application':
-                    $scope.whereclick = '应用市场'
+                    $rootScope.whereclick = '应用市场'
                     break;
                 case 'home.index_backing_service':
-                    $scope.whereclick = '服务市场'
+                    $rootScope.whereclick = '服务市场'
                     break;
                 default:
-                    $scope.whereclick = '首页'
+                    $rootScope.whereclick = '首页'
             }
             var images = new Array()
 
@@ -68,25 +68,25 @@ angular.module('home', [])
             })
             $rootScope.$on('$stateChangeStart',
                 function (event, toState, toParams, fromState, fromParams) {
-                    console.log(toState.name);
+                    console.log('toState',toState.name);
                     switch (toState.name) {
                         case 'home.index':
-                            $scope.whereclick = '首页'
+                            $rootScope.whereclick = '首页'
                             break;
                         case 'home.recharge':
-                            $scope.whereclick = '价格'
+                            $rootScope.whereclick = '价格'
                             break;
                         case 'home.introduce':
-                            $scope.whereclick = '产品'
+                            $rootScope.whereclick = '产品'
                             break;
                         case 'home.application':
-                            $scope.whereclick = '应用市场'
+                            $rootScope.whereclick = '应用市场'
                             break;
                         case 'home.index_backing_service':
-                            $scope.whereclick = '服务市场'
+                            $rootScope.whereclick = '服务市场'
                             break;
                         default:
-                            $scope.whereclick = '首页'
+                            $rootScope.whereclick = '首页'
                     }
                     if (toState.name !== "home.introduce") {
                         $('html').css('overflow', 'auto');
