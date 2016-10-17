@@ -11,11 +11,23 @@
     </div>
     <div id="header-menu">
         <!--消息图标-->
-        <a class="icon25 icon25-msg" ui-sref="console.notification" uib-tooltip="消息" tooltip-placement="bottom" ng-click="checkInbox()">
+        <a class="icon25 icon25-msg" ui-sref="console.notification" uib-tooltip="消息" tooltip-placement="bottom" ng-click="checkInbox()" style="margin-right:20px;">
             <div ng-show="isshow">
                 <div class="header-dot"></div>
             </div>
-        </a>
+        </a><span>|</span>
+        <strong style="margin:0px 20px;">
+            <span class="dropdown" style="background:#e6e9f2;padding:10px 13px;">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color: #5a6378">区域<b class="caret"></b></a>
+                <ul class="dropdown-menu dropdownbw">
+                    <li ng-repeat="relist in regionlist" ng-click="checkregion(relist.regionname)">{{relist.regionname}}</li>
+                </ul>
+             </span>
+            <span style="background: #fff;padding:10px 13px; color: #5a6378;">
+                {{curregion}}
+            </span>
+        </strong>
+
 
         <!--<a class="icon25 icon25-guide" href="javascript:;" uib-tooltip="指南" tooltip-placement="bottom"-->
         <!--</a>-->
