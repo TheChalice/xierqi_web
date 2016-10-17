@@ -13,6 +13,17 @@ angular.module("console.header", [
             templateUrl: 'components/header/header.html',
             controller: ['Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
                 function (Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
+                    ///////分区
+                    $scope.curregion = '一区一区';
+                    $scope.checkregion = function(res){
+                        $scope.curregion = res;
+                    }
+                    $scope.regionlist = [
+                        {regionname : '一区一区'},
+                        {regionname : '二区二区'}
+                    ]
+
+
                     if ($state.params.useorg) {
                         $http({
                             url: '/lapi/orgs/' + $state.params.useorg,
@@ -324,5 +335,6 @@ angular.module("console.header", [
 
             }
         };
+
     }]);
 

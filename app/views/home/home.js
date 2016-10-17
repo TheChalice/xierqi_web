@@ -61,6 +61,11 @@ angular.module('home', [])
                     }
                 })
             }
+            $('#bshd').mouseover(function(){
+                $('.bslist').stop().slideDown(200);
+            }).mouseout(function(){
+                $('.bslist').stop().slideUp(200);
+            })
             $rootScope.$on('$stateChangeStart',
                 function (event, toState, toParams, fromState, fromParams) {
                     console.log(toState.name);
