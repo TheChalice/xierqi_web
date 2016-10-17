@@ -3,6 +3,7 @@
 angular.module('home', [])
     .controller('HomeCtrl', ['account','$state', '$scope', '$rootScope', '$log', 'ModalLogin', 'ModalRegist', 'User',
         function (account,$state, $scope, $rootScope, $log, ModalLogin, ModalRegist, User) {
+
             $log.info('Home');
             $scope.$watch('namespace', function (n, o) {
                 //console.log('new1',n);
@@ -61,11 +62,7 @@ angular.module('home', [])
                     }
                 })
             }
-            $('#bshd').mouseover(function(){
-                $('.bslist').stop().slideDown(200);
-            }).mouseout(function(){
-                $('.bslist').stop().slideUp(200);
-            })
+            console.log('$scope$scope$scope$scope',$scope)
             $rootScope.$on('$stateChangeStart',
                 function (event, toState, toParams, fromState, fromParams) {
                     console.log('toState',toState.name);
@@ -167,5 +164,6 @@ angular.module('home', [])
                 ModalRegist.open();
                 //$state.go('regist');
             };
+
         }]);
 

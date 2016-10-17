@@ -207,6 +207,9 @@
         .dropdownbw li:hover{
             background: #f8b551;
         }
+        #bshd:hover > ul{
+            display: block;
+        }
     </style>
     <div class="head">
     <div id="header">
@@ -248,9 +251,9 @@
             <li ng-class="{active:whereclick==='产品'}"><a ui-sref="home.introduce" style="font-size: 16px;">产品</a></li>
             <li ng-class="{active:whereclick==='价格'}"><a ui-sref="home.recharge" style="font-size: 16px;">价格</a></li>
             <li ng-class="{active:whereclick==='应用市场'}"><a ui-sref="home.application"  style="font-size: 16px;">应用市场</a></li>
-            <li id="bshd" ng-class="{active:whereclick==='服务市场'}" style="position: relative;">
+            <li id="bshd" ng-class="{active:whereclick==='服务市场'}" style="position: relative;" ng-mouseenter="bsbten()" ng-mouseleave="bsbtout()">
                 <a ui-sref="home.index_backing_service" style="font-size: 16px;">服务市场</a>
-                <ul class="bslist" style="">
+                <ul class="bslist">
                     <li>1</li>
                     <li>2</li>
                 </ul>
