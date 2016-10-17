@@ -56,7 +56,7 @@ angular.module('console', [
             //console.log($scope.showsidebar);
 
             account.get({}, function (data) {
-                console.log('套餐', data);
+                //console.log('套餐', data);
 
                 if (data.purchased) {
                     //跳转dashboard
@@ -74,6 +74,7 @@ angular.module('console', [
                     //跳转购买套餐
                 }
             })
+
             $rootScope.user = user;
 
 

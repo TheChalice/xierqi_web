@@ -165,7 +165,7 @@ angular.module('console.user', [
         //orders.get({}, function (orders) {
         //    console.log(orders);
         //})
-        amounts.get({size:500,page:1}, function (data) {
+        amounts.get({size:500,page:1,username:'chaizs'}, function (data) {
             console.log(data);
             data.amounts.reverse()
             angular.forEach(data.amounts, function (amount,i) {
