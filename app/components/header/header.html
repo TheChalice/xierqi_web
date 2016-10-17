@@ -10,11 +10,11 @@
     </div>
     <div id="header-menu">
         <!--消息图标-->
-        <a class="icon25 icon25-msg" ui-sref="console.notification" uib-tooltip="消息" tooltip-placement="bottom" ng-click="checkInbox()">
-            <div ng-show="isshow">
+<!--         <a class="icon25 icon25-msg" ui-sref="console.notification" uib-tooltip="消息" tooltip-placement="bottom" ng-click="checkInbox()">
+            <div ng-show=false>
                 <div class="header-dot"></div>
             </div>
-        </a>
+        </a> -->
 
         <!--<a class="icon25 icon25-guide" href="javascript:;" uib-tooltip="指南" tooltip-placement="bottom"-->
         <!--</a>-->
@@ -28,28 +28,28 @@
             <ul ng-if="!isorg" class="projectname" uib-dropdown-menu
                 aria-labelledby="user-menu" style="max-height: 320px;overflow-y: scroll;top:45px;right:0px;background: #f7fafc;">
                 <!--personal account-->
-                <li class='personal'>
+               <!--  <li class='personal'>
                     <a href="javascript:;" ng-click='gotomy()' ui-sref='console.user'><label>{{user.metadata.name}}</label>
                         <br/>
                         <span>查看个人账户</span>
                     </a>
-                </li>
+                </li> -->
 
                 <!--组织账户-->
-                <li class='personal' ng-repeat='org in userorgs'>
+               <!--  <li class='personal' ng-repeat='org in userorgs'>
                     <a href="javascript:;" ng-click='goto($index)'><label>{{org.name}}</label>
                         <br/>
                         <span>切换到组织账户</span>
                     </a>
-                </li>
+                </li> -->
 
                 <!--<li ng-repeat="project in projects | orderBy: 'metadata.name'">-->
                 <li ng-repeat="project in projects">
                     <a href="javascript:;" ng-click="setNamespace(project.metadata.name,project.metadata.annotations['openshift.io/display-name'])">{{project.metadata.annotations['openshift.io/display-name'] || project.metadata.name}}</a>
                 </li>
-                <li>
+               <!--  <li>
                     <a href="javascript:;" ng-click="createOrg()">创建组织</a>
-                </li>
+                </li> -->
                 <!--<li role="separator" class="divider"></li>-->
                 <li style="border-bottom: none;">
                     <a href="javascript:;" ng-click="logout()">退出登录</a>

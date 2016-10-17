@@ -1346,7 +1346,7 @@ define(['angular'], function (angular) {
                     var loadProject = function (name) {
                         // $log.info("load project");
                         Project.get(function (data) {
-                            console.log("load project success", data);
+                            // console.log("load project success", data);
                             for (var i = 0; i < data.items.length; i++) {
                                 if (data.items[i].metadata.name == name) {
                                     $rootScope.namespace = name;

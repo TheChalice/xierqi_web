@@ -9,16 +9,16 @@ angular.module('console.dashboard', [
             $scope.cpuData = [];
             $scope.memData = [];
             $scope.isdata = {};
-            $scope.deposit = function () {
-                recharge.create({}, {"amount": 1234.34, namespace: $rootScope.namespace}, function (data) {
-                    console.log('充值', data);
-                })
-            }
+            // $scope.deposit = function () {
+            //     recharge.create({}, {"amount": 1234.34, namespace: $rootScope.namespace}, function (data) {
+            //         console.log('充值', data);
+            //     })
+            // }
 
-            balance.get({}, function (data) {
-                $scope.balance = data
-                console.log('balance', data);
-            });
+            // balance.get({}, function (data) {
+            //     $scope.balance = data
+            //     console.log('balance', data);
+            // });
 
             var setChart = function () {
                 return {
@@ -186,7 +186,7 @@ angular.module('console.dashboard', [
                 tags: 'descriptor_name:cpu/usage,pod_namespace:' + $rootScope.namespace,
                 buckets: 30
             }, function (res) {
-                $log.info('metrics cpu all', res);
+                // $log.info('metrics cpu all', res);
                 $scope.cpuData = prepareData('CPU', res);
 
                 angular.forEach($scope.cpuData, function (item, i) {
@@ -203,7 +203,7 @@ angular.module('console.dashboard', [
                     tags: 'descriptor_name:memory/usage,pod_namespace:' + $rootScope.namespace,
                     buckets: 30
                 }, function (res) {
-                    $log.info('metrics mem all', res);
+                    // $log.info('metrics mem all', res);
                     $scope.memData = prepareData('内存', res);
                     angular.forEach($scope.memData, function (item, i) {
                         if (item == null) {
@@ -256,13 +256,13 @@ angular.module('console.dashboard', [
                                 headC: parseInt(data.items[0].status.hard['limits.cpu']) * 1000,
                             }
 
-                            console.log('数据', data);
-                            console.log(userd.headC, userd.headM);
-                            console.log(userd.usedC, userd.usedM);
+                            // console.log('数据', data);
+                            // console.log(userd.headC, userd.headM);
+                            // console.log(userd.usedC, userd.usedM);
                             userd.usedM = userd.usedM > userd.headM ? userd.headM : userd.usedM;
                             userd.usedC = userd.usedC > userd.headC ? userd.headC : userd.usedC;
-                            console.log(userd.headC, userd.headM);
-                            console.log(userd.usedC, userd.usedM);
+                            // console.log(userd.headC, userd.headM);
+                            // console.log(userd.usedC, userd.usedM);
 
                             var memnums = (userd.usedM / userd.headM) * 100;
                             var cpunums = (userd.usedC / userd.headC) * 100;
@@ -327,7 +327,7 @@ angular.module('console.dashboard', [
                                 memnum = toDecimal(memnum);
                                 memnum = Math.round(memnum * 100) / 100;
                                 cpunum = Math.round(cpunum * 100) / 100;
-                                console.log(memnum);
+                                // console.log(memnum);
 
 
                                 // console.log(cpunum,memnum);
@@ -378,7 +378,7 @@ angular.module('console.dashboard', [
             $scope.podList = 0;
             var podList = function () {
                 Pod.get({namespace: $scope.namespace}, function (res) {
-                    console.log("pod...res....", res);
+                    // console.log("pod...res....", res);
                     for (var i = 0; i < res.items.length; i++) {
                         if (res.items[i].status.phase == 'Running') {
                             $scope.podList++;
@@ -391,7 +391,7 @@ angular.module('console.dashboard', [
 
             var dcList = function () {
                 DeploymentConfig.get({namespace: $rootScope.namespace}, function (data) {
-                    $log.info('dcList----', data);
+                    // /.info('dcList----', data);
                     $scope.dcList = data.items.length;
                 }, function (res) {
                     $log.info('dcListerr', res);
@@ -401,7 +401,7 @@ angular.module('console.dashboard', [
             }
             var bsiList = function () {
                 BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {
-                    console.log("bsiList......", res);
+                    // console.log("bsiList......", res);
                     $scope.bsiList = res.items.length;
                 }, function (res) {
                     console.log("bsiList...bsiListerr....", res);

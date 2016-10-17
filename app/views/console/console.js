@@ -52,7 +52,7 @@ angular.module('console', [
                     $rootScope.projects = data.items;
 
 
-                    $log.info("load project success", data);
+                    //$log.info("load project success", data);
                 }, function (res) {
                     $log.info("find project err", res);
                 });

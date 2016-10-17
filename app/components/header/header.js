@@ -66,7 +66,7 @@ angular.module("console.header", [
                     })
                     //$rootScope.isorg = false;
                     $scope.$watch('namespace', function (n, o) {
-                        console.log('new', n);
+                        // console.log('new', n);
                         if (n == o) {
                             return
                         }
@@ -169,12 +169,12 @@ angular.module("console.header", [
                         $scope.checked = $scope.userorgs[ind].name;
                         $rootScope.namespace = $scope.userorgs[ind].id;
                         $scope.neworgid = $scope.userorgs[ind].id
-                        console.log('路由',$state);
+                        // console.log('路由',$state);
                         if ($state.current.name == 'console.apply_instance'||$state.current.name == 'console.build_create_new'||$state.current.name == 'console.service_create') {
                             return
                         }else if($state.current.url.indexOf(':')!==-1&&$state.current.name!=='console.dashboard'){
                             //$location.url('/'+)
-                            console.log($state.current.url.split('/')[1]);
+                            // console.log($state.current.url.split('/')[1]);
                             $location.url('/console/'+$state.current.url.split('/')[1])
                         }
                         //console.log('路由',$state);
@@ -233,7 +233,7 @@ angular.module("console.header", [
                         if (n == o) {
                             return
                         }
-                        console.log('checked', n);
+                        // console.log('checked', n);
                     })
                     //console.log('$rootScope',$rootScope);
                     $rootScope.huancun={}
@@ -255,7 +255,7 @@ angular.module("console.header", [
                         //$scope.change=true;
                         $scope.checked = name;
                         $rootScope.huancun.name=name;
-                        console.log('$scope.checked',$scope.checked);
+                        // console.log('$scope.checked',$scope.checked);
                     }
                     // setting timer
                     $scope.checkInbox = function () {

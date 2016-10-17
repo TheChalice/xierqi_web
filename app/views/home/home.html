@@ -217,7 +217,7 @@
             <button ng-if="!user" id='btnd' ng-click="login()" type="button" class="btn btn-green btn-border btn-xs"
                     style="margin-right:5px;font-size: 14px;">登录
             </button>
-            <button ng-if="!user" id='btnz' ng-click="regist()" type="button" class="btn btn-green btn-xs" style="font-size: 14px;">注册</button>
+            <!-- <button ng-if="!user" id='btnz' ng-click="regist()" type="button" class="btn btn-green btn-xs" style="font-size: 14px;">注册</button> -->
             <a ng-if="user" id=btnk ui-sref="console.dashboard" class="btn btn-green btn-xs" style="font-size: 14px;">控制台</a>
 
             <div class="dropdown" ID="mobilenav">
@@ -248,7 +248,7 @@
             <li ng-class="{active:whereclick==='应用市场'}"><a ui-sref="home.application"  style="font-size: 16px;">应用市场</a></li>
             <li ng-class="{active:whereclick==='服务市场'}"><a ui-sref="home.index_backing_service" style="font-size: 16px;">服务市场</a></li>
             <li ng-class="{active:whereclick==='文档'}"><a href="/docs" target="_blank"  style="font-size: 16px;">文档</a></li>
-            <li ng-class="{active:whereclick==='博客'}"><a href="/blog" target="_blank" style="font-size: 16px;">博客</a></li>
+           <!--  <li ng-class="{active:whereclick==='博客'}"><a href="/blog" target="_blank" style="font-size: 16px;">博客</a></li> -->
         </ul>
     </div>
     <!--loading-->

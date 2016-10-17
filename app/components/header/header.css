@@ -30,6 +30,7 @@
     font-size: 18px;
 }
 #header #header-menu {
+   padding-top: 10px;   
     height: 100%;
     padding-right: 40px;
     float: right;
