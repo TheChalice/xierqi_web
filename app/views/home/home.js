@@ -51,7 +51,7 @@ angular.module('home', [])
                 }
             };
             $scope.consolein= function () {
-                account.get({}, function (data) {
+                account.get({namespace:$rootScope.namespace}, function (data) {
                     //console.log('套餐', data);
                     //$rootScope.payment=data;
 

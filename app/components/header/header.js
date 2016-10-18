@@ -187,6 +187,9 @@ angular.module("console.header", [
                             //$location.url('/'+)
                             console.log($state.current.url.split('/')[1]);
                             $location.url('/console/'+$state.current.url.split('/')[1])
+                        }else if($state.current.name=='console.dashboard'){
+                            $state.reload();
+                            //alert(1)
                         }
                         //console.log('路由',$state);
 

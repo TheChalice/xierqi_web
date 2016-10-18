@@ -802,6 +802,7 @@ angular.module('console.service.detail', [
             //$scope.events=[];
             var loadeventws = function () {
                 Event.get({namespace: $rootScope.namespace}, function (res) {
+                    console.log('event',res);
                     if (!$scope.eventsws) {
                         $scope.eventsws = []
                         var arr = []
@@ -815,7 +816,8 @@ angular.module('console.service.detail', [
                             }
 
                         })
-                        //console.log('eventsws', arr);
+                        console.log('eventsws', arr);
+                        $scope.hasevent==arr.length
                         angular.forEach(arr, function (item, i) {
                             arr[i].mysort = -(new Date(item.metadata.creationTimestamp)).getTime()
                         })
