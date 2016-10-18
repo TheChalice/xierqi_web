@@ -15,15 +15,14 @@
             <div ng-show="isshow">
                 <div class="header-dot"></div>
             </div>
-        </a><span>|</span>
-        <strong style="margin:0px 20px;">
-            <span class="dropdown" style="background:#e6e9f2;padding:10px 13px;">
-                <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color: #5a6378">区域<b class="caret"></b></a>
+        </a><span style="font-size: 20px; color: #f49530;">|</span>
+        <strong style="margin:0px 20px;font-weight: normal;font-size: 12px;">
+            <span class="dropdown"  id="dpdtop" style="">
+                <a class="dropdown-toggle" data-toggle="dropdown"  href="#" style="color:#333">区域<b class="caret"></b></a>
                 <ul class="dropdown-menu dropdownbw">
                     <li ng-repeat="relist in regionlist" ng-click="checkregion(relist.regionname)">{{relist.regionname}}</li>
                 </ul>
-             </span>
-            <span style="background: #fff;padding:10px 13px; color: #5a6378;">
+             </span><span style="background: #fff;padding:10px 13px; color: #5a6378;">
                 {{curregion}}
             </span>
         </strong>
@@ -34,8 +33,7 @@
 
         <span uib-dropdown on-toggle="toggled(open)">
             <a href="javascript:;" id="user-menu" uib-dropdown-toggle>
-                <img src="components/header/img/user-icon-default.png" alt="icon" class="hidden-xs">
-                <span>{{user.metadata.name}} | {{checked}}&nbsp;&nbsp;</span>
+                <img src="components/header/img/user-icon-default1.png" alt="icon" class="hidden-xs" style="width: 37px;height: 37px;padding: 3px;background-color: #e6e9f2;margin-top: -4px;margin-left:20px;border-radius: 2px;"><span>{{user.metadata.name}} | {{checked}}&nbsp;&nbsp;</span>
                 <i class="fa fa-chevron-circle-down" style="color: #e6e9f2;"></i>
             </a>
             <ul ng-if="!isorg" class="projectname" uib-dropdown-menu

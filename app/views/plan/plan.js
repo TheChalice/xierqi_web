@@ -8,11 +8,15 @@ angular.module('console.plan', [
             ]
         }
     ])
-    .controller('planCtrl', ['amounts', 'by', 'checkout', '$state', 'Tip', '$scope', '$rootScope', 'account', 'Tip', 'market',
-        function (amounts, by, checkout, $state, Tip, $scope, $rootScope, account, Tip, market) {
+    .controller('planCtrl', ['balance','amounts', 'by', 'checkout', '$state', 'Tip', '$scope', '$rootScope', 'account', 'Tip', 'market',
+        function (balance,amounts, by, checkout, $state, Tip, $scope, $rootScope, account, Tip, market) {
             //console.log('$rootScope.projects', $rootScope.projects);
             $scope.plans = [];
-            account.get({}, function (mydata) {
+            balance.get({namespace:$rootScope.namespace}, function (data) {
+                $scope.balance = data
+                //console.log('balance', data);
+            });
+            account.get({namespace:$rootScope.namespace}, function (mydata) {
                 console.log(mydata);
                 //mydata.purchased=false;
                 //if (mydata.purchased) {
@@ -53,9 +57,9 @@ angular.module('console.plan', [
             //Tip.open('注册账号', '激活邮件发送成功!', '', true).then(function () {
             //    $state.go('home.index');
             //})
-            amounts.get({}, function (data) {
-                console.log(data);
-            })
+            //amounts.get({namespace:$rootScope.namespace}, function (data) {
+            //    console.log(data);
+            //})
 
             $scope.buy = function (plan) {
 

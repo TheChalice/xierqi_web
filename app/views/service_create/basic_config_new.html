@@ -12,7 +12,7 @@
                     <input type="text" name="serviceName" ng-model="dc.metadata.name"
                            class="form-control input-block foucsinput"
                            placeholder="创建一个服务名称" required>
-                    <small ng-show="frm.serviceName.$dirty && grid.rexnameerr" class="fa fa-info-circle err-tip">&nbsp;请创建一个服务名,至少2个字符以上</small>
+                    <small ng-show="frm.serviceName.$dirty && grid.rexnameerr" class="fa fa-info-circle err-tip">&nbsp;请创建一个服务名,至少2个小写字符以上</small>
                     <small ng-show="frm.serviceName.$dirty && grid.createdcerr" class="fa fa-info-circle err-tip">&nbsp;服务名称不合法</small>
                     <small ng-show="grid.servicenameerr" class="fa fa-info-circle err-tip">&nbsp;服务名称错误</small>
                 </div>
