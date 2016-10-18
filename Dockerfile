@@ -20,6 +20,7 @@ RUN apk add --update nginx nodejs git && \
     npm uninstall -g bower && \
     apk del nodejs git --purge && \
     rm -rf bower_components node_modules app /var/cache/apk/* /tmp/*
+RUN mkdir -p /run/nginx/ && touch /run/nginx/nginx.pid
 
 EXPOSE 80 
 
