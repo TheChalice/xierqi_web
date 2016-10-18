@@ -32,6 +32,16 @@ define([
                         }]
                     }
                 })
+                .state('home.builder', {
+                    url: '/builder',
+                    templateUrl: 'views/home/builder/builder.html',
+                    controller: 'builderCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/home/builder/builder.js')
+                        }]
+                    }
+                })
                 .state('home.introduce', {
                     url: '/introduce',
                     templateUrl: 'views/home/introduce/introduce.html',
