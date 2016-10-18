@@ -14,6 +14,14 @@ angular.module('home.login', [])
           }else if(flog <=3 || !flog){
               $rootScope.loginyanzheng = false;
           }
+          $scope.curregion = '一区一区';
+          $scope.checkregion = function(res){
+              $scope.curregion = res;
+          }
+          $scope.regionlist = [
+              {regionname : '一区一区'},
+              {regionname : '二区二区'}
+          ]
         // 进度条暂时不启用
         // var vm = $scope.vm = {};
         // vm.value = 0;

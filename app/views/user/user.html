@@ -351,7 +351,7 @@
                         </tr>
                         <tr ng-repeat="amount in myamounts">
                             <td>{{amount.trans_id}}</td>
-                            <td>{{amount.creation_time | timescon3}}</td>
+                            <td>{{amount.creation_time | timescon}}</td>
                             <td>{{amount.description}}</td>
                             <td>{{amount.amount}}</td>
                             <!--<td>2016/09/20</td>-->
@@ -387,6 +387,7 @@
                                 last-text="末页">
                 </uib-pagination>
             </div>
+
 
         </uib-tab>
 

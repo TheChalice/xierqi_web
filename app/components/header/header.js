@@ -13,6 +13,17 @@ angular.module("console.header", [
             templateUrl: 'components/header/header.html',
             controller: ['Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
                 function (Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
+                    ///////分区
+                    $scope.curregion = '一区一区';
+                    $scope.checkregion = function(res){
+                        $scope.curregion = res;
+                    }
+                    $scope.regionlist = [
+                        {regionname : '一区一区'},
+                        {regionname : '二区二区'}
+                    ]
+
+
                     if ($state.params.useorg) {
                         $http({
                             url: '/lapi/orgs/' + $state.params.useorg,
@@ -169,7 +180,7 @@ angular.module("console.header", [
                         $scope.checked = $scope.userorgs[ind].name;
                         $rootScope.namespace = $scope.userorgs[ind].id;
                         $scope.neworgid = $scope.userorgs[ind].id
-                        console.log('路由',$state);
+                        //console.log('路由',$state);
                         if ($state.current.name == 'console.apply_instance'||$state.current.name == 'console.build_create_new'||$state.current.name == 'console.service_create') {
                             return
                         }else if($state.current.url.indexOf(':')!==-1&&$state.current.name!=='console.dashboard'){
@@ -324,5 +335,6 @@ angular.module("console.header", [
 
             }
         };
+
     }]);
 

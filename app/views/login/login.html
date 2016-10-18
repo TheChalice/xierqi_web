@@ -23,19 +23,30 @@
         </div>
         <div class="modal-body" style="padding: 20px 30px 30px 30px;">
             <form class="form-horizontal" name="frm">
-                <p class="modal-msg text-left" style="margin: 0 0 10px 0;font-size:12px;color:#5a6378;">
+                <div style="float:left;width:100%;margin-bottom: 18px;">
+                        <span class="dropdown" style="background:#e6e9f2;padding:5px 13px; float: left;">
+                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color: #5a6378">区域<b class="caret"></b></a>
+                            <ul class="dropdown-menu dropdownbw">
+                                <li ng-repeat="relist in regionlist" ng-click="checkregion(relist.regionname)">{{relist.regionname}}</li>
+                            </ul>
+                         </span>
+                        <span style="background: #fff;padding:5px 13px; float: left;color: #5a6378;">
+                            {{curregion}}
+                        </span>
+                </div>
+                <p class="modal-msg text-left" style="margin: 0 0 3px 0;font-size:12px;color:#5a6378;">
                     <span class="require">用户名</span>&nbsp;&nbsp;
                     <small ng-if="frm.username.$dirty && frm.username.$invalid" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;用户名不能为空</small>
                 </p>
                 <input name="username" style="font-size: 12px;" class="form-control loginfocus loginname" ng-model="credentials.username" required>
 
-                <p class="modal-msg text-left" style="margin: 20px 0 10px 0;font-size:12px;color:#5a6378;">
+                <p class="modal-msg text-left" style="margin: 20px 0 3px 0;font-size:12px;color:#5a6378;">
                     <span class="require">密码</span>&nbsp;&nbsp;
                     <small ng-if="frm.password.$dirty && frm.password.$invalid" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;密码不能为空</small>
                 </p>
                 <input name="password" style="font-size: 12px;letter-spacing:6px;" type="password" class="form-control loginfocus"  ng-model="credentials.password" required>
                 <div class="yanzheng" ng-if="loginyanzheng">
-                    <p class="modal-msg text-left" style="margin: 20px 0 5px 0;font-size:12px;color:#5a6378;">
+                    <p class="modal-msg text-left" style="margin: 20px 0 3px 0;font-size:12px;color:#5a6378;">
                         <span class="require">验证码</span>&nbsp;&nbsp;
                         <small ng-if="yzmchange&&frm.code.$dirty && frm.code.$error.required"
                                class="err-tip pull-right">
@@ -55,7 +66,7 @@
                     </div>
                 </div>
 
-                <button ng-if="loginyanzheng" class="btn btn-orange btn-block" ng-click="!loginerror.codeerror&&frm.$valid && login()" style="margin: 30px 0 0 0; color: white">
+                <button ng-if="loginyanzheng" class="btn btn-orange btn-block" ng-click="!loginerror.codeerror&&frm.$valid && login()" style="font-size:14px;margin: 18px 0 0 0; color: white">
                     登录
                 </button>
                 <button ng-if="!loginyanzheng" class="btn btn-orange btn-block" ng-click="frm.$valid && login()" style="margin: 30px 0 0 0; color: white">
@@ -71,7 +82,7 @@
                 </button>
             </div>
             <div ng-if="loginyanzheng">
-                <div class="nocode" style="font-size: 16px; text-align: center;color: #5a6378;margin-top:30px;">没有&nbsp;DataFoundry&nbsp;账号?&nbsp;&nbsp;<span
+                <div class="nocode" style="font-size: 14px; text-align: center;color: #5a6378;margin-top:20px;">没有&nbsp;DataFoundry&nbsp;账号?&nbsp;&nbsp;<span
                       ng-click="regist()" class="goregist">立即注册</span></div>
             </div>
         </div>
@@ -236,5 +247,16 @@
         /*-webkit-transition:border linear .2s,-webkit-box-shadow linear .5s;*/
         border-color:#fff;
         -webkit-box-shadow:0 0 1px #fff;
+    }
+    .dropdownbw{
+        min-width:150px;
+    }
+    .dropdownbw li{
+        padding:5px 0px;text-align: center;
+        cursor: pointer;
+        color: #5a6378;
+    }
+    .dropdownbw li:hover{
+        background: #f8b551;
     }
 </style>

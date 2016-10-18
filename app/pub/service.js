@@ -1404,7 +1404,7 @@ define(['angular'], function (angular) {
                     //localStorage.setItem('codenum','0')
                     function denglu() {
                         $http(req).success(function (data) {
-                            //console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&" + data);
+                            console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&", data);
 
                             Cookie.set('df_access_token', data.access_token, 10 * 365 * 24 * 3600 * 1000);
 
@@ -1515,6 +1515,7 @@ define(['angular'], function (angular) {
                     if (/^\/login/.test(config.url)) {
                         return config;
                     }
+
                     var token = Cookie.get('df_access_token');
                     if (config.headers && token) {
                         config.headers["Authorization"] = "Bearer " + token;
