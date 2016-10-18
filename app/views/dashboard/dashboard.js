@@ -20,8 +20,8 @@ angular.module('console.dashboard', [
                 price : '',
                 planName : ''
             }
-            account.get({},function(res){
-                console.log('lalallalalalllallal',res);
+            account.get({namespace:$rootScope.namespace},function(res){
+                //console.log('lalallalalalllallal',res);
                 market.get({},function(data){
                         //console.log('eeeeeeeeeeee',data);
                     //angular.forEach(data.plans, function (plan,i) {
@@ -41,7 +41,7 @@ angular.module('console.dashboard', [
                 })
             })
 
-            balance.get({}, function (data) {
+            balance.get({namespace:$rootScope.namespace}, function (data) {
                 $scope.balance = data
                 //console.log('balance', data);
             });

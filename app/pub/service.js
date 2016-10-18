@@ -1427,7 +1427,7 @@ define(['angular'], function (angular) {
                                     }
                                 } else {
                                     //获取套餐
-                                    account.get({}, function (data) {
+                                    account.get({namespace:$rootScope.namespace}, function (data) {
                                         console.log('套餐', data);
                                         //$rootScope.payment=data;
                                         if (data.purchased) {

@@ -196,10 +196,14 @@ angular.module('console.backing_service', [
                                     }
                                 }
                             }
+                            //console.log('fiftarr', fiftarr);
                             //我的后端服务页面渲染json
                             $scope.myservice = [];
+
                             for (var s = 0; s < $scope.cation.length; s++) {
+
                                 $scope.myservice.push({})
+
                                 $scope.myservice[s].name = $scope.cation[s];
                                 for (var q = 0; q < fiftarr.length; q++) {
                                     if (s == q) {
@@ -210,7 +214,7 @@ angular.module('console.backing_service', [
                                     }
                                 }
                             }
-                            //console.log('$scope.myservice', $scope.myservice);
+                            console.log('$scope.myservice', $scope.myservice);
                             var bciarr=angular.copy(res.items)
                             //自定义后端服务渲染数组
                             $scope.diyservice = [];
@@ -634,6 +638,8 @@ angular.module('console.backing_service', [
             }
             //我的后端服务解除绑定一个服务
             $scope.delBing = function (idx, id) {
+                id = id.toString()
+                console.log(id);
                 if (id) {
                     newid = id;
                     var name = $scope.myservice[id].item[idx].metadata.name;
@@ -641,6 +647,7 @@ angular.module('console.backing_service', [
                     var binds = $scope.myservice[id].item[idx].spec.binding || [];
 
                 } else {
+
                     var name = $scope.diyservice[idx].metadata.name;
                     var bindings = [];
                     var binds = $scope.diyservice[idx].spec.binding || [];
@@ -670,6 +677,7 @@ angular.module('console.backing_service', [
                     // console.log(bindObj)
                     BackingServiceInstanceBd.put({namespace: $rootScope.namespace, name: name},
                         bindObj, function (res) {
+                            Toast.open('正在解除中,请稍等');
                             // console.log('解绑定', res)
                         }, function (res) {
                             //todo 错误处理
@@ -715,6 +723,7 @@ angular.module('console.backing_service', [
                 }
             };
             $scope.bindModal = function (idx, id) {
+                id = id.toString()
                 if (id) {
                     newid = id;
                     var bindings = $scope.myservice[id].item[idx].spec.binding || [];
