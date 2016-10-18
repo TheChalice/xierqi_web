@@ -59,51 +59,51 @@
     </div>
     </div>
     <!-- 底部公共-->
+    <div class="foot_main">
     <div class="foot">
         <div class="foot_ps">
-            <ul class="produce_show">
-                <li><i></i>一站式应用托管</li>
-                <li><i></i>后端服务</li>
-                <li><i></i>大数据能力</li>
-                <li><i></i>Saas服务</li>
-                <li><i></i>定价方式</li>
-            </ul>
             <div class="foot_list">
                 <div class="fl_left">
                     <ul>
+                        <li class="fl_tit">产品</li>
+                        <li class="fl_detail"><a href="#" class="trans_color">应用托管</a></li>
+                        <li class="fl_detail"><a href="#" class="trans_color">后端服务</a></li>
+                        <li class="fl_detail"><a href="#" class="trans_color">大数据能力</a></li>
+                        <li class="fl_detail"><a href="#" class="trans_color">Saas 服务</a></li>
+                        <li class="fl_detail"><a href="#" class="trans_color">定价服务</a></li>
+                    </ul>
+                    <ul>
                         <li class="fl_tit">资源</li>
-                        <li class="fl_detail"><a href="#">文档</a></li>
-                        <li class="fl_detail"><a href="#">博客</a></li>
-                        <li class="fl_detail"><a href="#">视频</a></li>
+                        <li class="fl_detail"><a href="#" class="trans_color">文档</a></li>
+                        <li class="fl_detail"><a href="#" class="trans_color">博客</a></li>
+                        <li class="fl_detail"><a href="#" class="trans_color">视频</a></li>
                     </ul>
 
                     <ul>
                         <li class="fl_tit">服务</li>
-                        <li class="fl_detail"><a href="#">专业培训</a></li>
-                        <li class="fl_detail"><a href="#">持续集成</a></li>
-                        <li class="fl_detail"><a href="#">微服务架构</a></li>
+                        <li class="fl_detail"><a href="#" class="trans_color">专业培训</a></li>
+                        <li class="fl_detail"><a href="#" class="trans_color">持续集成</a></li>
+                        <li class="fl_detail"><a href="#" class="trans_color">微服务架构</a></li>
                     </ul>
                     <ul>
                         <li class="fl_tit">关于我们</li>
-                        <li class="fl_detail"><a href="#">关于亚信</a></li>
-                        <li class="fl_detail"><a href="#">联系我们</a></li>
-                        <li class="fl_detail"><a href="#">意见反馈</a></li>
-                        <li class="fl_detail"><a href="#">服务条款</a></li>
+                        <li class="fl_detail"><a href="#" class="trans_color">关于亚信</a></li>
+                        <li class="fl_detail"><a href="#" class="trans_color">联系我们</a></li>
+                        <li class="fl_detail"><a href="#" class="trans_color">意见反馈</a></li>
+                        <li class="fl_detail"><a href="#" class="trans_color">服务条款</a></li>
                     </ul>
                 </div>
                 <div class="fl_right">
                     <div class="fr_detail">
-                        <p class="fr_tel">010-82166688</p>
-                        <p class="fr_mail"><a href="mailto:datafoundry@asiainfo.com">datafoundry@asiainfo.com</a></p>
-                        <p class="fr_address">北京市海淀区<br/>
-                            中关村软件园二期西北旺东路10号院亚信大厦</p>
+                        <p class="fr_mail"><i></i><a href="mailto:datafoundry@asiainfo.com">datafoundry@asiainfo.com</a></p>
+                        <p class="fr_address"><i></i><span>北京市海淀区<br/>
+                            中关村软件园二期西北旺东路10号院亚信大厦</span></p>
                     </div>
 
                     <div class="fr_er">
                         <div class="er_ma">
-                            <img src="views/home/index/img/pic_er.png" class="pic_er">
-                            <p class="er_detail">发现更多内容<br/>
-                            （扫一扫关注我们）</p>
+                            <img src="pub/img/pic_er.png" class="pic_er">
+                            <p class="er_detail">发现更多 关注我们</p>
 
 
                         </div>
@@ -112,6 +112,9 @@
             </div>
         </div>
     </div>
+        <div class="foot_copyright">
+            <p>&copy; 2016 版权所有 北京亚信智慧数据科技有限公司 京ICP备11005544号-15 京公网安备110108007119号</p></div>
+    </div>
     <!-- 底部公共-->
     <style>
 
@@ -119,43 +122,50 @@
 
         #particles-js{ width: 100%; height: 100%; background-color: #002B5A; background-image: url(''); background-size: cover; background-position: 50% 50%; background-repeat: no-repeat; }
 
-        /*20161017 jia add*/
-        .foot{width:100%;background:#5a6378;height:302px;}
-        .foot_ps{width:1200px;margin:0 auto;}
-        .produce_show{margin:0 auto;height:60px;border-bottom:1px solid #fff;}
+        /*20161017 jia add 页脚*/
+        .foot_main{width:100%;}
+        .foot{background:#5a6378;padding-bottom:40px;}
+        .foot_ps{width:1120px;margin:0 auto;}
+
         ul,li,ol{list-style:none;margin:0;padding:0;}
-        .produce_show li{width:194px;float:left;margin-top:16px;margin-bottom:16px;font-size:16px;height:30px;line-height:30px;
-            border-right:1px solid #f00;text-indent:20px;}
-        .produce_show li i{width:30px;height:30px;background:#f00;display:block;float:left;}
-        .produce_show li:last-child{border-right:0;}
-        .produce_show li{margin-left:46px;color:#fff;}
-        .produce_show li:hover{color:#f00;cursor:pointer;}
 
-        .foot_list{margin-top:30px;}
-        .fl_left{width:540px;border-right:1px solid #fff;height:auto;overflow:hidden;float:left;}
-        .fl_left ul{float:left;width:180px;text-align:left;}
+        .foot_list{padding-top:40px;height:auto;overflow:hidden; }
+        .fl_left{width:534px;border-right:1px solid #89909f;height:auto;overflow:hidden;float:left;}
+        .fl_left ul{float:left;text-align:left;}
+        .fl_left ul{width:145px;}
+        .fl_left ul:nth-child(2){width:110px;}
+
+
         .fl_left ul:last-child{width:130px;}
-        .fl_left ul .fl_tit{font-size:16px;color:#fff;}
+        .fl_left ul .fl_tit{font-size:16px;color:rgba(255,255,255,0.6);}
         .fl_left ul .fl_detail a{font-size:14px;color:#fff;}
-        .fl_left ul .fl_detail a:hover{color:#f00;}
+        .fl_left ul .fl_detail a:hover{color:#f6a540;}
         .fl_left ul li{margin-bottom:16px;}
+        .fl_left ul li:last-child{margin-bottom:0;}
 
 
-        .fl_right{float:left;margin-left:35px;}
-        .fr_tel{color:#f8b551;font-size:18px;}
-        .fr_mail a{font-size:14px;color:#fff;}
-        .fr_address{color:#fff;font-size:14px;}
+        .fl_right{float:left;margin-left:42px;width:544px;}
+        .fr_mail a{font-size:14px;color:rgba(255,255,255,0.6);text-decoration:underline!important;}
+        .fr_address{color:rgba(255,255,255,0.6);font-size:14px;}
+        .fr_address span{display:block;float:left;line-height:20px;font-size:14px;}
         .fr_detail{float:left;}
+        .fr_detail p{margin-bottom:20px;}
+        .fr_detail i{background:url("pub/img/pic_info.png") no-repeat;display:block;width:18px;height:18px;float:left;margin-right:12px;}
+        .fr_address i{background-position:0%;}
+        .fr_mail i{background-position:100%;}
         .fr_er{float:right;margin-left:40px;}
-        .pic_er{width:110px;height:110px;display:block;margin-bottom:10px;}
-        .er_detail{font-size:14px;color:#fff;text-align:center;}
+        .pic_er{width:124px;height:122px;display:block;margin-bottom:10px;}
+        .er_detail{font-size:12px;color:#fff;text-align:center;}
+
+
+        .foot_copyright{background:#3d4458;height:68px;line-height:68px;}
+        .foot_copyright p{width:1120px;margin:0 auto;text-align:left;color:rgba(255,255,255,0.7);font-size:14px;}
+        .trans_color{-webkit-transition:  color 300ms;-ms-transition:  color 300ms;-o-transition:  color 300ms;-moz-transition:  color 300ms;transition:  color 300ms;}
 
 
 
 
-
-
-        /*20161017 jia add*/
+        /*20161017 jia add 页脚*/
 
 
 
