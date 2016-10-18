@@ -1329,7 +1329,7 @@ a {
 }
 .footer-td{padding-left:0;}
 
-.btn.focus, .btn:focus, .btn:hover{color:#fff;}
+/*.btn.focus, .btn:focus, .btn:hover{color:#fff;}*/
 
 /*!* 设置滚动条的样式 *!*/
 /*::-webkit-scrollbar {*/
