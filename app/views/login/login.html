@@ -24,13 +24,12 @@
         <div class="modal-body" style="padding: 20px 30px 30px 30px;">
             <form class="form-horizontal" name="frm">
                 <div style="float:left;width:100%;margin-bottom: 18px;">
-                        <span class="dropdown" style="background:#e6e9f2;padding:5px 13px; float: left;">
-                            <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color: #5a6378">区域<b class="caret"></b></a>
+                        <span class="dropdown"  id="dpdtop" style="">
+                            <a class="dropdown-toggle" data-toggle="dropdown"  href="#" style="color:#333">区域<b class="caret"></b></a>
                             <ul class="dropdown-menu dropdownbw">
                                 <li ng-repeat="relist in regionlist" ng-click="checkregion(relist.regionname)">{{relist.regionname}}</li>
                             </ul>
-                         </span>
-                        <span style="background: #fff;padding:5px 13px; float: left;color: #5a6378;">
+                         </span><span style="background: #fff;padding:8px 13px; color: #5a6378;">
                             {{curregion}}
                         </span>
                 </div>
@@ -250,13 +249,27 @@
     }
     .dropdownbw{
         min-width:150px;
+        padding:0px;
     }
     .dropdownbw li{
         padding:5px 0px;text-align: center;
         cursor: pointer;
         color: #5a6378;
+        border-bottom:1px solid #ccc;
+    }
+    .dropdownbw :last-child{
+        border-bottom:none;
     }
     .dropdownbw li:hover{
-        background: #f8b551;
+        background: #e6e9f2;
+    }
+    #dpdtop:hover{
+        background: #dde0e9;
+    }
+    #dpdtop{
+        color: #5a6378;background:#e6e9f2;padding:8px 13px;
+    }
+    .modal-body input:focus{
+        border-color: #f8b551;
     }
 </style>

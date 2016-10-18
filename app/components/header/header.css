@@ -141,12 +141,33 @@
 }
 .dropdownbw{
     min-width:150px;
+    font-size: 12px;
 }
 .dropdownbw li{
     padding:5px 0px;text-align: center;
     cursor: pointer;
     color: #5a6378;
+    border-bottom:1px solid #ccc;
+}
+.dropdownbw :last-child{
+    border-bottom:none;
 }
 .dropdownbw li:hover{
-    background: #f8b551;
+    background: #e6e9f2;
+}
+#dpdtop:hover{
+    background: #dde0e9;
+}
+#dpdtop{
+    color: #5a6378;background:#e6e9f2;padding:10px 13px;
+}
+.userpic{
+    width: 37px;
+    height: 37px;
+    display: inline-block;
+    background-image: url("../app/components/header/img/user-icon-default1.png");
+    background-color: #e6e9f2;
+    background-size: 30px 30px;
+    background-repeat: no-repeat;
+    background-position: center;
 }
