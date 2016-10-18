@@ -49,12 +49,12 @@
                 </li>
 
                 <!--组织账户-->
-                <li class='personal' ng-repeat='org in userorgs'>
-                    <a href="javascript:;" ng-click='goto($index)'><label>{{org.name}}</label>
-                        <br/>
-                        <span>切换到组织账户</span>
-                    </a>
-                </li>
+                <!--<li class='personal' ng-repeat='org in userorgs'>-->
+                    <!--<a href="javascript:;" ng-click='goto($index)'><label>{{org.name}}</label>-->
+                        <!--<br/>-->
+                        <!--<span>切换到组织账户</span>-->
+                    <!--</a>-->
+                <!--</li>-->
 
                 <!--<li ng-repeat="project in projects | orderBy: 'metadata.name'">-->
                 <li ng-repeat="project in projects">
@@ -79,13 +79,13 @@
                  </li>
 
                  <!--组织账户-->
-                 <li class='personal' ng-repeat='org in userorgs'>
-                     <a href="javascript:;" ng-click='goto($index)' ui-sref='console.org({useorg:org.id})'><label>{{org.name}}</label>
-                         <br/>
-                         <span ng-if="org.id == neworgid">查看组织账户</span>
-                         <span ng-if="org.id != neworgid">切换组织账户</span>
-                     </a>
-                 </li>
+                 <!--<li class='personal' ng-repeat='org in userorgs'>-->
+                     <!--<a href="javascript:;" ng-click='goto($index)' ui-sref='console.org({useorg:org.id})'><label>{{org.name}}</label>-->
+                         <!--<br/>-->
+                         <!--<span ng-if="org.id == neworgid">查看组织账户</span>-->
+                         <!--<span ng-if="org.id != neworgid">切换组织账户</span>-->
+                     <!--</a>-->
+                 <!--</li>-->
 <!--切换project仅限go神使用,要问go神是谁?-->
                  <li ng-repeat="project in projects">
                      <a href="javascript:;" ng-click="setNamespace(project.metadata.name,project.metadata.annotations['openshift.io/display-name'])">{{project.metadata.annotations['openshift.io/display-name'] || project.metadata.name}}</a>

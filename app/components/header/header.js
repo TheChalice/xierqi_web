@@ -185,11 +185,11 @@ angular.module("console.header", [
                             return
                         }else if($state.current.url.indexOf(':')!==-1&&$state.current.name!=='console.dashboard'){
                             //$location.url('/'+)
-                            console.log($state.current.url.split('/')[1]);
+                            //console.log($state.current.url.split('/')[1]);
                             $location.url('/console/'+$state.current.url.split('/')[1])
                         }else if($state.current.name=='console.dashboard'){
+                            //console.log($rootScope.namespace);
                             $state.reload();
-                            //alert(1)
                         }
                         //console.log('路由',$state);
 
@@ -263,13 +263,19 @@ angular.module("console.header", [
                     $scope.change=false;
                     $scope.setNamespace = function (namespace, name) {
                         //console.log(namespace);
+
                         $rootScope.namespace = namespace;
                         Cookie.set('namespace', namespace, 10 * 365 * 24 * 3600 * 1000);
                         $state.reload();
                         //$scope.change=true;
-                        $scope.checked = name;
-                        $rootScope.huancun.name=name;
+                        $scope.checked = name || namespace;
+                        $rootScope.huancun.name=name || namespace;;
                         console.log('$scope.checked',$scope.checked);
+                        if(namespace.indexOf('org')!==-1){
+                            $state.go('console.org',{useorg:namespace})
+                        }else {
+                            $state.go('console.dashboard')
+                        }
                     }
                     // setting timer
                     $scope.checkInbox = function () {
