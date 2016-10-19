@@ -31,6 +31,10 @@ angular.module('home', [])
                     $rootScope.whereclick = '首页'
                     $scope.footshow = true
                     break;
+                case 'home.recharge':
+                    $rootScope.whereclick = '价格'
+                    $scope.footshow = false
+                    break;
                 case 'home.introduce':
                     $rootScope.whereclick = '产品'
                     $scope.footshow = false
@@ -75,7 +79,6 @@ angular.module('home', [])
                         case 'home.index':
                             $rootScope.whereclick = '首页'
                             $scope.footshow = true
-
                             break;
                         case 'home.recharge':
                             $rootScope.whereclick = '价格'

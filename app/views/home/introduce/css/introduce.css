@@ -187,8 +187,7 @@ color:#fff;font-size:12px;-webkit-transition:all 0.6s;transition:all 0.6s;-webki
 ul,li,ol{list-style:none;margin:0;padding:0;}
 .foot_list{padding-top:40px;height:auto;overflow:hidden; }
 .fl_left{width:534px;border-right:1px solid #89909f;height:auto;overflow:hidden;float:left;}
-.fl_left ul{float:left;text-align:left;}
-.fl_left ul{width:145px;}
+.fl_left ul{float:left;text-align:left;width:145px;}
 .fl_left ul:nth-child(2){width:110px;}
 .fl_left ul:last-child{width:130px;}
 .fl_left ul .fl_tit{font-size:16px;color:rgba(255,255,255,0.6);}
