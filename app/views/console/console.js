@@ -64,7 +64,7 @@ angular.module('console', [
                     loadProject();
                 }else{
                     if ($state.current.name === 'console.plan' || $state.current.name === 'console.pay' || $state.current.name === 'console.noplan' || $state.current.name === 'home.index') {
-                        $rootScope.projects=false;
+                        //$rootScope.projects=false;
                         //$scope.showsidebar = false;
                     } else {
                         $state.go('console.noplan');
@@ -95,7 +95,7 @@ angular.module('console', [
                         //有plan
                     }else{
                         if (toState.name === 'console.plan' || toState.name === 'console.pay' || toState.name === 'console.noplan'||toState.name === 'home.index') {
-                            $rootScope.projects=false;
+                            //$rootScope.projects=false;
                             //$scope.showsidebar = false;
                         } else {
                             $state.go('console.noplan');
@@ -110,6 +110,7 @@ angular.module('console', [
             })
             //$rootScope.payment = account;
             var namespace = Cookie.get('namespace');
+
             if (namespace) {
                 $rootScope.namespace = namespace;
             } else {
