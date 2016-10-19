@@ -31,6 +31,10 @@ angular.module('home', [])
                     $rootScope.whereclick = '首页'
 
                     break;
+                case 'home.recharge':
+                    $rootScope.whereclick = '价格'
+                    $scope.footshow = false
+                    break;
                 case 'home.introduce':
                     $rootScope.whereclick = '产品'
 
@@ -59,7 +63,6 @@ angular.module('home', [])
                 account.get({namespace:$rootScope.namespace}, function (data) {
                     //console.log('套餐', data);
                     //$rootScope.payment=data;
-
                     if (data.purchased) {
                         $state.go("console.dashboard")
                     }else{
@@ -76,6 +79,7 @@ angular.module('home', [])
                             $rootScope.whereclick = '首页'
 
 
+                            $scope.footshow = true
                             break;
                         case 'home.recharge':
                             $rootScope.whereclick = '价格'
