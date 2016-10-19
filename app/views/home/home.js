@@ -29,18 +29,23 @@ angular.module('home', [])
             switch ($state.current.name) {
                 case 'home.index':
                     $rootScope.whereclick = '首页'
+                    $scope.footshow = true
                     break;
                 case 'home.introduce':
                     $rootScope.whereclick = '产品'
+                    $scope.footshow = false
                     break;
                 case 'home.application':
                     $rootScope.whereclick = '应用市场'
+                    $scope.footshow = true
                     break;
                 case 'home.index_backing_service':
                     $rootScope.whereclick = '服务市场'
+                    $scope.footshow = true
                     break;
                 default:
                     $rootScope.whereclick = '首页'
+                    $scope.footshow = true
             }
             var images = new Array()
 
@@ -69,21 +74,28 @@ angular.module('home', [])
                     switch (toState.name) {
                         case 'home.index':
                             $rootScope.whereclick = '首页'
+                            $scope.footshow = true
+
                             break;
                         case 'home.recharge':
                             $rootScope.whereclick = '价格'
+                            $scope.footshow = true
                             break;
                         case 'home.introduce':
                             $rootScope.whereclick = '产品'
+                            $scope.footshow = false
                             break;
                         case 'home.application':
                             $rootScope.whereclick = '应用市场'
+                            $scope.footshow = true
                             break;
                         case 'home.index_backing_service':
                             $rootScope.whereclick = '服务市场'
+                            $scope.footshow = true
                             break;
                         default:
                             $rootScope.whereclick = '首页'
+                            $scope.footshow = true
                     }
                     if (toState.name !== "home.introduce") {
                         $('html').css('overflow', 'auto');
