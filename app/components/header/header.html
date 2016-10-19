@@ -33,7 +33,7 @@
 
         <span uib-dropdown on-toggle="toggled(open)">
             <a href="javascript:;" id="user-menu" uib-dropdown-toggle>
-                <img src="components/header/img/user-icon-default1.png" alt="icon" class="hidden-xs" style="width: 37px;height: 37px;padding: 3px;background-color: #e6e9f2;margin-top: -4px;margin-left:20px;border-radius: 2px;"><span>{{user.metadata.name}} | {{checked}}&nbsp;&nbsp;</span>
+                <img src="components/header/img/user-icon-default1.png" alt="icon" class="hidden-xs" style="width: 37px;height: 37px;padding: 3px;background-color: #e6e9f2;margin-top: -4px;margin-left:20px;border-radius: 2px;"><span>{{user.metadata.name}} | {{checked||namespace}}&nbsp;&nbsp;</span>
                 <i class="fa fa-chevron-circle-down" style="color: #e6e9f2;"></i>
             </a>
             <ul ng-if="!isorg" class="projectname" uib-dropdown-menu

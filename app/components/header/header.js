@@ -254,9 +254,10 @@ angular.module("console.header", [
                     $scope.logout = function () {
                         Cookie.clear('df_access_token');
                         Cookie.clear('namespace');
+                        $scope.checked = '';
                         $rootScope.user = null;
                         $rootScope.namespace = "";
-                        clearInterval($scope.timer)
+                        clearInterval($scope.timer);
                         $state.go('home.index');
 
                     };
