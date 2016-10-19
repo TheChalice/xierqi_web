@@ -730,7 +730,17 @@ angular.module('console.service.create', [
 
             loadDcList();
 
-
+            $scope.$watch('portsArr', function (n,o) {
+                console.log(n);
+                if (n === o) {
+                    return
+                }
+                angular.forEach(n, function (nport,i) {
+                    if (n[i]&&o[i]&&n[i].containerPort !== o[i].containerPort) {
+                        $scope.portsArr[i].hostPort=n[i].containerPort
+                    }
+                })
+            },true)
             $scope.$watch('dc.metadata.name', function (n, o) {
                 if (n == o) {
                     return
