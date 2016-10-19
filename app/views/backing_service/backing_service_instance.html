@@ -64,6 +64,8 @@
                                 <span class="label label-default" uib-tooltip="{{bsisv.bound_time | timescon}}">
                                     <i class="fa2 fa2-time"></i>&nbsp;{{bsisv.bound_time | dateRelative}}
                                 </span>
+                                    <span style="margin-left: 10px;" ng-if="bsisv.delete" class="icon12 icon12-Bound fa-unspin"></span>
+                                    <!--<span>{{bsisv.delete}}</span>-->
                                 </h4>
                             </div>
                             <div id="{{item.metadata.name}}-{{bsisv.bind_deploymentconfig}}"

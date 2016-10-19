@@ -214,7 +214,7 @@ angular.module('console.backing_service', [
                                     }
                                 }
                             }
-                            console.log('$scope.myservice', $scope.myservice);
+                            //console.log('$scope.myservice', $scope.myservice);
                             var bciarr=angular.copy(res.items)
                             //自定义后端服务渲染数组
                             $scope.diyservice = [];
@@ -227,7 +227,7 @@ angular.module('console.backing_service', [
                             $scope.diyservice.sort(function (x, y) {
                                 return x.mysort > y.mysort ? -1 : 1;
                             });
-                            console.log('$scope.diyservice', $scope.diyservice);
+                            //console.log('$scope.diyservice', $scope.diyservice);
                             $scope.diyservicecopy=angular.copy($scope.diyservice)
                             for (var d = 0; d < $scope.cation.length; d++) {
                                 var arr1 = $filter("myfilter")($scope.myservice[d].item, $scope.isComplete);
@@ -255,7 +255,7 @@ angular.module('console.backing_service', [
 
                         }
                     }
-                    console.log("$scope.market", $scope.market)
+                    //console.log("$scope.market", $scope.market)
                     $scope.data = data.items;
                     filter('serviceCat', 'all');
                     filter('vendor', 'all');
@@ -397,15 +397,20 @@ angular.module('console.backing_service', [
                     }
                 } else if (data.type == "MODIFIED") {
 
-                    // console.log('newid',newid)
+                     console.log(data,newid)
                     if (newid) {
                         if ($scope.myservice[newid]) {
+
                             angular.forEach($scope.myservice[newid].item, function (item, i) {
-                                if (item.metadata.name == data.object.metadata.name) {
-                                    data.object.show = item.show;
-                                    $scope.myservice[newid].item[i] = data.object;
-                                    $scope.$apply();
+                                if (item.spec.binding.length !== data.object.spec.binding.length) {
+                                    if (item.metadata.name == data.object.metadata.name) {
+                                        data.object.show = item.show;
+
+                                        $scope.myservice[newid].item[i] = data.object;
+                                        $scope.$apply();
+                                    }
                                 }
+
                             })
                             // console.log('$scope.myservice[newid].item',$scope.myservice[newid].item.length)
                             if ($scope.myservice[newid].item.length == '0') {
@@ -639,7 +644,7 @@ angular.module('console.backing_service', [
             //我的后端服务解除绑定一个服务
             $scope.delBing = function (idx, id) {
                 id = id.toString()
-                console.log(id);
+
                 if (id) {
                     newid = id;
                     var name = $scope.myservice[id].item[idx].metadata.name;
@@ -658,11 +663,18 @@ angular.module('console.backing_service', [
                         bindings.push(binds[i]);
                     }
                 }
-                if (bindings.length == 0) {
+                if (bindings.length === 0) {
                     Toast.open('请先选择要解除绑定的服务');
                     return;
                 }
-                angular.forEach(bindings, function (binding) {
+                console.log($scope.myservice,bindings);
+
+                angular.forEach(bindings, function (binding,i) {
+                    angular.forEach(binds, function (bind,j) {
+                        if (binding.bind_deploymentconfig === bind.bind_deploymentconfig) {
+                            $scope.myservice[id].item[idx].spec.binding[j].delete=true;
+                        }
+                    })
                     var bindObj = {
                         metadata: {
                             name: name,
