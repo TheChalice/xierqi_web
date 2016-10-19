@@ -35,6 +35,7 @@ angular.module("console.header", [
                         });
 
                     }
+                    $scope.checked = '';
                     //if($rootScope.delOrgs){
                     //    $http({
                     //        url:'/lapi/orgs/'+$state.params.useorg,
