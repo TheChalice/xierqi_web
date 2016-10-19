@@ -129,6 +129,13 @@ angular.module('console.service.create', [
                 cpu: null,
                 memory: null
             }
+            $scope.$watch('portsArr', function (n,o) {
+                if (n === o) {
+                    return;
+                }
+
+                console.log('端口',n);
+            },true)
 
             $scope.$watch('quota', function (n, o) {
                 if (n === o) {
@@ -511,7 +518,9 @@ angular.module('console.service.create', [
             }
 
             getserviceaccounts();
+
             // 判断从镜像仓库跳转过来时属于哪种镜像
+
             var initContainer = function () {
                 if ($stateParams.image) {
 
