@@ -69,7 +69,7 @@ angular.module('console.user', [
         }
         $scope.updatePwd = function () {
             ModalPwd.open().then(function (password) {
-                console.log(password);
+                //console.log(password);
                 pwdModify.change({new_password: password.pwd, old_password: password.oldpwd}, function (data) {
                     Toast.open('更改密码成功');
                     setTimeout(function () {

@@ -1170,7 +1170,8 @@ define(['angular'], function (angular) {
                     size: 'default',
                     controller: ['$scope', '$rootScope', '$uibModalInstance', function ($scope, $rootScope, $uibModalInstance) {
                         $scope.credentials = {}
-                        console.log($rootScope)
+                        console.log($rootScope);
+
                         $scope.ok = function () {
                             var possword = {
                                 oldpwd: $scope.credentials.oldpwd,
