@@ -21,7 +21,9 @@ hr {
 a {
     text-decoration: none !important;
 }
-
+#cnzz_stat_icon_1260628917 {
+    display: none;
+}
 /*按钮*/
 .btn {
     border-radius: 2px;
