@@ -170,7 +170,10 @@ angular.module("console.header", [
 
                         $scope.checked = $rootScope.namespace;
                     }
-
+                    $scope.backindex = function () {
+                        $rootScope.whereclick = '首页';
+                        $state.go('home.index')
+                    }
                     $scope.gotomy = function () {
                         $scope.checked = $rootScope.user.metadata.name;
 

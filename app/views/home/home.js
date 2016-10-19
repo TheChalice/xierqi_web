@@ -74,33 +74,6 @@ angular.module('home', [])
             $rootScope.$on('$stateChangeStart',
                 function (event, toState, toParams, fromState, fromParams) {
                     console.log('toState',toState.name);
-                    switch (toState.name) {
-                        case 'home.index':
-                            $rootScope.whereclick = '首页'
-
-
-
-                            break;
-                        case 'home.recharge':
-                            $rootScope.whereclick = '价格'
-
-                            break;
-                        case 'home.introduce':
-                            $rootScope.whereclick = '产品'
-
-                            break;
-                        case 'home.application':
-                            $rootScope.whereclick = '应用市场'
-
-                            break;
-                        case 'home.index_backing_service':
-                            $rootScope.whereclick = '服务市场'
-
-                            break;
-                        default:
-                            $rootScope.whereclick = '首页'
-
-                    }
                     if (toState.name !== "home.introduce") {
                         $('html').css('overflow', 'auto');
                         $('.foot_main').css('display', 'block');

@@ -110,6 +110,7 @@ angular.module('console', [
             })
             //$rootScope.payment = account;
             var namespace = Cookie.get('namespace');
+
             if (namespace) {
                 $rootScope.namespace = namespace;
             } else {
