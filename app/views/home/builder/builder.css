@@ -2,7 +2,7 @@
 
 
 .df_block{position:absolute;text-align:center;left:50%;top:50%;width:214px;height:308px;margin-top:-154px;margin-left:-107px;}
-.pic_df{width:156px;height:156px;}
+.pic_df{width:150px;height:150px;}
 .build_cion{display:block;position:absolute;right:-42px;top:16px;}
 .build_cion i{width:3px;height:3px;-webkit-border-radius:50%;background:#666;display:block;float:left;margin-right:6px;
     -webkit-animation:myfirst 5s linear 2s infinite alternate;}

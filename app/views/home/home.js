@@ -63,7 +63,6 @@ angular.module('home', [])
                 account.get({namespace:$rootScope.namespace}, function (data) {
                     //console.log('套餐', data);
                     //$rootScope.payment=data;
-
                     if (data.purchased) {
                         $state.go("console.dashboard")
                     }else{
