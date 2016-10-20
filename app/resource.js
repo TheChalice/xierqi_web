@@ -283,28 +283,33 @@ define([
         }])
 
         .factory('Pod', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var Pod = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/pods/:name', {
+            var Pod = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/pods/:name?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region:'@region'
             }, {
                 create: {method: 'POST'}
             });
-            Pod.log = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/pods/:name/log', {
+            Pod.log = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/pods/:name/log?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region:'@region'
             });
             return Pod;
         }])
 
         .factory('Event', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var Event = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/events/:name', {
+            var Event = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/events/:name?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region:'@region'
+
             }, {
                 create: {method: 'POST'}
             });
             return Event;
         }])
+
         .factory('Secret', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
             var Secret = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets/:name',
                 {name: '@name', namespace: '@namespace'}, {

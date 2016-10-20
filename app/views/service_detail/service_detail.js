@@ -802,7 +802,7 @@ angular.module('console.service.detail', [
             };
             //$scope.events=[];
             var loadeventws = function () {
-                Event.get({namespace: $rootScope.namespace}, function (res) {
+                Event.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                     console.log('event',res);
                     if (!$scope.eventsws) {
                         $scope.eventsws = []
@@ -1507,7 +1507,7 @@ angular.module('console.service.detail', [
                 for (var i = 0; i < pods.length; i++) {
                     podNames.push(pods[i].metadata.name);
                 }
-                Event.get({namespace: $rootScope.namespace}, function (res) {
+                Event.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                     // $log.info("events", res);
 
                     var events = [];
