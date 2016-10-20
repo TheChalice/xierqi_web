@@ -107,9 +107,10 @@ define([
             return Project;
         }])
         .factory('Build', ['$resource', '$rootScope', '$ws', '$log', 'Cookie', 'GLOBAL', function ($resource, $rootScope, $ws, $log, Cookie, GLOBAL) {
-            var Build = $resource(GLOBAL.host + '/namespaces/:namespace/builds/:name', {
+            var Build = $resource(GLOBAL.host + '/namespaces/:namespace/builds/:name?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region:'@region'
             }, {
                 create: {method: 'POST'},
                 put: {method: 'PUT'}
@@ -123,25 +124,30 @@ define([
             return Build;
         }])
         .factory('BuildConfig', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var BuildConfig = $resource(GLOBAL.host + '/namespaces/:namespace/buildconfigs/:name', {
+            var BuildConfig = $resource(GLOBAL.host + '/namespaces/:namespace/buildconfigs/:name?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region:'@region'
             }, {
                 create: {method: 'POST'},
                 put: {method: 'PUT'}
             });
-            BuildConfig.instantiate = $resource(GLOBAL.host + '/namespaces/:namespace/buildconfigs/:name/instantiate', {
+            BuildConfig.instantiate = $resource(GLOBAL.host + '/namespaces/:namespace/buildconfigs/:name/instantiate?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region:'@region'
+
             }, {
                 create: {method: 'POST'}
             });
             return BuildConfig;
         }])
+
         .factory('ImageStream', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var ImageStream = $resource(GLOBAL.host + '/namespaces/:namespace/imagestreams/:name', {
+            var ImageStream = $resource(GLOBAL.host + '/namespaces/:namespace/imagestreams/:name?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region:'@region'
             }, {
                 create: {method: 'POST'},
                 delete: {method: 'delete'},

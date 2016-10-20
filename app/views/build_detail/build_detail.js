@@ -22,7 +22,7 @@ angular.module('console.build.detail', [
             });
 
             var loadBuildConfig = function () {
-                BuildConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (data) {
+                BuildConfig.get({namespace: $rootScope.namespace, name: $stateParams.name,region:$rootScope.region}, function (data) {
                     $log.info('data', data);
                     //$log.info('labsecrect is',data.spec.source.sourceSecret.name);
                     $scope.data = data;
@@ -83,7 +83,8 @@ angular.module('console.build.detail', [
                 };
                 BuildConfig.instantiate.create({
                     namespace: $rootScope.namespace,
-                    name: name
+                    name: name,
+                    region:$rootScope.region
                 }, buildRequest, function (res) {
                     $log.info("build instantiate success", res);
                     $scope.active = 1;  //打开记录标签
@@ -98,7 +99,7 @@ angular.module('console.build.detail', [
             $scope.deletes = function () {
                 var name = $scope.data.metadata.name;
                 Confirm.open("删除构建", "您确定要删除构建吗？", "删除构建将清除构建的所有历史数据以及相关的镜像该操作不能被恢复", 'recycle').then(function () {
-                    BuildConfig.remove({namespace: $rootScope.namespace, name: name}, {}, function () {
+                    BuildConfig.remove({namespace: $rootScope.namespace, name: name,region:$rootScope.region}, {}, function () {
                         $log.info("remove buildConfig success");
 
                         deleteSecret.delete({
@@ -184,7 +185,8 @@ angular.module('console.build.detail', [
                 //} else {
                 //    $scope.data.spec.triggers = [];
                 //}
-                BuildConfig.put({namespace: $rootScope.namespace, name: name}, $scope.data, function (res) {
+                //$scope.data.region=$rootScope.region;
+                BuildConfig.put({namespace: $rootScope.namespace, name: name,region:$rootScope.region}, $scope.data, function (res) {
                     $log.info("put success", res);
                     $scope.data = res;
                     $scope.deadlineMinutesEnable = false;
@@ -205,7 +207,8 @@ angular.module('console.build.detail', [
                 }
                 var name = $scope.data.metadata.name;
                 $scope.data.spec.completionDeadlineSeconds = $scope.grid.completionDeadlineMinutes * 60;
-                BuildConfig.put({namespace: $rootScope.namespace, name: name}, $scope.data, function (res) {
+                //$scope.data.region=$rootScope.region;
+                BuildConfig.put({namespace: $rootScope.namespace, name: name,region:$rootScope.region}, $scope.data, function (res) {
                     $log.info("put success", res);
                     $scope.data = res;
                     $scope.deadlineMinutesEnable = false;
@@ -340,7 +343,7 @@ angular.module('console.build.detail', [
 //获取build记录
             var loadBuildHistory = function (name) {
                 //console.log('name',name)
-                Build.get({namespace: $rootScope.namespace, labelSelector: 'buildconfig=' + name}, function (data) {
+                Build.get({namespace: $rootScope.namespace, labelSelector: 'buildconfig=' + name,region:$rootScope.region}, function (data) {
                     //console.log("history", data);
                     data.items = Sort.sort(data.items, -1); //排序
                     $scope.databuild = data;
@@ -461,7 +464,8 @@ angular.module('console.build.detail', [
                             }
                             Build.log.get({
                                 namespace: $rootScope.namespace,
-                                name: data.object.metadata.name
+                                name: data.object.metadata.name,
+                                region:$rootScope.region
                             }, function (res) {
                                 var result = "";
                                 for (var k in res) {
@@ -510,7 +514,7 @@ angular.module('console.build.detail', [
                     loglast()
                     return;
                 }
-                Build.log.get({namespace: $rootScope.namespace, name: o.metadata.name}, function (res) {
+                Build.log.get({namespace: $rootScope.namespace, name: o.metadata.name,region:$rootScope.region}, function (res) {
                     var result = "";
                     for (var k in res) {
                         if (/^\d+$/.test(k)) {
@@ -574,6 +578,7 @@ angular.module('console.build.detail', [
             $scope.stop = function (idx) {
                 var o = $scope.databuild.items[idx];
                 o.status.cancelled = true;
+                o.region=$rootScope.region
                 Confirm.open("终止构建", "您确定要终止本次构建吗？", "", "stop").then(function () {
                     Build.put({namespace: $rootScope.namespace, name: o.metadata.name}, o, function (res) {
                         $log.info("stop build success");
