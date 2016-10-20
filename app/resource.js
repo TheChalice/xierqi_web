@@ -99,6 +99,7 @@ define([
             });
             return User;
         }])
+
         .factory('Project', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
             var Project = $resource(GLOBAL.host + '/projects/:name', {name: '@name'}, {
                 create: {method: 'POST'}
@@ -611,6 +612,11 @@ define([
             var orders = $resource('/payment/v1/orders', {}, {});
             return orders;
         }])
+        .factory('regions', ['$resource', 'GLOBAL', function ($resource) {//获取订单
+            var regions = $resource('/payment/v1/regions', {}, {});
+            return regions;
+        }])
+
 
 });
 

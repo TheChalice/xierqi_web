@@ -11,8 +11,8 @@ angular.module('console.user', [
 
         ]
     }
-]).controller('userCtrl', ['orders','amounts', 'market', 'createOrg', '$rootScope', '$state', '$stateParams', 'Cookie', 'Toast', '$scope', 'ModalPwd', 'Addmodal', 'profile', 'pwdModify', '$http', 'Confirm', 'leave', 'orgList', 'Alert',
-    function (orders,amounts, market, createOrg, $rootScope, $state, $stateParams, Cookie, Toast, $scope, ModalPwd, Addmodal, profile, pwdModify, $http, Confirm, leave, orgList, Alert) {
+]).controller('userCtrl', ['Project','orders','amounts', 'market', 'createOrg', '$rootScope', '$state', '$stateParams', 'Cookie', 'Toast', '$scope', 'ModalPwd', 'Addmodal', 'profile', 'pwdModify', '$http', 'Confirm', 'leave', 'orgList', 'Alert',
+    function (Project,orders,amounts, market, createOrg, $rootScope, $state, $stateParams, Cookie, Toast, $scope, ModalPwd, Addmodal, profile, pwdModify, $http, Confirm, leave, orgList, Alert) {
         $scope.credentials = {};
         $scope.grid = {
             st: null,
@@ -43,9 +43,16 @@ angular.module('console.user', [
 
         //load project
         var loadProject = function () {
-            $http.get('/oapi/v1/projects', {}).success(function (data) {
-                console.log('test project', data);
-            })
+            //$http.get('/oapi/v1/projects', {}).success(function (data) {
+            //    console.log('test project', data);
+            //})
+            Project.get({region:$rootScope.region},function (data) {
+                $rootScope.projects = data.items;
+
+                $log.info("can't find project");
+            }, function (res) {
+                $log.info("find project err", res);
+            });
         }
 
         //创建组织
@@ -164,8 +171,9 @@ angular.module('console.user', [
         }
         //orders.get({}, function (orders) {
         //    console.log(orders);
+
         //})
-        amounts.get({size:500,page:1,username:'chaizs'}, function (data) {
+        amounts.get({size:500,page:1,namespace:$rootScope.namespace}, function (data) {
             console.log(data);
             data.amounts.reverse()
             angular.forEach(data.amounts, function (amount,i) {

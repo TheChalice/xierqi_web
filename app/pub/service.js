@@ -1365,7 +1365,7 @@ define(['angular'], function (angular) {
             function (account,$timeout, $q, orgList, $rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User) {
 
                 this.login = function (credentials, stateParams) {
-                    //console.log("login", credentials);
+                    console.log("login", credentials);
                     //console.log("login", stateParams);
                     localStorage.setItem('Auth', $base64.encode(credentials.username + ':' + credentials.password))
                     $rootScope.loding = true;
@@ -1382,7 +1382,7 @@ define(['angular'], function (angular) {
 
                     var loadProject = function (name) {
                         // $log.info("load project");
-                        Project.get(function (data) {
+                        Project.get({region:credentials.region},function (data) {
                             console.log("load project success", data);
                             for (var i = 0; i < data.items.length; i++) {
                                 if (data.items[i].metadata.name == name) {
@@ -1405,12 +1405,13 @@ define(['angular'], function (angular) {
                     //localStorage.setItem('codenum','0')
                     function denglu() {
                         $http(req).success(function (data) {
-                            console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&", data);
+                            //console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&", data);
 
                             Cookie.set('df_access_token', data.access_token, 10 * 365 * 24 * 3600 * 1000);
-
+                            Cookie.set('region', credentials.region, 10 * 365 * 24 * 3600 * 1000);
+                            $rootScope.region = Cookie.get('region');
                             loadProject(credentials.username);
-                            User.get({name: '~'}, function (res) {
+                            User.get({name: '~',region:credentials.region}, function (res) {
                                 $rootScope.loding = false;
                                 $rootScope.user = res;
                                 //localStorage.setItem('cade',null)
@@ -1429,7 +1430,7 @@ define(['angular'], function (angular) {
                                 } else {
                                     //获取套餐
                                     account.get({namespace:$rootScope.namespace}, function (data) {
-                                        console.log('套餐', data);
+                                        //console.log('套餐', data);
                                         //$rootScope.payment=data;
                                         if (data.purchased) {
                                             $state.go('console.dashboard');

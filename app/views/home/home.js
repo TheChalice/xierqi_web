@@ -1,9 +1,12 @@
 'use strict';
 
 angular.module('home', [])
-    .controller('HomeCtrl', ['account','$state', '$scope', '$rootScope', '$log', 'ModalLogin', 'ModalRegist', 'User',
-        function (account,$state, $scope, $rootScope, $log, ModalLogin, ModalRegist, User) {
-
+    .controller('HomeCtrl', ['regions','account','$state', '$scope', '$rootScope', '$log', 'ModalLogin', 'ModalRegist', 'User',
+        function (regions,account,$state, $scope, $rootScope, $log, ModalLogin, ModalRegist, User) {
+            regions.query({}, function (data) {
+                //console.log('regions', data);
+                $scope.regions = data;
+            })
             $log.info('Home');
             $scope.$watch('namespace', function (n, o) {
                 //console.log('new1',n);
@@ -19,7 +22,7 @@ angular.module('home', [])
             if ($rootScope.user) {
                 return $rootScope.user;
             }
-            User.get({name: '~'}, function (res) {
+            User.get({name: '~',region:$rootScope.region}, function (res) {
                 $rootScope.user = res;
             });
             //$scope.top = []
