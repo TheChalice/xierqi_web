@@ -493,7 +493,7 @@ angular.module('console.service.detail', [
             };
 
             var loadService = function (dc) {
-                Service.get({namespace: $rootScope.namespace, name: dc.metadata.name}, function (res) {
+                Service.get({namespace: $rootScope.namespace, name: dc.metadata.name,region:$rootScope.region}, function (res) {
                      $log.info("service-=-=-=-=-=-=-=-", res);
                     $scope.service = res;
 
@@ -1240,7 +1240,7 @@ angular.module('console.service.detail', [
             };
 
             var deleService = function () {
-                Service.delete({namespace: $rootScope.namespace, name: $scope.dc.metadata.name}, function (res) {
+                Service.delete({namespace: $rootScope.namespace, name: $scope.dc.metadata.name,region:$rootScope.region}, function (res) {
                     // console.log("deleService-yes",res);
                 }, function (res) {
                     // console.log("deleService-no",res);
@@ -2090,7 +2090,8 @@ angular.module('console.service.detail', [
                 $scope.service.metadata.name = $scope.dc.metadata.name;
                 Service.put({
                     namespace: $rootScope.namespace,
-                    name: $scope.service.metadata.name
+                    name: $scope.service.metadata.name,
+                    region:$rootScope.region
                 }, $scope.service, function (res) {
                     // $log.info("update service success", res);
                     $scope.service = res;
@@ -2164,7 +2165,7 @@ angular.module('console.service.detail', [
                 } else {
                     $scope.service.spec.ports = null;
                 }
-                Service.create({namespace: $rootScope.namespace}, $scope.service, function (res) {
+                Service.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.service, function (res) {
                     // $log.info("create service success", res);
                     $scope.service = res;
 

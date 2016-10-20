@@ -212,10 +212,12 @@ define([
             });
             return ReplicationController;
         }])
+
         .factory('Service', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var Service = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/services/:name', {
+            var Service = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/services/:name?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region:'@region'
             }, {
                 create: {method: 'POST'},
                 put: {method: 'PUT'},

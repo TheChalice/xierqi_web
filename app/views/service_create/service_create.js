@@ -1292,7 +1292,7 @@ angular.module('console.service.create', [
                     $scope.service.spec.ports = null;
                 }
                 //$log.info('$scope.service0-0-0-0-', $scope.service.spec.ports);
-                Service.create({namespace: $rootScope.namespace}, $scope.service, function (res) {
+                Service.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.service, function (res) {
                     $log.info("create service success", res);
                     $scope.service = res;
 
@@ -1425,7 +1425,7 @@ angular.module('console.service.create', [
             };
             //  删除同名服务,创建dc之前执行该方法
             var deleService = function () {
-                Service.delete({namespace: $rootScope.namespace, name: $scope.dc.metadata.name}, function (res) {
+                Service.delete({namespace: $rootScope.namespace, name: $scope.dc.metadata.name,region:$rootScope.region}, function (res) {
                     console.log("deleService-yes", res);
                 }, function (res) {
                     console.log("deleService-no", res);
