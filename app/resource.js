@@ -528,9 +528,10 @@ define([
         }])
 
         .factory('secretskey', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var secretskey = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets/:name', {
+            var secretskey = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets/:name?region=:region', {
                 namespace: '@namespace',
-                name: '@name'
+                name: '@name',
+                region: '@region'
             }, {
                 create: {method: 'POST'},
                 delete: {method: 'DELETE'},

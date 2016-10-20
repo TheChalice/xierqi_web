@@ -578,9 +578,9 @@ angular.module('console.build.detail', [
             $scope.stop = function (idx) {
                 var o = $scope.databuild.items[idx];
                 o.status.cancelled = true;
-                o.region=$rootScope.region
+                //o.region=$rootScope.region
                 Confirm.open("终止构建", "您确定要终止本次构建吗？", "", "stop").then(function () {
-                    Build.put({namespace: $rootScope.namespace, name: o.metadata.name}, o, function (res) {
+                    Build.put({namespace: $rootScope.namespace, name: o.metadata.name,region:$rootScope.region}, o, function (res) {
                         $log.info("stop build success");
                         $scope.databuild.items[idx] = res;
                     }, function (res) {

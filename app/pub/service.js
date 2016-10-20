@@ -702,7 +702,7 @@ define(['angular'], function (angular) {
                             }
                             ////获取密钥列表
                             var loadsecretsList = function () {
-                                secretskey.get({namespace: $rootScope.namespace}, function (res) {
+                                secretskey.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                                     console.log('-------loadsecrets', res);
                                     if (res.items) {
                                         $scope.loadsecretsitems = res.items;

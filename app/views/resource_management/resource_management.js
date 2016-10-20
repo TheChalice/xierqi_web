@@ -205,7 +205,7 @@ angular.module('console.resource_management', [
 //////////////////////////密钥
 
         $scope.loadsecrets = function () {
-            secretskey.get({namespace: $rootScope.namespace}, function (res) {
+            secretskey.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                 console.log('-------loadsecrets', res);
                 if (res.items && res.items.length > 0) {
                     angular.forEach(res.items, function (item, i) {

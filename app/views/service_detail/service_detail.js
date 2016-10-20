@@ -2588,7 +2588,7 @@ angular.module('console.service.detail', [
 
                         }
 
-                        secretskey.create({namespace: $rootScope.namespace}, secretsobj, function (res) {
+                        secretskey.create({namespace: $rootScope.namespace,region:$rootScope.region}, secretsobj, function (res) {
                             updatedcput(dc);
                         }, function (res) {
                             if (res.status == 409) {

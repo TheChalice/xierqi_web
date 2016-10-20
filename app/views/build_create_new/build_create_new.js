@@ -160,7 +160,7 @@ angular.module('console.build_create_new', [
                     },
                     "type": "Opaque"
                 }
-                secretskey.create({namespace: $rootScope.namespace}, $scope.secret, function(item){
+                secretskey.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.secret, function(item){
                     //alert(11111)
                     $scope.buildConfig.spec.source.sourceSecret.name = $scope.secret.metadata.name;
                     createBC();

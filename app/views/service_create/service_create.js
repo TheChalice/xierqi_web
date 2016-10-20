@@ -1690,7 +1690,7 @@ angular.module('console.service.create', [
 
                     }
 
-                    secretskey.create({namespace: $rootScope.namespace}, secretsobj, function (res) {
+                    secretskey.create({namespace: $rootScope.namespace,region:$rootScope.region}, secretsobj, function (res) {
                         createDcfn();
                     }, function (res) {
                         if (res.status == 409) {
