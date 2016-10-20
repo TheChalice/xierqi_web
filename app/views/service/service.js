@@ -95,7 +95,7 @@ angular.module('console.service', [
                   //console.log('itemarritemarritemarritemarritemarr',itemarr)
                   var labelSelector = 'deploymentconfig=' + itemarr.metadata.name;
 
-                  Pod.get({namespace: $scope.namespace, labelSelector: labelSelector}, function (res) {
+                  Pod.get({namespace: $scope.namespace, labelSelector: labelSelector,region:$rootScope.region}, function (res) {
                       itemarr.status.replicas = 0;
                       $scope.pods = res;
                       $scope.pods.items = res.items;

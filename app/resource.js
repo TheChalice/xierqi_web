@@ -281,6 +281,7 @@ define([
             });
             return BackingService;
         }])
+
         .factory('Pod', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
             var Pod = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/pods/:name', {
                 name: '@name',
@@ -294,6 +295,7 @@ define([
             });
             return Pod;
         }])
+
         .factory('Event', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
             var Event = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/events/:name', {
                 name: '@name',

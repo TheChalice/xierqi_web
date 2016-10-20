@@ -403,7 +403,7 @@ angular.module('console.dashboard', [
             $scope.pieConfigMem = setPieChart('内存', 'loading...', 0.1);
             $scope.podList = 0;
             var podList = function () {
-                Pod.get({namespace: $scope.namespace}, function (res) {
+                Pod.get({namespace: $scope.namespace,region:$rootScope.region}, function (res) {
                     //console.log("pod...res....", res);
                     for (var i = 0; i < res.items.length; i++) {
                         if (res.items[i].status.phase == 'Running') {

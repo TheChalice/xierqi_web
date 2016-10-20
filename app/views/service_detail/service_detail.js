@@ -1451,7 +1451,7 @@ angular.module('console.service.detail', [
             var loadPods = function (dc) {
                 var labelSelector = 'deploymentconfig=' + dc;
                 $scope.dc.status.replicas = 0;
-                Pod.get({namespace: $scope.namespace, labelSelector: labelSelector}, function (res) {
+                Pod.get({namespace: $scope.namespace, labelSelector: labelSelector,region:$rootScope.region}, function (res) {
                     $scope.pods = res;
 
                     $scope.pods.items = res.items;
@@ -2628,10 +2628,11 @@ angular.module('console.service.detail', [
                         $scope.getLog = function (pod) {
                             var params = {
                                 namespace: $rootScope.namespace,
+                                region:$rootScope.region,
                                 name: pod,
                                 sinceTime: $scope.grid.st ? $scope.grid.st.toISOString() : (new Date(0)).toISOString()
                             };
-                            Pod.get({namespace: $rootScope.namespace, name: pod}, function (podcenter) {
+                            Pod.get({namespace: $rootScope.namespace, name: pod,region:$rootScope.region}, function (podcenter) {
                                 console.log(podcenter.metadata.resourceVersion);
                                 //watchpod(podcenter.metadata.resourceVersion)
                             })
@@ -2817,7 +2818,7 @@ angular.module('console.service.detail', [
                                 sinceTime: $scope.grid.st ? $scope.grid.st.toISOString() : (new Date(0)).toISOString()
                             };
                             //console.log('container', container);
-                            Pod.get({namespace: $rootScope.namespace, name: pod.metadata.name}, function (podcenter) {
+                            Pod.get({namespace: $rootScope.namespace, name: pod.metadata.name,region:$rootScope.region}, function (podcenter) {
                                 //console.log(podcenter.metadata.resourceVersion);
                                 watchpod(podcenter.metadata.resourceVersion, container)
                             })
