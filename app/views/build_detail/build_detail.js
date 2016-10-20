@@ -8,8 +8,8 @@ angular.module('console.build.detail', [
             ]
         }
     ])
-    .controller('BuildDetailCtrl', ['deleteSecret', 'Ws', 'Sort', 'GLOBAL', '$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'UUID', 'WebhookLab', 'WebhookHub', 'WebhookLabDel', 'WebhookHubDel', 'ImageStream', 'WebhookLabget', 'WebhookGitget'
-        , function (deleteSecret, Ws, Sort, GLOBAL, $rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, UUID, WebhookLab, WebhookHub, WebhookLabDel, WebhookHubDel, ImageStream, WebhookLabget, WebhookGitget) {
+    .controller('BuildDetailCtrl', ['ImageStreamTag','deleteSecret', 'Ws', 'Sort', 'GLOBAL', '$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'UUID', 'WebhookLab', 'WebhookHub', 'WebhookLabDel', 'WebhookHubDel', 'ImageStream', 'WebhookLabget', 'WebhookGitget'
+        , function (ImageStreamTag,deleteSecret, Ws, Sort, GLOBAL, $rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, UUID, WebhookLab, WebhookHub, WebhookLabDel, WebhookHubDel, ImageStream, WebhookLabget, WebhookGitget) {
             $scope.grid = {};
 
             //console.log('路由',$state);
@@ -385,7 +385,7 @@ angular.module('console.build.detail', [
             };
 
             var loadImageStreamTag = function (item) {
-                ImageStreamTag.get({namespace: $rootScope.namespace, name: item.spec.output.to.name}, function (data) {
+                ImageStreamTag.get({namespace: $rootScope.namespace, name: item.spec.output.to.name,region:$rootScope.region}, function (data) {
                     item.bsi = data;
                     if (data.image.dockerImageMetadata.Config.Labels) {
                         $scope.gitStore[item.spec.output.to.name] = {

@@ -167,9 +167,10 @@ define([
         }])
 
         .factory('ImageStreamTag', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var ImageStreamTag = $resource(GLOBAL.host + '/namespaces/:namespace/imagestreamtags/:name', {
+            var ImageStreamTag = $resource(GLOBAL.host + '/namespaces/:namespace/imagestreamtags/:name?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region:'@region'
             }, {
                 create: {method: 'POST'},
                 get: {method: 'GET'},
@@ -177,6 +178,7 @@ define([
             });
             return ImageStreamTag;
         }])
+
         .factory('DeploymentConfig', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
             var DeploymentConfig = $resource(GLOBAL.host + '/namespaces/:namespace/deploymentconfigs/:name', {
                 name: '@name',
@@ -189,6 +191,7 @@ define([
             DeploymentConfig.log = $resource(GLOBAL.host + '/namespaces/:namespace/deploymentconfigs/:name/log');
             return DeploymentConfig;
         }])
+
         .factory('ReplicationController', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
             var ReplicationController = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/replicationcontrollers/:name', {
                 name: '@name',

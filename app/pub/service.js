@@ -1041,7 +1041,8 @@ define(['angular'], function (angular) {
                                     if (image.metadata.name) {
                                         ImageStreamTag.get({
                                             namespace: $rootScope.namespace,
-                                            name: image.metadata.name + ':' + item.tag
+                                            name: image.metadata.name + ':' + item.tag,
+                                            region:$rootScope.region
                                         }, function (res) {
                                             item.ist = res;
                                         }, function (res) {
