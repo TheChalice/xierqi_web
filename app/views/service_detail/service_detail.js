@@ -671,7 +671,8 @@ angular.module('console.service.detail', [
                 var labelSelector = 'openshift.io/deployment-config.name=' + name;
                 ReplicationController.get({
                     namespace: $rootScope.namespace,
-                    labelSelector: labelSelector
+                    labelSelector: labelSelector,
+                    region:$rootScope.region
                 }, function (res) {
                     // $log.info("replicationControllers", res);
                     res.items = Sort.sort(res.items, -1);
@@ -933,7 +934,8 @@ angular.module('console.service.detail', [
                 var labelSelector = 'openshift.io/deployment-config.name=' + $scope.dc.metadata.name;
                 ReplicationController.get({
                     namespace: $rootScope.namespace,
-                    labelSelector: labelSelector
+                    labelSelector: labelSelector,
+                    region:$rootScope.region
                 }, function (res) {
                     res.items = Sort.sort(res.items, -1);
                     for (var i = 0; i < res.items.length; i++) {
@@ -1136,7 +1138,8 @@ angular.module('console.service.detail', [
                     item.spec.replicas = $scope.dc.spec.replicas;
                     ReplicationController.put({
                         namespace: $rootScope.namespace,
-                        name: item.metadata.name
+                        name: item.metadata.name,
+                        region:$rootScope.region
                     }, item, function (res) {
                         // $log.info("$scope.dc0-0-0-0-0-0-", $scope.dc);
                         // $log.info("start dc success", res);
@@ -1176,7 +1179,8 @@ angular.module('console.service.detail', [
                     item.spec.replicas = 0;
                     ReplicationController.put({
                         namespace: $rootScope.namespace,
-                        name: item.metadata.name
+                        name: item.metadata.name,
+                        region:$rootScope.region
                     }, item, function (res) {
                         // $log.info("start dc success", res);
                         item = res;
@@ -1221,7 +1225,8 @@ angular.module('console.service.detail', [
                     o.metadata.annotations['openshift.io/deployment.cancelled'] = 'true';
                     ReplicationController.put({
                         namespace: $rootScope.namespace,
-                        name: o.metadata.name
+                        name: o.metadata.name,
+                        region:$rootScope.region
                     }, o, function (res) {
                         // $log.info("stop rc success", res);
 
@@ -1257,7 +1262,8 @@ angular.module('console.service.detail', [
                 var labelSelector = 'openshift.io/deployment-config.name=' + dc;
                 ReplicationController.remove({
                     namespace: $rootScope.namespace,
-                    labelSelector: labelSelector
+                    labelSelector: labelSelector,
+                    region:$rootScope.region
                 }, function (res) {
                     // $log.info("remove rcs success", res);
                     rmDc(dc)

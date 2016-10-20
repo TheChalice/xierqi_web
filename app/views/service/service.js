@@ -172,7 +172,7 @@ angular.module('console.service', [
                 }
                 labelSelector = labelSelector.substring(0, labelSelector.length - 1) + ')';
             }
-            ReplicationController.get({namespace: $rootScope.namespace,labelSelector: labelSelector}, function (data) {
+            ReplicationController.get({namespace: $rootScope.namespace,labelSelector: labelSelector,region:$rootScope.region}, function (data) {
                 $log.info("Replicationcontrollers", data);
                 $scope.rcs = data;
                 $scope.rcMap = {};
@@ -325,7 +325,7 @@ angular.module('console.service', [
              var thisDc = $scope.items[idx];
              if(thisDc.spec.replicas == 0){thisDc.spec.replicas = 1}
              thisRc.spec.replicas = thisDc.spec.replicas;
-            ReplicationController.put({namespace: $rootScope.namespace, name: thisRc.metadata.name}, thisRc, function(res){
+            ReplicationController.put({namespace: $rootScope.namespace, name: thisRc.metadata.name,region:$rootScope.region}, thisRc, function(res){
                 $scope.items[idx].rc = res;
                 $log.info("$scope.data.items[idx].rc++++", $scope.items[idx]);
                 $log.info("startDc dc success", res);
@@ -338,7 +338,7 @@ angular.module('console.service', [
         $scope.stopDc = function(idx){
             var thisRc =  $scope.items[idx].rc
             thisRc.spec.replicas = 0;
-            ReplicationController.put({namespace: $rootScope.namespace, name: thisRc.metadata.name}, thisRc, function(res){
+            ReplicationController.put({namespace: $rootScope.namespace, name: thisRc.metadata.name,region:$rootScope.region}, thisRc, function(res){
                 $scope.items[idx].rc.spec.replicas = res.spec.replicas;
                 $log.info("stopDc dc success", res);
 
