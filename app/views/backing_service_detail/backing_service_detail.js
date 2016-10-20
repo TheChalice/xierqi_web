@@ -16,7 +16,7 @@ angular.module('console.backing_service_detail', [
       $scope.grid.active = $stateParams.index;
 
       var loadBs = function () {
-        BackingService.get({namespace: 'openshift', name: cuename}, function (data) {
+        BackingService.get({namespace: 'openshift', name: cuename,region:$rootScope.region}, function (data) {
           $log.info('价格', data);
           if (data.metadata.annotations) {
             $scope.ltype = data.metadata.annotations.Class

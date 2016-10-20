@@ -66,7 +66,7 @@ angular.module('console.backing_service', [
             }
             // 得到loadBs对象进行分组
             var loadBs = function () {
-                BackingService.get({namespace: 'openshift'}, function (data) {
+                BackingService.get({namespace: 'openshift',region:$rootScope.region}, function (data) {
                     $log.info('loadBs', data);
                     $scope.items = data.items;
                     var arr = data.items;

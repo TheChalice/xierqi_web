@@ -29,7 +29,7 @@ angular.module('console.apply_instance', [
     console.log('@@@test bsname', $stateParams.name);
     var loadBs = function(){
         console.log("$state", $stateParams.plan)
-        BackingService.get({namespace:'openshift',name:$stateParams.name},function(data){
+        BackingService.get({namespace:'openshift',name:$stateParams.name,region:$rootScope.region},function(data){
             $log.info('loadBs',data);
             $scope.data = data;
             $scope.bsi.spec.provisioning.backingservice_spec_id = data.spec.id;

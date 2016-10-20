@@ -272,9 +272,10 @@ define([
         }])
 
         .factory('BackingService', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var BackingService = $resource(GLOBAL.host + '/namespaces/:namespace/backingservices/:name', {
+            var BackingService = $resource(GLOBAL.host + '/namespaces/:namespace/backingservices/:name?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region:'@region'
             }, {
                 create: {method: 'POST'}
             });
