@@ -195,8 +195,8 @@ angular.module('console.build', [
             Confirm.open("提示信息","您确定要终止本次构建吗？").then(function(){
                 var build = $scope.items[idx].build;
                 build.status.cancelled = true;
-                build.region=$rootScope.region
-                Build.put({namespace: $rootScope.namespace, name: build.metadata.name}, build, function(res){
+                //build.region=$rootScope.region
+                Build.put({namespace: $rootScope.namespace, name: build.metadata.name,region:$rootScope.region}, build, function(res){
                     $log.info("stop build success");
                     $scope.items[idx].build = res;
                 }, function(res){

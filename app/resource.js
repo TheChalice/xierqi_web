@@ -517,13 +517,16 @@ define([
             })
             return configmaps;
         }])
+
         .factory('listConfig', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var listConfig = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/configmaps/:name', {
+            var listConfig = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/configmaps/:name?region=:region', {
                 namespace: '@namespace',
-                name: '@name'
+                name: '@name',
+                region: '@region'
             }, {})
             return listConfig;
         }])
+
         .factory('secretskey', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
             var secretskey = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets/:name', {
                 namespace: '@namespace',

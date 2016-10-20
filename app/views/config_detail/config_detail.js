@@ -12,8 +12,8 @@ angular.module('console.config_detail', [
                 status: false,
             }
 
-            listConfig.get({namespace: $rootScope.namespace, name:$stateParams.name}, function(res){
-                console.log(res);
+            listConfig.get({namespace: $rootScope.namespace, name:$stateParams.name,region:$rootScope.region}, function(res){
+                //console.log(res);
                 $scope.volume = res;
                 $scope.volume.configitems=[];
                 $scope.volume.configarr=[];
