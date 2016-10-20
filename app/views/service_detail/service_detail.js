@@ -401,7 +401,7 @@ angular.module('console.service.detail', [
                         } else {
                             var coni = item.image;
                             if (coni.indexOf('@') != -1) {
-                                ImageStream.get({namespace: $rootScope.namespace, name: test(coni)}, function (res) {
+                                ImageStream.get({namespace: $rootScope.namespace, name: test(coni),region:$rootScope.region}, function (res) {
 
                                     for (var i = 0; i < res.status.tags.length; i++) {
                                         for (var j = 0; j < res.status.tags[i].items.length; j++) {
@@ -2723,7 +2723,8 @@ angular.module('console.service.detail', [
                                 if (container.image.indexOf('@') != -1) {
                                     ImageStream.get({
                                         namespace: $rootScope.namespace,
-                                        name: imageStreamName(container.image)
+                                        name: imageStreamName(container.image),
+                                        region:$rootScope.region
                                     }, function (res) {
                                         if (res.kind == 'ImageStream') {
                                             angular.forEach(res.status.tags, function (tag) {

@@ -39,7 +39,7 @@ angular.module('console.build.create', [])
                     name: $scope.buildConfig.metadata.name
                 }
             };
-            ImageStream.create({namespace: $rootScope.namespace}, imageStream, function (res) {
+            ImageStream.create({namespace: $rootScope.namespace,region:$rootScope.region}, imageStream, function (res) {
                 $log.info("imageStream", res);
                 createBuildConfig(res.metadata.name);
             }, function(res){

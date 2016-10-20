@@ -151,7 +151,7 @@ angular.module('console.build.detail', [
             };
 
             var removeIs = function (name) {
-                ImageStream.delete({namespace: $rootScope.namespace, name: name}, {}, function (res) {
+                ImageStream.delete({namespace: $rootScope.namespace, name: name,region:$rootScope.region}, {}, function (res) {
                     console.log("yes removeIs");
                 }, function (res) {
                     console.log("err removeIs");
@@ -164,7 +164,7 @@ angular.module('console.build.detail', [
                 }
                 if ($scope.selection) {
                     $scope.selection = false;
-                    return
+                    return;
                 }
                 if (newVal != oldVal) {
                     $scope.saveTrigger();

@@ -382,7 +382,7 @@ angular.module('console.image', [
             }
 
             // 我的镜像
-            ImageStream.get({namespace: $rootScope.namespace}, function (datalist) {
+            ImageStream.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (datalist) {
                 //$scope.images = res;
                 angular.forEach(datalist.items, function (item, i) {
 

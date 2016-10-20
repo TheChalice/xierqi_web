@@ -987,7 +987,7 @@ define(['angular'], function (angular) {
                             console.log("1223", idx);
                             $scope.grid.cat = idx;
                             if (idx == 0) {
-                                ImageStream.get({namespace: $rootScope.namespace}, function (res) {
+                                ImageStream.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                                     $scope.images = res;
                                 })
                             } else if (idx == 1) {
@@ -1108,7 +1108,7 @@ define(['angular'], function (angular) {
                     }],
                     resolve: {
                         images: ['$rootScope', 'ImageStream', function ($rootScope, ImageStream) {
-                            return ImageStream.get({namespace: $rootScope.namespace}).$promise;
+                            return ImageStream.get({namespace: $rootScope.namespace,region:$rootScope.region}).$promise;
                         }]
                     }
                 }).result;

@@ -155,6 +155,7 @@ define([
             });
             return ImageStream;
         }])
+
         .factory('ImageStreamImage', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
             var ImageStreamImage = $resource(GLOBAL.host + '/namespaces/:namespace/imagestreamimages/:name', {
                 name: '@name',

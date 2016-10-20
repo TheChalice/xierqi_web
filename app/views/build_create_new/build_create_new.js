@@ -183,7 +183,7 @@ angular.module('console.build_create_new', [
                   name: $scope.buildConfig.metadata.name
                 }
             };
-            ImageStream.create({namespace: $rootScope.namespace}, imageStream, function (res) {
+            ImageStream.create({namespace: $rootScope.namespace,region:$rootScope.region}, imageStream, function (res) {
                 $log.info("imageStream", res);
                 if($scope.grid.labcon == true){
                     getlabsecret($scope.labHost,$scope.labobjs[$scope.grid.labproject].id);
