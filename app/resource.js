@@ -157,12 +157,15 @@ define([
         }])
 
         .factory('ImageStreamImage', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var ImageStreamImage = $resource(GLOBAL.host + '/namespaces/:namespace/imagestreamimages/:name', {
+            var ImageStreamImage = $resource(GLOBAL.host + '/namespaces/:namespace/imagestreamimages/:name?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region:'@region'
             });
+            //暂未使用
             return ImageStreamImage;
         }])
+
         .factory('ImageStreamTag', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
             var ImageStreamTag = $resource(GLOBAL.host + '/namespaces/:namespace/imagestreamtags/:name', {
                 name: '@name',
