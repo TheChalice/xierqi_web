@@ -691,7 +691,7 @@ angular.module('console.backing_service', [
                         bindKind: 'DeploymentConfig'
                     };
                     // console.log(bindObj)
-                    BackingServiceInstanceBd.put({namespace: $rootScope.namespace, name: name},
+                    BackingServiceInstanceBd.put({namespace: $rootScope.namespace, name: name,region:$rootScope.region},
                         bindObj, function (res) {
                             Toast.open('正在解除中,请稍等');
                             // console.log('解绑定', res)
@@ -722,7 +722,7 @@ angular.module('console.backing_service', [
                 };
                 for (var i = 0; i < dcs.length; i++) {
                     bindObj.resourceName = dcs[i].metadata.name;
-                    BackingServiceInstanceBd.create({namespace: $rootScope.namespace, name: name}, bindObj,
+                    BackingServiceInstanceBd.create({namespace: $rootScope.namespace, name: name,region:$rootScope.region}, bindObj,
                         function (res) {
                         }, function (res) {
                             //todo 错误处理

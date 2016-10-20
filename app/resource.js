@@ -258,16 +258,19 @@ define([
             });
             return BackingServiceInstance;
         }])
+
         .factory('BackingServiceInstanceBd', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var BackingServiceInstanceBd = $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances/:name/binding', {
+            var BackingServiceInstanceBd = $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances/:name/binding?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region:'@region'
             }, {
                 create: {method: 'POST'},
                 put: {method: 'PUT'},
             });
             return BackingServiceInstanceBd;
         }])
+
         .factory('BackingService', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
             var BackingService = $resource(GLOBAL.host + '/namespaces/:namespace/backingservices/:name', {
                 name: '@name',

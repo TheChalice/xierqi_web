@@ -1309,7 +1309,7 @@ angular.module('console.service.detail', [
                         bindKind: 'DeploymentConfig'
                     };
                     // console.log(bindObj)
-                    BackingServiceInstanceBd.put({namespace: $rootScope.namespace, name: binding.metadata.name},
+                    BackingServiceInstanceBd.put({namespace: $rootScope.namespace, name: binding.metadata.name,region:$rootScope.region},
                         bindObj, function (res) {
                             //console.log('解绑定', res);
                             Toast.open('解除绑定');

@@ -209,7 +209,7 @@ angular.module('console.backing_service_detail', [
             bindResourceVersion: '',
             bindKind: 'DeploymentConfig'
           };
-          BackingServiceInstanceBd.put({namespace: $rootScope.namespace, name: name}, bindObj, function (res) {
+          BackingServiceInstanceBd.put({namespace: $rootScope.namespace, name: name,region:$rootScope.region}, bindObj, function (res) {
 
           }, function (res) {
             //todo 错误处理
@@ -239,7 +239,7 @@ angular.module('console.backing_service_detail', [
         };
         for (var i = 0; i < dcs.length; i++) {
           bindObj.resourceName = dcs[i].metadata.name;
-          BackingServiceInstanceBd.create({namespace: $rootScope.namespace, name: name}, bindObj, function (res) {
+          BackingServiceInstanceBd.create({namespace: $rootScope.namespace, name: name,region:$rootScope.region}, bindObj, function (res) {
 
           }, function (res) {
             //todo 错误处理
