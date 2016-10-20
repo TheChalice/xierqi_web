@@ -714,7 +714,7 @@ define(['angular'], function (angular) {
                             //////配置卷
                             ///获取配置卷列表////
                             var loadconfigmaps = function () {
-                                configmaps.get({namespace: $rootScope.namespace}, function (res) {
+                                configmaps.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                                     if (res.items) {
                                         $scope.configmapitem = res.items;
                                     }

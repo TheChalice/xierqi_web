@@ -155,7 +155,7 @@ angular.module('console.resource_management', [
         };
 
         $scope.loadconfigmaps = function () {
-            configmaps.get({namespace: $rootScope.namespace}, function (res) {
+            configmaps.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                 console.log(res);
                 if (res.items && res.items.length > 0) {
                     angular.forEach(res.items, function (item, i) {

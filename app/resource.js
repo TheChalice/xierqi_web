@@ -110,7 +110,7 @@ define([
             var Build = $resource(GLOBAL.host + '/namespaces/:namespace/builds/:name?region=:region', {
                 name: '@name',
                 namespace: '@namespace',
-                region:'@region'
+                region: '@region'
             }, {
                 create: {method: 'POST'},
                 put: {method: 'PUT'}
@@ -127,7 +127,7 @@ define([
             var BuildConfig = $resource(GLOBAL.host + '/namespaces/:namespace/buildconfigs/:name?region=:region', {
                 name: '@name',
                 namespace: '@namespace',
-                region:'@region'
+                region: '@region'
             }, {
                 create: {method: 'POST'},
                 put: {method: 'PUT'}
@@ -135,7 +135,7 @@ define([
             BuildConfig.instantiate = $resource(GLOBAL.host + '/namespaces/:namespace/buildconfigs/:name/instantiate?region=:region', {
                 name: '@name',
                 namespace: '@namespace',
-                region:'@region'
+                region: '@region'
 
             }, {
                 create: {method: 'POST'}
@@ -147,7 +147,7 @@ define([
             var ImageStream = $resource(GLOBAL.host + '/namespaces/:namespace/imagestreams/:name?region=:region', {
                 name: '@name',
                 namespace: '@namespace',
-                region:'@region'
+                region: '@region'
             }, {
                 create: {method: 'POST'},
                 delete: {method: 'delete'},
@@ -160,7 +160,7 @@ define([
             var ImageStreamImage = $resource(GLOBAL.host + '/namespaces/:namespace/imagestreamimages/:name?region=:region', {
                 name: '@name',
                 namespace: '@namespace',
-                region:'@region'
+                region: '@region'
             });
             //暂未使用
             return ImageStreamImage;
@@ -170,7 +170,7 @@ define([
             var ImageStreamTag = $resource(GLOBAL.host + '/namespaces/:namespace/imagestreamtags/:name?region=:region', {
                 name: '@name',
                 namespace: '@namespace',
-                region:'@region'
+                region: '@region'
             }, {
                 create: {method: 'POST'},
                 get: {method: 'GET'},
@@ -183,7 +183,7 @@ define([
             var DeploymentConfig = $resource(GLOBAL.host + '/namespaces/:namespace/deploymentconfigs/:name?region=:region', {
                 name: '@name',
                 namespace: '@namespace',
-                region:'@region'
+                region: '@region'
             }, {
                 create: {method: 'POST'},
                 put: {method: 'PUT'},
@@ -192,7 +192,7 @@ define([
             DeploymentConfig.log = $resource(GLOBAL.host + '/namespaces/:namespace/deploymentconfigs/:name/log?region=:region', {
                 name: '@name',
                 namespace: '@namespace',
-                region:'@region'
+                region: '@region'
             }, {
                 create: {method: 'POST'},
                 put: {method: 'PUT'},
@@ -205,7 +205,7 @@ define([
             var ReplicationController = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/replicationcontrollers/:name?region=:region', {
                 name: '@name',
                 namespace: '@namespace',
-                region:'@region'
+                region: '@region'
             }, {
                 create: {method: 'POST'},
                 put: {method: 'PUT'}
@@ -217,7 +217,7 @@ define([
             var Service = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/services/:name?region=:region', {
                 name: '@name',
                 namespace: '@namespace',
-                region:'@region'
+                region: '@region'
             }, {
                 create: {method: 'POST'},
                 put: {method: 'PUT'},
@@ -230,7 +230,7 @@ define([
             var Route = $resource(GLOBAL.host + '/namespaces/:namespace/routes/:name?region=:region', {
                 name: '@name',
                 namespace: '@namespace',
-                region:'@region'
+                region: '@region'
             }, {
                 create: {method: 'POST'},
                 put: {method: 'PUT'},
@@ -243,7 +243,7 @@ define([
             var BackingServiceInstance = $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances/:name?region=:region', {
                 name: '@name',
                 namespace: '@namespace',
-                region:'@region'
+                region: '@region'
             }, {
                 create: {method: 'POST'},
                 del: {method: 'DELETE'}
@@ -251,7 +251,7 @@ define([
             BackingServiceInstance.bind = $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances/:name/binding?region=:region', {
                 name: '@name',
                 namespace: '@namespace',
-                region:'@region'
+                region: '@region'
             }, {
                 create: {method: 'POST'},
                 put: {method: 'PUT'}
@@ -263,7 +263,7 @@ define([
             var BackingServiceInstanceBd = $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances/:name/binding?region=:region', {
                 name: '@name',
                 namespace: '@namespace',
-                region:'@region'
+                region: '@region'
             }, {
                 create: {method: 'POST'},
                 put: {method: 'PUT'},
@@ -275,7 +275,7 @@ define([
             var BackingService = $resource(GLOBAL.host + '/namespaces/:namespace/backingservices/:name?region=:region', {
                 name: '@name',
                 namespace: '@namespace',
-                region:'@region'
+                region: '@region'
             }, {
                 create: {method: 'POST'}
             });
@@ -286,14 +286,14 @@ define([
             var Pod = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/pods/:name?region=:region', {
                 name: '@name',
                 namespace: '@namespace',
-                region:'@region'
+                region: '@region'
             }, {
                 create: {method: 'POST'}
             });
             Pod.log = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/pods/:name/log?region=:region', {
                 name: '@name',
                 namespace: '@namespace',
-                region:'@region'
+                region: '@region'
             });
             return Pod;
         }])
@@ -302,7 +302,7 @@ define([
             var Event = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/events/:name?region=:region', {
                 name: '@name',
                 namespace: '@namespace',
-                region:'@region'
+                region: '@region'
 
             }, {
                 create: {method: 'POST'}
@@ -311,8 +311,12 @@ define([
         }])
 
         .factory('Secret', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var Secret = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets/:name',
-                {name: '@name', namespace: '@namespace'}, {
+            var Secret = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets/:name?region=:region',
+                {
+                    name: '@name',
+                    namespace: '@namespace',
+                    region: '@region'
+                }, {
                     create: {method: 'POST'}
                 });
             return Secret;
@@ -450,7 +454,6 @@ define([
             })
             return pwdModify;
         }])
-
         .factory('deletepod', ['$resource', function ($resource) {
             var deletepod = $resource('/lapi/v1/namespaces/:namespace/pods', {namespace: '@namespace'}, {
                 delete: {method: 'DELETE'}
@@ -501,10 +504,12 @@ define([
             })
             return leave;
         }])
-        .factory('configmaps', ['$resource', function ($resource) {
-            var configmaps = $resource('/api/v1/namespaces/:namespace/configmaps/:name', {
+
+        .factory('configmaps', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var configmaps = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/configmaps/:name?region=:region', {
                 namespace: '@namespace',
-                name: '@name'
+                name: '@name',
+                region: '@region'
             }, {
                 create: {method: 'POST'},
                 delete: {method: 'DELETE'},
@@ -512,15 +517,15 @@ define([
             })
             return configmaps;
         }])
-        .factory('listConfig', ['$resource', function ($resource) {
-            var listConfig = $resource('/api/v1/namespaces/:namespace/configmaps/:name', {
+        .factory('listConfig', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var listConfig = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/configmaps/:name', {
                 namespace: '@namespace',
                 name: '@name'
             }, {})
             return listConfig;
         }])
-        .factory('secretskey', ['$resource', function ($resource) {
-            var secretskey = $resource('/api/v1/namespaces/:namespace/secrets/:name', {
+        .factory('secretskey', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var secretskey = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets/:name', {
                 namespace: '@namespace',
                 name: '@name'
             }, {
@@ -530,8 +535,8 @@ define([
             })
             return secretskey;
         }])
-        .factory('creatapp', ['$resource', function ($resource) {
-            var creatapp = $resource('/oapi/v1/namespaces/:namespace/backingserviceinstances', {namespace: '@namespace'}, {
+        .factory('creatapp', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var creatapp = $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances', {namespace: '@namespace'}, {
                 create: {method: 'POST'},
                 delete: {method: 'DELETE'},
                 updata: {method: 'PUT'}
@@ -539,15 +544,15 @@ define([
             return creatapp;
         }])
 
-        .factory('listSecret', ['$resource', function ($resource) {
-            var listSecret = $resource('/api/v1/namespaces/:namespace/secrets/:name', {
+        .factory('listSecret', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var listSecret = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets/:name', {
                 namespace: '@namespace',
                 name: '@name'
             }, {})
             return listSecret;
         }])
-        .factory('modifySecret', ['$resource', function ($resource) {
-            var modifySecret = $resource('/api/v1/namespaces/:namespace/secrets/:name', {
+        .factory('modifySecret', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var modifySecret = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets/:name', {
                 namespace: '@namespace',
                 name: '@name'
             }, {
@@ -555,8 +560,8 @@ define([
             })
             return modifySecret;
         }])
-        .factory('deleteSecret', ['$resource', function ($resource) {
-            var deleteSecret = $resource('/api/v1/namespaces/:namespace/secrets/:name', {
+        .factory('deleteSecret', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var deleteSecret = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets/:name', {
                 namespace: '@namespace',
                 name: '@name'
             }, {
@@ -564,14 +569,14 @@ define([
             })
             return deleteSecret;
         }])
-        .factory('delSecret', ['$resource', function ($resource) {
-            var delSecret = $resource('/api/v1/namespaces/:namespace/secrets', {namespace: '@namespace'}, {
+        .factory('delSecret', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var delSecret = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets', {namespace: '@namespace'}, {
                 del: {method: 'DELETE'}
             })
             return delSecret;
         }])
-        .factory('persistent', ['$resource', function ($resource) {
-            var persistent = $resource('/api/v1/namespaces/:namespace/persistentvolumeclaims/:name', {
+        .factory('persistent', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var persistent = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/persistentvolumeclaims/:name', {
                 namespace: '@namespace',
                 name: '@name'
             }, {
@@ -588,8 +593,8 @@ define([
             })
             return delvolume;
         }])
-        .factory('serviceaccounts', ['$resource', function ($resource) {
-            var serviceaccounts = $resource('/api/v1/namespaces/:namespace/serviceaccounts/deployer', {namespace: '@namespace'}, {})
+        .factory('serviceaccounts', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var serviceaccounts = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/serviceaccounts/deployer', {namespace: '@namespace'}, {})
             return serviceaccounts;
         }])
         .factory('volume', ['$resource', function ($resource) {
