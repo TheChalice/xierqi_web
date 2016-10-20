@@ -539,8 +539,12 @@ define([
             })
             return secretskey;
         }])
+
         .factory('creatapp', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var creatapp = $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances', {namespace: '@namespace'}, {
+            var creatapp = $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances?region=:region', {
+                namespace: '@namespace',
+                region: '@region'
+                }, {
                 create: {method: 'POST'},
                 delete: {method: 'DELETE'},
                 updata: {method: 'PUT'}
