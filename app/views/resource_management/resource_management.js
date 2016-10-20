@@ -31,7 +31,7 @@ angular.module('console.resource_management', [
         function persistentlist(nows) {
             persistent.get({namespace: $rootScope.namespace}, function (res) {
 
-                DeploymentConfig.get({namespace: $rootScope.namespace}, function (resdc) {
+                DeploymentConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (resdc) {
                     console.log('dc',resdc);
                     $scope.grid.constantlyvolume=false;
                     angular.forEach(res.items, function (volitem, i) {

@@ -304,7 +304,7 @@ angular.module('console.service.detail', [
             };
 
             var loadDc = function (name) {
-                DeploymentConfig.get({namespace: $rootScope.namespace, name: name}, function (res) {
+                DeploymentConfig.get({namespace: $rootScope.namespace, name: name,region:$rootScope.region}, function (res) {
                     if (!res.metadata.annotations) {
                         res.metadata.annotations = {};
                     }
@@ -1194,12 +1194,13 @@ angular.module('console.service.detail', [
                 if (!o.dc) {
                     return;
                 }
-                DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (dcdata) {
+                DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name,region:$rootScope.region}, function (dcdata) {
                     o.dc.metadata.resourceVersion = dcdata.metadata.resourceVersion;
                     o.dc.status.latestVersion = dcdata.status.latestVersion + 1;
                     DeploymentConfig.put({
                         namespace: $rootScope.namespace,
-                        name: o.dc.metadata.name
+                        name: o.dc.metadata.name,
+                        region:$rootScope.region
                     }, o.dc, function (res) {
                         // $log.info("start rc success", res);
 
@@ -1271,7 +1272,8 @@ angular.module('console.service.detail', [
                 }
                 DeploymentConfig.remove({
                     namespace: $rootScope.namespace,
-                    name: dc
+                    name: dc,
+                    region:$rootScope.region
                 }, function () {
                     $http.delete('/api/v1/namespaces/' + $rootScope.namespace + '/pods?' + 'labelSelector=deploymentconfig%3D' + $scope.dc.metadata.name).success(function (data) {
                         // console.log(data);
@@ -1367,7 +1369,8 @@ angular.module('console.service.detail', [
                 } else {
                     DeploymentConfig.log.get({
                         namespace: $rootScope.namespace,
-                        name: $scope.dc.metadata.name
+                        name: $scope.dc.metadata.name,
+                        region:$rootScope.region
                     }, function (res) {
 
                         var result = "";
@@ -2334,7 +2337,7 @@ angular.module('console.service.detail', [
                 $scope.dc.metadata.annotations["dadafoundry.io/imageorisshow"] = $scope.arrisshow.join();
                 var dc = angular.copy($scope.dc);
                 var cons = angular.copy($scope.dc.spec.template.spec.containers);
-                DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (datadc) {
+                DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name,region:$rootScope.region}, function (datadc) {
                     //dc.spec.template.spec.volumes = [];
                     dc.metadata.resourceVersion = datadc.metadata.resourceVersion;
                     dc.status.latestVersion = datadc.status.latestVersion + 1;
@@ -2548,7 +2551,8 @@ angular.module('console.service.detail', [
                     var updatedcput = function (dc) {
                         DeploymentConfig.put({
                             namespace: $rootScope.namespace,
-                            name: dc.metadata.name
+                            name: dc.metadata.name,
+                            region:$rootScope.region
                         }, dc, function (res) {
                             // $log.info("update dc success", res);
                             $scope.getdc.spec.replicas = $scope.dc.spec.replicas;

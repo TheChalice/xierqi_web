@@ -714,7 +714,7 @@ angular.module('console.service.create', [
             var serviceNameArr = [];
 
             var loadDcList = function () {
-                DeploymentConfig.get({namespace: $rootScope.namespace}, function (data) {
+                DeploymentConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (data) {
                     for (var i = 0; i < data.items.length; i++) {
                         serviceNameArr.push(data.items[i].metadata.name);
                     }
@@ -1661,7 +1661,7 @@ angular.module('console.service.create', [
                     createRoute(dc);
                 }
                 var createDcfn = function () {
-                    DeploymentConfig.create({namespace: $rootScope.namespace}, clonedc, function (res) {
+                    DeploymentConfig.create({namespace: $rootScope.namespace,region:$rootScope.region}, clonedc, function (res) {
                         $log.info("create dc success", res);
                         bindService(dc);
                         $state.go('console.service_detail', {name: dc.metadata.name, from: 'create'});

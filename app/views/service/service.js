@@ -65,7 +65,7 @@ angular.module('console.service', [
             $scope.grid.total = $scope.items.length;
         };
         var serviceList = function(){
-            DeploymentConfig.get({namespace: $rootScope.namespace}, function(data){
+            DeploymentConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function(data){
                 $log.info('serviceList----', data);
                 data.items = Sort.sort(data.items, -1);
                 $scope.data = data;
@@ -136,7 +136,7 @@ angular.module('console.service', [
         $scope.refresh = function(){
             //serviceList();
             $scope.running=true;
-            DeploymentConfig.get({namespace: $rootScope.namespace}, function(data){
+            DeploymentConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function(data){
                 $log.info('serviceList----', data);
                 data.items = Sort.sort(data.items, -1);
 
@@ -277,7 +277,7 @@ angular.module('console.service', [
             if (data.type == 'ADDED') {
                 $scope.rcs.items.shift(data.object);
             }else if (data.type == "MODIFIED") {
-                DeploymentConfig.get({namespace: $rootScope.namespace}, function(data){
+                DeploymentConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function(data){
                     //$log.info('serviceList----', data);
                     //data.items = Sort.sort(data.items, -1);
                     //$scope.data = data;

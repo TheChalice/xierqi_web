@@ -1301,7 +1301,7 @@ define(['angular'], function (angular) {
                     }],
                     resolve: {
                         data: ['$rootScope', 'DeploymentConfig', function ($rootScope, DeploymentConfig) {
-                            return DeploymentConfig.get({namespace: $rootScope.namespace}).$promise;
+                            return DeploymentConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}).$promise;
                         }]
                     }
                 }).result;

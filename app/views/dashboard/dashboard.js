@@ -416,7 +416,7 @@ angular.module('console.dashboard', [
             }
 
             var dcList = function () {
-                DeploymentConfig.get({namespace: $rootScope.namespace}, function (data) {
+                DeploymentConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (data) {
                     $log.info('dcList----', data);
                     $scope.dcList = data.items.length;
                 }, function (res) {
