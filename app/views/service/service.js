@@ -190,7 +190,7 @@ angular.module('console.service', [
         }
         ////路由
         var RouteList = function(servicedata){
-            Route.get({namespace: $rootScope.namespace}, function (data) {
+            Route.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (data) {
                 $log.info("Route", data);
                 $scope.routeMap = {};
                 for (var i = 0; i < data.items.length; i++) {

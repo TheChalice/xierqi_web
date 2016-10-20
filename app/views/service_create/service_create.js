@@ -227,7 +227,7 @@ angular.module('console.service.create', [
                     delete $scope.route.spec.tls
                 }
 
-                Route.create({namespace: $rootScope.namespace}, $scope.route, function (res) {
+                Route.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.route, function (res) {
                     $log.info("create route success", res);
 
                     $scope.tlsroutes.push(res);
@@ -1390,7 +1390,7 @@ angular.module('console.service.create', [
                     delete $scope.route.spec.tls
                 }
 
-                Route.create({namespace: $rootScope.namespace}, $scope.route, function (res) {
+                Route.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.route, function (res) {
                     $log.info("create route success", res);
                     $scope.route = res;
                 }, function (res) {
@@ -1433,7 +1433,7 @@ angular.module('console.service.create', [
             }
             //  删除同名路由,创建dc之前执行该方法
             var deleRoute = function () {
-                Route.delete({namespace: $rootScope.namespace, name: $scope.dc.metadata.name}, function (res) {
+                Route.delete({namespace: $rootScope.namespace, name: $scope.dc.metadata.name,region:$rootScope.region}, function (res) {
                     console.log("deleRoute-yes", res);
                 }, function (res) {
                     console.log("deleRoute-no", res);

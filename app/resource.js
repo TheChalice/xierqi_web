@@ -227,9 +227,10 @@ define([
         }])
 
         .factory('Route', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var Route = $resource(GLOBAL.host + '/namespaces/:namespace/routes/:name', {
+            var Route = $resource(GLOBAL.host + '/namespaces/:namespace/routes/:name?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region:'@region'
             }, {
                 create: {method: 'POST'},
                 put: {method: 'PUT'},
@@ -237,6 +238,7 @@ define([
             });
             return Route;
         }])
+
         .factory('BackingServiceInstance', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
             var BackingServiceInstance = $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances/:name', {
                 name: '@name',

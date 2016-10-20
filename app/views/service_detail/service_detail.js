@@ -715,7 +715,7 @@ angular.module('console.service.detail', [
 
             var loadRoutes = function (dc,sever) {
                 console.log(sever,dc);
-                Route.get({namespace: $rootScope.namespace,name:dc.metadata.name}, function (res) {
+                Route.get({namespace: $rootScope.namespace,name:dc.metadata.name,region:$rootScope.region}, function (res) {
                      $log.info("routes", res);
 
                     if (!$scope.routeconf) {
@@ -1248,7 +1248,7 @@ angular.module('console.service.detail', [
             }
 
             var deleRoute = function () {
-                Route.delete({namespace: $rootScope.namespace, name: $scope.dc.metadata.name}, function (res) {
+                Route.delete({namespace: $rootScope.namespace, name: $scope.dc.metadata.name,region:$rootScope.region}, function (res) {
                     // console.log("deleRoute-yes",res);
                 }, function (res) {
                     // console.log("deleRoute-no",res);
@@ -2189,7 +2189,7 @@ angular.module('console.service.detail', [
             var createRoute = function (service) {
                 prepareRoute($scope.route, service);
 
-                Route.create({namespace: $rootScope.namespace}, $scope.route, function (res) {
+                Route.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.route, function (res) {
                     // $log.info("create route success", res);
                     $scope.route = res;
                 }, function (res) {
@@ -2226,7 +2226,8 @@ angular.module('console.service.detail', [
                     }
                     Route.put({
                         namespace: $rootScope.namespace,
-                        name: dc.route.metadata.name
+                        name: dc.route.metadata.name,
+                        region:$rootScope.region
                     }, $scope.routeconf, function (res) {
                         $log.info("create route success", res);
                         //alert(111)
@@ -2284,7 +2285,7 @@ angular.module('console.service.detail', [
                         delete $scope.route.spec.tls
                     }
                     console.log('createRoute', $scope.route);
-                    Route.create({namespace: $rootScope.namespace}, $scope.route, function (res) {
+                    Route.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.route, function (res) {
                         // $log.info("create route success", res);
                         $scope.route = res;
 
