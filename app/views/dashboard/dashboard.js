@@ -426,7 +426,7 @@ angular.module('console.dashboard', [
                 });
             }
             var bsiList = function () {
-                BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {
+                BackingServiceInstance.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                     //console.log("bsiList......", res);
                     $scope.bsiList = res.items.length;
                 }, function (res) {

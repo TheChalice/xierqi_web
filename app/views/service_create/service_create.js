@@ -802,7 +802,7 @@ angular.module('console.service.create', [
             // 获取后端服务列表
 
             var loadBsi = function (dc) {
-                BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {
+                BackingServiceInstance.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                     $log.info("backingServiceInstance", res);
 
                     for (var i = 0; i < res.items.length; i++) {
@@ -1255,7 +1255,8 @@ angular.module('console.service.create', [
                     if (bsi.bind) {  //未绑定设置为绑定
                         BackingServiceInstance.bind.create({
                             namespace: $rootScope.namespace,
-                            name: bsi.metadata.name
+                            name: bsi.metadata.name,
+                            region:$rootScope.region
                         }, bindObj, function (res) {
                             $log.info("bind service success", res);
                         }, function (res) {

@@ -349,7 +349,7 @@ angular.module('console.service', [
         };
 
         var loadBsi = function (dcs) {
-            BackingServiceInstance.get({namespace: $rootScope.namespace}, function(res){
+            BackingServiceInstance.get({namespace: $rootScope.namespace,region:$rootScope.region}, function(res){
                 $log.info("backingServiceInstance", res);
 
                 var binds = [];

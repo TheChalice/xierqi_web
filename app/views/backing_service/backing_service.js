@@ -167,7 +167,7 @@ angular.module('console.backing_service', [
 
                     //我的后端服务json
                     var loadBsi = function () {
-                        BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {
+                        BackingServiceInstance.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                             //$log.info("backingServiceInstance", res);
                             $scope.resourceVersion = res.metadata.resourceVersion;
                             watchBsi($scope.resourceVersion);
@@ -583,7 +583,8 @@ angular.module('console.backing_service', [
                             Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
                                 BackingServiceInstance.del({
                                     namespace: $rootScope.namespace,
-                                    name: $scope.myservice[id].item[idx].metadata.name
+                                    name: $scope.myservice[id].item[idx].metadata.name,
+                                    region:$rootScope.region
                                 }, function (res) {
                                     $scope.myservice[id].item.splice(idx, 1);
                                     Toast.open('删除成功');
@@ -596,7 +597,8 @@ angular.module('console.backing_service', [
                         Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
                             BackingServiceInstance.del({
                                 namespace: $rootScope.namespace,
-                                name: $scope.myservice[id].item[idx].metadata.name
+                                name: $scope.myservice[id].item[idx].metadata.name,
+                                region:$rootScope.region
                             }, function (res) {
                                 $scope.myservice[id].item.splice(idx, 1);
                                 Toast.open('删除成功');
@@ -615,7 +617,8 @@ angular.module('console.backing_service', [
                             Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
                                 BackingServiceInstance.del({
                                     namespace: $rootScope.namespace,
-                                    name: $scope.diyservice[idx].metadata.name
+                                    name: $scope.diyservice[idx].metadata.name,
+                                    region:$rootScope.region
                                 }, function (res) {
                                     $scope.diyservice.splice(idx, 1);
                                     Toast.open('删除成功');
@@ -628,7 +631,8 @@ angular.module('console.backing_service', [
                         Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
                             BackingServiceInstance.del({
                                 namespace: $rootScope.namespace,
-                                name: $scope.diyservice[idx].metadata.name
+                                name: $scope.diyservice[idx].metadata.name,
+                                region:$rootScope.region
                             }, function (res) {
                                 $scope.diyservice.splice(idx, 1);
                                 Toast.open('删除成功');

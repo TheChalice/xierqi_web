@@ -779,7 +779,7 @@ angular.module('console.service.detail', [
             };
 
             var loadBsi = function (dc) {
-                BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {
+                BackingServiceInstance.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                     // $log.info("backingServiceInstance", res);
 
                     for (var i = 0; i < res.items.length; i++) {
@@ -2046,7 +2046,8 @@ angular.module('console.service.detail', [
                         if (isBind(bsi, dc) && !bsi.bind) {  //绑定设置为不绑定
                             BackingServiceInstance.bind.put({
                                 namespace: $rootScope.namespace,
-                                name: bsi.metadata.name
+                                name: bsi.metadata.name,
+                                region:$rootScope.region
                             }, bindObj, function (res) {
                                 // $log.info("unbind service success", res);
                             }, function (res) {
@@ -2057,7 +2058,8 @@ angular.module('console.service.detail', [
                         if (!isBind(bsi, dc) && bsi.bind) {  //未绑定设置为绑定
                             BackingServiceInstance.bind.create({
                                 namespace: $rootScope.namespace,
-                                name: bsi.metadata.name
+                                name: bsi.metadata.name,
+                                region:$rootScope.region
                             }, bindObj, function (res) {
                                 // $log.info("bind service success", res);
                             }, function (res) {

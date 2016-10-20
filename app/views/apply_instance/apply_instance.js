@@ -53,7 +53,7 @@ angular.module('console.apply_instance', [
          $scope.bsi.spec.provisioning.backingservice_plan_name = plan.name;
 
          $log.info("BackingServiceInstance==",$scope.bsi);
-         BackingServiceInstance.create({namespace: $rootScope.namespace}, $scope.bsi,function(){
+         BackingServiceInstance.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.bsi,function(){
              $scope.grid.error=false
              $log.info("build backing service instance success");
              $state.go('console.backing_service_detail', {name: $scope.data.metadata.name, index:2})

@@ -85,7 +85,7 @@ angular.module('console.backing_service_detail', [
       };
 
       var loadBsi = function () {
-        BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {
+        BackingServiceInstance.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
           $log.info("backingServiceInstance", res);
           $scope.bsi = filterBsi(res);
           $scope.resourceVersion = res.metadata.resourceVersion;
@@ -108,7 +108,8 @@ angular.module('console.backing_service_detail', [
             Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
               BackingServiceInstance.del({
                 namespace: $rootScope.namespace,
-                name: $scope.bsi.items[idx].metadata.name
+                name: $scope.bsi.items[idx].metadata.name,
+                region:$rootScope.region
               }, function (res) {
                 $scope.bsi.items.splice(idx, 1);
                 
@@ -121,7 +122,8 @@ angular.module('console.backing_service_detail', [
           Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
             BackingServiceInstance.del({
               namespace: $rootScope.namespace,
-              name: $scope.bsi.items[idx].metadata.name
+              name: $scope.bsi.items[idx].metadata.name,
+              region:$rootScope.region
             }, function (res) {
               $scope.bsi.items.splice(idx, 1);
             }, function (res) {
