@@ -6,10 +6,8 @@
     margin:0 auto;
 }
 .forpay{
-    border-bottom:1px solid #ccc;
     overflow: hidden;
-    width: 100%;
-    padding-bottom: 30px;
+    /*width: 100%;*/
 }
 .payway{
     width: 150px;
@@ -55,7 +53,7 @@
     width: 300px;
     height: 30px;
     /*line-height: 30px;*/
-    margin-left:15px;
+    margin-left:24px;
 }
 .paybt{
     width: 100%;height: 40px;
@@ -67,3 +65,10 @@
     /*float: left;*/
     /*color: #fff;*/
 }
+.pay_top{height:88px;border-bottom:1px solid #c9c9c9;margin-bottom:30px;}
+.pay_top_one{margin-bottom:20px;}
+.pay_one_l,.pay_two_l{font-size:14px;color:#5a6378;}
+.pay_one_r{font-size:14px;color:#666;padding-left:30px;}
+.pay_two_r{font-size:18px;color:#666;padding-left:30px;}
+.pay_two_money{font-size:14px;color:#666;font-style:normal;}
+.charge_tit{display:block;float:left;height:46px;line-height:46px;margin-right:34px;}

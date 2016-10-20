@@ -92,7 +92,7 @@ angular.module('console.plan', [
 
 
                 } else if (plan.canbuy === 'small') {
-                    Tip.open('办理失败', '暂不支持更换低套餐', false, true)
+                    Tip.open('更换失败', '暂不支持更换低套餐', false, true)
 
                 }
             }
