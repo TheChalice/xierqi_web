@@ -1330,6 +1330,9 @@ a {
 
 }
 .footer-td{padding-left:0;}
+/*IE10 取消input框默认的叉叉和密码输入框的眼睛*/
+::-ms-clear { display: none; }
+::-ms-reveal { display: none; }
 
 /*.btn.focus, .btn:focus, .btn:hover{color:#fff;}*/
 
