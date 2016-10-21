@@ -222,7 +222,8 @@ angular.module('console.secret_detail', [
                 delete $scope.item.newarr;
                 modifySecret.update({
                     namespace: $rootScope.namespace,
-                    name: $stateParams.name
+                    name: $stateParams.name,
+                    region:$rootScope.region
                 }, $scope.item, function (res) {
                     console.log('test the item', res);
                     Toast.open('保存成功')
