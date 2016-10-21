@@ -544,7 +544,7 @@ define([
             var creatapp = $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances?region=:region', {
                 namespace: '@namespace',
                 region: '@region'
-                }, {
+            }, {
                 create: {method: 'POST'},
                 delete: {method: 'DELETE'},
                 updata: {method: 'PUT'}
@@ -560,7 +560,7 @@ define([
             }, {})
             return listSecret;
         }])
-        
+
         .factory('modifySecret', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
             var modifySecret = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets/:name?region=:region', {
                 namespace: '@namespace',
@@ -583,11 +583,16 @@ define([
             return deleteSecret;
         }])
         .factory('delSecret', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var delSecret = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets', {namespace: '@namespace'}, {
-                del: {method: 'DELETE'}
-            })
+            var delSecret = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets?region=:region', {
+                    namespace: '@namespace',
+                    region: '@region'
+                },
+                {
+                    del: {method: 'DELETE'}
+                })
             return delSecret;
         }])
+
         .factory('persistent', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
             var persistent = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/persistentvolumeclaims/:name', {
                 namespace: '@namespace',
