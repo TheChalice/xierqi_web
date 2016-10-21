@@ -104,7 +104,8 @@ angular.module('console.build.detail', [
 
                         deleteSecret.delete({
                             namespace: $rootScope.namespace,
-                            name: "custom-git-builder-" + $rootScope.user.metadata.name + '-' + name
+                            name: "custom-git-builder-" + $rootScope.user.metadata.name + '-' + name,
+                            region:$rootScope.region
                         }), {}, function (res) {
 
                         }

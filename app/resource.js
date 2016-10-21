@@ -573,9 +573,10 @@ define([
         }])
 
         .factory('deleteSecret', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var deleteSecret = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets/:name', {
+            var deleteSecret = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets/:name?region=:region', {
                 namespace: '@namespace',
-                name: '@name'
+                name: '@name',
+                region: '@region'
             }, {
                 delete: {method: 'DELETE'}
             })
