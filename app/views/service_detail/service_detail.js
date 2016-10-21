@@ -162,7 +162,7 @@ angular.module('console.service.detail', [
             }
 
             var getserviceaccounts = function () {
-                serviceaccounts.get({namespace: $rootScope.namespace}, function (res) {
+                serviceaccounts.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                     $scope.serviceas = res
                     //console.log('----------------------',res);
                 })

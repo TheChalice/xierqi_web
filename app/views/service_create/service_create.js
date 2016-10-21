@@ -511,7 +511,7 @@ angular.module('console.service.create', [
             };
             // 仓库镜像时需要先获取该数据添加到imagePullSecrets字段中
             var getserviceaccounts = function () {
-                serviceaccounts.get({namespace: $rootScope.namespace}, function (res) {
+                serviceaccounts.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                     $scope.serviceas = res
                     console.log('----------------------', res);
                 })

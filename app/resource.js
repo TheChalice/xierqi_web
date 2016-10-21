@@ -613,7 +613,10 @@ define([
             return delvolume;
         }])
         .factory('serviceaccounts', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var serviceaccounts = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/serviceaccounts/deployer', {namespace: '@namespace'}, {})
+            var serviceaccounts = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/serviceaccounts/deployer?region=:region', {
+                namespace: '@namespace',
+                region: '@region'
+            }, {})
             return serviceaccounts;
         }])
         .factory('volume', ['$resource', function ($resource) {
