@@ -68,7 +68,7 @@ angular.module('console.plan', [
                         checkout.create({
                             plan_id: plan.plan_id,
                             namespace: $rootScope.namespace,
-                            "region": "cn-north-1"
+                            region:$rootScope.region
                         }, function (data) {
                             console.log(data);
                             Tip.open('提示', '购买成功！', false, true, true).then(function () {
