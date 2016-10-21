@@ -642,6 +642,7 @@ define([
             var newBackingService = $resource('/lapi/v1/backingservices/:name', {name: '@name'}, {});
             return newBackingService;
         }])
+
         .factory('account', ['$resource', 'GLOBAL', function ($resource) {//登陆检测套餐
             var account = $resource('/payment/v1/account', {}, {});
             return account;

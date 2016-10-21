@@ -20,7 +20,7 @@ angular.module('console.dashboard', [
                 price : '',
                 planName : ''
             }
-            account.get({namespace:$rootScope.namespace},function(res){
+            account.get({namespace:$rootScope.namespace,region:$rootScope.region},function(res){
                 //console.log('lalallalalalllallal',res);
                 market.get({},function(data){
                         //console.log('eeeeeeeeeeee',data);

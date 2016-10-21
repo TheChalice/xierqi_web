@@ -16,7 +16,7 @@ angular.module('console.plan', [
                 $scope.balance = data
                 //console.log('balance', data);
             });
-            account.get({namespace:$rootScope.namespace}, function (mydata) {
+            account.get({namespace:$rootScope.namespace,region:$rootScope.region}, function (mydata) {
                 console.log(mydata);
                 //mydata.purchased=false;
                 //if (mydata.purchased) {
