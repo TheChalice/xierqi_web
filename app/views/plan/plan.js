@@ -12,7 +12,7 @@ angular.module('console.plan', [
         function (balance,amounts, by, checkout, $state, Tip, $scope, $rootScope, account, Tip, market) {
             //console.log('$rootScope.projects', $rootScope.projects);
             $scope.plans = [];
-            balance.get({namespace:$rootScope.namespace}, function (data) {
+            balance.get({namespace:$rootScope.namespace,region:$rootScope.region}, function (data) {
                 $scope.balance = data
                 //console.log('balance', data);
             });
@@ -78,7 +78,7 @@ angular.module('console.plan', [
                         }, function (err) {
 
                             if (err.data.code === 3308) {
-                                Tip.open('提示', '暂不支持更换套餐', '知道了', true).then(function () {
+                                Tip.open('提示', '暂不支持更换套餐。', '知道了', true).then(function () {
                                     //$state.go('console.pay');
                                 })
                             } else {
@@ -92,7 +92,7 @@ angular.module('console.plan', [
 
 
                 } else if (plan.canbuy === 'small') {
-                    Tip.open('办理失败', '暂不支持更换低套餐', false, true)
+                    Tip.open('更换失败', '暂不支持更换低套餐', false, true)
 
                 }
             }

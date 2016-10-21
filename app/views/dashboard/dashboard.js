@@ -41,7 +41,7 @@ angular.module('console.dashboard', [
                 })
             })
 
-            balance.get({namespace:$rootScope.namespace}, function (data) {
+            balance.get({namespace:$rootScope.namespace,region:$rootScope.region}, function (data) {
                 $scope.balance = data
                 //console.log('balance', data);
             });
