@@ -22,7 +22,7 @@ angular.module('console.dashboard', [
             }
             account.get({namespace:$rootScope.namespace,region:$rootScope.region},function(res){
                 //console.log('lalallalalalllallal',res);
-                market.get({},function(data){
+                market.get({region:$rootScope.region},function(data){
                         //console.log('eeeeeeeeeeee',data);
                     //angular.forEach(data.plans, function (plan,i) {
                     //
@@ -30,7 +30,7 @@ angular.module('console.dashboard', [
 
                     for(var i = 0 ; i < data.plans.length; i++){
 
-                        if(res.subscriptions&&res.subscriptions[0].plan_id == data.plans[i].plan_id){
+                        if(res.subscriptions&&res.subscriptions[0].plan_id === data.plans[i].plan_id){
                             $scope.plans.cpu = data.plans[i].description;
                             $scope.plans.ram = data.plans[i].description2;
                             $scope.plans.price = data.plans[i].price

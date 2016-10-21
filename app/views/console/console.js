@@ -58,8 +58,8 @@ angular.module('console', [
                             data.items.splice(i + 1, 1);
                         }
                     });
-                    //console.log(data.items);
                     $rootScope.projects = data.items;
+                    console.log(data.items);
 
 
                     //$log.info("load project success", data);

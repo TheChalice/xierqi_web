@@ -37,7 +37,7 @@ angular.module('console.user', [
             $scope.check = $stateParams.index
         }
         $scope.orgName = "seferfe";
-        market.get({}, function (data) {
+        market.get({region:$rootScope.region}, function (data) {
             console.log('套餐详情', data);
         })
 
