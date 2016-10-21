@@ -101,7 +101,7 @@ angular.module('console.secret_detail', [
                 }
             }
             //list the detail of current secret
-            listSecret.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (res) {
+            listSecret.get({namespace: $rootScope.namespace, name: $stateParams.name,region:$rootScope.region}, function (res) {
                 $scope.item = res;
                 $scope.item.secretarr = [];
                 $scope.item.newarr = [];

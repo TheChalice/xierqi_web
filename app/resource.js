@@ -553,12 +553,14 @@ define([
         }])
 
         .factory('listSecret', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var listSecret = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets/:name', {
+            var listSecret = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets/:name?region=:region', {
                 namespace: '@namespace',
-                name: '@name'
+                name: '@name',
+                region: '@region'
             }, {})
             return listSecret;
         }])
+        
         .factory('modifySecret', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
             var modifySecret = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets/:name', {
                 namespace: '@namespace',
