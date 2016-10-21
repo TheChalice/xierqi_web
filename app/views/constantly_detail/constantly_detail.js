@@ -10,7 +10,7 @@ angular.module('console.constantly_detail', [
         function(Confirm,delvolume,volume,DeploymentConfig,persistent,$stateParams,$state, $http, $scope, $rootScope){
             console.log($stateParams.name);
             $scope.name=$stateParams.name
-            persistent.get({namespace: $rootScope.namespace,name:$stateParams.name}, function (res) {
+            persistent.get({namespace: $rootScope.namespace,name:$stateParams.name,region:$rootScope.region}, function (res) {
                 //console.log('chijiu',res);
                 res.arr=[];
                 DeploymentConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (dcres) {

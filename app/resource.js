@@ -594,9 +594,10 @@ define([
         }])
 
         .factory('persistent', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var persistent = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/persistentvolumeclaims/:name', {
+            var persistent = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/persistentvolumeclaims/:name?region=:region', {
                 namespace: '@namespace',
-                name: '@name'
+                name: '@name',
+                region: '@region'
             }, {
                 del: {method: 'DELETE'}
             })

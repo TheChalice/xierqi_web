@@ -29,7 +29,7 @@ angular.module('console.resource_management', [
             persistentlist('nows');
         }
         function persistentlist(nows) {
-            persistent.get({namespace: $rootScope.namespace}, function (res) {
+            persistent.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
 
                 DeploymentConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (resdc) {
                     console.log('dc',resdc);
