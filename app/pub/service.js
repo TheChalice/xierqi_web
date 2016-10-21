@@ -1374,7 +1374,7 @@ define(['angular'], function (angular) {
                     var req = {
                         method: 'GET',
                         timeout: deferred.promise,
-                        url: GLOBAL.login_uri,
+                        url: GLOBAL.signin_uri,
                         headers: {
                             'Authorization': 'Basic ' + $base64.encode(credentials.username + ':' + credentials.password)
                         }
@@ -1405,10 +1405,22 @@ define(['angular'], function (angular) {
                     //}
                     //localStorage.setItem('codenum','0')
                     function denglu() {
-                        $http(req).success(function (data) {
-                            //console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&", data);
 
-                            Cookie.set('df_access_token', data.access_token, 10 * 365 * 24 * 3600 * 1000);
+                        $http(req).success(function (data) {
+                            //var arrstr = data.join(',');
+                            var arr = []
+                            console.log(data);
+                            angular.forEach(data, function (token,i) {
+                                //arr.push(token.access_token)
+                                var index = token.region.split('-')[2]
+                                arr[index-1]=token.access_token
+
+                            })
+
+                            var arrstr = arr.join(',')
+                            console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&",arrstr);
+                            Cookie.set('df_access_token', arrstr, 10 * 365 * 24 * 3600 * 1000);
+                            //console.log(Cookie.get('df_access_token'));
                             Cookie.set('region', credentials.region, 10 * 365 * 24 * 3600 * 1000);
                             $rootScope.region = Cookie.get('region');
                             loadProject(credentials.username);
@@ -1518,8 +1530,23 @@ define(['angular'], function (angular) {
                     if (/^\/login/.test(config.url)) {
                         return config;
                     }
+                    if (/^\/signin/.test(config.url)) {
+                        return config;
+                    }
+                    //$rootScope.region=
+                    var tokens = Cookie.get('df_access_token');
+                    var regions = Cookie.get('region');
+                    var token='';
+                    console.log(tokens, regions);
+                    if (tokens) {
+                        var tokenarr = tokens.split(',');
+                        var region = regions.split('-')[2];
+                        token = tokenarr[region-1];
+                        console.log('tokenarr', tokenarr[region-1]);
+                    }else {
+                        console.log('token错误');
+                    }
 
-                    var token = Cookie.get('df_access_token');
                     if (config.headers && token) {
                         config.headers["Authorization"] = "Bearer " + token;
                     }

@@ -50,6 +50,7 @@ define([
         host_wss: '/ws/oapi/v1',
         host_wss_k8s: '/ws/api/v1',
         login_uri: '/login',
+        signin_uri: '/signin',
         host_webhooks: 'https://dev.dataos.io:8443/oapi/v1'
     })
     .constant('AUTH_EVENTS', {
