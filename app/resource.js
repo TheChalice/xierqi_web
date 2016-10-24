@@ -25,18 +25,22 @@ define([
                 var host = wsscheme + location.host;
 
                 // var host = wsscheme;
-
-                if (params.api == 'k8s') {
-                    host = host + GLOBAL.host_wss_k8s;
-                    // host=host+'dev.dataos.io:8443/api/v1';
-                } else {
-                    host = host + GLOBAL.host_wss;
-                }
                 var tokens = Cookie.get('df_access_token');
                 var regions = Cookie.get('region');
                 var tokenarr = tokens.split(',');
-                var region = regions.split('-')[2];
-                var token = tokenarr[region-1];
+                if (params.api == 'k8s') {
+                    host = host + GLOBAL.host_wss_k8s;
+
+                    var region = regions.split('-')[2];
+                    var token = tokenarr[region-1];
+                    // host=host+'dev.dataos.io:8443/api/v1';
+                } else {
+                    var token = tokenarr[0];
+                    host = host + GLOBAL.host_wss;
+                }
+                //var tokens = Cookie.get('df_access_token');
+                //var regions = Cookie.get('region');
+
                 params.name = params.name ? '/' + params.name : '';
                 if (params.pod) {
                     var url = host + '/namespaces/' + params.namespace + '/' + params.type + params.name +
@@ -44,17 +48,20 @@ define([
                         '&tailLines=1000' +
                         '&limitBytes=10485760' +
                         '&container=' + params.pod +
+                        '&region=' + $rootScope.region +
                         '&access_token=' + token;
                 } else if (params.app) {
                     var url = host + '/namespaces/' + params.namespace + '/' + params.type + params.name +
                         '?watch=true' +
                         '&resourceVersion=' + params.resourceVersion +
                         '&labelSelector=' + params.app +
+                        '&region=' + $rootScope.region +
                         '&access_token=' + token;
                 } else {
                     var url = host + '/namespaces/' + params.namespace + '/' + params.type + params.name +
                         '?watch=true' +
                         '&resourceVersion=' + params.resourceVersion +
+                        '&region=' + $rootScope.region +
                         '&access_token=' + token;
                 }
                 if (params.protocols) {
