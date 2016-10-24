@@ -19,17 +19,24 @@ angular.module('home', [])
             //    //console.log(now)
             //    $scope.whereclick = now
             //}
-            if ($rootScope.user) {
-                return $rootScope.user;
-            }
-            if ($rootScope.region) {
-              return $rootScope.region
+            if ($rootScope.resetpwd) {
+                console.log('reset');
+                //return
             }else {
-                $rootScope.region = Cookie.get('region');
+                if ($rootScope.user) {
+                    return $rootScope.user;
+                }
+                if ($rootScope.region) {
+                    return $rootScope.region
+                }else {
+                    $rootScope.region = Cookie.get('region');
+                }
+                User.get({name: '~',region:$rootScope.region}, function (res) {
+                    $rootScope.user = res;
+                    $rootScope.resetpwd=false;
+                });
             }
-            User.get({name: '~',region:$rootScope.region}, function (res) {
-                $rootScope.user = res;
-            });
+
             //$scope.top = []
             //路由监听事件
             //console.log($state.current.name);

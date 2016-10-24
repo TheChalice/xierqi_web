@@ -696,6 +696,10 @@ define([
             var regions = $resource('/payment/v1/regions', {}, {});
             return regions;
         }])
+        .factory('coupon', ['$resource', 'GLOBAL', function ($resource) {//获取充值卡面额
+            var regions = $resource('/payment/v1/coupon/:id', {id:'@id'}, {});
+            return regions;
+        }])
 
 
 });

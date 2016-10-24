@@ -1539,7 +1539,7 @@ define(['angular'], function (angular) {
                     var regions = Cookie.get('region');
                     var token='';
                     //console.log(tokens, regions);
-                    if (tokens) {
+                    if (tokens&&regions) {
                         var tokenarr = tokens.split(',');
                         var region = regions.split('-')[2];
                         if (/^\/oapi/.test(config.url)||/^\/api/.test(config.url)) {
