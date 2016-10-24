@@ -12,11 +12,11 @@ angular.module('console.plan', [
         function (balance,amounts, by, checkout, $state, Tip, $scope, $rootScope, account, Tip, market) {
             //console.log('$rootScope.projects', $rootScope.projects);
             $scope.plans = [];
-            balance.get({namespace:$rootScope.namespace}, function (data) {
+            balance.get({namespace:$rootScope.namespace,region:$rootScope.region}, function (data) {
                 $scope.balance = data
                 //console.log('balance', data);
             });
-            account.get({namespace:$rootScope.namespace}, function (mydata) {
+            account.get({namespace:$rootScope.namespace,region:$rootScope.region}, function (mydata) {
                 console.log(mydata);
                 //mydata.purchased=false;
                 //if (mydata.purchased) {
@@ -24,10 +24,10 @@ angular.module('console.plan', [
                 //}else{
                 //    $('.plan_block_main').css("left","0");
                 //}
-                market.get({}, function (data) {
+                market.get({region:$rootScope.region}, function (data) {
                     console.log(data);
                     angular.forEach(data.plans, function (plan, i) {
-                        if (plan.region === "铸造一区") {
+                        if (plan.region_id === $rootScope.region) {
                             $scope.plans.push(plan);
                         }
                     })
@@ -68,7 +68,7 @@ angular.module('console.plan', [
                         checkout.create({
                             plan_id: plan.plan_id,
                             namespace: $rootScope.namespace,
-                            "region": "cn-north-1"
+                            region:$rootScope.region
                         }, function (data) {
                             console.log(data);
                             Tip.open('提示', '购买成功！', false, true, true).then(function () {
@@ -78,7 +78,7 @@ angular.module('console.plan', [
                         }, function (err) {
 
                             if (err.data.code === 3308) {
-                                Tip.open('提示', '暂不支持更换套餐', '知道了', true).then(function () {
+                                Tip.open('提示', '暂不支持更换套餐。', '知道了', true).then(function () {
                                     //$state.go('console.pay');
                                 })
                             } else {

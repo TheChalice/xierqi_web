@@ -29,9 +29,11 @@ angular.module('console.resource_management', [
             persistentlist('nows');
         }
         function persistentlist(nows) {
-            persistent.get({namespace: $rootScope.namespace}, function (res) {
+            persistent.get({
+                namespace: $rootScope.namespace,
+                region:$rootScope.region}, function (res) {
 
-                DeploymentConfig.get({namespace: $rootScope.namespace}, function (resdc) {
+                DeploymentConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (resdc) {
                     console.log('dc',resdc);
                     $scope.grid.constantlyvolume=false;
                     angular.forEach(res.items, function (volitem, i) {
@@ -155,7 +157,7 @@ angular.module('console.resource_management', [
         };
 
         $scope.loadconfigmaps = function () {
-            configmaps.get({namespace: $rootScope.namespace}, function (res) {
+            configmaps.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                 console.log(res);
                 if (res.items && res.items.length > 0) {
                     angular.forEach(res.items, function (item, i) {
@@ -205,7 +207,7 @@ angular.module('console.resource_management', [
 //////////////////////////密钥
 
         $scope.loadsecrets = function () {
-            secretskey.get({namespace: $rootScope.namespace}, function (res) {
+            secretskey.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                 console.log('-------loadsecrets', res);
                 if (res.items && res.items.length > 0) {
                     angular.forEach(res.items, function (item, i) {

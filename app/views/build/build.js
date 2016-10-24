@@ -62,7 +62,7 @@ angular.module('console.build', [
 
         //获取buildConfig列表
         var loadBuildConfigs = function() {
-            BuildConfig.get({namespace: $rootScope.namespace}, function(data){
+            BuildConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function(data){
                 $log.info('buildConfigs', data);
                 data.items = Sort.sort(data.items, -1); //排序
                 $scope.data = data;
@@ -85,7 +85,7 @@ angular.module('console.build', [
                 }
                 labelSelector = labelSelector.substring(0, labelSelector.length - 1) + ')';
             }
-            Build.get({namespace: $rootScope.namespace, labelSelector: labelSelector}, function (data) {
+            Build.get({namespace: $rootScope.namespace, labelSelector: labelSelector,region:$rootScope.region}, function (data) {
                 $log.info("builds", data);
 
                 $scope.resourceVersion = data.metadata.resourceVersion;
@@ -183,7 +183,7 @@ angular.module('console.build', [
                     name: name
                 }
             };
-            BuildConfig.instantiate.create({namespace: $rootScope.namespace, name: name}, buildRequest, function(){
+            BuildConfig.instantiate.create({namespace: $rootScope.namespace, name: name,region:$rootScope.region}, buildRequest, function(){
                 $log.info("build instantiate success");
                 $state.go('console.build_detail', {name: name, from: 'create'})
             }, function(res){
@@ -195,7 +195,8 @@ angular.module('console.build', [
             Confirm.open("提示信息","您确定要终止本次构建吗？").then(function(){
                 var build = $scope.items[idx].build;
                 build.status.cancelled = true;
-                Build.put({namespace: $rootScope.namespace, name: build.metadata.name}, build, function(res){
+                //build.region=$rootScope.region
+                Build.put({namespace: $rootScope.namespace, name: build.metadata.name,region:$rootScope.region}, build, function(res){
                     $log.info("stop build success");
                     $scope.items[idx].build = res;
                 }, function(res){

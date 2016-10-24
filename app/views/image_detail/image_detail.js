@@ -13,7 +13,7 @@ angular.module('console.image_detail', [
 
 
             $scope.name = $state.params.bc
-            ImageStream.get({namespace: $rootScope.namespace, name: $scope.name}, function (data) {
+            ImageStream.get({namespace: $rootScope.namespace, name: $scope.name,region:$rootScope.region}, function (data) {
                 //console.log(data)
                 if (data.status.tags) {
                     angular.forEach(data.status.tags, function (tag, i) {
@@ -55,7 +55,8 @@ angular.module('console.image_detail', [
                         }
                         ImageStreamTag.delete({
                             namespace: $rootScope.namespace,
-                            name: $scope.name + ':' + name
+                            name: $scope.name + ':' + name,
+                            region:$rootScope.region
                         }, function (data) {
                             for (var i = 0; i < $scope.date.status.tags.length; i++) {
                                 if (name == $scope.date.status.tags[i].tag) {

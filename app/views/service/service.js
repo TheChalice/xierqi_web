@@ -65,7 +65,7 @@ angular.module('console.service', [
             $scope.grid.total = $scope.items.length;
         };
         var serviceList = function(){
-            DeploymentConfig.get({namespace: $rootScope.namespace}, function(data){
+            DeploymentConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function(data){
                 $log.info('serviceList----', data);
                 data.items = Sort.sort(data.items, -1);
                 $scope.data = data;
@@ -95,7 +95,7 @@ angular.module('console.service', [
                   //console.log('itemarritemarritemarritemarritemarr',itemarr)
                   var labelSelector = 'deploymentconfig=' + itemarr.metadata.name;
 
-                  Pod.get({namespace: $scope.namespace, labelSelector: labelSelector}, function (res) {
+                  Pod.get({namespace: $scope.namespace, labelSelector: labelSelector,region:$rootScope.region}, function (res) {
                       itemarr.status.replicas = 0;
                       $scope.pods = res;
                       $scope.pods.items = res.items;
@@ -136,7 +136,7 @@ angular.module('console.service', [
         $scope.refresh = function(){
             //serviceList();
             $scope.running=true;
-            DeploymentConfig.get({namespace: $rootScope.namespace}, function(data){
+            DeploymentConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function(data){
                 $log.info('serviceList----', data);
                 data.items = Sort.sort(data.items, -1);
 
@@ -172,7 +172,7 @@ angular.module('console.service', [
                 }
                 labelSelector = labelSelector.substring(0, labelSelector.length - 1) + ')';
             }
-            ReplicationController.get({namespace: $rootScope.namespace,labelSelector: labelSelector}, function (data) {
+            ReplicationController.get({namespace: $rootScope.namespace,labelSelector: labelSelector,region:$rootScope.region}, function (data) {
                 $log.info("Replicationcontrollers", data);
                 $scope.rcs = data;
                 $scope.rcMap = {};
@@ -190,7 +190,7 @@ angular.module('console.service', [
         }
         ////路由
         var RouteList = function(servicedata){
-            Route.get({namespace: $rootScope.namespace}, function (data) {
+            Route.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (data) {
                 $log.info("Route", data);
                 $scope.routeMap = {};
                 for (var i = 0; i < data.items.length; i++) {
@@ -277,7 +277,7 @@ angular.module('console.service', [
             if (data.type == 'ADDED') {
                 $scope.rcs.items.shift(data.object);
             }else if (data.type == "MODIFIED") {
-                DeploymentConfig.get({namespace: $rootScope.namespace}, function(data){
+                DeploymentConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function(data){
                     //$log.info('serviceList----', data);
                     //data.items = Sort.sort(data.items, -1);
                     //$scope.data = data;
@@ -325,7 +325,7 @@ angular.module('console.service', [
              var thisDc = $scope.items[idx];
              if(thisDc.spec.replicas == 0){thisDc.spec.replicas = 1}
              thisRc.spec.replicas = thisDc.spec.replicas;
-            ReplicationController.put({namespace: $rootScope.namespace, name: thisRc.metadata.name}, thisRc, function(res){
+            ReplicationController.put({namespace: $rootScope.namespace, name: thisRc.metadata.name,region:$rootScope.region}, thisRc, function(res){
                 $scope.items[idx].rc = res;
                 $log.info("$scope.data.items[idx].rc++++", $scope.items[idx]);
                 $log.info("startDc dc success", res);
@@ -338,7 +338,7 @@ angular.module('console.service', [
         $scope.stopDc = function(idx){
             var thisRc =  $scope.items[idx].rc
             thisRc.spec.replicas = 0;
-            ReplicationController.put({namespace: $rootScope.namespace, name: thisRc.metadata.name}, thisRc, function(res){
+            ReplicationController.put({namespace: $rootScope.namespace, name: thisRc.metadata.name,region:$rootScope.region}, thisRc, function(res){
                 $scope.items[idx].rc.spec.replicas = res.spec.replicas;
                 $log.info("stopDc dc success", res);
 
@@ -349,7 +349,7 @@ angular.module('console.service', [
         };
 
         var loadBsi = function (dcs) {
-            BackingServiceInstance.get({namespace: $rootScope.namespace}, function(res){
+            BackingServiceInstance.get({namespace: $rootScope.namespace,region:$rootScope.region}, function(res){
                 $log.info("backingServiceInstance", res);
 
                 var binds = [];

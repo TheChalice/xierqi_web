@@ -16,7 +16,7 @@ angular.module('console.backing_service_detail', [
       $scope.grid.active = $stateParams.index;
 
       var loadBs = function () {
-        BackingService.get({namespace: 'openshift', name: cuename}, function (data) {
+        BackingService.get({namespace: 'openshift', name: cuename,region:$rootScope.region}, function (data) {
           $log.info('价格', data);
           if (data.metadata.annotations) {
             $scope.ltype = data.metadata.annotations.Class
@@ -85,7 +85,7 @@ angular.module('console.backing_service_detail', [
       };
 
       var loadBsi = function () {
-        BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {
+        BackingServiceInstance.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
           $log.info("backingServiceInstance", res);
           $scope.bsi = filterBsi(res);
           $scope.resourceVersion = res.metadata.resourceVersion;
@@ -108,7 +108,8 @@ angular.module('console.backing_service_detail', [
             Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
               BackingServiceInstance.del({
                 namespace: $rootScope.namespace,
-                name: $scope.bsi.items[idx].metadata.name
+                name: $scope.bsi.items[idx].metadata.name,
+                region:$rootScope.region
               }, function (res) {
                 $scope.bsi.items.splice(idx, 1);
                 
@@ -121,7 +122,8 @@ angular.module('console.backing_service_detail', [
           Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
             BackingServiceInstance.del({
               namespace: $rootScope.namespace,
-              name: $scope.bsi.items[idx].metadata.name
+              name: $scope.bsi.items[idx].metadata.name,
+              region:$rootScope.region
             }, function (res) {
               $scope.bsi.items.splice(idx, 1);
             }, function (res) {
@@ -207,7 +209,7 @@ angular.module('console.backing_service_detail', [
             bindResourceVersion: '',
             bindKind: 'DeploymentConfig'
           };
-          BackingServiceInstanceBd.put({namespace: $rootScope.namespace, name: name}, bindObj, function (res) {
+          BackingServiceInstanceBd.put({namespace: $rootScope.namespace, name: name,region:$rootScope.region}, bindObj, function (res) {
 
           }, function (res) {
             //todo 错误处理
@@ -237,7 +239,7 @@ angular.module('console.backing_service_detail', [
         };
         for (var i = 0; i < dcs.length; i++) {
           bindObj.resourceName = dcs[i].metadata.name;
-          BackingServiceInstanceBd.create({namespace: $rootScope.namespace, name: name}, bindObj, function (res) {
+          BackingServiceInstanceBd.create({namespace: $rootScope.namespace, name: name,region:$rootScope.region}, bindObj, function (res) {
 
           }, function (res) {
             //todo 错误处理

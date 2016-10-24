@@ -703,7 +703,7 @@ define(['angular'], function (angular) {
                             }
                             ////获取密钥列表
                             var loadsecretsList = function () {
-                                secretskey.get({namespace: $rootScope.namespace}, function (res) {
+                                secretskey.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                                     console.log('-------loadsecrets', res);
                                     if (res.items) {
                                         $scope.loadsecretsitems = res.items;
@@ -715,7 +715,7 @@ define(['angular'], function (angular) {
                             //////配置卷
                             ///获取配置卷列表////
                             var loadconfigmaps = function () {
-                                configmaps.get({namespace: $rootScope.namespace}, function (res) {
+                                configmaps.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                                     if (res.items) {
                                         $scope.configmapitem = res.items;
                                     }
@@ -988,7 +988,7 @@ define(['angular'], function (angular) {
                             console.log("1223", idx);
                             $scope.grid.cat = idx;
                             if (idx == 0) {
-                                ImageStream.get({namespace: $rootScope.namespace}, function (res) {
+                                ImageStream.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                                     $scope.images = res;
                                 })
                             } else if (idx == 1) {
@@ -1042,7 +1042,8 @@ define(['angular'], function (angular) {
                                     if (image.metadata.name) {
                                         ImageStreamTag.get({
                                             namespace: $rootScope.namespace,
-                                            name: image.metadata.name + ':' + item.tag
+                                            name: image.metadata.name + ':' + item.tag,
+                                            region:$rootScope.region
                                         }, function (res) {
                                             item.ist = res;
                                         }, function (res) {
@@ -1109,7 +1110,7 @@ define(['angular'], function (angular) {
                     }],
                     resolve: {
                         images: ['$rootScope', 'ImageStream', function ($rootScope, ImageStream) {
-                            return ImageStream.get({namespace: $rootScope.namespace}).$promise;
+                            return ImageStream.get({namespace: $rootScope.namespace,region:$rootScope.region}).$promise;
                         }]
                     }
                 }).result;
@@ -1301,7 +1302,7 @@ define(['angular'], function (angular) {
                     }],
                     resolve: {
                         data: ['$rootScope', 'DeploymentConfig', function ($rootScope, DeploymentConfig) {
-                            return DeploymentConfig.get({namespace: $rootScope.namespace}).$promise;
+                            return DeploymentConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}).$promise;
                         }]
                     }
                 }).result;
@@ -1366,7 +1367,7 @@ define(['angular'], function (angular) {
             function (account,$timeout, $q, orgList, $rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User) {
 
                 this.login = function (credentials, stateParams) {
-                    //console.log("login", credentials);
+                    console.log("login", credentials);
                     //console.log("login", stateParams);
                     localStorage.setItem('Auth', $base64.encode(credentials.username + ':' + credentials.password))
                     $rootScope.loding = true;
@@ -1374,7 +1375,7 @@ define(['angular'], function (angular) {
                     var req = {
                         method: 'GET',
                         timeout: deferred.promise,
-                        url: GLOBAL.login_uri,
+                        url: GLOBAL.signin_uri,
                         headers: {
                             'Authorization': 'Basic ' + $base64.encode(credentials.username + ':' + credentials.password)
                         }
@@ -1383,7 +1384,7 @@ define(['angular'], function (angular) {
 
                     var loadProject = function (name) {
                         // $log.info("load project");
-                        Project.get(function (data) {
+                        Project.get({region:credentials.region},function (data) {
                             console.log("load project success", data);
                             for (var i = 0; i < data.items.length; i++) {
                                 if (data.items[i].metadata.name == name) {
@@ -1405,13 +1406,26 @@ define(['angular'], function (angular) {
                     //}
                     //localStorage.setItem('codenum','0')
                     function denglu() {
+
                         $http(req).success(function (data) {
-                            console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&", data);
+                            //var arrstr = data.join(',');
+                            var arr = []
+                            console.log(data);
+                            angular.forEach(data, function (token,i) {
+                                //arr.push(token.access_token)
+                                var index = token.region.split('-')[2]
+                                arr[index-1]=token.access_token
 
-                            Cookie.set('df_access_token', data.access_token, 10 * 365 * 24 * 3600 * 1000);
+                            })
 
+                            var arrstr = arr.join(',')
+                            console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&",arrstr);
+                            Cookie.set('df_access_token', arrstr, 10 * 365 * 24 * 3600 * 1000);
+                            //console.log(Cookie.get('df_access_token'));
+                            Cookie.set('region', credentials.region, 10 * 365 * 24 * 3600 * 1000);
+                            $rootScope.region = Cookie.get('region');
                             loadProject(credentials.username);
-                            User.get({name: '~'}, function (res) {
+                            User.get({name: '~',region:credentials.region}, function (res) {
                                 $rootScope.loding = false;
                                 $rootScope.user = res;
                                 //localStorage.setItem('cade',null)
@@ -1429,8 +1443,8 @@ define(['angular'], function (angular) {
                                     }
                                 } else {
                                     //获取套餐
-                                    account.get({namespace:$rootScope.namespace}, function (data) {
-                                        console.log('套餐', data);
+                                    account.get({namespace:$rootScope.namespace,region:$rootScope.region}, function (data) {
+                                        //console.log('套餐', data);
                                         //$rootScope.payment=data;
                                         if (data.purchased) {
                                             $state.go('console.dashboard');
@@ -1517,8 +1531,28 @@ define(['angular'], function (angular) {
                     if (/^\/login/.test(config.url)) {
                         return config;
                     }
+                    if (/^\/signin/.test(config.url)) {
+                        return config;
+                    }
+                    //$rootScope.region=
+                    var tokens = Cookie.get('df_access_token');
+                    var regions = Cookie.get('region');
+                    var token='';
+                    //console.log(tokens, regions);
+                    if (tokens) {
+                        var tokenarr = tokens.split(',');
+                        var region = regions.split('-')[2];
+                        if (/^\/oapi/.test(config.url)||/^\/api/.test(config.url)) {
+                            token = tokenarr[region-1];
+                        }else {
+                            token = tokenarr[0];
+                        }
 
-                    var token = Cookie.get('df_access_token');
+                        //console.log('tokenarr', tokenarr[region-1]);
+                    }else {
+                        console.log('token错误');
+                    }
+
                     if (config.headers && token) {
                         config.headers["Authorization"] = "Bearer " + token;
                     }

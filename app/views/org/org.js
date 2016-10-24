@@ -11,8 +11,8 @@ angular.module('console.user', [
 
     ]
   }
-]) .controller('orgCtrl', ['$http', '$rootScope', '$state','$cacheFactory','loadOrg','Addmodal','Confirm','$scope','$stateParams', 'invitation', 'leave', 'Toast',
-  function ($http, $rootScope, $state, $cacheFactory,loadOrg,Addmodal,Confirm,$scope,$stateParams,invitation,leave, Toast) {
+]) .controller('orgCtrl', ['Project','$http', '$rootScope', '$state','$cacheFactory','loadOrg','Addmodal','Confirm','$scope','$stateParams', 'invitation', 'leave', 'Toast',
+  function (Project,$http, $rootScope, $state, $cacheFactory,loadOrg,Addmodal,Confirm,$scope,$stateParams,invitation,leave, Toast) {
     $scope.grid={
       st:null,
       et:null
@@ -48,10 +48,17 @@ angular.module('console.user', [
 
     //load project
     var loadProject = function(){
-      $http.get('/oapi/v1/projects', {
-      }).success(function(data){
-        console.log('test project', data);
-      })
+      Project.get({region:$rootScope.region},function (data) {
+        $rootScope.projects = data.items;
+
+        $log.info("can't find project");
+      }, function (res) {
+        $log.info("find project err", res);
+      });
+      //$http.get('/oapi/v1/projects', {
+      //}).success(function(data){
+      //  console.log('test project', data);
+      //})
     }
 
     $scope.deletezz=function () {

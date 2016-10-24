@@ -141,11 +141,21 @@ define([
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/console/console.js')
                         }],
-                        user: ['$rootScope', 'User', function ($rootScope, User) {
+                        user: ['regions','Cookie','$rootScope', 'User', function (regions,Cookie,$rootScope,User) {
                             if ($rootScope.user) {
                                 return $rootScope.user;
                             }
-                            return User.get({name: '~'}).$promise;
+                            //$rootScope.region=
+                            var region = Cookie.get('region');
+                            if (!region) {
+                                regions.query({}, function (data) {
+                                    //console.log('regions', data);
+                                    //$scope.regions = data;
+                                    $rootScope.region = data[0].identification;
+                                    Cookie.set('region',data[0].identification, 10 * 365 * 24 * 3600 * 1000);
+                                })
+                            }
+                            return User.get({name: '~',region:$rootScope.region}).$promise;
                         }]
                         //account: ['$rootScope', 'account', function ($rootScope, account) {
                         //  if ($rootScope.account) {

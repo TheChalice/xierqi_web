@@ -29,7 +29,7 @@ angular.module('console.apply_instance', [
     console.log('@@@test bsname', $stateParams.name);
     var loadBs = function(){
         console.log("$state", $stateParams.plan)
-        BackingService.get({namespace:'openshift',name:$stateParams.name},function(data){
+        BackingService.get({namespace:'openshift',name:$stateParams.name,region:$rootScope.region},function(data){
             $log.info('loadBs',data);
             $scope.data = data;
             $scope.bsi.spec.provisioning.backingservice_spec_id = data.spec.id;
@@ -53,7 +53,7 @@ angular.module('console.apply_instance', [
          $scope.bsi.spec.provisioning.backingservice_plan_name = plan.name;
 
          $log.info("BackingServiceInstance==",$scope.bsi);
-         BackingServiceInstance.create({namespace: $rootScope.namespace}, $scope.bsi,function(){
+         BackingServiceInstance.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.bsi,function(){
              $scope.grid.error=false
              $log.info("build backing service instance success");
              $state.go('console.backing_service_detail', {name: $scope.data.metadata.name, index:2})

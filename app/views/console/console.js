@@ -9,17 +9,37 @@ angular.module('console', [
             ]
         }
     ])
-    .controller('ConsoleCtrl', ['account','$http', '$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', 'user', 'Project', 'Cookie', '$state',
-        function (account,$http, $rootScope, $scope, $log, AUTH_EVENTS, User, user, Project, Cookie, $state) {
+    .controller('ConsoleCtrl', ['regions','account','$http', '$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', 'user', 'Project', 'Cookie', '$state',
+        function (regions,account,$http, $rootScope, $scope, $log, AUTH_EVENTS, User, user, Project, Cookie, $state) {
             $('html').css('overflow', 'auto');
             $log.info('Console', $state.current.name);
+            var namespace = Cookie.get('namespace');
+            var region = Cookie.get('region');
+            if (region) {
+                $rootScope.region=region;
+            }else {
+                regions.query({}, function (data) {
+                    //console.log('regions', data);
+                    //$scope.regions = data;
+                    $rootScope.region = data[0].identification;
+                    Cookie.set('region',data[0].identification, 10 * 365 * 24 * 3600 * 1000);
+                })
+            }
+            if (namespace) {
+                $rootScope.namespace = namespace;
+            } else {
+                $rootScope.namespace = user.metadata.name;
+                Cookie.set('namespace', name, 10 * 365 * 24 * 3600 * 1000);
+            }
+
             var loadProject = function () {
                 //$log.info("load project");
-                Project.get(function (data) {
+                Project.get({region:$rootScope.region},function (data) {
                     //$rootScope.projects = data.items;
+                    //console.log('Project', Project);
                     //var newprojects = [];
                     angular.forEach(data.items, function (item, i) {
-                        if (item.metadata.name == $rootScope.namespace) {
+                        if (item.metadata.name === $rootScope.namespace) {
                             data.items.splice(i, 1);
                         } else {
                             data.items[i].sortname = item.metadata.annotations['openshift.io/display-name'] || item.metadata.name;
@@ -38,11 +58,11 @@ angular.module('console', [
                             data.items.splice(i + 1, 1);
                         }
                     });
-                    //console.log(data.items);
                     $rootScope.projects = data.items;
+                    console.log(data.items);
 
 
-                    $log.info("load project success", data);
+                    //$log.info("load project success", data);
                 }, function (res) {
                     $log.info("find project err", res);
                 });
@@ -55,7 +75,7 @@ angular.module('console', [
             }
             //console.log($scope.showsidebar);
 
-            account.get({namespace:$rootScope.namespace}, function (data) {
+            account.get({namespace:$rootScope.namespace,region:$rootScope.region}, function (data) {
                 //console.log('套餐', data);
 
                 if (data.purchased) {
@@ -80,7 +100,7 @@ angular.module('console', [
 
             $scope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
                 //console.log('toState.name', toState.name);
-                account.get({namespace:$rootScope.namespace}, function (data) {
+                account.get({namespace:$rootScope.namespace,region:$rootScope.region}, function (data) {
                     //console.log('套餐', data);
                     //$rootScope.payment=data;
                     if ($state.current.name === 'console.plan' || $state.current.name === 'console.pay' || $state.current.name === 'console.noplan'||$state.current.name === 'home.index') {
@@ -109,14 +129,7 @@ angular.module('console', [
 
             })
             //$rootScope.payment = account;
-            var namespace = Cookie.get('namespace');
 
-            if (namespace) {
-                $rootScope.namespace = namespace;
-            } else {
-                $rootScope.namespace = user.metadata.name;
-                Cookie.set('namespace', name, 10 * 365 * 24 * 3600 * 1000);
-            }
 
 
 

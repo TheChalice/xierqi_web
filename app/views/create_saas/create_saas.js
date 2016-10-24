@@ -170,7 +170,7 @@ angular.module('console.create_saas', [
                 $scope.secrets.spec.userprovidedservice.credentials[item.key] = item.value
             })
             delete $scope.secrets.secretsarr;
-            creatapp.create({namespace: $rootScope.namespace}, $scope.secrets, function (res) {
+            creatapp.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.secrets, function (res) {
                 $scope.grid.nameerr = false;
                 //console.log('createconfig----',res);
                 $scope.loaded = false;

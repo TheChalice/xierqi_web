@@ -200,7 +200,7 @@ angular.module("console.timeline", [])
                 };
 
                 var loadImageStreamTag = function(item){
-                  ImageStreamTag.get({namespace: $rootScope.namespace, name: item.spec.output.to.name}, function(data){
+                  ImageStreamTag.get({namespace: $rootScope.namespace, name: item.spec.output.to.name,region:$rootScope.region}, function(data){
                   item.bsi = data;
                   if (data.image.dockerImageMetadata.Config.Labels) {
                     $scope.gitStore[item.spec.output.to.name] = {
@@ -391,7 +391,7 @@ angular.module("console.timeline", [])
                       }
                       ImageStreamTag.delete({
                         namespace: $rootScope.namespace,
-                        name: $scope.name + ':' + name
+                        name: $scope.name + ':' + name,region:$rootScope.region
                       }, function (data) {
                         for (var i = 0; i < $scope.date.status.tags.length; i++) {
                           if (name == $scope.date.status.tags[i].tag) {

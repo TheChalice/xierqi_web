@@ -175,7 +175,7 @@ angular.module('console.service.create', [
                 }
             }, true);
 
-            $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas').success(function (data) {
+            $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas?region='+$rootScope.region).success(function (data) {
                 //console.log('配额', data.items[0].spec.hard['requests.cpu']);
                 //console.log('配额', data.items[0].spec.hard['requests.memory']);
                 if (data.items&&data.items[0]&&data.items[0].spec) {
@@ -227,7 +227,7 @@ angular.module('console.service.create', [
                     delete $scope.route.spec.tls
                 }
 
-                Route.create({namespace: $rootScope.namespace}, $scope.route, function (res) {
+                Route.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.route, function (res) {
                     $log.info("create route success", res);
 
                     $scope.tlsroutes.push(res);
@@ -511,7 +511,7 @@ angular.module('console.service.create', [
             };
             // 仓库镜像时需要先获取该数据添加到imagePullSecrets字段中
             var getserviceaccounts = function () {
-                serviceaccounts.get({namespace: $rootScope.namespace}, function (res) {
+                serviceaccounts.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                     $scope.serviceas = res
                     console.log('----------------------', res);
                 })
@@ -714,7 +714,7 @@ angular.module('console.service.create', [
             var serviceNameArr = [];
 
             var loadDcList = function () {
-                DeploymentConfig.get({namespace: $rootScope.namespace}, function (data) {
+                DeploymentConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (data) {
                     for (var i = 0; i < data.items.length; i++) {
                         serviceNameArr.push(data.items[i].metadata.name);
                     }
@@ -802,7 +802,7 @@ angular.module('console.service.create', [
             // 获取后端服务列表
 
             var loadBsi = function (dc) {
-                BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {
+                BackingServiceInstance.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                     $log.info("backingServiceInstance", res);
 
                     for (var i = 0; i < res.items.length; i++) {
@@ -1255,7 +1255,8 @@ angular.module('console.service.create', [
                     if (bsi.bind) {  //未绑定设置为绑定
                         BackingServiceInstance.bind.create({
                             namespace: $rootScope.namespace,
-                            name: bsi.metadata.name
+                            name: bsi.metadata.name,
+                            region:$rootScope.region
                         }, bindObj, function (res) {
                             $log.info("bind service success", res);
                         }, function (res) {
@@ -1292,7 +1293,7 @@ angular.module('console.service.create', [
                     $scope.service.spec.ports = null;
                 }
                 //$log.info('$scope.service0-0-0-0-', $scope.service.spec.ports);
-                Service.create({namespace: $rootScope.namespace}, $scope.service, function (res) {
+                Service.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.service, function (res) {
                     $log.info("create service success", res);
                     $scope.service = res;
 
@@ -1390,7 +1391,7 @@ angular.module('console.service.create', [
                     delete $scope.route.spec.tls
                 }
 
-                Route.create({namespace: $rootScope.namespace}, $scope.route, function (res) {
+                Route.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.route, function (res) {
                     $log.info("create route success", res);
                     $scope.route = res;
                 }, function (res) {
@@ -1425,7 +1426,7 @@ angular.module('console.service.create', [
             };
             //  删除同名服务,创建dc之前执行该方法
             var deleService = function () {
-                Service.delete({namespace: $rootScope.namespace, name: $scope.dc.metadata.name}, function (res) {
+                Service.delete({namespace: $rootScope.namespace, name: $scope.dc.metadata.name,region:$rootScope.region}, function (res) {
                     console.log("deleService-yes", res);
                 }, function (res) {
                     console.log("deleService-no", res);
@@ -1433,7 +1434,7 @@ angular.module('console.service.create', [
             }
             //  删除同名路由,创建dc之前执行该方法
             var deleRoute = function () {
-                Route.delete({namespace: $rootScope.namespace, name: $scope.dc.metadata.name}, function (res) {
+                Route.delete({namespace: $rootScope.namespace, name: $scope.dc.metadata.name,region:$rootScope.region}, function (res) {
                     console.log("deleRoute-yes", res);
                 }, function (res) {
                     console.log("deleRoute-no", res);
@@ -1661,7 +1662,7 @@ angular.module('console.service.create', [
                     createRoute(dc);
                 }
                 var createDcfn = function () {
-                    DeploymentConfig.create({namespace: $rootScope.namespace}, clonedc, function (res) {
+                    DeploymentConfig.create({namespace: $rootScope.namespace,region:$rootScope.region}, clonedc, function (res) {
                         $log.info("create dc success", res);
                         bindService(dc);
                         $state.go('console.service_detail', {name: dc.metadata.name, from: 'create'});
@@ -1689,7 +1690,7 @@ angular.module('console.service.create', [
 
                     }
 
-                    secretskey.create({namespace: $rootScope.namespace}, secretsobj, function (res) {
+                    secretskey.create({namespace: $rootScope.namespace,region:$rootScope.region}, secretsobj, function (res) {
                         createDcfn();
                     }, function (res) {
                         if (res.status == 409) {

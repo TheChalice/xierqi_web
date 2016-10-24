@@ -66,7 +66,7 @@ angular.module('console.backing_service', [
             }
             // 得到loadBs对象进行分组
             var loadBs = function () {
-                BackingService.get({namespace: 'openshift'}, function (data) {
+                BackingService.get({namespace: 'openshift',region:$rootScope.region}, function (data) {
                     $log.info('loadBs', data);
                     $scope.items = data.items;
                     var arr = data.items;
@@ -167,7 +167,7 @@ angular.module('console.backing_service', [
 
                     //我的后端服务json
                     var loadBsi = function () {
-                        BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {
+                        BackingServiceInstance.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                             //$log.info("backingServiceInstance", res);
                             $scope.resourceVersion = res.metadata.resourceVersion;
                             watchBsi($scope.resourceVersion);
@@ -583,7 +583,8 @@ angular.module('console.backing_service', [
                             Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
                                 BackingServiceInstance.del({
                                     namespace: $rootScope.namespace,
-                                    name: $scope.myservice[id].item[idx].metadata.name
+                                    name: $scope.myservice[id].item[idx].metadata.name,
+                                    region:$rootScope.region
                                 }, function (res) {
                                     $scope.myservice[id].item.splice(idx, 1);
                                     Toast.open('删除成功');
@@ -596,7 +597,8 @@ angular.module('console.backing_service', [
                         Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
                             BackingServiceInstance.del({
                                 namespace: $rootScope.namespace,
-                                name: $scope.myservice[id].item[idx].metadata.name
+                                name: $scope.myservice[id].item[idx].metadata.name,
+                                region:$rootScope.region
                             }, function (res) {
                                 $scope.myservice[id].item.splice(idx, 1);
                                 Toast.open('删除成功');
@@ -615,7 +617,8 @@ angular.module('console.backing_service', [
                             Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
                                 BackingServiceInstance.del({
                                     namespace: $rootScope.namespace,
-                                    name: $scope.diyservice[idx].metadata.name
+                                    name: $scope.diyservice[idx].metadata.name,
+                                    region:$rootScope.region
                                 }, function (res) {
                                     $scope.diyservice.splice(idx, 1);
                                     Toast.open('删除成功');
@@ -628,7 +631,8 @@ angular.module('console.backing_service', [
                         Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
                             BackingServiceInstance.del({
                                 namespace: $rootScope.namespace,
-                                name: $scope.diyservice[idx].metadata.name
+                                name: $scope.diyservice[idx].metadata.name,
+                                region:$rootScope.region
                             }, function (res) {
                                 $scope.diyservice.splice(idx, 1);
                                 Toast.open('删除成功');
@@ -687,7 +691,7 @@ angular.module('console.backing_service', [
                         bindKind: 'DeploymentConfig'
                     };
                     // console.log(bindObj)
-                    BackingServiceInstanceBd.put({namespace: $rootScope.namespace, name: name},
+                    BackingServiceInstanceBd.put({namespace: $rootScope.namespace, name: name,region:$rootScope.region},
                         bindObj, function (res) {
                             Toast.open('正在解除中,请稍等');
                             // console.log('解绑定', res)
@@ -718,7 +722,7 @@ angular.module('console.backing_service', [
                 };
                 for (var i = 0; i < dcs.length; i++) {
                     bindObj.resourceName = dcs[i].metadata.name;
-                    BackingServiceInstanceBd.create({namespace: $rootScope.namespace, name: name}, bindObj,
+                    BackingServiceInstanceBd.create({namespace: $rootScope.namespace, name: name,region:$rootScope.region}, bindObj,
                         function (res) {
                         }, function (res) {
                             //todo 错误处理
