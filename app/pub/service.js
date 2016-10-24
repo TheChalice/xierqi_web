@@ -1537,12 +1537,17 @@ define(['angular'], function (angular) {
                     var tokens = Cookie.get('df_access_token');
                     var regions = Cookie.get('region');
                     var token='';
-                    console.log(tokens, regions);
+                    //console.log(tokens, regions);
                     if (tokens) {
                         var tokenarr = tokens.split(',');
                         var region = regions.split('-')[2];
-                        token = tokenarr[region-1];
-                        console.log('tokenarr', tokenarr[region-1]);
+                        if (/^\/oapi/.test(config.url)||/^\/api/.test(config.url)) {
+                            token = tokenarr[region-1];
+                        }else {
+                            token = tokenarr[0];
+                        }
+
+                        //console.log('tokenarr', tokenarr[region-1]);
                     }else {
                         console.log('token错误');
                     }

@@ -240,7 +240,7 @@ angular.module('console.dashboard', [
                     })
                     $scope.memData
                     // console.log('$scope.memData',$scope.memData)
-                    $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas').success(function (data, status, headers, config) {
+                    $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas?region='+$rootScope.region).success(function (data, status, headers, config) {
                         if (data.items[0]) {
                             // console.log($scope.cpuData);
                             // console.log($scope.memData);

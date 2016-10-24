@@ -175,7 +175,7 @@ angular.module('console.service.create', [
                 }
             }, true);
 
-            $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas').success(function (data) {
+            $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas?region='+$rootScope.region).success(function (data) {
                 //console.log('配额', data.items[0].spec.hard['requests.cpu']);
                 //console.log('配额', data.items[0].spec.hard['requests.memory']);
                 if (data.items&&data.items[0]&&data.items[0].spec) {
