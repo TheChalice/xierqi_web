@@ -10,7 +10,9 @@ define(['angular'], function (angular) {
                 $log.info(AUTH_EVENTS.loginNeeded);
                 Cookie.clear('namespace');
                 Cookie.clear('df_access_token');
-                $rootScope.user = null;
+                Cookie.clear('region');
+                $rootScope.region = '';
+                $rootScope.user = '';
                 $rootScope.namespace = "";
                 $state.go('home.index');
             });
@@ -21,7 +23,9 @@ define(['angular'], function (angular) {
                 $log.info(AUTH_EVENTS.httpForbidden);
                 Cookie.clear('namespace');
                 Cookie.clear('df_access_token');
-                $rootScope.user = null;
+                Cookie.clear('region');
+                $rootScope.region = '';
+                $rootScope.user = '';
                 $rootScope.namespace = "";
                 $state.go('home.index');
             });

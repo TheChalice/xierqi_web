@@ -105,14 +105,14 @@ define([
             return Ws;
         }])
         .factory('User', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var User = $resource(GLOBAL.host + '/users/:name', {name: '@name'}, {
+            var User = $resource(GLOBAL.host + '/users/:name', {name: '@name',region: '@region'}, {
                 create: {method: 'POST'}
             });
             return User;
         }])
 
         .factory('Project', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var Project = $resource(GLOBAL.host + '/projects/:name', {name: '@name'}, {
+            var Project = $resource(GLOBAL.host + '/projects/:name?region=:region', {name: '@name',region: '@region'}, {
                 create: {method: 'POST'}
             });
             return Project;

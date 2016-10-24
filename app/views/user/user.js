@@ -81,8 +81,10 @@ angular.module('console.user', [
                     Toast.open('更改密码成功');
                     setTimeout(function () {
                         Cookie.clear('namespace');
+                        Cookie.clear('region');
                         Cookie.clear('df_access_token');
                         $rootScope.user = null;
+                        $rootScope.region = '';
                         $rootScope.namespace = "";
                         $state.go('login');
                     }, 2000)

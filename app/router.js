@@ -147,15 +147,20 @@ define([
                             }
                             //$rootScope.region=
                             var region = Cookie.get('region');
+
                             if (!region) {
                                 regions.query({}, function (data) {
                                     //console.log('regions', data);
                                     //$scope.regions = data;
                                     $rootScope.region = data[0].identification;
                                     Cookie.set('region',data[0].identification, 10 * 365 * 24 * 3600 * 1000);
+                                    return User.get({name: '~',region:Cookie.get('region')}).$promise;
                                 })
+                            }else {
+
                             }
-                            return User.get({name: '~',region:$rootScope.region}).$promise;
+                            console.log('region',region);
+                            return User.get({name: '~',region:Cookie.get('region')}).$promise;
                         }]
                         //account: ['$rootScope', 'account', function ($rootScope, account) {
                         //  if ($rootScope.account) {

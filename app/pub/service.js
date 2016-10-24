@@ -1419,13 +1419,13 @@ define(['angular'], function (angular) {
                             })
 
                             var arrstr = arr.join(',')
-                            console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&",arrstr);
+                            //console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&",arrstr);
                             Cookie.set('df_access_token', arrstr, 10 * 365 * 24 * 3600 * 1000);
                             //console.log(Cookie.get('df_access_token'));
                             Cookie.set('region', credentials.region, 10 * 365 * 24 * 3600 * 1000);
                             $rootScope.region = Cookie.get('region');
                             loadProject(credentials.username);
-                            User.get({name: '~',region:credentials.region}, function (res) {
+                            User.get({name: '~',region:$rootScope.region}, function (res) {
                                 $rootScope.loding = false;
                                 $rootScope.user = res;
                                 //localStorage.setItem('cade',null)
