@@ -64,7 +64,7 @@ angular.module('console.plan', [
             $scope.buy = function (plan) {
 
                 if (plan.canbuy === 'big') {
-                    Tip.open('提示', '将从余额中扣取'+plan.price+'元！', false, true).then(function () {
+                    Tip.open('提示', '将从余额中扣取元！', false, true,false,plan.price).then(function () {
                         checkout.create({
                             plan_id: plan.plan_id,
                             namespace: $rootScope.namespace,
