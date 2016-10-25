@@ -1385,10 +1385,31 @@ define(['angular'], function (angular) {
                     var loadProject = function (name) {
                         // $log.info("load project");
                         Project.get({region:credentials.region},function (data) {
-                            console.log("load project success", data);
+                            //console.log("load project success", data);
                             for (var i = 0; i < data.items.length; i++) {
                                 if (data.items[i].metadata.name == name) {
                                     $rootScope.namespace = name;
+                                    angular.forEach(data.items, function (item, i) {
+                                        if (item.metadata.name === $rootScope.namespace) {
+                                            data.items.splice(i, 1);
+                                        } else {
+                                            data.items[i].sortname = item.metadata.annotations['openshift.io/display-name'] || item.metadata.name;
+                                        }
+
+                                    })
+                                    data.items.sort(function (x, y) {
+                                        return x.sortname > y.sortname ? 1 : -1;
+                                    });
+                                    angular.forEach(data.items, function (project, i) {
+                                        if (/^[\u4e00-\u9fa5]/i.test(project.metadata.annotations['openshift.io/display-name'])) {
+                                            //console.log(project.metadata.annotations['openshift.io/display-name']);
+                                            //data.items.push(project);
+                                            data.items.unshift(project);
+
+                                            data.items.splice(i + 1, 1);
+                                        }
+                                    });
+                                    $rootScope.projects = data.items;
                                     return;
                                 }
                             }
