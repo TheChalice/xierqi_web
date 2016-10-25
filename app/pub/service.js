@@ -465,7 +465,7 @@ define(['angular'], function (angular) {
 
                                             $rootScope.delOrgs = true;
                                         }).error(function (res) {
-                                            console.log(res);
+                                            //console.log(res);
                                             $scope.tip = errcode.open(res.code)
                                             //if(res.code >= 500){
                                             //  $scope.tip = '内部错误，请通过DaoVoice联系管理员';
@@ -557,7 +557,7 @@ define(['angular'], function (angular) {
                     size: 'default modal-lg',
                     controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
                         $scope.diploma = obj;
-                        console.log($scope.diploma, obj);
+                        //console.log($scope.diploma, obj);
                         //$scope.err = err;
                         //$scope.classify = regist;
                         //$scope.activation = active;
@@ -704,7 +704,7 @@ define(['angular'], function (angular) {
                             ////获取密钥列表
                             var loadsecretsList = function () {
                                 secretskey.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
-                                    console.log('-------loadsecrets', res);
+                                    //console.log('-------loadsecrets', res);
                                     if (res.items) {
                                         $scope.loadsecretsitems = res.items;
                                     }
@@ -749,7 +749,7 @@ define(['angular'], function (angular) {
 
                                 persistent.get({namespace: $rootScope.namespace}, function (res) {
                                     if (res.items) {
-                                        console.log(res);
+                                        //console.log(res);
                                         $scope.persistentitem = [];
                                         angular.forEach(res.items, function (item, i) {
                                             if (item.status.phase == "Bound") {
@@ -837,7 +837,7 @@ define(['angular'], function (angular) {
                                         "name": "volumes" + (j + olength + $scope.secretarr.length + $scope.configmap.length),
                                         "mountPath": $scope.persistentarr[j].mountPath
                                     }
-                                    console.log('$scope.persistentarr[j].mountPath', $scope.persistentarr[j].mountPath)
+                                    //console.log('$scope.persistentarr[j].mountPath', $scope.persistentarr[j].mountPath)
                                     if ($scope.persistentarr[j].persistentVolumeClaim.claimName == '名称' || !$scope.persistentarr[j].mountPath) {
                                         //alert('3不能为空')
                                         return;
@@ -911,7 +911,7 @@ define(['angular'], function (angular) {
                     templateUrl: 'pub/tpl/modal_choose_image.html',
                     size: 'default modal-lg',
                     controller: ['$rootScope', '$scope', '$uibModalInstance', 'images', 'ImageStreamTag', 'ImageStream', '$http', 'platformlist', function ($rootScope, $scope, $uibModalInstance, images, ImageStreamTag, ImageStream, $http, platformlist) {
-                        console.log('images', images);
+                        //console.log('images', images);
                         $scope.grid = {
                             cat: 0,
                             image: null,
@@ -932,7 +932,7 @@ define(['angular'], function (angular) {
                             }else {
                                 $scope.isxs = false
                             }
-                            console.log(n.image,$scope.imageTags,$scope.isxs);
+                            //console.log(n.image,$scope.imageTags,$scope.isxs);
                             if (n.image||n.image===0) {
                                 if (n.version_x || n.version_x === 0) {
                                     $scope.cansever = true
@@ -985,7 +985,7 @@ define(['angular'], function (angular) {
                             $scope.imageTags = {};
                             $scope.images = {};
                             $scope.grid.image = null;
-                            console.log("1223", idx);
+                            //console.log("1223", idx);
                             $scope.grid.cat = idx;
                             if (idx == 0) {
                                 ImageStream.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
@@ -1029,7 +1029,7 @@ define(['angular'], function (angular) {
                                             })
                                     })
                                 $scope.images = $scope.imgcon
-                                console.log(' $scope.imgcon $scope.imgcon $scope.imgcon', $scope.imgcon)
+                                //console.log(' $scope.imgcon $scope.imgcon $scope.imgcon', $scope.imgcon)
                             }
                         };
                         $scope.selectImage = function (idx) {
@@ -1047,13 +1047,13 @@ define(['angular'], function (angular) {
                                         }, function (res) {
                                             item.ist = res;
                                         }, function (res) {
-                                            console.log("get image stream tag err", res);
+                                            //console.log("get image stream tag err", res);
                                         });
                                     }
                                 });
-                                console.log("get image stream tag err", image.status.tags);
+                                //console.log("get image stream tag err", image.status.tags);
                                 $scope.imageTags = image.status.tags;
-                                console.log('test tag.items', $scope.imageTags)
+                                //console.log('test tag.items', $scope.imageTags)
                             } else if ($scope.grid.cat == 1) {
                                 $scope.grid.image = idx;
                                 platformlist.query({id: $scope.test.items[idx].name}, function (data) {
@@ -1104,7 +1104,7 @@ define(['angular'], function (angular) {
                             $uibModalInstance.dismiss('cancel');
                         };
                         $scope.ok = function () {
-                            console.log("===", $scope.imageTags);
+                            //console.log("===", $scope.imageTags);
                             $uibModalInstance.close($scope.imageTags[$scope.grid.version_x].ist);
                         };
                     }],
@@ -1170,16 +1170,33 @@ define(['angular'], function (angular) {
                 return $uibModal.open({
                     templateUrl: 'views/user/pwd.html',
                     size: 'default',
-                    controller: ['$scope', '$rootScope', '$uibModalInstance', function ($scope, $rootScope, $uibModalInstance) {
+                    controller: ['$state','Cookie','Toast','pwdModify','$scope', '$rootScope', '$uibModalInstance',
+                        function ($state,Cookie,Toast,pwdModify,$scope, $rootScope, $uibModalInstance) {
                         $scope.credentials = {}
-                        console.log($rootScope);
+                        //console.log($rootScope);
+
+                            $scope.$watch('credentials.oldpwd', function (n,o) {
+                                if (n === o) {
+                                   return
+                                }
+                                if (n) {
+                                    $scope.pwderr = false;
+                                }
+                            })
 
                         $scope.ok = function () {
                             var possword = {
                                 oldpwd: $scope.credentials.oldpwd,
                                 pwd: $scope.credentials.pwd
                             }
-                            $uibModalInstance.close(possword);
+                            pwdModify.change({new_password: $scope.credentials.pwd, old_password: $scope.credentials.oldpwd}, function (data) {
+
+                                $uibModalInstance.close(possword);
+                            }, function (data) {
+                                $scope.pwderr = true;
+                                //console.log('reseterr', data);
+                            })
+
                         };
 
                         $scope.cancel = function () {
@@ -1367,7 +1384,7 @@ define(['angular'], function (angular) {
             function (account,$timeout, $q, orgList, $rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User) {
 
                 this.login = function (credentials, stateParams) {
-                    console.log("login", credentials);
+                    //console.log("login", credentials);
                     //console.log("login", stateParams);
                     localStorage.setItem('Auth', $base64.encode(credentials.username + ':' + credentials.password))
                     $rootScope.loding = true;
@@ -1470,7 +1487,7 @@ define(['angular'], function (angular) {
                                         if (data.purchased) {
                                             $state.go('console.dashboard');
                                             //跳转dashboard
-                                        }else{
+                                        }else {
                                             $state.go('console.noplan');
                                             //跳转购买套餐
                                         }
@@ -1499,7 +1516,7 @@ define(['angular'], function (angular) {
                             //  $rootScope.loding = false;
                             //}
                             $state.go('login');
-                            console.log('登录报错', data);
+                            //console.log('登录报错', data);
                             if (data.indexOf('502') != -1) {
                                 //$rootScope.loding = false;
                                 //alert('超时了');
@@ -1509,7 +1526,7 @@ define(['angular'], function (angular) {
                                 $rootScope.loding = false;
                                 Alert.open('请重新登录', '用户名或密码不正确');
                                 var codenum = localStorage.getItem("code");
-                                console.log(codenum);
+                                //console.log(codenum);
                                 if (codenum) {
                                     codenum = parseInt(codenum);
                                     codenum += 1
@@ -1571,7 +1588,7 @@ define(['angular'], function (angular) {
 
                         //console.log('tokenarr', tokenarr[region-1]);
                     }else {
-                        console.log('token错误');
+                        //console.log('token错误');
                     }
 
                     if (config.headers && token) {
