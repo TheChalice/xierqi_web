@@ -43,7 +43,8 @@
                     <h2>
                         绑定服务
                         <a href="javascript:;" class="btn btn-orange" ng-click="delBing($index,items.id)">解除绑定</a>
-                        <a href="javascript:;" class="btn btn-green" ng-click="bindModal($index,items.id)">新增绑定</a>
+                        <a href="javascript:;" class="btn btn-gray" style="background-color:#fff;color: white" ng-if="item.status.phase==='Provisioning'">新增绑定</a>
+                        <a href="javascript:;" class="btn btn-green" ng-if="item.status.phase!=='Provisioning'" ng-click="bindModal($index,items.id)">新增绑定</a>
                     </h2>
                     <div class="panel-group" role="tablist" aria-multiselectable="true" style="margin-bottom: 0;">
                         <div class="panel panel-default" ng-repeat="bsisv in item.spec.binding">
