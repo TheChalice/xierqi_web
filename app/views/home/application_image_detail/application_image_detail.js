@@ -48,7 +48,7 @@ angular.module('home.application_image_detail', [
             var str = $scope.name+':'+name
             ModalPullImage.open(str)
                 .then(function(res){
-                    console.log("cmd1", res);
+                    //console.log("cmd1", res);
                 });
         };
         $scope.deployimg = function(obj){

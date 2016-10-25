@@ -22,7 +22,7 @@ angular.module('console.service', [
         });
 
         var refresh = function(page) {
-          console.log(page);
+          //console.log(page);
 
             var skip = (page - 1) * $scope.grid.size;
             $scope.items = $scope.data.items.slice(skip, skip + $scope.grid.size);
@@ -363,7 +363,7 @@ angular.module('console.service', [
                     }
                 }
 
-                console.log('===', binds)
+                //console.log('===', binds)
 
                 for (var i = 0; i < dcs.length; i++) {
                     if (binds.indexOf(dcs[i].metadata.name) != -1) {

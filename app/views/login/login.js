@@ -2,10 +2,10 @@
 angular.module('home.login', [])
     .controller('loginCtrl', ['regions', 'ModalRegist', '$interval', '$state', '$rootScope', 'AuthService', '$scope', '$log', '$stateParams',
         function (regions, ModalRegist, $interval, $state, $rootScope, AuthService, $scope, $log, $stateParams) {
-            console.log("+_+_+_+_+_+_+_+", $stateParams);
+            //console.log("+_+_+_+_+_+_+_+", $stateParams);
             $rootScope.credentials={};
             regions.query({}, function (data) {
-                console.log('regions', data);
+                //console.log('regions', data);
                 $scope.regionlist = data;
                 $rootScope.credentials.region=data[0].identification;
                 $scope.curregion=data[0].region_describe

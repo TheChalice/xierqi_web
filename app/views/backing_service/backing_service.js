@@ -397,7 +397,7 @@ angular.module('console.backing_service', [
                     }
                 } else if (data.type == "MODIFIED") {
 
-                     console.log(data,newid)
+                     //console.log(data,newid)
                     if (newid) {
                         if ($scope.myservice[newid]) {
 
@@ -671,7 +671,7 @@ angular.module('console.backing_service', [
                     Toast.open('请先选择要解除绑定的服务');
                     return;
                 }
-                console.log($scope.myservice,bindings);
+                //console.log($scope.myservice,bindings);
 
                 angular.forEach(bindings, function (binding,i) {
                     angular.forEach(binds, function (bind,j) {

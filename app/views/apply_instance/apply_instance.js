@@ -26,9 +26,9 @@ angular.module('console.apply_instance', [
             }
         };
     $scope.bsName = $stateParams.name;
-    console.log('@@@test bsname', $stateParams.name);
+    //console.log('@@@test bsname', $stateParams.name);
     var loadBs = function(){
-        console.log("$state", $stateParams.plan)
+        //console.log("$state", $stateParams.plan)
         BackingService.get({namespace:'openshift',name:$stateParams.name,region:$rootScope.region},function(data){
             $log.info('loadBs',data);
             $scope.data = data;
@@ -38,7 +38,7 @@ angular.module('console.apply_instance', [
             for (var i = 0; i < plans.length; i++) {
                 if (plans[i].name == $stateParams.plan) {
                     $scope.grid.checked = i;
-                    console.log("==============", i)
+                    //console.log("==============", i)
                     break;
                 }
             }

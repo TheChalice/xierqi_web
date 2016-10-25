@@ -89,10 +89,10 @@ angular.module('home', [])
                     }
                 })
             }
-            console.log('$scope$scope$scope$scope',$scope)
+            //console.log('$scope$scope$scope$scope',$scope)
             $rootScope.$on('$stateChangeStart',
                 function (event, toState, toParams, fromState, fromParams) {
-                    console.log('toState',toState.name);
+                    //console.log('toState',toState.name);
                     if (toState.name !== "home.introduce") {
                         $('html').css('overflow', 'auto');
                         $('.foot_main').css('display', 'block');

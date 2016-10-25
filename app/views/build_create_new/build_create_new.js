@@ -631,7 +631,7 @@ angular.module('console.build_create_new', [
         };
 
         $scope.selectLabProject = function(idx, chooose){
-            console.log('_+_+_+_+_+_+_+', $scope.labobjs[idx]);
+            //console.log('_+_+_+_+_+_+_+', $scope.labobjs[idx]);
             var labId = $scope.labobjs[idx].id;
             labBranch.get({repo:labId},function(data) {
                 if ($scope.choooseProject && $scope.grid.labproject == idx) {

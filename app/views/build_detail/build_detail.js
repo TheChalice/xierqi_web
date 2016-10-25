@@ -153,9 +153,9 @@ angular.module('console.build.detail', [
 
             var removeIs = function (name) {
                 ImageStream.delete({namespace: $rootScope.namespace, name: name,region:$rootScope.region}, {}, function (res) {
-                    console.log("yes removeIs");
+                    //console.log("yes removeIs");
                 }, function (res) {
-                    console.log("err removeIs");
+                    //console.log("err removeIs");
                 })
             }
 
@@ -282,7 +282,7 @@ angular.module('console.build.detail', [
             var createWebhook = function () {
                 var host = $scope.data.spec.source.git.uri;
                 var triggers = $scope.data.spec.triggers;
-                console.log('triggers', triggers);
+                //console.log('triggers', triggers);
 
 
                 if ($scope.grid.checked) {
@@ -352,7 +352,7 @@ angular.module('console.build.detail', [
                     if ($stateParams.from == "create/new") {
                         $scope.databuild.items[0].showLog = true;
                     }
-                    console.log($scope.databuild);
+                    //console.log($scope.databuild);
                     //fillHistory(data.items);
 
                     //emit(imageEnable(data.items));
@@ -431,7 +431,7 @@ angular.module('console.build.detail', [
                 }, function () {
                     $log.info("webSocket stop");
                     var key = Ws.key($rootScope.namespace, 'builds', '');
-                    console.log(key, $rootScope);
+                    //console.log(key, $rootScope);
                     if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
                         return;
                     }
@@ -440,7 +440,7 @@ angular.module('console.build.detail', [
             };
 
             var updateBuilds = function (data) {
-                console.log('ws状态', data);
+                //console.log('ws状态', data);
                 if (data.type == 'ERROR') {
                     $log.info("err", data.object.message);
                     Ws.clear();

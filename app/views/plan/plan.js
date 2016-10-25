@@ -17,7 +17,7 @@ angular.module('console.plan', [
                 //console.log('balance', data);
             });
             account.get({namespace:$rootScope.namespace,region:$rootScope.region}, function (mydata) {
-                console.log(mydata);
+                //console.log(mydata);
                 //mydata.purchased=false;
                 //if (mydata.purchased) {
                 //    $('.plan_block_main').css("left","200px");
@@ -25,7 +25,7 @@ angular.module('console.plan', [
                 //    $('.plan_block_main').css("left","0");
                 //}
                 market.get({region:$rootScope.region}, function (data) {
-                    console.log(data);
+                    //console.log(data);
                     angular.forEach(data.plans, function (plan, i) {
                         if (plan.region_id === $rootScope.region) {
                             $scope.plans.push(plan);
@@ -70,7 +70,7 @@ angular.module('console.plan', [
                             namespace: $rootScope.namespace,
                             region:$rootScope.region
                         }, function (data) {
-                            console.log(data);
+                            //console.log(data);
                             Tip.open('提示', '购买成功！', false, true, true).then(function () {
                                 $state.go('console.dashboard')
                             })
