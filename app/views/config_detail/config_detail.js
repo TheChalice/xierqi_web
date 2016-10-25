@@ -122,7 +122,7 @@ angular.module('console.config_detail', [
                 delete $scope.volume.configarr;
                 delete $scope.volume.configitems;
                 configmaps.updata({namespace: $rootScope.namespace,name:$stateParams.name,region:$rootScope.region}, $scope.volume, function (res) {
-                    console.log('createconfig----', res);
+                    //console.log('createconfig----', res);
                     $state.go('console.resource_management', {index: 2});
                     //$state.go('console.build_detail', {name: name, from: 'create'})
                 })
@@ -132,7 +132,7 @@ angular.module('console.config_detail', [
 
                 Confirm.open("删除配置卷", "您确定要删除配置卷吗？", "配置卷已经挂载在容器中，删除此配置卷，容器启动将异常", "stop").then(function(){
                     configmaps.delete({namespace: $rootScope.namespace,name:$stateParams.name,region:$rootScope.region}, $scope.volume, function (res) {
-                        console.log('createconfig----', res);
+                        //console.log('createconfig----', res);
                         $state.go('console.resource_management', {index: 2});
                         //$state.go('console.build_detail', {name: name, from: 'create'})
                     }, function (err) {

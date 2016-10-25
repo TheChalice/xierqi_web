@@ -26,7 +26,7 @@ angular.module('console.image_detail', [
                 }
 
                 $scope.date = data;
-                console.log($scope.date);
+                //console.log($scope.date);
             })
 
             $scope.pull = function (name) {
@@ -35,7 +35,7 @@ angular.module('console.image_detail', [
                 var str =$scope.name + ':' + name
                 ModalPullImage.open(str,'project')
                     .then(function (res) {
-                        console.log("cmd1", res);
+                        //console.log("cmd1", res);
                     });
             };
             $scope.delete = function (idx) {
@@ -47,7 +47,7 @@ angular.module('console.image_detail', [
 
 
                     Confirm.open(title, msg, tip, 'recycle').then(function () {
-                        console.log($scope.date)
+                        //console.log($scope.date)
                         var name = $scope.date.status.tags[idx].tag
                         // alert(name)master
                         if (!name) {

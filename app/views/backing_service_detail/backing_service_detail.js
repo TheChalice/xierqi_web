@@ -11,7 +11,7 @@ angular.module('console.backing_service_detail', [
       $scope.grid={}
       var cuename = $stateParams.name;
 
-      console.log('$stateParams', $stateParams)
+      //console.log('$stateParams', $stateParams)
 
       $scope.grid.active = $stateParams.index;
 
@@ -60,7 +60,7 @@ angular.module('console.backing_service_detail', [
 
         var plans = $scope.data.spec.plans;
         $scope.data.spec.plans.free = true;
-        console.log("%%%%%%", $scope.data.spec);
+        //console.log("%%%%%%", $scope.data.spec);
         for (var i = 0; i < plans.length; i++) {
           if (plans[i].name == item.spec.provisioning.backingservice_plan_name) {
             $scope.grid.checked = i;
@@ -99,7 +99,7 @@ angular.module('console.backing_service_detail', [
       loadBsi();
 
       $scope.delBsi = function (idx) {
-        console.log('del$scope.bsi.items[idx]', $scope.bsi.items[idx].spec.binding);
+        //console.log('del$scope.bsi.items[idx]', $scope.bsi.items[idx].spec.binding);
         if ($scope.bsi.items[idx].spec.binding) {
           var curlength = $scope.bsi.items[idx].spec.binding.length;
           if (curlength > 0) {
@@ -225,7 +225,7 @@ angular.module('console.backing_service_detail', [
       };
 
       var bindService = function (name, dcs) {
-        console.log('dcs', dcs)
+        //console.log('dcs', dcs)
         var bindObj = {
           metadata: {
             name: name,

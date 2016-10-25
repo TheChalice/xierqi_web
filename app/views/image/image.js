@@ -407,7 +407,7 @@ angular.module('console.image', [
                             })
                             //console.log(datalist.items[i].status.tags[0]);
                             $scope.testlist = datalist.items;
-                            console.log('datalist.items',datalist.items);
+                            //console.log('datalist.items',datalist.items);
                             //datalist.items.sort(function (x, y) {
                             //    return x.sorttime > y.sorttime ? -1 : 1;
                             //});
@@ -425,7 +425,7 @@ angular.module('console.image', [
                     //datalist.items[i].sorttime = (new Date(item.metadata.creationTimestamp)).getTime()
                 })
 
-                console.log('$scope.testlist', $scope.testlist);
+                //console.log('$scope.testlist', $scope.testlist);
             })
             //$http.get('/oapi/v1/namespaces/' + $rootScope.namespace + '/imagestreams')
             //    .success(function (datalist) {
@@ -636,7 +636,7 @@ angular.module('console.image', [
                         $scope.typeimagecenter = angular.copy($scope.imagecenter);
                     }
                     //$scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
-                    console.log($scope.imagecenter);
+                    //console.log($scope.imagecenter);
                     $scope.grid.imagecentertotal = $scope.imagecenter.length;
                     $scope.grid.imagecenterpage = 1;
                     imagecenterrefresh(1, 'tag');
@@ -644,7 +644,7 @@ angular.module('console.image', [
                 }
 
                 $scope.grid[tp] = key;
-                console.log($scope.grid[tp]);
+                //console.log($scope.grid[tp]);
             }
 
 

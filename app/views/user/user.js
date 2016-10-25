@@ -142,7 +142,7 @@ angular.module('console.user', [
                         }
                     }
                 }
-                console.log('list entire orgs', data);
+                //console.log('list entire orgs', data);
             })
         }
 
@@ -199,7 +199,7 @@ angular.module('console.user', [
             $http.post('/lapi/send_verify_email', {}).success(function () {
                 //alert('激活邮件已发送!')
                 Toast.open('激活邮件发送成功！');
-                console.log('test send email', item);
+                //console.log('test send email', item);
             })
         }
 
