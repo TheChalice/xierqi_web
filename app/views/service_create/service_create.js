@@ -41,7 +41,11 @@ angular.module('console.service.create', [
             };
 
             $scope.delprot = function (idx) {
-                $scope.grid.port = '端口';
+                console.log($scope.portsArr);
+                if ($scope.portsArr[0]&&$scope.portsArr[0].hostPort) {
+                    $scope.grid.port = $scope.portsArr[0].hostPort;
+                }
+
                 $scope.portsArr.splice(idx, 1);
             };
 
@@ -133,8 +137,10 @@ angular.module('console.service.create', [
                 if (n === o) {
                     return;
                 }
-
-                console.log('端口',n);
+                if (n&&n[0].hostPort) {
+                    $scope.grid.port = $scope.portsArr[0].hostPort;
+                }
+                //console.log('端口',n);
             },true)
 
             $scope.$watch('quota', function (n, o) {
@@ -690,7 +696,10 @@ angular.module('console.service.create', [
 
                 $scope.portsArr = [];
                 //路由端口需清空
-                $scope.grid.port = '端口';
+                //$scope.grid.port = '端口';
+                if ($scope.portsArr[0]&&$scope.portsArr[0].hostPort) {
+                    $scope.grid.port = $scope.portsArr[0].hostPort;
+                }
                 //console.log('$scope.dc.spec.template.spec.containers', $scope.dc.spec.template.spec.containers);
                 angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
                     if (ports.port) {
@@ -1030,7 +1039,10 @@ angular.module('console.service.create', [
 
                         $scope.portsArr = [];
                         //路由端口需清空
-                        $scope.grid.port = '端口';
+                        //$scope.grid.port = '端口';
+                        if ($scope.portsArr[0]&&$scope.portsArr[0].hostPort) {
+                            $scope.grid.port = $scope.portsArr[0].hostPort;
+                        }
                         //console.log($scope.dc.spec.template.spec.containers);
                         //console.log('$scope.dc.spec.template.spec.containers', $scope.dc.spec.template.spec.containers);
                         angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
