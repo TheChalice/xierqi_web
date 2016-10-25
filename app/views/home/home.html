@@ -286,7 +286,7 @@
             <li id="bshd" ng-class="{active:whereclick==='服务市场'}" style="position: relative;" ng-mouseenter="bsbten()" ng-mouseleave="bsbtout()">
                 <a ui-sref="home.index_backing_service" style="font-size: 16px;">服务市场</a>
                 <ul class="bslist">
-                    <li ng-repeat="region in regions">{{region.region_describe}}</li>
+                    <li ng-repeat="region in regions" ng-click="choose(region.identification)">{{region.region_describe}}</li>
                     <!--<li>2</li>-->
                 </ul>
             </li>

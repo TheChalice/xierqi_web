@@ -4,7 +4,7 @@ angular.module('home', [])
     .controller('HomeCtrl', ['Cookie','regions','account','$state', '$scope', '$rootScope', '$log', 'ModalLogin', 'ModalRegist', 'User',
         function (Cookie,regions,account,$state, $scope, $rootScope, $log, ModalLogin, ModalRegist, User) {
             regions.query({}, function (data) {
-                //console.log('regions', data);
+                console.log('regions', data);
                 $scope.regions = data;
             })
             $log.info('Home');
