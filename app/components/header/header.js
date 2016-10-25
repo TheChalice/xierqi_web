@@ -15,10 +15,20 @@ angular.module("console.header", [
                 function (account,regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
                     ///////分区
                     //$scope.curregion = $rootScope.region;
+
                     $scope.checkregion = function (res,id) {
                         $scope.curregion = res;
+                        $rootScope.region=id
                         Cookie.set('region',id, 10 * 365 * 24 * 3600 * 1000);
-                        $state.reload();
+                        console.log($state.current.name);
+                        if ($state.current.name === 'console.dashboard') {
+                            $state.reload();
+                        }else {
+                            $state.go('console.dashboard');
+                        }
+
+
+                        //$state.reload();
 
                     }
                     regions.query({}, function (data) {

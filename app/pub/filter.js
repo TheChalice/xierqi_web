@@ -140,6 +140,36 @@ define(['angular', 'moment'], function (angular, moment) {
                 }
             };
         }])
+        .filter('payFilter',[function(){
+            return function(phase){
+                if(phase === 'coupon'){
+                    return "充值卡"
+                }else if(phase === 'hongpei'){
+                    return "宏支付"
+                }else if(phase == 'Pending'){
+                    return "创建中"
+                }else if(phase == 'Bound'){
+                    return "未挂载"
+                }else{
+                    return phase || "-"
+                }
+            };
+        }])
+        .filter('paytypeFilter',[function(){
+            return function(phase){
+                if(phase === 'O'){
+                    return "充值成功"
+                }else if(phase === 'F'){
+                    return "扣费失败"
+                }else if(phase === 'I'){
+                    return "充值中"
+                }else if(phase === 'E'){
+                    return "充值失败"
+                }else{
+                    return phase || "-"
+                }
+            };
+        }])
         .filter("timescon",[function(){
             return function(times){
                 if(times){
