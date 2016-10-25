@@ -178,7 +178,7 @@ angular.module('home.index_backing_service', [
 
                         }
                     }
-                    console.log("$scope.market", $scope.market)
+                    //console.log("$scope.market", $scope.market)
                     $scope.data = data.items;
                     filter('serviceCat', 'all');
                     filter('vendor', 'all');

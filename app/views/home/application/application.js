@@ -123,7 +123,7 @@ angular.module('home.application', [
         //}
         var test = function(){
             saas.get({},function(data){
-                console.log('------------------',data);
+                //console.log('------------------',data);
             })
         }
 
@@ -425,7 +425,7 @@ angular.module('home.application', [
                     }
 
                 }
-                console.log('$scope.saas.category', $scope.saas.category);
+                //console.log('$scope.saas.category', $scope.saas.category);
                 $scope.saascopy=angular.copy($scope.saas);
                 $scope.saas.provider = $scope.saas.provider.unique()
             })
@@ -447,7 +447,7 @@ angular.module('home.application', [
             }
             $scope.searchname.providername = pro
             saas.get({category:thiscat,provider:pro},function(res){
-                console.log('-------cat',res);
+                //console.log('-------cat',res);
             })
         }
         ///////saas搜索

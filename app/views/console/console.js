@@ -59,7 +59,7 @@ angular.module('console', [
                         }
                     });
                     $rootScope.projects = data.items;
-                    console.log(data.items);
+                    //console.log(data.items);
 
 
                     //$log.info("load project success", data);

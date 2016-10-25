@@ -60,8 +60,8 @@ angular.module('console.service.detail', [
                 }
 
                 if ($scope.grid.cpunum || $scope.grid.megnum) {
-                    console.log(n.cpu, $scope.grid.cpunum);
-                    console.log(n.memory, $scope.grid.megnum);
+                    //console.log(n.cpu, $scope.grid.cpunum);
+                    //console.log(n.memory, $scope.grid.megnum);
                     if (n.cpu) {
                         if (parseFloat(n.cpu) > parseFloat($scope.grid.cpunum)) {
                             $scope.grid.cpuerr = true;
@@ -87,7 +87,7 @@ angular.module('console.service.detail', [
                     } else {
                         $scope.grid.memoryerr = false;
                     }
-                    console.log($scope.grid.memoryerr, $scope.grid.cpuerr);
+                    //console.log($scope.grid.memoryerr, $scope.grid.cpuerr);
                 }
             }, true)
 
@@ -714,7 +714,7 @@ angular.module('console.service.detail', [
             };
 
             var loadRoutes = function (dc,sever) {
-                console.log(sever,dc);
+                //console.log(sever,dc);
                 Route.get({namespace: $rootScope.namespace,name:dc.metadata.name,region:$rootScope.region}, function (res) {
                      $log.info("routes", res);
 
@@ -742,7 +742,7 @@ angular.module('console.service.detail', [
 
                         angular.forEach(sever.spec.ports, function (port,i) {
                             if ($scope.routeconf.spec.port.targetPort === port.name) {
-                                console.log('port',port);
+                                //console.log('port',port);
                                 $scope.grid.port = port.targetPort
                             }
                         })
@@ -769,7 +769,7 @@ angular.module('console.service.detail', [
 
                         var arr=hoststr.split('.')
 
-                        console.log('$scope.grid.host', arr[arr.length-4]);
+                        //console.log('$scope.grid.host', arr[arr.length-4]);
                     }
 
                 }, function (res) {
@@ -803,7 +803,7 @@ angular.module('console.service.detail', [
             //$scope.events=[];
             var loadeventws = function () {
                 Event.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
-                    console.log('event',res);
+                    //console.log('event',res);
                     if (!$scope.eventsws) {
                         $scope.eventsws = []
                         var arr = []
@@ -817,7 +817,7 @@ angular.module('console.service.detail', [
                             }
 
                         })
-                        console.log('eventsws', arr);
+                        //console.log('eventsws', arr);
                         $scope.hasevent==arr.length
                         angular.forEach(arr, function (item, i) {
                             arr[i].mysort = -(new Date(item.metadata.creationTimestamp)).getTime()
@@ -1537,8 +1537,8 @@ angular.module('console.service.detail', [
                         obj = pod
                     }
                 })
-                console.log('pod', obj);
-                console.log('pod', obj.spec.containers[idx]);
+                //console.log('pod', obj);
+                //console.log('pod', obj.spec.containers[idx]);
                 var pod = obj.spec.containers[idx];
                 ContainerModal.open(obj, pod);
             };
@@ -1762,7 +1762,7 @@ angular.module('console.service.detail', [
                         $scope.dc.spec.template.spec.containers[i].volumeMounts = copycons;
                     }
                     $scope.dc.spec.template.spec.volumes = thisvolumes;
-                    console.log('-----------------------dc-', $scope.dc);
+                    //console.log('-----------------------dc-', $scope.dc);
                 });
             }
 
@@ -1813,7 +1813,7 @@ angular.module('console.service.detail', [
                 var container = $scope.dc.spec.template.spec.containers[idx];
                 var cons = $scope.dc.spec.template.spec.containers;
                 ImageSelect.open().then(function (res) {
-                    console.log("imageStreamTag", res);
+                    //console.log("imageStreamTag", res);
                     $scope.grid.imagePullSecrets = true;
                     var imagetag = '';
                     if (res.ispublicimage) {
@@ -1931,7 +1931,7 @@ angular.module('console.service.detail', [
                     //路由端口需清空
                     $scope.grid.port = '';
                     //console.log($scope.dc.spec.template.spec.containers);
-                    console.log('$scope.dc.spec.template.spec.containers', $scope.dc.spec.template.spec.containers);
+                    //console.log('$scope.dc.spec.template.spec.containers', $scope.dc.spec.template.spec.containers);
                     angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
                         if (ports.port) {
                             angular.forEach(ports.port, function (port, k) {
@@ -2205,7 +2205,7 @@ angular.module('console.service.detail', [
                     $scope.routeconf.spec.host = $scope.grid.host + $scope.grid.suffix;
                     //dc.route.spec.port.targetPort = $scope.grid.port + '-tcp';
                     $scope.routeconf.spec.port.targetPort = $scope.grid.port + '-tcp';
-                    console.log($scope.routeconf);
+                    //console.log($scope.routeconf);
                     if ($scope.grid.tlsset == 'passthrough') {
                         $scope.routeconf.spec.tls.termination = $scope.grid.tlsset;
                         delete $scope.routeconf.spec.tls.insecureEdgeTerminationPolicy
@@ -2253,7 +2253,7 @@ angular.module('console.service.detail', [
                 } else {            //route不存在,创建route
                     prepareRoute($scope.route, dc);
 
-                    console.log($scope.grid);
+                    //console.log($scope.grid);
                     if ($scope.grid.tlsset == 'passthrough') {
                         $scope.route.spec.tls.termination = $scope.grid.tlsset;
 
@@ -2286,7 +2286,7 @@ angular.module('console.service.detail', [
                     } else {
                         delete $scope.route.spec.tls
                     }
-                    console.log('createRoute', $scope.route);
+                    //console.log('createRoute', $scope.route);
                     Route.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.route, function (res) {
                         // $log.info("create route success", res);
                         $scope.route = res;
@@ -2352,7 +2352,7 @@ angular.module('console.service.detail', [
                     dc.metadata.resourceVersion = datadc.metadata.resourceVersion;
                     dc.status.latestVersion = datadc.status.latestVersion + 1;
                     var flog = 0;
-                    console.log("123456789123456789", dc);
+                    //console.log("123456789123456789", dc);
                     for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
                         if (cons[i].ports) {
                             var testlength = cons[i].ports.length;
@@ -2613,7 +2613,7 @@ angular.module('console.service.detail', [
                     function ($log, Ws, $sce, ansi_ups, $rootScope, $scope, $uibModalInstance, Pod) {
                         $scope.grid = {};
                         $scope.pod = pod;
-                        console.log("pod-=-=-=-=-++++", pod);
+                        //console.log("pod-=-=-=-=-++++", pod);
                         $scope.ok = function () {
                             $uibModalInstance.close(true);
                         };
@@ -2633,7 +2633,7 @@ angular.module('console.service.detail', [
                                 sinceTime: $scope.grid.st ? $scope.grid.st.toISOString() : (new Date(0)).toISOString()
                             };
                             Pod.get({namespace: $rootScope.namespace, name: pod,region:$rootScope.region}, function (podcenter) {
-                                console.log(podcenter.metadata.resourceVersion);
+                                //console.log(podcenter.metadata.resourceVersion);
                                 //watchpod(podcenter.metadata.resourceVersion)
                             })
                             Pod.log.get(params, function (res) {
