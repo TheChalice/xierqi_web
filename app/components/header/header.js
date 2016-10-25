@@ -11,8 +11,8 @@ angular.module("console.header", [
             restrict: 'EA',
             replace: true,
             templateUrl: 'components/header/header.html',
-            controller: ['regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
-                function (regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
+            controller: ['account','regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
+                function (account,regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
                     ///////分区
                     //$scope.curregion = $rootScope.region;
                     $scope.checkregion = function (res,id) {
@@ -143,6 +143,17 @@ angular.module("console.header", [
                     $scope.$on('$destroy', function () {
                         clearInterval($scope.timer);
                     });
+                    account.get({namespace:$rootScope.namespace,region:$rootScope.region}, function (data) {
+                        //console.log('套餐', data);
+                        //$rootScope.payment=data;
+                        if (data.purchased) {
+                           $scope.cancreatorg = true
+                            //跳转dashboard
+                        }else{
+                            $scope.cancreatorg = false
+                            //跳转购买套餐
+                        }
+                    })
                     $scope.createOrg = function () {
                         Addmodal.open('创建组织', '组织名称', '', '', 'org').then(function (res) {
                             orgList.get({}, function (org) {

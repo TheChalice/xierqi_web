@@ -1431,7 +1431,7 @@ define(['angular'], function (angular) {
                         $http(req).success(function (data) {
                             //var arrstr = data.join(',');
                             var arr = []
-                            console.log(data);
+                            //console.log(data);
                             angular.forEach(data, function (token,i) {
                                 //arr.push(token.access_token)
                                 var index = token.region.split('-')[2]
