@@ -7,6 +7,7 @@ angular.module('home.login', [])
             regions.query({}, function (data) {
                 //console.log('regions', data);
                 $scope.regionlist = data;
+                $scope.copyregionlist=angular.copy(data)
                 $rootScope.credentials.region=data[0].identification;
                 $scope.curregion=data[0].region_describe
             })
@@ -30,6 +31,23 @@ angular.module('home.login', [])
                 $scope.curregion=res;
                 $rootScope.credentials.region = regionid;
             }
+            $scope.$watch('curregion', function (n,o) {
+                if (n === o) {
+                    return
+                }
+                //$scope.regionlist=$scope.copyregionlist;
+                var arr = angular.copy($scope.copyregionlist)
+                if ($scope.regionlist) {
+                    //console.log($scope.regionlist,$scope.copyregionlist);
+                    angular.forEach( $scope.copyregionlist, function (item,i) {
+                       if (item.region_describe === n) {
+                           //console.log(item.region_describe, $scope.regionlist);
+                           arr.splice(i, 1);
+                           $scope.regionlist=arr;
+                       }
+                   })
+                }
+            })
             //$scope.regionlist = [
             //    {regionname : '一区一区'},
             //    {regionname : '二区二区'}
