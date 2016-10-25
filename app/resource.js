@@ -682,6 +682,12 @@ define([
             });
             return recharge;
         }])
+        .factory('redeem', ['$resource', 'GLOBAL', function ($resource) {//充值优惠卷
+            var redeem = $resource('/payment/v1/redeem', {}, {
+                create: {method: 'POST'}
+            });
+            return redeem;
+        }])
         //.factory('recharge2', ['$resource', 'GLOBAL', function ($resource) {//充值
         //    var recharge = $resource('http://datafoundry.recharge.app.dataos.io/charge/v1/recharge', {}, {
         //        create: {method: 'POST'}

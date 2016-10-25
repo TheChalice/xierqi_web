@@ -71,7 +71,8 @@ angular.module('console.user', [
             $rootScope.isorg = false;
             loadProject();
             $rootScope.namespace=$rootScope.user.metadata.name;
-            $state.go('console.dashboard');
+            $state.go('console.user',{index:4});
+            //console.user()
           })
         })
       }else{

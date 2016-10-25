@@ -177,19 +177,22 @@ angular.module('console.user', [
 
         //})
         amounts.get({size:500,page:1,namespace:$rootScope.namespace,region:$rootScope.region}, function (data) {
-            console.log(data);
-            data.amounts.reverse()
-            angular.forEach(data.amounts, function (amount,i) {
-                if (amount.description === "recharge") {
-                    data.amounts[i].description='充值'
-                }else {
-                    data.amounts[i].description='扣费'
-                }
-            })
-            $scope.myamounts = data.amounts;
-            $scope.amountdata =angular.copy(data.amounts)
-            $scope.grid.total = data.amounts.length;
-            refresh(1);
+            //console.log(data);
+            if (data.amounts) {
+                data.amounts.reverse()
+                angular.forEach(data.amounts, function (amount,i) {
+                    if (amount.description === "recharge") {
+                        data.amounts[i].description='充值'
+                    }else {
+                        data.amounts[i].description='扣费'
+                    }
+                })
+                $scope.myamounts = data.amounts;
+                $scope.amountdata =angular.copy(data.amounts)
+                $scope.grid.total = data.amounts.length;
+                refresh(1);
+            }
+
 
         })
         $scope.sendemail = function (item) {
