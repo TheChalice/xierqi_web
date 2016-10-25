@@ -1407,7 +1407,7 @@ define(['angular'], function (angular) {
                                 if (data.items[i].metadata.name == name) {
                                     $rootScope.namespace = name;
                                     angular.forEach(data.items, function (item, i) {
-                                        if (item.metadata.name === $rootScope.namespace) {
+                                        if (item.metadata.name === $rootScope.user.metadata.name) {
                                             data.items.splice(i, 1);
                                         } else {
                                             data.items[i].sortname = item.metadata.annotations['openshift.io/display-name'] || item.metadata.name;
@@ -1462,11 +1462,12 @@ define(['angular'], function (angular) {
                             //console.log(Cookie.get('df_access_token'));
                             Cookie.set('region', credentials.region, 10 * 365 * 24 * 3600 * 1000);
                             $rootScope.region = Cookie.get('region');
-                            loadProject(credentials.username);
+
                             User.get({name: '~',region:$rootScope.region}, function (res) {
                                 $rootScope.loding = false;
                                 $rootScope.user = res;
                                 //localStorage.setItem('cade',null)
+                                loadProject(credentials.username);
                                 localStorage.setItem("code", 1);
                                 $rootScope.loginyanzheng = false;
                                 if (stateParams) {

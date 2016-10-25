@@ -83,7 +83,7 @@ angular.module('console.plan', [
                                 })
                             } else {
                                 Tip.open('提示', '暂不支持更换套餐。', '知道了', true).then(function () {
-                                    //$state.go('console.pay');
+                                   
                                 })
                             }
 

@@ -19,6 +19,10 @@ angular.module('home', [])
             //    //console.log(now)
             //    $scope.whereclick = now
             //}
+            $scope.chooseregion = function (regionid) {
+                console.log('regionid',regionid);
+                $state.go('home.index_backing_service',{region:regionid})
+            }
             if ($rootScope.resetpwd) {
                 console.log('reset');
                 //return

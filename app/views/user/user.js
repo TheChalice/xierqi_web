@@ -185,9 +185,9 @@ angular.module('console.user', [
         }
         //orders.get({}, function (orders) {
         //    console.log(orders);
-
         //})
-        amounts.get({size:500,page:1,namespace:$rootScope.namespace,region:$rootScope.region}, function (data) {
+
+        amounts.get({size:500,page:1,namespace:$rootScope.namespace}, function (data) {
             //console.log(data);
             if (data.amounts) {
                 data.amounts.reverse()
