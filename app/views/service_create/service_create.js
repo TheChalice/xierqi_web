@@ -35,7 +35,7 @@ angular.module('console.service.create', [
             $scope.addprot = function () {
                 $scope.portsArr.unshift({
                     containerPort: "",
-                    protocol: "",
+                    protocol: "TCP",
                     hostPort: "",
                 })
             };
