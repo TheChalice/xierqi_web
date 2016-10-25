@@ -11,8 +11,8 @@ angular.module('console.user', [
 
     ]
   }
-]) .controller('orgCtrl', ['Project','$http', '$rootScope', '$state','$cacheFactory','loadOrg','Addmodal','Confirm','$scope','$stateParams', 'invitation', 'leave', 'Toast',
-  function (Project,$http, $rootScope, $state, $cacheFactory,loadOrg,Addmodal,Confirm,$scope,$stateParams,invitation,leave, Toast) {
+]) .controller('orgCtrl', ['$log','Project','$http', '$rootScope', '$state','$cacheFactory','loadOrg','Addmodal','Confirm','$scope','$stateParams', 'invitation', 'leave', 'Toast',
+  function ($log,Project,$http, $rootScope, $state, $cacheFactory,loadOrg,Addmodal,Confirm,$scope,$stateParams,invitation,leave, Toast) {
     $scope.grid={
       st:null,
       et:null

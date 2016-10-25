@@ -4,7 +4,7 @@ angular.module('home', [])
     .controller('HomeCtrl', ['Cookie','regions','account','$state', '$scope', '$rootScope', '$log', 'ModalLogin', 'ModalRegist', 'User',
         function (Cookie,regions,account,$state, $scope, $rootScope, $log, ModalLogin, ModalRegist, User) {
             regions.query({}, function (data) {
-                //console.log('regions', data);
+                console.log('regions', data);
                 $scope.regions = data;
             })
             $log.info('Home');
@@ -19,6 +19,10 @@ angular.module('home', [])
             //    //console.log(now)
             //    $scope.whereclick = now
             //}
+            $scope.chooseregion = function (regionid) {
+                console.log('regionid',regionid);
+                $state.go('home.index_backing_service',{region:regionid})
+            }
             if ($rootScope.resetpwd) {
                 console.log('reset');
                 //return

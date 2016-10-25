@@ -11,6 +11,7 @@
         <p class="modal-msg text-left" style="margin: 0 0 5px 0;font-size:14px;color:#5a6378;">
             <span class="require">原密码</span>&nbsp;&nbsp;
             <small ng-if="credentials.oldpwdchange&&frm.oldpwd.$dirty && frm.oldpwd.$error.required" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;密码不能为空</small>
+            <small ng-if="pwderr" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;原密码不正确</small>
         </p>
         <!--<button ng-click="look()">test</button>-->
         <input type="password" name="oldpwd" class="form-control" ng-model="credentials.oldpwd" ng-blur="credentials.oldpwdchange=true"

@@ -63,7 +63,7 @@ define([
                     }
                 })
                 .state('home.index_backing_service', {
-                    url: '/index_backing_service',
+                    url: '/index_backing_service/:region',
                     templateUrl: 'views/home/index_backing_service/index_backing_service.html',
                     controller: 'index_backing_serviceCtrl',
                     resolve: {

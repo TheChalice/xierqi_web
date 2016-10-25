@@ -32,13 +32,13 @@ angular.module('console.user', [
             var skip = (page - 1) * $scope.grid.size;
             $scope.myamounts = $scope.amountdata.slice(skip, skip + $scope.grid.size);
         };
-        console.log($stateParams);
+        //console.log($stateParams);
         if ($stateParams.index) {
             $scope.check = $stateParams.index
         }
         $scope.orgName = "seferfe";
         market.get({region:$rootScope.region}, function (data) {
-            console.log('套餐详情', data);
+            //console.log('套餐详情', data);
         })
 
         //load project
@@ -77,19 +77,30 @@ angular.module('console.user', [
         $scope.updatePwd = function () {
             ModalPwd.open().then(function (password) {
                 //console.log(password);
-                pwdModify.change({new_password: password.pwd, old_password: password.oldpwd}, function (data) {
-                    Toast.open('更改密码成功');
-                    setTimeout(function () {
-                        Cookie.clear('namespace');
-                        $rootScope.resetpwd = true;
-                        //Cookie.clear('region');
-                        //Cookie.clear('df_access_token');
-                        $rootScope.user = null;
-                        //$rootScope.region = '';
-                        $rootScope.namespace = "";
-                        $state.go('login');
-                    }, 2000)
-                })
+                Toast.open('更改密码成功');
+                setTimeout(function () {
+                    Cookie.clear('namespace');
+                    $rootScope.resetpwd = true;
+                    //Cookie.clear('region');
+                    //Cookie.clear('df_access_token');
+                    $rootScope.user = null;
+                    //$rootScope.region = '';
+                    $rootScope.namespace = "";
+                    $state.go('login');
+                }, 2000)
+                //pwdModify.change({new_password: password.pwd, old_password: password.oldpwd}, function (data) {
+                //    Toast.open('更改密码成功');
+                //    setTimeout(function () {
+                //        Cookie.clear('namespace');
+                //        $rootScope.resetpwd = true;
+                //        //Cookie.clear('region');
+                //        //Cookie.clear('df_access_token');
+                //        $rootScope.user = null;
+                //        //$rootScope.region = '';
+                //        $rootScope.namespace = "";
+                //        $state.go('login');
+                //    }, 2000)
+                //})
             })
 
         };
@@ -174,9 +185,9 @@ angular.module('console.user', [
         }
         //orders.get({}, function (orders) {
         //    console.log(orders);
-
         //})
-        amounts.get({size:500,page:1,namespace:$rootScope.namespace,region:$rootScope.region}, function (data) {
+
+        amounts.get({size:500,page:1,namespace:$rootScope.namespace}, function (data) {
             //console.log(data);
             if (data.amounts) {
                 data.amounts.reverse()
