@@ -81,8 +81,11 @@ angular.module('console.user', [
                     Toast.open('更改密码成功');
                     setTimeout(function () {
                         Cookie.clear('namespace');
-                        Cookie.clear('df_access_token');
+                        $rootScope.resetpwd = true;
+                        //Cookie.clear('region');
+                        //Cookie.clear('df_access_token');
                         $rootScope.user = null;
+                        //$rootScope.region = '';
                         $rootScope.namespace = "";
                         $state.go('login');
                     }, 2000)
@@ -174,19 +177,22 @@ angular.module('console.user', [
 
         //})
         amounts.get({size:500,page:1,namespace:$rootScope.namespace,region:$rootScope.region}, function (data) {
-            console.log(data);
-            data.amounts.reverse()
-            angular.forEach(data.amounts, function (amount,i) {
-                if (amount.description === "recharge") {
-                    data.amounts[i].description='充值'
-                }else {
-                    data.amounts[i].description='扣费'
-                }
-            })
-            $scope.myamounts = data.amounts;
-            $scope.amountdata =angular.copy(data.amounts)
-            $scope.grid.total = data.amounts.length;
-            refresh(1);
+            //console.log(data);
+            if (data.amounts) {
+                data.amounts.reverse()
+                angular.forEach(data.amounts, function (amount,i) {
+                    if (amount.description === "recharge") {
+                        data.amounts[i].description='充值'
+                    }else {
+                        data.amounts[i].description='扣费'
+                    }
+                })
+                $scope.myamounts = data.amounts;
+                $scope.amountdata =angular.copy(data.amounts)
+                $scope.grid.total = data.amounts.length;
+                refresh(1);
+            }
+
 
         })
         $scope.sendemail = function (item) {

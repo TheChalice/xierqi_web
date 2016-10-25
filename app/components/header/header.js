@@ -275,6 +275,8 @@ angular.module("console.header", [
                     $scope.logout = function () {
                         Cookie.clear('df_access_token');
                         Cookie.clear('namespace');
+                        Cookie.clear('region');
+                        $rootScope.region = '';
                         $scope.checked = '';
                         $rootScope.user = null;
                         $rootScope.namespace = "";

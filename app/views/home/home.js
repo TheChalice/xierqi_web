@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('home', [])
-    .controller('HomeCtrl', ['regions','account','$state', '$scope', '$rootScope', '$log', 'ModalLogin', 'ModalRegist', 'User',
-        function (regions,account,$state, $scope, $rootScope, $log, ModalLogin, ModalRegist, User) {
+    .controller('HomeCtrl', ['Cookie','regions','account','$state', '$scope', '$rootScope', '$log', 'ModalLogin', 'ModalRegist', 'User',
+        function (Cookie,regions,account,$state, $scope, $rootScope, $log, ModalLogin, ModalRegist, User) {
             regions.query({}, function (data) {
                 //console.log('regions', data);
                 $scope.regions = data;
@@ -19,12 +19,24 @@ angular.module('home', [])
             //    //console.log(now)
             //    $scope.whereclick = now
             //}
-            if ($rootScope.user) {
-                return $rootScope.user;
+            if ($rootScope.resetpwd) {
+                console.log('reset');
+                //return
+            }else {
+                if ($rootScope.user) {
+                    return $rootScope.user;
+                }
+                if ($rootScope.region) {
+                    return $rootScope.region
+                }else {
+                    $rootScope.region = Cookie.get('region');
+                }
+                User.get({name: '~',region:$rootScope.region}, function (res) {
+                    $rootScope.user = res;
+                    $rootScope.resetpwd=false;
+                });
             }
-            User.get({name: '~',region:$rootScope.region}, function (res) {
-                $rootScope.user = res;
-            });
+
             //$scope.top = []
             //路由监听事件
             //console.log($state.current.name);

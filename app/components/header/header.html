@@ -59,8 +59,11 @@
                 <li ng-repeat="project in projects">
                     <a href="javascript:;" ng-click="setNamespace(project.metadata.name,project.metadata.annotations['openshift.io/display-name'])">{{project.metadata.annotations['openshift.io/display-name'] || project.metadata.name}}</a>
                 </li>
-                <li ng-if="projects">
+                <li ng-if="projects && region==='cn-north-1'">
                     <a href="javascript:;" ng-click="createOrg()">创建组织</a>
+                </li>
+                <li ng-if="region === 'cn-north-2'" style="background-color:#dfe4ef; cursor: no-drop">
+                    <a style="cursor: default;color: azure " href="javascript:;">创建组织</a>
                 </li>
                 <!--<li role="separator" class="divider"></li>-->
                 <li style="border-bottom: none;">
@@ -89,9 +92,13 @@
                  <li ng-repeat="project in projects">
                      <a href="javascript:;" ng-click="setNamespace(project.metadata.name,project.metadata.annotations['openshift.io/display-name'])">{{project.metadata.annotations['openshift.io/display-name'] || project.metadata.name}}</a>
                  </li>
-                 <li ng-if="projects">
+                 <li ng-if="projects && region==='cn-north-1'">
                      <a href="javascript:;" ng-click="createOrg()">创建组织</a>
                  </li>
+                 <li ng-if="region === 'cn-north-2'" style="background-color:#dfe4ef;">
+                     <a href="javascript:;">创建组织</a>
+                 </li>
+                 
                  <!--<li role="separator" class="divider"></li>-->
                  <li style="border-bottom: none;">
                      <a href="javascript:;" ng-click="logout()">退出登录</a>

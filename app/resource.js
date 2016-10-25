@@ -105,14 +105,14 @@ define([
             return Ws;
         }])
         .factory('User', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var User = $resource(GLOBAL.host + '/users/:name', {name: '@name'}, {
+            var User = $resource(GLOBAL.host + '/users/:name', {name: '@name',region: '@region'}, {
                 create: {method: 'POST'}
             });
             return User;
         }])
 
         .factory('Project', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var Project = $resource(GLOBAL.host + '/projects/:name', {name: '@name'}, {
+            var Project = $resource(GLOBAL.host + '/projects/:name?region=:region', {name: '@name',region: '@region'}, {
                 create: {method: 'POST'}
             });
             return Project;
@@ -682,6 +682,12 @@ define([
             });
             return recharge;
         }])
+        .factory('redeem', ['$resource', 'GLOBAL', function ($resource) {//充值优惠卷
+            var redeem = $resource('/payment/v1/redeem', {}, {
+                create: {method: 'POST'}
+            });
+            return redeem;
+        }])
         //.factory('recharge2', ['$resource', 'GLOBAL', function ($resource) {//充值
         //    var recharge = $resource('http://datafoundry.recharge.app.dataos.io/charge/v1/recharge', {}, {
         //        create: {method: 'POST'}
@@ -694,6 +700,10 @@ define([
         }])
         .factory('regions', ['$resource', 'GLOBAL', function ($resource) {//获取订单
             var regions = $resource('/payment/v1/regions', {}, {});
+            return regions;
+        }])
+        .factory('coupon', ['$resource', 'GLOBAL', function ($resource) {//获取充值卡面额
+            var regions = $resource('/payment/v1/coupon/:id', {id:'@id'}, {});
             return regions;
         }])
 
