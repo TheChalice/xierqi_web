@@ -151,7 +151,7 @@ define(['angular', 'moment'], function (angular, moment) {
                 }else if(phase == 'Bound'){
                     return "未挂载"
                 }else{
-                    return phase || "-"
+                    return phase || "账户余额"
                 }
             };
         }])
