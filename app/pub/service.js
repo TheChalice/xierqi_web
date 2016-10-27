@@ -801,7 +801,7 @@ define(['angular'], function (angular) {
                                         "mountPath": $scope.secretarr[i].mountPath
                                     }
                                     if ($scope.secretarr[i].secret.secretName == '名称' || !$scope.secretarr[i].mountPath) {
-                                        alert('密钥不能为空')
+                                        //alert('密钥不能为空')
                                         return;
                                     }
                                     thisvolumes.push(volumeval);
@@ -1383,7 +1383,6 @@ define(['angular'], function (angular) {
         }])
         .service('AuthService', ['account','$timeout', '$q', 'orgList', '$rootScope', '$http', '$base64', 'Cookie', '$state', '$log', 'Project', 'GLOBAL', 'Alert', 'User',
             function (account,$timeout, $q, orgList, $rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User) {
-
                 this.login = function (credentials, stateParams) {
                     //console.log("login", credentials);
                     //console.log("login", stateParams);
