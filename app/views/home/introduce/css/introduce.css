@@ -1,6 +1,5 @@
 ul { list-style: none;}
 html { overflow: hidden;}
-
 #pageContain { overflow: hidden;}
 .page { display: none; width: 100%; height: 100%; overflow: hidden; position: absolute; top: 70px; left: 0;}
 .contain { width: 90%; height: 100%; display: none; position: relative; z-index: 0;margin-left:5%}
@@ -180,3 +179,34 @@ color:#fff;font-size:12px;-webkit-transition:all 0.6s;transition:all 0.6s;-webki
 
 #particles-js{ width: 100%; height: 100%; background-color: #202538; background-image: url(''); background-size: cover; background-position: 50% 50%; background-repeat: no-repeat; }
 
+/*20161017 jia add ҳ��*/
+.foot_main{width:100%;height:52%;}
+.foot{background:#5a6378;padding-bottom:40px;height:80%;}
+.foot_ps{width:1120px;margin:0 auto;}
+ul,li,ol{list-style:none;margin:0;padding:0;}
+.foot_list{padding-top:40px;height:auto;overflow:hidden; }
+.fl_left{width:534px;border-right:1px solid #89909f;height:auto;overflow:hidden;float:left;}
+.fl_left ul{float:left;text-align:left;width:145px;}
+.fl_left ul:nth-child(2){width:110px;}
+.fl_left ul:last-child{width:130px;}
+.fl_left ul .fl_tit{font-size:16px;color:rgba(255,255,255,0.6);}
+.fl_left ul .fl_detail a{font-size:14px;color:#fff;}
+.fl_left ul .fl_detail a:hover{color:#f6a540;}
+.fl_left ul li{margin-bottom:16px;}
+.fl_left ul li:last-child{margin-bottom:0;}
+.fl_right{float:left;margin-left:42px;width:544px;}
+.fr_mail a{font-size:14px;color:rgba(255,255,255,0.6);text-decoration:underline!important;}
+.fr_address{color:rgba(255,255,255,0.6);font-size:14px;}
+.fr_address span{display:block;float:left;line-height:20px;font-size:14px;}
+.fr_detail{float:left;}
+.fr_detail p{margin-bottom:20px;}
+.fr_detail i{background:url("pub/img/pic_info.png") no-repeat;display:block;width:18px;height:18px;float:left;margin-right:12px;}
+.fr_address i{background-position:0%;}
+.fr_mail i{background-position:100%;}
+.fr_er{float:right;margin-left:40px;}
+.pic_er{width:124px;height:122px;display:block;margin-bottom:10px;}
+.er_detail{font-size:12px;color:#fff;text-align:center;}
+.foot_copyright{background:#3d4458;height:20%;line-height:68px;}
+.foot_copyright p{width:1120px;margin:0 auto;text-align:left;color:rgba(255,255,255,0.7);font-size:14px;}
+.trans_color{-webkit-transition:  color 300ms;-ms-transition:  color 300ms;-o-transition:  color 300ms;-moz-transition:  color 300ms;transition:  color 300ms;}
+/*20161017 jia add ҳ��*/

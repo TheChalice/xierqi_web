@@ -25,13 +25,22 @@ define([
                 var host = wsscheme + location.host;
 
                 // var host = wsscheme;
-
+                var tokens = Cookie.get('df_access_token');
+                var regions = Cookie.get('region');
+                var tokenarr = tokens.split(',');
+                var region = regions.split('-')[2];
+                var token = tokenarr[region-1];
                 if (params.api == 'k8s') {
                     host = host + GLOBAL.host_wss_k8s;
+
+
                     // host=host+'dev.dataos.io:8443/api/v1';
                 } else {
+                    //var token = tokenarr[0];
                     host = host + GLOBAL.host_wss;
                 }
+                //var tokens = Cookie.get('df_access_token');
+                //var regions = Cookie.get('region');
 
                 params.name = params.name ? '/' + params.name : '';
                 if (params.pod) {
@@ -40,18 +49,21 @@ define([
                         '&tailLines=1000' +
                         '&limitBytes=10485760' +
                         '&container=' + params.pod +
-                        '&access_token=' + Cookie.get("df_access_token");
+                        '&region=' + $rootScope.region +
+                        '&access_token=' + token;
                 } else if (params.app) {
                     var url = host + '/namespaces/' + params.namespace + '/' + params.type + params.name +
                         '?watch=true' +
                         '&resourceVersion=' + params.resourceVersion +
                         '&labelSelector=' + params.app +
-                        '&access_token=' + Cookie.get("df_access_token");
+                        '&region=' + $rootScope.region +
+                        '&access_token=' + token;
                 } else {
                     var url = host + '/namespaces/' + params.namespace + '/' + params.type + params.name +
                         '?watch=true' +
                         '&resourceVersion=' + params.resourceVersion +
-                        '&access_token=' + Cookie.get("df_access_token");
+                        '&region=' + $rootScope.region +
+                        '&access_token=' + token;
                 }
                 if (params.protocols) {
                     $ws({
@@ -94,21 +106,23 @@ define([
             return Ws;
         }])
         .factory('User', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var User = $resource(GLOBAL.host + '/users/:name', {name: '@name'}, {
+            var User = $resource(GLOBAL.host + '/users/:name', {name: '@name',region: '@region'}, {
                 create: {method: 'POST'}
             });
             return User;
         }])
+
         .factory('Project', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var Project = $resource(GLOBAL.host + '/projects/:name', {name: '@name'}, {
+            var Project = $resource(GLOBAL.host + '/projects/:name?region=:region', {name: '@name',region: '@region'}, {
                 create: {method: 'POST'}
             });
             return Project;
         }])
         .factory('Build', ['$resource', '$rootScope', '$ws', '$log', 'Cookie', 'GLOBAL', function ($resource, $rootScope, $ws, $log, Cookie, GLOBAL) {
-            var Build = $resource(GLOBAL.host + '/namespaces/:namespace/builds/:name', {
+            var Build = $resource(GLOBAL.host + '/namespaces/:namespace/builds/:name?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region: '@region'
             }, {
                 create: {method: 'POST'},
                 put: {method: 'PUT'}
@@ -122,25 +136,30 @@ define([
             return Build;
         }])
         .factory('BuildConfig', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var BuildConfig = $resource(GLOBAL.host + '/namespaces/:namespace/buildconfigs/:name', {
+            var BuildConfig = $resource(GLOBAL.host + '/namespaces/:namespace/buildconfigs/:name?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region: '@region'
             }, {
                 create: {method: 'POST'},
                 put: {method: 'PUT'}
             });
-            BuildConfig.instantiate = $resource(GLOBAL.host + '/namespaces/:namespace/buildconfigs/:name/instantiate', {
+            BuildConfig.instantiate = $resource(GLOBAL.host + '/namespaces/:namespace/buildconfigs/:name/instantiate?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region: '@region'
+
             }, {
                 create: {method: 'POST'}
             });
             return BuildConfig;
         }])
+
         .factory('ImageStream', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var ImageStream = $resource(GLOBAL.host + '/namespaces/:namespace/imagestreams/:name', {
+            var ImageStream = $resource(GLOBAL.host + '/namespaces/:namespace/imagestreams/:name?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region: '@region'
             }, {
                 create: {method: 'POST'},
                 delete: {method: 'delete'},
@@ -148,17 +167,22 @@ define([
             });
             return ImageStream;
         }])
+
         .factory('ImageStreamImage', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var ImageStreamImage = $resource(GLOBAL.host + '/namespaces/:namespace/imagestreamimages/:name', {
+            var ImageStreamImage = $resource(GLOBAL.host + '/namespaces/:namespace/imagestreamimages/:name?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region: '@region'
             });
+            //暂未使用
             return ImageStreamImage;
         }])
+
         .factory('ImageStreamTag', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var ImageStreamTag = $resource(GLOBAL.host + '/namespaces/:namespace/imagestreamtags/:name', {
+            var ImageStreamTag = $resource(GLOBAL.host + '/namespaces/:namespace/imagestreamtags/:name?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region: '@region'
             }, {
                 create: {method: 'POST'},
                 get: {method: 'GET'},
@@ -166,32 +190,46 @@ define([
             });
             return ImageStreamTag;
         }])
+
         .factory('DeploymentConfig', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var DeploymentConfig = $resource(GLOBAL.host + '/namespaces/:namespace/deploymentconfigs/:name', {
+            var DeploymentConfig = $resource(GLOBAL.host + '/namespaces/:namespace/deploymentconfigs/:name?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region: '@region'
             }, {
                 create: {method: 'POST'},
                 put: {method: 'PUT'},
                 patch: {method: "PATCH"}
             });
-            DeploymentConfig.log = $resource(GLOBAL.host + '/namespaces/:namespace/deploymentconfigs/:name/log');
+            DeploymentConfig.log = $resource(GLOBAL.host + '/namespaces/:namespace/deploymentconfigs/:name/log?region=:region', {
+                name: '@name',
+                namespace: '@namespace',
+                region: '@region'
+            }, {
+                create: {method: 'POST'},
+                put: {method: 'PUT'},
+                patch: {method: "PATCH"}
+            });
             return DeploymentConfig;
         }])
+
         .factory('ReplicationController', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var ReplicationController = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/replicationcontrollers/:name', {
+            var ReplicationController = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/replicationcontrollers/:name?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region: '@region'
             }, {
                 create: {method: 'POST'},
                 put: {method: 'PUT'}
             });
             return ReplicationController;
         }])
+
         .factory('Service', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var Service = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/services/:name', {
+            var Service = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/services/:name?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region: '@region'
             }, {
                 create: {method: 'POST'},
                 put: {method: 'PUT'},
@@ -199,10 +237,12 @@ define([
             });
             return Service;
         }])
+
         .factory('Route', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var Route = $resource(GLOBAL.host + '/namespaces/:namespace/routes/:name', {
+            var Route = $resource(GLOBAL.host + '/namespaces/:namespace/routes/:name?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region: '@region'
             }, {
                 create: {method: 'POST'},
                 put: {method: 'PUT'},
@@ -210,67 +250,85 @@ define([
             });
             return Route;
         }])
+
         .factory('BackingServiceInstance', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var BackingServiceInstance = $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances/:name', {
+            var BackingServiceInstance = $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances/:name?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region: '@region'
             }, {
                 create: {method: 'POST'},
                 del: {method: 'DELETE'}
             });
-            BackingServiceInstance.bind = $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances/:name/binding', {
+            BackingServiceInstance.bind = $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances/:name/binding?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region: '@region'
             }, {
                 create: {method: 'POST'},
                 put: {method: 'PUT'}
             });
             return BackingServiceInstance;
         }])
+
         .factory('BackingServiceInstanceBd', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var BackingServiceInstanceBd = $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances/:name/binding', {
+            var BackingServiceInstanceBd = $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances/:name/binding?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region: '@region'
             }, {
                 create: {method: 'POST'},
                 put: {method: 'PUT'},
             });
             return BackingServiceInstanceBd;
         }])
+
         .factory('BackingService', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var BackingService = $resource(GLOBAL.host + '/namespaces/:namespace/backingservices/:name', {
+            var BackingService = $resource(GLOBAL.host + '/namespaces/:namespace/backingservices/:name?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region: '@region'
             }, {
                 create: {method: 'POST'}
             });
             return BackingService;
         }])
+
         .factory('Pod', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var Pod = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/pods/:name', {
+            var Pod = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/pods/:name?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region: '@region'
             }, {
                 create: {method: 'POST'}
             });
-            Pod.log = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/pods/:name/log', {
+            Pod.log = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/pods/:name/log?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region: '@region'
             });
             return Pod;
         }])
+
         .factory('Event', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var Event = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/events/:name', {
+            var Event = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/events/:name?region=:region', {
                 name: '@name',
-                namespace: '@namespace'
+                namespace: '@namespace',
+                region: '@region'
+
             }, {
                 create: {method: 'POST'}
             });
             return Event;
         }])
+
         .factory('Secret', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-            var Secret = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets/:name',
-                {name: '@name', namespace: '@namespace'}, {
+            var Secret = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets/:name?region=:region',
+                {
+                    name: '@name',
+                    namespace: '@namespace',
+                    region: '@region'
+                }, {
                     create: {method: 'POST'}
                 });
             return Secret;
@@ -408,7 +466,6 @@ define([
             })
             return pwdModify;
         }])
-
         .factory('deletepod', ['$resource', function ($resource) {
             var deletepod = $resource('/lapi/v1/namespaces/:namespace/pods', {namespace: '@namespace'}, {
                 delete: {method: 'DELETE'}
@@ -459,10 +516,12 @@ define([
             })
             return leave;
         }])
-        .factory('configmaps', ['$resource', function ($resource) {
-            var configmaps = $resource('/api/v1/namespaces/:namespace/configmaps/:name', {
+
+        .factory('configmaps', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var configmaps = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/configmaps/:name?region=:region', {
                 namespace: '@namespace',
-                name: '@name'
+                name: '@name',
+                region: '@region'
             }, {
                 create: {method: 'POST'},
                 delete: {method: 'DELETE'},
@@ -470,17 +529,21 @@ define([
             })
             return configmaps;
         }])
-        .factory('listConfig', ['$resource', function ($resource) {
-            var listConfig = $resource('/api/v1/namespaces/:namespace/configmaps/:name', {
+
+        .factory('listConfig', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var listConfig = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/configmaps/:name?region=:region', {
                 namespace: '@namespace',
-                name: '@name'
+                name: '@name',
+                region: '@region'
             }, {})
             return listConfig;
         }])
-        .factory('secretskey', ['$resource', function ($resource) {
-            var secretskey = $resource('/api/v1/namespaces/:namespace/secrets/:name', {
+
+        .factory('secretskey', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var secretskey = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets/:name?region=:region', {
                 namespace: '@namespace',
-                name: '@name'
+                name: '@name',
+                region: '@region'
             }, {
                 create: {method: 'POST'},
                 delete: {method: 'DELETE'},
@@ -488,8 +551,12 @@ define([
             })
             return secretskey;
         }])
-        .factory('creatapp', ['$resource', function ($resource) {
-            var creatapp = $resource('/oapi/v1/namespaces/:namespace/backingserviceinstances', {namespace: '@namespace'}, {
+
+        .factory('creatapp', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var creatapp = $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances?region=:region', {
+                namespace: '@namespace',
+                region: '@region'
+            }, {
                 create: {method: 'POST'},
                 delete: {method: 'DELETE'},
                 updata: {method: 'PUT'}
@@ -497,41 +564,52 @@ define([
             return creatapp;
         }])
 
-        .factory('listSecret', ['$resource', function ($resource) {
-            var listSecret = $resource('/api/v1/namespaces/:namespace/secrets/:name', {
+        .factory('listSecret', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var listSecret = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets/:name?region=:region', {
                 namespace: '@namespace',
-                name: '@name'
+                name: '@name',
+                region: '@region'
             }, {})
             return listSecret;
         }])
-        .factory('modifySecret', ['$resource', function ($resource) {
-            var modifySecret = $resource('/api/v1/namespaces/:namespace/secrets/:name', {
+
+        .factory('modifySecret', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var modifySecret = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets/:name?region=:region', {
                 namespace: '@namespace',
-                name: '@name'
+                name: '@name',
+                region: '@region'
             }, {
                 update: {method: 'PUT'}
             })
             return modifySecret;
         }])
-        .factory('deleteSecret', ['$resource', function ($resource) {
-            var deleteSecret = $resource('/api/v1/namespaces/:namespace/secrets/:name', {
+
+        .factory('deleteSecret', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var deleteSecret = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets/:name?region=:region', {
                 namespace: '@namespace',
-                name: '@name'
+                name: '@name',
+                region: '@region'
             }, {
                 delete: {method: 'DELETE'}
             })
             return deleteSecret;
         }])
-        .factory('delSecret', ['$resource', function ($resource) {
-            var delSecret = $resource('/api/v1/namespaces/:namespace/secrets', {namespace: '@namespace'}, {
-                del: {method: 'DELETE'}
-            })
+        .factory('delSecret', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var delSecret = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/secrets?region=:region', {
+                    namespace: '@namespace',
+                    region: '@region'
+                },
+                {
+                    del: {method: 'DELETE'}
+                })
             return delSecret;
         }])
-        .factory('persistent', ['$resource', function ($resource) {
-            var persistent = $resource('/api/v1/namespaces/:namespace/persistentvolumeclaims/:name', {
+
+        .factory('persistent', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var persistent = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/persistentvolumeclaims/:name?region=:region', {
                 namespace: '@namespace',
-                name: '@name'
+                name: '@name',
+                region: '@region'
             }, {
                 del: {method: 'DELETE'}
             })
@@ -546,8 +624,11 @@ define([
             })
             return delvolume;
         }])
-        .factory('serviceaccounts', ['$resource', function ($resource) {
-            var serviceaccounts = $resource('/api/v1/namespaces/:namespace/serviceaccounts/deployer', {namespace: '@namespace'}, {})
+        .factory('serviceaccounts', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var serviceaccounts = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/serviceaccounts/deployer?region=:region', {
+                namespace: '@namespace',
+                region: '@region'
+            }, {})
             return serviceaccounts;
         }])
         .factory('volume', ['$resource', function ($resource) {
@@ -573,6 +654,7 @@ define([
             var newBackingService = $resource('/lapi/v1/backingservices/:name', {name: '@name'}, {});
             return newBackingService;
         }])
+
         .factory('account', ['$resource', 'GLOBAL', function ($resource) {//登陆检测套餐
             var account = $resource('/payment/v1/account', {}, {});
             return account;
@@ -601,6 +683,12 @@ define([
             });
             return recharge;
         }])
+        .factory('redeem', ['$resource', 'GLOBAL', function ($resource) {//充值优惠卷
+            var redeem = $resource('/payment/v1/redeem', {}, {
+                create: {method: 'POST'}
+            });
+            return redeem;
+        }])
         //.factory('recharge2', ['$resource', 'GLOBAL', function ($resource) {//充值
         //    var recharge = $resource('http://datafoundry.recharge.app.dataos.io/charge/v1/recharge', {}, {
         //        create: {method: 'POST'}
@@ -611,6 +699,15 @@ define([
             var orders = $resource('/payment/v1/orders', {}, {});
             return orders;
         }])
+        .factory('regions', ['$resource', 'GLOBAL', function ($resource) {//获取订单
+            var regions = $resource('/payment/v1/regions', {}, {});
+            return regions;
+        }])
+        .factory('coupon', ['$resource', 'GLOBAL', function ($resource) {//获取充值卡面额
+            var regions = $resource('/payment/v1/coupon/:id', {id:'@id'}, {});
+            return regions;
+        }])
+
 
 });
 

@@ -152,8 +152,8 @@ angular.module('console.create_config_volume', [
 
         delete $scope.volume.configitems;
         delete $scope.volume.configarr;
-        configmaps.create({namespace: $rootScope.namespace}, $scope.volume, function (res) {
-            console.log('createconfig----', res);
+        configmaps.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.volume, function (res) {
+            //console.log('createconfig----', res);
             $scope.loaded=false;
             $state.go('console.resource_management', {index: 2});
             //$state.go('console.build_detail', {name: name, from: 'create'})

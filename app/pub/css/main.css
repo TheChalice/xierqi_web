@@ -21,7 +21,9 @@ hr {
 a {
     text-decoration: none !important;
 }
-
+#cnzz_stat_icon_1260628917 {
+    display: none;
+}
 /*按钮*/
 .btn {
     border-radius: 2px;
@@ -891,12 +893,12 @@ a {
 
 .searchbar .btn {
     height: 100%;
-    background: url(../img/search.png) no-repeat;
+    background: url(../img/search.png) no-repeat 0 -1px!important;
     box-shadow: none;
 }
 
 .searchbar .btn:hover {
-    background-image: url(../img/search-focus.png);
+    background: url(../img/search-focus.png) no-repeat 0 -1px!important; ;
 }
 
 .searchbar .tip-board {
@@ -1328,8 +1330,11 @@ a {
 
 }
 .footer-td{padding-left:0;}
+/*IE10 取消input框默认的叉叉和密码输入框的眼睛*/
+::-ms-clear { display: none; }
+::-ms-reveal { display: none; }
 
-.btn.focus, .btn:focus, .btn:hover{color:#fff;}
+/*.btn.focus, .btn:focus, .btn:hover{color:#fff;}*/
 
 /*!* 设置滚动条的样式 *!*/
 /*::-webkit-scrollbar {*/

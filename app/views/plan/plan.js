@@ -12,22 +12,22 @@ angular.module('console.plan', [
         function (balance,amounts, by, checkout, $state, Tip, $scope, $rootScope, account, Tip, market) {
             //console.log('$rootScope.projects', $rootScope.projects);
             $scope.plans = [];
-            balance.get({namespace:$rootScope.namespace}, function (data) {
+            balance.get({namespace:$rootScope.namespace,region:$rootScope.region}, function (data) {
                 $scope.balance = data
                 //console.log('balance', data);
             });
-            account.get({namespace:$rootScope.namespace}, function (mydata) {
-                console.log(mydata);
+            account.get({namespace:$rootScope.namespace,region:$rootScope.region}, function (mydata) {
+                //console.log(mydata);
                 //mydata.purchased=false;
                 //if (mydata.purchased) {
                 //    $('.plan_block_main').css("left","200px");
                 //}else{
                 //    $('.plan_block_main').css("left","0");
                 //}
-                market.get({}, function (data) {
-                    console.log(data);
+                market.get({region:$rootScope.region}, function (data) {
+                    //console.log(data);
                     angular.forEach(data.plans, function (plan, i) {
-                        if (plan.region === "铸造一区") {
+                        if (plan.region_id === $rootScope.region) {
                             $scope.plans.push(plan);
                         }
                     })
@@ -64,26 +64,26 @@ angular.module('console.plan', [
             $scope.buy = function (plan) {
 
                 if (plan.canbuy === 'big') {
-                    Tip.open('提示', '将从余额中扣取'+plan.price+'元！', false, true).then(function () {
+                    Tip.open('提示', '将从余额中扣取元！', false, true,false,plan.price).then(function () {
                         checkout.create({
                             plan_id: plan.plan_id,
                             namespace: $rootScope.namespace,
-                            "region": "cn-north-1"
+                            region:$rootScope.region
                         }, function (data) {
-                            console.log(data);
+                            //console.log(data);
                             Tip.open('提示', '购买成功！', false, true, true).then(function () {
                                 $state.go('console.dashboard')
                             })
 
                         }, function (err) {
 
-                            if (err.data.code === 3308) {
-                                Tip.open('提示', '暂不支持更换套餐', '知道了', true).then(function () {
-                                    //$state.go('console.pay');
-                                })
-                            } else {
+                            if (err.data.code === 3316) {
                                 Tip.open('提示', '账户可用余额不足。', '充值', true).then(function () {
                                     $state.go('console.pay');
+                                })
+                            } else {
+                                Tip.open('提示', '暂不支持更换套餐。', '知道了', true).then(function () {
+                                   
                                 })
                             }
 
@@ -92,7 +92,7 @@ angular.module('console.plan', [
 
 
                 } else if (plan.canbuy === 'small') {
-                    Tip.open('办理失败', '暂不支持更换低套餐', false, true)
+                    Tip.open('更换失败', '暂不支持更换低套餐', false, true)
 
                 }
             }

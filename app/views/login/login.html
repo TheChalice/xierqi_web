@@ -25,25 +25,26 @@
             <form class="form-horizontal" name="frm">
                 <div style="float:left;width:100%;margin-bottom: 18px;">
                         <span class="dropdown"  id="dpdtop" style="">
-                            <a class="dropdown-toggle" data-toggle="dropdown"  href="#" style="color:#333">区域<b class="caret"></b></a>
+                            <a class="dropdown-toggle" data-toggle="dropdown"  href="#" style="color:#333">{{curregion}}<b class="caret"></b></a>
                             <ul class="dropdown-menu dropdownbw">
-                                <li ng-repeat="relist in regionlist" ng-click="checkregion(relist.regionname)">{{relist.regionname}}</li>
+                                <li ng-repeat="relist in regionlist" ng-click="checkregion(relist.region_describe,relist.identification)">{{relist.region_describe}}</li>
                             </ul>
-                         </span><span style="background: #fff;padding:8px 13px; color: #5a6378;">
-                            {{curregion}}
-                        </span>
+                         </span>
+                    <!--<span style="background: #fff;padding:8px 13px; color: #5a6378;">-->
+
+                        <!--</span>-->
                 </div>
                 <p class="modal-msg text-left" style="margin: 0 0 3px 0;font-size:12px;color:#5a6378;">
                     <span class="require">用户名</span>&nbsp;&nbsp;
                     <small ng-if="frm.username.$dirty && frm.username.$invalid" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;用户名不能为空</small>
                 </p>
-                <input name="username" style="font-size: 12px;" class="form-control loginfocus loginname" ng-model="credentials.username" required>
+                <input name="username" style="font-size: 12px;" autocomplete="off" class="form-control loginfocus loginname" ng-model="credentials.username" required>
 
                 <p class="modal-msg text-left" style="margin: 20px 0 3px 0;font-size:12px;color:#5a6378;">
                     <span class="require">密码</span>&nbsp;&nbsp;
                     <small ng-if="frm.password.$dirty && frm.password.$invalid" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;密码不能为空</small>
                 </p>
-                <input name="password" style="font-size: 12px;letter-spacing:6px;" type="password" class="form-control loginfocus"  ng-model="credentials.password" required>
+                <input name="password" style="font-size: 12px;letter-spacing:6px;" autocomplete="off" type="password" class="form-control loginfocus"  ng-model="credentials.password" required>
                 <div class="yanzheng" ng-if="loginyanzheng">
                     <p class="modal-msg text-left" style="margin: 20px 0 3px 0;font-size:12px;color:#5a6378;">
                         <span class="require">验证码</span>&nbsp;&nbsp;
@@ -248,14 +249,17 @@
         -webkit-box-shadow:0 0 1px #fff;
     }
     .dropdownbw{
-        min-width:150px;
+        min-width:94px;
         padding:0px;
+        -webkit-box-shadow:none;
+        border-radius:0;
     }
     .dropdownbw li{
-        padding:5px 0px;text-align: center;
+        text-align: center;
         cursor: pointer;
         color: #5a6378;
         border-bottom:1px solid #ccc;
+        height:34px;line-height:34px;
     }
     .dropdownbw :last-child{
         border-bottom:none;

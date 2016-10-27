@@ -20,9 +20,9 @@ angular.module('console.dashboard', [
                 price : '',
                 planName : ''
             }
-            account.get({namespace:$rootScope.namespace},function(res){
+            account.get({namespace:$rootScope.namespace,region:$rootScope.region},function(res){
                 //console.log('lalallalalalllallal',res);
-                market.get({},function(data){
+                market.get({region:$rootScope.region},function(data){
                         //console.log('eeeeeeeeeeee',data);
                     //angular.forEach(data.plans, function (plan,i) {
                     //
@@ -30,7 +30,7 @@ angular.module('console.dashboard', [
 
                     for(var i = 0 ; i < data.plans.length; i++){
 
-                        if(res.subscriptions&&res.subscriptions[0].plan_id == data.plans[i].plan_id){
+                        if(res.subscriptions&&res.subscriptions[0].plan_id === data.plans[i].plan_id){
                             $scope.plans.cpu = data.plans[i].description;
                             $scope.plans.ram = data.plans[i].description2;
                             $scope.plans.price = data.plans[i].price
@@ -41,7 +41,7 @@ angular.module('console.dashboard', [
                 })
             })
 
-            balance.get({namespace:$rootScope.namespace}, function (data) {
+            balance.get({namespace:$rootScope.namespace,region:$rootScope.region}, function (data) {
                 $scope.balance = data
                 //console.log('balance', data);
             });
@@ -240,7 +240,7 @@ angular.module('console.dashboard', [
                     })
                     $scope.memData
                     // console.log('$scope.memData',$scope.memData)
-                    $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas').success(function (data, status, headers, config) {
+                    $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas?region='+$rootScope.region).success(function (data, status, headers, config) {
                         if (data.items[0]) {
                             // console.log($scope.cpuData);
                             // console.log($scope.memData);
@@ -403,7 +403,7 @@ angular.module('console.dashboard', [
             $scope.pieConfigMem = setPieChart('内存', 'loading...', 0.1);
             $scope.podList = 0;
             var podList = function () {
-                Pod.get({namespace: $scope.namespace}, function (res) {
+                Pod.get({namespace: $scope.namespace,region:$rootScope.region}, function (res) {
                     //console.log("pod...res....", res);
                     for (var i = 0; i < res.items.length; i++) {
                         if (res.items[i].status.phase == 'Running') {
@@ -416,7 +416,7 @@ angular.module('console.dashboard', [
             }
 
             var dcList = function () {
-                DeploymentConfig.get({namespace: $rootScope.namespace}, function (data) {
+                DeploymentConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (data) {
                     $log.info('dcList----', data);
                     $scope.dcList = data.items.length;
                 }, function (res) {
@@ -426,7 +426,7 @@ angular.module('console.dashboard', [
                 });
             }
             var bsiList = function () {
-                BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {
+                BackingServiceInstance.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                     //console.log("bsiList......", res);
                     $scope.bsiList = res.items.length;
                 }, function (res) {

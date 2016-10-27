@@ -50,6 +50,7 @@ define([
         host_wss: '/ws/oapi/v1',
         host_wss_k8s: '/ws/api/v1',
         login_uri: '/login',
+        signin_uri: '/signin',
         host_webhooks: 'https://dev.dataos.io:8443/oapi/v1'
     })
     .constant('AUTH_EVENTS', {
@@ -68,9 +69,34 @@ define([
     }])
 
     .run(['$rootScope', function ($rootScope) {
-        $rootScope.$on('$stateChangeStart', function () {
+        $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
             $rootScope.transfering = true;
+            switch (toState.name) {
+                case 'home.index':
+                    $rootScope.whereclick = '首页'
+                    break;
+                case 'home.recharge':
+                    $rootScope.whereclick = '价格'
+
+                    break;
+                case 'home.introduce':
+                    $rootScope.whereclick = '产品'
+
+                    break;
+                case 'home.application':
+                    $rootScope.whereclick = '应用市场'
+
+                    break;
+                case 'home.index_backing_service':
+                    $rootScope.whereclick = '服务市场'
+
+                    break;
+                default:
+                    $rootScope.whereclick = '首页'
+
+            }
         });
+
         $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
             //更新header标题
             $rootScope.console.state = toState.name;

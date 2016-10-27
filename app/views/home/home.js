@@ -1,9 +1,12 @@
 'use strict';
 
 angular.module('home', [])
-    .controller('HomeCtrl', ['account','$state', '$scope', '$rootScope', '$log', 'ModalLogin', 'ModalRegist', 'User',
-        function (account,$state, $scope, $rootScope, $log, ModalLogin, ModalRegist, User) {
-
+    .controller('HomeCtrl', ['Cookie','regions','account','$state', '$scope', '$rootScope', '$log', 'ModalLogin', 'ModalRegist', 'User',
+        function (Cookie,regions,account,$state, $scope, $rootScope, $log, ModalLogin, ModalRegist, User) {
+            regions.query({}, function (data) {
+                console.log('regions', data);
+                $scope.regions = data;
+            })
             $log.info('Home');
             $scope.$watch('namespace', function (n, o) {
                 //console.log('new1',n);
@@ -16,12 +19,28 @@ angular.module('home', [])
             //    //console.log(now)
             //    $scope.whereclick = now
             //}
-            if ($rootScope.user) {
-                return $rootScope.user;
+            $scope.chooseregion = function (regionid) {
+                console.log('regionid',regionid);
+                $state.go('home.index_backing_service',{region:regionid})
             }
-            User.get({name: '~'}, function (res) {
-                $rootScope.user = res;
-            });
+            if ($rootScope.resetpwd) {
+                console.log('reset');
+                //return
+            }else {
+                if ($rootScope.user) {
+                    return $rootScope.user;
+                }
+                if ($rootScope.region) {
+                    return $rootScope.region
+                }else {
+                    $rootScope.region = Cookie.get('region');
+                }
+                User.get({name: '~',region:$rootScope.region}, function (res) {
+                    $rootScope.user = res;
+                    $rootScope.resetpwd=false;
+                });
+            }
+
             //$scope.top = []
             //路由监听事件
             //console.log($state.current.name);
@@ -29,18 +48,27 @@ angular.module('home', [])
             switch ($state.current.name) {
                 case 'home.index':
                     $rootScope.whereclick = '首页'
+
+                    break;
+                case 'home.recharge':
+                    $rootScope.whereclick = '价格'
+
                     break;
                 case 'home.introduce':
                     $rootScope.whereclick = '产品'
+
                     break;
                 case 'home.application':
                     $rootScope.whereclick = '应用市场'
+
                     break;
                 case 'home.index_backing_service':
                     $rootScope.whereclick = '服务市场'
+
                     break;
                 default:
                     $rootScope.whereclick = '首页'
+
             }
             var images = new Array()
 
@@ -51,10 +79,9 @@ angular.module('home', [])
                 }
             };
             $scope.consolein= function () {
-                account.get({namespace:$rootScope.namespace}, function (data) {
+                account.get({namespace:$rootScope.namespace,region:$rootScope.region}, function (data) {
                     //console.log('套餐', data);
                     //$rootScope.payment=data;
-
                     if (data.purchased) {
                         $state.go("console.dashboard")
                     }else{
@@ -62,35 +89,18 @@ angular.module('home', [])
                     }
                 })
             }
-            console.log('$scope$scope$scope$scope',$scope)
+            //console.log('$scope$scope$scope$scope',$scope)
             $rootScope.$on('$stateChangeStart',
                 function (event, toState, toParams, fromState, fromParams) {
-                    console.log('toState',toState.name);
-                    switch (toState.name) {
-                        case 'home.index':
-                            $rootScope.whereclick = '首页'
-                            break;
-                        case 'home.recharge':
-                            $rootScope.whereclick = '价格'
-                            break;
-                        case 'home.introduce':
-                            $rootScope.whereclick = '产品'
-                            break;
-                        case 'home.application':
-                            $rootScope.whereclick = '应用市场'
-                            break;
-                        case 'home.index_backing_service':
-                            $rootScope.whereclick = '服务市场'
-                            break;
-                        default:
-                            $rootScope.whereclick = '首页'
-                    }
+                    //console.log('toState',toState.name);
                     if (toState.name !== "home.introduce") {
                         $('html').css('overflow', 'auto');
+                        $('.foot_main').css('display', 'block');
+
                         window.onmousewheel = document.onmousewheel = true;
                     } else {
                         $('html').css('overflow', 'hidden');
-
+                        $('.foot_main').css('display', 'none');
 
                         preload(
                             "views/home/introduce/img/DF-111.png",

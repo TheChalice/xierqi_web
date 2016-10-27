@@ -35,13 +35,17 @@ angular.module('console.service.create', [
             $scope.addprot = function () {
                 $scope.portsArr.unshift({
                     containerPort: "",
-                    protocol: "",
+                    protocol: "TCP",
                     hostPort: "",
                 })
             };
 
             $scope.delprot = function (idx) {
-                $scope.grid.port = '端口';
+                console.log($scope.portsArr);
+                if ($scope.portsArr[0]&&$scope.portsArr[0].hostPort) {
+                    $scope.grid.port = $scope.portsArr[0].hostPort;
+                }
+
                 $scope.portsArr.splice(idx, 1);
             };
 
@@ -129,6 +133,15 @@ angular.module('console.service.create', [
                 cpu: null,
                 memory: null
             }
+            $scope.$watch('portsArr', function (n,o) {
+                if (n === o) {
+                    return;
+                }
+                if (n&&n[0].hostPort) {
+                    $scope.grid.port = $scope.portsArr[0].hostPort;
+                }
+                //console.log('端口',n);
+            },true)
 
             $scope.$watch('quota', function (n, o) {
                 if (n === o) {
@@ -147,7 +160,7 @@ angular.module('console.service.create', [
                     } else {
                         $scope.grid.cpuerr = false;
                     }
-                    console.log($scope.quota.unit);
+                    //console.log($scope.quota.unit);
                     if (n && n.memory) {
                         if ($scope.quota.unit === 'MB') {
                             if (n.memory > ($scope.grid.megnum * 1000)) {
@@ -168,7 +181,7 @@ angular.module('console.service.create', [
                 }
             }, true);
 
-            $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas').success(function (data) {
+            $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas?region='+$rootScope.region).success(function (data) {
                 //console.log('配额', data.items[0].spec.hard['requests.cpu']);
                 //console.log('配额', data.items[0].spec.hard['requests.memory']);
                 if (data.items&&data.items[0]&&data.items[0].spec) {
@@ -220,7 +233,7 @@ angular.module('console.service.create', [
                     delete $scope.route.spec.tls
                 }
 
-                Route.create({namespace: $rootScope.namespace}, $scope.route, function (res) {
+                Route.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.route, function (res) {
                     $log.info("create route success", res);
 
                     $scope.tlsroutes.push(res);
@@ -504,14 +517,16 @@ angular.module('console.service.create', [
             };
             // 仓库镜像时需要先获取该数据添加到imagePullSecrets字段中
             var getserviceaccounts = function () {
-                serviceaccounts.get({namespace: $rootScope.namespace}, function (res) {
+                serviceaccounts.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                     $scope.serviceas = res
-                    console.log('----------------------', res);
+                    //console.log('----------------------', res);
                 })
             }
 
             getserviceaccounts();
+
             // 判断从镜像仓库跳转过来时属于哪种镜像
+
             var initContainer = function () {
                 if ($stateParams.image) {
 
@@ -520,12 +535,12 @@ angular.module('console.service.create', [
                     // if (!$scope.dc.spec.template.spec.containers.tag) {
                     //   $scope.named=$stateParams.image.metadata.name;
                     // }
-                    console.log("initContainer", $stateParams.image);
+                    //console.log("initContainer", $stateParams.image);
 
                     if ($stateParams.image.metadata) {
                         var container = angular.copy($scope.containerTpl);
                         container.image = $stateParams.image.metadata.name;
-                        console.log($stateParams.image.metadata.name)
+                        //console.log($stateParams.image.metadata.name)
                         if ($stateParams.image.tag) {
                             container.tag = $stateParams.image.tag.name;
 
@@ -570,12 +585,12 @@ angular.module('console.service.create', [
                         $scope.invalid.containerLength = false;
                     } else {
                         var imagetag = '';
-                        console.log('私有镜像', $stateParams.ports);
+                        //console.log('私有镜像', $stateParams.ports);
                         //  私有镜像
                         if ($stateParams.image.indexOf('@') != -1) {
-                            console.log($stateParams.image)
+                            //console.log($stateParams.image)
                             var arr = $stateParams.image.split("@");
-                            console.log(arr)
+                            //console.log(arr)
                             var container = angular.copy($scope.containerTpl);
                             container.image = arr[0] + "@" + arr[1];
                             container.tag = arr[2];
@@ -669,7 +684,7 @@ angular.module('console.service.create', [
             };
             //  添加容器
             $scope.addContainer = function () {
-                console.log("addContainer");
+                //console.log("addContainer");
                 $scope.dc.spec.template.spec.containers.push(angular.copy($scope.containerTpl));
 
                 $scope.invalid.containerLength = false;
@@ -681,7 +696,10 @@ angular.module('console.service.create', [
 
                 $scope.portsArr = [];
                 //路由端口需清空
-                $scope.grid.port = '端口';
+                //$scope.grid.port = '端口';
+                if ($scope.portsArr[0]&&$scope.portsArr[0].hostPort) {
+                    $scope.grid.port = $scope.portsArr[0].hostPort;
+                }
                 //console.log('$scope.dc.spec.template.spec.containers', $scope.dc.spec.template.spec.containers);
                 angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
                     if (ports.port) {
@@ -705,7 +723,7 @@ angular.module('console.service.create', [
             var serviceNameArr = [];
 
             var loadDcList = function () {
-                DeploymentConfig.get({namespace: $rootScope.namespace}, function (data) {
+                DeploymentConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (data) {
                     for (var i = 0; i < data.items.length; i++) {
                         serviceNameArr.push(data.items[i].metadata.name);
                     }
@@ -721,7 +739,17 @@ angular.module('console.service.create', [
 
             loadDcList();
 
-
+            $scope.$watch('portsArr', function (n,o) {
+                //console.log(n);
+                if (n === o) {
+                    return
+                }
+                angular.forEach(n, function (nport,i) {
+                    if (n[i]&&o[i]&&n[i].containerPort !== o[i].containerPort) {
+                        $scope.portsArr[i].hostPort=n[i].containerPort
+                    }
+                })
+            },true)
             $scope.$watch('dc.metadata.name', function (n, o) {
                 if (n == o) {
                     return
@@ -783,7 +811,7 @@ angular.module('console.service.create', [
             // 获取后端服务列表
 
             var loadBsi = function (dc) {
-                BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {
+                BackingServiceInstance.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                     $log.info("backingServiceInstance", res);
 
                     for (var i = 0; i < res.items.length; i++) {
@@ -839,12 +867,12 @@ angular.module('console.service.create', [
                 }
                 cintainersidx = idx;
                 ChooseSecret.open(olength, $scope.dc.spec.template.spec.containers[idx].secretsobj).then(function (volumesobj) {
-                    console.log('------------------------', volumesobj);
+                    //console.log('------------------------', volumesobj);
                     $scope.dc.spec.template.spec.containers[idx].volumeMounts = volumesobj.arr2;
                     $scope.dc.spec.template.spec.volumes = $scope.dc.spec.template.spec.volumes.concat(volumesobj.arr1);
                     $scope.dc.spec.template.spec.containers[idx].secretsobj = volumesobj.arr3
                 }, function (close) {
-                    console.log(close);
+                    //console.log(close);
                     if (close == 'cancel') {
                         $scope.dc.spec.template.spec.containers[idx].volumeMounts = [];
                         $scope.dc.spec.template.spec.volumes = [];
@@ -1011,7 +1039,10 @@ angular.module('console.service.create', [
 
                         $scope.portsArr = [];
                         //路由端口需清空
-                        $scope.grid.port = '端口';
+                        //$scope.grid.port = '端口';
+                        if ($scope.portsArr[0]&&$scope.portsArr[0].hostPort) {
+                            $scope.grid.port = $scope.portsArr[0].hostPort;
+                        }
                         //console.log($scope.dc.spec.template.spec.containers);
                         //console.log('$scope.dc.spec.template.spec.containers', $scope.dc.spec.template.spec.containers);
                         angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
@@ -1067,7 +1098,7 @@ angular.module('console.service.create', [
             };
             //
             var isConflict = function () {
-                console.log($scope.portsArr)
+                //console.log($scope.portsArr)
                 var conflict = false;
                 var serviceConflict = false;
                 for (var i = 0; i < $scope.portsArr.length; i++) {
@@ -1080,7 +1111,7 @@ angular.module('console.service.create', [
                 for (var j = 0; j < ports.length; j++) {
                     conflict = portConflict(ports[j].containerPort, j, 'containerPort');
                     serviceConflict = portConflict(ports[j].hostPort, j, 'hostPort');
-                    console.log(conflict, j)
+                    //console.log(conflict, j)
                     if (conflict) {
                         for (var k = 0; k < conflict.length; k++) {
                             ports[conflict[k]].conflict = true
@@ -1236,7 +1267,8 @@ angular.module('console.service.create', [
                     if (bsi.bind) {  //未绑定设置为绑定
                         BackingServiceInstance.bind.create({
                             namespace: $rootScope.namespace,
-                            name: bsi.metadata.name
+                            name: bsi.metadata.name,
+                            region:$rootScope.region
                         }, bindObj, function (res) {
                             $log.info("bind service success", res);
                         }, function (res) {
@@ -1273,7 +1305,7 @@ angular.module('console.service.create', [
                     $scope.service.spec.ports = null;
                 }
                 //$log.info('$scope.service0-0-0-0-', $scope.service.spec.ports);
-                Service.create({namespace: $rootScope.namespace}, $scope.service, function (res) {
+                Service.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.service, function (res) {
                     $log.info("create service success", res);
                     $scope.service = res;
 
@@ -1337,7 +1369,7 @@ angular.module('console.service.create', [
             var createRoute = function (service) {
                 prepareRoute($scope.route, service);
                 //alert(111)
-                console.log('route', $scope.grid);
+                //console.log('route', $scope.grid);
                 if ($scope.grid.tlsset == 'Passthrough') {
                     $scope.route.spec.tls.termination = $scope.grid.tlsset;
 
@@ -1371,7 +1403,7 @@ angular.module('console.service.create', [
                     delete $scope.route.spec.tls
                 }
 
-                Route.create({namespace: $rootScope.namespace}, $scope.route, function (res) {
+                Route.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.route, function (res) {
                     $log.info("create route success", res);
                     $scope.route = res;
                 }, function (res) {
@@ -1380,7 +1412,7 @@ angular.module('console.service.create', [
             };
 
             var valid = function (dc) {
-                console.log('dc', dc);
+                //console.log('dc', dc);
                 var containers = dc.spec.template.spec.containers;
                 if (!containers.length) {
 
@@ -1406,18 +1438,18 @@ angular.module('console.service.create', [
             };
             //  删除同名服务,创建dc之前执行该方法
             var deleService = function () {
-                Service.delete({namespace: $rootScope.namespace, name: $scope.dc.metadata.name}, function (res) {
-                    console.log("deleService-yes", res);
+                Service.delete({namespace: $rootScope.namespace, name: $scope.dc.metadata.name,region:$rootScope.region}, function (res) {
+                    //console.log("deleService-yes", res);
                 }, function (res) {
-                    console.log("deleService-no", res);
+                    //console.log("deleService-no", res);
                 })
             }
             //  删除同名路由,创建dc之前执行该方法
             var deleRoute = function () {
-                Route.delete({namespace: $rootScope.namespace, name: $scope.dc.metadata.name}, function (res) {
-                    console.log("deleRoute-yes", res);
+                Route.delete({namespace: $rootScope.namespace, name: $scope.dc.metadata.name,region:$rootScope.region}, function (res) {
+                    //console.log("deleRoute-yes", res);
                 }, function (res) {
-                    console.log("deleRoute-no", res);
+                    //console.log("deleRoute-no", res);
                 })
             }
 
@@ -1448,7 +1480,7 @@ angular.module('console.service.create', [
             // 创建dc
             $scope.createDc = function () {
                 //console.log($scope.dc.spec.template.spec.containers);
-                console.log('$scope.quota', $scope.quota);
+                //console.log('$scope.quota', $scope.quota);
                 angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
                     if ($scope.quota.doquota) {
                         if ($scope.quota.cpu || $scope.quota.memory) {
@@ -1559,7 +1591,7 @@ angular.module('console.service.create', [
                 //if (!$scope.grid.auto) {
                 //  dc.spec.replicas = 0;
                 //}
-                console.log(prepareport());
+                //console.log(prepareport());
                 if (prepareport() == false) {
                     return;
                 }
@@ -1638,11 +1670,11 @@ angular.module('console.service.create', [
                     createService(dc);
                 }
                 if ($scope.grid.route) {
-                    console.log('$scope.grid.port',$scope.grid.port);
+                    //console.log('$scope.grid.port',$scope.grid.port);
                     createRoute(dc);
                 }
                 var createDcfn = function () {
-                    DeploymentConfig.create({namespace: $rootScope.namespace}, clonedc, function (res) {
+                    DeploymentConfig.create({namespace: $rootScope.namespace,region:$rootScope.region}, clonedc, function (res) {
                         $log.info("create dc success", res);
                         bindService(dc);
                         $state.go('console.service_detail', {name: dc.metadata.name, from: 'create'});
@@ -1654,7 +1686,7 @@ angular.module('console.service.create', [
                         }
                     });
                 }
-                console.log('$scope.grid.imagePullSecrets-----', $scope.grid.imagePullSecrets)
+                //console.log('$scope.grid.imagePullSecrets-----', $scope.grid.imagePullSecrets)
                 if ($scope.grid.imagePullSecrets) {
                     var secretsobj = {
                         "kind": "Secret",
@@ -1670,7 +1702,7 @@ angular.module('console.service.create', [
 
                     }
 
-                    secretskey.create({namespace: $rootScope.namespace}, secretsobj, function (res) {
+                    secretskey.create({namespace: $rootScope.namespace,region:$rootScope.region}, secretsobj, function (res) {
                         createDcfn();
                     }, function (res) {
                         if (res.status == 409) {
