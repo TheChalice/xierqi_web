@@ -145,7 +145,7 @@ define(['angular', 'moment'], function (angular, moment) {
                 if(phase === 'coupon'){
                     return "充值卡"
                 }else if(phase === 'hongpay'){
-                    return "宏支付"
+                    return "鸿支付"
                 }else if(phase == 'Pending'){
                     return "创建中"
                 }else if(phase == 'Bound'){
