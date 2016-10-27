@@ -779,8 +779,9 @@ define(['angular'], function (angular) {
                             $scope.changepersistentname = function (idx, val) {
                                 $scope.persistentarr[idx].persistentVolumeClaim.claimName = val
                             }
-                            $scope.govolume = function () {
-                                $state.go('console.resource_management')
+                            $scope.govolume = function (path) {
+
+                                $state.go(path);
                                 $uibModalInstance.dismiss();
                             };
                             ///  确定选择所选挂载卷
