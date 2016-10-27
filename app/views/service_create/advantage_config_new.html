@@ -11,7 +11,7 @@
                 <div class="col-md-10">
                     <label style="font-size: 12px; font-weight: normal;">POD数量&nbsp;&nbsp;&nbsp;&nbsp;</label>
                     <input ng-model="dc.spec.replicas" min="0" max="10" style="width: 80px;display: inline-block;"
-                           type="number" class="form-control">
+                           type="text" class="form-control">
                     <hr>
                     <div ng-if="false">
                         <label style="font-size: 12px; font-weight: normal;">自动伸缩&nbsp;&nbsp;&nbsp;&nbsp;</label>
@@ -21,13 +21,13 @@
                             <label style="font-size: 12px; font-weight: normal;  margin-top: 35px;">资源阈值&nbsp;&nbsp;&nbsp;&nbsp;</label>
                             <span style="font-size: 12px">POD最小数量  <input min="0" max="10"
                                                                           style="width: 80px;display: inline-block;"
-                                                                          type="number" class="form-control"></span>
+                                                                          type="text" class="form-control"></span>
                             <span style="font-size: 12px">POD最大数量  <input min="0" max="10"
                                                                           style="width: 80px;display: inline-block;"
-                                                                          type="number" class="form-control"></span>
+                                                                          type="text" class="form-control"></span>
                             <span style="font-size: 12px">CPU平均利用率 <input min="0" max="10"
                                                                           style="width: 80px;display: inline-block;"
-                                                                          type="number" class="form-control"></span>
+                                                                          type="text" class="form-control"></span>
                         </div>
                         <hr>
                     </div>
@@ -374,7 +374,7 @@
                     <div ng-if="quota.doquota">
                         <div class="col-md-12" style="padding: 0;">
                             <div class="col-md-4"style="padding: 0;">
-                                <input class="form-control" ng-model="quota.cpu" style="margin-top: 10px; width: 100%;" type="number" name="num" required placeholder="">
+                                <input class="form-control" ng-model="quota.cpu" style="margin-top: 10px; width: 100%;" type="text" name="num" required placeholder="">
                                 <small class="fa fa-info-circle err-tip" ng-if="grid.cpuerr" style="margin-top: 20px;">
                                     提示：您输入数量超过可用数量</small>
                             </div>
@@ -382,7 +382,7 @@
                                 可用CPU:{{grid.cpunum}}个
                             </div>
                             <div class="col-md-3"style="padding: 0;">
-                                <input class="form-control" ng-model="quota.memory" style="margin-top: 10px; width: 100%;" type="number" name="num" required placeholder="">
+                                <input class="form-control" ng-model="quota.memory" style="margin-top: 10px; width: 100%;" type="text" name="num" required placeholder="">
                                 <small class="fa fa-info-circle err-tip" ng-if="grid.memoryerr" style="margin-top: 20px;">
                                     提示：您输入数量超过可用数量</small>
                             </div>
