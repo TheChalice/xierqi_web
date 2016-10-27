@@ -144,14 +144,14 @@ define(['angular', 'moment'], function (angular, moment) {
             return function(phase){
                 if(phase === 'coupon'){
                     return "充值卡"
-                }else if(phase === 'hongpei'){
-                    return "宏支付"
+                }else if(phase === 'hongpay'){
+                    return "鸿支付"
                 }else if(phase == 'Pending'){
                     return "创建中"
                 }else if(phase == 'Bound'){
                     return "未挂载"
                 }else{
-                    return phase || "-"
+                    return phase || "账户余额"
                 }
             };
         }])

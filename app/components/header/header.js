@@ -26,20 +26,37 @@ angular.module("console.header", [
                         }else {
                             $state.go('console.dashboard');
                         }
-
-
                         //$state.reload();
-
                     }
+
                     regions.query({}, function (data) {
                         //console.log('regions', data);
                         $scope.regions = data;
+                        $scope.copyregions=angular.copy(data);
                         angular.forEach(data, function (region, i) {
                             if (region.identification === $rootScope.region) {
                                 $scope.curregion = region.region_describe;
                             }
 
                         })
+                    })
+                    $scope.$watch('curregion', function (n,o) {
+                        if (n === o) {
+                            return
+                        }
+                        //$scope.regionlist=$scope.copyregionlist;
+                        var arr = angular.copy($scope.copyregions)
+                        if ($scope.regions) {
+                            //console.log($scope.regionlist,$scope.copyregionlist);
+                            angular.forEach( $scope.copyregions, function (item,i) {
+                                if (item.region_describe === n) {
+                                    //console.log(item.region_describe, $scope.regionlist);
+                                    arr.splice(i, 1);
+
+                                }
+                            })
+                            $scope.regions=arr;
+                        }
                     })
                     //$scope.regionlist = [
                     //    {regionname : '一区一区'},
