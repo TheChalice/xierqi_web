@@ -141,11 +141,11 @@
     }
 }
 .dropdownbw{
-    min-width:150px;
-    font-size: 12px;
+    min-width:88px;
+    font-size: 12px;border-radius:0;-webkit-box-shadow:none;margin-top:0;
 }
 .dropdownbw li{
-    padding:5px 0px;text-align: center;
+    height:34px;line-height:34px;text-align: center;
     cursor: pointer;
     color: #5a6378;
     border-bottom:1px solid #ccc;
