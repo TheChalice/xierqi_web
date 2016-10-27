@@ -1517,13 +1517,8 @@ define(['angular'], function (angular) {
                             //  $rootScope.loding = false;
                             //}
                             $state.go('login');
-                            //console.log('登录报错', data);
-                            if (data.indexOf('502') != -1) {
-                                //$rootScope.loding = false;
-                                //alert('超时了');
-                                denglu();
-                                return;
-                            } else {
+                            console.log('登录报错', data);
+                            if (data.code === 1401) {
                                 $rootScope.loding = false;
                                 Alert.open('请重新登录', '用户名或密码不正确');
                                 var codenum = localStorage.getItem("code");
@@ -1539,16 +1534,28 @@ define(['angular'], function (angular) {
                                 } else {
                                     localStorage.setItem('code', 1)
                                 }
-
-
-                                var daovoicefailed = function () {
-                                    daovoice('init', {
-                                        app_id: "b31d2fb1"
-                                    });
-                                    daovoice('update');
-                                }
-                                daovoicefailed();
                             }
+                            var daovoicefailed = function () {
+                                daovoice('init', {
+                                    app_id: "b31d2fb1"
+                                });
+                                daovoice('update');
+                            }
+                            daovoicefailed();
+
+
+                            //if (data.indexOf('502') != -1) {
+                            //    //$rootScope.loding = false;
+                            //    //alert('超时了');
+                            //    //denglu();
+                            //
+                            //    return;
+                            //} else {
+                            //
+                            //
+                            //
+                            //
+                            //}
 
                         });
 
