@@ -18,14 +18,14 @@
         </a><span style="font-size: 20px; color: #f49530;">|</span>
         <strong style="margin:0px 20px;font-weight: normal;font-size: 12px;">
             <span class="dropdown"  id="dpdtop" style="">
-                <a class="dropdown-toggle" data-toggle="dropdown"  href="#" style="color:#333">区域<b class="caret"></b></a>
+                <a class="dropdown-toggle" data-toggle="dropdown"  href="#" style="color:#333">{{curregion}}<b class="caret"></b></a>
                 <ul class="dropdown-menu dropdownbw">
                     <li ng-repeat="region in regions" ng-click="checkregion(region.region_describe,region.identification)" >{{region.region_describe}}</li>
                     <!--<li ng-repeat="relist in regionlist" ng-click="checkregion(relist.regionname)">{{relist.regionname}}</li>-->
                 </ul>
-             </span><span style="background: #fff;padding:10px 13px; color: #5a6378;">
-                {{curregion}}
-            </span>
+             <!--</span><span style="background: #fff;padding:10px 13px; color: #5a6378;">-->
+                <!--{{curregion}}-->
+            <!--</span>-->
         </strong>
 
 

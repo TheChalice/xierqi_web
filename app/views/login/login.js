@@ -7,7 +7,7 @@ angular.module('home.login', [])
             regions.query({}, function (data) {
                 //console.log('regions', data);
                 $scope.regionlist = data;
-                $scope.copyregionlist=angular.copy(data)
+                $scope.copyregionlist=angular.copy(data);
                 $rootScope.credentials.region=data[0].identification;
                 $scope.curregion=data[0].region_describe
             })
