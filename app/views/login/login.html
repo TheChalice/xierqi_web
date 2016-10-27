@@ -29,9 +29,10 @@
                             <ul class="dropdown-menu dropdownbw">
                                 <li ng-repeat="relist in regionlist" ng-click="checkregion(relist.region_describe,relist.identification)">{{relist.region_describe}}</li>
                             </ul>
-                         </span><span style="background: #fff;padding:8px 13px; color: #5a6378;">
+                         </span>
+                    <!--<span style="background: #fff;padding:8px 13px; color: #5a6378;">-->
 
-                        </span>
+                        <!--</span>-->
                 </div>
                 <p class="modal-msg text-left" style="margin: 0 0 3px 0;font-size:12px;color:#5a6378;">
                     <span class="require">用户名</span>&nbsp;&nbsp;
@@ -248,14 +249,17 @@
         -webkit-box-shadow:0 0 1px #fff;
     }
     .dropdownbw{
-        min-width:150px;
+        min-width:94px;
         padding:0px;
+        -webkit-box-shadow:none;
+        border-radius:0;
     }
     .dropdownbw li{
-        padding:5px 0px;text-align: center;
+        text-align: center;
         cursor: pointer;
         color: #5a6378;
         border-bottom:1px solid #ccc;
+        height:34px;line-height:34px;
     }
     .dropdownbw :last-child{
         border-bottom:none;

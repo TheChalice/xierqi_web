@@ -8,6 +8,7 @@
     height: 100%;
     background-color: #f6a540;
     float: left;
+    cursor: pointer;
 }
 
 #header #header-brand img {
