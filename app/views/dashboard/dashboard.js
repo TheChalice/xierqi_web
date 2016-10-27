@@ -4,8 +4,8 @@ angular.module('console.dashboard', [
             files: []
         }
     ])
-    .controller('dashboardCtrl', ['recharge', 'balance', '$http', '$log', '$rootScope', '$scope', 'Metrics', 'MetricsService', 'Pod', 'DeploymentConfig', 'BackingServiceInstance','account','market',
-        function (recharge, balance, $http, $log, $rootScope, $scope, Metrics, MetricsService, Pod, DeploymentConfig, BackingServiceInstance,account,market) {
+    .controller('dashboardCtrl', ['Project','recharge', 'balance', '$http', '$log', '$rootScope', '$scope', 'Metrics', 'MetricsService', 'Pod', 'DeploymentConfig', 'BackingServiceInstance','account','market',
+        function (Project,recharge, balance, $http, $log, $rootScope, $scope, Metrics, MetricsService, Pod, DeploymentConfig, BackingServiceInstance,account,market) {
             $scope.cpuData = [];
             $scope.memData = [];
             $scope.isdata = {};
@@ -14,6 +14,38 @@ angular.module('console.dashboard', [
             //        console.log('充值', data);
             //    })
             //}
+            Project.get({region: $rootScope.region}, function (data) {
+                //$rootScope.projects = data.items;
+                //console.log('Project', Project);
+                //var newprojects = [];
+                angular.forEach(data.items, function (item, i) {
+                    if (item.metadata.name === $rootScope.user.metadata.name) {
+                        data.items.splice(i, 1);
+                    } else {
+                        data.items[i].sortname = item.metadata.annotations['openshift.io/display-name'] || item.metadata.name;
+                    }
+
+                })
+                data.items.sort(function (x, y) {
+                    return x.sortname > y.sortname ? 1 : -1;
+                });
+                angular.forEach(data.items, function (project, i) {
+                    if (/^[\u4e00-\u9fa5]/i.test(project.metadata.annotations['openshift.io/display-name'])) {
+                        //console.log(project.metadata.annotations['openshift.io/display-name']);
+                        //data.items.push(project);
+                        data.items.unshift(project);
+
+                        data.items.splice(i + 1, 1);
+                    }
+                });
+                $rootScope.projects = data.items;
+                //console.log(data.items);
+
+
+                //$log.info("load project success", data);
+            }, function (res) {
+                $log.info("find project err", res);
+            });
             $scope.plans = {
                 cpu : "",
                 ram : "",
