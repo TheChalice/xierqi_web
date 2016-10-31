@@ -133,6 +133,7 @@ angular.module('console.service.create', [
                 cpu: null,
                 memory: null
             }
+
             $scope.$watch('portsArr', function (n,o) {
                 if (n === o) {
                     return;
@@ -756,9 +757,9 @@ angular.module('console.service.create', [
                 }
                 var r = /^[a-z][-a-z0-9]*[a-z0-9]$/;
                 if (!r.test(n)) {
-                    $scope.grid.rexnameerr = true;
+                    $scope.grid.createdcerr = true;
                 } else {
-                    $scope.grid.rexnameerr = false;
+                    $scope.grid.createdcerr = false;
                 }
                 if ($scope.grid.namerepeat) {
                     var repeat = false;
