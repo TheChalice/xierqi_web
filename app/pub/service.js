@@ -1464,13 +1464,14 @@ define(['angular'], function (angular) {
                             $rootScope.region = Cookie.get('region');
 
                             User.get({name: '~',region:$rootScope.region}, function (res) {
-                                $rootScope.loding = false;
+
                                 $rootScope.user = res;
                                 //localStorage.setItem('cade',null)
                                 loadProject(credentials.username);
                                 localStorage.setItem("code", 1);
                                 $rootScope.loginyanzheng = false;
                                 if (stateParams) {
+                                    $rootScope.loding = false;
                                     if (stateParams.type == 'saas') {
                                         $state.go('console.create_saas', {name: stateParams.name});
                                     } else if (stateParams.type == 'image') {
@@ -1485,7 +1486,9 @@ define(['angular'], function (angular) {
                                     account.get({namespace:$rootScope.namespace,region:$rootScope.region}, function (data) {
                                         //console.log('套餐', data);
                                         //$rootScope.payment=data;
+                                        $rootScope.loding = false;
                                         if (data.purchased) {
+
                                             $state.go('console.dashboard');
                                             //跳转dashboard
                                         }else {
