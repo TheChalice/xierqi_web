@@ -299,9 +299,9 @@
                                                     <div class="dropdown dropdown-select"
                                                          style="width: 100%; border: 1px solid #ccc;">
                                                         <div class="input-group" style="width:100%">
-                                                            <input style="width: 95%;display: inline-block;border: none;font-size: 12px;height: 32px;"
+                                                            <input onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 95%;display: inline-block;border: none;font-size: 12px;height: 32px;"
                                                                    ng-model="container.readinessProbe.initialDelaySeconds"
-                                                                   type="text" class="form-control">
+                                                                   type="number" class="form-control">
                                                         <span class="input-group-btn"
                                                               style="width:5%;display: inline-block;">
                                                             <span style="line-height: 21px;width:100%;display: inline-block;padding: 6px 12px;color: black;border-color:#8c8c8c;height: 32px;font-size: 12px;">{{'秒'}}</span></span>
@@ -326,9 +326,9 @@
                                                     <div class="dropdown dropdown-select"
                                                          style="width: 100%; border: 1px solid #ccc;">
                                                         <div class="input-group" style="width:100%">
-                                                            <input style="width: 95%;display: inline-block;border: none;font-size: 12px;height: 32px;"
+                                                            <input onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 95%;display: inline-block;border: none;font-size: 12px;height: 32px;"
                                                                    ng-model="container.readinessProbe.timeoutSeconds"
-                                                                   type="text" class="form-control"
+                                                                   type="number" class="form-control"
                                                                    >
                                                         <span class="input-group-btn"
                                                               style="width:5%;display: inline-block;">
@@ -384,12 +384,12 @@
                                             </select>
                                         </div>
                                         <div class="col-sm-3">
-                                            <input type="text" class="input-small"
+                                            <input type="number" class="input-small" onkeyup="value=value.replace(/[^\d]/g,'')"
                                                    ng-class="{'input-error':port.conflict}"
                                                    ng-model="port.containerPort">
                                         </div>
                                         <div class="col-sm-3">
-                                            <input type="text"
+                                            <input type="number" onkeyup="value=value.replace(/[^\d]/g,'')"
                                                    ng-model="port.hostPort"
                                                    class="input-small"
                                                    ng-class="{'input-error':port.serviceConflict}">
