@@ -14,7 +14,7 @@
                             <input ng-model="buildConfig.metadata.name" type="text" name="name" class="form-control"
                                    required
                                    style="width: 613px;">
-                            <small ng-if="nameerr&&frm.name.$dirty" class="fa fa-info-circle err-tip">名称只能包括小写字母/数字/短线，短线不能在开头或结尾位置
+                            <small ng-if="nameerr&&frm.name.$dirty" class="fa fa-info-circle err-tip">名称只能包括小写字母/数字/短线，且短线、数字不能出现在开头或结尾位置
                             </small>
                         </div>
                     </div>
