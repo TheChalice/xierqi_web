@@ -3,7 +3,7 @@
     <uib-tabset class="tab-default" active="check">
         <uib-tab index="1" style="width:auto;">
             <uib-tab-heading style="width:468px">
-                <i class="fa2 fa2-bs"></i>&nbsp;&nbsp;后端服务市场
+                <i class="fa2 fa2-bsi"></i>&nbsp;&nbsp;公开数据集
             </uib-tab-heading>
             <div class="tabs row" style='padding-left: 12px;position: relative;'>
                 <div  class='col-mb-1' style='margin-right: 20px;'>
@@ -37,32 +37,15 @@
                     </span>
                 </div>
             </div>
-
-            <div class='change' ng-repeat='items in market'>
-                <div class="row" ng-show="items.isshow" id=n{{items.id}}>
-                    <div id=t{{items.id}} class="h2-border" ng-show="items.showTab"
-                        style="margin-bottom: 15px;">
-                        <span class='biaoti'>{{items.name}}</span>
-                        <i class='xian'></i>
-                        </div>
-                    <!--<h2 id=t{{items.id}} class="h2-border" ng-show="items.showTab"-->
-                        <!--style="margin-bottom: 15px;">-->
-                        <!--{{items.name}}</h2>-->
-                    <div class="row">
-                        <div class="fen"
-                             ng-repeat="item in items.item | myfilter:isComplete"
-                             ng-show="item.show">
-                            <bs-card></bs-card>
-                        </div>
-                    </div>
-                </div>
+            <div ng-include="'views/backing_service/backing_service_instance.html'">
             </div>
+
 
         </uib-tab>
 
         <uib-tab index="2" style="width:auto;">
             <uib-tab-heading style="white-space:nowrap;">
-                <i class="fa2 fa2-bsi"></i>&nbsp;&nbsp;已申请的后端服务实例
+                <i class="fa2 fa2-bs"></i>&nbsp;&nbsp;数据服务集成
             </uib-tab-heading>
             <div class="tabs row" style='padding-left: 12px;position: relative;'>
                 <div  class='col-mb-1' style='margin-right: 20px;'>
@@ -96,13 +79,30 @@
                     </span>
                 </div>
             </div>
-            <div ng-include="'views/backing_service/backing_service_instance.html'">
+            <div class='change' ng-repeat='items in market'>
+                <div class="row" ng-show="items.isshow" id=n{{items.id}}>
+                    <div id=t{{items.id}} class="h2-border" ng-show="items.showTab"
+                         style="margin-bottom: 15px;">
+                        <span class='biaoti'>{{items.name}}</span>
+                        <i class='xian'></i>
+                    </div>
+                    <!--<h2 id=t{{items.id}} class="h2-border" ng-show="items.showTab"-->
+                    <!--style="margin-bottom: 15px;">-->
+                    <!--{{items.name}}</h2>-->
+                    <div class="row">
+                        <div class="fen"
+                             ng-repeat="item in items.item | myfilter:isComplete"
+                             ng-show="item.show">
+                            <bs-card></bs-card>
+                        </div>
+                    </div>
+                </div>
             </div>
         </uib-tab>
 
         <uib-tab index="3" style="width:auto;">
             <uib-tab-heading style="white-space:nowrap;">
-                <i class="fa2 myimage"></i>&nbsp;&nbsp;自定义后端服务实例
+                <i class="fa2 fa2-bs"></i>&nbsp;&nbsp;DataHub
             </uib-tab-heading>
 
             <div class="row" style='margin-bottom: 20px;'>
