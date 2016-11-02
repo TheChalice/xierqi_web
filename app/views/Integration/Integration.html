@@ -105,27 +105,8 @@
                 <i class="fa2 fa2-bs"></i>&nbsp;&nbsp;DataHub
             </uib-tab-heading>
 
-            <div class="row" style='margin-bottom: 20px;'>
-                <div class="col-sm-4">
-                    <a class="btn btn-green" style="margin-right: 20px; "
-                       ui-sref="console.create_saas">
-                        <i class="fa fa-plus fa-lg"></i>
-                        <span class="hidden-xs">新建</span>
-                    </a>
-                </div>
-                <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
-                    <input type="text"
-                           class="form-control"
-                           placeholder="搜索后端服务名称"
-                           ng-keydown=mykeysearch($event)
-                           ng-model="grid.mydivtxt">
-                    <!--ng-model="txt" ng-focus="showTip=true;" -->
-                    <span class="input-group-btn" id=inputb>
-                        <a class="btn" ng-click="mydiysearch()"></a>
-                    </span>
-                </div>
-            </div>
-            <div ng-include="'views/backing_service/backing_service_custom.html'">
+
+            <div ng-include="'views/Integration/backing_service_custom.html'">
             </div>
         </uib-tab>
     </uib-tabset>
