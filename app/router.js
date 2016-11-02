@@ -318,6 +318,20 @@ define([
                     }
 
                 })
+                .state('console.Integration', {
+                    url: '/Integration',
+                    params: {
+                        index: null
+                    },
+                    templateUrl: 'views/Integration/Integration.html',
+                    controller: 'IntegrationCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/Integration/Integration.js'])
+                        }]
+                    }
+
+                })
                 .state('console.backing_service_detail', {
                     url: '/backing_service/:name',
                     params: {

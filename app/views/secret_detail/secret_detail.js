@@ -127,7 +127,9 @@ angular.module('console.secret_detail', [
                     return
                 }
                 var kong = false;
+
                 var r = /^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
+
                 if (!$scope.change) {
                     $scope.change = true;
                     return

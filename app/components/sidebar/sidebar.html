@@ -34,6 +34,7 @@
                 <span class="icon25 icon25-service"></span>&nbsp;&nbsp;后端服务
             </a>
         </li>
+
         <!--
         <li ui-sref-active="active">
             <a ui-sref="console.foobar">
@@ -46,6 +47,13 @@
             <a ui-sref="console.resource_management">
                 <i class="fa fa-caret-left"></i>
                 <span class="icon25 icon25-resource"></span>&nbsp;&nbsp;资源管理
+            </a>
+        </li>
+        <li ui-sref-active="active"
+            ng-class="{'active':$state.includes('console.Integration')||$state.includes('console.backing_service_detail')}">
+            <a ui-sref="console.Integration">
+                <i class="fa fa-caret-left"></i>
+                <span class="icon25 icon25-service"></span>&nbsp;&nbsp;数据集成
             </a>
         </li>
 
