@@ -571,6 +571,25 @@ define(['angular'], function (angular) {
                 }).result;
             };
         }])
+        .service('Modalbs', ['$uibModal', function ($uibModal) {
+            this.open = function (name,plan) {
+                return $uibModal.open({
+                    templateUrl: 'pub/tpl/modalbs.html',
+                    size: 'default',
+                    controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+                        $scope.name = name;
+                        $scope.plan = plan;
+
+                        $scope.ok = function () {
+                            $uibModalInstance.close();
+                        };
+                        $scope.cancel = function () {
+                            $uibModalInstance.dismiss();
+                        };
+                    }]
+                }).result;
+            };
+        }])
         .service('Toast', ['$uibModal', function ($uibModal) {
             this.open = function (txt, timeout) {
                 return $uibModal.open({
