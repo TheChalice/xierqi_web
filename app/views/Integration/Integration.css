@@ -71,3 +71,18 @@
 }
 
 .pull_width{width:auto!important;}/*--Docker官方镜像 jia 20160922*/
+
+
+/*数据集成 DataHub模块*/
+.integration_datahub{height:auto;overflow:hidden;width:972px;margin:0 auto;}
+.dh_left{float:left;width:98px;}
+.datahub_container{width:846px;float:right;}
+
+
+.dh_tit{font-size:16px;font-weight:bold;color:#5a6378;}
+.dh_detail_one{font-size:14px;,color:#5a6378;line-height:26px;margin-bottom:10px;}
+.dh_detail_two{font-size:14px;,color:#5a6378;line-height:26px;}
+.dh_more{width:98px;height:36px;line-height:36px;display:block;text-align:center;font-size:14px;color:#fff;margin-top:20px;
+    -webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;}
+
+

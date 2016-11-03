@@ -2,7 +2,7 @@
 angular.module('console.backing_service', [
         {
             files: [
-                'views/backing_service/backing_service.css',
+                'views/Integration/Integration.css',
                 'components/bscard/bscard.js'
             ]
         }
