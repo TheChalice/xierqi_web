@@ -12,6 +12,8 @@ input[type=number] {
     -moz-appearance:textfield;
 }
 
+/*这就是省略号喽*/
+.in_nowrap{white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;}
 
 body {
     padding-top: 70px;
