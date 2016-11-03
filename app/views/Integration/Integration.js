@@ -272,7 +272,92 @@ angular.module('console.backing_service', [
                 mytxt: ''
             };
             //tab切换分类过滤对象
-            $scope.isComplete = '';
+
+            // 我的后端服务长连接监视方法
+            var updateBsi = function (data) {
+                $log.info("watch bsi", data);
+
+                if (data.type == 'ERROR') {
+                    $log.info("err", data.object.message);
+                    // loadBsi();
+                    Ws.clear();
+
+                    return;
+                }
+
+                $scope.resourceVersion = data.object.metadata.resourceVersion;
+
+                if (data.type == 'ADDED') {
+                    data.object.showLog = true;
+                    if ($scope.bsi.items.length > 0) {
+                        $scope.bsi.items.unshift(data.object);
+                    } else {
+                        $scope.bsi.items = [data.object];
+                    }
+                } else if (data.type == "MODIFIED") {
+
+                     //console.log(data,newid)
+                    if (newid) {
+                        if ($scope.myservice[newid]) {
+
+                            angular.forEach($scope.myservice[newid].item, function (item, i) {
+                                if (item.spec.binding.length !== data.object.spec.binding.length) {
+                                    if (item.metadata.name == data.object.metadata.name) {
+                                        data.object.show = item.show;
+
+                                        $scope.myservice[newid].item[i] = data.object;
+                                        $scope.$apply();
+                                    }
+                                }
+
+                            })
+                            // console.log('$scope.myservice[newid].item',$scope.myservice[newid].item.length)
+                            if ($scope.myservice[newid].item.length == '0') {
+                                $scope.myservice[newid].showTab = false;
+                                $scope.$apply();
+                            }
+                        }
+                    } else {
+                        angular.forEach($scope.diyservice, function (item, i) {
+                            if (item.metadata.name == data.object.metadata.name) {
+                                data.object.show = item.show;
+                                $scope.diyservice[i] = data.object;
+                                $scope.$apply();
+                            }
+                        })
+                    }
+
+                }
+            };
+            // 我的后端服务键盘搜索
+            $scope.mykeysearch = function (event) {
+                if (event.keyCode === 13) {
+                    for (var s = 0; s < $scope.myservice.length; s++) {
+                        $scope.myservice[s].showTab = true;
+                    }
+                    $scope.isComplete = {name: $scope.grid.mytxt};
+                    var sarr = [];
+                    if ($scope.grid.mytxt) {
+                        for (var s = 0; s < $scope.myservice.length; s++) {
+                            sarr = $filter("myfilter")($scope.myservice[s].item, $scope.isComplete);
+                            if (sarr.length === 0) {
+                                $scope.myservice[s].showTab = false;
+                            }
+                        }
+                    } else {
+                        for (var s = 0; s < $scope.myservice.length; s++) {
+                            sarr = $filter("myfilter")($scope.myservice[s].item, $scope.isComplete);
+                            // console.log(sarr.length)
+                            if (sarr.length === 0) {
+                                $scope.myservice[s].showTab = false;
+                            } else {
+                                $scope.myservice[s].showTab = true;
+                            }
+                        }
+                    }
+                }
+            }
+            //服务分类键盘搜索      $scope.isComplete = '';
             //服务分类筛选
             $scope.select = function (tp, key) {
                 // console.log("tp", tp, 'key', $scope.cation[key]);
@@ -374,92 +459,6 @@ angular.module('console.backing_service', [
                     watchBsi($scope.resourceVersion);
                 });
             };
-            // 我的后端服务长连接监视方法
-            var updateBsi = function (data) {
-                $log.info("watch bsi", data);
-
-                if (data.type == 'ERROR') {
-                    $log.info("err", data.object.message);
-                    // loadBsi();
-                    Ws.clear();
-
-                    return;
-                }
-
-                $scope.resourceVersion = data.object.metadata.resourceVersion;
-
-                if (data.type == 'ADDED') {
-                    data.object.showLog = true;
-                    if ($scope.bsi.items.length > 0) {
-                        $scope.bsi.items.unshift(data.object);
-                    } else {
-                        $scope.bsi.items = [data.object];
-                    }
-                } else if (data.type == "MODIFIED") {
-
-                     //console.log(data,newid)
-                    if (newid) {
-                        if ($scope.myservice[newid]) {
-
-                            angular.forEach($scope.myservice[newid].item, function (item, i) {
-                                if (item.spec.binding.length !== data.object.spec.binding.length) {
-                                    if (item.metadata.name == data.object.metadata.name) {
-                                        data.object.show = item.show;
-
-                                        $scope.myservice[newid].item[i] = data.object;
-                                        $scope.$apply();
-                                    }
-                                }
-
-                            })
-                            // console.log('$scope.myservice[newid].item',$scope.myservice[newid].item.length)
-                            if ($scope.myservice[newid].item.length == '0') {
-                                $scope.myservice[newid].showTab = false;
-                                $scope.$apply();
-                            }
-                        }
-                    } else {
-                        angular.forEach($scope.diyservice, function (item, i) {
-                            if (item.metadata.name == data.object.metadata.name) {
-                                data.object.show = item.show;
-                                $scope.diyservice[i] = data.object;
-                                $scope.$apply();
-                            }
-                        })
-                    }
-
-                }
-            };
-            // 我的后端服务键盘搜索
-            $scope.mykeysearch = function (event) {
-
-                if (event.keyCode === 13) {
-                    for (var s = 0; s < $scope.myservice.length; s++) {
-                        $scope.myservice[s].showTab = true;
-                    }
-                    $scope.isComplete = {name: $scope.grid.mytxt};
-                    var sarr = [];
-                    if ($scope.grid.mytxt) {
-                        for (var s = 0; s < $scope.myservice.length; s++) {
-                            sarr = $filter("myfilter")($scope.myservice[s].item, $scope.isComplete);
-                            if (sarr.length === 0) {
-                                $scope.myservice[s].showTab = false;
-                            }
-                        }
-                    } else {
-                        for (var s = 0; s < $scope.myservice.length; s++) {
-                            sarr = $filter("myfilter")($scope.myservice[s].item, $scope.isComplete);
-                            // console.log(sarr.length)
-                            if (sarr.length === 0) {
-                                $scope.myservice[s].showTab = false;
-                            } else {
-                                $scope.myservice[s].showTab = true;
-                            }
-                        }
-                    }
-                }
-            }
-            //服务分类键盘搜索
             $scope.keysearch = function (event) {
                 if (event.keyCode === 13) {
                     for (var s = 0; s < $scope.market.length; s++) {
@@ -571,193 +570,193 @@ angular.module('console.backing_service', [
             };
             //我的后端服务删除一个实例
             var newid = null;
-            $scope.delBsi = function (idx, id) {
-                if (id) {
-                    newid = id;
-                    // console.log('del$scope.myservice[id].item[idx]', $scope.myservice[id].item[idx].spec.binding);
-                    if ($scope.myservice[id].item[idx].spec.binding) {
-                        var curlength = $scope.myservice[id].item[idx].spec.binding.length;
-                        if (curlength > 0) {
-                            Confirm.open('删除后端服务实例', '该实例已绑定服务，不能删除', '', '', true)
-                        } else {
-                            Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
-                                BackingServiceInstance.del({
-                                    namespace: $rootScope.namespace,
-                                    name: $scope.myservice[id].item[idx].metadata.name,
-                                    region:$rootScope.region
-                                }, function (res) {
-                                    $scope.myservice[id].item.splice(idx, 1);
-                                    Toast.open('删除成功');
-                                }, function (res) {
-                                    $log.info('err', res);
-                                })
-                            });
-                        }
-                    } else {
-                        Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
-                            BackingServiceInstance.del({
-                                namespace: $rootScope.namespace,
-                                name: $scope.myservice[id].item[idx].metadata.name,
-                                region:$rootScope.region
-                            }, function (res) {
-                                $scope.myservice[id].item.splice(idx, 1);
-                                Toast.open('删除成功');
-                            }, function (res) {
-                                $log.info('err', res);
-                            })
-                        });
-                    }
-                } else {
-                    // console.log('del$scope.myservice[id].item[idx]', $scope.myservice[id].item[idx].spec.binding);
-                    if ($scope.diyservice[idx].spec.binding) {
-                        var curlength = $scope.diyservice[idx].spec.binding.length;
-                        if (curlength > 0) {
-                            Confirm.open('删除后端服务实例', '该实例已绑定服务，不能删除', '', '', true)
-                        } else {
-                            Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
-                                BackingServiceInstance.del({
-                                    namespace: $rootScope.namespace,
-                                    name: $scope.diyservice[idx].metadata.name,
-                                    region:$rootScope.region
-                                }, function (res) {
-                                    $scope.diyservice.splice(idx, 1);
-                                    Toast.open('删除成功');
-                                }, function (res) {
-                                    $log.info('err', res);
-                                })
-                            });
-                        }
-                    } else {
-                        Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
-                            BackingServiceInstance.del({
-                                namespace: $rootScope.namespace,
-                                name: $scope.diyservice[idx].metadata.name,
-                                region:$rootScope.region
-                            }, function (res) {
-                                $scope.diyservice.splice(idx, 1);
-                                Toast.open('删除成功');
-                            }, function (res) {
-                                $log.info('err', res);
-                            })
-                        });
-                    }
-                }
+            //$scope.delBsi = function (idx, id) {
+            //    if (id) {
+            //        newid = id;
+            //        // console.log('del$scope.myservice[id].item[idx]', $scope.myservice[id].item[idx].spec.binding);
+            //        if ($scope.myservice[id].item[idx].spec.binding) {
+            //            var curlength = $scope.myservice[id].item[idx].spec.binding.length;
+            //            if (curlength > 0) {
+            //                Confirm.open('删除后端服务实例', '该实例已绑定服务，不能删除', '', '', true)
+            //            } else {
+            //                Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
+            //                    BackingServiceInstance.del({
+            //                        namespace: $rootScope.namespace,
+            //                        name: $scope.myservice[id].item[idx].metadata.name,
+            //                        region:$rootScope.region
+            //                    }, function (res) {
+            //                        $scope.myservice[id].item.splice(idx, 1);
+            //                        Toast.open('删除成功');
+            //                    }, function (res) {
+            //                        $log.info('err', res);
+            //                    })
+            //                });
+            //            }
+            //        } else {
+            //            Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
+            //                BackingServiceInstance.del({
+            //                    namespace: $rootScope.namespace,
+            //                    name: $scope.myservice[id].item[idx].metadata.name,
+            //                    region:$rootScope.region
+            //                }, function (res) {
+            //                    $scope.myservice[id].item.splice(idx, 1);
+            //                    Toast.open('删除成功');
+            //                }, function (res) {
+            //                    $log.info('err', res);
+            //                })
+            //            });
+            //        }
+            //    } else {
+            //        // console.log('del$scope.myservice[id].item[idx]', $scope.myservice[id].item[idx].spec.binding);
+            //        if ($scope.diyservice[idx].spec.binding) {
+            //            var curlength = $scope.diyservice[idx].spec.binding.length;
+            //            if (curlength > 0) {
+            //                Confirm.open('删除后端服务实例', '该实例已绑定服务，不能删除', '', '', true)
+            //            } else {
+            //                Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
+            //                    BackingServiceInstance.del({
+            //                        namespace: $rootScope.namespace,
+            //                        name: $scope.diyservice[idx].metadata.name,
+            //                        region:$rootScope.region
+            //                    }, function (res) {
+            //                        $scope.diyservice.splice(idx, 1);
+            //                        Toast.open('删除成功');
+            //                    }, function (res) {
+            //                        $log.info('err', res);
+            //                    })
+            //                });
+            //            }
+            //        } else {
+            //            Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
+            //                BackingServiceInstance.del({
+            //                    namespace: $rootScope.namespace,
+            //                    name: $scope.diyservice[idx].metadata.name,
+            //                    region:$rootScope.region
+            //                }, function (res) {
+            //                    $scope.diyservice.splice(idx, 1);
+            //                    Toast.open('删除成功');
+            //                }, function (res) {
+            //                    $log.info('err', res);
+            //                })
+            //            });
+            //        }
+            //    }
 
 
-            }
+            //}
             //我的后端服务解除绑定一个服务
-            $scope.delBing = function (idx, id) {
-                id = id.toString();
-
-                if (id) {
-                    newid = id;
-                    var name = $scope.myservice[id].item[idx].metadata.name;
-                    var bindings = [];
-                    var binds = $scope.myservice[id].item[idx].spec.binding || [];
-
-                } else {
-
-                    var name = $scope.diyservice[idx].metadata.name;
-                    var bindings = [];
-                    var binds = $scope.diyservice[idx].spec.binding || [];
-                }
-
-                for (var i = 0; i < binds.length; i++) {
-                    if (binds[i].checked) {
-                        bindings.push(binds[i]);
-                    }
-                }
-                if (bindings.length === 0) {
-                    Toast.open('请先选择要解除绑定的服务');
-                    return;
-                }
-                //console.log($scope.myservice,bindings);
-
-                angular.forEach(bindings, function (binding,i) {
-                    angular.forEach(binds, function (bind,j) {
-                        if (binding.bind_deploymentconfig === bind.bind_deploymentconfig) {
-                            $scope.myservice[id].item[idx].spec.binding[j].delete=true;
-                        }
-                    })
-                    var bindObj = {
-                        metadata: {
-                            name: name,
-                            annotations: {
-                                "dadafoundry.io/create-by": $rootScope.user.metadata.name
-                            }
-                        },
-                        resourceName: binding.bind_deploymentconfig,
-                        bindResourceVersion: '',
-                        bindKind: 'DeploymentConfig'
-                    };
-                    // console.log(bindObj)
-                    BackingServiceInstanceBd.put({namespace: $rootScope.namespace, name: name,region:$rootScope.region},
-                        bindObj, function (res) {
-                            Toast.open('正在解除中,请稍等');
-                            // console.log('解绑定', res)
-                        }, function (res) {
-                            //todo 错误处理
-                            // Toast.open('操作失败');
-                            if (res.data.message.split(':')[1]) {
-                                Toast.open(res.data.message.split(':')[1].split(';')[0]);
-                            } else {
-                                Toast.open(res.data.message);
-                            }
-                            $log.info("del bindings err", res);
-                        });
-                });
-            };
+            //$scope.delBing = function (idx, id) {
+            //    id = id.toString();
+            //
+            //    if (id) {
+            //        newid = id;
+            //        var name = $scope.myservice[id].item[idx].metadata.name;
+            //        var bindings = [];
+            //        var binds = $scope.myservice[id].item[idx].spec.binding || [];
+            //
+            //    } else {
+            //
+            //        var name = $scope.diyservice[idx].metadata.name;
+            //        var bindings = [];
+            //        var binds = $scope.diyservice[idx].spec.binding || [];
+            //    }
+            //
+            //    for (var i = 0; i < binds.length; i++) {
+            //        if (binds[i].checked) {
+            //            bindings.push(binds[i]);
+            //        }
+            //    }
+            //    if (bindings.length === 0) {
+            //        Toast.open('请先选择要解除绑定的服务');
+            //        return;
+            //    }
+            //    //console.log($scope.myservice,bindings);
+            //
+            //    angular.forEach(bindings, function (binding,i) {
+            //        angular.forEach(binds, function (bind,j) {
+            //            if (binding.bind_deploymentconfig === bind.bind_deploymentconfig) {
+            //                $scope.myservice[id].item[idx].spec.binding[j].delete=true;
+            //            }
+            //        })
+            //        var bindObj = {
+            //            metadata: {
+            //                name: name,
+            //                annotations: {
+            //                    "dadafoundry.io/create-by": $rootScope.user.metadata.name
+            //                }
+            //            },
+            //            resourceName: binding.bind_deploymentconfig,
+            //            bindResourceVersion: '',
+            //            bindKind: 'DeploymentConfig'
+            //        };
+            //        // console.log(bindObj)
+            //        BackingServiceInstanceBd.put({namespace: $rootScope.namespace, name: name,region:$rootScope.region},
+            //            bindObj, function (res) {
+            //                Toast.open('正在解除中,请稍等');
+            //                // console.log('解绑定', res)
+            //            }, function (res) {
+            //                //todo 错误处理
+            //                // Toast.open('操作失败');
+            //                if (res.data.message.split(':')[1]) {
+            //                    Toast.open(res.data.message.split(':')[1].split(';')[0]);
+            //                } else {
+            //                    Toast.open(res.data.message);
+            //                }
+            //                $log.info("del bindings err", res);
+            //            });
+            //    });
+            //};
             //我的后端服务绑定一个服务
-            var bindService = function (name, dcs, idx, id) {
-                var bindObj = {
-                    metadata: {
-                        name: name,
-                        annotations: {
-                            "dadafoundry.io/create-by": $rootScope.user.metadata.name
-                        }
-                    },
-                    resourceName: '',
-                    bindResourceVersion: '',
-                    bindKind: 'DeploymentConfig'
-                };
-                for (var i = 0; i < dcs.length; i++) {
-                    bindObj.resourceName = dcs[i].metadata.name;
-                    BackingServiceInstanceBd.create({namespace: $rootScope.namespace, name: name,region:$rootScope.region}, bindObj,
-                        function (res) {
-                        }, function (res) {
-                            //todo 错误处理
-                            // Toast.open('操作失败');
-                            if (res.data.message.split(':')[1]) {
-                                Toast.open(res.data.message.split(':')[1].split(';')[0]);
-                            } else {
-                                Toast.open(res.data.message);
-                            }
-
-                            $log.info("bind services " +
-                                "err", res);
-                        });
-                }
-            };
-            $scope.bindModal = function (idx, id) {
-                id = id.toString();
-                if (id) {
-                    newid = id;
-                    var bindings = $scope.myservice[id].item[idx].spec.binding || [];
-                    ServiceSelect.open(bindings).then(function (res) {
-                        $log.info("selected service", res);
-                        if (res.length > 0) {
-                            bindService($scope.myservice[id].item[idx].metadata.name, res, idx, id);
-                        }
-                    });
-                } else {
-                    var bindings = $scope.diyservice[idx].spec.binding || [];
-                    ServiceSelect.open(bindings).then(function (res) {
-                        $log.info("selected service", res);
-                        if (res.length > 0) {
-                            bindService($scope.diyservice[idx].metadata.name, res, idx);
-                        }
-                    });
-                }
-
-            };
+            //var bindService = function (name, dcs, idx, id) {
+            //    var bindObj = {
+            //        metadata: {
+            //            name: name,
+            //            annotations: {
+            //                "dadafoundry.io/create-by": $rootScope.user.metadata.name
+            //            }
+            //        },
+            //        resourceName: '',
+            //        bindResourceVersion: '',
+            //        bindKind: 'DeploymentConfig'
+            //    };
+            //    for (var i = 0; i < dcs.length; i++) {
+            //        bindObj.resourceName = dcs[i].metadata.name;
+            //        BackingServiceInstanceBd.create({namespace: $rootScope.namespace, name: name,region:$rootScope.region}, bindObj,
+            //            function (res) {
+            //            }, function (res) {
+            //                //todo 错误处理
+            //                // Toast.open('操作失败');
+            //                if (res.data.message.split(':')[1]) {
+            //                    Toast.open(res.data.message.split(':')[1].split(';')[0]);
+            //                } else {
+            //                    Toast.open(res.data.message);
+            //                }
+            //
+            //                $log.info("bind services " +
+            //                    "err", res);
+            //            });
+            //    }
+            ////};
+            //$scope.bindModal = function (idx, id) {
+            //    id = id.toString();
+            //    if (id) {
+            //        newid = id;
+            //        var bindings = $scope.myservice[id].item[idx].spec.binding || [];
+            //        ServiceSelect.open(bindings).then(function (res) {
+            //            $log.info("selected service", res);
+            //            if (res.length > 0) {
+            //                bindService($scope.myservice[id].item[idx].metadata.name, res, idx, id);
+            //            }
+            //        });
+            //    } else {
+            //        var bindings = $scope.diyservice[idx].spec.binding || [];
+            //        ServiceSelect.open(bindings).then(function (res) {
+            //            $log.info("selected service", res);
+            //            if (res.length > 0) {
+            //                bindService($scope.diyservice[idx].metadata.name, res, idx);
+            //            }
+            //        });
+            //    }
+            //
+            //};
         }])
