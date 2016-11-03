@@ -349,6 +349,21 @@ define([
                     }
 
                 })
+                //数据集成-详情列表
+                .state('console.Integration_dlist', {
+                    url: '/Integration_dlist/:name',
+                    params: {
+                        plan: null
+                    },
+                    templateUrl: 'views/Integration_detail/Integration_dlist.html',
+                    controller: 'IntegrationDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/Integration_detail/Integration_detail.js'])
+                        }]
+                    }
+
+                })
                 .state('console.backing_service_detail', {
                     url: '/backing_service/:name',
                     params: {

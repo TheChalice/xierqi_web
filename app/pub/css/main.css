@@ -1322,6 +1322,18 @@ a {
     background-size: contain;
 
 }
+.fz12 {
+    font-size: 12px;
+}
+.fz16 {
+    font-size: 16px;
+}
+.fz28 {
+    font-size: 28px;
+}
+.mb30 {
+    margin-bottom: 30px;
+}
 .mt20 {
     margin-top: 20px;
 }
@@ -1354,7 +1366,9 @@ a {
     left: 0;
     right: 0;
 }
-
+.tac {
+    text-align: center;
+}
 .view-frame.ng-enter {
     -webkit-animation: 0.5s fade-in;
     -moz-animation: 0.5s fade-in;
