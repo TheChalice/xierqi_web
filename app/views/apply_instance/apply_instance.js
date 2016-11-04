@@ -49,6 +49,7 @@ angular.module('console.apply_instance', [
 
 
      $scope.createInstance = function (name){
+
          var plan = $scope.data.spec.plans[$scope.grid.checked];
          $scope.bsi.spec.provisioning.backingservice_plan_guid = plan.id;
          $scope.bsi.spec.provisioning.backingservice_plan_name = plan.name;
