@@ -55,7 +55,7 @@ ul,li{list-style:none;margin:0px;padding:0px;}
 .in_r span{-webkit-transition:all .2s;transition:all .2s;cursor:pointer;display:block;float:left;display:block;margin-top:18px;
 width:26px;height:26px;}
 .in_r_main{width:54px;float:right;}
-.down_cion{background:url(../../views/Integration_detail/img/down.png) no-repeat;}
+.down_cion{background:url(../../views/Integration_detail/img/down.png) no-repeat;width:26px;height:26px;display:block;margin-top:18px;}
 .down_cion:hover{background:url(../../views/Integration_detail/img/down_hover.png) no-repeat;}
 /*预览按钮 20161103 jia 暂时预览按钮新需求不添加*/
 .show_cion{background:url(../../views/Integration_detail/img/show.png) no-repeat;margin-right:20px;}
