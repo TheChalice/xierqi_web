@@ -707,6 +707,14 @@ define([
             var regions = $resource('/payment/v1/coupon/:id', {id:'@id'}, {});
             return regions;
         }])
+        .factory('repositories', ['$resource', 'GLOBAL', function ($resource) {//获取充值卡面额
+            var repositories = $resource('/integration/v1/repositories', {}, {});
+            return repositories;
+        }])
+        .factory('repository', ['$resource', 'GLOBAL', function ($resource) {//获取充值卡面额
+            var repository = $resource('/integration/v1/repository/:reponame', {}, {});
+            return repository;
+        }])
 
 
 });
