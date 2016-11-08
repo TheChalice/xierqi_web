@@ -68,11 +68,13 @@ angular.module('console.backing_service', [
             // 得到loadBs对象进行分组
             var loadBs = function () {
                 repositories.get({class: ""}, function (repodata) {
-                    //$log.info('newBs', repodata);
+
                     $scope.repoclass = [];//repoclass
                     $scope.repolabel = [];//repolabel
-                    $scope.repos = [];
-                    var repoarr = [];
+                    $scope.reposcopy=angular.copy(repodata.data.results);
+                    $scope.repos = angular.copy(repodata.data.results);
+                    //var repoarr = [];
+                    $log.info('newBs', $scope.repos);
                     angular.forEach(repodata.data.results, function (repo,i) {
 
                         if (repo.class) {
@@ -92,19 +94,19 @@ angular.module('console.backing_service', [
                     //console.log($scope.repoclass, $scope.repolabel);
                     $scope.repoclass = $scope.repoclass.unique()
                     $scope.repolabel = $scope.repolabel.unique()
-                    angular.forEach($scope.repoclass, function (repoclass,i) {
-                        repoarr.push({isshow:true,showTab:true,id:i, class:repoclass,item:[]});
-                       angular.forEach(repodata.data.results, function (repo,j) {
-                           if (repoclass === repo.class) {
-                               repo.show=true
-                               repoarr[i].item.push(repo);
-                           }
-                       })
-                    })
-                    $scope.reposcopy=angular.copy(repoarr);
-                    $scope.repos=repoarr;
+                    //angular.forEach($scope.repoclass, function (repoclass,i) {
+                    //    repoarr.push({isshow:true,showTab:true,id:i, class:repoclass,item:[]});
+                    //   angular.forEach(repodata.data.results, function (repo,j) {
+                    //       if (repoclass === repo.class) {
+                    //           repo.show=true
+                    //           repoarr[i].item.push(repo);
+                    //       }
+                    //   })
+                    //})
+                    //$scope.reposcopy=angular.copy(repoarr);
+                    //$scope.repos=repoarr;
 
-                    console.log('$scope.repos', $scope.repos);
+                    //console.log('$scope.repos', $scope.repos);
                     //label分组
 
                     BackingService.get({namespace: 'openshift', region: $rootScope.region}, function (data) {
@@ -235,78 +237,58 @@ angular.module('console.backing_service', [
             $scope.status = {};
             //页面双向绑定数据
             $scope.grid = {
-                repoclass:'all',
-                selectsclabel:'all',
                 serviceCat: 'all',
                 vendor: 'all',
                 txt: '',
                 classtxt: '',
                 mytxt: ''
             };
+            $scope.classgrid={
+                selectclass:'all',
+                selectsclabel:'all',
+            }
             //tab切换分类过滤对象
             //数据分类筛选class
-            $scope.selectclass = function (tp, key) {
-                 console.log("tp", tp, 'key', key);
-                //class判定
-                if (key == $scope.grid[tp]) {
-                    key = 'all';
-                    for (var k in $scope.repos) {
-                        $scope.repos[k].isshow = true;
-                    }
-                } else {
-                    angular.forEach($scope.repos, function (repo,i) {
-                        //console.log(i,);
-                        if (key == i) {
-                            //console.log(i);
-                            $scope.repos[i].isshow = true;
-                        }else {
-                            $scope.repos[i].isshow = false;
-                        }
+            $scope.$watch('classgrid', function (n,o) {
+                if (n === o) {
+                    return
+                }
+                console.log(n);
+                if (n.selectclass!=='all' || n.selectsclabel!=='all') {
+                    //
+                    //console.log($scope.repoclass[n.selectclass], $scope.repolabel[n.selectsclabel]);
+                    //console.log(n.selectclass,n.selectsclabel);
+
+                    repositories.get({class: $scope.repoclass[n.selectclass],label:$scope.repolabel[n.selectsclabel]}, function (repodata) {
+                        $scope.repos = repodata.data.results;
                     })
+                }else {
+                    repositories.get({class: '',label:''}, function (repodata) {
+                        $scope.repos = repodata.data.results;
+                    })
+                }
+                $scope.reposcopy = angular.copy($scope.repos);
+
+            },true)
+            $scope.selectclass = function (tp, key) {
+                 //console.log("tp", tp, 'key', key);
+                //class判定
+                if (key == $scope.classgrid[tp]) {
+                    key = 'all';
 
                 }
-                $scope.grid[tp] = key;
+                $scope.classgrid[tp] = key;
             };
+
             //数据标签筛选label
             $scope.selectsclabel = function (tp, key) {
-                angular.forEach($scope.repolabel, function (label,i) {
-                    //console.log($scope.repos[i]);
-                    $scope.repos[i].showTab = true;
-                    $scope.isrepoComplete = {label: $scope.repolabel[key]};
-                    var arr = $filter("numfilter")($scope.repos[i].item, $scope.isrepoComplete);
-                    if (arr.length == 0) {
-                        $scope.repos[i].showTab = false
-                    }
-                })
-                //for (var i = 0; i < $scope.cation.length; i++) {
-                //    $scope.repos[i].showTab = true;
-                //    //$scope.myservice[i].showTab = true;
-                //    $scope.isrepoComplete = {label: $scope.repolabel[key]};
-                //    //把渲染数组做二次筛选;
-                //    var arr = $filter("numfilter")($scope.repos[i].item, $scope.isrepoComplete);
-                //    if (arr.length == 0) {
-                //        //$scope.market[i].showTab = false
-                //    }
-                //
-                //
-                //}
-                // console.log($scope.isComplete);
-                if (key == $scope.grid[tp]) {
-                    key = 'all';
-                    $scope.isrepoComplete = '';
-                    angular.forEach($scope.repos, function (repo,i) {
-                        $scope.repos[i].showTab = true;
-                    })
 
-                    //for (var d = 0; d < $scope.cation.length; d++) {
-                    //    var arr1 = $filter("myfilter")($scope.myservice[d].item, $scope.isComplete);
-                    //    if (arr1.length == 0) {
-                    //        $scope.myservice[d].showTab = false
-                    //    }
-                    //}
+                if (key == $scope.classgrid[tp]) {
+                    key = 'all';
+
                 }
-                $scope.grid[tp] = key;
-                // console.log("$scope.itemsDevop", $scope.itemsDevop)
+                $scope.classgrid[tp] = key;
+
             }
 
             //服务分类键盘搜索      $scope.isComplete = '';
@@ -415,45 +397,20 @@ angular.module('console.backing_service', [
             $scope.keyclasssearch = function (event) {
                //$scope.copyrepos = angular.copy($scope.repos);
                 if (event.keyCode === 13) {
-                    //for (var s = 0; s < $scope.repos.length; s++) {
-                    //    $scope.repos[s].showTab = true;
-                    //}
-                    //$scope.isrepoComplete = {name: $scope.grid.classtxt};
-                    //var sarr = [];
+
                     if ($scope.grid.classtxt) {
                         console.log($scope.repos);
-                        //var arr = []
-                        angular.forEach($scope.repos, function (frepo,i) {
-
-                            angular.forEach(frepo.item, function (srepo,k) {
-                                if (srepo.repoName.indexOf($scope.grid.classtxt)!==-1 && srepo.show) {
-                                    srepo.show=true;
-                                    frepo.isshow=true;
-                                    frepo.showTab=true;
-                                    //arr[i].item.push(srepo);
-                                }else {
-                                    srepo.show=false;
-                                }
-                                //$scope.repos=arr;
-
-                            })
+                        var repoarr =[]
+                        angular.forEach($scope.repos, function (repo,i) {
+                            console.log(repo.repoName, $scope.grid.classtxt);
+                            if (repo.repoName.indexOf($scope.grid.classtxt) !== -1) {
+                                repoarr.push(repo);
+                            }
                         })
-                        //for (var s = 0; s < $scope.market.length; s++) {
-                        //    var sarr = $filter("numfilter")($scope.reposcopy[s].item, $scope.isrepoComplete);
-                        //    // console.log(sarr.length)
-                        //    if (sarr.length === 0) {
-                        //        $scope.repos[s].showTab = false;
-                        //    }
-                        //}
+                        $scope.repos=repoarr;
+
                     } else {
-                        //$scope.repos=angular.copy($scope.reposcopy)
-                        //console.log($scope.repos);
-                        //for (var s = 0; s < $scope.repos.length; s++) {
-                        //    sarr = $filter("numfilter")($scope.reposcopy[s].item, '');
-                        //    console.log(sarr);
-                        //    $scope.repos
-                        //    $scope.repos[s].showTab = true;
-                        //}
+                        $scope.repos=angular.copy($scope.reposcopy)
                     }
                 }
             }
