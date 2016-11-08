@@ -11,14 +11,14 @@
                 </div>
                 <div class="sc col-mb-11" style='position: relative;top: -30px;left: 89px;width: 92%;'>
                     <div class="btn-group ft col-mb-1" ng-repeat='item in repoclass' style='margin-bottom: 8px;'>
-                        <label class="btn" ng-class='{"active":grid.selectclass == $index}'
+                        <label class="btn" ng-class='{"active":classgrid.selectclass === $index}'
                                ng-click='selectclass("selectclass", $index)'>{{item}}</label>
                     </div>
                 </div>
                 <div class="sc col-mb-12 pull-left">
                     <label>数据标签</label>
                     <div class="btn-group fw" ng-repeat='item in repolabel'>
-                        <label class="btn" ng-class="{'active':grid.selectsclabel == $index}"
+                        <label class="btn" ng-class="{'active':classgrid.selectsclabel === $index}"
                                ng-click="selectsclabel('selectsclabel',$index)">{{item}}</label>
                     </div>
                 </div>
@@ -38,20 +38,18 @@
             </div>
             <!--<div ng-include="'views/Integration/backing_service_instance.html'">-->
             <!--</div>-->
-            <div class='change' ng-repeat='items in repos'>
-                <div class="row" ng-show="items.isshow" id=n{{items.id}}>
-                    <div id=t{{items.id}} class="h2-border" ng-show="items.showTab"
-                         style="margin-bottom: 15px;">
-                        <span class='biaoti'>{{items.class}}</span>
-                        <i class='xian'></i>
-                    </div>
+            <div class='change'>
+                <div class="row">
+                    <!--<div id=t{{items.id}} class="h2-border" ng-show="items.showTab"-->
+                         <!--style="margin-bottom: 15px;">-->
+                        <!--<span class='biaoti'>{{items.class}}</span>-->
+                        <!--<i class='xian'></i>-->
+                    <!--</div>-->
                     <!--<h2 id=t{{items.id}} class="h2-border" ng-show="items.showTab"-->
                     <!--style="margin-bottom: 15px;">-->
                     <!--{{items.name}}</h2>-->
                     <div class="row">
-                        <div class="fen"
-                             ng-repeat="item in items.item | numfilter:isrepoComplete"
-                             ng-show="item.show">
+                        <div class="fen" ng-repeat="item in repos">
                             <div id=hui class="thumbnail">
                                 <div class="thumb-content">
                                     <!--<p class='hui'><img src="components/bscard/img/images01_08.png">{{item.spec.metadata.providerDisplayName}}</p>-->
