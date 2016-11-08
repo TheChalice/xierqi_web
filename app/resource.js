@@ -714,6 +714,9 @@ define([
         .factory('repository', ['$resource', 'GLOBAL', function ($resource) {//获取充值卡面额
             var repository = $resource('/integration/v1/repository/:reponame', {}, {});
             return repository;
+        }]).factory('dataitem', ['$resource', 'GLOBAL', function ($resource) {//获取充值卡面额
+            var dataitem = $resource('/integration/v1/dataitem/:reponame/:itemname', {}, {});
+            return dataitem;
         }])
 
 
