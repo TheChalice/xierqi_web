@@ -140,6 +140,35 @@ define(['angular', 'moment'], function (angular, moment) {
                 }
             };
         }])
+        .filter('numfilter', function () {
+            // 分类过滤器
+            return function (items, condition) {
+                //console.log(items, condition);
+                var filtered = [];
+
+                if (condition === undefined || condition === '') {
+                    if (items.length) {
+                        angular.forEach(items, function (item,i) {
+                            item.show = true
+                        })
+                    }
+                    return items;
+                }
+
+                    angular.forEach(items, function (item) {
+                        if (condition.label === item.label) {
+                            item.show = true
+                            filtered.push(item);
+                        }else {
+                            item.show=false
+                        }
+                    });
+                    return filtered;
+
+
+
+            };
+        })
         .filter('payFilter',[function(){
             return function(phase){
                 if(phase === 'coupon'){
