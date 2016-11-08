@@ -351,15 +351,14 @@ define([
                 })
                 //数据集成-详情列表
                 .state('console.Integration_dlist', {
-                    url: '/Integration_dlist/:name',
+                    url: '/Integration_dlist/:name/:plan',
                     params: {
-                        plan: null
                     },
-                    templateUrl: 'views/Integration_detail/Integration_dlist.html',
-                    controller: 'IntegrationDetailCtrl',
+                    templateUrl: 'views/Integration_dlist/Integration_dlist.html',
+                    controller: 'IntegrationDlistCtrl',
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/Integration_detail/Integration_detail.js'])
+                            return $ocLazyLoad.load(['views/Integration_dlist/Integration_dlist.js'])
                         }]
                     }
 

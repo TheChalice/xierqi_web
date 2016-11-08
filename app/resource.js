@@ -707,14 +707,14 @@ define([
             var regions = $resource('/payment/v1/coupon/:id', {id:'@id'}, {});
             return regions;
         }])
-        .factory('repositories', ['$resource', 'GLOBAL', function ($resource) {//获取充值卡面额
+        .factory('repositories', ['$resource', 'GLOBAL', function ($resource) {//数据集成 公开数据集
             var repositories = $resource('/integration/v1/repositories', {}, {});
             return repositories;
         }])
-        .factory('repository', ['$resource', 'GLOBAL', function ($resource) {//获取充值卡面额
+        .factory('repository', ['$resource', 'GLOBAL', function ($resource) {//数据集成 公开数据集详情
             var repository = $resource('/integration/v1/repository/:reponame', {}, {});
             return repository;
-        }]).factory('dataitem', ['$resource', 'GLOBAL', function ($resource) {//获取充值卡面额
+        }]).factory('dataitem', ['$resource', 'GLOBAL', function ($resource) {//数据集成 公开数据集详情预览
             var dataitem = $resource('/integration/v1/dataitem/:reponame/:itemname', {}, {});
             return dataitem;
         }])
