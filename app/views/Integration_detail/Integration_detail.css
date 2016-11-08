@@ -1,4 +1,4 @@
-/*20161103 jia ���ݼ���-�����б�*/
+/*20161103 jia 锟斤拷锟捷硷拷锟斤拷-锟斤拷锟斤拷锟叫憋拷*/
 ul,li{list-style:none;margin:0px;padding:0px;}
 .integ_detail{border:1px solid #c9c9c9;-webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;height:auto;overflow:hidden;}
 .integ_d_tit{height:56px;line-height:56px;background:#e6e9f2;font-size:16px;color:#393f4f;text-indent:12px;}
@@ -27,12 +27,12 @@ width:26px;height:26px;}
 .in_r_main{width:54px;float:right;}
 .down_cion{background:url(../../views/Integration_detail/img/down.png) no-repeat;width:26px;height:26px;display:block;margin-top:18px;}
 .down_cion:hover{background:url(../../views/Integration_detail/img/down_hover.png) no-repeat;}
-/*Ԥ����ť 20161103 jia ��ʱԤ����ť���������*/
+/*预锟斤拷锟斤拷钮 20161103 jia 锟斤拷时预锟斤拷锟斤拷钮锟斤拷锟斤拷锟斤拷锟斤拷锟�*/
 .show_cion{background:url(../../views/Integration_detail/img/show.png) no-repeat;margin-right:20px;}
 .show_cion:hover{background:url(../../views/Integration_detail/img/show_hover.png) no-repeat;}
-/*Ԥ����ť 20161103 jia ��ʱԤ����ť���������*/
+/*预锟斤拷锟斤拷钮 20161103 jia 锟斤拷时预锟斤拷锟斤拷钮锟斤拷锟斤拷锟斤拷锟斤拷锟�*/
 
-/*20161103 jia ���ݼ���-��������*/
+/*20161103 jia 锟斤拷锟捷硷拷锟斤拷-锟斤拷锟斤拷锟斤拷锟斤拷*/
 .integ_dlist{border:1px solid #c9c9c9;-webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;height:auto;overflow:hidden;}
 .integ_dlist_tit{height:56px;line-height:56px;background:#e6e9f2;font-size:16px;color:#393f4f;text-indent:12px;}
 .integ_dtit{float:left;width:114px;font-size:14px;color:#5a6378;}
