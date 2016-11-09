@@ -1,4 +1,4 @@
-<div class="resource_management" style="margin-top: 30px">
+<div class="resource_management">
     <uib-tabset class="tab-default" active="check">
         <uib-tab index="1" >
             <uib-tab-heading style="width:180px">
@@ -34,7 +34,7 @@
                             </div>
                         </tr>
                         <tr ng-repeat="item in persistents.items">
-                            <td style="border-bottom: 1px solid #CCCCCC;"><a class="listitem" ui-sref="console.constantly_detail({name:item.metadata.name})" style="color:#f6a540">{{item.metadata.name}}</a>
+                            <td style="border-bottom: 1px solid #CCCCCC;color:#f6a540;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;"><a class="listitem" uib-tooltip="{{item.metadata.name}}" tooltip-placement="top" ui-sref="console.constantly_detail({name:item.metadata.name})">{{item.metadata.name}}</a>
                             </td>
                             <td style="border-bottom: 1px solid #CCCCCC;"> <span class="icon12 icon12-{{item.status.phase}}"
                                     ng-class="{'fa-spin':item.status.phase == 'Pending','fa-unspin':item.status.phase == 'Bound'}"></span>
@@ -95,8 +95,8 @@
                             </div>
                         </tr>
                         <tr ng-repeat="items in pageitems">
-                            <td style="border-bottom: 1px solid #CCCCCC;">
-                                <a ui-sref="console.config_detail({name: items.metadata.name})" style="color:#f6a540">{{items.metadata.name}}</a>
+                            <td style="border-bottom: 1px solid #CCCCCC;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">
+                                <a ui-sref="console.config_detail({name: items.metadata.name})" uib-tooltip="{{items.metadata.name}}" tooltip-placement="top" style="color:#f6a540">{{items.metadata.name}}</a>
                             </td>
                             <td style="border-bottom: 1px solid #CCCCCC;"><span
                                     uib-tooltip="{{items.metadata.creationTimestamp  | timescon}}">{{items.metadata.creationTimestamp | dateRelative}} </span>
@@ -157,8 +157,8 @@
                             </div>
                         </tr>
                         <tr ng-repeat="items in scretspageitems">
-                            <td style="border-bottom: 1px solid #CCCCCC;">
-                                <a class="listitem" ui-sref="console.secret_detail({name:items.metadata.name})"
+                            <td style="border-bottom: 1px solid #CCCCCC;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">
+                                <a class="listitem" uib-tooltip="{{items.metadata.name}}" tooltip-placement="top" ui-sref="console.secret_detail({name:items.metadata.name})"
                                    style="color:#f6a540">
                                     {{items.metadata.name}}
                                 </a>
@@ -182,8 +182,7 @@
         </uib-tab>
     </uib-tabset>
     <style>
-        .listitem:hover {
-            color: #e5993a;
-        }
+        .listitem {color: #e5993a;}
+        .listitem:hover{color:#5a6378;}
     </style>
 </div>
