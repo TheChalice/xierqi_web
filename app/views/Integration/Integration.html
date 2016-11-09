@@ -97,16 +97,16 @@
                 </div>
 
                 <div class="sc col-mb-11" style='position: relative;top: -30px;left: 89px;width: 92%;'>
-                    <div class="btn-group ft col-mb-1" ng-repeat='item in cation' style='margin-bottom: 8px;'>
-                        <label class="btn" ng-class='{"active":grid.serviceCat == $index}'
-                               ng-click='select("serviceCat", $index)'>{{item}}</label>
+                    <div class="btn-group ft col-mb-1" ng-repeat='item in insclass' style='margin-bottom: 8px;'>
+                        <label class="btn" ng-class='{"active":insgrid.selectclass == $index}'
+                               ng-click='select("selectclass", $index)'>{{item}}</label>
                     </div>
                 </div>
                 <div class="sc col-mb-12 pull-left">
                     <label>服务提供者</label>
-                    <div class="btn-group fw" ng-repeat='item in providers'>
-                        <label class="btn" ng-class="{'active':grid.vendor == $index}"
-                               ng-click="selectsc('vendor',$index)">{{item}}</label>
+                    <div class="btn-group fw" ng-repeat='item in inslabel'>
+                        <label class="btn" ng-class="{'active':insgrid.selectsclabel == $index}"
+                               ng-click="selectsc('selectsclabel',$index)">{{item}}</label>
                     </div>
                 </div>
             </div>
@@ -115,29 +115,61 @@
                     <input type="text"
                            class="form-control"
                            placeholder="搜索后端服务名称"
-                           ng-keydown=mykeysearch($event)
-                           ng-model="grid.mytxt">
+                           ng-keydown=keysearch($event)
+                           ng-model="grid.txt">
                     <!--ng-model="txt" ng-focus="showTip=true;" -->
                     <span class="input-group-btn" id=input>
-                        <a class="btn" ng-click="mysearch()"></a>
+                        <a class="btn" ng-click="keysearch('search')"></a>
                     </span>
                 </div>
             </div>
-            <div class='change' ng-repeat='items in market'>
-                <div class="row" ng-show="items.isshow" id=n{{items.id}}>
-                    <div id=t{{items.id}} class="h2-border" ng-show="items.showTab"
-                         style="margin-bottom: 15px;">
-                        <span class='biaoti'>{{items.name}}</span>
+            <div class='change' ng-repeat='items in ins'>
+                <div class="row">
+                    <div class="h2-border" ng-show="items.items.length" style="margin-bottom: 15px;">
+                        <span class='biaoti'>{{items.class}}</span>
                         <i class='xian'></i>
                     </div>
                     <!--<h2 id=t{{items.id}} class="h2-border" ng-show="items.showTab"-->
                     <!--style="margin-bottom: 15px;">-->
                     <!--{{items.name}}</h2>-->
+                    <!--<div class="row">-->
+                        <!--<div class="fen"-->
+                             <!--ng-repeat="item in items.items">-->
+                            <!--&lt;!&ndash;<bs-card></bs-card>&ndash;&gt;-->
+                        <!--</div>-->
+                    <!--</div>-->
                     <div class="row">
-                        <div class="fen"
-                             ng-repeat="item in items.item | myfilter:isComplete"
-                             ng-show="item.show">
-                            <bs-card></bs-card>
+                        <div class="fen" ng-repeat="item in items.items">
+                            <div class="thumbnail">
+                                <div class="thumb-content">
+                                    <!--<p class='hui'><img src="components/bscard/img/images01_08.png">{{item.spec.metadata.providerDisplayName}}</p>-->
+                                    <!--<p><img src="components/bscard/img/images01_06.png">&nbsp;version</p>-->
+                                    <div class="thumb-slide">
+                                        <div class="thumb-op">
+                                            <small>{{item.description}}</small>
+                                            <!--<p class="thumb-btn">-->
+                                            <!--<a ng-if="!bkservice" class="btn btn-skyblue" href="javascript:;" ui-sref="console.backing_service_detail({name: item.metadata.name,type:item.metadata.annotations.Class})">-->
+                                            <!--查看详情</a>-->
+
+                                            <!--</p>-->
+                                        </div>
+                                        <div ng-if="item.spec.metadata.imageUrl" class="imageholder" style="background-image:url('{{item.spec.metadata.imageUrl}}');">
+                                            <p class='hui inscard'style=""><img src="components/bscard/img/images01_08.png">{{item.provider}}</p>
+                                        </div>
+                                        <div ng-if="!item.spec.metadata.imageUrl" class="imageholder" style="background-image:url('components/bscard/img/images01_03.png');background-color: #EAEBEF;">
+                                            <p class='hui inscard'style=""><img src="components/bscard/img/images01_08.png">{{item.provider}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="caption">
+                                    <p class="bsname" style="color: #5a6378">{{item.instance_data}}</p>
+                                    <!--<a class="btn btn-disabled" ng-if='item.bianhui' style='cursor:default;'>查看详情</a>-->
+                                    <a class="btn btn-orange"  ui-sref="console.Integration_detail({name: item.repoName})">查看详情</a>
+                                    <!--<a class="btn btn-disabled" ng-if='item.bianhui && bkservice' style='cursor:default;'>申请实例</a>-->
+                                    <!--<a class="btn btn-orange" ng-if='item.biancheng && bkservice' ng-click="apply_instance(item.metadata.name)">申请实例</a>-->
+                                </div>
+                            </div>
+                            <!--<bs-card></bs-card>-->
                         </div>
                     </div>
                 </div>
