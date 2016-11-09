@@ -464,17 +464,21 @@ angular.module('console.backing_service', [
 
                     if ($scope.grid.classtxt) {
                         //console.log($scope.repos);
-                        var repoarr = []
+                        var repoarr = [];
+                        var str = $scope.grid.classtxt;
+                        str = str.toLocaleLowerCase();
                         angular.forEach($scope.repos, function (repo, i) {
                             //console.log(repo.repoName, $scope.grid.classtxt);
-                            if (repo.repo_name.indexOf($scope.grid.classtxt) !== -1) {
+                            var nstr = repo.repo_name;
+                            nstr=nstr.toLocaleLowerCase();
+                            if (nstr.indexOf(str) !== -1) {
                                 repoarr.push(repo);
                             }
                         })
                         $scope.repos = repoarr;
 
                     } else {
-                        $scope.repos = angular.copy($scope.reposcopys)
+                        $scope.repos = angular.copy($scope.reposcopys||$scope.reposcopy)
                     }
                 }
             }
