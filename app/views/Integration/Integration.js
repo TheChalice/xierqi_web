@@ -67,8 +67,8 @@ angular.module('console.backing_service', [
                 return res;
             }
 
-            var loaditc = function (insclass,inslabel) {
-                instance.get({class: insclass||"",provider:inslabel||''}, function (insdata) {
+            var loaditc = function (insclass, inslabel) {
+                instance.get({class: insclass || "", provider: inslabel || ''}, function (insdata) {
                     //console.log('instance', insdata);
                     $scope.insclass = [];//insclass
                     $scope.inslabel = [];//inslabel
@@ -90,42 +90,43 @@ angular.module('console.backing_service', [
                     })
                     $scope.insclass = $scope.insclass.unique();
                     $scope.inslabel = $scope.inslabel.unique();
-                    angular.forEach($scope.insclass, function (insclass,i) {
-                        $scope.ins.push({class:insclass,items:[]});
-                        angular.forEach(insdata.data.results, function (ins,k) {
+                    angular.forEach($scope.insclass, function (insclass, i) {
+                        $scope.ins.push({class: insclass, items: []});
+                        angular.forEach(insdata.data.results, function (ins, k) {
                             if (insclass === ins.class) {
                                 $scope.ins[i].items.push(ins);
                             }
                         })
                     })
                     $scope.inscopy = angular.copy($scope.ins);
-                    console.log('$scope.ins',$scope.ins);
+                    console.log('$scope.ins', $scope.ins);
                 })
 
             }
             loaditc()
             // 得到loadBs对象进行分组
             var loadBs = function () {
-                repositories.get({class: ""}, function (repodata) {
+                repositories.query({}, function (repodata) {
+                    console.log('repodata', repodata);
                     $scope.repoclass = [];//repoclass
                     $scope.repolabel = [];//repolabel
-                    $scope.reposcopy = angular.copy(repodata.data.results);
-                    $scope.repos = angular.copy(repodata.data.results);
+                    $scope.reposcopy = angular.copy(repodata);
+                    $scope.repos = angular.copy(repodata);
                     //var repoarr = [];
                     //$log.info('newBs', $scope.repos);
-                    angular.forEach(repodata.data.results, function (repo, i) {
+                    angular.forEach(repodata, function (repo, i) {
                         if (repo.class) {
-                            repodata.data.results[i].class = repo.class.toUpperCase();
+                            repodata[i].class = repo.class.toUpperCase();
                         } else {
-                            repodata.data.results[i].class = '其他';
+                            repodata[i].class = '其他';
                         }
                         if (repo.label) {
-                            repodata.data.results[i].label = repo.label.toUpperCase();
+                            repodata[i].label = repo.label.toUpperCase();
                         } else {
-                            repodata.data.results[i].label = '其他';
+                            repodata[i].label = '其他';
                         }
-                        $scope.repoclass.push(repodata.data.results[i].class)
-                        $scope.repolabel.push(repodata.data.results[i].label)
+                        $scope.repoclass.push(repodata[i].class)
+                        $scope.repolabel.push(repodata[i].label)
 
                     })
                     //console.log($scope.repoclass, $scope.repolabel);
@@ -297,27 +298,53 @@ angular.module('console.backing_service', [
                 if (n === o) {
                     return
                 }
-                
+
                 //console.log(n);
                 if (n.selectclass !== 'all' || n.selectsclabel !== 'all') {
                     //
                     //console.log($scope.repoclass[n.selectclass], $scope.repolabel[n.selectsclabel]);
                     //console.log(n.selectclass,n.selectsclabel);
+                    var arr = []
+                    var classr=$scope.repoclass[n.selectclass];
+                    var labelr=$scope.repolabel[n.selectsclabel];
 
-                    repositories.get({
-                        class: $scope.repoclass[n.selectclass],
-                        label: $scope.repolabel[n.selectsclabel]
-                    }, function (repodata) {
-                        $scope.repos = repodata.data.results;
+                    angular.forEach($scope.reposcopy, function (repo,i) {
+                        if (classr&&labelr) {
+                            if (classr === repo.class && labelr === repo.label) {
+                                arr.push(repo);
+                            }
+                        }else if(classr){
+                            if (classr === repo.class) {
+                                arr.push(repo);
+                            }
+                        }else if(labelr){
+                            if (labelr=== repo.label) {
+                                arr.push(repo);
+                            }
+                        }
+                        //console.log(arr);
+                        $scope.repos=arr;
                     })
+                    //repositories.get({
+                    //    class: $scope.repoclass[n.selectclass],
+                    //    label: $scope.repolabel[n.selectsclabel]
+                    //}, function (repodata) {
+                    //    $scope.repos = repodata.data.results;
+                    //})
                 } else {
-                    repositories.get({class: '', label: ''}, function (repodata) {
-                        $scope.repos = repodata.data.results;
-                    })
+                    $scope.repos=angular.copy($scope.reposcopy)
+                    //repositories.get({class: '', label: ''}, function (repodata) {
+                    //    $scope.repos = repodata.data.results;
+                    //})
                 }
-                $scope.reposcopy = angular.copy($scope.repos);
+                $scope.reposcopys = angular.copy($scope.repos);
 
             }, true)
+            $scope.apply = function (id) {
+                instance.create({id:id}, function (data) {
+                    console.log('iddata', data);
+                })
+            }
             $scope.$watch('insgrid', function (n, o) {
                 if (n === o) {
                     return
@@ -328,7 +355,7 @@ angular.module('console.backing_service', [
                     //
                     //console.log($scope.repoclass[n.selectclass], $scope.repolabel[n.selectsclabel]);
                     //console.log(n.selectclass,n.selectsclabel);
-                    loaditc($scope.insclass[n.selectclass],$scope.inslabel[n.selectsclabel])
+                    loaditc($scope.insclass[n.selectclass], $scope.inslabel[n.selectsclabel])
                     //repositories.get({
                     //    class: $scope.repoclass[n.selectclass],
                     //    label: $scope.repolabel[n.selectsclabel]
@@ -341,7 +368,7 @@ angular.module('console.backing_service', [
 
 
             }, true)
-            
+
             $scope.selectclass = function (tp, key) {
                 //console.log("tp", tp, 'key', key);
                 //class判定
@@ -410,13 +437,13 @@ angular.module('console.backing_service', [
 
 
             $scope.keysearch = function (event) {
-                if (event.keyCode === 13 || event==='search') {
+                if (event.keyCode === 13 || event === 'search') {
                     if ($scope.grid.txt) {
                         var iarr = []
                         //console.log($scope.ins);
                         angular.forEach($scope.ins, function (repo, i) {
-                            iarr.push({class:repo.class,items:[]});
-                            angular.forEach(repo.items, function (item,k) {
+                            iarr.push({class: repo.class, items: []});
+                            angular.forEach(repo.items, function (item, k) {
                                 if (item.instance_data.indexOf($scope.grid.txt) !== -1) {
                                     iarr[i].items.push(item);
                                 }
@@ -433,28 +460,27 @@ angular.module('console.backing_service', [
             }
             $scope.keyclasssearch = function (event) {
                 //$scope.copyrepos = angular.copy($scope.repos);
-                if (event.keyCode === 13||event==='search') {
+                if (event.keyCode === 13 || event === 'search') {
 
                     if ($scope.grid.classtxt) {
                         //console.log($scope.repos);
                         var repoarr = []
                         angular.forEach($scope.repos, function (repo, i) {
                             //console.log(repo.repoName, $scope.grid.classtxt);
-                            if (repo.repoName.indexOf($scope.grid.classtxt) !== -1) {
+                            if (repo.repo_name.indexOf($scope.grid.classtxt) !== -1) {
                                 repoarr.push(repo);
                             }
                         })
                         $scope.repos = repoarr;
 
                     } else {
-                        $scope.repos = angular.copy($scope.reposcopy)
+                        $scope.repos = angular.copy($scope.reposcopys)
                     }
                 }
             }
             //我的后端服务搜索
 
             //服务分类搜索
-
 
 
         }])

@@ -708,7 +708,7 @@ define([
             return regions;
         }])
         .factory('repositories', ['$resource', 'GLOBAL', function ($resource) {//数据集成 公开数据集
-            var repositories = $resource('/integration/v1/repositories', {}, {});
+            var repositories = $resource('/integration/v1/repos', {}, {});
             return repositories;
         }])
         .factory('repository', ['$resource', 'GLOBAL', function ($resource) {//数据集成 公开数据集详情
@@ -720,7 +720,9 @@ define([
             return dataitem;
         }])
         .factory('instance', ['$resource', 'GLOBAL', function ($resource) {//数据集成 公开数据集详情预览
-            var instance = $resource('/integration/v1/instance', {}, {});
+            var instance = $resource('/integration/v1/instance/:id', {id:'@id'}, {
+                create: {method: 'POST'}
+            });
             return instance;
         }])
 
