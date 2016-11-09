@@ -714,9 +714,14 @@ define([
         .factory('repository', ['$resource', 'GLOBAL', function ($resource) {//数据集成 公开数据集详情
             var repository = $resource('/integration/v1/repository/:reponame', {}, {});
             return repository;
-        }]).factory('dataitem', ['$resource', 'GLOBAL', function ($resource) {//数据集成 公开数据集详情预览
+        }])
+        .factory('dataitem', ['$resource', 'GLOBAL', function ($resource) {//数据集成 公开数据集详情预览
             var dataitem = $resource('/integration/v1/dataitem/:reponame/:itemname', {}, {});
             return dataitem;
+        }])
+        .factory('instance', ['$resource', 'GLOBAL', function ($resource) {//数据集成 公开数据集详情预览
+            var instance = $resource('/integration/v1/instance', {}, {});
+            return instance;
         }])
 
 

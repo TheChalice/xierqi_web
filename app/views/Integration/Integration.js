@@ -46,8 +46,8 @@ angular.module('console.backing_service', [
             }
         };
     })
-    .controller('IntegrationCtrl', ['repositories', '$state', '$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'BackingServiceInstanceBd', 'Confirm', 'Toast', 'Ws', '$filter',
-        function (repositories, $state, $log, $rootScope, $scope, BackingService, BackingServiceInstance, ServiceSelect, BackingServiceInstanceBd, Confirm, Toast, Ws, $filter) {
+    .controller('IntegrationCtrl', ['instance','repositories', '$state', '$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'BackingServiceInstanceBd', 'Confirm', 'Toast', 'Ws', '$filter',
+        function (instance,repositories, $state, $log, $rootScope, $scope, BackingService, BackingServiceInstance, ServiceSelect, BackingServiceInstanceBd, Confirm, Toast, Ws, $filter) {
             // 数组去重方法
            $scope.isrepoComplete='';
             if ($state.params.index) {
@@ -55,6 +55,9 @@ angular.module('console.backing_service', [
             } else {
                 $scope.check = false
             }
+            instance.get({}, function (data) {
+                console.log('instance', data);
+            })
             Array.prototype.unique = function () {
                 this.sort(); //先排序
                 var res = [this[0]];
@@ -253,7 +256,7 @@ angular.module('console.backing_service', [
                 if (n === o) {
                     return
                 }
-                console.log(n);
+                //console.log(n);
                 if (n.selectclass!=='all' || n.selectsclabel!=='all') {
                     //
                     //console.log($scope.repoclass[n.selectclass], $scope.repolabel[n.selectsclabel]);
