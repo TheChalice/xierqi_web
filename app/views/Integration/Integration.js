@@ -46,8 +46,8 @@ angular.module('console.backing_service', [
             }
         };
     })
-    .controller('IntegrationCtrl', ['instance', 'repositories', '$state', '$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'BackingServiceInstanceBd', 'Confirm', 'Toast', 'Ws', '$filter',
-        function (instance, repositories, $state, $log, $rootScope, $scope, BackingService, BackingServiceInstance, ServiceSelect, BackingServiceInstanceBd, Confirm, Toast, Ws, $filter) {
+    .controller('IntegrationCtrl', ['inservice', 'repositories', '$state', '$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'BackingServiceInstanceBd', 'Confirm', 'Toast', 'Ws', '$filter',
+        function (inservice, repositories, $state, $log, $rootScope, $scope, BackingService, BackingServiceInstance, ServiceSelect, BackingServiceInstanceBd, Confirm, Toast, Ws, $filter) {
             // 数组去重方法
             $scope.isrepoComplete = '';
             if ($state.params.index) {
@@ -68,7 +68,7 @@ angular.module('console.backing_service', [
             }
 
             var loaditc = function (insclass, inslabel) {
-                instance.get({class: insclass || "", provider: inslabel || ''}, function (insdata) {
+                inservice.get({class: insclass || "", provider: inslabel || ''}, function (insdata) {
                     //console.log('instance', insdata);
                     $scope.insclass = [];//insclass
                     $scope.inslabel = [];//inslabel

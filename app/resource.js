@@ -719,6 +719,11 @@ define([
             var dataitem = $resource('/integration/v1/repos/:reponame/items/:itemname', {}, {});
             return dataitem;
         }])
+        .factory('inservice', ['$resource', 'GLOBAL', function ($resource) {//数据集成 公开数据集详情预览
+            var inservice = $resource('/integration/v1/services', {}, {
+            });
+            return inservice;
+        }])
         .factory('instance', ['$resource', 'GLOBAL', function ($resource) {//数据集成 公开数据集详情预览
             var instance = $resource('/integration/v1/instance/:id', {id:'@id'}, {
                 create: {method: 'POST'}
