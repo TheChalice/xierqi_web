@@ -46,15 +46,16 @@ angular.module('console.backing_service', [
             }
         };
     })
-    .controller('IntegrationCtrl', ['repositories', '$state', '$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'BackingServiceInstanceBd', 'Confirm', 'Toast', 'Ws', '$filter',
-        function (repositories, $state, $log, $rootScope, $scope, BackingService, BackingServiceInstance, ServiceSelect, BackingServiceInstanceBd, Confirm, Toast, Ws, $filter) {
+    .controller('IntegrationCtrl', ['instance', 'repositories', '$state', '$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'BackingServiceInstanceBd', 'Confirm', 'Toast', 'Ws', '$filter',
+        function (instance, repositories, $state, $log, $rootScope, $scope, BackingService, BackingServiceInstance, ServiceSelect, BackingServiceInstanceBd, Confirm, Toast, Ws, $filter) {
             // 数组去重方法
-           $scope.isrepoComplete='';
+            $scope.isrepoComplete = '';
             if ($state.params.index) {
                 $scope.check = $state.params.index
             } else {
                 $scope.check = false
             }
+
             Array.prototype.unique = function () {
                 this.sort(); //先排序
                 var res = [this[0]];
@@ -65,27 +66,63 @@ angular.module('console.backing_service', [
                 }
                 return res;
             }
+
+            var loaditc = function (insclass,inslabel) {
+                instance.get({class: insclass||"",provider:inslabel||''}, function (insdata) {
+                    //console.log('instance', insdata);
+                    $scope.insclass = [];//insclass
+                    $scope.inslabel = [];//inslabel
+
+                    $scope.ins = [];
+                    angular.forEach(insdata.data.results, function (repo, i) {
+                        if (repo.class) {
+                            insdata.data.results[i].class = repo.class.toUpperCase();
+                        } else {
+                            insdata.data.results[i].class = '其他';
+                        }
+                        if (repo.provider) {
+                            insdata.data.results[i].provider = repo.provider.toUpperCase();
+                        } else {
+                            insdata.data.results[i].provider = '其他';
+                        }
+                        $scope.insclass.push(insdata.data.results[i].class);
+                        $scope.inslabel.push(insdata.data.results[i].provider);
+                    })
+                    $scope.insclass = $scope.insclass.unique();
+                    $scope.inslabel = $scope.inslabel.unique();
+                    angular.forEach($scope.insclass, function (insclass,i) {
+                        $scope.ins.push({class:insclass,items:[]});
+                        angular.forEach(insdata.data.results, function (ins,k) {
+                            if (insclass === ins.class) {
+                                $scope.ins[i].items.push(ins);
+                            }
+                        })
+                    })
+                    $scope.inscopy = angular.copy($scope.ins);
+                    console.log('$scope.ins',$scope.ins);
+                })
+
+            }
+            loaditc()
             // 得到loadBs对象进行分组
             var loadBs = function () {
                 repositories.get({class: ""}, function (repodata) {
-
                     $scope.repoclass = [];//repoclass
                     $scope.repolabel = [];//repolabel
-                    $scope.reposcopy=angular.copy(repodata.data.results);
+                    $scope.reposcopy = angular.copy(repodata.data.results);
                     $scope.repos = angular.copy(repodata.data.results);
                     //var repoarr = [];
-                    $log.info('newBs', $scope.repos);
-                    angular.forEach(repodata.data.results, function (repo,i) {
-
+                    //$log.info('newBs', $scope.repos);
+                    angular.forEach(repodata.data.results, function (repo, i) {
                         if (repo.class) {
                             repodata.data.results[i].class = repo.class.toUpperCase();
-                        }else {
-                            repodata.data.results[i].class='其他';
+                        } else {
+                            repodata.data.results[i].class = '其他';
                         }
                         if (repo.label) {
                             repodata.data.results[i].label = repo.label.toUpperCase();
-                        }else {
-                            repodata.data.results[i].label ='其他';
+                        } else {
+                            repodata.data.results[i].label = '其他';
                         }
                         $scope.repoclass.push(repodata.data.results[i].class)
                         $scope.repolabel.push(repodata.data.results[i].label)
@@ -94,6 +131,7 @@ angular.module('console.backing_service', [
                     //console.log($scope.repoclass, $scope.repolabel);
                     $scope.repoclass = $scope.repoclass.unique()
                     $scope.repolabel = $scope.repolabel.unique()
+
                     //angular.forEach($scope.repoclass, function (repoclass,i) {
                     //    repoarr.push({isshow:true,showTab:true,id:i, class:repoclass,item:[]});
                     //   angular.forEach(repodata.data.results, function (repo,j) {
@@ -243,35 +281,69 @@ angular.module('console.backing_service', [
                 classtxt: '',
                 mytxt: ''
             };
-            $scope.classgrid={
-                selectclass:'all',
-                selectsclabel:'all',
+            $scope.classgrid = {
+                selectclass: 'all',
+                selectsclabel: 'all',
             }
+            $scope.insgrid = {
+                selectclass: 'all',
+                selectsclabel: 'all',
+            }
+
             //tab切换分类过滤对象
-            //数据分类筛选class
-            $scope.$watch('classgrid', function (n,o) {
+
+            //数据分类筛选class classgrid
+            $scope.$watch('classgrid', function (n, o) {
                 if (n === o) {
                     return
                 }
-                console.log(n);
-                if (n.selectclass!=='all' || n.selectsclabel!=='all') {
+                
+                //console.log(n);
+                if (n.selectclass !== 'all' || n.selectsclabel !== 'all') {
                     //
                     //console.log($scope.repoclass[n.selectclass], $scope.repolabel[n.selectsclabel]);
                     //console.log(n.selectclass,n.selectsclabel);
 
-                    repositories.get({class: $scope.repoclass[n.selectclass],label:$scope.repolabel[n.selectsclabel]}, function (repodata) {
+                    repositories.get({
+                        class: $scope.repoclass[n.selectclass],
+                        label: $scope.repolabel[n.selectsclabel]
+                    }, function (repodata) {
                         $scope.repos = repodata.data.results;
                     })
-                }else {
-                    repositories.get({class: '',label:''}, function (repodata) {
+                } else {
+                    repositories.get({class: '', label: ''}, function (repodata) {
                         $scope.repos = repodata.data.results;
                     })
                 }
                 $scope.reposcopy = angular.copy($scope.repos);
 
-            },true)
+            }, true)
+            $scope.$watch('insgrid', function (n, o) {
+                if (n === o) {
+                    return
+                }
+
+                //console.log(n);
+                if (n.selectclass !== 'all' || n.selectsclabel !== 'all') {
+                    //
+                    //console.log($scope.repoclass[n.selectclass], $scope.repolabel[n.selectsclabel]);
+                    //console.log(n.selectclass,n.selectsclabel);
+                    loaditc($scope.insclass[n.selectclass],$scope.inslabel[n.selectsclabel])
+                    //repositories.get({
+                    //    class: $scope.repoclass[n.selectclass],
+                    //    label: $scope.repolabel[n.selectsclabel]
+                    //}, function (repodata) {
+                    //    $scope.repos = repodata.data.results;
+                    //})
+                } else {
+                    loaditc()
+                }
+
+
+            }, true)
+            
             $scope.selectclass = function (tp, key) {
-                 //console.log("tp", tp, 'key', key);
+                //console.log("tp", tp, 'key', key);
                 //class判定
                 if (key == $scope.classgrid[tp]) {
                     key = 'all';
@@ -296,57 +368,24 @@ angular.module('console.backing_service', [
             $scope.select = function (tp, key) {
                 // console.log("tp", tp, 'key', $scope.cation[key]);
                 //class判定
-                if (key == $scope.grid[tp]) {
+                if (key === $scope.insgrid[tp]) {
                     key = 'all';
-                    for (var k in $scope.market) {
-                        $scope.market[k].isshow = true;
-                        //$scope.myservice[k].isshow = true;
-                    }
-                } else {
-                    for (var k in $scope.market) {
-                        if (key == k) {
-                            $scope.market[k].isshow = true;
-                            //$scope.myservice[k].isshow = true;
-                        } else {
-                            $scope.market[k].isshow = false;
-                            //$scope.myservice[k].isshow = false;
-                        }
-                    }
+
                 }
-                $scope.grid[tp] = key;
+
+                $scope.insgrid[tp] = key;
                 // filter(tp, key);
             };
 
             //服务提供者筛选
             $scope.selectsc = function (tp, key) {
-                for (var i = 0; i < $scope.cation.length; i++) {
-                    $scope.market[i].showTab = true;
-                    //$scope.myservice[i].showTab = true;
-                    $scope.isComplete = {providerDisplayName: $scope.providers[key]};
-                    //把渲染数组做二次筛选;
-                    var arr = $filter("myfilter")($scope.market[i].item, $scope.isComplete);
-                    if (arr.length == 0) {
-                        $scope.market[i].showTab = false
-                    }
 
-                }
                 // console.log($scope.isComplete);
-                if (key == $scope.grid[tp]) {
+                if (key == $scope.insgrid[tp]) {
                     key = 'all';
-                    $scope.isComplete = '';
 
-                    for (var k in $scope.market) {
-                        $scope.market[k].showTab = true;
-                        //$scope.myservice[k].showTab = true;
-                    }
-                    for (var d = 0; d < $scope.cation.length; d++) {
-                        var arr1 = $filter("myfilter")($scope.myservice[d].item, $scope.isComplete);
-                        if (arr1.length == 0) {
-                            $scope.myservice[d].showTab = false
-                        }
-                    }
                 }
-                $scope.grid[tp] = key;
+                $scope.insgrid[tp] = key;
                 // console.log("$scope.itemsDevop", $scope.itemsDevop)
             }
             // 正则方式过滤器
@@ -371,75 +410,51 @@ angular.module('console.backing_service', [
 
 
             $scope.keysearch = function (event) {
-                if (event.keyCode === 13) {
-
-                    for (var s = 0; s < $scope.market.length; s++) {
-                        $scope.market[s].showTab = true;
-                    }
-                    $scope.isComplete = {name: $scope.grid.txt};
-                    var sarr = [];
+                if (event.keyCode === 13 || event==='search') {
                     if ($scope.grid.txt) {
-                        for (var s = 0; s < $scope.market.length; s++) {
-                            sarr = $filter("myfilter")($scope.market[s].item, $scope.isComplete);
-                            // console.log(sarr.length)
-                            if (sarr.length === 0) {
-                                $scope.market[s].showTab = false;
-                            }
-                        }
+                        var iarr = []
+                        //console.log($scope.ins);
+                        angular.forEach($scope.ins, function (repo, i) {
+                            iarr.push({class:repo.class,items:[]});
+                            angular.forEach(repo.items, function (item,k) {
+                                if (item.instance_data.indexOf($scope.grid.txt) !== -1) {
+                                    iarr[i].items.push(item);
+                                }
+                            })
+                            //console.log(repo.instance_data, $scope.grid.txt);
+
+                        })
+                        $scope.ins = iarr;
                     } else {
-                        for (var s = 0; s < $scope.market.length; s++) {
-                            sarr = $filter("myfilter")($scope.market[s].item, $scope.isComplete);
-                            $scope.market[s].showTab = true;
-                        }
+                        console.log('$scope.inscopy', $scope.inscopy);
+                        $scope.ins = angular.copy($scope.inscopy)
                     }
                 }
             }
             $scope.keyclasssearch = function (event) {
-               //$scope.copyrepos = angular.copy($scope.repos);
-                if (event.keyCode === 13) {
+                //$scope.copyrepos = angular.copy($scope.repos);
+                if (event.keyCode === 13||event==='search') {
 
                     if ($scope.grid.classtxt) {
-                        console.log($scope.repos);
-                        var repoarr =[]
-                        angular.forEach($scope.repos, function (repo,i) {
-                            console.log(repo.repoName, $scope.grid.classtxt);
+                        //console.log($scope.repos);
+                        var repoarr = []
+                        angular.forEach($scope.repos, function (repo, i) {
+                            //console.log(repo.repoName, $scope.grid.classtxt);
                             if (repo.repoName.indexOf($scope.grid.classtxt) !== -1) {
                                 repoarr.push(repo);
                             }
                         })
-                        $scope.repos=repoarr;
+                        $scope.repos = repoarr;
 
                     } else {
-                        $scope.repos=angular.copy($scope.reposcopy)
+                        $scope.repos = angular.copy($scope.reposcopy)
                     }
                 }
             }
             //我的后端服务搜索
 
             //服务分类搜索
-            $scope.search = function () {
-                $scope.isComplete = {name: $scope.grid.txt};
-                for (var s = 0; s < $scope.market.length; s++) {
-                    $scope.market[s].showTab = true;
-                }
-                var sarr = [];
-                if ($scope.grid.txt) {
-                    for (var s = 0; s < $scope.market.length; s++) {
-                        sarr = $filter("myfilter")($scope.market[s].item, $scope.isComplete);
-                        if (sarr.length === 0) {
-                            $scope.market[s].showTab = false;
-                        }
-                    }
-                } else {
-                    for (var s = 0; s < $scope.market.length; s++) {
-                        sarr = $filter("myfilter")($scope.market[s].item, $scope.isComplete)
-                        $scope.market[s].showTab = true;
-                    }
-                }
-                // console.log($scope.market);
-                // filter('serviceCat', $scope.grid.serviceCat);
-                // filter('vendor', $scope.grid.vendor);
-            };
+
 
 
         }])
