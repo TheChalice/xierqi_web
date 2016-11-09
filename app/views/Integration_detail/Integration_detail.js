@@ -12,8 +12,8 @@ angular.module('console.backing_service_detail', [
             $scope.integrationname=$stateParams.name
         repository.get({reponame:$stateParams.name}, function (data) {
           console.log(data);
-            $scope.description=data.data.description;
-            $scope.createUser=data.data.createUser;
-            $scope.firtdetail=data.data.items
+            $scope.description=data.description;
+            $scope.createUser=data.repo_name;
+            $scope.firtdetail=data.items
         })
       }]);

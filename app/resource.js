@@ -712,11 +712,11 @@ define([
             return repositories;
         }])
         .factory('repository', ['$resource', 'GLOBAL', function ($resource) {//数据集成 公开数据集详情
-            var repository = $resource('/integration/v1/repository/:reponame', {}, {});
+            var repository = $resource('/integration/v1/repos/:reponame', {}, {});
             return repository;
         }])
         .factory('dataitem', ['$resource', 'GLOBAL', function ($resource) {//数据集成 公开数据集详情预览
-            var dataitem = $resource('/integration/v1/dataitem/:reponame/:itemname', {}, {});
+            var dataitem = $resource('/integration/v1/repos/:reponame/items/:itemname', {}, {});
             return dataitem;
         }])
         .factory('instance', ['$resource', 'GLOBAL', function ($resource) {//数据集成 公开数据集详情预览
