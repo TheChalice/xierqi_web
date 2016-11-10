@@ -708,19 +708,26 @@ define([
             return regions;
         }])
         .factory('repositories', ['$resource', 'GLOBAL', function ($resource) {//数据集成 公开数据集
-            var repositories = $resource('/integration/v1/repositories', {}, {});
+            var repositories = $resource('/integration/v1/repos', {}, {});
             return repositories;
         }])
         .factory('repository', ['$resource', 'GLOBAL', function ($resource) {//数据集成 公开数据集详情
-            var repository = $resource('/integration/v1/repository/:reponame', {}, {});
+            var repository = $resource('/integration/v1/repos/:reponame', {}, {});
             return repository;
         }])
         .factory('dataitem', ['$resource', 'GLOBAL', function ($resource) {//数据集成 公开数据集详情预览
-            var dataitem = $resource('/integration/v1/dataitem/:reponame/:itemname', {}, {});
+            var dataitem = $resource('/integration/v1/repos/:reponame/items/:itemname', {}, {});
             return dataitem;
         }])
+        .factory('inservice', ['$resource', 'GLOBAL', function ($resource) {//数据集成 公开数据集详情预览
+            var inservice = $resource('/integration/v1/services', {}, {
+            });
+            return inservice;
+        }])
         .factory('instance', ['$resource', 'GLOBAL', function ($resource) {//数据集成 公开数据集详情预览
-            var instance = $resource('/integration/v1/instance', {}, {});
+            var instance = $resource('/integration/v1/instance/:id', {id:'@id'}, {
+                create: {method: 'POST'}
+            });
             return instance;
         }])
 
