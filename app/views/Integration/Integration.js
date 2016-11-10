@@ -69,8 +69,7 @@ angular.module('console.backing_service', [
 
             var loaditc = function (insclass, inslabel) {
                 inservice.query({class: insclass || "", provider: inslabel || ''}, function (insdata) {
-                    console.log('instance', insdata);
-
+                    //console.log('instance', insdata);
                     $scope.insclass = [];//insclass
                     $scope.inslabel = [];//inslabel
 

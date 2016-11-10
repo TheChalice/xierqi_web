@@ -63,10 +63,10 @@
 
                                             <!--</p>-->
                                         </div>
-                                        <div ng-if="item.spec.metadata.imageUrl" class="imageholder" style="background-image:url('{{item.spec.metadata.imageUrl}}');">
+                                        <div ng-if="!item.image_url" class="imageholder" style="background-image:url('components/bscard/img/images01_03.png');">
                                             <p class='hui'><img src="components/bscard/img/images01_08.png">{{item.label}}</p>
                                         </div>
-                                        <div ng-if="!item.spec.metadata.imageUrl" class="imageholder" style="background-image:url('components/bscard/img/images01_03.png');background-color: #EAEBEF;">
+                                        <div ng-if="item.image_url" class="imageholder" style="background-image:url('{{item.image_url}}');background-color: #EAEBEF;">
                                             <p class='hui'><img src="components/bscard/img/images01_08.png">{{item.label}}</p>
                                         </div>
                                     </div>
@@ -153,16 +153,16 @@
 
                                             <!--</p>-->
                                         </div>
-                                        <div ng-if="item.spec.metadata.imageUrl" class="imageholder" style="background-image:url('{{item.spec.metadata.imageUrl}}');">
+                                        <div ng-if="item.image_url" class="imageholder" style="background-image:url('{{item.image_url}}');">
                                             <p class='hui inscard'style=""><img src="components/bscard/img/images01_08.png">{{item.provider}}</p>
                                         </div>
-                                        <div ng-if="!item.spec.metadata.imageUrl" class="imageholder" style="background-image:url('components/bscard/img/images01_03.png');background-color: #EAEBEF;">
+                                        <div ng-if="!item.image_url" class="imageholder" style="background-image:url('components/bscard/img/images01_03.png');background-color: #EAEBEF;">
                                             <p class='hui inscard'style=""><img src="components/bscard/img/images01_08.png">{{item.provider}}</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="caption">
-                                    <p class="bsname" style="color: #5a6378">{{item.instance_data}}</p>
+                                    <p class="bsname" style="color: #5a6378">{{item.service_name}}</p>
                                     <!--<a class="btn btn-disabled" ng-if='item.bianhui' ng-click="apply(item.service_id)" style='cursor:default;'>查看详情</a>-->
                                     <a class="btn btn-orange" ui-sref="console.dataseverdetail({name: item.service_id})">申请实例</a>
                                     <!--<a class="btn btn-disabled" ng-if='item.bianhui && bkservice' style='cursor:default;'>申请实例</a>-->

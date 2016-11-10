@@ -23,7 +23,8 @@ angular.module('console.apply_instance', [
                 "metadata": {
                     "name": "",
                     "annotations": {
-                        "USER-PROVIDED-SERVICE": "true"
+                        "USER-PROVIDED-SERVICE": "true",
+                        "label":"integration"
                     }
                 },
                 "spec": {
