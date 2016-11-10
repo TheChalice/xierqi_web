@@ -6,8 +6,8 @@ angular.module('console.apply_instance', [
             ]
         }
     ])
-    .controller('dataseverdetailCtrl', ['creatapp', 'instance', 'Modalbs', '$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', '$stateParams', '$state',
-        function (creatapp, instance, Modalbs, $log, $rootScope, $scope, BackingService, BackingServiceInstance, $stateParams, $state) {
+    .controller('dataseverdetailCtrl', ['creatapp', 'instance', '$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', '$stateParams', '$state',
+        function (creatapp, instance, $log, $rootScope, $scope, BackingService, BackingServiceInstance, $stateParams, $state) {
 
             $scope.grid = {
                 checked: 0,
@@ -59,6 +59,7 @@ angular.module('console.apply_instance', [
 
             $scope.createInstance = function () {
                 if ($scope.secrets.metadata) {
+                    $scope.grid.timeout = false;
                     $scope.secrets.metadata.name = $scope.name
                     instance.create({id: $stateParams.name}, function (data) {
                         console.log('data', data.data);
@@ -69,8 +70,7 @@ angular.module('console.apply_instance', [
                         //console.log($scope.secrets.spec.userprovidedservice.credentials);
                         $scope.secrets.metadata.name = $scope.name
                         creatapp.create({
-                            namespace: $rootScope.namespace,
-                            region: $rootScope.region
+                            namespace: $rootScope.namespace
                         }, $scope.secrets, function (res) {
                             $state.go('console.backing_service', {index: 3});
                         }, function (res) {
