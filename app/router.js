@@ -430,5 +430,49 @@ define([
                 }]
               }
             })
+            //数据集成
+            .state('console.Integration_detail', {
+                url: '/Integration_detail/:name',
+                params: {
+                    plan: null,
+                    update: false,
+                    index: null,
+                    type: null
+                },
+                templateUrl: 'views/Integration_detail/Integration_detail.html',
+                controller: 'IntegrationDetailCtrl',
+                resolve: {
+                    dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load(['views/Integration_detail/Integration_detail.js'])
+                    }]
+                }
+
+            })
+
+            .state('console.Integration_dlist', {
+                url: '/Integration_dlist/:name/:plan',
+                params: {
+                },
+                templateUrl: 'views/Integration_dlist/Integration_dlist.html',
+                controller: 'IntegrationDlistCtrl',
+                resolve: {
+                    dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load(['views/Integration_dlist/Integration_dlist.js'])
+                    }]
+                }
+
+            })
+            .state('console.dataseverdetail', {
+                url: '/dataseverdetail/:name',
+                templateUrl: 'views/dataseverdetail/dataseverdetail.html',
+                controller: 'dataseverdetailCtrl',
+                params: {
+                },
+                resolve: {
+                    dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load(['views/dataseverdetail/dataseverdetail.js'])
+                    }]
+                }
+            })
       }]);
 });
