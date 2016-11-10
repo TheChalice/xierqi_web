@@ -634,14 +634,18 @@ angular.module('console.backing_service', [
             }
             //我的后端服务解除绑定一个服务
             $scope.delBing = function (idx, id) {
-                id=id.toString();
-                if (id) {
+
+                console.log(id);
+                if (id||id===0) {
+                    //alert(1);
+                    id=id.toString();
                     newid = id;
                     var name = $scope.myservice[id].item[idx].metadata.name;
                     var bindings = [];
                     var binds = $scope.myservice[id].item[idx].spec.binding || [];
 
                 } else {
+
                     var name = $scope.diyservice[idx].metadata.name;
                     var bindings = [];
                     var binds = $scope.diyservice[idx].spec.binding || [];
@@ -716,8 +720,12 @@ angular.module('console.backing_service', [
                 }
             };
             $scope.bindModal = function (idx, id) {
-                id=id.toString();
-                if (id) {
+                //if (id) {
+                //    id=id.toString();
+                //}
+
+                if (id||id===0) {
+                    id=id.toString();
                     newid = id;
                     var bindings = $scope.myservice[id].item[idx].spec.binding || [];
                     ServiceSelect.open(bindings).then(function (res) {
