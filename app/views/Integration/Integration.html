@@ -162,9 +162,9 @@
                                     </div>
                                 </div>
                                 <div class="caption">
-                                    <p class="bsname" style="color: #5a6378">{{item.service_name}}</p>
+                                    <p class="bsname" style="color: #5a6378">{{item.display_name}}</p>
                                     <!--<a class="btn btn-disabled" ng-if='item.bianhui' ng-click="apply(item.service_id)" style='cursor:default;'>查看详情</a>-->
-                                    <a class="btn btn-orange" ui-sref="console.dataseverdetail({name: item.service_id})">申请实例</a>
+                                    <a class="btn btn-orange" ui-sref="console.dataseverdetail({name: item.service_id,plan:item.display_name})">申请实例</a>
                                     <!--<a class="btn btn-disabled" ng-if='item.bianhui && bkservice' style='cursor:default;'>申请实例</a>-->
                                     <!--<a class="btn btn-orange" ng-if='item.biancheng && bkservice' ng-click="apply_instance(item.metadata.name)">申请实例</a>-->
                                 </div>

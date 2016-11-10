@@ -320,9 +320,9 @@ angular.module("console.header", [
                 case "console.Integration":
                     return "数据集成";
                 case "console.Integration_detail":
-                    return "数据详情";
+                    return "数据列表";
                 case "console.Integration_dlist":
-                    return "数据预览";
+                    return "数据详情";
                 case "console.dataseverdetail":
                     return "创建服务实例";
             }

@@ -2,7 +2,7 @@
     <form class="form-horizontal" name="frm" style="margin-right: 90px; margin-left: 90px;">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <span>创建服务的实例</span>
+                <span>创建{{plan}}服务的实例</span>
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -10,7 +10,7 @@
                         <p class="require listname">服务名称</p>
                     </div>
                     <div class="col-sm-10">
-                        <input ng-model="name" type="text" name="servicename" class="form-control input-block" placeholder="创建一个项目名称" required>
+                        <input ng-model="name" type="text" name="servicename" class="form-control input-block" placeholder="创建一个项目名称">
                         <small ng-show="grid.valid" class="fa fa-info-circle err-tip" style="margin-top: 10px">项目名称不合法</small>
                         <small ng-show="grid.repeat" class="fa fa-info-circle err-tip" style="margin-top: 10px">项目名称重复</small>
                         <small ng-show="grid.blank" class="fa fa-info-circle err-tip" style="margin-top: 10px">请填写一个项目名称</small>
@@ -23,7 +23,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12">
-                <a class="btn btn-block btn-orange" ng-class="{'btn-orange':frm.servicename.$valid, 'btn-disabled': frm.servicename.$invalid}" ng-disabled="frm.servicename.$invalid" ng-click="frm.servicename.$valid && createInstance()">创建</a>
+                <a class="btn btn-block btn-orange" ng-click="createInstance()">创建</a>
             </div>
         </div>
     </form>

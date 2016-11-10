@@ -481,6 +481,7 @@ define([
                 templateUrl: 'views/dataseverdetail/dataseverdetail.html',
                 controller: 'dataseverdetailCtrl',
                 params: {
+                    plan:null
                 },
                 resolve: {
                     dep: ['$ocLazyLoad', function ($ocLazyLoad) {
