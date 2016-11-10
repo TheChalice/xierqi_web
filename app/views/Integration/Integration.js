@@ -441,8 +441,12 @@ angular.module('console.backing_service', [
                     if ($scope.grid.txt) {
                         var iarr = []
                         //console.log($scope.ins);
+                        var str = $scope.grid.txt;
+                        str = str.toLocaleLowerCase();
                         angular.forEach($scope.ins, function (repo, i) {
                             iarr.push({class: repo.class, items: []});
+                            var nstr = repo.instance_data;
+                            nstr=nstr.toLocaleLowerCase();
                             angular.forEach(repo.items, function (item, k) {
                                 if (item.instance_data.indexOf($scope.grid.txt) !== -1) {
                                     iarr[i].items.push(item);
