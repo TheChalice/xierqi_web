@@ -76,12 +76,12 @@ angular.module('console.backing_service', [
                     $scope.ins = [];
                     angular.forEach(insdata, function (repo, i) {
                         if (repo.class) {
-                            insdata[i].class = repo.class.toUpperCase();
+                            //insdata[i].class = repo.class.toUpperCase();
                         } else {
                             insdata[i].class = '其他';
                         }
                         if (repo.provider) {
-                            insdata[i].provider = repo.provider.toUpperCase();
+                            //insdata[i].provider = repo.provider.toUpperCase();
                         } else {
                             insdata[i].provider = '其他';
                         }
