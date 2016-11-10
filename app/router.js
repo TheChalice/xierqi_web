@@ -431,6 +431,20 @@ define([
               }
             })
             //数据集成
+            .state('console.Integration', {
+                url: '/Integration',
+                params: {
+                    index: null
+                },
+                templateUrl: 'views/Integration/Integration.html',
+                controller: 'IntegrationCtrl',
+                resolve: {
+                    dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        return $ocLazyLoad.load(['views/Integration/Integration.js'])
+                    }]
+                }
+
+            })
             .state('console.Integration_detail', {
                 url: '/Integration_detail/:name',
                 params: {
