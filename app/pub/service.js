@@ -1566,6 +1566,7 @@ define(['angular'], function (angular) {
                             daovoicefailed();
 
 
+
                             //if (data.indexOf('502') != -1) {
                             //    //$rootScope.loding = false;
                             //    //alert('超时了');
