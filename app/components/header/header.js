@@ -410,6 +410,8 @@ angular.module("console.header", [
                     return "数据详情";
                 case "console.Integration_dlist":
                     return "数据预览";
+                case "console.dataseverdetail":
+                    return "创建服务实例";
 
             }
         };

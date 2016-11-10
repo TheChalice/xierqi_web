@@ -1,75 +1,90 @@
 'use strict';
 angular.module('console.apply_instance', [
-    {
-        files: [
-            'views/apply_instance/apply_instance.css'
-        ]
-    }
-])
-.controller('ApplyInstanceCtrl',['Modalbs','$log','$rootScope','$scope','BackingService', 'BackingServiceInstance', '$stateParams', '$state',
-    function(Modalbs,$log, $rootScope, $scope, BackingService, BackingServiceInstance, $stateParams, $state){
+        {
+            files: [
+                'views/dataseverdetail/dataseverdetail.css'
+            ]
+        }
+    ])
+    .controller('dataseverdetailCtrl', ['creatapp', 'instance', 'Modalbs', '$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', '$stateParams', '$state',
+        function (creatapp, instance, Modalbs, $log, $rootScope, $scope, BackingService, BackingServiceInstance, $stateParams, $state) {
 
-    $scope.grid = {
-        checked: 0,
-        error:false
-    };
+            $scope.grid = {
+                checked: 0,
+                error: false,
+                repeat: false,
+                blank: false,
+                timeout: false
+            };
 
-    $scope.bsi = {
-        metadata: {
-            name: ''
-        },
-        spec: {
-            provisioning: {
-                backingservice_name: '',
-                backingservice_spec_id: '',
-                backingservice_plan_guid: ''
-                }
+            $scope.secrets = {
+                "kind": "BackingServiceInstance",
+                "apiVersion": "v1",
+                "metadata": {
+                    "name": "",
+                    "annotations": {
+                        "USER-PROVIDED-SERVICE": "true"
+                    }
+                },
+                "spec": {
+                    "provisioning": {
+                        "backingservice_name": "USER-PROVIDED-SERVICE",
+                        "backingservice_plan_guid": "USER-PROVIDED-SERVICE"
+                    },
+                    "userprovidedservice": {
+                        "credentials": {
+
+                        }
+                    }
+                },
+                "status": {
+                    "phase": "Unbound"
+                },
+
             }
-        };
-    $scope.bsName = $stateParams.name;
-    //console.log('@@@test bsname', $stateParams.name);
-    var loadBs = function(){
-        //console.log("$state", $stateParams.plan)
-        BackingService.get({namespace:'openshift',name:$stateParams.name,region:$rootScope.region},function(data){
-            $log.info('loadBs',data);
-            $scope.data = data;
-            $scope.bsi.spec.provisioning.backingservice_spec_id = data.spec.id;
-            $scope.bsi.spec.provisioning.backingservice_name = data.metadata.name;
-            var plans = data.spec.plans;
-            for (var i = 0; i < plans.length; i++) {
-                if (plans[i].name == $stateParams.plan) {
-                    $scope.grid.checked = i;
-                    //console.log("==============", i)
-                    break;
+
+            console.log('@@@test bsname', $stateParams.name);
+            $scope.$watch('name', function (n, o) {
+                if (n === o) {
+                    return
                 }
-            }
-        })
-    };
-    loadBs();
+                ;
+                if (n) {
+                    $scope.grid.repeat = false;
+                    $scope.grid.valid = false;
+                    $scope.grid.blank = false;
+                    $scope.grid.timeout = false;
+                }
+            })
 
+            $scope.createInstance = function () {
+                if ($scope.secrets.metadata) {
+                    $scope.secrets.metadata.name = $scope.name
+                    instance.create({id: $stateParams.name}, function (data) {
+                        console.log('data', data.data);
 
-     $scope.createInstance = function (name){
-         var plan = $scope.data.spec.plans[$scope.grid.checked];
-         $scope.bsi.spec.provisioning.backingservice_plan_guid = plan.id;
-         $scope.bsi.spec.provisioning.backingservice_plan_name = plan.name;
-         Modalbs.open($scope.bsName,plan).then(function () {
-             $log.info("BackingServiceInstance",$scope.bsi);
-             BackingServiceInstance.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.bsi,function(){
-                 $scope.grid.error=false
-                 $log.info("build backing service instance success");
-                 $state.go('console.backing_service_detail', {name: $scope.data.metadata.name, index:2})
-             }, function (data) {
-                 if (data.status === 409) {
-                     $scope.grid.error=true
-                 }
-             })
-         })
+                        angular.forEach(data.data, function (key, i) {
+                            $scope.secrets.spec.userprovidedservice.credentials[i] = key
+                        })
+                        //console.log($scope.secrets.spec.userprovidedservice.credentials);
+                        $scope.secrets.metadata.name = $scope.name
+                        creatapp.create({
+                            namespace: $rootScope.namespace,
+                            region: $rootScope.region
+                        }, $scope.secrets, function (res) {
+                            $state.go('console.backing_service', {index: 3});
+                        }, function (res) {
+                            if (res.status == 409) {
+                                $scope.grid.repeat = true;
+                            }
+                        })
+                    }, function (res) {
+                        console.log(res);
+                        $scope.grid.timeout = true;
+                    })
 
+                }
 
+            };
 
-
-
-
-    };
-
-}]);
+        }]);
