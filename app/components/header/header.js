@@ -317,6 +317,14 @@ angular.module("console.header", [
                     return "持久卷详情";
                 case "console.create_saas":
                     return "新建服务实例";
+                case "console.Integration":
+                    return "数据集成";
+                case "console.Integration_detail":
+                    return "数据详情";
+                case "console.Integration_dlist":
+                    return "数据预览";
+                case "console.dataseverdetail":
+                    return "创建服务实例";
             }
         };
     }]);
