@@ -1,4 +1,4 @@
-FROM registry.dataos.io/datafoundryweb/base-image:latest
+FROM registry.dataos.io/datafoundryweb/base-image:v3.3
 
 # Copy code
 COPY . /data/datafoundry/

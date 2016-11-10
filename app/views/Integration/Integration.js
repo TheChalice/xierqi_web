@@ -68,31 +68,32 @@ angular.module('console.backing_service', [
             }
 
             var loaditc = function (insclass, inslabel) {
-                inservice.get({class: insclass || "", provider: inslabel || ''}, function (insdata) {
-                    //console.log('instance', insdata);
+                inservice.query({class: insclass || "", provider: inslabel || ''}, function (insdata) {
+                    console.log('instance', insdata);
+
                     $scope.insclass = [];//insclass
                     $scope.inslabel = [];//inslabel
 
                     $scope.ins = [];
-                    angular.forEach(insdata.data.results, function (repo, i) {
+                    angular.forEach(insdata, function (repo, i) {
                         if (repo.class) {
-                            insdata.data.results[i].class = repo.class.toUpperCase();
+                            insdata[i].class = repo.class.toUpperCase();
                         } else {
-                            insdata.data.results[i].class = '其他';
+                            insdata[i].class = '其他';
                         }
                         if (repo.provider) {
-                            insdata.data.results[i].provider = repo.provider.toUpperCase();
+                            insdata[i].provider = repo.provider.toUpperCase();
                         } else {
-                            insdata.data.results[i].provider = '其他';
+                            insdata[i].provider = '其他';
                         }
-                        $scope.insclass.push(insdata.data.results[i].class);
-                        $scope.inslabel.push(insdata.data.results[i].provider);
+                        $scope.insclass.push(insdata[i].class);
+                        $scope.inslabel.push(insdata[i].provider);
                     })
                     $scope.insclass = $scope.insclass.unique();
                     $scope.inslabel = $scope.inslabel.unique();
                     angular.forEach($scope.insclass, function (insclass, i) {
                         $scope.ins.push({class: insclass, items: []});
-                        angular.forEach(insdata.data.results, function (ins, k) {
+                        angular.forEach(insdata, function (ins, k) {
                             if (insclass === ins.class) {
                                 $scope.ins[i].items.push(ins);
                             }
