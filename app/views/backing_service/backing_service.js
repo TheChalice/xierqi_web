@@ -278,7 +278,8 @@ angular.module('console.backing_service', [
                 serviceCat: 'all',
                 vendor: 'all',
                 txt: '',
-                mytxt: ''
+                mytxt: '',
+                myinetxt:''
             };
             //tab切换分类过滤对象
             $scope.isComplete = '';
@@ -411,7 +412,7 @@ angular.module('console.backing_service', [
                         angular.forEach($scope.insservice, function (item, i) {
                             if (item.metadata.name == data.object.metadata.name) {
                                 data.object.show = item.show;
-                                $scope.insservice[i] = data.object;
+                                $scope.diyservice[i] = data.object;
                                 $scope.$apply();
                             }
                         })
@@ -492,6 +493,29 @@ angular.module('console.backing_service', [
                             sarr = $filter("myfilter")($scope.market[s].item, $scope.isComplete);
                             $scope.market[s].showTab = true;
                         }
+                    }
+                }
+            }
+            $scope.inekeysearch = function (event) {
+                if (event.keyCode === 13) {
+
+                    if ($scope.grid.myinetxt) {
+                        console.log($scope.grid.myinetxt);
+                        var repoarr = [];
+                        var str = $scope.grid.myinetxt;
+                        str = str.toLocaleLowerCase();
+                        angular.forEach($scope.insservice, function (repo, i) {
+                            //console.log(repo.repoName, $scope.grid.classtxt);
+                            var nstr = repo.metadata.name;
+                            nstr=nstr.toLocaleLowerCase();
+                            if (nstr.indexOf(str) !== -1) {
+                                repoarr.push(repo);
+                            }
+                        })
+                        $scope.insservice = repoarr;
+
+                    } else {
+                        $scope.insservice = angular.copy($scope.insservicecopy)
                     }
                 }
             }
