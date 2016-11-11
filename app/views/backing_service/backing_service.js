@@ -520,6 +520,7 @@ angular.module('console.backing_service', [
                     }
                 }
             }
+
             //我的后端服务搜索
             $scope.mysearch = function () {
                 for (var s = 0; s < $scope.myservice.length; s++) {
