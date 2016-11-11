@@ -63,11 +63,11 @@ angular.module('console.apply_instance', [
                     var r = /^[a-z]+$/
                     console.log($scope.name);
                     if ($scope.name==='') {
-                        alert(1)
+                        //alert(1)
                         $scope.grid.blank = true;
                         return
                     } else if (!r.test($scope.name)) {
-                        alert(2)
+                        //alert(2)
                         $scope.grid.valid = true;
                         return
                     }

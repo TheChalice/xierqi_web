@@ -230,7 +230,7 @@ angular.module('console.backing_service', [
                             $scope.insservice.sort(function (x, y) {
                                 return x.mysort > y.mysort ? -1 : 1;
                             });
-                            //console.log('$scope.diyservice', $scope.diyservice);
+                            console.log('$scope.diyservice', $scope.insservice);
                             $scope.diyservicecopy=angular.copy($scope.diyservice);
 
                             $scope.insservicecopy=angular.copy($scope.insservice);
