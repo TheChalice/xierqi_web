@@ -497,7 +497,7 @@ angular.module('console.backing_service', [
                 }
             }
             $scope.inekeysearch = function (event) {
-                console.log(event);
+                //console.log(event);
                 if (event.keyCode === 13 || event === 'search') {
 
                     if ($scope.grid.myinetxt) {
@@ -520,7 +520,6 @@ angular.module('console.backing_service', [
                     }
                 }
             }
-
             //我的后端服务搜索
             $scope.mysearch = function () {
                 for (var s = 0; s < $scope.myservice.length; s++) {

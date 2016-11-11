@@ -467,7 +467,7 @@ angular.module('console.backing_service', [
             }
 
             $scope.keyclasssearch = function (event) {
-                console.log(event);
+                //console.log(event);
                 if (event.keyCode === 13 || event === 'search') {
 
                     if ($scope.grid.classtxt) {
