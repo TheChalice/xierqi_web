@@ -19,6 +19,12 @@
     border-radius: 2px;
     color: #333;
 }
+.inscard {
+    margin: 0;
+    text-align: left;
+    padding-top: 10px;
+    padding-left: 10px;
+}
 .backing-service .sc .btn.active {
     border-color: #f6a540;
     font-weight: bold;
@@ -70,4 +76,17 @@
     /*width: 85px;*/
 }
 
-.pull_width{width:auto!important;}/*--Docker�ٷ����� jia 20160922*/
+.pull_width{width:auto!important;}
+
+
+/*DataHub平台介绍*/
+.integration_datahub{height:auto;overflow:hidden;width:755px;margin:0 auto;}
+.dh_detail_one{font-size:14px;,color:#5a6378;line-height:26px;margin-bottom:10px;}
+.dh_detail_two{font-size:14px;,color:#5a6378;line-height:26px;text-align:justify;}
+.dh_more{width:98px;height:36px;line-height:36px;display:block;text-align:center;font-size:14px;color:#fff;margin-top:20px;
+    -webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;margin:0 auto;}
+.dh_more:link,.dh_more:visited{background:#55c45f;color:#fff;}
+.dh_more:hover{background:#469450;color:#fff;}
+.dh_new_logo{width:230px;height:60px;margin-bottom:26px;}
+
+

@@ -1,4 +1,4 @@
-FROM alpine
+FROM alpine:latest
 
 # Copy code
 COPY . /data/datafoundry/
@@ -9,7 +9,11 @@ WORKDIR /data/datafoundry
 # Install Bower
 # Install node & bower depends
 # Set bower root allow
-RUN apk add --update nginx nodejs git && \
+
+#sed -i s#dl-cdn.alpinelinux.org#mirrors.aliyun.com/alpine#g /etc/apk/repositories && \
+#ed -i 's/http\:\/\/dl-cdn.alpinelinux.org/https\:\/\/alpine.global.ssl.fastly.net/g' /etc/apk/repositories && \
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories && \
+    apk add --update nginx nodejs git && \
     npm install -g bower && \
     echo '{ "allow_root": true }' > /root/.bowerrc && \
     git config --global url."https://".insteadOf git:// && \

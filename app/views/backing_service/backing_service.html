@@ -128,6 +128,34 @@
             <div ng-include="'views/backing_service/backing_service_custom.html'">
             </div>
         </uib-tab>
+        <uib-tab index="4" style="width:auto;">
+            <uib-tab-heading style="white-space:nowrap;">
+                <i class="fa2 pic_jc"></i>&nbsp;&nbsp;数据集成服务实例
+            </uib-tab-heading>
+
+            <div class="row" style='margin-bottom: 20px;'>
+                <div class="col-sm-4">
+                    <!--<a class="btn btn-green" style="margin-right: 20px; "-->
+                       <!--ui-sref="console.create_saas">-->
+                        <!--<i class="fa fa-plus fa-lg"></i>-->
+                        <!--<span class="hidden-xs">新建</span>-->
+                    <!--</a>-->
+                </div>
+                <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
+                    <input type="text"
+                           class="form-control"
+                           placeholder="搜索后端服务名称"
+                           ng-keydown=inekeysearch($event)
+                           ng-model="grid.myinetxt">
+                    <!--ng-model="txt" ng-focus="showTip=true;" -->
+                    <span class="input-group-btn" id=inputb>
+                        <a class="btn" ng-click="inekeysearch('search')"></a>
+                    </span>
+                </div>
+            </div>
+            <div ng-include="'views/backing_service/backing_service_integration.html'">
+            </div>
+        </uib-tab>
     </uib-tabset>
 </div>
 <!--[if !IE]><!-->
@@ -190,11 +218,11 @@
     }
 
     .backing-service .sc .btn {
-        width: 85px;
+        /*width: 85px;*/
     }
 
     .fw:last-child .btn {
-        width: 85px;
+        /*width: 85px;*/
     }
     /*#t0:after {*/
         /*left: 75px;*/

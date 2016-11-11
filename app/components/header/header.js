@@ -211,7 +211,7 @@ angular.module("console.header", [
                     );
 
                     $scope.hasBack = function () {
-                        if ($state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name == "console.notification" || $state.current.name == "console.resource_management") {
+                        if ($state.current.name == "console.Integration" ||$state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name == "console.notification" || $state.current.name == "console.resource_management") {
                             return false
                         }
                         return true;
@@ -317,6 +317,14 @@ angular.module("console.header", [
                     return "持久卷详情";
                 case "console.create_saas":
                     return "新建服务实例";
+                case "console.Integration":
+                    return "数据集成";
+                case "console.Integration_detail":
+                    return "数据列表";
+                case "console.Integration_dlist":
+                    return "数据详情";
+                case "console.dataseverdetail":
+                    return "创建服务实例";
             }
         };
     }]);
