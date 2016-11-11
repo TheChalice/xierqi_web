@@ -437,6 +437,7 @@ angular.module('console.backing_service', [
 
 
             $scope.keysearch = function (event,search) {
+
                 console.log(event,search);
                 if (event.keyCode === 13 || event === 'search') {
                     if ($scope.grid.txt) {
@@ -466,7 +467,7 @@ angular.module('console.backing_service', [
             }
 
             $scope.keyclasssearch = function (event) {
-                //$scope.copyrepos = angular.copy($scope.repos);
+                console.log(event);
                 if (event.keyCode === 13 || event === 'search') {
 
                     if ($scope.grid.classtxt) {
