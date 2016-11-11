@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 <div class="sc col-mb-12 pull-left">
-                    <label>数据标签</label>
+                    <label style="margin-right: 30px;">数据标签</label>
                     <div class="btn-group fw" ng-repeat='item in repolabel'>
                         <label class="btn" ng-class="{'active':classgrid.selectsclabel === $index}"
                                ng-click="selectsclabel('selectsclabel',$index)">{{item}}</label>
@@ -38,7 +38,7 @@
             </div>
             <!--<div ng-include="'views/Integration/backing_service_instance.html'">-->
             <!--</div>-->
-            <div class='change'>
+            <div class='change' style="margin-top: 20px;">
                 <div class="row">
                     <!--<div id=t{{items.id}} class="h2-border" ng-show="items.showTab"-->
                          <!--style="margin-bottom: 15px;">-->
@@ -247,11 +247,11 @@
     }
 
     .backing-service .sc .btn {
-        width: 85px;
+        /*width: 85px;*/
     }
 
     .fw:last-child .btn {
-        width: 85px;
+        /*width: 85px;*/
     }
     /*#t0:after {*/
         /*left: 75px;*/
