@@ -443,9 +443,8 @@ angular.module('console.backing_service', [
                         //console.log($scope.ins);
                         var str = $scope.grid.txt;
                         str = str.toLocaleLowerCase();
-                        angular.forEach($scope.ins, function (repo, i) {
+                        angular.forEach($scope.inscopy, function (repo, i) {
                             iarr.push({class: repo.class, items: []});
-
                             angular.forEach(repo.items, function (item, k) {
                                 var nstr = item.display_name;
                                 console.log(repo);
@@ -457,6 +456,7 @@ angular.module('console.backing_service', [
                             //console.log(repo.instance_data, $scope.grid.txt);
                         })
                         $scope.ins = iarr;
+
                     } else {
                         //console.log('$scope.inscopy', $scope.inscopy);
                         $scope.ins = angular.copy($scope.inscopy)
@@ -473,7 +473,7 @@ angular.module('console.backing_service', [
                         var repoarr = [];
                         var str = $scope.grid.classtxt;
                         str = str.toLocaleLowerCase();
-                        angular.forEach($scope.repos, function (repo, i) {
+                        angular.forEach($scope.reposcopy, function (repo, i) {
                             //console.log(repo.repoName, $scope.grid.classtxt);
                             var nstr = repo.display_name;
                             nstr=nstr.toLocaleLowerCase();
