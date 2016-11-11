@@ -11,9 +11,10 @@ WORKDIR /data/datafoundry
 # Set bower root allow
 
 #sed -i s#dl-cdn.alpinelinux.org#mirrors.aliyun.com/alpine#g /etc/apk/repositories && \
-#apk add --update nginx nodejs git && \
- #npm install -g bower && \
-RUN echo '{ "allow_root": true }' > /root/.bowerrc && \
+
+RUN apk add --update nginx nodejs git && \
+    npm install -g bower && \
+    echo '{ "allow_root": true }' > /root/.bowerrc && \
     git config --global url."https://".insteadOf git:// && \
     cp nginx.conf /etc/nginx/nginx.conf && \
     npm install && \
