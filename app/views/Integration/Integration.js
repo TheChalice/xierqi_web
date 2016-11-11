@@ -436,7 +436,8 @@ angular.module('console.backing_service', [
             };
 
 
-            $scope.keysearch = function (event) {
+            $scope.keysearch = function (event,search) {
+                console.log(event,search);
                 if (event.keyCode === 13 || event === 'search') {
                     if ($scope.grid.txt) {
                         var iarr = []
