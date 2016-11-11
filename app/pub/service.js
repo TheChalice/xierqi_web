@@ -1606,11 +1606,12 @@ define(['angular'], function (angular) {
                     var tokens = Cookie.get('df_access_token');
                     var regions = Cookie.get('region');
                     var token='';
-                    //console.log(tokens, regions);
+                    console.log(tokens, regions);
+
                     if (tokens&&regions) {
                         var tokenarr = tokens.split(',');
                         var region = regions.split('-')[2];
-                        if (/^\/oapi/.test(config.url)||/^\/api/.test(config.url)) {
+                        if (/^\/oapi/.test(config.url)||/^\/api/.test(config.url)||/^\/payment/.test(config.url)) {
                             token = tokenarr[region-1];
                         }else {
                             token = tokenarr[0];
@@ -1620,7 +1621,7 @@ define(['angular'], function (angular) {
                     }else {
                         //console.log('token错误');
                     }
-
+                    console.log(tokens,token, regions);
                     if (config.headers && token) {
                         config.headers["Authorization"] = "Bearer " + token;
                     }
