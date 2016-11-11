@@ -497,14 +497,15 @@ angular.module('console.backing_service', [
                 }
             }
             $scope.inekeysearch = function (event) {
-                if (event.keyCode === 13) {
+                console.log(event);
+                if (event.keyCode === 13 || event === 'search') {
 
                     if ($scope.grid.myinetxt) {
                         console.log($scope.grid.myinetxt);
                         var repoarr = [];
                         var str = $scope.grid.myinetxt;
                         str = str.toLocaleLowerCase();
-                        angular.forEach($scope.insservice, function (repo, i) {
+                        angular.forEach($scope.insservicecopy, function (repo, i) {
                             //console.log(repo.repoName, $scope.grid.classtxt);
                             var nstr = repo.metadata.name;
                             nstr=nstr.toLocaleLowerCase();
