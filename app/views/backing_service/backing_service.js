@@ -648,7 +648,10 @@ angular.module('console.backing_service', [
             }
             //我的后端服务解除绑定一个服务
             $scope.delBing = function (idx, id) {
-                id = id.toString();
+                if (id) {
+                    id = id.toString();
+                }
+
 
                 if (id) {
                     newid = id;
@@ -740,7 +743,9 @@ angular.module('console.backing_service', [
                 }
             };
             $scope.bindModal = function (idx, id) {
-                id = id.toString();
+                if (id) {
+                    id = id.toString();
+                }
                 if (id) {
                     newid = id;
                     var bindings = $scope.myservice[id].item[idx].spec.binding || [];

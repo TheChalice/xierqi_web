@@ -1,34 +1,4 @@
-.backing-service-detail .info {
-    height: 160px;
-    overflow: hidden;
-    margin-bottom: 30px;
-}
-.backing-service-detail .info .info-image {
-    height: 100%;
-    width: 160px;
-    float: left;
-    border: 1px solid #c9c9c9;
-    border-radius: 2px;
-    /*background: url(../../pub/img/bsi.png) no-repeat;*/
-    /*background-size: 160px 160px;*/
-    margin-right: 20px;
-}
-.backing-service-detail .info .info-desc {
-    overflow: hidden;
-    border-bottom: 1px solid #c9c9c9;
-    height: 100%;
-}
-.backing-service-detail .info .info-desc h2 {
-    font-size: 16px;
-    color: #393f4f;
-    margin: 10px 0;
-}
-.backing-service-detail .info .info-desc p {
-    font-size: 12px;
-    color: #5a6378;
-    margin-bottom: 6px;
-}
-/*20161103 jia 数据集成-详情*/
+/*20161103 jia 閿熸枻鎷烽敓鎹风》鎷烽敓鏂ゆ嫹-閿熸枻鎷烽敓鏂ゆ嫹閿熷彨鎲嬫嫹*/
 ul,li{list-style:none;margin:0px;padding:0px;}
 .integ_detail{border:1px solid #c9c9c9;-webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;height:auto;overflow:hidden;}
 .integ_d_tit{height:56px;line-height:56px;background:#e6e9f2;font-size:16px;color:#393f4f;text-indent:12px;}
@@ -55,12 +25,24 @@ ul,li{list-style:none;margin:0px;padding:0px;}
 .in_r span{-webkit-transition:all .2s;transition:all .2s;cursor:pointer;display:block;float:left;display:block;margin-top:18px;
 width:26px;height:26px;}
 .in_r_main{width:54px;float:right;}
-.down_cion{background:url(../../views/Integration_detail/img/down.png) no-repeat;}
+.down_cion{background:url(../../views/Integration_detail/img/down.png) no-repeat;width:26px;height:26px;display:block;margin-top:18px;}
 .down_cion:hover{background:url(../../views/Integration_detail/img/down_hover.png) no-repeat;}
-/*预览按钮 20161103 jia 暂时预览按钮新需求不添加*/
+/*棰勯敓鏂ゆ嫹閿熸枻鎷烽挳 20161103 jia 閿熸枻鎷锋椂棰勯敓鏂ゆ嫹閿熸枻鎷烽挳閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷烽敓鏂ゆ嫹閿燂拷*/
 .show_cion{background:url(../../views/Integration_detail/img/show.png) no-repeat;margin-right:20px;}
 .show_cion:hover{background:url(../../views/Integration_detail/img/show_hover.png) no-repeat;}
-/*预览按钮 20161103 jia 暂时预览按钮新需求不添加*/
+/*棰勯敓鏂ゆ嫹閿熸枻鎷烽挳 20161103 jia 閿熸枻鎷锋椂棰勯敓鏂ゆ嫹閿熸枻鎷烽挳閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷烽敓鏂ゆ嫹閿燂拷*/
+
+/*20161103 jia 閿熸枻鎷烽敓鎹风》鎷烽敓鏂ゆ嫹-閿熸枻鎷烽敓鏂ゆ嫹閿熸枻鎷烽敓鏂ゆ嫹*/
+.integ_dlist{border:1px solid #c9c9c9;-webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;height:auto;overflow:hidden;}
+.integ_dlist_tit{height:56px;line-height:56px;background:#e6e9f2;font-size:16px;color:#393f4f;text-indent:12px;}
+.integ_dtit{float:left;width:114px;font-size:14px;color:#5a6378;}
+.integ_r .integ_dname{color:#333;font-size:16px;margin-bottom:6px;}
+.integ_r .integ_dcontent{color:#5a6378;font-size:12px;line-height:20px;}
+.dlist_download{width:60px;height:36px;line-height:36px;text-align:center;background:#f8b551;display:block;font-size:16px;color:#fff;
+cursor:pointer;-webkit-border-radius:2px;-moz-border-radius:2px;border-radius:2px;-webkit-transition:all 1s;transition:all 1s;}
+.dlist_download:hover{background:#e5993a;}
+
+
 
 
 

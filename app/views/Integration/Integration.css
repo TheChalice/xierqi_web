@@ -19,6 +19,12 @@
     border-radius: 2px;
     color: #333;
 }
+.inscard {
+    margin: 0;
+    text-align: left;
+    padding-top: 10px;
+    padding-left: 10px;
+}
 .backing-service .sc .btn.active {
     border-color: #f6a540;
     font-weight: bold;
@@ -70,15 +76,13 @@
     width: 85px;
 }
 
-.pull_width{width:auto!important;}/*--Docker¹Ù·½¾µÏñ jia 20160922*/
+.pull_width{width:auto!important;}/*--Dockerï¿½Ù·ï¿½ï¿½ï¿½ï¿½ï¿½ jia 20160922*/
 
 
-/*Êý¾Ý¼¯³É DataHubÄ£¿é*/
+/*ï¿½ï¿½ï¿½Ý¼ï¿½ï¿½ï¿½ DataHubÄ£ï¿½ï¿½*/
 .integration_datahub{height:auto;overflow:hidden;width:972px;margin:0 auto;}
 .dh_left{float:left;width:98px;}
-.datahub_container{width:846px;float:right;}
-
-
+.datahub_container{margin-left:200px;}
 .dh_tit{font-size:16px;font-weight:bold;color:#5a6378;}
 .dh_detail_one{font-size:14px;,color:#5a6378;line-height:26px;margin-bottom:10px;}
 .dh_detail_two{font-size:14px;,color:#5a6378;line-height:26px;}

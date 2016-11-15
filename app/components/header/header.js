@@ -406,6 +406,12 @@ angular.module("console.header", [
                     return "充值";
                 case "console.plan":
                     return "套餐";
+                case "console.Integration_detail":
+                    return "数据详情";
+                case "console.Integration_dlist":
+                    return "数据预览";
+                case "console.dataseverdetail":
+                    return "创建服务实例";
 
             }
         };

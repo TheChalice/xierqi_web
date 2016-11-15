@@ -4,82 +4,33 @@
     <div class="integ_mid">
         <p class="integ_tit">名称简介</p>
         <div class="integ_r">
-            <p class="integ_name">气象环保</p>
-            <p class="integ_content">北京市药品监督管理局为实施北京市行政区域内的医疗器械经营企业监督管理工作而备案的医疗器械经营企业信息，包括许可证号、名称、地址、法人、企业负责人、质量负责人、经营范围、发证机关、许可期限起、许可期限至、发证日期等属性字段。北京市药品监督管理局为实施北京市行政区域内的医疗器械经营企业监督管理工作而备案的医疗器械经营企业信息。</p>
+            <p class="integ_name">{{createUser}}</p>
+            <p class="integ_content">{{description}}</p>
         </div>
     </div>
       <div class="integ_list">
           <p class="integ_tit">数据和资源</p>
           <div class="integ_list_detail">
                 <ul>
-                    <li>
+                    <li ng-repeat="item in firtdetail">
                     <div class="in_l">
-                        <div class="pic_tu"><img src="views/integration_detail/img/pic_html.png"></div>
+                        <div class="pic_tu"><img src="views/Integration_detail/img/pic_tar.png"></div>
                         <div class="in_l_detail in_nowrap">
-                            <a ui-sref="console.Integration_dlist({name: 11, plan: 11})" class="in_l_name " uib-tooltip="数据项名" tooltip-placement="top">数据项</a>
+                            <a ui-sref="console.Integration_dlist({name: integrationname, plan: item.item_name})" class="in_l_name " uib-tooltip="数据项名" tooltip-placement="top">{{item.item_name}}</a>
                         </div>
                     </div>
-                    <div class="in_m">
-                        <p>更新时间：2分钟以前</p>
+                    <div class="in_m" style=" width: 15%;height: 1%;">
+                        <p></p>
+                        <!--<p>更新时间：2分钟以前</p>-->
                     </div>
                     <div class="in_r">
                         <div class="in_r_main">
                             <!--<span class="show_cion" uib-tooltip="预览" tooltip-placement="top"></span>-->
-                            <span class="down_cion" uib-tooltip="下载" tooltip-placement="top"></span>
+                            <a href={{item.url}} target="_self" class="down_cion" uib-tooltip="下载" tooltip-placement="top"></a>
                         </div>
                     </div>
                 </li>
-                    <li>
-                        <div class="in_l">
-                            <div class="pic_tu"><img src="views/integration_detail/img/pic_xls.png"></div>
-                            <div class="in_l_detail in_nowrap">
-                                <a href="#" class="in_l_name " uib-tooltip="数据项名" tooltip-placement="top">数据项</a>
-                            </div>
-                        </div>
-                        <div class="in_m">
-                            <p>更新时间：2分钟以前</p>
-                        </div>
-                        <div class="in_r">
-                            <div class="in_r_main">
-                                <!--<span class="show_cion" uib-tooltip="预览" tooltip-placement="top"></span>-->
-                                <span class="down_cion" uib-tooltip="下载" tooltip-placement="top"></span>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="in_l">
-                            <div class="pic_tu"><img src="views/integration_detail/img/pic_zip.png"></div>
-                            <div class="in_l_detail in_nowrap">
-                                <a href="#" class="in_l_name " uib-tooltip="数据项数据项数据项数据项数据项" tooltip-placement="top">数据项数据项数据项数据项数据项</a>
-                            </div>
-                        </div>
-                        <div class="in_m">
-                            <p>更新时间：2分钟以前</p>
-                        </div>
-                        <div class="in_r">
-                            <div class="in_r_main">
-                                <!--<span class="show_cion" uib-tooltip="预览" tooltip-placement="top"></span>-->
-                                <span class="down_cion" uib-tooltip="下载" tooltip-placement="top"></span>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="in_l">
-                            <div class="pic_tu"><img src="views/integration_detail/img/pic_pdf.png"></div>
-                            <div class="in_l_detail in_nowrap">
-                                <a href="#" class="in_l_name " uib-tooltip="数据项数据项数据项数据项数据项" tooltip-placement="top">数据项数据项数据项数据项数据项</a>
-                            </div>
-                        </div>
-                        <div class="in_m">
-                            <p>更新时间：2分钟以前</p>
-                        </div>
-                        <div class="in_r">
-                            <div class="in_r_main">
-                                <!--<span class="show_cion" uib-tooltip="预览" tooltip-placement="top"></span>-->
-                                <span class="down_cion" uib-tooltip="下载" tooltip-placement="top"></span>
-                            </div>
-                        </div>
-                    </li>
+
                 </ul>
           </div>
       </div>
