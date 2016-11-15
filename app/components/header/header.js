@@ -170,7 +170,7 @@ angular.module("console.header", [
                     $scope.$on('$destroy', function () {
                         clearInterval($scope.timer);
                     });
-                    account.get({namespace:$rootScope.namespace,region:$rootScope.region}, function (data) {
+                    account.get({namespace:$rootScope.namespace,region:$rootScope.region,status:"consuming"}, function (data) {
                         //console.log('套餐', data);
                         //$rootScope.payment=data;
                         if (data.purchased) {

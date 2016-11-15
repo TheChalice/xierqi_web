@@ -1502,7 +1502,7 @@ define(['angular'], function (angular) {
                                     }
                                 } else {
                                     //获取套餐
-                                    account.get({namespace:$rootScope.namespace,region:$rootScope.region}, function (data) {
+                                    account.get({namespace:$rootScope.namespace,region:$rootScope.region,status:"consuming"}, function (data) {
                                         //console.log('套餐', data);
                                         //$rootScope.payment=data;
                                         $rootScope.loding = false;
@@ -1606,7 +1606,7 @@ define(['angular'], function (angular) {
                     var tokens = Cookie.get('df_access_token');
                     var regions = Cookie.get('region');
                     var token='';
-                    console.log(tokens, regions);
+                    //console.log(tokens, regions);
 
                     if (tokens&&regions) {
                         var tokenarr = tokens.split(',');
@@ -1621,7 +1621,7 @@ define(['angular'], function (angular) {
                     }else {
                         //console.log('token错误');
                     }
-                    console.log(tokens,token, regions);
+                    //console.log(tokens,token, regions);
                     if (config.headers && token) {
                         config.headers["Authorization"] = "Bearer " + token;
                     }
