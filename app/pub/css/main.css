@@ -660,7 +660,7 @@ a {
     display: inline-block;
     vertical-align: middle;
     background: url(../img/icon.png);
-    margin-right:10px;
+    margin-right: 2px;
 }
 
 .faa-code {
@@ -682,9 +682,9 @@ a {
 }
 
 .faa-edit {
-    background-image:url(../img/ser-edit.png);
-    width: 20px;
-    height: 20px;
+    background:url(../img/ser-edit.png) no-repeat;
+    width: 21px;
+    height: 21px;
 }
 
 .faa-pod {
@@ -728,9 +728,9 @@ a {
 }
 
 .faa-target {
-    background-image:url(../img/ser-target.png);
-    width: 20px;
-    height: 20px;
+    background:url(../img/ser-target.png) no-repeat;
+    width: 21px;
+    height: 21px;
 }
 
 .faa-target:hover, .faa-target.active, .active .faa-target, .nav-link:hover .faa-target {
@@ -738,9 +738,9 @@ a {
 }
 
 .faa-text {
-    background-image:url(../img/ser-text.png);
-    width: 20px;
-    height: 20px;
+    background:url(../img/ser-text.png) no-repeat;
+    width: 21px;
+    height: 21px;
 }
 
 .faa-text:hover, .faa-text.active, .active .faa-text, .nav-link:hover .faa-text {
@@ -749,8 +749,8 @@ a {
 
 .faa-mark {
     background-image:url(../img/ser-mark.png);
-    width: 20px;
-    height: 20px;
+    width: 21px;
+    height: 21px;
 }
 
 .faa-mark:hover, .faa-mark.active, .active .faa-mark, .nav-link:hover .faa-mark {
@@ -1061,7 +1061,7 @@ a {
     font-size:16px;
 }
 .mr-10{
-    margin-right:10px;
+    margin-right:2px;
 }
 .fa2 {
     overflow: hidden;
