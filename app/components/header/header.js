@@ -374,8 +374,6 @@ angular.module("console.header", [
                     return "新建服务";
                 case "console.backing_service":
                     return "后端服务";
-                case "console.Integration":
-                    return "数据集成";
                 case "console.backing_service_detail":
                     return "后端服务详情";
                 case "console.apply_instance":
@@ -406,6 +404,8 @@ angular.module("console.header", [
                     return "充值";
                 case "console.plan":
                     return "套餐";
+                case "console.Integration":
+                    return "数据集成";
                 case "console.Integration_detail":
                     return "数据详情";
                 case "console.Integration_dlist":

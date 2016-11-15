@@ -448,7 +448,7 @@ angular.module('console.backing_service', [
                             var nstr = repo.instance_data;
                             nstr=nstr.toLocaleLowerCase();
                             angular.forEach(repo.items, function (item, k) {
-                                if (item.instance_data.indexOf($scope.grid.txt) !== -1) {
+                                if (nstr.indexOf(str) !== -1) {
                                     iarr[i].items.push(item);
                                 }
                             })
@@ -462,6 +462,7 @@ angular.module('console.backing_service', [
                     }
                 }
             }
+
             $scope.keyclasssearch = function (event) {
                 //$scope.copyrepos = angular.copy($scope.repos);
                 if (event.keyCode === 13 || event === 'search') {

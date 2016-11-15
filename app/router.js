@@ -363,6 +363,18 @@ define([
                     }
 
                 })
+                .state('console.dataseverdetail', {
+                    url: '/dataseverdetail/:name',
+                    templateUrl: 'views/dataseverdetail/dataseverdetail.html',
+                    controller: 'dataseverdetailCtrl',
+                    params: {
+                    },
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/dataseverdetail/dataseverdetail.js'])
+                        }]
+                    }
+                })
                 .state('console.backing_service_detail', {
                     url: '/backing_service/:name',
                     params: {
@@ -392,18 +404,7 @@ define([
                         }]
                     }
                 })
-                .state('console.dataseverdetail', {
-                    url: '/dataseverdetail/:name',
-                    templateUrl: 'views/dataseverdetail/dataseverdetail.html',
-                    controller: 'dataseverdetailCtrl',
-                    params: {
-                    },
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/dataseverdetail/dataseverdetail.js'])
-                        }]
-                    }
-                })
+
                 .state('console.dashboard', {
                     url: '/dashboard/:useorg',
                     templateUrl: 'views/dashboard/dashboard.html',
