@@ -1475,7 +1475,7 @@ define(['angular'], function (angular) {
 
                             })
 
-                            var arrstr = arr.join(',')
+                            var arrstr = arr.join(',');
                             //console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&",arrstr);
                             Cookie.set('df_access_token', arrstr, 10 * 365 * 24 * 3600 * 1000);
                             //console.log(Cookie.get('df_access_token'));
