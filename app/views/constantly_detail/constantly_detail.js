@@ -8,12 +8,12 @@ angular.module('console.constantly_detail', [
     ])
     .controller('constDetailCtrl', ['Confirm','delvolume','volume','DeploymentConfig','persistent','$stateParams','$state', '$http', '$scope', '$rootScope',
         function(Confirm,delvolume,volume,DeploymentConfig,persistent,$stateParams,$state, $http, $scope, $rootScope){
-            console.log($stateParams.name);
+            //console.log($stateParams.name);
             $scope.name=$stateParams.name
-            persistent.get({namespace: $rootScope.namespace,name:$stateParams.name}, function (res) {
+            persistent.get({namespace: $rootScope.namespace,name:$stateParams.name,region:$rootScope.region}, function (res) {
                 //console.log('chijiu',res);
                 res.arr=[];
-                DeploymentConfig.get({namespace: $rootScope.namespace}, function (dcres) {
+                DeploymentConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (dcres) {
                     angular.forEach(dcres.items, function (dcitem,i) {
                         angular.forEach(dcitem.spec.template.spec.volumes, function (item,i) {
                             if (item.persistentVolumeClaim&&res.metadata.name == item.persistentVolumeClaim.claimName) {
@@ -22,7 +22,7 @@ angular.module('console.constantly_detail', [
                         })
                     })
                     $scope.persistents=res;
-                    console.log('chijiu',res);
+                    //console.log('chijiu',res);
                 })
             }, function (err) {
 
@@ -34,7 +34,7 @@ angular.module('console.constantly_detail', [
 
                     }else {
                         delvolume.del({namespace: $rootScope.namespace,name:$stateParams.name}, function (res) {
-                            console.log(res);
+                            //console.log(res);
                             $state.go('console.resource_management', {index: 1})
                         }, function (err) {
 

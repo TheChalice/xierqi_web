@@ -29,8 +29,8 @@ angular.module('console.image', [
 
         };
     })
-    .controller('ImageCtrl', ['$filter', '$state', '$q', '$http', 'platform', '$rootScope', '$scope', '$log', 'ImageStreamTag', 'BuildConfig', 'Build', 'GLOBAL', 'Sort',
-        function ($filter, $state, $q, $http, platform, $rootScope, $scope, $log, ImageStreamTag, BuildConfig, Build, GLOBAL, Sort) {
+    .controller('ImageCtrl', ['ImageStream','$filter', '$state', '$q', '$http', 'platform', '$rootScope', '$scope', '$log', 'ImageStreamTag', 'BuildConfig', 'Build', 'GLOBAL', 'Sort',
+        function (ImageStream,$filter, $state, $q, $http, platform, $rootScope, $scope, $log, ImageStreamTag, BuildConfig, Build, GLOBAL, Sort) {
             // 数组去重
             //console.log('$state', $state.params.index);
             if ($state.params.index) {
@@ -382,53 +382,98 @@ angular.module('console.image', [
             }
 
             // 我的镜像
-            $http.get('/oapi/v1/namespaces/' + $rootScope.namespace + '/imagestreams')
-                .success(function (datalist) {
+            ImageStream.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (datalist) {
+                //$scope.images = res;
+                angular.forEach(datalist.items, function (item, i) {
 
-                    //$scope.testlist = datalist.items;
+                    if (item.status.tags && item.status.tags.length > 0) {
+                        angular.forEach(item.status.tags, function (tag, k) {
+                            if (tag.tag.split('-')[1]) {
+                                datalist.items[i].status.tags.splice(k, 1)
+                            }
+                        })
 
-                    angular.forEach(datalist.items, function (item, i) {
+                        //console.log(item.metadata.name, item.status.tags[0].tag);
+                        datalist.items[i].status.tags[0].port = []
+                        ImageStreamTag.get({
+                            namespace: $rootScope.namespace,
+                            name: item.metadata.name + ':' + item.status.tags[0].tag,
+                            region:$rootScope.region
+                        }, function (data) {
+                            //console.log(data);
+                            angular.forEach(data.image.dockerImageMetadata.ContainerConfig.ExposedPorts, function (port, k) {
 
-                        if (item.status.tags && item.status.tags.length > 0) {
-                            angular.forEach(item.status.tags, function (tag, k) {
-                                if (tag.tag.split('-')[1]) {
-                                    datalist.items[i].status.tags.splice(k, 1)
-                                }
+                                datalist.items[i].status.tags[0].port.push(k);
                             })
+                            //console.log(datalist.items[i].status.tags[0]);
+                            $scope.testlist = datalist.items;
+                            //console.log('datalist.items',datalist.items);
+                            //datalist.items.sort(function (x, y) {
+                            //    return x.sorttime > y.sorttime ? -1 : 1;
+                            //});
+                            //console.log('$scope.testlist', $scope.testlist);
+                            $scope.testcopy = angular.copy(datalist.items);
 
-                            //console.log(item.metadata.name, item.status.tags[0].tag);
-                            datalist.items[i].status.tags[0].port = []
-                            ImageStreamTag.get({
-                                namespace: $rootScope.namespace,
-                                name: item.metadata.name + ':' + item.status.tags[0].tag
-                            }, function (data) {
-                                //console.log(data);
-                                angular.forEach(data.image.dockerImageMetadata.ContainerConfig.ExposedPorts, function (port, k) {
+                            $scope.grid.total = $scope.testcopy.length;
+                            // console.log('$scope.testcopy', $scope.testcopy)
+                            refresh(1)
+                        }, function (res) {
 
-                                    datalist.items[i].status.tags[0].port.push(k);
-                                })
-                                //console.log(datalist.items[i].status.tags[0]);
-                                $scope.testlist = datalist.items;
-                                console.log('datalist.items',datalist.items);
-                                //datalist.items.sort(function (x, y) {
-                                //    return x.sorttime > y.sorttime ? -1 : 1;
-                                //});
-                                //console.log('$scope.testlist', $scope.testlist);
-                                $scope.testcopy = angular.copy(datalist.items);
+                        });
+                    }
 
-                                $scope.grid.total = $scope.testcopy.length;
-                                // console.log('$scope.testcopy', $scope.testcopy)
-                                refresh(1)
-                            }, function (res) {
-
-                            });
-                        }
-
-                        //datalist.items[i].sorttime = (new Date(item.metadata.creationTimestamp)).getTime()
-                    })
-
-                    console.log('$scope.testlist', $scope.testlist)
+                    //datalist.items[i].sorttime = (new Date(item.metadata.creationTimestamp)).getTime()
                 })
+
+                //console.log('$scope.testlist', $scope.testlist);
+            })
+            //$http.get('/oapi/v1/namespaces/' + $rootScope.namespace + '/imagestreams')
+            //    .success(function (datalist) {
+            //
+            //        //$scope.testlist = datalist.items;
+            //
+            //        angular.forEach(datalist.items, function (item, i) {
+            //
+            //            if (item.status.tags && item.status.tags.length > 0) {
+            //                angular.forEach(item.status.tags, function (tag, k) {
+            //                    if (tag.tag.split('-')[1]) {
+            //                        datalist.items[i].status.tags.splice(k, 1)
+            //                    }
+            //                })
+            //
+            //                //console.log(item.metadata.name, item.status.tags[0].tag);
+            //                datalist.items[i].status.tags[0].port = []
+            //                ImageStreamTag.get({
+            //                    namespace: $rootScope.namespace,
+            //                    name: item.metadata.name + ':' + item.status.tags[0].tag
+            //                }, function (data) {
+            //                    //console.log(data);
+            //                    angular.forEach(data.image.dockerImageMetadata.ContainerConfig.ExposedPorts, function (port, k) {
+            //
+            //                        datalist.items[i].status.tags[0].port.push(k);
+            //                    })
+            //                    //console.log(datalist.items[i].status.tags[0]);
+            //                    $scope.testlist = datalist.items;
+            //                    console.log('datalist.items',datalist.items);
+            //                    //datalist.items.sort(function (x, y) {
+            //                    //    return x.sorttime > y.sorttime ? -1 : 1;
+            //                    //});
+            //                    //console.log('$scope.testlist', $scope.testlist);
+            //                    $scope.testcopy = angular.copy(datalist.items);
+            //
+            //                    $scope.grid.total = $scope.testcopy.length;
+            //                    // console.log('$scope.testcopy', $scope.testcopy)
+            //                    refresh(1)
+            //                }, function (res) {
+            //
+            //                });
+            //            }
+            //
+            //            //datalist.items[i].sorttime = (new Date(item.metadata.creationTimestamp)).getTime()
+            //        })
+            //
+            //        console.log('$scope.testlist', $scope.testlist)
+            //    })
 
 
             // 请求仓库镜像
@@ -490,7 +535,7 @@ angular.module('console.image', [
                 });
             }
             //镜像中心
-            $scope.serviceper = [{name: 'Datafoundry官方镜像', class: 'df'}, {name: 'Docker官方镜像', class: 'doc'}]
+            $scope.serviceper = [{name: 'DataFoundry', class: 'df'}, {name: 'DockerHub', class: 'doc'}]
 
 
 
@@ -591,7 +636,7 @@ angular.module('console.image', [
                         $scope.typeimagecenter = angular.copy($scope.imagecenter);
                     }
                     //$scope.imagecenter = $filter("imagefilter")($scope.imagecentercopy, $scope.isComplete);
-                    console.log($scope.imagecenter);
+                    //console.log($scope.imagecenter);
                     $scope.grid.imagecentertotal = $scope.imagecenter.length;
                     $scope.grid.imagecenterpage = 1;
                     imagecenterrefresh(1, 'tag');
@@ -599,7 +644,7 @@ angular.module('console.image', [
                 }
 
                 $scope.grid[tp] = key;
-                console.log($scope.grid[tp]);
+                //console.log($scope.grid[tp]);
             }
 
 

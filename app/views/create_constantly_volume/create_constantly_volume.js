@@ -25,14 +25,14 @@ angular.module('console.create_constantly_volume', [
             return
         }
         if (n && n !== "") {
-            console.log(n);
+            //console.log(n);
             if (n < 10 || n > 200) {
                 //console.log('不过');
 
                 $scope.grid.num = false
             } else {
                 //console.log('过');
-                console.log('11',n % 10);
+                //console.log('11',n % 10);
                 if (n % 10 == 0) {
                     $scope.grid.num = true
                 }else {
@@ -47,7 +47,7 @@ angular.module('console.create_constantly_volume', [
     $scope.creat = function () {
         //console.log($scope.frm);
         $scope.loaded = true;
-        console.log($scope.volume);
+        //console.log($scope.volume);
         volume.create({namespace: $rootScope.namespace}, $scope.volume, function (res) {
             //alert(11111)
             $scope.loaded = false;

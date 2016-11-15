@@ -16,7 +16,9 @@
                     </div>
                 </div>
                 <div class="sc col-mb-12 pull-left">
+
                     <label style="margin-right: 30px;">数据标签</label>
+
                     <div class="btn-group fw" ng-repeat='item in repolabel'>
                         <label class="btn" ng-class="{'active':classgrid.selectsclabel === $index}"
                                ng-click="selectsclabel('selectsclabel',$index)">{{item}}</label>
@@ -27,7 +29,9 @@
                 <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
                     <input type="text"
                            class="form-control"
+
                            placeholder="搜索数据名"
+
                            ng-keydown=keyclasssearch($event)
                            ng-model="grid.classtxt">
                     <!--ng-model="txt" ng-focus="showTip=true;" -->
@@ -38,7 +42,9 @@
             </div>
             <!--<div ng-include="'views/Integration/backing_service_instance.html'">-->
             <!--</div>-->
+
             <div class='change' style="margin-top: 20px;">
+
                 <div class="row">
                     <!--<div id=t{{items.id}} class="h2-border" ng-show="items.showTab"-->
                          <!--style="margin-bottom: 15px;">-->
@@ -63,16 +69,20 @@
 
                                             <!--</p>-->
                                         </div>
+
                                         <div ng-if="!item.image_url" class="imageholder" style="background-image:url('components/bscard/img/images01_03.png');">
                                             <p class='hui'>{{item.label}}</p>
                                         </div>
                                         <div ng-if="item.image_url" class="imageholder" style="background-image:url('{{item.image_url}}');background-color: #EAEBEF;">
                                             <p class='hui'>{{item.label}}</p>
+
                                         </div>
                                     </div>
                                 </div>
                                 <div class="caption">
+
                                     <p class="bsname" style="color: #5a6378">{{item.display_name}}</p>
+
                                     <!--<a class="btn btn-disabled" ng-if='item.bianhui' style='cursor:default;'>查看详情</a>-->
                                     <a class="btn btn-orange"  ui-sref="console.Integration_detail({name: item.repo_name})">查看详情</a>
                                     <!--<a class="btn btn-disabled" ng-if='item.bianhui && bkservice' style='cursor:default;'>申请实例</a>-->
@@ -89,7 +99,9 @@
 
         <uib-tab index="2" style="width:auto;">
             <uib-tab-heading style="white-space:nowrap;">
+
                 <i class="fa2 fa2-bs"></i>&nbsp;&nbsp;数据集成服务
+
             </uib-tab-heading>
             <div class="tabs row" style='padding-left: 12px;position: relative;'>
                 <div  class='col-mb-1' style='margin-right: 20px;'>
@@ -105,7 +117,9 @@
                 <div class="sc col-mb-12 pull-left">
                     <label>服务提供者</label>
                     <div class="btn-group fw" ng-repeat='item in inslabel'>
+
                         <label class="btn" style="text-transform: capitalize;" ng-class="{'active':insgrid.selectsclabel == $index}"
+
                                ng-click="selectsc('selectsclabel',$index)">{{item}}</label>
                     </div>
                 </div>
@@ -114,7 +128,9 @@
                 <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
                     <input type="text"
                            class="form-control"
+
                            placeholder="搜索数据名"
+
                            ng-keydown=keysearch($event)
                            ng-model="grid.txt">
                     <!--ng-model="txt" ng-focus="showTip=true;" -->
@@ -153,18 +169,22 @@
 
                                             <!--</p>-->
                                         </div>
+
                                         <div ng-if="item.image_url" class="imageholder" style="background-image:url('{{item.image_url}}');">
                                             <p class='hui inscard'style="">{{item.provider}}</p>
                                         </div>
                                         <div ng-if="!item.image_url" class="imageholder" style="background-image:url('components/bscard/img/images01_03.png');background-color: #EAEBEF;">
                                             <p class='hui inscard'style="">{{item.provider}}</p>
+
                                         </div>
                                     </div>
                                 </div>
                                 <div class="caption">
+
                                     <p class="bsname" style="color: #5a6378">{{item.display_name}}</p>
                                     <!--<a class="btn btn-disabled" ng-if='item.bianhui' ng-click="apply(item.service_id)" style='cursor:default;'>查看详情</a>-->
                                     <a class="btn btn-orange" ui-sref="console.dataseverdetail({name: item.service_id,plan:item.display_name})">申请实例</a>
+
                                     <!--<a class="btn btn-disabled" ng-if='item.bianhui && bkservice' style='cursor:default;'>申请实例</a>-->
                                     <!--<a class="btn btn-orange" ng-if='item.biancheng && bkservice' ng-click="apply_instance(item.metadata.name)">申请实例</a>-->
                                 </div>
@@ -178,7 +198,9 @@
 
         <uib-tab index="3" style="width:auto;">
             <uib-tab-heading style="white-space:nowrap;">
+=
                 <i class="fa2 fa2-bs"></i>&nbsp;&nbsp;DataHub平台介绍
+
             </uib-tab-heading>
 
 
@@ -247,11 +269,13 @@
     }
 
     .backing-service .sc .btn {
+
         /*width: 85px;*/
     }
 
     .fw:last-child .btn {
         /*width: 85px;*/
+
     }
     /*#t0:after {*/
         /*left: 75px;*/

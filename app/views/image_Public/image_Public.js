@@ -44,7 +44,7 @@ angular.module('console.image_Public', [
                 var str = $scope.name+':'+name
                 ModalPullImage.open(str)
                     .then(function(res){
-                        console.log("cmd1", res);
+                        //console.log("cmd1", res);
                     });
             };
         }])

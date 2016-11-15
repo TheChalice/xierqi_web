@@ -39,7 +39,7 @@ angular.module('console.build.create', [])
                     name: $scope.buildConfig.metadata.name
                 }
             };
-            ImageStream.create({namespace: $rootScope.namespace}, imageStream, function (res) {
+            ImageStream.create({namespace: $rootScope.namespace,region:$rootScope.region}, imageStream, function (res) {
                 $log.info("imageStream", res);
                 createBuildConfig(res.metadata.name);
             }, function(res){
@@ -57,7 +57,8 @@ angular.module('console.build.create', [])
             $scope.buildConfig.spec.completionDeadlineSeconds = $scope.completionDeadlineMinutes * 60;
             $scope.buildConfig.spec.output.to.name = imageStreamTag;// + ':latest';
             $scope.buildConfig.spec.triggers = [];
-            BuildConfig.create({namespace: $rootScope.namespace}, $scope.buildConfig, function(res){
+            //$scope.buildConfig.region=$rootScope.region;
+            BuildConfig.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.buildConfig, function(res){
                 $log.info("buildConfig", res);
                 createBuild(res.metadata.name);
                 $scope.creating = false;
@@ -77,7 +78,7 @@ angular.module('console.build.create', [])
                     name: name
                 }
             };
-            BuildConfig.instantiate.create({namespace: $rootScope.namespace, name: name}, buildRequest, function(){
+            BuildConfig.instantiate.create({namespace: $rootScope.namespace, name: name,region:$rootScope.region}, buildRequest, function(){
                 $log.info("build instantiate success");
                 $state.go('console.build_detail', {name: name, from: 'create'})
             }, function(res){

@@ -1,7 +1,8 @@
 <div id="header" class="navbar-fixed-top">
-    <a id="header-brand" href="#">
+    <a id="header-brand" ng-click="backindex()">
         <img src="components/header/img/logo.png" alt="logo">
     </a>
+
     <div id="header-title" class="hidden-xs" style="margin-left: 1px">
         <span style="float: left;cursor: pointer; margin-right: 10px" ng-click="back()"
               class="icon25 icon25-back" ng-if="hasBack()">
@@ -10,25 +11,36 @@
     </div>
     <div id="header-menu">
         <!--消息图标-->
-        <a class="icon25 icon25-msg" ui-sref="console.notification" uib-tooltip="消息" tooltip-placement="bottom" ng-click="checkInbox()">
+        <a class="icon25 icon25-msg" ui-sref="console.notification" uib-tooltip="消息" tooltip-placement="bottom" ng-click="checkInbox()" style="margin-right:20px;">
             <div ng-show="isshow">
                 <div class="header-dot"></div>
             </div>
-        </a>
+        </a><span style="font-size: 20px; color: #f49530;">|</span>
+        <strong style="margin:0px 20px;font-weight: normal;font-size: 12px;">
+            <span class="dropdown"  id="dpdtop" style="">
+                <a class="dropdown-toggle" data-toggle="dropdown"  href="#" style="color:#333">{{curregion}}<b class="caret"></b></a>
+                <ul class="dropdown-menu dropdownbw">
+                    <li ng-repeat="region in regions" ng-click="checkregion(region.region_describe,region.identification)" >{{region.region_describe}}</li>
+                    <!--<li ng-repeat="relist in regionlist" ng-click="checkregion(relist.regionname)">{{relist.regionname}}</li>-->
+                </ul>
+             <!--</span><span style="background: #fff;padding:10px 13px; color: #5a6378;">-->
+                <!--{{curregion}}-->
+            <!--</span>-->
+        </strong>
+
 
         <!--<a class="icon25 icon25-guide" href="javascript:;" uib-tooltip="指南" tooltip-placement="bottom"-->
         <!--</a>-->
 
         <span uib-dropdown on-toggle="toggled(open)">
             <a href="javascript:;" id="user-menu" uib-dropdown-toggle>
-                <img src="components/header/img/user-icon-default.png" alt="icon" class="hidden-xs">
-                <span>{{user.metadata.name}} | {{checked}}&nbsp;&nbsp;</span>
+                <img src="components/header/img/user-icon-default1.png" alt="icon" class="hidden-xs" style="width: 37px;height: 37px;padding: 3px;background-color: #e6e9f2;margin-top: -4px;margin-left:20px;border-radius: 2px;"><span>{{user.metadata.name}} | {{checked||namespace}}&nbsp;&nbsp;</span>
                 <i class="fa fa-chevron-circle-down" style="color: #e6e9f2;"></i>
             </a>
             <ul ng-if="!isorg" class="projectname" uib-dropdown-menu
                 aria-labelledby="user-menu" style="max-height: 320px;overflow-y: scroll;top:45px;right:0px;background: #f7fafc;">
                 <!--personal account-->
-                <li class='personal'>
+                <li ng-if="projects" class='personal'>
                     <a href="javascript:;" ng-click='gotomy()' ui-sref='console.user'><label>{{user.metadata.name}}</label>
                         <br/>
                         <span>查看个人账户</span>
@@ -36,19 +48,22 @@
                 </li>
 
                 <!--组织账户-->
-                <li class='personal' ng-repeat='org in userorgs'>
-                    <a href="javascript:;" ng-click='goto($index)'><label>{{org.name}}</label>
-                        <br/>
-                        <span>切换到组织账户</span>
-                    </a>
-                </li>
+                <!--<li class='personal' ng-repeat='org in userorgs'>-->
+                    <!--<a href="javascript:;" ng-click='goto($index)'><label>{{org.name}}</label>-->
+                        <!--<br/>-->
+                        <!--<span>切换到组织账户</span>-->
+                    <!--</a>-->
+                <!--</li>-->
 
                 <!--<li ng-repeat="project in projects | orderBy: 'metadata.name'">-->
                 <li ng-repeat="project in projects">
                     <a href="javascript:;" ng-click="setNamespace(project.metadata.name,project.metadata.annotations['openshift.io/display-name'])">{{project.metadata.annotations['openshift.io/display-name'] || project.metadata.name}}</a>
                 </li>
-                <li>
+                <li ng-if="cancreatorg && region==='cn-north-1'">
                     <a href="javascript:;" ng-click="createOrg()">创建组织</a>
+                </li>
+                <li ng-if="region === 'cn-north-2'" style="background-color:#dfe4ef; cursor: no-drop">
+                    <a style="cursor: default;color: azure " href="javascript:;">创建组织</a>
                 </li>
                 <!--<li role="separator" class="divider"></li>-->
                 <li style="border-bottom: none;">
@@ -58,7 +73,7 @@
              <ul ng-if="isorg" class="projectname" uib-dropdown-menu
                  aria-labelledby="user-menu" style="max-height: 320px;overflow-y: scroll;top:45px;right:0px;background: #f7fafc;">
                  <!--personal account-->
-                 <li class='personal'>
+                 <li ng-if="projects" class='personal'>
                      <a href="javascript:;" ng-click='gotomy()' ui-sref='console.user'><label>{{user.metadata.name}}</label>
                          <br/>
                          <span>切换到个人账户</span>
@@ -66,20 +81,24 @@
                  </li>
 
                  <!--组织账户-->
-                 <li class='personal' ng-repeat='org in userorgs'>
-                     <a href="javascript:;" ng-click='goto($index)' ui-sref='console.org({useorg:org.id})'><label>{{org.name}}</label>
-                         <br/>
-                         <span ng-if="org.id == neworgid">查看组织账户</span>
-                         <span ng-if="org.id != neworgid">切换组织账户</span>
-                     </a>
-                 </li>
+                 <!--<li class='personal' ng-repeat='org in userorgs'>-->
+                     <!--<a href="javascript:;" ng-click='goto($index)' ui-sref='console.org({useorg:org.id})'><label>{{org.name}}</label>-->
+                         <!--<br/>-->
+                         <!--<span ng-if="org.id == neworgid">查看组织账户</span>-->
+                         <!--<span ng-if="org.id != neworgid">切换组织账户</span>-->
+                     <!--</a>-->
+                 <!--</li>-->
 <!--切换project仅限go神使用,要问go神是谁?-->
                  <li ng-repeat="project in projects">
                      <a href="javascript:;" ng-click="setNamespace(project.metadata.name,project.metadata.annotations['openshift.io/display-name'])">{{project.metadata.annotations['openshift.io/display-name'] || project.metadata.name}}</a>
                  </li>
-                 <li>
+                 <li ng-if="cancreatorg && region==='cn-north-1'">
                      <a href="javascript:;" ng-click="createOrg()">创建组织</a>
                  </li>
+                 <li ng-if="region === 'cn-north-2'" style="background-color:#dfe4ef;">
+                     <a href="javascript:;">创建组织</a>
+                 </li>
+                 
                  <!--<li role="separator" class="divider"></li>-->
                  <li style="border-bottom: none;">
                      <a href="javascript:;" ng-click="logout()">退出登录</a>

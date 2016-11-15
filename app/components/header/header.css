@@ -8,6 +8,7 @@
     height: 100%;
     background-color: #f6a540;
     float: left;
+    cursor: pointer;
 }
 
 #header #header-brand img {
@@ -138,4 +139,36 @@
     #header #header-menu {
         padding-right: 15px;
     }
+}
+.dropdownbw{
+    min-width:88px;
+    font-size: 12px;border-radius:0;-webkit-box-shadow:none;margin-top:0;
+}
+.dropdownbw li{
+    height:34px;line-height:34px;text-align: center;
+    cursor: pointer;
+    color: #5a6378;
+    border-bottom:1px solid #ccc;
+}
+.dropdownbw :last-child{
+    border-bottom:none;
+}
+.dropdownbw li:hover{
+    background: #e6e9f2;
+}
+#dpdtop:hover{
+    background: #dde0e9;
+}
+#dpdtop{
+    color: #5a6378;background:#e6e9f2;padding:10px 13px;
+}
+.userpic{
+    width: 37px;
+    height: 37px;
+    display: inline-block;
+    background-image: url("../app/components/header/img/user-icon-default1.png");
+    background-color: #e6e9f2;
+    background-size: 30px 30px;
+    background-repeat: no-repeat;
+    background-position: center;
 }

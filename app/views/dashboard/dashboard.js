@@ -4,20 +4,78 @@ angular.module('console.dashboard', [
             files: []
         }
     ])
-    .controller('dashboardCtrl', ['recharge', 'balance', '$http', '$log', '$rootScope', '$scope', 'Metrics', 'MetricsService', 'Pod', 'DeploymentConfig', 'BackingServiceInstance',
-        function (recharge, balance, $http, $log, $rootScope, $scope, Metrics, MetricsService, Pod, DeploymentConfig, BackingServiceInstance) {
+    .controller('dashboardCtrl', ['Project','recharge', 'balance', '$http', '$log', '$rootScope', '$scope', 'Metrics', 'MetricsService', 'Pod', 'DeploymentConfig', 'BackingServiceInstance','account','market',
+        function (Project,recharge, balance, $http, $log, $rootScope, $scope, Metrics, MetricsService, Pod, DeploymentConfig, BackingServiceInstance,account,market) {
             $scope.cpuData = [];
             $scope.memData = [];
             $scope.isdata = {};
-            $scope.deposit = function () {
-                recharge.create({}, {"amount": 1234.34, namespace: $rootScope.namespace}, function (data) {
-                    console.log('充值', data);
-                })
-            }
+            //$scope.deposit = function () {
+            //    recharge.create({}, {"amount": 1234.34, namespace: $rootScope.namespace}, function (data) {
+            //        console.log('充值', data);
+            //    })
+            //}
+            Project.get({region: $rootScope.region}, function (data) {
+                //$rootScope.projects = data.items;
+                //console.log('Project', Project);
+                //var newprojects = [];
+                angular.forEach(data.items, function (item, i) {
+                    if ($rootScope.user.metadata&&item.metadata.name === $rootScope.user.metadata.name) {
+                        data.items.splice(i, 1);
+                    } else {
+                        data.items[i].sortname = item.metadata.annotations['openshift.io/display-name'] || item.metadata.name;
+                    }
 
-            balance.get({}, function (data) {
+                })
+                data.items.sort(function (x, y) {
+                    return x.sortname > y.sortname ? 1 : -1;
+                });
+                angular.forEach(data.items, function (project, i) {
+                    if (/^[\u4e00-\u9fa5]/i.test(project.metadata.annotations['openshift.io/display-name'])) {
+                        //console.log(project.metadata.annotations['openshift.io/display-name']);
+                        //data.items.push(project);
+                        data.items.unshift(project);
+
+                        data.items.splice(i + 1, 1);
+                    }
+                });
+                $rootScope.projects = data.items;
+                //console.log(data.items);
+
+
+                //$log.info("load project success", data);
+            }, function (res) {
+                $log.info("find project err", res);
+            });
+            $scope.plans = {
+                cpu : "",
+                ram : "",
+                price : '',
+                planName : ''
+            }
+            account.get({namespace:$rootScope.namespace,region:$rootScope.region},function(res){
+                //console.log('lalallalalalllallal',res);
+                market.get({region:$rootScope.region},function(data){
+                        //console.log('eeeeeeeeeeee',data);
+                    //angular.forEach(data.plans, function (plan,i) {
+                    //
+                    //})
+
+                    for(var i = 0 ; i < data.plans.length; i++){
+
+                        if(res.subscriptions&&res.subscriptions[0].plan_id === data.plans[i].plan_id){
+                            $scope.plans.cpu = data.plans[i].description;
+                            $scope.plans.ram = data.plans[i].description2;
+                            $scope.plans.price = data.plans[i].price
+                            $scope.plans.planName = data.plans[i].plan_name;
+                        }
+                    }
+
+                })
+            })
+
+            balance.get({namespace:$rootScope.namespace,region:$rootScope.region}, function (data) {
                 $scope.balance = data
-                console.log('balance', data);
+                //console.log('balance', data);
             });
 
             var setChart = function () {
@@ -214,7 +272,7 @@ angular.module('console.dashboard', [
                     })
                     $scope.memData
                     // console.log('$scope.memData',$scope.memData)
-                    $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas').success(function (data, status, headers, config) {
+                    $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas?region='+$rootScope.region).success(function (data, status, headers, config) {
                         if (data.items[0]) {
                             // console.log($scope.cpuData);
                             // console.log($scope.memData);
@@ -256,13 +314,13 @@ angular.module('console.dashboard', [
                                 headC: parseInt(data.items[0].status.hard['limits.cpu']) * 1000,
                             }
 
-                            console.log('数据', data);
-                            console.log(userd.headC, userd.headM);
-                            console.log(userd.usedC, userd.usedM);
+                            //console.log('数据', data);
+                            //console.log(userd.headC, userd.headM);
+                            //console.log(userd.usedC, userd.usedM);
                             userd.usedM = userd.usedM > userd.headM ? userd.headM : userd.usedM;
                             userd.usedC = userd.usedC > userd.headC ? userd.headC : userd.usedC;
-                            console.log(userd.headC, userd.headM);
-                            console.log(userd.usedC, userd.usedM);
+                            //console.log(userd.headC, userd.headM);
+                            //console.log(userd.usedC, userd.usedM);
 
                             var memnums = (userd.usedM / userd.headM) * 100;
                             var cpunums = (userd.usedC / userd.headC) * 100;
@@ -327,7 +385,7 @@ angular.module('console.dashboard', [
                                 memnum = toDecimal(memnum);
                                 memnum = Math.round(memnum * 100) / 100;
                                 cpunum = Math.round(cpunum * 100) / 100;
-                                console.log(memnum);
+                                //console.log(memnum);
 
 
                                 // console.log(cpunum,memnum);
@@ -377,20 +435,20 @@ angular.module('console.dashboard', [
             $scope.pieConfigMem = setPieChart('内存', 'loading...', 0.1);
             $scope.podList = 0;
             var podList = function () {
-                Pod.get({namespace: $scope.namespace}, function (res) {
-                    console.log("pod...res....", res);
+                Pod.get({namespace: $scope.namespace,region:$rootScope.region}, function (res) {
+                    //console.log("pod...res....", res);
                     for (var i = 0; i < res.items.length; i++) {
                         if (res.items[i].status.phase == 'Running') {
                             $scope.podList++;
                         }
                     }
                 }, function (res) {
-                    console.log("pod...reserr....", res);
+                    //console.log("pod...reserr....", res);
                 })
             }
 
             var dcList = function () {
-                DeploymentConfig.get({namespace: $rootScope.namespace}, function (data) {
+                DeploymentConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (data) {
                     $log.info('dcList----', data);
                     $scope.dcList = data.items.length;
                 }, function (res) {
@@ -400,11 +458,11 @@ angular.module('console.dashboard', [
                 });
             }
             var bsiList = function () {
-                BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {
-                    console.log("bsiList......", res);
+                BackingServiceInstance.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
+                    //console.log("bsiList......", res);
                     $scope.bsiList = res.items.length;
                 }, function (res) {
-                    console.log("bsiList...bsiListerr....", res);
+                    //console.log("bsiList...bsiListerr....", res);
                     $scope.bsiList = 0;
                 })
             }

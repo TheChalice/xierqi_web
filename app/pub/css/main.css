@@ -1,6 +1,19 @@
 :focus, :active, .active {
     outline: none !important;
 }
+/*去掉type=number的上下箭头*/
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+input[type=number] {
+    -moz-appearance:textfield;
+}
+
+/*这就是省略号喽*/
+.in_nowrap{white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;}
 
 body {
     padding-top: 70px;
@@ -21,7 +34,9 @@ hr {
 a {
     text-decoration: none !important;
 }
-
+#cnzz_stat_icon_1260628917 {
+    display: none;
+}
 /*按钮*/
 .btn {
     border-radius: 2px;
@@ -39,11 +54,12 @@ a {
 
 .btn-green {
     background-color: #55c45f;
+    color:#fff;
     -webkit-transition:all 1s;
 }
 
 .btn-green:hover {
-    background-color: #469450;
+    background-color: #469450;color:#fff;
 }
 
 .btn-gray {
@@ -890,12 +906,12 @@ a {
 
 .searchbar .btn {
     height: 100%;
-    background: url(../img/search.png) no-repeat;
+    background: url(../img/search.png) no-repeat 0 -1px!important;
     box-shadow: none;
 }
 
 .searchbar .btn:hover {
-    background-image: url(../img/search-focus.png);
+    background: url(../img/search-focus.png) no-repeat 0 -1px!important; ;
 }
 
 .searchbar .tip-board {
@@ -1304,6 +1320,7 @@ a {
 .active .myimage {
     background: url(../../pub/img/myimageh.png) no-repeat;
     background-size: contain;
+
 }
 
 .pic_jc {
@@ -1318,6 +1335,21 @@ a {
 .nav-link:hover i.pic_jc {
     background: url(../../pub/img/pic_jc_active.png) no-repeat;
     background-size: contain;
+
+
+}
+.fz12 {
+    font-size: 12px;
+}
+.fz16 {
+    font-size: 16px;
+}
+.fz28 {
+    font-size: 28px;
+}
+.mb30 {
+    margin-bottom: 30px;
+
 }
 .mt20 {
     margin-top: 20px;
@@ -1326,7 +1358,51 @@ a {
     margin-top: 10px;
     margin:0 15px;
 }
-.btn-green{}
+
+
+.footer_bt{width:100%;padding: 0px 30px;height: 300px;
+    padding-top: 40px; background: #5a6378;
+    margin-left: 0;
+    margin-right: 0;line-height: 50px;}
+.footer {
+    font-size: 14px;
+    font-weight:bold;
+    color: #bdc0c7;
+    text-align: center;
+    width:1200px;margin:0 auto;
+
+}
+.footer-td{padding-left:0;}
+/*IE10 取消input框默认的叉叉和密码输入框的眼睛*/
+::-ms-clear { display: none; }
+::-ms-reveal { display: none; }
+.view-frame.ng-enter,
+.view-frame.ng-leave {
+    background: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+.tac {
+    text-align: center;
+}
+.view-frame.ng-enter {
+    -webkit-animation: 0.5s fade-in;
+    -moz-animation: 0.5s fade-in;
+    -o-animation: 0.5s fade-in;
+    animation: 0.5s fade-in;
+    z-index: 100;
+}
+
+.view-frame.ng-leave {
+    -webkit-animation: 0.5s fade-out;
+    -moz-animation: 0.5s fade-out;
+    -o-animation: 0.5s fade-out;
+    animation: 0.5s fade-out;
+    z-index: 99;
+}
+/*.btn.focus, .btn:focus, .btn:hover{color:#fff;}*/
 
 
 /*!* 设置滚动条的样式 *!*/

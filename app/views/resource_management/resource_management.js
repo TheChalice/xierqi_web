@@ -29,10 +29,12 @@ angular.module('console.resource_management', [
             persistentlist('nows');
         }
         function persistentlist(nows) {
-            persistent.get({namespace: $rootScope.namespace}, function (res) {
+            persistent.get({
+                namespace: $rootScope.namespace,
+                region:$rootScope.region}, function (res) {
 
-                DeploymentConfig.get({namespace: $rootScope.namespace}, function (resdc) {
-                    console.log('dc',resdc);
+                DeploymentConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (resdc) {
+                    //console.log('dc',resdc);
                     $scope.grid.constantlyvolume=false;
                     angular.forEach(res.items, function (volitem, i) {
                         res.items[i].arr = []
@@ -53,7 +55,7 @@ angular.module('console.resource_management', [
                             }
                             res.items[i].sorttime = (new Date(item.metadata.creationTimestamp)).getTime()
                         })
-                        console.log($scope.items);
+                        //console.log($scope.items);
 
                         res.items.sort(function (x, y) {
                             return x.sorttime > y.sorttime ? -1 : 1;
@@ -64,7 +66,7 @@ angular.module('console.resource_management', [
                         }
                         //物理刷新不重启ws
                         $scope.persistents = res;
-                        console.log('chijiu', res);
+                        //console.log('chijiu', res);
                     }
 
                 })
@@ -86,7 +88,7 @@ angular.module('console.resource_management', [
             }, function (res) {
                 var data = JSON.parse(res.data);
                 updatePC(data);
-                console.log(data);
+                //console.log(data);
             }, function () {
                 $log.info("webSocket start");
             }, function () {
@@ -125,7 +127,7 @@ angular.module('console.resource_management', [
                         $scope.$apply();
                     }
                 })
-                console.log('ws',$scope.persistents.items);
+                //console.log('ws',$scope.persistents.items);
                 //angular.forEach($scope.items, function(item, i){
                 //    if (item.rc.metadata.name == data.object.metadata.name) {
                 //        $scope.items[i].rc = data.object;
@@ -155,8 +157,8 @@ angular.module('console.resource_management', [
         };
 
         $scope.loadconfigmaps = function () {
-            configmaps.get({namespace: $rootScope.namespace}, function (res) {
-                console.log(res);
+            configmaps.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
+                //console.log(res);
                 if (res.items && res.items.length > 0) {
                     angular.forEach(res.items, function (item, i) {
                         res.items[i].sorttime = (new Date(item.metadata.creationTimestamp)).getTime()
@@ -205,13 +207,13 @@ angular.module('console.resource_management', [
 //////////////////////////密钥
 
         $scope.loadsecrets = function () {
-            secretskey.get({namespace: $rootScope.namespace}, function (res) {
-                console.log('-------loadsecrets', res);
+            secretskey.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
+                //console.log('-------loadsecrets', res);
                 if (res.items && res.items.length > 0) {
                     angular.forEach(res.items, function (item, i) {
                         res.items[i].sorttime = (new Date(item.metadata.creationTimestamp)).getTime()
                     })
-                    console.log(res.items);
+                    //console.log(res.items);
                     //console.log($scope.items);
                     res.items.sort(function (x, y) {
                         return x.sorttime > y.sorttime ? -1 : 1;

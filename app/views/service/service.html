@@ -5,7 +5,8 @@
                 <i class="fa fa-plus fa-lg"></i>
                 <span class="hidden-xs"> 新建服务</span>
             </a>
-            <a class="btn btn-skyblue" ng-click="refresh(page)" style="height: 34px; width: 36px; padding: 5px 5px;">
+            <a class="btn btn-skyblue" ng-click="refresh(page)" style="display:inline-block;">
+                <!-- height: 34px;width: 36px;padding: 5px 5px; jias 20161027 change-->
                 <i class="fa fa-refresh fa-lg" ng-class="{'zhuan':running}"></i>
             </a>
         </div>
@@ -55,8 +56,8 @@
             </tr>
             <!--<tr ng-repeat="bc in items">-->
             <tr ng-repeat="dc in items">
-                <td>
-                    <a class="href-orange" ui-sref="console.service_detail({name: dc.metadata.name})">
+                <td style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
+                    <a class="href-orange" ui-sref="console.service_detail({name: dc.metadata.name})" uib-tooltip="{{dc.metadata.name}}" tooltip-placement="top">
                         {{dc.metadata.name}}
                     </a>
                 </td>

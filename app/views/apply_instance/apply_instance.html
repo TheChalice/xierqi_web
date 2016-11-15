@@ -13,6 +13,7 @@
                         <input ng-model="bsi.metadata.name" type="text" name="servicename" class="form-control input-block" placeholder="创建一个项目名称" required
                                ng-pattern="/^\w+$/">
                         <small ng-show="frm.servicename.$dirty && frm.servicename.$error.pattern" class="fa fa-info-circle err-tip" style="margin-top: 10px">项目名称只能包含小写字母和数字</small>
+                        <small ng-show="frm.servicename.$dirty && grid.error" class="fa fa-info-circle err-tip" style="margin-top: 10px">项目名称重复</small>
 
                         <small ng-show="frm.servicename.$dirty && frm.servicename.$error.required" class="fa fa-info-circle err-tip" style="margin-top: 10px">请填写一个项目名称</small>
                     </div>
@@ -23,35 +24,41 @@
                         <p class="require">服务套餐</p>
                     </div>
                     <div class="col-sm-10">
-                        <div style="margin-bottom: 15px;" ng-repeat="plan in data.spec.plans">
-                            <div class="panel panel-default sub-panel panel-xxx" ng-class="{'active': grid.checked == $index}"  ng-click="grid.checked = $index">
-                                <div class="panel-heading">
-                                    <p class="subpanelname">{{plan.name}}</p>
+                        <div style="margin-bottom: 15px;" class="col-sm-4" ng-repeat="plan in data.spec.plans">
+                            <div class="panel panel-default sub-panel panel-xxx"  ng-class="{'active': grid.checked == $index}"  ng-click="grid.checked = $index">
+                                <div class="panel-heading tac" style="height: 65px;">
+                                    <p class="subpanelname" style="margin: 0;">{{plan.name}}</p>
+                                    <p style="font-size: 12px;">单独的{{bsName}}实例</p>
                                 </div>
-                                <div class="panel-body plan">
-                                    <div class="row">
-                                        <div class="col-md-5" style="border-right: 1px solid #c9c9c9;">
-                                            <label><i class="faa faa-price"></i>&nbsp;&nbsp;价格</label>
-                                            <p ng-show="plan.free">Free</p>
-                                            <p ng-show="!plan.free" ng-repeat="cost in plan.metadata.costs">
-                                                {{cost.unit}}:&nbsp;€{{cost.amount.eur}}&nbsp;|&nbsp;${{cost.amount.usd}} <br>
-                                            </p>
-                                        </div>
-                                        <div class="col-md-3" style="border-right: 1px solid #c9c9c9;">
-                                            <label><i class="faa faa-content"></i>&nbsp;&nbsp;内容</label>
-                                            <p ng-repeat="bullet in plan.metadata.bullets">
-                                                {{bullet}} <br>
-                                            </p>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <label><i class="faa faa-description"></i>&nbsp;&nbsp;描述</label>
-                                            <p>{{plan.description}}</p>
-                                        </div>
-                                    </div>
+                                <div class="panel-body plan tac">
+                                    <p>{{plan.metadata.bullets[0]}}</p>
+                                    <p class="mb30">{{plan.metadata.bullets[1]}}</p>
+                                    <p><span class='href-orange fz28'>{{plan.metadata.costs[0].amount.usd}}</span>元/月</p>
+                                    <!--<div class="row">-->
+                                        <!--<div class="col-md-5" style="border-right: 1px solid #c9c9c9;">-->
+                                            <!--<label><i class="faa faa-price"></i>&nbsp;&nbsp;价格</label>-->
+                                            <!--<p ng-show="plan.free">Free</p>-->
+                                            <!--<p ng-show="!plan.free" ng-repeat="cost in plan.metadata.costs">-->
+                                                <!--{{cost.unit}}:&nbsp;€{{cost.amount.eur}}&nbsp;|&nbsp;${{cost.amount.usd}} <br>-->
+                                            <!--</p>-->
+                                        <!--</div>-->
+                                        <!--<div class="col-md-3" style="border-right: 1px solid #c9c9c9;">-->
+                                            <!--<label><i class="faa faa-content"></i>&nbsp;&nbsp;内容</label>-->
+                                            <!--<p ng-repeat="bullet in plan.metadata.bullets">-->
+                                                <!--{{bullet}} <br>-->
+                                            <!--</p>-->
+                                        <!--</div>-->
+                                        <!--<div class="col-md-4">-->
+                                            <!--<label><i class="faa faa-description"></i>&nbsp;&nbsp;描述</label>-->
+                                            <!--<p>{{plan.description}}</p>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="col-sm-7"></div>
+                    <div class="col-sm-5 fz12">您选择 "<span style="font-weight: bold;">{{data.spec.plans[grid.checked].name}} 套餐</span>" 每月花费 <span class="href-orange fz16">{{data.spec.plans[grid.checked].metadata.costs[0].amount.usd}}</span>元</div>
                 </div>
             </div>
         </div>

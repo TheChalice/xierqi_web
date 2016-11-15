@@ -68,12 +68,15 @@ angular.module('console.backing_service', [
             }
 
             var loaditc = function (insclass, inslabel) {
+
                 inservice.query({class: insclass || "", provider: inslabel || ''}, function (insdata) {
                     console.log('instance', insdata);
+
                     $scope.insclass = [];//insclass
                     $scope.inslabel = [];//inslabel
 
                     $scope.ins = [];
+
                     angular.forEach(insdata, function (repo, i) {
                         if (repo.class) {
                             //insdata[i].class = repo.class.toUpperCase();
@@ -87,12 +90,15 @@ angular.module('console.backing_service', [
                         }
                         $scope.insclass.push(insdata[i].class);
                         $scope.inslabel.push(insdata[i].provider);
+
                     })
                     $scope.insclass = $scope.insclass.unique();
                     $scope.inslabel = $scope.inslabel.unique();
                     angular.forEach($scope.insclass, function (insclass, i) {
                         $scope.ins.push({class: insclass, items: []});
+
                         angular.forEach(insdata, function (ins, k) {
+
                             if (insclass === ins.class) {
                                 $scope.ins[i].items.push(ins);
                             }
@@ -436,38 +442,44 @@ angular.module('console.backing_service', [
             };
 
 
+
             $scope.keysearch = function (event,search) {
 
                 console.log(event,search);
+
                 if (event.keyCode === 13 || event === 'search') {
                     if ($scope.grid.txt) {
                         var iarr = []
                         //console.log($scope.ins);
                         var str = $scope.grid.txt;
                         str = str.toLocaleLowerCase();
+
                         angular.forEach($scope.inscopy, function (repo, i) {
                             iarr.push({class: repo.class, items: []});
                             angular.forEach(repo.items, function (item, k) {
                                 var nstr = item.display_name;
                                 console.log(repo);
                                 nstr=nstr.toLocaleLowerCase();
+
                                 if (nstr.indexOf(str) !== -1) {
                                     iarr[i].items.push(item);
                                 }
                             })
                             //console.log(repo.instance_data, $scope.grid.txt);
+
                         })
                         $scope.ins = iarr;
 
                     } else {
                         //console.log('$scope.inscopy', $scope.inscopy);
+
                         $scope.ins = angular.copy($scope.inscopy)
                     }
                 }
             }
 
             $scope.keyclasssearch = function (event) {
-                //console.log(event);
+
                 if (event.keyCode === 13 || event === 'search') {
 
                     if ($scope.grid.classtxt) {
@@ -475,9 +487,11 @@ angular.module('console.backing_service', [
                         var repoarr = [];
                         var str = $scope.grid.classtxt;
                         str = str.toLocaleLowerCase();
+
                         angular.forEach($scope.reposcopy, function (repo, i) {
                             //console.log(repo.repoName, $scope.grid.classtxt);
                             var nstr = repo.display_name;
+
                             nstr=nstr.toLocaleLowerCase();
                             if (nstr.indexOf(str) !== -1) {
                                 repoarr.push(repo);

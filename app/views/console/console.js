@@ -9,13 +9,22 @@ angular.module('console', [
             ]
         }
     ])
-    .controller('ConsoleCtrl', ['$http', '$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', 'user', 'Project', 'Cookie',
-        function ($http, $rootScope, $scope, $log, AUTH_EVENTS, User, user, Project, Cookie) {
-            $('html').css('overflow','auto');
-            $log.info('Console');
-            $rootScope.user = user;
-            //$rootScope.payment = account;
+    .controller('ConsoleCtrl', ['regions', 'account', '$http', '$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', 'user', 'Project', 'Cookie', '$state',
+        function (regions, account, $http, $rootScope, $scope, $log, AUTH_EVENTS, User, user, Project, Cookie, $state) {
+            $('html').css('overflow', 'auto');
+            $log.info('Console', $state.current.name);
             var namespace = Cookie.get('namespace');
+            var region = Cookie.get('region');
+            if (region) {
+                $rootScope.region = region;
+            } else {
+                regions.query({}, function (data) {
+                    //console.log('regions', data);
+                    //$scope.regions = data;
+                    $rootScope.region = data[0].identification;
+                    Cookie.set('region', data[0].identification, 10 * 365 * 24 * 3600 * 1000);
+                })
+            }
             if (namespace) {
                 $rootScope.namespace = namespace;
             } else {
@@ -25,11 +34,14 @@ angular.module('console', [
 
             var loadProject = function () {
                 //$log.info("load project");
-                Project.get(function (data) {
+                Project.get({region: $rootScope.region}, function (data) {
                     //$rootScope.projects = data.items;
+                    //console.log('Project', Project);
                     //var newprojects = [];
                     angular.forEach(data.items, function (item, i) {
-                        if (item.metadata.name == $rootScope.namespace) {
+                        //console.log($rootScope.user.metadata.name);
+                        if (item.metadata.name === $rootScope.user.metadata.name) {
+                            //console.log($rootScope.user.metadata.name);
                             data.items.splice(i, 1);
                         } else {
                             data.items[i].sortname = item.metadata.annotations['openshift.io/display-name'] || item.metadata.name;
@@ -48,16 +60,96 @@ angular.module('console', [
                             data.items.splice(i + 1, 1);
                         }
                     });
-                    //console.log(data.items);
                     $rootScope.projects = data.items;
+                    //console.log(data.items);
 
 
-                    $log.info("load project success", data);
+                    //$log.info("load project success", data);
                 }, function (res) {
                     $log.info("find project err", res);
                 });
             };
+            account.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
+                //console.log('套餐', data);
+                if (data.purchased) {
+                    //跳转dashboard
 
+                } else {
+                    if ($state.current.name === 'console.plan' || $state.current.name === 'console.pay' || $state.current.name === 'console.noplan') {
+
+                    } else {
+
+                        $state.go('console.noplan');
+                    }
+
+                    //跳转购买套餐
+                }
+            })
+            if ($state.current.name === 'console.plan' || $state.current.name === 'console.pay' || $state.current.name === 'console.noplan') {
+                $rootScope.showsidebar = false;
+                $('#sidebar-right-fixed').css("marginLeft",0)
+            } else {
+                $rootScope.showsidebar = true;
+                $('#sidebar-right-fixed').css("marginLeft",200)
+            }
+            //console.log($scope.showsidebar);
             loadProject();
+
+            //account.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
+            //    //console.log('套餐', data);
+            //    loadProject();
+            //    if (data.purchased) {
+            //        //跳转dashboard
+            //        $scope.showsidebar = true;
+            //
+            //    } else {
+            //        if ($state.current.name === 'console.plan' || $state.current.name === 'console.pay' || $state.current.name === 'console.noplan' || $state.current.name === 'home.index') {
+            //            //$rootScope.projects=false;
+            //            $rootScope.showsidebar = false;
+            //        } else {
+            //            $state.go('console.noplan');
+            //        }
+            //
+            //
+            //        //跳转购买套餐
+            //    }
+            //})
+
+            $rootScope.user = user;
+
+
+            //$scope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+            //    //console.log('toState.name', toState.name);
+            //    account.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
+            //        //console.log('套餐', data);
+            //        //$rootScope.payment=data;
+            //        if ($state.current.name === 'console.plan' || $state.current.name === 'console.pay' || $state.current.name === 'console.noplan' || $state.current.name === 'home.index') {
+            //            $rootScope.showsidebar = false;
+            //        } else {
+            //            $rootScope.showsidebar = true;
+            //        }
+            //        if (data.purchased) {
+            //            loadProject();
+            //            //$scope.showsidebar = true;
+            //
+            //            //有plan
+            //        } else {
+            //            if (toState.name === 'console.plan' || toState.name === 'console.pay' || toState.name === 'console.noplan' || toState.name === 'home.index') {
+            //                //$rootScope.projects=false;
+            //                //$scope.showsidebar = false;
+            //            } else {
+            //                $state.go('console.noplan');
+            //            }
+            //
+            //            //跳转购买套餐
+            //        }
+            //    })
+            //
+            //
+            //})
+            //$rootScope.payment = account;
+
+
+            //loadProject();
         }]);
 

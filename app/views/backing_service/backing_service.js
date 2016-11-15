@@ -66,7 +66,7 @@ angular.module('console.backing_service', [
             }
             // 得到loadBs对象进行分组
             var loadBs = function () {
-                BackingService.get({namespace: 'openshift'}, function (data) {
+                BackingService.get({namespace: 'openshift',region:$rootScope.region}, function (data) {
                     $log.info('loadBs', data);
                     $scope.items = data.items;
                     var arr = data.items;
@@ -167,7 +167,7 @@ angular.module('console.backing_service', [
 
                     //我的后端服务json
                     var loadBsi = function () {
-                        BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {
+                        BackingServiceInstance.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                             //$log.info("backingServiceInstance", res);
                             $scope.resourceVersion = res.metadata.resourceVersion;
                             watchBsi($scope.resourceVersion);
@@ -196,10 +196,14 @@ angular.module('console.backing_service', [
                                     }
                                 }
                             }
+                            //console.log('fiftarr', fiftarr);
                             //我的后端服务页面渲染json
                             $scope.myservice = [];
+
                             for (var s = 0; s < $scope.cation.length; s++) {
+
                                 $scope.myservice.push({})
+
                                 $scope.myservice[s].name = $scope.cation[s];
                                 for (var q = 0; q < fiftarr.length; q++) {
                                     if (s == q) {
@@ -227,6 +231,7 @@ angular.module('console.backing_service', [
                             $scope.diyservice.sort(function (x, y) {
                                 return x.mysort > y.mysort ? -1 : 1;
                             });
+
                             $scope.insservice.sort(function (x, y) {
                                 return x.mysort > y.mysort ? -1 : 1;
                             });
@@ -234,6 +239,7 @@ angular.module('console.backing_service', [
                             $scope.diyservicecopy=angular.copy($scope.diyservice);
 
                             $scope.insservicecopy=angular.copy($scope.insservice);
+
 
 
 
@@ -264,7 +270,7 @@ angular.module('console.backing_service', [
 
                         }
                     }
-                    console.log("$scope.market", $scope.market)
+                    //console.log("$scope.market", $scope.market)
                     $scope.data = data.items;
                     filter('serviceCat', 'all');
                     filter('vendor', 'all');
@@ -407,6 +413,7 @@ angular.module('console.backing_service', [
                     }
                 } else if (data.type == "MODIFIED") {
 
+
                     // console.log('newid',newid)
                     if (insid) {
                         angular.forEach($scope.insservice, function (item, i) {
@@ -417,13 +424,19 @@ angular.module('console.backing_service', [
                             }
                         })
                     }else if (newid) {
+
                         if ($scope.myservice[newid]) {
+
                             angular.forEach($scope.myservice[newid].item, function (item, i) {
-                                if (item.metadata.name == data.object.metadata.name) {
-                                    data.object.show = item.show;
-                                    $scope.myservice[newid].item[i] = data.object;
-                                    $scope.$apply();
+                                if (item.spec.binding.length !== data.object.spec.binding.length) {
+                                    if (item.metadata.name == data.object.metadata.name) {
+                                        data.object.show = item.show;
+
+                                        $scope.myservice[newid].item[i] = data.object;
+                                        $scope.$apply();
+                                    }
                                 }
+
                             })
                             // console.log('$scope.myservice[newid].item',$scope.myservice[newid].item.length)
                             if ($scope.myservice[newid].item.length == '0') {
@@ -654,7 +667,8 @@ angular.module('console.backing_service', [
                             Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
                                 BackingServiceInstance.del({
                                     namespace: $rootScope.namespace,
-                                    name: $scope.myservice[id].item[idx].metadata.name
+                                    name: $scope.myservice[id].item[idx].metadata.name,
+                                    region:$rootScope.region
                                 }, function (res) {
                                     $scope.myservice[id].item.splice(idx, 1);
                                     Toast.open('删除成功');
@@ -667,7 +681,8 @@ angular.module('console.backing_service', [
                         Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
                             BackingServiceInstance.del({
                                 namespace: $rootScope.namespace,
-                                name: $scope.myservice[id].item[idx].metadata.name
+                                name: $scope.myservice[id].item[idx].metadata.name,
+                                region:$rootScope.region
                             }, function (res) {
                                 $scope.myservice[id].item.splice(idx, 1);
                                 Toast.open('删除成功');
@@ -686,7 +701,8 @@ angular.module('console.backing_service', [
                             Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
                                 BackingServiceInstance.del({
                                     namespace: $rootScope.namespace,
-                                    name: $scope.diyservice[idx].metadata.name
+                                    name: $scope.diyservice[idx].metadata.name,
+                                    region:$rootScope.region
                                 }, function (res) {
                                     $scope.diyservice.splice(idx, 1);
                                     Toast.open('删除成功');
@@ -699,7 +715,8 @@ angular.module('console.backing_service', [
                         Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
                             BackingServiceInstance.del({
                                 namespace: $rootScope.namespace,
-                                name: $scope.diyservice[idx].metadata.name
+                                name: $scope.diyservice[idx].metadata.name,
+                                region:$rootScope.region
                             }, function (res) {
                                 $scope.diyservice.splice(idx, 1);
                                 Toast.open('删除成功');
@@ -715,6 +732,7 @@ angular.module('console.backing_service', [
             //我的后端服务解除绑定一个服务
             $scope.delBing = function (idx, id) {
 
+
                 console.log(id);
                 if (id==='ins') {
                     insid='ture'
@@ -724,6 +742,7 @@ angular.module('console.backing_service', [
                 }else if (id||id===0) {
                     //alert(1);
                     id=id.toString();
+
                     newid = id;
                     var name = $scope.myservice[id].item[idx].metadata.name;
                     var bindings = [];
@@ -741,11 +760,18 @@ angular.module('console.backing_service', [
                         bindings.push(binds[i]);
                     }
                 }
-                if (bindings.length == 0) {
+                if (bindings.length === 0) {
                     Toast.open('请先选择要解除绑定的服务');
                     return;
                 }
-                angular.forEach(bindings, function (binding) {
+                //console.log($scope.myservice,bindings);
+
+                angular.forEach(bindings, function (binding,i) {
+                    angular.forEach(binds, function (bind,j) {
+                        if (binding.bind_deploymentconfig === bind.bind_deploymentconfig) {
+                            $scope.myservice[id].item[idx].spec.binding[j].delete=true;
+                        }
+                    })
                     var bindObj = {
                         metadata: {
                             name: name,
@@ -758,8 +784,9 @@ angular.module('console.backing_service', [
                         bindKind: 'DeploymentConfig'
                     };
                     // console.log(bindObj)
-                    BackingServiceInstanceBd.put({namespace: $rootScope.namespace, name: name},
+                    BackingServiceInstanceBd.put({namespace: $rootScope.namespace, name: name,region:$rootScope.region},
                         bindObj, function (res) {
+                            Toast.open('正在解除中,请稍等');
                             // console.log('解绑定', res)
                         }, function (res) {
                             //todo 错误处理
@@ -788,7 +815,7 @@ angular.module('console.backing_service', [
                 };
                 for (var i = 0; i < dcs.length; i++) {
                     bindObj.resourceName = dcs[i].metadata.name;
-                    BackingServiceInstanceBd.create({namespace: $rootScope.namespace, name: name}, bindObj,
+                    BackingServiceInstanceBd.create({namespace: $rootScope.namespace, name: name,region:$rootScope.region}, bindObj,
                         function (res) {
                         }, function (res) {
                             //todo 错误处理
@@ -805,6 +832,7 @@ angular.module('console.backing_service', [
                 }
             };
             $scope.bindModal = function (idx, id) {
+
                 //if (id) {
                 //    id=id.toString();
                 //}
@@ -819,6 +847,7 @@ angular.module('console.backing_service', [
                     });
                 }else if (id||id===0) {
                     id=id.toString();
+
                     newid = id;
                     var bindings = $scope.myservice[id].item[idx].spec.binding || [];
                     ServiceSelect.open(bindings).then(function (res) {

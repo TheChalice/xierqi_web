@@ -11,26 +11,48 @@ angular.module('console.user', [
 
         ]
     }
-]).controller('userCtrl', ['amount','market', 'createOrg', '$rootScope', '$state', '$stateParams', 'Cookie', 'Toast', '$scope', 'ModalPwd', 'Addmodal', 'profile', 'pwdModify', '$http', 'Confirm', 'leave', 'orgList', 'Alert',
-    function (amount,market, createOrg, $rootScope, $state, $stateParams, Cookie, Toast, $scope, ModalPwd, Addmodal, profile, pwdModify, $http, Confirm, leave, orgList, Alert) {
+]).controller('userCtrl', ['Project','orders','amounts', 'market', 'createOrg', '$rootScope', '$state', '$stateParams', 'Cookie', 'Toast', '$scope', 'ModalPwd', 'Addmodal', 'profile', 'pwdModify', '$http', 'Confirm', 'leave', 'orgList', 'Alert',
+    function (Project,orders,amounts, market, createOrg, $rootScope, $state, $stateParams, Cookie, Toast, $scope, ModalPwd, Addmodal, profile, pwdModify, $http, Confirm, leave, orgList, Alert) {
         $scope.credentials = {};
         $scope.grid = {
             st: null,
-            et: null
+            et: null,
+            hpay: true,
+            coupon: false,
+            page:1,
+            size:10
         }
+        $scope.$watch('grid.page', function(newVal, oldVal){
+            if (newVal != oldVal) {
+                refresh(newVal);
+            }
+        });
 
+        var refresh = function(page) {
+            var skip = (page - 1) * $scope.grid.size;
+            $scope.myamounts = $scope.amountdata.slice(skip, skip + $scope.grid.size);
+        };
+        //console.log($stateParams);
+        if ($stateParams.index) {
+            $scope.check = $stateParams.index
+        }
         $scope.orgName = "seferfe";
-        market.get({}, function (data) {
-            console.log('套餐详情',data);
+        market.get({region:$rootScope.region}, function (data) {
+            //console.log('套餐详情', data);
         })
-        amount.query({}, function (data) {
-            console.log('套餐详情',data);
-        })
+
         //load project
         var loadProject = function () {
-            $http.get('/oapi/v1/projects', {}).success(function (data) {
-                console.log('test project', data);
-            })
+            //$http.get('/oapi/v1/projects', {}).success(function (data) {
+            //    console.log('test project', data);
+            //})
+            Project.get({region:$rootScope.region},function (data) {
+                $rootScope.projects = data.items;
+
+                $log.info("can't find project");
+            }, function (res) {
+                $log.info("find project err", res);
+            });
         }
 
         //创建组织
@@ -54,17 +76,31 @@ angular.module('console.user', [
         }
         $scope.updatePwd = function () {
             ModalPwd.open().then(function (password) {
-                console.log(password);
-                pwdModify.change({new_password: password.pwd, old_password: password.oldpwd}, function (data) {
-                    Toast.open('更改密码成功');
-                    setTimeout(function () {
-                        Cookie.clear('namespace');
-                        Cookie.clear('df_access_token');
-                        $rootScope.user = null;
-                        $rootScope.namespace = "";
-                        $state.go('login');
-                    }, 2000)
-                })
+                //console.log(password);
+                Toast.open('更改密码成功');
+                setTimeout(function () {
+                    Cookie.clear('namespace');
+                    $rootScope.resetpwd = true;
+                    //Cookie.clear('region');
+                    //Cookie.clear('df_access_token');
+                    $rootScope.user = null;
+                    //$rootScope.region = '';
+                    $rootScope.namespace = "";
+                    $state.go('login');
+                }, 2000)
+                //pwdModify.change({new_password: password.pwd, old_password: password.oldpwd}, function (data) {
+                //    Toast.open('更改密码成功');
+                //    setTimeout(function () {
+                //        Cookie.clear('namespace');
+                //        $rootScope.resetpwd = true;
+                //        //Cookie.clear('region');
+                //        //Cookie.clear('df_access_token');
+                //        $rootScope.user = null;
+                //        //$rootScope.region = '';
+                //        $rootScope.namespace = "";
+                //        $state.go('login');
+                //    }, 2000)
+                //})
             })
 
         };
@@ -117,7 +153,7 @@ angular.module('console.user', [
                         }
                     }
                 }
-                console.log('list entire orgs', data);
+                //console.log('list entire orgs', data);
             })
         }
 
@@ -128,9 +164,9 @@ angular.module('console.user', [
                     privilegednum++;
                 }
             }
-            console.log('privilegeds', privilegeds);
-            console.log('privilegednum', privilegednum);
-            console.log('$rootScope.user.metadata.name', $rootScope.user.metadata.name);
+            //console.log('privilegeds', privilegeds);
+            //console.log('privilegednum', privilegednum);
+            //console.log('$rootScope.user.metadata.name', $rootScope.user.metadata.name);
             if ((privilegeds && privilegednum > 1) || !privilegeds) {
                 Confirm.open("离开组织", "您确定要离开" + oname + "吗？", "", "").then(function () {
                     leave.left({org: orgid}, function () {
@@ -147,13 +183,37 @@ angular.module('console.user', [
                 })
             }
         }
+        //orders.get({}, function (orders) {
+        //    console.log(orders);
+        //})
+
+        amounts.get({size:500,page:1,namespace:$rootScope.namespace,status:'O'}, function (data) {
+            //console.log(data);
+            if (data.amounts) {
+                data.amounts.reverse()
+                angular.forEach(data.amounts, function (amount,i) {
+                    if (amount.description === "recharge") {
+                        data.amounts[i].description='充值'
+                    }else {
+                        data.amounts[i].description='扣费'
+                    }
+                })
+                $scope.myamounts = data.amounts;
+                $scope.amountdata =angular.copy(data.amounts)
+                $scope.grid.total = data.amounts.length;
+                refresh(1);
+            }
+
+
+        })
         $scope.sendemail = function (item) {
             $http.post('/lapi/send_verify_email', {}).success(function () {
                 //alert('激活邮件已发送!')
                 Toast.open('激活邮件发送成功！');
-                console.log('test send email', item);
+                //console.log('test send email', item);
             })
         }
+
         loadInfo();
         loadOrg();
     }])

@@ -29,7 +29,7 @@
                    <!--ng-class="{'btn-orange':frm.$valid, 'btn-disabled': frm.$invalid}"-->
                    <!--ng-disabled="frm.$invalid" >-->
                     <a href="javascript:;"
-                   class="btn btn-block btn-orange" ng-click="jump(!grid.checked)">
+                   class="btn btn-block btn-orange" ng-click="frm.$valid && jump(!grid.checked)">
                     <span ng-if="!grid.checked" style="color: white;">进入高级配置</span>
                     <span ng-if="grid.checked" style="color: white;">返回基础配置</span>
                 </a>

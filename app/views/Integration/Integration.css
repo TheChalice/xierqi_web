@@ -7,13 +7,17 @@
 }
 .backing-service .sc label {
     margin-right: 15px;
+
     /*width: 72px;*/
+
 }
 
 .backing-service .sc .btn {
     font-size: 12px;
     background: #eaebef;
+
     /*width: 80px;*/
+
     text-align: center;
     border:1px solid #eaebef;
     border-radius: 2px;
@@ -69,6 +73,7 @@
 }
 
 .backing-service .sc .btn {
+
     /*width: 85px;*/
 }
 
@@ -88,5 +93,6 @@
 .dh_more:link,.dh_more:visited{background:#55c45f;color:#fff;}
 .dh_more:hover{background:#469450;color:#fff;}
 .dh_new_logo{width:230px;height:60px;margin-bottom:26px;}
+
 
 

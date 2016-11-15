@@ -5,8 +5,10 @@
                 <i class="fa fa-plus fa-lg"></i>
                 <span class="hidden-xs">新建构建</span>
             </a>
-            <a class="btn btn-skyblue" ng-click="refresh()" style="height: 34px; width: 36px; padding: 5px 5px;line-height:auto;">
+
+            <a class="btn btn-skyblue" ng-click="refresh()" style="height: 34px; width: 36px; padding: 5px 5px; line-height: auto ;">
                 <i class="fa fa-refresh fa-lg" style="vertical-align:bottom;"></i><!-- 20160921 jia 代码构建 loading处理按钮向下问题-->
+
             </a>
         </div>
         <div class="col-sm-5 col-xs-8" style="padding-left: 0; ">
@@ -24,14 +26,14 @@
                     <th class='col-lg-2 col-md-2 col-sm-2'>最近构建时间</th>
                     <th class='col-lg-2 col-md-2 col-sm-3'>最近构建时长</th>
                     <!--<th class='col-lg-1 col-md-1 col-sm-2' style='word-break:keep-all;white-space:nowrap;'>构建类型</th>-->
-                    <th class="col-lg-3 col-md-3 col-sm-3" style='text-align: center;'>操作</th>
+                    <th class="col-lg-3 col-md-3 col-sm-3" style='text-align:left;text-indent:8px;'>操作</th>
                 </div>
 
             </tr>
             <tr ng-repeat="bc in items">
-                <td class='buildname'>
+                <td class='buildname' style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">
                     <a class="href-orange"
-                       ui-sref="console.build_detail({name: bc.metadata.name})">{{bc.metadata.name}}</a>
+                       ui-sref="console.build_detail({name: bc.metadata.name})" uib-tooltip="{{bc.metadata.name}}" tooltip-placement="top">{{bc.metadata.name}}</a>
                 </td>
                 <td>
                     <span class="icon12 icon12-{{bc.build.status.phase}}"
@@ -83,17 +85,18 @@
 </div>
 <style>
     #build .icon25 {
-        margin: 0 25px;
+        margin: 0 18px;
     }
 
     .table-responsive .buildname {
         overflow: hidden;
         word-break: break-all;
         word-wrap: break-word;
+
     }
     @media screen and (max-width: 1250px) {
         #build .icon25 {
-            margin: 0 8px;
+            margin: 0 18px;
         }
     }
 
