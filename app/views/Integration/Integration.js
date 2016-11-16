@@ -68,31 +68,37 @@ angular.module('console.backing_service', [
             }
 
             var loaditc = function (insclass, inslabel) {
-                inservice.get({class: insclass || "", provider: inslabel || ''}, function (insdata) {
-                    //console.log('instance', insdata);
+
+                inservice.query({class: insclass || "", provider: inslabel || ''}, function (insdata) {
+                    console.log('instance', insdata);
+
                     $scope.insclass = [];//insclass
                     $scope.inslabel = [];//inslabel
 
                     $scope.ins = [];
-                    angular.forEach(insdata.data.results, function (repo, i) {
+
+                    angular.forEach(insdata, function (repo, i) {
                         if (repo.class) {
-                            insdata.data.results[i].class = repo.class.toUpperCase();
+                            //insdata[i].class = repo.class.toUpperCase();
                         } else {
-                            insdata.data.results[i].class = '其他';
+                            insdata[i].class = '其他';
                         }
                         if (repo.provider) {
-                            insdata.data.results[i].provider = repo.provider.toUpperCase();
+                            //insdata[i].provider = repo.provider.toUpperCase();
                         } else {
-                            insdata.data.results[i].provider = '其他';
+                            insdata[i].provider = '其他';
                         }
-                        $scope.insclass.push(insdata.data.results[i].class);
-                        $scope.inslabel.push(insdata.data.results[i].provider);
+                        $scope.insclass.push(insdata[i].class);
+                        $scope.inslabel.push(insdata[i].provider);
+
                     })
                     $scope.insclass = $scope.insclass.unique();
                     $scope.inslabel = $scope.inslabel.unique();
                     angular.forEach($scope.insclass, function (insclass, i) {
                         $scope.ins.push({class: insclass, items: []});
-                        angular.forEach(insdata.data.results, function (ins, k) {
+
+                        angular.forEach(insdata, function (ins, k) {
+
                             if (insclass === ins.class) {
                                 $scope.ins[i].items.push(ins);
                             }
@@ -436,18 +442,25 @@ angular.module('console.backing_service', [
             };
 
 
-            $scope.keysearch = function (event) {
+
+            $scope.keysearch = function (event,search) {
+
+                console.log(event,search);
+
                 if (event.keyCode === 13 || event === 'search') {
                     if ($scope.grid.txt) {
                         var iarr = []
                         //console.log($scope.ins);
                         var str = $scope.grid.txt;
                         str = str.toLocaleLowerCase();
-                        angular.forEach($scope.ins, function (repo, i) {
+
+                        angular.forEach($scope.inscopy, function (repo, i) {
                             iarr.push({class: repo.class, items: []});
-                            var nstr = repo.instance_data;
-                            nstr=nstr.toLocaleLowerCase();
                             angular.forEach(repo.items, function (item, k) {
+                                var nstr = item.display_name;
+                                console.log(repo);
+                                nstr=nstr.toLocaleLowerCase();
+
                                 if (nstr.indexOf(str) !== -1) {
                                     iarr[i].items.push(item);
                                 }
@@ -456,15 +469,17 @@ angular.module('console.backing_service', [
 
                         })
                         $scope.ins = iarr;
+
                     } else {
-                        console.log('$scope.inscopy', $scope.inscopy);
+                        //console.log('$scope.inscopy', $scope.inscopy);
+
                         $scope.ins = angular.copy($scope.inscopy)
                     }
                 }
             }
 
             $scope.keyclasssearch = function (event) {
-                //$scope.copyrepos = angular.copy($scope.repos);
+
                 if (event.keyCode === 13 || event === 'search') {
 
                     if ($scope.grid.classtxt) {
@@ -472,9 +487,11 @@ angular.module('console.backing_service', [
                         var repoarr = [];
                         var str = $scope.grid.classtxt;
                         str = str.toLocaleLowerCase();
-                        angular.forEach($scope.repos, function (repo, i) {
+
+                        angular.forEach($scope.reposcopy, function (repo, i) {
                             //console.log(repo.repoName, $scope.grid.classtxt);
-                            var nstr = repo.repo_name;
+                            var nstr = repo.display_name;
+
                             nstr=nstr.toLocaleLowerCase();
                             if (nstr.indexOf(str) !== -1) {
                                 repoarr.push(repo);

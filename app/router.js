@@ -11,6 +11,7 @@ define([
 
             $urlRouterProvider.otherwise("/home/index");
             $stateProvider
+                //home
                 .state('home', {
                     url: '/home',
                     templateUrl: 'views/home/home.html',
@@ -113,6 +114,7 @@ define([
                         }]
                     }
                 })
+
                 .state('login', {
                     url: '/login/:type/:name',
                     templateUrl: 'views/login/login.html',
@@ -133,6 +135,7 @@ define([
                         }]
                     }
                 })
+
                 .state('console', {
                     url: '/console',
                     templateUrl: 'views/console/console.html',
@@ -141,26 +144,25 @@ define([
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/console/console.js')
                         }],
-                        user: ['regions','Cookie','$rootScope', 'User', function (regions,Cookie,$rootScope,User) {
+                        user: ['regions', 'Cookie', '$rootScope', 'User', function (regions, Cookie, $rootScope, User) {
                             if ($rootScope.user) {
                                 return $rootScope.user;
                             }
                             //$rootScope.region=
                             var region = Cookie.get('region');
-
                             if (!region) {
                                 regions.query({}, function (data) {
                                     //console.log('regions', data);
                                     //$scope.regions = data;
                                     $rootScope.region = data[0].identification;
-                                    Cookie.set('region',data[0].identification, 10 * 365 * 24 * 3600 * 1000);
-                                    return User.get({name: '~',region:Cookie.get('region')}).$promise;
+                                    Cookie.set('region', data[0].identification, 10 * 365 * 24 * 3600 * 1000);
+                                    return User.get({name: '~', region: Cookie.get('region')}).$promise;
                                 })
-                            }else {
+                            } else {
 
                             }
-                            console.log('region',region);
-                            return User.get({name: '~',region:Cookie.get('region')}).$promise;
+                            console.log('region', region);
+                            return User.get({name: '~', region: Cookie.get('region')}).$promise;
                         }]
                         //account: ['$rootScope', 'account', function ($rootScope, account) {
                         //  if ($rootScope.account) {
@@ -170,7 +172,85 @@ define([
                         //}]
                     },
                     abstract: true
+
                 })
+                .state('console.backing_service_detail', {
+                    url: '/backing_service/:name',
+                    params: {
+                        plan: null,
+                        update: false,
+                        index: null,
+                        type: null
+                    },
+                    templateUrl: 'views/backing_service_detail/backing_service_detail.html',
+                    controller: 'BackingServiceInstanceCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/backing_service_detail/backing_service_detail.js'])
+                        }]
+                    }
+                })
+                .state('console.apply_instance', {
+                    url: '/apply_instance/:name',
+                    templateUrl: 'views/apply_instance/apply_instance.html',
+                    controller: 'ApplyInstanceCtrl',
+                    params: {
+                        plan: ''
+                    },
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/apply_instance/apply_instance.js'])
+                        }]
+                    }
+                })
+                .state('console.dashboard', {
+                    url: '/dashboard/:useorg',
+                    templateUrl: 'views/dashboard/dashboard.html',
+                    controller: 'dashboardCtrl',
+                    params: {},
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/dashboard/dashboard.js'])
+                        }]
+                    }
+                })
+                .state('console.user', {
+                    url: '/user',
+                    templateUrl: 'views/user/user.html',
+                    controller: 'userCtrl',
+                    params: {
+                        index: null
+                    },
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/user/user.js')
+                        }]
+                    }
+                })
+                .state('console.org', {
+                    url: '/org/:useorg',
+                    templateUrl: 'views/org/org.html',
+                    params: {
+                        useorg: ''
+                    },
+                    controller: 'orgCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/org/org.js')
+                        }]
+                    }
+                })
+                .state('console.notification', {
+                    url: '/notification',
+                    templateUrl: 'views/notification/notification.html',
+                    controller: 'notificationCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/notification/notification.js')
+                        }]
+                    }
+                })
+                //build
                 .state('console.build', {
                     url: '/build',
                     templateUrl: 'views/build/build.html',
@@ -181,16 +261,7 @@ define([
                         }]
                     }
                 })
-                .state('console.create_saas', {
-                    url: '/create_saas/:name',
-                    templateUrl: 'views/create_saas/create_saas.html',
-                    controller: 'create_saasCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/create_saas/create_saas.js')
-                        }]
-                    }
-                })
+
                 .state('console.build_create', {
                     url: '/build/create',
                     templateUrl: 'views/build_create/build_create.html',
@@ -224,6 +295,7 @@ define([
                         }]
                     }
                 })
+                //image
                 .state('console.image', {
                     url: '/image',
                     templateUrl: 'views/image/image.html',
@@ -267,6 +339,7 @@ define([
                         }]
                     }
                 })
+                //service
                 .state('console.service', {
                     url: '/service',
                     templateUrl: 'views/service/service.html',
@@ -318,137 +391,13 @@ define([
                     }
 
                 })
-                .state('console.Integration', {
-                    url: '/Integration',
-                    params: {
-                        index: null
-                    },
-                    templateUrl: 'views/Integration/Integration.html',
-                    controller: 'IntegrationCtrl',
+                .state('console.create_saas', {
+                    url: '/create_saas/:name',
+                    templateUrl: 'views/create_saas/create_saas.html',
+                    controller: 'create_saasCtrl',
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/Integration/Integration.js'])
-                        }]
-                    }
-
-                })
-                .state('console.Integration_detail', {
-                    url: '/Integration_detail/:name',
-                    params: {
-                        plan: null,
-                        update: false,
-                        index: null,
-                        type: null
-                    },
-                    templateUrl: 'views/Integration_detail/Integration_detail.html',
-                    controller: 'IntegrationDetailCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/Integration_detail/Integration_detail.js'])
-                        }]
-                    }
-
-                })
-                //数据集成-详情列表
-                .state('console.Integration_dlist', {
-                    url: '/Integration_dlist/:name/:plan',
-                    params: {
-                    },
-                    templateUrl: 'views/Integration_dlist/Integration_dlist.html',
-                    controller: 'IntegrationDlistCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/Integration_dlist/Integration_dlist.js'])
-                        }]
-                    }
-
-                })
-                .state('console.dataseverdetail', {
-                    url: '/dataseverdetail/:name',
-                    templateUrl: 'views/dataseverdetail/dataseverdetail.html',
-                    controller: 'dataseverdetailCtrl',
-                    params: {
-                    },
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/dataseverdetail/dataseverdetail.js'])
-                        }]
-                    }
-                })
-                .state('console.backing_service_detail', {
-                    url: '/backing_service/:name',
-                    params: {
-                        plan: null,
-                        update: false,
-                        index: null,
-                        type: null
-                    },
-                    templateUrl: 'views/backing_service_detail/backing_service_detail.html',
-                    controller: 'BackingServiceInstanceCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/backing_service_detail/backing_service_detail.js'])
-                        }]
-                    }
-                })
-                .state('console.apply_instance', {
-                    url: '/apply_instance/:name',
-                    templateUrl: 'views/apply_instance/apply_instance.html',
-                    controller: 'ApplyInstanceCtrl',
-                    params: {
-                        plan: ''
-                    },
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/apply_instance/apply_instance.js'])
-                        }]
-                    }
-                })
-
-                .state('console.dashboard', {
-                    url: '/dashboard/:useorg',
-                    templateUrl: 'views/dashboard/dashboard.html',
-                    controller: 'dashboardCtrl',
-                    params: {},
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/dashboard/dashboard.js'])
-                        }]
-                    }
-                })
-                .state('console.user', {
-                    url: '/user',
-                    templateUrl: 'views/user/user.html',
-                    controller: 'userCtrl',
-                    params: {
-                        index:null
-                    },
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/user/user.js')
-                        }]
-                    }
-                })
-                .state('console.org', {
-                    url: '/org/:useorg',
-                    templateUrl: 'views/org/org.html',
-                    params: {
-                        useorg: ''
-                    },
-                    controller: 'orgCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/org/org.js')
-                        }]
-                    }
-                })
-                .state('console.notification', {
-                    url: '/notification',
-                    templateUrl: 'views/notification/notification.html',
-                    controller: 'notificationCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/notification/notification.js')
+                            return $ocLazyLoad.load('views/create_saas/create_saas.js')
                         }]
                     }
                 })
@@ -526,6 +475,64 @@ define([
                         }]
                     }
                 })
+                //数据集成
+                .state('console.Integration', {
+                    url: '/Integration',
+                    params: {
+                        index: null
+                    },
+                    templateUrl: 'views/Integration/Integration.html',
+                    controller: 'IntegrationCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/Integration/Integration.js'])
+                        }]
+                    }
+
+                })
+                .state('console.Integration_detail', {
+                    url: '/Integration_detail/:name',
+                    params: {
+                        plan: null,
+                        update: false,
+                        index: null,
+                        type: null
+                    },
+                    templateUrl: 'views/Integration_detail/Integration_detail.html',
+                    controller: 'IntegrationDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/Integration_detail/Integration_detail.js'])
+                        }]
+                    }
+
+                })
+                .state('console.Integration_dlist', {
+                    url: '/Integration_dlist/:name/:plan',
+                    params: {},
+                    templateUrl: 'views/Integration_dlist/Integration_dlist.html',
+                    controller: 'IntegrationDlistCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/Integration_dlist/Integration_dlist.js'])
+                        }]
+                    }
+
+                })
+                .state('console.dataseverdetail', {
+                    url: '/dataseverdetail/:name',
+                    templateUrl: 'views/dataseverdetail/dataseverdetail.html',
+                    controller: 'dataseverdetailCtrl',
+                    params: {
+                        plan: null
+                    },
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/dataseverdetail/dataseverdetail.js'])
+                        }]
+                    }
+                })
+                //panment
                 .state('console.plan', {
                     url: '/plan',
                     templateUrl: 'views/plan/plan.html',
@@ -561,4 +568,5 @@ define([
                 })
 
         }]);
+
 });

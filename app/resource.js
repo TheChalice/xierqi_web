@@ -683,6 +683,7 @@ define([
             });
             return recharge;
         }])
+
         .factory('redeem', ['$resource', 'GLOBAL', function ($resource) {//充值优惠卷
             var redeem = $resource('/payment/v1/redeem', {}, {
                 create: {method: 'POST'}
@@ -707,6 +708,7 @@ define([
             var regions = $resource('/payment/v1/coupon/:id', {id:'@id'}, {});
             return regions;
         }])
+
         .factory('repositories', ['$resource', 'GLOBAL', function ($resource) {//数据集成 公开数据集
             var repositories = $resource('/integration/v1/repos', {}, {});
             return repositories;

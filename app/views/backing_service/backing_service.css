@@ -7,13 +7,13 @@
 }
 .backing-service .sc label {
     margin-right: 15px;
-    width: 72px;
+    /*width: 72px;*/
 }
 
 .backing-service .sc .btn {
     font-size: 12px;
     background: #eaebef;
-    width: 80px;
+    /*width: 80px;*/
     text-align: center;
     border:1px solid #eaebef;
     border-radius: 2px;
@@ -63,11 +63,11 @@
 }
 
 .backing-service .sc .btn {
-    width: 85px;
+    /*width: 85px;*/
 }
 
 .fw:last-child .btn {
-    width: 85px;
+    /*width: 85px;*/
 }
 
-.pull_width{width:auto!important;}/*--Docker¹Ù·½¾µÏñ jia 20160922*/
+.pull_width{width:auto!important;}/*--Dockerï¿½Ù·ï¿½ï¿½ï¿½ï¿½ï¿½ jia 20160922*/

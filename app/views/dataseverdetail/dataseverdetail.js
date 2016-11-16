@@ -6,8 +6,10 @@ angular.module('console.apply_instance', [
             ]
         }
     ])
-    .controller('dataseverdetailCtrl', ['creatapp', 'instance', 'Modalbs', '$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', '$stateParams', '$state',
-        function (creatapp, instance, Modalbs, $log, $rootScope, $scope, BackingService, BackingServiceInstance, $stateParams, $state) {
+
+    .controller('dataseverdetailCtrl', ['creatapp', 'instance', '$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', '$stateParams', '$state',
+        function (creatapp, instance, $log, $rootScope, $scope, BackingService, BackingServiceInstance, $stateParams, $state) {
+
 
             $scope.grid = {
                 checked: 0,
@@ -17,13 +19,18 @@ angular.module('console.apply_instance', [
                 timeout: false
             };
 
+            $scope.name=''
+
             $scope.secrets = {
                 "kind": "BackingServiceInstance",
                 "apiVersion": "v1",
                 "metadata": {
                     "name": "",
                     "annotations": {
-                        "USER-PROVIDED-SERVICE": "true"
+
+                        "USER-PROVIDED-SERVICE": "true",
+                        "label": "integration"
+
                     }
                 },
                 "spec": {
@@ -32,9 +39,9 @@ angular.module('console.apply_instance', [
                         "backingservice_plan_guid": "USER-PROVIDED-SERVICE"
                     },
                     "userprovidedservice": {
-                        "credentials": {
 
-                        }
+                        "credentials": {}
+
                     }
                 },
                 "status": {
@@ -44,6 +51,8 @@ angular.module('console.apply_instance', [
             }
 
             console.log('@@@test bsname', $stateParams.name);
+            $scope.plan = $stateParams.plan
+
             $scope.$watch('name', function (n, o) {
                 if (n === o) {
                     return
@@ -59,7 +68,22 @@ angular.module('console.apply_instance', [
 
             $scope.createInstance = function () {
                 if ($scope.secrets.metadata) {
+
+                    $scope.grid.timeout = false;
+                    var r = /^[a-z]+$/
+                    console.log($scope.name);
+                    if ($scope.name==='') {
+                        //alert(1)
+                        $scope.grid.blank = true;
+                        return
+                    } else if (!r.test($scope.name)) {
+                        //alert(2)
+                        $scope.grid.valid = true;
+                        return
+                    }
                     $scope.secrets.metadata.name = $scope.name
+
+
                     instance.create({id: $stateParams.name}, function (data) {
                         console.log('data', data.data);
 
@@ -69,10 +93,11 @@ angular.module('console.apply_instance', [
                         //console.log($scope.secrets.spec.userprovidedservice.credentials);
                         $scope.secrets.metadata.name = $scope.name
                         creatapp.create({
-                            namespace: $rootScope.namespace,
-                            region: $rootScope.region
+
+                            namespace: $rootScope.namespace
                         }, $scope.secrets, function (res) {
-                            $state.go('console.backing_service', {index: 3});
+                            $state.go('console.backing_service', {index: 4});
+
                         }, function (res) {
                             if (res.status == 409) {
                                 $scope.grid.repeat = true;

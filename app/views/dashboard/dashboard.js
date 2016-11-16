@@ -52,7 +52,7 @@ angular.module('console.dashboard', [
                 price : '',
                 planName : ''
             }
-            account.get({namespace:$rootScope.namespace,region:$rootScope.region},function(res){
+            account.get({namespace:$rootScope.namespace,region:$rootScope.region,status:"consuming"},function(res){
                 //console.log('lalallalalalllallal',res);
                 market.get({region:$rootScope.region},function(data){
                         //console.log('eeeeeeeeeeee',data);
