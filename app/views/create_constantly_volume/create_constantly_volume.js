@@ -4,6 +4,24 @@ angular.module('console.create_constantly_volume', [
         files: []
     }
 ]).controller('createconvolumeCtrl', ['Toast','$state', '$rootScope', 'volume', '$scope', function (Toast,$state, $rootScope, volume, $scope) {
+    $scope.slider = {
+        value: 0,
+        options: {
+            floor: 0,
+            ceil: 200,
+            step: 10,
+            showSelectionBar: true,
+            showTicksValues:50,
+            translate: function(value, sliderId, label) {
+                switch (label) {
+
+                    default:
+                        return  value + 'GB'
+                }
+            }
+        }
+    };
+
     $scope.danwei = 'GB';
     $scope.grid = {
         inved: false,

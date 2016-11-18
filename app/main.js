@@ -35,7 +35,7 @@ require.config({
         kubernetesUI: 'pub/terminal',
         term: '../bower_components/term.js/src/term',
         highcharts: '../bower_components/highcharts/highcharts',
-        angularSlider: '../bower_components/angular-slider/dist/slider',
+        angularSlider: '../bower_components/angular-slider/dist/rzslider.min',
         highchartsNg: '../bower_components/highcharts-ng/dist/highcharts-ng.min',
         fileUpload: '../bower_components/ng-file-upload/ng-file-upload.min',
         fileUploadShim: '../bower_components/ng-file-upload/ng-file-upload-shim.min',
