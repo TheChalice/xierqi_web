@@ -54,12 +54,10 @@
                                name="username"
                                class="form-control"
                                ng-model="volume.name"
-                               placeholder="创建一个持久化卷名称"
-                               required
-                               style="margin-top: 10px"
-                               ng-pattern="/^[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/">
-                        <small ng-if="frm.username.$dirty && frm.username.$error.pattern" class="fa fa-info-circle err-tip" style="margin-top: 20px;">名称只能包括小写字母/数字/短线,短线不能在开头或结尾位置</small>
-                        <small ng-if="frm.username.$dirty && frm.username.$error.required" class="fa fa-info-circle err-tip" style="margin-top: 20px;">名称不能为空</small>
+                               placeholder="名称只能包括小写字母"
+                               style="margin-top: 10px">
+                        <small ng-if="err.valid" class="fa fa-info-circle err-tip" style="margin-top: 20px;">名称不合法</small>
+                        <small ng-if="err.blank" class="fa fa-info-circle err-tip" style="margin-top: 20px;">名称不能为空</small>
                     </div>
                 </div>
                 <hr>
@@ -67,7 +65,7 @@
                     <label class="col-sm-2 control-label text-left" style="margin-top: 10px; color: #5a6378; font-size:14px; text-align: left; font-weight: normal;">持久化卷容量</label>
                     <div class="col-sm-10" style="padding-right: 40px; ">
 
-                        <p class="enduring_tit">您选择 <span class="price_one">140</span> GB；每月花费 <san class="price_two">140</san> 元</p>
+                        <p class="enduring_tit">您选择 <span class="price_one">{{slider.value}}</span> GB；每月花费 <san class="price_two">{{slider.value}}</san> 元</p>
                         <div class="volume_modal">
                             <rzslider rz-slider-model="slider.value" rz-slider-options="slider.options" ng-model="volume.size"></rzslider>
                         </div>
@@ -89,15 +87,15 @@
                             <!--</div>-->
                             <!--<div class="col-md-offset-7"></div>-->
                         <!--</div>-->
-                        <small class="fa fa-info-circle err-tip" ng-if="frm.num.$dirty && !grid.num" style="margin-top: 20px;">
-                            输入数值应在10-200之间(10的倍数)</small>
+                        <small ng-if="grid.num" class="fa fa-info-circle err-tip" style="margin-top: 20px;">
+                            输入数值应在10-200之间(10的倍数)
+                        </small>
                         <!--<img src="views/create_constantly_volume/img/images_43.png" id="arrow" ng-click="updateplan()">-->
                     </div>
                 </div>
 
             </div>
         </div>
-        <a href="javascript:;" ng-if="grid.num&&frm.$valid" ng-click="creat()" class="btn btn-block create" style="background-color: #F8B551; margin-top: 35px; color: white;" >创建持久化卷</a>
-        <a href="javascript:;" ng-if="!grid.num||!frm.$valid" disabled="disabled" class="btn btn-block create" style="background-color: #CCCCCC; margin-top: 35px; color: white;" >创建持久化卷</a>
+        <a href="javascript:;" ng-click="creat()" class="btn btn-block create" style="background-color: #F8B551; margin-top: 35px; color: white;">创建持久化卷</a>
     </form>
 </div>
