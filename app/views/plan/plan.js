@@ -24,7 +24,7 @@ angular.module('console.plan', [
                 //}else{
                 //    $('.plan_block_main').css("left","0");
                 //}
-                market.get({region:$rootScope.region}, function (data) {
+                market.get({region:$rootScope.region,type:'resources'}, function (data) {
                     //console.log(data);
                     angular.forEach(data.plans, function (plan, i) {
                         if (plan.region_id === $rootScope.region) {

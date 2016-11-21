@@ -288,10 +288,12 @@ angular.module('console.backing_service', [
                 classtxt: '',
                 mytxt: ''
             };
+
             $scope.classgrid = {
                 selectclass: 'all',
                 selectsclabel: 'all',
             }
+
             $scope.insgrid = {
                 selectclass: 'all',
                 selectsclabel: 'all',
@@ -346,11 +348,13 @@ angular.module('console.backing_service', [
                 $scope.reposcopys = angular.copy($scope.repos);
 
             }, true)
+
             $scope.apply = function (id) {
                 instance.create({id:id}, function (data) {
                     console.log('iddata', data);
                 })
             }
+
             $scope.$watch('insgrid', function (n, o) {
                 if (n === o) {
                     return
