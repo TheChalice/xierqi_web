@@ -5,7 +5,8 @@ angular.module('console.resource_management', [
             'components/searchbar/searchbar.js',
         ]
     }
-]).controller('resmanageCtrl', ['$log', 'Ws', 'DeploymentConfig', 'persistent', '$state', '$rootScope', '$scope', 'configmaps', 'secretskey',
+])
+    .controller('resmanageCtrl', ['$log', 'Ws', 'DeploymentConfig', 'persistent', '$state', '$rootScope', '$scope', 'configmaps', 'secretskey',
     function ($log, Ws, DeploymentConfig, persistent, $state, $rootScope, $scope, configmaps, secretskey) {
         $scope.grid = {
             page: 1,
@@ -34,7 +35,7 @@ angular.module('console.resource_management', [
         });
         var rmrefresh = function (page) {
             var skip = (page - 1) * $scope.grid.size;
-            $scope.pageitems = $scope.persistents.slice(skip, skip + $scope.grid.size);
+            $scope.persistents = $scope.persistents.slice(skip, skip + $scope.grid.size);
 
         };
         $scope.constantlyvolume = function () {
@@ -193,7 +194,7 @@ angular.module('console.resource_management', [
         });
         var refresh = function (page) {
             var skip = (page - 1) * $scope.grid.size;
-            $scope.pageitems = $scope.configitems.slice(skip, skip + $scope.grid.size);
+            $scope.configitems = $scope.configitems.slice(skip, skip + $scope.grid.size);
 
         };
         $scope.$on('$destroy', function () {
@@ -217,6 +218,7 @@ angular.module('console.resource_management', [
                     } else {
                         $scope.configitems = res.items;
                     }
+                    $scope.copyconfigitems=angular.copy($scope.configitems)
                     $scope.grid.total = $scope.configitems.length;
                     $scope.grid.page = 1;
                     $scope.grid.txt = '';
@@ -228,23 +230,26 @@ angular.module('console.resource_management', [
 
         }
 
-        $scope.search = function () {
-            if (!$scope.grid.txt) {
-                refresh(1);
-                $scope.grid.total = $scope.configitems.length;
-                return;
-            }
-            $scope.pageitems = [];
-
-            $scope.grid.txt = $scope.grid.txt.replace(/\//g, '\\/');
-            $scope.grid.txt = $scope.grid.txt.replace(/\./g, '\\.');
-            var reg = eval('/' + $scope.grid.txt + '/');
-            angular.forEach($scope.configitems, function (item) {
-                if (reg.test(item.metadata.name)) {
-                    $scope.pageitems.push(item);
+        $scope.search = function (event) {
+            if (event.keyCode === 13 || event === 'search') {
+                if (!$scope.grid.txt) {
+                    $scope.configitems=angular.copy($scope.copyconfigitems)
+                    refresh(1);
+                    $scope.grid.total = $scope.configitems.length;
+                    return;
                 }
-            });
-            $scope.grid.total = $scope.pageitems.length;
+                $scope.configitems = [];
+
+                $scope.grid.txt = $scope.grid.txt.replace(/\//g, '\\/');
+                $scope.grid.txt = $scope.grid.txt.replace(/\./g, '\\.');
+                var reg = eval('/' + $scope.grid.txt + '/');
+                angular.forEach($scope.copyconfigitems, function (item) {
+                    if (reg.test(item.metadata.name)) {
+                        $scope.configitems.push(item);
+                    }
+                });
+                $scope.grid.total = $scope.configitems.length;
+            }
         };
 
         $scope.loadconfigmaps();
@@ -268,6 +273,7 @@ angular.module('console.resource_management', [
                     } else {
                         $scope.secretitems = []
                     }
+                    $scope.copysecretitems=angular.copy($scope.secretitems);
                     $scope.secrets.total = $scope.secretitems.length;
                     $scope.secrets.page = 1;
                     $scope.secrets.txt = '';
@@ -287,26 +293,30 @@ angular.module('console.resource_management', [
 
         var secretrefresh = function (page) {
             var skip = (page - 1) * $scope.grid.size;
-            $scope.scretspageitems = $scope.secretitems.slice(skip, skip + $scope.secrets.size);
+            $scope.secretitems = $scope.secretitems.slice(skip, skip + $scope.secrets.size);
             //$scope.secrets.total = $scope.secretitems.length;
         };
 
-        $scope.scretssearch = function () {
-            if (!$scope.secrets.txt) {
-                secretrefresh(1);
-                $scope.secrets.total = $scope.secretitems.length;
-                return;
-            }
-            $scope.scretspageitems = [];
-
-            $scope.secrets.txt = $scope.secrets.txt.replace(/\//g, '\\/');
-            $scope.secrets.txt = $scope.secrets.txt.replace(/\./g, '\\.');
-            var reg = eval('/' + $scope.secrets.txt + '/');
-            angular.forEach($scope.secretitems, function (item) {
-                if (reg.test(item.metadata.name)) {
-                    $scope.scretspageitems.push(item);
+        $scope.scretssearch = function (event) {
+            if (event.keyCode === 13 || event === 'search') {
+                if (!$scope.secrets.txt) {
+                    $scope.secretitems=angular.copy($scope.copysecretitems);
+                    secretrefresh(1);
+                    $scope.secrets.total = $scope.secretitems.length;
+                    return;
                 }
-            });
-            $scope.secrets.total = $scope.scretspageitems.length;
+                $scope.secretitems = [];
+
+                $scope.secrets.txt = $scope.secrets.txt.replace(/\//g, '\\/');
+                $scope.secrets.txt = $scope.secrets.txt.replace(/\./g, '\\.');
+                var reg = eval('/' + $scope.secrets.txt + '/');
+                angular.forEach($scope.copysecretitems, function (item) {
+                    if (reg.test(item.metadata.name)) {
+                        $scope.secretitems.push(item);
+                    }
+                });
+                $scope.secrets.total = $scope.secretitems.length;
+            }
+
         };
     }])

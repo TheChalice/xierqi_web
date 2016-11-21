@@ -92,10 +92,10 @@
                                 <div class="input-group">
                                     <input type="text" class="form-control"
                                            ng-model="grid.txt"
-                                           ng-keydown="search(grid.txt)"
+                                           ng-keydown="search($event)"
                                            placeholder="搜索关键字">
                                             <span class="input-group-btn">
-                                                <a class="btn" ng-click="search(grid.txt)"></a>
+                                                <a class="btn" ng-click="search('search')"></a>
                                             </span>
                                 </div>
                             </div>
@@ -113,7 +113,7 @@
                                 <th class='col-lg-2 col-md-2 col-sm-2'>创建时间</th>
                             </div>
                         </tr>
-                        <tr ng-repeat="items in pageitems">
+                        <tr ng-repeat="items in configitems">
                             <td style="border-bottom: 1px solid #CCCCCC;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">
                                 <a ui-sref="console.config_detail({name: items.metadata.name})" uib-tooltip="{{items.metadata.name}}" tooltip-placement="top" style="color:#f6a540">{{items.metadata.name}}</a>
                             </td>
@@ -156,10 +156,10 @@
                                 <div class="input-group">
                                     <input type="text" class="form-control"
                                            ng-model="secrets.txt"
-                                           ng-keydown="scretssearch(secrets.txt)"
+                                           ng-keydown="scretssearch($event)"
                                            placeholder="搜索关键字">
                                             <span class="input-group-btn">
-                                                <a class="btn" ng-click="scretssearch(secrets.txt)"></a>
+                                                <a class="btn" ng-click="scretssearch('search')"></a>
                                             </span>
                                 </div>
                             </div>
@@ -175,7 +175,7 @@
                                 <th class='col-lg-2 col-md-2 col-sm-2'>创建时间</th>
                             </div>
                         </tr>
-                        <tr ng-repeat="items in scretspageitems">
+                        <tr ng-repeat="items in secretitems">
                             <td style="border-bottom: 1px solid #CCCCCC;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">
                                 <a class="listitem" uib-tooltip="{{items.metadata.name}}" tooltip-placement="top" ui-sref="console.secret_detail({name:items.metadata.name})"
                                    style="color:#f6a540">
