@@ -3,7 +3,8 @@ angular.module('console.create_constantly_volume', [
     {
         files: []
     }
-]).controller('createconvolumeCtrl', ['Toast','$state', '$rootScope', 'volume', '$scope', function (Toast,$state, $rootScope, volume, $scope) {
+]).controller('createconvolumeCtrl', ['market','Toast','$state', '$rootScope', 'volume', '$scope',
+    function (market,Toast,$state, $rootScope, volume, $scope) {
     $scope.slider = {
         value: 0,
         options: {
@@ -41,7 +42,11 @@ angular.module('console.create_constantly_volume', [
             }
         }
     }
-
+    //type=persistent_volume
+    market.get({region:$rootScope.region,type:'persistent_volume'}, function (data) {
+        console.log(data.plans);
+        $scope.plans = data.plans
+    })
     $scope.$watch('slider.value', function (n, o) {
         if (n == o) {
             return
@@ -80,6 +85,12 @@ angular.module('console.create_constantly_volume', [
             return
         }
         $scope.volume.size=$scope.slider.value
+        angular.forEach($scope.plans, function (plan,i) {
+            if ($scope.slider.value === plan.plan_level) {
+                $scope.plan_id = plan.plan_id;
+            }
+        })
+
         $scope.loaded = true;
         //console.log($scope.volume);
         volume.create({namespace: $rootScope.namespace}, $scope.volume, function (res) {

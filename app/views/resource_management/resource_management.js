@@ -13,7 +13,7 @@ angular.module('console.resource_management', [
             size: 10,
             txt: ''
         };
-
+        //type=persistent_volume
         $scope.secrets = {
             page: 1,
             size: 10,
@@ -25,6 +25,7 @@ angular.module('console.resource_management', [
         } else {
             $scope.check = false
         }
+
         $scope.$watch('grid.rmpage', function (newVal, oldVal) {
             if (newVal === oldVal) {
                 return
@@ -33,15 +34,18 @@ angular.module('console.resource_management', [
                 rmrefresh(newVal);
             }
         });
+
         var rmrefresh = function (page) {
             var skip = (page - 1) * $scope.grid.size;
             $scope.persistents = $scope.persistents.slice(skip, skip + $scope.grid.size);
 
         };
+
         $scope.constantlyvolume = function () {
             $scope.grid.constantlyvolume = true;
             persistentlist('nows');
         }
+
         function persistentlist(nows) {
             persistent.get({
                 namespace: $rootScope.namespace,
@@ -100,6 +104,7 @@ angular.module('console.resource_management', [
         }
 
         persistentlist()
+
         var watchPc = function (resourceVersion) {
             Ws.watch({
                 api: 'k8s',
@@ -122,6 +127,7 @@ angular.module('console.resource_management', [
                 watchPc($scope.resourceVersion);
             });
         };
+
         var updatePC = function (data) {
             if (data.type == 'ERROR') {
                 $log.info("err", data.object.message);
@@ -163,6 +169,7 @@ angular.module('console.resource_management', [
 
             }
         }
+
         $scope.rmsearch = function (event) {
             if (event.keyCode === 13 || event === 'search') {
                 if (!$scope.grid.rmtxt) {
@@ -187,20 +194,22 @@ angular.module('console.resource_management', [
         };
 
         ////////////////  配置卷
+
         $scope.$watch('grid.page', function (newVal, oldVal) {
             if (newVal != oldVal) {
                 refresh(newVal);
             }
         });
+
         var refresh = function (page) {
             var skip = (page - 1) * $scope.grid.size;
             $scope.configitems = $scope.configitems.slice(skip, skip + $scope.grid.size);
 
         };
+
         $scope.$on('$destroy', function () {
             Ws.clear();
         });
-
 
         $scope.loadconfigmaps = function () {
             configmaps.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (res) {
