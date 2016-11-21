@@ -1,6 +1,7 @@
 #header {
     height: 70px;
     background: #f8b551;
+    width:100%;min-width:1200px;
 }
 #header #header-brand {
     padding-left: 27px;
