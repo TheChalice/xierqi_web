@@ -19,10 +19,6 @@ define([
     'angularSlider',
     'kubernetesUI',
     'highchartsNg',
-    'fileUpload',
-    'fileUploadShim',
-    'angulartics',
-    'angularticsgoogleanalytics'
 ], function (angular) {
 
     // 声明应用及其依赖
@@ -40,9 +36,6 @@ define([
         'hc.marked',
         'rzModule',
         'highcharts-ng',
-        'ngFileUpload',
-        'angulartics',
-        'angulartics.google.analytics'
     ]);
 
     myApp.constant('GLOBAL', {
