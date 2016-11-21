@@ -28,6 +28,10 @@ angular.module('console.create_constantly_volume', [
         num: false,
         dianji: false
     }
+    $scope.err= {
+        blank:false,
+        valid:false
+    }
     $scope.volume = {
         name: '',
         size: '',
@@ -38,32 +42,44 @@ angular.module('console.create_constantly_volume', [
         }
     }
 
-    $scope.$watch('volume.size', function (n, o) {
+    $scope.$watch('slider.value', function (n, o) {
         if (n == o) {
             return
         }
-        if (n && n !== "") {
-            //console.log(n);
-            if (n < 10 || n > 200) {
-                //console.log('不过');
+        if (n && n >0) {
+            $scope.grid.num=false
 
-                $scope.grid.num = false
-            } else {
-                //console.log('过');
-                //console.log('11',n % 10);
-                if (n % 10 == 0) {
-                    $scope.grid.num = true
-                }else {
-                    $scope.grid.num = false
+        }
+    })
+    $scope.$watch('volume.name', function (n, o) {
+        if (n == o) {
+            return
+        }
+        if (n && n!=="") {
+            $scope.err.blank = false;
+            $scope.err.valid = false;
 
-                }
-
-            }
         }
     })
 
     $scope.creat = function () {
-        //console.log($scope.frm);
+        var r = /^[a-z]+$/
+
+        if ($scope.volume.name==='') {
+            //alert(1)
+            $scope.err.blank = true;
+            return
+        } else if (!r.test($scope.volume.name)) {
+            //alert(2)
+            $scope.err.valid = true;
+            return
+        }
+
+        if ($scope.slider.value === 0) {
+            $scope.grid.num=true;
+            return
+        }
+        $scope.volume.size=$scope.slider.value
         $scope.loaded = true;
         //console.log($scope.volume);
         volume.create({namespace: $rootScope.namespace}, $scope.volume, function (res) {
