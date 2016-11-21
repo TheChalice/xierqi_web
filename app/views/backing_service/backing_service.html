@@ -12,14 +12,14 @@
 
                 <div class="sc col-mb-11" style='position: relative;top: -30px;left: 89px;width: 92%;'>
                     <div class="btn-group ft col-mb-1" ng-repeat='item in cation' style='margin-bottom: 8px;'>
-                        <label class="btn" ng-class='{"active":grid.serviceCat == $index}'
+                        <label class="btn" ng-class='{"active":marketclass.serviceCat == $index}'
                                ng-click='select("serviceCat", $index)'>{{item}}</label>
                     </div>
                 </div>
                 <div class="sc col-mb-12 pull-left">
                     <label>服务提供者</label>
                     <div class="btn-group fw" ng-repeat='item in providers'>
-                        <label class="btn" ng-class="{'active':grid.vendor == $index}"
+                        <label class="btn" ng-class="{'active':marketclass.vendor == $index}"
                                ng-click="selectsc('vendor',$index)">{{item}}</label>
                     </div>
                 </div>
@@ -29,18 +29,18 @@
                     <input type="text"
                            class="form-control"
                            placeholder="搜索后端服务名称"
-                           ng-keydown=keysearch($event)
+                           ng-keydown=marsearch($event)
                            ng-model="grid.txt">
                     <!--ng-model="txt" ng-focus="showTip=true;" -->
                     <span class="input-group-btn" id=inputa>
-                        <a class="btn" ng-click="search()"></a>
+                        <a class="btn" ng-click="marsearch('search')"></a>
                     </span>
                 </div>
             </div>
 
             <div class='change' ng-repeat='items in market'>
-                <div class="row" ng-show="items.isshow" id=n{{items.id}}>
-                    <div id=t{{items.id}} class="h2-border" ng-show="items.showTab"
+                <div class="row">
+                    <div class="h2-border" ng-show="items.item.length"
                         style="margin-bottom: 15px;">
                         <span class='biaoti'>{{items.name}}</span>
                         <i class='xian'></i>
@@ -50,8 +50,7 @@
                         <!--{{items.name}}</h2>-->
                     <div class="row">
                         <div class="fen"
-                             ng-repeat="item in items.item | myfilter:isComplete"
-                             ng-show="item.show">
+                             ng-repeat="item in items.item">
                             <bs-card></bs-card>
                         </div>
                     </div>
@@ -128,6 +127,7 @@
             <div ng-include="'views/backing_service/backing_service_custom.html'">
             </div>
         </uib-tab>
+
         <uib-tab index="4" style="width:auto;">
             <uib-tab-heading style="white-space:nowrap;">
                 <i class="fa2 pic_jc"></i>&nbsp;&nbsp;数据集成服务实例
