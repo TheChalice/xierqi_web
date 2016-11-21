@@ -18,7 +18,17 @@
                     </div>
                     <div class="col-sm-5 col-xs-8" style="padding-left: 0;">
                         <div class="pull-right">
-                            <c-search search="search"></c-search>
+                            <div class="searchbar">
+                                <div class="input-group">
+                                    <input type="text" class="form-control"
+                                           ng-model="grid.rmtxt"
+                                           ng-keydown="rmsearch($event)"
+                                           placeholder="搜索关键字">
+                                            <span class="input-group-btn">
+                                                <a class="btn" ng-click="rmsearch('search')"></a>
+                                            </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -33,7 +43,7 @@
                                 <th class='col-lg-3 col-md-3 col-sm-2'>挂载服务数量</th>
                             </div>
                         </tr>
-                        <tr ng-repeat="item in persistents.items">
+                        <tr ng-repeat="item in persistents">
                             <td style="border-bottom: 1px solid #CCCCCC;color:#f6a540;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;"><a class="listitem" uib-tooltip="{{item.metadata.name}}" tooltip-placement="top" ui-sref="console.constantly_detail({name:item.metadata.name})">{{item.metadata.name}}</a>
                             </td>
                             <td style="border-bottom: 1px solid #CCCCCC;"> <span class="icon12 icon12-{{item.status.phase}}"
@@ -48,6 +58,15 @@
                         </tr>
                     </table>
                 </div>
+            </div>
+            <div class="text-right" ng-if="grid.rmtotal > 10" style="margin-top: 30px;">
+                <uib-pagination class="pagination pagination-sm" ng-model="grid.rmpage" total-items="grid.rmtotal"
+                                items-per-page="grid.size" boundary-links="true" max-size="12" rotate="true"
+                                previous-text="上一页"
+                                next-text="下一页"
+                                first-text="首页"
+                                last-text="末页">
+                </uib-pagination>
             </div>
         </uib-tab>
         <uib-tab index="2">

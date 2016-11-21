@@ -24,23 +24,37 @@ angular.module('console.resource_management', [
         } else {
             $scope.check = false
         }
-        $scope.constantlyvolume= function () {
-            $scope.grid.constantlyvolume=true;
+        $scope.$watch('grid.rmpage', function (newVal, oldVal) {
+            if (newVal === oldVal) {
+                return
+            }
+            if (newVal !== oldVal) {
+                rmrefresh(newVal);
+            }
+        });
+        var rmrefresh = function (page) {
+            var skip = (page - 1) * $scope.grid.size;
+            $scope.pageitems = $scope.persistents.slice(skip, skip + $scope.grid.size);
+
+        };
+        $scope.constantlyvolume = function () {
+            $scope.grid.constantlyvolume = true;
             persistentlist('nows');
         }
         function persistentlist(nows) {
             persistent.get({
                 namespace: $rootScope.namespace,
-                region:$rootScope.region}, function (res) {
+                region: $rootScope.region
+            }, function (res) {
 
-                DeploymentConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (resdc) {
+                DeploymentConfig.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (resdc) {
                     //console.log('dc',resdc);
-                    $scope.grid.constantlyvolume=false;
+                    $scope.grid.constantlyvolume = false;
                     angular.forEach(res.items, function (volitem, i) {
                         res.items[i].arr = []
                         angular.forEach(resdc.items, function (dcitem, k) {
                             angular.forEach(dcitem.spec.template.spec.volumes, function (dcvolitem, j) {
-                                if (dcvolitem.persistentVolumeClaim&&volitem.metadata.name == dcvolitem.persistentVolumeClaim.claimName) {
+                                if (dcvolitem.persistentVolumeClaim && volitem.metadata.name == dcvolitem.persistentVolumeClaim.claimName) {
                                     res.items[i].arr.push(dcitem.metadata.name)
                                 }
                             })
@@ -51,7 +65,7 @@ angular.module('console.resource_management', [
                     if (res.items && res.items.length > 0) {
                         angular.forEach(res.items, function (item, i) {
                             if (item.arr.length > 0) {
-                                res.items[i].status.phase='band'
+                                res.items[i].status.phase = 'band'
                             }
                             res.items[i].sorttime = (new Date(item.metadata.creationTimestamp)).getTime()
                         })
@@ -60,12 +74,19 @@ angular.module('console.resource_management', [
                         res.items.sort(function (x, y) {
                             return x.sorttime > y.sorttime ? -1 : 1;
                         });
+
                         $scope.resourceVersion = res.metadata.resourceVersion;
+
                         if (!nows) {
                             watchPc(res.metadata.resourceVersion);
                         }
                         //物理刷新不重启ws
-                        $scope.persistents = res;
+                        $scope.persistents = res.items;
+                        $scope.grid.rmtotal = $scope.persistents.length;
+                        $scope.cpoypersistents = angular.copy($scope.persistents)
+                        $scope.grid.rmpage = 1;
+                        $scope.grid.rmtxt = '';
+                        rmrefresh(1);
                         //console.log('chijiu', res);
                     }
 
@@ -117,11 +138,11 @@ angular.module('console.resource_management', [
                 //$scope.rcs.items.push(data.object);
             } else if (data.type == "MODIFIED") {
                 //console.log(data);
-                angular.forEach($scope.persistents.items, function (item,i) {
+                angular.forEach($scope.persistents.items, function (item, i) {
 
                     if (item.metadata.name == data.object.metadata.name) {
 
-                        $scope.persistents.items[i]=data.object
+                        $scope.persistents.items[i] = data.object
                         //$scope.persistents.items[i].status.phase=data.object.status.phase
                         //$scope.persistents[i]=data.object;
                         $scope.$apply();
@@ -141,23 +162,47 @@ angular.module('console.resource_management', [
 
             }
         }
+        $scope.rmsearch = function (event) {
+            if (event.keyCode === 13 || event === 'search') {
+                if (!$scope.grid.rmtxt) {
+                    $scope.persistents = angular.copy($scope.cpoypersistents)
+                    rmrefresh(1);
+                    $scope.grid.rmtotal = $scope.cpoypersistents.length;
+                    return;
+                }
+                $scope.persistents = [];
+
+                $scope.grid.rmtxt = $scope.grid.rmtxt.replace(/\//g, '\\/');
+                $scope.grid.rmtxt = $scope.grid.rmtxt.replace(/\./g, '\\.');
+                var reg = eval('/' + $scope.grid.rmtxt + '/');
+                angular.forEach($scope.cpoypersistents, function (item) {
+                    if (reg.test(item.metadata.name)) {
+                        $scope.persistents.push(item);
+                    }
+                });
+                $scope.grid.rmtotal = $scope.persistents.length;
+            }
+
+        };
+
         ////////////////  配置卷
         $scope.$watch('grid.page', function (newVal, oldVal) {
             if (newVal != oldVal) {
                 refresh(newVal);
             }
         });
-        $scope.$on('$destroy', function () {
-            Ws.clear();
-        });
         var refresh = function (page) {
             var skip = (page - 1) * $scope.grid.size;
             $scope.pageitems = $scope.configitems.slice(skip, skip + $scope.grid.size);
 
         };
+        $scope.$on('$destroy', function () {
+            Ws.clear();
+        });
+
 
         $scope.loadconfigmaps = function () {
-            configmaps.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
+            configmaps.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (res) {
                 //console.log(res);
                 if (res.items && res.items.length > 0) {
                     angular.forEach(res.items, function (item, i) {
@@ -207,7 +252,7 @@ angular.module('console.resource_management', [
 //////////////////////////密钥
 
         $scope.loadsecrets = function () {
-            secretskey.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
+            secretskey.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (res) {
                 //console.log('-------loadsecrets', res);
                 if (res.items && res.items.length > 0) {
                     angular.forEach(res.items, function (item, i) {
