@@ -41,7 +41,8 @@ angular.module('console.build', [
                     str = str.toLocaleLowerCase();
                     console.log('$scope.copydata', $scope.copydata);
                     angular.forEach($scope.copydata, function (item, i) {
-                        var nstr = item.build.metadata.name;
+                        console.log(item.build);
+                        var nstr = item.metadata.name;
                         nstr = nstr.toLocaleLowerCase();
                             if (nstr.indexOf(str) !== -1) {
                                 iarr.push(item)

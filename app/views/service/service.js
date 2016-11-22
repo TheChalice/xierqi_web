@@ -27,7 +27,7 @@ angular.module('console.service', [
             var skip = (page - 1) * $scope.grid.size;
             $scope.items = $scope.data.items.slice(skip, skip + $scope.grid.size);
 
-            $log.info('$scope.items=-=-=-=-=-=',$scope.items);
+            //$log.info('$scope.items=-=-=-=-=-=',$scope.items);
             $scope.grid.total = $scope.data.items.length;
 
         };
