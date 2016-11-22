@@ -134,8 +134,9 @@ angular.module('home', [])
                             "views/home/introduce/img/images_43.png",
                             "views/home/introduce/img/images_45.png",
                             "views/home/introduce/img/images_49.png",
-                            "views/home/introduce/img/images_67.png"
-
+                            "views/home/introduce/img/images_67.png",
+                            "app/components/header/img/back.png",
+                            "app/components/header/img/back-hover.png"
                         );
                     }
 
