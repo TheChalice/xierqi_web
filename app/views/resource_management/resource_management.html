@@ -1,3 +1,8 @@
+<style type="text/css">
+    /*数据为空时状态*/
+    .blank_block{margin-bottom:0;}
+    .blank_tit{font-size:14px;color:#5a6378;margin-left:10px;vertical-align:middle;}
+</style>
 <div class="resource_management">
     <uib-tabset class="tab-default" active="check">
         <uib-tab index="1" >
@@ -55,6 +60,9 @@
                             </td>
                             <td style="border-bottom: 1px solid #CCCCCC;">{{item.spec.resources.requests.storage}}</td>
                             <td style="border-bottom: 1px solid #CCCCCC;">{{item.arr.length}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="5" style="text-align: center;background: #fff;border-bottom: 1px solid #CCCCCC;" ng-if="!persistents"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit"> 您还没有任何持久化卷数据，现在就创建一个吧</span></p></td>
                         </tr>
                     </table>
                 </div>
@@ -121,6 +129,9 @@
                                     uib-tooltip="{{items.metadata.creationTimestamp  | timescon}}">{{items.metadata.creationTimestamp | dateRelative}} </span>
                             </td>
                         </tr>
+                        <tr>
+                            <td colspan="2" style="text-align: center;background: #fff;border-bottom: 1px solid #CCCCCC;" ng-if="!configitems"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit"> 您还没有任何配置卷数据，现在就创建一个吧</span></p></td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -185,6 +196,9 @@
                             <td style="border-bottom: 1px solid #CCCCCC;"><span
                                     uib-tooltip="{{items.metadata.creationTimestamp  | timescon}}">{{items.metadata.creationTimestamp | dateRelative}}</span>
                             </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="text-align: center;background: #fff;border-bottom: 1px solid #CCCCCC;" ng-if="!secretitems"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit"> 您还没有任何密钥数据，现在就创建一个吧</span></p></td>
                         </tr>
                     </table>
                 </div>

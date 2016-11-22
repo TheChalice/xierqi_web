@@ -54,6 +54,9 @@
                     <a class="icon25 icon25-stop" ng-click="stopDc($index)" ng-if="dc.ismn!='未启动'" uib-tooltip="停止" href="javascript:;"></a>
                 </td>
             </tr>
+            <tr>
+                <td colspan="7" style="text-align: center;background: #fff;position:relative" ng-if="items.length===0"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit"> 您还没有任何服务部署数据，现在就创建一个吧</span></p></td>
+            </tr>
         </table>
         <div class="text-right" ng-if="grid.total > 10">
             <uib-pagination class="pagination"
