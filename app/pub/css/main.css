@@ -1562,7 +1562,7 @@ a {
     /*background: rgba(255, 0, 0, 0.4);*/
 /*}*/
 
-
+/*微信红包弹出框*/
 .red_diag{position:fixed;left:0;right:0;top:0;bottom:0;background:rgba(0,0,0,0.4);z-index:9999;display:none;}
 .red_diag_main{width:410px;height:470px;position:absolute;left:50%;top:50%;margin-left:-205px;margin-top:-235px;}
 .pic_red{position:relative;width:410px;}
@@ -1573,3 +1573,4 @@ a {
 .red_close{width:26px;height:26px;border:1px solid #ececec;display:block;color:#ececec;font-size:20px;text-align:center;line-height:100%;
     border-radius:50%;-webkit-border-radius:50%;-moz-border-radius:50%;position:absolute;right:84px;top:27px;cursor:pointer;}
 .red_diag_pay{height:400px;margin-top:-200px;}
+
