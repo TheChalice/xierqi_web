@@ -25,51 +25,52 @@ angular.module('console.build', [
 
         var refresh = function(page) {
             var skip = (page - 1) * $scope.grid.size;
-            $scope.items = $scope.data.items.slice(skip, skip + $scope.grid.size);
+            $scope.items = $scope.data.slice(skip, skip + $scope.grid.size);
         };
 
-        $scope.search = function (key, txt) {
-            if (!txt) {
-                refresh(1);
-                return;
-            }
-            $scope.items = [];
+        $scope.buildsearch = function (event) {
+            if (event.keyCode === 13 || event === 'search') {
+                if (!$scope.grid.txt) {
+                    $scope.data = angular.copy($scope.copydata)
+                    refresh(1);
+                    $scope.grid.total = $scope.copydata.length;
+                    return;
+                }else {
+                    var iarr = [];
+                    var str = $scope.grid.txt;
+                    str = str.toLocaleLowerCase();
+                    console.log('$scope.copydata', $scope.copydata);
+                    angular.forEach($scope.copydata, function (item, i) {
+                        var nstr = item.build.metadata.name;
+                        nstr = nstr.toLocaleLowerCase();
+                            if (nstr.indexOf(str) !== -1) {
+                                iarr.push(item)
+                            }
+                        //console.log(repo.instance_data, $scope.grid.txt);
+                    })
+                    $scope.data=angular.copy(iarr);
+                    refresh(1);
+                    console.log('$scope.data', $scope.data);
+                    $scope.grid.total = $scope.data.length;
 
-            txt = txt.replace(/\//g, '\\/');
-            var reg = eval('/' + txt + '/');
 
-            angular.forEach($scope.data.items, function(item){
-                if (key == 'all') {
-                    if (reg.test(item.metadata.name) || reg.test(item.spec.source.git.uri) || (item.metadata.labels && reg.test(item.metadata.labels.build))) {
-                        $scope.items.push(item);
-                    }
-                } else if (key == 'metadata.name') {
-                    if (reg.test(item.metadata.name)) {
-                        $scope.items.push(item);
-                    }
-                } else if (key == 'metadata.labels.build') {
-                    if (item.metadata.labels && reg.test(item.metadata.labels.build)) {
-                        $scope.items.push(item);
-                    }
-                } else if (key == 'spec.source.git.uri') {
-                    if (reg.test(item.spec.source.git.uri)) {
-                        $scope.items.push(item);
-                    }
                 }
-            });
-            $scope.grid.total = $scope.items.length;
-        };
+
+
+            }
+        }
 
         //获取buildConfig列表
         var loadBuildConfigs = function() {
             BuildConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function(data){
-                $log.info('buildConfigs', data);
+                //$log.info('buildConfigs', data);
                 data.items = Sort.sort(data.items, -1); //排序
-                $scope.data = data;
+                //$scope.copydata = angular.copy(data.items);
+                $scope.data = data.items;
                 $scope.grid.total = data.items.length;
+                //console.log('$scope.data', $scope.data);
                 refresh(1);
-
-                loadBuilds($scope.data.items);
+                loadBuilds($scope.data);
             }, function(res) {
                 //todo 错误处理
             });
@@ -86,7 +87,7 @@ angular.module('console.build', [
                 labelSelector = labelSelector.substring(0, labelSelector.length - 1) + ')';
             }
             Build.get({namespace: $rootScope.namespace, labelSelector: labelSelector,region:$rootScope.region}, function (data) {
-                $log.info("builds", data);
+                //$log.info("builds", data);
 
                 $scope.resourceVersion = data.metadata.resourceVersion;
                 watchBuilds(data.metadata.resourceVersion);
@@ -157,7 +158,7 @@ angular.module('console.build', [
                     buildMap[label] = items[i];
                 }
             }
-            angular.forEach($scope.data.items, function(item){
+            angular.forEach($scope.data, function(item){
                 var label = item.metadata.name;
                 if (!buildMap[label]) {
                     return;
@@ -165,6 +166,8 @@ angular.module('console.build', [
                 item.build= buildMap[label];
                 //todo 构建类型
             });
+            $scope.copydata = angular.copy($scope.data);
+
         };
 
         loadBuildConfigs();
