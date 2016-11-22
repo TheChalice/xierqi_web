@@ -70,15 +70,15 @@
 
                 <div class="sc col-mb-11" style='position: relative;top: -30px;left: 89px;width: 92%;'>
                     <div class="btn-group ft col-mb-1" ng-repeat='item in cation' style='margin-bottom: 8px;'>
-                        <label class="btn" ng-class='{"active":grid.serviceCat == $index}'
-                               ng-click='select("serviceCat", $index)'>{{item}}</label>
+                        <label class="btn" ng-class='{"active":mymarketclass.serviceCat == $index}'
+                               ng-click='myselect("serviceCat", $index)'>{{item}}</label>
                     </div>
                 </div>
                 <div class="sc col-mb-12 pull-left">
                     <label>服务提供者</label>
                     <div class="btn-group fw" ng-repeat='item in providers'>
-                        <label class="btn" ng-class="{'active':grid.vendor == $index}"
-                               ng-click="selectsc('vendor',$index)">{{item}}</label>
+                        <label class="btn" ng-class="{'active':mymarketclass.vendor == $index}"
+                               ng-click="myselectsc('vendor',$index)">{{item}}</label>
                     </div>
                 </div>
             </div>
@@ -87,11 +87,11 @@
                     <input type="text"
                            class="form-control"
                            placeholder="搜索后端服务名称"
-                           ng-keydown=mykeysearch($event)
+                           ng-keydown=mysearch($event)
                            ng-model="grid.mytxt">
                     <!--ng-model="txt" ng-focus="showTip=true;" -->
                     <span class="input-group-btn" id=input>
-                        <a class="btn" ng-click="mysearch()"></a>
+                        <a class="btn" ng-click="mysearch('search')"></a>
                     </span>
                 </div>
             </div>

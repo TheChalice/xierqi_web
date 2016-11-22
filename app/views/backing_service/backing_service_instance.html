@@ -1,14 +1,13 @@
 <div class="backing-service-instance" ng-repeat="items in myservice">
-    <div ng-show="items.isshow">
+    <div>
         <!--<h2 id=t{{items.id}} class="h2-border" ng-show="items.showTab">-->
             <!--{{items.name}}-->
         <!--</h2>-->
-        <div id=t{{items.id}} class="h2-border" ng-show="items.showTab"
-             style="margin-bottom: 15px;">
+        <div class="h2-border"  ng-show="items.item.length" style="margin-bottom: 15px;">
             <span class='biaoti'>{{items.name}}</span>
             <i class='xian'></i>
         </div>
-        <div class="instance" ng-repeat="item in items.item | myfilter:isComplete">
+        <div class="instance" ng-repeat="item in items.item">
             <div class="instance-bar">
                 <div class="row">
                     <div class="ban4 pan">
