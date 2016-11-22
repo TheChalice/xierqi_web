@@ -142,7 +142,7 @@ angular.module('console.backing_service', [
                     $scope.market.sort(function (x, y) {
                         return x.item.length > y.item.length ? -1 : 1;
                     });
-                    console.log("market", $scope.market);
+                    //console.log("market", $scope.market);
                     // 如果有other把other放到最后
                     if (other) {
                         $scope.market.push(other)
@@ -218,7 +218,10 @@ angular.module('console.backing_service', [
                                     }
                                 }
                             }
-                            //console.log('$scope.myservice', $scope.myservice);
+
+                            console.log('$scope.myservice', $scope.myservice);
+
+                            $scope.copymyservice = angular.copy($scope.myservice)
                             var bciarr = angular.copy(res.items)
                             //自定义后端服务渲染数组
                             $scope.diyservice = [];
@@ -239,7 +242,7 @@ angular.module('console.backing_service', [
                             $scope.insservice.sort(function (x, y) {
                                 return x.mysort > y.mysort ? -1 : 1;
                             });
-                            console.log('$scope.diyservice', $scope.insservice);
+                            //console.log('$scope.diyservice', $scope.insservice);
                             $scope.diyservicecopy = angular.copy($scope.diyservice);
 
                             $scope.insservicecopy = angular.copy($scope.insservice);
@@ -292,8 +295,13 @@ angular.module('console.backing_service', [
                 serviceCat: 'all',
                 vendor: 'all'
             }
+            $scope.mymarketclass = {
+                serviceCat: 'all',
+                vendor: 'all'
+            }
+
             //tab切换分类过滤对象
-            $scope.isComplete = '';
+            //$scope.isComplete = '';
             //服务分类筛选
             $scope.select = function (tp, key) {
                 // console.log("tp", tp, 'key', $scope.cation[key]);
@@ -304,6 +312,16 @@ angular.module('console.backing_service', [
                 $scope.marketclass[tp] = key;
                 // filter(tp, key);
             };
+            //my服务分类筛选
+            $scope.myselect = function (tp, key) {
+                // console.log("tp", tp, 'key', $scope.cation[key]);
+                //class判定
+                if (key === $scope.mymarketclass[tp]) {
+                    key = 'all';
+                }
+                $scope.mymarketclass[tp] = key;
+                // filter(tp, key);
+            };
             //服务提供者筛选
             $scope.selectsc = function (tp, key) {
                 if (key == $scope.marketclass[tp]) {
@@ -312,17 +330,38 @@ angular.module('console.backing_service', [
                 $scope.marketclass[tp] = key;
                 // console.log("$scope.itemsDevop", $scope.itemsDevop)
             }
-            function fiftermarket(arr){
+            //my服务提供者筛选
+            $scope.myselectsc = function (tp, key) {
+                if (key == $scope.mymarketclass[tp]) {
+                    key = 'all';
+                }
+                $scope.mymarketclass[tp] = key;
+            }
+
+            function fiftermarket(arr) {
                 $scope.market = [];
-                angular.forEach($scope.cation, function (cat,i) {
-                    $scope.market.push({item:[],name:cat})
-                    angular.forEach(arr, function (item,k) {
+                angular.forEach($scope.cation, function (cat, i) {
+                    $scope.market.push({item: [], name: cat})
+                    angular.forEach(arr, function (item, k) {
                         if (item.metadata.annotations.Class === cat) {
                             $scope.market[i].item.push(item)
                         }
                     })
                 })
             }
+
+            function fiftermyservice(arr) {
+                $scope.myservice = [];
+                angular.forEach($scope.cation, function (cat, i) {
+                    $scope.myservice.push({item: [], name: cat})
+                    angular.forEach(arr, function (item, k) {
+                        if (item.type === cat) {
+                            $scope.myservice[i].item.push(item)
+                        }
+                    })
+                })
+            }
+
             $scope.$watch('marketclass', function (n, o) {
                 if (n === o) {
                     return
@@ -336,9 +375,9 @@ angular.module('console.backing_service', [
                     var arr = []
                     var classr = $scope.cation[n.serviceCat];
                     var labelr = $scope.providers[n.vendor];
-                    $scope.market=$scope.searchmarket?angular.copy($scope.searchmarket):angular.copy($scope.copymarket)
+                    $scope.market = $scope.searchmarket ? angular.copy($scope.searchmarket) : angular.copy($scope.copymarket)
                     angular.forEach($scope.market, function (mark, i) {
-                        angular.forEach(mark.item, function (repo,k) {
+                        angular.forEach(mark.item, function (repo, k) {
                             if (classr && labelr) {
                                 if (classr === repo.metadata.annotations.Class && labelr === repo.providerDisplayName) {
                                     arr.push(repo);
@@ -359,11 +398,57 @@ angular.module('console.backing_service', [
 
 
                     console.log('$scope.market', $scope.market);
+                    $scope.fiftermarket = angular.copy($scope.market);
 
                 } else {
-                    $scope.market=$scope.searchmarket?angular.copy($scope.searchmarket):angular.copy($scope.copymarket)
+                    $scope.fiftermarket = angular.copy($scope.copymarket);
+                    $scope.market = $scope.searchmarket ? angular.copy($scope.searchmarket) : angular.copy($scope.copymarket)
                 }
-                $scope.fiftermarket = angular.copy($scope.market);
+
+            }, true)
+            $scope.$watch('mymarketclass', function (n, o) {
+                if (n === o) {
+                    return
+                }
+
+                //console.log(n);
+                if (n.serviceCat !== 'all' || n.vendor !== 'all') {
+                    //
+                    //console.log($scope.repoclass[n.selectclass], $scope.repolabel[n.selectsclabel]);
+                    //console.log(n.selectclass,n.selectsclabel);
+                    var arr = []
+                    var classr = $scope.cation[n.serviceCat];
+                    var labelr = $scope.providers[n.vendor];
+                    $scope.myservice = $scope.searchmyservice ? angular.copy($scope.searchmyservice) : angular.copy($scope.copymyservice)
+                    angular.forEach($scope.myservice, function (mark, i) {
+                        angular.forEach(mark.item, function (repo, k) {
+                            if (classr && labelr) {
+                                if (classr === repo.type && labelr === repo.providerDisplayName) {
+                                    arr.push(repo);
+                                }
+                            } else if (classr) {
+                                if (classr === repo.type) {
+                                    arr.push(repo);
+                                }
+                            } else if (labelr) {
+                                if (labelr === repo.providerDisplayName) {
+                                    arr.push(repo);
+                                }
+                            }
+
+                        })
+                    })
+                    fiftermyservice(arr)
+
+
+                    //console.log('$scope.myservice', $scope.myservice);
+                    $scope.fiftermyservice = angular.copy($scope.myservice);
+                } else {
+                    $scope.fiftermyservice = angular.copy($scope.copymyservice);
+                    $scope.myservice = $scope.searchmyservice ? angular.copy($scope.searchmyservice) : angular.copy($scope.copymyservice)
+
+                }
+                //$scope.fiftermarket = angular.copy($scope.market);
             }, true)
             // 我的后端服务长连接
             var watchBsi = function (resourceVersion) {
@@ -487,7 +572,7 @@ angular.module('console.backing_service', [
 
                 if (event.keyCode === 13 || event === 'search') {
 
-                    $scope.market=$scope.fiftermarket?angular.copy($scope.fiftermarket):angular.copy($scope.copymarket)
+                    $scope.market = $scope.fiftermarket ? angular.copy($scope.fiftermarket) : angular.copy($scope.copymarket)
                     if ($scope.grid.txt) {
                         var iarr = [];
                         var str = $scope.grid.txt;
@@ -497,22 +582,22 @@ angular.module('console.backing_service', [
 
                             angular.forEach(items.item, function (item, k) {
                                 var nstr = item.metadata.name;
-                                nstr=nstr.toLocaleLowerCase();
+                                nstr = nstr.toLocaleLowerCase();
                                 if (nstr.indexOf(str) !== -1) {
                                     iarr.push(item)
                                 }
                             })
                             //console.log(repo.instance_data, $scope.grid.txt);
-                            fiftermarket(iarr)
+
                         })
-
-
-
+                        fiftermarket(iarr)
+                        $scope.searchmarket = angular.copy($scope.market)
                     } else {
                         //console.log('$scope.inscopy', $scope.inscopy);
-                        $scope.market=$scope.fiftermarket?angular.copy($scope.fiftermarket):angular.copy($scope.copymarket)
+                        $scope.searchmarket = angular.copy($scope.copymarket)
+                        $scope.market = $scope.fiftermarket ? angular.copy($scope.fiftermarket) : angular.copy($scope.copymarket)
                     }
-                    $scope.searchmarket=angular.copy($scope.market)
+
 
                 }
             }
@@ -540,48 +625,37 @@ angular.module('console.backing_service', [
                     }
                 }
             }
+
             //我的后端服务搜索
-            $scope.mysearch = function () {
-                for (var s = 0; s < $scope.myservice.length; s++) {
-                    $scope.myservice[s].showTab = true;
-                }
-                $scope.isComplete = {name: $scope.grid.mytxt};
-                var sarr = [];
-                for (var s = 0; s < $scope.myservice.length; s++) {
-                    $scope.myservice[s].showTab = true;
-                }
-                if ($scope.grid.mytxt) {
-                    for (var s = 0; s < $scope.myservice.length; s++) {
-                        sarr = $filter("myfilter")($scope.myservice[s].item, $scope.isComplete);
-                        if (sarr.length === 0) {
-                            $scope.myservice[s].showTab = false;
-                        }
-                    }
-                } else {
-                    for (var s = 0; s < $scope.myservice.length; s++) {
-                        sarr = $filter("myfilter")($scope.myservice[s].item, $scope.isComplete);
-                        // console.log(sarr.length)
-                        if (sarr.length === 0) {
-                            $scope.myservice[s].showTab = false;
-                        } else {
-                            $scope.myservice[s].showTab = true;
-                        }
+            $scope.mysearch = function (event) {
+                if (event.keyCode === 13 || event === 'search') {
+                    if ($scope.grid.mytxt) {
+                        var iarr = [];
+                        var str = $scope.grid.mytxt;
+                        str = str.toLocaleLowerCase();
+                        angular.forEach($scope.myservice, function (items, i) {
+                            angular.forEach(items.item, function (item, k) {
+                                var nstr = item.metadata.name;
+                                nstr = nstr.toLocaleLowerCase();
+                                if (nstr.indexOf(str) !== -1) {
+                                    iarr.push(item)
+                                }
+                            })
+                            //console.log(repo.instance_data, $scope.grid.txt);
+
+                        })
+
+                        fiftermyservice(iarr);
+                        $scope.searchmyservice = angular.copy($scope.myservice)
+                    } else {
+                        $scope.searchmyservice = angular.copy($scope.copymyservice)
+                        $scope.myservice = $scope.fiftermyservice ? angular.copy($scope.fiftermyservice) : angular.copy($scope.copymyservice)
                     }
                 }
-                // console.log($scope.myservice);
-                // filter('serviceCat', $scope.grid.serviceCat);
-                // filter('vendor', $scope.grid.vendor);
+
+
             }
-            //我的自定义后端服务搜索
-            //$scope.mydiysearch = function () {
-            //    if ($scope.grid.mydivtxt == '') {
-            //
-            //    }
-            //    if ($scope.grid.mydivtxt) {
-            //        $scope.isComplete = {name: $scope.grid.mytxt};
-            //    }
-            //}
-            //$scope.grid.mydivtxt
+
             $scope.$watch('grid.mydivtxt', function (n, o) {
                 if (n == o) {
                     return
@@ -602,30 +676,7 @@ angular.module('console.backing_service', [
 
 
             })
-            //服务分类搜索
-            $scope.search = function () {
-                $scope.isComplete = {name: $scope.grid.txt};
-                for (var s = 0; s < $scope.market.length; s++) {
-                    $scope.market[s].showTab = true;
-                }
-                var sarr = [];
-                if ($scope.grid.txt) {
-                    for (var s = 0; s < $scope.market.length; s++) {
-                        sarr = $filter("myfilter")($scope.market[s].item, $scope.isComplete);
-                        if (sarr.length === 0) {
-                            $scope.market[s].showTab = false;
-                        }
-                    }
-                } else {
-                    for (var s = 0; s < $scope.market.length; s++) {
-                        sarr = $filter("myfilter")($scope.market[s].item, $scope.isComplete)
-                        $scope.market[s].showTab = true;
-                    }
-                }
-                // console.log($scope.market);
-                // filter('serviceCat', $scope.grid.serviceCat);
-                // filter('vendor', $scope.grid.vendor);
-            };
+
             //我的后端服务删除一个实例
             var newid = null;
             var insid = null;

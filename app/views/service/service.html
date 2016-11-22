@@ -10,37 +10,16 @@
                 <i class="fa fa-refresh fa-lg" ng-class="{'zhuan':running}"></i>
             </a>
         </div>
-        <div class="col-sm-8 col-xs-8" style="padding-left: 0;">
-            <div class="pull-right" style="width:100%;">
-                <div class="">
-                    <div class="" style="padding-left: 0;">
-                        <div class="pull-right" style="width:100%;">
-                            <c-search search="search"></c-search>
-                        </div>
-                    </div>
-                    <ul class="tip-board" ng-show="txt && showTip">
-                        <li>
-                            <a href="javascript:;" ng-click="search('metadata.name', txt)">
-                                <div class="col-sm-4">服务名称: </div>
-                                <div class="col-sm-8">{{txt}}</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:;" ng-click="search('metadata.labels.build', txt)">
-                                <div class="col-sm-4">label: </div>
-                                <div class="col-sm-8">{{txt}}</div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:;" ng-click="search('route', txt)">
-                                <div class="col-sm-4">路由URL: </div>
-                                <div class="col-sm-8">{{txt}}</div>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
+        <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
+            <input type="text"
+                   class="form-control"
+                   placeholder="搜索服务名称"
+                   ng-keydown=servicesearch($event)
+                   ng-model="grid.txt">
+            <!--ng-model="txt" ng-focus="showTip=true;" -->
+                    <span class="input-group-btn">
+                        <a class="btn" ng-click="servicesearch('search')"></a>
+                    </span>
         </div>
     </div>
     <div class="table-responsive" style="margin-top: 20px;">
@@ -55,7 +34,8 @@
                 <th style='text-align: left; padding-left: 17px;vertical-align: middle;padding-top:13px;padding-bottom:13px;'>操作</th>
             </tr>
             <!--<tr ng-repeat="bc in items">-->
-            <tr ng-repeat="dc in items">
+            <tr ng-repeat="dc in items" on-finish-render-filters>
+
                 <td style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
                     <a class="href-orange" ui-sref="console.service_detail({name: dc.metadata.name})" uib-tooltip="{{dc.metadata.name}}" tooltip-placement="top">
                         {{dc.metadata.name}}
