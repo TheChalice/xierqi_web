@@ -331,11 +331,13 @@ a {
 .tab-default li .nav-link {
     border: none;
     color: #333;
+    font-size:16px;
 }
 
 .tab-default li .nav-link:hover {
     background: transparent;
     color: #e5993a;
+    font-size:16px;
 }
 
 .tab-default li.active .nav-link,
@@ -658,6 +660,7 @@ a {
     display: inline-block;
     vertical-align: middle;
     background: url(../img/icon.png);
+    margin-right: 2px;
 }
 
 .faa-code {
@@ -679,9 +682,9 @@ a {
 }
 
 .faa-edit {
-    background-position: -46px -684px;
-    width: 18px;
-    height: 22px;
+    background:url(../img/ser-edit.png) no-repeat;
+    width: 21px;
+    height: 21px;
 }
 
 .faa-pod {
@@ -711,7 +714,7 @@ a {
 }
 
 .faa-edit:hover, .faa-edit.active, .active .faa-edit, .nav-link:hover .faa-edit {
-    background-position: -74px -684px;
+    background-image: url(../img/ser-edith.png);
 }
 
 .faa-back {
@@ -725,23 +728,33 @@ a {
 }
 
 .faa-target {
-    background-position: -106px -684px;
-    width: 22px;
-    height: 22px;
+    background:url(../img/ser-target.png) no-repeat;
+    width: 21px;
+    height: 21px;
 }
 
 .faa-target:hover, .faa-target.active, .active .faa-target, .nav-link:hover .faa-target {
-    background-position: -132px -684px;
+    background-image:url(../img/ser-targeth.png);
 }
 
 .faa-text {
-    background-position: -209px -172px;
-    width: 19px;
-    height: 22px;
+    background:url(../img/ser-text.png) no-repeat;
+    width: 21px;
+    height: 21px;
 }
 
 .faa-text:hover, .faa-text.active, .active .faa-text, .nav-link:hover .faa-text {
-    background-position: -240px -172px;
+    background-image:url(../img/ser-texth.png);
+}
+
+.faa-mark {
+    background-image:url(../img/ser-mark.png);
+    width: 21px;
+    height: 21px;
+}
+
+.faa-mark:hover, .faa-mark.active, .active .faa-mark, .nav-link:hover .faa-mark {
+    background-image:url(../img/ser-markh.png);
 }
 
 .faa-image {
@@ -1044,7 +1057,12 @@ a {
     padding: 3px 7px;
     margin-left: 10px;
 }
-
+.fs-16{
+    font-size:16px;
+}
+.mr-10{
+    margin-right:2px;
+}
 .fa2 {
     overflow: hidden;
     display: inline-block;
@@ -1093,21 +1111,54 @@ a {
 }
 
 .fa2-bs {
-    background-position: -424px -826px;
+    background-image:url(../img/fa2-bs.png);
+    width: 20px;
+    height: 20px;
 }
 
 .fa2-bs:hover, .fa2-bs.active, .active .fa2-bs, .nav-link:hover .fa2-bs {
-    background-position: -394px -826px;
+    background-image:url(../img/fa2-bsh.png);
 }
 
 .fa2-bsi {
-    background-position: -381px -787px;
+    background-image:url(../img/fa2-bsi.png);
+    width: 20px;
+    height: 20px;
 }
 
 .fa2-bsi:hover, .fa2-bsi.active, .active .fa2-bsi, .nav-link:hover .fa2-bsi {
-    background-position: -412px -788px;
+    background-image:url(../img/fa2-bsih.png);
 }
 
+.fa2-data {
+    background-image:url(../img/fa2-data.png);
+    width: 20px;
+    height: 20px;
+}
+
+.fa2-data:hover, .fa2-data.active, .active .fa2-data, .nav-link:hover .fa2-data {
+    background-image:url(../img/fa2-data-act.png);
+}
+
+.fa2-public {
+    background-image:url(../img/fa2-public.png);
+    width: 20px;
+    height: 20px;
+}
+
+.fa2-public:hover, .fa2-public.active, .active .fa2-public, .nav-link:hover .fa2-public {
+    background-image:url(../img/fa2-public-act.png);
+}
+
+.fa2-dataHub {
+    background-image:url(../img/fa2-dataHub.png);
+    width: 20px;
+    height: 20px;
+}
+
+.fa2-dataHub:hover, .fa2-dataHub.active, .active .fa2-dataHub, .nav-link:hover .fa2-dataHub {
+    background-image:url(../img/fa2-dataHub-act.png);
+}
 .plan p {
     font-size: 12px;
     color: #5a6378;
@@ -1122,6 +1173,7 @@ a {
 .plan label .faa {
     position: relative;
     top: -1px;
+
 }
 
 .plan .panel-heading {
@@ -1309,7 +1361,8 @@ a {
 
 .myimage {
     background: url(../../pub/img/myimage.png) no-repeat;
-    background-size: contain;
+    height:20px;
+    width:20px;
 }
 
 .nav-link:hover i.myimage {
