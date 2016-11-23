@@ -31,9 +31,10 @@ angular.module('console.notification', [
         'size':10,
       }
     }).success(function(data){
-        //console.log('inbox',data);
+        console.log('inbox',data);
       $scope.sitenotify=data;
     }).error(function(data,header,config,status){
+
     });
 
     $scope.sitenotifycheckeds=function () {

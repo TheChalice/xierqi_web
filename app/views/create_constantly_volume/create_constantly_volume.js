@@ -3,8 +3,8 @@ angular.module('console.create_constantly_volume', [
     {
         files: []
     }
-]).controller('createconvolumeCtrl', ['market','Toast','$state', '$rootScope', 'volume', '$scope',
-    function (market,Toast,$state, $rootScope, volume, $scope) {
+]).controller('createconvolumeCtrl', ['Tip','checkout','market','Toast','$state', '$rootScope', 'volume', '$scope',
+    function (Tip,checkout,market,Toast,$state, $rootScope, volume, $scope) {
     $scope.slider = {
         value: 0,
         options: {
@@ -43,7 +43,7 @@ angular.module('console.create_constantly_volume', [
         }
     }
     //type=persistent_volume
-    market.get({region:$rootScope.region,type:'persistent_volume'}, function (data) {
+    market.get({region:$rootScope.region,type:'volume'}, function (data) {
         console.log(data.plans);
         $scope.plans = data.plans
     })
@@ -85,22 +85,48 @@ angular.module('console.create_constantly_volume', [
             return
         }
         $scope.volume.size=$scope.slider.value
+
         angular.forEach($scope.plans, function (plan,i) {
-            if ($scope.slider.value === plan.plan_level) {
+            console.log($scope.slider.value,plan.plan_level*10);
+            if ($scope.slider.value === plan.plan_level*10) {
                 $scope.plan_id = plan.plan_id;
             }
         })
 
         $scope.loaded = true;
-        //console.log($scope.volume);
-        volume.create({namespace: $rootScope.namespace}, $scope.volume, function (res) {
-            //alert(11111)
-            $scope.loaded = false;
-            $state.go('console.resource_management', {index: 1});
+        console.log($scope.plan_id);
+        checkout.create({
+            drytry:0,
+            plan_id: $scope.plan_id,
+            namespace: $rootScope.namespace,
+            region:$rootScope.region
+        }, function (data) {
+            //console.log(data);
+            //volume.create({namespace: $rootScope.namespace}, $scope.volume, function (res) {
+            //    //alert(11111)
+            //    $scope.loaded = false;
+                $state.go('console.resource_management', {index: 1});
+            //}, function (err) {
+            //    $scope.loaded = false;
+            //    Toast.open('构建失败,请重试');
+            //})
+
         }, function (err) {
             $scope.loaded = false;
-            Toast.open('构建失败,请重试');
+            if (err.data.code === 3316) {
+
+                Tip.open('提示', '账户可用余额不足。', '充值', true).then(function () {
+                    $state.go('console.pay');
+                })
+            } else {
+
+                Tip.open('提示', '支付失败,请重试', '知道了', true).then(function () {
+
+                })
+            }
+
         })
+
 
     }
 }])
