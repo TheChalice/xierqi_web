@@ -379,7 +379,7 @@ angular.module('console.build_create_new', [
             private_token : ""
         }
 
-        $scope.labusername = [];
+        //$scope.labusername = [];
 
         $scope.labrepos = [];
 
@@ -508,7 +508,7 @@ angular.module('console.build_create_new', [
                             $scope.labusername[0] = thisowner;
                         }
 
-                        $log.info("laborgs", data)
+                        //$log.info("laborgs", data)
                         for(var i = 0 ; i < data.msg.infos.length;i++){
                             $scope.labusername.push(data.msg.infos[i]);
                             for(var j = 0; j < data.msg.infos[i].repos.length;j++){

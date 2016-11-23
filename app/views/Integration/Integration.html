@@ -1,5 +1,11 @@
 <div class="backing-service">
-
+    <div class="loader" ng-if="!repos">
+        <div class="loader-inner ball-clip-rotate-multiple">
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+<div ng-if="repos">
     <uib-tabset class="tab-default" active="check">
         <uib-tab index="1" style="width:auto;">
             <uib-tab-heading style="width:468px">
@@ -47,9 +53,9 @@
 
                 <div class="row">
                     <!--<div id=t{{items.id}} class="h2-border" ng-show="items.showTab"-->
-                         <!--style="margin-bottom: 15px;">-->
-                        <!--<span class='biaoti'>{{items.class}}</span>-->
-                        <!--<i class='xian'></i>-->
+                    <!--style="margin-bottom: 15px;">-->
+                    <!--<span class='biaoti'>{{items.class}}</span>-->
+                    <!--<i class='xian'></i>-->
                     <!--</div>-->
                     <!--<h2 id=t{{items.id}} class="h2-border" ng-show="items.showTab"-->
                     <!--style="margin-bottom: 15px;">-->
@@ -64,8 +70,8 @@
                                         <div class="thumb-op">
                                             <small>{{item.description}}</small>
                                             <!--<p class="thumb-btn">-->
-                                                <!--<a ng-if="!bkservice" class="btn btn-skyblue" href="javascript:;" ui-sref="console.backing_service_detail({name: item.metadata.name,type:item.metadata.annotations.Class})">-->
-                                                    <!--查看详情</a>-->
+                                            <!--<a ng-if="!bkservice" class="btn btn-skyblue" href="javascript:;" ui-sref="console.backing_service_detail({name: item.metadata.name,type:item.metadata.annotations.Class})">-->
+                                            <!--查看详情</a>-->
 
                                             <!--</p>-->
                                         </div>
@@ -150,10 +156,10 @@
                     <!--style="margin-bottom: 15px;">-->
                     <!--{{items.name}}</h2>-->
                     <!--<div class="row">-->
-                        <!--<div class="fen"-->
-                             <!--ng-repeat="item in items.items">-->
-                            <!--&lt;!&ndash;<bs-card></bs-card>&ndash;&gt;-->
-                        <!--</div>-->
+                    <!--<div class="fen"-->
+                    <!--ng-repeat="item in items.items">-->
+                    <!--&lt;!&ndash;<bs-card></bs-card>&ndash;&gt;-->
+                    <!--</div>-->
                     <!--</div>-->
                     <div class="row">
                         <div class="fen" ng-repeat="item in items.items">
@@ -211,6 +217,8 @@
             </div>
         </uib-tab>
     </uib-tabset>
+</div>
+
 </div>
 <!--[if !IE]><!-->
 <script>

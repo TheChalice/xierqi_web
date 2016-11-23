@@ -9,7 +9,7 @@ define(['angular'], function (angular) {
                     'min-height': height
                 });
             }
-        }]).directive('onFinishRenderFilters', function ($timeout) {
+        }]).directive('onFinishRender', function ($timeout) {
             return {
                 restrict: 'A',
                 link: function (scope, element, attr) {

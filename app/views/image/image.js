@@ -272,7 +272,18 @@ angular.module('console.image', [
                 $scope.grid.myimagecopy = angular.copy($scope.testlist);
                 refresh(1, 'search');
             };
-
+            //$scope.$on('$viewContentLoaded', function(){
+            //    console.log('ok');
+            //});
+            //$scope.$watch('$viewContentLoaded', function(n,o) {
+            //    console.log(n);
+            //});
+            //$scope.load = function() {
+            //    console.log('ok');
+            //}
+            $scope.$on('ngRepeatFinished', function( ngRepeatFinishedEvent ) {
+                console.log('ok');
+            })
             //共有镜像搜索
             $scope.searchreg = function (key, txt, event) {
                 if (event) {

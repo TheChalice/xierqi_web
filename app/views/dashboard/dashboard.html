@@ -1,103 +1,118 @@
 <div class="dashboard">
-    <div class="row firstline" style="padding:0;margin:0;">
-        <div class="block block-left col-md-5">
-            <h2 style="margin-top:0px;">账户信息</h2>
-            <div class="row oneleft" style="padding:15px 8px;">
+    <div class="loader" ng-if="!balance||!plans">
+        <div class="loader-inner ball-clip-rotate-multiple">
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <div ng-if="balance && plans">
+        <div class="row firstline" style="padding:0;margin:0;">
+            <div class="block block-left col-md-5">
+                <h2 style="margin-top:0px;">账户信息</h2>
+                <div class="row oneleft" style="padding:15px 8px;">
                     <div class="col-md-4">
-                        <div class="userbg" style=" margin:0 auto;"></div>
+                        <div class="userbg" style="margin:0 auto;"></div>
                         <div style="text-align: center;">{{namespace}}</div>
                     </div>
                     <div class="col-md-8">
                         <p>账户余额</p>
-                        <p><span> {{balance.balance}}</span>元</p>
+                        <p>
+                            <span>{{balance.balance}}</span>元
+                        </p>
                         <p>
                             <a href="javascript:;" id="recharge" ui-sref="console.pay" class="btn btn-green">充值</a>
                             <span style="color: #f6a540;margin-left: 20px;cursor: pointer" ui-sref="console.user({index:5})">消费记录</span>
                         </p>
 
                     </div>
+
+
+                </div>
+            </div>
+            <div class="col-md-2"> </div>
+            <div class="block block-right col-md-5">
+                <h2 style="margin-bottom: 20px;margin-top:0px;" >套餐信息</h2>
+                <div class="row" style="margin:0;padding:0px;border: 1px solid #ccc;">
+                    <div class="col-md-4 bghover">
+                        <p>极速铸造{{plans.planName}}</p>
+                        <p>{{plans.price}}元/月</p>
+                        <p><a href="javascript:;" class="btn btn-green" ui-sref="console.plan">更换套餐</a></p>
+                    </div>
+                    <div class="col-md-4 bghover">
+                        <p><img src="pub/img/ds002.png" alt="" style="width: 36px;height: 36px;"></p>
+                        <p>CPU</p>
+                        <p>{{plans.cpu}}</p>
+                    </div>
+                    <div class="col-md-4 bghover">
+                        <p><img src="pub/img/ds001.png" alt="" style="width: 40px;height: 40px;"></p>
+                        <p>内存</p>
+                        <p>{{plans.ram}}</p>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-md-2" style="width:8%"> </div>
-        <div class="block block-right col-md-5">
-            <h2 style="margin-bottom: 20px;margin-top:0px;" >套餐信息</h2>
-            <div class="row" style="margin:0;padding:0px;border: 1px solid #ccc;">
-                <div class="col-md-4 bghover">
-                    <p>极速铸造{{plans.planName}}</p>
-                    <p>{{plans.price}}元/月</p>
-                    <p><a href="javascript:;" class="btn btn-green" ui-sref="console.plan">更换套餐</a></p>
+        <div class="row" style="margin:0;padding:0;">
+            <div class="block block-left col-md-6">
+                <h2>资源统计</h2>
+                <div class="row">
+                    <div class="col-md-6" >
+                        <highchart ng-show="isdata.CpuorMem" config="pieConfigCpu"></highchart>
+                    </div>
+                    <div class="col-md-6" >
+                        <highchart ng-show="isdata.CpuorMem" config="pieConfigMem"></highchart>
+                    </div>
                 </div>
-                <div class="col-md-4 bghover">
-                    <p><img src="pub/img/ds002.png" alt="" style="width: 36px;height: 36px;"></p>
-                    <p>CPU</p>
-                    <p>{{plans.cpu}}</p>
+            </div>
+        </div>
+
+        <div class="secondline col-md-12" ng-show="isdata.charts">
+            <h2>资源监测</h2>
+            <div style="width: 100%;">
+                <highchart config="chartConfig"></highchart>
+            </div>
+        </div>
+        <div class="thirdline col-md-12">
+            <h2>统计数值</h2>
+            <div class="selection ban2">
+                <div style="border-right: 1px solid #c9c9c9">
+                    <a ui-sref="console.service">
+                        <p class="num">{{podList}}</p>
+                        <img src="pub/img/images_06.png"><br>
+                        <a href="javascript:;">POD</a>
+                    </a>
                 </div>
-                <div class="col-md-4 bghover">
-                    <p><img src="pub/img/ds001.png" alt="" style="width: 40px;height: 40px;"></p>
-                    <p>内存</p>
-                    <p>{{plans.ram}}</p>
+            </div>
+            <div class="selection ban2">
+                <div style="border-right: 1px solid #c9c9c9">
+                    <a ui-sref="console.service">
+                        <p class="num">{{dcList}}</p>
+                        <img src="pub/img/images_08.png"><br>
+                        <a href="javascript:;">服务</a>
+                    </a>
                 </div>
+            </div>
+            <div class="selection ban2">
+                <div style="border-right: 1px solid #c9c9c9">
+                    <a ui-sref="console.backing_service">
+                        <p class="num">{{bsiList}}</p>
+                        <img src="pub/img/images_10.png"><br>
+                        <a href="javascript:;">后端服务实例</a>
+                    </a>
+                </div>
+            </div>
+            <div class="selection ban2">
+                <div>
+                    <a href="javascript:;">
+                        <p class="num">-</p>
+                        <img src="pub/img/images_12.png"><br>
+                        <a href="javascript:;">应用</a>
+                    </a>
+                </div>
+
             </div>
         </div>
     </div>
-    <div class="row" style="margin:0;padding:0;">
-        <div class="block block-left col-md-6">
-            <h2>资源统计</h2>
-            <div class="row">
-                <div class="col-md-6" >
-                    <highchart ng-show="isdata.CpuorMem" config="pieConfigCpu"></highchart>
-                </div>
-                <div class="col-md-6" >
-                    <highchart ng-show="isdata.CpuorMem" config="pieConfigMem"></highchart>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="secondline col-md-12" ng-show="isdata.charts">
-        <h2>资源监测</h2>
-        <div style="width: 100%;">
-            <highchart config="chartConfig"></highchart>
-        </div>
-    </div>
-    <div class="thirdline col-md-12">
-        <h2>统计数值</h2>
-        <div class="selection ban2" ui-sref="console.service" style="cursor: pointer;">
-            <div style="border-right: 1px solid #c9c9c9">
-                <a ui-sref="console.service">
-                    <p class="num">{{podList}}</p>
-                    <img src="pub/img/images_06.png"><br>
-                    <a href="javascript:;">POD</a>
-                </a>
-            </div>
-        </div>
-        <div class="selection ban2" ui-sref="console.service" style="cursor: pointer;">
-            <div style="border-right: 1px solid #c9c9c9">
-                <a ui-sref="console.service">
-                    <p class="num">{{dcList}}</p>
-                    <img src="pub/img/images_08.png"><br>
-                    <a href="javascript:;">服务</a>
-                </a>
-            </div>
-        </div>
-        <div class="selection ban2" ui-sref="console.backing_service" style="cursor: pointer;">
-            <div style="border-right: 1px solid #c9c9c9">
-                <a ui-sref="console.backing_service">
-                    <p class="num">{{bsiList}}</p>
-                    <img src="pub/img/images_10.png"><br>
-                    <a href="javascript:;">后端服务实例</a>
-                </a>
-            </div>
-        </div>
-        <div class="selection ban2" style="cursor: pointer;">
-            <div>
-                <a href="javascript:;">
-                    <p class="num">-</p>
-                    <img src="pub/img/images_12.png"><br>
-                    <a href="javascript:;">应用</a>
-                </a>
-            </div>
-        </div>
-    </div>
+
 
     <style>
         .userbg{
