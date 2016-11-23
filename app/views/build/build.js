@@ -28,6 +28,7 @@ angular.module('console.build', [
             $scope.items = $scope.data.slice(skip, skip + $scope.grid.size);
         };
 
+
         $scope.buildsearch = function (event) {
             if (event.keyCode === 13 || event === 'search') {
                 if (!$scope.grid.txt) {
