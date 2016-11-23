@@ -23,24 +23,7 @@
 .text-left {
     font-weight: normal;
 }
-.icon20-log {
-    background-image: url(img/log.png);
-}
-.icon20-log:hover {
-    background-image: url(img/log-active.png);
-}
-.icon20-paper {
-    background-image: url(img/paper.png);
-}
-.icon20-paper:hover {
-    background-image: url(img/paper-active.png);
-}
-.uib-tab.active .icon20-log, .tab-default li .nav-link:hover .icon20-log {
-    background-image: url(img/log-active.png);
-}
-.uib-tab.active .icon20-paper, .tab-default li .nav-link:hover .icon20-paper {
-    background-image: url(img/paper-active.png);
-}
+
 .till{
     display: none;
 }

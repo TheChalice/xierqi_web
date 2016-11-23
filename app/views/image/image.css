@@ -20,51 +20,23 @@
 .searchbar .btn:hover {
     background-image: url(img/search-focus.png);
 }
-.nav-link i{
-    height: 21px;
-    width: 21px;
-    display: inline-block;
-    vertical-align: middle;
-}
 
-.myimage{
-    background: url(../../pub/img/myimage.png) no-repeat;
-    background-size:contain;
-}
-.nav-link:hover i.myimage{
-    background: url(../../pub/img/myimageh.png) no-repeat;
-    background-size:contain;
-}
-.active .myimage{
-    background: url(../../pub/img/myimageh.png) no-repeat;
-    background-size:contain;
-}
 
-.registimage{
-    background: url(../../pub/img/registimage.png) no-repeat;
-    background-size:contain;
-}
-.nav-link:hover i.registimage{
-    background: url(../../pub/img/registimageh.png) no-repeat;
-    background-size:contain;
-}
-.active .registimage{
-    background: url(../../pub/img/registimageh.png) no-repeat;
-    background-size:contain;
-}
+/*.myimage{*/
+    /*background: url(../../pub/img/myimage.png) no-repeat;*/
+    /*background-size:contain;*/
+/*}*/
+/*.nav-link:hover i.myimage{*/
+    /*background: url(../../pub/img/myimageh.png) no-repeat;*/
+    /*background-size:contain;*/
+/*}*/
+/*.active .myimage{*/
+    /*background: url(../../pub/img/myimageh.png) no-repeat;*/
+    /*background-size:contain;*/
+/*}*/
 
-.imagecenter{
-    background: url(../../pub/img/imagecenter.png) no-repeat;
-    background-size:contain;
-}
-.nav-link:hover i.imagecenter{
-    background: url(../../pub/img/imagecenterh.png) no-repeat;
-    background-size:contain;
-}
-.active .imagecenter{
-    background: url(../../pub/img/imagecenterh.png) no-repeat;
-    background-size:contain;
-}
+
+
 
 .collection{
     background: url(../../pub/img/collection.png) no-repeat;

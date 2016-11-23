@@ -1,13 +1,13 @@
 <div class="dashboard">
     <div class="row firstline" style="padding:0;margin:0;">
-        <div class="block block-left col-md-5">
+        <div class="block block-left dash_account_block">
             <h2 style="margin-top:0px;">账户信息</h2>
             <div class="row oneleft" style="padding:15px 8px;">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="userbg" style=" margin:0 auto;"></div>
                         <div style="text-align: center;">{{namespace}}</div>
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-6">
                         <p>账户余额</p>
                         <p><span> {{balance.balance}}</span>元</p>
                         <p>
@@ -18,10 +18,10 @@
                     </div>
             </div>
         </div>
-        <div class="col-md-2" style="width:8%"> </div>
-        <div class="block block-right col-md-5">
+        <div class="col-md-2" style="width:4%"> </div>
+        <div class="block block-right dash_info_block">
             <h2 style="margin-bottom: 20px;margin-top:0px;" >套餐信息</h2>
-            <div class="row" style="margin:0;padding:0px;border: 1px solid #ccc;">
+            <div class="row" style="margin:0;padding:0px;border: 1px solid #e5e5e5;">
                 <div class="col-md-4 bghover">
                     <p>极速铸造{{plans.planName}}</p>
                     <p>{{plans.price}}元/月</p>
@@ -41,7 +41,7 @@
         </div>
     </div>
     <div class="row" style="margin:0;padding:0;">
-        <div class="block block-left col-md-6">
+        <div class="block block-left dash_resour_block">
             <h2>资源统计</h2>
             <div class="row">
                 <div class="col-md-6" >
@@ -108,7 +108,7 @@
 
         }
         .oneleft{
-            margin:0;padding:0;border: 1px solid #ccc;background: #e6e9f2;
+            margin:0;padding:0;border: 1px solid #e5e5e5;background: #f7f7fb;
         }
         .oneleft p{
             height: 30px;
@@ -157,6 +157,7 @@
         }
         .block-right .bghover{
             padding:15px 8px;
+            background:#f7f8fb;
         }
         .bghover:hover{
             background: #dde0e9;
@@ -215,6 +216,17 @@
         }
         .table>tbody>tr>td{
             border:none;
+        }
+
+        .dash_account_block{width:30%;float:left;}
+        .dash_info_block{width:36%;float:left;}
+        .dash_resour_block{width:34%;}
+
+
+        @media (min-width: 1920px) {
+            .dash_account_block{width:20%;float:left;}
+            .dash_info_block{width:32%;}
+            .dash_resour_block{width:26%;}
         }
     </style>
 </div>

@@ -681,11 +681,7 @@ a {
     height: 26px;
 }
 
-.faa-edit {
-    background:url(../img/ser-edit.png) no-repeat;
-    width: 21px;
-    height: 21px;
-}
+
 
 .faa-pod {
     background-position: -246px -738px;
@@ -713,9 +709,7 @@ a {
     background-position: -312px -123px;
 }
 
-.faa-edit:hover, .faa-edit.active, .active .faa-edit, .nav-link:hover .faa-edit {
-    background-image: url(../img/ser-edith.png);
-}
+
 
 .faa-back {
     background-position: -16px -317px;
@@ -727,35 +721,6 @@ a {
     background-position: -50px -317px;
 }
 
-.faa-target {
-    background:url(../img/ser-target.png) no-repeat;
-    width: 21px;
-    height: 21px;
-}
-
-.faa-target:hover, .faa-target.active, .active .faa-target, .nav-link:hover .faa-target {
-    background-image:url(../img/ser-targeth.png);
-}
-
-.faa-text {
-    background:url(../img/ser-text.png) no-repeat;
-    width: 21px;
-    height: 21px;
-}
-
-.faa-text:hover, .faa-text.active, .active .faa-text, .nav-link:hover .faa-text {
-    background-image:url(../img/ser-texth.png);
-}
-
-.faa-mark {
-    background-image:url(../img/ser-mark.png);
-    width: 21px;
-    height: 21px;
-}
-
-.faa-mark:hover, .faa-mark.active, .active .faa-mark, .nav-link:hover .faa-mark {
-    background-image:url(../img/ser-markh.png);
-}
 
 .faa-image {
     background-position: -44px -789px;
@@ -1110,55 +1075,6 @@ a {
     background-position: -49px -826px;
 }
 
-.fa2-bs {
-    background-image:url(../img/fa2-bs.png);
-    width: 20px;
-    height: 20px;
-}
-
-.fa2-bs:hover, .fa2-bs.active, .active .fa2-bs, .nav-link:hover .fa2-bs {
-    background-image:url(../img/fa2-bsh.png);
-}
-
-.fa2-bsi {
-    background-image:url(../img/fa2-bsi.png);
-    width: 20px;
-    height: 20px;
-}
-
-.fa2-bsi:hover, .fa2-bsi.active, .active .fa2-bsi, .nav-link:hover .fa2-bsi {
-    background-image:url(../img/fa2-bsih.png);
-}
-
-.fa2-data {
-    background-image:url(../img/fa2-data.png);
-    width: 20px;
-    height: 20px;
-}
-
-.fa2-data:hover, .fa2-data.active, .active .fa2-data, .nav-link:hover .fa2-data {
-    background-image:url(../img/fa2-data-act.png);
-}
-
-.fa2-public {
-    background-image:url(../img/fa2-public.png);
-    width: 20px;
-    height: 20px;
-}
-
-.fa2-public:hover, .fa2-public.active, .active .fa2-public, .nav-link:hover .fa2-public {
-    background-image:url(../img/fa2-public-act.png);
-}
-
-.fa2-dataHub {
-    background-image:url(../img/fa2-dataHub.png);
-    width: 20px;
-    height: 20px;
-}
-
-.fa2-dataHub:hover, .fa2-dataHub.active, .active .fa2-dataHub, .nav-link:hover .fa2-dataHub {
-    background-image:url(../img/fa2-dataHub-act.png);
-}
 .plan p {
     font-size: 12px;
     color: #5a6378;
@@ -1191,45 +1107,6 @@ a {
 
 .icon20-144 {
     background: url('../../pub/img/images_144.png') no-repeat;
-}
-
-.constantlyvolume {
-    overflow: hidden;
-    display: inline-block;
-    vertical-align: middle;
-    background: url(../img/constantlyvolume_small.png) no-repeat;
-    width: 25px;
-    height: 25px;
-}
-
-.constantlyvolume:hover, .constantlyvolume:active, .active .constantlyvolume, .nav-link:hover .constantlyvolume {
-    background: url(../img/constantly_volume_act.png) no-repeat;
-}
-
-.configvolume {
-    overflow: hidden;
-    display: inline-block;
-    vertical-align: middle;
-    background: url(../img/config_volume.png) no-repeat;
-    width: 25px;
-    height: 25px;
-}
-
-.configvolume:hover, .configvolume:active, .active .configvolume, .nav-link:hover .configvolume {
-    background: url(../img/config_volume_act.png) no-repeat;
-}
-
-.secret {
-    overflow: hidden;
-    display: inline-block;
-    vertical-align: middle;
-    background: url(../img/secret.png) no-repeat;
-    width: 25px;
-    height: 25px;
-}
-
-.secret:hover, .secret:active, .active .secret, .nav-link:hover .secret {
-    background: url(../img/secret_act.png) no-repeat;
 }
 
 .icon20-paper {
@@ -1359,22 +1236,11 @@ a {
     }
 }
 
-.myimage {
-    background: url(../../pub/img/myimage.png) no-repeat;
-    height:20px;
-    width:20px;
-}
 
-.nav-link:hover i.myimage {
-    background: url(../../pub/img/myimageh.png) no-repeat;
-    background-size: contain;
-}
 
-.active .myimage {
-    background: url(../../pub/img/myimageh.png) no-repeat;
-    background-size: contain;
 
-}
+
+
 
 .pic_jc {
     background: url(../../pub/img/pic_jc.png) no-repeat;
@@ -1455,166 +1321,6 @@ a {
     animation: 0.5s fade-out;
     z-index: 99;
 }
-/*.datafoundryloader {*/
-    /*box-sizing: border-box;*/
-    /*display: flex;*/
-    /*flex: 0 1 auto;*/
-    /*flex-direction: column;*/
-    /*flex-grow: 1;*/
-    /*flex-shrink: 0;*/
-    /*flex-basis: 25%;*/
-    /*max-width: 25%;*/
-    /*height: 200px;*/
-    /*align-items: center;*/
-    /*justify-content: center;*/
-/*}*/
-/*@keyframes datarotate {*/
-    /*0% {*/
-        /*-webkit-transform: rotate(0deg) scale(1);*/
-        /*transform: rotate(0deg) scale(1);*/
-    /*}*/
-
-    /*50% {*/
-        /*-webkit-transform: rotate(180deg) scale(0.6);*/
-        /*transform: rotate(180deg) scale(0.6);*/
-    /*}*/
-
-    /*100% {*/
-        /*-webkit-transform: rotate(360deg) scale(1);*/
-        /*transform: rotate(360deg) scale(1);*/
-    /*}*/
-/*}*/
-
-
-
-/*@keyframes ball-grid-beat {*/
-    /*50% {*/
-        /*opacity: 0.7;*/
-    /*}*/
-
-    /*100% {*/
-        /*opacity: 1;*/
-    /*}*/
-/*}*/
-
-/*.datafoundryloader .ball-grid-beat {*/
-    /*width: 57px;*/
-/*}*/
-/*.datafoundryloader .ball-grid-beat>div {*/
-    /*background-color: rgba(161, 152, 169, 0.62);*/
-/*}*/
-
-/*.datafoundryloader .ball-grid-beat > div:nth-child(1) {*/
-    /*-webkit-animation-delay: 0.36s;*/
-    /*animation-delay: 0.36s;*/
-    /*-webkit-animation-duration: 0.96s;*/
-    /*animation-duration: 0.96s;*/
-/*}*/
-
-/*.datafoundryloader .ball-grid-beat > div:nth-child(2) {*/
-    /*-webkit-animation-delay: 0.4s;*/
-    /*animation-delay: 0.4s;*/
-    /*-webkit-animation-duration: 0.93s;*/
-    /*animation-duration: 0.93s;*/
-/*}*/
-
-/*.datafoundryloader .ball-grid-beat > div:nth-child(3) {*/
-    /*-webkit-animation-delay: 0.68s;*/
-    /*animation-delay: 0.68s;*/
-    /*-webkit-animation-duration: 1.19s;*/
-    /*animation-duration: 1.19s;*/
-/*}*/
-
-/*.datafoundryloader .ball-grid-beat > div:nth-child(4) {*/
-    /*-webkit-animation-delay: 0.41s;*/
-    /*animation-delay: 0.41s;*/
-    /*-webkit-animation-duration: 1.13s;*/
-    /*animation-duration: 1.13s;*/
-/*}*/
-
-/*.datafoundryloader .ball-grid-beat > div:nth-child(5) {*/
-    /*-webkit-animation-delay: 0.71s;*/
-    /*animation-delay: 0.71s;*/
-    /*-webkit-animation-duration: 1.34s;*/
-    /*animation-duration: 1.34s;*/
-/*}*/
-
-/*.datafoundryloader .ball-grid-beat > div:nth-child(6) {*/
-    /*-webkit-animation-delay: -0.15s;*/
-    /*animation-delay: -0.15s;*/
-    /*-webkit-animation-duration: 0.94s;*/
-    /*animation-duration: 0.94s;*/
-/*}*/
-
-/*.datafoundryloader .ball-grid-beat > div:nth-child(7) {*/
-    /*-webkit-animation-delay: -0.12s;*/
-    /*animation-delay: -0.12s;*/
-    /*-webkit-animation-duration: 1.2s;*/
-    /*animation-duration: 1.2s;*/
-/*}*/
-
-/*.datafoundryloader .ball-grid-beat > div:nth-child(8) {*/
-    /*-webkit-animation-delay: 0.01s;*/
-    /*animation-delay: 0.01s;*/
-    /*-webkit-animation-duration: 0.82s;*/
-    /*animation-duration: 0.82s;*/
-/*}*/
-
-/*.datafoundryloader .ball-grid-beat > div:nth-child(9) {*/
-    /*-webkit-animation-delay: 0.32s;*/
-    /*animation-delay: 0.32s;*/
-    /*-webkit-animation-duration: 1.19s;*/
-    /*animation-duration: 1.19s;*/
-/*}*/
-
-/*.datafoundryloader .ball-grid-beat > div {*/
-    /*background-color: black;*/
-    /*width: 15px;*/
-    /*height: 15px;*/
-    /*border-radius: 100%;*/
-    /*margin: 2px;*/
-    /*-webkit-animation-fill-mode: both;*/
-    /*animation-fill-mode: both;*/
-    /*display: inline-block;*/
-    /*float: left;*/
-    /*-webkit-animation-name: ball-grid-beat;*/
-    /*animation-name: ball-grid-beat;*/
-    /*-webkit-animation-iteration-count: infinite;*/
-    /*animation-iteration-count: infinite;*/
-    /*-webkit-animation-delay: 1s;*/
-    /*animation-delay: 1s;*/
-    /*positioin:absolute;*/
-    /*top:0;*/
-    /*right:0;*/
-    /*bottom:0;*/
-    /**/
-/*}*/
-/*.btn.focus, .btn:focus, .btn:hover{color:#fff;}*/
-
-
-/*!* 设置滚动条的样式 *!*/
-/*::-webkit-scrollbar {*/
-    /*width: 12px;*/
-    /*!*position: fixed;*!*/
-/*}*/
-
-/*!* 滚动槽 *!*/
-/*::-webkit-scrollbar-track {*/
-    /*-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);*/
-    /*border-radius: 10px;*/
-/*}*/
-
-/*!* 滚动条滑块 *!*/
-/*::-webkit-scrollbar-thumb {*/
-    /*border-radius: 10px;*/
-    /*background: rgba(0, 0, 0, 0.1);*/
-    /*-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);*/
-/*}*/
-
-/*::-webkit-scrollbar-thumb:window-inactive {*/
-    /*background: rgba(255, 0, 0, 0.4);*/
-/*}*/
-
 /*微信红包弹出框*/
 .red_diag{position:fixed;left:0;right:0;top:0;bottom:0;background:rgba(0,0,0,0.4);z-index:9999;display:none;}
 .red_diag_main{width:410px;height:470px;position:absolute;left:50%;top:50%;margin-left:-205px;margin-top:-235px;}
@@ -1626,4 +1332,60 @@ a {
 .red_close{width:26px;height:26px;border:1px solid #ececec;display:block;color:#ececec;font-size:20px;text-align:center;line-height:100%;
     border-radius:50%;-webkit-border-radius:50%;-moz-border-radius:50%;position:absolute;right:84px;top:27px;cursor:pointer;}
 .red_diag_pay{height:400px;margin-top:-200px;}
-
+/*************************图标替换 20161123 jia begin***************/
+/*镜像仓库*/
+.nav-link i{display:inline-block;width:21px;height:21px;vertical-align:bottom;background-size:contain;}
+.myimage{width:20px;height:20px;background:url(../../pub/img/myimage.png) no-repeat;}
+.active .myimage,.nav-link:hover i.myimage{background:url(../../pub/img/myimageh.png) no-repeat;background-size:contain}
+.registimage{background:url(../../pub/img/registimage.png) no-repeat;}
+.active .registimage,.nav-link:hover i.registimage{background:url(../../pub/img/registimageh.png) no-repeat;background-size:contain}
+.imagecenter{background:url(../../pub/img/imagecenter.png) no-repeat;}
+.active .imagecenter,.nav-link:hover i.imagecenter{background:url(../../pub/img/imagecenterh.png) no-repeat;background-size:contain}
+/*后端服务*/
+.fa2-bs{background-image:url(../img/fa2-bs.png)}
+.active .fa2-bs,.fa2-bs.active,.fa2-bs:hover,.nav-link:hover .fa2-bs{background-image:url(../img/fa2-bsh.png);background-size:contain}
+.fa2-bsi{background-image:url(../img/fa2-bsi.png)}
+.active .fa2-bsi,.fa2-bsi.active,.fa2-bsi:hover,.nav-link:hover .fa2-bsi{background-image:url(../img/fa2-bsih.png);background-size:contain}
+.diy_service{background-image:url(../img/diy_service.png)}
+.active .diy_service,.diy_service.active,.diy_service:hover,.nav-link:hover .diy_service{background-image:url(../img/diy_service_hover.png);background-size:contain}
+.data_service{background-image:url(../img/data_service.png)}
+.active .data_service,.data_service.active,.data_service:hover,.nav-link:hover .data_service{background-image:url(../img/data_service_hover.png);background-size:contain}
+/*数据集成*/
+.fa2-public{background-image:url(../img/fa2-public.png);}
+.active .fa2-public,.fa2-public.active,.fa2-public:hover,.nav-link:hover .fa2-public{background-image:url(../img/fa2-public-act.png);background-size:contain;}
+.fa2-data{background-image:url(../img/fa2-data.png);}
+.active .fa2-data,.fa2-data.active,.fa2-data:hover,.nav-link:hover .fa2-data{background-image:url(../img/fa2-data-act.png);background-size:contain;}
+.fa2-dataHub{background-image:url(../img/fa2-dataHub.png);}
+.active .fa2-dataHub,.fa2-dataHub.active,.fa2-dataHub:hover,.nav-link:hover .fa2-dataHub{background-image:url(../img/fa2-dataHub-act.png);}
+/*资源管理*/
+.constantlyvolume{background:url(../img/constantlyvolume_small.png) no-repeat}
+.active .constantlyvolume,.constantlyvolume:active,.constantlyvolume:hover,.nav-link:hover .constantlyvolume{background:url(../img/constantly_volume_act.png) no-repeat;background-size:contain}
+.configvolume{background:url(../img/config_volume.png) no-repeat}
+.active .configvolume,.configvolume:active,.configvolume:hover,.nav-link:hover .configvolume{background:url(../img/config_volume_act.png) no-repeat;background-size:contain}
+.secret{background:url(../img/secret.png) no-repeat}
+.active .secret,.nav-link:hover .secret,.secret:active,.secret:hover{background:url(../img/secret_act.png) no-repeat;background-size:contain}
+/*代码构建*/
+.icon20{display:inline-block;width:21px;height:21px;vertical-align:bottom;background-size:contain}
+.icon20-log{background-image:url(../img/ser-markh.png)}
+.tab-default li .nav-link:hover .icon20-log,.uib-tab.active .icon20-log{background-image:url(../img/ser-markh-act.png);background-size:contain}
+.icon20-paper{background-image:url(../img/ser-text.png)}
+.tab-default li .nav-link:hover .icon20-paper,.uib-tab.active .icon20-paper{background-image:url(../img/ser-texth.png);background-size:contain}
+/*服务部署*/
+.faa-edit{background:url(../img/ser-edit.png) no-repeat}
+.active .faa-edit,.faa-edit.active,.faa-edit:hover,.nav-link:hover .faa-edit{background-image:url(../img/ser-edith.png);background-size:contain}
+.faa-target{background:url(../img/ser-target.png) no-repeat}
+.active .faa-target,.faa-target.active,.faa-target:hover,.nav-link:hover .faa-target{background-image:url(../img/ser-targeth.png);background-size:contain}
+.faa-text{background:url(../img/ser-text.png) no-repeat}
+.active .faa-text,.faa-text.active,.faa-text:hover,.nav-link:hover .faa-text{background-image:url(../img/ser-texth.png);background-size:contain}
+.faa-mark{background-image:url(../img/ser-markh.png)}
+.active .faa-mark,.faa-mark.active,.faa-mark:hover,.nav-link:hover .faa-mark{background-image:url(../img/ser-markh-act.png);background-size:contain}
+/*用户中心*/
+.usersbg{background:url(../../pub/img/usersbg.png) no-repeat}
+.active .usersbg,.nav-link:hover i.usersbg{background:url(../../pub/img/usersbg_hover.png) no-repeat;background-size:contain}
+.orgbg{background:url(../../pub/img/orgbg.png) no-repeat}
+.active .orgbg,.nav-link:hover i.orgbg{background:url(../../pub/img/orgbg_hover.png) no-repeat;background-size:contain}
+.planbg{background:url(../../pub/img/planbg.png) no-repeat}
+.active .planbg,.nav-link:hover i.planbg{background:url(../../pub/img/planbg_hover.png) no-repeat;background-size:contain}
+.accountbg{background:url(../../pub/img/account.png) no-repeat}
+.active .accountbg,.nav-link:hover i.accountbg{background:url(../../pub/img/account_hover.png) no-repeat;background-size:contain}
+/*************************图标替换 20161123 jia end***************/
