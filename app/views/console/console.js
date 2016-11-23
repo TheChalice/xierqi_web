@@ -32,6 +32,7 @@ angular.module('console', [
                 Cookie.set('namespace', name, 10 * 365 * 24 * 3600 * 1000);
             }
 
+
             var loadProject = function () {
                 //$log.info("load project");
                 Project.get({region: $rootScope.region}, function (data) {

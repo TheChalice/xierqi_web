@@ -17,6 +17,7 @@ angular.module('console.backing_service', [
             if (condition.name === '') {
                 return items;
             }
+
             if (condition.name) {
                 for (var i = 0; i < items.length; i++) {
                     var str = items[i].metadata.name.toLowerCase();
