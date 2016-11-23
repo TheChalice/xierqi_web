@@ -1,11 +1,11 @@
 <div id="user">
-    <div class="loader">
+    <div class="loader" ng-if="!sitenotify">
         <div class="loader-inner ball-clip-rotate-multiple">
             <div></div>
             <div></div>
         </div>
     </div>
-    <div>
+    <div ng-if="sitenotify">
         <uib-tabset class="tab-default">
             <uib-tab index="1">
                 <uib-tab-heading>

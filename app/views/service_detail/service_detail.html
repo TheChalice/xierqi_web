@@ -1,5 +1,11 @@
 <div class="build-detail">
-
+    <div class="loader" ng-if="!dc">
+        <div class="loader-inner ball-clip-rotate-multiple">
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+<div ng-if="dc">
     <div class="panel panel-default" style="margin-bottom: 50px">
         <div class="panel-heading">
             <span class="panel-title">
@@ -8,9 +14,9 @@
             </span>
             <a class="btn btn-gray pull-right" style=" padding: 5px 10px; margin-left: 15px; height:34px; width:36px" ng-click="delete()"><i class="fa fa-trash-o fa-lg"></i></a>
             <!--<a class="btn btn-block"-->
-               <!--ng-disabled=dianbl-->
-               <!--ng-class="{'btn-orange':dianl, 'btn-disabled': dianbl}"-->
-               <!--ng-click="frm.$valid && create()">开始构建</a>-->
+            <!--ng-disabled=dianbl-->
+            <!--ng-class="{'btn-orange':dianl, 'btn-disabled': dianbl}"-->
+            <!--ng-click="frm.$valid && create()">开始构建</a>-->
             <a class="btn pull-right"
                ng-show="dc.state != 'normal'"
                ng-class="{'btn-green':startBtn.dianl, 'btn-orange': startBtn.dianlz}"
@@ -91,4 +97,6 @@
             <div ng-include="'views/service_detail/service_config.html'"></div>
         </uib-tab>
     </uib-tabset>
+</div>
+
 </div>
