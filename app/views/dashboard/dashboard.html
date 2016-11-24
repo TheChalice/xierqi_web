@@ -8,10 +8,10 @@
     </div>
     <div ng-if="balance && plans">
         <div class="row firstline" style="padding:0;margin:0;">
-            <div class="block block-left col-md-5">
+            <div class="block block-left dash_account_block">
                 <h2 style="margin-top:0px;">账户信息</h2>
                 <div class="row oneleft" style="padding:15px 8px;">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <div class="userbg" style="margin:0 auto;"></div>
 
                         <div style="text-align: center;">{{namespace}}</div>
@@ -33,10 +33,10 @@
 
                 </div>
             </div>
-            <div class="col-md-2"> </div>
-            <div class="block block-right col-md-5">
+            <div class="col-md-2" style="width:3%;"> </div>
+            <div class="block block-right dash_info_block">
                 <h2 style="margin-bottom: 20px;margin-top:0px;" >套餐信息</h2>
-                <div class="row" style="margin:0;padding:0px;border: 1px solid #ccc;">
+                <div class="row" style="margin:0;padding:0px;border: 1px solid #e5e5e5;">
                     <div class="col-md-4 bghover">
                         <p>极速铸造{{plans.planName}}</p>
                         <p>{{plans.price}}元/月</p>
@@ -56,8 +56,8 @@
             </div>
         </div>
 
-        <div class="row" style="margin:0;padding:0;">
-            <div class="block block-left col-md-6">
+        <div class="row" style="margin:0;padding:0;margin-top:16px;">
+            <div class="block block-left dash_resour_block">
                 <h2>资源统计</h2>
                 <div class="row">
                     <div class="col-md-6" >
@@ -77,7 +77,7 @@
                 <highchart config="chartConfig"></highchart>
             </div>
         </div>
-        <div class="thirdline col-md-12">
+        <div class="thirdline col-md-12" style="margin-top:10px;">
             <h2>统计数值</h2>
             <div class="selection ban2">
                 <div style="border-right: 1px solid #c9c9c9">
@@ -161,8 +161,7 @@
         }
 
         .dashboard h2 {
-            font-size: 14px;
-            font-weight: bold;
+            font-size: 16px;
         }
         .dashboard .info {
             text-align: center;

@@ -1129,6 +1129,7 @@ a {
     background: url(../img/config_volume.png) no-repeat;
     width: 25px;
     height: 25px;
+    background-size:contain;
 }
 
 /*green adding button*/
