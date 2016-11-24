@@ -138,7 +138,7 @@
                         </table>
                     </div>
                 </div>
-<<<<<<< HEAD
+
                 <div class="text-right" ng-if="grid.total > 10" style="margin-top: 30px;">
                     <uib-pagination class="pagination pagination-sm" ng-model="grid.page" total-items="grid.total"
                                     items-per-page="grid.size" boundary-links="true" max-size="12" rotate="true"
@@ -147,29 +147,7 @@
                                     first-text="首页"
                                     last-text="末页">
                     </uib-pagination>
-=======
-                <div class="table-responsive" style="margin-top: 30px">
-                    <table class="table-hover table-default"
-                           style="table-layout:fixed; width: 100%; border-bottom: none;">
-                        <tr>
-                            <div class="row">
-                                <th class='col-lg-2 col-md-2 col-sm-1'>配置卷名称</th>
-                                <th class='col-lg-2 col-md-2 col-sm-2'>创建时间</th>
-                            </div>
-                        </tr>
-                        <tr ng-repeat="items in configitems">
-                            <td style="border-bottom: 1px solid #CCCCCC;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">
-                                <a ui-sref="console.config_detail({name: items.metadata.name})" uib-tooltip="{{items.metadata.name}}" tooltip-placement="top" style="color:#f6a540">{{items.metadata.name}}</a>
-                            </td>
-                            <td style="border-bottom: 1px solid #CCCCCC;"><span
-                                    uib-tooltip="{{items.metadata.creationTimestamp  | timescon}}">{{items.metadata.creationTimestamp | dateRelative}} </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="text-align: center;background: #fff;border-bottom: 1px solid #CCCCCC;" ng-if="!configitems"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit"> 您还没有任何配置卷数据，现在就创建一个吧</span></p></td>
-                        </tr>
-                    </table>
->>>>>>> develop
+
                 </div>
             </uib-tab>
             <uib-tab index="3">
@@ -227,7 +205,7 @@
                         </table>
                     </div>
                 </div>
-<<<<<<< HEAD
+
                 <div class="text-right" ng-if="secrets.total > 10" style="margin-top: 30px;">
                     <uib-pagination class="pagination pagination-sm" ng-model="secrets.page" total-items="secrets.total"
                                     items-per-page="secrets.size" boundary-links="true" max-size="12" rotate="true"
@@ -236,32 +214,7 @@
                                     first-text="首页"
                                     last-text="末页">
                     </uib-pagination>
-=======
-                <div class="table-responsive" style="margin-top: 30px">
-                    <table class="table-hover table-default"
-                           style="table-layout:fixed; width: 100%;border-bottom: none;">
-                        <tr>
-                            <div class="row">
-                                <th class='col-lg-2 col-md-2 col-sm-1'>密钥名称</th>
-                                <th class='col-lg-2 col-md-2 col-sm-2'>创建时间</th>
-                            </div>
-                        </tr>
-                        <tr ng-repeat="items in secretitems">
-                            <td style="border-bottom: 1px solid #CCCCCC;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">
-                                <a class="listitem" uib-tooltip="{{items.metadata.name}}" tooltip-placement="top" ui-sref="console.secret_detail({name:items.metadata.name})"
-                                   style="color:#f6a540">
-                                    {{items.metadata.name}}
-                                </a>
-                            </td>
-                            <td style="border-bottom: 1px solid #CCCCCC;"><span
-                                    uib-tooltip="{{items.metadata.creationTimestamp  | timescon}}">{{items.metadata.creationTimestamp | dateRelative}}</span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2" style="text-align: center;background: #fff;border-bottom: 1px solid #CCCCCC;" ng-if="!secretitems"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit"> 您还没有任何密钥数据，现在就创建一个吧</span></p></td>
-                        </tr>
-                    </table>
->>>>>>> develop
+
                 </div>
             </uib-tab>
         </uib-tabset>
