@@ -207,6 +207,14 @@ define(['angular', 'moment'], function (angular, moment) {
                 }
             }
         }])
+        .filter("timesconbuy",[function(){
+            return function(times){
+                if(times){
+                   //var timesfilter = times.replace(/[a-zA-Z]/g,'');
+                    return moment(parseInt(moment(times).format('X'))-28800).format('YYYY-MM-DD HH:mm:ss');
+                }
+            }
+        }])
         .filter("duration3",[function(){
             return function(times){
                 if(times){
