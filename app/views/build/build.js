@@ -54,11 +54,7 @@ angular.module('console.build', [
                     refresh(1);
                     console.log('$scope.data', $scope.data);
                     $scope.grid.total = $scope.data.length;
-
-
                 }
-
-
             }
         }
 

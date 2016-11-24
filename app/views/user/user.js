@@ -1,7 +1,6 @@
 'use strict';
 
-angular.module('console.user', [
-    'kubernetesUI',
+angular.module('console.user', ['kubernetesUI',
     {
         files: [
             'views/user/user.css',
@@ -199,6 +198,7 @@ angular.module('console.user', [
                     }
                 })
                 $scope.myamounts = data.amounts;
+                console.log('creation_time',data.amounts[0].creation_time);
                 $scope.amountdata =angular.copy(data.amounts)
                 $scope.grid.total = data.amounts.length;
                 refresh(1);

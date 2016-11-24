@@ -99,7 +99,10 @@ angular.module('console.create_constantly_volume', [
             drytry:0,
             plan_id: $scope.plan_id,
             namespace: $rootScope.namespace,
-            region:$rootScope.region
+            region:$rootScope.region,
+            parameters:{
+                resource_name:$scope.volume.name
+            }
         }, function (data) {
             //console.log(data);
             //volume.create({namespace: $rootScope.namespace}, $scope.volume, function (res) {
