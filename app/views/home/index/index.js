@@ -21,7 +21,8 @@ angular.module('home.index', [])
             "pub/img/daocloud_logo_hover.png",
             "pub/img/pivotal_logo_hover.png",
             "pub/img/ky_logo_hover.png",
-            "pub/img/oscar_logo_hover.png"
+            "pub/img/oscar_logo_hover.png",
+            "app/components/header/img/back.png"
         );
 
     }]);
