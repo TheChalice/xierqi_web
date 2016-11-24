@@ -1,12 +1,12 @@
 <div id="user">
     <div class="resource_management">
-        <div class="loader" ng-if="!curUserInfo">
+        <div class="loader" ng-if="!curUserInfo && !myamounts">
             <div class="loader-inner ball-clip-rotate-multiple">
                 <div></div>
                 <div></div>
             </div>
         </div>
-        <div ng-if="curUserInfo">
+        <div ng-if="curUserInfo&& myamounts">
             <uib-tabset class="tab-default" active="check">
                 <uib-tab index="1" ng-if="false">
 
