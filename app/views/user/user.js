@@ -186,7 +186,7 @@ angular.module('console.user', ['kubernetesUI',
         //    console.log(orders);
         //})
 
-        amounts.get({size:500,page:1,namespace:$rootScope.namespace,status:'O'}, function (data) {
+        amounts.get({size:500,page:1,namespace:$rootScope.namespace,status:'O',region:$rootScope.region,}, function (data) {
             //console.log(data);
             if (data.amounts) {
                 data.amounts.reverse()
