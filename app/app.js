@@ -76,7 +76,7 @@ define([
                             //跳转dashboard
 
                         } else {
-                            if (toState.name === 'console.plan' || toState.name === 'console.pay' || toState.name === 'console.noplan') {
+                            if (toState.name === 'console.plan' || toState.name === 'console.pay' || toState.name === 'console.noplan'||toState.name.indexOf('home')!==-1) {
                                 //$rootScope.projects=false;
                                 //alert(1)
                             }else {
