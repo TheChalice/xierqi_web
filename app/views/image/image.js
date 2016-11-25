@@ -397,6 +397,8 @@ angular.module('console.image', [
                 //$scope.images = res;
                 angular.forEach(datalist.items, function (item, i) {
 
+                    $scope.testlist=[];
+
                     if (item.status.tags && item.status.tags.length > 0) {
                         angular.forEach(item.status.tags, function (tag, k) {
                             if (tag.tag.split('-')[1]) {
@@ -413,7 +415,6 @@ angular.module('console.image', [
                         }, function (data) {
                             //console.log(data);
                             angular.forEach(data.image.dockerImageMetadata.ContainerConfig.ExposedPorts, function (port, k) {
-
                                 datalist.items[i].status.tags[0].port.push(k);
                             })
                             //console.log(datalist.items[i].status.tags[0]);
