@@ -26,7 +26,30 @@ angular.module('console.user', ['kubernetesUI',
                 refresh(newVal);
             }
         });
-
+        function clientTimeZone() {
+            var munites = new Date().getTimezoneOffset();
+            var hour = parseInt(munites / 60);
+            var munite = munites % 60;
+            var prefix = "-";
+            if (hour < 0 || munite < 0) {
+                prefix = "+";
+                hour = -hour;
+                if (munite < 0) {
+                    munite = -munite;
+                }
+            }
+            hour = hour + "";
+            munite = munite + "";
+            if (hour.length == 1) {
+                hour = "0" + hour;
+            }
+            if (munite.length == 1) {
+                munite = "0" + munite;
+            }
+            return prefix + hour + munite;
+        }
+        $scope.clientTimeZone = clientTimeZone()
+        console.log("timezone=" + clientTimeZone());
         var refresh = function(page) {
             var skip = (page - 1) * $scope.grid.size;
             $scope.myamounts = $scope.amountdata.slice(skip, skip + $scope.grid.size);
@@ -186,11 +209,12 @@ angular.module('console.user', ['kubernetesUI',
         //    console.log(orders);
         //})
 
-        amounts.get({size:500,page:1,namespace:$rootScope.namespace,status:'O',region:$rootScope.region,}, function (data) {
+        amounts.get({size:500,page:1,namespace:$rootScope.namespace,status:'O',region:$rootScope.region}, function (data) {
             //console.log(data);
             if (data.amounts) {
                 data.amounts.reverse()
                 angular.forEach(data.amounts, function (amount,i) {
+                    data.amounts[i].creation_time = amount.creation_time.replace(/Z/,$scope.clientTimeZone)
                     if (amount.description === "recharge") {
                         data.amounts[i].description='充值'
                     }else {
