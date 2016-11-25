@@ -1,13 +1,13 @@
 <div class="application">
        <!--<div class="cptitle">应用中心</div>-->
        <!-----------镜像中心暂时不实现所以先隐藏切换------------->
-       <div class="loader" ng-if="!saas" style="height: 700px;">
+       <div class="loader" ng-show="!saas" style="height: 700px;">
               <div class="loader-inner ball-clip-rotate-multiple">
                      <div></div>
                      <div></div>
               </div>
        </div>
-       <div ng-if="saas">
+       <div ng-show="saas">
               <div class="cptable">
                      <span ng-class="{'active':grid.active==1}" ng-click="changeTb(1)">SaaS服务</span><span ng-class="{'active':grid.active==2}" ng-click="changeTb(2)">镜像中心</span>
               </div>

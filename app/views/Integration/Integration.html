@@ -1,11 +1,11 @@
 <div class="backing-service">
-    <div class="loader" ng-if="!repos">
+    <div class="loader" ng-show="!repos">
         <div class="loader-inner ball-clip-rotate-multiple">
             <div></div>
             <div></div>
         </div>
     </div>
-<div ng-if="repos">
+<div ng-show="repos">
     <uib-tabset class="tab-default" active="check">
         <uib-tab index="1" style="width:auto;">
             <uib-tab-heading style="width:468px">
