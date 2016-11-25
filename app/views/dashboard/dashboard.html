@@ -1,12 +1,12 @@
 <div class="dashboard">
 
-    <div class="loader" ng-if="!balance||!plans">
+    <div class="loader" ng-show="!balance||!plans">
         <div class="loader-inner ball-clip-rotate-multiple">
             <div></div>
             <div></div>
         </div>
     </div>
-    <div ng-if="balance && plans">
+    <div ng-show="balance && plans">
         <div class="row firstline" style="padding:0;margin:0;">
             <div class="block block-left dash_account_block">
                 <h2 style="margin-top:0px;">账户信息</h2>

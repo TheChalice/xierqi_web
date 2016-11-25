@@ -1,12 +1,12 @@
 'use strict';
 angular.module('console.service', [
-    {
-        files: [
-            'components/searchbar/searchbar.js',
-            'views/service/service.css'
-        ]
-    }
-])
+        {
+            files: [
+                'components/searchbar/searchbar.js',
+                'views/service/service.css'
+            ]
+        }
+    ])
     .controller('ServiceCtrl', ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'GLOBAL', 'Confirm', 'Sort', 'Ws', 'Pod',
         function ($rootScope, $scope, $log, $state, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, GLOBAL, Confirm, Sort, Ws, Pod) {
             $scope.grid = {

@@ -1,12 +1,12 @@
 <div id="build">
 
-    <div class="loader" ng-if="!items">
+    <div class="loader" ng-show="!items">
         <div class="loader-inner ball-clip-rotate-multiple">
             <div></div>
             <div></div>
         </div>
     </div>
-    <div  ng-if="items">
+    <div  ng-show="items">
         <div class="row" style="margin-right: 0;">
             <div class="col-sm-4 col-xs-4">
                 <a class="btn btn-green" ui-sref="console.build_create_new" style="margin-right:20px;">

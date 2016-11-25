@@ -4,13 +4,13 @@
     .blank_tit{font-size:14px;color:#5a6378;margin-left:10px;vertical-align:middle;}
 </style>
 <div class="resource_management">
-    <div class="loader" ng-if="!persistents">
+    <div class="loader" ng-show="!persistents">
         <div class="loader-inner ball-clip-rotate-multiple">
             <div></div>
             <div></div>
         </div>
     </div>
-    <div ng-if="persistents">
+    <div ng-show="persistents">
         <uib-tabset class="tab-default" active="check">
             <uib-tab index="1" >
                 <uib-tab-heading style="width:180px">
