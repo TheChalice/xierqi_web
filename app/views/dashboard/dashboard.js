@@ -46,21 +46,21 @@ angular.module('console.dashboard', [
             }, function (res) {
                 $log.info("find project err", res);
             });
-            $scope.plans = {
-                cpu: "",
-                ram: "",
-                price: '',
-                planName: ''
-            }
+
             account.get({
                 namespace: $rootScope.namespace,
                 region: $rootScope.region,
                 status: "consuming"
             }, function (res) {
-                //console.log('lalallalalalllallal',res);
+                console.log('lalallalalalllallal',res);
                 market.get({region: $rootScope.region, type: 'resources'}, function (data) {
-                    //console.log('eeeeeeeeeeee',data);
-
+                    console.log('eeeeeeeeeeee',data);
+                    $scope.plans = {
+                        cpu: "",
+                        ram: "",
+                        price: '',
+                        planName: ''
+                    }
                     angular.forEach(res.subscriptions, function (item, k) {
                         if (item.type === "resources") {
                             angular.forEach(data.plans, function (plan, i) {
