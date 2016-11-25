@@ -62,7 +62,7 @@ angular.module('console.apply_instance', [
                  namespace: $rootScope.namespace,
                  region:$rootScope.region,
                  parameters:{
-                     resource_name:plan.name
+                     resource_name:$scope.bsi.metadata.name
                  }
              }, function (data) {
                  //console.log(data);
