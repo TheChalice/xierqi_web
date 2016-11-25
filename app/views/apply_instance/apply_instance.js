@@ -6,8 +6,8 @@ angular.module('console.apply_instance', [
         ]
     }
 ])
-.controller('ApplyInstanceCtrl',['Modalbs','$log','$rootScope','$scope','BackingService', 'BackingServiceInstance', '$stateParams', '$state',
-    function(Modalbs,$log, $rootScope, $scope, BackingService, BackingServiceInstance, $stateParams, $state){
+.controller('ApplyInstanceCtrl',['checkout','Modalbs','$log','$rootScope','$scope','BackingService', 'BackingServiceInstance', '$stateParams', '$state',
+    function(checkout,Modalbs,$log, $rootScope, $scope, BackingService, BackingServiceInstance, $stateParams, $state){
 
     $scope.grid = {
         checked: 0,
@@ -55,15 +55,51 @@ angular.module('console.apply_instance', [
          $scope.bsi.spec.provisioning.backingservice_plan_name = plan.name;
          Modalbs.open($scope.bsName,plan).then(function () {
              $log.info("BackingServiceInstance",$scope.bsi);
-             BackingServiceInstance.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.bsi,function(){
-                 $scope.grid.error=false
-                 $log.info("build backing service instance success");
-                 $state.go('console.backing_service_detail', {name: $scope.data.metadata.name, index:2})
-             }, function (data) {
-                 if (data.status === 409) {
-                     $scope.grid.error=true
+
+             checkout.create({
+                 drytry:0,
+                 plan_id: plan.id,
+                 namespace: $rootScope.namespace,
+                 region:$rootScope.region,
+                 parameters:{
+                     resource_name:plan.name
                  }
+             }, function (data) {
+                 //console.log(data);
+                 //volume.create({namespace: $rootScope.namespace}, $scope.volume, function (res) {
+                 //    //alert(11111)
+                 //    $scope.loaded = false;
+                 //$state.go('console.resource_management', {index: 1});
+                 $state.go('console.backing_service_detail', {name: $scope.data.metadata.name, index:2})
+                 //}, function (err) {
+                 //    $scope.loaded = false;
+                 //    Toast.open('构建失败,请重试');
+                 //})
+
+             }, function (err) {
+                 $scope.loaded = false;
+                 if (err.data.code === 3316) {
+
+                     Tip.open('提示', '账户可用余额不足。', '充值', true).then(function () {
+                         $state.go('console.pay');
+                     })
+                 } else {
+
+                     Tip.open('提示', '支付失败,请重试', '知道了', true).then(function () {
+
+                     })
+                 }
+
              })
+             //BackingServiceInstance.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.bsi,function(){
+             //    $scope.grid.error=false
+             //    $log.info("build backing service instance success");
+             //    $state.go('console.backing_service_detail', {name: $scope.data.metadata.name, index:2})
+             //}, function (data) {
+             //    if (data.status === 409) {
+             //        $scope.grid.error=true
+             //    }
+             //})
          })
 
 
