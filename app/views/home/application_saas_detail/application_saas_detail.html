@@ -1,11 +1,11 @@
 <div class="application" id="application1" >
-    <div class="loader" ng-if="!saasobj">
+    <div class="loader" ng-show="!saasobj">
         <div class="loader-inner ball-clip-rotate-multiple">
             <div></div>
             <div></div>
         </div>
     </div>
-    <div ng-if="saasobj">
+    <div ng-show="saasobj">
         <div class="appdetailtop"><span class="backapp" ui-sref="home.application">应用中心</span><span>SAAS详情</span></div>
         <div class="appdetailcon">
             <!-------------------------------->

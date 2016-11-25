@@ -11,7 +11,7 @@ angular.module('console.plan', [
     .controller('planCtrl', ['balance','amounts', 'by', 'checkout', '$state', 'Tip', '$scope', '$rootScope', 'account', 'Tip', 'market',
         function (balance,amounts, by, checkout, $state, Tip, $scope, $rootScope, account, Tip, market) {
             //console.log('$rootScope.projects', $rootScope.projects);
-            $scope.plans = [];
+
             balance.get({namespace:$rootScope.namespace,region:$rootScope.region}, function (data) {
                 $scope.balance = data
                 //console.log('balance', data);
@@ -26,6 +26,7 @@ angular.module('console.plan', [
                 //}
                 market.get({region:$rootScope.region,type:'resources'}, function (data) {
                     //console.log(data);
+                    $scope.plans = [];
                     angular.forEach(data.plans, function (plan, i) {
                         if (plan.region_id === $rootScope.region) {
                             $scope.plans.push(plan);

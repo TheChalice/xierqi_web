@@ -1,11 +1,11 @@
 <div class="backing-service-detail">
-    <div class="loader" ng-if="!data">
+    <div class="loader" ng-show="!data">
         <div class="loader-inner ball-clip-rotate-multiple">
             <div></div>
             <div></div>
         </div>
     </div>
-    <div ng-if="data">
+    <div ng-show="data">
         <div class="info">
             <div class="info-image" style='background-image: url({{data.spec.metadata.imageUrl}});background-repeat:no-repeat;background-position: center'>
             </div>
