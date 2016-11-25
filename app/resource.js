@@ -685,7 +685,7 @@ define([
         }])
 
         .factory('redeem', ['$resource', 'GLOBAL', function ($resource) {//充值优惠卷
-            var redeem = $resource('/payment/v1/redeem', {}, {
+            var redeem = $resource('/payment/v1/redeem?region=:region', {region: '@region'}, {
                 create: {method: 'POST'}
             });
             return redeem;
