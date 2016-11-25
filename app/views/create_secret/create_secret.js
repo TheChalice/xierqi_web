@@ -216,7 +216,7 @@ angular.module('console.create_secret', [
             $scope.secrets.data[item.key] = Base64.encode(item.value);
         })
         delete $scope.secrets.secretsarr;
-        secretskey.create({namespace: $rootScope.namespace}, $scope.secrets, function (res) {
+        secretskey.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.secrets, function (res) {
             $scope.grid.nameerr = false;
             //console.log('createconfig----',res);
             $scope.loaded = false;

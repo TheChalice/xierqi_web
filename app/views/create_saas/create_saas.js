@@ -10,11 +10,11 @@ angular.module('console.create_saas', [
     ])
     .controller('create_saasCtrl',['saas','$scope','$rootScope', 'creatapp', '$state','$stateParams',
         function (saas,$scope, $rootScope, creatapp, $state,$stateParams) {
-            console.log('$stateParams', $stateParams.name);
+            //console.log('$stateParams', $stateParams.name);
             if ($stateParams.name) {
                 //$scope.saasname=$stateParams.name;
                 saas.get({id:$stateParams.name}, function (res) {
-                    console.log(res);
+                    //console.log(res);
                     $scope.saasname=res.data.name;
                     $scope.url=res.data.url;
                 })
@@ -166,11 +166,11 @@ angular.module('console.create_saas', [
         $scope.postsecret = function () {
             $scope.loaded = true;
             angular.forEach($scope.secrets.secretsarr, function (item, i) {
-                console.log(item.key, item.value);
+                //console.log(item.key, item.value);
                 $scope.secrets.spec.userprovidedservice.credentials[item.key] = item.value
             })
             delete $scope.secrets.secretsarr;
-            creatapp.create({namespace: $rootScope.namespace}, $scope.secrets, function (res) {
+            creatapp.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.secrets, function (res) {
                 $scope.grid.nameerr = false;
                 //console.log('createconfig----',res);
                 $scope.loaded = false;

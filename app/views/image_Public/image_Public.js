@@ -12,7 +12,7 @@ angular.module('console.image_Public', [
             //console.log($state.params.name);
             $scope.name=$state.params.name;
             $scope.lastname=$state.params.name.split('/')[1];
-            $scope.items=[]
+            //
             $http.get('/registry/api/repositories/tags', {params: {repo_name:$state.params.name}})
                 .success(function (tags) {
                     //console.log(tags);
@@ -20,7 +20,7 @@ angular.module('console.image_Public', [
                         $http.get('/registry/api/repositories/manifests',
                             {params: {repo_name:$scope.name,tag:tag}})
                             .success(function (tagmessage) {
-
+                                $scope.items=[]
                                 $scope.items.push({tag:tag,tagcen:tagmessage});
                                 if ($scope.items.length == tags.length) {
                                     //console.log($scope.items);
@@ -44,7 +44,7 @@ angular.module('console.image_Public', [
                 var str = $scope.name+':'+name
                 ModalPullImage.open(str)
                     .then(function(res){
-                        console.log("cmd1", res);
+                        //console.log("cmd1", res);
                     });
             };
         }])

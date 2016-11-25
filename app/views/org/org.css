@@ -160,11 +160,11 @@ ul,li,ol{
     margin-top: 40px;
 }
 
-.nav-tabs > li {
-    width: 180px;
-    height: 50px;
-    text-align: center;
-}
+/*.nav-tabs > li {*/
+    /*width: 180px;*/
+    /*height: 50px;*/
+    /*text-align: center;*/
+/*}*/
 
 .tab-default li .nav-link {
     height: 50px;

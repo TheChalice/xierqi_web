@@ -39,7 +39,8 @@ angular.module('console.service.detail', [
             };
 
             $scope.portsArr = [];
-            $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas').success(function (data) {
+
+            $http.get('/api/v1/namespaces/' + $rootScope.namespace + '/resourcequotas?region='+$rootScope.region).success(function (data) {
                 //console.log('配额', data.items[0].spec.hard['requests.cpu']);
                 //console.log('配额', data.items[0].spec.hard['requests.memory']);
                 if (data.items&&data.items[0]&&data.items[0].spec) {
@@ -59,8 +60,8 @@ angular.module('console.service.detail', [
                 }
 
                 if ($scope.grid.cpunum || $scope.grid.megnum) {
-                    console.log(n.cpu, $scope.grid.cpunum);
-                    console.log(n.memory, $scope.grid.megnum);
+                    //console.log(n.cpu, $scope.grid.cpunum);
+                    //console.log(n.memory, $scope.grid.megnum);
                     if (n.cpu) {
                         if (parseFloat(n.cpu) > parseFloat($scope.grid.cpunum)) {
                             $scope.grid.cpuerr = true;
@@ -86,7 +87,7 @@ angular.module('console.service.detail', [
                     } else {
                         $scope.grid.memoryerr = false;
                     }
-                    console.log($scope.grid.memoryerr, $scope.grid.cpuerr);
+                    //console.log($scope.grid.memoryerr, $scope.grid.cpuerr);
                 }
             }, true)
 
@@ -161,7 +162,7 @@ angular.module('console.service.detail', [
             }
 
             var getserviceaccounts = function () {
-                serviceaccounts.get({namespace: $rootScope.namespace}, function (res) {
+                serviceaccounts.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                     $scope.serviceas = res
                     //console.log('----------------------',res);
                 })
@@ -303,7 +304,7 @@ angular.module('console.service.detail', [
             };
 
             var loadDc = function (name) {
-                DeploymentConfig.get({namespace: $rootScope.namespace, name: name}, function (res) {
+                DeploymentConfig.get({namespace: $rootScope.namespace, name: name,region:$rootScope.region}, function (res) {
                     if (!res.metadata.annotations) {
                         res.metadata.annotations = {};
                     }
@@ -400,7 +401,7 @@ angular.module('console.service.detail', [
                         } else {
                             var coni = item.image;
                             if (coni.indexOf('@') != -1) {
-                                ImageStream.get({namespace: $rootScope.namespace, name: test(coni)}, function (res) {
+                                ImageStream.get({namespace: $rootScope.namespace, name: test(coni),region:$rootScope.region}, function (res) {
 
                                     for (var i = 0; i < res.status.tags.length; i++) {
                                         for (var j = 0; j < res.status.tags[i].items.length; j++) {
@@ -471,10 +472,10 @@ angular.module('console.service.detail', [
                         }
                     }
                     loadRcs(res.metadata.name);
-                    loadRoutes();
+
                     loadBsi($scope.dc.metadata.name);
                     loadPods(res.metadata.name);
-                    loadService(res.metadata.name);
+                    loadService(res);
                     //isConflict();   //判断端口是否冲突
 
                 }, function (res) {
@@ -492,8 +493,8 @@ angular.module('console.service.detail', [
             };
 
             var loadService = function (dc) {
-                Service.get({namespace: $rootScope.namespace, name: dc}, function (res) {
-                    // $log.info("service-=-=-=-=-=-=-=-", res);
+                Service.get({namespace: $rootScope.namespace, name: dc.metadata.name,region:$rootScope.region}, function (res) {
+                     $log.info("service-=-=-=-=-=-=-=-", res);
                     $scope.service = res;
 
                     for (var i = 0; i < res.spec.ports.length; i++) {
@@ -526,7 +527,7 @@ angular.module('console.service.detail', [
                     // console.log("_+_+_+_+_+ $scope.portsArr",$scope.portsArr);
                     //updatePorts($scope.dc.spec.template.spec.containers);
                     iscreatesv = true;
-
+                    loadRoutes(dc,res);
                 }, function (res) {
                     iscreatesv = false;
 
@@ -670,7 +671,8 @@ angular.module('console.service.detail', [
                 var labelSelector = 'openshift.io/deployment-config.name=' + name;
                 ReplicationController.get({
                     namespace: $rootScope.namespace,
-                    labelSelector: labelSelector
+                    labelSelector: labelSelector,
+                    region:$rootScope.region
                 }, function (res) {
                     // $log.info("replicationControllers", res);
                     res.items = Sort.sort(res.items, -1);
@@ -711,17 +713,13 @@ angular.module('console.service.detail', [
                 });
             };
 
-            var loadRoutes = function () {
-                Route.get({namespace: $rootScope.namespace}, function (res) {
-                    // $log.info("routes", res);
-                    if (!$scope.routeconf) {
+            var loadRoutes = function (dc,sever) {
+                //console.log(sever,dc);
+                Route.get({namespace: $rootScope.namespace,name:dc.metadata.name,region:$rootScope.region}, function (res) {
+                     $log.info("routes", res);
 
-                        angular.forEach(res.items, function (myroute, i) {
-                            if (myroute.spec.to.name == $scope.dc.metadata.name) {
-                                $scope.routeconf = angular.copy(myroute);
-                            }
-                        })
-                        //console.log('$scope.routeconf111111', $scope.routeconf);
+                    if (!$scope.routeconf) {
+                        $scope.routeconf = angular.copy(res);
 
                         if ($scope.grid.tlsset && $scope.routeconf) {
                             if (!$scope.routeconf.spec.tls) {
@@ -734,28 +732,46 @@ angular.module('console.service.detail', [
                         } else if (!$scope.routeconf) {
                             $scope.routeconf = angular.copy($scope.route)
                         }
-
-
                     }
 
                     $scope.getroutes = res;
-                    //console.log('$scope.getroutes', $scope.getroutes);
-                    for (var i = 0; i < res.items.length; i++) {
-                        if (res.items[i].spec.to.kind != 'Service') {
-                            continue;
-                        }
-                        //console.log("$scope.dc.metadata.name--0-0-0-0",$scope.dc.metadata.name);
-                        //console.log("res.items[i].spec.to.name--0-0-0-0",res.items[i].spec.to.name);
-                        if (res.items[i].spec.to.name === $scope.dc.metadata.name) {
-                            $scope.dc.route = res.items[i];
-                            $scope.grid.route = true;
-                            if ($scope.dc.route.spec.port) {
-                                $scope.grid.port = parseInt($scope.dc.route.spec.port.targetPort.replace(/-.*/, ''));
+                    $scope.dc.route=res;
+                    $scope.grid.route = true;
+
+                    if ($scope.dc.route.spec.port) {
+
+                        angular.forEach(sever.spec.ports, function (port,i) {
+                            if ($scope.routeconf.spec.port.targetPort === port.name) {
+                                //console.log('port',port);
+                                $scope.grid.port = port.targetPort
+                            }
+                        })
+                        var hoststr = $scope.dc.route.spec.host;
+                        var r =/\.app\.dataos\.io/;
+                        //$scope.grid.host = $scope.dc.route.spec.host.replace('.app.dataos.io', '');
+                        if (r.test($scope.dc.route.spec.host)) {
+                            //alert(1)
+                            var arr=hoststr.split('.')
+                            if (arr[arr.length - 4] === $rootScope.namespace) {
+                                $scope.grid.suffix='.' + $rootScope.namespace + '.app.dataos.io';
+                               // $scope.grid.host = $scope.dc.route.spec.host.replace('.app.dataos.io', '');
+                            }else {
+
+                                $scope.grid.suffix='.app.dataos.io';
                             }
                             $scope.grid.host = $scope.dc.route.spec.host.replace($scope.grid.suffix, '');
 
+                        }else {
+                            //alert(2)
+                            $scope.grid.suffix='';
+                            $scope.grid.host=$scope.dc.route.spec.host
                         }
+
+                        var arr=hoststr.split('.')
+
+                        //console.log('$scope.grid.host', arr[arr.length-4]);
                     }
+
                 }, function (res) {
                     //todo 错误处理
                     // $log.info("loadRoutes err", res);
@@ -763,7 +779,7 @@ angular.module('console.service.detail', [
             };
 
             var loadBsi = function (dc) {
-                BackingServiceInstance.get({namespace: $rootScope.namespace}, function (res) {
+                BackingServiceInstance.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                     // $log.info("backingServiceInstance", res);
 
                     for (var i = 0; i < res.items.length; i++) {
@@ -786,7 +802,8 @@ angular.module('console.service.detail', [
             };
             //$scope.events=[];
             var loadeventws = function () {
-                Event.get({namespace: $rootScope.namespace}, function (res) {
+                Event.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
+                    //console.log('event',res);
                     if (!$scope.eventsws) {
                         $scope.eventsws = []
                         var arr = []
@@ -801,6 +818,7 @@ angular.module('console.service.detail', [
 
                         })
                         //console.log('eventsws', arr);
+                        $scope.hasevent==arr.length
                         angular.forEach(arr, function (item, i) {
                             arr[i].mysort = -(new Date(item.metadata.creationTimestamp)).getTime()
                         })
@@ -908,65 +926,16 @@ angular.module('console.service.detail', [
             };
             //执行log
             var updateRcs = function (data) {
-                //console.log('data.type', data.type);
-                //DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (dcdata) {
-                //$scope.dc = dcdata;
-                //var copyannotations = angular.copy(dcdata.metadata.annotations);
-                //$scope.getdc.spec.replicas = dcdata.spec.replicas;
-                //for (var i = 0; i < dcdata.spec.template.spec.containers.length; i++) {
-                //    var imagetag = 'dadafoundry.io/image-' + dcdata.spec.template.spec.containers[i].name;
-                //    if (dcdata.metadata.annotations && dcdata.metadata.annotations[imagetag]) {
-                //        var tagarr = dcdata.metadata.annotations[imagetag].split(":");
-                //        dcdata.spec.template.spec.containers[i].tag = tagarr[1];
-                //        dcdata.spec.template.spec.containers[i].imagename = tagarr[0];
-                //    } else {
-                //        angular.forEach(dcdata.spec.template.spec.containers, function (item) {
-                //            var tagstr = item.image;
-                //            if (tagstr.indexOf('@') != -1) {
-                //                item.tag = tagstr.split('@')[1];
-                //            } else {
-                //                item.tag = tagstr.split(':')[1];
-                //            }
-                //        });
-                //    }
-                //    if(dcdata.spec.triggers){
-                //        for(var j = 0 ; j < dcdata.spec.triggers.length;j++){
-                //            if(dcdata.spec.triggers[j].type == "ImageChange"){
-                //                if(dcdata.spec.triggers[j].imageChangeParams.containerNames[0] == dcdata.spec.template.spec.containers[i].name){
-                //                    if(!$scope.dc.spec.template.spec.containers[i].isshow){
-                //                        $scope.dc.spec.template.spec.containers[i].isimageChange = true;
-                //                        $scope.dc.spec.template.spec.containers[i].isshow = true;
-                //                    }
-                //
-                //                }
-                //            }
-                //        }
-                //    }
-                //}
-                //if(copyannotations["dadafoundry.io/imageorpublic"]){
-                //    var imageorpublic = $scope.arrimgstr =copyannotations["dadafoundry.io/imageorpublic"].split(",");
-                //    var imageorisshow = $scope.arrisshow = copyannotations["dadafoundry.io/imageorisshow"].split(",");
-                //    for(var i = 0 ; i < imageorpublic.length; i++){
-                //        if(imageorpublic[i] == 'true' && imageorisshow[i] == 'true'){
-                //            $scope.dc.spec.template.spec.containers[i].isimageChange = true;
-                //            $scope.dc.spec.template.spec.containers[i].isshow = true;
-                //        }else if(imageorpublic[i] == 'false' && imageorisshow[i] == 'true'){
-                //            $scope.dc.spec.template.spec.containers[i].isimageChange = false;
-                //            $scope.dc.spec.template.spec.containers[i].isshow = true;
-                //        }else if(imageorpublic[i] == 'false' && imageorisshow[i] == 'false'){
-                //            $scope.dc.spec.template.spec.containers[i].isimageChange = false;
-                //            $scope.dc.spec.template.spec.containers[i].isshow = false;
-                //        }
-                //    }
-                //}
-                loadService($scope.dc.metadata.name);
+
+                loadService($scope.dc);
                 changevol($scope.dc);
-                loadRoutes()
+                //loadRoutes()
 
                 var labelSelector = 'openshift.io/deployment-config.name=' + $scope.dc.metadata.name;
                 ReplicationController.get({
                     namespace: $rootScope.namespace,
-                    labelSelector: labelSelector
+                    labelSelector: labelSelector,
+                    region:$rootScope.region
                 }, function (res) {
                     res.items = Sort.sort(res.items, -1);
                     for (var i = 0; i < res.items.length; i++) {
@@ -977,24 +946,37 @@ angular.module('console.service.detail', [
                         }
                     }
                     //})
-                    for (var i = 0; i < $scope.getroutes.items.length; i++) {
-                        if ($scope.getroutes.items[i].spec.to.kind != 'Service') {
-                            continue;
-                        }
-                        if ($scope.getroutes.items[i].spec.to.name == $scope.dc.metadata.name) {
-                            $scope.dc.route = $scope.getroutes.items[i];
-                            $scope.grid.route = true;
-                            if ($scope.dc.route && $scope.dc.route.spec.port) {
-                                $scope.grid.port = parseInt($scope.dc.route.spec.port.targetPort.replace(/-.*/, ''));
-
-                            }
-                            if ($scope.dc.route) {
-                                $scope.grid.host = $scope.dc.route.spec.host.replace($scope.grid.suffix, '');
-                            }
-
+                    if ($scope.getroutes&&$scope.getroutes.spec.to.name === $scope.dc.metadata.name) {
+                        $scope.dc.route = $scope.getroutes;
+                        $scope.grid.route = true;
+                        if ($scope.dc.route && $scope.dc.route.spec.port) {
+                            $scope.grid.port = parseInt($scope.dc.route.spec.port.targetPort.replace(/-.*/, ''));
 
                         }
+                        if ($scope.dc.route) {
+                            $scope.grid.host = $scope.dc.route.spec.host.replace($scope.grid.suffix, '');
+                        }
+
+
                     }
+                    //for (var i = 0; i < $scope.getroutes.items.length; i++) {
+                    //    //if ($scope.getroutes.items[i].spec.to.kind != 'Service') {
+                    //    //    continue;
+                    //    //}
+                    //    if ($scope.getroutes.items[i].spec.to.name == $scope.dc.metadata.name) {
+                    //        $scope.dc.route = $scope.getroutes.items[i];
+                    //        $scope.grid.route = true;
+                    //        if ($scope.dc.route && $scope.dc.route.spec.port) {
+                    //            $scope.grid.port = parseInt($scope.dc.route.spec.port.targetPort.replace(/-.*/, ''));
+                    //
+                    //        }
+                    //        if ($scope.dc.route) {
+                    //            $scope.grid.host = $scope.dc.route.spec.host.replace($scope.grid.suffix, '');
+                    //        }
+                    //
+                    //
+                    //    }
+                    //}
                     // console.log('执行了');
 
                     loadPods($scope.dc.metadata.name);
@@ -1156,7 +1138,8 @@ angular.module('console.service.detail', [
                     item.spec.replicas = $scope.dc.spec.replicas;
                     ReplicationController.put({
                         namespace: $rootScope.namespace,
-                        name: item.metadata.name
+                        name: item.metadata.name,
+                        region:$rootScope.region
                     }, item, function (res) {
                         // $log.info("$scope.dc0-0-0-0-0-0-", $scope.dc);
                         // $log.info("start dc success", res);
@@ -1196,7 +1179,8 @@ angular.module('console.service.detail', [
                     item.spec.replicas = 0;
                     ReplicationController.put({
                         namespace: $rootScope.namespace,
-                        name: item.metadata.name
+                        name: item.metadata.name,
+                        region:$rootScope.region
                     }, item, function (res) {
                         // $log.info("start dc success", res);
                         item = res;
@@ -1214,12 +1198,13 @@ angular.module('console.service.detail', [
                 if (!o.dc) {
                     return;
                 }
-                DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (dcdata) {
+                DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name,region:$rootScope.region}, function (dcdata) {
                     o.dc.metadata.resourceVersion = dcdata.metadata.resourceVersion;
                     o.dc.status.latestVersion = dcdata.status.latestVersion + 1;
                     DeploymentConfig.put({
                         namespace: $rootScope.namespace,
-                        name: o.dc.metadata.name
+                        name: o.dc.metadata.name,
+                        region:$rootScope.region
                     }, o.dc, function (res) {
                         // $log.info("start rc success", res);
 
@@ -1240,7 +1225,8 @@ angular.module('console.service.detail', [
                     o.metadata.annotations['openshift.io/deployment.cancelled'] = 'true';
                     ReplicationController.put({
                         namespace: $rootScope.namespace,
-                        name: o.metadata.name
+                        name: o.metadata.name,
+                        region:$rootScope.region
                     }, o, function (res) {
                         // $log.info("stop rc success", res);
 
@@ -1254,7 +1240,7 @@ angular.module('console.service.detail', [
             };
 
             var deleService = function () {
-                Service.delete({namespace: $rootScope.namespace, name: $scope.dc.metadata.name}, function (res) {
+                Service.delete({namespace: $rootScope.namespace, name: $scope.dc.metadata.name,region:$rootScope.region}, function (res) {
                     // console.log("deleService-yes",res);
                 }, function (res) {
                     // console.log("deleService-no",res);
@@ -1262,7 +1248,7 @@ angular.module('console.service.detail', [
             }
 
             var deleRoute = function () {
-                Route.delete({namespace: $rootScope.namespace, name: $scope.dc.metadata.name}, function (res) {
+                Route.delete({namespace: $rootScope.namespace, name: $scope.dc.metadata.name,region:$rootScope.region}, function (res) {
                     // console.log("deleRoute-yes",res);
                 }, function (res) {
                     // console.log("deleRoute-no",res);
@@ -1276,7 +1262,8 @@ angular.module('console.service.detail', [
                 var labelSelector = 'openshift.io/deployment-config.name=' + dc;
                 ReplicationController.remove({
                     namespace: $rootScope.namespace,
-                    labelSelector: labelSelector
+                    labelSelector: labelSelector,
+                    region:$rootScope.region
                 }, function (res) {
                     // $log.info("remove rcs success", res);
                     rmDc(dc)
@@ -1291,7 +1278,8 @@ angular.module('console.service.detail', [
                 }
                 DeploymentConfig.remove({
                     namespace: $rootScope.namespace,
-                    name: dc
+                    name: dc,
+                    region:$rootScope.region
                 }, function () {
                     $http.delete('/api/v1/namespaces/' + $rootScope.namespace + '/pods?' + 'labelSelector=deploymentconfig%3D' + $scope.dc.metadata.name).success(function (data) {
                         // console.log(data);
@@ -1321,7 +1309,7 @@ angular.module('console.service.detail', [
                         bindKind: 'DeploymentConfig'
                     };
                     // console.log(bindObj)
-                    BackingServiceInstanceBd.put({namespace: $rootScope.namespace, name: binding.metadata.name},
+                    BackingServiceInstanceBd.put({namespace: $rootScope.namespace, name: binding.metadata.name,region:$rootScope.region},
                         bindObj, function (res) {
                             //console.log('解绑定', res);
                             Toast.open('解除绑定');
@@ -1387,7 +1375,8 @@ angular.module('console.service.detail', [
                 } else {
                     DeploymentConfig.log.get({
                         namespace: $rootScope.namespace,
-                        name: $scope.dc.metadata.name
+                        name: $scope.dc.metadata.name,
+                        region:$rootScope.region
                     }, function (res) {
 
                         var result = "";
@@ -1462,7 +1451,7 @@ angular.module('console.service.detail', [
             var loadPods = function (dc) {
                 var labelSelector = 'deploymentconfig=' + dc;
                 $scope.dc.status.replicas = 0;
-                Pod.get({namespace: $scope.namespace, labelSelector: labelSelector}, function (res) {
+                Pod.get({namespace: $scope.namespace, labelSelector: labelSelector,region:$rootScope.region}, function (res) {
                     $scope.pods = res;
 
                     $scope.pods.items = res.items;
@@ -1518,7 +1507,7 @@ angular.module('console.service.detail', [
                 for (var i = 0; i < pods.length; i++) {
                     podNames.push(pods[i].metadata.name);
                 }
-                Event.get({namespace: $rootScope.namespace}, function (res) {
+                Event.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                     // $log.info("events", res);
 
                     var events = [];
@@ -1548,8 +1537,8 @@ angular.module('console.service.detail', [
                         obj = pod
                     }
                 })
-                console.log('pod', obj);
-                console.log('pod', obj.spec.containers[idx]);
+                //console.log('pod', obj);
+                //console.log('pod', obj.spec.containers[idx]);
                 var pod = obj.spec.containers[idx];
                 ContainerModal.open(obj, pod);
             };
@@ -1705,7 +1694,7 @@ angular.module('console.service.detail', [
 
                 })
             };
-/////////////挂载卷
+            /////////////挂载卷
             var cintainersidx;
 
             $scope.addVolume = function (idx) {
@@ -1773,7 +1762,7 @@ angular.module('console.service.detail', [
                         $scope.dc.spec.template.spec.containers[i].volumeMounts = copycons;
                     }
                     $scope.dc.spec.template.spec.volumes = thisvolumes;
-                    console.log('-----------------------dc-', $scope.dc);
+                    //console.log('-----------------------dc-', $scope.dc);
                 });
             }
 
@@ -1824,7 +1813,7 @@ angular.module('console.service.detail', [
                 var container = $scope.dc.spec.template.spec.containers[idx];
                 var cons = $scope.dc.spec.template.spec.containers;
                 ImageSelect.open().then(function (res) {
-                    console.log("imageStreamTag", res);
+                    //console.log("imageStreamTag", res);
                     $scope.grid.imagePullSecrets = true;
                     var imagetag = '';
                     if (res.ispublicimage) {
@@ -1942,7 +1931,7 @@ angular.module('console.service.detail', [
                     //路由端口需清空
                     $scope.grid.port = '';
                     //console.log($scope.dc.spec.template.spec.containers);
-                    console.log('$scope.dc.spec.template.spec.containers', $scope.dc.spec.template.spec.containers);
+                    //console.log('$scope.dc.spec.template.spec.containers', $scope.dc.spec.template.spec.containers);
                     angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
                         if (ports.port) {
                             angular.forEach(ports.port, function (port, k) {
@@ -2057,7 +2046,8 @@ angular.module('console.service.detail', [
                         if (isBind(bsi, dc) && !bsi.bind) {  //绑定设置为不绑定
                             BackingServiceInstance.bind.put({
                                 namespace: $rootScope.namespace,
-                                name: bsi.metadata.name
+                                name: bsi.metadata.name,
+                                region:$rootScope.region
                             }, bindObj, function (res) {
                                 // $log.info("unbind service success", res);
                             }, function (res) {
@@ -2068,7 +2058,8 @@ angular.module('console.service.detail', [
                         if (!isBind(bsi, dc) && bsi.bind) {  //未绑定设置为绑定
                             BackingServiceInstance.bind.create({
                                 namespace: $rootScope.namespace,
-                                name: bsi.metadata.name
+                                name: bsi.metadata.name,
+                                region:$rootScope.region
                             }, bindObj, function (res) {
                                 // $log.info("bind service success", res);
                             }, function (res) {
@@ -2101,7 +2092,8 @@ angular.module('console.service.detail', [
                 $scope.service.metadata.name = $scope.dc.metadata.name;
                 Service.put({
                     namespace: $rootScope.namespace,
-                    name: $scope.service.metadata.name
+                    name: $scope.service.metadata.name,
+                    region:$rootScope.region
                 }, $scope.service, function (res) {
                     // $log.info("update service success", res);
                     $scope.service = res;
@@ -2175,7 +2167,7 @@ angular.module('console.service.detail', [
                 } else {
                     $scope.service.spec.ports = null;
                 }
-                Service.create({namespace: $rootScope.namespace}, $scope.service, function (res) {
+                Service.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.service, function (res) {
                     // $log.info("create service success", res);
                     $scope.service = res;
 
@@ -2199,7 +2191,7 @@ angular.module('console.service.detail', [
             var createRoute = function (service) {
                 prepareRoute($scope.route, service);
 
-                Route.create({namespace: $rootScope.namespace}, $scope.route, function (res) {
+                Route.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.route, function (res) {
                     // $log.info("create route success", res);
                     $scope.route = res;
                 }, function (res) {
@@ -2213,7 +2205,7 @@ angular.module('console.service.detail', [
                     $scope.routeconf.spec.host = $scope.grid.host + $scope.grid.suffix;
                     //dc.route.spec.port.targetPort = $scope.grid.port + '-tcp';
                     $scope.routeconf.spec.port.targetPort = $scope.grid.port + '-tcp';
-                    console.log($scope.routeconf);
+                    //console.log($scope.routeconf);
                     if ($scope.grid.tlsset == 'passthrough') {
                         $scope.routeconf.spec.tls.termination = $scope.grid.tlsset;
                         delete $scope.routeconf.spec.tls.insecureEdgeTerminationPolicy
@@ -2236,7 +2228,8 @@ angular.module('console.service.detail', [
                     }
                     Route.put({
                         namespace: $rootScope.namespace,
-                        name: dc.route.metadata.name
+                        name: dc.route.metadata.name,
+                        region:$rootScope.region
                     }, $scope.routeconf, function (res) {
                         $log.info("create route success", res);
                         //alert(111)
@@ -2260,7 +2253,7 @@ angular.module('console.service.detail', [
                 } else {            //route不存在,创建route
                     prepareRoute($scope.route, dc);
 
-                    console.log($scope.grid);
+                    //console.log($scope.grid);
                     if ($scope.grid.tlsset == 'passthrough') {
                         $scope.route.spec.tls.termination = $scope.grid.tlsset;
 
@@ -2293,8 +2286,8 @@ angular.module('console.service.detail', [
                     } else {
                         delete $scope.route.spec.tls
                     }
-                    console.log('createRoute', $scope.route);
-                    Route.create({namespace: $rootScope.namespace}, $scope.route, function (res) {
+                    //console.log('createRoute', $scope.route);
+                    Route.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.route, function (res) {
                         // $log.info("create route success", res);
                         $scope.route = res;
 
@@ -2354,12 +2347,12 @@ angular.module('console.service.detail', [
                 $scope.dc.metadata.annotations["dadafoundry.io/imageorisshow"] = $scope.arrisshow.join();
                 var dc = angular.copy($scope.dc);
                 var cons = angular.copy($scope.dc.spec.template.spec.containers);
-                DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name}, function (datadc) {
+                DeploymentConfig.get({namespace: $rootScope.namespace, name: $stateParams.name,region:$rootScope.region}, function (datadc) {
                     //dc.spec.template.spec.volumes = [];
                     dc.metadata.resourceVersion = datadc.metadata.resourceVersion;
                     dc.status.latestVersion = datadc.status.latestVersion + 1;
                     var flog = 0;
-                    console.log("123456789123456789", dc);
+                    //console.log("123456789123456789", dc);
                     for (var i = 0; i < dc.spec.template.spec.containers.length; i++) {
                         if (cons[i].ports) {
                             var testlength = cons[i].ports.length;
@@ -2568,7 +2561,8 @@ angular.module('console.service.detail', [
                     var updatedcput = function (dc) {
                         DeploymentConfig.put({
                             namespace: $rootScope.namespace,
-                            name: dc.metadata.name
+                            name: dc.metadata.name,
+                            region:$rootScope.region
                         }, dc, function (res) {
                             // $log.info("update dc success", res);
                             $scope.getdc.spec.replicas = $scope.dc.spec.replicas;
@@ -2594,7 +2588,7 @@ angular.module('console.service.detail', [
 
                         }
 
-                        secretskey.create({namespace: $rootScope.namespace}, secretsobj, function (res) {
+                        secretskey.create({namespace: $rootScope.namespace,region:$rootScope.region}, secretsobj, function (res) {
                             updatedcput(dc);
                         }, function (res) {
                             if (res.status == 409) {
@@ -2619,7 +2613,7 @@ angular.module('console.service.detail', [
                     function ($log, Ws, $sce, ansi_ups, $rootScope, $scope, $uibModalInstance, Pod) {
                         $scope.grid = {};
                         $scope.pod = pod;
-                        console.log("pod-=-=-=-=-++++", pod);
+                        //console.log("pod-=-=-=-=-++++", pod);
                         $scope.ok = function () {
                             $uibModalInstance.close(true);
                         };
@@ -2634,11 +2628,12 @@ angular.module('console.service.detail', [
                         $scope.getLog = function (pod) {
                             var params = {
                                 namespace: $rootScope.namespace,
+                                region:$rootScope.region,
                                 name: pod,
                                 sinceTime: $scope.grid.st ? $scope.grid.st.toISOString() : (new Date(0)).toISOString()
                             };
-                            Pod.get({namespace: $rootScope.namespace, name: pod}, function (podcenter) {
-                                console.log(podcenter.metadata.resourceVersion);
+                            Pod.get({namespace: $rootScope.namespace, name: pod,region:$rootScope.region}, function (podcenter) {
+                                //console.log(podcenter.metadata.resourceVersion);
                                 //watchpod(podcenter.metadata.resourceVersion)
                             })
                             Pod.log.get(params, function (res) {
@@ -2743,7 +2738,8 @@ angular.module('console.service.detail', [
                                 if (container.image.indexOf('@') != -1) {
                                     ImageStream.get({
                                         namespace: $rootScope.namespace,
-                                        name: imageStreamName(container.image)
+                                        name: imageStreamName(container.image),
+                                        region:$rootScope.region
                                     }, function (res) {
                                         if (res.kind == 'ImageStream') {
                                             angular.forEach(res.status.tags, function (tag) {
@@ -2822,7 +2818,7 @@ angular.module('console.service.detail', [
                                 sinceTime: $scope.grid.st ? $scope.grid.st.toISOString() : (new Date(0)).toISOString()
                             };
                             //console.log('container', container);
-                            Pod.get({namespace: $rootScope.namespace, name: pod.metadata.name}, function (podcenter) {
+                            Pod.get({namespace: $rootScope.namespace, name: pod.metadata.name,region:$rootScope.region}, function (podcenter) {
                                 //console.log(podcenter.metadata.resourceVersion);
                                 watchpod(podcenter.metadata.resourceVersion, container)
                             })

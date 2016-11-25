@@ -105,7 +105,8 @@ angular.module('console.build_create_new', [
             if ($scope.buildConfig.spec.source.git&&$scope.buildConfig.spec.source.git.ref == '') {
                 delete $scope.buildConfig.spec.source.git.ref;
             }
-                BuildConfig.create({namespace: $rootScope.namespace},$scope.buildConfig, function(res){
+                //$scope.buildConfig.region=$rootScope.region;
+            BuildConfig.create({namespace: $rootScope.namespace,region:$rootScope.region},$scope.buildConfig, function(res){
                     $log.info("buildConfig",res);
                     createBuild(res.metadata.name);
                     $scope.creating = false;
@@ -159,7 +160,7 @@ angular.module('console.build_create_new', [
                     },
                     "type": "Opaque"
                 }
-                secretskey.create({namespace: $rootScope.namespace}, $scope.secret, function(item){
+                secretskey.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.secret, function(item){
                     //alert(11111)
                     $scope.buildConfig.spec.source.sourceSecret.name = $scope.secret.metadata.name;
                     createBC();
@@ -182,7 +183,7 @@ angular.module('console.build_create_new', [
                   name: $scope.buildConfig.metadata.name
                 }
             };
-            ImageStream.create({namespace: $rootScope.namespace}, imageStream, function (res) {
+            ImageStream.create({namespace: $rootScope.namespace,region:$rootScope.region}, imageStream, function (res) {
                 $log.info("imageStream", res);
                 if($scope.grid.labcon == true){
                     getlabsecret($scope.labHost,$scope.labobjs[$scope.grid.labproject].id);
@@ -217,7 +218,8 @@ angular.module('console.build_create_new', [
                   name: name
                 }
             };
-            BuildConfig.instantiate.create({namespace: $rootScope.namespace, name: name}, buildRequest, function(){
+
+            BuildConfig.instantiate.create({namespace: $rootScope.namespace, name: name,region:$rootScope.region}, buildRequest, function(){
                 $log.info("build instantiate success");
                 $state.go('console.build_detail', {name: name, from: 'create/new'})
             }, function(res){
@@ -377,7 +379,7 @@ angular.module('console.build_create_new', [
             private_token : ""
         }
 
-        $scope.labusername = [];
+        //$scope.labusername = [];
 
         $scope.labrepos = [];
 
@@ -506,7 +508,7 @@ angular.module('console.build_create_new', [
                             $scope.labusername[0] = thisowner;
                         }
 
-                        $log.info("laborgs", data)
+                        //$log.info("laborgs", data)
                         for(var i = 0 ; i < data.msg.infos.length;i++){
                             $scope.labusername.push(data.msg.infos[i]);
                             for(var j = 0; j < data.msg.infos[i].repos.length;j++){
@@ -629,7 +631,7 @@ angular.module('console.build_create_new', [
         };
 
         $scope.selectLabProject = function(idx, chooose){
-            console.log('_+_+_+_+_+_+_+', $scope.labobjs[idx]);
+            //console.log('_+_+_+_+_+_+_+', $scope.labobjs[idx]);
             var labId = $scope.labobjs[idx].id;
             labBranch.get({repo:labId},function(data) {
                 if ($scope.choooseProject && $scope.grid.labproject == idx) {

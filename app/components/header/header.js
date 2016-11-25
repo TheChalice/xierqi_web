@@ -11,8 +11,59 @@ angular.module("console.header", [
             restrict: 'EA',
             replace: true,
             templateUrl: 'components/header/header.html',
-            controller: ['Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
-                function (Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
+            controller: ['account','regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
+                function (account,regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
+                    ///////分区
+                    //$scope.curregion = $rootScope.region;
+
+                    $scope.checkregion = function (res,id) {
+                        $scope.curregion = res;
+                        $rootScope.region=id
+                        Cookie.set('region',id, 10 * 365 * 24 * 3600 * 1000);
+                        console.log($state.current.name);
+                        if ($state.current.name === 'console.dashboard') {
+                            $state.reload();
+                        }else {
+                            $state.go('console.dashboard');
+                        }
+                        //$state.reload();
+                    }
+
+                    regions.query({}, function (data) {
+                        //console.log('regions', data);
+                        $scope.regions = data;
+                        $scope.copyregions=angular.copy(data);
+                        angular.forEach(data, function (region, i) {
+                            if (region.identification === $rootScope.region) {
+                                $scope.curregion = region.region_describe;
+                            }
+
+                        })
+                    })
+                    $scope.$watch('curregion', function (n,o) {
+                        if (n === o) {
+                            return
+                        }
+                        //$scope.regionlist=$scope.copyregionlist;
+                        var arr = angular.copy($scope.copyregions)
+                        if ($scope.regions) {
+                            //console.log($scope.regionlist,$scope.copyregionlist);
+                            angular.forEach( $scope.copyregions, function (item,i) {
+                                if (item.region_describe === n) {
+                                    //console.log(item.region_describe, $scope.regionlist);
+                                    arr.splice(i, 1);
+
+                                }
+                            })
+                            $scope.regions=arr;
+                        }
+                    })
+                    //$scope.regionlist = [
+                    //    {regionname : '一区一区'},
+                    //    {regionname : '二区二区'}
+                    //]
+
+
                     if ($state.params.useorg) {
                         $http({
                             url: '/lapi/orgs/' + $state.params.useorg,
@@ -24,6 +75,7 @@ angular.module("console.header", [
                         });
 
                     }
+                    $scope.checked = '';
                     //if($rootScope.delOrgs){
                     //    $http({
                     //        url:'/lapi/orgs/'+$state.params.useorg,
@@ -66,12 +118,12 @@ angular.module("console.header", [
                     })
                     //$rootScope.isorg = false;
                     $scope.$watch('namespace', function (n, o) {
-                        console.log('new', n);
+                        //console.log('new', n);
                         if (n == o) {
                             return
                         }
                         if (n.indexOf('org') == -1) {
-                            $rootScope.isorg=false;
+                            $rootScope.isorg = false;
                             $http({
                                 url: '/lapi/inbox_stat',
                                 method: 'GET',
@@ -110,14 +162,25 @@ angular.module("console.header", [
                             }, 1000000)
                         } else {
                             clearInterval($scope.timer);
-                            $rootScope.isorg=true;
+                            $rootScope.isorg = true;
                         }
 
 
                     });
-                    $scope.$on('$destroy', function(){
+                    $scope.$on('$destroy', function () {
                         clearInterval($scope.timer);
                     });
+                    account.get({namespace:$rootScope.namespace,region:$rootScope.region,status:"consuming"}, function (data) {
+                        //console.log('套餐', data);
+                        //$rootScope.payment=data;
+                        if (data.purchased) {
+                           $scope.cancreatorg = true
+                            //跳转dashboard
+                        }else{
+                            $scope.cancreatorg = false
+                            //跳转购买套餐
+                        }
+                    })
                     $scope.createOrg = function () {
                         Addmodal.open('创建组织', '组织名称', '', '', 'org').then(function (res) {
                             orgList.get({}, function (org) {
@@ -150,18 +213,24 @@ angular.module("console.header", [
                             // console.log('112',data.name)
                             $scope.checked = data.name
                         })
-                    } else if ($rootScope.huancun&&$rootScope.huancun.name) {
+                    } else if ($rootScope.huancun && $rootScope.huancun.name) {
 
                         $scope.checked = $rootScope.huancun.name;
-                        $rootScope.huancun.name=false
+                        $rootScope.huancun.name = false
                     } else if (!$scope.checked) {
 
                         $scope.checked = $rootScope.namespace;
                     }
-
+                    $scope.backindex = function () {
+                        $rootScope.whereclick = '首页';
+                        $state.go('home.index')
+                    }
                     $scope.gotomy = function () {
                         $scope.checked = $rootScope.user.metadata.name;
+
                         $rootScope.namespace = $rootScope.user.metadata.name;
+                        Cookie.set('namespace', $rootScope.user.metadata.name, 10 * 365 * 24 * 3600 * 1000);
+
 
                     }
 
@@ -169,13 +238,16 @@ angular.module("console.header", [
                         $scope.checked = $scope.userorgs[ind].name;
                         $rootScope.namespace = $scope.userorgs[ind].id;
                         $scope.neworgid = $scope.userorgs[ind].id
-                        console.log('路由',$state);
-                        if ($state.current.name == 'console.apply_instance'||$state.current.name == 'console.build_create_new'||$state.current.name == 'console.service_create') {
+                        //console.log('路由',$state);
+                        if ($state.current.name == 'console.apply_instance' || $state.current.name == 'console.build_create_new' || $state.current.name == 'console.service_create') {
                             return
-                        }else if($state.current.url.indexOf(':')!==-1&&$state.current.name!=='console.dashboard'){
+                        } else if ($state.current.url.indexOf(':') !== -1 && $state.current.name !== 'console.dashboard') {
                             //$location.url('/'+)
-                            console.log($state.current.url.split('/')[1]);
-                            $location.url('/console/'+$state.current.url.split('/')[1])
+                            //console.log($state.current.url.split('/')[1]);
+                            $location.url('/console/' + $state.current.url.split('/')[1])
+                        } else if ($state.current.name == 'console.dashboard') {
+                            //console.log($rootScope.namespace);
+                            $state.reload();
                         }
                         //console.log('路由',$state);
 
@@ -187,6 +259,7 @@ angular.module("console.header", [
                     });
                     //图片预加载
                     var images = new Array()
+
                     function preload() {
                         for (var i = 0; i < arguments.length; i++) {
                             images[i] = new Image()
@@ -211,7 +284,9 @@ angular.module("console.header", [
                     );
 
                     $scope.hasBack = function () {
-                        if ($state.current.name == "console.Integration" ||$state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name == "console.notification" || $state.current.name == "console.resource_management") {
+
+                        if ($state.current.name == "console.noplan" || $state.current.name == "console.Integration"  || $state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name == "console.notification" || $state.current.name == "console.resource_management") {
+
                             return false
                         }
                         return true;
@@ -229,33 +304,43 @@ angular.module("console.header", [
                             })
                         }
                     })
-                    $scope.$watch('checked', function (n,o) {
+                    $scope.$watch('checked', function (n, o) {
                         if (n == o) {
                             return
                         }
                         console.log('checked', n);
                     })
                     //console.log('$rootScope',$rootScope);
-                    $rootScope.huancun={}
+                    $rootScope.huancun = {}
                     $scope.logout = function () {
                         Cookie.clear('df_access_token');
                         Cookie.clear('namespace');
+                        Cookie.clear('region');
+                        $rootScope.region = '';
+                        $scope.checked = '';
                         $rootScope.user = null;
                         $rootScope.namespace = "";
-                        clearInterval($scope.timer)
+                        clearInterval($scope.timer);
                         $state.go('home.index');
 
                     };
-                    $scope.change=false;
+                    $scope.change = false;
                     $scope.setNamespace = function (namespace, name) {
                         //console.log(namespace);
+
                         $rootScope.namespace = namespace;
                         Cookie.set('namespace', namespace, 10 * 365 * 24 * 3600 * 1000);
                         $state.reload();
                         //$scope.change=true;
-                        $scope.checked = name;
-                        $rootScope.huancun.name=name;
-                        console.log('$scope.checked',$scope.checked);
+                        $scope.checked = name || namespace;
+                        $rootScope.huancun.name = name || namespace;
+                        ;
+                        console.log('$scope.checked', $scope.checked);
+                        if (namespace.indexOf('org') !== -1) {
+                            $state.go('console.org', {useorg: namespace})
+                        } else {
+                            $state.go('console.dashboard')
+                        }
                     }
                     // setting timer
                     $scope.checkInbox = function () {
@@ -317,15 +402,21 @@ angular.module("console.header", [
                     return "持久卷详情";
                 case "console.create_saas":
                     return "新建服务实例";
+                case "console.pay":
+                    return "充值";
+                case "console.plan":
+                    return "套餐";
                 case "console.Integration":
                     return "数据集成";
                 case "console.Integration_detail":
-                    return "数据列表";
-                case "console.Integration_dlist":
                     return "数据详情";
+                case "console.Integration_dlist":
+                    return "数据预览";
                 case "console.dataseverdetail":
                     return "创建服务实例";
+
             }
         };
+
     }]);
 

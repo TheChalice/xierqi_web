@@ -34,6 +34,7 @@ angular.module('console.notification', [
         console.log('inbox',data);
       $scope.sitenotify=data;
     }).error(function(data,header,config,status){
+
     });
 
     $scope.sitenotifycheckeds=function () {
