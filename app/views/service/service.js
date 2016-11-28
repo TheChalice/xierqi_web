@@ -30,7 +30,10 @@ angular.module('console.service', [
                 //console.log(page);
 
                 var skip = (page - 1) * $scope.grid.size;
-                $scope.items = $scope.data.slice(skip, skip + $scope.grid.size);
+                if ($scope.data.length) {
+                    $scope.items = $scope.data.slice(skip, skip + $scope.grid.size);
+                }
+
 
                 //$log.info('$scope.items=-=-=-=-=-=',$scope.items);
                 //$scope.grid.total = $scope.data.items.length;
