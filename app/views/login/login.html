@@ -24,7 +24,7 @@
         <div class="modal-body" style="padding: 20px 30px 30px 30px;">
             <form class="form-horizontal" name="frm">
                 <div style="float:left;width:100%;margin-bottom: 18px;">
-                        <span class="dropdown"  id="dpdtop" style="">
+                        <span class="dropdown"  id="dpdtop" style="" ng-show="false">
                             <a class="dropdown-toggle" data-toggle="dropdown"  href="#" style="color:#333">{{curregion}}<b class="caret"></b></a>
                             <ul class="dropdown-menu dropdownbw">
                                 <li ng-repeat="relist in regionlist" ng-click="checkregion(relist.region_describe,relist.identification)">{{relist.region_describe}}</li>
