@@ -15,7 +15,6 @@ angular.module("console.header", [
                 function (account,regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
                     ///////分区
                     //$scope.curregion = $rootScope.region;
-
                     $scope.checkregion = function (res,id) {
                         $scope.curregion = res;
                         $rootScope.region=id
