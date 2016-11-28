@@ -91,13 +91,16 @@ angular.module('console.resource_management', [
                             //物理刷新不重启ws
 
                             $scope.persistentdata = res.items;
-                            $scope.grid.rmtotal = $scope.persistentdata.length;
-                            $scope.cpoypersistents = angular.copy($scope.persistentdata)
-                            $scope.grid.rmpage = 1;
-                            $scope.grid.rmtxt = '';
-                            rmrefresh(1);
                             //console.log('chijiu', res);
+                        }else {
+                            $scope.persistentdata=[];
+
                         }
+                        $scope.grid.rmtotal = $scope.persistentdata.length;
+                        $scope.cpoypersistents = angular.copy($scope.persistentdata)
+                        $scope.grid.rmpage = 1;
+                        $scope.grid.rmtxt = '';
+                        rmrefresh(1);
 
                     })
 
