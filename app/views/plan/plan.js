@@ -24,6 +24,12 @@ angular.module('console.plan', [
                 //}else{
                 //    $('.plan_block_main').css("left","0");
                 //}
+                angular.forEach(mydata.subscriptions, function (data,i) {
+                    if (data.type === "resources") {
+                      $scope.subscriptions = data;
+                    }
+
+                })
                 market.get({region:$rootScope.region,type:'resources'}, function (data) {
                     //console.log(data);
                     $scope.plans = [];
@@ -40,9 +46,9 @@ angular.module('console.plan', [
                         //myplan.description=myplan.description.replace('CPU Core','')
                         //myplan.description2=myplan.description.replace('GB RAM','')
 
-                        if (mydata.subscriptions && mydata.subscriptions[0].price === myplan.price) {
+                        if (mydata.subscriptions && $scope.subscriptions.price === myplan.price) {
                             myplan.canbuy = 'check';
-                        } else if (!mydata.subscriptions || mydata.subscriptions[0].price < myplan.price) {
+                        } else if (!mydata.subscriptions || $scope.subscriptions.price < myplan.price) {
                             myplan.canbuy = 'big';
                         } else {
                             myplan.canbuy = 'small';

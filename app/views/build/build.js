@@ -30,8 +30,9 @@ angular.module('console.build', [
 
 
         $scope.buildsearch = function (event) {
-            if (event.keyCode === 13 || event === 'search') {
-                if (!$scope.grid.txt) {
+            //if (event.keyCode === 13 || event === 'search') {
+            //console.log($scope.grid.txt);
+            if (!$scope.grid.txt) {
                     $scope.data = angular.copy($scope.copydata)
                     refresh(1);
                     $scope.grid.total = $scope.copydata.length;
@@ -55,7 +56,7 @@ angular.module('console.build', [
                     console.log('$scope.data', $scope.data);
                     $scope.grid.total = $scope.data.length;
                 }
-            }
+            //}
         }
 
         //获取buildConfig列表
