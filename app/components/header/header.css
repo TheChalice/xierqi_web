@@ -1,5 +1,5 @@
-#header {
-    height: 70px;
+#header {/*jia 20161128 头部高度调整*/
+    height:55px;
     background: #f8b551;
     width:100%;min-width:1200px;
 }
@@ -28,7 +28,7 @@
     float: left;
     margin-left: -25px;
     color: #5a6378;
-    padding: 20px 15px 22px 40px;
+    padding: 20px 15px 10px 40px;
     font-size: 18px;
 }
 #header #header-menu {
@@ -157,12 +157,8 @@
 .dropdownbw li:hover{
     background: #e6e9f2;
 }
-#dpdtop:hover{
-    background: #dde0e9;
-}
-#dpdtop{
-    color: #5a6378;background:#e6e9f2;padding:10px 13px;
-}
+
+
 .userpic{
     width: 37px;
     height: 37px;
@@ -173,3 +169,33 @@
     background-repeat: no-repeat;
     background-position: center;
 }
+/*20161128 jia 头部修改 begin*/
+#header #header-brand{padding-left:25px;padding-right:25px;}
+#header #header-brand .header_logo{width:150px;height:18px;padding:0;margin-top:18px;}
+.data_bg{-webkit-transition:  background 300ms;-ms-transition:  background 300ms;-o-transition:  background 300ms;-moz-transition:  background 300ms;transition:  background 300ms;}
+
+.df_news{padding-left:14px;padding-right:14px;border-left:1px solid #f6a540;display:block;float:left;padding-top:18px;padding-bottom:16px;}
+.df_news:hover{background:#f6a540;}
+.header_area:hover{background:#f6a540;}
+.header_per:hover{background:#f6a540;}
+
+
+.df_h_com{width:20px;height:20px;display:inline-block;vertical-align:text-bottom;background-size:contain;margin-right:6px;}
+.df_h_news{background-image: url(img/df_news.png);}
+.df_h_area{background-image: url(img/df_area.png);}
+.df_h_per{background-image: url(img/df_person.png);}
+
+
+
+.df_news_tit{font-size:14px;color:#fff;}
+.header_toggle{font-size:14px;color:#fff;}
+.header_toggle:hover{font-size:14px;color:#fff;}
+.header_toggle:focus{color:#fff;}
+
+.header_area{cursor:pointer;float:left;display:block;padding-top:18px;padding-bottom:16px;padding-left:14px;padding-right:14px;border-left:1px solid #f6a540;}
+.header_per{cursor:pointer;float:left;display:block;padding-top:18px;padding-bottom:16px;padding-left:14px;padding-right:14px;border-left:1px solid #f6a540;}
+.header_per_tit{font-size:14px;color:#fff;}
+.h_caret{display:inline-block;width:0;height:0;vertical-align:middle;
+    border-top:6px dashed;border-right:6px solid transparent;border-left:6px solid transparent;
+color:#fff;margin-left:4px;}
+
