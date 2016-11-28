@@ -32,6 +32,8 @@ angular.module('console.service', [
                 var skip = (page - 1) * $scope.grid.size;
                 if ($scope.data.length) {
                     $scope.items = $scope.data.slice(skip, skip + $scope.grid.size);
+                }else {
+                    $scope.items=[];
                 }
 
 
