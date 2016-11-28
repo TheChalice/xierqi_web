@@ -10,8 +10,8 @@ angular.module('console.user', ['kubernetesUI',
 
         ]
     }
-]).controller('userCtrl', ['Project','orders','amounts', 'market', 'createOrg', '$rootScope', '$state', '$stateParams', 'Cookie', 'Toast', '$scope', 'ModalPwd', 'Addmodal', 'profile', 'pwdModify', '$http', 'Confirm', 'leave', 'orgList', 'Alert',
-    function (Project,orders,amounts, market, createOrg, $rootScope, $state, $stateParams, Cookie, Toast, $scope, ModalPwd, Addmodal, profile, pwdModify, $http, Confirm, leave, orgList, Alert) {
+]).controller('userCtrl', ['$log','Project','orders','amounts', 'market', 'createOrg', '$rootScope', '$state', '$stateParams', 'Cookie', 'Toast', '$scope', 'ModalPwd', 'Addmodal', 'profile', 'pwdModify', '$http', 'Confirm', 'leave', 'orgList', 'Alert',
+    function ($log,Project,orders,amounts, market, createOrg, $rootScope, $state, $stateParams, Cookie, Toast, $scope, ModalPwd, Addmodal, profile, pwdModify, $http, Confirm, leave, orgList, Alert) {
         $scope.credentials = {};
         $scope.grid = {
             st: null,
@@ -49,7 +49,7 @@ angular.module('console.user', ['kubernetesUI',
             return prefix + hour + munite;
         }
         $scope.clientTimeZone = clientTimeZone()
-        console.log("timezone=" + clientTimeZone());
+        //console.log("timezone=" + clientTimeZone());
         var refresh = function(page) {
             var skip = (page - 1) * $scope.grid.size;
             $scope.myamounts = $scope.amountdata.slice(skip, skip + $scope.grid.size);
@@ -222,7 +222,7 @@ angular.module('console.user', ['kubernetesUI',
                     }
                 })
                 $scope.myamounts = data.amounts;
-                console.log('creation_time',data.amounts[0].creation_time);
+                //console.log('creation_time',data.amounts[0].creation_time);
                 $scope.amountdata =angular.copy(data.amounts)
                 $scope.grid.total = data.amounts.length;
                 refresh(1);

@@ -250,12 +250,14 @@ angular.module('console.build_create_new', [
             },function(data){
                 $log.info('-=-=-=-=',data);
                 if (data.status == 400) {
+                    var tokens = Cookie.get('df_access_token');
+                    var tokenarr = tokens.split(',');
                     if (data.data.code == 1401){
                         // var authurl = data.data.msg + "?namespace=" + $rootScope.namespace
                         // + "%26bearer=" + Cookie.get("df_access_token")
                         // + "%26redirect_url=" + window.location.href ;
                         var authurl =  "namespace=" + $rootScope.namespace
-                            + "&bearer=" + Cookie.get("df_access_token")
+                            + "&bearer=" + tokenarr[0]
                             + "&redirect_url=" + window.location.href;
                         $log.info(authurl);
                         if($scope.grid.isfirst == 2){
