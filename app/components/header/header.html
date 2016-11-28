@@ -20,11 +20,15 @@
             <i class="df_h_com df_h_news"></i><span class="df_news_tit">消息</span>
         </a>
 
-        <div class="header_area data_bg " ng-click="changeregion()">
-            <i class="df_h_com df_h_area"></i>
-            <span class="dropdown"  id="dpdtop" style="">
-                <a class="dropdown-toggle header_toggle" data-toggle="dropdown"  href="#">{{curregion}}</a>
-                <b class="h_caret"></b>
+        <div class="header_area data_bg dropdown">
+            <!--<i class="df_h_com df_h_area"></i>-->
+            <!--<span>-->
+                <a class="dropdown-toggle header_toggle" data-toggle="dropdown" style="display: inline-block;padding-top: 20px;padding-bottom: 16px;"  href="#">
+                    <i class="df_h_com df_h_area"></i>
+                    {{curregion}}
+                    <b class="h_caret"></b>
+                </a>
+
                 <ul class="dropdown-menu dropdownbw">
                     <li ng-repeat="region in regions" ng-click="checkregion(region.region_describe,region.identification)" >{{region.region_describe}}</li>
                     <!--<li ng-repeat="relist in regionlist" ng-click="checkregion(relist.regionname)">{{relist.regionname}}</li>-->
