@@ -68,7 +68,7 @@ angular.module('console.image', [
                 page: 1,
                 repertoryspage: 1,
                 imagecenterpage: 1,
-                size: 8,
+                size: 12,
                 copytest: {},
                 search: false
             };
