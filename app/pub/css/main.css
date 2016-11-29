@@ -890,6 +890,7 @@ a {
     border: none;
     box-shadow: none;
     color: #5a6378;
+    z-index:999;
 }
 
 .searchbar .btn {
