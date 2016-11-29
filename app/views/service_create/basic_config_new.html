@@ -378,18 +378,18 @@
                                     <div class="row" style="margin-top: 15px;" ng-repeat="port in portsArr">
                                         <div class="col-sm-3">
                                             <!--<input type="text" readonly class="input-small" ng-model="port.protocol">-->
-                                            <select class="input-small" ng-model='port.protocol'>
+                                            <select class="input-small" style="height:23px;" ng-model='port.protocol'>
                                                 <option value='TCP'>TCP</option>
                                                 <option value='UDP'>UDP</option>
                                             </select>
                                         </div>
                                         <div class="col-sm-3">
-                                            <input type="number" class="input-small" onkeyup="value=value.replace(/[^\d]/g,'')"
+                                            <input type="number" style="height:23px;" class="input-small" onkeyup="value=value.replace(/[^\d]/g,'')"
                                                    ng-class="{'input-error':port.conflict}"
                                                    ng-model="port.containerPort">
                                         </div>
                                         <div class="col-sm-3">
-                                            <input type="number" onkeyup="value=value.replace(/[^\d]/g,'')"
+                                            <input type="number" style="height:23px;" onkeyup="value=value.replace(/[^\d]/g,'')"
                                                    ng-model="port.hostPort"
                                                    class="input-small"
                                                    ng-class="{'input-error':port.serviceConflict}">

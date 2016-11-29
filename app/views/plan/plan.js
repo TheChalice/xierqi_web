@@ -26,7 +26,7 @@ angular.module('console.plan', [
                 //}
                 angular.forEach(mydata.subscriptions, function (data,i) {
                     if (data.type === "resources") {
-                        $scope.subscriptions = data;
+                      $scope.subscriptions = data;
                     }
 
                 })

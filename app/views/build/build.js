@@ -28,10 +28,10 @@ angular.module('console.build', [
             $scope.items = $scope.data.slice(skip, skip + $scope.grid.size);
         };
 
-
         $scope.buildsearch = function (event) {
-            if (event.keyCode === 13 || event === 'search') {
-                if (!$scope.grid.txt) {
+            //if (event.keyCode === 13 || event === 'search') {
+            //console.log($scope.grid.txt);
+            if (!$scope.grid.txt) {
                     $scope.data = angular.copy($scope.copydata)
                     refresh(1);
                     $scope.grid.total = $scope.copydata.length;
@@ -40,9 +40,9 @@ angular.module('console.build', [
                     var iarr = [];
                     var str = $scope.grid.txt;
                     str = str.toLocaleLowerCase();
-                    console.log('$scope.copydata', $scope.copydata);
+                   // console.log('$scope.copydata', $scope.copydata);
                     angular.forEach($scope.copydata, function (item, i) {
-                        console.log(item.build);
+                       // onsole.log(item.build);
                         var nstr = item.metadata.name;
                         nstr = nstr.toLocaleLowerCase();
                             if (nstr.indexOf(str) !== -1) {
@@ -52,10 +52,10 @@ angular.module('console.build', [
                     })
                     $scope.data=angular.copy(iarr);
                     refresh(1);
-                    console.log('$scope.data', $scope.data);
+                   // console.log('$scope.data', $scope.data);
                     $scope.grid.total = $scope.data.length;
                 }
-            }
+            //}
         }
 
         //获取buildConfig列表
