@@ -146,7 +146,7 @@
 }
 .dropdownbw{
     min-width:88px;
-    font-size: 12px;border-radius:0;-webkit-box-shadow:none;margin-top:0;
+    font-size: 12px;border-radius:0;-webkit-box-shadow:none;margin-top:0;top:55px;
 }
 .dropdownbw li{
     height:50px;line-height:50px;text-align:left;
@@ -187,7 +187,16 @@
 .df_h_com{width:20px;height:20px;display:inline-block;vertical-align:text-bottom;background-size:contain;margin-right:6px;float:left;}
 .df_h_news{background-image: url(img/df_news.png);}
 .df_h_area{background-image: url(img/df_area.png);}
+.df_area_active{background-image: url(img/df_area_active.png);margin-top:14px;}
 .df_h_per{background-image: url(img/df_person.png);}
+.df_person_active{background-image: url(img/df_person_active.png);margin-top:16px;}
+.df_q_active{background-image: url(img/df_q_active.png);margin-top:16px;}
+.df_qed_active{background-image: url(img/df_qed_active.png);margin-top:16px;}
+.df_quit{background-image: url(img/df_quit.png);margin-top:16px;}
+
+
+
+
 .df_h_per_active{margin-left:14px;margin-right:12px;}
 
 
