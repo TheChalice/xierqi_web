@@ -37,6 +37,7 @@ angular.module('console.resource_management', [
 
             var rmrefresh = function (page) {
                 var skip = (page - 1) * $scope.grid.size;
+                console.log($scope.persistentdata);
                 $scope.persistents = $scope.persistentdata.slice(skip, skip + $scope.grid.size);
 
             };
@@ -56,8 +57,9 @@ angular.module('console.resource_management', [
                         namespace: $rootScope.namespace,
                         region: $rootScope.region
                     }, function (resdc) {
-                        //console.log('dc',resdc);
+                        console.log('dc',resdc);
                         $scope.grid.constantlyvolume = false;
+                        console.log(res.items, 1);
                         angular.forEach(res.items, function (volitem, i) {
                             res.items[i].arr = []
                             angular.forEach(resdc.items, function (dcitem, k) {
@@ -89,8 +91,8 @@ angular.module('console.resource_management', [
                                 watchPc(res.metadata.resourceVersion);
                             }
                             //物理刷新不重启ws
-
                             $scope.persistentdata = res.items;
+
                             //console.log('chijiu', res);
                         }else {
                             $scope.persistentdata=[];

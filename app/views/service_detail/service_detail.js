@@ -1312,7 +1312,7 @@ angular.module('console.service.detail', [
                     BackingServiceInstanceBd.put({namespace: $rootScope.namespace, name: binding.metadata.name,region:$rootScope.region},
                         bindObj, function (res) {
                             //console.log('解绑定', res);
-                            Toast.open('解除绑定');
+                            Toast.open('删除成功');
                         }, function (res) {
 
                         });
