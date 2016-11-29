@@ -8,7 +8,7 @@ angular.module('console.build_create_new', [
     .controller ('BuildcCtrl', ['randomWord','$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch','labOwner','psgitlab','laborgs','labBranch','ImageStream', 'BuildConfig', 'Alert','$http','Cookie','$base64', 'secretskey',
     function(randomWord,$rootScope, $scope, $state, $log, Owner, Org, Branch,labOwner,psgitlab,laborgs,labBranch,ImageStream, BuildConfig, Alert, $http, Cookie, $base64, secretskey) {
         $('input[ng-model="buildConfig.metadata.name"]').focus();
-        $scope.running = false;
+        $scope.labrunning=false;
         $scope.runninghub = false;
         $scope.buildConfig = {
             metadata: {
@@ -491,7 +491,9 @@ angular.module('console.build_create_new', [
 
         $scope.loadlabOwner = function(click){
             $scope.grid.labcon = true;
+
             if (!click) {
+                $scope.labrunning=true;
                 labOwner.get({cache:'false'},function(data) {
                     //$log.info("labOwner", data)
                     for(var i = 0 ; i < data.msg.infos.length;i++){
@@ -504,6 +506,7 @@ angular.module('console.build_create_new', [
                     //if (!click) {
                     laborgs.get({cache:'false'},function(data) {
                         $scope.labHost = data.msg.host;
+                        $scope.labrunning=false;
                         $scope.labusername = [];
                         //console.log("thisowner0-0-0-0-",thisowner);
                         if(thisowner){
@@ -519,6 +522,7 @@ angular.module('console.build_create_new', [
                         }
                         //$log.info("0-0-0-00-0-$scope.labusername",$scope.labusername);
                     },function(data){
+                        $scope.labrunning=false;
                         $log.info("laborgs-------err",data)
                     });
                     //}
@@ -526,7 +530,7 @@ angular.module('console.build_create_new', [
                     //$log.info(' $scope.grid0-0-0', $scope.grid)
                 },function(data){
                     $log.info("labOwner-------err",data);
-                    $scope.running = false;
+                    $scope.labrunning=false;
                     if(data.status == 400 && data.data.code == 1401){
                         $scope.grid.labcon = false;
                         //$scope.grid.gitlabbox = true;
@@ -568,7 +572,7 @@ angular.module('console.build_create_new', [
                     //$log.info(' $scope.grid0-0-0', $scope.grid)
                 },function(data){
                     $log.info("labOwner-------err",data);
-                    $scope.running = false;
+                    $scope.labrunning=false;
                     if(data.status == 400 && data.data.code == 1401){
                         $scope.grid.labcon = false;
                         //$scope.grid.gitlabbox = true;
