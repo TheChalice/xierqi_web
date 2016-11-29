@@ -6,9 +6,9 @@ angular.module('console.build_create_new', [
     }
 ])
     .controller ('BuildcCtrl', ['randomWord','$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch','labOwner','psgitlab','laborgs','labBranch','ImageStream', 'BuildConfig', 'Alert','$http','Cookie','$base64', 'secretskey',
-        function(randomWord,$rootScope, $scope, $state, $log, Owner, Org, Branch,labOwner,psgitlab,laborgs,labBranch,ImageStream, BuildConfig, Alert, $http, Cookie, $base64, secretskey) {
-            $scope.labrunning=false;
-
+    function(randomWord,$rootScope, $scope, $state, $log, Owner, Org, Branch,labOwner,psgitlab,laborgs,labBranch,ImageStream, BuildConfig, Alert, $http, Cookie, $base64, secretskey) {
+        $('input[ng-model="buildConfig.metadata.name"]').focus();
+        $scope.labrunning=false;
         $scope.runninghub = false;
         $scope.buildConfig = {
             metadata: {
