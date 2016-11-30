@@ -20,7 +20,8 @@
 .searchbar .btn:hover {
     background-image: url(img/search-focus.png);
 }
-
+.blank_tit{font-size:14px;color:#5a6378;margin-left:10px;vertical-align:middle;}
+.blank_block{margin-bottom:0;}
 
 /*.myimage{*/
     /*background: url(../../pub/img/myimage.png) no-repeat;*/
