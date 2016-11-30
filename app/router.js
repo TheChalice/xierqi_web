@@ -43,16 +43,16 @@ define([
                         }]
                     }
                 })
-                .state('home.introduce', {
-                    url: '/introduce',
-                    templateUrl: 'views/home/introduce/introduce.html',
-                    controller: 'introduceCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/home/introduce/introduce.js')
-                        }]
-                    }
-                })
+                //.state('home.introduce', {
+                //    url: '/introduce',
+                //    templateUrl: 'views/home/introduce/introduce.html',
+                //    controller: 'introduceCtrl',
+                //    resolve: {
+                //        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                //            return $ocLazyLoad.load('views/home/introduce/introduce.js')
+                //        }]
+                //    }
+                //})
                 .state('home.application', {
                     url: '/application',
                     templateUrl: 'views/home/application/application.html',
@@ -106,11 +106,11 @@ define([
                 })
                 .state('home.index', {
                     url: '/index',
-                    templateUrl: 'views/home/index/index.html',
-                    controller: 'IndexCtrl',
+                    templateUrl: 'views/home/introduce/introduce.html',
+                    controller: 'introduceCtrl',
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/home/index/index.js')
+                            return $ocLazyLoad.load('views/home/introduce/introduce.js')
                         }]
                     }
                 })
