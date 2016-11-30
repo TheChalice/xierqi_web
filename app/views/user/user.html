@@ -351,8 +351,9 @@
                                        href="javascript:;">离开组织</a>
                                 </div>
                             </div>
+                            <div style="text-align: center;background: #fff;position:relative" ng-if="!orgList"><p class="blank_mg_block"><img src="pub/img/df_cion.png"><span class="blank_mag_tit"> 您还没有任何组织管理数据</span></p></div>
                         </div>
-                        <div style="text-align: center;background: #fff;position:relative" ng-if="orgList.length===0"><p class="blank_mg_block"><img src="pub/img/df_cion.png"><span class="blank_mag_tit"> 您还没有任何组织管理数据</span></p></div>
+
 
                     </div>
 
@@ -549,8 +550,8 @@
         /*数据为空时状态*/
         .blank_block{margin-bottom:0;}
         .blank_tit{font-size:14px;color:#5a6378;margin-left:10px;vertical-align:middle;}
-        .blank_mg_block{margin-bottom:0;}
-        .blank_mag_tit{font-size:14px;border:1px solid #ccc;padding-top:10px;padding-bottom:10px;margin-top:14px;
-            color:#5a6378;margin-left:10px;vertical-align:middle;}
+        .blank_mag_tit{margin-bottom:0;}
+        .blank_mg_block{font-size:14px;border:1px solid #ccc;padding-top:10px;padding-bottom:10px;margin-top:14px;
+            color:#5a6378;vertical-align:middle;}
     </style>
 

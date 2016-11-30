@@ -48,6 +48,7 @@ angular.module('console.user', ['kubernetesUI',
             }
             return prefix + hour + munite;
         }
+
         $scope.clientTimeZone = clientTimeZone()
         //console.log("timezone=" + clientTimeZone());
         var refresh = function(page) {
