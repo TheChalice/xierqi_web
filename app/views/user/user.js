@@ -54,6 +54,10 @@ angular.module('console.user', ['kubernetesUI',
         var refresh = function(page) {
             var skip = (page - 1) * $scope.grid.size;
             $scope.myamounts = $scope.amountdata.slice(skip, skip + $scope.grid.size);
+            $(document.body).animate({
+                scrollTop:0
+            },200);
+
         };
         //console.log($stateParams);
         if ($stateParams.index) {
