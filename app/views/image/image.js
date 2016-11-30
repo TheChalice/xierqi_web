@@ -107,6 +107,9 @@ angular.module('console.image', [
             });
             // myimage控制换页方法
             var refresh = function (page, type) {
+                $(document.body).animate({
+                    scrollTop:0
+                },200);
                 var skip = (page - 1) * $scope.grid.size;
                 if (type) {
                     $scope.grid.search = true;
@@ -122,6 +125,9 @@ angular.module('console.image', [
             };
             // regimage控制换页方法
             var repertorysrefresh = function (page, type) {
+                $(document.body).animate({
+                    scrollTop:0
+                },200);
                 var skip = (page - 1) * $scope.grid.size;
                 if (type) {
                     $scope.grid.search = true;
@@ -182,6 +188,9 @@ angular.module('console.image', [
             // imagecenter控制换页方法
             var imagecenterrefresh = function (page, type) {
                 //console.log(page);
+                $(document.body).animate({
+                    scrollTop:0
+                },200);
                 var skip = (page - 1) * $scope.grid.size;
                 if (type == 'search') {
                     //console.log($scope.typeimagecenter);
