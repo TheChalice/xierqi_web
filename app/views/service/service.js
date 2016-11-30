@@ -35,6 +35,9 @@ angular.module('console.service', [
                 }else {
                     $scope.items=[];
                 }
+                $scope.reload=function(){
+                    $state.reload();
+                }
 
 
                 //$log.info('$scope.items=-=-=-=-=-=',$scope.items);

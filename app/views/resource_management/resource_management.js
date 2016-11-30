@@ -45,6 +45,7 @@ angular.module('console.resource_management', [
             $scope.constantlyvolume = function () {
                 $scope.grid.constantlyvolume = true;
                 persistentlist('nows');
+                $state.reload();
             }
 
             function persistentlist(nows) {
