@@ -46,16 +46,16 @@ angular.module('home', [])
             //console.log($state.current.name);
 
             switch ($state.current.name) {
-                case 'home.index':
-                    $rootScope.whereclick = '首页'
-
-                    break;
+                //case 'home.index':
+                //    $rootScope.whereclick = '首页'
+                //
+                //    break;
                 case 'home.recharge':
                     $rootScope.whereclick = '价格'
 
                     break;
                 case 'home.introduce':
-                    $rootScope.whereclick = '产品'
+                    $rootScope.whereclick = '首页'
 
                     break;
                 case 'home.application':
