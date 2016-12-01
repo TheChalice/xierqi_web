@@ -72,6 +72,8 @@ angular.module('console.build_create_new', [
                 repeated: false
             }
             $scope.urlerr = false;
+            $scope.repoerr = false;
+            $scope.completionDeadlineMinutes = 30;
             $scope.nameblur = function () {
                 if ($scope.buildConfig.metadata.name && $scope.buildConfig.metadata.name.length === 0) {
                     $scope.namerr.nil = true
@@ -119,9 +121,32 @@ angular.module('console.build_create_new', [
 
             })
 
+            $scope.$watch('completionDeadlineMinutes', function (n,o) {
+                if (n === o) {
+                    return
+                }
+                if (n) {
+                    if (parseInt(n) > 61 || parseInt(n) < 1) {
+                        $scope.timeouted = true
+                    }else {
+                        $scope.timeouted = false
+                    }
+                }
+            })
+            $scope.$watch('buildConfig.spec.source.git.uri', function (n, o) {
+                if (n === o) {
+                    return
+                }
+                if (n) {
+                    //console.log(n);
+                    $scope.repoerr = false;
+                }
+
+            })
 
 
-            $scope.completionDeadlineMinutes = 30;
+
+
 
             $scope.$watch('buildConfig.metadata.name', function (n, o) {
                 if (n == o) {
@@ -716,26 +741,31 @@ angular.module('console.build_create_new', [
 
                     if ($scope.grid.user === null || $scope.grid.labbranch === null || $scope.grid.labproject === null) {
                         $scope.urlerr = true;
+                        return
                     }else {
                         $scope.urlerr = false;
                     }
                     //console.log($scope.urlerr);
                 }else if($scope.check === 2){
                     console.log('grid',$scope.grid);
-                    if ($scope.grid.user === null || $scope.grid.project === null || $scope.grid.labproject === null) {
+                    if ($scope.grid.user === null || $scope.grid.project === null || $scope.grid.branch === null) {
                         $scope.urlerr = true;
+                        return
                     }else {
                         $scope.urlerr = false;
                     }
                 }else if($scope.check === 3){
                     //console.log('grid',$scope.grid);
                     if (!$scope.buildConfig.spec.source.git.uri) {
-
+                        $scope.repoerr = true;
+                        return
+                    }else {
+                        $scope.repoerr = false;
                     }
                 }
 
 
-                if (!$scope.namerr.nil && !$scope.namerr.rexed && !$scope.namerr.repeated) {
+                if (!$scope.namerr.nil && !$scope.namerr.rexed && !$scope.namerr.repeated&&!$scope.timeouted) {
 
                 }else {
                     return
