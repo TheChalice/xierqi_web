@@ -10,8 +10,10 @@ angular.module('console.build_create_new', [
         $('input[ng-model="buildConfig.metadata.name"]').focus();
         $scope.labrunning=false;
         $scope.runninghub = false;
+
         $scope.buildConfig = {
             metadata: {
+                name:"",
                 annotations: {
                   'datafoundry.io/create-by':$rootScope.user.metadata.name,
                   repo:''
@@ -54,14 +56,58 @@ angular.module('console.build_create_new', [
                 completionDeadlineSeconds: 1800
             }
         };
+        var loadBuildConfigs = function() {
+            BuildConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function(data){
+                $log.info('buildConfigs', data.items);
+                $scope.buildConfiglist = data.items
 
-        $scope.dianl=false;
-
-        $scope.dianbl=true;
-
+            }, function(res) {
+                //todo 错误处理
+            });
+        };
+        loadBuildConfigs()
         // 实时监听按钮点亮
+        $scope.namerr ={
+            nil:false,
+            rexed:false,
+            repeated:false
+        }
+        $scope.nameblur = function () {
+            if ($scope.buildConfig.metadata.name.length === 0) {
+                $scope.namerr.nil=true
+            }else {
+                $scope.namerr.nil=false
+            }
+        }
+        $scope.namefocus = function () {
+            $scope.namerr.nil=false
+        }
+        var r = /^[a-z0-9-]{4,30}$/i;
+        $scope.$watch('buildConfig.metadata.name', function (n,o) {
+            if (n === o) {
+                return;
+            }
+            if (n&&n.length>0) {
+                if (r.test(n)) {
+                    $scope.namerr.rexed=false;
+                    if ($scope.buildConfiglist) {
+                        angular.forEach($scope.buildConfiglist, function (build,i) {
+                            if (build.metadata.name === n) {
+                                $scope.namerr.rexed=true;
+                            }else {
+                                $scope.namerr.rexed=false;
+                            }
+                        })
+                    }
 
-        var r = /^[a-z][-a-z0-9]*[a-z0-9]$/i;
+                }else {
+                    $scope.namerr.rexed=true;
+                }
+            }else {
+                $scope.namerr.rexed=false;
+            }
+        })
+
 
         var timer = setInterval(function () {
         if ($scope.buildConfig.metadata.name && $scope.grid.labbranch!=null) {
@@ -175,6 +221,12 @@ angular.module('console.build_create_new', [
 
         $scope.create = function() {
             $scope.creating = true;
+            if (!$scope.namerr.nil && !$scope.namerr.rexed && !$scope.namerr.repeated) {
+
+            }else {
+                return
+            }
+
             var imageStream = {
                 metadata: {
                   annotations: {
