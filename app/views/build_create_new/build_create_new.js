@@ -38,7 +38,7 @@ angular.module('console.build_create_new', [
                             uri: '',
                             ref: ''
                         },
-                        contextDir: '',
+                        contextDir: '/',
                         sourceSecret: {
                             name: ''
                         }
@@ -108,32 +108,18 @@ angular.module('console.build_create_new', [
                     $scope.namerr.rexed = false;
                 }
             })
-            //$scope.$watch('grid', function (n, o) {
-            //    if (n === o) {
-            //        return
-            //    }
-            //    if (n) {
-            //        //console.log(n);
-            //        $scope.urlerr = false;
-            //    }
-            //
-            //},true)
+            $scope.$watch('check', function (n, o) {
+                if (n === o) {
+                    return
+                }
+                if (n) {
+                    //console.log(n);
+                    $scope.urlerr = false;
+                }
 
-            //  var timer = setInterval(function () {
-            //  if ($scope.buildConfig.metadata.name && $scope.grid.labbranch!=null) {
-            //    $scope.dianl=true;
-            //    $scope.dianbl=false;
-            //  }else if ($scope.buildConfig.metadata.name && $scope.grid.branch!=null) {
-            //    $scope.dianl=true;
-            //    $scope.dianbl=false;
-            //  }else if ($scope.buildConfig.metadata.name&& $scope.buildConfig.spec.source.git.uri!=null) {
-            //      $scope.dianl=true;
-            //      $scope.dianbl=false;
-            //  }else {
-            //    $scope.dianl=false;
-            //    $scope.dianbl=true;
-            //  }
-            //},20);
+            })
+
+
 
             $scope.completionDeadlineMinutes = 30;
 
@@ -206,6 +192,8 @@ angular.module('console.build_create_new', [
                     $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ':latest';
                     $scope.buildConfig.spec.triggers = [];
                     //console.log(secret);
+                    var baseun = $base64.encode($scope.gitUsername);
+                    var basepwd = $base64.encode($scope.gitPwd);
                     $scope.secret = {
                         "kind": "Secret",
                         "apiVersion": "v1",
@@ -719,20 +707,31 @@ angular.module('console.build_create_new', [
             $scope.loadlabOwner('click');
 
             $scope.loadOwner();
-            var baseun = $base64.encode($scope.gitUsername);
-            var basepwd = $base64.encode($scope.gitPwd);
+
 
             $scope.create = function() {
                 $scope.creating = true;
-                //console.log('check',$scope.check);
+                console.log('check',$scope.check);
                 if ($scope.check === 1) {
-                    console.log('grid',$scope.grid);
+
                     if ($scope.grid.user === null || $scope.grid.labbranch === null || $scope.grid.labproject === null) {
                         $scope.urlerr = true;
                     }else {
                         $scope.urlerr = false;
                     }
-                    console.log($scope.urlerr);
+                    //console.log($scope.urlerr);
+                }else if($scope.check === 2){
+                    console.log('grid',$scope.grid);
+                    if ($scope.grid.user === null || $scope.grid.project === null || $scope.grid.labproject === null) {
+                        $scope.urlerr = true;
+                    }else {
+                        $scope.urlerr = false;
+                    }
+                }else if($scope.check === 3){
+                    //console.log('grid',$scope.grid);
+                    if (!$scope.buildConfig.spec.source.git.uri) {
+
+                    }
                 }
 
 
