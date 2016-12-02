@@ -94,11 +94,11 @@ angular.module('console.plan', [
                             }, function (err) {
 
                                 if (err.data.code === 3316) {
-                                    Tip.open('提示', '账户可用余额不足。', '充值', true).then(function () {
+                                    Tip.open('提示', '账户可用余额不足', '充值', true).then(function () {
                                         $state.go('console.pay');
                                     })
                                 } else {
-                                    Tip.open('提示', '暂不支持更换套餐。', '知道了', true).then(function () {
+                                    Tip.open('提示', '暂不支持更换套餐', '知道了', true).then(function () {
 
                                     })
                                 }
