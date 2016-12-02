@@ -93,7 +93,7 @@ angular.module('home', [])
             $rootScope.$on('$stateChangeStart',
                 function (event, toState, toParams, fromState, fromParams) {
                     //console.log('toState',toState.name);
-                    if (toState.name !== "home.introduce") {
+                    if (toState.name !== "home.index") {
                         $('html').css('overflow', 'auto');
                         $('.foot_main').css('display', 'block');
 
