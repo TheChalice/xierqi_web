@@ -11,7 +11,7 @@ angular.module('console.backing_service_detail', [
       $scope.grid={}
       var cuename = $stateParams.name;
 
-      //console.log('$stateParams', $stateParams)
+      console.log('$stateParams', $stateParams)
 
       $scope.grid.active = $stateParams.index;
 
@@ -22,7 +22,7 @@ angular.module('console.backing_service_detail', [
             $scope.ltype = data.metadata.annotations.Class
                       }
 
-          if (data.status.phase === "Inactive") {
+          if (data.status&&data.status.phase === "Inactive") {
             data.bianhui = true;
           }else {
             data.biancheng = true;

@@ -149,7 +149,7 @@ angular.module('console.service', [
             var loadPods = function (itemarr, len, n) {
                 //console.log('itemarritemarritemarritemarritemarr',itemarr)
                 var labelSelector = 'deploymentconfig=' + itemarr.metadata.name;
-
+                console.log('onesb');
                 Pod.get({
                     namespace: $scope.namespace,
                     labelSelector: labelSelector,

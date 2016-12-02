@@ -1281,7 +1281,7 @@ angular.module('console.service.detail', [
                     name: dc,
                     region:$rootScope.region
                 }, function () {
-                    $http.delete('/api/v1/namespaces/' + $rootScope.namespace + '/pods?' + 'labelSelector=deploymentconfig%3D' + $scope.dc.metadata.name).success(function (data) {
+                    $http.delete('/api/v1/namespaces/' + $rootScope.namespace + '/pods?' + 'labelSelector=deploymentconfig%3D' + $scope.dc.metadata.name+'&region='+$rootScope.region).success(function (data) {
                         // console.log(data);
                     }).error(function (err) {
                     });
