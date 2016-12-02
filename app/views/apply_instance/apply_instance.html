@@ -30,8 +30,8 @@
                         <div class="col-sm-2 text-left">
                             <p class="require">服务套餐</p>
                         </div>
-                        <div class="col-sm-10">
-                            <div style="margin-bottom: 15px;" class="col-sm-4" ng-repeat="plan in data">
+                        <div class="col-sm-10" style=" display: flex;justify-content:center;">
+                            <div style="margin-bottom: 15px; width: 33%;display: inline-block; padding: 0 20px;" ng-repeat="plan in data">
                                 <div class="panel panel-default sub-panel panel-xxx"  ng-class="{'active': grid.checked == $index}"  ng-click="grid.checked = $index">
                                     <div class="panel-heading tac" style="height: 65px;">
                                         <p class="subpanelname" style="margin: 0;">{{plan.plan_name}}</p>

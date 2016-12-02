@@ -700,7 +700,7 @@ define([
             var orders = $resource('/payment/v1/orders', {}, {});
             return orders;
         }])
-        .factory('regions', ['$resource', 'GLOBAL', function ($resource) {//获取订单
+        .factory('regions', ['$resource', 'GLOBAL', function ($resource) {//获取区
             var regions = $resource('/payment/v1/regions', {}, {});
             return regions;
         }])

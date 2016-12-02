@@ -185,7 +185,7 @@ angular.module('console.build_create_new', [
                     if (res.data.code == 409) {
                         Alert.open('错误', "构建名称重复", true);
                     } else {
-                        Alert.open('错误', res.data.message, true);
+                       // Alert.open('错误', res.data.message, true);
                     }
                 });
             }
@@ -310,7 +310,7 @@ angular.module('console.build_create_new', [
                         }
                     } else {
                         if (data.data && data.data.msg) {
-                            Alert.open('错误', data.data.msg, true);
+                            //Alert.open('错误', data.data.msg, true);
                             $scope.grid.ishide = true;
                             $scope.runninghub = false;
                         }
@@ -578,7 +578,7 @@ angular.module('console.build_create_new', [
                         if (data.status == 400 && data.data.code == 1401) {
                             $scope.grid.labcon = false;
                             //$scope.grid.gitlabbox = true;
-                            Alert.open('错误', data.data.msg, true);
+                            //Alert.open('错误', data.data.msg, true);
                         }
                     });
                 } else {
@@ -620,7 +620,7 @@ angular.module('console.build_create_new', [
                         if (data.status == 400 && data.data.code == 1401) {
                             $scope.grid.labcon = false;
                             //$scope.grid.gitlabbox = true;
-                            Alert.open('错误', data.data.msg, true);
+                           // Alert.open('错误', data.data.msg, true);
                         }
                     });
                 }
@@ -799,7 +799,7 @@ angular.module('console.build_create_new', [
                         }
                         $scope.creating = false;
                     } else {
-                        Alert.open('错误', res.data.message, true);
+                       // Alert.open('错误', res.data.message, true);
                         $scope.creating = false;
                     }
                 });
