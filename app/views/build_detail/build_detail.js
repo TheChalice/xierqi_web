@@ -98,7 +98,7 @@ angular.module('console.build.detail', [
 
             $scope.deletes = function () {
                 var name = $scope.data.metadata.name;
-                Confirm.open("删除构建", "您确定要删除构建吗？", "删除构建将删除构建的所有历史数据以及相关的镜像且该操作不能恢复", 'recycle').then(function () {
+                Confirm.open("删除构建", "您确定要删除构建吗？", "删除构建将删除构建的所有历史数据以及相关的镜像，且该操作不能恢复", 'recycle').then(function () {
                     BuildConfig.remove({namespace: $rootScope.namespace, name: name,region:$rootScope.region}, {}, function () {
                         $log.info("remove buildConfig success");
 

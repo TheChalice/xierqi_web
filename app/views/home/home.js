@@ -8,6 +8,12 @@ angular.module('home', [])
                 $scope.regions = data;
             })
             $log.info('Home');
+            //footer底部返回顶部 20161202 jia
+            $(".fl_detail").on("click",function(){
+                $(document.body).animate({
+                    scrollTop:0
+                },200);
+            })
             $scope.$watch('namespace', function (n, o) {
                 //console.log('new1',n);
                 if (n == '') {
@@ -93,7 +99,7 @@ angular.module('home', [])
             $rootScope.$on('$stateChangeStart',
                 function (event, toState, toParams, fromState, fromParams) {
                     //console.log('toState',toState.name);
-                    if (toState.name !== "home.introduce") {
+                    if (toState.name !== "home.index") {
                         $('html').css('overflow', 'auto');
                         $('.foot_main').css('display', 'block');
 
