@@ -154,6 +154,7 @@ angular.module('console.user', ['kubernetesUI',
         }
         var loadInfo = function () {
             profile.get({}, function (data) {
+
                 $scope.curUserInfo = data;
             })
         }
