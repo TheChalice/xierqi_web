@@ -8,6 +8,12 @@ angular.module('home', [])
                 $scope.regions = data;
             })
             $log.info('Home');
+            //footer底部返回顶部 20161202 jia
+            $(".fl_detail").on("click",function(){
+                $(document.body).animate({
+                    scrollTop:0
+                },200);
+            })
             $scope.$watch('namespace', function (n, o) {
                 //console.log('new1',n);
                 if (n == '') {
