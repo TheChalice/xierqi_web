@@ -13,7 +13,7 @@ angular.module('console.service.create', [
             $log.info('ServiceCreate');
             $scope.$on('$viewContentLoaded', function(){
                 $('#sevicecreateinp').focus();
-                console.log($('#sevicecreateinp'));
+                //console.log($('#sevicecreateinp'));
             });
 
             $scope.checkEnv = false;

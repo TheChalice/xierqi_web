@@ -472,12 +472,18 @@ define([
             })
             return deletepod;
         }])
+
         .factory('orgList', ['$resource', function ($resource) {
-            var orgList = $resource('/lapi/orgs', {}, {})
+            var orgList = $resource('/lapi/v1/orgs/:namespace/roles', {namespace: '@namespace'}, {})
             return orgList;
         }])
+        //.factory('orgList', ['$resource', function ($resource) {
+        //    var orgList = $resource('/lapi/orgs', {}, {})
+        //    return orgList;
+        //}])
+        //
         .factory('createOrg', ['$resource', function ($resource) {
-            var createOrg = $resource('/lapi/orgs', {}, {
+            var createOrg = $resource('/lapi/v1/orgs?region=:region', {region: '@region'}, {
                 create: {method: 'POST'}
             })
             return createOrg;

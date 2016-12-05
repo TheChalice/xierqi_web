@@ -21,13 +21,13 @@ define(['angular'], function (angular) {
             });
             $rootScope.$on(AUTH_EVENTS.httpForbidden, function () {
                 $log.info(AUTH_EVENTS.httpForbidden);
-                Cookie.clear('namespace');
-                Cookie.clear('df_access_token');
-                Cookie.clear('region');
-                $rootScope.region = '';
-                $rootScope.user = '';
-                $rootScope.namespace = "";
-                $state.go('home.index');
+                //Cookie.clear('namespace');
+                //Cookie.clear('df_access_token');
+                //Cookie.clear('region');
+                //$rootScope.region = '';
+                //$rootScope.user = '';
+                //$rootScope.namespace = "";
+                //$state.go('home.index');
             });
         }]);
 });

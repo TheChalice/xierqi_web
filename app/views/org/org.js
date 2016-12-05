@@ -11,15 +11,18 @@ angular.module('console.user', [
 
     ]
   }
-]) .controller('orgCtrl', ['$log','Project','$http', '$rootScope', '$state','$cacheFactory','loadOrg','Addmodal','Confirm','$scope','$stateParams', 'invitation', 'leave', 'Toast',
-  function ($log,Project,$http, $rootScope, $state, $cacheFactory,loadOrg,Addmodal,Confirm,$scope,$stateParams,invitation,leave, Toast) {
+]) .controller('orgCtrl', ['orgList','$log','Project','$http', '$rootScope', '$state','$cacheFactory','loadOrg','Addmodal','Confirm','$scope','$stateParams', 'invitation', 'leave', 'Toast',
+  function (orgList,$log,Project,$http, $rootScope, $state, $cacheFactory,loadOrg,Addmodal,Confirm,$scope,$stateParams,invitation,leave, Toast) {
     $scope.grid={
       st:null,
       et:null
     }
     $rootScope.delOrgs = false;
     var loadOrg = function() {
-      //console.log('test org name',$stateParams.useorg)
+      console.log('test org name',$stateParams.useorg,$rootScope.namespace)
+      orgList.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
+        console.log(data);
+      })
       $http({
         url:'/lapi/orgs/'+$stateParams.useorg,
         method:'GET'
