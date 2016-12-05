@@ -65,7 +65,7 @@ angular.module('console.build_create_new', [
                 });
             };
             loadBuildConfigs()
-            // 实时监听按钮点亮
+
             $scope.namerr = {
                 nil: false,
                 rexed: false,
@@ -87,9 +87,9 @@ angular.module('console.build_create_new', [
 
             var r =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
             $scope.$watch('buildConfig.metadata.name', function (n, o) {
-                //if (n === o) {
-                //    return;
-                //}
+                if (n === o) {
+                    return;
+                }
                 if (n && n.length > 0) {
                     console.log($scope.buildConfig.metadata.name);
                     if (r.test(n)) {
@@ -98,9 +98,9 @@ angular.module('console.build_create_new', [
                         if ($scope.buildConfiglist) {
                             angular.forEach($scope.buildConfiglist, function (build, i) {
                                 if (build.metadata.name === n) {
-                                    $scope.namerr.rexed = true;
+                                    $scope.namerr.repeated = true;
                                 } else {
-                                    $scope.namerr.rexed = false;
+                                    $scope.namerr.repeated = false;
                                 }
                             })
                         }

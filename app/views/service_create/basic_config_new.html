@@ -9,9 +9,10 @@
                     <h3 class="require">服务名称</h3>
                 </div>
                 <div class="col-md-10">
-                    <input type="text" name="serviceName" ng-model="dc.metadata.name"
+                    <input type="text" id="sevicecreateinp" name="serviceName" ng-model="dc.metadata.name"
                            class="form-control input-block foucsinput"
-                           placeholder="请输入小写英文字母" required>
+                           ng-blur="nameblur()" onkeypress="if(event.keyCode == 32)event.returnValue = false;" ng-focus="namefocus()" type="text" name="name" class="form-control"
+                           placeholder="例如：datafoundry">
                     <small ng-show="frm.serviceName.$dirty && grid.rexnameerr" class="fa fa-info-circle err-tip">&nbsp;请输入小写英文字母</small>
                     <small ng-show="frm.serviceName.$dirty && grid.createdcerr" class="fa fa-info-circle err-tip">&nbsp;服务名称不合法</small>
                     <small ng-show="grid.servicenameerr" class="fa fa-info-circle err-tip">&nbsp;服务名称错误</small>
