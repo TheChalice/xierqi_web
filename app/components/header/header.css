@@ -118,11 +118,11 @@
     font-size:12px;
     padding-top:0px;
     padding-bottom:0px;
-    display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    display:block;
     -webkit-transition:all 300ms;
     -moz-transition:all 300ms;
     transition:all 300ms;
-    width:90%;
+
 }
 
 .dropdown-menu > li > a:hover{
@@ -220,11 +220,14 @@
 .area_block{padding-top:18px;padding-bottom:16px;padding-left:14px;padding-right:14px;display:block;}
 
 
-.header_per{cursor:pointer;float:left;display:block;border-left:1px solid #f6a540;}
+.header_per{cursor:pointer;float:left;display:block;border-left:1px solid #f6a540;width:200px;position:relative;}
 .per_block{padding-top:18px;padding-bottom:16px;padding-left:23px;padding-right:23px;display:block;}
 .header_per_tit{font-size:14px;color:#fff;display:block;float:left;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;
-overflow: hidden;max-width:114px;}
+overflow: hidden;width:100px;}
 .h_caret{display:inline-block;width:0;height:0;vertical-align:middle;
     border-top:6px dashed;border-right:6px solid transparent;border-left:6px solid transparent;
     color:#fff;margin-left:4px;-webkit-transition:all 0.3s;-moz-transition:all 0.3s;transition:all 0.3s}
+
+.df_set_name{display:inline-block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;width:130px;}
+
 
