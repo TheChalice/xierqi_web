@@ -9,10 +9,9 @@
                     <h3 class="require">服务名称</h3>
                 </div>
                 <div class="col-md-10">
-                    <input type="text" id="sevicecreateinp" name="serviceName" ng-model="dc.metadata.name"
+                    <input type="text" name="serviceName" ng-model="dc.metadata.name"
                            class="form-control input-block foucsinput"
-                           ng-blur="nameblur()" onkeypress="if(event.keyCode == 32)event.returnValue = false;" ng-focus="namefocus()" type="text" name="name" class="form-control"
-                           placeholder="例如：datafoundry">
+                           placeholder="例如:datafoundry" required>
                     <small ng-show="frm.serviceName.$dirty && grid.rexnameerr" class="fa fa-info-circle err-tip">&nbsp;请输入小写英文字母</small>
                     <small ng-show="frm.serviceName.$dirty && grid.createdcerr" class="fa fa-info-circle err-tip">&nbsp;服务名称不合法</small>
                     <small ng-show="grid.servicenameerr" class="fa fa-info-circle err-tip">&nbsp;服务名称错误</small>
@@ -49,7 +48,7 @@
                                 <input ng-model="container.name"
                                        style="width: 95%;display: inline-block;"
                                        type="text" class="form-control foucsinput"
-                                       placeholder="请设置容器名称">
+                                       placeholder="例如:datafountry">
                                 <span class="require"></span>
                                 <small ng-show="!container.name && container.emptyName"
                                        class="fa fa-info-circle err-tip">&nbsp;请设置容器名,至少2个字符
@@ -414,3 +413,6 @@
         </div>
     </div>
 </div>
+<script>
+    $('input[ng-model="dc.metadata.name"]').focus();
+</script>

@@ -32,11 +32,6 @@ angular.module("console.header", [
                             return
                         }
                         if (n !== "") {
-                            if (n === $rootScope.user.metadata.name) {
-                               $scope.orgimage = false ;
-                            }else {
-                                $scope.orgimage = true;
-                            }
                             loadProject()
                         }
 
@@ -68,7 +63,6 @@ angular.module("console.header", [
 
                         })
                     })
-
                     $scope.$watch('curregion', function (n, o) {
                         if (n === o) {
                             return
