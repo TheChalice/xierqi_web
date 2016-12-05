@@ -11,27 +11,51 @@ angular.module("console.header", [
             restrict: 'EA',
             replace: true,
             templateUrl: 'components/header/header.html',
-            controller: ['account','regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
-                function (account,regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
+            controller: ['$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
+                function ($log, Project, account, regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
                     ///////分区
                     //$scope.curregion = $rootScope.region;
-                    $scope.checkregion = function (res,id) {
+                    $scope.checkregion = function (res, id) {
                         $scope.curregion = res;
-                        $rootScope.region=id
-                        Cookie.set('region',id, 10 * 365 * 24 * 3600 * 1000);
+                        $rootScope.region = id
+                        Cookie.set('region', id, 10 * 365 * 24 * 3600 * 1000);
                         console.log($state.current.name);
                         if ($state.current.name === 'console.dashboard') {
                             $state.reload();
-                        }else {
+                        } else {
                             $state.go('console.dashboard');
                         }
                         //$state.reload();
                     }
+                    $scope.$watch('namespace', function (n,o) {
+                        if (n === o) {
+                            return
+                        }
+                        if (n !== "") {
+                            loadProject()
+                        }
+
+                    })
+                    var loadProject = function () {
+                        //$log.info("load project");
+                        Project.get({region: $rootScope.region}, function (data) {
+                            angular.forEach(data.items, function (item, i) {
+                                if (item.metadata.name === $rootScope.namespace) {
+                                    $scope.projectname = item.metadata.annotations['openshift.io/display-name'] === '' ? item.metadata.name : item.metadata.annotations['openshift.io/display-name'];
+                                }
+                            })
+                            //$scope.projectname =
+                            //$log.info("project", data);
+                        }, function (res) {
+                            $log.info("find project err", res);
+                        });
+                    };
+                    loadProject()
 
                     regions.query({}, function (data) {
                         //console.log('regions', data);
                         $scope.regions = data;
-                        $scope.copyregions=angular.copy(data);
+                        $scope.copyregions = angular.copy(data);
                         angular.forEach(data, function (region, i) {
                             if (region.identification === $rootScope.region) {
                                 $scope.curregion = region.region_describe;
@@ -39,7 +63,7 @@ angular.module("console.header", [
 
                         })
                     })
-                    $scope.$watch('curregion', function (n,o) {
+                    $scope.$watch('curregion', function (n, o) {
                         if (n === o) {
                             return
                         }
@@ -47,14 +71,14 @@ angular.module("console.header", [
                         var arr = angular.copy($scope.copyregions)
                         if ($scope.regions) {
                             //console.log($scope.regionlist,$scope.copyregionlist);
-                            angular.forEach( $scope.copyregions, function (item,i) {
+                            angular.forEach($scope.copyregions, function (item, i) {
                                 if (item.region_describe === n) {
                                     //console.log(item.region_describe, $scope.regionlist);
                                     arr.splice(i, 1);
 
                                 }
                             })
-                            $scope.regions=arr;
+                            $scope.regions = arr;
                         }
                     })
                     //$scope.regionlist = [
@@ -74,6 +98,7 @@ angular.module("console.header", [
                         });
 
                     }
+
                     $scope.checked = '';
                     //if($rootScope.delOrgs){
                     //    $http({
@@ -116,66 +141,72 @@ angular.module("console.header", [
                         }
                     })
                     //$rootScope.isorg = false;
-                    $scope.$watch('namespace', function (n, o) {
-                        //console.log('new', n);
-                        if (n == o) {
-                            return
-                        }
-                        if (n.indexOf('org') == -1) {
-                            $rootScope.isorg = false;
-                            $http({
-                                url: '/lapi/inbox_stat',
-                                method: 'GET',
-                            }).success(function (res) {
-                                //console.log("test the inbox stat", res);
-                                if (res.data == null) {
-                                    res.data = {};
-                                }
-                                if (res.data.sitenotify || res.data.accountms || res.data.alert) {
-                                    $scope.isshow = true;
-                                } else {
-                                    $scope.isshow = false;
-                                }
-                                ;
-                            }).error(function (data) {
-                                //console.log("Couldn't get inbox message", data)
-                            });
-                            $scope.timer = setInterval(function () {
-                                $http({
-                                    url: '/lapi/inbox_stat',
-                                    method: 'GET',
-                                }).success(function (res) {
-                                    //console.log("test the inbox stat", res);
-                                    if (res.data == null) {
-                                        res.data = {};
-                                    }
-                                    if (res.data.sitenotify || res.data.accountms || res.data.alert) {
-                                        $scope.isshow = true;
-                                    } else {
-                                        $scope.isshow = false;
-                                    }
-                                    ;
-                                }).error(function (data) {
-                                    //console.log("Couldn't get inbox message", data)
-                                });
-                            }, 1000000)
-                        } else {
-                            clearInterval($scope.timer);
-                            $rootScope.isorg = true;
-                        }
+                    //$scope.$watch('namespace', function (n, o) {
+                    //    //console.log('new', n);
+                    //    if (n == o) {
+                    //        return
+                    //    }
+                    //    if (n.indexOf('org') == -1) {
+                    //        $rootScope.isorg = false;
+                    //        $http({
+                    //            url: '/lapi/inbox_stat',
+                    //            method: 'GET',
+                    //        }).success(function (res) {
+                    //            //console.log("test the inbox stat", res);
+                    //            if (res.data == null) {
+                    //                res.data = {};
+                    //            }
+                    //            if (res.data.sitenotify || res.data.accountms || res.data.alert) {
+                    //                $scope.isshow = true;
+                    //            } else {
+                    //                $scope.isshow = false;
+                    //            }
+                    //            ;
+                    //        }).error(function (data) {
+                    //            //console.log("Couldn't get inbox message", data)
+                    //        });
+                    //        $scope.timer = setInterval(function () {
+                    //            $http({
+                    //                url: '/lapi/inbox_stat',
+                    //                method: 'GET',
+                    //            }).success(function (res) {
+                    //                //console.log("test the inbox stat", res);
+                    //                if (res.data == null) {
+                    //                    res.data = {};
+                    //                }
+                    //                if (res.data.sitenotify || res.data.accountms || res.data.alert) {
+                    //                    $scope.isshow = true;
+                    //                } else {
+                    //                    $scope.isshow = false;
+                    //                }
+                    //                ;
+                    //            }).error(function (data) {
+                    //                //console.log("Couldn't get inbox message", data)
+                    //            });
+                    //        }, 1000000)
+                    //    } else {
+                    //        clearInterval($scope.timer);
+                    //        $rootScope.isorg = true;
+                    //    }
+                    //
+                    //
+                    //});
+                    //$scope.$on('$destroy', function () {
+                    //    clearInterval($scope.timer);
+                    //});
 
 
-                    });
-                    $scope.$on('$destroy', function () {
-                        clearInterval($scope.timer);
-                    });
-                    account.get({namespace:$rootScope.namespace,region:$rootScope.region,status:"consuming"}, function (data) {
+                    account.get({
+                        namespace: $rootScope.namespace,
+                        region: $rootScope.region,
+                        status: "consuming"
+                    }, function (data) {
                         //console.log('套餐', data);
                         //$rootScope.payment=data;
                         if (data.purchased) {
-                           $scope.cancreatorg = true
+                            $scope.cancreatorg = true
                             //跳转dashboard
-                        }else{
+                        } else {
                             $scope.cancreatorg = false
                             //跳转购买套餐
                         }
@@ -190,6 +221,7 @@ angular.module("console.header", [
                         })
 
                     }
+
                     $scope.back = function () {
                         //console.log($state);
                         if ($state.current.name == "console.image_detail") {
@@ -213,11 +245,9 @@ angular.module("console.header", [
                             $scope.checked = data.name
                         })
                     } else if ($rootScope.huancun && $rootScope.huancun.name) {
-
                         $scope.checked = $rootScope.huancun.name;
                         $rootScope.huancun.name = false
                     } else if (!$scope.checked) {
-
                         $scope.checked = $rootScope.namespace;
                     }
                     $scope.backindex = function () {
@@ -233,24 +263,24 @@ angular.module("console.header", [
 
                     }
 
-                    $scope.goto = function (ind) {
-                        $scope.checked = $scope.userorgs[ind].name;
-                        $rootScope.namespace = $scope.userorgs[ind].id;
-                        $scope.neworgid = $scope.userorgs[ind].id
-                        //console.log('路由',$state);
-                        if ($state.current.name == 'console.apply_instance' || $state.current.name == 'console.build_create_new' || $state.current.name == 'console.service_create') {
-                            return
-                        } else if ($state.current.url.indexOf(':') !== -1 && $state.current.name !== 'console.dashboard') {
-                            //$location.url('/'+)
-                            //console.log($state.current.url.split('/')[1]);
-                            $location.url('/console/' + $state.current.url.split('/')[1])
-                        } else if ($state.current.name == 'console.dashboard') {
-                            //console.log($rootScope.namespace);
-                            $state.reload();
-                        }
-                        //console.log('路由',$state);
-
-                    }
+                    //$scope.goto = function (ind) {
+                    //    $scope.checked = $scope.userorgs[ind].name;
+                    //    $rootScope.namespace = $scope.userorgs[ind].id;
+                    //    $scope.neworgid = $scope.userorgs[ind].id
+                    //    //console.log('路由',$state);
+                    //    if ($state.current.name == 'console.apply_instance' || $state.current.name == 'console.build_create_new' || $state.current.name == 'console.service_create') {
+                    //        return
+                    //    } else if ($state.current.url.indexOf(':') !== -1 && $state.current.name !== 'console.dashboard') {
+                    //        //$location.url('/'+)
+                    //        //console.log($state.current.url.split('/')[1]);
+                    //        $location.url('/console/' + $state.current.url.split('/')[1])
+                    //    } else if ($state.current.name == 'console.dashboard') {
+                    //        //console.log($rootScope.namespace);
+                    //        $state.reload();
+                    //    }
+                    //    //console.log('路由',$state);
+                    //
+                    //}
 
                     orgList.get({}, function (org) {
                         // console.log(org);
@@ -284,12 +314,13 @@ angular.module("console.header", [
 
                     $scope.hasBack = function () {
 
-                        if ($state.current.name == "console.noplan" || $state.current.name == "console.Integration"  || $state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name == "console.notification" || $state.current.name == "console.resource_management") {
+                        if ($state.current.name == "console.noplan" || $state.current.name == "console.Integration" || $state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name == "console.notification" || $state.current.name == "console.resource_management") {
 
                             return false
                         }
                         return true;
                     };
+
                     $scope.$watch("orgStatus", function (n, old) {
                         // console.log("%%%%%%", n, old);
                         if (n) {
@@ -303,12 +334,13 @@ angular.module("console.header", [
                             })
                         }
                     })
-                    $scope.$watch('checked', function (n, o) {
-                        if (n == o) {
-                            return
-                        }
-                        console.log('checked', n);
-                    })
+
+                    //$scope.$watch('checked', function (n, o) {
+                    //    if (n == o) {
+                    //        return
+                    //    }
+                    //    console.log('checked', n);
+                    //})
                     //console.log('$rootScope',$rootScope);
                     $rootScope.huancun = {}
                     $scope.logout = function () {
@@ -324,17 +356,16 @@ angular.module("console.header", [
 
                     };
                     $scope.change = false;
-                    $scope.setNamespace = function (namespace, name) {
-                        //console.log(namespace);
 
+                    $scope.setNamespace = function (namespace) {
+                        //console.log(namespace);
                         $rootScope.namespace = namespace;
                         Cookie.set('namespace', namespace, 10 * 365 * 24 * 3600 * 1000);
                         $state.reload();
                         //$scope.change=true;
-                        $scope.checked = name || namespace;
-                        $rootScope.huancun.name = name || namespace;
-                        ;
-                        console.log('$scope.checked', $scope.checked);
+                        $scope.checked = namespace;
+                        $rootScope.huancun.name = namespace;
+                        //console.log('$scope.checked', $scope.checked);
                         if (namespace.indexOf('org') !== -1) {
                             $state.go('console.org', {useorg: namespace})
                         } else {
@@ -348,6 +379,7 @@ angular.module("console.header", [
                 }]
         }
     }])
+
     .filter('stateTitleFilter', [function () {
         return function (state) {
             switch (state) {

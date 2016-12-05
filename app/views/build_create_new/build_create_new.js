@@ -85,7 +85,7 @@ angular.module('console.build_create_new', [
                 $scope.namerr.nil = false
             }
 
-            var r = /^[a-z0-9-]{4,30}$/i;
+            var r =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
             $scope.$watch('buildConfig.metadata.name', function (n, o) {
                 if (n === o) {
                     return;

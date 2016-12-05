@@ -700,10 +700,18 @@ define([
             var orders = $resource('/payment/v1/orders', {}, {});
             return orders;
         }])
+        .factory('delorders', ['$resource', 'GLOBAL', function ($resource) {//获取订单
+            var delorders = $resource('/payment/v1/orders/:id', {id:'@id'}, {
+                delete: {method: 'DELETE'},
+            });
+            return delorders;
+        }])
+
         .factory('regions', ['$resource', 'GLOBAL', function ($resource) {//获取区
             var regions = $resource('/payment/v1/regions', {}, {});
             return regions;
         }])
+
         .factory('coupon', ['$resource', 'GLOBAL', function ($resource) {//获取充值卡面额
             var regions = $resource('/payment/v1/coupon/:id', {id:'@id'}, {});
             return regions;
@@ -713,19 +721,23 @@ define([
             var repositories = $resource('/integration/v1/repos', {}, {});
             return repositories;
         }])
+
         .factory('repository', ['$resource', 'GLOBAL', function ($resource) {//数据集成 公开数据集详情
             var repository = $resource('/integration/v1/repos/:reponame', {}, {});
             return repository;
         }])
+
         .factory('dataitem', ['$resource', 'GLOBAL', function ($resource) {//数据集成 公开数据集详情预览
             var dataitem = $resource('/integration/v1/repos/:reponame/items/:itemname', {}, {});
             return dataitem;
         }])
+
         .factory('inservice', ['$resource', 'GLOBAL', function ($resource) {//数据集成 公开数据集详情预览
             var inservice = $resource('/integration/v1/services', {}, {
             });
             return inservice;
         }])
+
         .factory('instance', ['$resource', 'GLOBAL', function ($resource) {//数据集成 公开数据集详情预览
             var instance = $resource('/integration/v1/instance/:id', {id:'@id'}, {
                 create: {method: 'POST'}
