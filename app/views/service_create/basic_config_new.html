@@ -11,7 +11,7 @@
                 <div class="col-md-10">
                     <input type="text" name="serviceName" ng-model="dc.metadata.name"
                            class="form-control input-block foucsinput"
-                           placeholder="请输入小写英文字母" required>
+                           placeholder="例如:datafoundry" required>
                     <small ng-show="frm.serviceName.$dirty && grid.rexnameerr" class="fa fa-info-circle err-tip">&nbsp;请输入小写英文字母</small>
                     <small ng-show="frm.serviceName.$dirty && grid.createdcerr" class="fa fa-info-circle err-tip">&nbsp;服务名称不合法</small>
                     <small ng-show="grid.servicenameerr" class="fa fa-info-circle err-tip">&nbsp;服务名称错误</small>
@@ -413,3 +413,6 @@
         </div>
     </div>
 </div>
+<script>
+    $('input[ng-model="dc.metadata.name"]').focus();
+</script>
