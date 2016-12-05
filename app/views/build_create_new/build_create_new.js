@@ -86,12 +86,12 @@ angular.module('console.build_create_new', [
             }
 
             var r =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
-            $scope.$watch('bcname', function (n, o) {
-                if (n === o) {
-                    return;
-                }
+            $scope.$watch('buildConfig.metadata.name', function (n, o) {
+                //if (n === o) {
+                //    return;
+                //}
                 if (n && n.length > 0) {
-                    //console.log(n);
+                    console.log($scope.buildConfig.metadata.name);
                     if (r.test(n)) {
 
                         $scope.namerr.rexed = false;
