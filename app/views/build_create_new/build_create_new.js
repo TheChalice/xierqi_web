@@ -75,7 +75,7 @@ angular.module('console.build_create_new', [
             $scope.repoerr = false;
             $scope.completionDeadlineMinutes = 30;
             $scope.nameblur = function () {
-                if ($scope.buildConfig.metadata.name && $scope.buildConfig.metadata.name.length === 0) {
+                if ($scope.buildConfig.metadata && $scope.buildConfig.metadata.name.length === 0) {
                     $scope.namerr.nil = true
                 } else {
                     $scope.namerr.nil = false
