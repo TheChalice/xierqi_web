@@ -14,11 +14,38 @@ angular.module('console.dashboard', [
             //        console.log('充值', data);
             //    })
             //}
+            $scope.$watch('namespace', function (n,o) {
+                if (n === o) {
+                    return
+                }
+                if (n !== "") {
+                    loadProject()
+                }
+
+            })
+            var loadProject = function () {
+                //$log.info("load project");
+                Project.get({region: $rootScope.region}, function (data) {
+                    angular.forEach(data.items, function (item, i) {
+                        if (item.metadata.name === $rootScope.namespace) {
+                            $scope.projectname = item.metadata.annotations['openshift.io/display-name'] === '' ? item.metadata.name : item.metadata.annotations['openshift.io/display-name'];
+                        }
+                    })
+                    //$scope.projectname =
+                    //$log.info("project", data);
+                }, function (res) {
+                    $log.info("find project err", res);
+                });
+            };
+
             Project.get({region: $rootScope.region}, function (data) {
                 //$rootScope.projects = data.items;
                 //console.log('Project', Project);
                 //var newprojects = [];
                 angular.forEach(data.items, function (item, i) {
+                    if (item.metadata.name === $rootScope.namespace) {
+                        $scope.projectname = item.metadata.annotations['openshift.io/display-name'] === '' ? item.metadata.name : item.metadata.annotations['openshift.io/display-name'];
+                    }
                     if ($rootScope.user.metadata && item.metadata.name === $rootScope.user.metadata.name) {
                         data.items.splice(i, 1);
                     } else {
