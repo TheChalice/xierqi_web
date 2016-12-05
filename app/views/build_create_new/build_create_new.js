@@ -75,7 +75,7 @@ angular.module('console.build_create_new', [
             $scope.repoerr = false;
             $scope.completionDeadlineMinutes = 30;
             $scope.nameblur = function () {
-                if ($scope.buildConfig.metadata.name && $scope.buildConfig.metadata.name.length === 0) {
+                if ($scope.buildConfig.metadata && $scope.buildConfig.metadata.name.length === 0) {
                     $scope.namerr.nil = true
                 } else {
                     $scope.namerr.nil = false
@@ -87,11 +87,13 @@ angular.module('console.build_create_new', [
 
             var r =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
             $scope.$watch('buildConfig.metadata.name', function (n, o) {
-                if (n === o) {
-                    return;
-                }
+                //if (n === o) {
+                //    return;
+                //}
                 if (n && n.length > 0) {
+                    console.log($scope.buildConfig.metadata.name);
                     if (r.test(n)) {
+
                         $scope.namerr.rexed = false;
                         if ($scope.buildConfiglist) {
                             angular.forEach($scope.buildConfiglist, function (build, i) {
