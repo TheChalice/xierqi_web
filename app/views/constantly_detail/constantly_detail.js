@@ -36,9 +36,9 @@ angular.module('console.constantly_detail', [
 
                     }else {
                         orders.query({region:$rootScope.region,resource_name:$stateParams.name}, function (data) {
-                            console.log('data',data[0].order.order_id);
-                            if (data[0]&&data[0].order.order_id) {
-                                delorders.delete({id:data[0].order.order_id,action:"cancel",namespace:$rootScope.namespace}, function (data) {
+                            console.log('data',data);
+                            if (data.length>0&&data[0].order.id) {
+                                delorders.delete({id:data[0].order.id,action:"cancel",namespace:$rootScope.namespace}, function (data) {
                                     $state.go('console.resource_management', {index: 1})
                                 })
 
