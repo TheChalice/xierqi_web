@@ -29,8 +29,8 @@ angular.module('console.image', [
 
         };
     })
-    .controller('ImageCtrl', ['ImageStream','$filter', '$state', '$q', '$http', 'platform', '$rootScope', '$scope', '$log', 'ImageStreamTag', 'BuildConfig', 'Build', 'GLOBAL', 'Sort',
-        function (ImageStream,$filter, $state, $q, $http, platform, $rootScope, $scope, $log, ImageStreamTag, BuildConfig, Build, GLOBAL, Sort) {
+    .controller('ImageCtrl', ['ImageStream', '$filter', '$state', '$q', '$http', 'platform', '$rootScope', '$scope', '$log', 'ImageStreamTag', 'BuildConfig', 'Build', 'GLOBAL', 'Sort',
+        function (ImageStream, $filter, $state, $q, $http, platform, $rootScope, $scope, $log, ImageStreamTag, BuildConfig, Build, GLOBAL, Sort) {
             // 数组去重
             //console.log('$state', $state.params.index);
             if ($state.params.index) {
@@ -108,8 +108,8 @@ angular.module('console.image', [
             // myimage控制换页方法
             var refresh = function (page, type) {
                 $(document.body).animate({
-                    scrollTop:0
-                },200);
+                    scrollTop: 0
+                }, 200);
                 var skip = (page - 1) * $scope.grid.size;
                 if (type) {
                     $scope.grid.search = true;
@@ -126,8 +126,8 @@ angular.module('console.image', [
             // regimage控制换页方法
             var repertorysrefresh = function (page, type) {
                 $(document.body).animate({
-                    scrollTop:0
-                },200);
+                    scrollTop: 0
+                }, 200);
                 var skip = (page - 1) * $scope.grid.size;
                 if (type) {
                     $scope.grid.search = true;
@@ -189,8 +189,8 @@ angular.module('console.image', [
             var imagecenterrefresh = function (page, type) {
                 //console.log(page);
                 $(document.body).animate({
-                    scrollTop:0
-                },200);
+                    scrollTop: 0
+                }, 200);
                 var skip = (page - 1) * $scope.grid.size;
                 if (type == 'search') {
                     //console.log($scope.typeimagecenter);
@@ -290,7 +290,7 @@ angular.module('console.image', [
             //$scope.load = function() {
             //    console.log('ok');
             //}
-            $scope.$on('ngRepeatFinished', function( ngRepeatFinishedEvent ) {
+            $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
                 console.log('ok');
             })
             //共有镜像搜索
@@ -402,13 +402,17 @@ angular.module('console.image', [
             }
 
             // 我的镜像
-            ImageStream.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (datalist) {
+            ImageStream.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (datalist) {
                 //$scope.images = res;
+                //console.log(datalist.items);
+                var connt = 0
                 angular.forEach(datalist.items, function (item, i) {
 
-                    $scope.testlist=[];
+                    //$scope.testlist = [];
 
                     if (item.status.tags && item.status.tags.length > 0) {
+                        //console.log(i);
+                        connt = connt + 1;
                         angular.forEach(item.status.tags, function (tag, k) {
                             if (tag.tag.split('-')[1]) {
                                 datalist.items[i].status.tags.splice(k, 1)
@@ -420,29 +424,39 @@ angular.module('console.image', [
                         ImageStreamTag.get({
                             namespace: $rootScope.namespace,
                             name: item.metadata.name + ':' + item.status.tags[0].tag,
-                            region:$rootScope.region
+                            region: $rootScope.region
                         }, function (data) {
                             //console.log(data);
                             angular.forEach(data.image.dockerImageMetadata.ContainerConfig.ExposedPorts, function (port, k) {
                                 datalist.items[i].status.tags[0].port.push(k);
                             })
-                            //console.log(datalist.items[i].status.tags[0]);
+
                             $scope.testlist = datalist.items;
                             //console.log('datalist.items',datalist.items);
                             //datalist.items.sort(function (x, y) {
                             //    return x.sorttime > y.sorttime ? -1 : 1;
                             //});
                             //console.log('$scope.testlist', $scope.testlist);
+
                             $scope.testcopy = angular.copy(datalist.items);
 
                             $scope.grid.total = $scope.testcopy.length;
                             // console.log('$scope.testcopy', $scope.testcopy)
                             refresh(1)
+
+
                         }, function (res) {
 
                         });
                     }
 
+
+                    if (datalist.items.length - 1 === i) {
+                        if (connt === 0) {
+                            $scope.testlist=[];
+                        }
+                    }
+                    //console.log('$scope.testlist',$scope.testlist);
                     //datalist.items[i].sorttime = (new Date(item.metadata.creationTimestamp)).getTime()
                 })
 
@@ -557,8 +571,6 @@ angular.module('console.image', [
             }
             //镜像中心
             $scope.serviceper = [{name: 'DataFoundry', class: 'df'}, {name: 'DockerHub', class: 'doc'}]
-
-
 
 
             $http.get('/registry/api/repositories', {timeout: end.promise, params: {project_id: 1}})
