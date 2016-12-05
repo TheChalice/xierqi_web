@@ -27,10 +27,11 @@ angular.module('console.service', [
             });
             $scope.reload=function(){
                 $state.reload();
+                //$state.go('console.service',{},{reload: true})
             }
+
             var refresh = function (page) {
                 //console.log(page);
-
                 var skip = (page - 1) * $scope.grid.size;
                 if ($scope.data.length) {
                     $scope.items = $scope.data.slice(skip, skip + $scope.grid.size);
@@ -40,11 +41,8 @@ angular.module('console.service', [
                 $(document.body).animate({
                     scrollTop:0
                 },200);
-
-
                 //$log.info('$scope.items=-=-=-=-=-=',$scope.items);
                 //$scope.grid.total = $scope.data.items.length;
-
             };
             $scope.servicesearch = function (event) {
                 if (event.keyCode === 13 || event === 'search') {
@@ -69,12 +67,12 @@ angular.module('console.service', [
                         })
                         $scope.data = angular.copy(iarr);
                         refresh(1);
-                        console.log('$scope.data', $scope.data);
+                        //console.log('$scope.data', $scope.data);
                         $scope.grid.total = $scope.data.length;
 
 
                     }
-                    console.log('$scope.data', $scope.data);
+                    //console.log('$scope.data', $scope.data);
                     RouteList($scope.data);
                     loadBsi($scope.data);
                     refresh(1);
