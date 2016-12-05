@@ -68,7 +68,7 @@ angular.module('console.user', [
           }).success(function(item){
             //console.log('the org has been deelted', item);
             $rootScope.delOrgs = true;
-            $rootScope.isorg = false;
+            //$rootScope.isorg = false;
             loadProject();
             $rootScope.namespace=$rootScope.user.metadata.name;
             $state.go('console.user',{index:4});
