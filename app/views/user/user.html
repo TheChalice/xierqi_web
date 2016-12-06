@@ -312,46 +312,36 @@
                         <!--</div>-->
                     </div>
                 </uib-tab>
-                <uib-tab index="4" ng-if="region !== 'cn-north-2'">
+                <uib-tab index="4">
                     <uib-tab-heading>
                         <i class="orgbg"></i>&nbsp;&nbsp;组织管理
                     </uib-tab-heading>
                     <div class="row">
-                        <a ng-if="region==='cn-north-1'" style="margin-right:20px;" class="btn btn-green" id="creation"
+                        <a style="margin-right:20px;" class="btn btn-green" id="creation"
                            href="javascript:;">
                             <i class="fa fa-plus fa-lg"></i>
                             <span class="hidden-xs" ng-click="addOrg()">创建组织</span>
                         </a>
-                        <a ng-if="region==='cn-north-2'" style="margin-right:20px;" class="btn btn-gray" id="creation"
-                           href="javascript:;">
-                            <i class="fa fa-plus fa-lg"></i>
-                            <span class="hidden-xs">创建组织</span>
-                        </a>
+
                     </div>
                     <div class="row">
                         <!--<div class="h2-border row" style="margin-top:30px;">-->
                         <!--<span class="biaoti ng-binding" style="padding-right: 20px;background: #fff;position: relative;z-index: 100;">{{org.name}}</span>-->
                         <!--</div>-->
                         <div class="row">
-                            <div class="orgList" ng-repeat="org in orgList">
+                            <div class="orgList" ng-repeat="org in projects" ng-if="org.metadata.name!==namespace">
                                 <div style="border-bottom: 1px solid #c9c9c9;padding:15px 0px;">
-                                    <img ng-if="org.privileged" src="pub/img/org_pic.png" alt=""
+                                    <img src="pub/img/org_pic.png" alt=""
                                          style="margin-left:35%;">
-                                    <img ng-if="!org.privileged" src="pub/img/user_pic.png" alt=""
-                                         style="margin-left:35%;">
-                                    <p ng-if="org.privileged"
-                                       style="text-align: center;margin-bottom: 0px;margin-top:10px;">管理员</p>
-                                    <p ng-if="!org.privileged"
-                                       style="text-align: center;margin-bottom: 0px;margin-top:10px;">成员</p>
                                 </div>
                                 <div class="caption">
-                                    <p class="bsname ng-binding">{{org.name}}</p>
+                                    <p class="bsname ng-binding">{{org.metadata.annotations['openshift.io/display-name'] ||org.metadata.name}}</p>
                                     <a ng-click="leaveOrg($index,org.id,org.name,org.privileged)"
                                        class="btn btn-orange ng-scope" id="leaveorg" style="width: 120px;"
                                        href="javascript:;">离开组织</a>
                                 </div>
                             </div>
-                            <div style="text-align: center;background: #fff;position:relative" ng-if="!orgList"><p class="blank_mg_block"><img src="pub/img/df_cion.png"><span class="blank_mag_tit"> 您还没有任何组织管理数据</span></p></div>
+                            <div style="text-align: center;background: #fff;position:relative" ng-if="!projects"><p class="blank_mg_block"><img src="pub/img/df_cion.png"><span class="blank_mag_tit"> 您还没有任何组织管理数据</span></p></div>
                         </div>
 
 
@@ -448,6 +438,7 @@
             <!--}-->
         <!--})-->
     <!--</script>-->
+
     <style>
         ul, li, ol {
             list-style: none;
@@ -554,4 +545,4 @@
         .blank_mg_block{font-size:14px;border:1px solid #ccc;padding-top:10px;padding-bottom:10px;margin-top:14px;
             color:#5a6378;vertical-align:middle;}
     </style>
-
+</div>
