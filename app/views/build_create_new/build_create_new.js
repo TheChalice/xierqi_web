@@ -126,7 +126,7 @@ angular.module('console.build_create_new', [
                     return
                 }
                 if (n) {
-                    if (parseInt(n) > 61 || parseInt(n) < 1) {
+                    if (parseInt(n) > 60 || parseInt(n) < 1) {
                         $scope.timeouted = true
                     }else {
                         $scope.timeouted = false
