@@ -29,6 +29,7 @@ body {
 
 hr {
     border-top: 1px solid #c9c9c9;
+    visibility: hidden;
 }
 
 a {

@@ -1,4 +1,4 @@
-#header {/*jia 20161128 头锟斤拷锟竭度碉拷锟斤拷*/
+#header {/*jia 20161128 头部高度调整*/
     height:55px;
     background: #f8b551;
     width:100%;min-width:1200px;
@@ -118,11 +118,11 @@
     font-size:12px;
     padding-top:0px;
     padding-bottom:0px;
-    display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    display:block;
     -webkit-transition:all 300ms;
     -moz-transition:all 300ms;
     transition:all 300ms;
-    width:90%;
+
 }
 
 .dropdown-menu > li > a:hover{
@@ -177,7 +177,7 @@
     background-repeat: no-repeat;
     background-position: center;
 }
-/*20161128 jia 头锟斤拷锟睫革拷 begin*/
+/*20161128 jia 头部修改 begin*/
 #header #header-brand{padding-left:25px;padding-right:25px;}
 #header #header-brand .header_logo{width:150px;height:18px;padding:0;margin-top:18px;}
 .data_bg{-webkit-transition:  background 300ms;-ms-transition:  background 300ms;-o-transition:  background 300ms;-moz-transition:  background 300ms;transition:  background 300ms;}
@@ -193,7 +193,6 @@
 .df_h_area{background-image: url(img/df_area.png);}
 .df_area_active{background-image: url(img/df_area_active.png);margin-top:14px;}
 .df_h_per{background-image: url(img/df_person.png);}
-.df_o_per{background-image: url(img/df_org.png);}
 .df_person_active{background-image: url(img/df_person_active.png);margin-top:16px;}
 .df_q_active{background-image: url(img/df_q_active.png);margin-top:16px;}
 .df_qed_active{background-image: url(img/df_qed_active.png);margin-top:16px;}
@@ -221,11 +220,14 @@
 .area_block{padding-top:18px;padding-bottom:16px;padding-left:14px;padding-right:14px;display:block;}
 
 
-.header_per{cursor:pointer;float:left;display:block;border-left:1px solid #f6a540;}
+.header_per{cursor:pointer;float:left;display:block;border-left:1px solid #f6a540;width:200px;position:relative;}
 .per_block{padding-top:18px;padding-bottom:16px;padding-left:23px;padding-right:23px;display:block;}
 .header_per_tit{font-size:14px;color:#fff;display:block;float:left;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;
-overflow: hidden;max-width:114px;}
+overflow: hidden;width:100px;}
 .h_caret{display:inline-block;width:0;height:0;vertical-align:middle;
     border-top:6px dashed;border-right:6px solid transparent;border-left:6px solid transparent;
     color:#fff;margin-left:4px;-webkit-transition:all 0.3s;-moz-transition:all 0.3s;transition:all 0.3s}
+
+.df_set_name{display:inline-block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;width:130px;}
+
 

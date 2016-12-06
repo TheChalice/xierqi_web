@@ -107,7 +107,7 @@ angular.module('home', [])
                     } else {
                         $('html').css('overflow', 'hidden');
                         $('.foot_main').css('display', 'none');
-
+                        scrollTo(0,0);
                         preload(
                             "views/home/introduce/img/DF-111.png",
                             "views/home/introduce/img/DF-15.png",
