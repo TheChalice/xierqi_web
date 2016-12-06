@@ -424,8 +424,8 @@ define(['angular'], function (angular) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/addmodal.html',
                     size: 'default',
-                    controller: ['$state', '$rootScope', '$scope', '$uibModalInstance', 'loadOrg', '$http',
-                        function ($state, $rootScope, $scope, $uibModalInstance, loadOrg, $http) {
+                    controller: ['createOrg','$state', '$rootScope', '$scope', '$uibModalInstance', 'loadOrg', '$http',
+                        function (createOrg,$state, $rootScope, $scope, $uibModalInstance, loadOrg, $http) {
                             $scope.title = title;
                             $scope.txt = txt;
                             $scope.tip = tip;
@@ -442,6 +442,7 @@ define(['angular'], function (angular) {
                                         }).success(function (item) {
                                             $uibModalInstance.close(item);
                                         }).error(function (res) {
+
                                             $scope.tip = errcode.open(res.code)
                                             //if(res.code >= 500){
                                             //  $scope.tip = '内部错误，请通过DaoVoice联系管理员';
@@ -456,23 +457,37 @@ define(['angular'], function (angular) {
                                         $scope.tip = '名称不能为空';
                                         return;
                                     } else {
-                                        $http.post('/lapi/orgs', {
-                                            name: $scope.orgName
-                                        }).success(function (item) {
-                                            //$state.go()
+
+                                        createOrg.create({region: $rootScope.region,name: $scope.orgName}, function (item) {
                                             $state.go('console.org', {useorg: item.id})
                                             $uibModalInstance.close(item);
-
                                             $rootScope.delOrgs = true;
-                                        }).error(function (res) {
-                                            //console.log(res);
-                                            $scope.tip = errcode.open(res.code)
-                                            //if(res.code >= 500){
-                                            //  $scope.tip = '内部错误，请通过DaoVoice联系管理员';
-                                            //}else{
-                                            //  $scope.tip = res.message;
-                                            //}
+                                        }, function (err) {
+                                            console.log(err);
+                                            if (err.data.code === 403) {
+                                                $scope.tip = '同一账号只可创建一个组织'
+                                            }else {
+                                                $scope.tip = errcode.open(err.code)
+                                            }
+
                                         })
+                                        //$http.post('/lapi/orgs', {
+                                        //    name: $scope.orgName
+                                        //}).success(function (item) {
+                                        //    //$state.go()
+                                        //    $state.go('console.org', {useorg: item.id})
+                                        //    $uibModalInstance.close(item);
+                                        //
+                                        //    $rootScope.delOrgs = true;
+                                        //}).error(function (res) {
+                                        //    //console.log(res);
+                                        //    $scope.tip = errcode.open(res.code)
+                                        //    //if(res.code >= 500){
+                                        //    //  $scope.tip = '内部错误，请通过DaoVoice联系管理员';
+                                        //    //}else{
+                                        //    //  $scope.tip = res.message;
+                                        //    //}
+                                        //})
                                     }
                                 } else {
                                     $uibModalInstance.close($scope.orgName);

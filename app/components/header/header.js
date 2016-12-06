@@ -19,7 +19,7 @@ angular.module("console.header", [
                         $scope.curregion = res;
                         $rootScope.region = id
                         Cookie.set('region', id, 10 * 365 * 24 * 3600 * 1000);
-                        console.log($state.current.name);
+                       // console.log($state.current.name);
                         if ($state.current.name === 'console.dashboard') {
                             $state.reload();
                         } else {
@@ -27,15 +27,21 @@ angular.module("console.header", [
                         }
                         //$state.reload();
                     }
-                    $scope.$watch('namespace', function (n,o) {
+                    $scope.$watch('namespace', function (n, o) {
                         if (n === o) {
                             return
                         }
                         if (n !== "") {
+                            if (n === $rootScope.user.metadata.name) {
+                                $scope.orgimage = false;
+                            } else {
+                                $scope.orgimage = true;
+                            }
                             loadProject()
                         }
 
                     })
+
                     var loadProject = function () {
                         //$log.info("load project");
                         Project.get({region: $rootScope.region}, function (data) {
@@ -50,6 +56,7 @@ angular.module("console.header", [
                             $log.info("find project err", res);
                         });
                     };
+
                     loadProject()
 
                     regions.query({}, function (data) {
@@ -87,19 +94,20 @@ angular.module("console.header", [
                     //]
 
 
-                    if ($state.params.useorg) {
-                        $http({
-                            url: '/lapi/orgs/' + $state.params.useorg,
-                            method: 'GET'
-                        }).success(function (data, header, config, status, orgid) {
-                            //alert(data.name)
-                            $scope.checked = data.name;
-                        }).error(function (data, header, config, status) {
-                        });
+                    //if ($state.params.useorg) {
+                    //    $http({
+                    //        url: '/lapi/orgs/' + $state.params.useorg,
+                    //        method: 'GET'
+                    //    }).success(function (data, header, config, status, orgid) {
+                    //        //alert(data.name)
+                    //        $scope.checked = data.name;
+                    //    }).error(function (data, header, config, status) {
+                    //    });
+                    //
+                    //}
 
-                    }
+                    //$scope.checked = '';
 
-                    $scope.checked = '';
                     //if($rootScope.delOrgs){
                     //    $http({
                     //        url:'/lapi/orgs/'+$state.params.useorg,
@@ -110,36 +118,36 @@ angular.module("console.header", [
                     //    });
                     //}
 
-                    $scope.$watch('delOrgs', function (n, o) {
-                        if (n == o) {
-                            return;
-                        }
-                        if (n) {
-                            //alert()
-                            $scope.checked = $rootScope.user.metadata.name;
-                            $http({
-                                url: '/lapi/orgs',
-                                method: 'GET'
-                            }).success(function (data, header, config, status, orgid) {
-                                $scope.userorgs = data.orgnazitions;
-                                $rootScope.delOrgs = false;
-                            }).error(function (data, header, config, status) {
-                            });
-                        } else {
-                            //$rootScope.isorg = false;
-                        }
-                    })
-                    $scope.$watch('$state.params.useorg', function (n, o) {
-                        if (n == o) {
-                            return;
-                        }
-                        if ($state.params.useorg) {
-                            //$rootScope.isorg = true;
-                            $scope.neworgid = $state.params.useorg
-                        } else {
-                            //$rootScope.isorg = false;
-                        }
-                    })
+                    //$scope.$watch('delOrgs', function (n, o) {
+                    //    if (n == o) {
+                    //        return;
+                    //    }
+                    //    if (n) {
+                    //        //alert()
+                    //        $scope.checked = $rootScope.user.metadata.name;
+                    //        $http({
+                    //            url: '/lapi/orgs',
+                    //            method: 'GET'
+                    //        }).success(function (data, header, config, status, orgid) {
+                    //            $scope.userorgs = data.orgnazitions;
+                    //            $rootScope.delOrgs = false;
+                    //        }).error(function (data, header, config, status) {
+                    //        });
+                    //    } else {
+                    //        //$rootScope.isorg = false;
+                    //    }
+                    //})
+                    //$scope.$watch('$state.params.useorg', function (n, o) {
+                    //    if (n == o) {
+                    //        return;
+                    //    }
+                    //    if ($state.params.useorg) {
+                    //        //$rootScope.isorg = true;
+                    //        $scope.neworgid = $state.params.useorg
+                    //    } else {
+                    //        //$rootScope.isorg = false;
+                    //    }
+                    //})
                     //$rootScope.isorg = false;
                     //$scope.$watch('namespace', function (n, o) {
                     //    //console.log('new', n);
@@ -236,26 +244,28 @@ angular.module("console.header", [
                     };
 
                     // console.log($location.url().split('/')[2])
-                    if ($location.url().split('/')[2] === 'org') {
-                        $http({
-                            url: '/lapi/orgs/' + $location.url().split('/')[3],
-                            method: 'GET'
-                        }).success(function (data) {
-                            // console.log('112',data.name)
-                            $scope.checked = data.name
-                        })
-                    } else if ($rootScope.huancun && $rootScope.huancun.name) {
-                        $scope.checked = $rootScope.huancun.name;
-                        $rootScope.huancun.name = false
-                    } else if (!$scope.checked) {
-                        $scope.checked = $rootScope.namespace;
-                    }
+                    //if ($location.url().split('/')[2] === 'org') {
+                    //    $http({
+                    //        url: '/lapi/orgs/' + $location.url().split('/')[3],
+                    //        method: 'GET'
+                    //    }).success(function (data) {
+                    //        // console.log('112',data.name)
+                    //        $scope.checked = data.name
+                    //    })
+                    //} else if ($rootScope.huancun && $rootScope.huancun.name) {
+                    //    $scope.checked = $rootScope.huancun.name;
+                    //    $rootScope.huancun.name = false
+                    //} else if (!$scope.checked) {
+                    //    $scope.checked = $rootScope.namespace;
+                    //}
+
                     $scope.backindex = function () {
                         $rootScope.whereclick = '首页';
                         $state.go('home.index')
                     }
+
                     $scope.gotomy = function () {
-                        $scope.checked = $rootScope.user.metadata.name;
+                        //$scope.checked = $rootScope.user.metadata.name;
 
                         $rootScope.namespace = $rootScope.user.metadata.name;
                         Cookie.set('namespace', $rootScope.user.metadata.name, 10 * 365 * 24 * 3600 * 1000);
@@ -282,10 +292,10 @@ angular.module("console.header", [
                     //
                     //}
 
-                    orgList.get({}, function (org) {
-                        // console.log(org);
-                        $scope.userorgs = org.orgnazitions;
-                    });
+                    //orgList.get({}, function (org) {
+                    //    // console.log(org);
+                    //    $scope.userorgs = org.orgnazitions;
+                    //});
                     //图片预加载
                     var images = new Array()
 
@@ -321,19 +331,19 @@ angular.module("console.header", [
                         return true;
                     };
 
-                    $scope.$watch("orgStatus", function (n, old) {
-                        // console.log("%%%%%%", n, old);
-                        if (n) {
-                            orgList.get({}, function (org) {
-                                $scope.userorgs = org.orgnazitions;
-                                //alert(11)
-                                $scope.checked = $rootScope.namespace;
-
-                                $rootScope.orgStatus = false;
-
-                            })
-                        }
-                    })
+                    //$scope.$watch("orgStatus", function (n, old) {
+                    //    // console.log("%%%%%%", n, old);
+                    //    if (n) {
+                    //        orgList.get({}, function (org) {
+                    //            $scope.userorgs = org.orgnazitions;
+                    //            //alert(11)
+                    //            $scope.checked = $rootScope.namespace;
+                    //
+                    //            $rootScope.orgStatus = false;
+                    //
+                    //        })
+                    //    }
+                    //})
 
                     //$scope.$watch('checked', function (n, o) {
                     //    if (n == o) {
@@ -351,7 +361,7 @@ angular.module("console.header", [
                         $scope.checked = '';
                         $rootScope.user = null;
                         $rootScope.namespace = "";
-                        clearInterval($scope.timer);
+                        //clearInterval($scope.timer);
                         $state.go('home.index');
 
                     };
@@ -363,8 +373,8 @@ angular.module("console.header", [
                         Cookie.set('namespace', namespace, 10 * 365 * 24 * 3600 * 1000);
                         $state.reload();
                         //$scope.change=true;
-                        $scope.checked = namespace;
-                        $rootScope.huancun.name = namespace;
+                        //$scope.checked = namespace;
+                        //$rootScope.huancun.name = namespace;
                         //console.log('$scope.checked', $scope.checked);
                         if (namespace.indexOf('org') !== -1) {
                             $state.go('console.org', {useorg: namespace})
