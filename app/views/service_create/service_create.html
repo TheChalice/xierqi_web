@@ -32,8 +32,8 @@
                                         <input type="text" id="sevicecreateinp" name="serviceName" ng-model="dc.metadata.name"
                                                class="form-control input-block foucsinput"
                                                ng-blur="nameblur()"
-                                               onkeypress="if(event.keyCode)console.log(event.keyCode);"
-                                               onkeyup="value=value.replace(/[^\w\.\/]/ig,'')" ng-focus="namefocus()" type="text" name="name" class="form-control"
+                                               onkeypress="if((event.keyCode > 31 && event.keyCode < 44) || (event.keyCode > 46 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97))event.returnValue = false;"
+                                               ng-focus="namefocus()" type="text" name="name" class="form-control"
                                                placeholder="例如：datafoundry">
                                         <small ng-if="namerr.nil" class="fa fa-info-circle err-tip">请输入正确构建名称
                                         </small>
@@ -75,6 +75,7 @@
                                             <div class="container-box" style="margin-bottom: 0;">
                                                 <div style="margin-bottom: 20px;">
                                                     <input ng-model="container.name"
+                                                           onkeypress="if((event.keyCode > 31 && event.keyCode < 44) || (event.keyCode > 46 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97))event.returnValue = false;"
                                                            style="width: 95%;display: inline-block;"
                                                            type="text" class="form-control foucsinput"
                                                            placeholder="请设置容器名称">
@@ -89,9 +90,12 @@
                                                        ng-click="selectImage($index)" style="color: white">选择镜像</a><span
                                                         class="require"></span>
                                                     <br>
-                                                    <small ng-if="!container.image && container.emptyImage"
+                                                    <small ng-if="container.emptyImage"
                                                            class="fa fa-info-circle err-tip">&nbsp;请选择镜像
                                                     </small>
+                                                    <!--<small-->
+                                                           <!--class="fa fa-info-circle err-tip">&nbsp;请选择镜像-->
+                                                    <!--</small>-->
                                                 </div>
                                                 <div style="font-size: 12px;color: #5a6378;">
                                                     <div ng-if="container.image">
