@@ -81,7 +81,13 @@
                                                            placeholder="请设置容器名称">
                                                     <span class="require"></span>
                                                     <small ng-show="!container.name && container.emptyName"
-                                                           class="fa fa-info-circle err-tip">&nbsp;请设置容器名,至少2个字符
+                                                           class="fa fa-info-circle err-tip">&nbsp;请设置容器名
+                                                    </small>
+                                                    <small ng-show="container.namerepeat"
+                                                           class="fa fa-info-circle err-tip">&nbsp;容器名重复
+                                                    </small>
+                                                    <small ng-show="container.namerexed"
+                                                           class="fa fa-info-circle err-tip">&nbsp;请输入4~30位名称,名称只能包含英文、数字以及“-”
                                                     </small>
                                                 </div>
                                                 <hr>

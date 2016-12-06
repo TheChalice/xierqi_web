@@ -11,11 +11,12 @@ angular.module('console.service.create', [
     .controller('ServiceCreateCtrl', ['$http', 'by', 'diploma', 'Confirm', 'Toast', '$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service', 'ChooseSecret', '$base64', 'secretskey', 'serviceaccounts',
         function ($http, by, diploma, Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service, ChooseSecret, $base64, secretskey, serviceaccounts) {
             $log.info('ServiceCreate');
+            $('#sevicecreateinp').focus();
             $scope.$on('$viewContentLoaded', function(){
-                $('#sevicecreateinp').focus();
+
                 //console.log($('#sevicecreateinp'));
             });
-
+            var r =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
             $scope.checkEnv = false;
 
             $scope.portsArr = [
@@ -415,10 +416,30 @@ angular.module('console.service.create', [
                     return;
                 }
                 if (n && o) {
-                    angular.forEach(n, function (nitem, i) {
-                        if (n[i] && o[i]) {
-                            if (n[i].doset !== o[i].doset) {
 
+                    angular.forEach(n, function (nitem, i) {
+
+                        if (n[i] && o[i]) {
+
+                            if (n[i].name !== o[i].name) {
+                                n[i].namerepeat=false;
+                                n[i].namerexed=true;
+                                if (r.test(n[i].name)) {
+                                    n[i].namerexed=false
+
+                                }
+                                angular.forEach(n, function (name,q) {
+                                    if (i !== q) {
+                                        if (n[i].name === n[q].name) {
+                                            n[i].namerepeat=true
+
+                                        }
+                                    }
+
+                                })
+
+                            }
+                            if (n[i].doset !== o[i].doset) {
                                 if ($scope && $scope.dc && $scope.dc.spec.template&&$scope.dc.spec.template.spec.containers[i].readinessProbe) {
                                     //alert(3)
                                     //console.log($scope.dc.spec.template.spec.containers[i].readinessProbe);
@@ -1388,7 +1409,7 @@ angular.module('console.service.create', [
             $scope.namefocus = function () {
                 $scope.namerr.nil = false
             }
-            var r =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
+
             $scope.$watch('dc.metadata.name', function (n, o) {
                 if (n === o) {
                     return;
@@ -1423,6 +1444,7 @@ angular.module('console.service.create', [
                     return false;
                 }
                 //console.log('dc', dc);
+
 
                 for (var i = 0; i < containers.length; i++) {
                     if (!containers[i].name) {
