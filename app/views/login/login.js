@@ -132,8 +132,8 @@ angular.module('home.login', [])
 
             };
             $scope.regist = function () {
-                ModalRegist.open();
-                //$state.go('regist');
+                //ModalRegist.open();
+                $state.go('regist');
             };
             // $scope.cancel = function () {
             //   $uibModalInstance.dismiss();
