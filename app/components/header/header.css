@@ -85,6 +85,7 @@
     height: 52px;
     line-height:52px;
     border-bottom: 1px solid #dfe4ef;
+    background:#fff;
 }
 
 .projectname > li:hover {
