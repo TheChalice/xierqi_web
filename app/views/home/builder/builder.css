@@ -1,4 +1,5 @@
-.builder{overflow: hidden;padding-top: 70px;}
+.builder{overflow: hidden;padding-top: 70px;height:600px;}
+
 
 
 .df_block{position:absolute;text-align:center;left:50%;top:42%;width:214px;height:308px;margin-top:-154px;margin-left:-107px;}
@@ -21,4 +22,9 @@ bouncedelay 1.4s infinite ease-in-out;animation:bouncedelay 1.4s infinite ease-i
 }
 @keyframes bouncedelay{0%,80%,to{transform:scale(0);-webkit-transform:scale(0)}
     40%{transform:scale(0.6);-webkit-transform:scale(0.6)}
+}
+
+@media (min-width: 1920px) {
+    .builder{height:700px;}
+
 }

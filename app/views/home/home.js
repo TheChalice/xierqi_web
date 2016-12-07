@@ -8,6 +8,12 @@ angular.module('home', [])
                 $scope.regions = data;
             })
             $log.info('Home');
+            //footer底部返回顶部 20161202 jia
+            $(".fl_detail").on("click",function(){
+                $(document.body).animate({
+                    scrollTop:0
+                },200);
+            })
             $scope.$watch('namespace', function (n, o) {
                 //console.log('new1',n);
                 if (n == '') {
@@ -46,16 +52,16 @@ angular.module('home', [])
             //console.log($state.current.name);
 
             switch ($state.current.name) {
-                case 'home.index':
-                    $rootScope.whereclick = '首页'
-
-                    break;
+                //case 'home.index':
+                //    $rootScope.whereclick = '首页'
+                //
+                //    break;
                 case 'home.recharge':
                     $rootScope.whereclick = '价格'
 
                     break;
                 case 'home.introduce':
-                    $rootScope.whereclick = '产品'
+                    $rootScope.whereclick = '首页'
 
                     break;
                 case 'home.application':
@@ -93,7 +99,7 @@ angular.module('home', [])
             $rootScope.$on('$stateChangeStart',
                 function (event, toState, toParams, fromState, fromParams) {
                     //console.log('toState',toState.name);
-                    if (toState.name !== "home.introduce") {
+                    if (toState.name !== "home.index") {
                         $('html').css('overflow', 'auto');
                         $('.foot_main').css('display', 'block');
 
@@ -101,7 +107,7 @@ angular.module('home', [])
                     } else {
                         $('html').css('overflow', 'hidden');
                         $('.foot_main').css('display', 'none');
-
+                        scrollTo(0,0);
                         preload(
                             "views/home/introduce/img/DF-111.png",
                             "views/home/introduce/img/DF-15.png",
@@ -172,8 +178,8 @@ angular.module('home', [])
             };
 
             $scope.regist = function () {
-                ModalRegist.open();
-                //$state.go('regist');
+                //ModalRegist.open();
+                $state.go('regist');
             };
 
         }]);

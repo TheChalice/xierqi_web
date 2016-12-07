@@ -17,11 +17,19 @@
                             <label class="col-sm-2 control-label text-left"
                                    style="color: #5a6378; font-size:14px; text-align: left;">构建名称</label>
                             <div class="col-sm-10" style="padding-right: 40px">
-                                <input ng-model="buildConfig.metadata.name" type="text" name="name" class="form-control"
+                                <input ng-model="buildConfig.metadata.name"
+                                       ng-blur="nameblur()"
+                                       onkeypress="if((event.keyCode > 31 && event.keyCode < 44) || (event.keyCode > 46 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97))event.returnValue = false;"
+                                       ng-focus="namefocus()"
+                                       type="text" name="name" class="form-control"
                                        required
                                        placeholder="例如：datafoundry"
                                        style="width: 613px;">
-                                <small ng-if="nameerr&&frm.name.$dirty" class="fa fa-info-circle err-tip">名称只能包括小写字母/数字/短线，且短线、数字不能出现在开头或结尾位置
+                                <small ng-if="namerr.nil" class="fa fa-info-circle err-tip">请输入正确构建名称
+                                </small>
+                                <small ng-if="namerr.rexed" class="fa fa-info-circle err-tip">请输入4~30位名称,名称只能包含英文、数字以及“-”
+                                </small>
+                                <small ng-if="namerr.repeated" class="fa fa-info-circle err-tip">输入的名称已重复
                                 </small>
                             </div>
                         </div>
@@ -29,7 +37,7 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label" style="color: #5a6378; font-size:14px; text-align: left;">代码URL</label>
                             <div class="col-sm-10">
-                                <uib-tabset class="tab-default">
+                                <uib-tabset class="tab-default" active="check">
                                     <!--gitlab-->
                                     <uib-tab index="1" heading="代码仓库" ng-click="checkdTab(1)">
                                         <div class="tabinfo" style="height: 50px">
@@ -62,13 +70,15 @@
                                     <!--<img src="views/build_create_new/img/gitlab.png">-->
                                     <!--<span style="font-size:12px; height: 20px"></span>-->
                                     <!--</uib-tab>-->
-                                    <uib-tab index="4" heading="其他Git" ng-click="checkdTab(4)">
+                                    <uib-tab index="3" heading="其他Git" ng-click="checkdTab(4)">
                                         <form class="form-horizontal">
                                             <p style="font-size: 12px; margin-left: 72px;padding-bottom: 10px">如果是私有代码库，需要输入用户名口令。</p>
                                             <div class="form-group">
                                                 <label for="address" class="col-md-3 control-label require" style="text-align: left; font-size: 12px; font-weight: normal">仓库地址</label>
                                                 <div class="col-md-9">
                                                     <input type="text" class="form-control" id="address" style="height: 30px; margin-left: -20px" ng-model="buildConfig.spec.source.git.uri">
+                                                    <small style="margin-left: -20px;" ng-if="repoerr" class="fa fa-info-circle err-tip">请输入仓库地址
+                                                    </small>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -235,6 +245,7 @@
                                         <label class="col-sm-4 control-label">代码仓库URL</label>
                                         <div class="col-sm-8">
                                             <input ng-model="psgitlab.host" class="form-control" style="width: 70%">
+
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -267,14 +278,22 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <div class="col-sm-2 control-label" style="color: #5a6378; font-size:14px; text-align: left;"></div>
+                            <div class="col-sm-10">
+                                <small ng-if="urlerr" class="fa fa-info-circle err-tip">请选择代码URL
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-sm-2 control-label text-left"
                                    style="color: #5a6378; font-size:14px; text-align: left; ">构建超时时长</label>
                             <div class="col-sm-10">
-                                <input ng-model="completionDeadlineMinutes" name="cdm" min="1" max="60"
-                                       style="width: 80px;display: inline-block;" type="text" class="form-control" required>
+                                <input onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();" ng-model="completionDeadlineMinutes" name="cdm" min="1" max="60"
+                                       style="width: 80px;display: inline-block;" type="text" class="form-control">
                                 <span style="display: inline-block; margin-right: 20px">分钟</span>
                                 <span class="font12">&nbsp;&nbsp;请不要超过60分钟</span><br>
-                                <small ng-if="frm.cdm.$invalid" class="fa fa-exclamation-circle"
+                                <small ng-if="timeouted" class="fa fa-exclamation-circle"
                                        style="font-size: 12px;color: #ec6941; margin-top: 10px">&nbsp;您设置的时长超过了限制，请重新设置
                                 </small>
                             </div>

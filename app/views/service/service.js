@@ -25,7 +25,9 @@ angular.module('console.service', [
                     refresh(newVal);
                 }
             });
-
+            $scope.reload=function(){
+                $state.reload();
+            }
             var refresh = function (page) {
                 //console.log(page);
 
@@ -35,9 +37,9 @@ angular.module('console.service', [
                 }else {
                     $scope.items=[];
                 }
-                $scope.reload=function(){
-                    $state.reload();
-                }
+                $(document.body).animate({
+                    scrollTop:0
+                },200);
 
 
                 //$log.info('$scope.items=-=-=-=-=-=',$scope.items);
@@ -147,7 +149,7 @@ angular.module('console.service', [
             var loadPods = function (itemarr, len, n) {
                 //console.log('itemarritemarritemarritemarritemarr',itemarr)
                 var labelSelector = 'deploymentconfig=' + itemarr.metadata.name;
-
+                //console.log('onesb');
                 Pod.get({
                     namespace: $scope.namespace,
                     labelSelector: labelSelector,
