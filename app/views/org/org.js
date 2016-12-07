@@ -21,16 +21,49 @@ angular.module('console.user', [
         var loadOrg = function () {
             //console.log('test org name',$stateParams.useorg,$rootScope.namespace)
             orgList.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
-                console.log(data);
+                //console.log(data);
                 //$scope.rootmembers = [];
                 //$scope.norootmembers = [];
+                $scope.orgcan=data
                 angular.forEach(data.items, function (item, i) {
+
                     if (item.roleRef.name === 'admin') {
+                        $scope.roottime =item.metadata;
                         $scope.rootmembers=item.subjects
                     }else if(item.roleRef.name === "edit"){
+                        $scope.noroottime =item.metadata;
                         $scope.norootmembers=item.subjects
                     }
                 })
+                angular.forEach($scope.rootmembers, function (item,i) {
+                    angular.forEach($scope.roottime.annotations, function (root,k) {
+                        if (item.name === k.split('/')[1]) {
+                            $scope.rootmembers[i].jointime=root;
+                        }
+                    })
+
+                })
+                angular.forEach($scope.rootmembers, function (item,i) {
+                    if (!item.jointime) {
+                        $scope.rootmembers[i].jointime=$scope.roottime.creationTimestamp;
+                    }
+
+                })
+                angular.forEach($scope.norootmembers, function (item, i) {
+                    angular.forEach($scope.noroottime.annotations, function (root, k) {
+                        if (item.name === k.split('/')[1]) {
+                            $scope.norootmembers[i].jointime = root;
+                        }
+                    })
+
+                })
+                angular.forEach($scope.norootmembers, function (item,i) {
+                    if (!item.jointime) {
+                        $scope.norootmembers[i].jointime=$scope.noroottime.creationTimestamp;
+                    }
+
+                })
+
                 console.log($scope.rootmembers, $scope.norootmembers);
 
             })
@@ -80,6 +113,9 @@ angular.module('console.user', [
                     return x.sortname > y.sortname ? 1 : -1;
                 });
                 angular.forEach(data.items, function (project, i) {
+                    if (project.metadata.name === $rootScope.namespace) {
+                        $scope.myorgname =project.metadata.annotations['openshift.io/display-name']||project.metadata.name;
+                    }
                     if (/^[\u4e00-\u9fa5]/i.test(project.metadata.annotations['openshift.io/display-name'])) {
                         //console.log(project.metadata.annotations['openshift.io/display-name']);
                         //data.items.push(project);
@@ -88,6 +124,7 @@ angular.module('console.user', [
                         data.items.splice(i + 1, 1);
                     }
                 });
+
                 $rootScope.projects = data.items;
                 //console.log(data.items);
 
@@ -101,7 +138,7 @@ angular.module('console.user', [
             //  console.log('test project', data);
             //})
         }
-
+        loadProject();
         $scope.deletezz = function () {
             if ($scope.rootmembers.length == 1 && $scope.norootmembers.length == 0) {
                 Confirm.open("删除组织", "您确定要删除组织吗？", "此操作不可撤销", "stop").then(function () {
