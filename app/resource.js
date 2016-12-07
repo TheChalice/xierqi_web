@@ -488,6 +488,18 @@ define([
             })
             return createOrg;
         }])
+        .factory('addperpleOrg', ['$resource', function ($resource) {
+            var addperpleOrg = $resource('/lapi/v1/orgs/:namespace/invite?region=:region', {namespace:'@namespace',region:'@region'}, {
+                put: {method: 'PUT'}
+            })
+            return addperpleOrg;
+        }])
+        .factory('delperpleOrg', ['$resource', function ($resource) {
+            var delperpleOrg = $resource('/lapi/v1/orgs/:namespace/remove?region=:region', {namespace:'@namespace',region:'@region'}, {
+                put: {method: 'PUT'}
+            })
+            return delperpleOrg;
+        }])
         .factory('loadOrg', ['$resource', function ($resource) {
             var loadOrg = $resource('/lapi/orgs/:org', {org: '@org'}, {})
             return loadOrg;

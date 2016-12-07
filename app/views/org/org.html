@@ -1,11 +1,13 @@
 <div id="user">
-    <div class="loader" ng-show="!orgcon">
-        <div class="loader-inner ball-clip-rotate-multiple">
-            <div></div>
-            <div></div>
-        </div>
-    </div>
-    <div ng-show="orgcon">
+    <!--<div class="loader" ng-show="!orgcon">-->
+        <!--<div class="loader-inner ball-clip-rotate-multiple">-->
+            <!--<div></div>-->
+            <!--<div></div>-->
+        <!--</div>-->
+    <!--</div>-->
+    <div ng-show="true">
+    <!--<div ng-show="orgcon">-->
+
         <uib-tabset class="tab-default">
             <!--<uib-tab index="1">-->
             <!--<uib-tab-heading>-->
@@ -222,15 +224,17 @@
                     <i class="orgbg"></i>&nbsp;&nbsp;组织管理
                 </uib-tab-heading>
                 <div class="row" style="margin-bottom: 30px;">
-                    <h5 class='col-md-12 buy' style='margin-bottom: 10px;'><span s class=pull-left>{{orgcon.name}}</span><a uib-tooltip="删除组织" href='javascript:;' ng-click='deletezz()' class='recycle pull-left'></a></h5>
-                    <p class='creattime'><span uib-tooltip="{{orgcon.creation_time | timescon}}">创建于&nbsp;{{orgcon.creation_time | dateRelative}}</span></p>
+                    <h5 class='col-md-12 buy' style='margin-bottom: 10px;'><span s class=pull-left>{{namespace}}</span>
+                        <!--<a uib-tooltip="删除组织" href='javascript:;' ng-click='deletezz()' class='recycle pull-left'></a>-->
+                    </h5>
+                    <!--<p class='creattime'><span uib-tooltip="{{orgcon.creation_time | timescon}}">创建于&nbsp;{{orgcon.creation_time | dateRelative}}</span></p>-->
                     <div class=content style="padding:20px 0px;line-height: 40px; width:916px">
                         <p>成员信息<a href="javascript:;" style="line-height: 40px; color: #55c45f" ng-click="addpeople()">
                             <i class="fa fa-plus-circle fa-lg" style="margin-left: 15px;"></i>
-                        </a>&nbsp;&nbsp;<span style="font-weight: normal;line-height: 40px; color: #55c45f;">邀请新成员</span></p>
+                        </a>&nbsp;&nbsp;<span style="font-weight: normal;line-height: 40px; color: #55c45f;">添加新成员</span></p>
                     </div>
 
-                    <section class='list'>
+                    <section class='orglist'>
                         <div class="row">
                             <div class="col-md-1" style="padding-top: 8px;">
                                 <h3 style="white-space:nowrap;">管理员</h3>
@@ -247,33 +251,33 @@
                                             <th>操作</th>
                                         </tr>
                                         <tr ng-repeat='member in rootmembers'>
-                                            <td>{{member.member_name}}</td>
+                                            <td>{{member.name}}</td>
                                             <!--<td>{{member.member_name}}@163.com</td>-->
                                             <td>{{member.joined_at | dateRelative}}</td>
                                             <td>{{member.privileged_by}}</td>
                                             <td>
-                                                <div  class="dropdown dropdown-select" style="width: 80px; height: 24px;margin-bottom: 10px;">
-                                                    <button class="btn dropdown-toggle"
-                                                            data-toggle="dropdown"
-                                                            style="width: 80px; height: 24px;padding-top: 0;padding-bottom: 0;">
-                                                        <span>{{date ||'更改权限'}}</span>
-                                                        <span class="caret"></span>
-                                                    </button>
-                                                    <ul class="dropdown-menu">
-                                                        <li>
-                                                            <a href="javascript:;" ng-click="changetomember($index)">成员</a>
+                                                <!--<div  class="dropdown dropdown-select" style="width: 80px; height: 24px;margin-bottom: 10px;">-->
+                                                    <!--<button class="btn dropdown-toggle"-->
+                                                            <!--data-toggle="dropdown"-->
+                                                            <!--style="width: 80px; height: 24px;padding-top: 0;padding-bottom: 0;">-->
+                                                        <!--<span>{{date ||'更改权限'}}</span>-->
+                                                        <!--<span class="caret"></span>-->
+                                                    <!--</button>-->
+                                                    <!--<ul class="dropdown-menu">-->
+                                                        <!--<li>-->
+                                                            <!--<a href="javascript:;" ng-click="changetomember($index)">成员</a>-->
 
-                                                        </li>
-                                                    </ul>
-                                                </div>
+                                                        <!--</li>-->
+                                                    <!--</ul>-->
+                                                <!--</div>-->
                                                 <a href="javascript:;"
                                                    ng-click='leave()'
                                                    style='width: 80px;margin-right: -35px;'
-                                                   ng-if='member.member_name==namespace'
+                                                   ng-if='member.name===user.metadata.name'
                                                    class='btn btn-orange btns' id="leave">离开组织</a>
                                                 <a href="javascript:;"
                                                    ng-click='remove($index)'
-                                                   ng-if='member.member_name!==namespace'
+                                                   ng-if='member.name!==user.metadata.name'
                                                    class='btn btn-orange btns' id="remove">移除</a>
                                             </td>
                                             <!-- end ngRepeat: port in portsArr -->
@@ -299,30 +303,30 @@
                                             <th>操作</th>
                                         </tr>
                                         <tr ng-repeat='member in norootmembers'>
-                                            <td>{{member.member_name}}</td>
+                                            <td>{{member.name}}</td>
                                             <!--<td>{{member.member_name}}@163.com</td>-->
                                             <td>{{member.join_at}}</td>
                                             <td>{{member.privileged_by}}</td>
                                             <td>
-                                                <div class="dropdown dropdown-select" style="width: 80px; height: 24px;margin-bottom: 10px;">
-                                                    <button class="btn dropdown-toggle" data-toggle="dropdown" style="width: 80px; height: 24px;padding-top: 0;padding-bottom: 0;">
-                                                        <span>{{date ||'更改权限'}}</span>
-                                                        <span class="caret"></span>
-                                                    </button>
-                                                    <ul class="dropdown-menu">
-                                                        <li>
-                                                            <a href="javascript:;" ng-click="changetoadmin($index)">管理员</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
+                                                <!--<div class="dropdown dropdown-select" style="width: 80px; height: 24px;margin-bottom: 10px;">-->
+                                                    <!--<button class="btn dropdown-toggle" data-toggle="dropdown" style="width: 80px; height: 24px;padding-top: 0;padding-bottom: 0;">-->
+                                                        <!--<span>{{date ||'更改权限'}}</span>-->
+                                                        <!--<span class="caret"></span>-->
+                                                    <!--</button>-->
+                                                    <!--<ul class="dropdown-menu">-->
+                                                        <!--<li>-->
+                                                            <!--<a href="javascript:;" ng-click="changetoadmin($index)">管理员</a>-->
+                                                        <!--</li>-->
+                                                    <!--</ul>-->
+                                                <!--</div>-->
                                                 <a href="javascript:;"
                                                    ng-click='leave()'
                                                    style='width: 80px;margin-right: -35px;'
-                                                   ng-if='member.member_name==namespace'
+                                                   ng-if='member.name===user.metadata.name'
                                                    class='btn btn-orange btns' id="leavefmem">离开组织</a>
                                                 <a href="javascript:;"
                                                    ng-click='removenotroot($index)'
-                                                   ng-if='member.member_name!==namespace'
+                                                   ng-if='member.name!==user.metadata.name'
                                                    class='btn btn-orange btns' id="removefmem">移除</a>
                                                 <!--<a href="javascript:;" class='btn btn-orange btns'>移除</a>-->
                                             </td> <!-- end ngRepeat: port in portsArr -->

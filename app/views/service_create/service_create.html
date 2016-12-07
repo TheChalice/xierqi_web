@@ -225,10 +225,9 @@
                                                                         </div>
                                                                     </div>
                                                                     <br>
-
-
                                                                 </div>
                                                             </div>
+
                                                             <div class="dohttp" ng-if="container.doset === 'HTTP'">
                                                                 <div class="col-md-12 mt10">
                                                                     <div>
@@ -266,9 +265,7 @@
                                                                                     </li>
                                                                                 </ul>
                                                                             </div>
-
                                                                         </div>
-
 
                                                                         <br>
 
@@ -378,8 +375,11 @@
 
                                                                     </div>
 
-
                                                                     <br>
+                                                                    <div class="col-md-12" style="padding-left: 0;margin-top: 20px;">
+                                                                        <small ng-if="container.cadoerr" class="fa fa-info-circle err-tip">&nbsp;请填写完整信息
+                                                                        </small>
+                                                                    </div>
 
 
                                                                 </div>
@@ -425,11 +425,13 @@
                                                             <div class="col-sm-3">
                                                                 <input type="number" style="height:23px;" class="input-small" onkeyup="value=value.replace(/[^\d]/g,'')"
                                                                        ng-class="{'input-error':port.conflict}"
+                                                                       placeholder="例如：80"
                                                                        ng-model="port.containerPort">
                                                             </div>
                                                             <div class="col-sm-3">
                                                                 <input type="number" style="height:23px;" onkeyup="value=value.replace(/[^\d]/g,'')"
                                                                        ng-model="port.hostPort"
+                                                                       placeholder="例如：80"
                                                                        class="input-small"
                                                                        ng-class="{'input-error':port.serviceConflict}">
                                                             </div>
@@ -460,13 +462,16 @@
                     <!--<i class="faa faa-check"></i>&nbsp;自动运行-->
                 <!--</a>-->
             <!--</div>-->
+            <!--<div class="col-md-12" style="padding-left: 15px;margin-top: 0px;">-->
+                <!--<small class="fa fa-info-circle err-tip">&nbsp;请填写完整信息-->
+                <!--</small>-->
+            <!--</div>-->
             <div class="col-md-6" style="padding-right: 40px;">
                 <!--<a href="javascript:;"-->
                    <!--class="btn btn-block" ng-click="frm.$valid && jump(!grid.checked)"-->
                    <!--ng-class="{'btn-orange':frm.$valid, 'btn-disabled': frm.$invalid}"-->
                    <!--ng-disabled="frm.$invalid" >-->
-                    <a href="javascript:;"
-                   class="btn btn-block btn-orange" ng-click="frm.$valid && jump(!grid.checked)">
+                    <a href="javascript:;" class="btn btn-block btn-orange" ng-click="frm.$valid && jump(!grid.checked)">
                     <span ng-if="!grid.checked" style="color: white;">进入高级配置</span>
                     <span ng-if="grid.checked" style="color: white;">返回基础配置</span>
                 </a>
