@@ -156,12 +156,17 @@ angular.module('console.service.create', [
                 if ($scope.grid.cpunum || $scope.grid.megnum) {
                     //console.log(n.cpu, $scope.grid.cpunum);
                     //console.log(n.memory, $scope.grid.megnum);
+                    console.log(n);
                     if (!$scope.quota.doquota) {
                         $scope.grid.cpunum = null;
                         $scope.grid.megnum = null;
                         return;
                     }
-                    if (n && n.cpu > $scope.grid.cpunum) {
+                    $scope.grid.cpunullerr=false;
+                    $scope.grid.memorynullerr=false;
+                    //parseFloat($scope.quota.memory)
+                    if (n && parseFloat(n.cpu) > parseFloat($scope.grid.cpunum)) {
+                        console.log('bug');
                         $scope.grid.cpuerr = true;
                     } else {
                         $scope.grid.cpuerr = false;
@@ -169,13 +174,13 @@ angular.module('console.service.create', [
                     //console.log($scope.quota.unit);
                     if (n && n.memory) {
                         if ($scope.quota.unit === 'MB') {
-                            if (n.memory > ($scope.grid.megnum * 1000)) {
+                            if (parseFloat(n.memory) > ($scope.grid.megnum * 1000)) {
                                 $scope.grid.memoryerr = true;
                             } else {
                                 $scope.grid.memoryerr = false;
                             }
                         } else if ($scope.quota.unit === 'GB') {
-                            if (n.memory > $scope.grid.megnum) {
+                            if (parseFloat(n.memory) > $scope.grid.megnum) {
                                 $scope.grid.memoryerr = true;
                             } else {
                                 $scope.grid.memoryerr = false;
@@ -1534,6 +1539,22 @@ angular.module('console.service.create', [
                         return;
                     }
                 }
+                if ($scope.quota.doquota) {
+                    //console.log($scope.quota.cpu, $scope.quota.memory);
+                    if (!$scope.grid.cpuerr && !$scope.grid.memoryerr) {
+                        if (!$scope.quota.cpu) {
+                            $scope.grid.cpunullerr=true
+                            return
+                        }else if(!$scope.quota.memory){
+                            $scope.grid.memorynullerr=true;
+                            return
+                        }
+                    }else {
+                        return
+                    }
+
+
+                }
 
                 if (!$scope.namerr.nil && !$scope.namerr.rexed && !$scope.namerr.repeated) {
 
@@ -1735,6 +1756,7 @@ angular.module('console.service.create', [
                 } else {
                     delete dc.spec.template.spec["imagePullSecrets"];
                 }
+
                 var arrimgstr = arrimgs.join();
                 arrisshow = arrisshow.join();
                 clonedc.metadata.annotations["dadafoundry.io/imageorpublic"] = arrimgstr;

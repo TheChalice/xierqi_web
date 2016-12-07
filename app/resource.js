@@ -674,7 +674,7 @@ define([
         }])
 
         .factory('account', ['$resource', 'GLOBAL', function ($resource) {//登陆检测套餐
-            var account = $resource('/payment/v1/account', {}, {});
+            var account = $resource('/payment/v1/account?size=100', {}, {});
             return account;
         }])
         .factory('balance', ['$resource', 'GLOBAL', function ($resource) {//余额查询
