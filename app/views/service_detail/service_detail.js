@@ -1281,7 +1281,7 @@ angular.module('console.service.detail', [
                     name: dc,
                     region:$rootScope.region
                 }, function () {
-                    $http.delete('/api/v1/namespaces/' + $rootScope.namespace + '/pods?' + 'labelSelector=deploymentconfig%3D' + $scope.dc.metadata.name).success(function (data) {
+                    $http.delete('/api/v1/namespaces/' + $rootScope.namespace + '/pods?' + 'labelSelector=deploymentconfig%3D' + $scope.dc.metadata.name+'&region='+$rootScope.region).success(function (data) {
                         // console.log(data);
                     }).error(function (err) {
                     });
@@ -1312,7 +1312,7 @@ angular.module('console.service.detail', [
                     BackingServiceInstanceBd.put({namespace: $rootScope.namespace, name: binding.metadata.name,region:$rootScope.region},
                         bindObj, function (res) {
                             //console.log('解绑定', res);
-                            Toast.open('解除绑定');
+                            Toast.open('删除成功');
                         }, function (res) {
 
                         });

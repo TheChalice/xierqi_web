@@ -16,7 +16,7 @@ input[type=number] {
 .in_nowrap{white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;}
 
 body {
-    padding-top: 70px;
+    padding-top:55px;/* jia 20161128 头部高度调整 padding-top:70px;*/
     font-family: -apple-system, BlinkMacSystemFont, Neue Haas Grotesk Text Pro, Arial Nova, Segoe UI, Helvetica Neue, \.PingFang SC, PingFang SC, Microsoft YaHei, Microsoft JhengHei, Source Han Sans SC, Noto Sans CJK SC, Source Han Sans CN, Noto Sans SC, Source Han Sans TC, Noto Sans CJK TC, Hiragino Sans GB, sans-serif
 }
 
@@ -29,6 +29,7 @@ body {
 
 hr {
     border-top: 1px solid #c9c9c9;
+    visibility: hidden;
 }
 
 a {
@@ -56,6 +57,8 @@ a {
     background-color: #55c45f;
     color:#fff;
     -webkit-transition:all 1s;
+    -moz-transition:all 1s;
+    transition:all 1s;
 }
 
 .btn-green:hover {
@@ -65,6 +68,8 @@ a {
 .btn-gray {
     background-color: #9fa7b7;
     -webkit-transition:all 1s;
+    -moz-transition:all 1s;
+    transition:all 1s;
 }
 
 .btn-gray:hover {
@@ -74,6 +79,8 @@ a {
 .btn-skyblue {
     background-color: #57d1ea;
     -webkit-transition:all 1s;
+    -moz-transition:all 1s;
+    transition:all 1s;
 }
 
 .btn-skyblue:hover {
@@ -83,6 +90,8 @@ a {
 .btn-orange {
     background-color: #f6a540;
     -webkit-transition:all 1s;
+    -moz-transition:all 1s;
+    transition:all 1s;
 }
 
 .btn-orange:hover {
@@ -92,6 +101,8 @@ a {
 .btn-Iknow {
     background-color: #f6a540;
     -webkit-transition:all 1s;
+    -moz-transition:all 1s;
+    transition:all 1s;
 }
 
 .btn-Iknow:hover {
@@ -563,7 +574,7 @@ a {
 
 .timeline ul {
     list-style: none;
-    border-left: 2px solid #c9c9c9;
+    border-left: 2px solid #c9c9c9;padding-left:40px;
 }
 
 .timeline ul > li {
@@ -880,6 +891,7 @@ a {
     border: none;
     box-shadow: none;
     color: #5a6378;
+    z-index:999;
 }
 
 .searchbar .btn {

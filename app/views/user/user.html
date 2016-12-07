@@ -1,12 +1,12 @@
 <div id="user">
     <div class="resource_management">
-        <div class="loader" ng-show="!curUserInfo && !myamounts">
+        <div class="loader" ng-show="!curUserInfo || !myamounts">
             <div class="loader-inner ball-clip-rotate-multiple">
                 <div></div>
                 <div></div>
             </div>
         </div>
-        <div ng-show="curUserInfo&& myamounts">
+        <div ng-show="curUserInfo && myamounts">
             <uib-tabset class="tab-default" active="check">
                 <uib-tab index="1" ng-if="false">
 
@@ -234,9 +234,8 @@
                     </uib-tab-heading>
                     <div class="row">
                         <form class="form-horizontal" style="margin-left: 30px; margin-right: 30px">
-                            <p style="margin-top: 10px; font-size: 16px; font-weight: bold; color: #5a6378">个人信息</p>
-                            <hr>
-                            <div class="form-group">
+                            <!--<p style="margin-top: 10px; font-size: 16px; font-weight: bold; color: #5a6378">个人信息</p>-->
+                            <div class="form-group margin">
                                 <label for="usernameInput" class="col-md-2">用户名</label>
                                 <div class="col-md-3">
                                     <input type="text" disabled="disabled" class="form-control" id="usernameInput"
@@ -245,15 +244,16 @@
                                 </div>
                                 <div class="col-md-offest-7"></div>
                             </div>
-                            <hr>
-                            <div class="form-group">
+                            <div class="form-group margin">
                                 <label for="InputEmail" class="col-md-2">邮箱</label>
-                                <div class="col-md-3">
+
+                                <div class="col-md-3" >
                                     <input type="email" disabled="disabled" class="form-control" id="InputEmail"
                                            ng-model="curUserInfo.email"
                                            style="margin-left: -84px; background-color: #f7f8fb;border:none;background:none;cursor:default;">
                                 </div>
-                                <div class="col-md-7 activemail" style="margin-top: 8px;margin-left:-10%;">
+                                <!-- 20161129 jia 邮箱验证暂时去掉-->
+                                <div class="col-md-7 activemail" style="margin-top: 8px;margin-left:-10%;display:none;">
                                     <i ng-show="curUserInfo.status.active" class="fa fa-check-circle" id="activation"
                                        style="color: #55c45f; margin-left: -30px"><span
                                             style="margin-left: 5px">已验证</span></i>
@@ -263,8 +263,7 @@
                                           type="button" style="margin-left: 40px">发送激活邮件</span>
                                 </div>
                             </div>
-                            <hr>
-                            <div class="form-group">
+                            <div class="form-group margin">
                                 <label class="col-md-2">密码</label>
                                 <div class="col-md-3" style="margin-top: 5px; margin-left: -72px">
                             <span style="width:30px; height:34px; border: 1px solid #f7f8fb; display: inline-block; margin-right: 15px;">
@@ -274,7 +273,6 @@
                                     <span ng-click="updatePwd()" ID="updatepwd">修改密码</span>
                                 </div>
                             </div>
-                            <hr>
                         </form>
 
                         <!--<div style="margin-top: 50px">-->
@@ -314,46 +312,39 @@
                         <!--</div>-->
                     </div>
                 </uib-tab>
-                <uib-tab index="4" ng-if="region !== 'cn-north-2'">
+                <uib-tab index="4">
                     <uib-tab-heading>
                         <i class="orgbg"></i>&nbsp;&nbsp;组织管理
                     </uib-tab-heading>
                     <div class="row">
-                        <a ng-if="region==='cn-north-1'" style="margin-right:20px;" class="btn btn-green" id="creation"
+                        <a style="margin-right:20px;" class="btn btn-green" id="creation"
                            href="javascript:;">
                             <i class="fa fa-plus fa-lg"></i>
                             <span class="hidden-xs" ng-click="addOrg()">创建组织</span>
                         </a>
-                        <a ng-if="region==='cn-north-2'" style="margin-right:20px;" class="btn btn-gray" id="creation"
-                           href="javascript:;">
-                            <i class="fa fa-plus fa-lg"></i>
-                            <span class="hidden-xs">创建组织</span>
-                        </a>
+
                     </div>
                     <div class="row">
                         <!--<div class="h2-border row" style="margin-top:30px;">-->
                         <!--<span class="biaoti ng-binding" style="padding-right: 20px;background: #fff;position: relative;z-index: 100;">{{org.name}}</span>-->
                         <!--</div>-->
-                        <div class="row" style="margin-left:-20px;">
-                            <div class="orgList" ng-repeat="org in orgList">
+                        <div class="row">
+                            <div class="orgList" ng-repeat="org in projects" ng-if="org.metadata.name!==namespace">
                                 <div style="border-bottom: 1px solid #c9c9c9;padding:15px 0px;">
-                                    <img ng-if="org.privileged" src="pub/img/org_pic.png" alt=""
+                                    <img src="pub/img/org_pic.png" alt=""
                                          style="margin-left:35%;">
-                                    <img ng-if="!org.privileged" src="pub/img/user_pic.png" alt=""
-                                         style="margin-left:35%;">
-                                    <p ng-if="org.privileged"
-                                       style="text-align: center;margin-bottom: 0px;margin-top:10px;">管理员</p>
-                                    <p ng-if="!org.privileged"
-                                       style="text-align: center;margin-bottom: 0px;margin-top:10px;">成员</p>
                                 </div>
                                 <div class="caption">
-                                    <p class="bsname ng-binding">{{org.name}}</p>
+                                    <p class="bsname ng-binding">{{org.metadata.annotations['openshift.io/display-name'] ||org.metadata.name}}</p>
                                     <a ng-click="leaveOrg($index,org.id,org.name,org.privileged)"
                                        class="btn btn-orange ng-scope" id="leaveorg" style="width: 120px;"
                                        href="javascript:;">离开组织</a>
                                 </div>
                             </div>
+                            <div style="text-align: center;background: #fff;position:relative" ng-if="!projects"><p class="blank_mg_block"><img src="pub/img/df_cion.png"><span class="blank_mag_tit"> 您还没有任何组织管理数据</span></p></div>
                         </div>
+
+
                     </div>
 
                 </uib-tab>
@@ -400,6 +391,9 @@
                                     <!--<td>￥2300</td>-->
                                     <td>{{amount.payment_method | payFilter}}</td>
                                 </tr>
+                                <tr>
+                                    <td colspan="5" style="text-align: center;background: #fff;position:relative" ng-if="myamounts.length===0"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit"> 您还没有任何交易记录</span></p></td>
+                                </tr>
                                 <!--<tr>-->
                                 <!--<td >1190349323</td>-->
                                 <!--<td>2016/09/20</td>-->
@@ -436,6 +430,15 @@
         </div>
 
     </div>
+    <!--<script>-->
+        <!--$('body').on('click','.tab-pane .text-right a',function(){-->
+            <!--console.log('ll');-->
+            <!--if(!$(this).parent().hasClass('disabled')){-->
+                <!--window.scrollTo(0,0);-->
+            <!--}-->
+        <!--})-->
+    <!--</script>-->
+
     <style>
         ul, li, ol {
             list-style: none;
@@ -489,6 +492,10 @@
 
         .form-group label {
             padding-top: 8px;
+            font-weight: normal;
+        }
+        .margin{
+            margin-bottom:30px;
         }
 
         .sendmail {
@@ -531,5 +538,11 @@
             left: -15px;
             top: 3px;
         }
+        /*数据为空时状态*/
+        .blank_block{margin-bottom:0;}
+        .blank_tit{font-size:14px;color:#5a6378;margin-left:10px;vertical-align:middle;}
+        .blank_mag_tit{margin-bottom:0;}
+        .blank_mg_block{font-size:14px;border:1px solid #ccc;padding-top:10px;padding-bottom:10px;margin-top:14px;
+            color:#5a6378;vertical-align:middle;}
     </style>
-
+</div>

@@ -24,6 +24,8 @@
                     <div class="col-md-3 col-sm-4 col-xs-6" ng-repeat="item in testlist">
                         <c-card></c-card>
                     </div>
+                    <div style="text-align: center;background:#f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;"
+                         ng-if="testlist.length===0"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit"> 您还没有任何构建镜像数据</span></p></div>
                 </div>
                 <div class="text-right" ng-if="grid.total > 8">
                     <uib-pagination
@@ -87,6 +89,7 @@
                             </div>
                             <!--<c-card></c-card>-->
                         </div>
+                        <div style="text-align: center;background:#f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;" ng-if="repertorys.length===0"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit"> 您还没有任何私有镜像数据</span></p></div>
                     </div>
                     <div class="text-right" ng-if="grid.repertorystotal > 8">
                         <uib-pagination

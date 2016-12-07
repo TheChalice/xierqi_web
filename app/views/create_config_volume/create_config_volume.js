@@ -84,7 +84,7 @@ angular.module('console.create_config_volume', [
 
             if (arr && arr.length > 0) {
                 var kong = false;
-                var r = /^[a-zA-Z][a-zA-Z0-9_]{1,20}$/;
+                var r =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
                 angular.forEach(arr, function (item, i) {
 
                     if (!item.key || !item.value) {

@@ -47,8 +47,8 @@ angular.module('console.backing_service', [
             }
         };
     })
-    .controller('BackingServiceCtrl', ['$state', '$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'BackingServiceInstanceBd', 'Confirm', 'Toast', 'Ws', '$filter',
-        function ($state, $log, $rootScope, $scope, BackingService, BackingServiceInstance, ServiceSelect, BackingServiceInstanceBd, Confirm, Toast, Ws, $filter) {
+    .controller('BackingServiceCtrl', ['delorders','orders','$state', '$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'BackingServiceInstanceBd', 'Confirm', 'Toast', 'Ws', '$filter',
+        function (delorders,orders,$state, $log, $rootScope, $scope, BackingService, BackingServiceInstance, ServiceSelect, BackingServiceInstanceBd, Confirm, Toast, Ws, $filter) {
             // 数组去重方法
             if ($state.params.index) {
                 $scope.check = $state.params.index
@@ -717,23 +717,45 @@ angular.module('console.backing_service', [
                 } else if (id || id === 0) {
                     id = id.toString();
                     newid = id;
-                    // console.log('del$scope.myservice[id].item[idx]', $scope.myservice[id].item[idx].spec.binding);
-                    if ($scope.myservice[id].item[idx].spec.binding) {
-                        var curlength = $scope.myservice[id].item[idx].spec.binding.length;
+                     console.log('del$scope.myservice[id].item[idx]', $scope.myservice[id].item[idx]);
+                    if ($scope.myservice[id].item[idx].spec.binding||$scope.myservice[id].item[idx].spec.binding===null) {
+                        //alert(1)
+                        if ($scope.myservice[id].item[idx].spec.binding) {
+                            var curlength = $scope.myservice[id].item[idx].spec.binding.length;
+                        }else {
+                            var curlength=0
+                        }
+
+
                         if (curlength > 0) {
                             Confirm.open('删除后端服务实例', '该实例已绑定服务，不能删除', '', '', true)
                         } else {
                             Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
-                                BackingServiceInstance.del({
-                                    namespace: $rootScope.namespace,
-                                    name: $scope.myservice[id].item[idx].metadata.name,
-                                    region: $rootScope.region
-                                }, function (res) {
-                                    $scope.myservice[id].item.splice(idx, 1);
-                                    Toast.open('删除成功');
-                                }, function (res) {
-                                    $log.info('err', res);
+
+                                orders.query({region:$rootScope.region,resource_name:$scope.myservice[id].item[idx].metadata.name}, function (data) {
+
+                                    console.log('data',data);
+                                    if (data.length>0&&data[0].order.id) {
+                                        delorders.delete({id:data[0].order.id,action:"cancel",namespace:$rootScope.namespace}, function (data) {
+                                            //$state.go('console.resource_management', {index: 1})
+                                            $scope.myservice[id].item.splice(idx, 1);
+                                            Toast.open('删除成功');
+                                        })
+
+                                    }else {
+                                        BackingServiceInstance.del({
+                                            namespace: $rootScope.namespace,
+                                            name: $scope.myservice[id].item[idx].metadata.name,
+                                            region: $rootScope.region
+                                        }, function (res) {
+                                            $scope.myservice[id].item.splice(idx, 1);
+                                            Toast.open('删除成功');
+                                        }, function (res) {
+                                            $log.info('err', res);
+                                        })
+                                    }
                                 })
+
                             });
                         }
                     } else {
