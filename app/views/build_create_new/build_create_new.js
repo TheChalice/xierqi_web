@@ -75,7 +75,8 @@ angular.module('console.build_create_new', [
             $scope.repoerr = false;
             $scope.completionDeadlineMinutes = 30;
             $scope.nameblur = function () {
-                if ($scope.buildConfig.metadata.name && $scope.buildConfig.metadata.name.length === 0) {
+                //console.log($scope.buildConfig.metadata.name);
+                if (!$scope.buildConfig.metadata.name) {
                     $scope.namerr.nil = true
                 } else {
                     $scope.namerr.nil = false
@@ -195,7 +196,6 @@ angular.module('console.build_create_new', [
                     $scope.buildConfig.spec.completionDeadlineSeconds = $scope.completionDeadlineMinutes * 60;
                     $scope.buildConfig.spec.source.git.ref = $scope.branch[$scope.grid.branch].name;
                     $scope.buildConfig.spec.source.sourceSecret.name = $scope.owner.secret;
-
                     $scope.buildConfig.spec.source.git.uri = $scope.usernames[$scope.grid.user].repos[$scope.grid.project].clone_url;
                     $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ":" + $scope.branch[$scope.grid.branch].name;
                     $scope.buildConfig.metadata.annotations.repo = $scope.usernames[$scope.grid.user].repos[$scope.grid.project].name;
@@ -292,7 +292,7 @@ angular.module('console.build_create_new', [
                     $scope.loadOrg();
                     $log.info("userProject", $scope.login);
                 }, function (data) {
-                    $log.info('-=-=-=-=', data);
+                    //$log.info('-=-=-=-=', data);
                     if (data.status == 400) {
                         var tokens = Cookie.get('df_access_token');
                         var tokenarr = tokens.split(',');

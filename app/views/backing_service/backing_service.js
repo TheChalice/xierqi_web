@@ -737,7 +737,9 @@ angular.module('console.backing_service', [
                                     console.log('data',data);
                                     if (data.length>0&&data[0].order.id) {
                                         delorders.delete({id:data[0].order.id,action:"cancel",namespace:$rootScope.namespace}, function (data) {
-                                            $state.go('console.resource_management', {index: 1})
+                                            //$state.go('console.resource_management', {index: 1})
+                                            $scope.myservice[id].item.splice(idx, 1);
+                                            Toast.open('删除成功');
                                         })
 
                                     }else {

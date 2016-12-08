@@ -424,8 +424,8 @@ define(['angular'], function (angular) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/addmodal.html',
                     size: 'default',
-                    controller: ['createOrg','$state', '$rootScope', '$scope', '$uibModalInstance', 'loadOrg', '$http',
-                        function (createOrg,$state, $rootScope, $scope, $uibModalInstance, loadOrg, $http) {
+                    controller: ['addperpleOrg','createOrg','$state', '$rootScope', '$scope', '$uibModalInstance', 'loadOrg', '$http',
+                        function (addperpleOrg,createOrg,$state, $rootScope, $scope, $uibModalInstance, loadOrg, $http) {
                             $scope.title = title;
                             $scope.txt = txt;
                             $scope.tip = tip;
@@ -436,21 +436,29 @@ define(['angular'], function (angular) {
                                         $scope.tip = '邮箱不能为空';
                                         return;
                                     } else {
-                                        $http.put('/lapi/orgs/' + orgId + '/invite', {
+                                        addperpleOrg.put({namespace: $rootScope.namespace,region:$rootScope.region}, {
                                             member_name: $scope.orgName,
-                                            privileged: false
-                                        }).success(function (item) {
+                                            admin: false
+                                        }, function (item) {
                                             $uibModalInstance.close(item);
-                                        }).error(function (res) {
-
+                                        }, function (err) {
                                             $scope.tip = errcode.open(res.code)
-                                            //if(res.code >= 500){
-                                            //  $scope.tip = '内部错误，请通过DaoVoice联系管理员';
-                                            //}else{
-                                            //  $scope.tip = res.message;
-                                            //}
-
                                         })
+                                        //$http.put('/lapi/orgs/' + orgId + '/invite', {
+                                        //    member_name: $scope.orgName,
+                                        //    privileged: false
+                                        //}).success(function (item) {
+                                        //    $uibModalInstance.close(item);
+                                        //}).error(function (res) {
+                                        //
+                                        //    $scope.tip = errcode.open(res.code)
+                                        //    //if(res.code >= 500){
+                                        //    //  $scope.tip = '内部错误，请通过DaoVoice联系管理员';
+                                        //    //}else{
+                                        //    //  $scope.tip = res.message;
+                                        //    //}
+                                        //
+                                        //})
                                     }
                                 } else if (isaddpeople == 'org') {
                                     if (!$scope.orgName) {
@@ -523,7 +531,7 @@ define(['angular'], function (angular) {
             };
         }])
         .service('Tip', ['$uibModal', function ($uibModal) {
-            this.open = function (title, txt, tip, iscf,colse,isorg) {
+            this.open = function (title, txt, tip, iscf,colse,isorg,ispay) {
                 return $uibModal.open({
                     backdrop: 'static',
                     templateUrl: 'pub/tpl/tip.html',
@@ -536,6 +544,7 @@ define(['angular'], function (angular) {
                         //$scope.tp = tp;
                         $scope.iscf = iscf;
                         $scope.isorg =isorg;
+                        $scope.ispay =ispay;
                         //$scope.nonstop = nonstop;
                         $scope.ok = function () {
                             $uibModalInstance.close(true);
@@ -1622,7 +1631,7 @@ define(['angular'], function (angular) {
                     var tokens = Cookie.get('df_access_token');
                     var regions = Cookie.get('region');
                     var token='';
-                    //console.log(tokens, regions);
+                    //console.log(tokens);
 
                     if (tokens&&regions) {
                         var tokenarr = tokens.split(',');

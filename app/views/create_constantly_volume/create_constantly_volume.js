@@ -68,7 +68,7 @@ angular.module('console.create_constantly_volume', [
         })
 
         $scope.creat = function () {
-            var r = /^[a-z]+$/
+            var r =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
 
             if ($scope.volume.name==='') {
                 //alert(1)

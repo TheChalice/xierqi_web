@@ -6,8 +6,8 @@ angular.module('console.backing_service_detail', [
         ]
       }
     ])
-    .controller('BackingServiceInstanceCtrl', ['$log', '$scope', '$rootScope', '$stateParams', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'Confirm', 'BackingServiceInstanceBd', '$state', 'Toast', 'Ws'
-          , function ($log, $scope, $rootScope, $stateParams, BackingService, BackingServiceInstance, ServiceSelect, Confirm, BackingServiceInstanceBd, $state, Toast, Ws) {
+    .controller('BackingServiceInstanceCtrl', ['delorders','orders','$log', '$scope', '$rootScope', '$stateParams', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'Confirm', 'BackingServiceInstanceBd', '$state', 'Toast', 'Ws'
+          , function (delorders,orders,$log, $scope, $rootScope, $stateParams, BackingService, BackingServiceInstance, ServiceSelect, Confirm, BackingServiceInstanceBd, $state, Toast, Ws) {
       $scope.grid={}
       var cuename = $stateParams.name;
 
@@ -106,16 +106,40 @@ angular.module('console.backing_service_detail', [
             Confirm.open('删除后端服务实例', '该实例已绑定服务，不能删除', '', '', true)
           } else {
             Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
-              BackingServiceInstance.del({
-                namespace: $rootScope.namespace,
-                name: $scope.bsi.items[idx].metadata.name,
-                region:$rootScope.region
-              }, function (res) {
-                $scope.bsi.items.splice(idx, 1);
-                
-              }, function (res) {
-                $log.info('err', res);
+              orders.query({region:$rootScope.region,resource_name:$scope.bsi.items[idx].metadata.name}, function (data) {
+                //console.log('data',data);
+                if (data.length>0&&data[0].order.id) {
+                  delorders.delete({id:data[0].order.id,
+                    action:"cancel",
+                    namespace:$rootScope.namespace
+                  }, function (data) {
+                    //$state.go('console.resource_management', {index: 1})
+                    //$scope.myservice[id].item.splice(idx, 1);
+                    Toast.open('删除成功');
+                  })
+                }else {
+                  BackingServiceInstance.del({
+                    namespace: $rootScope.namespace,
+                    name: $scope.bsi.items[idx].metadata.name,
+                    region:$rootScope.region
+                  }, function (res) {
+                    $scope.bsi.items.splice(idx, 1);
+
+                  }, function (res) {
+                    $log.info('err', res);
+                  })
+                }
               })
+              //BackingServiceInstance.del({
+              //  namespace: $rootScope.namespace,
+              //  name: $scope.bsi.items[idx].metadata.name,
+              //  region:$rootScope.region
+              //}, function (res) {
+              //  $scope.bsi.items.splice(idx, 1);
+              //
+              //}, function (res) {
+              //  $log.info('err', res);
+              //})
             });
           }
         } else {
@@ -223,7 +247,30 @@ angular.module('console.backing_service_detail', [
           });
         });
       };
-
+        //orders.query({region:$rootScope.region,resource_name:$scope.bsi.items[idx].metadata.name}, function (data) {
+        //  //console.log('data',data);
+        //  if (data.length>0&&data[0].order.id) {
+        //    delorders.delete({id:data[0].order.id,
+        //      action:"cancel",
+        //      namespace:$rootScope.namespace
+        //    }, function (data) {
+        //      //$state.go('console.resource_management', {index: 1})
+        //      //$scope.myservice[id].item.splice(idx, 1);
+        //      Toast.open('删除成功');
+        //    })
+        //  }else {
+        //    BackingServiceInstance.del({
+        //      namespace: $rootScope.namespace,
+        //      name: $scope.bsi.items[idx].metadata.name,
+        //      region:$rootScope.region
+        //    }, function (res) {
+        //      $scope.bsi.items.splice(idx, 1);
+        //
+        //    }, function (res) {
+        //      $log.info('err', res);
+        //    })
+        //  }
+        //})
       var bindService = function (name, dcs) {
         //console.log('dcs', dcs)
         var bindObj = {
