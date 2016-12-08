@@ -21,6 +21,7 @@ angular.module('console.resource_management', [
             };
 
             if ($state.params.index) {
+                console.log($state.params.index);
                 $scope.check = $state.params.index
             } else {
                 $scope.check = false
@@ -257,6 +258,11 @@ angular.module('console.resource_management', [
 
             }
 
+            $scope.newreload=function(){
+                $state.go('console.resource_management',{index:2},{reload:true});
+                console.log('nima');
+            }
+
             $scope.search = function (event) {
                 if (event.keyCode === 13 || event === 'search') {
                     if (!$scope.grid.txt) {
@@ -317,7 +323,9 @@ angular.module('console.resource_management', [
 
                 })
             }
-
+            $scope.secretReload=function(){
+                $state.go('console.resource_management',{'index':3},{reload:true})
+            }
             $scope.loadsecrets();
 
             $scope.$watch('secrets.page', function (newVal, oldVal) {
