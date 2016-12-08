@@ -330,15 +330,15 @@
                         <!--</div>-->
                         <div class="row">
                             <div class="orgList" ng-repeat="org in projects" ng-if="org.metadata.name!==namespace">
-                                <div style="border-bottom: 1px solid #c9c9c9;padding:15px 0px;">
+                                <div style="border-bottom: 1px solid #c9c9c9;padding:15px 0px; display:flex;justify-content: center;">
                                     <img src="pub/img/org_pic.png" alt=""
-                                         style="margin-left:35%;">
+                                         style="">
                                 </div>
                                 <div class="caption">
                                     <p class="bsname ng-binding">{{org.metadata.annotations['openshift.io/display-name'] ||org.metadata.name}}</p>
-                                    <a ng-click="leaveOrg($index,org.id,org.name,org.privileged)"
-                                       class="btn btn-orange ng-scope" id="leaveorg" style="width: 120px;"
-                                       href="javascript:;">离开组织</a>
+                                    <!--<a ng-click="leaveOrg($index,org.id,org.name,org.privileged)"-->
+                                       <!--class="btn btn-orange ng-scope" id="leaveorg" style="width: 120px;"-->
+                                       <!--href="javascript:;">离开组织</a>-->
                                 </div>
                             </div>
                             <div style="text-align: center;background: #fff;position:relative" ng-if="!projects"><p class="blank_mg_block"><img src="pub/img/df_cion.png"><span class="blank_mag_tit"> 您还没有任何组织管理数据</span></p></div>

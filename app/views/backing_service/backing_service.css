@@ -71,3 +71,8 @@
 }
 
 .pull_width{width:auto!important;}/*--Docker�ٷ����� jia 20160922*/
+.backing_jia_btn{margin-left:0px!important;margin-right:0px!important;}
+.backing_jia_col{padding-left:0px!important;}
+/*数据为空时状态*/
+.blank_block{margin-bottom:0;}
+.blank_tit{font-size:14px;color:#5a6378;margin-left:10px;vertical-align:middle;}
