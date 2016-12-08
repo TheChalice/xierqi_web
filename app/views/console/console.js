@@ -11,7 +11,7 @@ angular.module('console', [
     ])
     .controller('ConsoleCtrl', ['regions', 'account', '$http', '$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', 'user', 'Project', 'Cookie', '$state',
         function (regions, account, $http, $rootScope, $scope, $log, AUTH_EVENTS, User, user, Project, Cookie, $state) {
-            $('html').css('overflow', 'auto');
+            //$('html').css('overflow', 'auto');
             $log.info('Console', $state.current.name);
             var namespace = Cookie.get('namespace');
             var region = Cookie.get('region');
