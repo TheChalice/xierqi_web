@@ -430,76 +430,68 @@ define(['angular'], function (angular) {
                             $scope.txt = txt;
                             $scope.tip = tip;
                             $scope.orgName = null;
+                            var canok = true;
                             $scope.ok = function () {
-                                if (isaddpeople == 'people') {
-                                    if (!$scope.orgName) {
-                                        $scope.tip = '邮箱不能为空';
-                                        return;
-                                    } else {
-                                        addperpleOrg.put({namespace: $rootScope.namespace,region:$rootScope.region}, {
-                                            member_name: $scope.orgName,
-                                            admin: false
-                                        }, function (item) {
-                                            $uibModalInstance.close(item);
-                                        }, function (err) {
-                                            $scope.tip = errcode.open(res.code)
-                                        })
-                                        //$http.put('/lapi/orgs/' + orgId + '/invite', {
-                                        //    member_name: $scope.orgName,
-                                        //    privileged: false
-                                        //}).success(function (item) {
-                                        //    $uibModalInstance.close(item);
-                                        //}).error(function (res) {
-                                        //
-                                        //    $scope.tip = errcode.open(res.code)
-                                        //    //if(res.code >= 500){
-                                        //    //  $scope.tip = '内部错误，请通过DaoVoice联系管理员';
-                                        //    //}else{
-                                        //    //  $scope.tip = res.message;
-                                        //    //}
-                                        //
-                                        //})
-                                    }
-                                } else if (isaddpeople == 'org') {
-                                    if (!$scope.orgName) {
-                                        $scope.tip = '名称不能为空';
-                                        return;
-                                    } else {
+                                if (canok) {
+                                    canok=false;
+                                    if (isaddpeople == 'people') {
+                                        if (!$scope.orgName) {
+                                            $scope.tip = '邮箱不能为空';
+                                            return;
+                                        } else {
+                                            addperpleOrg.put({namespace: $rootScope.namespace,region:$rootScope.region}, {
+                                                member_name: $scope.orgName,
+                                                admin: false
+                                            }, function (item) {
+                                                $uibModalInstance.close(item);
+                                            }, function (err) {
+                                                $scope.tip = errcode.open(res.code)
+                                            })
 
-                                        createOrg.create({region: $rootScope.region,name: $scope.orgName}, function (item) {
-                                            $state.go('console.org', {useorg: item.id})
-                                            $uibModalInstance.close(item);
-                                            $rootScope.delOrgs = true;
-                                        }, function (err) {
-                                            console.log(err);
-                                            if (err.data.code === 403) {
-                                                $scope.tip = '同一账号只可创建一个组织'
-                                            }else {
-                                                $scope.tip = errcode.open(err.code)
-                                            }
+                                        }
+                                    } else if (isaddpeople == 'org') {
+                                        if (!$scope.orgName) {
+                                            $scope.tip = '名称不能为空';
+                                            return;
+                                        } else {
 
-                                        })
-                                        //$http.post('/lapi/orgs', {
-                                        //    name: $scope.orgName
-                                        //}).success(function (item) {
-                                        //    //$state.go()
-                                        //    $state.go('console.org', {useorg: item.id})
-                                        //    $uibModalInstance.close(item);
-                                        //
-                                        //    $rootScope.delOrgs = true;
-                                        //}).error(function (res) {
-                                        //    //console.log(res);
-                                        //    $scope.tip = errcode.open(res.code)
-                                        //    //if(res.code >= 500){
-                                        //    //  $scope.tip = '内部错误，请通过DaoVoice联系管理员';
-                                        //    //}else{
-                                        //    //  $scope.tip = res.message;
-                                        //    //}
-                                        //})
+                                            createOrg.create({region: $rootScope.region,name: $scope.orgName}, function (item) {
+                                                //$state.go('console.org', {useorg: item.id})
+                                                $uibModalInstance.close(item);
+                                                //$rootScope.delOrgs = true;
+                                            }, function (err) {
+                                                //console.log(err);
+
+                                                if (err.data.code === 403) {
+                                                    $scope.tip = '同一账号只可创建一个组织'
+                                                }else {
+                                                    $scope.tip = errcode.open(err.code)
+                                                }
+
+                                            })
+                                            //$http.post('/lapi/orgs', {
+                                            //    name: $scope.orgName
+                                            //}).success(function (item) {
+                                            //    //$state.go()
+                                            //    $state.go('console.org', {useorg: item.id})
+                                            //    $uibModalInstance.close(item);
+                                            //
+                                            //    $rootScope.delOrgs = true;
+                                            //}).error(function (res) {
+                                            //    //console.log(res);
+                                            //    $scope.tip = errcode.open(res.code)
+                                            //    //if(res.code >= 500){
+                                            //    //  $scope.tip = '内部错误，请通过DaoVoice联系管理员';
+                                            //    //}else{
+                                            //    //  $scope.tip = res.message;
+                                            //    //}
+                                            //})
+                                        }
+                                    } else {
+                                        $uibModalInstance.close($scope.orgName);
                                     }
-                                } else {
-                                    $uibModalInstance.close($scope.orgName);
                                 }
+
 
                             };
                             $scope.cancel = function () {
@@ -1636,7 +1628,10 @@ define(['angular'], function (angular) {
                     if (tokens&&regions) {
                         var tokenarr = tokens.split(',');
                         var region = regions.split('-')[2];
-                        if (/^\/oapi/.test(config.url)||/^\/api/.test(config.url)||/^\/payment/.test(config.url)) {
+                        //if (/^\/lapi\/v1\/orgs/.test(config.url)) {
+                        //    console.log(config.url);
+                        //}
+                        if (/^\/lapi\/v1\/orgs/.test(config.url) || /^\/oapi/.test(config.url) || /^\/api/.test(config.url)||/^\/payment/.test(config.url)) {
                             token = tokenarr[region-1];
                         }else {
                             token = tokenarr[0];
