@@ -379,10 +379,10 @@ angular.module('console.resource_management', [
                         //console.log(repo.instance_data, $scope.grid.txt);
                     })
                     if(iarr.length===0){
-                        $scope.text='没有查询到相关数据';
+                        $scope.text3='没有查询到相关数据';
                     }
                     else{
-                        $scope.text=' 您还没有任何密钥数据，现在就创建一个吧';
+                        $scope.text3=' 您还没有任何密钥数据，现在就创建一个吧';
                     }
                     $scope.secretdata=angular.copy(iarr);
                     secretrefresh(1);
