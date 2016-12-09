@@ -94,5 +94,9 @@
 .dh_more:hover{background:#469450;color:#fff;}
 .dh_new_logo{width:230px;height:60px;margin-bottom:26px;}
 
+/*数据为空时状态*/
+.blank_block{margin-bottom:0;}
+.blank_tit{font-size:14px;color:#5a6378;margin-left:10px;vertical-align:middle;}
+
 
 

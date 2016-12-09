@@ -70,7 +70,7 @@
 
                             </tr>
                             <tr>
-                                <td colspan="5" style="text-align: center;background: #fff;border-bottom: 1px solid #CCCCCC;" ng-if="persistents.length===0"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit"> 您还没有任何持久化卷数据，现在就创建一个吧</span></p></td>
+                                <td colspan="5" style="text-align: center;background: #fff;border-bottom: 1px solid #CCCCCC;" ng-if="persistents.length===0"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit">您还没有创建持久化卷</span></p></td>
                             </tr>
                         </table>
                     </div>
@@ -98,7 +98,7 @@
                                 <i class="fa fa-plus fa-lg"></i>
                                 <span class="hidden-xs"> 新建配置卷</span>
                             </a>
-                            <a class="btn btn-skyblue" ng-click="loadconfigmaps()"
+                            <a class="btn btn-skyblue" ng-click="newreload()"
                                style="height: 34px; width: 36px; padding: 5px 5px;">
                                 <i class="fa fa-refresh fa-lg"></i>
                             </a>
@@ -140,7 +140,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                 <td colspan="2" style="text-align: center;background: #fff;border-bottom: 1px solid #CCCCCC;"  ng-if="!configitems"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit"> 您还没有任何配置卷数据，现在就创建一个吧</span></p></td>
+                                 <td colspan="2" style="text-align: center;background: #fff;border-bottom: 1px solid #CCCCCC;"  ng-if="!configitems"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit">您还没有创建配置卷</span></p></td>
                             </tr>
                         </table>
                     </div>
@@ -168,7 +168,7 @@
                                 <i class="fa fa-plus fa-lg"></i>
                                 <span class="hidden-xs"> 新建密钥</span>
                             </a>
-                            <a class="btn btn-skyblue" ng-click="loadsecrets()"
+                            <a class="btn btn-skyblue" ng-click="secretReload()"
                                style="height: 34px; width: 36px; padding: 5px 5px;">
                                 <i class="fa fa-refresh fa-lg"></i>
                             </a>
@@ -210,7 +210,7 @@
                                 </td>
                             </tr>
                             <tr>
-                               <td colspan="2" style="text-align: center;background: #fff;border-bottom: 1px solid #CCCCCC;" ng-if="!secretitems"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit"> 您还没有任何密钥数据，现在就创建一个吧</span></p></td>
+                               <td colspan="2" style="text-align: center;background: #fff;border-bottom: 1px solid #CCCCCC;" ng-if="!secretitems"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit">您还没有创建密钥</span></p></td>
                              </tr>
                         </table>
                     </div>

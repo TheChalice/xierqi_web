@@ -85,6 +85,7 @@
     height: 52px;
     line-height:52px;
     border-bottom: 1px solid #dfe4ef;
+    background:#fff;
 }
 
 .projectname > li:hover {
@@ -122,6 +123,8 @@
     -webkit-transition:all 300ms;
     -moz-transition:all 300ms;
     transition:all 300ms;
+    height:52px!important;
+    line-height:52px!important;
 
 }
 
@@ -192,9 +195,9 @@
 .df_h_news{background-image: url(img/df_news.png);}
 .df_h_area{background-image: url(img/df_area.png);}
 .df_area_active{background-image: url(img/df_area_active.png);margin-top:14px;}
-.df_h_per{background-image: url(img/df_person.png);}
+.df_h_per{background-image: url(img/df_person.png);margin-left:-1px;}
 .df_o_per{background-image: url(img/df_org.png);}
-.df_person_active{background-image: url(img/df_person_active.png);margin-top:16px;}
+.df_person_active{background-image: url(img/df_person_active.png);margin-top:16px;margin-left:-2px;}
 .df_q_active{background-image: url(img/df_q_active.png);margin-top:16px;}
 .df_qed_active{background-image: url(img/df_qed_active.png);margin-top:16px;}
 .df_quit{background-image: url(img/df_quit.png);margin-top:16px;}
@@ -213,7 +216,7 @@
 .header_toggle:focus{color:#fff;}
 
 
-.header_area{cursor:pointer;float:left;display:block;border-left:1px solid #f6a540;}
+.header_area{cursor:pointer;float:left;display:block;border-left:1px solid #f6a540;border-right:1px solid #f6a540;}
 .header_area .open .area_block .h_caret{-webkit-transform:rotate(180deg);-moz-transform:rotate(180deg);transform:rotate(180deg);}
 .header_per .open .per_block .h_caret{-webkit-transform:rotate(180deg);-moz-transform:rotate(180deg);transform:rotate(180deg);}
 
@@ -221,8 +224,8 @@
 .area_block{padding-top:18px;padding-bottom:16px;padding-left:14px;padding-right:14px;display:block;}
 
 
-.header_per{cursor:pointer;float:left;display:block;border-left:1px solid #f6a540;width:200px;position:relative;}
-.per_block{padding-top:18px;padding-bottom:16px;padding-left:23px;padding-right:23px;display:block;}
+.header_per{cursor:pointer;float:left;display:block;width:200px;position:relative;}
+.per_block{padding-top:18px;padding-bottom:16px;padding-left:20px;padding-right:23px;display:block;}
 .header_per_tit{font-size:14px;color:#fff;display:block;float:left;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;
 overflow: hidden;width:100px;}
 .h_caret{display:inline-block;width:0;height:0;vertical-align:middle;
@@ -231,4 +234,19 @@ overflow: hidden;width:100px;}
 
 .df_set_name{display:inline-block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;width:130px;}
 
+
+
+/*定义滚动条样式*/
+.projectname::-webkit-scrollbar {
+    width:8px;
+}
+.projectname::-webkit-scrollbar * {background:transparent; }
+.projectname::-webkit-scrollbar-thumb {
+    background:#ccc !important;
+    border-radius: 10px;
+}
+.projectname{background:transparent!important;
+    overflow-x:hidden;
+    overflow-y:scroll;
+}
 
