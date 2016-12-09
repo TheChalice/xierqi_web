@@ -404,8 +404,11 @@ angular.module('console.image', [
             // 我的镜像
             ImageStream.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (datalist) {
                 //$scope.images = res;
-                //console.log(datalist.items);
+                console.log('is',datalist.items);
                 var connt = 0
+                if (datalist.items.length === 0) {
+                    $scope.testlist = [];
+                }
                 angular.forEach(datalist.items, function (item, i) {
 
                     //$scope.testlist = [];
