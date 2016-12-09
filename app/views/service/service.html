@@ -23,7 +23,7 @@
                 <input type="text"
                        class="form-control"
                        placeholder="搜索服务名称"
-                       ng-keydown=servicesearch($event)
+                       ng-keyup=servicesearch($event)
                        ng-model="grid.txt">
                 <!--ng-model="txt" ng-focus="showTip=true;" -->
                     <span class="input-group-btn">
@@ -65,7 +65,9 @@
                     </td>
                 </tr>
                 <tr>
-                  <td colspan="7" style="text-align: center;background: #fff;position:relative" ng-if="items.length===0"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit">您还没有部署服务</span></p></td>
+
+                  <td colspan="7" style="text-align: center;background: #fff;position:relative" ng-if="items.length===0"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit"> {{text}}</span></p></td>
+
                 </tr>
             </table>
             <div class="text-right" ng-if="grid.total > 10">

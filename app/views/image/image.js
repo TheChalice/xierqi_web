@@ -263,6 +263,7 @@ angular.module('console.image', [
                 $scope.search(txt);
             }
             // 私有镜像平台键盘搜索
+            $scope.text1='您还没有任何构建镜像数据';
             $scope.search = function (key, txt) {
                 if (!txt) {
                     $scope.grid.search = false;
@@ -272,11 +273,19 @@ angular.module('console.image', [
                 var imagearr = [];
                 txt = txt.replace(/\//g, '\\/');
                 var reg = eval('/' + txt + '/');
-                for (var i = 0; i < $scope.testcopy.length; i++) {
-                    if (reg.test($scope.testcopy[i].metadata.name)) {
-                        imagearr.push($scope.testcopy[i]);
+                if($scope.testcopy){
+                    for (var i = 0; i < $scope.testcopy.length; i++) {
+                        if (reg.test($scope.testcopy[i].metadata.name)) {
+                            imagearr.push($scope.testcopy[i]);
+                        }
                     }
                 }
+                if(imagearr.length===0){
+                    $scope.text1='没有查询到相关数据';
+                }else{
+                    $scope.text1='您还没有任何构建镜像数据';
+                }
+
                 $scope.testlist = imagearr;
                 $scope.grid.myimagecopy = angular.copy($scope.testlist);
                 refresh(1, 'search');
@@ -294,9 +303,10 @@ angular.module('console.image', [
                 console.log('ok');
             })
             //共有镜像搜索
+            $scope.text2='您还没有任何私有镜像数据';
             $scope.searchreg = function (key, txt, event) {
                 if (event) {
-                    if (event.keyCode == 13) {
+                    if (true) {
                         if (!txt) {
                             $scope.grid.search = false;
                             repertorysrefresh(1);
@@ -309,6 +319,11 @@ angular.module('console.image', [
                             if (reg.test($scope.repertoryscopy[i])) {
                                 imagearr.push($scope.repertoryscopy[i]);
                             }
+                        }
+                        if(imagearr.length===0){
+                            $scope.text2='没有查询到相关数据';
+                        }else{
+                            $scope.text2='您还没有任何私有镜像数据';
                         }
                         $scope.repertoryspoj = imagearr;
                         $scope.grid.regimagecopy = angular.copy($scope.repertoryspoj);
@@ -335,11 +350,11 @@ angular.module('console.image', [
             }
 
             //镜像中心搜索
+            $scope.text3='您还没有任何公共镜像数据';
             $scope.imagecenterreg = function (key, txt, event) {
                 $scope.cententsearch = 'search';
                 if (event) {
-                    if (event.keyCode == 13) {
-
+                    if (true) {
                         if (!txt) {
                             $scope.cententsearch = false;
                             $scope.grid.search = false;
@@ -366,6 +381,11 @@ angular.module('console.image', [
                                     imagearr.push($scope.imagecentercopy[i]);
                                 }
                             }
+                        }
+                        if(imagearr.length===0){
+                            $scope.text3='没有查询到相关数据';
+                        }else{
+                            $scope.text3='您还没有任何公共镜像数据';
                         }
                         //console.log(imagearr);
                         $scope.imagecenter = imagearr;

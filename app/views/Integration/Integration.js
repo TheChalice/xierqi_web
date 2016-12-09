@@ -454,7 +454,7 @@ angular.module('console.backing_service', [
 
                 console.log(event,search);
 
-                if (event.keyCode === 13 || event === 'search') {
+                if (true) {
                     if ($scope.grid.txt) {
                         var iarr = []
                         //console.log($scope.ins);
@@ -487,7 +487,7 @@ angular.module('console.backing_service', [
 
             $scope.keyclasssearch = function (event) {
 
-                if (event.keyCode === 13 || event === 'search') {
+                if (true) {
 
                     if ($scope.grid.classtxt) {
                         //console.log($scope.repos);

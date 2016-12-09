@@ -38,7 +38,7 @@ angular.module('console.resource_management', [
 
             var rmrefresh = function (page) {
                 var skip = (page - 1) * $scope.grid.size;
-                console.log($scope.persistentdata);
+                //console.log($scope.persistentdata);
                 $scope.persistents = $scope.persistentdata.slice(skip, skip + $scope.grid.size);
 
             };
@@ -180,9 +180,9 @@ angular.module('console.resource_management', [
 
                 }
             }
-
+            $scope.text='您还没有任何持久化卷数据，现在就创建一个吧';
             $scope.rmsearch = function (event) {
-                if (event.keyCode === 13 || event === 'search') {
+                if (true) {
                     if (!$scope.grid.rmtxt) {
                         $scope.persistentdata = angular.copy($scope.cpoypersistents)
                         rmrefresh(1);
@@ -204,6 +204,13 @@ angular.module('console.resource_management', [
                         }
                         //console.log(repo.instance_data, $scope.grid.txt);
                     })
+                    if(iarr.length===0){
+                        $scope.isQuery=true;
+                        $scope.text='没有查询到相关数据';
+                    }
+                    else{
+                        $scope.text='您还没有任何持久化卷数据，现在就创建一个吧';
+                    }
                     $scope.persistentdata=angular.copy(iarr);
                     rmrefresh(1);
                     //console.log('$scope.data', $scope.configdata);
@@ -260,11 +267,11 @@ angular.module('console.resource_management', [
 
             $scope.newreload=function(){
                 $state.go('console.resource_management',{index:2},{reload:true});
-                console.log('nima');
+               // console.log('nima');
             }
-
+            $scope.text2='您还没有任何配置卷数据，现在就创建一个吧';
             $scope.search = function (event) {
-                if (event.keyCode === 13 || event === 'search') {
+                if (true) {
                     if (!$scope.grid.txt) {
                         $scope.configdata = angular.copy($scope.copyconfigdata)
                         refresh(1);
@@ -286,6 +293,14 @@ angular.module('console.resource_management', [
                         }
                         //console.log(repo.instance_data, $scope.grid.txt);
                     })
+                    if(iarr.length===0){
+                        $scope.isQuery=true;
+                        $scope.text2='没有查询到相关数据';
+
+                    }
+                    else{
+                        $scope.text2='您还没有任何配置卷数据，现在就创建一个吧';
+                    }
                     $scope.configdata=angular.copy(iarr);
                     refresh(1);
                     //console.log('$scope.data', $scope.configdata);
@@ -339,9 +354,9 @@ angular.module('console.resource_management', [
                 $scope.secretitems = $scope.secretdata.slice(skip, skip + $scope.secrets.size);
                 //$scope.secrets.total = $scope.secretitems.length;
             };
-
+            $scope.text3=' 您还没有任何密钥数据，现在就创建一个吧';
             $scope.scretssearch = function (event) {
-                if (event.keyCode === 13 || event === 'search') {
+                if (true) {
                     if (!$scope.secrets.txt) {
                         $scope.secretdata = angular.copy($scope.copysecretdata);
                         secretrefresh(1);
@@ -363,6 +378,12 @@ angular.module('console.resource_management', [
                         }
                         //console.log(repo.instance_data, $scope.grid.txt);
                     })
+                    if(iarr.length===0){
+                        $scope.text='没有查询到相关数据';
+                    }
+                    else{
+                        $scope.text=' 您还没有任何密钥数据，现在就创建一个吧';
+                    }
                     $scope.secretdata=angular.copy(iarr);
                     secretrefresh(1);
                     console.log('$scope.data', $scope.secretdata);
