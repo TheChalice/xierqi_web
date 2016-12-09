@@ -462,7 +462,7 @@ define(['angular'], function (angular) {
                                             }, function (err) {
                                                 //console.log(err);
 
-                                                if (err.data.code === 403) {
+                                                if (err.data.code === 400) {
                                                     $scope.tip = '同一账号只可创建一个组织'
                                                 }else {
                                                     $scope.tip = errcode.open(err.code)
