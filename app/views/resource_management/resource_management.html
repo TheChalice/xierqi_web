@@ -34,7 +34,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control"
                                                ng-model="grid.rmtxt"
-                                               ng-keydown="rmsearch($event)"
+                                               ng-keyup="rmsearch($event)"
                                                placeholder="搜索关键字">
                                             <span class="input-group-btn">
                                                 <a class="btn" ng-click="rmsearch('search')"></a>
@@ -110,7 +110,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control"
                                                ng-model="grid.txt"
-                                               ng-keydown="search($event)"
+                                               ng-keyup="search($event)"
                                                placeholder="搜索关键字">
                                             <span class="input-group-btn">
                                                 <a class="btn" ng-click="search('search')"></a>
@@ -179,7 +179,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control"
                                                ng-model="secrets.txt"
-                                               ng-keydown="scretssearch($event)"
+                                               ng-keyup="scretssearch($event)"
                                                placeholder="搜索关键字">
                                             <span class="input-group-btn">
                                                 <a class="btn" ng-click="scretssearch('search')"></a>

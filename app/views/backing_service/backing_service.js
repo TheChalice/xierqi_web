@@ -542,7 +542,7 @@ angular.module('console.backing_service', [
             // 我的后端服务键盘搜索
             $scope.mykeysearch = function (event) {
 
-                if (event.keyCode === 13) {
+                if (true) {
                     for (var s = 0; s < $scope.myservice.length; s++) {
                         $scope.myservice[s].showTab = true;
                     }
@@ -571,7 +571,7 @@ angular.module('console.backing_service', [
             //服务分类键盘搜索
             $scope.marsearch = function (event) {
 
-                if (event.keyCode === 13 || event === 'search') {
+                if (true) {
 
                     $scope.market = $scope.fiftermarket ? angular.copy($scope.fiftermarket) : angular.copy($scope.copymarket)
                     if ($scope.grid.txt) {
@@ -604,7 +604,7 @@ angular.module('console.backing_service', [
             }
             $scope.inekeysearch = function (event) {
                 //console.log(event);
-                if (event.keyCode === 13 || event === 'search') {
+                if (true) {
 
                     if ($scope.grid.myinetxt) {
                         console.log($scope.grid.myinetxt);
@@ -629,7 +629,7 @@ angular.module('console.backing_service', [
 
             //我的后端服务搜索
             $scope.mysearch = function (event) {
-                if (event.keyCode === 13 || event === 'search') {
+                if (true) {
                     if ($scope.grid.mytxt) {
                         var iarr = [];
                         var str = $scope.grid.mytxt;

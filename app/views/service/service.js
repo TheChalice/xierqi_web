@@ -47,7 +47,7 @@ angular.module('console.service', [
 
             };
             $scope.servicesearch = function (event) {
-                if (event.keyCode === 13 || event === 'search') {
+                if (true) {
                     if (!$scope.grid.txt) {
                         $scope.data = angular.copy($scope.copydata)
                         refresh(1);

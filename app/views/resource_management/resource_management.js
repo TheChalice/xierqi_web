@@ -182,7 +182,7 @@ angular.module('console.resource_management', [
             }
 
             $scope.rmsearch = function (event) {
-                if (event.keyCode === 13 || event === 'search') {
+                if (true) {
                     if (!$scope.grid.rmtxt) {
                         $scope.persistentdata = angular.copy($scope.cpoypersistents)
                         rmrefresh(1);
@@ -264,7 +264,7 @@ angular.module('console.resource_management', [
             }
 
             $scope.search = function (event) {
-                if (event.keyCode === 13 || event === 'search') {
+                if (true) {
                     if (!$scope.grid.txt) {
                         $scope.configdata = angular.copy($scope.copyconfigdata)
                         refresh(1);
@@ -341,7 +341,7 @@ angular.module('console.resource_management', [
             };
 
             $scope.scretssearch = function (event) {
-                if (event.keyCode === 13 || event === 'search') {
+                if (true) {
                     if (!$scope.secrets.txt) {
                         $scope.secretdata = angular.copy($scope.copysecretdata);
                         secretrefresh(1);

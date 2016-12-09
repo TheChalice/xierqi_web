@@ -296,7 +296,7 @@ angular.module('console.image', [
             //共有镜像搜索
             $scope.searchreg = function (key, txt, event) {
                 if (event) {
-                    if (event.keyCode == 13) {
+                    if (true) {
                         if (!txt) {
                             $scope.grid.search = false;
                             repertorysrefresh(1);
@@ -338,8 +338,7 @@ angular.module('console.image', [
             $scope.imagecenterreg = function (key, txt, event) {
                 $scope.cententsearch = 'search';
                 if (event) {
-                    if (event.keyCode == 13) {
-
+                    if (true) {
                         if (!txt) {
                             $scope.cententsearch = false;
                             $scope.grid.search = false;
