@@ -70,7 +70,7 @@
 
                             </tr>
                             <tr>
-                                <td colspan="5" style="text-align: center;background: #fff;border-bottom: 1px solid #CCCCCC;" ng-if="persistents.length===0"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit"> 您还没有任何持久化卷数据，现在就创建一个吧</span></p></td>
+                                <td colspan="5" style="text-align: center;background: #fff;border-bottom: 1px solid #CCCCCC;" ng-if="persistents.length===0"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit"> {{text}}</span></p></td>
                             </tr>
                         </table>
                     </div>
@@ -140,7 +140,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                 <td colspan="2" style="text-align: center;background: #fff;border-bottom: 1px solid #CCCCCC;"  ng-if="!configitems"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit"> 您还没有任何配置卷数据，现在就创建一个吧</span></p></td>
+                                 <td colspan="2" style="text-align: center;background: #fff;border-bottom: 1px solid #CCCCCC;"  ng-if="configitems.length===0"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit"> {{text2}}</span></p></td>
                             </tr>
                         </table>
                     </div>
@@ -210,7 +210,7 @@
                                 </td>
                             </tr>
                             <tr>
-                               <td colspan="2" style="text-align: center;background: #fff;border-bottom: 1px solid #CCCCCC;" ng-if="!secretitems"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit"> 您还没有任何密钥数据，现在就创建一个吧</span></p></td>
+                               <td colspan="2" style="text-align: center;background: #fff;border-bottom: 1px solid #CCCCCC;" ng-if="secretitems.length===0"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit">{{text3}}</span></p></td>
                              </tr>
                         </table>
                     </div>
