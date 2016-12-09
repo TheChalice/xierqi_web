@@ -17,6 +17,8 @@ angular.module("console.header", [
                     //$scope.curregion = $rootScope.region;
                     $scope.checkregion = function (res, id) {
                         $scope.curregion = res;
+                        $rootScope.namespace=$rootScope.user.metadata.name
+                        Cookie.set('namespace', $rootScope.namespace, 10 * 365 * 24 * 3600 * 1000);
                         $rootScope.region = id
                         Cookie.set('region', id, 10 * 365 * 24 * 3600 * 1000);
                        // console.log($state.current.name);
