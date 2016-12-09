@@ -34,7 +34,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control"
                                                ng-model="grid.rmtxt"
-                                               ng-keydown="rmsearch($event)"
+                                               ng-keyup="rmsearch($event)"
                                                placeholder="搜索关键字">
                                             <span class="input-group-btn">
                                                 <a class="btn" ng-click="rmsearch('search')"></a>
@@ -70,7 +70,9 @@
 
                             </tr>
                             <tr>
-                                <td colspan="5" style="text-align: center;background: #fff;border-bottom: 1px solid #CCCCCC;" ng-if="persistents.length===0"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit">您还没有创建持久化卷</span></p></td>
+
+                                <td colspan="5" style="text-align: center;background: #fff;border-bottom: 1px solid #CCCCCC;" ng-if="persistents.length===0"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit"> {{text}}</span></p></td>
+
                             </tr>
                         </table>
                     </div>
@@ -110,7 +112,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control"
                                                ng-model="grid.txt"
-                                               ng-keydown="search($event)"
+                                               ng-keyup="search($event)"
                                                placeholder="搜索关键字">
                                             <span class="input-group-btn">
                                                 <a class="btn" ng-click="search('search')"></a>
@@ -140,7 +142,9 @@
                                 </td>
                             </tr>
                             <tr>
-                                 <td colspan="2" style="text-align: center;background: #fff;border-bottom: 1px solid #CCCCCC;"  ng-if="!configitems"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit">您还没有创建配置卷</span></p></td>
+
+                                 <td colspan="2" style="text-align: center;background: #fff;border-bottom: 1px solid #CCCCCC;"  ng-if="configitems.length===0"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit"> {{text2}}</span></p></td>
+
                             </tr>
                         </table>
                     </div>
@@ -179,7 +183,7 @@
                                     <div class="input-group">
                                         <input type="text" class="form-control"
                                                ng-model="secrets.txt"
-                                               ng-keydown="scretssearch($event)"
+                                               ng-keyup="scretssearch($event)"
                                                placeholder="搜索关键字">
                                             <span class="input-group-btn">
                                                 <a class="btn" ng-click="scretssearch('search')"></a>
@@ -210,7 +214,9 @@
                                 </td>
                             </tr>
                             <tr>
-                               <td colspan="2" style="text-align: center;background: #fff;border-bottom: 1px solid #CCCCCC;" ng-if="!secretitems"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit">您还没有创建密钥</span></p></td>
+
+                               <td colspan="2" style="text-align: center;background: #fff;border-bottom: 1px solid #CCCCCC;" ng-if="secretitems.length===0"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit">{{text3}}</span></p></td>
+
                              </tr>
                         </table>
                     </div>

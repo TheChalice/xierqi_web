@@ -175,11 +175,14 @@ angular.module('console.backing_service', [
                                     Class: '其他'
                                 };
                             }
-                            if (!arr[l].spec.metadata.providerDisplayName) {
+                            if (arr[l].spec.metadata&&!arr[l].spec.metadata.providerDisplayName) {
                                 arr[l].spec.metadata.providerDisplayName = '其他'
                             }
-                            $scope.providers.push(arr[l].spec.metadata.providerDisplayName)
-                            $scope.cation.push(arr[l].metadata.annotations.Class)
+                            if (arr[l].spec.metadata) {
+                                $scope.providers.push(arr[l].spec.metadata.providerDisplayName)
+                                $scope.cation.push(arr[l].metadata.annotations.Class)
+                            }
+
                         }
                         //将分类去重
                         $scope.cation = $scope.cation.unique()
@@ -192,7 +195,7 @@ angular.module('console.backing_service', [
                         for (var j = 0; j < arr.length; j++) {
 
                             for (var b = 0; b < $scope.providers.length; b++) {
-                                if (arr[j].spec.metadata.providerDisplayName === $scope.providers[b]) {
+                                if (arr[j].spec.metadata&&arr[j].spec.metadata.providerDisplayName === $scope.providers[b]) {
                                     arr[j].providerDisplayName = $scope.providers[b];
                                 }
                             }
@@ -451,7 +454,7 @@ angular.module('console.backing_service', [
 
                 console.log(event,search);
 
-                if (event.keyCode === 13 || event === 'search') {
+                if (true) {
                     if ($scope.grid.txt) {
                         var iarr = []
                         //console.log($scope.ins);
@@ -484,7 +487,7 @@ angular.module('console.backing_service', [
 
             $scope.keyclasssearch = function (event) {
 
-                if (event.keyCode === 13 || event === 'search') {
+                if (true) {
 
                     if ($scope.grid.classtxt) {
                         //console.log($scope.repos);

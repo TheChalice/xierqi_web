@@ -10,7 +10,7 @@
                 </div>
                 <div class="col-md-10">
                     <label style="font-size: 12px; font-weight: normal;">POD数量&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                    <input onkeyup="value=value.replace(/[^\d]/g,'')" ng-model="dc.spec.replicas" min="0" max="10" style="width: 80px;display: inline-block;"
+                    <input ng-model="dc.spec.replicas" min="0" max="10" style="width: 80px;display: inline-block;"
                            type="number" class="form-control">
                     <hr>
                     <div ng-if="false">
@@ -344,7 +344,7 @@
                     </span>
                         </div>
                         <small ng-show="checkEnv" class="fa fa-info-circle err-tip"
-                               style="margin-left: 36px; margin-bottom: 15px;">&nbsp;环境变量不能为空
+                               style="margin-left: 36px; margin-bottom: 15px;">&nbsp;环境变量输入有误，请重新输入
                         </small>
                     </div>
                 </div>

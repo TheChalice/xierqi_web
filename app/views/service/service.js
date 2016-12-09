@@ -46,8 +46,9 @@ angular.module('console.service', [
                 //$scope.grid.total = $scope.data.items.length;
 
             };
+            $scope.text='您还没有任何代码构建数据，现在就创建一个吧';
             $scope.servicesearch = function (event) {
-                if (event.keyCode === 13 || event === 'search') {
+                if (true) {
                     if (!$scope.grid.txt) {
                         $scope.data = angular.copy($scope.copydata)
                         refresh(1);
@@ -67,6 +68,15 @@ angular.module('console.service', [
                             }
                             //console.log(repo.instance_data, $scope.grid.txt);
                         })
+
+                        if(iarr.length===0){
+                            $scope.isQuery=true;
+                            $scope.text='没有查询到相关数据';
+                            console.log($scope.items.length);
+                        }
+                        else{
+                            $scope.text='您还没有任何代码构建数据，现在就创建一个吧';
+                        }
                         $scope.data = angular.copy(iarr);
                         refresh(1);
                         console.log('$scope.data', $scope.data);

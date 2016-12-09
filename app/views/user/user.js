@@ -252,7 +252,7 @@ angular.module('console.user', ['kubernetesUI',
         //})
 
         amounts.get({size:500,page:1,namespace:$rootScope.namespace,status:'O',region:$rootScope.region}, function (data) {
-            //console.log(data);
+            console.log(data);
             if (data.amounts) {
                 data.amounts.reverse()
                 angular.forEach(data.amounts, function (amount,i) {
@@ -263,7 +263,8 @@ angular.module('console.user', ['kubernetesUI',
                         data.amounts[i].description='扣费'
                     }
                 })
-                $scope.myamounts = data.amounts;
+
+                $scope.myamounts = data.amounts||[];
                 //console.log('creation_time',data.amounts[0].creation_time);
                 $scope.amountdata =angular.copy(data.amounts)
                 $scope.grid.total = data.amounts.length;

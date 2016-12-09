@@ -79,20 +79,26 @@ angular.module('console.backing_service', [
                     // 每个item中有几个对象
                     $scope.itemsDevop = [];
                     //将类名变大写
-                    for (var l = 0; l < arr.length; l++) {
-                        if (arr[l].metadata.annotations && arr[l].metadata.annotations.Class !== undefined) {
-                            arr[l].metadata.annotations.Class = arr[l].metadata.annotations.Class.toUpperCase()
-                        } else {
-                            arr[l].metadata.annotations = {
-                                Class: '其他'
-                            };
+                    if (arr) {
+                        for (var l = 0; l < arr.length; l++) {
+                            if (arr[l].metadata.annotations && arr[l].metadata.annotations.Class !== undefined) {
+                                arr[l].metadata.annotations.Class = arr[l].metadata.annotations.Class.toUpperCase()
+                            } else {
+                                arr[l].metadata.annotations = {
+                                    Class: '其他'
+                                };
+                            }
+                            if (arr[l].spec.metadata&&!arr[l].spec.metadata.providerDisplayName) {
+                                arr[l].spec.metadata.providerDisplayName = '其他'
+                            }
+                            if (arr[l].spec.metadata) {
+                                $scope.providers.push(arr[l].spec.metadata.providerDisplayName)
+                                $scope.cation.push(arr[l].metadata.annotations.Class)
+                            }
+
                         }
-                        if (!arr[l].spec.metadata.providerDisplayName) {
-                            arr[l].spec.metadata.providerDisplayName = '其他'
-                        }
-                        $scope.providers.push(arr[l].spec.metadata.providerDisplayName)
-                        $scope.cation.push(arr[l].metadata.annotations.Class)
                     }
+
                     //将分类去重
                     $scope.cation = $scope.cation.unique()
                     $scope.providers = $scope.providers.unique()
@@ -103,7 +109,7 @@ angular.module('console.backing_service', [
                     //服务提供者分组
                     for (var j = 0; j < arr.length; j++) {
                         for (var b = 0; b < $scope.providers.length; b++) {
-                            if (arr[j].spec.metadata.providerDisplayName === $scope.providers[b]) {
+                            if (arr[j].spec.metadata&&arr[j].spec.metadata.providerDisplayName === $scope.providers[b]) {
                                 arr[j].providerDisplayName = $scope.providers[b];
                             }
                         }
@@ -542,7 +548,7 @@ angular.module('console.backing_service', [
             // 我的后端服务键盘搜索
             $scope.mykeysearch = function (event) {
 
-                if (event.keyCode === 13) {
+                if (true) {
                     for (var s = 0; s < $scope.myservice.length; s++) {
                         $scope.myservice[s].showTab = true;
                     }
@@ -571,7 +577,7 @@ angular.module('console.backing_service', [
             //服务分类键盘搜索
             $scope.marsearch = function (event) {
 
-                if (event.keyCode === 13 || event === 'search') {
+                if (true) {
 
                     $scope.market = $scope.fiftermarket ? angular.copy($scope.fiftermarket) : angular.copy($scope.copymarket)
                     if ($scope.grid.txt) {
@@ -604,7 +610,7 @@ angular.module('console.backing_service', [
             }
             $scope.inekeysearch = function (event) {
                 //console.log(event);
-                if (event.keyCode === 13 || event === 'search') {
+                if (true) {
 
                     if ($scope.grid.myinetxt) {
                         console.log($scope.grid.myinetxt);
@@ -629,7 +635,7 @@ angular.module('console.backing_service', [
 
             //我的后端服务搜索
             $scope.mysearch = function (event) {
-                if (event.keyCode === 13 || event === 'search') {
+                if (true) {
                     if ($scope.grid.mytxt) {
                         var iarr = [];
                         var str = $scope.grid.mytxt;
@@ -687,9 +693,9 @@ angular.module('console.backing_service', [
                     if ($scope.insservice[idx].spec.binding) {
                         var curlength = $scope.insservice[idx].spec.binding.length;
                         if (curlength > 0) {
-                            Confirm.open('删除后端服务实例', '该实例已绑定服务，不能删除', '', '', true)
+                            Confirm.open('删除后端服务实例', '该实例已绑定服务，不能删除', '', 'recycle', true)
                         } else {
-                            Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
+                            Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', 'recycle', false).then(function () {
                                 BackingServiceInstance.del({
                                     namespace: $rootScope.namespace,
                                     name: $scope.insservice[idx].metadata.name
@@ -702,7 +708,7 @@ angular.module('console.backing_service', [
                             });
                         }
                     } else {
-                        Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
+                        Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', 'recycle', false).then(function () {
                             BackingServiceInstance.del({
                                 namespace: $rootScope.namespace,
                                 name: $scope.insservice[idx].metadata.name
@@ -728,9 +734,9 @@ angular.module('console.backing_service', [
 
 
                         if (curlength > 0) {
-                            Confirm.open('删除后端服务实例', '该实例已绑定服务，不能删除', '', '', true)
+                            Confirm.open('删除后端服务实例', '该实例已绑定服务，不能删除', '', 'recycle', true)
                         } else {
-                            Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
+                            Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', 'recycle', false).then(function () {
 
                                 orders.query({region:$rootScope.region,resource_name:$scope.myservice[id].item[idx].metadata.name}, function (data) {
 
@@ -759,7 +765,7 @@ angular.module('console.backing_service', [
                             });
                         }
                     } else {
-                        Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
+                        Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', 'recycle', false).then(function () {
                             BackingServiceInstance.del({
                                 namespace: $rootScope.namespace,
                                 name: $scope.myservice[id].item[idx].metadata.name,
@@ -777,9 +783,9 @@ angular.module('console.backing_service', [
                     if ($scope.diyservice[idx].spec.binding) {
                         var curlength = $scope.diyservice[idx].spec.binding.length;
                         if (curlength > 0) {
-                            Confirm.open('删除后端服务实例', '该实例已绑定服务，不能删除', '', '', true)
+                            Confirm.open('删除后端服务实例', '该实例已绑定服务，不能删除', '', 'recycle', true)
                         } else {
-                            Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
+                            Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', 'recycle', false).then(function () {
                                 BackingServiceInstance.del({
                                     namespace: $rootScope.namespace,
                                     name: $scope.diyservice[idx].metadata.name,
@@ -793,7 +799,7 @@ angular.module('console.backing_service', [
                             });
                         }
                     } else {
-                        Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
+                        Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', 'recycle', false).then(function () {
                             BackingServiceInstance.del({
                                 namespace: $rootScope.namespace,
                                 name: $scope.diyservice[idx].metadata.name,
