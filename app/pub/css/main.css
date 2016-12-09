@@ -125,6 +125,7 @@ a {
     padding-top: 20px;
     padding-bottom: 20px;
     color: #5a6378;
+    text-align:left;  /*列表数据 jiasx 20161209 */
 }
 
 .table-default.sub-table > tbody > tr > th,
