@@ -6,8 +6,8 @@ angular.module('console.apply_instance', [
             ]
         }
     ])
-    .controller('ApplyInstanceCtrl', ['market','checkout', 'Modalbs', '$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', '$stateParams', '$state',
-        function (market,checkout, Modalbs, $log, $rootScope, $scope, BackingService, BackingServiceInstance, $stateParams, $state) {
+    .controller('ApplyInstanceCtrl', ['Tip','market','checkout', 'Modalbs', '$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', '$stateParams', '$state',
+        function (Tip,market,checkout, Modalbs, $log, $rootScope, $scope, BackingService, BackingServiceInstance, $stateParams, $state) {
 
             $scope.grid = {
                 checked: 0,

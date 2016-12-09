@@ -690,7 +690,7 @@ define([
             return amounts;
         }])
         .factory('checkout', ['$resource', 'GLOBAL', function ($resource) {//选择套餐
-            var checkout = $resource('/payment/v1/checkout?drytry=:drytry', {drytry:'@drytry'}, {
+            var checkout = $resource('/payment/v1/checkout?drytry=:drytry&region=:region', {drytry:'@drytry',region: '@region'}, {
                 create: {method: 'POST'}
             });
             return checkout;
