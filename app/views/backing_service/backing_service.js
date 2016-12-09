@@ -79,20 +79,26 @@ angular.module('console.backing_service', [
                     // 每个item中有几个对象
                     $scope.itemsDevop = [];
                     //将类名变大写
-                    for (var l = 0; l < arr.length; l++) {
-                        if (arr[l].metadata.annotations && arr[l].metadata.annotations.Class !== undefined) {
-                            arr[l].metadata.annotations.Class = arr[l].metadata.annotations.Class.toUpperCase()
-                        } else {
-                            arr[l].metadata.annotations = {
-                                Class: '其他'
-                            };
+                    if (arr) {
+                        for (var l = 0; l < arr.length; l++) {
+                            if (arr[l].metadata.annotations && arr[l].metadata.annotations.Class !== undefined) {
+                                arr[l].metadata.annotations.Class = arr[l].metadata.annotations.Class.toUpperCase()
+                            } else {
+                                arr[l].metadata.annotations = {
+                                    Class: '其他'
+                                };
+                            }
+                            if (arr[l].spec.metadata&&!arr[l].spec.metadata.providerDisplayName) {
+                                arr[l].spec.metadata.providerDisplayName = '其他'
+                            }
+                            if (arr[l].spec.metadata) {
+                                $scope.providers.push(arr[l].spec.metadata.providerDisplayName)
+                                $scope.cation.push(arr[l].metadata.annotations.Class)
+                            }
+
                         }
-                        if (!arr[l].spec.metadata.providerDisplayName) {
-                            arr[l].spec.metadata.providerDisplayName = '其他'
-                        }
-                        $scope.providers.push(arr[l].spec.metadata.providerDisplayName)
-                        $scope.cation.push(arr[l].metadata.annotations.Class)
                     }
+
                     //将分类去重
                     $scope.cation = $scope.cation.unique()
                     $scope.providers = $scope.providers.unique()
@@ -103,7 +109,7 @@ angular.module('console.backing_service', [
                     //服务提供者分组
                     for (var j = 0; j < arr.length; j++) {
                         for (var b = 0; b < $scope.providers.length; b++) {
-                            if (arr[j].spec.metadata.providerDisplayName === $scope.providers[b]) {
+                            if (arr[j].spec.metadata&&arr[j].spec.metadata.providerDisplayName === $scope.providers[b]) {
                                 arr[j].providerDisplayName = $scope.providers[b];
                             }
                         }
