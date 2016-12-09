@@ -49,7 +49,7 @@
                 </a>
 
                 <ul class="dropdown-menu dropdownbw" uib-dropdown-menu
-                    aria-labelledby="user-menu">
+                    aria-labelledby="user-menu" style="border-top:0;">
                     <li ng-repeat="region in regions" ng-click="checkregion(region.region_describe,region.identification)" ><i class="df_h_com df_area_active"></i>{{region.region_describe}}</li>
                     <!--<li ng-repeat="relist in regionlist" ng-click="checkregion(relist.regionname)">{{relist.regionname}}</li>-->
                 </ul>
@@ -73,7 +73,7 @@
                 <b class="h_caret"></b>
             </a>
             <ul class="projectname" uib-dropdown-menu
-                aria-labelledby="user-menu" style="max-height: 320px;overflow:auto;min-height:156px;top:53px;right:0px;background: #f7fafc;border-radius:0;">
+                aria-labelledby="user-menu" style="max-height: 338px;border-top:0;border-right:0;overflow:auto;min-height:156px;top:53px;right:0px;background: #f7fafc;border-radius:0;">
                 <!--personal account-->
                 <li ng-if="projects" class='personal'>
                     <a href="javascript:;" ng-click='gotomy()' ui-sref='console.user'>
@@ -83,14 +83,14 @@
                     </a>
                 </li>
 
-                <li ng-if="region==='cn-north-1'">
+                <li>
 
                     <a href="javascript:;" ng-click="createOrg()"><i class="df_h_com df_q_active"></i>创建组织</a>
                 </li>
-                <li ng-if="region === 'cn-north-2'" style="background-color:#dfe4ef; cursor: no-drop">
+                <!--<li ng-if="region === 'cn-north-2'" style="background-color:#dfe4ef; cursor: no-drop">-->
 
-                    <a style="cursor: default;color: azure " href="javascript:;"><i class="df_h_com df_q_active"></i>创建组织</a>
-                </li>
+                    <!--<a style="cursor: default;color: azure " href="javascript:;"><i class="df_h_com df_q_active"></i>创建组织</a>-->
+                <!--</li>-->
 
                 <!--组织账户-->
                 <!--<li class='personal' ng-repeat='org in userorgs'>-->

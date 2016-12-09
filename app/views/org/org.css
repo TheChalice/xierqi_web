@@ -242,11 +242,11 @@ article .peie {
     font-weight: bold;
     margin: 0;
 }
-.list {
+.orglist {
     padding: 30px 0px 0px 0px;
     margin: 0 30px;
 }
-.list h3 {
+.orglist h3 {
     font-size: 14px;
     font-weight: bold;
 }
@@ -265,7 +265,7 @@ article .peie {
     padding: 0;
     text-align: center;
     line-height: 24px;
-    margin-left: 30px;
+    /*margin-left: 30px;*/
 }
 .table-default {
     overflow: auto;

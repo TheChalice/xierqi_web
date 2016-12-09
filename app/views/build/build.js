@@ -30,7 +30,7 @@ angular.module('console.build', [
         $scope.text='您还没有任何代码构建数据，现在就创建一个吧';
         $scope.buildsearch = function (event) {
             //if (event.keyCode === 13 || event === 'search') {
-            //console.log($scope.grid.txt);
+            console.log($scope.grid.txt);
             if (!$scope.grid.txt) {
                     $scope.data = angular.copy($scope.copydata)
                     refresh(1);
@@ -40,9 +40,9 @@ angular.module('console.build', [
                     var iarr = [];
                     var str = $scope.grid.txt;
                     str = str.toLocaleLowerCase();
-                   // console.log('$scope.copydata', $scope.copydata);
+                    console.log('$scope.copydata', $scope.copydata);
                     angular.forEach($scope.copydata, function (item, i) {
-                       // onsole.log(item.build);
+                        console.log(item.build);
                         var nstr = item.metadata.name;
                         nstr = nstr.toLocaleLowerCase();
                             if (nstr.indexOf(str) !== -1) {
@@ -176,6 +176,7 @@ angular.module('console.build', [
                 //todo 构建类型
             });
             $scope.copydata = angular.copy($scope.data);
+            console.log($scope.copydata);
 
         };
 

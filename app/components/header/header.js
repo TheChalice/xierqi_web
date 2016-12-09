@@ -11,12 +11,14 @@ angular.module("console.header", [
             restrict: 'EA',
             replace: true,
             templateUrl: 'components/header/header.html',
-            controller: ['$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
-                function ($log, Project, account, regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
+            controller: ['$timeout','$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
+                function ($timeout,$log, Project, account, regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
                     ///////分区
                     //$scope.curregion = $rootScope.region;
                     $scope.checkregion = function (res, id) {
                         $scope.curregion = res;
+                        $rootScope.namespace=$rootScope.user.metadata.name
+                        Cookie.set('namespace', $rootScope.namespace, 10 * 365 * 24 * 3600 * 1000);
                         $rootScope.region = id
                         Cookie.set('region', id, 10 * 365 * 24 * 3600 * 1000);
                        // console.log($state.current.name);
@@ -45,13 +47,39 @@ angular.module("console.header", [
                     var loadProject = function () {
                         //$log.info("load project");
                         Project.get({region: $rootScope.region}, function (data) {
+
                             angular.forEach(data.items, function (item, i) {
+
                                 if (item.metadata.name === $rootScope.namespace) {
                                     $scope.projectname = item.metadata.annotations['openshift.io/display-name'] === '' ? item.metadata.name : item.metadata.annotations['openshift.io/display-name'];
+                                    // console.log($scope.projectname);
                                 }
+                                //console.log($rootScope.user.metadata.name);
+                                if (item.metadata.name === $rootScope.user.metadata.name) {
+                                    //console.log($rootScope.user.metadata.name);
+                                    data.items.splice(i, 1);
+                                } else {
+                                    data.items[i].sortname = item.metadata.annotations['openshift.io/display-name'] || item.metadata.name;
+                                }
+
                             })
-                            //$scope.projectname =
-                            //$log.info("project", data);
+                            data.items.sort(function (x, y) {
+                                return x.sortname > y.sortname ? 1 : -1;
+                            });
+                            angular.forEach(data.items, function (project, i) {
+                                if (project.metadata.name === $rootScope.namespace) {
+                                    $scope.myorgname =project.metadata.annotations['openshift.io/display-name']||project.metadata.name;
+                                }
+                                if (/^[\u4e00-\u9fa5]/i.test(project.metadata.annotations['openshift.io/display-name'])) {
+                                    //console.log(project.metadata.annotations['openshift.io/display-name']);
+                                    //data.items.push(project);
+                                    data.items.unshift(project);
+
+                                    data.items.splice(i + 1, 1);
+                                }
+                            });
+
+                            $rootScope.projects = data.items;
                         }, function (res) {
                             $log.info("find project err", res);
                         });
@@ -221,11 +249,17 @@ angular.module("console.header", [
                     })
                     $scope.createOrg = function () {
                         Addmodal.open('创建组织', '组织名称', '', '', 'org').then(function (res) {
-                            orgList.get({}, function (org) {
+                            //orgList.get({}, function (org) {
                                 // console.log(org);
-                                Toast.open('创建成功')
-                                $scope.userorgs = org.orgnazitions;
-                            })
+                            //console.log(1);
+
+                            Toast.open('创建成功')
+                            $timeout(function () {
+                                loadProject()
+                            },2000)
+
+                            //    $scope.userorgs = org.orgnazitions;
+                            //})
                         })
 
                     }
@@ -371,15 +405,17 @@ angular.module("console.header", [
                         //console.log(namespace);
                         $rootScope.namespace = namespace;
                         Cookie.set('namespace', namespace, 10 * 365 * 24 * 3600 * 1000);
-                        $state.reload();
+                        //$state.reload();
                         //$scope.change=true;
                         //$scope.checked = namespace;
                         //$rootScope.huancun.name = namespace;
                         //console.log('$scope.checked', $scope.checked);
-                        if (namespace.indexOf('org') !== -1) {
-                            $state.go('console.org', {useorg: namespace})
+                        if (namespace) {
+                            $state.go('console.org', {
+                                useorg: namespace
+                            });
                         } else {
-                            $state.go('console.dashboard')
+                            $state.go('console.dashboard');
                         }
                     }
                     // setting timer

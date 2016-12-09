@@ -8,14 +8,16 @@
     </div>
     <div  ng-show="items">
         <div class="row" style="margin-right: 0;">
-            <div class="col-sm-4 col-xs-4">
+            <div class="col-sm-4 col-xs-4 builder_jia_btn">
                 <a class="btn btn-green" ui-sref="console.build_create_new" style="margin-right:20px;">
                     <i class="fa fa-plus fa-lg"></i>
                     <span class="hidden-xs">新建构建</span>
                 </a>
 
 
-                <a class="btn btn-skyblue" ng-click="refresh()">
+
+                <a class="btn" ng-click="refresh()" style="background-color: #57d1ea;">
+
                     <i class="fa fa-refresh fa-lg"></i><!-- 20160921 jia 代码构建 loading处理按钮向下问题-->
 
                 </a>
@@ -91,7 +93,9 @@
                     </td>
                 </tr>
                 <tr>
+
                     <td colspan="5" style="text-align: center;background: #fff;position:relative" ng-if="items.length===0"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit">{{text}}</span></p></td>
+
                 </tr>
             </table>
             <div class="text-right" ng-if="grid.total > 10">

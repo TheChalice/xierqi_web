@@ -74,9 +74,37 @@ angular.module('console.user', ['kubernetesUI',
             //$http.get('/oapi/v1/projects', {}).success(function (data) {
             //    console.log('test project', data);
             //})
-            Project.get({region:$rootScope.region},function (data) {
+            Project.get({region: $rootScope.region}, function (data) {
+                //$rootScope.projects = data.items;
+                //console.log('Project', Project);
+                //var newprojects = [];
+                angular.forEach(data.items, function (item, i) {
+                    //console.log($rootScope.user.metadata.name);
+                    if (item.metadata.name === $rootScope.user.metadata.name) {
+                        //console.log($rootScope.user.metadata.name);
+                        data.items.splice(i, 1);
+                    } else {
+                        data.items[i].sortname = item.metadata.annotations['openshift.io/display-name'] || item.metadata.name;
+                    }
+
+                })
+                data.items.sort(function (x, y) {
+                    return x.sortname > y.sortname ? 1 : -1;
+                });
+                angular.forEach(data.items, function (project, i) {
+                    if (/^[\u4e00-\u9fa5]/i.test(project.metadata.annotations['openshift.io/display-name'])) {
+                        //console.log(project.metadata.annotations['openshift.io/display-name']);
+                        //data.items.push(project);
+                        data.items.unshift(project);
+
+                        data.items.splice(i + 1, 1);
+                    }
+                });
                 $rootScope.projects = data.items;
-                //$log.info("can't find project",$rootScope.projects);
+                //console.log(data.items);
+
+
+                //$log.info("load project success", data);
             }, function (res) {
                 $log.info("find project err", res);
             });
@@ -224,7 +252,7 @@ angular.module('console.user', ['kubernetesUI',
         //})
 
         amounts.get({size:500,page:1,namespace:$rootScope.namespace,status:'O',region:$rootScope.region}, function (data) {
-            //console.log(data);
+            console.log(data);
             if (data.amounts) {
                 data.amounts.reverse()
                 angular.forEach(data.amounts, function (amount,i) {
@@ -235,7 +263,8 @@ angular.module('console.user', ['kubernetesUI',
                         data.amounts[i].description='扣费'
                     }
                 })
-                $scope.myamounts = data.amounts;
+
+                $scope.myamounts = data.amounts||[];
                 //console.log('creation_time',data.amounts[0].creation_time);
                 $scope.amountdata =angular.copy(data.amounts)
                 $scope.grid.total = data.amounts.length;

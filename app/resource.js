@@ -488,6 +488,18 @@ define([
             })
             return createOrg;
         }])
+        .factory('addperpleOrg', ['$resource', function ($resource) {
+            var addperpleOrg = $resource('/lapi/v1/orgs/:namespace/invite?region=:region', {namespace:'@namespace',region:'@region'}, {
+                put: {method: 'PUT'}
+            })
+            return addperpleOrg;
+        }])
+        .factory('delperpleOrg', ['$resource', function ($resource) {
+            var delperpleOrg = $resource('/lapi/v1/orgs/:namespace/remove?region=:region', {namespace:'@namespace',region:'@region'}, {
+                put: {method: 'PUT'}
+            })
+            return delperpleOrg;
+        }])
         .factory('loadOrg', ['$resource', function ($resource) {
             var loadOrg = $resource('/lapi/orgs/:org', {org: '@org'}, {})
             return loadOrg;
@@ -662,7 +674,7 @@ define([
         }])
 
         .factory('account', ['$resource', 'GLOBAL', function ($resource) {//登陆检测套餐
-            var account = $resource('/payment/v1/account', {}, {});
+            var account = $resource('/payment/v1/account?size=100', {}, {});
             return account;
         }])
         .factory('balance', ['$resource', 'GLOBAL', function ($resource) {//余额查询
@@ -678,7 +690,7 @@ define([
             return amounts;
         }])
         .factory('checkout', ['$resource', 'GLOBAL', function ($resource) {//选择套餐
-            var checkout = $resource('/payment/v1/checkout?drytry=:drytry', {drytry:'@drytry'}, {
+            var checkout = $resource('/payment/v1/checkout?drytry=:drytry&region=:region', {drytry:'@drytry',region: '@region'}, {
                 create: {method: 'POST'}
             });
             return checkout;
