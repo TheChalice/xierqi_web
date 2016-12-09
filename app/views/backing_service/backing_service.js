@@ -687,9 +687,9 @@ angular.module('console.backing_service', [
                     if ($scope.insservice[idx].spec.binding) {
                         var curlength = $scope.insservice[idx].spec.binding.length;
                         if (curlength > 0) {
-                            Confirm.open('删除后端服务实例', '该实例已绑定服务，不能删除', '', '', true)
+                            Confirm.open('删除后端服务实例', '该实例已绑定服务，不能删除', '', 'recycle', true)
                         } else {
-                            Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
+                            Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', 'recycle', false).then(function () {
                                 BackingServiceInstance.del({
                                     namespace: $rootScope.namespace,
                                     name: $scope.insservice[idx].metadata.name
@@ -702,7 +702,7 @@ angular.module('console.backing_service', [
                             });
                         }
                     } else {
-                        Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
+                        Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', 'recycle', false).then(function () {
                             BackingServiceInstance.del({
                                 namespace: $rootScope.namespace,
                                 name: $scope.insservice[idx].metadata.name
@@ -728,9 +728,9 @@ angular.module('console.backing_service', [
 
 
                         if (curlength > 0) {
-                            Confirm.open('删除后端服务实例', '该实例已绑定服务，不能删除', '', '', true)
+                            Confirm.open('删除后端服务实例', '该实例已绑定服务，不能删除', '', 'recycle', true)
                         } else {
-                            Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
+                            Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', 'recycle', false).then(function () {
 
                                 orders.query({region:$rootScope.region,resource_name:$scope.myservice[id].item[idx].metadata.name}, function (data) {
 
@@ -759,7 +759,7 @@ angular.module('console.backing_service', [
                             });
                         }
                     } else {
-                        Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
+                        Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', 'recycle', false).then(function () {
                             BackingServiceInstance.del({
                                 namespace: $rootScope.namespace,
                                 name: $scope.myservice[id].item[idx].metadata.name,
@@ -777,9 +777,9 @@ angular.module('console.backing_service', [
                     if ($scope.diyservice[idx].spec.binding) {
                         var curlength = $scope.diyservice[idx].spec.binding.length;
                         if (curlength > 0) {
-                            Confirm.open('删除后端服务实例', '该实例已绑定服务，不能删除', '', '', true)
+                            Confirm.open('删除后端服务实例', '该实例已绑定服务，不能删除', '', 'recycle', true)
                         } else {
-                            Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
+                            Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', 'recycle', false).then(function () {
                                 BackingServiceInstance.del({
                                     namespace: $rootScope.namespace,
                                     name: $scope.diyservice[idx].metadata.name,
@@ -793,7 +793,7 @@ angular.module('console.backing_service', [
                             });
                         }
                     } else {
-                        Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
+                        Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', 'recycle', false).then(function () {
                             BackingServiceInstance.del({
                                 namespace: $rootScope.namespace,
                                 name: $scope.diyservice[idx].metadata.name,

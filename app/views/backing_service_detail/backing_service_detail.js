@@ -103,9 +103,9 @@ angular.module('console.backing_service_detail', [
         if ($scope.bsi.items[idx].spec.binding) {
           var curlength = $scope.bsi.items[idx].spec.binding.length;
           if (curlength > 0) {
-            Confirm.open('删除后端服务实例', '该实例已绑定服务，不能删除', '', '', true)
+            Confirm.open('删除后端服务实例', '该实例已绑定服务，不能删除', '', 'recycle', true)
           } else {
-            Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
+            Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', 'recycle', false).then(function () {
               orders.query({region:$rootScope.region,resource_name:$scope.bsi.items[idx].metadata.name}, function (data) {
                 //console.log('data',data);
                 if (data.length>0&&data[0].order.id) {
@@ -143,7 +143,7 @@ angular.module('console.backing_service_detail', [
             });
           }
         } else {
-          Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', '', false).then(function () {
+          Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', 'recycle', false).then(function () {
             BackingServiceInstance.del({
               namespace: $rootScope.namespace,
               name: $scope.bsi.items[idx].metadata.name,

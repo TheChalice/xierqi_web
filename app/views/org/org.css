@@ -265,7 +265,7 @@ article .peie {
     padding: 0;
     text-align: center;
     line-height: 24px;
-    margin-left: 30px;
+    /*margin-left: 30px;*/
 }
 .table-default {
     overflow: auto;

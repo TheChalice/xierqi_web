@@ -371,15 +371,17 @@ angular.module("console.header", [
                         //console.log(namespace);
                         $rootScope.namespace = namespace;
                         Cookie.set('namespace', namespace, 10 * 365 * 24 * 3600 * 1000);
-                        $state.reload();
+                        //$state.reload();
                         //$scope.change=true;
                         //$scope.checked = namespace;
                         //$rootScope.huancun.name = namespace;
                         //console.log('$scope.checked', $scope.checked);
-                        if (namespace.indexOf('org') !== -1) {
-                            $state.go('console.org', {useorg: namespace})
+                        if (namespace) {
+                            $state.go('console.org', {
+                                useorg: namespace
+                            });
                         } else {
-                            $state.go('console.dashboard')
+                            $state.go('console.dashboard');
                         }
                     }
                     // setting timer

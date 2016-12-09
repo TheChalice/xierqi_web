@@ -251,15 +251,15 @@
                                                 <th>用户名</th>
                                                 <!--<th>邮箱</th>-->
                                                 <th>加入时间</th>
-                                                <th>授权人</th>
+                                                <!--<th>授权人</th>-->
                                                 <th>操作</th>
                                             </tr>
                                             <tr ng-repeat='member in rootmembers'>
                                                 <td>{{member.name}}</td>
                                                 <!--<td>{{member.member_name}}@163.com</td>-->
                                                 <td>{{member.jointime | timescon}}</td>
-                                                <td>{{member.privileged_by}}</td>
-                                                <td>
+                                                <!--<td>{{member.privileged_by}}</td>-->
+                                                <td style="text-align: center;">
                                                     <!--<div  class="dropdown dropdown-select" style="width: 80px; height: 24px;margin-bottom: 10px;">-->
                                                     <!--<button class="btn dropdown-toggle"-->
                                                     <!--data-toggle="dropdown"-->
@@ -274,11 +274,10 @@
                                                     <!--</li>-->
                                                     <!--</ul>-->
                                                     <!--</div>-->
-                                                    <!--<a href="javascript:;"-->
-                                                       <!--ng-click='leave()'-->
-                                                       <!--style='width: 80px;margin-right: -35px;'-->
-                                                       <!--ng-if='member.name===user.metadata.name'-->
-                                                       <!--class='btn btn-orange btns' id="leave">离开组织</a>-->
+                                                    <span href="javascript:;"
+                                                       style='width: 45px; visibility: hidden'
+                                                       ng-if='member.name===user.metadata.name'
+                                                       class='btn btn-orange btns'>离开组织</span>
                                                     <a href="javascript:;"
                                                        ng-click='remove($index)'
                                                        ng-if='member.name!==user.metadata.name'
@@ -304,15 +303,15 @@
                                                 <th>用户名</th>
                                                 <!--<th>邮箱</th>-->
                                                 <th>加入时间</th>
-                                                <th>授权人</th>
+                                                <!--<th>授权人</th>-->
                                                 <th>操作</th>
                                             </tr>
                                             <tr ng-repeat='member in norootmembers'>
                                                 <td>{{member.name}}</td>
                                                 <!--<td>{{member.member_name}}@163.com</td>-->
                                                 <td>{{member.jointime| timescon}}</td>
-                                                <td>{{member.privileged_by}}</td>
-                                                <td>
+                                                <!--<td>{{member.privileged_by}}</td>-->
+                                                <td style="text-align: center;">
                                                     <!--<div class="dropdown dropdown-select" style="width: 80px; height: 24px;margin-bottom: 10px;">-->
                                                     <!--<button class="btn dropdown-toggle" data-toggle="dropdown" style="width: 80px; height: 24px;padding-top: 0;padding-bottom: 0;">-->
                                                     <!--<span>{{date ||'更改权限'}}</span>-->
@@ -324,11 +323,15 @@
                                                     <!--</li>-->
                                                     <!--</ul>-->
                                                     <!--</div>-->
-                                                    <a href="javascript:;"
-                                                       ng-click='leave()'
-                                                       style='width: 80px;margin-right: -35px;'
-                                                       ng-if='member.name===user.metadata.name'
-                                                       class='btn btn-orange btns' id="leavefmem">离开组织</a>
+                                                    <!--<a href="javascript:;"-->
+                                                       <!--ng-click='leave()'-->
+                                                       <!--style='width: 80px;margin-right: -35px;'-->
+                                                       <!--ng-if='member.name===user.metadata.name'-->
+                                                       <!--class='btn btn-orange btns' id="leavefmem">离开组织</a>-->
+                                                    <span href="javascript:;"
+                                                          style='width: 45px; visibility: hidden'
+                                                          ng-if='member.name===user.metadata.name'
+                                                          class='btn btn-orange btns'>离开组织</span>
                                                     <a href="javascript:;"
                                                        ng-click='removenotroot($index)'
                                                        ng-if='member.name!==user.metadata.name'
