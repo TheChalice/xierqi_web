@@ -263,7 +263,7 @@ angular.module('console.image', [
                 $scope.search(txt);
             }
             // 私有镜像平台键盘搜索
-            $scope.text1='您还没有任何构建镜像数据';
+            $scope.text1='您还没有构建镜像，构建完成后，可以在这里查看构建镜像！';
             $scope.search = function (key, txt) {
                 if (!txt) {
                     $scope.grid.search = false;
@@ -283,7 +283,7 @@ angular.module('console.image', [
                 if(imagearr.length===0){
                     $scope.text1='没有查询到相关数据';
                 }else{
-                    $scope.text1='您还没有任何构建镜像数据';
+                    $scope.text1='您还没有构建镜像，构建完成后，可以在这里查看构建镜像';
                 }
 
                 $scope.testlist = imagearr;
@@ -303,7 +303,7 @@ angular.module('console.image', [
                 console.log('ok');
             })
             //共有镜像搜索
-            $scope.text2='您还没有任何私有镜像数据';
+            $scope.text2='您还没有构建镜像，构建完成后，可以在这里查看构建镜像';
             $scope.searchreg = function (key, txt, event) {
                 if (event) {
                     if (true) {
@@ -323,7 +323,7 @@ angular.module('console.image', [
                         if(imagearr.length===0){
                             $scope.text2='没有查询到相关数据';
                         }else{
-                            $scope.text2='您还没有任何私有镜像数据';
+                            $scope.text2='您还没有构建镜像，构建完成后，可以在这里查看构建镜像';
                         }
                         $scope.repertoryspoj = imagearr;
                         $scope.grid.regimagecopy = angular.copy($scope.repertoryspoj);
@@ -350,7 +350,7 @@ angular.module('console.image', [
             }
 
             //镜像中心搜索
-            $scope.text3='您还没有任何公共镜像数据';
+            $scope.text3='您还没有构建镜像，构建完成后，可以在这里查看构建镜像';
             $scope.imagecenterreg = function (key, txt, event) {
                 $scope.cententsearch = 'search';
                 if (event) {
@@ -385,7 +385,7 @@ angular.module('console.image', [
                         if(imagearr.length===0){
                             $scope.text3='没有查询到相关数据';
                         }else{
-                            $scope.text3='您还没有任何公共镜像数据';
+                            $scope.text3='您还没有构建镜像，构建完成后，可以在这里查看构建镜像';
                         }
                         //console.log(imagearr);
                         $scope.imagecenter = imagearr;

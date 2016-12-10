@@ -135,6 +135,7 @@
                             </tr>
                             <tr ng-repeat="items in configitems">
                                 <td style="border-bottom: 1px solid #CCCCCC;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">
+
                                     <a ui-sref="console.config_detail({name: items.metadata.name})" uib-tooltip="{{items.metadata.name}}" tooltip-placement="top" style="color:#f6a540">{{items.metadata.name}}</a>
                                 </td>
                                 <td style="border-bottom: 1px solid #CCCCCC;"><span
@@ -143,7 +144,7 @@
                             </tr>
                             <tr>
 
-                                 <td colspan="2" style="text-align: center;background: #fff;border-bottom: 1px solid #CCCCCC;"  ng-if="configitems.length===0"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit"> {{text2}}</span></p></td>
+                                 <td colspan="2" style="text-align: center;background: #fff;border-bottom: 1px solid #CCCCCC;"  ng-if="!configitems.length"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit"> {{text2}}</span></p></td>
 
                             </tr>
                         </table>

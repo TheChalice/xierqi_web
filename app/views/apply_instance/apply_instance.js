@@ -45,7 +45,7 @@ angular.module('console.apply_instance', [
 
                 Modalbs.open($scope.bsName, plan).then(function () {
                     $log.info("BackingServiceInstance", $scope.bsi);
-
+                    $scope.applyloaded=true
                     checkout.create({
                         drytry: 0,
                         plan_id: plan.plan_id,
@@ -55,6 +55,7 @@ angular.module('console.apply_instance', [
                             resource_name: $scope.bsi.metadata.name
                         }
                     }, function (data) {
+                        $scope.applyloaded=false;
                         //console.log(data);
                         //volume.create({namespace: $rootScope.namespace}, $scope.volume, function (res) {
                         //    //alert(11111)
@@ -67,7 +68,7 @@ angular.module('console.apply_instance', [
                         //})
 
                     }, function (err) {
-                        $scope.loaded = false;
+                        $scope.applyloaded=false
                         if (err.data.code === 3316) {
 
                             Tip.open('提示', '账户可用余额不足。', '充值', true).then(function () {
