@@ -46,7 +46,7 @@ angular.module('console.service', [
                 //$scope.grid.total = $scope.data.items.length;
 
             };
-            $scope.text='您还没有任何代码构建数据，现在就创建一个吧';
+            $scope.text='您还没有部署服务';
             $scope.servicesearch = function (event) {
                 if (true) {
                     if (!$scope.grid.txt) {
@@ -75,7 +75,7 @@ angular.module('console.service', [
                             console.log($scope.items.length);
                         }
                         else{
-                            $scope.text='您还没有任何代码构建数据，现在就创建一个吧';
+                            $scope.text='您还没有部署服务';
                         }
                         $scope.data = angular.copy(iarr);
                         refresh(1);

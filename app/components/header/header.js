@@ -49,11 +49,14 @@ angular.module("console.header", [
                         Project.get({region: $rootScope.region}, function (data) {
 
                             angular.forEach(data.items, function (item, i) {
-
                                 if (item.metadata.name === $rootScope.namespace) {
                                     $scope.projectname = item.metadata.annotations['openshift.io/display-name'] === '' ? item.metadata.name : item.metadata.annotations['openshift.io/display-name'];
                                     // console.log($scope.projectname);
                                 }
+                            })
+                            angular.forEach(data.items, function (item, i) {
+
+
                                 //console.log($rootScope.user.metadata.name);
                                 if (item.metadata.name === $rootScope.user.metadata.name) {
                                     //console.log($rootScope.user.metadata.name);
@@ -67,9 +70,7 @@ angular.module("console.header", [
                                 return x.sortname > y.sortname ? 1 : -1;
                             });
                             angular.forEach(data.items, function (project, i) {
-                                if (project.metadata.name === $rootScope.namespace) {
-                                    $scope.myorgname =project.metadata.annotations['openshift.io/display-name']||project.metadata.name;
-                                }
+
                                 if (/^[\u4e00-\u9fa5]/i.test(project.metadata.annotations['openshift.io/display-name'])) {
                                     //console.log(project.metadata.annotations['openshift.io/display-name']);
                                     //data.items.push(project);
