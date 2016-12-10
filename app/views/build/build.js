@@ -27,7 +27,7 @@ angular.module('console.build', [
             var skip = (page - 1) * $scope.grid.size;
             $scope.items = $scope.data.slice(skip, skip + $scope.grid.size);
         };
-        $scope.text='您还没有任何代码构建数据，现在就创建一个吧';
+        $scope.text='您还没有构建代码';
         $scope.buildsearch = function (event) {
             //if (event.keyCode === 13 || event === 'search') {
             console.log($scope.grid.txt);

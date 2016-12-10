@@ -180,7 +180,7 @@ angular.module('console.resource_management', [
 
                 }
             }
-            $scope.text='您还没有任何持久化卷数据，现在就创建一个吧';
+            $scope.text='您还没有创建持久化卷';
             $scope.rmsearch = function (event) {
                 if (true) {
                     if (!$scope.grid.rmtxt) {
@@ -209,7 +209,7 @@ angular.module('console.resource_management', [
                         $scope.text='没有查询到相关数据';
                     }
                     else{
-                        $scope.text='您还没有任何持久化卷数据，现在就创建一个吧';
+                        $scope.text='您还没有创建持久化卷';
                     }
                     $scope.persistentdata=angular.copy(iarr);
                     rmrefresh(1);
@@ -269,7 +269,7 @@ angular.module('console.resource_management', [
                 $state.go('console.resource_management',{index:2},{reload:true});
                // console.log('nima');
             }
-            $scope.text2='您还没有任何配置卷数据，现在就创建一个吧';
+            $scope.text2='您还没有创建配置卷';
             $scope.search = function (event) {
                 if (true) {
                     if (!$scope.grid.txt) {
@@ -299,7 +299,7 @@ angular.module('console.resource_management', [
 
                     }
                     else{
-                        $scope.text2='您还没有任何配置卷数据，现在就创建一个吧';
+                        $scope.text2='您还没有创建配置卷';
                     }
                     $scope.configdata=angular.copy(iarr);
                     refresh(1);
@@ -354,7 +354,7 @@ angular.module('console.resource_management', [
                 $scope.secretitems = $scope.secretdata.slice(skip, skip + $scope.secrets.size);
                 //$scope.secrets.total = $scope.secretitems.length;
             };
-            $scope.text3=' 您还没有任何密钥数据，现在就创建一个吧';
+            $scope.text3=' 您还没有创建密钥';
             $scope.scretssearch = function (event) {
                 if (true) {
                     if (!$scope.secrets.txt) {
@@ -382,7 +382,7 @@ angular.module('console.resource_management', [
                         $scope.text3='没有查询到相关数据';
                     }
                     else{
-                        $scope.text3=' 您还没有任何密钥数据，现在就创建一个吧';
+                        $scope.text3='您还没有创建密钥';
                     }
                     $scope.secretdata=angular.copy(iarr);
                     secretrefresh(1);
