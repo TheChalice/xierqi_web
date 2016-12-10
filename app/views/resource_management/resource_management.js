@@ -39,7 +39,7 @@ angular.module('console.resource_management', [
             var rmrefresh = function (page) {
                 var skip = (page - 1) * $scope.grid.size;
                 //console.log($scope.persistentdata);
-                $scope.persistents = $scope.persistentdata.slice(skip, skip + $scope.grid.size);
+                $scope.persistents = $scope.persistentdata.slice(skip, skip + $scope.grid.size)||[];
 
             };
 
@@ -229,7 +229,7 @@ angular.module('console.resource_management', [
 
             var refresh = function (page) {
                 var skip = (page - 1) * $scope.grid.size;
-                $scope.configitems = $scope.configdata.slice(skip, skip + $scope.grid.size);
+                $scope.configitems = $scope.configdata.slice(skip, skip + $scope.grid.size)||[];
 
             };
 
@@ -351,7 +351,7 @@ angular.module('console.resource_management', [
 
             var secretrefresh = function (page) {
                 var skip = (page - 1) * $scope.grid.size;
-                $scope.secretitems = $scope.secretdata.slice(skip, skip + $scope.secrets.size);
+                $scope.secretitems = $scope.secretdata.slice(skip, skip + $scope.secrets.size)||[];
                 //$scope.secrets.total = $scope.secretitems.length;
             };
             $scope.text3=' 您还没有创建密钥';
