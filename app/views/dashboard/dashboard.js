@@ -152,8 +152,8 @@ angular.module('console.dashboard', [
                     },
                     series: [{
                         name: 'cpu',
-                        color: '#f6a540',
-                        fillOpacity: 0.2,
+                        color: '#37A48F',
+                        fillOpacity: 0.6,
                         marker: {
                             enabled: false
                         },
@@ -164,8 +164,8 @@ angular.module('console.dashboard', [
                     },
                         {
                             name: '内存',
-                            color: '#bec0c7',
-                            fillOpacity: 0.2,
+                            color: '#4DA1DD',
+                            fillOpacity: 0.6,
                             marker: {
                                 enabled: false
                             },
@@ -216,15 +216,20 @@ angular.module('console.dashboard', [
                     percentstr = '<b style="color:#5a6378; font-size: 16px">已用' + percent + '%</b>';
                 }
                 //配额
-                var subTitle = '<b style="font-size:16px;color:#f6a540;">' + tp + '</b><br>' +
-                        '<span style="color:#9fa7b7; font-size:16px;">' + dec + '</span><br>' + percentstr
+                var subTitle = '<b style="font-size:14px;color:#f6a540;">' + tp + '</b><br>' +
+                        '<span style="color:#9fa7b7; font-size:14px;">' + dec + '</span><br>' + percentstr
                     ;
                 return {
-                    //chart: {
-                    //    type: 'solidgauge',
-                    //    marginTop: 50
-                    //},
                     options: {
+                        chart: {
+                            type: 'solidgauge'
+                        },
+                        "plotOptions": {
+                            "series": {
+                                "stacking": "",
+                                linecap: 'square',
+                            }
+                        },
                         title: {
                             text: ''
                         },
@@ -245,16 +250,7 @@ angular.module('console.dashboard', [
                             y: -10
 
                         },
-                        //plotOptions: {
-                        //    solidgauge: {
-                        //        borderWidth: '34px',
-                        //        dataLabels: {
-                        //            enabled: false
-                        //        },
-                        //        linecap: 'round',
-                        //        stickyTracking: false
-                        //    }
-                        //},
+
 
                     },
 
@@ -273,7 +269,6 @@ angular.module('console.dashboard', [
                         dataLabels: {
                             enabled: false
                         },
-                        linecap: 'round',
                         innerSize: '70%'
                     }],
                     size: {
