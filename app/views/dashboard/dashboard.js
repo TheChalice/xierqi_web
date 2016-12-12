@@ -79,9 +79,9 @@ angular.module('console.dashboard', [
                 region: $rootScope.region,
                 status: "consuming"
             }, function (res) {
-                console.log('lalallalalalllallal',res);
+                //console.log('lalallalalalllallal',res);
                 market.get({region: $rootScope.region, type: 'resources'}, function (data) {
-                    console.log('eeeeeeeeeeee',data);
+                    //console.log('eeeeeeeeeeee',data);
                     $scope.plans = {
                         cpu: "",
                         ram: "",
@@ -220,6 +220,10 @@ angular.module('console.dashboard', [
                         '<span style="color:#9fa7b7; font-size:16px;">' + dec + '</span><br>' + percentstr
                     ;
                 return {
+                    //chart: {
+                    //    type: 'solidgauge',
+                    //    marginTop: 50
+                    //},
                     options: {
                         title: {
                             text: ''
@@ -240,11 +244,28 @@ angular.module('console.dashboard', [
                             x: 0,
                             y: -10
 
-                        }
+                        },
+                        //plotOptions: {
+                        //    solidgauge: {
+                        //        borderWidth: '34px',
+                        //        dataLabels: {
+                        //            enabled: false
+                        //        },
+                        //        linecap: 'round',
+                        //        stickyTracking: false
+                        //    }
+                        //},
+
                     },
+
                     series: [{
                         type: 'pie',
-                        colors: [color, '#c6c6c6'],
+                        colors: [{
+                            linearGradient: { x1: 0, y1: 0, x2: 1, y2: 0 }, //横向渐变效果 如果将x2和y2值交换将会变成纵向渐变效果
+                            stops: [
+                                [0, Highcharts.Color('#469450').setOpacity(1).get('rgba')],
+                                [1, Highcharts.Color('#2196f3').setOpacity(1).get('rgba')]
+                            ]}, '#c6c6c6'],
                         data: [
                             ['已用', percent],
                             ['未使用', 100 - percent]
@@ -252,15 +273,35 @@ angular.module('console.dashboard', [
                         dataLabels: {
                             enabled: false
                         },
-                        innerSize: '88%'
+                        linecap: 'round',
+                        innerSize: '70%'
                     }],
                     size: {
                         height: 200,
                         width: 200
                     },
 
+
                     func: function (chart) {
                         //setup some logic for the chart
+
+                        //chart.attr({
+                        //            'stroke': '#303030',
+                        //            'stroke-linecap': 'round',
+                        //            'stroke-linejoin': 'round',
+                        //            'stroke-width': 2,
+                        //            'zIndex': 10
+                        //        })
+                        //this.renderer.path(['M', -8, 0, 'L', 8, 0, 'M', 0, -8, 'L', 8, 0, 0, 8])
+                        //    .attr({
+                        //        'stroke': '#303030',
+                        //        'stroke-linecap': 'round',
+                        //        'stroke-linejoin': 'round',
+                        //        'stroke-width': 2,
+                        //        'zIndex': 10
+                        //    })
+                        //    .translate(190, 26)
+                        //    .add(this.series[2].group);
                     }
                 };
             };
