@@ -536,9 +536,26 @@ a {
 .pagination > .active > span,
 .pagination > .active > span:focus,
 .pagination > .active > span:hover {
-    background-color: #f6a540;
-    border-color: #f6a540;
+    background-color: #5b74e8;
+    border-color: #5b74e8;
 }
+.pagination-sm > li > a,.pagination-sm > li > span{
+    margin-left:5px;
+    border:none;
+    background:#f7f7f7;
+    color:black;
+}
+.pagination-sm > li > a:hover{
+    color:black;
+}
+
+.pagination-sm > .disabled > a{
+    background:#f7f7f7;
+}
+.pagination-sm > .disabled > a:hover{
+    background:#f7f7f7;
+}
+
 
 /*service_create advantage_config.html tabandimage*/
 .tabandimage {

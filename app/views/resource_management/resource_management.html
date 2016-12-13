@@ -80,11 +80,10 @@
 
                 <div class="text-right" ng-if="grid.rmtotal > 10" style="margin-top: 30px;">
                     <uib-pagination class="pagination pagination-sm" ng-model="grid.rmpage" total-items="grid.rmtotal"
-                                    items-per-page="grid.size" boundary-links="true" max-size="12" rotate="true"
-                                    previous-text="上一页"
-                                    next-text="下一页"
-                                    first-text="首页"
-                                    last-text="末页">
+                                    items-per-page="grid.size" boundary-links="false" max-size="12" rotate="true"
+                                    previous-text="<"
+                                    next-text=">"
+                                   >
                     </uib-pagination>
 
                 </div>
@@ -153,11 +152,10 @@
 
                 <div class="text-right" ng-if="grid.total > 10" style="margin-top: 30px;">
                     <uib-pagination class="pagination pagination-sm" ng-model="grid.page" total-items="grid.total"
-                                    items-per-page="grid.size" boundary-links="true" max-size="12" rotate="true"
-                                    previous-text="上一页"
-                                    next-text="下一页"
-                                    first-text="首页"
-                                    last-text="末页">
+                                    items-per-page="grid.size" boundary-links="false" max-size="12" rotate="true"
+                                    previous-text="<"
+                                    next-text=">"
+                                    >
                     </uib-pagination>
 
                 </div>
@@ -225,11 +223,9 @@
 
                 <div class="text-right" ng-if="secrets.total > 10" style="margin-top: 30px;">
                     <uib-pagination class="pagination pagination-sm" ng-model="secrets.page" total-items="secrets.total"
-                                    items-per-page="secrets.size" boundary-links="true" max-size="12" rotate="true"
-                                    previous-text="上一页"
-                                    next-text="下一页"
-                                    first-text="首页"
-                                    last-text="末页">
+                                    items-per-page="secrets.size" boundary-links="false" max-size="12" rotate="true"
+                                    previous-text="<"
+                                    next-text=">">
                     </uib-pagination>
 
                 </div>

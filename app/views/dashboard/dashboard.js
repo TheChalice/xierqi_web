@@ -126,6 +126,7 @@ angular.module('console.dashboard', [
                     options: {
                         chart: {
                             type: 'areaspline'
+
                         },
                         title: {
                             text: name,
@@ -152,7 +153,14 @@ angular.module('console.dashboard', [
                     },
                     series: [{
                         name: 'cpu',
-                        color: '#37A48F',
+                        fillColor: {
+                            linearGradient: { x1: 0, y1:1 , x2: 0, y2: 0 }, //横向渐变效果 如果将x2和y2值交换将会变成纵向渐变效果
+                            stops: [
+                                [0, Highcharts.Color('#fff').setOpacity(0.8).get('rgba')],
+                                [1, '#4ca7de']
+                            ]
+                        },
+                        lineColor:'#fff',
                         fillOpacity: 0.6,
                         marker: {
                             enabled: false
@@ -164,7 +172,14 @@ angular.module('console.dashboard', [
                     },
                         {
                             name: '内存',
-                            color: '#4DA1DD',
+                            fillColor: {
+                                linearGradient: { x1: 0, y1:1 , x2: 0, y2: 0 }, //横向渐变效果 如果将x2和y2值交换将会变成纵向渐变效果
+                                stops: [
+                                     [0, Highcharts.Color('#36a390').setOpacity(0.8).get('rgba')],
+                                     [1, '#79d87e']
+                                    ]
+                            },
+                            lineColor:'#fff',
                             fillOpacity: 0.6,
                             marker: {
                                 enabled: false
@@ -222,12 +237,12 @@ angular.module('console.dashboard', [
                 return {
                     options: {
                         chart: {
-                            type: 'solidgauge'
+                            type: 'pie'
                         },
                         "plotOptions": {
                             "series": {
                                 "stacking": "",
-                                linecap: 'square',
+                                linecap: 'square'
                             }
                         },
                         title: {
@@ -249,7 +264,7 @@ angular.module('console.dashboard', [
                             x: 0,
                             y: -10
 
-                        },
+                        }
 
 
                     },
@@ -275,7 +290,6 @@ angular.module('console.dashboard', [
                         height: 200,
                         width: 200
                     },
-
 
                     func: function (chart) {
                         //setup some logic for the chart
