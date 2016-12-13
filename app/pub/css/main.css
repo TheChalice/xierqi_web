@@ -40,7 +40,7 @@ a {
 }
 /*按钮*/
 .btn {
-    border-radius: 2px;
+    border-radius: 30px;
     color: #fff;
 }
 
@@ -88,14 +88,14 @@ a {
 }
 
 .btn-orange {
-    background-color: #f6a540;
+    background-color: #5b73eb;
     -webkit-transition:all 1s;
     -moz-transition:all 1s;
     transition:all 1s;
 }
 
 .btn-orange:hover {
-    background-color: #e5993a;
+    background-color: #5b73eb;
 }
 
 .btn-Iknow {
@@ -147,6 +147,9 @@ a {
     border: 1px solid #c9c9c9;
     border-radius: 2px;
     color: #5a6378;
+    /*中信项目 jiasx*/
+    border:1px solid #e6e6e6;
+    box-shadow: none;
 }
 
 .panel-default .panel-heading {
@@ -350,6 +353,8 @@ a {
     background: transparent;
     color: #e5993a;
     font-size:16px;
+    /*中信项目 jiasx*/
+    color:#333;
 }
 
 .tab-default li.active .nav-link,
@@ -359,6 +364,10 @@ a {
     border-bottom: none;
     border-radius: 2px 2px 0 0;
     color: #e5993a;
+    /*中信项目 jiasx*/
+    border:0;
+    border-bottom:2px solid #5c72e9;
+    color:#333;
 }
 
 .tab-default .tab-content {
@@ -366,6 +375,9 @@ a {
     border-top: none;
     border-radius: 0 0 2px 2px;
     padding: 30px 50px;
+    /*中信项目 jiasx*/
+    border: 0;
+    padding:30px 0;
 }
 
 .tab-sm {
@@ -375,17 +387,17 @@ a {
 
 /*a标签默认样式*/
 .href-orange {
-    color: #f6a540;
+    color: #5b73eb;
     text-decoration: none;
 }
 
 .href-orange:hover {
-    color: #e5993a;
+    color: #5b73eb;
     text-decoration: none;
 }
 
 .href-orange:active {
-    color: #e5993a;
+    color: #5b73eb;
     text-decoration: none;
 }
 
@@ -1124,6 +1136,9 @@ a {
 
 .plan .panel-heading {
     background: #f7f7f7;
+    /*中信项目 jiasx*/
+    background:#fff;
+    border-bottom:1px solid #e6e6e6;
 }
 
 .plan .panel-heading .panel-title {
@@ -1133,6 +1148,8 @@ a {
 
 .panel-xxx.active {
     border-color: #f6a540;
+    /*中信项目 jiasx*/
+    border-color:#e6e6e6;
 }
 
 .icon20-144 {
