@@ -1,16 +1,18 @@
 #sidebar {
-    background: #e6e9f2;
+    background: #264359;
 }
 #sidebar ul > li {
     margin: 0;
 }
 #sidebar ul > li > a {
-    color: #5a6378;
+    color: #fff;
     border-radius: 0;
     padding: 23px 30px;
+    font-size:14px;
 }
+#sidebar ul > li > a:hover{background: #2c4d66!important;}
 #sidebar ul > li.active > a {
-    background: #dde0e9;
+    background: #2c4d66;
 }
 
 #sidebar ul > li > a > i {
