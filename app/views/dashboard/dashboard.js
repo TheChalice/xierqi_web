@@ -228,7 +228,7 @@ angular.module('console.dashboard', [
                 if (quota == true) {
                     // percentstr = '<b style="color:#5a6378;">已用' + percent + '%</b>';
                     //已用
-                    percentstr = '<b style="color:#5a6378; font-size: 16px">已用' + percent + '%</b>';
+                    percentstr = '<b style="color:#5a6378; font-size: 14px">已用' + percent + '%</b>';
                 }
                 //配额
                 var subTitle = '<b style="font-size:14px;color:#f6a540;">' + tp + '</b><br>' +
