@@ -879,10 +879,16 @@ a {
 .service-config .href-add {
     color: #55c45f;
     text-decoration: none;
+    /*中信项目 jiasx*/
+    color:#333;
 }
+
+.service-config .fa-lg{color:#5c72e9;}
 
 .service-config .href-add:hover {
     color: #469450;
+    /*中信项目 jiasx*/
+    color:#333;
 }
 
 .service-config .container-box {
@@ -1506,4 +1512,4 @@ a {
 .active .accountbg,.nav-link:hover i.accountbg{background:url(../../pub/img/account_hover.png) no-repeat;background-size:contain}
 /*************************图标替换 20161123 jia end***************/
 /*输入框获取焦点*/
-input:focus{border-color: #f8b551!important;}
+input:focus{border-color: #5b73eb!important;}
