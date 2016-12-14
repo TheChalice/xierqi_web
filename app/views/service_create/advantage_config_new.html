@@ -1,13 +1,13 @@
 <div class="service-config">
     <div class="panel panel-default">
-        <div class="panel-heading" style="font-weight: bold;font-size: 16px">
+        <div class="panel-heading" style="font-weight: bold;font-size: 16px;background:none;font-weight:normal;">
             高级配置
         </div>
         <hr style="visibility:visible;margin:8px 0"  />
         <div class="panel-body" style="padding: 30px 40px;">
             <div class="row">
                 <div class="col-md-2" style="padding-top: 8px;">
-                    <h3>服务高可用</h3>
+                    <h3 style="font-weight:normal;">服务高可用</h3>
                 </div>
                 <div class="col-md-10">
                     <label style="font-size: 12px; font-weight: normal;">POD数量&nbsp;&nbsp;&nbsp;&nbsp;</label>
@@ -54,7 +54,7 @@
 
             <div class="row">
                 <div class="col-md-2" style="padding-top: 5px">
-                    <h3>路由设置</h3>
+                    <h3 style="font-weight:normal;">路由设置</h3>
                 </div>
                 <div class="col-md-10">
                     <c-checkbox ng-if="portsArr.length>0" checked="grid.route"></c-checkbox>
@@ -278,7 +278,7 @@
 
             <div class="row">
                 <div class="col-md-2">
-                    <h3>后端服务绑定</h3>
+                    <h3 style="font-weight:normal;">后端服务绑定</h3>
                 </div>
                 <div class="col-md-10" ng-if="!bsi.items.length">
                     <span>无</span>
@@ -311,7 +311,7 @@
 
             <div class="row">
                 <div class="col-md-2">
-                    <h3>环境变量设置</h3>
+                    <h3 style="font-weight:normal;">环境变量设置</h3>
                 </div>
                 <div class="col-md-10">
                     <a href="javascript:;" class="href-add" ng-click="addEnv()">
@@ -359,7 +359,7 @@
 
             <div class="row">
                 <div class="col-md-2">
-                    <h3>自动部署</h3>
+                    <h3 style="font-weight:normal">自动部署</h3>
                 </div>
                 <div class="col-md-5">
                     <label ng-class="{'active': grid.configChange}" ng-click="grid.configChange=!grid.configChange"
@@ -372,7 +372,7 @@
             <hr style="margin-top: 20px;visibility:visible;">
             <div class="row">
                 <div class="col-md-2" style="padding-top: 5px">
-                    <h3>配额限制</h3>
+                    <h3 style="font-weight:normal;">配额限制</h3>
                 </div>
                 <div class="col-md-10">
                     <c-checkbox checked="quota.doquota"></c-checkbox>
