@@ -154,7 +154,8 @@ a {
 }
 
 .panel-default .panel-heading {
-    background: #e6e9f2;
+    /*background: #e6e9f2;*/
+    background: #fff;/* by zn for zhong xin */
     border-radius: 0;
     border-bottom: none;
     line-height: 34px;
