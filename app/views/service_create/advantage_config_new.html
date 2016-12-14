@@ -3,6 +3,7 @@
         <div class="panel-heading" style="font-weight: bold;font-size: 16px">
             高级配置
         </div>
+        <hr style="visibility:visible;margin:8px 0"  />
         <div class="panel-body" style="padding: 30px 40px;">
             <div class="row">
                 <div class="col-md-2" style="padding-top: 8px;">
@@ -12,7 +13,7 @@
                     <label style="font-size: 12px; font-weight: normal;">POD数量&nbsp;&nbsp;&nbsp;&nbsp;</label>
                     <input ng-model="dc.spec.replicas" min="0" max="10" style="width: 80px;display: inline-block;"
                            type="number" class="form-control">
-                    <hr>
+                    <hr style="visibility:visible;"/>
                     <div ng-if="false">
                         <label style="font-size: 12px; font-weight: normal;">自动伸缩&nbsp;&nbsp;&nbsp;&nbsp;</label>
                         <c-checkbox checked="rubustCheck"></c-checkbox>
@@ -29,7 +30,7 @@
                                                                           style="width: 80px;display: inline-block;"
                                                                           type="text" class="form-control"></span>
                         </div>
-                        <hr>
+                        <hr style="visibility:visible;"/>
                     </div>
                     <label style="font-size: 12px; font-weight: normal;">重启策略&nbsp;&nbsp;&nbsp;&nbsp;</label>
                     <div class="dropdown dropdown-select" style="width: 200px;">
@@ -49,7 +50,7 @@
                     </div>
                 </div>
             </div>
-            <hr style="margin-top: 20px;">
+            <hr style="margin-top: 20px;visibility:visible;">
 
             <div class="row">
                 <div class="col-md-2" style="padding-top: 5px">
@@ -273,7 +274,7 @@
                     </div>
                 </div>
             </div>
-            <hr style="margin-top: 20px;">
+            <hr style="margin-top: 20px;visibility:visible;">
 
             <div class="row">
                 <div class="col-md-2">
@@ -306,7 +307,7 @@
                     </div>
                 </div>
             </div>
-            <hr>
+            <hr style="margin-top: 20px;visibility:visible;">
 
             <div class="row">
                 <div class="col-md-2">
@@ -322,17 +323,22 @@
                         <!--<div class="panel-heading">-->
                         <!--环境变量设置-->
                         <!--</div>-->
-                        <div class="panel-body" style="padding-bottom: 0;">
+
+                        <div class="panel-body" style="padding-bottom: 20px;">
                             <span ng-if="envs.length > 0">
+                                <div class="row" style="margin-bottom:10px">
+                                    <div class="col-md-5">键</div>
+                                    <div class="col-md-7">值</div>
+                                </div>
                         <div class="row key-value-bar" style="margin-bottom: 15px" ng-repeat="env in envs">
                             <div class="col-md-5">
-                                <div style="float: left;line-height: 36px;">键&nbsp;&nbsp;</div>
+
                                 <div style="overflow: hidden">
                                     <input ng-model="env.name" type="text" class="form-control">
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div style="float: left;line-height: 36px;">值&nbsp;&nbsp;</div>
+
                                 <div style="overflow: hidden">
                                     <input ng-model="env.value" type="text" class="form-control">
                                 </div>
@@ -349,7 +355,7 @@
                     </div>
                 </div>
             </div>
-            <hr>
+            <hr style="margin-top: 20px;visibility:visible;">
 
             <div class="row">
                 <div class="col-md-2">
@@ -363,7 +369,7 @@
                     </label>
                 </div>
             </div>
-            <hr>
+            <hr style="margin-top: 20px;visibility:visible;">
             <div class="row">
                 <div class="col-md-2" style="padding-top: 5px">
                     <h3>配额限制</h3>
@@ -410,7 +416,7 @@
                     </div>
                 </div>
             </div>
-            <hr style="margin-top: 20px;">
+            <hr style="margin-top: 20px;visibility:visible;">
         </div>
     </div>
 </div>

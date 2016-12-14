@@ -1,4 +1,4 @@
-<div class="service-create">
+<div class="service-create" style="margin-top:-30px">
     <form name="frm">
         <div class="row">
             <div class="col-md-12">
@@ -9,7 +9,7 @@
                 -->
                 </div>
             </div>
-            <div class="col-md-12" style="padding-bottom: 30px;">
+            <div class="col-md-12" style="padding-bottom: 5px;">
                 <a class="tab-cube" ng-class="{'active': !grid.checked}" ng-click="jump(false)">基础配置</a>
                 <span style="margin: 0 20px;"> > </span>
                 <a class="tab-cube" ng-class="{'active': grid.checked}" ng-click="frm.$valid && jump(true)">高级配置</a>
@@ -77,7 +77,7 @@
                                                 <div style="margin-bottom: 20px;">
                                                     <input ng-model="container.name"
                                                            onkeypress="if((event.keyCode > 31 && event.keyCode < 44) || (event.keyCode > 46 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97))event.returnValue = false;"
-                                                           style="width: 95%;display: inline-block;"
+                                                           style="width: 70%;display: inline-block;"
                                                            type="text" class="form-control foucsinput"
                                                            placeholder="请设置容器名称">
                                                     <span class="require"></span>
@@ -203,8 +203,8 @@
                                                                     <br/>
                                                                     <label style="font-size: 14px; font-weight: normal;">类型&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                                                     <br/>
-                                                                    <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
-                                                                        <div class="dropdown dropdown-select" style="width: 100%;">
+                                                                    <div class="col-md-11" style="padding-top: 5px;padding-left:0px; ">
+                                                                        <div class="dropdown dropdown-select" style="width:353.58px;">
                                                         <span class="btn dropdown-toggle" data-toggle="dropdown" ng-blur="false" >
                                                             <span>{{container.doset}}</span>
                                                             <span class="caret"></span>
@@ -235,7 +235,7 @@
                                                                         <br/>
                                                                         <label style="font-size: 14px; font-weight: normal;">路径&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                                                         <br/>
-                                                                        <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
+                                                                        <div class="col-md-11" style="padding-top: 5px;padding-left:0px;width:50%;">
                                                                             <input type="text" name="candopath"
                                                                                    class="form-control" style="font-size: 12px;"
                                                                                    ng-model="container.readinessProbe.httpGet.path"
@@ -249,7 +249,7 @@
                                                                         <br/>
                                                                         <label style="font-size: 14px; font-weight: normal;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                                                         <br/>
-                                                                        <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
+                                                                        <div class="col-md-11" style="padding-top: 5px;padding-left:0px;width:50%;">
                                                                             <!--<input type="text" name="candoport"-->
                                                                             <!--class="form-control" style="font-size: 12px;"-->
                                                                             <!--ng-model="container.readinessProbe.httpGet.port"-->
@@ -281,7 +281,7 @@
                                                                         <label style="font-size: 14px; font-weight: normal;">命令&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                                                         <br/>
                                                                         <div ng-repeat="com in container.readinessProbe.exec.command track by $index" ng-init="innerIndex = $index">
-                                                                            <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
+                                                                            <div class="col-md-11" style="padding-top: 5px;padding-left:0px;width:50%">
                                                                                 <input type="text" name="comkey"
                                                                                        class="form-control" style="font-size: 12px;"
                                                                                        ng-model="com.key"
@@ -309,7 +309,7 @@
                                                                             <!--ng-model="container.readinessProbe.tcpSocket.port"-->
                                                                             <!--required-->
                                                                             <!--placeholder="1"/>-->
-                                                                            <div class="dropdown dropdown-select" style="width: 100%;">
+                                                                            <div class="dropdown dropdown-select" style="width: 353.58px;">
                                                                                 <button class="btn dropdown-toggle" data-toggle="dropdown">
                                                                                     <span>{{container.readinessProbe.tcpSocket.port || "请选择端口"}}</span>
                                                                                     <span class="caret"></span>
@@ -334,7 +334,7 @@
                                                                     <br/>
                                                                     <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
                                                                         <div class="dropdown dropdown-select"
-                                                                             style="width: 100%; border: 1px solid #ccc;">
+                                                                             style="width: 20%; border: 1px solid #ccc;">
                                                                             <div class="input-group" style="width:100%">
                                                                                 <input onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 95%;display: inline-block;border: none;font-size: 12px;height: 32px;"
                                                                                        ng-model="container.readinessProbe.initialDelaySeconds"
@@ -361,7 +361,7 @@
                                                                     <br/>
                                                                     <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
                                                                         <div class="dropdown dropdown-select"
-                                                                             style="width: 100%; border: 1px solid #ccc;">
+                                                                             style="width: 20%; border: 1px solid #ccc;">
                                                                             <div class="input-group" style="width:100%">
                                                                                 <input onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 95%;display: inline-block;border: none;font-size: 12px;height: 32px;"
                                                                                        ng-model="container.readinessProbe.timeoutSeconds"
