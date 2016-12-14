@@ -1,4 +1,4 @@
-<div class="backing-service">
+<div class="backing-service back-jia-service" style="background:#fff;padding:20px 40px 40px;">
     <div class="loader" ng-show="!market">
         <div class="loader-inner ball-clip-rotate-multiple">
             <div></div>
@@ -6,7 +6,7 @@
         </div>
     </div>
     <div ng-show="market">
-        <uib-tabset class="tab-default" active="check">
+        <uib-tabset class="tab-default tab-back-jia-default" active="check">
             <uib-tab index="1" style="width:auto;">
                 <uib-tab-heading style="width:468px">
                     <i class="fa2 fa2-bs"></i>&nbsp;&nbsp;后端服务市场
@@ -239,6 +239,11 @@
 
     .fw:last-child .btn {
         /*width: 85px;*/
+    }
+    .back-jia-service .tab-content{border:none;}
+    .tab-back-jia-default .tab-content{border:0;padding:30px 0;}
+    .tab-back-jia-default li.active .nav-link, .tab-back-jia-default li.active .nav-link:focus, .tab-back-jia-default li.active .nav-link:hover{
+        border:0;border-bottom:2px solid #5c72e9;color:#333;
     }
 
     /*#t0:after {*/
