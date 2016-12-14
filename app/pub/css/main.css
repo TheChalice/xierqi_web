@@ -38,16 +38,18 @@ a {
 #cnzz_stat_icon_1260628917 {
     display: none;
 }
+
+/*.nav>li>a:focus, .nav>li>a:hover{background:none!important}*/
 /*按钮*/
 .btn {
-    border-radius: 30px;
+    /*border-radius: 30px;*/
     color: #fff;
 }
 
 .btn:hover {
     color: #fff;
 }
-.btn-orange-radius{border-radius:0px;}
+.btn-orange-radius{border-radius:30px;}
 
 .btn-disabled, .btn-disabled:hover {
     background: #e6e9f2;

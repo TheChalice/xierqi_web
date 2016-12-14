@@ -3,8 +3,8 @@
         <div class="panel-heading">
             <span class="panel-title">{{item.name}}</span>
             <!--<button ng-if="!grid.update" class="btn btn-orange pull-right" ui-sref="console.apply_instance({name: data.metadata.name, plan: item.name})">申请实例</button>-->
-            <button ng-if="data.biancheng" class="btn btn-orange pull-right" ui-sref="console.apply_instance({name: data.metadata.name, plan: item.name})">申请实例</button>
-            <button ng-if="data.bianhui" class="btn btn-disabled pull-right" style='cursor:default;'>申请实例</button>
+            <button ng-if="data.biancheng" class="btn btn-orange pull-right btn-orange-radius" ui-sref="console.apply_instance({name: data.metadata.name, plan: item.name})">申请实例</button>
+            <button ng-if="data.bianhui" class="btn btn-disabled pull-right btn-orange-radius" style='cursor:default;'>申请实例</button>
 
             <!--<button ng-if="grid.update" class="btn btn-orange pull-right" ui-sref="console.apply_instance({name: data.metadata.name, plan: item.name})">马上升级</button>-->
         </div>
