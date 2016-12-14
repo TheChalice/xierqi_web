@@ -47,6 +47,7 @@ a {
 .btn:hover {
     color: #fff;
 }
+.btn-orange-radius{border-radius:0px;}
 
 .btn-disabled, .btn-disabled:hover {
     background: #e6e9f2;
@@ -95,7 +96,7 @@ a {
 }
 
 .btn-orange:hover {
-    background-color: #5b73eb;
+    background-color:#4960e6;
 }
 
 .btn-Iknow {
@@ -147,9 +148,6 @@ a {
     border: 1px solid #c9c9c9;
     border-radius: 2px;
     color: #5a6378;
-    /*中信项目 jiasx*/
-    border:1px solid #e6e6e6;
-    box-shadow: none;
 }
 
 .panel-default .panel-heading {
@@ -353,8 +351,6 @@ a {
     background: transparent;
     color: #e5993a;
     font-size:16px;
-    /*中信项目 jiasx*/
-    color:#333;
 }
 
 .tab-default li.active .nav-link,
@@ -364,10 +360,8 @@ a {
     border-bottom: none;
     border-radius: 2px 2px 0 0;
     color: #e5993a;
-    /*中信项目 jiasx*/
-    border:0;
-    border-bottom:2px solid #5c72e9;
-    color:#333;
+
+
 }
 
 .tab-default .tab-content {
@@ -375,9 +369,6 @@ a {
     border-top: none;
     border-radius: 0 0 2px 2px;
     padding: 30px 50px;
-    /*中信项目 jiasx*/
-    border: 0;
-    padding:30px 0;
 }
 
 .tab-sm {
@@ -1137,14 +1128,10 @@ a {
 .plan label .faa {
     position: relative;
     top: -1px;
-
 }
 
 .plan .panel-heading {
     background: #f7f7f7;
-    /*中信项目 jiasx*/
-    background:#fff;
-    border-bottom:1px solid #e6e6e6;
 }
 
 .plan .panel-heading .panel-title {
@@ -1513,3 +1500,5 @@ a {
 /*************************图标替换 20161123 jia end***************/
 /*输入框获取焦点*/
 input:focus{border-color: #5b73eb!important;}
+/*20161214 jiasx add*/
+.fa-info-circle:before{margin-right:3px;}
