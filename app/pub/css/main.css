@@ -57,7 +57,8 @@ a {
 }
 
 .btn-green {
-    background-color: #55c45f;
+    /*background-color: #55c45f;*/
+    background-color: #5c72e9;/*16 12-14 by zn for zhongxin */
     color:#fff;
     -webkit-transition:all 1s;
     -moz-transition:all 1s;
@@ -65,7 +66,9 @@ a {
 }
 
 .btn-green:hover {
-    background-color: #469450;color:#fff;
+    /*background-color: #469450;*/color:#fff;
+
+    background-color: #6b5ce9;/*16 12-14 by zn for zhongxin */
 }
 
 .btn-gray {
@@ -165,11 +168,10 @@ a {
 }
 
 .panel-default .panel-heading .panel-title {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
     color: #393f4f;
 }
-
 /*图标*/
 .icon25, .icon20, .icon12 {
     display: inline-block;
@@ -353,6 +355,8 @@ a {
     background: transparent;
     color: #e5993a;
     font-size:16px;
+    /*中信项目 jiasx*/
+    color:#333;
 }
 
 .tab-default li.active .nav-link,
@@ -844,8 +848,9 @@ a {
 
 .service-config h3 {
     font-size: 14px;
-    font-weight: normal;
+    font-weight: bold;
     margin: 0 0 20px 0;
+    color:black;
 }
 
 .service-config h4 {

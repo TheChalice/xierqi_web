@@ -118,6 +118,7 @@ define([
             });
             return Project;
         }])
+
         .factory('Build', ['$resource', '$rootScope', '$ws', '$log', 'Cookie', 'GLOBAL', function ($resource, $rootScope, $ws, $log, Cookie, GLOBAL) {
             var Build = $resource(GLOBAL.host + '/namespaces/:namespace/builds/:name?region=:region', {
                 name: '@name',
@@ -135,6 +136,7 @@ define([
             });
             return Build;
         }])
+
         .factory('BuildConfig', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
             var BuildConfig = $resource(GLOBAL.host + '/namespaces/:namespace/buildconfigs/:name?region=:region', {
                 name: '@name',
@@ -347,53 +349,61 @@ define([
             Metrics.cpu.all = $resource('/hawkular/metrics/counters/data', {tags: '@tags', buckets: '@buckets'});
             return Metrics;
         }])
-        .factory('Owner', ['$resource', function ($resource) {
-            var Owner = $resource('/v1/repos/github/owner', {namespace: '@namespace', cache: '@cache'}, {
+
+        .factory('Owner', ['$resource','GLOBAL', function ($resource,GLOBAL) {
+            var Owner = $resource(GLOBAL.host_repos+'/github/owner', {namespace: '@namespace', cache: '@cache'}, {
                 'query': {method: 'GET'}
             });
             return Owner;
         }])
-        .factory('Org', ['$resource', function ($resource) {
-            var Org = $resource('/v1/repos/github/orgs', {
+
+        .factory('Org', ['$resource','GLOBAL', function ($resource,GLOBAL) {
+            var Org = $resource(GLOBAL.host_repos+'/github/orgs', {
                 cache: 'false'
             });
             return Org;
         }])
-        .factory('Branch', ['$resource', function ($resource) {
-            var Branch = $resource('/v1/repos/github/users/:users/repos/:repos', {
+
+        .factory('Branch', ['$resource','GLOBAL', function ($resource,GLOBAL) {
+            var Branch = $resource(GLOBAL.host_repos+'/github/users/:users/repos/:repos', {
                 users: '@users',
                 repos: '@repos'
             }, {});
             return Branch;
         }])
-        .factory('WebhookLabget', ['$resource', function ($resource) {
-            var WebhookLabget = $resource('/v1/repos/source/gitlab/webhooks?namespace=:namespace&build=:build', {
+
+        .factory('WebhookLabget', ['$resource','GLOBAL', function ($resource,GLOBAL) {
+            var WebhookLabget = $resource(GLOBAL.host_repos+'/source/gitlab/webhooks?namespace=:namespace&build=:build', {
                 namespace: '@namespace',
                 build: '@build'
             }, {});
             return WebhookLabget;
         }])
-        .factory('WebhookGitget', ['$resource', function ($resource) {
-            var WebhookGitget = $resource('/v1/repos/source/github/webhooks?namespace=:namespace&build=:build', {
+
+        .factory('WebhookGitget', ['$resource','GLOBAL', function ($resource,GLOBAL) {
+            var WebhookGitget = $resource(GLOBAL.host_repos+'/source/github/webhooks?namespace=:namespace&build=:build', {
                 namespace: '@namespace',
                 build: '@build'
             }, {})
             return WebhookGitget;
         }])
-        .factory('WebhookLab', ['$resource', function ($resource) {
-            var WebhookLab = $resource('/v1/repos/source/gitlab/webhooks', {}, {
+
+        .factory('WebhookLab', ['$resource','GLOBAL', function ($resource,GLOBAL) {
+            var WebhookLab = $resource(GLOBAL.host_repos+'/source/gitlab/webhooks', {}, {
                 check: {method: 'POST'}
             });
             return WebhookLab;
         }])
-        .factory('WebhookHub', ['$resource', function ($resource) {
-            var WebhookHub = $resource('/v1/repos/source/github/webhooks', {}, {
+
+        .factory('WebhookHub', ['$resource','GLOBAL', function ($resource,GLOBAL) {
+            var WebhookHub = $resource(GLOBAL.host_repos+'/source/github/webhooks', {}, {
                 check: {method: 'POST'}
             });
             return WebhookHub;
         }])
-        .factory('WebhookLabDel', ['$resource', function ($resource) {
-            var WebhookLabDel = $resource('/v1/repos/source/gitlab/webhooks?host=:host&namespace=:namespace&build=:build&repo=:repo', {
+
+        .factory('WebhookLabDel', ['$resource','GLOBAL', function ($resource,GLOBAL) {
+            var WebhookLabDel = $resource(GLOBAL.host_repos+'/source/gitlab/webhooks?host=:host&namespace=:namespace&build=:build&repo=:repo', {
                 host: '@host',
                 namespace: '@namespace',
                 build: '@build',
@@ -403,8 +413,9 @@ define([
             });
             return WebhookLabDel;
         }])
-        .factory('WebhookHubDel', ['$resource', function ($resource) {
-            var WebhookHubDel = $resource('/v1/repos/source/github/webhooks?namespace=:namespace&build=:build&user=:user&repo=:repo', {
+
+        .factory('WebhookHubDel', ['$resource','GLOBAL', function ($resource,GLOBAL) {
+            var WebhookHubDel = $resource(GLOBAL.host_repos+'/source/github/webhooks?namespace=:namespace&build=:build&user=:user&repo=:repo', {
                 namespace: '@namespace',
                 build: '@build',
                 user: '@user',
@@ -414,6 +425,29 @@ define([
             });
             return WebhookHubDel;
         }])
+
+        .factory('labOwner', ['$resource','GLOBAL', function ($resource,GLOBAL) {
+            var labOwner = $resource(GLOBAL.host_repos+'/gitlab/owner', {}, {});
+            return labOwner;
+        }])
+
+        .factory('psgitlab', ['$resource','GLOBAL', function ($resource,GLOBAL) {
+            var psgitlab = $resource(GLOBAL.host_repos+'/gitlab', {}, {
+                create: {method: 'POST'}
+            });
+            return psgitlab;
+        }])
+
+        .factory('laborgs', ['$resource','GLOBAL', function ($resource,GLOBAL) {
+            var laborgs = $resource(GLOBAL.host_repos+'/gitlab/orgs', {}, {});
+            return laborgs;
+        }])
+
+        .factory('labBranch', ['$resource','GLOBAL', function ($resource,GLOBAL) {
+            var labBranch = $resource(GLOBAL.host_repos+'/gitlab/:repo/branches', {repo: '@repo'}, {});
+            return labBranch;
+        }])
+
         .factory('platform', ['$resource', function ($resource) {
             var platform = $resource('/registry/api/repositories?project_id=:id', {id: '@id'});
             return platform;
@@ -429,24 +463,7 @@ define([
             });
             return platformone;
         }])
-        .factory('labOwner', ['$resource', function ($resource) {
-            var labOwner = $resource('/v1/repos/gitlab/owner', {}, {});
-            return labOwner;
-        }])
-        .factory('psgitlab', ['$resource', function ($resource) {
-            var psgitlab = $resource('/v1/repos/gitlab', {}, {
-                create: {method: 'POST'}
-            });
-            return psgitlab;
-        }])
-        .factory('laborgs', ['$resource', function ($resource) {
-            var laborgs = $resource('/v1/repos/gitlab/orgs', {}, {});
-            return laborgs;
-        }])
-        .factory('labBranch', ['$resource', function ($resource) {
-            var labBranch = $resource('/v1/repos/gitlab/:repo/branches', {repo: '@repo'}, {});
-            return labBranch;
-        }])
+
         .factory('registration', ['$resource', function ($resource) {
             var registration = $resource('/lapi/signup', {}, {
                 regist: {method: 'POST'}
