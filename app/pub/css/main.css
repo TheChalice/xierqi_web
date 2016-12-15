@@ -583,7 +583,7 @@ a {
 }
 
 .tabandimage.selected {
-    border: 1px solid #f6a540;
+    border: 1px solid #4960e6;
 }
 
 /*.tabandimage:active{*/
@@ -771,12 +771,13 @@ a {
 }
 
 .faa-image-mark {
-    background-position: -189px -737px;
-    width: 25px;
-    height: 25px;
+    /*background-position: -189px -737px;*/
+    background-image: url(../img/tg02.png); /*by zn for zhongxin*/
+    width: 22px;
+    height: 22px;
     position: absolute;
     left: 0;
-    top: 0;
+    top: -2px;
 }
 
 .faa-check {
@@ -786,7 +787,9 @@ a {
 }
 
 .active > .faa-check {
-    background-position: -41px -220px;
+    /*background-position: -41px -220px;*/
+    background-image:url(../img/tg06.png);
+    background-position: 0 0; /*by zn for zhongxin*/
 }
 
 .faa-price {
