@@ -580,10 +580,13 @@ a {
     height: 60px;
     margin-bottom: 15px;
     cursor: pointer;
+
 }
 
 .tabandimage.selected {
     border: 1px solid #4960e6;
+    background-color:#4960e6;
+    color:#fff;
 }
 
 /*.tabandimage:active{*/
@@ -765,7 +768,9 @@ a {
 
 
 .faa-image {
-    background-position: -44px -789px;
+    /*background-position: -44px -789px;*/
+    background-image:url(../img/tg03.png);
+    background-position: -10px -10px;
     width: 60px;
     height: 60px;
 }
