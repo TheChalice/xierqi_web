@@ -84,14 +84,14 @@ a {
 }
 
 .btn-skyblue {
-    background-color: #57d1ea;
+    background-color: #5c72e9;
     -webkit-transition:all 1s;
     -moz-transition:all 1s;
     transition:all 1s;
 }
 
 .btn-skyblue:hover {
-    background-color: #418b9e;
+    background-color: #6b5ce9;
 }
 
 .btn-orange {
@@ -366,7 +366,7 @@ a {
     border: 1px solid #c9c9c9;
     border-bottom: none;
     border-radius: 2px 2px 0 0;
-    color: #e5993a;
+    color: #333;
 
 
 }
@@ -1197,7 +1197,7 @@ a {
 
 /*green adding button*/
 .href-add {
-    color: #55c45f;
+    color: #4960e6;
     text-decoration: none;
 }
 
@@ -1222,20 +1222,20 @@ a {
 }
 
 .secret_detail .add a {
-    color: #55c45f;
+    color: #5c72e9;
 }
 
 .secret_detail .add a:hover {
-    color: #469450;
+    color: #6b5ce9;
 }
 
 .secret_detail.href-add {
-    color: #55c45f;
+    color: #5c72e9;
     text-decoration: none;
 }
 
 .secret_detail.href-add:hover {
-    color: #469450;
+    color: #6b5ce9;
 }
 
 @media (min-width: 768px) {
