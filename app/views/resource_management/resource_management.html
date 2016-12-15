@@ -3,7 +3,7 @@
     .blank_block{margin-bottom:0;}
     .blank_tit{font-size:14px;color:#5a6378;margin-left:10px;vertical-align:middle;}
 </style>
-<div class="resource_management">
+<div class="resource_management" style="background:#fff;padding:20px 40px 40px;">
     <div class="loader" ng-show="!persistents">
         <div class="loader-inner ball-clip-rotate-multiple">
             <div></div>
@@ -78,7 +78,7 @@
                     </div>
                 </div>
 
-                <div class="text-right" ng-if="grid.rmtotal > 10" style="margin-top: 30px;">
+                <div class="text-center" ng-if="grid.rmtotal > 10" style="margin-top: 30px;">
                     <uib-pagination class="pagination pagination-sm" ng-model="grid.rmpage" total-items="grid.rmtotal"
                                     items-per-page="grid.size" boundary-links="false" max-size="12" rotate="true"
                                     previous-text="<"
@@ -150,7 +150,7 @@
                     </div>
                 </div>
 
-                <div class="text-right" ng-if="grid.total > 10" style="margin-top: 30px;">
+                <div class="text-center" ng-if="grid.total > 10" style="margin-top: 30px;">
                     <uib-pagination class="pagination pagination-sm" ng-model="grid.page" total-items="grid.total"
                                     items-per-page="grid.size" boundary-links="false" max-size="12" rotate="true"
                                     previous-text="<"
@@ -221,7 +221,7 @@
                     </div>
                 </div>
 
-                <div class="text-right" ng-if="secrets.total > 10" style="margin-top: 30px;">
+                <div class="text-center" ng-if="secrets.total > 10" style="margin-top: 30px;">
                     <uib-pagination class="pagination pagination-sm" ng-model="secrets.page" total-items="secrets.total"
                                     items-per-page="secrets.size" boundary-links="false" max-size="12" rotate="true"
                                     previous-text="<"
