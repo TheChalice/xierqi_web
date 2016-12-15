@@ -11,7 +11,7 @@
                 <uib-tab-heading style="width:468px">
                     <i class="fa2 fa2-bs"></i>&nbsp;&nbsp;后端服务市场
                 </uib-tab-heading>
-                <div class="tabs row" style='padding-left: 12px;position: relative;'>
+                <div class="tabs" style='padding-left:30px;position: relative;'>
                     <div class='col-mb-1' style='margin-right: 20px;'>
                         <label>服务分类</label>
                     </div>
@@ -31,7 +31,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
+                    <div class="input-group col-sm-4 searchbar" style="float:left;margin-top:28px;margin-bottom:32px;margin-left:46px;">
                         <input type="text"
                                class="form-control"
                                placeholder="搜索后端服务名称"
@@ -44,7 +44,7 @@
                     </div>
                 </div>
 
-                <div class='change' ng-repeat='items in market'>
+                <div class='change' ng-repeat='items in market' style="margin-left:46px;margin-right:46px;">
                     <div class="row">
                         <div class="h2-border" ng-show="items.item.length"
                              style="margin-bottom: 15px;">
@@ -210,6 +210,7 @@
         /*margin-bottom: 5px;*/
         position: absolute;
         top: 50%;
+        display:none;
     }
 
     .h2-border .biaoti {
