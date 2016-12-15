@@ -296,7 +296,7 @@
                                 <div class="col-md-6" ng-repeat="item in bsi.items">
                                     <div class="tabandimage" ng-class="{'selected': item.bind}"
                                          ng-click="item.bind = !item.bind">
-                                        <i class="faa faa-image" style="float: left;margin-right: 10px;"></i>
+                                        <i class="faa faa-image faa-zn-size" style="float: left;margin-right: 10px;"></i>
                                         <i class="faa faa-image-mark" ng-show="item.bind"></i>
                                         <p style="margin: 10px 0 5px 0;">{{item.metadata.name}}</p>
                                         <p>{{item.spec.provisioning.backingservice_name}}</p>
@@ -439,6 +439,9 @@
     }
     #btnout:hover {
         color: black;
+    }
+    .faa-zn-size{
+        background-size:contain;
     }
 
 
