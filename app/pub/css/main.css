@@ -776,6 +776,7 @@ a {
     background-image:url(../img/tg03.png);
     width: 60px;
     height: 60px;
+     background-size:contain;
 }
 
 .faa-image-mark {
