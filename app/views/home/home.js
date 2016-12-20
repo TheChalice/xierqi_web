@@ -100,14 +100,14 @@ angular.module('home', [])
                 function (event, toState, toParams, fromState, fromParams) {
                     //console.log('toState',toState.name);
                     if (toState.name !== "home.index") {
-                        $('html').css('overflow', 'auto');
-                        $('.foot_main').css('display', 'block');
+                       // $('html').css('overflow', 'auto');
+                        //$('.foot_main').css('display', 'block');
 
                         window.onmousewheel = document.onmousewheel = true;
                     } else {
-                        $('html').css('overflow', 'hidden');
-                        $('.foot_main').css('display', 'none');
-                        scrollTo(0,0);
+                      //  $('html').css('overflow', 'hidden');
+                       // $('.foot_main').css('display', 'none');
+                       // scrollTo(0,0);
                         preload(
                             "views/home/introduce/img/DF-111.png",
                             "views/home/introduce/img/DF-15.png",

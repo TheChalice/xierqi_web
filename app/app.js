@@ -65,6 +65,17 @@ define([
 
         .run(['$rootScope', 'account', '$state', function ($rootScope, account, $state) {
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+                if (toState.name !== "home.index") {
+                    $('html').css('overflow', 'auto');
+                    $('.foot_main').css('display', 'block');
+
+                    window.onmousewheel = document.onmousewheel = true;
+                } else {
+                    $('html').css('overflow', 'hidden');
+                    $('.foot_main').css('display', 'none');
+                    scrollTo(0,0);
+
+                }
                 $rootScope.transfering = true;
                 if ($rootScope.namespace && $rootScope.region) {
 
