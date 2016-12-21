@@ -65,11 +65,29 @@ define([
 
         .run(['$rootScope', 'account', '$state', function ($rootScope, account, $state) {
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+               //火狐滚动事件兼容性
+                if(navigator.userAgent.indexOf("Firefox")>0){
+                    // console.log('dasd');
+                    $(document).unbind('DOMMouseScroll');
+                    $(document).bind('DOMMouseScroll',function(e){
+                        //  console.log('detail', e.detail);
+                        //  console.log(toState.name)
+                        console.log(e);
+                        if (toState.name !== "home.index") {
+                            if(e.detail>0){
+                                window.scrollBy(0,40);
+                            }else{
+                                window.scrollBy(0,-40);
+                            }
+                        }
+                    })
+                }
                 if (toState.name !== "home.index") {
                     $('html').css('overflow', 'auto');
                     $('.foot_main').css('display', 'block');
 
                     window.onmousewheel = document.onmousewheel = true;
+
                 } else {
                     $('html').css('overflow', 'hidden');
                     $('.foot_main').css('display', 'none');
