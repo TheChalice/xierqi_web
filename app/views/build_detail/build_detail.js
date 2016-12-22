@@ -144,7 +144,7 @@ angular.module('console.build.detail', [
                 if (!bcName) {
                     return;
                 }
-                Build.remove({namespace: $rootScope.namespace, labelSelector: 'buildconfig=' + bcName}, function () {
+                Build.remove({namespace: $rootScope.namespace, labelSelector: 'buildconfig=' + bcName,region:$rootScope.region}, function () {
                     $log.info("remove builds of " + bcName + " success");
                 }, function (res) {
                     $log.info("remove builds of " + bcName + " error");

@@ -187,6 +187,7 @@ angular.module('console.resource_management', [
                         $scope.persistentdata = angular.copy($scope.cpoypersistents)
                         rmrefresh(1);
                         $scope.grid.rmtotal = $scope.cpoypersistents.length;
+                        $scope.text='您还没有创建持久化卷';
                         return;
                     }
                     $scope.persistentdata = [];
@@ -205,7 +206,6 @@ angular.module('console.resource_management', [
                         //console.log(repo.instance_data, $scope.grid.txt);
                     })
                     if(iarr.length===0){
-                        $scope.isQuery=true;
                         $scope.text='没有查询到相关数据';
                     }
                     else{

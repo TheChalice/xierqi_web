@@ -70,6 +70,7 @@ angular.module('console.backing_service', [
                 BackingService.get({namespace: 'openshift', region: $rootScope.region}, function (data) {
                     $log.info('loadBs', data);
                     $scope.items = data.items;
+                    console.log($scope.items);
                     var arr = data.items;
                     //console.log('222',data.items);
                     //上方两个tab分组数组
@@ -98,6 +99,13 @@ angular.module('console.backing_service', [
                             }
 
                         }
+                    }
+
+                    if($scope.items.length===0){
+                        $scope.text_hdata='没有查询到相关数据';
+                    }
+                    else{
+                        $scope.text_hdata='您还没有创建密钥';
                     }
 
                     //将分类去重
@@ -587,6 +595,8 @@ angular.module('console.backing_service', [
             //    }
             //}
             //服务分类键盘搜索
+            $scope.sevIsQuery=false;
+            $scope.text_hdata='您还没有创建持久化卷222';
             $scope.marsearch = function (event) {
 
                 if (true) {
@@ -609,12 +619,23 @@ angular.module('console.backing_service', [
                             //console.log(repo.instance_data, $scope.grid.txt);
 
                         })
+                        console.log(iarr);
+                        if(iarr.length===0){
+                            $scope.text_hdata='没有查询到相关数据';
+                            $scope.sevIsQuery=true;
+                        }
+                        else{
+                            $scope.text_hdata='您还没有后端服务市场';
+
+                        }
                         fiftermarket(iarr)
                         $scope.searchmarket = angular.copy($scope.market)
                     } else {
                         //console.log('$scope.inscopy', $scope.inscopy);
                         $scope.searchmarket = angular.copy($scope.copymarket)
                         $scope.market = $scope.fiftermarket ? angular.copy($scope.fiftermarket) : angular.copy($scope.copymarket)
+                        $scope.sevIsQuery=false;
+                        $scope.text_hdata='您还没有后端服务市场';
                     }
 
 

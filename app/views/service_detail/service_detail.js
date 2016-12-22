@@ -19,6 +19,12 @@ angular.module('console.service.detail', [
                 cpu: null,
                 memory: null
             }
+            if ($rootScope.region==='cn-north-1') {
+                $scope.regionroute ='.app.dataos.io'
+            }else if($rootScope.region==='cn-north-2') {
+                $scope.regionroute ='.aws-app.datafoundry.cn'
+            }
+
             $scope.grid = {
                 ports: [],
                 port: 0,
@@ -33,7 +39,7 @@ angular.module('console.service.detail', [
                 tlsshow: false,
                 tlsset: 'none',
                 httpset: 'Allow',
-                suffix: '.' + $rootScope.namespace + '.app.dataos.io',
+                suffix: '.' + $rootScope.namespace + $scope.regionroute,
                 isimageChange: true,
                 imagePullSecrets: false
             };
@@ -737,7 +743,7 @@ angular.module('console.service.detail', [
                     $scope.getroutes = res;
                     $scope.dc.route=res;
                     $scope.grid.route = true;
-
+                    console.log('port',res);
                     if ($scope.dc.route.spec.port) {
 
                         angular.forEach(sever.spec.ports, function (port,i) {
@@ -747,17 +753,26 @@ angular.module('console.service.detail', [
                             }
                         })
                         var hoststr = $scope.dc.route.spec.host;
-                        var r =/\.app\.dataos\.io/;
+                        console.log('hoststr', hoststr);
+                        if ($rootScope.region==='cn-north-1') {
+                            var r =/\.app\.dataos\.io/;
+                        }else if($rootScope.region==='cn-north-2') {
+                            var r =/\.aws-app\.datafoundry\.cn/;
+                            //$scope.regionroute ='.aws-app.datafoundry.cn'
+                        }
+                        console.log('r', r);
+                        //var r =/\.app\.dataos\.io/;
+
                         //$scope.grid.host = $scope.dc.route.spec.host.replace('.app.dataos.io', '');
                         if (r.test($scope.dc.route.spec.host)) {
                             //alert(1)
                             var arr=hoststr.split('.')
                             if (arr[arr.length - 4] === $rootScope.namespace) {
-                                $scope.grid.suffix='.' + $rootScope.namespace + '.app.dataos.io';
+                                $scope.grid.suffix='.' + $rootScope.namespace + $scope.regionroute;
                                // $scope.grid.host = $scope.dc.route.spec.host.replace('.app.dataos.io', '');
                             }else {
 
-                                $scope.grid.suffix='.app.dataos.io';
+                                $scope.grid.suffix=$scope.regionroute;
                             }
                             $scope.grid.host = $scope.dc.route.spec.host.replace($scope.grid.suffix, '');
 
