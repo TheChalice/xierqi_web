@@ -53,6 +53,7 @@ angular.module('console.service', [
                         $scope.data = angular.copy($scope.copydata)
                         refresh(1);
                         $scope.grid.total = $scope.copydata.length;
+                        $scope.text='您还没有部署服务'
                         //return;
                     } else {
                         var iarr = [];

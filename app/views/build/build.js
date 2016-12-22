@@ -35,6 +35,7 @@ angular.module('console.build', [
                     $scope.data = angular.copy($scope.copydata)
                     refresh(1);
                     $scope.grid.total = $scope.copydata.length;
+                    $scope.text='您还没有构建代码';
                     return;
                 }else {
                     var iarr = [];

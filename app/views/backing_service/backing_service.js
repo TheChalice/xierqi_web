@@ -598,7 +598,7 @@ angular.module('console.backing_service', [
             //}
             //服务分类键盘搜索
             $scope.sevIsQuery=false;
-            $scope.text_hdata='您还没有创建持久化卷222';
+            $scope.text_hdata='您还没有后端服务市场';
             $scope.marsearch = function (event) {
 
                 if (true) {
