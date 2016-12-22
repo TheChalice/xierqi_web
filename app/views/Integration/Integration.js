@@ -449,7 +449,8 @@ angular.module('console.backing_service', [
             };
 
 
-
+            $scope.text='您还没有数据集成服务';
+            $scope.isQuery2=false;
             $scope.keysearch = function (event,search) {
 
                 console.log(event,search);
@@ -475,16 +476,27 @@ angular.module('console.backing_service', [
                             //console.log(repo.instance_data, $scope.grid.txt);
 
                         })
+                        console.log(iarr);
+                        if(iarr[0].items==0){
+                            $scope.isQuery2=true;
+                            $scope.text='没有查询到相关数据集成服务';
+                            console.log($scope.reposcopy.length);
+                        }
+                        else{
+                            $scope.text='您还没有数据集成服务';
+                            console.log('test');
+                        }
                         $scope.ins = iarr;
 
                     } else {
                         //console.log('$scope.inscopy', $scope.inscopy);
-
+                        $scope.isQuery2=false;
                         $scope.ins = angular.copy($scope.inscopy)
                     }
                 }
             }
-
+            $scope.text='您还没有公开数据';
+            $scope.isQuery=false;
             $scope.keyclasssearch = function (event) {
 
                 if (true) {
@@ -504,10 +516,20 @@ angular.module('console.backing_service', [
                                 repoarr.push(repo);
                             }
                         })
+                        if(repoarr.length===0){
+                             $scope.isQuery=true;
+                            $scope.text='没有查询到相关数据';
+                            console.log($scope.reposcopy.length);
+                        }
+                        else{
+                            $scope.text='您还没有公开数据';
+                            console.log('test');
+                        }
                         $scope.repos = repoarr;
 
                     } else {
                         $scope.repos = angular.copy($scope.reposcopys||$scope.reposcopy)
+                        $scope.isQuery=false;
                     }
                 }
             }
