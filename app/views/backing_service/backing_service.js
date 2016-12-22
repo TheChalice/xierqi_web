@@ -673,8 +673,8 @@ angular.module('console.backing_service', [
                             //console.log(repo.instance_data, $scope.grid.txt);
 
                         })
-                        console.log(iarr);
-                        console.log($scope.myservice)
+                        //console.log(iarr);
+                        //console.log($scope.myservice)
                         fiftermyservice(iarr);
                         $scope.searchmyservice = angular.copy($scope.myservice)
                     } else {
@@ -707,6 +707,8 @@ angular.module('console.backing_service', [
                     $scope.diyservice = arr;
                 } else if ($scope.grid.mydivtxt == "") {
                     $scope.diyservice = $scope.diyservicecopy
+                }else{
+                    $scope.text='您还没有自定义后端服务实例';
                 }
 
 
