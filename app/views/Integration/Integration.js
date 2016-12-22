@@ -449,7 +449,7 @@ angular.module('console.backing_service', [
             };
 
 
-            $scope.text='您还没有数据集成服务';
+            $scope.text2='您还没有数据集成服务';
             $scope.isQuery2=false;
             $scope.keysearch = function (event,search) {
 
@@ -479,11 +479,11 @@ angular.module('console.backing_service', [
                         console.log(iarr);
                         if(iarr[0].items==0){
                             $scope.isQuery2=true;
-                            $scope.text='没有查询到相关数据集成服务';
+                            $scope.text2='没有查询到相关数据';
                             console.log($scope.reposcopy.length);
                         }
                         else{
-                            $scope.text='您还没有数据集成服务';
+                            $scope.text2='您还没有数据集成服务';
                             console.log('test');
                         }
                         $scope.ins = iarr;
@@ -491,6 +491,7 @@ angular.module('console.backing_service', [
                     } else {
                         //console.log('$scope.inscopy', $scope.inscopy);
                         $scope.isQuery2=false;
+                        $scope.text2='您还没有数据集成服务';
                         $scope.ins = angular.copy($scope.inscopy)
                     }
                 }
@@ -530,6 +531,7 @@ angular.module('console.backing_service', [
                     } else {
                         $scope.repos = angular.copy($scope.reposcopys||$scope.reposcopy)
                         $scope.isQuery=false;
+                        $scope.text='您还没有公开数据';
                     }
                 }
             }

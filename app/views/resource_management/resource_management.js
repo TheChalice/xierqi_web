@@ -232,7 +232,7 @@ angular.module('console.resource_management', [
                 $scope.configitems = $scope.configdata.slice(skip, skip + $scope.grid.size)||[];
 
             };
-
+            console.log('ewfwefwae',$scope.configdata);
             $scope.$on('$destroy', function () {
                 Ws.clear();
             });
@@ -276,6 +276,7 @@ angular.module('console.resource_management', [
                         $scope.configdata = angular.copy($scope.copyconfigdata)
                         refresh(1);
                         $scope.grid.total = $scope.configdata.length;
+                        $scope.text2='您还没有创建配置卷';
                         return;
                     }
                     $scope.configdata = [];
@@ -294,7 +295,6 @@ angular.module('console.resource_management', [
                         //console.log(repo.instance_data, $scope.grid.txt);
                     })
                     if(iarr.length===0){
-                        $scope.isQuery=true;
                         $scope.text2='没有查询到相关数据';
 
                     }
@@ -361,6 +361,7 @@ angular.module('console.resource_management', [
                         $scope.secretdata = angular.copy($scope.copysecretdata);
                         secretrefresh(1);
                         $scope.secrets.total = $scope.secretdata.length;
+                        $scope.text3=' 您还没有创建密钥';
                         return;
                     }
                     $scope.secretdata = [];
