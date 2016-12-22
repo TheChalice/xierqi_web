@@ -70,6 +70,7 @@ angular.module('console.backing_service', [
                 BackingService.get({namespace: 'openshift', region: $rootScope.region}, function (data) {
                     $log.info('loadBs', data);
                     $scope.items = data.items;
+                    console.log($scope.items);
                     var arr = data.items;
                     //console.log('222',data.items);
                     //上方两个tab分组数组
@@ -98,6 +99,13 @@ angular.module('console.backing_service', [
                             }
 
                         }
+                    }
+
+                    if($scope.items.length===0){
+                        $scope.text_hdata='没有查询到相关数据';
+                    }
+                    else{
+                        $scope.text_hdata='您还没有创建密钥';
                     }
 
                     //将分类去重
@@ -199,15 +207,17 @@ angular.module('console.backing_service', [
                             }
 
                             var fiftarr = [];
-
+                            $scope.ser_count=0;
                             for (var r = 0; r < $scope.cation.length; r++) {
                                 fiftarr.push([]);
                                 for (var m = 0; m < res.items.length; m++) {
                                     if (res.items[m].type && res.items[m].type === $scope.cation[r]) {
                                         fiftarr[r].push(res.items[m]);
+                                        $scope.ser_count++;
                                     }
                                 }
                             }
+                            //console.log($scope.ser_count);
                             //console.log('fiftarr', fiftarr);
                             //我的后端服务页面渲染json
                             $scope.myservice = [];
@@ -587,6 +597,8 @@ angular.module('console.backing_service', [
             //    }
             //}
             //服务分类键盘搜索
+            $scope.sevIsQuery=false;
+            $scope.text_hdata='您还没有创建持久化卷222';
             $scope.marsearch = function (event) {
 
                 if (true) {
@@ -609,12 +621,23 @@ angular.module('console.backing_service', [
                             //console.log(repo.instance_data, $scope.grid.txt);
 
                         })
+                        console.log(iarr);
+                        if(iarr.length===0){
+                            $scope.text_hdata='没有查询到相关数据';
+                            $scope.sevIsQuery=true;
+                        }
+                        else{
+                            $scope.text_hdata='您还没有后端服务市场';
+
+                        }
                         fiftermarket(iarr)
                         $scope.searchmarket = angular.copy($scope.market)
                     } else {
                         //console.log('$scope.inscopy', $scope.inscopy);
                         $scope.searchmarket = angular.copy($scope.copymarket)
                         $scope.market = $scope.fiftermarket ? angular.copy($scope.fiftermarket) : angular.copy($scope.copymarket)
+                        $scope.sevIsQuery=false;
+                        $scope.text_hdata='您还没有后端服务市场';
                     }
 
 
@@ -654,7 +677,8 @@ angular.module('console.backing_service', [
                     }
                 }
             }
-
+            $scope.text3='您还没有申请后端服务实例';
+            $scope.my_isQuery=false;
             //我的后端服务搜索
             $scope.mysearch = function (event) {
                 if (true) {
@@ -675,11 +699,22 @@ angular.module('console.backing_service', [
                         })
                         //console.log(iarr);
                         //console.log($scope.myservice)
+                        if(iarr.length===0){
+                            $scope.text3='没有查询到相关数据';
+                            $scope.my_isQuery=true;
+                        }
+                        else{
+                            $scope.text3='您还没有申请后端服务实例';
+
+                        }
                         fiftermyservice(iarr);
                         $scope.searchmyservice = angular.copy($scope.myservice)
                     } else {
                         $scope.searchmyservice = angular.copy($scope.copymyservice)
                         $scope.myservice = $scope.fiftermyservice ? angular.copy($scope.fiftermyservice) : angular.copy($scope.copymyservice)
+                        $scope.text3='您还没有申请后端服务实例';
+                        $scope.my_isQuery=false;
+
                     }
                 }
 
