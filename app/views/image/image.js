@@ -262,11 +262,12 @@ angular.module('console.image', [
                 $scope.showTip = false;
                 $scope.search(txt);
             }
-            // 私有镜像平台键盘搜索
+            // 构建镜像平台键盘搜索
             $scope.text1='您还没有构建镜像，构建完成后，可以在这里查看构建镜像！';
             $scope.search = function (key, txt) {
                 if (!txt) {
                     $scope.grid.search = false;
+                    $scope.text1='您还没有构建镜像，构建完成后，可以在这里查看构建镜像！';
                     refresh(1);
                     return;
                 }
@@ -283,7 +284,7 @@ angular.module('console.image', [
                 if(imagearr.length===0){
                     $scope.text1='没有查询到相关数据';
                 }else{
-                    $scope.text1='您还没有构建镜像，构建完成后，可以在这里查看构建镜像';
+                    $scope.text1='您还没有构建镜像，构建完成后，可以在这里查看构建镜像！';
                 }
 
                 $scope.testlist = imagearr;
@@ -302,13 +303,14 @@ angular.module('console.image', [
             $scope.$on('ngRepeatFinished', function (ngRepeatFinishedEvent) {
                 console.log('ok');
             })
-            //共有镜像搜索
-            $scope.text2='您还没有构建镜像，构建完成后，可以在这里查看构建镜像';
+            //私有镜像搜索
+            $scope.text2='您还没有私有镜像，构建完成后，可以在这里查看私有镜像！';
             $scope.searchreg = function (key, txt, event) {
                 if (event) {
                     if (true) {
                         if (!txt) {
                             $scope.grid.search = false;
+                            $scope.text2='您还没有私有镜像，构建完成后，可以在这里查看私有镜像！';
                             repertorysrefresh(1);
                             return;
                         }
@@ -323,7 +325,7 @@ angular.module('console.image', [
                         if(imagearr.length===0){
                             $scope.text2='没有查询到相关数据';
                         }else{
-                            $scope.text2='您还没有构建镜像，构建完成后，可以在这里查看构建镜像';
+                            $scope.text2='您还没有私有镜像，构建完成后，可以在这里查看私有镜像！';
                         }
                         $scope.repertoryspoj = imagearr;
                         $scope.grid.regimagecopy = angular.copy($scope.repertoryspoj);
@@ -349,8 +351,8 @@ angular.module('console.image', [
                 }
             }
 
-            //镜像中心搜索
-            $scope.text3='您还没有构建镜像，构建完成后，可以在这里查看构建镜像';
+            //公共镜像中心搜索
+            $scope.text3='您还没有公共镜像，构建完成后，可以在这里查看公共镜像！';
             $scope.imagecenterreg = function (key, txt, event) {
                 $scope.cententsearch = 'search';
                 if (event) {
@@ -358,6 +360,7 @@ angular.module('console.image', [
                         if (!txt) {
                             $scope.cententsearch = false;
                             $scope.grid.search = false;
+                            $scope.text3='您还没有公共镜像，构建完成后，可以在这里查看公共镜像！';
                             imagecenterrefresh(1);
                             return;
                         }
@@ -385,7 +388,7 @@ angular.module('console.image', [
                         if(imagearr.length===0){
                             $scope.text3='没有查询到相关数据';
                         }else{
-                            $scope.text3='您还没有构建镜像，构建完成后，可以在这里查看构建镜像';
+                            $scope.text3='您还没有公共镜像，构建完成后，可以在这里查看公共镜像！';
                         }
                         //console.log(imagearr);
                         $scope.imagecenter = imagearr;
