@@ -207,15 +207,17 @@ angular.module('console.backing_service', [
                             }
 
                             var fiftarr = [];
-
+                            $scope.ser_count=0;
                             for (var r = 0; r < $scope.cation.length; r++) {
                                 fiftarr.push([]);
                                 for (var m = 0; m < res.items.length; m++) {
                                     if (res.items[m].type && res.items[m].type === $scope.cation[r]) {
                                         fiftarr[r].push(res.items[m]);
+                                        $scope.ser_count++;
                                     }
                                 }
                             }
+                            //console.log($scope.ser_count);
                             //console.log('fiftarr', fiftarr);
                             //我的后端服务页面渲染json
                             $scope.myservice = [];
@@ -675,7 +677,8 @@ angular.module('console.backing_service', [
                     }
                 }
             }
-
+            $scope.text3='您还没有申请后端服务实例';
+            $scope.my_isQuery=false;
             //我的后端服务搜索
             $scope.mysearch = function (event) {
                 if (true) {
@@ -696,11 +699,22 @@ angular.module('console.backing_service', [
                         })
                         //console.log(iarr);
                         //console.log($scope.myservice)
+                        if(iarr.length===0){
+                            $scope.text3='没有查询到相关数据';
+                            $scope.my_isQuery=true;
+                        }
+                        else{
+                            $scope.text3='您还没有申请后端服务实例';
+
+                        }
                         fiftermyservice(iarr);
                         $scope.searchmyservice = angular.copy($scope.myservice)
                     } else {
                         $scope.searchmyservice = angular.copy($scope.copymyservice)
                         $scope.myservice = $scope.fiftermyservice ? angular.copy($scope.fiftermyservice) : angular.copy($scope.copymyservice)
+                        $scope.text3='您还没有申请后端服务实例';
+                        $scope.my_isQuery=false;
+
                     }
                 }
 
