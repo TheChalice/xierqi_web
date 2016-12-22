@@ -12,6 +12,11 @@ angular.module('console.service.create', [
         function ($http, by, diploma, Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service, ChooseSecret, $base64, secretskey, serviceaccounts) {
             $log.info('ServiceCreate');
             $('#sevicecreateinp').focus();
+            if ($rootScope.region==='cn-north-1') {
+                $scope.regionroute ='.app.dataos.io'
+            }else if($rootScope.region==='cn-north-2') {
+                $scope.regionroute ='.aws-app.datafoundry.cn'
+            }
             $scope.$on('$viewContentLoaded', function () {
 
                 //console.log($('#sevicecreateinp'));
@@ -116,7 +121,7 @@ angular.module('console.service.create', [
                 tlsshow: false,
                 tlsset: 'None',
                 httpset: 'Allow',
-                suffix: '.' + $rootScope.namespace + '.app.dataos.io',
+                suffix: '.' + $rootScope.namespace + $scope.regionroute,
                 imageChange: false,
                 configChange: true,
                 checkedsecond: false,

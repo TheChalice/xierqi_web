@@ -758,7 +758,7 @@ angular.module('console.service.detail', [
                             var r =/\.app\.dataos\.io/;
                         }else if($rootScope.region==='cn-north-2') {
                             var r =/\.aws-app\.datafoundry\.cn/;
-                            $scope.regionroute ='.aws-app.datafoundry.cn'
+                            //$scope.regionroute ='.aws-app.datafoundry.cn'
                         }
                         console.log('r', r);
                         //var r =/\.app\.dataos\.io/;
