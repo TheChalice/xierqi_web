@@ -1,25 +1,7 @@
 #image .tab-default .tab-content {
     padding: 30px;
 }
-.searchbar {
-    height: 36px;
-    border: 1px solid #c9c9c9;
-    border-radius: 2px;
-}
-.searchbar .form-control {
-    border: none;
-    box-shadow: none;
-    color: #5a6378;
-}
-.searchbar .btn {
-    height: 100%;
-    background: url(img/search.png) no-repeat;
-    box-shadow: none;
-}
 
-.searchbar .btn:hover {
-    background-image: url(img/search-focus.png);
-}
 .blank_tit{font-size:14px;color:#5a6378;margin-left:10px;vertical-align:middle;}
 .blank_block{margin-bottom:0;}
 

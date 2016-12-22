@@ -29,6 +29,7 @@
                         <label class="btn" ng-class="{'active':classgrid.selectsclabel === $index}"
                                ng-click="selectsclabel('selectsclabel',$index)">{{item}}</label>
                     </div>
+
                 </div>
             </div>
             <div class="row">
@@ -46,6 +47,8 @@
                     </span>
                 </div>
             </div>
+            <div ng-if="items.length==0||(isQuery&&items.length!=0)" style="text-align: center;margin-top:20px; background: #f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;" ><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit">{{text}}</span></p></div>
+
             <!--<div ng-include="'views/Integration/backing_service_instance.html'">-->
             <!--</div>-->
 
@@ -145,6 +148,8 @@
                         <a class="btn" ng-click="keysearch('search')"></a>
                     </span>
                 </div>
+                <div ng-if="items.length==0||(isQuery2&&items.length!=0)" style="text-align: center;margin-top:20px; background: #f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;" ><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit">{{text}}</span></p></div>
+
             </div>
             <div class='change' ng-repeat='items in ins'>
                 <div class="row">
@@ -201,7 +206,6 @@
                     </div>
                 </div>
             </div>
-            <div style="border:1px solid #e5e5e5;margin-top:30px;padding-top:10px;padding-bottom:10px;background:#f7f8fc;text-align: center;position:relative" ng-if="!ins"><p class="blank_block"><img src="pub/img/df_cion.png"></p></div>
         </uib-tab>
 
         <uib-tab index="3" style="width:auto;">
