@@ -118,6 +118,9 @@ define(['angular'], function (angular) {
                             var token = tokenarr[region-1];
 
                             url += "&access_token=" + token;
+                            url += '&region=' + Cookie.get('region');
+
+
 
                             var first = true;
                             spinner.removeClass("hidden");
