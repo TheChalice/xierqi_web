@@ -72,6 +72,7 @@ angular.module('console.backing_service', [
                     $scope.items = data.items;
                     console.log($scope.items);
                     var arr = data.items;
+                    //console.log('222',data.items);
                     //上方两个tab分组数组
                     //服务分类
                     $scope.cation = [];
@@ -206,15 +207,17 @@ angular.module('console.backing_service', [
                             }
 
                             var fiftarr = [];
-
+                            $scope.ser_count=0;
                             for (var r = 0; r < $scope.cation.length; r++) {
                                 fiftarr.push([]);
                                 for (var m = 0; m < res.items.length; m++) {
                                     if (res.items[m].type && res.items[m].type === $scope.cation[r]) {
                                         fiftarr[r].push(res.items[m]);
+                                        $scope.ser_count++;
                                     }
                                 }
                             }
+                            //console.log($scope.ser_count);
                             //console.log('fiftarr', fiftarr);
                             //我的后端服务页面渲染json
                             $scope.myservice = [];
@@ -553,35 +556,46 @@ angular.module('console.backing_service', [
 
                 }
             };
-            // 我的后端服务键盘搜索
-            $scope.mykeysearch = function (event) {
 
-                if (true) {
-                    for (var s = 0; s < $scope.myservice.length; s++) {
-                        $scope.myservice[s].showTab = true;
-                    }
-                    $scope.isComplete = {name: $scope.grid.mytxt};
-                    var sarr = [];
-                    if ($scope.grid.mytxt) {
-                        for (var s = 0; s < $scope.myservice.length; s++) {
-                            sarr = $filter("myfilter")($scope.myservice[s].item, $scope.isComplete);
-                            if (sarr.length === 0) {
-                                $scope.myservice[s].showTab = false;
-                            }
-                        }
-                    } else {
-                        for (var s = 0; s < $scope.myservice.length; s++) {
-                            sarr = $filter("myfilter")($scope.myservice[s].item, $scope.isComplete);
-                            // console.log(sarr.length)
-                            if (sarr.length === 0) {
-                                $scope.myservice[s].showTab = false;
-                            } else {
-                                $scope.myservice[s].showTab = true;
-                            }
-                        }
-                    }
-                }
-            }
+            // 我的后端服务键盘搜索
+            //$scope.mykeysearch = function (event) {
+            //
+            //    if (true) {
+            //        for (var s = 0; s < $scope.myservice.length; s++) {
+            //            $scope.myservice[s].showTab = true;
+            //        }
+            //        $scope.isComplete = {name: $scope.grid.mytxt};
+            //        var sarr = [];
+            //        if ($scope.grid.mytxt) {
+            //            for (var s = 0; s < $scope.myservice.length; s++) {
+            //                sarr = $filter("myfilter")($scope.myservice[s].item, $scope.isComplete);
+            //                if (sarr.length === 0) {
+            //                    $scope.myservice[s].showTab = false;
+            //                }
+            //            }
+            //        } else {
+            //            for (var s = 0; s < $scope.myservice.length; s++) {
+            //                sarr = $filter("myfilter")($scope.myservice[s].item, $scope.isComplete);
+            //                // console.log(sarr.length)
+            //                if (sarr.length === 0) {
+            //                    $scope.myservice[s].showTab = false;
+            //                } else {
+            //                    $scope.myservice[s].showTab = true;
+            //                }
+            //            }
+            //            console.log(sarr)
+            //            if(sarr.length===0){
+            //                $scope.isQuery=true;
+            //                $scope.text='没有查询到相关数据';
+            //                console.log($scope.items.length);
+            //                console.log(iarr)
+            //            }
+            //            else{
+            //                $scope.text='您还没有自定义后端服务实例';
+            //            }
+            //        }
+            //    }
+            //}
             //服务分类键盘搜索
             $scope.sevIsQuery=false;
             $scope.text_hdata='您还没有创建持久化卷222';
@@ -629,6 +643,7 @@ angular.module('console.backing_service', [
 
                 }
             }
+            $scope.text2='您还没有数据集成服务实例';
             $scope.inekeysearch = function (event) {
                 //console.log(event);
                 if (true) {
@@ -646,14 +661,24 @@ angular.module('console.backing_service', [
                                 repoarr.push(repo);
                             }
                         })
+                        //console.log(repoarr)
+                        if(repoarr.length===0){
+                            $scope.text2='没有查询到相关数据';
+                        }
+                        else{
+                            $scope.text2='您还没有数据集成服务实例';
+                        }
+                        console.log(repoarr);
                         $scope.insservice = repoarr;
 
                     } else {
-                        $scope.insservice = angular.copy($scope.insservicecopy)
+                        $scope.insservice = angular.copy($scope.insservicecopy);
+                        $scope.text2='您还没有数据集成服务实例';
                     }
                 }
             }
-
+            $scope.text3='您还没有申请后端服务实例';
+            $scope.my_isQuery=false;
             //我的后端服务搜索
             $scope.mysearch = function (event) {
                 if (true) {
@@ -672,38 +697,57 @@ angular.module('console.backing_service', [
                             //console.log(repo.instance_data, $scope.grid.txt);
 
                         })
+                        //console.log(iarr);
+                        //console.log($scope.myservice)
+                        if(iarr.length===0){
+                            $scope.text3='没有查询到相关数据';
+                            $scope.my_isQuery=true;
+                        }
+                        else{
+                            $scope.text3='您还没有申请后端服务实例';
 
+                        }
                         fiftermyservice(iarr);
                         $scope.searchmyservice = angular.copy($scope.myservice)
                     } else {
                         $scope.searchmyservice = angular.copy($scope.copymyservice)
                         $scope.myservice = $scope.fiftermyservice ? angular.copy($scope.fiftermyservice) : angular.copy($scope.copymyservice)
+                        $scope.text3='您还没有申请后端服务实例';
+                        $scope.my_isQuery=false;
+
                     }
                 }
 
 
             }
+            $scope.text='您还没有自定义后端服务实例';
+           $scope.mykeysearch= function () {
 
-            $scope.$watch('grid.mydivtxt', function (n, o) {
-                if (n == o) {
-                    return
-                }
-                if (n) {
+                if ($scope.grid.mydivtxt) {
                     var arr = [];
-                    var txt = n.replace(/\//g, '\\/');
+                    var txt = $scope.grid.mydivtxt.replace(/\//g, '\\/');
                     var reg = eval('/' + txt + '/');
                     angular.forEach($scope.diyservice, function (item, i) {
                         if (reg.test(item.metadata.name)) {
                             arr.push(item)
                         }
                     });
+                    //console.log(arr)
+                    if(arr.length===0){
+                        $scope.text='没有查询到相关数据';
+                    }
+                    else{
+                        $scope.text='您还没有自定义后端服务实例';
+                    }
                     $scope.diyservice = arr;
-                } else if (n == "") {
+                } else if ($scope.grid.mydivtxt == "") {
                     $scope.diyservice = $scope.diyservicecopy
+                }else{
+                    $scope.text='您还没有自定义后端服务实例';
                 }
 
 
-            })
+            }
 
             //我的后端服务删除一个实例
             var newid = null;
