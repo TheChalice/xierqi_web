@@ -359,8 +359,11 @@ a {
     border-bottom: none;
     border-radius: 2px 2px 0 0;
     color: #e5993a;
+    padding: 9px 14px;
 }
-
+.nav-tabs>li{
+    margin-bottom:-2px;
+}
 .tab-default .tab-content {
     border: 1px solid #c9c9c9;
     border-top: none;

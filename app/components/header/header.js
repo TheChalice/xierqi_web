@@ -273,7 +273,11 @@ angular.module("console.header", [
                             $state.go('console.image', {index: 3})
                         } else if ($state.current.name == "console.image_regstry") {
                             $state.go('console.image', {index: 2})
-                        } else {
+                        } else if($state.current.name == "console.backing_service_detail"){
+                            $state.go('console.backing_service')
+                        }
+
+                        else {
                             $window.history.back();
                         }
                     };
