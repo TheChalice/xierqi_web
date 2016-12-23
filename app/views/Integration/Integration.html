@@ -42,7 +42,7 @@
                            ng-keyup=keyclasssearch($event)
                            ng-model="grid.classtxt">
                     <!--ng-model="txt" ng-focus="showTip=true;" -->
-                    <span class="input-group-btn" id=inputa>
+                    <span class="input-group-btn" style="display:none;" id=inputa>
                         <a class="btn" ng-click="keyclasssearch('search')"></a>
                     </span>
                 </div>
@@ -134,17 +134,17 @@
                     </div>
                 </div>
             </div>
-            <div class="row" style='margin: 0;'>
-                <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
+            <div style="overflow:hidden;">
+                <div class="input-group col-sm-4 searchbar" style="float:right;">
                     <input type="text"
                            class="form-control"
 
-                           placeholder="搜索数据名"
+                           placeholder="搜索数据名1"
 
                            ng-keyup=keysearch($event)
                            ng-model="grid.txt">
                     <!--ng-model="txt" ng-focus="showTip=true;" -->
-                    <span class="input-group-btn" id=input>
+                    <span class="input-group-btn" style="display:none;" id=input>
                         <a class="btn" ng-click="keysearch('search')"></a>
                     </span>
                 </div>

@@ -26,7 +26,7 @@
                                ng-keyup="checknames()"
                                onkeypress="if((event.keyCode > 31 && event.keyCode < 44) || (event.keyCode > 46 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97))event.returnValue = false;"
                                ng-model="secrets.metadata.name"
-                               placeholder="创建一个服务实例名称">
+                               placeholder="例如:datafoundry">
                         <small ng-if="!grid.secretnames" class="fa fa-info-circle err-tip" style="margin-top: 20px;">名称只能包括小写字母/数字/短线，且短线、数字不能出现在开头或结尾位置</small>
                         <small ng-if="grid.nameerr" class="fa fa-info-circle err-tip" style="margin-top: 20px;">名称已存在</small>
                     </div>

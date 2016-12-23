@@ -21,7 +21,7 @@
 }
 .backing-service .sc .btn.active {
     border-color: #f6a540;
-    font-weight: bold;
+    /*font-weight: bold;*/
     background: url(../../views/backing_service/img/images_48.png) no-repeat #fff;
 }
 .h2-border::after {

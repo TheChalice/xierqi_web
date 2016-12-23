@@ -34,7 +34,7 @@
                     <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
                         <input type="text"
                                class="form-control"
-                               placeholder="搜索后端服务名称"
+                               placeholder="请输入后端服务名称"
                                ng-keyup=marsearch($event)
                                ng-model="grid.txt">
                         <!--ng-model="txt" ng-focus="showTip=true;" -->
@@ -92,7 +92,7 @@
                     <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
                         <input type="text"
                                class="form-control"
-                               placeholder="搜索后端服务名称"
+                               placeholder="请输入实例名称"
                                ng-keyup=mysearch($event)
                                ng-model="grid.mytxt">
                         <!--ng-model="txt" ng-focus="showTip=true;" -->
@@ -124,7 +124,7 @@
                     <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
                         <input type="text"
                                class="form-control"
-                               placeholder="搜索后端服务名称"
+                               placeholder="请输入实例名称"
                                ng-keyup=mykeysearch($event)
                                ng-model="grid.mydivtxt">
                         <!--ng-model="txt" ng-focus="showTip=true;" -->
@@ -133,6 +133,7 @@
                     </span>
                     </div>
                 </div>
+                <!--<div ng-if="diyservice.length===0"  style="text-align: center;margin-top:20px; background: #f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;" ><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit">{{text4}}</span></p></div>-->
                 <div ng-include="'views/backing_service/backing_service_custom.html'">
                 </div>
 
@@ -155,7 +156,7 @@
                     <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
                         <input type="text"
                                class="form-control"
-                               placeholder="搜索后端服务名称"
+                               placeholder="请输入实例名称"
                                ng-keyup=inekeysearch($event)
                                ng-model="grid.myinetxt">
                         <!--ng-model="txt" ng-focus="showTip=true;" -->
