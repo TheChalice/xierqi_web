@@ -346,7 +346,7 @@ angular.module('console.backing_service', [
                     key = 'all';
                 }
                 $scope.marketclass[tp] = key;
-                // console.log("$scope.itemsDevop", $scope.itemsDevop)
+                console.log("$scope.itemsDevop", $scope.itemsDevop)
             }
             //my服务提供者筛选
             $scope.myselectsc = function (tp, key) {
@@ -597,12 +597,10 @@ angular.module('console.backing_service', [
             //    }
             //}
             //服务分类键盘搜索
-            $scope.sevIsQuery=false;
             $scope.text_hdata='您还没有后端服务市场';
+            $scope.sevIsQuery=false;
             $scope.marsearch = function (event) {
-
                 if (true) {
-
                     $scope.market = $scope.fiftermarket ? angular.copy($scope.fiftermarket) : angular.copy($scope.copymarket)
                     if ($scope.grid.txt) {
                         var iarr = [];
@@ -636,8 +634,9 @@ angular.module('console.backing_service', [
                         //console.log('$scope.inscopy', $scope.inscopy);
                         $scope.searchmarket = angular.copy($scope.copymarket)
                         $scope.market = $scope.fiftermarket ? angular.copy($scope.fiftermarket) : angular.copy($scope.copymarket)
-                        $scope.sevIsQuery=false;
+
                         $scope.text_hdata='您还没有后端服务市场';
+                        $scope.sevIsQuery=false;
                     }
 
 
@@ -722,7 +721,6 @@ angular.module('console.backing_service', [
             }
             $scope.text='您还没有自定义后端服务实例';
            $scope.mykeysearch= function () {
-
                 if ($scope.grid.mydivtxt) {
                     var arr = [];
                     var txt = $scope.grid.mydivtxt.replace(/\//g, '\\/');
@@ -742,11 +740,11 @@ angular.module('console.backing_service', [
                     $scope.diyservice = arr;
                 } else if ($scope.grid.mydivtxt == "") {
                     $scope.diyservice = $scope.diyservicecopy
-                }else{
                     $scope.text='您还没有自定义后端服务实例';
                 }
-
-
+                // else{
+                //    $scope.text='您还没有自定义后端服务实例';
+                //}
             }
 
             //我的后端服务删除一个实例
