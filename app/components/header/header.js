@@ -353,12 +353,26 @@ angular.module("console.header", [
                         "components/sidebar/img/repository-active.png",
                         "components/sidebar/img/resource-active.png",
                         "components/sidebar/img/service-active.png",
+                        "components/sidebar/img/Integration_active.png",
                         "pub/img/myimageh.png",
                         "pub/img/registimageh.png",
                         "pub/img/imagecenterh.png",
                         "pub/img/myimage.png",
                         "pub/img/registimage.png",
-                        "pub/img/imagecenter.png"
+                        "pub/img/imagecenter.png",
+                        "views/backing_service/img/images_48.png",
+                        "pub/img/fa2-bsh.png",
+                        "pub/img/fa2-bs.png",
+                        "pub/img/fa2-bsih.png",
+                        "pub/img/diy_service_hover.png",
+                        "pub/img/data_service_hover.png",
+                        "pub/img/constantlyvolume_small.png",
+                        "pub/img/config_volume_act.png",
+                        "pub/img/secret_act.png",
+                        "pub/img/fa2-public.png",
+                        "pub/img/fa2-data-act.png",
+                        "pub/img/fa2-dataHub-act.png"
+
                     );
 
                     $scope.hasBack = function () {
