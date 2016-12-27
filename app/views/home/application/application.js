@@ -77,12 +77,15 @@ angular.module('home.application', [
                 alert(1);
             }
         }
+        $scope.text='您还没有SaaS服务';
+        $scope.isQuery=false;
         $scope.$watch('grid.txt', function (n, o) {
             if (n == o) {
                 return
             }
             if (n) {
                 $scope.saas=$scope.saascopy
+               // console.log($scope.saas);
                 var obj= {
                     category:[
                         {name:"email",obj:[]},
@@ -91,17 +94,29 @@ angular.module('home.application', [
                 }
                 var txt = n.replace(/\//g, '\\/');
                 var reg = eval('/' + txt + '/i');
+                $scope.count=0;
                 angular.forEach($scope.saas.category, function (items,i) {
                     angular.forEach(items.obj, function (item,k) {
                         if (reg.test(item.name)) {
                             obj.category[i].obj.push(item);
+                            $scope.count++;
                         }
                     })
                 })
+                if($scope.count===0){
+                    $scope.isQuery=true;
+                    $scope.text='没有查询到相关数据';
+                }
+                else{
+                    $scope.text='您还没有SaaS服务';
+                    $scope.isQuery=false;
+                }
+              // console.log($scope.count)
                 $scope.saas=obj;
                 //$scope.diyservice=arr;
             }else if(n==""){
-                $scope.saas=$scope.saascopy
+                $scope.saas=$scope.saascopy;
+                $scope.isQuery=false;
             }
 
         })
@@ -205,15 +220,18 @@ angular.module('home.application', [
         };
 
         //镜像中心搜索
+        $scope.text2='您还没有相关镜像';
         $scope.imagecenterreg = function (key, txt, event) {
             $scope.cententsearch = 'search';
             if (event) {
-                if (event.keyCode == 13) {
+                if (true) {
 
                     if (!txt) {
                         $scope.cententsearch = false;
                         $scope.grid.search = false;
                         imagecenterrefresh(1);
+                        $scope.text2='您还没有相关镜像';
+                        $scope.isQuery=false;
                         return;
                     }
                     var imagearr = [];
@@ -236,6 +254,14 @@ angular.module('home.application', [
                                 imagearr.push($scope.imagecentercopy[i]);
                             }
                         }
+                    }
+                    if(imagearr.length===0){
+                        $scope.isQuery=true;
+                        $scope.text2='没有查询到相关数据';
+                    }
+                    else{
+                        $scope.text2='您还没有相关镜像';
+                        $scope.isQuery=false;
                     }
                     //console.log(imagearr);
                     $scope.imagecenter = imagearr;
