@@ -15,7 +15,14 @@ angular.module('console.backing_service_detail', [
             $scope.description=data.description;
 
             $scope.createUser=data.display_name;
-
+    
             $scope.firtdetail=data.items
         })
+            $scope.down=function(a,url){
+                console.log(a,url)
+                Confirm.open('下载文件', '您确定要下载文件吗！','','').then(function () {
+                    location.href=url;
+                })
+            }
+
       }]);
