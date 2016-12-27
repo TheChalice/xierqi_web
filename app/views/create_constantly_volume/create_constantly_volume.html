@@ -1,5 +1,9 @@
 <div class="loading-box" ng-show=loaded>
-    <img class="spinner" src="pub/img/loading.gif">
+    <!--<img class="spinner" src="pub/img/loading.gif">-->
+    <div class="loader-inner ball-clip-rotate-multiple" style="top:50%;">
+        <div></div>
+        <div></div>
+    </div>
 </div>
 <div>
     <style>
@@ -52,7 +56,7 @@
                                class="form-control"
                                ng-model="volume.name"
                                onkeypress="if((event.keyCode > 31 && event.keyCode < 44) || (event.keyCode > 46 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97))event.returnValue = false;"
-                               placeholder="名称只能包括小写字母"
+                               placeholder="例如:datafoundry"
                                style="margin-top: 10px">
                         <small ng-if="err.valid" class="fa fa-info-circle err-tip" style="margin-top: 20px;">名称不合法</small>
                         <small ng-if="err.blank" class="fa fa-info-circle err-tip" style="margin-top: 20px;">名称不能为空</small>

@@ -1078,6 +1078,7 @@ a {
     background: url(../img/secret.png) no-repeat;
     width: 25px;
     height: 25px;
+    background-size:25px 25px;
 }
 
 .configicon {
@@ -1317,12 +1318,17 @@ a {
     width: 70px;
     -webkit-animation: rotate 1s 0s ease-in-out infinite;
     animation: rotate 1s 0s ease-in-out infinite;
+    margin-left:-35px;margin-top:-35px;
 }
 
 .ball-clip-rotate-multiple > div:last-child {
     display: inline-block;
-    top: 20px;
-    left: 20px;
+    /*top: 20px;*/
+    /*left: 20px;*/
+    left:50%;
+    top:50%;
+    margin-left:-15px;
+    margin-top:-15px;
     width: 30px;
     height: 30px;
     -webkit-animation-duration: 0.5s;
