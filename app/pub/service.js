@@ -1483,7 +1483,7 @@ define(['angular'], function (angular) {
                         $http(req).success(function (data) {
                             //var arrstr = data.join(',');
                             var arr = []
-                            //console.log(data);
+                            console.log(data,'ddd');
                             angular.forEach(data, function (token,i) {
                                 //arr.push(token.access_token)
                                 var index = token.region.split('-')[2]
@@ -1546,16 +1546,23 @@ define(['angular'], function (angular) {
                                     daovoice('update');
                                 }
                                 inputDaovoice();
+                            }, function (err) {
+                                console.log(err.data,'weafwaef')
+                                if (err.data.code == 403) {
+                                  $rootScope.user=false;
+                                  $rootScope.loding = false;
+                                    Alert.open('请重新登录', '用户名或密码不正确')
+                                }
                             });
 
                         }).error(function (data) {
-                            //console.log(data);
+                           // console.log(data,'00000000');
                             //if (data.code == 401) {
                             //  //$rootScope.user=false;
                             //  $rootScope.loding = false;
                             //}
                             $state.go('login');
-                            console.log('登录报错', data);
+                           // console.log('登录报错', data);
                             if (data.code === 1401) {
                                 $rootScope.loding = false;
                                 Alert.open('请重新登录', '用户名或密码不正确');
