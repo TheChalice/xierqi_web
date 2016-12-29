@@ -117,10 +117,12 @@ angular.module('console.create_constantly_volume', [
             }, function (err) {
                 console.log(err.data.code);
                 $scope.loaded = false;
-                if (err.data.code === 3307 || err.data.code === 3308 ) {
-                    Tip.open('提示', '用户名重复,请重新输入。','',true);
-                }
-              else  if (err.data.code === 3316) {
+              //  if (err.data.code === 3307 || err.data.code === 3308 ) {
+              //      Tip.open('提示', '用户名重复,请重新输入。','',true);
+              //  }
+              //else
+              //
+              if (err.data.code === 3316) {
 
                     Tip.open('提示', '账户可用余额不足。', '充值', true).then(function () {
                         $state.go('console.pay');
