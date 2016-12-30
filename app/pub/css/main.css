@@ -62,7 +62,7 @@ a {
 }
 
 .btn-green:hover {
-    background-color: #469450;color:#fff;
+    background-color: #469450;color:#fff!important;
 }
 
 .btn-gray {
