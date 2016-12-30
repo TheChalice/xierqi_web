@@ -237,7 +237,7 @@ angular.module('console.backing_service', [
                                 }
                             }
 
-                            console.log('$scope.myservice', $scope.myservice);
+                            console.log('$scope.myservice1', $scope.myservice);
 
                             $scope.copymyservice = angular.copy($scope.myservice)
                             var bciarr = angular.copy(res.items)
@@ -372,9 +372,10 @@ angular.module('console.backing_service', [
                 $scope.myservice = [];
                 angular.forEach($scope.cation, function (cat, i) {
                     $scope.myservice.push({item: [], name: cat})
-                    angular.forEach(arr, function (item, k) {
+                    $scope.myservice[i].id = i;//加id名称
+                    angular.forEach(arr, function (item,k) {
                         if (item.type === cat) {
-                            $scope.myservice[i].item.push(item)
+                            $scope.myservice[i].item.push(item);
                         }
                     })
                 })
@@ -883,14 +884,15 @@ angular.module('console.backing_service', [
             $scope.delBing = function (idx, id) {
 
 
-                console.log(id);
+                console.log(id,"11111000");
+                console.log('$scope.myservice2', $scope.myservice);
                 if (id === 'ins') {
                     insid = 'ture'
                     var name = $scope.insservice[idx].metadata.name;
                     var bindings = [];
                     var binds = $scope.insservice[idx].spec.binding || [];
                 } else if (id || id === 0) {
-                    //alert(1);
+
                     id = id.toString();
 
                     newid = id;
@@ -995,6 +997,7 @@ angular.module('console.backing_service', [
                 //if (id) {
                 //    id=id.toString();
                 //}
+
                 if (id === 'ins') {
                     insid = 'ture'
                     var bindings = $scope.insservice[idx].spec.binding || [];
@@ -1006,7 +1009,6 @@ angular.module('console.backing_service', [
                     });
                 } else if (id || id === 0) {
                     id = id.toString();
-
                     newid = id;
                     var bindings = $scope.myservice[id].item[idx].spec.binding || [];
                     ServiceSelect.open(bindings).then(function (res) {
