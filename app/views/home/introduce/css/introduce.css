@@ -220,7 +220,8 @@ ul,li,ol{list-style:none;margin:0;padding:0;}
 
 @media (min-width: 1920px) {
     .page6_row{height: 38%; text-align: center}
-    .page6_tit{font-size:46px;margin-top:5%}
+    .page6_tit{font-size:46px;margin-top:10%}
     #navBar{top:28%;}
+    .page6_row{height: 50%; text-align: center}
 
 }
