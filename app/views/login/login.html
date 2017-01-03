@@ -45,6 +45,7 @@
                     <span class="require">密码</span>&nbsp;&nbsp;
                     <small ng-if="frm.password.$dirty && frm.password.$invalid" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;密码不能为空</small>
                 </p>
+                <input name="password" style="font-size: 12px;letter-spacing:6px;" autocomplete="off" type="password" class="form-control loginfocus"  ng-model="credentials.password" required  ng-keydown="enterLogin($event)" tabindex="2" >
                 <input name="password" style="font-size: 12px;letter-spacing:6px;" autocomplete="off" type="password" class="form-control loginfocus"  ng-model="credentials.password" tabindex="2" required>
                 <div class="yanzheng" ng-if="loginyanzheng">
                     <p class="modal-msg text-left" style="margin: 20px 0 3px 0;font-size:12px;color:#5a6378;">
