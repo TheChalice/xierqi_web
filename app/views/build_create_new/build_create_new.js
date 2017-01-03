@@ -10,6 +10,7 @@ angular.module('console.build_create_new', [
             $scope.labrunning = false;
             $scope.runninghub = false;
 
+
             $scope.buildConfig = {
                 metadata: {
                     name: "",
@@ -134,19 +135,20 @@ angular.module('console.build_create_new', [
                     }
                 }
             })
+            //String.prototype.trim=function(){
+            //    return this;
+            //};
             $scope.$watch('buildConfig.spec.source.git.uri', function (n, o) {
                 if (n === o) {
                     return
                 }
                 if (n) {
+                     $scope.buildConfig.spec.source.git.uri=n.replace(/(^\s*)|(\s*$)/g, "");
                     //console.log(n);
                     $scope.repoerr = false;
                 }
 
             })
-
-
-
 
 
             $scope.$watch('buildConfig.metadata.name', function (n, o) {
