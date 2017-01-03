@@ -122,7 +122,6 @@ angular.module('home.login', [])
                 }
             })
             $log.info('login');
-
             $scope.login = function () {
                 if ($stateParams.type) {
                     AuthService.login($rootScope.credentials, $stateParams);
@@ -130,7 +129,19 @@ angular.module('home.login', [])
                     AuthService.login($rootScope.credentials);
                 }
 
+
             };
+            $scope.enterLogin=function(e){
+                if (e.keyCode==13) {
+                    $('input').blur();
+                    if ($stateParams.type) {
+                        AuthService.login($rootScope.credentials, $stateParams);
+                    } else {
+                        AuthService.login($rootScope.credentials);
+                    }
+
+                }
+            }
             $scope.regist = function () {
                 //ModalRegist.open();
                 $state.go('regist');
