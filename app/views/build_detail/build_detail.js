@@ -551,7 +551,7 @@ angular.module('console.build.detail', [
                     return;
                 }
                 Confirm.open(title, msg, tip, 'recycle').then(function () {
-                    Build.remove({namespace: $rootScope.namespace, name: name}, function () {
+                    Build.remove({namespace: $rootScope.namespace, name: name,region:$rootScope.region}, function () {
                         $log.info("deleted");
                         for (var i = 0; i < $scope.databuild.items.length; i++) {
                             if (name == $scope.databuild.items[i].metadata.name) {
