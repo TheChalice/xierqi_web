@@ -43,10 +43,16 @@ angular.module('console.create_constantly_volume', [
             }
         }
         //type=persistent_volume
+        console.time('time');
+        $scope.getPlan=true;
         market.get({region:$rootScope.region,type:'volume'}, function (data) {
-            console.log(data.plans);
-            $scope.plans = data.plans
+            $scope.plans = data.plans;
+            console.log(data.plans,'plan');
+            console.timeEnd('time');
+            $scope.getPlan=false;
+
         })
+
         $scope.$watch('slider.value', function (n, o) {
             if (n == o) {
                 return
@@ -68,7 +74,14 @@ angular.module('console.create_constantly_volume', [
         })
 
         $scope.creat = function () {
+            market.get({region:$rootScope.region,type:'volume'}, function (data) {
+                console.log(data.plans);
+                $scope.plans = data.plans;
+
+
+            })
             var r =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
+
 
             if ($scope.volume.name==='') {
                 //alert(1)
@@ -84,17 +97,20 @@ angular.module('console.create_constantly_volume', [
                 $scope.grid.num=true;
                 return
             }
-            $scope.volume.size=$scope.slider.value
+            $scope.volume.size=$scope.slider.value;
+           // console.log($scope.plans,'plans');
 
             angular.forEach($scope.plans, function (plan,i) {
-                console.log($scope.slider.value,plan.plan_level*10);
+                //console.log($scope.slider.value,plan.plan_level*10);
+
                 if ($scope.slider.value === plan.plan_level*10) {
                     $scope.plan_id = plan.plan_id;
+                    console.log(plan.plan_id,'id')
                 }
             })
 
             $scope.loaded = true;
-            console.log($scope.plan_id);
+            //console.log($scope.plan_id);
             checkout.create({
                 drytry:0,
                 plan_id: $scope.plan_id,

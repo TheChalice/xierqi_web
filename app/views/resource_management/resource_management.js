@@ -94,7 +94,7 @@ angular.module('console.resource_management', [
                             }
                             //物理刷新不重启ws
                             $scope.persistentdata = res.items;
-
+                           // console.log($scope.persistentdata);
                             //console.log('chijiu', res);
                         }else {
                             $scope.persistentdata=[];
@@ -126,7 +126,7 @@ angular.module('console.resource_management', [
                 }, function (res) {
                     var data = JSON.parse(res.data);
                     updatePC(data);
-                    //console.log(data);
+                    //console.log(data,'创建卷，成功');
                 }, function () {
                     $log.info("webSocket start");
                 }, function () {
@@ -155,14 +155,18 @@ angular.module('console.resource_management', [
                 if (data.type == 'ADDED') {
                     //$scope.rcs.items.push(data.object);
                 } else if (data.type == "MODIFIED") {
-                    //console.log(data);
-                    angular.forEach($scope.persistents.items, function (item, i) {
+                    //console.log(data);$scope.persistents.items
+                   // console.log('$scope.persistentdata', $scope.persistentdata);
+                   // console.log('data.object.metadata.name', data.object);
+
+                    angular.forEach($scope.persistentdata, function (item, i) {
 
                         if (item.metadata.name == data.object.metadata.name) {
 
-                            $scope.persistents.items[i] = data.object
+                            $scope.persistentdata[i] = data.object
                             //$scope.persistents.items[i].status.phase=data.object.status.phase
                             //$scope.persistents[i]=data.object;
+                            rmrefresh(1)
                             $scope.$apply();
                         }
                     })
@@ -232,7 +236,7 @@ angular.module('console.resource_management', [
                 $scope.configitems = $scope.configdata.slice(skip, skip + $scope.grid.size)||[];
 
             };
-            console.log('ewfwefwae',$scope.configdata);
+            //console.log('ewfwefwae',$scope.configdata);
             $scope.$on('$destroy', function () {
                 Ws.clear();
             });
