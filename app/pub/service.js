@@ -1547,8 +1547,8 @@ define(['angular'], function (angular) {
                                 }
                                 inputDaovoice();
                             }, function (err) {
-                                console.log(err.data,'weafwaef')
-                                if (err.data.code == 403) {
+                                //console.log(err.data,'weafwaef')
+                                if (err.data.code == 401) {
                                   $rootScope.user=false;
                                   $rootScope.loding = false;
                                     Alert.open('请重新登录', '用户名或密码不正确')
