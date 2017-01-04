@@ -18,7 +18,7 @@ angular.module('console.service.detail', [
                     return
                 }
                 if (n) {
-                    if (parseInt(n) > 10 || parseInt(n) < 0) {
+                    if (parseInt(n) > 10 || parseInt(n) < 1) {
                         $scope.service_noticename = true
                     }else {
                         $scope.service_noticename = false
@@ -2329,8 +2329,6 @@ angular.module('console.service.detail', [
 //点击更新
             $scope.updateDc = function () {
                 if (! $scope.service_noticename) {
-
-
                     // console.log('点击更新');
                     angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
                         if ($scope.quota.doquota) {
