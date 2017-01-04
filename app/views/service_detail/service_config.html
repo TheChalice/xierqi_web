@@ -713,10 +713,10 @@
         <div class="col-md-10">
             <label style="font-size: 12px; font-weight: normal;">POD数量&nbsp;&nbsp;&nbsp;&nbsp;</label>
             <input ng-model="dc.spec.replicas" name="cdm" min="1" max="10" style="width: 80px;display: inline-block;"
-                   type="text" class="form-control">
+                   type="text" class="form-control" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();">
             <br/>
             <small ng-if="service_noticename" class="fa fa-exclamation-circle"
-                   style="font-size: 12px;color: #ec6941; margin-top: 10px">&nbsp;请在高级设置中设置数量不要超过10
+                   style="font-size: 12px;color: #ec6941; margin-top: 10px">&nbsp;请输入1-10的数字
             </small>
             <hr>
 
