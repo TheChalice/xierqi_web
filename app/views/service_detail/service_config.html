@@ -714,7 +714,12 @@
             <label style="font-size: 12px; font-weight: normal;">POD数量&nbsp;&nbsp;&nbsp;&nbsp;</label>
             <input ng-model="dc.spec.replicas" name="cdm" min="1" max="10" style="width: 80px;display: inline-block;"
                    type="text" class="form-control">
+            <br/>
+            <small ng-if="service_noticename" class="fa fa-exclamation-circle"
+                   style="font-size: 12px;color: #ec6941; margin-top: 10px">&nbsp;请在高级设置中设置数量不要超过10
+            </small>
             <hr>
+
             <div ng-if="false">
                 <label style="font-size: 12px; font-weight: normal;">自动伸缩&nbsp;&nbsp;&nbsp;&nbsp;</label>
                 <c-checkbox checked="rubustCheck"></c-checkbox>
