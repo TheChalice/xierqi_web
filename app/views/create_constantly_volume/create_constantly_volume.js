@@ -44,10 +44,12 @@ angular.module('console.create_constantly_volume', [
         }
         //type=persistent_volume
         console.time('time');
+        $scope.getPlan=true;
         market.get({region:$rootScope.region,type:'volume'}, function (data) {
             $scope.plans = data.plans;
             console.log(data.plans,'plan');
-            console.timeEnd('time')
+            console.timeEnd('time');
+            $scope.getPlan=false;
 
         })
 
@@ -96,7 +98,7 @@ angular.module('console.create_constantly_volume', [
                 return
             }
             $scope.volume.size=$scope.slider.value;
-            console.log($scope.plans,'plans');
+           // console.log($scope.plans,'plans');
 
             angular.forEach($scope.plans, function (plan,i) {
                 //console.log($scope.slider.value,plan.plan_level*10);
@@ -108,7 +110,7 @@ angular.module('console.create_constantly_volume', [
             })
 
             $scope.loaded = true;
-            console.log($scope.plan_id);
+            //console.log($scope.plan_id);
             checkout.create({
                 drytry:0,
                 plan_id: $scope.plan_id,
