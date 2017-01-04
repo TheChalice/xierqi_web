@@ -70,7 +70,7 @@ angular.module('console.apply_instance', [
                 if ($scope.secrets.metadata) {
 
                     $scope.grid.timeout = false;
-                    var r = /^[a-z]+$/
+                    var r = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
                     console.log($scope.name);
                     if ($scope.name==='') {
                         //alert(1)
