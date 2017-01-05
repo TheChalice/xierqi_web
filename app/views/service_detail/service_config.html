@@ -712,7 +712,7 @@
         </div>
         <div class="col-md-10">
             <label style="font-size: 12px; font-weight: normal;">POD数量&nbsp;&nbsp;&nbsp;&nbsp;</label>
-            <input ng-model="dc.spec.replicas" name="cdm" min="1" max="10" style="width: 80px;display: inline-block;"
+            <input ng-model="dc.spec.replicas" name="cdm" style="width: 80px;display: inline-block;"
                    type="text" class="form-control" onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9]+/,'');}).call(this)" onblur="this.v();">
             <br/>
             <small ng-if="service_noticename" class="fa fa-exclamation-circle"

@@ -10,8 +10,12 @@
                 </div>
                 <div class="col-md-10">
                     <label style="font-size: 12px; font-weight: normal;">POD数量&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                    <input ng-model="dc.spec.replicas" min="0" max="10" style="width: 80px;display: inline-block;"
+                    <input ng-model="dc.spec.replicas" style="width: 80px;display: inline-block;"
                            type="number" class="form-control">
+                    <br/>
+                    <small ng-if="service_noticename" class="fa fa-exclamation-circle"
+                           style="font-size: 12px;color: #ec6941; margin-top: 10px">&nbsp;请输入1-10的数字
+                    </small>
                     <hr>
                     <div ng-if="false">
                         <label style="font-size: 12px; font-weight: normal;">自动伸缩&nbsp;&nbsp;&nbsp;&nbsp;</label>
