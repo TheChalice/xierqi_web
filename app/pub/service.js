@@ -782,7 +782,7 @@ define(['angular'], function (angular) {
 
                             var loadpersistent = function () {
 
-                                persistent.get({namespace: $rootScope.namespace}, function (res) {
+                                persistent.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
                                     if (res.items) {
                                         //console.log(res);
                                         $scope.persistentitem = [];
