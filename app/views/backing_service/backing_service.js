@@ -884,8 +884,8 @@ angular.module('console.backing_service', [
             $scope.delBing = function (idx, id) {
 
 
-                console.log(id,"11111000");
-                console.log('$scope.myservice2', $scope.myservice);
+                //console.log(id,"11111000");
+                //console.log('$scope.myservice2', $scope.myservice);
                 if (id === 'ins') {
                     insid = 'ture'
                     var name = $scope.insservice[idx].metadata.name;
@@ -959,25 +959,29 @@ angular.module('console.backing_service', [
             };
             //我的后端服务绑定一个服务
             var bindService = function (name, dcs, idx, id) {
-                var bindObj = {
-                    metadata: {
-                        name: name,
-                        annotations: {
-                            "dadafoundry.io/create-by": $rootScope.user.metadata.name
-                        }
-                    },
-                    resourceName: '',
-                    bindResourceVersion: '',
-                    bindKind: 'DeploymentConfig'
-                };
-                for (var i = 0; i < dcs.length; i++) {
-                    bindObj.resourceName = dcs[i].metadata.name;
+                //var bindObj =;
+                //console.log('name', name);
+                //console.log('dcs', dcs);
+                angular.forEach(dcs, function (dc,i) {
+                    //bindObj.resourceName = ;
+
                     BackingServiceInstanceBd.create({
                             namespace: $rootScope.namespace,
                             name: name,
                             region: $rootScope.region
-                        }, bindObj,
+                        },  {
+                            metadata: {
+                                name: name,
+                                annotations: {
+                                    "dadafoundry.io/create-by": $rootScope.user.metadata.name
+                                }
+                            },
+                            resourceName: dc.metadata.name,
+                            bindResourceVersion: '',
+                            bindKind: 'DeploymentConfig'
+                        },
                         function (res) {
+                            Toast.open('正在绑定中,请稍等');
                         }, function (res) {
                             //todo 错误处理
                             // Toast.open('操作失败');
@@ -990,7 +994,8 @@ angular.module('console.backing_service', [
                             $log.info("bind services " +
                                 "err", res);
                         });
-                }
+                })
+
             };
             $scope.bindModal = function (idx, id) {
 
