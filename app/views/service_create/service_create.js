@@ -21,6 +21,23 @@ angular.module('console.service.create', [
 
                 //console.log($('#sevicecreateinp'));
             });
+
+
+            //pod数量验证
+            $scope.service_noticename = false;
+            $scope.$watch('dc.spec.replicas', function (n,o) {
+                if (n === o) {
+                    return
+                }
+                if (n) {
+                    if (parseInt(n) > 10 || parseInt(n) < 1) {
+                        $scope.service_noticename = true
+                    }else {
+                        $scope.service_noticename = false
+                    }
+                }
+            })
+
             var r = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
             $scope.checkEnv = false;
 
@@ -1698,6 +1715,9 @@ angular.module('console.service.create', [
                 //  dc.spec.replicas = 0;
                 //}
                 //console.log(prepareport());
+
+
+
                 if (prepareport() == false) {
                     return;
                 }
