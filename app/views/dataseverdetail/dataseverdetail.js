@@ -84,7 +84,7 @@ angular.module('console.apply_instance', [
                     $scope.secrets.metadata.name = $scope.name
 
 
-                    instance.create({id: $stateParams.name}, function (data) {
+                    instance.create({id: $stateParams.name,region:$rootScope.region}, function (data) {
                         console.log('data', data.data);
 
                         angular.forEach(data.data, function (key, i) {
