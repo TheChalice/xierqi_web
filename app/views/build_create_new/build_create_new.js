@@ -298,17 +298,27 @@ angular.module('console.build_create_new', [
                     if (data.status == 400) {
                         var tokens = Cookie.get('df_access_token');
                         var tokenarr = tokens.split(',');
+                        var regions = Cookie.get('region');
                         if (data.data.code == 1401) {
                             // var authurl = data.data.msg + "?namespace=" + $rootScope.namespace
                             // + "%26bearer=" + Cookie.get("df_access_token")
                             // + "%26redirect_url=" + window.location.href ;
-                            var authurl = "namespace=" + $rootScope.namespace
-                                + "&bearer=" + tokenarr[0]
-                                + "&redirect_url=" + window.location.href;
-                            $log.info(authurl);
-                            if ($scope.grid.isfirst == 2) {
-                                window.location = data.data.msg + "?" + encodeURIComponent(authurl);
+                            //var tokenarr = tokens.split(',');
+                            //var region = regions.split('-')[2];
+                            if (tokens && regions) {
+                                var tokenarr = tokens.split(',');
+                                var region = regions.split('-')[2];
+
+                                var authurl = "namespace=" + $rootScope.namespace
+                                    + "&bearer=" + tokenarr[region - 1]
+                                    + "&region=" + $rootScope.region
+                                    + "&redirect_url=" + window.location.href;
+                                $log.info(authurl);
+                                if ($scope.grid.isfirst == 2) {
+                                    window.location = data.data.msg + "?" + encodeURIComponent(authurl);
+                                }
                             }
+
                         }
                     } else {
                         if (data.data && data.data.msg) {
