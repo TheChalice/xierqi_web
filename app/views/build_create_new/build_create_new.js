@@ -345,7 +345,10 @@ angular.module('console.build_create_new', [
                     "host": ht,
                     "project_id": pjId
                 }
-                $http.post('/v1/repos/gitlab/authorize/deploy', objJson, {headers: {'namespace': $rootScope.namespace}}).success(function (data) {
+                $http.post('/v1/repos/gitlab/authorize/deploy?region='+$rootScope.region,
+                    objJson,
+                    {headers: {'namespace': $rootScope.namespace}}
+                ).success(function (data) {
                     $scope.grid.labsecret = data.msg.secret;
                     createBuildConfig(data.msg.secret)
                 })
