@@ -74,14 +74,8 @@ angular.module('console.create_constantly_volume', [
         })
 
         $scope.creat = function () {
-            market.get({region:$rootScope.region,type:'volume'}, function (data) {
-                console.log(data.plans);
-                $scope.plans = data.plans;
 
-
-            })
             var r =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
-
 
             if ($scope.volume.name==='') {
                 //alert(1)
