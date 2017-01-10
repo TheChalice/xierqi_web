@@ -91,15 +91,15 @@ angular.module('console.user', ['kubernetesUI',
                 data.items.sort(function (x, y) {
                     return x.sortname > y.sortname ? 1 : -1;
                 });
-                angular.forEach(data.items, function (project, i) {
-                    if (/^[\u4e00-\u9fa5]/i.test(project.metadata.annotations['openshift.io/display-name'])) {
-                        //console.log(project.metadata.annotations['openshift.io/display-name']);
-                        //data.items.push(project);
-                        data.items.unshift(project);
-
-                        data.items.splice(i + 1, 1);
-                    }
-                });
+                //angular.forEach(data.items, function (project, i) {
+                //    if (/^[\u4e00-\u9fa5]/i.test(project.metadata.annotations['openshift.io/display-name'])) {
+                //        //console.log(project.metadata.annotations['openshift.io/display-name']);
+                //        //data.items.push(project);
+                //        data.items.unshift(project);
+                //
+                //        data.items.splice(i + 1, 1);
+                //    }
+                //});
                 $rootScope.projects = data.items;
                 //console.log(data.items);
 
@@ -110,7 +110,7 @@ angular.module('console.user', ['kubernetesUI',
             });
         }
 
-        loadProject()
+        loadProject();
         //创建组织
         $scope.addOrg = function () {
             Addmodal.open('创建组织', '组织名称', '', $stateParams.useorg, 'org').then(function (res) {
@@ -124,6 +124,7 @@ angular.module('console.user', ['kubernetesUI',
                 //})
                 //({useorg:org.id})
                 //loadOrg();
+               // console.log(res);
                 loadProject();
                 //$state.go('console.org', {useorg:res.id})
                 //console.log('zuzhi',res);

@@ -4,8 +4,8 @@ angular.module('console.build_create_new', [
             files: []
         }
     ])
-    .controller('BuildcCtrl', ['randomWord', '$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch', 'labOwner', 'psgitlab', 'laborgs', 'labBranch', 'ImageStream', 'BuildConfig', 'Alert', '$http', 'Cookie', '$base64', 'secretskey',
-        function (randomWord, $rootScope, $scope, $state, $log, Owner, Org, Branch, labOwner, psgitlab, laborgs, labBranch, ImageStream, BuildConfig, Alert, $http, Cookie, $base64, secretskey) {
+    .controller('BuildcCtrl', ['Toast','randomWord', '$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch', 'labOwner', 'psgitlab', 'laborgs', 'labBranch', 'ImageStream', 'BuildConfig', 'Alert', '$http', 'Cookie', '$base64', 'secretskey',
+        function (Toast,randomWord, $rootScope, $scope, $state, $log, Owner, Org, Branch, labOwner, psgitlab, laborgs, labBranch, ImageStream, BuildConfig, Alert, $http, Cookie, $base64, secretskey) {
             $('input[ng-model="buildConfig.metadata.name"]').focus();
             $scope.labrunning = false;
             $scope.runninghub = false;
@@ -282,7 +282,7 @@ angular.module('console.build_create_new', [
 
             $scope.loadOwner = function (cache) {
                 //console.log(cache);
-                Owner.query({namespace: $rootScope.namespace, cache: cache}, function (res) {
+                Owner.query({namespace: $rootScope.namespace, cache: cache,region: $rootScope.region}, function (res) {
                     $log.info("owner", res);
                     $scope.owner = res.msg;
                     hubobj = res.msg.infos[0];
@@ -321,7 +321,7 @@ angular.module('console.build_create_new', [
             };
 
             $scope.loadOrg = function (cache) {
-                Org.get({cache: cache}, function (data) {
+                Org.get({cache: cache,region: $rootScope.region}, function (data) {
                     $log.info("org", data);
                     $scope.usernames = [];
                     $scope.usernames[0] = hubobj;
@@ -404,7 +404,7 @@ angular.module('console.build_create_new', [
                     var selectUsername = $scope.usernames[thisindex].login;
                     var selectRepo = $scope.usernames[thisindex].repos[idx].name;
                     $log.info("user and repos", selectUsername + selectRepo);
-                    Branch.get({users: selectUsername, repos: selectRepo}, function (info) {
+                    Branch.get({users: selectUsername, repos: selectRepo,region: $rootScope.region}, function (info) {
                         $log.info("branch", info);
                         $scope.branch = info.msg;
                     });
@@ -540,7 +540,7 @@ angular.module('console.build_create_new', [
 
                 if (!click) {
                     $scope.labrunning = true;
-                    labOwner.get({cache: 'false'}, function (data) {
+                    labOwner.get({cache: 'false',region: $rootScope.region}, function (data) {
                         //$log.info("labOwner", data)
                         for (var i = 0; i < data.msg.infos.length; i++) {
                             thisowner = data.msg.infos[0];
@@ -550,7 +550,7 @@ angular.module('console.build_create_new', [
                             }
                         }
                         //if (!click) {
-                        laborgs.get({cache: 'false'}, function (data) {
+                        laborgs.get({cache: 'false',region: $rootScope.region}, function (data) {
                             $scope.labHost = data.msg.host;
                             $scope.labrunning = false;
                             $scope.labusername = [];
@@ -584,7 +584,7 @@ angular.module('console.build_create_new', [
                         }
                     });
                 } else {
-                    labOwner.get({}, function (data) {
+                    labOwner.get({region: $rootScope.region}, function (data) {
                         //$log.info("labOwner", data)
                         for (var i = 0; i < data.msg.infos.length; i++) {
                             thisowner = data.msg.infos[0];
@@ -594,7 +594,7 @@ angular.module('console.build_create_new', [
                             }
                         }
                         //if (!click) {
-                        laborgs.get({}, function (data) {
+                        laborgs.get({region: $rootScope.region}, function (data) {
                             $scope.labHost = data.msg.host;
                             $scope.labusername = [];
                             //console.log("thisowner0-0-0-0-",thisowner);
@@ -630,7 +630,7 @@ angular.module('console.build_create_new', [
             };
 
             var loadlaborgs = function () {
-                laborgs.get({}, function (data) {
+                laborgs.get({region: $rootScope.region}, function (data) {
                     $scope.labHost = data.msg.host;
                     $scope.labusername = [];
                     //console.log("thisowner0-0-0-0-",thisowner);
@@ -685,7 +685,7 @@ angular.module('console.build_create_new', [
             $scope.selectLabProject = function (idx, chooose) {
                 //console.log('_+_+_+_+_+_+_+', $scope.labobjs[idx]);
                 var labId = $scope.labobjs[idx].id;
-                labBranch.get({repo: labId}, function (data) {
+                labBranch.get({repo: labId,region: $rootScope.region}, function (data) {
                     if ($scope.choooseProject && $scope.grid.labproject == idx) {
                         $scope.grid.labproject = null;
                         $scope.choooseProject = null;
@@ -773,6 +773,7 @@ angular.module('console.build_create_new', [
                     return
                 }
 
+
                 var imageStream = {
                     metadata: {
                         annotations: {
@@ -794,6 +795,7 @@ angular.module('console.build_create_new', [
                 },function(res){
                     $log.info("err", res);
                     if (res.data.code == 409) {
+                        Toast.open('代码构建名称重复,请重新输入');
                         if($scope.grid.labcon == true){
                             getlabsecret($scope.labHost,$scope.labobjs[$scope.grid.labproject].id);
                         }else if($scope.grid.ishide == false){

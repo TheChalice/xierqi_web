@@ -11,14 +11,14 @@ angular.module('console.service.detail', [
     ])
     .controller('ServiceDetailCtrl', ['$sce', 'ansi_ups', '$http', '$state', '$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamTag', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal', 'Secret', 'ImageSelect', 'Service', 'BackingServiceInstanceBd', 'ImageService', 'serviceaccounts', 'ChooseSecret', '$base64', 'secretskey',
         function ($sce, ansi_ups, $http, $state, $rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamTag, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret, ImageSelect, Service, BackingServiceInstanceBd, ImageService, serviceaccounts, ChooseSecret, $base64, secretskey) {
-
+            //pod数量验证
             $scope.service_noticename = false;
             $scope.$watch('dc.spec.replicas', function (n,o) {
                 if (n === o) {
                     return
                 }
                 if (n) {
-                    if (parseInt(n) > 10 || parseInt(n) < 0) {
+                    if (parseInt(n) > 10 || parseInt(n) < 1) {
                         $scope.service_noticename = true
                     }else {
                         $scope.service_noticename = false
@@ -2329,8 +2329,6 @@ angular.module('console.service.detail', [
 //点击更新
             $scope.updateDc = function () {
                 if (! $scope.service_noticename) {
-
-
                     // console.log('点击更新');
                     angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
                         if ($scope.quota.doquota) {
