@@ -1631,7 +1631,7 @@ define(['angular'], function (angular) {
                         //if (/^\/lapi\/v1\/orgs/.test(config.url)) {
                         //    console.log(config.url);
                         //}
-                        if (/^\/lapi\/v1\/orgs/.test(config.url) || /^\/oapi/.test(config.url) || /^\/api/.test(config.url)||/^\/payment/.test(config.url)) {
+                        if (/^\/lapi\/v1\/orgs/.test(config.url) || /^\/oapi/.test(config.url) || /^\/api/.test(config.url)||/^\/payment/.test(config.url)||/^\/v1\/repos/.test(config.url)) {
                             token = tokenarr[region-1];
                         }else {
                             token = tokenarr[0];

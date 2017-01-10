@@ -528,14 +528,17 @@ angular.module('console.backing_service', [
                         if ($scope.myservice[newid]) {
 
                             angular.forEach($scope.myservice[newid].item, function (item, i) {
-                                if (item.spec.binding.length !== data.object.spec.binding.length) {
-                                    if (item.metadata.name == data.object.metadata.name) {
-                                        data.object.show = item.show;
+                                if (item.spec.binding && data.object.spec.binding) {
+                                    if (item.spec.binding.length !== data.object.spec.binding.length) {
+                                        if (item.metadata.name == data.object.metadata.name) {
+                                            data.object.show = item.show;
 
-                                        $scope.myservice[newid].item[i] = data.object;
-                                        $scope.$apply();
+                                            $scope.myservice[newid].item[i] = data.object;
+                                            $scope.$apply();
+                                        }
                                     }
                                 }
+
 
                             })
                             // console.log('$scope.myservice[newid].item',$scope.myservice[newid].item.length)
