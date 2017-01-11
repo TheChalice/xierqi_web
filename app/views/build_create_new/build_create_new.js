@@ -298,17 +298,27 @@ angular.module('console.build_create_new', [
                     if (data.status == 400) {
                         var tokens = Cookie.get('df_access_token');
                         var tokenarr = tokens.split(',');
+                        var regions = Cookie.get('region');
                         if (data.data.code == 1401) {
                             // var authurl = data.data.msg + "?namespace=" + $rootScope.namespace
                             // + "%26bearer=" + Cookie.get("df_access_token")
                             // + "%26redirect_url=" + window.location.href ;
-                            var authurl = "namespace=" + $rootScope.namespace
-                                + "&bearer=" + tokenarr[0]
-                                + "&redirect_url=" + window.location.href;
-                            $log.info(authurl);
-                            if ($scope.grid.isfirst == 2) {
-                                window.location = data.data.msg + "?" + encodeURIComponent(authurl);
+                            //var tokenarr = tokens.split(',');
+                            //var region = regions.split('-')[2];
+                            if (tokens && regions) {
+                                var tokenarr = tokens.split(',');
+                                var region = regions.split('-')[2];
+
+                                var authurl = "namespace=" + $rootScope.namespace
+                                    + "&bearer=" + tokenarr[region - 1]
+                                    + "&region=" + $rootScope.region
+                                    + "&redirect_url=" + window.location.href;
+                                $log.info(authurl);
+                                if ($scope.grid.isfirst == 2) {
+                                    window.location = data.data.msg + "?" + encodeURIComponent(authurl);
+                                }
                             }
+
                         }
                     } else {
                         if (data.data && data.data.msg) {
@@ -347,7 +357,10 @@ angular.module('console.build_create_new', [
                     "host": ht,
                     "project_id": pjId
                 }
-                $http.post('/v1/repos/gitlab/authorize/deploy', objJson, {headers: {'namespace': $rootScope.namespace}}).success(function (data) {
+                $http.post('/v1/repos/gitlab/authorize/deploy?region='+$rootScope.region,
+                    objJson,
+                    {headers: {'namespace': $rootScope.namespace}}
+                ).success(function (data) {
                     $scope.grid.labsecret = data.msg.secret;
                     createBuildConfig(data.msg.secret)
                 })
@@ -478,16 +491,14 @@ angular.module('console.build_create_new', [
             //$scope.search= function (txt) {
             //    //reposobj
             //}
-
-            $scope.$watch('txt', function (newVal, oldVal) {
-                if (newVal != oldVal && $scope.reposobj) {
+            $scope.search2=function(value){
+                if ($scope.reposobj) {
                     //console.log($scope.githubarr,$scope.reposobj,newVal);
-                    newVal = newVal.replace(/\\/g);
+                    value = value.replace(/\\/g);
                     var arr = [];
                     angular.forEach($scope.githubarr, function (image) {
-                        if (RegExp(newVal).test(image.name)) {
+                        if (RegExp(value).test(image.name)) {
                             //console.log(image.name);
-
                             arr.push(image)
                         }
                     });
@@ -505,15 +516,42 @@ angular.module('console.build_create_new', [
                     $scope.reposobj = arr;
                     $scope.usernames[thisindex].repos = arr;
                 }
-            });
-
-            $scope.$watch('text', function (newVal, oldVal) {
-                if (newVal != oldVal && $scope.labobjs) {
-                    //console.log($scope.labarr,$scope.labobjs,newVal);
-                    newVal = newVal.replace(/\\/g);
+            }
+            //$scope.$watch('txt', function (newVal, oldVal) {
+            //    if (newVal != oldVal && $scope.reposobj) {
+            //        //console.log($scope.githubarr,$scope.reposobj,newVal);
+            //        newVal = newVal.replace(/\\/g);
+            //        var arr = [];
+            //        angular.forEach($scope.githubarr, function (image) {
+            //            if (RegExp(newVal).test(image.name)) {
+            //                //console.log(image.name);
+            //
+            //                arr.push(image)
+            //            }
+            //        });
+            //        //console.log(arr);
+            //        //$scope.grid.project = null;
+            //        //console.log($scope.grid.labproject, $scope.choooseProject, $scope.grid.labbranch);
+            //        $scope.grid.labproject = null;
+            //        $scope.choooseProject = null;
+            //        $scope.grid.labbranch = null;
+            //        //$scope.labBranchData.msg = null;
+            //        $scope.grid.project = null;
+            //        $scope.chooseProject = null;
+            //        $scope.branch = null;
+            //        $scope.grid.branch = null;
+            //        $scope.reposobj = arr;
+            //        $scope.usernames[thisindex].repos = arr;
+            //    }
+            //});
+            $scope.search = function(value){
+               // console.log('test',value);
+                if ( $scope.labobjs) {
+                    //console.log($scope.labarr,$scope.labobjs);
+                    value = value.replace(/\\/g);
                     var arr = [];
                     angular.forEach($scope.labarr, function (image) {
-                        if (RegExp(newVal).test(image.name)) {
+                        if (RegExp(value).test(image.name)) {
                             //console.log(image.name);
                             arr.push(image);
 
@@ -531,7 +569,36 @@ angular.module('console.build_create_new', [
                     $scope.grid.branch = null;
                     $scope.labobjs = arr;
                 }
-            });
+            }
+            //$scope.$watch('text1', function (newVal, oldVal) {
+            //    if (newVal===oldVal) {
+            //        return
+            //    }
+            //    console.log('test`````')
+            //    if (newVal != oldVal && $scope.labobjs) {
+            //        //console.log($scope.labarr,$scope.labobjs,newVal);
+            //        newVal = newVal.replace(/\\/g);
+            //        var arr = [];
+            //        angular.forEach($scope.labarr, function (image) {
+            //            if (RegExp(newVal).test(image.name)) {
+            //                //console.log(image.name);
+            //                arr.push(image);
+            //
+            //            }
+            //        });
+            //        //console.log(arr);
+            //        //console.log($scope.grid.labproject, $scope.choooseProject, $scope.grid.labbranch);
+            //        $scope.grid.labproject = null;
+            //        $scope.choooseProject = null;
+            //        $scope.grid.labbranch = null;
+            //        //$scope.labBranchData.msg = null;
+            //        $scope.grid.project = null;
+            //        $scope.chooseProject = null;
+            //        $scope.branch = null;
+            //        $scope.grid.branch = null;
+            //        $scope.labobjs = arr;
+            //    }
+            //});
 
             $scope.labowner = null;
 

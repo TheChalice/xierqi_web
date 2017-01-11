@@ -249,7 +249,7 @@ angular.module('console.build.detail', [
             var checkWebStatus = function () {
                 var host = $scope.data.spec.source.git.uri;
                 if (getSourceHost(host) === 'github.com') {
-                    WebhookGitget.get({namespace: $rootScope.namespace, build: $stateParams.name}, function (res) {
+                    WebhookGitget.get({namespace: $rootScope.namespace, build: $stateParams.name,region: $rootScope.region}, function (res) {
                         //console.log('666',res);
                         if (res.code == 1200) {
                             $scope.grid.checked = true;
@@ -262,7 +262,7 @@ angular.module('console.build.detail', [
                         }
                     })
                 } else {
-                    WebhookLabget.get({namespace: $rootScope.namespace, build: $stateParams.name}, function (res) {
+                    WebhookLabget.get({namespace: $rootScope.namespace, build: $stateParams.name,region: $rootScope.region}, function (res) {
 
                         if (res.code == 1200) {
                             $scope.grid.checked = true;
