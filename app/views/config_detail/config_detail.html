@@ -55,7 +55,7 @@
                         <div class="timeline col-md-12" style="margin-top: 20px; margin-left:5px;">
                             <ul style="border: none;">
                                 <li ng-repeat="item in volume.configarr" style="margin-bottom:40px;">
-                                    <div class="container-fluid diantiao" style="margin-left: 0;border-bottom-right-radius: 0;border-bottom-left-radius: 0">
+                                    <div class="container-fluid diantiao" ng-mouseenter="cdEnter($index)" ng-mouseleave="cdOut($index)"  style="margin-left: 0;border-bottom-right-radius: 0;border-bottom-left-radius: 0">
                                         <div class="row">
                                             <div class="col-sm-4" >
                                                 配置文件：
