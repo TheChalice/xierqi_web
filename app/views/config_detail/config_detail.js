@@ -92,8 +92,20 @@ angular.module('console.config_detail', [
 
 
             }, true);
-            $scope.getLog= function (idx) {
-                $scope.volume.configarr[idx].showLog=!$scope.volume.configarr[idx].showLog
+            $scope.getLog= function (idx,ccc) {
+                $scope.volume.configarr[idx].showLog=!$scope.volume.configarr[idx].showLog;
+                //console.log(idx);
+                console.log($('div[class~="diantiao"]')[idx]);
+               // console.log(ccc.parentElementNode)
+                //console.log('》》》》》',$(ccc).parent().parent().parent());
+               // console.log($scope.volume.configarr[idx].showLog);
+                if($scope.volume.configarr[idx].showLog){
+                    $('div[class~="diantiao"]')[idx].style.borderBottom='none';
+                    $('div[class~="diantiao"]')[idx].style.backgroundColor='#f7f8fb'
+                }else{
+                    $('div[class~="diantiao"]')[idx].style.backgroundColor='#fff';
+                    $('div[class~="diantiao"]')[idx].style.borderBottom='1px solid #c9c9c9'
+                }
             }
 
             $scope.add= function () {
@@ -111,8 +123,9 @@ angular.module('console.config_detail', [
                 $scope.volume.configitems.push({key: '', value: ''});
 
             }
-
+            $scope.isCreate=true;
             $scope.cearteconfig = function () {
+                $scope.isCreate=false;
                 var arr = $scope.volume.configitems.concat($scope.volume.configarr);
                 $scope.volume.data={}
                 angular.forEach(arr, function (item, i) {
