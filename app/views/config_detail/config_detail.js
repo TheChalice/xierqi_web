@@ -101,10 +101,19 @@ angular.module('console.config_detail', [
                // console.log($scope.volume.configarr[idx].showLog);
                 if($scope.volume.configarr[idx].showLog){
                     $('div[class~="diantiao"]')[idx].style.borderBottom='none';
-                    $('div[class~="diantiao"]')[idx].style.backgroundColor='#f7f8fb'
+                    $('div[class~="diantiao"]')[idx].style.backgroundColor='#f7f8fb';
+
                 }else{
                     $('div[class~="diantiao"]')[idx].style.backgroundColor='#fff';
                     $('div[class~="diantiao"]')[idx].style.borderBottom='1px solid #c9c9c9'
+                }
+            }
+            $scope.cdEnter=function(idx){
+                $('div[class~="diantiao"]')[idx].style.backgroundColor='#f7f8fb';
+            }
+            $scope.cdOut=function(idx){
+                if(!$scope.volume.configarr[idx].showLog){
+                    $('div[class~="diantiao"]')[idx].style.backgroundColor='#fff';
                 }
             }
             $scope.edit=function(idx){
