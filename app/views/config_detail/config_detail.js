@@ -19,7 +19,7 @@ angular.module('console.config_detail', [
                 $scope.volume.configarr=[];
                 $scope.change=false
                 angular.forEach($scope.volume.data, function (item,i) {
-                    $scope.volume.configarr.push({key:i,value:item,showLog:false});
+                    $scope.volume.configarr.push({key:i,value:item,showLog:false,isEdit:false});
                 })
             })
             function readSingleFile(e) {
@@ -107,7 +107,13 @@ angular.module('console.config_detail', [
                     $('div[class~="diantiao"]')[idx].style.borderBottom='1px solid #c9c9c9'
                 }
             }
+            $scope.edit=function(idx){
+                $scope.volume.configarr[idx].isEdit=true;
+            }
+            $scope.editDone=function(idx){
+                $scope.volume.configarr[idx].isEdit=false;
 
+            }
             $scope.add= function () {
                 document.getElementById('file-input').addEventListener('change', readSingleFile, false);
             }
