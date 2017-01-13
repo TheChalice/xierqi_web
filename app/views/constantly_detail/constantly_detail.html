@@ -74,7 +74,7 @@
         <uib-tabset class="tab-default" active="active">
             <uib-tab index="1">
                 <uib-tab-heading>
-                    <i class="icon20 icon20-paper"></i> 持久卷信息
+                    <i class="icon20 icon20-paper"></i> 挂载服务
                 </uib-tab-heading>
                 <div class="panel-default panel_con_detail">
                     <!--<div class="panel-heading">-->
@@ -85,7 +85,7 @@
                             <li ng-repeat="item in persistents.arr" class="listitems" ui-sref="console.service_detail({name:item})">
                                 <img src="pub/img/c_detail_icon.png" class="c_detail_icon">
                                 <a class="listitem" style="color:#f6a540">{{item}}</a></li>
-                            <li ng-if="persistents.arr.length===0"  style="text-align: center;margin-bottom:20px; background: #f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;" ><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit">您还没有持久卷信息</span></p></li>
+                            <li ng-if="persistents.arr.length===0"  style="text-align: center;margin-bottom:20px; background: #f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;" ><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit">您还没有挂载服务信息</span></p></li>
                         </ul>
                     </div>
                 </div>
