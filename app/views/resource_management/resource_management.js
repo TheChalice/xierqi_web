@@ -158,7 +158,6 @@ angular.module('console.resource_management', [
                 if (data.type == 'ADDED') {
                     //$scope.rcs.items.push(data.object);
                 } else if (data.type == "MODIFIED") {
-                    alert(1);
                     data.object.spec.resources.requests.storage=data.object.spec.resources.requests.storage.replace('i','B')
                     //console.log(data);$scope.persistents.items
                    // console.log('$scope.persistentdata', $scope.persistentdata);
