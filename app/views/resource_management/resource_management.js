@@ -37,6 +37,9 @@ angular.module('console.resource_management', [
             });
 
             var rmrefresh = function (page) {
+                $(document.body).animate({
+                    scrollTop: 0
+                }, 200);
                 var skip = (page - 1) * $scope.grid.size;
                 //console.log($scope.persistentdata);
                 $scope.persistents = $scope.persistentdata.slice(skip, skip + $scope.grid.size)||[];
@@ -236,6 +239,9 @@ angular.module('console.resource_management', [
             });
 
             var refresh = function (page) {
+                $(document.body).animate({
+                    scrollTop: 0
+                }, 200);
                 var skip = (page - 1) * $scope.grid.size;
                 $scope.configitems = $scope.configdata.slice(skip, skip + $scope.grid.size)||[];
 
@@ -358,6 +364,9 @@ angular.module('console.resource_management', [
             });
 
             var secretrefresh = function (page) {
+                $(document.body).animate({
+                    scrollTop: 0
+                }, 200);
                 var skip = (page - 1) * $scope.grid.size;
                 $scope.secretitems = $scope.secretdata.slice(skip, skip + $scope.secrets.size)||[];
                 //$scope.secrets.total = $scope.secretitems.length;
