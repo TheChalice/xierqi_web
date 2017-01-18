@@ -94,8 +94,8 @@ angular.module('console.config_detail', [
             }, true);
             $scope.getLog= function (idx,ccc) {
                 $scope.volume.configarr[idx].showLog=!$scope.volume.configarr[idx].showLog;
-                //console.log(idx);
-                console.log($('div[class~="diantiao"]')[idx]);
+               // console.log(idx);
+               // console.log($('div[class~="diantiao"]')[idx]);
                // console.log(ccc.parentElementNode)
                 //console.log('》》》》》',$(ccc).parent().parent().parent());
                // console.log($scope.volume.configarr[idx].showLog);
@@ -116,8 +116,15 @@ angular.module('console.config_detail', [
                     $('div[class~="diantiao"]')[idx].style.backgroundColor='#fff';
                 }
             }
+
             $scope.edit=function(idx){
                 $scope.volume.configarr[idx].isEdit=true;
+                var timer = setTimeout(function ( ){
+                    $('input[class~="form-control"]').focus();
+                    clearInterval(timer);
+                },100);
+
+               // $('input[class~="form-control"]')[idx].focus();
             }
             $scope.editDone=function(idx){
                 $scope.volume.configarr[idx].isEdit=false;
