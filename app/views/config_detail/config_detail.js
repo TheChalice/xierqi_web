@@ -121,7 +121,7 @@ angular.module('console.config_detail', [
                 $scope.volume.configarr[idx].isEdit=true;
                 var timer = setTimeout(function ( ){
                     $('input[class~="form-control"]').focus();
-                    clearInterval(timer);
+                    clearTimeout(timer);
                 },100);
 
                // $('input[class~="form-control"]')[idx].focus();

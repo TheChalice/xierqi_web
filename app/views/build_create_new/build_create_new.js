@@ -95,12 +95,11 @@ angular.module('console.build_create_new', [
                 if (n && n.length > 0) {
                     if (r.test(n)) {
                         $scope.namerr.rexed = false;
+                        $scope.namerr.repeated = false;
                         if ($scope.buildConfiglist) {
                             angular.forEach($scope.buildConfiglist, function (build, i) {
                                 if (build.metadata.name === n) {
-                                    $scope.namerr.rexed = true;
-                                } else {
-                                    $scope.namerr.rexed = false;
+                                    $scope.namerr.repeated = true;
                                 }
                             })
                         }
