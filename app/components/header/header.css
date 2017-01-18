@@ -232,7 +232,7 @@ overflow: hidden;width:100px;}
     border-top:6px dashed;border-right:6px solid transparent;border-left:6px solid transparent;
     color:#fff;margin-left:4px;-webkit-transition:all 0.3s;-moz-transition:all 0.3s;transition:all 0.3s}
 
-.df_set_name{display:inline-block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;width:130px;}
+.df_set_name{display:inline-block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;width:120px;}
 
 
 

@@ -54,7 +54,10 @@ angular.module('console.resource_management', [
                     namespace: $rootScope.namespace,
                     region: $rootScope.region
                 }, function (res) {
-
+                    angular.forEach(res.items, function (item, i) {
+                        //console.log(item.spec.resources.requests.storage);
+                        res.items[i].spec.resources.requests.storage=item.spec.resources.requests.storage.replace('i','B');
+                    })
                     DeploymentConfig.get({
                         namespace: $rootScope.namespace,
                         region: $rootScope.region
@@ -155,6 +158,7 @@ angular.module('console.resource_management', [
                 if (data.type == 'ADDED') {
                     //$scope.rcs.items.push(data.object);
                 } else if (data.type == "MODIFIED") {
+                    data.object.spec.resources.requests.storage=data.object.spec.resources.requests.storage.replace('i','B')
                     //console.log(data);$scope.persistents.items
                    // console.log('$scope.persistentdata', $scope.persistentdata);
                    // console.log('data.object.metadata.name', data.object);
@@ -166,7 +170,7 @@ angular.module('console.resource_management', [
                             $scope.persistentdata[i] = data.object
                             //$scope.persistents.items[i].status.phase=data.object.status.phase
                             //$scope.persistents[i]=data.object;
-                            rmrefresh(1)
+                            rmrefresh(1);
                             $scope.$apply();
                         }
                     })
