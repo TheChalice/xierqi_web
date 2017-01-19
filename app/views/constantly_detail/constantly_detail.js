@@ -48,7 +48,7 @@ angular.module('console.constantly_detail', [
                                 })
 
                             }else {
-                                delvolume.del({namespace: $rootScop.namespace,name:$stateParams.name}, function (res) {
+                                delvolume.del({namespace: $rootScope.namespace,name:$stateParams.name}, function (res) {
                                     //console.log(res);
 
                                     $state.go('console.resource_management', {index: 1})
