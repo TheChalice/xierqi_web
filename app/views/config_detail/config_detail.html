@@ -62,7 +62,7 @@
                                                 <input ng-if="item.isEdit" ng-blur="editDone($index)"  class="form-control" style="width: 50%;margin-left: 5px;display:inline-block" type="text" ng-model="item.key"
                                                        placeholder="文件名称" style="background:none;border:1px solid #c9c9c9">
                                                 <!--{{item.key}}-->
-                                                <span style="margin-left: 2px;" ng-if="!item.isEdit">{{item.key}}</span>
+                                                <span style="margin-left: 2px;" ng-if="!item.isEdit">{{item.key | trimMore}}</span>
 
                                             </div>
                                             <div class="col-sm-5" style="padding: 0; margin-top:-2px;min-height:20px;">

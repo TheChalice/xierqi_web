@@ -300,5 +300,14 @@ define(['angular', 'moment'], function (angular, moment) {
             return function(id) {
                 return id.replace(/:.*/, "");
             };
+        })
+        .filter("trimMore",function(){
+            return function(str){
+                if (str.length >=15){
+                    return str.slice(0,15)+'...';
+                }else{
+                    return str;
+                }
+            }
         });
 });
