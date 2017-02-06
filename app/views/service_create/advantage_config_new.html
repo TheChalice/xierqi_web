@@ -383,6 +383,8 @@
                                     提示：您输入数量超过可用数量</small>
                                 <small class="fa fa-info-circle err-tip" ng-if="grid.cpunullerr" style="margin-top: 20px;">
                                     提示：您输入cpu为空</small>
+                                <small class="fa fa-info-circle err-tip" ng-if="grid.cpunumerr" style="margin-top: 20px;">
+                                    提示：您输入数数值不合法</small>
                             </div>
                             <div class="col-md-2"style="padding: 0;text-align: center;line-height: 54px;">
                                 可用CPU:{{grid.cpunum}}个
@@ -393,6 +395,8 @@
                                     提示：您输入数量超过可用数量</small>
                                 <small class="fa fa-info-circle err-tip" ng-if="grid.memorynullerr" style="margin-top: 20px;">
                                     提示：您输入内存为空</small>
+                                <small class="fa fa-info-circle err-tip" ng-if="grid.memorynumerr" style="margin-top: 20px;">
+                                    提示：您输入数数值不合法</small>
                             </div>
                             <div class="col-md-1"style="padding: 0;">
                                 <div class="dropdown">
