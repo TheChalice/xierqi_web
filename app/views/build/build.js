@@ -24,6 +24,9 @@ angular.module('console.build', [
         });
 
         var refresh = function(page) {
+            $(document.body).animate({
+                scrollTop: 0
+            }, 200);
             var skip = (page - 1) * $scope.grid.size;
             $scope.items = $scope.data.slice(skip, skip + $scope.grid.size);
         };

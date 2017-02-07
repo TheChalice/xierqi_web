@@ -71,6 +71,13 @@
                 <!--<span class="icon25 icon25-resource"></span>&nbsp;&nbsp;资源管理-->
             <!--</a>-->
         <!--</li>-->
+        <li ng-class="{'active':resour_manage}">
+            <a ui-sref="console.resource_management">
+                <i class="fa fa-caret-left"></i>
+                <span class="icon25 icon25-resource"></span>&nbsp;&nbsp;资源管理
+            </a>
+        </li>
+
         <li ng-class="{'active':data_inter}">
             <a ui-sref="console.Integration">
                 <i class="fa fa-caret-left"></i>
@@ -78,12 +85,6 @@
             </a>
         </li>
 
-        <li ng-class="{'active':resour_manage}">
-            <a ui-sref="console.resource_management">
-                <i class="fa fa-caret-left"></i>
-                <span class="icon25 icon25-resource"></span>&nbsp;&nbsp;资源管理
-            </a>
-        </li>
 
 
         <!--<li ui-sref-active="active"-->
