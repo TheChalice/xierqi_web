@@ -1332,27 +1332,50 @@ define(['angular'], function (angular) {
                     templateUrl: 'views/backing_service/service_select.html',
                     size: 'default modal-foo',
                     controller: ['$log', '$rootScope', '$scope', '$uibModalInstance', 'data', function ($log, $rootScope, $scope, $uibModalInstance, data) {
+                        //var curdata = angular.copy(data);
+
                         var curdata = angular.copy(data);
+
                         for (var j = 0; j < data.items.length; j++) {
                             for (var i = 0; i < c.length; i++) {
                                 if (data.items[j].metadata.name == c[i].bind_deploymentconfig) {
-                                    curdata.items.splice(j, 1);
+                                    curdata.items.splice(j, 1,'false');
                                 }
                             }
                         }
-                        $log.info('curdatacurdata', curdata);
-                        $scope.data = curdata;
-                        $scope.items = curdata.items;
+
+                        var dclist=angular.copy(curdata);
+                        dclist.items=[];
+                        angular.forEach(curdata.items, function (item,i) {
+                            if (item === 'false') {
+
+                            }else {
+                                dclist.items.push(item)
+                            }
+                            //dclist
+                        })
+                        $scope.dc={
+                            name:null,
+                            idx:null
+                        }
+                        $scope.selectDc= function (idx,name) {
+                            $scope.dc.idx=idx
+                            $scope.dc.name=name
+                        }
+                        //$log.info('curdatacurdata', curdata);
+                        $scope.data = dclist;
+                        $scope.items = dclist.items;
                         $scope.cancel = function () {
                             $uibModalInstance.dismiss();
                         };
                         $scope.ok = function () {
                             var items = [];
                             for (var i = 0; i < $scope.data.items.length; i++) {
-                                if ($scope.data.items[i].checked) {
+                                if ($scope.dc.name===$scope.data.items[i].metadata.name) {
                                     items.push($scope.data.items[i]);
                                 }
                             }
+                            //items.push($scope.dc.name);
                             $uibModalInstance.close(items);
                         };
 
@@ -1379,10 +1402,7 @@ define(['angular'], function (angular) {
                     }],
                     resolve: {
                         data: ['$rootScope', 'DeploymentConfig', function ($rootScope, DeploymentConfig) {
-                            return DeploymentConfig.get({
-                                namespace: $rootScope.namespace,
-                                region: $rootScope.region
-                            }).$promise;
+                            return DeploymentConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}).$promise;
                         }]
                     }
                 }).result;
