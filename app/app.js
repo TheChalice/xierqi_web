@@ -19,6 +19,7 @@ define([
     'angularSlider',
     'kubernetesUI',
     'highchartsNg',
+    'qrcode'
 ], function (angular) {
 
     // 声明应用及其依赖

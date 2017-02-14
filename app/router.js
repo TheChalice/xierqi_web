@@ -566,6 +566,19 @@ define([
                         }]
                     }
                 })
+                .state('wechatpay', {
+                    url: '/wechatpay',
+                    params: {
+                        id: null
+                    },
+                    templateUrl: 'views/wechat_pay/wechat_pay.html',
+                    controller: 'wechatPayCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/wechat_pay/wechat_pay.js')
+                        }]
+                    }
+                })
 
         }]);
 
