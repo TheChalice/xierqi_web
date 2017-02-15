@@ -10,7 +10,7 @@ angular.module('console.apply_instance', [
         function (Tip,market,checkout, Modalbs, $log, $rootScope, $scope, BackingService, BackingServiceInstance, $stateParams, $state) {
 
             $scope.grid = {
-                checked: 0,
+                checked: $stateParams.index,
                 error: false
             };
 
