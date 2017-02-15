@@ -555,9 +555,6 @@ define([
                 })
                 .state('console.pay', {
                     url: '/pay',
-                    params: {
-                        id: null
-                    },
                     templateUrl: 'views/pay/pay.html',
                     controller: 'payCtrl',
                     resolve: {
@@ -567,11 +564,11 @@ define([
                     }
                 })
                 .state('wechatpay', {
-                    url: '/wechatpay',
-                    params: {
-                        id: null
-                    },
+                    url: '/wechatpay/:amount',
                     templateUrl: 'views/wechat_pay/wechat_pay.html',
+                    params:{
+                        amount:null
+                    },
                     controller: 'wechatPayCtrl',
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
