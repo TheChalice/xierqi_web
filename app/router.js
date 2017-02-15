@@ -195,7 +195,8 @@ define([
                     templateUrl: 'views/apply_instance/apply_instance.html',
                     controller: 'ApplyInstanceCtrl',
                     params: {
-                        plan: ''
+                        plan: '',
+                        index:null
                     },
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
