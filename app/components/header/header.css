@@ -185,7 +185,8 @@
 #header #header-brand .header_logo{width:150px;height:18px;padding:0;margin-top:18px;}
 .data_bg{-webkit-transition:  background 300ms;-ms-transition:  background 300ms;-o-transition:  background 300ms;-moz-transition:  background 300ms;transition:  background 300ms;}
 
-.df_news{padding-left:14px;padding-right:14px;border-left:1px solid #f6a540;display:block;float:left;padding-top:18px;padding-bottom:16px;}
+.df_news{padding-left:14px;padding-right:14px;
+    border-right:1px solid #f6a540;border-left:1px solid #f6a540;display:block;float:left;padding-top:18px;padding-bottom:16px;}
 .df_news:hover{background:#f6a540;}
 .header_area:hover{background:#f6a540;}
 .header_per:hover{background:#f6a540;}
@@ -236,7 +237,7 @@ overflow: hidden;width:100px;}
 
 
 
-/*¶¨Òå¹ö¶¯ÌõÑùÊ½*/
+/*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½*/
 .projectname::-webkit-scrollbar {
     width:8px;
 }
