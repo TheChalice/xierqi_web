@@ -43,4 +43,18 @@ input:focus,textarea:focus{outline:0}
 .pay_footer p{font-size:12px;color:#666;text-align:center;}
 .footerdwin{position:absolute;bottom:0;left:0px;right:0;}
 
+.load_tit{width:260px;height:260px;position:relative;}
+.pay_load{font-size:14px;color:#000;position:absolute;top:50%;left:50%;width:86px;height:20px;margin-left:-40px;margin-top:-10px;}
+/*¼ÓÔØÐ§¹û*/
+.load_ing>i{width:6px;height:6px;background-color:#5a6378;border-radius:100%;display:inline-block;-webkit-animation:
+bouncedelay 1.4s infinite ease-in-out;animation:bouncedelay 1.4s infinite ease-in-out;
+    -webkit-animation-fill-mode:both;animation-fill-mode:both}
+.load_ing .load_one{-webkit-animation-delay:-.32s;animation-delay:-.32s}
+.load_ing .load_two{-webkit-animation-delay:-.16s;animation-delay:-.16s}
+@-webkit-keyframes bouncedelay{0%,80%,to{-webkit-transform:scale(0)}
+    40%{-webkit-transform:scale(0.6)}
+}
+@keyframes bouncedelay{0%,80%,to{transform:scale(0);-webkit-transform:scale(0)}
+    40%{transform:scale(0.6);-webkit-transform:scale(0.6)}
+}
 
