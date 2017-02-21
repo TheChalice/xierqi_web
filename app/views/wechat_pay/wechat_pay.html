@@ -20,7 +20,7 @@
 
     <div class="pay_main">
         <h3 class="wx_tit">微信支付</h3>
-        <div class="pay_er" style="display:;">
+        <div class="pay_er" ng-show="!canback">
             <div class="pay_left">
                 <div id="code"></div>
                 <img src="pub/img/pay_detail.png" class="pay_detail">
@@ -29,7 +29,7 @@
         </div>
 
 
-        <div class="pay_smile_block" style="display:none;">
+        <div class="pay_smile_block" ng-show="canback">
             <img src="pub/img/smile.png" class="pay_smile">
             <h3 class="p_tit">支付成功！</h3>
             <p class="p_detail"><span>温馨提示：</span>请返回控制台，查看您的余额</p>
