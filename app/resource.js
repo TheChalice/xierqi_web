@@ -762,6 +762,12 @@ define([
             });
             return instance;
         }])
+        .factory('wechatrecharge', ['$resource', 'GLOBAL', function ($resource) {//数据集成 公开数据集详情预览
+            var wechatrecharge = $resource('/payment/v1/recharge/weixin', {region:'@region'}, {
+                create: {method: 'POST'}
+            });
+            return wechatrecharge;
+        }])
 
 
 });
