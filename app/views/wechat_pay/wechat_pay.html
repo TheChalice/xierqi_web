@@ -22,7 +22,16 @@
         <h3 class="wx_tit">微信支付</h3>
         <div class="pay_er" ng-show="!canback">
             <div class="pay_left">
-                <div id="code"></div>
+                <div id="code" ng-if="true"></div>
+                <div class="load_tit" ng-if="!isShow">
+                   <p class="pay_load">正在加载
+                    <span class="load_ing">
+                            <i class="load_one"></i>
+                            <i class="load_two"></i>
+                            <i class="load_three"></i>
+                     </span>
+                   </p>
+                </div>
                 <img src="pub/img/pay_detail.png" class="pay_detail">
             </div>
             <img src="pub/img/phone.png" class="phone">
