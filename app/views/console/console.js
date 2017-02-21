@@ -29,9 +29,9 @@ angular.module('console', [
                 $rootScope.namespace = namespace;
             } else {
                 $rootScope.namespace = user.metadata.name;
-                Cookie.set('namespace', name, 10 * 365 * 24 * 3600 * 1000);
+                Cookie.set('namespace', $rootScope.namespace, 10 * 365 * 24 * 3600 * 1000);
             }
-
+            Cookie.set('namespace', $rootScope.namespace, 10 * 365 * 24 * 3600 * 1000);
 
             var loadProject = function () {
                 //$log.info("load project");
