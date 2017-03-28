@@ -1070,7 +1070,7 @@ define(['angular'], function (angular) {
                                 $http.get('/registry/api/repositories', {params: {project_id: 1}})
                                     .success(function (data) {
                                         var arr2 = data;
-                                        $http.get('/registry/api/repositories', {params: {project_id: 58}})
+                                        $http.get('/registry/api/repositories', {params: {project_id: 5}})
                                             .success(function (msg) {
                                                 arr2 = arr2.concat(msg);
                                                 for (var j = 0; j < arr2.length; j++) {

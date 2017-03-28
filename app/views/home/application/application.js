@@ -315,7 +315,7 @@ angular.module('home.application', [
                 })
                 $http.get('/registry/api/repositories', {
                         //timeout: end.promise,
-                        params: {project_id: 58}
+                        params: {project_id: 5}
                     })
                     .success(function (dfdata) {
                         angular.forEach(dfdata, function (dfitem, k) {
