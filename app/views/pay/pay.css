@@ -10,17 +10,18 @@
     /*width: 100%;*/
 }
 .payway{
-    width: 150px;
-    padding: 5px 8px;
+    width: 160px;
+    padding:5px 8px 5px 20px;
     height: 46px;
     border:1px solid #CCCCCC;
     float: left;
     cursor: pointer;
 }
+.payway:nth-child(2){margin-left:30px;}
 .paybg{
     width: 50px;
     height: 30px;
-    background-image: url("../../pub/img/pay02.png");
+    background-image: url("../../pub/img/weChat.png");
     background-repeat: no-repeat;
     background-size: contain;
     float: left;
@@ -28,7 +29,7 @@
 .paybg1{
     width: 50px;
     height: 30px;
-    background-image: url("../../pub/img/pay01.png");
+    background-image: url("../../pub/img/pay01_hover.png");
     background-repeat: no-repeat;
     background-size: contain;
     float: left;
@@ -44,7 +45,7 @@
     background: url(../../views/backing_service/img/images_48.png) no-repeat #fff;
 }
 .payactive .paybg{
-    background-image: url("../../pub/img/pay02_hover.png");
+    background-image: url("../../pub/img/weChat.png");
 }
 .payactive .paybg1{
     background: url("../../pub/img/pay01_hover.png") no-repeat;

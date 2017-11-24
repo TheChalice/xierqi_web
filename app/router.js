@@ -182,7 +182,8 @@ define([
                     templateUrl: 'views/apply_instance/apply_instance.html',
                     controller: 'ApplyInstanceCtrl',
                     params: {
-                        plan: ''
+                        plan: '',
+                        index:null
                     },
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
@@ -576,14 +577,24 @@ define([
                 })
                 .state('console.pay', {
                     url: '/pay',
-                    params: {
-                        id: null
-                    },
                     templateUrl: 'views/pay/pay.html',
                     controller: 'payCtrl',
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/pay/pay.js')
+                        }]
+                    }
+                })
+                .state('wechatpay', {
+                    url: '/wechatpay/:amount',
+                    templateUrl: 'views/wechat_pay/wechat_pay.html',
+                    params:{
+                        amount:null
+                    },
+                    controller: 'wechatPayCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/wechat_pay/wechat_pay.js')
                         }]
                     }
                 })

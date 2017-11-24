@@ -1,0 +1,60 @@
+html,body{-webkit-tap-highlight-color:rgba(0,0,0,0);color:#696969;font:12px "Î¢ÈíÑÅºÚ",Helvetica;margin:0;padding:0;width:100%;height:100%;}
+form,table,td,h1,h2,h3,h4,ul,ol,li,p{margin:0;padding:0;border:0;list-style:none}
+input,img{vertical-align:middle}
+html,body{min-width:100%;height: 100%;}
+body{-webkit-text-size-adjust:none;background:#f2f2f2;}
+img{border:0 none;height:auto; max-width: 100%;}
+ol,ul{list-style:none;}
+:focus{outline:0;}
+a{ color:inherit;}
+textarea{resize:none;overflow:auto;}
+a{-webkit-touch-callout:none;-webkit-user-select:none;text-decoration:none}
+table{border-collapse: collapse;border-spacing: 0;}
+input{ border:none;}
+input:focus,textarea:focus{outline:0}
+
+.h_container{width:100%;background:#fff;border-bottom:1px solid #d4d4d4;}
+.pay_header{height:58px;background:#fff;width:1200px;margin:0 auto;}
+.pay_l{height:58px;overflow:hidden;}
+.pay_logo{padding:15px 20px 12px 0px;display:inline-block;}
+.pay_tit{font-size:18px;color:#333;vertical-align: text-top;}
+.pay_number{height:auto;overflow:hidden;padding:30px 6px 30px 6px;width:1200px;margin:0 auto;}
+.num_l{float:left;}
+.pay_num,.pay_kind{font-size:14px;color:#333;}
+.num_l p:nth-child(1){padding-bottom:6px;}
+.num_r{float:right;}
+.pay_money{font-size:12px;color:#333;}
+.pay_money span{color:#ff2727;font-size:14px;font-weight:bold;}
+
+.pay_main{border:1px solid #d4d4d4;background:#fff;padding:30px;width:1200px;margin:0 auto 38px;}
+.wx_tit{font-size:14px;color:#333;background:url("../../pub/img/pay_wx.png") no-repeat;height:34px;line-height:34px;padding-left:46px;}
+.pay_detail{margin-top:20px;}
+.pay_er{margin:40px auto 20px;width:636px;height:auto;overflow:hidden;}
+.phone{width:268px;float:right;}
+.pay_left{width:260px;float:left;}
+
+.pay_smile_block{width:380px;margin:178px auto 180px;height:auto;overflow:hidden;}
+.pay_smile{width:68px;height:68px;float:left;}
+.p_tit,.p_detail{width:282px;float:left;margin-left:20px;}
+.p_tit{font-weight:normal;color:#74b23d;font-size:24px;padding-top:8px;}
+.p_detail{color:#666;font-size:14px;padding-top:6px;padding-bottom:6px;margin-top:8px;}
+.p_detail span{color:#f28062;}
+.pay_footer{margin-left:94px;margin-right:94px;height:56px;line-height:56px;}
+.pay_footer p{font-size:12px;color:#666;text-align:center;}
+.footerdwin{position:absolute;bottom:0;left:0px;right:0;}
+
+.load_tit{width:260px;height:260px;position:relative;}
+.pay_load{font-size:14px;color:#000;position:absolute;top:50%;left:50%;width:86px;height:20px;margin-left:-40px;margin-top:-10px;}
+/*¼ÓÔØÐ§¹û*/
+.load_ing>i{width:6px;height:6px;background-color:#5a6378;border-radius:100%;display:inline-block;-webkit-animation:
+bouncedelay 1.4s infinite ease-in-out;animation:bouncedelay 1.4s infinite ease-in-out;
+    -webkit-animation-fill-mode:both;animation-fill-mode:both}
+.load_ing .load_one{-webkit-animation-delay:-.32s;animation-delay:-.32s}
+.load_ing .load_two{-webkit-animation-delay:-.16s;animation-delay:-.16s}
+@-webkit-keyframes bouncedelay{0%,80%,to{-webkit-transform:scale(0)}
+    40%{-webkit-transform:scale(0.6)}
+}
+@keyframes bouncedelay{0%,80%,to{transform:scale(0);-webkit-transform:scale(0)}
+    40%{transform:scale(0.6);-webkit-transform:scale(0.6)}
+}
+

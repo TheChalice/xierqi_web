@@ -1,0 +1,59 @@
+
+<div class="pay_wechat">
+    <div class="h_container">
+        <div class="pay_header">
+            <div class="pay_l">
+                <img src="pub/img/pay_logo.png" class="pay_logo">
+                <span class="pay_tit">收银台</span>
+            </div>
+        </div>
+    </div>
+    <div class="pay_number">
+        <div class="num_l">
+            <p class="pay_num pd_num">订单编号：<span>{{num}}</span></p>
+            <p class="pay_kind">订单类型：<span>扫码支付</span></p>
+        </div>
+        <div class="num_r">
+            <p class="pay_money">应付金额&ensp;<span>{{amount}}</span>&ensp;元</p>
+        </div>
+    </div>
+
+    <div class="pay_main">
+        <h3 class="wx_tit">微信支付</h3>
+        <div class="pay_er" ng-show="!canback">
+            <div class="pay_left">
+                <div id="code" ng-if="true"></div>
+                <div class="load_tit" ng-if="!isShow">
+                   <p class="pay_load">正在加载
+                    <span class="load_ing">
+                            <i class="load_one"></i>
+                            <i class="load_two"></i>
+                            <i class="load_three"></i>
+                     </span>
+                   </p>
+                </div>
+                <img src="pub/img/pay_detail.png" class="pay_detail">
+            </div>
+            <img src="pub/img/phone.png" class="phone">
+        </div>
+
+
+        <div class="pay_smile_block" ng-show="canback">
+            <img src="pub/img/smile.png" class="pay_smile">
+            <h3 class="p_tit">支付成功！</h3>
+            <p class="p_detail"><span>温馨提示：</span>请返回控制台，查看您的余额</p>
+        </div>
+
+    </div>
+
+    <div class="pay_footer this_footer">
+        <p>© 2016 版权所有 北京亚信智慧数据科技有限公司 京ICP备11005544号-15 京公网安备110108007119号</p>
+    </div>
+
+
+</div>
+
+
+
+
+

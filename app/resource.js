@@ -917,6 +917,18 @@ define([
             });
             return instance;
         }])
+        .factory('wechatrecharge', ['$resource', 'GLOBAL', function ($resource) {//微信支付
+            var wechatrecharge = $resource('/payment/v1/recharge/weixin', {region:'@region'}, {
+                create: {method: 'POST'}
+            });
+            return wechatrecharge;
+        }])
+        .factory('wechatid', ['$resource', 'GLOBAL', function ($resource) {//微信订单查询
+            var wechatid = $resource('/payment/v1/recharge/weixin/:trade_id', {region:'@region',trade_id:'@trade_id'}, {
+
+            });
+            return wechatid;
+        }])
 
 
 });

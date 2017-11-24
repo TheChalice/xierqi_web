@@ -175,12 +175,8 @@ define(['angular', 'moment'], function (angular, moment) {
             return function(phase){
                 if(phase === 'coupon'){
                     return "充值卡"
-                }else if(phase === 'hongpay'){
-                    return "鸿支付"
-                }else if(phase == 'Pending'){
-                    return "创建中"
-                }else if(phase == 'Bound'){
-                    return "未挂载"
+                }else if(phase === 'wechat'){
+                    return "微信支付"
                 }else{
                     return phase || "账户余额"
                 }
@@ -308,5 +304,14 @@ define(['angular', 'moment'], function (angular, moment) {
             return function(id) {
                 return id.replace(/:.*/, "");
             };
+        })
+        .filter("trimMore",function(){
+            return function(str){
+                if (str.length >=15){
+                    return str.slice(0,15)+'...';
+                }else{
+                    return str;
+                }
+            }
         });
 });
