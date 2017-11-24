@@ -214,7 +214,6 @@ angular.module('console.create_config_volume', [
         }
     })
 
-
     $scope.cearteconfig = function () {
         if (!$scope.namerr.nil && !$scope.namerr.rexed && !$scope.namerr.repeated&&!$scope.timeouted) {
 

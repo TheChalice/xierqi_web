@@ -11,13 +11,30 @@ angular.module('console.user', [
 
         ]
     }
-]).controller('orgCtrl', ['delperpleOrg', 'orgList', '$log', 'Project', '$http', '$rootScope', '$state', '$cacheFactory', 'loadOrg', 'Addmodal', 'Confirm', '$scope', '$stateParams', 'invitation', 'leave', 'Toast',
-    function (delperpleOrg, orgList, $log, Project, $http, $rootScope, $state, $cacheFactory, loadOrg, Addmodal, Confirm, $scope, $stateParams, invitation, leave, Toast) {
+]).controller('orgCtrl', ['delTip','amounts','delperpleOrg', 'orgList', '$log', 'Project', '$http', '$rootScope', '$state', '$cacheFactory', 'loadOrg', 'Addmodal', 'Confirm', '$scope', '$stateParams', 'invitation', 'leave', 'Toast',
+    function (delTip,amounts,delperpleOrg, orgList, $log, Project, $http, $rootScope, $state, $cacheFactory, loadOrg, Addmodal, Confirm, $scope, $stateParams, invitation, leave, Toast) {
         $scope.grid = {
             st: null,
-            et: null
+            et: null,
+            page:1,
+            size:10
         }
+        $scope.isadmin=false;
+        var refresh = function(page) {
+            var skip = (page - 1) * $scope.grid.size;
+            $scope.myamounts = $scope.amountdata.slice(skip, skip + $scope.grid.size);
+            $(document.body).animate({
+                scrollTop:0
+            },200);
+
+        };
+        $scope.$watch('grid.page', function(newVal, oldVal){
+            if (newVal != oldVal) {
+                refresh(newVal);
+            }
+        });
         //$rootScope.delOrgs = false;
+
         var loadOrg = function () {
             //console.log('test org name',$stateParams.useorg,$rootScope.namespace)
             orgList.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
@@ -36,6 +53,10 @@ angular.module('console.user', [
                     }
                 })
                 angular.forEach($scope.rootmembers, function (item,i) {
+                    console.log($rootScope.user.metadata.name, item);
+                    if (item.name === $rootScope.user.metadata.name) {
+                        $scope.isadmin=true;
+                    }
                     angular.forEach($scope.roottime.annotations, function (root,k) {
                         if (item.name === k.split('/')[1]) {
                             $scope.rootmembers[i].jointime=root;
@@ -43,6 +64,7 @@ angular.module('console.user', [
                     })
 
                 })
+
                 angular.forEach($scope.rootmembers, function (item,i) {
                     if (!item.jointime) {
                         $scope.rootmembers[i].jointime=$scope.roottime.creationTimestamp;
@@ -92,40 +114,70 @@ angular.module('console.user', [
             //}).error(function(data,header,config,status){
             //});
         }
+        $scope.changename= function (name) {
+            $scope.savename = $scope.mydisorgname;
+            //$scope.mydisorgname='';
+            $scope.settingname=true;
+            $scope.mysetname=$scope.mydisorgname
+            setTimeout(function () {
+                $('#orgdisname').focus()
+            },100)
+            //var obj= angular.copy($scope.myproject);
+            //console.log($scope.mysetname,name);
+        }
+        $scope.setting= function () {
+            $scope.settingname=true;
+            setTimeout(function () {
+                $('#orgdisname').focus()
+            },100)
+            //$scope.savename = $scope.mydisorgname;
+            // $scope.mydisorgname='';
+        }
+        $scope.cancel= function () {
+            $scope.settingname=false;
 
+            //$scope.savename = $scope.mydisorgname;
+            // $scope.mydisorgname='';
+        }
+        $scope.changenamed= function (name) {
+            //console.log('$scope.myproject', $scope.myproject);
+            //var obj= angular.copy($scope.myproject);
+            //console.log($scope.mysetname,name);
+            //obj.metadata.annotations['openshift.io/display-name']=name;
+            //console.log(obj);
+            $scope.disable=true;
+            Project.get({region: $rootScope.region,name:$scope.myorgname}, function (poj) {
+                poj.metadata.annotations['openshift.io/display-name']=name;
+                Project.put({region: $rootScope.region,name:$scope.myorgname},poj, function (data) {
+                    $scope.mydisorgname=data.metadata.annotations['openshift.io/display-name'];
+                    $rootScope.changedisplayname=data.metadata.annotations['openshift.io/display-name'];
+                    $scope.settingname=false;
+                    //console.log('data', data);
+                    $scope.disable=false;
+                }, function (err) {
+                    $scope.disable=false;
+                })
+            }, function (err) {
+                $scope.disable=false;
+            })
+        }
         //load project
         var loadProject = function () {
             Project.get({region: $rootScope.region}, function (data) {
                 //$rootScope.projects = data.items;
                 //console.log('Project', Project);
                 //var newprojects = [];
-                angular.forEach(data.items, function (item, i) {
-                    //console.log($rootScope.user.metadata.name);
-                    if (item.metadata.name === $rootScope.user.metadata.name) {
-                        //console.log($rootScope.user.metadata.name);
-                        data.items.splice(i, 1);
-                    } else {
-                        data.items[i].sortname = item.metadata.annotations['openshift.io/display-name'] || item.metadata.name;
-                    }
-
-                })
                 data.items.sort(function (x, y) {
                     return x.sortname > y.sortname ? 1 : -1;
                 });
                 angular.forEach(data.items, function (project, i) {
                     if (project.metadata.name === $rootScope.namespace) {
-                        $scope.myorgname =project.metadata.annotations['openshift.io/display-name']||project.metadata.name;
+                        $scope.myproject=project;
+                        $scope.mydisorgname = project.metadata.annotations['openshift.io/display-name'];
+                        $scope.myorgname = project.metadata.name;
                     }
-                    if (/^[\u4e00-\u9fa5]/i.test(project.metadata.annotations['openshift.io/display-name'])) {
-                        //console.log(project.metadata.annotations['openshift.io/display-name']);
-                        //data.items.push(project);
-                        data.items.unshift(project);
 
-                        data.items.splice(i + 1, 1);
-                    }
                 });
-
-                $rootScope.projects = data.items;
                 //console.log(data.items);
 
 
@@ -139,49 +191,58 @@ angular.module('console.user', [
             //})
         }
         loadProject();
-        $scope.deletezz = function () {
-            if ($scope.rootmembers.length == 1 && $scope.norootmembers.length == 0) {
-                Confirm.open("删除组织", "您确定要删除组织吗？", "此操作不可撤销", "stop").then(function () {
-                    $http.delete('/lapi/orgs/' + $stateParams.useorg, {}).success(function (item) {
-                        //console.log('the org has been deelted', item);
-                        $rootScope.delOrgs = true;
-                        //$rootScope.isorg = false;
-                        loadProject();
-                        $rootScope.namespace = $rootScope.user.metadata.name;
-                        $state.go('console.user', {index: 4});
-                        //console.user()
-                    })
+        amounts.get({size:500,page:1,namespace:$rootScope.namespace,status:'O',region:$rootScope.region}, function (data) {
+            //console.log(data);
+            if (data.amounts) {
+                data.amounts.reverse()
+                angular.forEach(data.amounts, function (amount,i) {
+                    data.amounts[i].creation_time = amount.creation_time.replace(/Z/,$scope.clientTimeZone)
+                    if (amount.description === "recharge") {
+                        data.amounts[i].description='充值'
+                    }else {
+                        data.amounts[i].description='扣费'
+                    }
                 })
-            } else {
-                Confirm.open("离开组织", "删除组织失败", "组织内还有其他成员，您需要先移除其他成员", null, true)
+
+                $scope.myamounts = data.amounts||[];
+                console.log('$scope.myamounts',$scope.myamounts);
+                $scope.amountdata =angular.copy(data.amounts)
+                $scope.grid.total = data.amounts.length;
+                refresh(1);
             }
-        }
+
+
+        })
+        //$scope.deletezz = function () {
+        //    if ($scope.rootmembers.length == 1 && $scope.norootmembers.length == 0) {
+        //        Confirm.open("删除组织", "您确定要删除组织吗？", "此操作不可撤销", "stop").then(function () {
+        //            $http.delete('/lapi/orgs/' + $stateParams.useorg, {}).success(function (item) {
+        //                //console.log('the org has been deelted', item);
+        //                $rootScope.delOrgs = true;
+        //                //$rootScope.isorg = false;
+        //                loadProject();
+        //                $rootScope.namespace = $rootScope.user.metadata.name;
+        //                $state.go('console.user', {index: 4});
+        //                //console.user()
+        //            })
+        //        })
+        //    } else {
+        //        Confirm.open("离开组织", "删除组织失败", "组织内还有其他成员，您需要先移除其他成员", null, true)
+        //    }
+        //}
 
         $scope.addpeople = function () {
             Addmodal.open('邀请新成员', '用户名', '', $stateParams.useorg, 'people').then(function (res) {
-                //console.log('test org member', res);
-                Toast.open('邀请消息发送成功!');
-                //alert('11111')
-                //$http.put('/lapi/orgs/'+$stateParams.useorg+'/invite', {
-                //  member_name: res,
-                //  privileged: false
-                //}).success(function(item){
-                //  console.log('test invitation', item)
-                //  if(item.privileged){
-                //    $scope.rootmembers.push(item)
-                //  }else{
-                //    $scope.norootmembers.push(item)
-                //  }
-                //   loadOrg();
-                //  console.log('adding new memeber',item)
-                //})
+                Toast.open('已填加!');
+                loadOrg();
             })
         }
         $scope.remove = function (idx) {
-            Confirm.open("移除", "您确定要删除：" + $scope.rootmembers[idx].name + "吗？", null, "").then(function () {
+            delTip.open("移除", $scope.rootmembers[idx].name, null, "").then(function () {
                 //console.log('test root members before remove',$scope.rootmembers )
+                console.log($scope.rootmembers[idx].member_name);
                 delperpleOrg.put({namespace: $rootScope.namespace, region: $rootScope.region}, {
-                    member_name: $scope.rootmembers[idx].member_name
+                    member_name: $scope.rootmembers[idx].name
                 }, function (data) {
                     Toast.open('删除成功');
                     loadOrg();
@@ -199,7 +260,7 @@ angular.module('console.user', [
         }
 
         $scope.removenotroot = function (idx) {
-            Confirm.open("移除", "您确定要删除：" + $scope.norootmembers[idx].name + "吗？", null, "").then(function () {
+            delTip.open("移除",$scope.norootmembers[idx].name, null, "").then(function () {
                 delperpleOrg.put({namespace: $rootScope.namespace, region: $rootScope.region}, {
                     member_name: $scope.norootmembers[idx].name
                 }, function (data) {
@@ -243,37 +304,37 @@ angular.module('console.user', [
             if ($scope.rootmembers.length == 1) {
                 Toast.open('最后一名管理员无法被降权')
             } else {
-                $http.put('/lapi/orgs/' + $stateParams.useorg + '/privileged', {
-                    member_name: $scope.rootmembers[idx].member_name,
-                    privileged: false
-                }).success(function (data) {
-                    //console.log('test api changetomember', data);
-                    $scope.rootmembers[idx].privileged = false;
-                    var b = $scope.rootmembers[idx];
-                    $scope.rootmembers.splice(idx, 1);
-                    //console.log('test changetomemeber', $scope.rootmembers, idx);
-                    $scope.norootmembers.push(b);
-
-                }).error(function (err) {
-                    //Toast.open(err.message)
-                })
+                //$http.put('/lapi/orgs/' + $stateParams.useorg + '/privileged', {
+                //    member_name: $scope.rootmembers[idx].member_name,
+                //    privileged: false
+                //}).success(function (data) {
+                //    //console.log('test api changetomember', data);
+                //    $scope.rootmembers[idx].privileged = false;
+                //    var b = $scope.rootmembers[idx];
+                //    $scope.rootmembers.splice(idx, 1);
+                //    //console.log('test changetomemeber', $scope.rootmembers, idx);
+                //    $scope.norootmembers.push(b);
+                //
+                //}).error(function (err) {
+                //    //Toast.open(err.message)
+                //})
             }
 
         }
 
         $scope.changetoadmin = function (idx) {
-            $http.put('/lapi/orgs/' + $stateParams.useorg + '/privileged', {
-                member_name: $scope.norootmembers[idx].member_name,
-                privileged: true
-            }).success(function (data) {
-                //console.log('test member', data);
-                //  start from inx and delete one item
-                $scope.norootmembers[idx].privileged = true;
-                var a = $scope.norootmembers[idx];
-                $scope.norootmembers.splice(idx, 1);
-                //console.log('test api changetoadmin',$scope.norootmembers, idx);
-                $scope.rootmembers.push(a);
-            })
+            //$http.put('/lapi/orgs/' + $stateParams.useorg + '/privileged', {
+            //    member_name: $scope.norootmembers[idx].member_name,
+            //    privileged: true
+            //}).success(function (data) {
+            //    //console.log('test member', data);
+            //    //  start from inx and delete one item
+            //    $scope.norootmembers[idx].privileged = true;
+            //    var a = $scope.norootmembers[idx];
+            //    $scope.norootmembers.splice(idx, 1);
+            //    //console.log('test api changetoadmin',$scope.norootmembers, idx);
+            //    $scope.rootmembers.push(a);
+            //})
         }
         loadOrg();
     }])

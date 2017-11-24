@@ -6,7 +6,7 @@
         </div>
     </div>
 <div ng-show="repos">
-    <uib-tabset class="tab-default" active="check">
+    <uib-tabset class="tab-default tab-back-zn-default" active="check">
         <uib-tab index="1" style="width:auto;">
             <uib-tab-heading style="width:468px">
                 <i class="fa2 fa2-public"></i>&nbsp;&nbsp;公开数据集
@@ -29,11 +29,10 @@
                         <label class="btn" ng-class="{'active':classgrid.selectsclabel === $index}"
                                ng-click="selectsclabel('selectsclabel',$index)">{{item}}</label>
                     </div>
-
                 </div>
             </div>
             <div class="row">
-                <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
+                <div class="input-group col-sm-4  searchbar" style="margin-bottom: 10px;">
                     <input type="text"
                            class="form-control"
 
@@ -42,13 +41,11 @@
                            ng-keyup=keyclasssearch($event)
                            ng-model="grid.classtxt">
                     <!--ng-model="txt" ng-focus="showTip=true;" -->
-                    <span class="input-group-btn" style="display:none;" id=inputa>
+                    <span class="input-group-btn" id=inputa>
                         <a class="btn" ng-click="keyclasssearch('search')"></a>
                     </span>
                 </div>
             </div>
-            <div ng-if="items.length==0||(isQuery&&items.length!=0)" style="text-align: center;margin-top:20px; background: #f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;" ><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit">{{text}}</span></p></div>
-
             <!--<div ng-include="'views/Integration/backing_service_instance.html'">-->
             <!--</div>-->
 
@@ -82,7 +79,7 @@
                                         <div ng-if="!item.image_url" class="imageholder" style="background-image:url('components/bscard/img/images01_03.png');">
                                             <p class='hui'>{{item.label}}</p>
                                         </div>
-                                        <div ng-if="item.image_url" class="imageholder" style="background-image:url('{{item.image_url}}');background-color: #EAEBEF;">
+                                        <div ng-if="item.image_url" class="imageholder" style="background-image:url('{{item.image_url}}');">
                                             <p class='hui'>{{item.label}}</p>
 
                                         </div>
@@ -134,8 +131,8 @@
                     </div>
                 </div>
             </div>
-            <div style="overflow:hidden;">
-                <div class="input-group col-sm-4 searchbar" style="float:right;">
+            <div class="row" style='margin: 0;'>
+                <div class="input-group col-sm-4  searchbar" style="margin-bottom: 10px;margin-left:-18px">
                     <input type="text"
                            class="form-control"
 
@@ -144,18 +141,16 @@
                            ng-keyup=keysearch($event)
                            ng-model="grid.txt">
                     <!--ng-model="txt" ng-focus="showTip=true;" -->
-                    <span class="input-group-btn" style="display:none;" id=input>
+                    <span class="input-group-btn" id=input>
                         <a class="btn" ng-click="keysearch('search')"></a>
                     </span>
                 </div>
-                <div ng-if="items.length==0||(isQuery2&&items.length!=0)" style="text-align: center;margin-top:20px; background: #f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;" ><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit">{{text2}}</span></p></div>
-
             </div>
             <div class='change' ng-repeat='items in ins'>
                 <div class="row">
                     <div class="h2-border" ng-show="items.items.length" style="margin-bottom: 15px;">
                         <span class='biaoti'>{{items.class}}</span>
-                        <i class='xian'></i>
+                        <!--<i class='xian'></i>-->
                     </div>
                     <!--<h2 id=t{{items.id}} class="h2-border" ng-show="items.showTab"-->
                     <!--style="margin-bottom: 15px;">-->
@@ -185,7 +180,7 @@
                                         <div ng-if="item.image_url" class="imageholder" style="background-image:url('{{item.image_url}}');">
                                             <p class='hui inscard'style="">{{item.provider}}</p>
                                         </div>
-                                        <div ng-if="!item.image_url" class="imageholder" style="background-image:url('components/bscard/img/images01_03.png');background-color: #EAEBEF;">
+                                        <div ng-if="!item.image_url" class="imageholder" style="background-image:url('components/bscard/img/images01_03.png');">
                                             <p class='hui inscard'style="">{{item.provider}}</p>
 
                                         </div>
@@ -206,6 +201,7 @@
                     </div>
                 </div>
             </div>
+            <div style="border:1px solid #e5e5e5;margin-top:30px;padding-top:10px;padding-bottom:10px;background:#f7f8fc;text-align: center;position:relative" ng-if="!ins"><p class="blank_block">  </p></div>
         </uib-tab>
 
         <uib-tab index="3" style="width:auto;">

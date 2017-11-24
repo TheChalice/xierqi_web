@@ -30,7 +30,7 @@
                 <input type="text"
                        class="form-control"
                        placeholder="搜索后端服务名称"
-                       ng-keyup=keysearch($event)
+                       ng-keydown=keysearch($event)
                        ng-model="grid.txt">
                 <!--ng-model="txt" ng-focus="showTip=true;" -->
                     <span class="input-group-btn" style="background:#fff;padding-top:6px;" id=inputa><!--搜索背景颜色处理 jia 20160922-->
@@ -38,7 +38,6 @@
                     </span>
             </div>
         </div>
-        <div style="border:1px solid #e5e5e5;padding-top:10px;padding-bottom:10px;background:#f7f8fc;text-align: center;position:relative;margin-top: 20px;" ng-if="market.length===0||(market.length!==0&&isQuery)"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit">{{text}}</span></p></div>
         <div class='change' ng-repeat='items in market'>
             <div class="row" ng-show="items.isshow" id=n{{items.id}}>
                 <div id=t{{items.id}} class="h2-border" ng-show="items.showTab"
@@ -80,5 +79,6 @@
     .idx-bs .sc .btn.active {
         background: #fff url("views/backing_service/img/images_48.png") no-repeat scroll 0 0;
         border-color: #f6a540;
+        font-weight: bold;
     }
 </style>

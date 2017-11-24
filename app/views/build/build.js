@@ -38,7 +38,6 @@ angular.module('console.build', [
                     $scope.data = angular.copy($scope.copydata)
                     refresh(1);
                     $scope.grid.total = $scope.copydata.length;
-                    $scope.text='您还没有构建代码';
                     return;
                 }else {
                     var iarr = [];
@@ -59,7 +58,6 @@ angular.module('console.build', [
                         $scope.isQuery=true;
                         $scope.text='没有查询到相关数据';
                         console.log($scope.items.length);
-                        console.log(iarr)
                     }
                     else{
                         $scope.text='您还没有任何代码构建数据，现在就创建一个吧';

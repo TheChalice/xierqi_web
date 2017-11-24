@@ -1,4 +1,4 @@
-<div id="build">
+<div id="build" style="background:#fff;padding:20px 40px 40px;">
 
     <div class="loader" ng-show="!items">
         <div class="loader-inner ball-clip-rotate-multiple">
@@ -7,7 +7,7 @@
         </div>
     </div>
     <div  ng-show="items">
-        <div class="row" style="margin-right:0px;" >
+        <div style="margin-right: 0;margin-left:-15px;">
             <div class="col-sm-4 col-xs-4 builder_jia_btn">
                 <a class="btn btn-green" ui-sref="console.build_create_new" style="margin-right:20px;">
                     <i class="fa fa-plus fa-lg"></i>
@@ -16,10 +16,8 @@
 
 
 
-                <a class="btn" ng-click="refresh()" style="background-color: #57d1ea;">
-
+                <a class="btn build-jia" ng-click="refresh()">
                     <i class="fa fa-refresh fa-lg"></i><!-- 20160921 jia 代码构建 loading处理按钮向下问题-->
-
                 </a>
             </div>
             <!--<div class="col-sm-8 col-xs-8" style="padding-left: 0; ">-->
@@ -94,23 +92,22 @@
                 </tr>
                 <tr>
 
-                    <td colspan="5" style="text-align: center;background: #fff;position:relative" ng-if="items.length===0"><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit">{{text}}</span></p></td>
+                    <td colspan="5" style="text-align: center;background: #fff;position:relative" ng-if="items.length===0"><p class="blank_block">  <span class="blank_tit">{{text}}</span></p></td>
 
                 </tr>
             </table>
-            <div class="text-right" ng-if="grid.total > 10">
+            <div class="text-center" ng-if="grid.total > 10">
                 <uib-pagination class="pagination"
                                 ng-model="grid.page"
                                 total-items="grid.total"
                                 items-per-page="grid.size"
                                 class="pagination-sm"
-                                boundary-links="true"
+                                boundary-links="false"
                                 max-size="12"
                                 rotate="true"
-                                previous-text="上一页"
-                                next-text="下一页"
-                                first-text="首页"
-                                last-text="末页">
+                                previous-text="<"
+                                next-text=">"
+                                >
                 </uib-pagination>
             </div>
 
@@ -122,6 +119,7 @@
     #build .icon25 {
         margin: 0 18px;
     }
+
 
     .table-responsive .buildname {
         overflow: hidden;

@@ -1,4 +1,4 @@
-<div>
+<div style="background:#fff;padding:20px 38px 38px;">
     <div class="loader" ng-show="!firtdetail">
         <div class="loader-inner ball-clip-rotate-multiple">
             <div></div>
@@ -34,7 +34,7 @@
                             <div class="in_r">
                                 <div class="in_r_main">
                                     <!--<span class="show_cion" uib-tooltip="预览" tooltip-placement="top"></span>-->
-                                    <a ng-click="down(this,item.url)" target="_self" class="down_cion" uib-tooltip="下载" tooltip-placement="top"></a>
+                                    <a href={{item.url}} target="_self" class="down_cion" uib-tooltip="下载" tooltip-placement="top"></a>
                                 </div>
                             </div>
                         </li>

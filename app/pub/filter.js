@@ -5,11 +5,13 @@ define(['angular', 'moment'], function (angular, moment) {
     return angular.module('myApp.filter', [])
         .filter('dateRelative', [function() {
             // dropSuffix will tell moment whether to include the "ago" text
+            console.log('timestamp', 1);
             return function(timestamp, dropSuffix) {
 
                 if (!timestamp) {
                     return "-";
                 }
+
                 return moment(timestamp).fromNow(dropSuffix);
             };
         }])
@@ -262,9 +264,15 @@ define(['angular', 'moment'], function (angular, moment) {
                 if (!image) {
                     return "";
                 }
+
                 var match = image.match(/\/([^/]*)@sha256/);
                 if (!match) {
-                    return image.replace(/:.*/, '');
+
+                    //return image
+                    var tag = image.split(':')[image.split(':').length-1];
+                    var imagename = image.split(':'+tag)[0];
+                    console.log('image11', imagename);
+                    return imagename;
                 }
                 return match[1];
             };

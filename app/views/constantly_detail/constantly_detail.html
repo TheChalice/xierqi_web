@@ -17,12 +17,12 @@
                 <div class="row">
                     <div class="col-sm-3">
                         <div class="media media-sm">
-                            <!--<div class="media-left">-->
-                                <!--<img class="media-object" src="views/build_detail/img/images_104.png">-->
-                            <!--</div>-->
+                            <div class="media-left">
+                                <img class="media-object" src="views/build_detail/img/images_104.png">
+                            </div>
                             <div class="media-body">
 
-                                <h4 class="media-heading">更新时间：</h4>
+                                <h4 class="media-heading">更新时间</h4>
                                 <small uib-tooltip="{{persistents.metadata.creationTimestamp | timescon}}">
                                     {{persistents.metadata.creationTimestamp | dateRelative}}
                                 </small>
@@ -37,7 +37,7 @@
                             <!--</div>-->
                             <div class="media-body">
 
-                                <h4 class="media-heading">持久化卷大小：</h4>
+                                <h4 class="media-heading">持久化卷大小</h4>
                                 <small style="color: #5a6378;">{{persistents.spec.resources.requests.storage}}</small>
                             </div>
                         </div>
@@ -50,7 +50,7 @@
                             <!--</div>-->
                             <div class="media-body">
 
-                                <h4 class="media-heading">持久化卷状态：</h4>
+                                <h4 class="media-heading">持久化卷状态</h4>
                                 <small style="color: #5a6378;">{{persistents.status.phase | bandFilter}}</small>
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                             <!--</div>-->
                             <div class="media-body">
 
-                                <h4 class="media-heading">挂载服务数量：</h4>
+                                <h4 class="media-heading">挂载服务数量</h4>
                                 <small style="color: #5a6378;">{{persistents.arr.length}}</small>
                             </div>
                         </div>
@@ -74,18 +74,18 @@
         <uib-tabset class="tab-default" active="active">
             <uib-tab index="1">
                 <uib-tab-heading>
-                    <i class="icon20 icon20-paper"></i> 挂载服务
+                    <i class="icon20 icon20-paper"></i> 挂载信息
                 </uib-tab-heading>
-                <div class="panel-default panel_con_detail">
-                    <!--<div class="panel-heading">-->
-                        <!--<p>挂载的服务列表</p>-->
-                    <!--</div>-->
+                <div class="panel-default">
+                    <div class="panel-heading">
+                        <p>挂载的服务列表</p>
+                    </div>
                     <div class="panel-body" style="padding:0">
                         <ul style="padding: 0;margin: 0;">
-                            <li ng-repeat="item in persistents.arr" class="listitems" ui-sref="console.service_detail({name:item})">
-                                <img src="pub/img/c_detail_icon.png" class="c_detail_icon">
-                                <a class="listitem" style="color:#f6a540">{{item}}</a></li>
-                            <li ng-if="persistents.arr.length===0"  style="text-align: center;margin-bottom:20px; background: #f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;" ><p class="blank_block"><img src="pub/img/df_cion.png"><span class="blank_tit">您还没有挂载服务信息</span></p></li>
+                            <li ng-repeat="item in persistents.arr" class="listitems" style="list-style: none;height: 60px;line-height: 60px;">
+                                <a class="listitem" ui-sref="console.service_detail({name:item})" style="color:#f6a540">{{item}}</a></li>
+                            <div style="text-align: center;background:#f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;"
+                                 ng-if="persistents.arr.length===0"><p class="blank_block"><span class="blank_tit">无挂载服务</span></p></div>
                         </ul>
                     </div>
                 </div>
@@ -96,17 +96,17 @@
 
 </div>
 <style>
-    .config-detail .tab-content{padding:30px 4% 0;}
-    .panel_con_detail{border:0;}
-    .listitems{width:22%;border:2px solid #c9c9c9;display:block;float:left;margin-right:4%;margin-bottom:32px;cursor:pointer;
-      transition:all 1s;-webkit-transition:all 1s;-moz-transition:all 1s; }
-    .listitems:hover{border:2px solid #f7b365;}
-    .listitems:nth-child(4){margin-right:0;}
-    .c_detail_icon{width:64px;display:block;margin:30px auto;}
-    .listitem{display:block;width:100%;text-align:center;height:40px;line-height:40px;border-top:1px solid #c9c9c9;font-weight:bold;}
-    .config-detail .media-heading{display:inline-block;color:#ababab!important;}
-    /*数据为空时状态*/
-    .blank_block{margin-bottom:0;}
-    .blank_tit{font-size:14px;color:#5a6378;margin-left:10px;vertical-align:middle;}
-
+    #listitem{
+        border-bottom: 1px solid #c9c9c9;
+    }
+    .listitems {
+        padding-left: 20px;
+        border-bottom: 1px solid #E6E9F2;
+    }
+    .listitems:hover {
+        background-color: #f7f8fb;
+    }
+    .listitem:hover{
+        color: #5b73eb;
+    }
 </style>

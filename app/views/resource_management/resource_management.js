@@ -59,7 +59,7 @@ angular.module('console.resource_management', [
                 }, function (res) {
                     angular.forEach(res.items, function (item, i) {
                         //console.log(item.spec.resources.requests.storage);
-                        res.items[i].spec.resources.requests.storage=item.spec.resources.requests.storage.replace('i','B');
+                        res.items[i].spec.resources.requests.storage=item.spec.resources.requests.storage.replace('i','B')
                     })
                     DeploymentConfig.get({
                         namespace: $rootScope.namespace,
@@ -100,7 +100,7 @@ angular.module('console.resource_management', [
                             }
                             //物理刷新不重启ws
                             $scope.persistentdata = res.items;
-                           // console.log($scope.persistentdata);
+
                             //console.log('chijiu', res);
                         }else {
                             $scope.persistentdata=[];
@@ -132,7 +132,7 @@ angular.module('console.resource_management', [
                 }, function (res) {
                     var data = JSON.parse(res.data);
                     updatePC(data);
-                    //console.log(data,'创建卷，成功');
+                    //console.log(data);
                 }, function () {
                     $log.info("webSocket start");
                 }, function () {
@@ -161,16 +161,14 @@ angular.module('console.resource_management', [
                 if (data.type == 'ADDED') {
                     //$scope.rcs.items.push(data.object);
                 } else if (data.type == "MODIFIED") {
+                    //console.log(data);
                     data.object.spec.resources.requests.storage=data.object.spec.resources.requests.storage.replace('i','B')
-                    //console.log(data);$scope.persistents.items
-                   // console.log('$scope.persistentdata', $scope.persistentdata);
-                   // console.log('data.object.metadata.name', data.object);
 
                     angular.forEach($scope.persistentdata, function (item, i) {
 
                         if (item.metadata.name == data.object.metadata.name) {
 
-                            $scope.persistentdata[i] = data.object
+                            $scope.persistentdata[i] = data.object;
                             //$scope.persistents.items[i].status.phase=data.object.status.phase
                             //$scope.persistents[i]=data.object;
                             rmrefresh(1);
@@ -198,7 +196,6 @@ angular.module('console.resource_management', [
                         $scope.persistentdata = angular.copy($scope.cpoypersistents)
                         rmrefresh(1);
                         $scope.grid.rmtotal = $scope.cpoypersistents.length;
-                        $scope.text='您还没有创建持久化卷';
                         return;
                     }
                     $scope.persistentdata = [];
@@ -217,6 +214,7 @@ angular.module('console.resource_management', [
                         //console.log(repo.instance_data, $scope.grid.txt);
                     })
                     if(iarr.length===0){
+                        $scope.isQuery=true;
                         $scope.text='没有查询到相关数据';
                     }
                     else{
@@ -246,7 +244,7 @@ angular.module('console.resource_management', [
                 $scope.configitems = $scope.configdata.slice(skip, skip + $scope.grid.size)||[];
 
             };
-            //console.log('ewfwefwae',$scope.configdata);
+
             $scope.$on('$destroy', function () {
                 Ws.clear();
             });
@@ -290,7 +288,6 @@ angular.module('console.resource_management', [
                         $scope.configdata = angular.copy($scope.copyconfigdata)
                         refresh(1);
                         $scope.grid.total = $scope.configdata.length;
-                        $scope.text2='您还没有创建配置卷';
                         return;
                     }
                     $scope.configdata = [];
@@ -309,6 +306,7 @@ angular.module('console.resource_management', [
                         //console.log(repo.instance_data, $scope.grid.txt);
                     })
                     if(iarr.length===0){
+                        $scope.isQuery=true;
                         $scope.text2='没有查询到相关数据';
 
                     }
@@ -378,7 +376,6 @@ angular.module('console.resource_management', [
                         $scope.secretdata = angular.copy($scope.copysecretdata);
                         secretrefresh(1);
                         $scope.secrets.total = $scope.secretdata.length;
-                        $scope.text3=' 您还没有创建密钥';
                         return;
                     }
                     $scope.secretdata = [];

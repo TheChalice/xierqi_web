@@ -70,7 +70,7 @@ angular.module('console.plan', [
             var canbuy = true
             $scope.buy = function (plan) {
                 if (canbuy) {
-                    canbuy = false;
+                    canbuy = false
                     if (plan.canbuy === 'big') {
                         checkout.create({
                             drytry:1,
@@ -89,35 +89,33 @@ angular.module('console.plan', [
                                     region:$rootScope.region
                                 }, function (data) {
                                     //console.log(data);
+                                    canbuy = true
                                     Tip.open('提示', '购买成功！', false, true, true).then(function () {
                                         $state.go('console.dashboard')
                                     })
 
                                 }, function (err) {
-                                    canbuy = true;
+                                    canbuy = true
                                     if (err.data.code === 3316) {
                                         Tip.open('提示', '账户可用余额不足', '充值', true).then(function () {
                                             $state.go('console.pay');
                                         })
                                     } else {
                                         Tip.open('提示', '暂不支持更换套餐', '知道了', true).then(function () {
-
                                         })
                                     }
-
                                 })
                             })
-
                         }, function (err) {
+                            canbuy = true
                             console.log('data',err);
-                            canbuy = true;
                         })
 
 
 
                     } else if (plan.canbuy === 'small') {
-                        Tip.open('更换失败', '暂不支持更换低套餐', false, true);
-                        canbuy = true;
+                        canbuy = true
+                        Tip.open('更换失败', '暂不支持更换低套餐', false, true)
 
                     }
                 }

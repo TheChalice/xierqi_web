@@ -184,12 +184,12 @@ angular.module('console.backing_service', [
                             watchBsi($scope.resourceVersion);
                             angular.forEach(res.items, function (item,i) {
                                 if (item.spec.binding&&item.spec.binding.length) {
-                                    angular.forEach(item.spec.binding, function (bind,k) {
-                                        //bind.bound_time
-                                        res.items[i].spec.binding[k].mysort=bind.bound_time;
-                                        res.items[i].spec.binding[k].mysort=(new Date(res.items[i].spec.binding[k].mysort)).getTime();
+                                   angular.forEach(item.spec.binding, function (bind,k) {
+                                      //bind.bound_time
+                                       res.items[i].spec.binding[k].mysort=bind.bound_time;
+                                       res.items[i].spec.binding[k].mysort=(new Date(res.items[i].spec.binding[k].mysort)).getTime();
 
-                                    })
+                                   })
                                     res.items[i].spec.binding.sort(function (x,y) {
                                         return x.mysort > y.mysort ? -1 : 1;
                                     })
@@ -556,23 +556,23 @@ angular.module('console.backing_service', [
                                 if (bsi.metadata.name === data.object.metadata.name) {
                                     //console.log('bsi.metadata.name', bsi.metadata.name);
                                     //if (bsi.spec.binding.length !== data.object.spec.binding.length) {
-                                    //console.log('bsi',bsi);
+                                        //console.log('bsi',bsi);
                                     //angular.forEach(res.items, function (item,i) {
-                                    if (data.object.spec.binding&&data.object.spec.binding.length) {
-                                        angular.forEach(data.object.spec.binding, function (bind,k) {
-                                            //bind.bound_time
-                                            data.object.spec.binding[k].mysort=bind.bound_time;
-                                            data.object.spec.binding[k].mysort=(new Date(data.object.spec.binding[k].mysort)).getTime();
+                                        if (data.object.spec.binding&&data.object.spec.binding.length) {
+                                            angular.forEach(data.object.spec.binding, function (bind,k) {
+                                                //bind.bound_time
+                                                data.object.spec.binding[k].mysort=bind.bound_time;
+                                                data.object.spec.binding[k].mysort=(new Date(data.object.spec.binding[k].mysort)).getTime();
 
-                                        })
-                                        data.object.spec.binding.sort(function (x,y) {
-                                            return x.mysort > y.mysort ? -1 : 1;
-                                        })
-                                    }
+                                            })
+                                            data.object.spec.binding.sort(function (x,y) {
+                                                return x.mysort > y.mysort ? -1 : 1;
+                                            })
+                                        }
                                     //})
-                                    data.object.show = bsi.show;
-                                    $scope.myservice[i].item[j] = data.object;
-                                    $scope.$apply();
+                                        data.object.show = bsi.show;
+                                        $scope.myservice[i].item[j] = data.object;
+                                        $scope.$apply();
                                     //}
                                 }
                             })
@@ -806,7 +806,7 @@ angular.module('console.backing_service', [
                 } else if (id || id === 0) {
                     id = id.toString();
                     newid = id;
-                    console.log('del$scope.myservice[id].item[idx]', $scope.myservice[id].item[idx]);
+                     console.log('del$scope.myservice[id].item[idx]', $scope.myservice[id].item[idx]);
                     if ($scope.myservice[id].item[idx].spec.binding||$scope.myservice[id].item[idx].spec.binding===null) {
                         //alert(1)
                         if ($scope.myservice[id].item[idx].spec.binding) {
@@ -821,19 +821,19 @@ angular.module('console.backing_service', [
                         } else {
                             Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', 'recycle', false).then(function () {
 
-                                orders.query({region:$rootScope.region,resource_name:$scope.myservice[id].item[idx].metadata.name,namespace:$rootScope.namespace,
-                                    status:'consuming'}, function (data) {
+                                //orders.query({region:$rootScope.region,resource_name:$scope.myservice[id].item[idx].metadata.name,namespace:$rootScope.namespace,
+                                    //status:'consuming'}, function (data) {
                                     //console.log('data',data);
-                                    if (data.length>0&&data[0].order.id) {
-                                        delorders.delete({id:data[0].order.id,action:"cancel",namespace:$rootScope.namespace}, function (data) {
-                                            //$state.go('console.resource_management', {index: 1})
-                                            console.log($scope.numservice);
-                                            $scope.numservice.splice(0, 1);
-                                            $scope.myservice[id].item.splice(idx, 1);
-                                            Toast.open('删除成功');
-                                        })
-
-                                    }else {
+                                    //if (data.length>0&&data[0].order.id) {
+                                    //    delorders.delete({id:data[0].order.id,action:"cancel",namespace:$rootScope.namespace}, function (data) {
+                                    //        //$state.go('console.resource_management', {index: 1})
+                                    //        console.log($scope.numservice);
+                                    //        $scope.numservice.splice(0, 1);
+                                    //        $scope.myservice[id].item.splice(idx, 1);
+                                    //        Toast.open('删除成功');
+                                    //    })
+                                    //
+                                    //}else {
                                         BackingServiceInstance.del({
                                             namespace: $rootScope.namespace,
                                             name: $scope.myservice[id].item[idx].metadata.name,
@@ -844,8 +844,8 @@ angular.module('console.backing_service', [
                                         }, function (res) {
                                             $log.info('err', res);
                                         })
-                                    }
-                                })
+                                    //}
+                                //})
 
                             });
                         }

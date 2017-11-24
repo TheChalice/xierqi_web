@@ -1,8 +1,9 @@
 <div class="loading-box" ng-show=loaded>
-    <!--<img class="spinner" src="pub/img/loading.gif">-->
-    <div class="loader-inner ball-clip-rotate-multiple" style="top:50%;">
-        <div></div>
-        <div></div>
+    <div class="loader">
+        <div class="loader-inner ball-clip-rotate-multiple">
+            <div></div>
+            <div></div>
+        </div>
     </div>
 </div>
 <div>
@@ -21,7 +22,7 @@
                                onkeypress="if((event.keyCode > 31 && event.keyCode < 44) || (event.keyCode > 46 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97))event.returnValue = false;"
                                ng-focus="namefocus()"
                                class="form-control" required
-                               placeholder="例如:datafoundry">
+                               placeholder="创建一个配置卷名称">
                         <small ng-if="namerr.nil" class="fa fa-info-circle err-tip">请输入正确构建名称
                         </small>
                         <small ng-if="namerr.rexed" class="fa fa-info-circle err-tip">请输入4~30位名称,名称只能包含英文、数字以及“-”
@@ -106,7 +107,7 @@
                 </div>
             </div>
         </div>
-        <a href="javascript:;" ng-if="!frm.$invalid&&grid.configpost" class="btn btn-block create" style="background-color: #F8B551; margin-top: 35px; color: white;" ng-click="cearteconfig()">创建配置卷</a>
+        <a href="javascript:;" ng-if="!frm.$invalid&&grid.configpost" class="btn btn-block create" style="background-color: #e5993a; margin-top: 35px; color: white;" ng-click="cearteconfig()">创建配置卷</a>
         <a href="javascript:;" ng-if="!grid.configpost" disabled="disabled" class="btn btn-block create" style="background-color: #CCCCCC; margin-top: 35px; color: white;" >创建配置卷</a>
     </form>
 </div>
@@ -116,7 +117,7 @@
     }
 
     .href-add:hover {
-        color: #55c45f;
+        color: #f6a540;
     }
 
     .testt {

@@ -4,7 +4,12 @@
 <!--<div class="login">-->
     <!--loading-->
     <div class="loading-box" ng-show=loding>
-    <img class="spinner" src="pub/img/loading.gif">
+        <div class="loader">
+            <div class="loader-inner ball-clip-rotate-multiple">
+                <div></div>
+                <div></div>
+            </div>
+        </div>
 </div>
 
 <div class="logboxworp">
@@ -39,13 +44,13 @@
                     <span class="require">用户名</span>&nbsp;&nbsp;
                     <small ng-if="frm.username.$dirty && frm.username.$invalid" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;用户名不能为空</small>
                 </p>
-                <input name="username" style="font-size: 12px;" autocomplete="off" class="form-control loginfocus loginname" ng-model="credentials.username" tabindex="1"  required>
+                <input name="username" style="font-size: 12px;" autocomplete="off" class="form-control loginfocus loginname" ng-model="credentials.username" required>
 
                 <p class="modal-msg text-left" style="margin: 20px 0 3px 0;font-size:12px;color:#5a6378;">
                     <span class="require">密码</span>&nbsp;&nbsp;
                     <small ng-if="frm.password.$dirty && frm.password.$invalid" class="err-tip pull-right"><i class="fa fa-info-circle"></i>&nbsp;密码不能为空</small>
                 </p>
-                <input name="password" style="font-size: 12px;letter-spacing:6px;" autocomplete="off" type="password" class="form-control loginfocus"  ng-model="credentials.password" required  ng-keydown="enterLogin($event)" tabindex="2" >
+                <input name="password" style="font-size: 12px;letter-spacing:6px;" autocomplete="off" type="password" class="form-control loginfocus"  ng-model="credentials.password" required>
                 <div class="yanzheng" ng-if="loginyanzheng">
                     <p class="modal-msg text-left" style="margin: 20px 0 3px 0;font-size:12px;color:#5a6378;">
                         <span class="require">验证码</span>&nbsp;&nbsp;
@@ -62,31 +67,33 @@
                                ng-blur="yzmchange=true"
                                ng-focus="yzmchange=false"
                                class="form-control loginfocus"
-                               ng-model="vm.code" tabindex="3" required/>
+                               ng-model="vm.code" required/>
                         <div ng-click="changecode()" class="code">{{yzcode}}</div>
                     </div>
                 </div>
 
-                <button ng-if="loginyanzheng" tabindex="4" class="btn btn-orange btn-block" ng-click="!loginerror.codeerror&&frm.$valid && login()" style="font-size:14px;margin: 18px 0 0 0; color: white">
+                <button ng-if="loginyanzheng" class="btn btn-orange btn-block" ng-click="!loginerror.codeerror&&frm.$valid && login()" style="font-size:14px;margin: 18px 0 0 0; color: white">
                     登录
                 </button>
-                <button ng-if="!loginyanzheng" tabindex="4" class="btn btn-orange btn-block" ng-click="frm.$valid && login()" style="margin: 30px 0 0 0; color: white">
+                <button ng-if="!loginyanzheng" class="btn btn-orange btn-block" ng-click="frm.$valid && login()" style="margin: 30px 0 0 0; color: white">
                     登录
                 </button>
             </form>
         </div>
-        <div class="modal-footer" style="padding: 0;border: none;">
-            <div ng-if="!loginyanzheng">
-                <div class="nocode" style="font-size: 16px; text-align: center;color: #5a6378;margin-top:40px;">没有&nbsp;DataFoundry&nbsp;账号?</div>
-                <button ng-click="regist()" class="btn btn-block btn-regist" style="height:34px;">
-                    立即注册
-                </button>
-            </div>
-            <div ng-if="loginyanzheng">
-                <div class="nocode" style="font-size: 14px; text-align: center;color: #5a6378;margin-top:20px;">没有&nbsp;DataFoundry&nbsp;账号?&nbsp;&nbsp;<span
-                      ng-click="regist()" class="goregist">立即注册</span></div>
-            </div>
+        <div class="modal-footer" style="padding: 0;border: none;background:#f7f8fb">
+       <!--<div ng-if="!loginyanzheng">-->
+                <!--<div class="nocode" style="font-size: 16px; text-align: center;color: #5a6378;margin-top:40px;">没有&nbsp;DataFoundry&nbsp;账号?</div>-->
+                <!--<button ng-click="regist()" class="btn btn-block btn-regist" style="height:34px;">-->
+                    <!--立即注册-->
+                <!--</button>-->
+            <!--</div>-->
+            <!--<div ng-if="loginyanzheng">-->
+                <!--<div class="nocode" style="font-size: 14px; text-align: center;color: #5a6378;margin-top:20px;">没有&nbsp;DataFoundry&nbsp;账号?&nbsp;&nbsp;<span-->
+                      <!--ng-click="regist()" class="goregist">立即注册</span></div>-->
+            <!--</div>-->
         </div>
+
+
     </div>
 </div>
 
@@ -209,7 +216,7 @@
     .modal-header{
         background-color: #e6e9f2;
         color: #5a6378;
-        border: none;
+        border: none;visibility: hidden;
         
     }
     .modal-title {

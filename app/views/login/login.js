@@ -4,13 +4,13 @@ angular.module('home.login', [])
         function (regions, ModalRegist, $interval, $state, $rootScope, AuthService, $scope, $log, $stateParams) {
             //console.log("+_+_+_+_+_+_+_+", $stateParams);
             $rootScope.credentials={};
-            regions.query({}, function (data) {
-                //console.log('regions', data);
-                $scope.regionlist = data;
-                $scope.copyregionlist=angular.copy(data);
-                $rootScope.credentials.region=data[0].identification;
-                $scope.curregion=data[0].region_describe
-            })
+            //regions.query({}, function (data) {
+            //    //console.log('regions', data);
+            //    $scope.regionlist = data;
+            //    $scope.copyregionlist=angular.copy(data);
+            //    $rootScope.credentials.region=data[0].identification;
+            //    $scope.curregion=data[0].region_describe
+            //})
             $('.loginname').focus();
             //$rootScope.credentials = {
             //    region:'cn-north-1'
@@ -122,6 +122,7 @@ angular.module('home.login', [])
                 }
             })
             $log.info('login');
+
             $scope.login = function () {
                 if ($stateParams.type) {
                     AuthService.login($rootScope.credentials, $stateParams);
@@ -129,19 +130,7 @@ angular.module('home.login', [])
                     AuthService.login($rootScope.credentials);
                 }
 
-
             };
-            $scope.enterLogin=function(e){
-                if (e.keyCode==13) {
-                    $('input').blur();
-                    if ($stateParams.type) {
-                        AuthService.login($rootScope.credentials, $stateParams);
-                    } else {
-                        AuthService.login($rootScope.credentials);
-                    }
-
-                }
-            }
             $scope.regist = function () {
                 //ModalRegist.open();
                 $state.go('regist');

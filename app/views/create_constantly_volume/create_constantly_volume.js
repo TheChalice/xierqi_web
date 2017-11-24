@@ -5,14 +5,15 @@ angular.module('console.create_constantly_volume', [
     }
 ]).controller('createconvolumeCtrl', ['persistent','Tip','checkout','market','Toast','$state', '$rootScope', 'volume', '$scope',
     function (persistent,Tip,checkout,market,Toast,$state, $rootScope, volume, $scope) {
+
         $scope.slider = {
-            value: 0,
+            value: 1,
             options: {
-                floor: 0,
-                ceil: 200,
-                step: 10,
+                floor: 1,
+                ceil: 5,
+                step: 1,
                 showSelectionBar: true,
-                showTicksValues:50,
+                showTicksValues:1,
                 translate: function(value, sliderId, label) {
                     switch (label) {
 
@@ -22,6 +23,8 @@ angular.module('console.create_constantly_volume', [
                 }
             }
         };
+
+
 
         $scope.danwei = 'GB';
         $scope.grid = {
@@ -43,16 +46,12 @@ angular.module('console.create_constantly_volume', [
             }
         }
         //type=persistent_volume
-        console.time('time');
         $scope.getPlan=true;
         market.get({region:$rootScope.region,type:'volume'}, function (data) {
+            console.log(data.plans);
             $scope.plans = data.plans;
-            console.log(data.plans,'plan');
-            console.timeEnd('time');
-            $scope.getPlan=false;
-
+             $scope.getPlan=false;
         })
-
         $scope.$watch('slider.value', function (n, o) {
             if (n == o) {
                 return
@@ -62,7 +61,6 @@ angular.module('console.create_constantly_volume', [
 
             }
         })
-
         $scope.namerr = {
             nil: false,
             rexed: false,
@@ -129,7 +127,6 @@ angular.module('console.create_constantly_volume', [
                 return
             }
         }
-
         $scope.isEmpty=function(){
             if ( $scope.volume.name==='') {
                 //alert(1)
@@ -140,7 +137,6 @@ angular.module('console.create_constantly_volume', [
             }
 
         }
-
         $scope.creat = function () {
             if (!$scope.namerr.nil && !$scope.namerr.rexed && !$scope.namerr.repeated&&!$scope.timeouted) {
 
@@ -163,59 +159,53 @@ angular.module('console.create_constantly_volume', [
                 $scope.grid.num=true;
                 return
             }
-            $scope.volume.size=$scope.slider.value;
-           // console.log($scope.plans,'plans');
+            $scope.volume.size=$scope.slider.value
 
             angular.forEach($scope.plans, function (plan,i) {
-                //console.log($scope.slider.value,plan.plan_level*10);
-
+                console.log($scope.slider.value,plan.plan_level*10);
                 if ($scope.slider.value === plan.plan_level*10) {
                     $scope.plan_id = plan.plan_id;
-                    console.log(plan.plan_id,'id')
                 }
             })
 
             $scope.loaded = true;
-            //console.log($scope.plan_id);
-            checkout.create({
-                drytry:0,
-                plan_id: $scope.plan_id,
-                namespace: $rootScope.namespace,
-                region:$rootScope.region,
-                parameters:{
-                    resource_name:$scope.volume.name
-                }
-            }, function (data) {
+            console.log($scope.plan_id);
+            //checkout.create({
+            //    drytry:0,
+            //    plan_id: $scope.plan_id,
+            //    namespace: $rootScope.namespace,
+            //    region:$rootScope.region,
+            //    parameters:{
+            //        resource_name:$scope.volume.name
+            //    }
+            //}, function (data) {
                 //console.log(data);
-                //volume.create({namespace: $rootScope.namespace}, $scope.volume, function (res) {
-                //    //alert(11111)
-                //    $scope.loaded = false;
+                volume.create({namespace: $rootScope.namespace}, $scope.volume, function (res) {
+                    //alert(11111)
+                    $scope.loaded = false;
                 $state.go('console.resource_management', {index: 1});
-                //}, function (err) {
-                //    $scope.loaded = false;
-                //    Toast.open('构建失败,请重试');
-                //})
+                }, function (err) {
+                    $scope.loaded = false;
+                    Toast.open('创建失败,请重试');
+                })
 
-            }, function (err) {
-                console.log(err.data.code);
-                $scope.loaded = false;
-               if (err.data.code === 3316) {
-
-                    Tip.open('提示', '账户可用余额不足。', '充值', true).then(function () {
-                        $state.go('console.pay');
-                    })
-               } else if(err.data.code === 3316) {
-                   Tip.open('提示', '名称重复', '知道了', true).then(function () {
-
-                   })
-                } else {
-
-                    Tip.open('提示', '支付失败,请重试', '知道了', true).then(function () {
-
-                    })
-                }
-
-            })
+            //}, function (err) {
+            //    $scope.loaded = false;
+            //    if (err.data.code === 3316) {
+            //        Tip.open('提示', '账户可用余额不足。', '充值', true).then(function () {
+            //            $state.go('console.pay');
+            //        })
+            //    } else if(err.data.code === 3316) {
+            //        Tip.open('提示', '名称重复', '知道了', true).then(function () {
+            //
+            //        })
+            //    }else {
+            //        Tip.open('提示', '支付失败,请重试', '知道了', true).then(function () {
+            //
+            //        })
+            //    }
+            //
+            //})
 
 
         }
