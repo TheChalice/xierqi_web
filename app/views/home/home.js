@@ -3,10 +3,10 @@
 angular.module('home', [])
     .controller('HomeCtrl', ['Cookie','regions','account','$state', '$scope', '$rootScope', '$log', 'ModalLogin', 'ModalRegist', 'User',
         function (Cookie,regions,account,$state, $scope, $rootScope, $log, ModalLogin, ModalRegist, User) {
-            regions.query({}, function (data) {
-                console.log('regions', data);
-                $scope.regions = data;
-            })
+            //regions.query({}, function (data) {
+            //    console.log('regions', data);
+            //    $scope.regions = data;
+            //})
             $log.info('Home');
             //footer底部返回顶部 20161202 jia
             $(".fl_detail").on("click",function(){
@@ -85,29 +85,29 @@ angular.module('home', [])
                 }
             };
             $scope.consolein= function () {
-                account.get({namespace:$rootScope.namespace,region:$rootScope.region,status:"consuming"}, function (data) {
-                    //console.log('套餐', data);
-                    //$rootScope.payment=data;
-                    if (data.purchased) {
+                //account.get({namespace:$rootScope.namespace,region:$rootScope.region,status:"consuming"}, function (data) {
+                //    //console.log('套餐', data);
+                //    //$rootScope.payment=data;
+                //    if (data.purchased) {
                         $state.go("console.dashboard")
-                    }else{
-                        $state.go("console.noplan")
-                    }
-                })
+                //    }else{
+                //        $state.go("console.noplan")
+                //    }
+                //})
             }
             //console.log('$scope$scope$scope$scope',$scope)
             $rootScope.$on('$stateChangeStart',
                 function (event, toState, toParams, fromState, fromParams) {
                     //console.log('toState',toState.name);
                     if (toState.name !== "home.index") {
-                       // $('html').css('overflow', 'auto');
-                        //$('.foot_main').css('display', 'block');
+                        $('html').css('overflow', 'auto');
+                        $('.foot_main').css('display', 'block');
 
                         window.onmousewheel = document.onmousewheel = true;
                     } else {
-                      //  $('html').css('overflow', 'hidden');
-                       // $('.foot_main').css('display', 'none');
-                       // scrollTo(0,0);
+                        $('html').css('overflow', 'hidden');
+                        $('.foot_main').css('display', 'none');
+                        scrollTo(0,0);
                         preload(
                             "views/home/introduce/img/DF-111.png",
                             "views/home/introduce/img/DF-15.png",

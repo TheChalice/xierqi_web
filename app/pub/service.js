@@ -52,6 +52,7 @@ define(['angular'], function (angular) {
                     '14090': '组织已存在',
                     '14091': '该用户已存在',
                     '14092': '该用户在LDAP已存在',
+                    '1409': '重复条目',
                     '2049': '原密码错误'
                 }
                 return errcode[code] || '内部错误，请通过DaoVoice联系管理员'
@@ -426,6 +427,8 @@ define(['angular'], function (angular) {
                     size: 'default',
                     controller: ['addperpleOrg','createOrg','$state', '$rootScope', '$scope', '$uibModalInstance', 'loadOrg', '$http',
                         function (addperpleOrg,createOrg,$state, $rootScope, $scope, $uibModalInstance, loadOrg, $http) {
+                            $scope.isaddpeople=isaddpeople;
+                            $scope.level=false;
                             $scope.title = title;
                             $scope.txt = txt;
                             $scope.tip = tip;
@@ -441,11 +444,12 @@ define(['angular'], function (angular) {
                                         } else {
                                             addperpleOrg.put({namespace: $rootScope.namespace,region:$rootScope.region}, {
                                                 member_name: $scope.orgName,
-                                                admin: false
+                                                admin: $scope.level
                                             }, function (item) {
                                                 $uibModalInstance.close(item);
                                             }, function (err) {
-                                                $scope.tip = errcode.open(res.code)
+                                                //console.log('err.code', err);
+                                                $scope.tip = errcode.open(err.data.code)
                                             })
 
                                         }
@@ -501,6 +505,7 @@ define(['angular'], function (angular) {
                 }).result;
             };
         }])
+
         .service('Alert', ['$uibModal', function ($uibModal) {
             this.open = function (title, txt, err, regist, active) {
                 return $uibModal.open({
@@ -525,7 +530,6 @@ define(['angular'], function (angular) {
         .service('Tip', ['$uibModal', function ($uibModal) {
             this.open = function (title, txt, tip, iscf,colse,isorg,ispay) {
                 return $uibModal.open({
-                    backdrop: 'static',
                     templateUrl: 'pub/tpl/tip.html',
                     size: 'default',
                     controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
@@ -540,6 +544,30 @@ define(['angular'], function (angular) {
                         //$scope.nonstop = nonstop;
                         $scope.ok = function () {
                             $uibModalInstance.close(true);
+                        };
+                        $scope.cancel = function () {
+                            $uibModalInstance.dismiss();
+                        };
+                    }]
+                }).result;
+            };
+        }])
+        .service('delTip', ['$uibModal', function ($uibModal) {
+            this.open = function (title, txt, tip,colse) {
+                return $uibModal.open({
+                    backdrop: 'static',
+                    templateUrl: 'pub/tpl/deltip.html',
+                    size: 'default',
+                    controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+                        $scope.title = title;
+                        $scope.txt = txt;
+                        $scope.tip = tip;
+                        $scope.close=colse;
+                        //$scope.tp = tp;
+
+                        //$scope.nonstop = nonstop;
+                        $scope.ok = function () {
+                            $uibModalInstance.close();
                         };
                         $scope.cancel = function () {
                             $uibModalInstance.dismiss();
@@ -624,7 +652,6 @@ define(['angular'], function (angular) {
         .service('ChooseSecret', ['$uibModal', function ($uibModal) {
             this.open = function (olength, secretsobj) {
                 return $uibModal.open({
-                    backdrop: 'static',
                     templateUrl: 'pub/tpl/choosSecret.html',
                     size: 'default',
                     controller: ['by', '$scope', '$uibModalInstance', '$log', 'secretskey', '$rootScope', 'configmaps', 'persistent', '$state',
@@ -782,7 +809,7 @@ define(['angular'], function (angular) {
 
                             var loadpersistent = function () {
 
-                                persistent.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
+                                persistent.get({namespace: $rootScope.namespace}, function (res) {
                                     if (res.items) {
                                         //console.log(res);
                                         $scope.persistentitem = [];
@@ -908,21 +935,30 @@ define(['angular'], function (angular) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/modal_pull_image.html',
                     size: 'default',
-                    controller: ['$scope', '$uibModalInstance', '$log', function ($scope, $uibModalInstance, $log) {
+                    keyboard: false,
+                    controller: ['$scope', '$uibModalInstance', '$log','Cookie','GLOBAL',
+                        function ($scope, $uibModalInstance, $log,Cookie,GLOBAL) {
                         //console.log(name)
                         //if (!yuorself) {
                         //    $scope.name = name.split('/')[1] ? name.split(':')[0] + ':' + name.split(':')[1].split('/')[1] : name;
                         //
                         //} else {
-
+                       $scope.copyCon = '复制';
                         var names = name
                         //}
+
+                            var tokens = Cookie.get('df_access_token').split(',');
+                            var token = tokens[0];
                         if (yuorself == 'project') {
                             $scope.name = name;
-                            $scope.cmd = 'docker pull registry.dataos.io/' + $rootScope.namespace + '/' + $scope.name;
+                            $scope.privateurl = GLOBAL.private_url
+
+                            //docker login -u chaizs -p xxzxczxadasd registry.dataos.io && docker pull
+                            $scope.cmd = 'docker login -u '+Cookie.get('namespace')+' -p '+token+' '+GLOBAL.private_url+' && docker pull '+GLOBAL.private_url+'/' + $rootScope.namespace + '/' + $scope.name;
                         } else {
-                            $scope.name = names.split('/')[1];
-                            $scope.cmd = 'docker pull registry.dataos.io/' + name;
+                            $scope.privateurl = GLOBAL.common_url
+                            $scope.name = name;
+                            $scope.cmd = 'docker pull '+GLOBAL.common_url+'/'  + $scope.name;;
                         }
 
                         $scope.cancel = function () {
@@ -930,7 +966,8 @@ define(['angular'], function (angular) {
                         };
                         $scope.success = function () {
                             $log.info('Copied!');
-                            $uibModalInstance.close(true);
+                            $scope.copyCon = '已复制';
+                            //$uibModalInstance.close(true);
                         };
                         $scope.fail = function (err) {
                             $scope.tip = '该浏览器不支持复制，请手动选中输入框中内容，通过 Ctrl+C 复制';
@@ -943,10 +980,10 @@ define(['angular'], function (angular) {
         .service('ImageSelect', ['$uibModal', function ($uibModal) {
             this.open = function () {
                 return $uibModal.open({
-                    backdrop: 'static',
                     templateUrl: 'pub/tpl/modal_choose_image.html',
                     size: 'default modal-lg',
-                    controller: ['$rootScope', '$scope', '$uibModalInstance', 'images', 'ImageStreamTag', 'ImageStream', '$http', 'platformlist', function ($rootScope, $scope, $uibModalInstance, images, ImageStreamTag, ImageStream, $http, platformlist) {
+                    controller: ['pubregistrytag','pubregistry','platform','regpro','$rootScope', '$scope', '$uibModalInstance', 'images', 'ImageStreamTag', 'ImageStream', '$http', 'platformlist',
+                        function (pubregistrytag,pubregistry,platform,regpro,$rootScope, $scope, $uibModalInstance, images, ImageStreamTag, ImageStream, $http, platformlist) {
                         //console.log('images', images);
                         $scope.grid = {
                             cat: 0,
@@ -1017,6 +1054,7 @@ define(['angular'], function (angular) {
                         });
 
                         $scope.images = images;
+
                         $scope.selectCat = function (idx) {
                             $scope.imageTags = {};
                             $scope.images = {};
@@ -1028,46 +1066,52 @@ define(['angular'], function (angular) {
                                     $scope.images = res;
                                 })
                             } else if (idx == 1) {
-                                $http.get('/registry/api/projects', {
-                                    params: {is_public: 0}
-                                }).success(function (data) {
+                                regpro.query({is_public: 0}, function (data) {
+
                                     for (var i = 0; i < data.length; i++) {
-                                        $http.get('/registry/api/repositories', {params: {project_id: data[i].project_id}})
-                                            .success(function (res) {
-                                                if (res) {
-                                                    for (var j = 0; j < res.length; j++) {
-                                                        var str = {
-                                                            'name': res[j]
-                                                        }
-                                                        $scope.test.items.push(str);
+                                        platform.query({id: data[i].project_id}, function (res) {
+                                            //console.log('newchange', res);
+                                            if (res) {
+                                                for (var j = 0; j < res.length; j++) {
+                                                    var str = {
+                                                        'name': res[j]
                                                     }
-                                                    $scope.images = $scope.test;
+                                                    $scope.test.items.push(str);
                                                 }
-                                            })
+                                                $scope.images = $scope.test;
+                                            }
+                                        })
+
                                     }
+                                })
+
+
+                            } else if (idx == 2) {
+                                //////仓库镜像
+                                pubregistry.get(function (data) {
+                                    $scope.images.items=[]
+                                angular.forEach(data.repositories, function (image,i) {
+                                    var namespace=image.split('/')[0];
+                                    var name=image.split('/')[1];
+                                    //if (namespace === $rootScope.namespace) {
+                                        //$scope.images.items.push({name:image,tags:[]})
+                                        pubregistrytag.get({namespace:namespace,name:name}, function (tag) {
+                                            console.log('tag', tag);
+                                            $scope.images.items.push(tag)
+                                            //$scope.images.items[i].tags=tag.tags
+                                            //console.log('$scope.primage', $scope.primage);
+                                        })
+                                    //}
 
                                 })
-                            } else if (idx == 2) {
-                                //////镜像中心
-                                $http.get('/registry/api/repositories', {params: {project_id: 1}})
-                                    .success(function (data) {
-                                        var arr2 = data;
-                                        $http.get('/registry/api/repositories', {params: {project_id: 58}})
-                                            .success(function (msg) {
-                                                arr2 = arr2.concat(msg);
-                                                for (var j = 0; j < arr2.length; j++) {
-                                                    var str2 = {
-                                                        'name': arr2[j]
-                                                    }
-                                                    $scope.imgcon.items.push(str2);
-                                                }
-                                                $scope.images = $scope.imgcon;
-                                            })
-                                    })
-                                $scope.images = $scope.imgcon
-                                //console.log(' $scope.imgcon $scope.imgcon $scope.imgcon', $scope.imgcon)
+
+                                })
+
+                                $scope.imgcon = $scope.images;
                             }
+                            console.log('$scope.images', $scope.images);
                         };
+
                         $scope.selectImage = function (idx) {
                             $scope.grid.version_x = null;
                             $scope.grid.version_y = null;
@@ -1111,23 +1155,39 @@ define(['angular'], function (angular) {
                                 })
                             } else if ($scope.grid.cat == 2) {
                                 $scope.grid.image = idx;
-                                $http.get('/registry/api/repositories/tags', {params: {repo_name: $scope.imgcon.items[idx].name}})
-                                    .success(function (tagmsg) {
-                                        $scope.imgcon.items[idx].status = {};
-                                        $scope.imgcon.items[idx].status.tags = [];
-                                        for (var i = 0; i < tagmsg.length; i++) {
-                                            var tagmsgobj = {
-                                                'tag': tagmsg[i],
-                                                'items': tagmsg,
-                                                'ist': {
-                                                    'imagesname': $scope.imgcon.items[idx].name + '/' + tagmsg[i],
-                                                    'ispublicimage': true,
-                                                }
-                                            };
-                                            $scope.imgcon.items[idx].status.tags.push(tagmsgobj)
+                                $scope.imgcon.items[idx].status = {};
+                                $scope.imgcon.items[idx].status.tags = [];
+                                angular.forEach($scope.images.items[idx].tags, function (tag,i) {
+                                    var tagmsgobj = {
+                                        'tag': tag,
+                                        'items': $scope.images.items[idx].tags,
+                                        'ist': {
+                                            'imagesname': $scope.images.items[idx].name + '/' + tag,
+                                            'ispublicimage': true,
                                         }
-                                        $scope.imageTags = $scope.imgcon.items[idx].status.tags;
-                                    });
+                                    };
+                                    $scope.imgcon.items[idx].status.tags.push(tagmsgobj)
+                                })
+                                $scope.imageTags = $scope.imgcon.items[idx].status.tags;
+
+                                //platformlist.query({id: $scope.imgcon.items[idx].name}, function (tagmsg) {
+                                //    console.log('tagmsg');
+                                //    $scope.imgcon.items[idx].status = {};
+                                //    $scope.imgcon.items[idx].status.tags = [];
+                                //    for (var i = 0; i < tagmsg.length; i++) {
+                                //        var tagmsgobj = {
+                                //            'tag': tagmsg[i],
+                                //            'items': tagmsg,
+                                //            'ist': {
+                                //                'imagesname': $scope.imgcon.items[idx].name + '/' + tagmsg[i],
+                                //                'ispublicimage': true,
+                                //            }
+                                //        };
+                                //        $scope.imgcon.items[idx].status.tags.push(tagmsgobj)
+                                //    }
+                                //    $scope.imageTags = $scope.imgcon.items[idx].status.tags;
+                                //})
+
                             }
                         };
 
@@ -1308,27 +1368,50 @@ define(['angular'], function (angular) {
                     templateUrl: 'views/backing_service/service_select.html',
                     size: 'default modal-foo',
                     controller: ['$log', '$rootScope', '$scope', '$uibModalInstance', 'data', function ($log, $rootScope, $scope, $uibModalInstance, data) {
+                        //var curdata = angular.copy(data);
+
                         var curdata = angular.copy(data);
+
                         for (var j = 0; j < data.items.length; j++) {
                             for (var i = 0; i < c.length; i++) {
                                 if (data.items[j].metadata.name == c[i].bind_deploymentconfig) {
-                                    curdata.items.splice(j, 1);
+                                    curdata.items.splice(j, 1,'false');
                                 }
                             }
                         }
-                        $log.info('curdatacurdata', curdata);
-                        $scope.data = curdata;
-                        $scope.items = curdata.items;
+
+                        var dclist=angular.copy(curdata);
+                        dclist.items=[];
+                        angular.forEach(curdata.items, function (item,i) {
+                            if (item === 'false') {
+
+                            }else {
+                                dclist.items.push(item)
+                            }
+                            //dclist
+                        })
+                        $scope.dc={
+                            name:null,
+                            idx:null
+                        }
+                        $scope.selectDc= function (idx,name) {
+                            $scope.dc.idx=idx
+                            $scope.dc.name=name
+                        }
+                        //$log.info('curdatacurdata', curdata);
+                        $scope.data = dclist;
+                        $scope.items = dclist.items;
                         $scope.cancel = function () {
                             $uibModalInstance.dismiss();
                         };
                         $scope.ok = function () {
                             var items = [];
                             for (var i = 0; i < $scope.data.items.length; i++) {
-                                if ($scope.data.items[i].checked) {
+                                if ($scope.dc.name===$scope.data.items[i].metadata.name) {
                                     items.push($scope.data.items[i]);
                                 }
                             }
+                            //items.push($scope.dc.name);
                             $uibModalInstance.close(items);
                         };
 
@@ -1421,6 +1504,7 @@ define(['angular'], function (angular) {
                 this.login = function (credentials, stateParams) {
                     //console.log("login", credentials);
                     //console.log("login", stateParams);
+                    credentials.region='cn-north-1'
                     localStorage.setItem('Auth', $base64.encode(credentials.username + ':' + credentials.password))
                     $rootScope.loding = true;
                     var deferred = $q.defer();
@@ -1442,11 +1526,9 @@ define(['angular'], function (angular) {
                                 if (data.items[i].metadata.name == name) {
                                     $rootScope.namespace = name;
                                     angular.forEach(data.items, function (item, i) {
-                                        if (item.metadata.name === $rootScope.user.metadata.name) {
-                                            data.items.splice(i, 1);
-                                        } else {
+
                                             data.items[i].sortname = item.metadata.annotations['openshift.io/display-name'] || item.metadata.name;
-                                        }
+
 
                                     })
                                     data.items.sort(function (x, y) {
@@ -1483,7 +1565,7 @@ define(['angular'], function (angular) {
                         $http(req).success(function (data) {
                             //var arrstr = data.join(',');
                             var arr = []
-                            console.log(data,'ddd');
+                            //console.log(data);
                             angular.forEach(data, function (token,i) {
                                 //arr.push(token.access_token)
                                 var index = token.region.split('-')[2]
@@ -1493,9 +1575,10 @@ define(['angular'], function (angular) {
 
                             var arrstr = arr.join(',');
                             //console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&",arrstr);
-                            Cookie.set('df_access_token', arrstr, 10 * 365 * 24 * 3600 * 1000);
+                            Cookie.set('df_access_token', arrstr, 23 * 3600 * 1000);
                             //console.log(Cookie.get('df_access_token'));
-                            Cookie.set('region', credentials.region, 10 * 365 * 24 * 3600 * 1000);
+
+                            Cookie.set('region', credentials.region, 24 * 3600 * 1000);
                             $rootScope.region = Cookie.get('region');
 
                             User.get({name: '~',region:$rootScope.region}, function (res) {
@@ -1518,51 +1601,37 @@ define(['angular'], function (angular) {
                                     }
                                 } else {
                                     //获取套餐
-                                    account.get({namespace:$rootScope.namespace,region:$rootScope.region,status:"consuming"}, function (data) {
-                                        //console.log('套餐', data);
-                                        //$rootScope.payment=data;
-                                        $rootScope.loding = false;
-                                        if (data.purchased) {
 
-                                            $state.go('console.dashboard');
+                                        $rootScope.loding = false;
+                                    $state.go('console.dashboard');
                                             //跳转dashboard
-                                        }else {
-                                            $state.go('console.noplan');
-                                            //跳转购买套餐
-                                        }
-                                    })
+
+
                                     //$state.go('console.dashboard');
                                 }
 
 
-                                var inputDaovoice = function () {
-                                    daovoice('init', {
-                                        app_id: "b31d2fb1",
-                                        user_id: "user.metadata.uid", // 必填: 该用户在您系统上的唯一ID
-                                        //email: "daovoice@example.com", // 选填:  该用户在您系统上的主邮箱
-                                        name: $rootScope.user.metadata.name, // 选填: 用户名
-                                        signed_up: parseInt((new Date($rootScope.user.metadata.creationTimestamp)).getTime() / 1000) // 选填: 用户的注册时间，用Unix时间戳表示
-                                    });
-                                    daovoice('update');
-                                }
-                                inputDaovoice();
-                            }, function (err) {
-                                //console.log(err.data,'weafwaef')
-                                if (err.data.code == 401) {
-                                  $rootScope.user=false;
-                                  $rootScope.loding = false;
-                                    Alert.open('请重新登录', '用户名或密码不正确')
-                                }
+                                //var inputDaovoice = function () {
+                                //    daovoice('init', {
+                                //        app_id: "b31d2fb1",
+                                //        user_id: "user.metadata.uid", // 必填: 该用户在您系统上的唯一ID
+                                //        //email: "daovoice@example.com", // 选填:  该用户在您系统上的主邮箱
+                                //        name: $rootScope.user.metadata.name, // 选填: 用户名
+                                //        signed_up: parseInt((new Date($rootScope.user.metadata.creationTimestamp)).getTime() / 1000) // 选填: 用户的注册时间，用Unix时间戳表示
+                                //    });
+                                //    daovoice('update');
+                                //}
+                                //inputDaovoice();
                             });
 
                         }).error(function (data) {
-                           // console.log(data,'00000000');
+                            //console.log(data);
                             //if (data.code == 401) {
                             //  //$rootScope.user=false;
                             //  $rootScope.loding = false;
                             //}
                             $state.go('login');
-                           // console.log('登录报错', data);
+                            console.log('登录报错', data);
                             if (data.code === 1401) {
                                 $rootScope.loding = false;
                                 Alert.open('请重新登录', '用户名或密码不正确');
@@ -1580,13 +1649,13 @@ define(['angular'], function (angular) {
                                     localStorage.setItem('code', 1)
                                 }
                             }
-                            var daovoicefailed = function () {
-                                daovoice('init', {
-                                    app_id: "b31d2fb1"
-                                });
-                                daovoice('update');
-                            }
-                            daovoicefailed();
+                            //var daovoicefailed = function () {
+                            //    daovoice('init', {
+                            //        app_id: "b31d2fb1"
+                            //    });
+                            //    daovoice('update');
+                            //}
+                            //daovoicefailed();
 
 
 
@@ -1629,23 +1698,25 @@ define(['angular'], function (angular) {
                     //$rootScope.region=
                     var tokens = Cookie.get('df_access_token');
                     var regions = Cookie.get('region');
-                    var token='';
+                    var token = '';
                     //console.log(tokens);
 
-                    if (tokens&&regions) {
+                    if (tokens && regions) {
                         var tokenarr = tokens.split(',');
                         var region = regions.split('-')[2];
                         //if (/^\/lapi\/v1\/orgs/.test(config.url)) {
                         //    console.log(config.url);
                         //}
-                        if (/^\/lapi\/v1\/orgs/.test(config.url) || /^\/oapi/.test(config.url) || /^\/api/.test(config.url)||/^\/payment/.test(config.url) || /^\/v1\/repos/.test(config.url) ) {
-                            token = tokenarr[region-1];
-                        }else {
+
+                        if (/^\/lapi\/v1\/orgs/.test(config.url) || /^\/oapi/.test(config.url) || /^\/api/.test(config.url) || /^\/payment/.test(config.url) || /^\/v1\/repos/.test(config.url)) {
+
+                            token = tokenarr[region - 1];
+                        } else {
                             token = tokenarr[0];
                         }
 
                         //console.log('tokenarr', tokenarr[region-1]);
-                    }else {
+                    } else {
                         //console.log('token错误');
                     }
                     //console.log(tokens,token, regions);

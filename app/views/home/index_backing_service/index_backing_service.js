@@ -287,21 +287,16 @@ angular.module('home.index_backing_service', [
                         $scope.market[s].showTab = true;
                     }
                 }
-
             };
-            $scope.isQuery=false;
-            $scope.text='您还没有相关后端服务';
             //服务分类键盘搜索
             $scope.keysearch = function (event) {
-                console.log($scope.market);
-                if (true) {
+                if (event.keyCode === 13) {
                     for (var s = 0; s < $scope.market.length; s++) {
                         $scope.market[s].showTab = true;
                     }
                     $scope.isComplete = {name: $scope.grid.txt};
                     var sarr = [];
                     if ($scope.grid.txt) {
-                        $scope.text='您还没有相关后端服务';
                         for (var s = 0; s < $scope.market.length; s++) {
                             sarr = $filter("myfilter")($scope.market[s].item, $scope.isComplete);
                             // console.log(sarr.length)
@@ -314,16 +309,6 @@ angular.module('home.index_backing_service', [
                             sarr = $filter("myfilter")($scope.market[s].item, $scope.isComplete);
                             $scope.market[s].showTab = true;
                         }
-                    }
-                    if(sarr.length===0){
-                        $scope.isQuery=true;
-                        $scope.text='没有查询到相关数据';
-                        console.log($scope.items.length);
-                        console.log(sarr)
-                    }
-                    else{
-                        $scope.text='您还没有相关后端服务';
-                        $scope.isQuery=false;
                     }
                 }
             }

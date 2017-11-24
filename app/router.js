@@ -9,7 +9,18 @@ define([
     return angular.module('myApp.router', ['ui.router', 'oc.lazyLoad'])
         .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
-            $urlRouterProvider.otherwise("/home/index");
+            $urlRouterProvider.otherwise("/login");
+
+            //var arr = document.cookie.match('df_access_token');
+            //console.log('arr[2]', arr[2]);
+            //if (arr[2]) {
+            //    $urlRouterProvider.otherwise("/console/dashboard");
+            //}else {
+            //    $urlRouterProvider.otherwise("/login//");
+            //}
+
+
+
             $stateProvider
                 //home
                 .state('home', {
@@ -114,9 +125,8 @@ define([
                         }]
                     }
                 })
-
                 .state('login', {
-                    url: '/login/:type/:name',
+                    url: '/login',
                     templateUrl: 'views/login/login.html',
                     controller: 'loginCtrl',
                     resolve: {
@@ -135,7 +145,6 @@ define([
                         }]
                     }
                 })
-
                 .state('console', {
                     url: '/console',
                     templateUrl: 'views/console/console.html',
@@ -145,31 +154,9 @@ define([
                             return $ocLazyLoad.load('views/console/console.js')
                         }],
                         user: ['regions', 'Cookie', '$rootScope', 'User', function (regions, Cookie, $rootScope, User) {
-                            if ($rootScope.user) {
-                                return $rootScope.user;
-                            }
-                            //$rootScope.region=
-                            var region = Cookie.get('region');
-                            if (!region) {
-                                regions.query({}, function (data) {
-                                    //console.log('regions', data);
-                                    //$scope.regions = data;
-                                    $rootScope.region = data[0].identification;
-                                    Cookie.set('region', data[0].identification, 10 * 365 * 24 * 3600 * 1000);
-                                    return User.get({name: '~', region: Cookie.get('region')}).$promise;
-                                })
-                            } else {
 
-                            }
-                            console.log('region', region);
                             return User.get({name: '~', region: Cookie.get('region')}).$promise;
                         }]
-                        //account: ['$rootScope', 'account', function ($rootScope, account) {
-                        //  if ($rootScope.account) {
-                        //    return $rootScope.account;
-                        //  }
-                        //  return account.get().$promise;
-                        //}]
                     },
                     abstract: true
 
@@ -204,7 +191,7 @@ define([
                     }
                 })
                 .state('console.dashboard', {
-                    url: '/dashboard/:useorg',
+                    url: '/dashboard',
                     templateUrl: 'views/dashboard/dashboard.html',
                     controller: 'dashboardCtrl',
                     params: {},
@@ -306,6 +293,10 @@ define([
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/image/image.js', 'views/image/image.css'])
+                        }],
+                        primage: ['pubregistry','regions', 'Cookie', '$rootScope', 'User', function (pubregistry,regions, Cookie, $rootScope, User) {
+
+                            return pubregistry.get().$promise;
                         }]
                     }
                 })
@@ -316,6 +307,16 @@ define([
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/image_detail/image_detail.js'])
+                        }]
+                    }
+                })
+                .state('console.primage_detail', {
+                    url: '/image/primage/:name',
+                    templateUrl: 'views/primage_detail/primage_detail.html',
+                    controller: 'prImageDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/primage_detail/primage_detail.js'])
                         }]
                     }
                 })
@@ -361,6 +362,16 @@ define([
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/service_create/service_create.js'])
+                        }]
+                    }
+                })
+                .state('console.quick_deploy', {
+                    url: '/quick/deploy',
+                    templateUrl: 'views/quick_deploy/quick_deploy.html',
+                    controller: 'QuickDeployCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/quick_deploy/quick_deploy.js'])
                         }]
                     }
                 })
@@ -550,6 +561,16 @@ define([
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/noplan/noplan.js')
+                        }]
+                    }
+                })
+                .state('console.admin', {
+                    url: '/admin',
+                    templateUrl: 'views/admin/admin.html',
+                    controller: 'adminCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/admin/admin.js')
                         }]
                     }
                 })

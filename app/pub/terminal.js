@@ -13,7 +13,7 @@ define(['angular'], function (angular) {
                         if (window.location.protocol != "https:") {
                             wsscheme = "ws://";
                         }
-                        url = wsscheme + window.location.host + '/ws' + url;
+                        url = wsscheme + window.location.host +window.location.pathname +'/ws' + url;
                     }
                     return new window.WebSocket(url, protocols);
                 };
@@ -93,6 +93,7 @@ define(['angular'], function (angular) {
                                 url += pod.metadata.selfLink;
                             else
                                 url += pod;
+
                             url += "/exec";
 
                             if (url.indexOf('?') === -1)
@@ -118,9 +119,6 @@ define(['angular'], function (angular) {
                             var token = tokenarr[region-1];
 
                             url += "&access_token=" + token;
-                            url += '&region=' + Cookie.get('region');
-
-
 
                             var first = true;
                             spinner.removeClass("hidden");
@@ -136,7 +134,7 @@ define(['angular'], function (angular) {
                                 term.write('\x1b[31m' + message + '\x1b[m\r\n');
                                 scope.$apply(disconnect);
                             }
-
+                            console.log('url', url);
                             $q.when(kubernetesContainerSocket(url, "base64.channel.k8s.io"),
                                 function resolved(socket) {
                                     ws = socket;

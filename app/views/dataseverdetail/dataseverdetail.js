@@ -70,7 +70,7 @@ angular.module('console.apply_instance', [
                 if ($scope.secrets.metadata) {
 
                     $scope.grid.timeout = false;
-                    var r = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
+                    var r = /^[a-z]+$/
                     console.log($scope.name);
                     if ($scope.name==='') {
                         //alert(1)
@@ -84,7 +84,7 @@ angular.module('console.apply_instance', [
                     $scope.secrets.metadata.name = $scope.name
 
 
-                    instance.create({id: $stateParams.name,region:$rootScope.region}, function (data) {
+                    instance.create({id: $stateParams.name}, function (data) {
                         console.log('data', data.data);
 
                         angular.forEach(data.data, function (key, i) {

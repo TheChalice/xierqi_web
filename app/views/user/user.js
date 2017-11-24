@@ -65,10 +65,25 @@ angular.module('console.user', ['kubernetesUI',
         }
         $scope.orgName = "seferfe";
 
-        market.get({region:$rootScope.region}, function (data) {
-            //console.log('套餐详情', data);
-        })
+        //market.get({region:$rootScope.region}, function (data) {
+        //    //console.log('套餐详情', data);
+        //})
 
+        $scope.checkoutorg= function (namespace) {
+            $rootScope.namespace = namespace;
+            Cookie.set('namespace', namespace, 10 * 365 * 24 * 3600 * 1000);
+            //$state.reload();
+            //$scope.change=true;
+            //$scope.checked = namespace;
+            //$rootScope.huancun.name = namespace;
+            //console.log('$scope.checked', $scope.checked);
+            $state.go('console.org', {useorg: namespace});
+            //if (namespace) {
+            //
+            //} else {
+            //$state.go('console.dashboard');
+            //}
+        }
         //load project
         var loadProject = function () {
             //$http.get('/oapi/v1/projects', {}).success(function (data) {
@@ -79,30 +94,20 @@ angular.module('console.user', ['kubernetesUI',
                 //console.log('Project', Project);
                 //var newprojects = [];
                 angular.forEach(data.items, function (item, i) {
-                    //console.log($rootScope.user.metadata.name);
-                    if (item.metadata.name === $rootScope.user.metadata.name) {
-                        //console.log($rootScope.user.metadata.name);
-                        data.items.splice(i, 1);
-                    } else {
-                        data.items[i].sortname = item.metadata.annotations['openshift.io/display-name'] || item.metadata.name;
-                    }
+                    //    //console.log($rootScope.user.metadata.name);
+                    //    if (item.metadata.name === $rootScope.user.metadata.name) {
+                    //        //console.log($rootScope.user.metadata.name);
+                    //        data.items.splice(i, 1);
+                    //    } else {
+                    data.items[i].sortname = item.metadata.annotations['openshift.io/display-name'] || item.metadata.name;
+                    //}
 
                 })
                 data.items.sort(function (x, y) {
                     return x.sortname > y.sortname ? 1 : -1;
                 });
-                //angular.forEach(data.items, function (project, i) {
-                //    if (/^[\u4e00-\u9fa5]/i.test(project.metadata.annotations['openshift.io/display-name'])) {
-                //        //console.log(project.metadata.annotations['openshift.io/display-name']);
-                //        //data.items.push(project);
-                //        data.items.unshift(project);
-                //
-                //        data.items.splice(i + 1, 1);
-                //    }
-                //});
-                $rootScope.projects = data.items;
                 //console.log(data.items);
-
+                //$scope.orgproject=data.items
 
                 //$log.info("load project success", data);
             }, function (res) {
@@ -110,7 +115,7 @@ angular.module('console.user', ['kubernetesUI',
             });
         }
 
-        loadProject();
+        loadProject()
         //创建组织
         $scope.addOrg = function () {
             Addmodal.open('创建组织', '组织名称', '', $stateParams.useorg, 'org').then(function (res) {
@@ -124,7 +129,6 @@ angular.module('console.user', ['kubernetesUI',
                 //})
                 //({useorg:org.id})
                 //loadOrg();
-               // console.log(res);
                 loadProject();
                 //$state.go('console.org', {useorg:res.id})
                 //console.log('zuzhi',res);
@@ -188,9 +192,9 @@ angular.module('console.user', ['kubernetesUI',
             clearTimeout(a);
         }
         var loadInfo = function () {
-            profile.get({}, function (data) {
-                $scope.curUserInfo = data;
-            })
+            //profile.get({}, function (data) {
+            //    $scope.curUserInfo = data;
+            //})
         }
 
         //var loadOrg = function () {
@@ -252,34 +256,34 @@ angular.module('console.user', ['kubernetesUI',
         //    console.log(orders);
         //})
 
-        amounts.get({size:500,page:1,namespace:$rootScope.namespace,status:'O',region:$rootScope.region}, function (data) {
-            console.log(data);
-            if (data.amounts) {
-                data.amounts.reverse()
-                angular.forEach(data.amounts, function (amount,i) {
-                    data.amounts[i].creation_time = amount.creation_time.replace(/Z/,$scope.clientTimeZone)
-                    if (amount.description === "recharge") {
-                        data.amounts[i].description='充值'
-                    }else {
-                        data.amounts[i].description='扣费'
-                    }
-                })
-
-                $scope.myamounts = data.amounts||[];
-                //console.log('creation_time',data.amounts[0].creation_time);
-                $scope.amountdata =angular.copy(data.amounts)
-                $scope.grid.total = data.amounts.length;
-                refresh(1);
-            }
-
-
-        })
+        //amounts.get({size:500,page:1,namespace:$rootScope.namespace,status:'O',region:$rootScope.region}, function (data) {
+        //    console.log(data);
+        //    if (data.amounts) {
+        //        data.amounts.reverse()
+        //        angular.forEach(data.amounts, function (amount,i) {
+        //            data.amounts[i].creation_time = amount.creation_time.replace(/Z/,$scope.clientTimeZone)
+        //            if (amount.description === "recharge") {
+        //                data.amounts[i].description='充值'
+        //            }else {
+        //                data.amounts[i].description='扣费'
+        //            }
+        //        })
+        //
+        //        $scope.myamounts = data.amounts||[];
+        //        //console.log('creation_time',data.amounts[0].creation_time);
+        //        $scope.amountdata =angular.copy(data.amounts)
+        //        $scope.grid.total = data.amounts.length;
+        //        refresh(1);
+        //    }
+        //
+        //
+        //})
         $scope.sendemail = function (item) {
-            $http.post('/lapi/send_verify_email', {}).success(function () {
-                //alert('激活邮件已发送!')
-                Toast.open('激活邮件发送成功！');
-                //console.log('test send email', item);
-            })
+            //$http.post('/lapi/send_verify_email', {}).success(function () {
+            //    //alert('激活邮件已发送!')
+            //    Toast.open('激活邮件发送成功！');
+            //    //console.log('test send email', item);
+            //})
         }
 
         loadInfo();

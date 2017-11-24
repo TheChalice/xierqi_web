@@ -16,17 +16,46 @@ angular.module('console.image_detail', [
             ImageStream.get({namespace: $rootScope.namespace, name: $scope.name,region:$rootScope.region}, function (data) {
                 //console.log(data)
                 if (data.status.tags) {
-                    angular.forEach(data.status.tags, function (tag, i) {
-                        data.status.tags[i].mysort = data.status.tags[i].items[0].created;
-                        data.status.tags[i].mysort = (new Date(data.status.tags[i].mysort)).getTime()
-                    })
-                    data.status.tags.sort(function (x, y) {
-                        return x.mysort > y.mysort ? -1 : 1;
-                    });
+                    //angular.forEach(data.status.tags, function (tag, i) {
+                    //    data.status.tags[i].mysort = data.status.tags[i].items[0].created;
+                    //    data.status.tags[i].mysort = (new Date(data.status.tags[i].mysort)).getTime()
+                    //})
+                    //data.status.tags.sort(function (x, y) {
+                    //    return x.mysort > y.mysort ? -1 : 1;
+                    //});
                 }
+                angular.forEach(data.status.tags, function (tag,i) {
+                    //{{name}}:{{date.status.tags[0].tag}}
+                    //console.log(tag.tag);
+                    data.status.tags[i].port=[]
+                    ImageStreamTag.get({
+                        namespace: $rootScope.namespace,
+                        name: $scope.name + ':' + tag.tag,
+                        region:$rootScope.region
+                    }, function (newdata) {
+
+                        for( var k in newdata.image.dockerImageMetadata.Config.ExposedPorts){
+                            //console.log(k);
+                            data.status.tags[i].port.push(k)
+
+                        }
+                        if (i === data.status.tags.length - 1) {
+                            console.log(data);
+                            $scope.date = data;
+                        }
+
+                        //console.log();
+                        //for (var i = 0; i < $scope.date.status.tags.length; i++) {
+                        //    if (name == $scope.date.status.tags[i].tag) {
+                        //        $scope.date.status.tags.splice(i, 1)
+                        //    }
+                        //}
+
+                    })
+                })
 
                 $scope.date = data;
-                //console.log($scope.date);
+                console.log($scope.date);
             })
 
             $scope.pull = function (name) {
@@ -35,6 +64,7 @@ angular.module('console.image_detail', [
                 var str =$scope.name + ':' + name
                 ModalPullImage.open(str,'project')
                     .then(function (res) {
+
                         //console.log("cmd1", res);
                     });
             };

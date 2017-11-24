@@ -37,6 +37,9 @@ angular.module('console.resource_management', [
             });
 
             var rmrefresh = function (page) {
+                $(document.body).animate({
+                    scrollTop: 0
+                }, 200);
                 var skip = (page - 1) * $scope.grid.size;
                 //console.log($scope.persistentdata);
                 $scope.persistents = $scope.persistentdata.slice(skip, skip + $scope.grid.size)||[];
@@ -54,7 +57,10 @@ angular.module('console.resource_management', [
                     namespace: $rootScope.namespace,
                     region: $rootScope.region
                 }, function (res) {
-
+                    angular.forEach(res.items, function (item, i) {
+                        //console.log(item.spec.resources.requests.storage);
+                        res.items[i].spec.resources.requests.storage=item.spec.resources.requests.storage.replace('i','B')
+                    })
                     DeploymentConfig.get({
                         namespace: $rootScope.namespace,
                         region: $rootScope.region
@@ -94,7 +100,7 @@ angular.module('console.resource_management', [
                             }
                             //物理刷新不重启ws
                             $scope.persistentdata = res.items;
-                           // console.log($scope.persistentdata);
+
                             //console.log('chijiu', res);
                         }else {
                             $scope.persistentdata=[];
@@ -126,7 +132,7 @@ angular.module('console.resource_management', [
                 }, function (res) {
                     var data = JSON.parse(res.data);
                     updatePC(data);
-                    //console.log(data,'创建卷，成功');
+                    //console.log(data);
                 }, function () {
                     $log.info("webSocket start");
                 }, function () {
@@ -155,18 +161,17 @@ angular.module('console.resource_management', [
                 if (data.type == 'ADDED') {
                     //$scope.rcs.items.push(data.object);
                 } else if (data.type == "MODIFIED") {
-                    //console.log(data);$scope.persistents.items
-                   // console.log('$scope.persistentdata', $scope.persistentdata);
-                   // console.log('data.object.metadata.name', data.object);
+                    //console.log(data);
+                    data.object.spec.resources.requests.storage=data.object.spec.resources.requests.storage.replace('i','B')
 
                     angular.forEach($scope.persistentdata, function (item, i) {
 
                         if (item.metadata.name == data.object.metadata.name) {
 
-                            $scope.persistentdata[i] = data.object
+                            $scope.persistentdata[i] = data.object;
                             //$scope.persistents.items[i].status.phase=data.object.status.phase
                             //$scope.persistents[i]=data.object;
-                            rmrefresh(1)
+                            rmrefresh(1);
                             $scope.$apply();
                         }
                     })
@@ -191,7 +196,6 @@ angular.module('console.resource_management', [
                         $scope.persistentdata = angular.copy($scope.cpoypersistents)
                         rmrefresh(1);
                         $scope.grid.rmtotal = $scope.cpoypersistents.length;
-                        $scope.text='您还没有创建持久化卷';
                         return;
                     }
                     $scope.persistentdata = [];
@@ -210,6 +214,7 @@ angular.module('console.resource_management', [
                         //console.log(repo.instance_data, $scope.grid.txt);
                     })
                     if(iarr.length===0){
+                        $scope.isQuery=true;
                         $scope.text='没有查询到相关数据';
                     }
                     else{
@@ -232,11 +237,14 @@ angular.module('console.resource_management', [
             });
 
             var refresh = function (page) {
+                $(document.body).animate({
+                    scrollTop: 0
+                }, 200);
                 var skip = (page - 1) * $scope.grid.size;
                 $scope.configitems = $scope.configdata.slice(skip, skip + $scope.grid.size)||[];
 
             };
-            //console.log('ewfwefwae',$scope.configdata);
+
             $scope.$on('$destroy', function () {
                 Ws.clear();
             });
@@ -280,7 +288,6 @@ angular.module('console.resource_management', [
                         $scope.configdata = angular.copy($scope.copyconfigdata)
                         refresh(1);
                         $scope.grid.total = $scope.configdata.length;
-                        $scope.text2='您还没有创建配置卷';
                         return;
                     }
                     $scope.configdata = [];
@@ -299,6 +306,7 @@ angular.module('console.resource_management', [
                         //console.log(repo.instance_data, $scope.grid.txt);
                     })
                     if(iarr.length===0){
+                        $scope.isQuery=true;
                         $scope.text2='没有查询到相关数据';
 
                     }
@@ -354,6 +362,9 @@ angular.module('console.resource_management', [
             });
 
             var secretrefresh = function (page) {
+                $(document.body).animate({
+                    scrollTop: 0
+                }, 200);
                 var skip = (page - 1) * $scope.grid.size;
                 $scope.secretitems = $scope.secretdata.slice(skip, skip + $scope.secrets.size)||[];
                 //$scope.secrets.total = $scope.secretitems.length;
@@ -365,7 +376,6 @@ angular.module('console.resource_management', [
                         $scope.secretdata = angular.copy($scope.copysecretdata);
                         secretrefresh(1);
                         $scope.secrets.total = $scope.secretdata.length;
-                        $scope.text3=' 您还没有创建密钥';
                         return;
                     }
                     $scope.secretdata = [];

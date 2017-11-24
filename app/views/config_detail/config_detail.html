@@ -1,4 +1,4 @@
-<div class="config-detail">
+<div class="config-detail" style="background:#fff;padding:20px 38px 38px;">
     <div class="loader" ng-show="!volume">
         <div class="loader-inner ball-clip-rotate-multiple">
             <div></div>
@@ -44,8 +44,8 @@
                     <div class="col-md-2">
                         <a href="javascript:;" ng-click="add()"
                            style="line-height: 40px; margin-top: -20px;" class="href-add test11">
-                            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;<span
-                                style="font-size: 12px">添加配置文件</span>
+                            <i class="fa fa-plus-circle fa-green fa-lg"></i>&nbsp;&nbsp;<span
+                                style="font-size: 12px;">添加配置文件</span>
                             <input type="file" id="file-input" value="选择"/>
                         </a>
                     </div>
@@ -108,7 +108,7 @@
                         </ul>
                         <div class="col-md-12" style="margin-bottom: 20px;padding: 0;"
                              ng-repeat="item in volume.configitems">
-                            <input class="col-md-5 key" type="text" placeholder="KEY" ng-model="item.key">
+                            <input class="col-md-5 key" type="text" placeholder="KEY" ng-model="item.key" style="background:none;border:1px solid #c9c9c9">
                             <div class="col-md-1"></div>
                             <textarea class="col-md-5 key" style="padding-left: 10px;border: 1px solid #c9c9c9;"
                                       type="text" placeholder="VALUE" ng-model="item.value"></textarea>
@@ -138,7 +138,7 @@
         <div class="row">
             <div class="col-md-12">
                 <a href="javascript:;" ng-if="grid.configpost" class="btn btn-block create"
-                   style="background-color: #F8B551;margin: 0 auto; margin-top: 35px; color: white; width: 1000px;"
+                   style="background-color: #f6a540;margin: 0 auto; margin-top: 35px; color: white; width: 1000px;"
                    ng-click="cearteconfig()">保存修改</a>
                 <a href="javascript:;" ng-if="!grid.configpost" disabled="disabled" class="btn btn-block create"
                    style="background-color: #ccc; margin: 0 auto; margin-top: 35px; color: white; width: 1000px;">保存修改</a>
@@ -152,7 +152,7 @@
     }
 
     .href-add:hover {
-        color: #55c45f;
+        color: #e5993a;
     }
 
     .testt {
