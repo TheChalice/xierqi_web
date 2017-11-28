@@ -1,113 +1,123 @@
 <div id="sidebar">
-    <ul class="nav nav-pills nav-stacked nav-jia-pills">
+    <a href="javascript:void(0);" class="zx_set_btn"></a>
+    <div treecontrol class="tree-light"
+         tree-model="dataForTheTree"
+         options="treeOptions"
+         on-selection="showSelected(node)"
+         selected-node="node1" >
+        <a ui-sref="{{node.url}}">{{node.name}}</a>
+        <span ui-sref="{{node.url}}" class="sbtn-bg {{node.img}}"></span>
+    </div>
+    <!--<ul class="nav nav-pills nav-stacked nav-jia-pills">-->
 
-        <!--<li class="side_change">-->
-
-
-                <!--<div class="sidebar_jia_per">-->
-                    <!--<div uib-dropdown on-toggle="toggled(open)">-->
-
-                        <!--<a href="javascript:;" id="user-menu" class="sidebar_jia_block" uib-dropdown-toggle>-->
-                            <!--<span class="sidebar_current" style="display:inline-block;">当前项目：</span>-->
-                            <!--<span class="header_jia_per_tit" title="{{projectname}}">{{projectname}}</span>-->
-                            <!--<b class="h_caret sidebar_h_caret"></b>-->
-                        <!--</a>-->
-                        <!--<ul class="projectname" uib-dropdown-menu-->
-                            <!--aria-labelledby="user-menu" style="max-height: 338px;border-top:0;border-right:0;overflow:auto;min-height:156px;top:0px;left:187px;z-index:9999;background: #f7fafc;border-radius:0;">-->
-                            <!--&lt;!&ndash;personal account&ndash;&gt;-->
-                            <!--<li ng-if="projects" class='personal'>-->
-                                <!--<a href="javascript:;" ng-click='gotomy()' ui-sref='console.user'>-->
-                                    <!--<span>查看[ 个人账户 ]</span>-->
-                                <!--</a>-->
-                            <!--</li>-->
+        <!--&lt;!&ndash;<li class="side_change">&ndash;&gt;-->
 
 
-                            <!--<li ng-repeat="project in projects">-->
-                                <!--<a href="javascript:;"-->
-                                   <!--ng-click="setNamespace(project.metadata.name)">-->
-                        <!--<span class="df_set_name" title="{{project.metadata.annotations['openshift.io/display-name'] || project.metadata.name}}">-->
-                            <!--切换项目 [ {{project.metadata.annotations['openshift.io/display-name'] || project.metadata.name}} ]-->
-                        <!--</span>-->
-                                <!--</a>-->
-                            <!--</li>-->
-                            <!--<li>-->
+                <!--&lt;!&ndash;<div class="sidebar_jia_per">&ndash;&gt;-->
+                    <!--&lt;!&ndash;<div uib-dropdown on-toggle="toggled(open)">&ndash;&gt;-->
 
-                                <!--<a href="javascript:;" ng-click="createOrg()">创建组织</a>-->
-                            <!--</li>-->
-                            <!--&lt;!&ndash;<li style="border-bottom: none;">&ndash;&gt;-->
-                                <!--&lt;!&ndash;<a href="javascript:;" ng-click="logout()">退出登录</a>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<a href="javascript:;" id="user-menu" class="sidebar_jia_block" uib-dropdown-toggle>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<span class="sidebar_current" style="display:inline-block;">当前项目：</span>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<span class="header_jia_per_tit" title="{{projectname}}">{{projectname}}</span>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<b class="h_caret sidebar_h_caret"></b>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</a>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<ul class="projectname" uib-dropdown-menu&ndash;&gt;-->
+                            <!--&lt;!&ndash;aria-labelledby="user-menu" style="max-height: 338px;border-top:0;border-right:0;overflow:auto;min-height:156px;top:0px;left:187px;z-index:9999;background: #f7fafc;border-radius:0;">&ndash;&gt;-->
+                            <!--&lt;!&ndash;&lt;!&ndash;personal account&ndash;&gt;&ndash;&gt;-->
+                            <!--&lt;!&ndash;<li ng-if="projects" class='personal'>&ndash;&gt;-->
+                                <!--&lt;!&ndash;<a href="javascript:;" ng-click='gotomy()' ui-sref='console.user'>&ndash;&gt;-->
+                                    <!--&lt;!&ndash;<span>查看[ 个人账户 ]</span>&ndash;&gt;-->
+                                <!--&lt;!&ndash;</a>&ndash;&gt;-->
                             <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                        <!--</ul>-->
-
-                    <!--</div>-->
-                <!--</div>-->
 
 
-        <!--</li>-->
+                            <!--&lt;!&ndash;<li ng-repeat="project in projects">&ndash;&gt;-->
+                                <!--&lt;!&ndash;<a href="javascript:;"&ndash;&gt;-->
+                                   <!--&lt;!&ndash;ng-click="setNamespace(project.metadata.name)">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<span class="df_set_name" title="{{project.metadata.annotations['openshift.io/display-name'] || project.metadata.name}}">&ndash;&gt;-->
+                            <!--&lt;!&ndash;切换项目 [ {{project.metadata.annotations['openshift.io/display-name'] || project.metadata.name}} ]&ndash;&gt;-->
+                        <!--&lt;!&ndash;</span>&ndash;&gt;-->
+                                <!--&lt;!&ndash;</a>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</li>&ndash;&gt;-->
+                            <!--&lt;!&ndash;<li>&ndash;&gt;-->
 
-        <li ui-sref-active="active">
-            <a ui-sref="console.dashboard">
-                <i class="fa fa-caret-left"></i>
-                <span class="icon25 icon25-dashboard"></span>&nbsp;&nbsp;
-                仪表盘
-            </a>
-        </li>
-        <li ui-sref-active="active"
-            ng-class="{'active':$state.includes('console.build_create')||$state.includes('console.build_detail')}">
-            <a ui-sref="console.build">
-                <i class="fa fa-caret-left"></i>
-                <span class="icon25 icon25-build"></span>&nbsp;&nbsp;
-                代码构建
-            </a>
-        </li>
-        <li ui-sref-active="active"
-            ng-class="{'active':$state.includes('console.image_detail')}">
-            <a ui-sref="console.image">
-                <i class="fa fa-caret-left"></i>
-                <span class="icon25 icon25-repository"></span>&nbsp;&nbsp;
-                镜像仓库
-            </a>
-        </li>
-        <li ui-sref-active="active"
-            ng-class="{'active':$state.includes('console.service_create')||$state.includes('console.service_detail')}">
-            <a ui-sref="console.service">
-                <i class="fa fa-caret-left"></i>
-                <span class="icon25 icon25-deployment"></span>&nbsp;&nbsp;
-                服务部署
-            </a>
-        </li>
-        <!--<li ui-sref-active="active"-->
-            <!--ng-class="{'active':$state.includes('console.apply_instance')}">-->
-            <!--<a ui-sref="console.backing_service">-->
+                                <!--&lt;!&ndash;<a href="javascript:;" ng-click="createOrg()">创建组织</a>&ndash;&gt;-->
+                            <!--&lt;!&ndash;</li>&ndash;&gt;-->
+                            <!--&lt;!&ndash;&lt;!&ndash;<li style="border-bottom: none;">&ndash;&gt;&ndash;&gt;-->
+                                <!--&lt;!&ndash;&lt;!&ndash;<a href="javascript:;" ng-click="logout()">退出登录</a>&ndash;&gt;&ndash;&gt;-->
+                            <!--&lt;!&ndash;&lt;!&ndash;</li>&ndash;&gt;&ndash;&gt;-->
+                        <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+
+        <!--&lt;!&ndash;</li>&ndash;&gt;-->
+
+
+        <!--<li ui-sref-active="active">-->
+            <!--<a ui-sref="console.dashboard">-->
                 <!--<i class="fa fa-caret-left"></i>-->
-                <!--<span class="icon25 icon25-service"></span>&nbsp;&nbsp;-->
-                <!--后端服务-->
+                <!--<span class="icon25 icon25-dashboard"></span>&nbsp;&nbsp;-->
+                <!--仪表盘-->
             <!--</a>-->
         <!--</li>-->
-
-        <!--
-        <li ui-sref-active="active">
-            <a ui-sref="console.foobar">
-                <i class="fa fa-caret-left"></i>
-                <span class="icon25 icon25-make"></span>&nbsp;&nbsp;应用编排
-            </a>
-        </li>
-         -->
-        <li ui-sref-active="active">
-            <a ui-sref="console.resource_management">
-                <i class="fa fa-caret-left"></i>
-                <span class="icon25 icon25-resource"></span>&nbsp;&nbsp;
-                资源管理
-            </a>
-        </li>
         <!--<li ui-sref-active="active"-->
-            <!--ng-class="{'active':$state.includes('console.Integration')}">-->
-            <!--<a ui-sref="console.Integration">-->
-                <!--&lt;!&ndash;<i class="fa fa-caret-left"></i>&ndash;&gt;-->
-                <!--&lt;!&ndash;<span class="icon25 icon25-Integration"></span>&nbsp;&nbsp;&ndash;&gt;-->
-                <!--数据集成-->
+            <!--ng-class="{'active':$state.includes('console.build_create')||$state.includes('console.build_detail')}">-->
+            <!--<a ui-sref="console.build">-->
+                <!--<i class="fa fa-caret-left"></i>-->
+                <!--<span class="icon25 icon25-build"></span>&nbsp;&nbsp;-->
+                <!--代码构建-->
             <!--</a>-->
         <!--</li>-->
-    </ul>
+        <!--<li ui-sref-active="active"-->
+            <!--ng-class="{'active':$state.includes('console.image_detail')}">-->
+            <!--<a ui-sref="console.image">-->
+                <!--<i class="fa fa-caret-left"></i>-->
+                <!--<span class="icon25 icon25-repository"></span>&nbsp;&nbsp;-->
+                <!--镜像仓库-->
+            <!--</a>-->
+        <!--</li>-->
+        <!--<li ui-sref-active="active"-->
+            <!--ng-class="{'active':$state.includes('console.service_create')||$state.includes('console.service_detail')}">-->
+            <!--<a ui-sref="console.service">-->
+                <!--<i class="fa fa-caret-left"></i>-->
+                <!--<span class="icon25 icon25-deployment"></span>&nbsp;&nbsp;-->
+                <!--服务部署-->
+            <!--</a>-->
+        <!--</li>-->
+        <!--&lt;!&ndash;<li ui-sref-active="active"&ndash;&gt;-->
+            <!--&lt;!&ndash;ng-class="{'active':$state.includes('console.apply_instance')}">&ndash;&gt;-->
+            <!--&lt;!&ndash;<a ui-sref="console.backing_service">&ndash;&gt;-->
+                <!--&lt;!&ndash;<i class="fa fa-caret-left"></i>&ndash;&gt;-->
+                <!--&lt;!&ndash;<span class="icon25 icon25-service"></span>&nbsp;&nbsp;&ndash;&gt;-->
+                <!--&lt;!&ndash;后端服务&ndash;&gt;-->
+            <!--&lt;!&ndash;</a>&ndash;&gt;-->
+        <!--&lt;!&ndash;</li>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;-->
+        <!--<li ui-sref-active="active">-->
+            <!--<a ui-sref="console.foobar">-->
+                <!--<i class="fa fa-caret-left"></i>-->
+                <!--<span class="icon25 icon25-make"></span>&nbsp;&nbsp;应用编排-->
+            <!--</a>-->
+        <!--</li>-->
+         <!--&ndash;&gt;-->
+        <!--<li ui-sref-active="active">-->
+            <!--<a ui-sref="console.resource_management">-->
+                <!--<i class="fa fa-caret-left"></i>-->
+                <!--<span class="icon25 icon25-resource"></span>&nbsp;&nbsp;-->
+                <!--资源管理-->
+            <!--</a>-->
+        <!--</li>-->
+        <!--&lt;!&ndash;<li ui-sref-active="active"&ndash;&gt;-->
+            <!--&lt;!&ndash;ng-class="{'active':$state.includes('console.Integration')}">&ndash;&gt;-->
+            <!--&lt;!&ndash;<a ui-sref="console.Integration">&ndash;&gt;-->
+                <!--&lt;!&ndash;&lt;!&ndash;<i class="fa fa-caret-left"></i>&ndash;&gt;&ndash;&gt;-->
+                <!--&lt;!&ndash;&lt;!&ndash;<span class="icon25 icon25-Integration"></span>&nbsp;&nbsp;&ndash;&gt;&ndash;&gt;-->
+                <!--&lt;!&ndash;数据集成&ndash;&gt;-->
+            <!--&lt;!&ndash;</a>&ndash;&gt;-->
+        <!--&lt;!&ndash;</li>&ndash;&gt;-->
+    <!--</ul>-->
 </div>
 

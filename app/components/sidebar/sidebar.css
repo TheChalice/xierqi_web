@@ -92,7 +92,7 @@
 .icon25 {
     color: #5a6378;
 }
-/*20161216 jia add 当前项目*/
+/*20161216 jia add 锟斤拷前锟斤拷目*/
 .nav-jia-pills>li.side_pass>a:focus,.nav-jia-pills>li.side_change>a:focus{background:none!important;}
 .sidebar_jia_per{display:inline-block;}
 .side_change{color:#fff;font-size:14px;}
@@ -108,3 +108,50 @@
 .sidebar_jia_per .projectname  > li:hover{height:40px;line-height:40px;}
 .sidebar_jia_block{padding:23px 10px 23px 30px;display:block;}
 .sidebar_h_caret{border-left:6px dashed;border-top:6px solid transparent;border-bottom:6px solid transparent;}
+
+[treecontrol].tree-light li.tree-collapsed i.tree-branch-head{
+    display: none;
+}
+[treecontrol].tree-light li.tree-expanded i.tree-branch-head{
+    display: none;
+
+}
+[treecontrol].tree-light li.tree-leaf i.tree-leaf-head{
+    padding:0;
+}
+[treecontrol].tree-light li div{
+    height: 50px;
+    line-height:50px;
+    display: block;
+    padding: 0;
+    overflow: hidden;
+}
+[treecontrol].tree-light li a{
+    font-size: 14px;
+    color: #333;
+    padding-left: 75px;
+}
+[treecontrol].tree-light li,[treecontrol].tree-light li li{
+    padding-left:0px;
+}
+[treecontrol].tree-light li li a{
+    padding-left: 85px;
+}
+.sbtn-bg{
+    position: absolute;
+    left: 25px;
+    top:9px;
+}
+
+
+[treecontrol].tree-light li div.tree-selected {
+    background: #dcdfe8;
+    font-weight: normal;
+}
+.zx_set_btn{background:#e6e9f2 url(img/zx_set.png) no-repeat center;width:14px;height:14px;background-size:14px 14px;display:block;padding:21px 94px;
+}
+.zx_set_btn:hover{background:#dcdfe8 url(img/zx_set_hover.png) no-repeat center;background-size:14px 14px;}
+.zx_set_btn_rotate{background:#e6e9f2 url(img/zx_set_active.png) no-repeat center;width:14px;height:14px;background-size:14px 14px;display:block;padding:21px 37px;}
+.zx_set_btn_rotate:hover{background:#dcdfe8 url(img/zx_set_active_hover.png) no-repeat center;background-size:14px 14px;}
+.sider_zx{width:74px!important;-webkit-transition:all 0.3s linear ;-moz-transition:all 0.3s linear;transition:all 0.3s linear;}
+.sidebar-fixed{margin-left:74px!important;-webkit-transition:all 0.3s linear ;-moz-transition:all 0.3s linear;transition:all 0.3s linear;}

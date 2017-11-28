@@ -18,5 +18,8 @@
   "homepage": "https://github.com/lanyuechen/angular-seed#readme",
   "devDependencies": {
     "requirejs": "^2.1.22"
+  },
+  "dependencies": {
+    "angular-tree-control": "^0.2.28"
   }
 }

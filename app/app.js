@@ -19,7 +19,8 @@ define([
     'angularSlider',
     'kubernetesUI',
     'highchartsNg',
-    'qrcode'
+    'qrcode',
+    'treeControl',
 ], function (angular) {
 
     // 声明应用及其依赖
@@ -37,6 +38,8 @@ define([
         'hc.marked',
         'rzModule',
         'highcharts-ng',
+        'treeControl',
+
     ]);
 
     myApp.constant('GLOBAL', {
