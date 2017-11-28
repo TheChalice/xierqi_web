@@ -9,8 +9,8 @@ define([
     return angular.module('myApp.router', ['ui.router', 'oc.lazyLoad'])
         .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
-            $urlRouterProvider.otherwise("/console/build/create");
-            //$urlRouterProvider.otherwise("/login");
+            //$urlRouterProvider.otherwise("/console/build/create");
+            $urlRouterProvider.otherwise("/login");
 
             //var arr = document.cookie.match('df_access_token');
             //console.log('arr[2]', arr[2]);
