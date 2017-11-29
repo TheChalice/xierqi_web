@@ -19,6 +19,7 @@ angular.module("console.sidebar", [
                            $(".zx_set_btn").removeClass("zx_set_btn_rotate");
                            $("#sidebar-container").removeClass("sider_zx");
                            $("#sidebar-right-fixed").removeClass("sidebar-fixed");
+                           $scope.dataForTheTree[3].children = [{name:'服务部署',url:'console.service',children:[]}];
                        }
                 }
                 $scope.treeOptions = {
