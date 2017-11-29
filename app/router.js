@@ -298,7 +298,11 @@ define([
                         }],
                         primage: ['pubregistry','regions', 'Cookie', '$rootScope', 'User', function (pubregistry,regions, Cookie, $rootScope, User) {
 
-                            return pubregistry.get().$promise;
+                            pubregistry.get(function (data) {
+                                return  data
+                            }, function (err) {
+                                return  err
+                            });
                         }]
                     }
                 })

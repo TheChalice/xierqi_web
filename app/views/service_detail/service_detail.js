@@ -394,7 +394,7 @@ angular.module('console.service.detail', [
                     changevol(res);
                     $scope.dc = res;
                     horizontalpodautoscalers.get({namespace: $rootScope.namespace,name:name}, function (hor) {
-                        console.log('hor', hor);
+                        //console.log('hor', hor);
                         $scope.quota.rubustCheck=true;
                         $scope.horiz=hor;
                     })
