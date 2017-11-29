@@ -9,6 +9,7 @@ angular.module('console.dashboard', [
             $scope.cpuData = [];
             $scope.memData = [];
             $scope.isdata = {};
+            var times =(new Date()).getTime()
             //$scope.deposit = function () {
             //    recharge.create({}, {"amount": 1234.34, namespace: $rootScope.namespace}, function (data) {
             //        console.log('充值', data);
@@ -249,7 +250,7 @@ angular.module('console.dashboard', [
                             enabled: false
                         },
                         data: $scope.nettxdata,
-                        pointStart: (new Date()).getTime() + 3600 * 1000,
+                        pointStart: times + 3600 * 1000,
                         pointInterval: 15 * 60 * 1000 //时间间隔
                     },{
                         name: 'network_rx',
@@ -267,7 +268,7 @@ angular.module('console.dashboard', [
                         },
                         yAxis: 0,
                         data: $scope.netrxdata,
-                        pointStart: (new Date()).getTime() + 3600 * 1000,
+                        pointStart: times + 3600 * 1000,
                         pointInterval: 15 * 60 * 1000 //时间间隔
                     }],
                     xAxis: {
@@ -340,7 +341,7 @@ angular.module('console.dashboard', [
                         },
                         yAxis: 1,
                         data: $scope.cpuData,
-                        pointStart: (new Date()).getTime() + 3600 * 1000,
+                        pointStart: times + 3600 * 1000,
                         pointInterval: 15 * 60 * 1000 //时间间隔
                     },
                         {
@@ -359,7 +360,7 @@ angular.module('console.dashboard', [
                             },
                             yAxis: 0,
                             data: $scope.memData,
-                            pointStart: (new Date()).getTime() + 3600 * 1000,
+                            pointStart: times + 3600 * 1000,
                             pointInterval: 15 * 60 * 1000 //时间间隔
                         }],
                     xAxis: {
@@ -370,7 +371,7 @@ angular.module('console.dashboard', [
                     yAxis: [{
                         // gridLineDashStyle: 'ShortDash',
                         title: {
-                            text: '内存 (M)',
+                            text: 'memory (M)',
                             style: {
                                 color: '#bec0c7'
                             }
@@ -508,11 +509,11 @@ angular.module('console.dashboard', [
             //https://hawkular-metrics.new.dataos.io/hawkular/metrics/gauges/pod/b2fc3818-ad7d-11e7-ad35-fa163e095b60/network/rx_rate/data?bucketDuration=120000ms&start=-60mn
             Metrics.network.all.query({
                 tags: 'descriptor_name:network/tx_rate,pod_namespace:' + $rootScope.namespace,
-                buckets: 30
+                buckets: 28
             }, function (networktx) {
                 Metrics.network.all.query({
                     tags: 'descriptor_name:network/rx_rate,pod_namespace:' + $rootScope.namespace,
-                    buckets: 30
+                    buckets: 28
                 }, function (networkrx) {
 
                     $scope.nettxdata = [];
@@ -526,7 +527,7 @@ angular.module('console.dashboard', [
 
                     console.log('$scope.nettxdata', $scope.nettxdata);
                     $scope.chartnetConfig = netChart();
-                    console.log('$scope.netrxdata', $scope.netrxdata);
+                    //console.log('$scope.netrxdata', $scope.netrxdata);
                 })
             })
 

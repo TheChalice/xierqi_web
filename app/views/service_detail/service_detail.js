@@ -394,12 +394,12 @@ angular.module('console.service.detail', [
                     changevol(res);
                     $scope.dc = res;
                     horizontalpodautoscalers.get({namespace: $rootScope.namespace,name:name}, function (hor) {
-                        console.log('hor', hor);
+                        //console.log('hor', hor);
                         $scope.quota.rubustCheck=true;
                         $scope.horiz=hor;
                     })
-                    console.log($scope.dc.spec.template.spec.containers[0].resources);
-                    if ($scope.dc.spec.template.spec.containers[0].resources) {
+                    //console.log($scope.dc.spec.template.spec.containers[0].resources);
+                    if ($scope.dc.spec.template.spec.containers[0].resources&&$scope.dc.spec.template.spec.containers[0].resources.requests) {
 
 
                         if ($scope.dc.spec.template.spec.containers[0].resources.requests.cpu) {
