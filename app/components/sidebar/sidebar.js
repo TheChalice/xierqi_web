@@ -12,7 +12,15 @@ angular.module("console.sidebar", [
             replace: true,
             templateUrl: 'components/sidebar/sidebar.html',
             controller: ['$state', '$scope', function($state, $scope){
-                $scope.$state = $state;
+                $scope.goUrl = function(url){
+                       if(url){
+                           $state.go(url)
+                       }else{
+                           $(".zx_set_btn").removeClass("zx_set_btn_rotate");
+                           $("#sidebar-container").removeClass("sider_zx");
+                           $("#sidebar-right-fixed").removeClass("sidebar-fixed");
+                       }
+                }
                 $scope.treeOptions = {
                     nodeChildren: "children",
                     dirSelectable: false,
@@ -38,11 +46,18 @@ angular.module("console.sidebar", [
 
                 var width = 0;
                 width = $(window).width()-168;
-                $(".zx_set_btn").on("click",function(){
-                    $(this).toggleClass("zx_set_btn_rotate");
+                $scope.sidebaerWidth = function(){
+                    $(".zx_set_btn").toggleClass("zx_set_btn_rotate");
                     $("#sidebar-container").toggleClass("sider_zx");
                     $("#sidebar-right-fixed").toggleClass("sidebar-fixed");
-                });
+                    if($(".zx_set_btn").hasClass('zx_set_btn_rotate')){
+                        $scope.dataForTheTree[3].children = [];
+                    }else{
+                        $scope.dataForTheTree[3].children = [{name:'服务部署',url:'console.service',children:[]}];
+
+                    }
+                }
+
             }]
         }
     }]);

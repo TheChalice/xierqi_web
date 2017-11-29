@@ -1,12 +1,12 @@
 <div id="sidebar">
-    <a href="javascript:void(0);" class="zx_set_btn"></a>
+    <a href="javascript:void(0);" class="zx_set_btn" ng-click="sidebaerWidth()"></a>
     <div treecontrol class="tree-light"
          tree-model="dataForTheTree"
          options="treeOptions"
          on-selection="showSelected(node)"
          selected-node="node1" >
-        <a ui-sref="{{node.url}}">{{node.name}}</a>
-        <span ui-sref="{{node.url}}" class="sbtn-bg {{node.img}}"></span>
+        <a ng-click="goUrl(node.url)">{{node.name}}</a>
+        <a ng-click="goUrl(node.url)" class="sbtn-bg {{node.img}}"></a>
     </div>
     <!--<ul class="nav nav-pills nav-stacked nav-jia-pills">-->
 
