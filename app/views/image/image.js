@@ -33,6 +33,9 @@ angular.module('console.image', [
         function (primage,pubregistrytag,pubregistry,regpro,platformone,ImageStream, $filter, $state, $q, $http, platform, $rootScope, $scope, $log, ImageStreamTag, BuildConfig, Build, GLOBAL, Sort) {
             // 数组去重
             //console.log('$state', $state.params.index);
+            if (!primage) {
+                primage={}
+            }
             if ($state.params.index) {
                 $scope.check = $state.params.index
             } else {
@@ -85,17 +88,19 @@ angular.module('console.image', [
 
 
             };
-            $scope.primage = [];
-            //console.log('primage', primage);
-            var onlymyimage = []
-            angular.forEach(primage.repositories, function (image,i) {
-                //if (image.split('/')[0] === $rootScope.namespace) {
-                    onlymyimage.push(image)
-                //}
-            })
-            //console.log('image', onlymyimage);
+            if (primage&&primage.repositories) {
+                $scope.primage = [];
+                //console.log('primage', primage);
+                var onlymyimage = []
 
-            //pubregistry.get(function (data) {
+                angular.forEach(primage.repositories, function (image,i) {
+                    //if (image.split('/')[0] === $rootScope.namespace) {
+                    onlymyimage.push(image)
+                    //}
+                })
+                //console.log('image', onlymyimage);
+
+                //pubregistry.get(function (data) {
                 angular.forEach(onlymyimage, function (image,i) {
                     var namespace=image.split('/')[0];
                     var name=image.split('/')[1];
@@ -106,8 +111,10 @@ angular.module('console.image', [
                         //console.log('$scope.primage', $scope.primage);
                     })
                 })
-            $scope.grid.ckTotal = $scope.primage.length;
-            ckRefresh(1);
+                $scope.grid.ckTotal = $scope.primage.length;
+                ckRefresh(1);
+
+            }
 
             //})
             $scope.$on('$destroy', function () {
