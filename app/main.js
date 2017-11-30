@@ -21,7 +21,7 @@ require.config({
     paths: {
         bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min',
         jquery: '../bower_components/jquery/dist/jquery.min',
-        qrcode: '../bower_components/jquery-qrcode/jquery.qrcode.min',
+        // qrcode: '../bower_components/jquery-qrcode/jquery.qrcode.min',
         moment: '../bower_components/moment/min/moment-with-locales.min',
         angular: '../bower_components/angular/angular.min',
         ngResource: '../bower_components/angular-resource/angular-resource.min',
@@ -44,9 +44,9 @@ require.config({
             deps: ['jquery'],
             exports: 'angular'
         },
-        'qrcode': {
-            deps: ['angular','jquery']
-        },
+        // 'qrcode': {
+        //     deps: ['angular','jquery']
+        // },
         'angularMd': {
             deps: ['angular']
         },

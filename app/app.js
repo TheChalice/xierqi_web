@@ -18,8 +18,8 @@ define([
     'angularClipboard',
     'angularSlider',
     'kubernetesUI',
-    'highchartsNg',
-    'qrcode'
+    'highchartsNg'
+    // 'qrcode'
 ], function (angular) {
 
     // 声明应用及其依赖
