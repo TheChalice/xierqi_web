@@ -146,6 +146,7 @@ define([
                     //
                     //        //跳转购买套餐
                     //    }
+
                     //})
 
                     if (toState.name === 'console.plan' || toState.name === 'console.pay' || toState.name === 'console.noplan') {
