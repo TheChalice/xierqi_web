@@ -148,7 +148,7 @@ define([
                     //    }
 
                     //})
-
+//
 
                     if (toState.name === 'console.plan' || toState.name === 'console.pay' || toState.name === 'console.noplan') {
                         //$rootScope.projects=false;
