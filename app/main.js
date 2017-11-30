@@ -38,6 +38,7 @@ require.config({
         highcharts: '../bower_components/highcharts/highcharts',
         angularSlider: '../bower_components/angularjs-slider/dist/rzslider.min',
         highchartsNg: '../bower_components/highcharts-ng/dist/highcharts-ng.min',
+        treeControl: '../bower_components/angular-tree-control/angular-tree-control',
     },
     shim: {
         'angular': {
@@ -86,6 +87,9 @@ require.config({
         },
         'highchartsNg': {
             deps: ['angular', 'highcharts']
+        },
+        'treeControl': {
+            deps: ['angular']
         }
     },
     priority: [
