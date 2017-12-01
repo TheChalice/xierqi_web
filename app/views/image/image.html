@@ -1,4 +1,5 @@
-<div id="image" style="background:#fff;padding:20px 38px 38px;">
+<div id="image">
+  <!--<div id="image" style="background:#fff;padding:20px 38px 38px;">-->
     <div class="loader" ng-if="!testlist">
         <div class="loader-inner ball-clip-rotate-multiple">
             <div></div>
@@ -11,7 +12,8 @@
                 <uib-tab-heading>
                     <i class="myimage"></i>&nbsp;&nbsp;构建镜像
                 </uib-tab-heading>
-                <div class="row image_jia_btn" style="margin-bottom: 25px;margin-left: 0;margin-right: 0;">
+                <!--<div class="row image_jia_btn" style="margin-bottom: 25px;margin-left: 0;margin-right: 0;">-->
+                <div class="row image_jia_btn">
                     <div class="input-group col-sm-4 searchbar">
                         <input type="text" class="form-control" ng-model="txt"
                                ng-focus="showTip=true;" placeholder="搜索镜像" ng-keyup="search('all', txt)">
@@ -25,11 +27,14 @@
                         <c-card></c-card>
                     </div>
 
-                    <div style="margin: 0 15px;text-align: center;background:#f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;"
+                    <!--<div class="image_li_btn" style="margin: 0 15px;text-align: center;background:#f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;"
                          ng-if="testlist.length===0"><p class="blank_block">  <span class="blank_tit"> {{text1}}</span></p></div>
-
+                         margin: 0 15px;text-align: center;background:#f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;-->
+                    <div class="image_li_btn"
+                         ng-if="testlist.length===0"><p class="blank_block">  <span class="blank_tit"> {{text1}}</span></p>
+                    </div>
                 </div>
-                <div class="text-center" style="text-align:center;" ng-if="grid.total > 8">
+                <div class="text-center text_middle" ng-if="grid.total > 8">
                     <uib-pagination
                             ng-model="grid.page"
                             ng-show='fyshow'
@@ -49,8 +54,10 @@
                 <uib-tab-heading>
                     <i class="myimage"></i>&nbsp;&nbsp;仓库镜像
                 </uib-tab-heading>
-                <div class="row image_jia_btn" style="margin-bottom: 25px;margin-left: 0;margin-right: 0;">
-                    <div class="row image_jia_btn" style="margin-bottom: 25px;margin-left: 0;margin-right: 0;">
+                <!--<div class="row image_jia_btn " style="margin-bottom: 25px;margin-left: 0;margin-right: 0;">
+                    <div class="row image_jia_btn" style="margin-bottom: 25px;margin-left: 0;margin-right: 0;">-->
+                <div class="row image_jia_btn ">
+                   <div class="row image_jia_btn">
                         <div class="input-group col-sm-4 searchbar">
                             <input type="text" class="form-control" ng-model="cktxt"
                                    ng-focus="showTip=true;" placeholder="搜索镜像" ng-keyup="cksearch('all', cktxt)">
@@ -88,7 +95,9 @@
                                 </div>
                             </div>
                             <div class="caption">
-                                <a class="href-orange" style='white-space:nowrap;overflow: hidden;text-overflow: ellipsis' ui-sref="console.primage_detail({name:item.name})">{{item.name}}</a>
+                                <!--<a class="href-orange" style='white-space:nowrap;overflow: hidden;text-overflow: ellipsis' ui-sref="console.primage_detail({name:item.name})">{{item.name}}</a>-->
+                                <a class="href-orange href_li_orange" ui-sref="console.primage_detail({name:item.name})">{{item.name}}</a>
+
                             </div>
                             <!--<div>-->
                             <!--<p></p>-->
@@ -98,14 +107,14 @@
                             <!--</div>-->
                         </div>
                     </div>
-                    <div style="margin: 0 15px;text-align: center;background:#f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;"
+                    <div style="" class="image_li_btn"
                          ng-if="newprimage.length===0"><p class="blank_block">  <span class="blank_tit"> 没有查询到相关数据</span></p></div>
 
                     <!--<div style="margin: 0 15px;text-align: center;background:#f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;"-->
                          <!--ng-if="testlist.length===0"><p class="blank_block">  <span class="blank_tit"> {{text1}}</span></p></div>-->
 
                 </div>
-                <div class="text-center" style="text-align:center;" ng-if="grid.ckTotal > 12">
+                <div class="text-center text_middle"  ng-if="grid.ckTotal > 12">
                     <uib-pagination
                             ng-model="grid.ckPage"
                             total-items="grid.ckTotal"
@@ -126,12 +135,14 @@
                 <uib-tab-heading>
                     <i class="imagecenter"></i>&nbsp;&nbsp;公共镜像
                 </uib-tab-heading>
-                <div class="row " style="margin-bottom: 30px;position: relative;">
-                    <div class="fenlei col-sm-6">
+                <!--<div class="row " style="margin-bottom: 30px;position: relative;">-->
+                <div class="row row_li">
+
+                <div class="fenlei col-sm-6">
                         <label>提供者</label>
                         <!--<div class="btn-group fw">-->
-
-                        <div class="btn-group fw" style="margin-left: 30px;" ng-repeat='item in serviceper'>
+                        <div class="btn-group fw"  ng-repeat='item in serviceper'>
+                        <!--<div class="btn-group fw" style="margin-left: 30px;" ng-repeat='item in serviceper'>-->
                             <label class="btn pull-left sc" ng-class="{'active':grid.vendor == item.class}"
                                    ng-click="selectsc('vendor',item.class)">{{item.name}}</label>
                         </div>
@@ -150,8 +161,11 @@
                         <imagecard></imagecard>
                     </div>
                 </div>
-                <div style="text-align: center;background:#f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;" ng-if="imagecenter.length===0"><p class="blank_block">  <span class="blank_tit"> {{text3}}</span></p></div>
-                <div class="text-center" style="text-align:center;" ng-if="grid.imagecentertotal > 8">
+                <!--<div style="text-align: center;background:#f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;" ng-if="imagecenter.length===0"><p class="blank_block">  <span class="blank_tit"> {{text3}}</span></p></div>-->
+
+                <div class="image_li_btn" ng-if="imagecenter.length===0"><p class="blank_block">  <span class="blank_tit"> {{text3}}</span></p></div>
+
+                <div class="text-center text_middle" ng-if="grid.imagecentertotal > 8">
                     <uib-pagination
                             ng-model="grid.imagecenterpage"
                             total-items="grid.imagecentertotal"
@@ -185,7 +199,7 @@
                         <c-card></c-card>
                     </div>
                 </div>
-                <div class="text-center" style="text-align:center;" ng-if="grid.total > 10">
+                <div class="text-center text_middle" ng-if="grid.total > 10">
                     <uib-pagination
                             ng-model="grid.page"
                             ng-show='fyshow'
