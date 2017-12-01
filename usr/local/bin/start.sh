@@ -15,6 +15,8 @@ sed -i 's/<api_metrics_addr>/'$API_METRICS_ADDR'/g' /usr/local/openresty/nginx/c
 sed -i 's/<api_gitter_addr>/'$API_GITTER_ADDR'/g' /usr/local/openresty/nginx/conf/nginx.conf
 sed -i 's/<api_volume_addr>/'$API_VOLUME_ADDR'/g' /usr/local/openresty/nginx/conf/nginx.conf
 sed -i 's/<api_registry_addr>/'$API_REGISTRY_ADDR'/g' /usr/local/openresty/nginx/conf/nginx.conf
+sed -i 's/<public_registry_endpoint>/'$PUBLIC_REGISTRY_ENDPOINT'/g' /usr/local/openresty/nginx/conf/nginx.conf
+
 
 
 
