@@ -19,7 +19,7 @@ define([
     'angularSlider',
     'kubernetesUI',
     'highchartsNg',
-    'qrcode'
+    'treeControl',
 ], function (angular) {
 
     // 声明应用及其依赖
@@ -37,6 +37,8 @@ define([
         'hc.marked',
         'rzModule',
         'highcharts-ng',
+        'treeControl',
+
     ]);
 
     myApp.constant('GLOBAL', {
@@ -146,7 +148,9 @@ define([
                     //
                     //        //跳转购买套餐
                     //    }
+
                     //})
+
 
                     if (toState.name === 'console.plan' || toState.name === 'console.pay' || toState.name === 'console.noplan') {
                         //$rootScope.projects=false;

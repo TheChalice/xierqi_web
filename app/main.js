@@ -21,7 +21,7 @@ require.config({
     paths: {
         bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min',
         jquery: '../bower_components/jquery/dist/jquery.min',
-        qrcode: '../bower_components/jquery-qrcode/jquery.qrcode.min',
+        // qrcode: '../bower_components/jquery-qrcode/jquery.qrcode.min',
         moment: '../bower_components/moment/min/moment-with-locales.min',
         angular: '../bower_components/angular/angular.min',
         ngResource: '../bower_components/angular-resource/angular-resource.min',
@@ -38,15 +38,16 @@ require.config({
         highcharts: '../bower_components/highcharts/highcharts',
         angularSlider: '../bower_components/angularjs-slider/dist/rzslider.min',
         highchartsNg: '../bower_components/highcharts-ng/dist/highcharts-ng.min',
+        treeControl: '../bower_components/angular-tree-control/angular-tree-control',
     },
     shim: {
         'angular': {
             deps: ['jquery'],
             exports: 'angular'
         },
-        'qrcode': {
-            deps: ['angular','jquery']
-        },
+        // 'qrcode': {
+        //     deps: ['angular','jquery']
+        // },
         'angularMd': {
             deps: ['angular']
         },
@@ -86,6 +87,9 @@ require.config({
         },
         'highchartsNg': {
             deps: ['angular', 'highcharts']
+        },
+        'treeControl': {
+            deps: ['angular']
         }
     },
     priority: [
