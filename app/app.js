@@ -58,11 +58,11 @@ define([
             login_uri: '/login',
             signin_uri: '/signin',
             host_webhooks: 'http://hook.dataapp.c.citic/oapi/v1',
-            service_url: '<ROUTER_DOMAIN_SUFFIX>',
+            service_url:'<ROUTER_DOMAIN_SUFFIX>',
             //service_url:'.cloud.new.dataos.io',
-            common_url: '<REGISTRY_PUBLIC_ADDR>',
+            common_url:'<REGISTRY_PUBLIC_ADDR>',
             //private_url:'registry.dataos.io',
-            private_url: '<REGISTRY_PRIVATE_ADDR>',
+            private_url:'<REGISTRY_PRIVATE_ADDR>',
 
         })
         .constant('AUTH_EVENTS', {
@@ -117,16 +117,41 @@ define([
                 $('html').css('overflow', 'auto');
                 $('.foot_main').css('display', 'block');
 
-                window.onmousewheel = document.onmousewheel = true;
+                    window.onmousewheel = document.onmousewheel = true;
 
-            } else {
-                $('html').css('overflow', 'hidden');
-                $('.foot_main').css('display', 'none');
-                scrollTo(0, 0);
+                } else {
+                    $('html').css('overflow', 'hidden');
+                    $('.foot_main').css('display', 'none');
+                    scrollTo(0,0);
 
-            }
-            if (toState && $rootScope.namespace && $rootScope.region) {
+                }
+                if (toState&&$rootScope.namespace && $rootScope.region) {
 
+                    //console.log('套餐', data);
+                    //$rootScope.payment=data;
+                    //account.get({namespace: $rootScope.namespace, region: $rootScope.region,status:"consuming"}, function (data) {
+                    //    //console.log('套餐', data);
+                    //
+                    //    if (data.purchased) {
+                    //        //跳转dashboard
+                    //
+                    //    } else {
+                    //        //console.log('app90',toState);
+                    //        if (toState&&toState.name) {
+                    //            if (toState.name === 'console.plan' || toState.name === 'console.pay'|| toState.name === 'console.dashboard' || toState.name === 'console.noplan') {
+                    //                //$rootScope.projects=false;
+                    //                //alert(1)
+                    //            }else {
+                    //
+                    //                $state.go('console.noplan');
+                    //            }
+                    //        }
+                    //
+                    //
+                    //        //跳转购买套餐
+                    //    }
+                    //
+                    //})
                 //console.log('套餐', data);
                 //$rootScope.payment=data;
                 //account.get({namespace: $rootScope.namespace, region: $rootScope.region,status:"consuming"}, function (data) {
