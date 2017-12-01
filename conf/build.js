@@ -1,5 +1,5 @@
 {
-    appDir:"../app",
+    appDir: "../app",
     baseUrl: "./",
     dir: "../dist",
     optimize: "uglify",
@@ -31,7 +31,6 @@
         angularSlider: '../bower_components/angularjs-slider/dist/rzslider.min',
         highchartsNg: '../bower_components/highcharts-ng/dist/highcharts-ng.min',
         treeControl: '../bower_components/angular-tree-control/angular-tree-control'
-
     },
     shim : {
         'angular': {
@@ -43,7 +42,7 @@
         // },
         'treeControl': {
             deps: ['angular']
-        }
+        },
         'angularMd': {
             deps: ['angular']
         },
