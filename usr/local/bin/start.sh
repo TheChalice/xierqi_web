@@ -19,5 +19,4 @@ sed -i 's/<public_registry_endpoint>/'$PUBLIC_REGISTRY_ENDPOINT'/g' /usr/local/o
 
 
 
-
 /usr/local/openresty/bin/openresty -g "daemon off;"

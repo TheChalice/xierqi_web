@@ -1,5 +1,5 @@
 {
-    appDir: "../app",
+    appDir:"../app",
     baseUrl: "./",
     dir: "../dist",
     optimize: "uglify",
@@ -29,8 +29,9 @@
         term: '../bower_components/term.js/src/term',
         highcharts: '../bower_components/highcharts/highcharts',
         angularSlider: '../bower_components/angularjs-slider/dist/rzslider.min',
-        highchartsNg: '../bower_components/highcharts-ng/dist/highcharts-ng.min',
         treeControl: '../bower_components/angular-tree-control/angular-tree-control'
+        highchartsNg: '../bower_components/highcharts-ng/dist/highcharts-ng.min'
+
     },
     shim : {
         'angular': {
@@ -40,15 +41,15 @@
         // 'qrcode': {
         //     deps: ['angular','jquery']
         // },
-        'treeControl': {
-            deps: ['angular']
-        },
         'angularMd': {
             deps: ['angular']
         },
         'angularMocks': {
             deps: ['angular'],
                 exports: 'angular.mock'
+        },
+        'treeControl': {
+            deps: ['angular']
         },
         'ngResource': {
             deps: ['angular']
