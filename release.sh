@@ -15,6 +15,7 @@ cp -r bower_components/html5-boilerplate $dist/vendor/
 cp -r bower_components/requirejs $dist/vendor/
 cp -r bower_components/marked $dist/vendor/
 cp -r bower_components/kubernetes-container-terminal $dist/vendor/
+-cp -r bower_components/angular-tree-control $dist/vendor/
 
 echo "[remove unconcerned files]"
 rm $dist/index_dist.html

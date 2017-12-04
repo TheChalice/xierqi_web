@@ -16,7 +16,7 @@ angular.module('console.image_detail', [
             registryptag.query({reponame:$stateParams.name}, function (tags) {
                 console.log('tag', tags);
                 $scope.imagename = $stateParams.name
-                $scope.tags=tags
+                $scope.tags=tags;
 
                 //console.log('$scope.primage', $scope.primage);
             })
