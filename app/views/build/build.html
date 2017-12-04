@@ -1,4 +1,4 @@
-<div id="build" style="background:#fff;padding:20px 40px 40px;">
+<div id="build" style="">
 
     <div class="loader" ng-show="!items">
         <div class="loader-inner ball-clip-rotate-multiple">
@@ -7,9 +7,9 @@
         </div>
     </div>
     <div  ng-show="items">
-        <div style="margin-right: 0;margin-left:-15px;">
+        <div class="nav_top_li" style="">
             <div class="col-sm-4 col-xs-4 builder_jia_btn">
-                <a class="btn btn-green" ui-sref="console.build_create_new" style="margin-right:20px;">
+                <a class="btn btn-green btn-green_li" ui-sref="console.build_create_new" style="">
                     <i class="fa fa-plus fa-lg"></i>
                     <span class="hidden-xs">新建构建</span>
                 </a>
@@ -36,8 +36,8 @@
             <!--</div>-->
             <!--</div>-->
         </div>
-        <div class="table-responsive" style="margin-top: 20px;">
-            <table class="table table-hover table-default" style=table-layout:fixed;>
+        <div class="table-responsive table_topMargin" style="">
+            <table class="table table-hover table-default table-buju" style="">
                 <tr>
                     <div class="row row_set"><!-- 20160921 jia 服务分类模块问题 -->
                         <th class='col-lg-2 col-md-2 col-sm-1'>构建名称</th>
@@ -45,13 +45,13 @@
                         <th class='col-lg-2 col-md-2 col-sm-2'>最近构建时间</th>
                         <th class='col-lg-2 col-md-2 col-sm-3'>最近构建时长</th>
                         <!--<th class='col-lg-1 col-md-1 col-sm-2' style='word-break:keep-all;white-space:nowrap;'>构建类型</th>-->
-                        <th class="col-lg-3 col-md-3 col-sm-3" style='text-align:left;text-indent:8px;'>操作</th>
+                        <th class="col-lg-3 col-md-3 col-sm-3 table_headOperating" style=''>操作</th>
                     </div>
 
                 </tr>
                 <tr ng-repeat="bc in items">
                     <td class='buildname'
-                        style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">
+                        style="">
                         <a class="href-orange"
                            ui-sref="console.build_detail({name: bc.metadata.name})"
                            uib-tooltip="{{bc.metadata.name}}"
@@ -70,9 +70,9 @@
                     <!--<i ng-if="true" class="fa fa-hand-pointer-o">&nbsp;手动</i>-->
                     <!--<i ng-if="false" class="fa fa-television">&nbsp;自动</i>-->
                     <!--</td>-->
-                    <td class="text-center threec" style="text-align: center; padding-left: 0;padding-right: 0;">
-                        <div class="row"
-                             style='white-space: nowrap; text-align: center;margin-left:10px;margin-right:10px;'>
+                    <td class="text-center threec OperatingContent" style="">
+                        <div class="row Operating"
+                             style=''>
                             <a class="icon25 icon25-source col-lg-4 col-md-4 col-sm-4" href="{{bc.spec.source.git.uri}}"
                                uib-tooltip="查看代码源" target="_blank"></a>
                             <a class="icon25 icon25-image col-lg-4 col-md-4 col-sm-4"
@@ -92,7 +92,7 @@
                 </tr>
                 <tr>
 
-                    <td colspan="5" style="text-align: center;background: #fff;position:relative" ng-if="items.length===0"><p class="blank_block">  <span class="blank_tit">{{text}}</span></p></td>
+                    <td colspan="5" class="td_colspan_li" style="" ng-if="items.length===0"><p class="blank_block">  <span class="blank_tit">{{text}}</span></p></td>
 
                 </tr>
             </table>
@@ -116,22 +116,6 @@
 
 </div>
 <style>
-    #build .icon25 {
-        margin: 0 18px;
-    }
 
-
-    .table-responsive .buildname {
-        overflow: hidden;
-        word-break: break-all;
-        word-wrap: break-word;
-
-    }
-
-    @media screen and (max-width: 1250px) {
-        #build .icon25 {
-            margin: 0 18px;
-        }
-    }
 
 </style>
