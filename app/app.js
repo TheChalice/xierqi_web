@@ -20,14 +20,14 @@ define([
     'kubernetesUI',
     'highchartsNg',
     'treeControl',
-], function(angular) {
+], function (angular) {
 
     // 声明应用及其依赖
     var myApp = angular.module('myApp', [
         'oc.lazyLoad',
         'ui.bootstrap',
-        'myApp.router', //路由模块
-        'myApp.resource', //资源模块
+        'myApp.router',     //路由模块
+        'myApp.resource',   //资源模块
         'myApp.controller',
         'myApp.service',
         'myApp.directive',
@@ -71,51 +71,49 @@ define([
             httpForbidden: 'auth-http-forbidden'
         })
 
-    .config(['$httpProvider', 'GLOBAL', function($httpProvider) {
-        $httpProvider.interceptors.push([
-            '$injector',
-            function($injector) {
-                return $injector.get('AuthInterceptor');
-            }
-        ]);
-    }])
+        .config(['$httpProvider', 'GLOBAL', function ($httpProvider) {
+            $httpProvider.interceptors.push([
+                '$injector',
+                function ($injector) {
+                    return $injector.get('AuthInterceptor');
+                }
+            ]);
+        }])
+
+        .run(['$rootScope', 'account', '$state', function ($rootScope, account, $state) {
+            $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+                $rootScope.transfering = true;
 
 
 
-    .run(['$rootScope', 'account', '$state', function($rootScope, account, $state) {
-        $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-            $rootScope.transfering = true;
+            });
+
+            $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+                //更新header标题
+                console.log('toState', toState);
+                if(navigator.userAgent.indexOf("Firefox")>0){
+                    // console.log('dasd');
+                    $(document).unbind('DOMMouseScroll');
 
 
-
-        });
-
-        $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
-            //更新header标题
-            console.log('toState', toState);
-            if (navigator.userAgent.indexOf("Firefox") > 0) {
-                // console.log('dasd');
-                $(document).unbind('DOMMouseScroll');
-
-
-                $(document).bind('DOMMouseScroll', function(e) {
-                    //  console.log('detail', e.detail);
-                    //  console.log(toState.name)
-                    //console.log(e);
-                    if (toState.name !== "home.index") {
-                        if (e.detail > 0) {
-                            window.scrollBy(0, 40);
-                        } else {
-                            window.scrollBy(0, -40);
+                    $(document).bind('DOMMouseScroll',function(e){
+                        //  console.log('detail', e.detail);
+                        //  console.log(toState.name)
+                        //console.log(e);
+                        if (toState.name !== "home.index") {
+                            if(e.detail>0){
+                                window.scrollBy(0,40);
+                            }else{
+                                window.scrollBy(0,-40);
+                            }
                         }
-                    }
-                })
-            }
+                    })
+                }
 
 
-            if (toState.name !== "home.index") {
-                $('html').css('overflow', 'auto');
-                $('.foot_main').css('display', 'block');
+                if (toState.name !== "home.index") {
+                    $('html').css('overflow', 'auto');
+                    $('.foot_main').css('display', 'block');
 
                     window.onmousewheel = document.onmousewheel = true;
 
@@ -150,56 +148,31 @@ define([
                     //
                     //        //跳转购买套餐
                     //    }
-                    //
+
                     //})
-                //console.log('套餐', data);
-                //$rootScope.payment=data;
-                //account.get({namespace: $rootScope.namespace, region: $rootScope.region,status:"consuming"}, function (data) {
-                //    //console.log('套餐', data);
-                //
-                //    if (data.purchased) {
-                //        //跳转dashboard
-                //
-                //    } else {
-                //        //console.log('app90',toState);
-                //        if (toState&&toState.name) {
-                //            if (toState.name === 'console.plan' || toState.name === 'console.pay'|| toState.name === 'console.dashboard' || toState.name === 'console.noplan') {
-                //                //$rootScope.projects=false;
-                //                //alert(1)
-                //            }else {
-                //
-                //                $state.go('console.noplan');
-                //            }
-                //        }
-                //
-                //
-                //        //跳转购买套餐
-                //    }
-
-                //})
 
 
-                if (toState.name === 'console.plan' || toState.name === 'console.pay' || toState.name === 'console.noplan') {
-                    //$rootScope.projects=false;
-                    //alert(1)
-                    $rootScope.showsidebar = false;
-                    $('#sidebar-right-fixed').css("marginLeft", 0)
-                } else {
-                    $rootScope.showsidebar = true;
-                    $('#sidebar-right-fixed').css("marginLeft", 188)
+                    if (toState.name === 'console.plan' || toState.name === 'console.pay' || toState.name === 'console.noplan') {
+                        //$rootScope.projects=false;
+                        //alert(1)
+                        $rootScope.showsidebar = false;
+                        $('#sidebar-right-fixed').css("marginLeft",0)
+                    }else {
+                        $rootScope.showsidebar = true;
+                        $('#sidebar-right-fixed').css("marginLeft",188)
+                    }
+
+                    //跳转购买套餐
+
+
+                }
+                if (toState && toState.name) {
+                    $rootScope.console.state = toState.name;
+                    $rootScope.transfering = false;
                 }
 
-                //跳转购买套餐
-
-
-            }
-            if (toState && toState.name) {
-                $rootScope.console.state = toState.name;
-                $rootScope.transfering = false;
-            }
-
-        });
-    }]);
+            });
+        }]);
 
     return myApp;
 });
