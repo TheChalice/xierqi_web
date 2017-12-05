@@ -4,22 +4,29 @@
     margin-bottom:0;
 }
 #resource_management .blank_tit {
-    font-size:14px;color:#5a6378;margin-left:10px;vertical-align:middle;
+    font-size:14px;
+    color:#5a6378;
+    margin-left:10px;
+    vertical-align:middle;
 }
 #resource_management .resource_management{
-    background:#fff;padding:20px 40px 40px;
+    background:#fff;
+    padding:20px 40px 40px;
 }
 #resource_management .uib-tab-heading_width{
     width:180px;
 }
 #resource_management .tool_nav{
-    margin-left:-15px;margin-top:20px;
+    margin-left:-15px;
+    margin-top:20px;
 }
 #resource_management .btn-green_res{
     margin-right: 20px;
 }
 #resource_management .btn-skyblue_res{
-    height: 34px; width: 36px; padding: 5px 5px;
+    height: 34px;
+    width: 36px;
+    padding: 5px 5px;
 }
 #resource_management .search_padding_left{
     padding-left: 0;
@@ -31,7 +38,9 @@
     margin-top: 30px;
 }
 #resource_management .table_hover{
-    table-layout:fixed; width: 100%; border-bottom: none;
+    table-layout:fixed;
+    width: 100%;
+    border-bottom: none;
 }
 #resource_management .tr_border{
     border-bottom: 1px solid #CCCCCC;
@@ -40,10 +49,17 @@
     border-bottom: 1px solid #CCCCCC;
 }
 #resource_management .td_overflow{
-    color:#f6a540;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;
+    color:#f6a540;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    -o-text-overflow:ellipsis;
+    overflow: hidden;
 }
 #resource_management {
-    white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    -o-text-overflow:ellipsis;
+    overflow: hidden;
 }
 #resource_management .text_middlle{
     text-align: center;
