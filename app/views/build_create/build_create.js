@@ -193,6 +193,7 @@ angular.module('console.build_create_new', [
                     console.log('res', res);
                 })
                 if ($scope.check !== 3) {
+                    
                     $scope.buildConfig.spec.source.git.ref = $scope.gitdata.branchs[$scope.grid.branch].name;
                     if ($scope.gitstatus === 'gitlab') {
                         $scope.buildConfig.spec.source.git.uri = $scope.gitdata.orgs[$scope.grid.org].repos[$scope.grid.repo].ssh_clone_url;
