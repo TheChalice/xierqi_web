@@ -11,12 +11,12 @@
             <div class="panel-heading">
             <span class="panel-title">
                 <span class="icon25 icon25-panel-repository">
-                </span>&nbsp;&nbsp;{{data.name}}
+                </span>&nbsp;&nbsp;{{imagename}}
             </span>
                 <a class="btn pull-right btn-green"
                    ng-if="tags.length>0"
                    ng-disabled=false
-                   ui-sref="console.service_create({image:data.name+':'+tags[0]})">部署最新版本</a>
+                   ui-sref="console.service_create({image:imagename+':'+tags[0]})">部署最新版本</a>
                 <a class="btn pull-right btn-orange"
                    ng-if="!tags.length"
                    ng-disabled=true>暂无最新版本</a>
@@ -52,7 +52,7 @@
                                             <div style='white-space:nowrap;overflow: hidden;text-overflow: ellipsis'>
                                                 <i class="fa fa-flag-o"></i>&nbsp;
                                                 <!--<span ng-if="item.spec.revision.git.ref">-->
-                                                <span>{{data.name}}:{{item}}</span>
+                                                <span>{{imagename}}:{{item.name}}</span>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
@@ -60,9 +60,9 @@
                                         </div>
                                         <div class="col-sm-4 text-right">
                                             <a class="icon25 icon25-download" uib-tooltip="拉取" href="javascript:;"
-                                               ng-click="pull(item)"></a>
+                                               ng-click="pull(item.name)"></a>
                                             <a class="icon25 icon25-start" uib-tooltip="部署"
-                                               ui-sref="console.service_create({image:data.name+':'+item})"></a>
+                                               ui-sref="console.service_create({image:imagename+':'+item.name})"></a>
                                             <!--<a class="icon25 icon25-delete" uib-tooltip="删除" href="javascript:;"-->
                                                <!--ng-click="delete($index)"></a>-->
                                             <!--<a class="icon25 icon25-start" uib-tooltip="部署" ui-sref="console.service_create()"></a>-->

@@ -3,6 +3,7 @@ angular.module('console.resource_management', [
         {
             files: [
                 'components/searchbar/searchbar.js',
+                'views/resource_management/resource_management.css'
             ]
         }
     ])
