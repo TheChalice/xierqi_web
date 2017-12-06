@@ -54,6 +54,7 @@
 .tab-jia-default .tab-content{border: 0;}
 .tab-jia-default li .nav-link:hover{color:#333;}
 /*new code*/
+
 #build-detail{
     background:#fff;padding:20px 40px 40px;
 }
@@ -61,7 +62,10 @@
     margin-bottom: 50px;
 }
 #build-detail .btn_a{
-    padding: 5px 10px; margin-left: 15px; height:34px; width:36px;
+    padding: 5px 10px;
+    margin-left: 15px;
+    height:34px;
+    width:36px;
 }
 #build-detail .small_col{
     color: #5a6378;
