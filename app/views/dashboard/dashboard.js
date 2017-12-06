@@ -1,7 +1,9 @@
 'use strict';
 angular.module('console.dashboard', [
         {
-            files: []
+            files: [
+                'views/dashboard/dashboard.css'
+            ]
         }
     ])
     .controller('dashboardCtrl', ['checkout','resourcequotas','Project', 'recharge', 'balance', '$http', '$log', '$rootScope', '$scope', 'Metrics', 'MetricsService', 'Pod', 'DeploymentConfig', 'BackingServiceInstance', 'account', 'market',
