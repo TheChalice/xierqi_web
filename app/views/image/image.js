@@ -29,10 +29,32 @@ angular.module('console.image', [
 
         };
     })
-    .controller('ImageCtrl', ['primage','pubregistrytag','pubregistry','regpro','platformone','ImageStream', '$filter', '$state', '$q', '$http', 'platform', '$rootScope', '$scope', '$log', 'ImageStreamTag', 'BuildConfig', 'Build', 'GLOBAL', 'Sort',
-        function (primage,pubregistrytag,pubregistry,regpro,platformone,ImageStream, $filter, $state, $q, $http, platform, $rootScope, $scope, $log, ImageStreamTag, BuildConfig, Build, GLOBAL, Sort) {
+    .controller('ImageCtrl', ['registryptag','registryp','primage','pubregistrytag','pubregistry','regpro','platformone','ImageStream', '$filter', '$state', '$q', '$http', 'platform', '$rootScope', '$scope', '$log', 'ImageStreamTag', 'BuildConfig', 'Build', 'GLOBAL', 'Sort',
+        function (registryptag,registryp,primage,pubregistrytag,pubregistry,regpro,platformone,ImageStream, $filter, $state, $q, $http, platform, $rootScope, $scope, $log, ImageStreamTag, BuildConfig, Build, GLOBAL, Sort) {
             // 数组去重
             //console.log('$state', $state.params.index);
+            $scope.primage = [];
+            $scope.proname=''
+            $scope.changename= function (reg) {
+                $scope.proname= reg.name;
+                $scope.primage=[];
+                platform.query({id:reg.project_id}, function (images) {
+                    angular.forEach(images, function (image,i) {
+                        $scope.primage.push({name:image.name,tags:[],image:image.name})
+                    })
+                    $scope.grid.ckTotal = $scope.primage.length;
+                    ckRefresh(1);
+                })
+            }
+            registryp.query(function (date) {
+                //console.log('regdate', date);
+                $scope.regdate=date;
+            }, function (err) {
+
+            })
+            if (!primage) {
+                primage={}
+            }
             if ($state.params.index) {
                 $scope.check = $state.params.index
             } else {
@@ -64,7 +86,7 @@ angular.module('console.image', [
                 repertoryspage: 1,
                 imagecenterpage: 1,
                 ckPage:1,
-                size: 12,
+                size: 8,
                 copytest: {},
                 search: false
             };
@@ -85,17 +107,19 @@ angular.module('console.image', [
 
 
             };
-            $scope.primage = [];
-            //console.log('primage', primage);
-            var onlymyimage = []
-            angular.forEach(primage.repositories, function (image,i) {
-                //if (image.split('/')[0] === $rootScope.namespace) {
-                    onlymyimage.push(image)
-                //}
-            })
-            //console.log('image', onlymyimage);
+            if (primage&&primage.repositories) {
 
-            //pubregistry.get(function (data) {
+                //console.log('primage', primage);
+                var onlymyimage = []
+
+                angular.forEach(primage.repositories, function (image,i) {
+                    //if (image.split('/')[0] === $rootScope.namespace) {
+                    onlymyimage.push(image)
+                    //}
+                })
+                //console.log('image', onlymyimage);
+
+                //pubregistry.get(function (data) {
                 angular.forEach(onlymyimage, function (image,i) {
                     var namespace=image.split('/')[0];
                     var name=image.split('/')[1];
@@ -106,8 +130,10 @@ angular.module('console.image', [
                         //console.log('$scope.primage', $scope.primage);
                     })
                 })
-            $scope.grid.ckTotal = $scope.primage.length;
-            ckRefresh(1);
+                $scope.grid.ckTotal = $scope.primage.length;
+                ckRefresh(1);
+
+            }
 
             //})
             $scope.$on('$destroy', function () {

@@ -1567,3 +1567,7 @@ input:focus{border-color: #c9c9c9!important;}
 .build_searchbar .btn:hover {
     background: url(../img/search-focus.png) no-repeat 0 -1px!important; ;
 }
+
+.pr40 {
+    padding-right: 40px;
+}

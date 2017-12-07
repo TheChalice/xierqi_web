@@ -9,6 +9,7 @@ define([
     return angular.module('myApp.router', ['ui.router', 'oc.lazyLoad'])
         .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
+            //$urlRouterProvider.otherwise("/console/build/create");
             $urlRouterProvider.otherwise("/login");
 
             //var arr = document.cookie.match('df_access_token');
@@ -297,7 +298,11 @@ define([
                         }],
                         primage: ['pubregistry','regions', 'Cookie', '$rootScope', 'User', function (pubregistry,regions, Cookie, $rootScope, User) {
 
-                            return pubregistry.get().$promise;
+                            pubregistry.get(function (data) {
+                                return  data
+                            }, function (err) {
+                                return  err
+                            });
                         }]
                     }
                 })

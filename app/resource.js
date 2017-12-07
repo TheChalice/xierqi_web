@@ -535,6 +535,15 @@ define([
             var pubregistry = $resource('/v2/_catalog', {});
             return pubregistry;
         }])
+        .factory('registryp', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var registryp = $resource('/registry/api/projects', {});
+            return registryp;
+        }])
+        .factory('registryptag', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var registryptag = $resource(GLOBAL.host_registry+'/repositories/:reponame/tags?detail=1',
+                {reponame:'@reponame'});
+            return registryptag;
+        }])
         .factory('pubregistrytag', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
             var pubregistrytag = $resource('/v2/:namespace/:name/tags/list', {
                 namespace: '@namespace',

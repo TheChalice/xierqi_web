@@ -51,13 +51,28 @@
                 </uib-tab-heading>
                 <div class="row image_jia_btn" style="margin-bottom: 25px;margin-left: 0;margin-right: 0;">
                     <div class="row image_jia_btn" style="margin-bottom: 25px;margin-left: 0;margin-right: 0;">
-                        <div class="input-group col-sm-4 searchbar">
-                            <input type="text" class="form-control" ng-model="cktxt"
-                                   ng-focus="showTip=true;" placeholder="搜索镜像" ng-keyup="cksearch('all', cktxt)">
-                            <span class="input-group-btn">
-                        <a class="btn" ng-click="cksearch('all', cktxt)"></a>
-                    </span>
+                        <div class="col-sm-4">
+                            <div class="dropdown dropdown-select" style="width: 200px;">
+                                <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                    <span>{{proname||'选择仓库'}}</span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu onbehalf-list" style="max-height: 200px; overflow-y:scroll">
+                                    <li ng-repeat="reg in regdate">
+                                        <a href="javascript:;" ng-click='changename(reg)'>{{reg.name}}</a>
+                                    </li>
+                                </ul>
+
+                            </div>
                         </div>
+
+                        <!--<div class="input-group col-sm-4 searchbar">-->
+                            <!--<input type="text" class="form-control" ng-model="cktxt"-->
+                                   <!--ng-focus="showTip=true;" placeholder="搜索镜像" ng-keyup="cksearch('all', cktxt)">-->
+                            <!--<span class="input-group-btn">-->
+                        <!--<a class="btn" ng-click="cksearch('all', cktxt)"></a>-->
+                    <!--</span>-->
+                        <!--</div>-->
                     </div>
                 </div>
                 <div class="row image_jia_btn">
@@ -66,21 +81,12 @@
                             <div class="thumb-content">
                                 <div class="thumb-slide">
                                     <div class="thumb-op">
-                                        <!--<p><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{item.status.tags[0].items[0].created | dateRelative}}</p>-->
-                                        <p><i class="fa fa-flag-o"></i>&nbsp;&nbsp;<!--{{gitStore[item.spec.output.to.name]["ref"]}} - -->
-                                            {{item.tags[0]}}
-                                            <!--{{item.status.tags[0].port}}-->
-
-                                        </p>
+                                        <p><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{item.status.tags[0].items[0].created | dateRelative}}</p>
                                         <p class="thumb-btn">
                                             <a class="btn btn-green"
-                                               ng-if='item.tags[0]'
                                                href="javascript:;"
-                                               ui-sref="console.service_create({image:item.image+':'+item.tags[0]})">部署最新版本</a>
-                                            <a class="btn btn-gray"
-                                               ng-if='!item.tags[0]'
-                                               href="javascript:;"
-                                               disabled='ture'>暂无最新版本</a>
+                                               ui-sref="console.primage_detail({name:item.name})">查看详情</a>
+
 
                                         </p>
                                     </div>
@@ -88,18 +94,17 @@
                                 </div>
                             </div>
                             <div class="caption">
-                                <a class="href-orange" style='white-space:nowrap;overflow: hidden;text-overflow: ellipsis' ui-sref="console.primage_detail({name:item.name})">{{item.name}}</a>
+                                <a class="href-orange"
+                                   style='white-space:nowrap;overflow: hidden;text-overflow: ellipsis'
+                                   ui-sref="console.primage_detail({name:item.name})">{{item.name}}</a>
                             </div>
-                            <!--<div>-->
-                            <!--<p></p>-->
-                            <!--<span id="updateTime"></span>-->
-                            <!--<p id="releaseVersion"></p>-->
-                            <!--<span><button id="deployLastest">部署最新版本</button></span>-->
-                            <!--</div>-->
                         </div>
                     </div>
                     <div style="margin: 0 15px;text-align: center;background:#f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;"
-                         ng-if="newprimage.length===0"><p class="blank_block">  <span class="blank_tit"> 没有查询到相关数据</span></p></div>
+                         ng-if="newprimage.length===0"><p class="blank_block">
+                        <span class="blank_tit"> 没有查询到相关数据</span>
+                    </p>
+                    </div>
 
                     <!--<div style="margin: 0 15px;text-align: center;background:#f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;"-->
                          <!--ng-if="testlist.length===0"><p class="blank_block">  <span class="blank_tit"> {{text1}}</span></p></div>-->

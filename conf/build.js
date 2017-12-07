@@ -13,7 +13,7 @@
     paths: {
         bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min',
         jquery: '../bower_components/jquery/dist/jquery.min',
-        qrcode: '../bower_components/jquery-qrcode/jquery.qrcode.min',
+        // qrcode: '../bower_components/jquery-qrcode/jquery.qrcode.min',
         moment: '../bower_components/moment/min/moment-with-locales.min',
         angular: '../bower_components/angular/angular.min',
         ngResource: '../bower_components/angular-resource/angular-resource.min',
@@ -29,6 +29,7 @@
         term: '../bower_components/term.js/src/term',
         highcharts: '../bower_components/highcharts/highcharts',
         angularSlider: '../bower_components/angularjs-slider/dist/rzslider.min',
+        treeControl: '../bower_components/angular-tree-control/angular-tree-control'
         highchartsNg: '../bower_components/highcharts-ng/dist/highcharts-ng.min'
 
     },
@@ -37,15 +38,18 @@
             deps: ['jquery'],
                 exports: 'angular'
         },
-        'qrcode': {
-            deps: ['angular','jquery']
-        },
+        // 'qrcode': {
+        //     deps: ['angular','jquery']
+        // },
         'angularMd': {
             deps: ['angular']
         },
         'angularMocks': {
             deps: ['angular'],
                 exports: 'angular.mock'
+        },
+        'treeControl': {
+            deps: ['angular']
         },
         'ngResource': {
             deps: ['angular']

@@ -108,18 +108,72 @@
 .sidebar_jia_per .projectname  > li:hover{height:40px;line-height:40px;}
 .sidebar_jia_block{padding:23px 10px 23px 30px;display:block;}
 .sidebar_h_caret{border-left:6px dashed;border-top:6px solid transparent;border-bottom:6px solid transparent;}
+.sb-arrow{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left:10px;
+    top:18px;
 
+}
+.rotate{
+
+}
+.tooltip{
+    width: 100px;
+    left:71px !important;
+}
+.rotate1{
+
+}
 [treecontrol].tree-light li.tree-collapsed i.tree-branch-head{
-    display: none;
+    /*display: none;*/
+    position: absolute;
+    top: 18px;
+    right: 12px;
+    padding: 8px;
+    background-image:url("img/slide_bg.png");
+    background-size: contain;!important;
+    background-repeat: no-repeat;
+    transform-origin:center center;
+    transform: rotate(0deg); //返回原点
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transition: transform 0.2s;
+    -moz-transition: -moz-transform 0.2s;
+    -moz-transition: -moz-transform 0.2s;
+    -o-transition: -o-transform 0.2s;
+    -ms-transition: -ms-transform 0.2s;
 }
 [treecontrol].tree-light li.tree-expanded i.tree-branch-head{
-    display: none;
+    /*display: none;*/
+    position: absolute;
+    top: 22px;
+    right: 12px;
+    padding: 8px;
+    background-image:url("img/slide_bg.png");
+    background-size: contain;!important;
+    background-repeat: no-repeat;
+    transform-origin:center center;
+    transform: rotate(180deg);
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transition: transform 0.2s;
+    -moz-transition: -moz-transform 0.2s;
+    -moz-transition: -moz-transform 0.2s;
+    -o-transition: -o-transform 0.2s;
+    -ms-transition: -ms-transform 0.2s;
+
 
 }
 [treecontrol].tree-light li.tree-leaf i.tree-leaf-head{
     padding:0;
 }
-[treecontrol].tree-light li div{
+[treecontrol].tree-light li div.tree-label{
     height: 50px;
     line-height:50px;
     display: block;
@@ -131,22 +185,36 @@
     color: #333;
     padding-left: 75px;
 }
+[treecontrol].tree-light li a.node-name{
+    width: 100%;height: 50px;display: block
+}
+
+
 [treecontrol].tree-light li,[treecontrol].tree-light li li{
     padding-left:0px;
 }
 [treecontrol].tree-light li li a{
-    padding-left: 85px;
+    padding-left: 75px;
 }
 .sbtn-bg{
     position: absolute;
     left: 25px;
-    top:9px;
+    top:11px;
 }
-
+[treecontrol].tree-light li div.tree-label:hover{
+    background: #dcdfe8;
+}
 
 [treecontrol].tree-light li div.tree-selected {
     background: #dcdfe8;
     font-weight: normal;
+
+}
+[treecontrol].tree-light li div.tree-selected a{
+    color:#f6a540;
+}
+[treecontrol] ul{
+    overflow: visible;
 }
 .zx_set_btn{background:#e6e9f2 url(img/zx_set.png) no-repeat center;width:14px;height:14px;background-size:14px 14px;display:block;padding:21px 94px;
 }

@@ -9,7 +9,7 @@ angular.module('console.service', [
     ])
     .controller('ServiceCtrl', ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'GLOBAL', 'Confirm', 'Sort', 'Ws', 'Pod',
         function ($rootScope, $scope, $log, $state, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, GLOBAL, Confirm, Sort, Ws, Pod) {
-            $(".service_close").on("click",function(){
+            $(".service_close").on("click", function () {
                 $(".sevice_alert_jia").slideUp();
             });
             $scope.grid = {
@@ -28,7 +28,7 @@ angular.module('console.service', [
                     refresh(newVal);
                 }
             });
-            $scope.reload=function(){
+            $scope.reload = function () {
                 $state.reload();
             }
             var refresh = function (page) {
@@ -37,19 +37,19 @@ angular.module('console.service', [
                 var skip = (page - 1) * $scope.grid.size;
                 if ($scope.data.length) {
                     $scope.items = $scope.data.slice(skip, skip + $scope.grid.size);
-                }else {
-                    $scope.items=[];
+                } else {
+                    $scope.items = [];
                 }
                 $(document.body).animate({
-                    scrollTop:0
-                },200);
+                    scrollTop: 0
+                }, 200);
 
 
                 //$log.info('$scope.items=-=-=-=-=-=',$scope.items);
                 //$scope.grid.total = $scope.data.items.length;
 
             };
-            $scope.text='您还没有部署服务';
+            $scope.text = '您还没有部署服务';
             $scope.servicesearch = function (event) {
                 if (true) {
                     if (!$scope.grid.txt) {
@@ -72,13 +72,13 @@ angular.module('console.service', [
                             //console.log(repo.instance_data, $scope.grid.txt);
                         })
 
-                        if(iarr.length===0){
-                            $scope.isQuery=true;
-                            $scope.text='没有查询到相关数据';
+                        if (iarr.length === 0) {
+                            $scope.isQuery = true;
+                            $scope.text = '没有查询到相关数据';
                             console.log($scope.items.length);
                         }
-                        else{
-                            $scope.text='您还没有部署服务';
+                        else {
+                            $scope.text = '您还没有部署服务';
                         }
                         $scope.data = angular.copy(iarr);
                         refresh(1);
@@ -269,15 +269,16 @@ angular.module('console.service', [
             }
             ////路由
             var RouteList = function (servicedata) {
-                Route.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
+                Route.get({namespace: $rootScope.namespace, 
+                    region: $rootScope.region}, function (data) {
                     $log.info("Route", data);
                     $scope.routeMap = {};
                     for (var i = 0; i < data.items.length; i++) {
                         $scope.routeMap[data.items[i].spec.to.name] = data.items[i];
                         if (data.items[i].spec.tls) {
-                            data.items[i].spec.host='https://'+data.items[i].spec.host
-                        }else {
-                            data.items[i].spec.host='http://'+data.items[i].spec.host
+                            data.items[i].spec.host = 'https://' + data.items[i].spec.host
+                        } else {
+                            data.items[i].spec.host = 'http://' + data.items[i].spec.host
                         }
                         //console.log('data.items[i].spec.host', data.items[i].spec.host);
                     }
@@ -287,6 +288,8 @@ angular.module('console.service', [
                             servicedata[i].route = $scope.routeMap[servicedata[i].metadata.name];
                         }
                     }
+                }, function (err) {
+                    
                 });
             }
 
@@ -368,7 +371,7 @@ angular.module('console.service', [
                         if (data.object.spec.selector.deploymentconfig == $scope.items[k].metadata.name) {
                             //console.log(data.object.status);
                             $scope.items[k].spec.replicas = data.object.spec.replicas
-                            $scope.items[k].status.replicas =data.object.status.replicas
+                            $scope.items[k].status.replicas = data.object.status.replicas
                             $scope.$apply()
                         }
                     }
@@ -393,35 +396,51 @@ angular.module('console.service', [
                 isNormal($scope.items);
             }, true)
             $scope.startDc = function (idx) {
-                DeploymentConfig.get({namespace: $rootScope.namespace, region: $rootScope.region,name:$scope.items[idx].metadata.name}, function (data) {
+                DeploymentConfig.get({
+                    namespace: $rootScope.namespace,
+                    region: $rootScope.region,
+                    name: $scope.items[idx].metadata.name
+                }, function (data) {
 
                     //data.metadata.annotations['dadafoundry.io/last-replicas']=data.spec.replicas;
                     if (data.metadata.annotations['dadafoundry.io/last-replicas']) {
                         if (data.metadata.annotations['dadafoundry.io/last-replicas'] - 0 > 0) {
-                            data.spec.replicas=data.metadata.annotations['dadafoundry.io/last-replicas']
-                        }else {
-                            data.spec.replicas=1;
+                            data.spec.replicas = data.metadata.annotations['dadafoundry.io/last-replicas']
+                        } else {
+                            data.spec.replicas = 1;
                         }
 
-                    }else {
-                        data.spec.replicas=1;
+                    } else {
+                        data.spec.replicas = 1;
                     }
                     //console.log('DeploymentConfig', data);
 
-                    DeploymentConfig.put({namespace: $rootScope.namespace, region: $rootScope.region,name:$scope.items[idx].metadata.name}
-                        ,data, function (data) {
+                    DeploymentConfig.put({
+                            namespace: $rootScope.namespace,
+                            region: $rootScope.region,
+                            name: $scope.items[idx].metadata.name
+                        }
+                        , data, function (data) {
                             console.log('DeploymentConfig', data);
 
                         })
                 })
             };
             $scope.stopDc = function (idx) {
-                DeploymentConfig.get({namespace: $rootScope.namespace, region: $rootScope.region,name:$scope.items[idx].metadata.name}, function (data) {
-                    data.metadata.annotations['dadafoundry.io/last-replicas']=data.spec.replicas.toString();
+                DeploymentConfig.get({
+                    namespace: $rootScope.namespace,
+                    region: $rootScope.region,
+                    name: $scope.items[idx].metadata.name
+                }, function (data) {
+                    data.metadata.annotations['dadafoundry.io/last-replicas'] = data.spec.replicas.toString();
                     //console.log('DeploymentConfig', data);
-                    data.spec.replicas=0;
-                    DeploymentConfig.put({namespace: $rootScope.namespace, region: $rootScope.region,name:$scope.items[idx].metadata.name}
-                        ,data, function (data) {
+                    data.spec.replicas = 0;
+                    DeploymentConfig.put({
+                            namespace: $rootScope.namespace,
+                            region: $rootScope.region,
+                            name: $scope.items[idx].metadata.name
+                        }
+                        , data, function (data) {
                             //console.log('DeploymentConfig', data);
 
                         })

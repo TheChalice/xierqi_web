@@ -16,6 +16,9 @@ angular.module('console', [
             //    console.log(user);
             //
             //})
+            // if ($state.current.name === 'console.dashboard') {
+            //     alert(11)
+            // }
 
             if ($rootScope.user) {
                 console.log('$rootScope.user', $rootScope.user.metadata.name);
