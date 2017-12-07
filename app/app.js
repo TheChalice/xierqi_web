@@ -90,7 +90,19 @@ define([
 
             $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
                 //更新header标题
-                console.log('toState', toState);
+                $rootScope.dataForTheTree =
+                    [
+                        {name:'仪表盘',img:'icon25 icon25-dashboard',url:'console.dashboard',children:[]},
+                        {name:'代码构建',img:'icon25 icon25-build',url:'console.build',children:[]},
+                        {name:'镜像仓库',img:'icon25 icon25-repository',url:'console.image',children:[]},
+                        {name:'服务部署',img:'icon25 icon25-deployment',url:'',children:[{name:'服务部署',url:'console.service',children:[]}]},
+                        {name:'资源管理',img:'icon25 icon25-resource',url:'console.resource_management',children:[]}
+                    ];
+                if (toState.name === 'console.dashboard') {
+                    alert(11)
+                    $rootScope.activeNode =  $rootScope.dataForTheTree[0]
+
+                }
                 if(navigator.userAgent.indexOf("Firefox")>0){
                     // console.log('dasd');
                     $(document).unbind('DOMMouseScroll');

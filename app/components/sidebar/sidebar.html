@@ -4,7 +4,7 @@
          tree-model="dataForTheTree"
          options="treeOptions"
          on-selection="showSelected(node)"
-         selected-node="node1" >
+         selected-node="activeNode" >
         <a ng-click="goUrl(node.url)" class="node-name" style="">{{node.name}}</a>
         <a ng-if="activeStyle" ng-click="goUrl(node.url)" class="sbtn-bg {{node.img}}" uib-tooltip="{{node.name}} " tooltip-placement="right">
         </a>

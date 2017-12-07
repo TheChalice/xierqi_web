@@ -12,6 +12,8 @@ angular.module("console.sidebar", [
             replace: true,
             templateUrl: 'components/sidebar/sidebar.html',
             controller: ['$state', '$scope','$rootScope', function($state, $scope,$rootScope){
+                console.log('$state', $state.current.name);
+
                 $scope.goUrl = function(url){
                        if(url){
                            $state.go(url);
@@ -41,15 +43,11 @@ angular.module("console.sidebar", [
                         labelSelected: "a8"
                     }
                 }
-                $rootScope.dataForTheTree =
-                    [
-                        {name:'仪表盘',img:'icon25 icon25-dashboard',url:'console.dashboard',children:[]},
-                        {name:'代码构建',img:'icon25 icon25-build',url:'console.build',children:[]},
-                        {name:'镜像仓库',img:'icon25 icon25-repository',url:'console.image',children:[]},
-                        {name:'服务部署',img:'icon25 icon25-deployment',url:'',children:[{name:'服务部署',url:'console.service',children:[]}]},
-                        {name:'资源管理',img:'icon25 icon25-resource',url:'console.resource_management',children:[]}
-                    ];
 
+                // if ($state.current.name === 'console.dashboard') {
+                //     // alert(11)
+                //     ;
+                // }
                 var width = 0;
                 width = $(window).width()-168;
                 $scope.sidebaerWidth = function(){
@@ -68,7 +66,8 @@ angular.module("console.sidebar", [
 
                     }
                 }
-                $scope.showSelected
+
+
 
             }]
         }
