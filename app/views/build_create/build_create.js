@@ -199,7 +199,7 @@ angular.module('console.build_create_new', [
 
                         $scope.buildConfig.spec.source.git.uri = $scope.gitdata.orgs[$scope.grid.org].repos[$scope.grid.repo].ssh_clone_url;
                     }else {
-                        
+
                         $scope.buildConfig.spec.source.git.uri = $scope.gitdata.orgs[$scope.grid.org].repos[$scope.grid.repo].clone_url;
                     }
 
