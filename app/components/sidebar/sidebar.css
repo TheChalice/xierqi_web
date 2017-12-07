@@ -120,7 +120,7 @@
 
 }
 .tooltip{
-    width: 100px;
+    width: 80px;
     left:71px !important;
 }
 .rotate1{
@@ -182,7 +182,7 @@
 }
 [treecontrol].tree-light li a{
     font-size: 14px;
-    color: #333;
+    color: #666;
     padding-left: 75px;
 }
 [treecontrol].tree-light li a.node-name{
