@@ -1,11 +1,25 @@
 <div id="sidebar">
+    <style>
+        #sidebar .tree-light li div.tree-selected {
+            background-color: transparent;
+        }
+        #sidebar .tree-light li a {
+            display: inline-block;
+            width: 188px;
+        }
+        #sidebar .tree-light li a.select {
+            background-color: black;
+        }
+
+
+    </style>
     <a href="javascript:void(0);" class="zx_set_btn"></a>
     <div treecontrol class="tree-light"
          tree-model="dataForTheTree"
          options="treeOptions"
          on-selection="showSelected(node)"
          selected-node="node1" >
-        <a ui-sref="{{node.url}}">{{node.name}}</a>
+        <a ng-class="{'select':$state.includes(node.url)}" ui-sref="{{node.url}}">{{node.name}}{{node.url}}</a>
         <span ui-sref="{{node.url}}" class="sbtn-bg {{node.img}}"></span>
     </div>
     <!--<ul class="nav nav-pills nav-stacked nav-jia-pills">-->
