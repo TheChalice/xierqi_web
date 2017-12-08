@@ -5,11 +5,12 @@ angular.module('console.routes', [{
             'views/apps/routes/routes.css'
         ]
     }])
-    .controller('RoutesCtrl', ['$filter', '$scope', 'Route',
-        function($filter, $scope, Route) {
+    .controller('RoutesCtrl', ['$scope', 'Route',
+        function($scope, Route) {
             $(".service_close").on("click", function() {
                 $(".sevice_alert_jia").slideUp();
             });
+            $scope.text = "No routes have been added to project " + $scope.namespace + ".";
             Route.get({ namespace: $scope.namespace }, function(res) {
                 $scope.items = res.items;
             })

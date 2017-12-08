@@ -10,9 +10,9 @@ angular.module('console.stateful-sets', [{
             $(".service_close").on("click", function() {
                 $(".sevice_alert_jia").slideUp();
             });
+            $scope.text = "No stateful sets have been added to project " + $scope.namespace + ".";
             statefulsets.get({ namespace: $scope.namespace }, function(res) {
                 $scope.items = res.items;
-                console.log("!!!!$scope.items", $scope.items)
             });
         }
     ]);

@@ -10,6 +10,7 @@ angular.module('console.deployments', [{
             $(".service_close").on("click", function() {
                 $(".sevice_alert_jia").slideUp();
             });
+            $scope.text = "No deployments have been added to project " + $scope.namespace + ".";
             DeploymentConfig.get({ namespace: $scope.namespace }, function(res) {
                 $scope.items = res.items;
             })
