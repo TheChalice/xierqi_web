@@ -12,7 +12,13 @@ angular.module("console.sidebar", [
             replace: true,
             templateUrl: 'components/sidebar/sidebar.html',
             controller: ['$state', '$scope','$rootScope', function($state, $scope,$rootScope){
-                console.log('$state', $state.current.name);
+                const app = [
+                    { name: 'Deployments', url: 'console.deployments', children: [] },
+                    { name: 'Stateful Sets', url: 'console.stateful-sets', children: [] },
+                    { name: 'Pods', url: 'console.pods', children: [] },
+                    { name: 'Services', url: 'console.services', children: [] },
+                    { name: 'Routes', url: 'console.routes', children: [] }
+                ];
                 $scope.state = $state;
                 $scope.goUrl = function(url){
                        if(url){
@@ -22,7 +28,7 @@ angular.module("console.sidebar", [
                            $(".zx_set_btn").removeClass("zx_set_btn_rotate");
                            $("#sidebar-container").removeClass("sider_zx");
                            $("#sidebar-right-fixed").removeClass("sidebar-fixed");
-                           $rootScope.dataForTheTree[3].children = [{name:'服务部署',url:'console.service',children:[]}];
+                           $rootScope.dataForTheTree[3].children = app
                        }
                 }
                 $scope.activeStyle = false;
@@ -57,7 +63,7 @@ angular.module("console.sidebar", [
                         $rootScope.dataForTheTree[3].children = [];
                     }else{
                         $scope.activeStyle = false;
-                        $rootScope.dataForTheTree[3].children = [{name:'服务部署',url:'console.service',children:[]}];
+                        $rootScope.dataForTheTree[3].children = app
 
                     }
                 }
@@ -66,7 +72,7 @@ angular.module("console.sidebar", [
                         {name:'仪表盘',img:'icon25 icon25-dashboard',url:'console.dashboard',children:[]},
                         {name:'代码构建',img:'icon25 icon25-build',url:'console.build',children:[]},
                         {name:'镜像仓库',img:'icon25 icon25-repository',url:'console.image',children:[]},
-                        {name:'服务部署',img:'icon25 icon25-deployment',url:'',children:[{name:'服务部署',url:'console.service',children:[]}]},
+                        {name:'服务部署',img:'icon25 icon25-deployment',url:'',children:app},
                         {name:'资源管理',img:'icon25 icon25-resource',url:'console.resource_management',children:[]}
                     ];
 
