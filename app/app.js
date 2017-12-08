@@ -90,7 +90,6 @@ define([
 
             $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
                 //更新header标题
-                console.log('toState', toState);
                 if(navigator.userAgent.indexOf("Firefox")>0){
                     // console.log('dasd');
                     $(document).unbind('DOMMouseScroll');
