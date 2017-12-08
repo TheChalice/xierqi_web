@@ -429,6 +429,7 @@ angular.module("console.header", [{
 
                 $scope.setNamespace = function(namespace) {
                         //console.log(namespace);
+                        $rootScope.activeNode =  $rootScope.dataForTheTree[0];
                         $rootScope.namespace = namespace;
                         Cookie.set('namespace', namespace, 10 * 365 * 24 * 3600 * 1000);
                         //$state.reload();
@@ -450,6 +451,7 @@ angular.module("console.header", [{
                         //$state.go('console.dashboard');
                         //}
                     }
+
                     // setting timer
                 $scope.checkInbox = function() {
                     $scope.isshow = false;

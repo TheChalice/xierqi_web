@@ -5,6 +5,8 @@ COPY . /datafoundry-citic
 
 WORKDIR /datafoundry-citic
 
+RUN bower install && npm install
+
 # Install nginx & node
 # Install Bower
 # Install node & bower depends
