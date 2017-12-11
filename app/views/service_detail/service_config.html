@@ -1,4 +1,131 @@
 <div class="service-config">
+    <!--配置信息-->
+    <h2 style="margin-bottom: 19px;">部署详情</h2>
+
+    <div class="row">
+        <div class="col-md-12 bushu_marginBottom">
+            <div class="col-md-2">Selectors</div>
+            <div class="col-md-10">app = hsss deploymentconfig=hsss</div>
+        </div>
+        <div class="col-md-12 bushu_marginBottom">
+            <div class="col-md-2">Replicas</div>
+            <div class="col-md-10">
+                <input type="text" placeholder="3">
+            </div>
+        </div>
+        <div class="col-md-12 bushu_marginBottom">
+            <div class="col-md-2">Stratege</div>
+            <div class="col-md-10">Rolling</div>
+        </div>
+        <div class="col-md-12 bushu_marginBottom">
+            <div class="col-md-2">Timeout</div>
+            <div class="col-md-10">600 sec</div>
+        </div>
+        <div class="col-md-12 bushu_marginBottom">
+            <div class="col-md-2">Update Period</div>
+            <div class="col-md-10">1 sec</div>
+        </div>
+        <div class="col-md-12 bushu_marginBottom">
+            <div class="col-md-2">Intervel</div>
+            <div class="col-md-10">1 sec</div>
+        </div>
+        <div class="col-md-12 bushu_marginBottom">
+            <div class="col-md-2">Max Unavailable</div>
+            <div class="col-md-10">25%</div>
+        </div>
+        <div class="col-md-12 bushu_marginBottom">
+            <div class="col-md-2">Max Surge</div>
+            <div class="col-md-10">25%</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" style="padding-top: 10px;">
+            <h3>弹性伸缩</h3>
+            <c-checkbox checked="quota.rubustCheck" style="margin: 13px 0"></c-checkbox>
+        </div>
+        <div class="row" style="margin-bottom: 40px;">
+            <div class="col-sm-12">
+                <span class="col-sm-4" style="margin-right:-90px;">POD数量
+                    <input type="text" placeholder="3">
+                </span>
+                <span class="col-sm-4" style="margin-right:-80px;">POD最大阀值
+                    <input type="text" placeholder="3">
+                </span>
+                <span class="col-sm-4">CPU阀值
+                    <input type="text" placeholder="3">%
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="row " style="margin-bottom: 36px;">
+        <div class="col-sm-12">
+            <h3>自动部署</h3>
+            <i class="faa faa-check"></i>
+            &nbsp;&nbsp;配置变化触发自动部署
+         </div>
+    </div>
+    <div class="continerboxs" >
+        <h3>镜像信息</h3>
+        <div class="container-fluid container-bar">
+            <div class="text-right">
+                <a class="faa faa-times" ng-click="rmContainer($index)" uib-tooltip="删除"
+                   href="javascript:;"></a>
+            </div>
+            <div class="row col-md-12">
+                <div class="dropdown dropdown-select" style="width:200px;">
+                <button class="btn dropdown-toggle" data-toggle="dropdown">
+                    <span>选择镜像名称</span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a>1</a>
+                        <a>2</a>
+                        <a>3</a>
+                    </li>
+                </ul>
+            </div>
+                <div class="dropdown dropdown-select" style="width:200px;">
+                <button class="btn dropdown-toggle" data-toggle="dropdown">
+                    <span>选择Tag</span>
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a>1</a>
+                        <a>2</a>
+                        <a>3</a>
+                    </li>
+                </ul>
+            </div>
+            </div>
+            <div class="row col-md-12" style="margin: 30px 0;padding: 0;">
+                <i class="faa faa-check"></i>
+                &nbsp;&nbsp;配置变化触发自动部署
+            </div>
+            <div class="row col-md-12" style="margin-bottom:24px;">
+                <i class="fa fa-plus-circle fa-lg"></i>
+                &nbsp;&nbsp;配置变化触发自动部署
+            </div>
+            <div class="col-md-12" style="padding-top: 10px;">
+                <h3>可探测性</h3>
+                <c-checkbox checked="quota.rubustCheck"></c-checkbox>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="margin-bottom: 200px">
+        <div class="col-md-12">
+            <i class="fa fa-plus-circle fa-lg"></i>
+            &nbsp;&nbsp;添加镜像
+        </div>
+
+    </div>
+
+
+
+
+    <!--、----------------------->
+
     <h2>基础配置</h2>
     <hr>
 
@@ -10,7 +137,7 @@
 
     <div class="continerboxs" ng-repeat="container in dc.spec.template.spec.containers" ng-class="{'bg-gray': container.show}" ng-init="outindex=$index">
         <div ng-if="!container.new">
-            <div class="container-fluid container-bar">
+            <!--<div class="container-fluid container-bar">-->
                 <div class="row">
                     <div class="col-sm-6">
                         {{container.name}}
@@ -634,7 +761,7 @@
             </div>
 
         </div>
-    </div>
+    <!--</div>-->
 
     <h3>端口开放&nbsp; <a ng-click="addprot()" class="href-add" style="line-height: 40px; margin-bottom: 10px"
                       href="javascript:;">
@@ -1324,8 +1451,12 @@
     <small ng-show="grid.conflict" class="fa fa-info-circle err-tip">&nbsp;容器端口冲突，请修改</small>
     <small ng-show="grid.serviceConflict" class="fa fa-info-circle err-tip">&nbsp;服务端口冲突，请修改</small>
     <button class="btn btn-orange btn-block" ng-click="updateDc()">更新(会自动触发重新部署)</button>
-    <style>
 
+</div>
+    <style>
+        .bushu_marginBottom{
+            margin-bottom: 21px;
+        }
         .file-input {
             position: absolute;
             width: 54px;
@@ -1395,4 +1526,4 @@
             max-width: 100%;
         }
     </style>
-</div>
+

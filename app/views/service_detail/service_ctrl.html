@@ -1,30 +1,36 @@
 <div class="service-ctrl" style="padding-bottom: 200px;">
 
-    <!--<h2>POD信息</h2>-->
-    <!--<hr>-->
+    <!--<h2>POD信息</h2>--
+    <!--<hr> 环境变量-->
 
-    <ul class="row rongqi" style="padding: 0;list-style: none; margin-bottom: 30px;border: 1px solid #e6e9f2;border-bottom: none;">
-        <li class="col-md-12" style="background-color: #e6e9f2; height: 40px;padding-top: 10px;">
+    <!--   <ul class="row rongqi" style="padding: 0;list-style: none; margin-bottom: 30px;border: 1px solid #e6e9f2;border-bottom: none;">
+           <li class="col-md-12" style="background-color: #e6e9f2; height: 40px;padding-top: 10px;">
 
-                <div class="col-md-2">名称</div>
-                <div class="col-md-2">运行状态</div>
-                <div class="col-md-2">运行时长</div>
-                <div class="col-md-2">重启策略</div>
-                <div class="col-md-2">重启次数</div>
-                <div class="col-md-2">容器个数</div>
+               <div class="col-md-4">Time</div>
+               <div class="col-md-4"></div>
+               <div class="co-4"></div>
+   <!--
 
+                   <div class="col-md-2">名称</div>
+                   <div class="col-md-2">运行状态</div>
+                   <div class="col-md-2">运行时长</div>
+                   <div class="col-md-2">重启策略</div>
+                   <div class="col-md-2">重启次数</div>
+                   <div class="col-md-2">容器个数</div>
 
-        </li>
+           </li>
+           -->
+    <!--
         <li class="col-md-12 hhh" ng-repeat="pod in pods.items" style="border-bottom: 1px solid #e6e9f2;padding-top: 10px;padding-left: 0px;padding-right: 0px;padding-bottom:10px;">
                 <div class="col-md-2">
                     <span ng-if="!pod.show" ng-click="pod.show=!pod.show" role="button" data-toggle="collapse" data-parent="#accordion" href={{"#"+pod.metadata.name}} aria-expanded="true" aria-controls="collapseOne" uib-tooltip="{{pod.metadata.name}}" style="display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
                         <span class="href-orange" href="">{{pod.metadata.name}}</span>
                     <span class="caret"></span>
-                    <!--<span class="caret" style="border-top: none;border-bottom:4px dashed"></span>-->
+                    &lt;!&ndash;<span class="caret" style="border-top: none;border-bottom:4px dashed"></span>&ndash;&gt;
                     </span>
                     <span ng-if="pod.show" ng-click="pod.show=!pod.show" role="button" data-toggle="collapse" data-parent="#accordion" href={{"#"+pod.metadata.name}} aria-expanded="true" aria-controls="collapseOne" uib-tooltip="{{pod.metadata.name}}" style="display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
                         <span class="href-orange" href="">{{pod.metadata.name}}</span>
-                    <!--<span class="caret"></span>-->
+                    &lt;!&ndash;<span class="caret"></span>&ndash;&gt;
                     <span class="caret" style="border-top: none;border-bottom:4px dashed"></span>
                     </span>
                 </div>
@@ -49,8 +55,28 @@
             </div>
         </li>
 
-    </ul>
 
+    </ul>-->
+    <div class="">环境变量设置</div>
+    <div class="row" style="margin: 30px 0;">
+        <div class="col-md-5">
+            <span>键</span>
+            <input type="text" style="width: 400px;">
+        </div>
+        <div class="col-md-5">
+            <span>值</span>
+            <input type="text" style="width: 400px; margin-right:-90px;">
+        </div>
+        <div class="col-sm-2">
+            <a href="javascript:;" style='color: #9fa7b7;' ng-click="delprot($index)"
+               class="fa fa-lg fa-times-circle">
+            </a>
+        </div>
+    </div>
+    <div class="row col-md-12" style="margin: 30px 0;">
+        <i class="fa fa-plus-circle fa-lg"></i>
+        &nbsp;&nbsp;创建环境变量
+    </div>
 <style>
     .hhh .sss:last-child {
         border-bottom:none;
