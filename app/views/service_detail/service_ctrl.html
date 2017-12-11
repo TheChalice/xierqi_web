@@ -59,16 +59,16 @@
     </ul>-->
     <div class="">环境变量设置</div>
     <div class="row" style="margin: 30px 0;">
-        <div class="col-md-5">
+        <div class="col-md-5 col_md_5_margin">
             <span>键</span>
-            <input type="text" style="width: 400px;">
+            <input type="text" style="width: 345px;height: 32px;">
         </div>
-        <div class="col-md-5">
+        <div class="col-md-5 col_md_5_margin">
             <span>值</span>
-            <input type="text" style="width: 400px; margin-right:-90px;">
+            <input type="text" style="width:345px;height: 32px;">
         </div>
         <div class="col-sm-2">
-            <a href="javascript:;" style='color: #9fa7b7;' ng-click="delprot($index)"
+            <a href="javascript:;" style='color: #9fa7b7; height: 32px;line-height:32px;' ng-click="delprot($index)"
                class="fa fa-lg fa-times-circle">
             </a>
         </div>
@@ -88,6 +88,9 @@
     }
     .rongqi li {
         text-align: center;
+    }
+    .col_md_5_margin{
+        margin-right:-90px;
     }
 </style>
 </div>
