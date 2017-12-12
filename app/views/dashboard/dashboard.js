@@ -6,18 +6,67 @@ angular.module('console.dashboard', [
             ]
         }
     ])
-    .controller('dashboardCtrl', ['checkout','resourcequotas','Project', 'recharge', 'balance', '$http', '$log', '$rootScope', '$scope', 'Metrics', 'MetricsService', 'Pod', 'DeploymentConfig', 'BackingServiceInstance', 'account', 'market',
-        function (checkout,resourcequotas,Project, recharge, balance, $http, $log, $rootScope, $scope, Metrics, MetricsService, Pod, DeploymentConfig, BackingServiceInstance, account, market) {
+    .controller('dashboardCtrl', ['$interval', 'PieChar', 'checkout', 'resourcequotas', 'Project', 'recharge', 'balance', '$http', '$log', '$rootScope', '$scope', 'Metrics', 'MetricsService', 'Pod', 'DeploymentConfig', 'BackingServiceInstance', 'account', 'market',
+        function ($interval, PieChar, checkout, resourcequotas, Project, recharge, balance, $http, $log, $rootScope, $scope, Metrics, MetricsService, Pod, DeploymentConfig, BackingServiceInstance, account, market) {
             $scope.cpuData = [];
             $scope.memData = [];
             $scope.isdata = {};
-            var times =(new Date()).getTime()
-            //$scope.deposit = function () {
-            //    recharge.create({}, {"amount": 1234.34, namespace: $rootScope.namespace}, function (data) {
-            //        console.log('充值', data);
-            //    })
-            //}
-            $scope.$watch('namespace', function (n,o) {
+            $scope.oldpiedata = {
+                usage_rate: {name: 'CPU', use: 0, unit: ' cores'},
+                usage: {name: 'memory', use: 0, unit: ' MiB'},
+                network:{name: 'network', use: 0, unit: ' KiB/s'},
+                rx_rate: {name: 'rx_rate', use: 0, unit: ' KiB/s'},
+                tx_rate: {name: 'tx_rate', use: 0, unit: ' KiB/s'}
+            }
+            var times = (new Date()).getTime()
+
+            var PieCharobj = {
+                "tags": "descriptor_name:network/tx_rate|network/rx_rate|memory/usage|cpu/usage_rate,type:pod",
+                "bucketDuration": "1mn",
+                "start": "-1mn"
+            }
+
+            function piechardawn() {
+                PieChar.create(PieCharobj, function (data) {
+                    $scope.newpiedata = angular.copy($scope.oldpiedata)
+                    angular.forEach(data.gauge, function (item, i) {
+                        var k = i.split('/')[i.split('/').length - 1];
+                        if (!item[0].empty) {
+                            $scope.newpiedata[k].use += item[0].avg
+                        }
+                    })
+                    angular.forEach($scope.newpiedata, function (item,i) {
+                        if(item.name === 'network') {
+                            item.use = item.use / 1024
+                        }
+                    })
+                    $scope.newpiedata.network.use=$scope.newpiedata.rx_rate.use+$scope.newpiedata.tx_rate.use;
+                    angular.forEach($scope.newpiedata, function (item, i) {
+                        if (item.name === 'memory') {
+                            item.use = item.use / 1024 / 1024
+                        }else if(item.name === 'CPU'){
+                            item.use = item.use / 1000
+                        }else  {
+                            item.use = item.use / 1024
+                        }
+                        item.use = Math.round(item.use * 100) / 100;
+                        $scope[i] = setPieChart(item.name, item.use + item.unit, 0, false);
+                    })
+
+                })
+            }
+
+            piechardawn()
+            var timer = $interval(function () {
+                piechardawn()
+            }, 60000);
+            $scope.$on("$destroy",
+                function () {
+                    $interval.cancel(timer);
+                }
+            );
+
+            $scope.$watch('namespace', function (n, o) {
                 if (n === o) {
                     return
                 }
@@ -50,7 +99,7 @@ angular.module('console.dashboard', [
                         $scope.projectname = item.metadata.annotations['openshift.io/display-name'] === '' ? item.metadata.name : item.metadata.annotations['openshift.io/display-name'];
                     }
 
-                        data.items[i].sortname = item.metadata.annotations['openshift.io/display-name'] || item.metadata.name;
+                    data.items[i].sortname = item.metadata.annotations['openshift.io/display-name'] || item.metadata.name;
 
 
                 })
@@ -80,132 +129,7 @@ angular.module('console.dashboard', [
                 price: null,
                 planName: null
             }
-            //account.get({
-            //    namespace: $rootScope.namespace,
-            //    region: $rootScope.region,
-            //}, function (reso) {
-            //
-            //    if (!reso.subscriptions) {
-            //        checkout.create({
-            //            drytry:0,
-            //            plan_id: '91115647-BB07-0F08-8C7B-2C66F3B2806A',
-            //            namespace: $rootScope.namespace,
-            //            region:$rootScope.region
-            //        }, function (data) {
-            //            console.log('data', data);
-            //            account.get({
-            //                namespace: $rootScope.namespace,
-            //                region: $rootScope.region,
-            //            }, function (res) {
-            //                $scope.balance=res.balance
-            //                console.log('accountall',reso);
-            //                market.get({region: $rootScope.region, type: 'resources'}, function (data) {
-            //                    //console.log('eeeeeeeeeeee',data);
-            //                    if (res.subscriptions.length > 1) {
-            //                        account.get({
-            //                            namespace: $rootScope.namespace,
-            //                            region: $rootScope.region,
-            //                            status:"consuming"
-            //                        }, function (resin) {
-            //                            angular.forEach(resin.subscriptions, function (item, k) {
-            //                                if (item.type === "resources") {
-            //                                    angular.forEach(data.plans, function (plan, i) {
-            //                                        if (item.plan_id === plan.plan_id) {
-            //                                            $scope.plans.cpu =plan.description;
-            //                                            $scope.plans.ram = plan.description2;
-            //                                            $scope.plans.price = plan.price
-            //                                            $scope.plans.planName = plan.plan_name;
-            //
-            //                                        }
-            //                                    })
-            //                                }
-            //
-            //                            })
-            //                        })
-            //                    }else {
-            //
-            //                        $scope.plans.cpu =res.subscriptions[0].description;
-            //                        $scope.plans.ram = res.subscriptions[0].description2;
-            //                        $scope.plans.price = res.subscriptions[0].price
-            //                        $scope.plans.planName = res.subscriptions[0].plan_name;
-            //
-            //                    }
-            //
-            //
-            //
-            //                    //for(var i = 0 ; i < data.plans.length; i++){
-            //                    //
-            //                    //    if(res.subscriptions&&res.subscriptions[0].plan_id === data.plans[i].plan_id){
-            //                    //        $scope.plans.cpu = data.plans[i].description;
-            //                    //        $scope.plans.ram = data.plans[i].description2;
-            //                    //        $scope.plans.price = data.plans[i].price
-            //                    //        $scope.plans.planName = data.plans[i].plan_name;
-            //                    //    }
-            //                    //}
-            //
-            //                })
-            //            })
-            //        })
-            //    }else {
-            //        $scope.balance=reso.balance;
-            //        market.get({region: $rootScope.region, type: 'resources'}, function (data) {
-            //            //console.log('eeeeeeeeeeee',data);
-            //
-            //            if (reso.subscriptions.length > 1) {
-            //                account.get({
-            //                    namespace: $rootScope.namespace,
-            //                    region: $rootScope.region,
-            //                    status:"consuming"
-            //                }, function (resin) {
-            //                    angular.forEach(resin.subscriptions, function (item, k) {
-            //                        if (item.type === "resources") {
-            //                            angular.forEach(data.plans, function (plan, i) {
-            //                                if (item.plan_id === plan.plan_id) {
-            //                                    $scope.plans.cpu =plan.description;
-            //                                    $scope.plans.ram = plan.description2;
-            //                                    $scope.plans.price = plan.price
-            //                                    $scope.plans.planName = plan.plan_name;
-            //
-            //                                }
-            //                            })
-            //                        }
-            //
-            //                    })
-            //                })
-            //            }else {
-            //
-            //                $scope.plans.cpu =reso.subscriptions[0].description;
-            //                $scope.plans.ram = reso.subscriptions[0].description2;
-            //                $scope.plans.price = reso.subscriptions[0].price
-            //                $scope.plans.planName = reso.subscriptions[0].plan_name;
-            //                console.log('$scope.plans',$scope.plans);
-            //            }
-            //
-            //
-            //
-            //            //for(var i = 0 ; i < data.plans.length; i++){
-            //            //
-            //            //    if(res.subscriptions&&res.subscriptions[0].plan_id === data.plans[i].plan_id){
-            //            //        $scope.plans.cpu = data.plans[i].description;
-            //            //        $scope.plans.ram = data.plans[i].description2;
-            //            //        $scope.plans.price = data.plans[i].price
-            //            //        $scope.plans.planName = data.plans[i].plan_name;
-            //            //    }
-            //            //}
-            //
-            //        })
-            //        $scope.balance=reso.balance
-            //    }
-            //    //$scope.balance=res.balance;
-            //
-            //
-            //
-            //})
 
-            //balance.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
-            //    $scope.balance = data
-            //    //console.log('balance', data);
-            //});
 
             var netChart = function () {
                 return {
@@ -240,13 +164,13 @@ angular.module('console.dashboard', [
                     series: [{
                         name: 'network_tx',
                         fillColor: {
-                            linearGradient: { x1: 0, y1:1 , x2: 0, y2: 0 }, //横向渐变效果 如果将x2和y2值交换将会变成纵向渐变效果
+                            linearGradient: {x1: 0, y1: 1, x2: 0, y2: 0}, //横向渐变效果 如果将x2和y2值交换将会变成纵向渐变效果
                             stops: [
                                 [0, Highcharts.Color('#333').setOpacity(0.5).get('rgba')],
                                 [1, Highcharts.Color('#333').setOpacity(0.8).get('rgba')]
                             ]
                         },
-                        lineColor:'#fff',
+                        lineColor: '#fff',
                         fillOpacity: 0.6,
                         marker: {
                             enabled: false
@@ -254,16 +178,16 @@ angular.module('console.dashboard', [
                         data: $scope.nettxdata,
                         pointStart: times + 3600 * 1000,
                         pointInterval: 15 * 60 * 1000 //时间间隔
-                    },{
+                    }, {
                         name: 'network_rx',
                         fillColor: {
-                            linearGradient: { x1: 0, y1:1 , x2: 0, y2: 0 }, //横向渐变效果 如果将x2和y2值交换将会变成纵向渐变效果
+                            linearGradient: {x1: 0, y1: 1, x2: 0, y2: 0}, //横向渐变效果 如果将x2和y2值交换将会变成纵向渐变效果
                             stops: [
                                 [0, Highcharts.Color('#b3d4fc').setOpacity(0.5).get('rgba')],
                                 [1, Highcharts.Color('#b3d4fc').setOpacity(0.8).get('rgba')]
                             ]
                         },
-                        lineColor:'#fff',
+                        lineColor: '#fff',
                         fillOpacity: 0.6,
                         marker: {
                             enabled: false
@@ -330,13 +254,13 @@ angular.module('console.dashboard', [
                     series: [{
                         name: 'cpu',
                         fillColor: {
-                            linearGradient: { x1: 0, y1:1 , x2: 0, y2: 0 }, //横向渐变效果 如果将x2和y2值交换将会变成纵向渐变效果
+                            linearGradient: {x1: 0, y1: 1, x2: 0, y2: 0}, //横向渐变效果 如果将x2和y2值交换将会变成纵向渐变效果
                             stops: [
                                 [0, Highcharts.Color('#fff').setOpacity(0.8).get('rgba')],
                                 [1, '#4ca7de']
                             ]
                         },
-                        lineColor:'#fff',
+                        lineColor: '#fff',
                         fillOpacity: 0.6,
                         marker: {
                             enabled: false
@@ -349,13 +273,13 @@ angular.module('console.dashboard', [
                         {
                             name: '内存',
                             fillColor: {
-                                linearGradient: { x1: 0, y1:1 , x2: 0, y2: 0 }, //横向渐变效果 如果将x2和y2值交换将会变成纵向渐变效果
+                                linearGradient: {x1: 0, y1: 1, x2: 0, y2: 0}, //横向渐变效果 如果将x2和y2值交换将会变成纵向渐变效果
                                 stops: [
-                                     [0, Highcharts.Color('#36a390').setOpacity(0.8).get('rgba')],
-                                     [1, '#79d87e']
-                                    ]
+                                    [0, Highcharts.Color('#36a390').setOpacity(0.8).get('rgba')],
+                                    [1, '#79d87e']
+                                ]
                             },
-                            lineColor:'#fff',
+                            lineColor: '#fff',
                             fillOpacity: 0.6,
                             marker: {
                                 enabled: false
@@ -419,7 +343,25 @@ angular.module('console.dashboard', [
                             "series": {
                                 "stacking": "",
                                 linecap: 'square'
+                            }, point: {
+                                events: {
+                                    mouseOver: function(e) {  // 鼠标滑过时动态更新标题
+                                        // 标题更新函数，API 地址：https://api.hcharts.cn/highcharts#Chart.setTitle
+                                        console.log(e);
+                                        chart.setTitle({
+                                            text: e.target.name+ '\t'+ e.target.y + ' %'
+                                        });
+                                    }
+                                    //,
+                                    // click: function(e) { // 同样的可以在点击事件里处理
+                                    //     chart.setTitle({
+                                    //         text: e.point.name+ '\t'+ e.point.y + ' %'
+                                    //     });
+                                    // }
+                                }
                             }
+
+
                         },
                         title: {
                             text: ''
@@ -448,11 +390,12 @@ angular.module('console.dashboard', [
                     series: [{
                         type: 'pie',
                         colors: [{
-                            linearGradient: { x1: 0, y1: 0, x2: 1, y2: 0 }, //横向渐变效果 如果将x2和y2值交换将会变成纵向渐变效果
+                            linearGradient: {x1: 0, y1: 0, x2: 1, y2: 0}, //横向渐变效果 如果将x2和y2值交换将会变成纵向渐变效果
                             stops: [
                                 [0, Highcharts.Color('#469450').setOpacity(1).get('rgba')],
                                 [1, Highcharts.Color('#2196f3').setOpacity(1).get('rgba')]
-                            ]}, '#c6c6c6'],
+                            ]
+                        }, '#c6c6c6'],
                         data: [
                             ['已用', percent],
                             ['未使用', 100 - percent]
@@ -460,11 +403,11 @@ angular.module('console.dashboard', [
                         dataLabels: {
                             enabled: false
                         },
-                        innerSize: '70%'
+                        innerSize: '90%'
                     }],
                     size: {
-                        height: 200,
-                        width: 200
+                        height: 180,
+                        width: 180
                     },
 
                     func: function (chart) {
@@ -490,7 +433,9 @@ angular.module('console.dashboard', [
                     }
                 };
             };
-
+            angular.forEach($scope.oldpiedata, function (item, i) {
+                $scope[i] = setPieChart(item.name,'loading...', 0.1);
+            })
             // console.log((new Date()).getTime()-8 * 3600 * 1000);
             var prepareData = function (tp, data) {
                 var res = [];
@@ -520,10 +465,10 @@ angular.module('console.dashboard', [
 
                     $scope.nettxdata = [];
                     $scope.netrxdata = [];
-                    angular.forEach(networkrx, function (input,i) {
+                    angular.forEach(networkrx, function (input, i) {
                         $scope.nettxdata.push(Math.round(input.avg * 100) / 100)
                     })
-                    angular.forEach(networktx, function (input,i) {
+                    angular.forEach(networktx, function (input, i) {
                         $scope.netrxdata.push(Math.round(input.avg * 100) / 100)
                     })
 
@@ -565,7 +510,7 @@ angular.module('console.dashboard', [
                     })
                     //$scope.memData
                     // console.log('$scope.memData',$scope.memData)
-                    resourcequotas.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (data) {
+                    resourcequotas.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
                         if (data.items[0]) {
                             // console.log($scope.cpuData);
                             // console.log($scope.memData);
@@ -623,23 +568,23 @@ angular.module('console.dashboard', [
                             // data.items[0].status.hard['limits.cpu']
                             // console.log(data.items[0].status.used['limits.memory'],data.items[0].status.used['limits.cpu']);
                             // console.log(data.items[0].status.hard['limits.memory'],data.items[0].status.hard['limits.cpu']);
-                            if (memnums == 100 || cpunums == 100) {
-                                if (memnums == 100 && cpunums != 100) {
-                                    $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true, 'red');
-                                    $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu'] + 'Cores', cpunums, true, '#f6a540');
-                                } else if (cpunums == 100 && memnums != 100) {
-                                    $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu'] + 'Cores', cpunums, true, 'red');
-                                    $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true, '#f6a540');
-                                } else {
-                                    $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu'] + 'Cores', cpunums, true, 'red');
-                                    $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true, 'red');
-
-                                }
-
-                            } else {
-                                $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true, '#f6a540');
-                                $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu'] + 'G/Hz', cpunums, true, '#f6a540');
-                            }
+                            //if (memnums == 100 || cpunums == 100) {
+                            //    if (memnums == 100 && cpunums != 100) {
+                            //        $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true, 'red');
+                            //        $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu'] + 'Cores', cpunums, true, '#f6a540');
+                            //    } else if (cpunums == 100 && memnums != 100) {
+                            //        $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu'] + 'Cores', cpunums, true, 'red');
+                            //        $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true, '#f6a540');
+                            //    } else {
+                            //        $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu'] + 'Cores', cpunums, true, 'red');
+                            //        $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true, 'red');
+                            //
+                            //    }
+                            //
+                            //} else {
+                            //    $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true, '#f6a540');
+                            //    $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu'] + 'G/Hz', cpunums, true, '#f6a540');
+                            //}
                             // $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'GB', cpunums, true,'#f6a540');
                             $scope.chartConfig = setChart();
 
@@ -668,8 +613,10 @@ angular.module('console.dashboard', [
                             for (var w = 0; w < mem.length; w++) {
                                 memsun += mem[w]
                             }
-                            // console.log(cpusun, memsun)
+                            console.log(cpusun, memsun)
+                            //alert(11)
                             if (cpusun || memsun) {
+
                                 // var cpunum = cpusun / cpu.length / 500 * 100 || 0;
                                 // var memnum = memsun / mem.length / 1000000 / 250 * 100 || 0
                                 var cpunum = cpusun / cpu.length || 0;
@@ -687,8 +634,8 @@ angular.module('console.dashboard', [
                                 // $scope.pieConfigMem = setPieChart('内存', '250Mi', memnum);
                                 //no quota.
 
-                                $scope.pieConfigCpu = setPieChart('CPU', cpunum + '%', 0, false);
-                                $scope.pieConfigMem = setPieChart('内存', memnum + 'MB', 0, false);
+                                //$scope.pieConfigCpu = setPieChart('CPU', cpunum + '%', 0, false);
+                                //$scope.pieConfigMem = setPieChart('内存', memnum + 'MB', 0, false);
 
                                 $scope.chartConfig = setChart();
                                 //$scope.chartnetConfig = netChart();
@@ -696,8 +643,8 @@ angular.module('console.dashboard', [
                                 $scope.isdata.charts = true;
                             } else {
                                 //no quota, no usage.
-                                $scope.pieConfigCpu = setPieChart('CPU', 'N/A', 0);
-                                $scope.pieConfigMem = setPieChart('内存', 'N/A', 0);
+                                //$scope.pieConfigCpu = setPieChart('CPU', 'N/A', 0);
+                                //$scope.pieConfigMem = setPieChart('内存', 'N/A', 0);
                                 $scope.chartConfig = setChart();
                                 //$scope.chartnetConfig = netChart();
                                 $scope.isdata.CpuorMem = true;

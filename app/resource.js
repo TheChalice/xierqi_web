@@ -402,6 +402,13 @@ define([
                 });
             return Secret;
         }])
+        .factory('PieChar', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var PieChar = $resource(GLOBAL.host_hawkular + '/m/stats/query',
+                {}, {
+                    create: {method: 'POST'}
+                });
+            return PieChar;
+        }])
 
         .factory('Metrics', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
             var Metrics = {};
