@@ -10,6 +10,7 @@ angular.module('console.pods', [{
             $scope.text = "No pods have been added to project " + $scope.namespace + ".";
             Pod.get({ namespace: $scope.namespace }, function(res) {
                 $scope.items = res.items;
+                console.log(' Pod', $scope.items)
             });
 
         }

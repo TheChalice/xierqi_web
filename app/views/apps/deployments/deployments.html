@@ -84,12 +84,8 @@
                         </td>
                         <td data-title="Status">
                             <div row class="status" ng-if="deployments.status.latestVersion>0">
-                                <!-- <status-icon status="deployments | deploymentStatus" disable-animation></status-icon> -->
-                                <span ng-switch="deployments | deploymentStatus" class="hide-ng-leave status-icon">
-                                    <span ng-switch-when="Active" class="fa fa-check fa-refresh" aria-hidden="true"></span>
-                                <span ng-switch-when="Running" class="fa fa-check fa-refresh" aria-hidden="true"></span>
-                                <span ng-switch-when="Failed" class="fa fa-check fa-times text-danger" aria-hidden="true"></span>
-                                </span>
+                                <status-icon status="deployments | deploymentStatus" disable-animation></status-icon>
+
                                 <span flex>
                                     {{deployments | deploymentStatus}}
                                     <span ng-if="(deployments | deploymentStatus) == 'Active' || (deployments | deploymentStatus) == 'Running'">,
