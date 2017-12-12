@@ -1168,7 +1168,7 @@ angular.module('console.service.detail', [
 
                 if (n != 'normal') {
                     $scope.startBtn = {
-                        name: '启动',
+                        name: '部署',
                         dianlz: false,
                         dianl: true
                     }

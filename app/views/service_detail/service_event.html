@@ -1,32 +1,39 @@
 <div class="service-ctrl">
-
+    <!--部署事件-->
     <!--<h2>EVENT信息</h2>-->
     <!--<hr>-->
-    <div class="row rongqi" style="padding: 0;list-style: none; margin-bottom: 30px;border: 1px solid #e6e9f2;border-bottom: none;">
+    <div class="row rongqi" style="padding: 0;list-style: none;margin:0; margin-bottom: 30px;border: 1px solid #e6e9f2;border-bottom: none;">
         <div class="col-md-12" style="background-color: #e6e9f2; height: 40px;padding-top: 10px;">
 
-            <div class="col-md-1 biaotou">时间</div>
+            <div class="col-md-4">Time</div>
+            <div class="col-md-4">Reason</div>
+            <div class="col-md-4">Message</div>
+
+           <!-- <div class="col-md-1 biaotou">时间</div>
             <div class="col-md-2 biaotou">名称</div>
             <div class="col-md-2 biaotou">类型</div>
             <div class="col-md-1 biaotou">状态</div>
-            <div class="col-md-6 biaotou">事件</div>
+            <div class="col-md-6 biaotou">事件</div>-->
             <!--<div class="col-md-2">容器个数</div>-->
 
 
         </div>
         <div class="col-md-12 event" ng-if="eventsws.items.length>0" ng-repeat="event in eventsws.items  | orderBy : 'mysort'" style="padding-top: 10px;padding-left: 0px;padding-right: 0px;padding-bottom:10px;">
-            <div class="col-md-1 paddingeve" style="text-align: center;" ng-class="{'paddingevent':event.message.length>170,'paddingeventz':event.message.length>65&&event.message.length<=170}" uib-tooltip="{{event.metadata.creationTimestamp | duration3}}"><span style="">{{event.metadata.creationTimestamp | timescon2}}</span></div>
+           <!-- <div class="col-md-1 paddingeve" style="text-align: center;" ng-class="{'paddingevent':event.message.length>170,'paddingeventz':event.message.length>65&&event.message.length<=170}" uib-tooltip="{{event.metadata.creationTimestamp | duration3}}"><span style="">{{event.metadata.creationTimestamp | timescon2}}</span></div>
             <div class="col-md-2 paddingeve" style="text-align: center;" ng-class="{'paddingevent':event.message.length>170,'paddingeventz':event.message.length>65&&event.message.length<=170}"><span uib-tooltip="{{event.involvedObject.name}}">{{event.involvedObject.name}}</span></div>
             <div class="col-md-2 paddingeve" style="text-align: center;" ng-class="{'paddingevent':event.message.length>170,'paddingeventz':event.message.length>65&&event.message.length<=170}"><span style="word-wrap: break-word;text-align: center;">{{event.involvedObject.kind}}</span></div>
             <div class="col-md-1 paddingeve" style="text-align: center;" ng-class="{'paddingevent':event.message.length>170,'paddingeventz':event.message.length>65&&event.message.length<=170}"><span style="word-wrap: break-word;">{{event.type}}</span></div>
-            <div class="col-md-6"><span style="word-break:break-all;word-wrap: break-word;">{{event.message}}<br><small style="color:#5a6378;font-size: 10px;">出现{{event.count}}次</small></span></div>
+            <div class="col-md-6"><span style="word-break:break-all;word-wrap: break-word;">{{event.message}}<br><small style="color:#5a6378;font-size: 10px;">出现{{event.count}}次</small></span></div>-->
 
         </div>
         <!--<div class="col-md-12 load7" ng-if="!eventsws.items.length&&hasevent" style="padding: 0;overflow: hidden;">-->
             <!--<div class="loader">加载中...</div>-->
         <!--</div>-->
-    <div class="col-md-12" ng-if="!eventsws.items.length&&!hasevent" style="padding: 0;overflow: hidden;">
-              <div style="text-align: center;">部署事件暂时为空</div>
+        <div class="col-md-12" ng-if="!eventsws.items.length&&!hasevent" style="line-height:32px;height:32px;padding: 0;overflow: hidden;">
+              <!--<div style="text-align: center;">部署事件暂时为空</div>-->
+            <div class="col-md-4">1</div>
+            <div class="col-md-4">2</div>
+            <div class="col-md-4">3</div>
         </div>
     </div>
 

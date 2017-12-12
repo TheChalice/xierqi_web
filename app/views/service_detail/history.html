@@ -48,17 +48,17 @@
             </label>
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-sm-2">
-                        <span class="icon12 icon12-{{item.metadata.annotations['openshift.io/deployment.phase']}}"
+                    <div class="col-sm-3">Deployment
+                        <!--<span class="icon12 icon12-{{item.metadata.annotations['openshift.io/deployment.phase']}}"
                               ng-class="{'fa-spin': item.metadata.annotations['openshift.io/deployment.phase'] == 'Running' || item.metadata.annotations['openshift.io/deployment.phase'] == 'Pending'}"></span>
-                        <!--switch to Chinese-->
-                        {{item.metadata.annotations['openshift.io/deployment.phase'] | rcStatusFilter}}
+                        &lt;!&ndash;switch to Chinese&ndash;&gt;
+                        {{item.metadata.annotations['openshift.io/deployment.phase'] | rcStatusFilter}}-->
                     </div>
-                    <div class="col-sm-3">
-                        #{{item.metadata.annotations['openshift.io/deployment-config.latest-version']}}
+                    <div class="col-sm-3">Status
+                        <!--#{{item.metadata.annotations['openshift.io/deployment-config.latest-version']}}-->
                     </div>
-                    <div class="col-sm-4">
-                        触发类型:
+                    <div class="col-sm-3">Created
+                        <!--触发类型:
                         <span ng-if="!item.dc.status.details.causes.length">未知</span>
                         <span ng-if="item.dc.status.details.causes.length">
                             <span ng-repeat="cause in item.dc.status.details.causes">
@@ -68,19 +68,22 @@
                                 <span ng-switch-default>{{cause.type}}</span>
                               </span>
                             </span>
-                          </span>
+                          </span>-->
                     </div>
-                    <div class="col-sm-3 text-right">
-                        <!--<a class="icon25 icon25-collapse" ng-click="getLog($index)" uib-tooltip="查看日志"-->
-                           <!--href="javascript:;"></a>-->
-                        <!--<a class="faa faa-cogs" ng-click="getConfig($index)" uib-tooltip="查看配置" href="javascript:;"></a>-->
-                        <!--<a class="icon25 icon25-start" ng-click="startRc($index)"-->
-                           <!--ng-if="item.metadata.annotations['openshift.io/deployment.phase'] != 'Running'"-->
-                           <!--uib-tooltip="重新部署" href="javascript:;"></a>-->
-                        <!--<a class="icon25 icon25-stop" ng-click="stopRc($index)"-->
-                           <!--ng-if="item.metadata.annotations['openshift.io/deployment.phase'] == 'Running'"-->
-                           <!--uib-tooltip="停止" href="javascript:;"></a>-->
+                    <div class="col-sm-3">Trigger
+
                     </div>
+                   <!-- <div class="col-sm-3 text-right">
+                        &lt;!&ndash;<a class="icon25 icon25-collapse" ng-click="getLog($index)" uib-tooltip="查看日志"&ndash;&gt;
+                           &lt;!&ndash;href="javascript:;"></a>&ndash;&gt;
+                        &lt;!&ndash;<a class="faa faa-cogs" ng-click="getConfig($index)" uib-tooltip="查看配置" href="javascript:;"></a>&ndash;&gt;
+                        &lt;!&ndash;<a class="icon25 icon25-start" ng-click="startRc($index)"&ndash;&gt;
+                           &lt;!&ndash;ng-if="item.metadata.annotations['openshift.io/deployment.phase'] != 'Running'"&ndash;&gt;
+                           &lt;!&ndash;uib-tooltip="重新部署" href="javascript:;"></a>&ndash;&gt;
+                        &lt;!&ndash;<a class="icon25 icon25-stop" ng-click="stopRc($index)"&ndash;&gt;
+                           &lt;!&ndash;ng-if="item.metadata.annotations['openshift.io/deployment.phase'] == 'Running'"&ndash;&gt;
+                           &lt;!&ndash;uib-tooltip="停止" href="javascript:;"></a>&ndash;&gt;
+                    </div>-->
                 </div>
             </div>
             <!--<div class="collapse" ng-class="{'in': item.showLog}">-->
