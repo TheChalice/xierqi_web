@@ -1,12 +1,31 @@
 <div id="sidebar">
+    <style>
+        #sidebar .tree-light li a {
+            display: inline-block;
+            width: 100%;
+            height:100%;
+            background-size: 25px 25px;
+            background-position-x:center;
+            background-position-y:center;
+        }
+        #sidebar .tree-light li a.select {
+            background: #dcdfe8;
+            color:#333;
+        }
+
+
+    </style>
     <a href="javascript:void(0);" class="zx_set_btn" ng-click="sidebaerWidth()"></a>
     <div treecontrol class="tree-light"
          tree-model="dataForTheTree"
          options="treeOptions"
          on-selection="showSelected(node)"
          selected-node="node1" >
-        <a ng-click="goUrl(node.url,node)"  style="width: 100%;height: 50px;display: block">{{node.name}}</a>
-        <a ng-click="goUrl(node.url)" class="sbtn-bg {{node.img}}"></a>
+        <a  ng-if="!activeStyle" ng-class="{'select':state.includes(node.url)}" ng-click="goUrl(node.url)">{{node.name}}</a>
+        <a ng-if="activeStyle" ng-click="goUrl(node.url)" class="{{node.img}}" uib-tooltip="{{node.name}} " tooltip-placement="right">
+        </a>
+
+        <span  ng-if="!activeStyle"  class="sbtn-bg {{node.img}}"></span>
     </div>
     <!--<ul class="nav nav-pills nav-stacked nav-jia-pills">-->
 

@@ -1,0 +1,125 @@
+#dashboard .firstline{
+    overflow: hidden;
+    width: 974px;
+}
+#dashboard .firstline_wh{
+    width:514px;
+    min-height: 288px;
+}
+#dashboard .firstline_hr{
+    visibility:visible;
+    margin-right:10px;
+    margin-bottom:10px;
+}
+#dashboard .firstline_pre{
+    font-weight: normal;font-size:18px;text-align:left;background-color: #fff;border:0;width: 400px;margin: 0;padding: 0;
+}
+#dashboard .firstline_p{
+    white-space:nowrap;
+}
+#dashboard .firstline_tr{
+    width: 100%;
+}
+#dashboard .firstline_Resources{
+    /*width:440px;*/
+    margin-left:20px;
+    min-height:288px;
+}
+
+#dashboard .secondline{
+    margin-top: 36px;
+    width:974px;
+}
+#dashboard .secondline_h2{
+    padding-top:18px;
+    padding-left:20px;
+}
+#dashboard .secondline_hr{
+    visibility:visible;
+    margin-right:10px;
+    margin-left:10px;
+}
+#dashboard .sanlan::before{
+    display: none;
+}
+/*#highcharts-10 {*/
+/*width:1036px !important;*/
+/*}*/
+/*color:blue !important*/
+#dashboard .selection {
+    position: relative;
+}
+#dashboard .selection img {
+    margin-bottom: 10px;
+}
+#dashboard .ban {
+    float: left;
+    width: 50%;
+}
+#dashboard .ban2 {
+    padding-top: 20px;
+    float: left;
+    width:25%;
+    text-align: center;
+}
+.dashboard h2 {
+    font-size: 20px;
+    font-weight: bold;
+}
+.dashboard .info {
+    text-align: center;
+}
+.dashboard .firstline .block-left h2 {
+    margin-bottom: 20px;
+}
+.dashboard .firstline .block-left .info > tbody > tr > td > p {
+    margin-top: 10px;
+}
+.dashboard .firstline .block-left .info > thead > tr {
+    background-color: #fff;
+    border: none;
+}
+.dashboard .firstline .block-left .info > thead > tr > th {
+    border: none;
+}
+.dashboard .firstline .block-left .info > tbody > tr > td{
+    background: #fff;
+    border: none;
+}
+.dashboard .firstline .block-left .info > tbody > tr > td:hover {
+    background: #e2e5ee;
+}
+.dashboard .firstline .block-left .info > tbody > tr > td > p > span {
+    color: red;
+    font-size:40px;
+}
+.dashboard .thirdline .selection {
+    padding-bottom: 10px;
+}
+.dashboard .thirdline .selection:hover {
+    background-color: #f2f4f8;
+    border-bottom: 7px solid #5b73eb;
+}
+.dashboard .thirdline p {
+    font-size:14px;
+    text-align: center;
+}
+.dashboard .thirdline a {margin-bottom: 20px;
+    color: #5a6378;
+}
+.dashboard .thirdline .num {
+    font-size: 32px;
+    font-weight: 500;
+    /*font-size: 18px;*/
+    color: #5b73eb;
+}
+#recharge {
+    color: white;
+}
+.dashboard .bg-color{
+    background: #fff;
+}
+.p0 {
+    padding-left: 0;
+    padding-right: 0;
+}

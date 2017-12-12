@@ -212,6 +212,13 @@ define([
             //暂未使用
             return resourcequotas;
         }])
+        .factory('statefulsets', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
+            var statefulsets = $resource(GLOBAL.host_newk8s1 + '/namespaces/:namespace/statefulsets', {
+                namespace: '@namespace',
+            });
+            //暂未使用
+            return statefulsets;
+        }])
 
         .factory('ImageStreamTag', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
             var ImageStreamTag = $resource(GLOBAL.host + '/namespaces/:namespace/imagestreamtags/:name?region=:region', {
@@ -394,6 +401,13 @@ define([
                     create: {method: 'POST'}
                 });
             return Secret;
+        }])
+        .factory('PieChar', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var PieChar = $resource(GLOBAL.host_hawkular + '/m/stats/query',
+                {}, {
+                    create: {method: 'POST'}
+                });
+            return PieChar;
         }])
 
         .factory('Metrics', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
@@ -964,4 +978,3 @@ define([
 
 
 });
-

@@ -1,4 +1,4 @@
-<div class="build-detail" style="background:#fff;padding:20px 40px 40px;">
+<div id="build-detail" class="build-detail" style="">
     <div class="loader" ng-show="!databuild">
         <div class="loader-inner ball-clip-rotate-multiple">
             <div></div>
@@ -6,12 +6,12 @@
         </div>
     </div>
     <div ng-show="databuild">
-        <div class="panel panel-default" style="margin-bottom: 50px">
+        <div class="panel panel-default panel_marginBottom" style="">
             <div class="panel-heading">
             <span class="panel-title">
                 <span class="icon25 icon25-panel"></span>&nbsp;&nbsp;{{data.metadata.name}}
             </span>
-                <a class="btn btn-gray pull-right" style=" padding: 5px 10px; margin-left: 15px; height:34px; width:36px" ng-click="deletes()"><i class="fa fa-trash-o fa-lg"></i></a>
+                <a class="btn btn-gray pull-right btn_a" style="" ng-click="deletes()"><i class="fa fa-trash-o fa-lg"></i></a>
                 <a class="btn btn-green pull-right" ng-click="startBuild()">构建</a>
             </div>
             <div class="panel-body">
@@ -23,7 +23,7 @@
                             </div>
                             <div class="media-body">
                                 <h4 class="media-heading">创建时间</h4>
-                                <small style="color: #5a6378;" uib-tooltip="{{data.metadata.creationTimestamp | timescon}}">{{data.metadata.creationTimestamp | dateRelative}}</small>
+                                <small class="small_col" style="" uib-tooltip="{{data.metadata.creationTimestamp | timescon}}">{{data.metadata.creationTimestamp | dateRelative}}</small>
                             </div>
                         </div>
                     </div>
@@ -32,14 +32,14 @@
                             <div class="media-left">
                                 <img class="media-object" src="views/build_detail/img/images_106.png">
                             </div>
-                            <div class="media-body tell" style="width: 100%;">
+                            <div class="media-body media-body_tell" style="">
                                 <h4 class="media-heading">代码URL</h4>
-                                <div class=till style='position: absolute; top: -6px; padding: 0 8px; border-radius:3px;white-space:nowrap; left: 0; background-color: black; color: white'>
+                                <div class="till" style=''>
 
                                     {{data.spec.source.git.uri}}
                                 </div>
                                 <small>
-                                    <a class="href-orange text-overflow" href="{{data.spec.source.git.uri}}" target="_blank" style="width:60%;">{{data.spec.source.git.uri}}</a>
+                                    <a class="href-orange text-overflow href-orange_a" href="{{data.spec.source.git.uri}}" target="_blank" style="">{{data.spec.source.git.uri}}</a>
                                 </small>
                             </div>
                         </div>
@@ -83,10 +83,10 @@
                                         {{item.status.phase | phaseFilter}}
                                     </div>
 
-                                    <div class="col-sm-3 tell" style='position: relative;'>
-                                        <div class=till style='position: absolute;top: -30px;padding: 0 8px;border-radius:3px;left: 0;background-color: black;color: white'>
+                                    <div class="col-sm-3 tell tell_position" style=''>
+                                        <div class="till till_position" style=''>
                                             {{data.metadata.name}}:{{item.spec.revision.git.commit | limitTo: 7}}</div>
-                                        <div style='white-space:nowrap;overflow: hidden;text-overflow: ellipsis'>
+                                        <div class="tell_white_space" style=''>
                                             <i class="fa fa-flag-o"></i>&nbsp;
                                             <!--<span ng-if="item.spec.revision.git.ref">-->
                                             <span>{{data.metadata.name}}:{{item.spec.revision.git.commit | limitTo: 7}}</span>
@@ -110,14 +110,14 @@
                                 </div>
                             </div>
                             <div uib-collapse="!item.showLog">
-                                <div class="well well-log" style='overflow: auto'>
-                                    <pre style="color:#e4e4e4" id='sa' ng-bind-html=item.buildLog></pre>
+                                <div class="well well-log well-log_overflow" style=''>
+                                    <pre class="sa_color" style="" id='sa' ng-bind-html=item.buildLog></pre>
                                 </div>
                             </div>
 
 
                         </li>
-                        <div style="border:1px solid #e5e5e5;padding-top:10px;padding-bottom:10px;background:#f7f8fc;text-align: center;position:relative" ng-if="databuild.items.length===0" class="ng-scope"><p class="blank_block">  <span class="blank_tit">您还没有构建记录</span></p></div>
+                        <div class="border_background" style="" ng-if="databuild.items.length===0" class="ng-scope"><p class="blank_block">  <span class="blank_tit">您还没有构建记录</span></p></div>
                     </ul>
                 </div>
                 <!--<c-timeline name="bcName" type="build"></c-timeline>-->
@@ -144,7 +144,7 @@
                     </div>
                     <div class="form-group" ng-show="!showwebhook">
                         <!--<label class="col-sm-2 text-left" id="autobuild">自动构建触发条件</label>-->
-                        <label class="col-sm-3 text-left" style="color: darkgray">是否自动构建</label>
+                        <label class="col-sm-3 text-left text-left_color" style="">是否自动构建</label>
                         <div class="col-sm-2">
                             <span class="my-checkbox">
                             <span class="checkbox-check">
@@ -157,40 +157,32 @@
 
                     </div>
 
-                    <div class="form-group" style="padding-top: 30px" ng-if="false">
+                    <div class="form-group form-group_padding" style="" ng-if="false">
                         <label class="col-sm-3 text-left">是否持续集成</label>
                         <div class="col-sm-2">
                             <c-checkbox checked="checked"></c-checkbox>
                         </div>
                         <div class="col-sm-7" ng-if="checked">
-                            <small style="margin-right: 20px">点击按钮，进行持续集成配置</small>
+                            <small class="small_margin" style="">点击按钮，进行持续集成配置</small>
                             <a class="btn btn-orange">持续集成配置</a>
                         </div>
                     </div>
 
-                    <div class="form-group" style="padding-top: 50px">
+                    <div class="form-group form-group_paddingTop" style="">
                         <label class="col-sm-3 text-left">构建超时时长</label>
                         <div class="col-sm-9">
-                            <input ng-model="grid.completionDeadlineMinutes" name="cdm" min="1" max="60" ng-disabled="!deadlineMinutesEnable" style="width: 80px;display: inline-block;" type="number" class="form-control">
-                            <span style="display: inline-block;">&nbsp;mins&nbsp;</span>
-                            <a href="javascript:;" style="text-decoration: none" ng-click="frm.cdm.$valid && save()">
+                            <input class="input_sty" ng-model="grid.completionDeadlineMinutes" name="cdm" min="1" max="60" ng-disabled="!deadlineMinutesEnable" style="" type="number" class="form-control">
+                            <span class="form_group_span" style="">&nbsp;mins&nbsp;</span>
+                            <a href="javascript:;" class="form_group_a" style="" ng-click="frm.cdm.$valid && save()">
                                 <span class="fa fa-orange" ng-class="{'fa-pencil': !deadlineMinutesEnable, 'fa-check-circle': deadlineMinutesEnable}"></span>
                             </a>
                             <span class="font12">&nbsp;&nbsp;构建超时时长请不要超过60Mins</span><br>
-                            <small ng-if="frm.cdm.$invalid" class="fa fa-exclamation-circle" style="font-size: 12px;color: #ec6941;">&nbsp;您设置的时长超过了限制，请重新设置</small>
+                            <small ng-if="frm.cdm.$invalid" class="fa fa-exclamation-circle fa_small" style="">&nbsp;您设置的时长超过了限制，请重新设置</small>
                         </div>
                     </div>
                 </form>
             </uib-tab>
         </uib-tabset>
     </div>
-
 </div>
-<style>
-    .till{
-        display: none;
-    }
-    .tell:hover>.till{
-        display: block;
-    }
-</style>
+
