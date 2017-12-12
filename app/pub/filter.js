@@ -455,7 +455,7 @@ define(['angular', 'moment'], function(angular, moment) {
                         reason = "Exit Code: " + exitCode;
                     }
                 });
-
+                console.log('reason', reason)
                 return reason;
             };
         })

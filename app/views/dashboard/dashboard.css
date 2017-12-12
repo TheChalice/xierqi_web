@@ -1,5 +1,6 @@
 #dashboard .firstline{
     overflow: hidden;
+    width: 974px;
 }
 #dashboard .firstline_wh{
     width:514px;
@@ -20,7 +21,7 @@
     width: 100%;
 }
 #dashboard .firstline_Resources{
-    width:440px;
+    /*width:440px;*/
     margin-left:20px;
     min-height:288px;
 }
@@ -117,4 +118,8 @@
 }
 .dashboard .bg-color{
     background: #fff;
+}
+.p0 {
+    padding-left: 0;
+    padding-right: 0;
 }
