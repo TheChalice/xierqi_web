@@ -61,7 +61,7 @@
                 </tr>
                 <tr ng-repeat="pod in items">
                     <td data-title="Name" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
-                        <a class="href-orange" ui-sref="console.service_detail({name: pod.metadata.name})" uib-tooltip="{{pod.metadata.name}}" tooltip-placement="top">
+                        <a class="href-orange" ui-sref="console.service_detail({name: pod.metadata.name})">
                             {{pod.metadata.name}}
                         </a>
                     </td>
