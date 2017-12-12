@@ -48,7 +48,8 @@
                 <h2>资源统计</h2>
                 <hr class="firstline_hr" style=""/>
                 <div class="row">
-                    <div class="col-md-1-5 p0" >
+                    <div class="col-md-1-5 p0">
+
                         <highchart ng-show="isdata.CpuorMem" config="usage_rate"></highchart>
                     </div>
                     <div class="col-md-1-5 p0" >
@@ -60,7 +61,8 @@
                     <div class="col-md-1-5 p0" >
                         <highchart ng-show="isdata.CpuorMem" config="tx_rate"></highchart>
                     </div>
-                    <div class="col-md-1-5 p0" >
+                    <div class="col-md-1-5 p0" ng-mouseover="hover = true" ng-mouseleave="hover = false">
+                        <div class="alert-box" ng-if = "hover"></div>
                         <highchart ng-show="isdata.CpuorMem" config="network"></highchart>
                     </div>
                 </div>
