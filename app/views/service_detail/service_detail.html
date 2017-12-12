@@ -1,11 +1,5 @@
 <div class="build-detail" style="background:#fff;padding:20px 40px 40px;">
-    <div class="loader" ng-show="!dc">
-        <div class="loader-inner ball-clip-rotate-multiple">
-            <div></div>
-            <div></div>
-        </div>
-    </div>
-<div ng-show="dc">
+<div>
     <div class="panel panel-default" style="margin-bottom: 50px">
         <div class="panel-heading">
             <span class="panel-title">
@@ -17,16 +11,18 @@
             <!--ng-disabled=dianbl-->
             <!--ng-class="{'btn-orange':dianl, 'btn-disabled': dianbl}"-->
             <!--ng-click="frm.$valid && create()">开始构建</a>-->
-            <a class="btn pull-right"
-               ng-show="dc.state != 'normal'"
-               ng-class="{'btn-green':startBtn.dianl, 'btn-orange': startBtn.dianlz}"
-               ng-disabled=startBtn.dianlz
-               ng-click="startDc()">{{startBtn.name}}</a>
-            <a class="btn pull-right"
-               ng-show="dc.state == 'normal'"
-               ng-class="{'btn-green':stopBtn.dianl, 'btn-orange': stopBtn.dianlz}"
-               ng-disabled=stopBtn.dianlz
-               ng-click="stopDc()">{{stopBtn.name}}</a>
+            <a class="btn pull-right btn-green"
+               ng-click="updateDc()">部署</a>
+            <!--<a class="btn pull-right"-->
+            <!--ng-show="dc.state != 'normal'"-->
+            <!--ng-class="{'btn-green':startBtn.dianl, 'btn-orange': startBtn.dianlz}"-->
+            <!--ng-disabled=startBtn.dianlz-->
+            <!--ng-click="startDc()">{{startBtn.name}}</a>-->
+            <!--<a class="btn pull-right"-->
+            <!--ng-show="dc.state == 'normal'"-->
+            <!--ng-class="{'btn-green':stopBtn.dianl, 'btn-orange': stopBtn.dianlz}"-->
+            <!--ng-disabled=stopBtn.dianlz-->
+            <!--ng-click="stopDc()">{{stopBtn.name}}</a>-->
         </div>
         <div class="panel-body">
             <div class="row">

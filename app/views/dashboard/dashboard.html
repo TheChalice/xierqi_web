@@ -62,7 +62,8 @@
                         <highchart ng-show="isdata.CpuorMem" config="tx_rate"></highchart>
                     </div>
                     <div class="col-md-1-5 p0" ng-mouseover="hover = true" ng-mouseleave="hover = false">
-                        <div class="alert-box" ng-if = "hover"></div>
+                        <div class="alert-box" ng-show = "hover"> tx_rate:{{newpiedata.tx_rate.use}} {{newpiedata.tx_rate.unit}}
+                                                  rx_rate:{{newpiedata.rx_rate.use}} {{newpiedata.rx_rate.unit}}</div>
                         <highchart ng-show="isdata.CpuorMem" config="network"></highchart>
                     </div>
                 </div>

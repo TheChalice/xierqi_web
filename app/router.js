@@ -347,13 +347,63 @@ define([
                     }
                 })
                 //service
-                .state('console.service', {
-                    url: '/service',
-                    templateUrl: 'views/service/service.html',
-                    controller: 'ServiceCtrl',
+                //.state('console.service', {
+                //    url: '/service',
+                //    templateUrl: 'views/service/service.html',
+                //    controller: 'ServiceCtrl',
+                //    resolve: {
+                //        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                //            return $ocLazyLoad.load(['views/service/service.js', 'views/service/service.css'])
+                //        }]
+                //    }
+                //})
+                .state('console.deployments', {
+                    url: '/deployments',
+                    templateUrl: 'views/apps/deployments/deployments.html',
+                    controller: 'DeploymentsCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/service/service.js', 'views/service/service.css'])
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/apps/deployments/deployments.js', 'views/apps/deployments/deployments.css'])
+                        }]
+                    }
+                })
+                .state('console.stateful-sets', {
+                    url: '/stateful-sets',
+                    templateUrl: 'views/apps/stateful-sets/stateful-sets.html',
+                    controller: 'Stateful-setsCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/apps/stateful-sets/stateful-sets.js', 'views/apps/stateful-sets/stateful-sets.css'])
+                        }]
+                    }
+                })
+                .state('console.pods', {
+                    url: '/pods',
+                    templateUrl: 'views/apps/pods/pods.html',
+                    controller: 'PodsCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/apps/pods/pods.js', 'views/apps/pods/pods.css'])
+                        }]
+                    }
+                })
+                .state('console.services', {
+                    url: '/services',
+                    templateUrl: 'views/apps/services/services.html',
+                    controller: 'ServicesCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/apps/services/services.js', 'views/apps/services/services.css'])
+                        }]
+                    }
+                })
+                .state('console.routes', {
+                    url: '/routes',
+                    templateUrl: 'views/apps/routes/routes.html',
+                    controller: 'RoutesCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/apps/routes/routes.js', 'views/apps/routes/routes.css'])
                         }]
                     }
                 })
