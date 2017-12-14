@@ -46,14 +46,22 @@
         <div class="row" style="margin-bottom: 40px;">
             <div class="col-sm-12">
                 <span class="col-sm-4" style="margin-right:-90px;">POD数量
-                    <input type="text" placeholder="3" style="width:68px; height:30px;">
+                    <input ng-model="dc.spec.replicas" name="cdm" min="1" max="10" ng-keyup="mustnum($event,dc.spec.replicas,10)" type="text" placeholder="3" style="width:68px; height:30px;">
                 </span>
-                <span class="col-sm-4" style="margin-right:-80px;">POD最大阀值
-                    <input type="text" placeholder="3" style="width:68px; height:30px;">
+                <span ng-show="quota.rubustCheck">
+                  <span class="col-sm-4" style="margin-right:-80px;">POD最大阀值
+                    <input ng-model="horiz.spec.maxReplicas"
+                           value="{{dc.spec.replicas}}"
+                           ng-keyup="mustnum($event,horiz.spec.maxReplicas,10)" type="text" placeholder="{{dc.spec.replicas}}" style="width:68px; height:30px;">
                 </span>
                 <span class="col-sm-4">CPU阀值
-                    <input type="text" placeholder="3" style="width:68px; height:30px;">%
+                    <input ng-model="horiz.spec.targetCPUUtilizationPercentage"
+                           ng-keyup="mustnum($event,horiz.spec.targetCPUUtilizationPercentage,100)"
+                           placeholder="80"
+                           style="width:68px; height:30px;">%
                 </span>
+                </span>
+
             </div>
         </div>
     </div>
@@ -855,11 +863,11 @@
                 <!--<span ng-show="quota.rubustCheck">-->
                     <!--&lt;!&ndash;<label style="font-size: 12px; font-weight: normal;">资源阈值&nbsp;&nbsp;&nbsp;&nbsp;</label>&ndash;&gt;-->
                     <!--&lt;!&ndash;<br>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<span style="font-size: 12px">POD数量&ndash;&gt;-->
-                                <!--&lt;!&ndash;<input ng-model="dc.spec.replicas"&ndash;&gt;-->
-                                       <!--&lt;!&ndash;ng-keyup="mustnum($event,dc.spec.replicas,10)"&ndash;&gt;-->
-                                       <!--&lt;!&ndash;style="width: 80px;display: inline-block;"&ndash;&gt;-->
-                                       <!--&lt;!&ndash;type="text" class="form-control" placeholder="{{dc.spec.replicas}}"></span>&ndash;&gt;-->
+                            <!--<span style="font-size: 12px">POD数量-->
+                                <!--<input ng-model="dc.spec.replicas"-->
+                                       <!--ng-keyup="mustnum($event,dc.spec.replicas,10)"-->
+                                       <!--style="width: 80px;display: inline-block;"-->
+                                       <!--type="text" class="form-control" placeholder="{{dc.spec.replicas}}"></span>-->
                             <!--<span style="font-size: 12px">POD最大数量-->
                                 <!--<input ng-model="horiz.spec.maxReplicas"-->
                                        <!--ng-keyup="mustnum($event,horiz.spec.maxReplicas,10)"-->

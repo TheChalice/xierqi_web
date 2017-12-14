@@ -367,7 +367,7 @@ angular.module('console.dashboard', [
                             text: ''
                         },
                         tooltip: {
-                            enabled: false
+                            enabled: true
                         },
                         credits: {
                             enabled: false
@@ -398,7 +398,7 @@ angular.module('console.dashboard', [
                         }, '#c6c6c6'],
                         data: [
                             ['已用', percent],
-                            ['未使用', 100 - percent]
+                            ['未使用', 100-percent]
                         ],
                         dataLabels: {
                             enabled: false
