@@ -9,9 +9,10 @@ angular.module('console.service.detail', [
             ]
         }
     ])
-    .controller('ServiceDetailCtrl', ['horizontalpodautoscalers','Alert','GLOBAL','deletepod','resourcequotas','$sce', 'ansi_ups', '$http', '$state', '$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamTag', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal', 'Secret', 'ImageSelect', 'Service', 'BackingServiceInstanceBd', 'ImageService', 'serviceaccounts', 'ChooseSecret', '$base64', 'secretskey',
-        function (horizontalpodautoscalers,Alert,GLOBAL,deletepod,resourcequotas,$sce, ansi_ups, $http, $state, $rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamTag, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret, ImageSelect, Service, BackingServiceInstanceBd, ImageService, serviceaccounts, ChooseSecret, $base64, secretskey) {
+    .controller('ServiceDetailCtrl', ['$q','horizontalpodautoscalers','Alert','GLOBAL','deletepod','resourcequotas','$sce', 'ansi_ups', '$http', '$state', '$rootScope', '$scope', '$log', '$stateParams', 'DeploymentConfig', 'ReplicationController', 'Route', 'BackingServiceInstance', 'ImageStream', 'ImageStreamTag', 'Toast', 'Pod', 'Event', 'Sort', 'Confirm', 'Ws', 'LogModal', 'ContainerModal', 'Secret', 'ImageSelect', 'Service', 'BackingServiceInstanceBd', 'ImageService', 'serviceaccounts', 'ChooseSecret', '$base64', 'secretskey',
+        function ($q,horizontalpodautoscalers,Alert,GLOBAL,deletepod,resourcequotas,$sce, ansi_ups, $http, $state, $rootScope, $scope, $log, $stateParams, DeploymentConfig, ReplicationController, Route, BackingServiceInstance, ImageStream, ImageStreamTag, Toast, Pod, Event, Sort, Confirm, Ws, LogModal, ContainerModal, Secret, ImageSelect, Service, BackingServiceInstanceBd, ImageService, serviceaccounts, ChooseSecret, $base64, secretskey) {
             //获取服务列表
+
             $scope.servicepoterr = false;
             $scope.quota = {
                 rubustCheck: false,
@@ -386,6 +387,64 @@ angular.module('console.service.detail', [
                     nums:nums
                 }
             }
+            //function
+            $scope.institution={
+                display:"true"
+            };
+
+            function asyncGreet(name) {
+
+
+                setTimeout(function() {
+                    // 因为此function 在未来的事件循环中异步执行,
+                    // 我们需要把代码包装到到一个 $apply 调用中,以便正确的观察到 model 的改变
+                    scope.$apply(function() {
+
+
+                        if (okToGreet(name)) {
+
+                        } else {
+                            deferred.reject('拒绝问候 ' + name + ' .');
+                        }
+                    });
+                }, 1000);
+
+                return deferred.promise;
+            }
+            $scope.$watch('institution', function (n,o) {
+                if (n === o) {
+                    return
+                }
+                if (n) {
+
+                }
+            },true)
+            function loadimage(){
+                var deferred = $q.defer();
+                deferred.notify('start');
+                ImageStream.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (res) {
+                    deferred.resolve(res);
+                    //console.log('$scope.myimages', $scope.myimages);
+                }, function (err) {
+                    deferred.reject(err);
+                })
+                return deferred.promise;
+            }
+            var images = loadimage();
+            images.then(function(res) {
+                console.log('greeting', res);
+                $scope.myimages = res.items;
+                //alert('成功: ' + greeting);
+            }, function(reason) {
+                //alert('失败鸟: ' + reason);
+            }, function(update) {
+                //alert('收到通知: ' + update);
+            });
+
+            $scope.selectimage= function (idx) {
+                
+            }
+            loadimage()
             var loadDc = function (name) {
                 DeploymentConfig.get({namespace: $rootScope.namespace, name: name,region:$rootScope.region}, function (res) {
                     if (!res.metadata.annotations) {
@@ -473,7 +532,7 @@ angular.module('console.service.detail', [
                     angular.forEach($scope.dc.spec.template.spec.containers, function (item) {
                         var imagetag = 'dadafoundry.io/image-' + item.name;
                         if (copyannotations && copyannotations[imagetag]) {
-                            var tagarr = copyannotations[imagetag].split(":")
+                            var tagarr = copyannotations[imagetag].split(":");
                             item.tag = tagarr[1];
                             item.imagename = tagarr[0];
                         } else {
@@ -572,7 +631,7 @@ angular.module('console.service.detail', [
 
             var loadService = function (dc) {
                 Service.get({namespace: $rootScope.namespace, name: dc.metadata.name,region:$rootScope.region}, function (res) {
-                     $log.info("service-=-=-=-=-=-=-=-", res);
+                     //$log.info("service-=-=-=-=-=-=-=-", res);
                     $scope.service = res;
 
                     for (var i = 0; i < res.spec.ports.length; i++) {
@@ -794,7 +853,7 @@ angular.module('console.service.detail', [
             var loadRoutes = function (dc,sever) {
                 //console.log(sever,dc);
                 Route.get({namespace: $rootScope.namespace,name:dc.metadata.name,region:$rootScope.region}, function (res) {
-                     $log.info("routes", res);
+                     //$log.info("routes", res);
 
                     if (!$scope.routeconf) {
                         $scope.routeconf = angular.copy(res);
@@ -933,9 +992,9 @@ angular.module('console.service.detail', [
                     //console.log('eventdata', data);
                     updateEvent(data);
                 }, function () {
-                    $log.info("webSocket startRC");
+                    //$log.info("webSocket startRC");
                 }, function () {
-                    $log.info("webSocket stopRC");
+                    //$log.info("webSocket stopRC");
                     //var key = Ws.key($rootScope.namespace, 'replicationcontrollers', '');
                     //if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
                     //    return;
@@ -993,9 +1052,9 @@ angular.module('console.service.detail', [
                     var data = JSON.parse(res.data);
                     updateRcs(data);
                 }, function () {
-                    $log.info("webSocket startRC");
+                    //$log.info("webSocket startRC");
                 }, function () {
-                    $log.info("webSocket stopRC");
+                    //$log.info("webSocket stopRC");
                     var key = Ws.key($rootScope.namespace, 'replicationcontrollers', '');
                     if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
                         return;
@@ -1060,7 +1119,7 @@ angular.module('console.service.detail', [
 
                     loadPods($scope.dc.metadata.name);
                     if (data.type == 'ERROR') {
-                        $log.info("err", data.object.message);
+                        //$log.info("err", data.object.message);
                         Ws.clear();
                         //TODO直接刷新rc会导致页面重新渲染
                         // if (!$scope.test) {
@@ -1339,7 +1398,7 @@ angular.module('console.service.detail', [
             };
 
             DeploymentConfig.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
-                $log.info('serviceList----', data);
+                //$log.info('/**/serviceList----', data);
                 data.items = Sort.sort(data.items, -1);
 
                 //$scope.items = data.items;
@@ -1351,7 +1410,7 @@ angular.module('console.service.detail', [
 
 
             }, function (res) {
-                $log.info('serviceList', res);
+                //$log.info('serviceList', res);
                 //todo ������
             })
 
@@ -1726,6 +1785,7 @@ angular.module('console.service.detail', [
 
             /////////////探针开关
             $scope.survey = function (idx) {
+
                 if ($scope.dc.spec.template.spec.containers[idx].doset) {
                     $scope.dc.spec.template.spec.containers[idx].doset = false;
                     delete  $scope.dc.spec.template.spec.containers[idx].readinessProbe;
@@ -2934,9 +2994,9 @@ angular.module('console.service.detail', [
                                 //updateRcs(data);
                                 //console.log(data);
                             }, function () {
-                                $log.info("webSocket startRC");
+                                //$log.info("webSocket startRC");
                             }, function () {
-                                $log.info("webSocket stopRC");
+                                //$log.info("webSocket stopRC");
                                 var key = Ws.key($rootScope.namespace, 'pods', $scope.pod);
                                 if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
                                     return;
@@ -3059,9 +3119,9 @@ angular.module('console.service.detail', [
 
                                 //loglast()
                             }, function () {
-                                $log.info("webSocket startRC");
+                                //$log.info("webSocket startRC");
                             }, function () {
-                                $log.info("webSocket stopRC");
+                                //$log.info("webSocket stopRC");
                                 var key = Ws.key($rootScope.namespace, 'pods', $scope.pod);
                                 if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
                                     return;
