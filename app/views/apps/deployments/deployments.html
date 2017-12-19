@@ -74,19 +74,16 @@
                 <tr ng-repeat="deployments in items">
                     <tr ng-repeat="deployments in items">
                         <td data-title="Name" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
-                            <a class="href-orange" ui-sref="console.service_detail({name: deployments.metadata.name})" uib-tooltip="{{deployments.metadata.name}}" tooltip-placement="top">
-                                        {{deployments.metadata.name}}
-                                    </a>
+                            <a class="href-orange" ui-sref="console.service_detail({name: deployments.metadata.name})">{{deployments.metadata.name}}</a>
                         </td>
-                        <td data-title="Last Version"><span style="color: #f6a540">{{deployments.status.latestVersion}}</span></td>
+                        <td data-title="Last Version">
+                            <span ng-if="deployments.status.latestVersion >0" style="color: #f6a540">{{deployments.status.latestVersion}}</span>
+                            <span ng-if="deployments.status.latestVersion ==0">No deployments</span>
+                        </td>
                         <td data-title="Status">
-                            <div row class="status">
-                                <!-- <status-icon status="deployments | deploymentStatus" disable-animation></status-icon> -->
-                                <span ng-switch="deployments | deploymentStatus" class="hide-ng-leave status-icon">
-                                    <span ng-switch-when="Active" class="fa fa-check fa-refresh" aria-hidden="true"></span>
-                                <span ng-switch-when="Running" class="fa fa-check fa-refresh" aria-hidden="true"></span>
-                                <span ng-switch-when="Failed" class="fa fa-check fa-times text-danger" aria-hidden="true"></span>
-                                </span>
+                            <div row class="status" ng-if="deployments.status.latestVersion>0">
+                                <status-icon status="deployments | deploymentStatus" disable-animation></status-icon>
+
                                 <span flex>
                                     {{deployments | deploymentStatus}}
                                     <span ng-if="(deployments | deploymentStatus) == 'Active' || (deployments | deploymentStatus) == 'Running'">,
@@ -96,12 +93,14 @@
                                 </span>
                             </div>
                         </td>
-                        <!-- <td data-title="Status" ng-if="deployments.status.availableReplicas===0">Failed</td>
-                             <td data-title="Status" ng-if="deployments.status.availableReplicas>0">Active, {{deployments.status.availableReplicas}} replica</td> -->
-                        <td data-title="Created"><span uib-tooltip="{{deployments.metadata.creationTimestamp  | timescon}}">{{deployments.metadata.creationTimestamp | dateRelative}}</span></td>
-                        <td data-title="Trigger">
-                            <span ng-if="!deployments.status.details.causes.length">Unknown</span>
-                            <span ng-if="deployments.status.details.causes.length">
+                        <td data-title="Created">
+                            <span ng-if="deployments.status.latestVersion>0" uib-tooltip="{{deployments.metadata.creationTimestamp  | timescon}}">
+                                {{deployments.metadata.creationTimestamp | dateRelative}}
+                            </span>
+                        </td>
+                        <td data-title="Trigger" ng-if="deployments.status.latestVersion>0">
+                            <span ng-if="!deployments.status.details.causes.length && deployments.status.latestVersion>0">Unknown</span>
+                            <span ng-if="deployments.status.details.causes.length && deployments.status.latestVersion>0">
                                 <span ng-repeat="cause in deployments.status.details.causes">
                                     <span ng-switch="cause.type">
                                         <span ng-switch-when="ImageChange">
