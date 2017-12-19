@@ -654,6 +654,18 @@ define([
                     }
                 })
 
+                //pods详情
+                .state('console.pods_detail', {
+                    url: '/pods_detail',
+                    templateUrl: 'views/pods_detail/pods_detail.html',
+                    controller: 'podsdetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/pods_detail/pods_detail.js')
+                        }]
+                    }
+                })
+
         }]);
 
 });
