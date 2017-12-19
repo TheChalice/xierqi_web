@@ -60,14 +60,14 @@
                     <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">TLS Termination</th>
                 </tr>
                 <tr ng-repeat="route in items">
-                    <td style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
-                        <a class="href-orange" ui-sref="console.service_detail({name: route.metadata.name})" uib-tooltip="{{route.metadata.name}}" tooltip-placement="top">
+                    <td data-title="Name" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
+                        <a class="href-orange" ui-sref="console.service_detail({name: route.metadata.name})">
                             {{route.metadata.name}}
                         </a>
                         <!-- <route-warnings ng-if="route.spec.to.kind !== 'Service22'" route="route" services="services">
                         </route-warnings> -->
                     </td>
-                    <td data-title="Hostname">
+                    <td data-title="Hostname" data-title="Hostname">
                         <span ng-if="(route | isWebRoute)">
                             <a href="{{route | routeWebURL}}" target="_blank"> 
                                 {{route | routeLabel}} 

@@ -72,31 +72,31 @@
                     <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Age</th>
                 </tr>
                 <tr ng-repeat="service in items">
-                    <td data-title="Name" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
-                        <a class="href-orange" ui-sref="console.service_detail({name: service.metadata.name})" uib-tooltip="{{service.metadata.name}}" tooltip-placement="top">
+                    <td data-title="Name" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;vertical-align: middle;">
+                        <a class="href-orange" ui-sref="console.service_detail({name: service.metadata.name})">
                             {{service.metadata.name}}
                         </a>
                     </td>
-                    <td data-title="Cluster IP">{{service.spec.clusterIP}}</td>
-                    <td data-title="External IP">
+                    <td data-title="Cluster IP" style="vertical-align: middle">{{service.spec.clusterIP}}</td>
+                    <td data-title="External IP" style="vertical-align: middle">
                         <span ng-if="!service.status.loadBalancer.ingress.length"><em>none</em></span>
                         <span ng-repeat="ingress in service.status.loadBalancer.ingress | limitTo: 4">{{ingress.ip}}<span ng-if="!$last">,
                             </span></span><span ng-if="service.status.loadBalancer.ingress.length === 5">,
                               {{service.status.loadBalancer.ingress[4].ip}}</span><span ng-if="service.status.loadBalancer.ingress.length > 5">,
                               and {{service.status.loadBalancer.ingress.length - 4}} others</span>
                     </td>
-                    <td data-title="Ports">
+                    <td data-title="Ports" style="vertical-align: middle">
                         <span ng-if="!service.spec.ports.length"><em>none</em></span>
                         <span ng-repeat="portMapping in service.spec.ports | limitTo: 4">{{portMapping.port}}/{{portMapping.protocol}}<span ng-if="!$last">,
                             </span></span><span ng-if="service.spec.ports.length === 5">,
                               {{service.spec.ports[4].port}}/{{service.spec.ports[4].protocol}}</span><span ng-if="service.spec.ports.length > 5">,
                               and {{service.spec.ports.length - 4}} others</span>
                     </td>
-                    <td data-title="Selector">
+                    <td data-title="Selector" style="vertical-align: middle">
                         <span ng-if="!service.spec.selector"><em>none</em></span>
                         <span ng-repeat="(selectorLabel, selectorValue) in service.spec.selector">{{selectorLabel}}={{selectorValue}}<span ng-show="!$last">, </span></span>
                     </td>
-                    <td><span uib-tooltip="{{service.metadata.creationTimestamp  | timescon}}">{{service.metadata.creationTimestamp | dateRelative}}</span></td>
+                    <td style="vertical-align: middle"><span uib-tooltip="{{service.metadata.creationTimestamp  | timescon}}">{{service.metadata.creationTimestamp | dateRelative}}</span></td>
 
                 </tr>
                 <tr>

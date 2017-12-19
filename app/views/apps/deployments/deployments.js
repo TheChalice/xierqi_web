@@ -2,17 +2,24 @@
 angular.module('console.deployments', [{
         files: [
             'components/searchbar/searchbar.js',
-            'views/apps/deployments/deployments.css'
+            'views/apps/apps.css'
         ]
     }])
-    .controller('DeploymentsCtrl', ['$scope', 'DeploymentConfig',
-        function($scope, DeploymentConfig) {
-            $(".service_close").on("click", function() {
-                $(".sevice_alert_jia").slideUp();
-            });
+    .controller('DeploymentsCtrl', ['$rootScope', '$scope', 'replicas', 'dc', '$filter',
+        function($rootScope, $scope, replicas, dc, $filter) {
+            $scope.replicationControllersByDC = {};
             $scope.text = "No deployments have been added to project " + $scope.namespace + ".";
-            DeploymentConfig.get({ namespace: $scope.namespace }, function(res) {
-                $scope.items = res.items;
-            })
+            if (dc.items) {
+                angular.forEach(dc.items, function(dc, i) {
+                    angular.forEach(replicas.items, function(replica) {
+                        if (dc.metadata.name === replica.metadata.ownerReferences[0].name) {
+                            dc.rc = replica || {};
+                            dc.rc.kind = "ReplicationController"
+                        }
+                    })
+                })
+                $scope.items = dc.items;
+                console.log("$scope.items", $scope.items)
+            }
         }
     ]);

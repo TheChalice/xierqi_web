@@ -363,8 +363,18 @@ define([
                     controller: 'DeploymentsCtrl',
                     resolve: {
                         dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/apps/deployments/deployments.js', 'views/apps/deployments/deployments.css'])
-                        }]
+                            return $ocLazyLoad.load(['views/apps/deployments/deployments.js', 'views/apps/apps.css'])
+                        }],
+                        dc: ['DeploymentConfig', 'Cookie',
+                            function(DeploymentConfig, Cookie) {
+                                return DeploymentConfig.get({ namespace: Cookie.get('namespace') }).$promise
+                            }
+                        ],
+                        replicas: ['ReplicationController', 'Cookie',
+                            function(ReplicationController, Cookie) {
+                                return ReplicationController.get({ namespace: Cookie.get('namespace') }).$promise
+                            }
+                        ]
                     }
                 })
                 .state('console.stateful-sets', {
@@ -373,7 +383,7 @@ define([
                     controller: 'Stateful-setsCtrl',
                     resolve: {
                         dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/apps/stateful-sets/stateful-sets.js', 'views/apps/stateful-sets/stateful-sets.css'])
+                            return $ocLazyLoad.load(['views/apps/stateful-sets/stateful-sets.js', 'views/apps/apps.css'])
                         }]
                     }
                 })
@@ -383,7 +393,7 @@ define([
                     controller: 'PodsCtrl',
                     resolve: {
                         dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/apps/pods/pods.js', 'views/apps/pods/pods.css'])
+                            return $ocLazyLoad.load(['views/apps/pods/pods.js', 'views/apps/apps.css'])
                         }]
                     }
                 })
@@ -393,7 +403,7 @@ define([
                     controller: 'ServicesCtrl',
                     resolve: {
                         dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/apps/services/services.js', 'views/apps/services/services.css'])
+                            return $ocLazyLoad.load(['views/apps/services/services.js', 'views/apps/apps.css'])
                         }]
                     }
                 })
@@ -403,7 +413,7 @@ define([
                     controller: 'RoutesCtrl',
                     resolve: {
                         dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/apps/routes/routes.js', 'views/apps/routes/routes.css'])
+                            return $ocLazyLoad.load(['views/apps/routes/routes.js', 'views/apps/apps.css'])
                         }]
                     }
                 })
