@@ -364,7 +364,17 @@ define([
                     resolve: {
                         dep: ['$ocLazyLoad', function($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/apps/deployments/deployments.js', 'views/apps/apps.css'])
-                        }]
+                        }],
+                        dc: ['DeploymentConfig', 'Cookie',
+                            function(DeploymentConfig, Cookie) {
+                                return DeploymentConfig.get({ namespace: Cookie.get('namespace') }).$promise
+                            }
+                        ],
+                        replicas: ['ReplicationController', 'Cookie',
+                            function(ReplicationController, Cookie) {
+                                return ReplicationController.get({ namespace: Cookie.get('namespace') }).$promise
+                            }
+                        ]
                     }
                 })
                 .state('console.stateful-sets', {
