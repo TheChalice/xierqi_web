@@ -1152,6 +1152,7 @@ define(['angular'], function (angular) {
                                     //console.log('test tag.items', $scope.imageTags)
                                 } else if ($scope.grid.cat == 1) {
                                     $scope.grid.image = idx;
+
                                     platformlist.query({id: $scope.test.items[idx].name}, function (data) {
                                         $scope.test.items[idx].status = {};
                                         $scope.test.items[idx].status.tags = [];

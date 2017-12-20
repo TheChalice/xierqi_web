@@ -1,0 +1,109 @@
+<div class="service-ctrl">
+    <div class="row rongqi" style="padding: 0;list-style: none;margin:0; margin-bottom: 30px;border: 1px solid #e6e9f2;border-bottom: none;">
+        <div class="col-md-12" style="background-color: #e6e9f2; height: 40px;padding-top: 10px;">
+
+            <div class="col-md-1">Time</div>
+            <div class="col-md-1">Reason</div>
+            <div class="col-md-10">Message</div>
+
+
+
+        </div>
+        <div class="col-md-12 event" ng-repeat="event in eventsws.items  | orderBy : 'mysort'" style="padding-top: 10px;padding-left: 0px;padding-right: 0px;padding-bottom:10px;">
+            <div class="col-md-1">{{event.metadata.creationTimestamp | timescon2}}</div>
+            <div class="col-md-1">{{event.type}}</div>
+            <div class="col-md-10">{{event.message}}</div>
+        </div>
+        <!--<div class="col-md-12 load7" ng-if="!eventsws.items.length&&hasevent" style="padding: 0;overflow: hidden;">-->
+            <!--<div class="loader">加载中...</div>-->
+        <!--</div>-->
+        <div class="col-md-12" style="line-height:32px;height:32px;padding: 0;overflow: hidden;">
+              <!--<div style="text-align: center;">部署事件暂时为空</div>-->
+
+        </div>
+    </div>
+
+<style>
+    .load7 .loader:before,
+    .load7 .loader:after,
+    .load7 .loader {
+        border-radius: 50%;
+        width: 2.5em;
+        height: 2.5em;
+        /*background-color: chocolate;*/
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+        -webkit-animation: load 1.8s infinite ease-in-out;
+        animation: load 1.8s infinite ease-in-out;
+    }
+    .load7 .loader {
+        margin: 8em auto;
+        font-size: 10px;
+        position: relative;
+        text-indent: -9999em;
+        -webkit-animation-delay: 0.16s;
+        animation-delay: 0.16s;
+    }
+    .load7 .loader:before {
+        left: -3.5em;
+    }
+    .load7 .loader:after {
+        left: 3.5em;
+        -webkit-animation-delay: 0.32s;
+        animation-delay: 0.32s;
+    }
+    .load7 .loader:before,
+    .loader:after {
+        content: '';
+        position: absolute;
+        top: 0;
+    }
+    @-webkit-keyframes load {
+        0%,
+        80%,
+        100% {
+            box-shadow: 0 2.5em 0 -1.3em #f8b551;
+        }
+        40% {
+            box-shadow: 0 2.5em 0 0 #f8b551;
+        }
+    }
+    @keyframes load {
+        0%,
+        80%,
+        100% {
+            box-shadow: 0 2.5em 0 -1.3em #f8b551;
+        }
+        40% {
+            box-shadow: 0 2.5em 0 0 #f8b551;
+        }
+    }
+
+    .biaotou {
+        text-align: center;
+    }
+    .event .paddingeve {
+        padding: 1% 0;
+    }
+    .event .paddingeventz {
+        padding: 3% 0;
+    }
+    .event .paddingevent {
+        padding: 5% 0;
+    }
+
+    .rongqi >div {
+        /*text-align: center;*/
+        border-bottom: 1px solid #e6e9f2;
+    }
+    .table-default.sub-table > tbody > tr {
+        display: table-row;
+        vertical-align: inherit;
+        vertical-align: middle;
+    }
+    .table-default.sub-table > tbody > tr > td {
+        padding: 12px 10px;
+    }
+</style>
+
+</div>
