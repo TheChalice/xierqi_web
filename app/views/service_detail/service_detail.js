@@ -3403,4 +3403,20 @@ angular.module('console.service.detail', [
             }).result;
         };
     }])
-
+    .filter('rcStatusFilter', [function () {
+        return function (phase) {
+            if (phase == "New" || phase == "Pending" || phase == "Running") {
+                return "正在部署"
+            } else if (phase == "Complete") {
+                return "部署成功"
+            } else if (phase == "Failed") {
+                return "部署失败"
+            } else if (phase == "Error") {
+                return "部署错误"
+            } else if (phase == "Cancelled") {
+                return "终止"
+            } else {
+                return phase || "-"
+            }
+        };
+    }]);

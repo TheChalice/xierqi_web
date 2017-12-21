@@ -464,6 +464,9 @@ define([
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/deployments_detail/deployments_detail.js'])
+                        }],
+                        mydc: ['$stateParams','DeploymentConfig', 'Cookie', '$rootScope', function ($stateParams,DeploymentConfig, Cookie, $rootScope) {
+                            return DeploymentConfig.get({namespace: Cookie.get('namespace'),name:$stateParams.name}).$promise;
                         }]
                     }
                 })
