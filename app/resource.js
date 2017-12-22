@@ -946,6 +946,10 @@ define([
             });
             return wechatid;
         }])
+        .factory('statefuldetail', ['$resource', 'GLOBAL', function($resource, GLOBAL) { //数据集成 公开数据集详情预览
+            var statefuldetail = $resource(GLOBAL.host_newk8s1 + '/namespaces/:username/statefulsets/:name', {namespaces:'@username',name:'@name'}, {});
+            return statefuldetail;
+        }])
 
 
 });

@@ -1457,7 +1457,7 @@ define(['angular'], function (angular) {
                 if (lastValue > point.value) {
                     return null;
                 }
-
+                console.log('lastValuelastValuelastValue',lastValue);
                 var timeInMillis = point.end - point.start;
                 var usageInMillis = (point.value - lastValue) / 1000000;
                 return (usageInMillis / timeInMillis) * 1000;
