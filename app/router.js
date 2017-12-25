@@ -450,7 +450,7 @@ define([
                         from: null
                     },
                     templateUrl: 'views/services_detail/services_detail.html',
-                    controller: 'ServiceDetailCtrl',
+                    controller: 'ServicesDetailCtrl',
                     resolve: {
                         dep: ['$ocLazyLoad', function($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/services_detail/services_detail.js'])
