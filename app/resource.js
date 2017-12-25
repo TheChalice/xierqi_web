@@ -23,8 +23,8 @@ define([
                 }
 
                 var host = wsscheme + location.host;
-                console.log('host', host);
-                console.log('location', location);
+                //console.log('host', host);
+                //console.log('location', location);
 
                 // var host = wsscheme;
                 //var tokens = Cookie.get('df_access_token');
@@ -886,51 +886,76 @@ define([
             return directrecharge;
         }])
 
-    .factory('orders', ['$resource', 'GLOBAL', function($resource, GLOBAL) { //获取订单
-        var orders = $resource(GLOBAL.host_payment + '/orders', {}, {});
-        return orders;
-    }])
 
-    .factory('delorders', ['$resource', 'GLOBAL', function($resource, GLOBAL) { //获取订单
-        var delorders = $resource(GLOBAL.host_payment + '/orders/:id', { id: '@id' }, {
-            delete: { method: 'DELETE' },
-        });
-        return delorders;
-    }])
+        .factory('orders', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {//获取订单
+            var orders = $resource(GLOBAL.host_payment + '/orders', {}, {});
+            return orders;
+        }])
 
-    .factory('regions', ['$resource', 'GLOBAL', function($resource, GLOBAL) { //获取区
-        var regions = $resource(GLOBAL.host_payment + '/regions', {}, {});
-        return regions;
-    }])
+        .factory('delorders', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {//获取订单
+            var delorders = $resource(GLOBAL.host_payment + '/orders/:id', {id: '@id'}, {
+                delete: {method: 'DELETE'},
+            });
+            return delorders;
+        }])
 
-    .factory('coupon', ['$resource', 'GLOBAL', function($resource, GLOBAL) { //获取充值卡面额
-        var regions = $resource(GLOBAL.host_payment + '/coupon/:id', { id: '@id' }, {});
-        return regions;
-    }])
+        .factory('regions', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {//获取区
+            var regions = $resource(GLOBAL.host_payment + '/regions', {}, {});
+            return regions;
+        }])
 
-    .factory('repositories', ['$resource', 'GLOBAL', function($resource, GLOBAL) { //数据集成 公开数据集
-        var repositories = $resource(GLOBAL.host_integration + '/repos', {}, {});
-        return repositories;
-    }])
+        .factory('coupon', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {//获取充值卡面额
+            var regions = $resource(GLOBAL.host_payment + '/coupon/:id', {id: '@id'}, {});
+            return regions;
+        }])
 
-    .factory('repository', ['$resource', 'GLOBAL', function($resource, GLOBAL) { //数据集成 公开数据集详情
-        var repository = $resource(GLOBAL.host_integration + '/repos/:reponame', {}, {});
-        return repository;
-    }])
+        .factory('repositories', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {//数据集成 公开数据集
+            var repositories = $resource(GLOBAL.host_integration + '/repos', {}, {});
+            return repositories;
+        }])
 
-    .factory('dataitem', ['$resource', 'GLOBAL', function($resource, GLOBAL) { //数据集成 公开数据集详情预览
-        var dataitem = $resource(GLOBAL.host_integration + '/repos/:reponame/items/:itemname', {}, {});
-        return dataitem;
-    }])
+        .factory('repository', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {//数据集成 公开数据集详情
+            var repository = $resource(GLOBAL.host_integration + '/repos/:reponame', {}, {});
+            return repository;
+        }])
 
-    .factory('inservice', ['$resource', 'GLOBAL', function($resource, GLOBAL) { //数据集成 公开数据集详情预览
-        var inservice = $resource(GLOBAL.host_integration + '/services', {}, {});
-        return inservice;
-    }])
+        .factory('dataitem', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {//数据集成 公开数据集详情预览
+            var dataitem = $resource(GLOBAL.host_integration + '/repos/:reponame/items/:itemname', {}, {});
+            return dataitem;
+        }])
 
-    .factory('instance', ['$resource', 'GLOBAL', function($resource, GLOBAL) { //数据集成 公开数据集详情预览
-            var instance = $resource(GLOBAL.host_integration + '/instance/:id', { id: '@id' }, {
-                create: { method: 'POST' }
+        .factory('inservice', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {//数据集成 公开数据集详情预览
+            var inservice = $resource(GLOBAL.host_integration + '/services', {}, {});
+            return inservice;
+        }])
+        .factory('authorize', ['$resource', 'GLOBAL', function ($resource,GLOBAL) {//构建认证
+            var authorize = $resource(GLOBAL.host_authorize+'/:source', {source:'@source'}, {
+
+            });
+            return authorize;
+        }])
+        .factory('repositorygit', ['$resource', 'GLOBAL', function ($resource,GLOBAL) {//获取仓库
+            var repositorygit = $resource(GLOBAL.host_repo+'/:source', {source:'@source'}, {
+
+            });
+            return repositorygit;
+        }])
+        .factory('repositorybranches', ['$resource', 'GLOBAL', function ($resource,GLOBAL) {//获取仓库分支
+            var repositorybranches = $resource(GLOBAL.host_repo+'/:source/branches', {source:'@source'}, {
+
+            });
+            return repositorybranches;
+        }])
+        .factory('repositorysecret', ['$resource', 'GLOBAL', function ($resource,GLOBAL) {//获取仓库分支
+            var repositorysecret = $resource(GLOBAL.host_repo+'/:source/secret', {source:'@source'}, {
+
+            });
+            return repositorysecret;
+        }])
+        .factory('instance', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {//数据集成 公开数据集详情预览
+            var instance = $resource(GLOBAL.host_integration + '/instance/:id', {id: '@id'}, {
+                create: {method: 'POST'}
+
             });
             return instance;
         }])
