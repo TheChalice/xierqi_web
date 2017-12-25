@@ -59,8 +59,8 @@
                     </div>
 
                     <div class="col-md-4 p0" ng-mouseover="hover = true" ng-mouseleave="hover = false">
-                        <div class="alert-box" ng-show = "hover"> tx_rate:{{newpiedata.tx_rate.use}} {{newpiedata.tx_rate.unit}}
-                                                  rx_rate:{{newpiedata.rx_rate.use}} {{newpiedata.rx_rate.unit}}</div>
+                        <div class="alert-box" ng-show = "hover"> Sent:{{newpiedata.tx_rate.use}} {{newpiedata.tx_rate.unit}}<br/>
+                            Received:{{newpiedata.rx_rate.use}} {{newpiedata.rx_rate.unit}}</div>
                         <highchart ng-show="isdata.CpuorMem" config="network"></highchart>
                     </div>
                 </div>
