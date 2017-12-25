@@ -9,25 +9,33 @@ angular.module('console.deployments.detail', [
             ]
         }
     ])
-    .controller('DeploymentsDetailCtrl', ['Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc',
-        function (Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc) {
-            //$scope
-            //    console.log('mydc', mydc);
+    .controller('DeploymentsDetailCtrl', ['Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag',
+        function (Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag) {
             $scope.dc = angular.copy(mydc)
+            $scope.mytag = angular.copy(mytag)
             $scope.envs = [];
             $scope.grid = {}
-            var gethor = function (name) {
-                horizontalpodautoscalers.get({namespace: $rootScope.namespace, name: name}, function (hor) {
-                    $scope.quota.rubustCheck = true;
-                    $scope.horiz = hor;
+            $scope.quota = {}
+            $scope.imagedockermap = {}
+            $scope.imagemap = {}
+            var makeimagemap = function () {
+                angular.forEach($scope.mytag.items, function (tag, i) {
+                    $scope.imagedockermap[tag.image.dockerImageReference] = {
+                        image: tag.metadata.name.split(':')[0],
+                        tag: tag.metadata.name.split(':')[1],
+                    }
+                })
+                angular.forEach($scope.imagedockermap, function (image, i) {
+                    if (!$scope.imagemap[image.image]) {
+                        $scope.imagemap[image.image]=[];
+                    }
+                    $scope.imagemap[image.image].push({
+                        tag: image.tag,
+                        dockerImageReference: i
+                    })
                 })
             }
-            angular.forEach($scope.dc.spec.triggers, function (trigger) {
-                if (trigger.type == 'ConfigChange') {
-                    $scope.grid.configChange = true;
-                }
-            });
-            gethor($scope.dc.metadata.name);
+            makeimagemap()
             var updatedcput = function (dc) {
                 DeploymentConfig.put({
                     namespace: $rootScope.namespace,
@@ -177,9 +185,85 @@ angular.module('console.deployments.detail', [
             restrict: 'E',
             templateUrl: 'views/deployments_detail/tpl/config.html',
             scope: false,
-            controller: ['$scope', function ($scope) {
+            controller: ['$scope', 'horizontalpodautoscalers', '$rootScope', 'GLOBAL', 'ImageStreamTag', 'ImageStream',
+                function ($scope, horizontalpodautoscalers, $rootScope, GLOBAL, ImageStreamTag, ImageStream) {
+                    var gethor = function (name) {
+                        horizontalpodautoscalers.get({namespace: $rootScope.namespace, name: name}, function (hor) {
+                            $scope.quota.rubustCheck = true;
+                            $scope.horiz = hor;
+                        })
+                    }
+                    $scope.survey = function (idx) {
+                        if ($scope.dc.spec.template.spec.containers[idx].doset) {
+                            $scope.dc.spec.template.spec.containers[idx].doset = false;
+                            delete  $scope.dc.spec.template.spec.containers[idx].readinessProbe;
+                        } else {
+                            $scope.dc.spec.template.spec.containers[idx].doset = true;
+                            $scope.dc.spec.template.spec.containers[idx].dosetcon = "HTTP";
+                            $scope.dc.spec.template.spec.containers[idx].readinessProbe = {
+                                "httpGet": {
+                                    "path": "",
+                                    "port": "",
+                                    "scheme": "HTTP"
+                                },
+                                "initialDelaySeconds": "",
+                                "timeoutSeconds": "",
+                                "periodSeconds": 10,
+                                "successThreshold": 1,
+                                "failureThreshold": 3
+                            }
+                        }
+                    }
+                    $scope.selectimage = function (i,item,con) {
+                        console.log(i,item);
+                        con.annotate.image = i
+                        con.annotate.tag = item[0].tag
+                        con.annotate.tags = item;
+                    }
+                    $scope.selecttag = function (idx, con) {
+                        //console.log(con.annotate.tags[idx]);
+                        con.annotate.tag = con.annotate.tags[idx].tag;
+                        con.image=con.annotate.tags[idx].dockerImageReference;
+                        //con.image=
+                    }
 
-            }],
+                    angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
+                        if (con.image.indexOf(GLOBAL.internal_registry) === 0) {
+                            con.display = true;
+                            con.annotate = {
+                                image: $scope.imagedockermap[con.image].image,
+                                tag: $scope.imagedockermap[con.image].tag,
+                                images: angular.copy($scope.imagemap),
+                                tags: $scope.imagemap[$scope.imagedockermap[con.image].image]
+                            }
+                        } else {
+                            con.display = false;
+                        }
+                        if (con.readinessProbe) {
+                            con.doset = true;
+                            if (con.readinessProbe.httpGet) {
+                                con.dosetcon = 'HTTP'
+                            } else if (con.readinessProbe.tcpSocket) {
+                                con.dosetcon = 'TCP'
+                            } else if (con.readinessProbe.exec) {
+                                var copyexec = angular.copy(con.readinessProbe.exec.command)
+                                angular.forEach(copyexec, function (exec, k) {
+                                    con.readinessProbe.exec.command[k] = {key: exec};
+                                })
+                                con.dosetcon = '命令'
+
+                            }
+                        }
+                    })
+
+                    angular.forEach($scope.dc.spec.triggers, function (trigger) {
+                        if (trigger.type == 'ConfigChange') {
+                            $scope.grid.configChange = true;
+                        }
+                    });
+
+                    gethor($scope.dc.metadata.name);
+                }],
         };
     })
     .directive('deploymentsHistory', function () {
@@ -187,8 +271,8 @@ angular.module('console.deployments.detail', [
             restrict: 'E',
             templateUrl: 'views/deployments_detail/tpl/history.html',
             scope: false,
-            controller: ['$scope', 'ReplicationController', '$rootScope', 'Ws','Sort',
-                function ($scope, ReplicationController, $rootScope, Ws,Sort) {
+            controller: ['$scope', 'ReplicationController', '$rootScope', 'Ws', 'Sort',
+                function ($scope, ReplicationController, $rootScope, Ws, Sort) {
                     var serviceState = function () {
                         if ($scope.dc.spec.replicas == 0) {
                             return 'ready'; //未启动
@@ -213,7 +297,7 @@ angular.module('console.deployments.detail', [
                             labelSelector: labelSelector,
                             region: $rootScope.region
                         }, function (res) {
-                             //$log.info("replicationControllers", res);
+                            //$log.info("replicationControllers", res);
                             res.items = Sort.sort(res.items, -1);
                             for (var i = 0; i < res.items.length; i++) {
                                 res.items[i].dc = JSON.parse(res.items[i].metadata.annotations['openshift.io/encoded-deployment-config']);

@@ -78,44 +78,45 @@
         <h3>镜像信息</h3>
 
         <div class="container-fluid container-bar" ng-repeat="container in dc.spec.template.spec.containers">
-            <div class="text-left">
-                <label class="radio-inline">
-                    <input name="container.name" type="radio" value="true" ng-model="container.display">
-                    私有
-                </label>
-                <label class="radio-inline">
-                    <input name="container.name" type="radio" value="false" ng-model="container.display">
-                    公有
-                </label>
-            </div>
-
             <div class="text-right">
                 <a class="fa fa-lg fa-times-circle" style="color: #9fa7b7;" ng-click="rmContainer($index)"
                    uib-tooltip="删除"
                    href="javascript:;"></a>
             </div>
+            <div class="text-left">
+                <label ng-class="{'active': container.display}" ng-click="container.display=!container.display"
+                       style="cursor: pointer;">
+                    <i class="faa faa-check"></i>
+                    &nbsp;&nbsp;私有
+                </label>
+                <label ng-class="{'active': !container.display}" ng-click="container.display=!container.display"
+                       style="cursor: pointer;">
+                    <i class="faa faa-check"></i>
+                    &nbsp;&nbsp;公有
+                </label>
+            </div>
+
+
             <div class="row col-md-12">
                 <div class="dropdown dropdown-select" style="width:156px;height: 32px;">
                     <button class="btn dropdown-toggle" data-toggle="dropdown">
-                        <span>{{container.imagename}}</span>
+                        <span>{{container.annotate.image}}</span>
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" style="max-height: 250px;overflow-y:scroll;">
-                        <li ng-repeat="item in myimages" ng-click="selectimage($index)">
-                            <a>{{item.metadata.name}}</a>
+                        <li ng-repeat="(i,item) in container.annotate.images" ng-click="selectimage(i,item,container)">
+                            <a>{{i}}</a>
                         </li>
                     </ul>
                 </div>
                 <div class="dropdown dropdown-select" style="width:156px;height: 32px;">
                     <button class="btn dropdown-toggle" data-toggle="dropdown">
-                        <span>{{container.tag}}</span>
+                        <span>{{container.annotate.tag}}</span>
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu">
-                        <li>
-                            <a>1</a>
-                            <a>2</a>
-                            <a>3</a>
+                        <li ng-repeat="tag in container.annotate.tags" ng-click="selecttag($index,container)">
+                            <a>{{tag.tag}}</a>
                         </li>
                     </ul>
                 </div>
