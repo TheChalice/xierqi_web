@@ -1338,7 +1338,7 @@ angular.module('console.service.create', [
                     //$state.go('console.service_detail', {name: dc.metadata.name});
                 }, function (res) {
                     $log.info("create service fail", res);
-                    $state.go('console.service_detail', {name: dc.metadata.name});
+                    $state.go('console.services_detail', {name: dc.metadata.name});
                 });
             };
 
@@ -1883,7 +1883,7 @@ angular.module('console.service.create', [
                     }, clonedc, function (res) {
                         $log.info("create dc success", res);
                         bindService(dc);
-                        $state.go('console.service_detail', {name: dc.metadata.name, from: 'create'});
+                        $state.go('console.services_detail', {name: dc.metadata.name, from: 'create'});
                     }, function (res) {
                         //todo 错误处理
                         $log.info("create dc fail", res);

@@ -444,6 +444,19 @@ define([
                         }]
                     }
                 })
+                .state('console.services_detail', {
+                    url: '/services/:name',
+                    params: {
+                        from: null
+                    },
+                    templateUrl: 'views/services_detail/services_detail.html',
+                    controller: 'ServiceDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/services_detail/services_detail.js'])
+                        }]
+                    }
+                })
                 .state('console.backing_service', {
                     url: '/backing_service',
                     params: {
