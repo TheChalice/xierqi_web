@@ -5,11 +5,11 @@ angular.module('console.routes', [{
             'views/apps/apps.css'
         ]
     }])
-    .controller('RouteDetailCtrl', ['$scope', 'Route', 'route', 'services', 'Cookie',
-        function($scope, Route, route, services, Cookie) {
+    .controller('RouteDetailCtrl', ['$scope', 'Route', 'routeDetails', 'services', 'Cookie',
+        function($scope, Route, routeDetails, services, Cookie) {
             $scope.text = "No routes have been added to project " + $scope.namespace + ".";
-            if (route) {
-                $scope.route = route;
+            if (routeDetails) {
+                $scope.route = routeDetails;
                 $scope.services = {};
 
                 function getService(routeToNm, serviceList) {
@@ -19,8 +19,8 @@ angular.module('console.routes', [{
                         }
                     }
                 }
-                if (services && services.items && route.spec.to.kind === 'Service') {
-                    $scope.services = getService(route.spec.to.name, services.items);
+                if (services && services.items && routeDetails.spec.to.kind === 'Service') {
+                    $scope.services = getService(routeDetails.spec.to.name, services.items);
                 }
 
             }

@@ -470,7 +470,7 @@ define([
                         dep: ['$ocLazyLoad', function($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/apps/routes/route_detail.js'])
                         }],
-                        route: ['Route', 'Cookie', '$stateParams',
+                        routeDetails: ['Route', 'Cookie', '$stateParams',
                             function(Route, Cookie, $stateParams) {
                                 return Route.get({ namespace: Cookie.get('namespace'), name: $stateParams.name }).$promise
                             }
