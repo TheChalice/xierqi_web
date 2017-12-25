@@ -894,7 +894,7 @@ define([
 
         .factory('delorders', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {//获取订单
             var delorders = $resource(GLOBAL.host_payment + '/orders/:id', {id: '@id'}, {
-                delete: {method: 'DELETE'},
+                delete: {method: 'DELETE'}
             });
             return delorders;
         }])
@@ -971,6 +971,12 @@ define([
             });
             return wechatid;
         }])
+        // .factory('appServices', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+        //     var appServices = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/services/:name', {namespace: '@namespace',name: '@name'}, {
+        //         get: {method: 'GET'}
+        //     });
+        //     return appServices;
+        // }])
 
 
 });

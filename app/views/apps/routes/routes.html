@@ -61,7 +61,7 @@
                 </tr>
                 <tr ng-repeat="route in items">
                     <td data-title="Name" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
-                        <a class="href-orange" ui-sref="console.service_detail({name: route.metadata.name})">
+                        <a class="href-orange" ui-sref="console.services_detail({name: route.metadata.name})">
                             {{route.metadata.name}}
                         </a>
                         <!-- <route-warnings ng-if="route.spec.to.kind !== 'Service22'" route="route" services="services">
