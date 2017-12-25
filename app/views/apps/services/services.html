@@ -72,8 +72,8 @@
                     <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Age</th>
                 </tr>
                 <tr ng-repeat="service in items">
-                    <td data-title="Name" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
-                        <a class="href-orange" ui-sref="console.services_detail({name: service.metadata.name})">
+                    <td data-title="Name" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;vertical-align: middle;">
+                        <a class="href-orange" ui-sref="console.service_detail({name: service.metadata.name})">
                             {{service.metadata.name}}
                         </a>
                     </td>

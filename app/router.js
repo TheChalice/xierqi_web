@@ -444,6 +444,30 @@ define([
                         }]
                     }
                 })
+                .state('console.deployments_detail', {
+                    url: '/deployments/:name',
+                    params: {
+                        from: null
+                    },
+                    templateUrl: 'views/deployments_detail/deployments_detail.html',
+                    controller: 'DeploymentsDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/deployments_detail/deployments_detail.js'])
+                        }],
+                        mydc: ['$stateParams', 'DeploymentConfig', 'Cookie', '$rootScope', function ($stateParams, DeploymentConfig, Cookie, $rootScope) {
+                            return DeploymentConfig.get({
+                                namespace: Cookie.get('namespace'),
+                                name: $stateParams.name
+                            }).$promise;
+                        }],
+                        mytag: ['$stateParams', 'ImageStreamTag', 'Cookie', '$rootScope', function ($stateParams, ImageStreamTag, Cookie, $rootScope) {
+                            return ImageStreamTag.get({
+                                namespace: Cookie.get('namespace')
+                            }).$promise;
+                        }]
+                    }
+                })
                 .state('console.services_detail', {
                     url: '/services/:name',
                     params: {
@@ -663,6 +687,18 @@ define([
                     resolve: {
                         dep: ['$ocLazyLoad', function($ocLazyLoad) {
                             return $ocLazyLoad.load('views/wechat_pay/wechat_pay.js')
+                        }]
+                    }
+                })
+
+                //pods详情
+                .state('console.pods_detail', {
+                    url: '/pods_detail',
+                    templateUrl: 'views/pods_detail/pods_detail.html',
+                    controller: 'podsdetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/pods_detail/pods_detail.js')
                         }]
                     }
                 })

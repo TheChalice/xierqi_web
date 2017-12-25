@@ -1,12 +1,5 @@
 <div class="build-detail" style="background:#fff;padding:20px 40px 40px;">
 <div>
-    <!--<div class="loader" ng-show="!dc">-->
-        <!--<div class="loader-inner ball-clip-rotate-multiple">-->
-            <!--<div></div>-->
-            <!--<div></div>-->
-        <!--</div>-->
-    <!--</div>-->
-<div >
     <div class="panel panel-default" style="margin-bottom: 50px">
         <div class="panel-heading">
             <span class="panel-title">
@@ -74,30 +67,43 @@
     </div>
 
     <uib-tabset class="tab-default tab-jia-default" active="active">
-        <uib-tab index="3">
+        <uib-tab index="1">
             <uib-tab-heading>
                 <i class="faa faa-jia-mark"></i> 部署记录
             </uib-tab-heading>
-            <div ng-include="'views/service_detail/history.html'"></div>
-        </uib-tab>
-        <uib-tab index="4">
-            <uib-tab-heading>
-                <i class="faa faa-jia-text"></i> 配置信息
-            </uib-tab-heading>
-            <div ng-include="'views/service_detail/service_config.html'"></div>
+            <deployments-history></deployments-history>
         </uib-tab>
         <uib-tab index="2">
             <uib-tab-heading>
+                <i class="faa faa-jia-text"></i> 配置信息
+            </uib-tab-heading>
+            <deployments-config></deployments-config>
+        </uib-tab>
+        <uib-tab index="3">
+            <uib-tab-heading>
                 <i class="faa faa-jia-target"></i>环境变量
             </uib-tab-heading>
-            <div ng-include="'views/service_detail/service_ctrl.html'"></div>
+            <deployments-env></deployments-env>
         </uib-tab>
-        <uib-tab index="1">
+        <uib-tab index="4">
             <uib-tab-heading>
                 <i class="faa ser-jia-edit"></i> 部署事件
             </uib-tab-heading>
-            <div ng-include="'views/service_detail/service_event.html'"></div>
+            <deployments-event></deployments-event>
         </uib-tab>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     </uib-tabset>
 </div>
