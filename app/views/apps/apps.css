@@ -1,6 +1,5 @@
-
 .zhuan {
-    transform-origin:50% 50%;
+    transform-origin: 50% 50%;
     animation: rotateq 1s infinite linear;
 }
 
@@ -12,32 +11,82 @@
         -webkit-transform: rotate(360deg);
     }
 }
-.pagination > li > a,.pagination-sm > li > span{
-    margin-left:5px;
-    border:none;
-    background:#f7f7f7;
-    color:black;
-}
-.pagination > li > a:hover{
-    color:black;
+
+.pagination>li>a,
+.pagination-sm>li>span {
+    margin-left: 5px;
+    border: none;
+    background: #f7f7f7;
+    color: black;
 }
 
-.pagination > .disabled > a{
-    background:#f7f7f7;
+.pagination>li>a:hover {
+    color: black;
 }
-.pagination > .disabled > a:hover{
-    background:#f7f7f7;
+
+.pagination>.disabled>a {
+    background: #f7f7f7;
 }
+
+.pagination>.disabled>a:hover {
+    background: #f7f7f7;
+}
+
 
 /*����Ϊ��ʱ״̬*/
-.blank_block{margin-bottom:0;}
-.blank_tit{font-size:14px;color:#5a6378;margin-left:10px;vertical-align:middle;}
-.serv_jia_btn{padding-left:15px!important;}
 
-.ser_drp_set{background-color: #55c45f;width:30px;border-left:1px solid rgba(0,0,0,.125)}
+.blank_block {
+    margin-bottom: 0;
+}
 
-.quick_menu{min-width:124px;}
-.quick_menu .quick_bs a{padding:0px;width:128px!important;background:#55c45f;display:block;height:34px!important;
-    line-height:34px!important;color:#fff;border-radius:4px;font-size:14px;text-indent:30px;}
-.quick_menu  .quick_bs a:focus,.quick_menu .quick_bs a:hover{background:#55c45f;color:#fff;}
-.btn-group.open .ser_drp_set{width:30px;}
+.blank_tit {
+    font-size: 14px;
+    color: #5a6378;
+    margin-left: 10px;
+    vertical-align: middle;
+}
+
+.serv_jia_btn {
+    padding-left: 15px!important;
+}
+
+.ser_drp_set {
+    background-color: #55c45f;
+    width: 30px;
+    border-left: 1px solid rgba(0, 0, 0, .125)
+}
+
+.quick_menu {
+    min-width: 124px;
+}
+
+.quick_menu .quick_bs a {
+    padding: 0px;
+    width: 128px!important;
+    background: #55c45f;
+    display: block;
+    height: 34px!important;
+    line-height: 34px!important;
+    color: #fff;
+    border-radius: 4px;
+    font-size: 14px;
+    text-indent: 30px;
+}
+
+.quick_menu .quick_bs a:focus,
+.quick_menu .quick_bs a:hover {
+    background: #55c45f;
+    color: #fff;
+}
+
+.btn-group.open .ser_drp_set {
+    width: 30px;
+}
+
+.dl-horizontal .left dt {
+    text-align: left;
+}
+
+.dl-horizontal .left dd {
+    text-align: left;
+}

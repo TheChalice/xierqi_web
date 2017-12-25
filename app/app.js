@@ -37,8 +37,7 @@ define([
         'hc.marked',
         'rzModule',
         'highcharts-ng',
-        'treeControl',
-
+        'treeControl'
     ]);
 
     myApp.constant('GLOBAL', {

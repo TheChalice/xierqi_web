@@ -1331,6 +1331,11 @@ angular.module('console.service.create', [
                 }, $scope.service, function (res) {
                     $log.info("create service success", res);
                     $scope.service = res;
+
+                    //if ($scope.grid.route) {
+                    //  createRoute(res);
+                    //}
+                    //$state.go('console.service_detail', {name: dc.metadata.name});
                 }, function (res) {
                     $log.info("create service fail", res);
                     $state.go('console.deployments_detail', {name: dc.metadata.name});
