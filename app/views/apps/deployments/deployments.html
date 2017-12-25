@@ -74,7 +74,9 @@
                 <tr ng-repeat="deployments in items">
                     <tr ng-repeat="deployments in items">
                         <td data-title="Name" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
-                            <a class="href-orange" ui-sref="console.service_detail({name: deployments.metadata.name})">{{deployments.metadata.name}}</a>
+
+                            <a class="href-orange" ui-sref="console.deployments_detail({name: deployments.metadata.name})">{{deployments.metadata.name}}</a>
+
                         </td>
                         <td data-title="Last Version">
                             <span ng-if="deployments.status.latestVersion >0" style="color: #f6a540">{{deployments.status.latestVersion}}</span>
@@ -82,14 +84,10 @@
                         </td>
                         <td data-title="Status">
                             <div row class="status" ng-if="deployments.status.latestVersion>0">
-                                <status-icon status="deployments | deploymentStatus" disable-animation></status-icon>
-
+                                <status-icon status="deployments.rc | deploymentStatus" disable-animation></status-icon>
                                 <span flex>
-                                    {{deployments | deploymentStatus}}
-                                    <span ng-if="(deployments | deploymentStatus) == 'Active' || (deployments | deploymentStatus) == 'Running'">,
-                                    <span ng-if="deployments.spec.replicas !== replicationController.status.replicas">{{deployments.status.replicas}}/</span>{{deployments.spec.replicas}} replica
-                                <span ng-if="deployments.spec.replicas != 1">s</span>
-                                </span>
+                                        {{deployments.rc | deploymentStatus}}<span ng-if="(deployments.rc | deploymentStatus) == 'Active' || (deployments.rc | deploymentStatus) == 'Running'">,
+                                        <span ng-if="deployments.rc.spec.replicas !== deployments.rc.status.replicas">{{deployments.rc.status.replicas}}/</span> {{deployments.rc.spec.replicas}} replica<span ng-if="deployments.rc.spec.replicas != 1">s</span></span>
                                 </span>
                             </div>
                         </td>
@@ -98,7 +96,7 @@
                                 {{deployments.metadata.creationTimestamp | dateRelative}}
                             </span>
                         </td>
-                        <td data-title="Trigger" ng-if="deployments.status.latestVersion>0">
+                        <td data-title="Trigger">
                             <span ng-if="!deployments.status.details.causes.length && deployments.status.latestVersion>0">Unknown</span>
                             <span ng-if="deployments.status.details.causes.length && deployments.status.latestVersion>0">
                                 <span ng-repeat="cause in deployments.status.details.causes">

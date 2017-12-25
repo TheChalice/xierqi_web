@@ -22,7 +22,7 @@
 }
 #dashboard .firstline_Resources{
     /*width:440px;*/
-    margin-left:20px;
+    /*margin-left:20px;*/
     min-height:288px;
 }
 
@@ -32,12 +32,12 @@
 }
 #dashboard .secondline_h2{
     padding-top:18px;
-    padding-left:20px;
+    padding-left:0px;
 }
 #dashboard .secondline_hr{
     visibility:visible;
-    margin-right:10px;
-    margin-left:10px;
+    /*margin-right:10px;*/
+    /*margin-left:10px;*/
 }
 #dashboard .sanlan::before{
     display: none;
@@ -120,6 +120,22 @@
     background: #fff;
 }
 .p0 {
+    text-align: center;
     padding-left: 0;
     padding-right: 0;
+    position: relative;
+}
+.dashboard .m0 {
+    margin: 0 auto;
+}
+.alert-box{
+    position: absolute;
+    width: 80%;
+    height: 60px;
+    border:1px solid #ccc;
+    background: #fff;
+    opacity: 0.7;
+    top:0;
+    left:0;
+    z-index: 111111;
 }

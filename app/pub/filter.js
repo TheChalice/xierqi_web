@@ -332,6 +332,62 @@ define(['angular', 'moment'], function(angular, moment) {
                 return url;
             };
         })
+        .filter('routeTargetPortMapping', function() {
+            var portDisplayValue = function(servicePort, containerPort, protocol) {
+                servicePort = servicePort || "<unknown>";
+                containerPort = containerPort || "<unknown>";
+
+                // \u2192 is a right arrow (see examples below)
+                var mapping = "Service Port " + servicePort + " \u2192 Container Port " + containerPort;
+                if (protocol) {
+                    mapping += " (" + protocol + ")";
+                }
+
+                return mapping;
+            };
+
+            // Returns a display value for a route target port that includes the
+            // service port, e.g.
+            //   Service Port 8080 -> Container Port 8081
+            // If no target port for the route or service is undefined, returns an
+            // empty string.
+            // If the corresponding port is not found, returns
+            //   Service Port <unknown> -> Container Port 8081
+            // or
+            //   Service Port web -> Container Port <unknown>
+            return function(route, service) {
+                if (!route.spec.port || !route.spec.port.targetPort || !service) {
+                    return '';
+                }
+                var targetPort = route.spec.port.targetPort;
+                var isPortNamed = function(port) {
+                    return angular.isString(port);
+                };
+                // Find the corresponding service port.
+                var servicePort = function(targetPort, service) {
+                    return _.find(service.spec.ports, function(servicePort) {
+                        if (isPortNamed(targetPort)) {
+                            // When using a named port in the route target port, it refers to the service port.
+                            return servicePort.name === targetPort;
+                        }
+                        // Otherwise it refers to the container port (the service target port).
+                        // If service target port is a string, we won't be able to correlate the route port.
+                        return servicePort.targetPort === targetPort;
+                    });
+                }; //getServicePortForRoute(targetPort, service);
+                if (!servicePort(targetPort, service)) {
+                    // Named ports refer to the service port name.
+                    if (angular.isString(targetPort)) {
+                        return portDisplayValue(targetPort, null);
+                    }
+
+                    // Numbers refer to the container port.
+                    return portDisplayValue(null, targetPort);
+                }
+
+                return portDisplayValue(servicePort(targetPort, service).port, servicePort(targetPort, service).targetPort, servicePort(targetPort, service).protocol);
+            };
+        })
         // .filter('routeLabel', function(RoutesService, routeHostFilter, routeWebURLFilter, isWebRouteFilter) {
         .filter('routeLabel', function(routeHostFilter, routeWebURLFilter, isWebRouteFilter) {
             return function(route, host, omitPath) {
@@ -403,20 +459,83 @@ define(['angular', 'moment'], function(angular, moment) {
                 }
             };
         })
-        .filter('deploymentStatus', function() {
+        .filter('annotationName', function() {
+            // This maps an annotation key to all known synonymous keys to insulate
+            // the referring code from key renames across API versions.
+            var annotationMap = {
+                "buildConfig": ["openshift.io/build-config.name"],
+                "deploymentConfig": ["openshift.io/deployment-config.name"],
+                "deployment": ["openshift.io/deployment.name"],
+                "pod": ["openshift.io/deployer-pod.name"],
+                "deployerPod": ["openshift.io/deployer-pod.name"],
+                "deployerPodFor": ["openshift.io/deployer-pod-for.name"],
+                "deploymentStatus": ["openshift.io/deployment.phase"],
+                "deploymentStatusReason": ["openshift.io/deployment.status-reason"],
+                "deploymentCancelled": ["openshift.io/deployment.cancelled"],
+                "encodedDeploymentConfig": ["openshift.io/encoded-deployment-config"],
+                "deploymentVersion": ["openshift.io/deployment-config.latest-version"],
+                "displayName": ["openshift.io/display-name"],
+                "description": ["openshift.io/description"],
+                "buildNumber": ["openshift.io/build.number"],
+                "buildPod": ["openshift.io/build.pod-name"],
+                "jenkinsBuildURL": ["openshift.io/jenkins-build-uri"],
+                "jenkinsLogURL": ["openshift.io/jenkins-log-url"],
+                "jenkinsStatus": ["openshift.io/jenkins-status-json"],
+                "loggingUIHostname": ["openshift.io/logging.ui.hostname"],
+                "idledAt": ["idling.alpha.openshift.io/idled-at"],
+                "idledPreviousScale": ["idling.alpha.openshift.io/previous-scale"],
+                "systemOnly": ["authorization.openshift.io/system-only"]
+            };
+            return function(annotationKey) {
+                return annotationMap[annotationKey] || null;
+            };
+        })
+        .filter('annotation', ["annotationNameFilter", function(annotationNameFilter) {
+            return function(resource, key) {
+                if (resource && resource.metadata && resource.metadata.annotations) {
+                    // If the key's already in the annotation map, return it.
+                    if (resource.metadata.annotations[key] !== undefined) {
+                        return resource.metadata.annotations[key];
+                    }
+                    // Try and return a value for a mapped key.
+                    var mappings = annotationNameFilter(key) || [];
+                    for (var i = 0; i < mappings.length; i++) {
+                        var mappedKey = mappings[i];
+                        if (resource.metadata.annotations[mappedKey] !== undefined) {
+                            return resource.metadata.annotations[mappedKey];
+                        }
+                    }
+                    // Couldn't find anything.
+                    return null;
+                }
+                return null;
+            };
+        }])
+        .filter('hasDeploymentConfig', ["annotationFilter", function(annotationFilter) {
             return function(deployment) {
-                console.log('deployment', deployment)
-                    // We should show Cancelled as an actual status instead of showing Failed
-                    // if (annotationFilter(deployment, 'deploymentCancelled')) {
-                    //     return "Cancelled";
-                    // }
-                    // var status = annotationFilter(deployment, 'deploymentStatus');
-                    // // If it is just an RC (non-deployment) or it is a deployment with more than 0 replicas
-                    // if (!hasDeploymentConfigFilter(deployment) || status === "Complete" && deployment.spec.replicas > 0) {
-                    //     return "Active";
-                    // }
-                    // return status;
-                return "Active";
+                return !!annotationFilter(deployment, 'deploymentConfig');
+            };
+        }])
+        .filter('deploymentStatus', function(annotationFilter, hasDeploymentConfigFilter) {
+            return function(deployment) {
+
+                if (annotationFilter(deployment, 'deploymentCancelled')) {
+                    return "Cancelled";
+                }
+                var status = annotationFilter(deployment, 'deploymentStatus');
+                // If it is just an RC (non-deployment) or it is a deployment with more than 0 replicas
+                if (!hasDeploymentConfigFilter(deployment) || status === "Complete" && deployment.spec.replicas > 0) {
+                    return "Active";
+                }
+                return status;
+            };
+        })
+        .filter('routeIngressCondition', function() {
+            return function(ingress, type) {
+                if (!ingress) {
+                    return null;
+                }
+                return _.find(ingress.conditions, { type: type });
             };
         })
         .filter('podStatus', function() {
@@ -489,6 +608,23 @@ define(['angular', 'moment'], function(angular, moment) {
                 return numRestarts;
             };
         })
+        .filter('rcStatusFilter', [function () {
+            return function (phase) {
+                if (phase == "New" || phase == "Pending" || phase == "Running") {
+                    return "正在部署"
+                } else if (phase == "Complete") {
+                    return "部署成功"
+                } else if (phase == "Failed") {
+                    return "部署失败"
+                } else if (phase == "Error") {
+                    return "部署错误"
+                } else if (phase == "Cancelled") {
+                    return "终止"
+                } else {
+                    return phase || "-"
+                }
+            };
+        }])
         .filter('imageObjectRef', function() {
             return function(objectRef, /* optional */ nsIfUnspecified, shortOutput) {
                 if (!objectRef) {

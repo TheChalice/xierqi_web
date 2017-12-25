@@ -4,8 +4,8 @@ angular.module('console.build_create_new', [
             files: []
         }
     ])
-    .controller('BuildcCtrl', ['createdeploy','randomWord', '$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch', 'labOwner', 'psgitlab', 'laborgs', 'labBranch', 'ImageStream', 'BuildConfig', 'Alert', '$http', 'Cookie', '$base64', 'secretskey',
-        function (createdeploy,randomWord, $rootScope, $scope, $state, $log, Owner, Org, Branch, labOwner, psgitlab, laborgs, labBranch, ImageStream, BuildConfig, Alert, $http, Cookie, $base64, secretskey) {
+    .controller('BuildcCtrl', ['authorize','createdeploy','randomWord', '$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch', 'labOwner', 'psgitlab', 'laborgs', 'labBranch', 'ImageStream', 'BuildConfig', 'Alert', '$http', 'Cookie', '$base64', 'secretskey',
+        function (authorize,createdeploy,randomWord, $rootScope, $scope, $state, $log, Owner, Org, Branch, labOwner, psgitlab, laborgs, labBranch, ImageStream, BuildConfig, Alert, $http, Cookie, $base64, secretskey) {
             $('input[ng-model="buildConfig.metadata.name"]').focus();
             $scope.labrunning = false;
             $scope.runninghub = false;
@@ -638,118 +638,18 @@ angular.module('console.build_create_new', [
             $scope.loadlabOwner = function (click) {
                 $scope.grid.labcon = true;
 
-                if (!click) {
                     $scope.labrunning = true;
-                    //labOwner.get({cache: 'false'}, function (data) {
-                    //    //$log.info("labOwner", data)
-                    //    for (var i = 0; i < data.msg.infos.length; i++) {
-                    //        thisowner = data.msg.infos[0];
-                    //        $scope.labowner = data.msg;
-                    //        for (var j = 0; j < data.msg.infos[i].repos.length; j++) {
-                    //            data.msg.infos[i].repos[j].objsname = data.msg.infos[i].owner.name;
-                    //        }
-                    //    }
-                    //    //if (!click) {
-                    //    laborgs.get({cache: 'false'}, function (data) {
-                    //        $scope.labHost = data.msg.host;
-                    //        $scope.labrunning = false;
-                    //        $scope.labusername = [];
-                    //        //console.log("thisowner0-0-0-0-",thisowner);
-                    //        if (thisowner) {
-                    //            $scope.labusername[0] = thisowner;
-                    //        }
-                    //
-                    //        //$log.info("laborgs", data)
-                    //        for (var i = 0; i < data.msg.infos.length; i++) {
-                    //            $scope.labusername.push(data.msg.infos[i]);
-                    //            for (var j = 0; j < data.msg.infos[i].repos.length; j++) {
-                    //                data.msg.infos[i].repos[j].objsname = data.msg.infos[i].org.name;
-                    //            }
-                    //        }
-                    //        //$log.info("0-0-0-00-0-$scope.labusername",$scope.labusername);
-                    //    }, function (data) {
-                    //        $scope.labrunning = false;
-                    //        $log.info("laborgs-------err", data)
-                    //    });
-                    //    //}
-                    //
-                    //    //$log.info(' $scope.grid0-0-0', $scope.grid)
-                    //}, function (data) {
-                    //    $log.info("labOwner-------err", data);
-                    //    $scope.labrunning = false;
-                    //    if (data.status == 400 && data.data.code == 1401) {
-                    //        $scope.grid.labcon = false;
-                    //        //$scope.grid.gitlabbox = true;
-                    //        //Alert.open('错误', data.data.msg, true);
-                    //    }
-                    //});
-                } else {
-                    //labOwner.get({}, function (data) {
-                    //    //$log.info("labOwner", data)
-                    //    for (var i = 0; i < data.msg.infos.length; i++) {
-                    //        thisowner = data.msg.infos[0];
-                    //        $scope.labowner = data.msg;
-                    //        for (var j = 0; j < data.msg.infos[i].repos.length; j++) {
-                    //            data.msg.infos[i].repos[j].objsname = data.msg.infos[i].owner.name;
-                    //        }
-                    //    }
-                    //    //if (!click) {
-                    //    laborgs.get({}, function (data) {
-                    //        $scope.labHost = data.msg.host;
-                    //        $scope.labusername = [];
-                    //        //console.log("thisowner0-0-0-0-",thisowner);
-                    //        if (thisowner) {
-                    //            $scope.labusername[0] = thisowner;
-                    //        }
-                    //
-                    //        $log.info("laborgs", data)
-                    //        for (var i = 0; i < data.msg.infos.length; i++) {
-                    //            $scope.labusername.push(data.msg.infos[i]);
-                    //            for (var j = 0; j < data.msg.infos[i].repos.length; j++) {
-                    //                data.msg.infos[i].repos[j].objsname = data.msg.infos[i].org.name;
-                    //            }
-                    //        }
-                    //        //$log.info("0-0-0-00-0-$scope.labusername",$scope.labusername);
-                    //    }, function (data) {
-                    //        $log.info("laborgs-------err", data)
-                    //    });
-                    //    //}
-                    //
-                    //    //$log.info(' $scope.grid0-0-0', $scope.grid)
-                    //}, function (data) {
-                    //    $log.info("labOwner-------err", data);
-                    //    $scope.labrunning = false;
-                    //    if (data.status == 400 && data.data.code == 1401) {
-                    //        $scope.grid.labcon = false;
-                    //        //$scope.grid.gitlabbox = true;
-                    //       // Alert.open('错误', data.data.msg, true);
-                    //    }
-                    //});
-                }
+                    authorize.get({source: '', redirect_url: encodeURIComponent(window.location.href)}, function (res) {
+                    }, function (err) {
+                        console.log('err', err);
+                        if (err.data.code == 14003) {
+                            window.location = err.data.message
+                        }
+                    })
+
 
             };
 
-            //var loadlaborgs = function () {
-            //    laborgs.get({}, function (data) {
-            //        $scope.labHost = data.msg.host;
-            //        $scope.labusername = [];
-            //        //console.log("thisowner0-0-0-0-",thisowner);
-            //        if (thisowner) {
-            //            $scope.labusername[0] = thisowner;
-            //        }
-            //
-            //        $log.info("laborgs", data)
-            //        for (var i = 0; i < data.msg.infos.length; i++) {
-            //            $scope.labusername.push(data.msg.infos[i]);
-            //            for (var j = 0; j < data.msg.infos[i].repos.length; j++) {
-            //                data.msg.infos[i].repos[j].objsname = data.msg.infos[i].org.name;
-            //            }
-            //        }
-            //        //$log.info("0-0-0-00-0-$scope.labusername",$scope.labusername);
-            //    }, function (data) {
-            //        $log.info("laborgs-------err", data)
-            //    });
-            //};
 
             $scope.choooseUser = null;
 

@@ -133,7 +133,7 @@ angular.module('console.service', [
             //};
             var serviceList = function () {
                 DeploymentConfig.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
-                    $log.info('serviceList----', data);
+                    //$log.info('serviceList----', data);
                     data.items = Sort.sort(data.items, -1);
                     $scope.data = data.items;
                     //$scope.items = data.items;
@@ -210,7 +210,7 @@ angular.module('console.service', [
                 //serviceList();
                 $scope.running = true;
                 DeploymentConfig.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
-                    $log.info('serviceList----', data);
+                    //$log.info('serviceList----', data);
                     data.items = Sort.sort(data.items, -1);
 
                     //$scope.items = data.items;
