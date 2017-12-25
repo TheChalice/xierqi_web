@@ -1,0 +1,43 @@
+<!-- pods详情页 -->
+<div id="pods_detail">
+    <uib-tabset class="tab-default tab-pods">
+            <uib-tab index="1">
+                <uib-tab-heading>
+                    Details
+                </uib-tab-heading>
+                <div ng-include="'views/pods_detail/details.html'"></div>
+            </uib-tab>
+            <uib-tab index="2">
+                <uib-tab-heading>
+                    Environment
+                </uib-tab-heading>
+                <div ng-include="'views/pods_detail/Environment.html'"></div>
+            </uib-tab>
+            <uib-tab index="3">
+                <uib-tab-heading>
+                    Metrics
+                </uib-tab-heading>
+                <div ng-include="'views/pods_detail/Metrics.html'"></div>
+            </uib-tab>
+            <uib-tab index="4">
+                <uib-tab-heading>
+                    Logs
+                </uib-tab-heading>
+                <div ng-include="'views/service_detail/service_event.html'"></div>
+            </uib-tab>
+            <uib-tab index="5">
+                <uib-tab-heading>
+                    Terminal
+                </uib-tab-heading>
+                <div ng-include="'views/service_detail/service_event.html'"></div>
+            </uib-tab>
+            <uib-tab index="6">
+                <uib-tab-heading>
+                    Events
+                </uib-tab-heading>
+                <div ng-include="'views/service_detail/service_event.html'"></div>
+            </uib-tab>
+    
+        </uib-tabset>
+
+</div>
