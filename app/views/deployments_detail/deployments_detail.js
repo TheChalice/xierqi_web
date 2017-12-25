@@ -34,6 +34,7 @@ angular.module('console.deployments.detail', [
                         dockerImageReference: i
                     })
                 })
+                console.log($scope.imagedockermap, $scope.imagemap);
             }
             makeimagemap()
             var updatedcput = function (dc) {
@@ -230,6 +231,7 @@ angular.module('console.deployments.detail', [
                     angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
                         if (con.image.indexOf(GLOBAL.internal_registry) === 0) {
                             con.display = true;
+                            console.log('con.image',con.image);
                             con.annotate = {
                                 image: $scope.imagedockermap[con.image].image,
                                 tag: $scope.imagedockermap[con.image].tag,
