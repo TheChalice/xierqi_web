@@ -7,7 +7,6 @@ angular.module('console.deployments', [{
     }])
     .controller('DeploymentsCtrl', ['$rootScope', '$scope', 'replicas', 'dc', '$filter',
         function($rootScope, $scope, replicas, dc, $filter) {
-            $scope.replicationControllersByDC = {};
             $scope.text = "No deployments have been added to project " + $scope.namespace + ".";
             if (dc.items) {
                 angular.forEach(dc.items, function(dc, i) {

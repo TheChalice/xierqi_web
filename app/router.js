@@ -414,7 +414,12 @@ define([
                     resolve: {
                         dep: ['$ocLazyLoad', function($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/apps/routes/routes.js', 'views/apps/apps.css'])
-                        }]
+                        }],
+                        routes: ['Route', 'Cookie',
+                            function(Route, Cookie) {
+                                return Route.get({ namespace: Cookie.get('namespace') }).$promise
+                            }
+                        ]
                     }
                 })
                 .state('console.service_create', {
@@ -452,6 +457,29 @@ define([
                         dep: ['$ocLazyLoad', function($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/service_detail/service_detail.js'])
                         }]
+                    }
+                })
+                .state('console.route_detail', {
+                    url: '/route/:name',
+                    // params: {
+                    //     from: null
+                    // },
+                    templateUrl: 'views/apps/routes/route_detail.html',
+                    controller: 'RouteDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/apps/routes/route_detail.js'])
+                        }],
+                        route: ['Route', 'Cookie', '$stateParams',
+                            function(Route, Cookie, $stateParams) {
+                                return Route.get({ namespace: Cookie.get('namespace'), name: $stateParams.name }).$promise
+                            }
+                        ],
+                        services: ['Service', 'Cookie', '$stateParams',
+                            function(Service, Cookie, $stateParams) {
+                                return Service.get({ namespace: Cookie.get('namespace') }).$promise
+                            }
+                        ]
                     }
                 })
                 .state('console.backing_service', {
