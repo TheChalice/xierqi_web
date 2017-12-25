@@ -120,9 +120,9 @@
 
 }
 .tooltip{
-    width: 80px;
-    left:71px !important;
-}
+     min-width: 80px;
+
+ }
 .rotate1{
 
 }

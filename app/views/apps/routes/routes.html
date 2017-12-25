@@ -61,7 +61,9 @@
                 </tr>
                 <tr ng-repeat="route in items">
                     <td data-title="Name" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
+
                         <a class="href-orange" ui-sref="console.route_detail({name: route.metadata.name})">
+
                             {{route.metadata.name}}
                         </a>
                     </td>
@@ -90,7 +92,7 @@
                         <span ng-if="route.spec.to.kind === 'Service'">
                             <!-- <a ng-href="{{route.spec.to.name | navigateResourceURL : 'Service': route.metadata.namespace}}"> -->
                                 {{route.spec.to.name}}
-                            <!-- </a></span> -->
+                             </span>
                     </td>
                     <td data-title="Target Port">
                         <span ng-if="route.spec.port.targetPort">

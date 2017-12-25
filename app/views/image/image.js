@@ -29,8 +29,8 @@ angular.module('console.image', [
 
         };
     })
-    .controller('ImageCtrl', ['registryptag','registryp','primage','pubregistrytag','pubregistry','regpro','platformone','ImageStream', '$filter', '$state', '$q', '$http', 'platform', '$rootScope', '$scope', '$log', 'ImageStreamTag', 'BuildConfig', 'Build', 'GLOBAL', 'Sort',
-        function (registryptag,registryp,primage,pubregistrytag,pubregistry,regpro,platformone,ImageStream, $filter, $state, $q, $http, platform, $rootScope, $scope, $log, ImageStreamTag, BuildConfig, Build, GLOBAL, Sort) {
+    .controller('ImageCtrl', ['registryptag','registryp','pubregistrytag','pubregistry','regpro','platformone','ImageStream', '$filter', '$state', '$q', '$http', 'platform', '$rootScope', '$scope', '$log', 'ImageStreamTag', 'BuildConfig', 'Build', 'GLOBAL', 'Sort',
+        function (registryptag,registryp,pubregistrytag,pubregistry,regpro,platformone,ImageStream, $filter, $state, $q, $http, platform, $rootScope, $scope, $log, ImageStreamTag, BuildConfig, Build, GLOBAL, Sort) {
             // 数组去重
             //console.log('$state', $state.params.index);
             $scope.primage = [];
@@ -52,9 +52,7 @@ angular.module('console.image', [
             }, function (err) {
 
             })
-            if (!primage) {
-                primage={}
-            }
+
             if ($state.params.index) {
                 $scope.check = $state.params.index
             } else {
@@ -107,33 +105,7 @@ angular.module('console.image', [
 
 
             };
-            if (primage&&primage.repositories) {
 
-                //console.log('primage', primage);
-                var onlymyimage = []
-
-                angular.forEach(primage.repositories, function (image,i) {
-                    //if (image.split('/')[0] === $rootScope.namespace) {
-                    onlymyimage.push(image)
-                    //}
-                })
-                //console.log('image', onlymyimage);
-
-                //pubregistry.get(function (data) {
-                angular.forEach(onlymyimage, function (image,i) {
-                    var namespace=image.split('/')[0];
-                    var name=image.split('/')[1];
-                    $scope.primage.push({name:image,tags:[],image:image})
-                    pubregistrytag.get({namespace:namespace,name:name}, function (tag) {
-                        //console.log('tag', tag);
-                        $scope.primage[i].tags= tag.tags;
-                        //console.log('$scope.primage', $scope.primage);
-                    })
-                })
-                $scope.grid.ckTotal = $scope.primage.length;
-                ckRefresh(1);
-
-            }
 
             //})
             $scope.$on('$destroy', function () {

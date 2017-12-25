@@ -74,7 +74,9 @@
                 <tr ng-repeat="deployments in items">
                     <tr ng-repeat="deployments in items">
                         <td data-title="Name" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
-                            <a class="href-orange" ui-sref="console.route_detail({name: deployments.metadata.name})">{{deployments.metadata.name}}</a>
+
+                            <a class="href-orange" ui-sref="console.deployments_detail({name: deployments.metadata.name})">{{deployments.metadata.name}}</a>
+
                         </td>
                         <td data-title="Last Version">
                             <span ng-if="deployments.status.latestVersion >0" style="color: #f6a540">{{deployments.status.latestVersion}}</span>

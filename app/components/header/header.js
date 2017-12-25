@@ -79,7 +79,7 @@ angular.module("console.header", [{
                             if (item.metadata.name === $rootScope.namespace) {
 
                                 $scope.projectname = item.metadata.annotations['openshift.io/display-name'] === '' || !item.metadata.annotations['openshift.io/display-name'] ? item.metadata.name : item.metadata.annotations['openshift.io/display-name'];
-                                console.log('item', item);
+                                //console.log('item', item);
                             }
                         })
 
