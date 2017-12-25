@@ -1331,14 +1331,9 @@ angular.module('console.service.create', [
                 }, $scope.service, function (res) {
                     $log.info("create service success", res);
                     $scope.service = res;
-
-                    //if ($scope.grid.route) {
-                    //  createRoute(res);
-                    //}
-                    //$state.go('console.service_detail', {name: dc.metadata.name});
                 }, function (res) {
                     $log.info("create service fail", res);
-                    $state.go('console.service_detail', {name: dc.metadata.name});
+                    $state.go('console.deployments_detail', {name: dc.metadata.name});
                 });
             };
 
@@ -1883,7 +1878,7 @@ angular.module('console.service.create', [
                     }, clonedc, function (res) {
                         $log.info("create dc success", res);
                         bindService(dc);
-                        $state.go('console.service_detail', {name: dc.metadata.name, from: 'create'});
+                        $state.go('console.deployments_detail', {name: dc.metadata.name, from: 'create'});
                     }, function (res) {
                         //todo 错误处理
                         $log.info("create dc fail", res);
