@@ -13,6 +13,7 @@ angular.module('console.deployments.detail', [
         function (Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag) {
             $scope.dc = angular.copy(mydc)
             $scope.mytag = angular.copy(mytag)
+
             $scope.envs = [];
             $scope.grid = {}
             $scope.quota = {}
@@ -27,14 +28,14 @@ angular.module('console.deployments.detail', [
                 })
                 angular.forEach($scope.imagedockermap, function (image, i) {
                     if (!$scope.imagemap[image.image]) {
-                        $scope.imagemap[image.image]=[];
+                        $scope.imagemap[image.image] = [];
                     }
                     $scope.imagemap[image.image].push({
                         tag: image.tag,
                         dockerImageReference: i
                     })
                 })
-                console.log($scope.imagedockermap, $scope.imagemap);
+                //console.log($scope.imagedockermap, $scope.imagemap);
             }
             makeimagemap()
             var updatedcput = function (dc) {
@@ -215,8 +216,8 @@ angular.module('console.deployments.detail', [
                             }
                         }
                     }
-                    $scope.selectimage = function (i,item,con) {
-                        console.log(i,item);
+                    $scope.selectimage = function (i, item, con) {
+                        console.log(i, item);
                         con.annotate.image = i
                         con.annotate.tag = item[0].tag
                         con.annotate.tags = item;
@@ -224,21 +225,43 @@ angular.module('console.deployments.detail', [
                     $scope.selecttag = function (idx, con) {
                         //console.log(con.annotate.tags[idx]);
                         con.annotate.tag = con.annotate.tags[idx].tag;
-                        con.image=con.annotate.tags[idx].dockerImageReference;
+                        con.image = con.annotate.tags[idx].dockerImageReference;
                         //con.image=
                     }
+                    $scope.checkoutreg = function (con, status) {
+                        if (status === true && !con.annotate.image) {
+                            console.log($scope.mytag.items[0].metadata.name.split(':'));
+                            var imagenametext=$scope.mytag.items[0].metadata.name
+                            con.annotate.image = imagenametext.split(':')[0]
+                            con.annotate.tag = imagenametext.split(':')[1]
+                            con.annotate.images = angular.copy($scope.imagemap)
+                            con.annotate.tags = $scope.imagemap[con.annotate.image]
+                            con.image = con.annotate.tags[0].dockerImageReference;
 
+                        }
+                        if (con.display === status) {
+
+                        } else {
+                            con.display = !con.display
+                        }
+                    }
                     angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
+                        //console.log(con, $scope.imagedockermap);
                         if (con.image.indexOf(GLOBAL.internal_registry) === 0) {
                             con.display = true;
-                            console.log('con.image',con.image);
+                            con.regimage = ''
                             con.annotate = {
                                 image: $scope.imagedockermap[con.image].image,
                                 tag: $scope.imagedockermap[con.image].tag,
                                 images: angular.copy($scope.imagemap),
-                                tags: $scope.imagemap[$scope.imagedockermap[con.image].image]
+                                tags: $scope.imagemap[$scope.imagedockermap[con.image].image],
+                                regimage: ''
                             }
                         } else {
+
+                            con.annotate = {
+                                regimage: con.image
+                            }
                             con.display = false;
                         }
                         if (con.readinessProbe) {

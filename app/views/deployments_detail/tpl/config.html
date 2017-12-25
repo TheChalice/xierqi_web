@@ -84,12 +84,12 @@
                    href="javascript:;"></a>
             </div>
             <div class="text-left">
-                <label ng-class="{'active': container.display}" ng-click="container.display=!container.display"
+                <label ng-class="{'active': container.display}" ng-click="checkoutreg(container,true)"
                        style="cursor: pointer;">
                     <i class="faa faa-check"></i>
                     &nbsp;&nbsp;私有
                 </label>
-                <label ng-class="{'active': !container.display}" ng-click="container.display=!container.display"
+                <label ng-class="{'active': !container.display}" ng-click="checkoutreg(container,false)"
                        style="cursor: pointer;">
                     <i class="faa faa-check"></i>
                     &nbsp;&nbsp;公有
@@ -97,7 +97,7 @@
             </div>
 
 
-            <div class="row col-md-12">
+            <div class="row col-md-12" ng-show="container.display">
                 <div class="dropdown dropdown-select" style="width:156px;height: 32px;">
                     <button class="btn dropdown-toggle" data-toggle="dropdown">
                         <span>{{container.annotate.image}}</span>
@@ -120,6 +120,11 @@
                         </li>
                     </ul>
                 </div>
+            </div>
+            <div class="row col-md-12" ng-show="!container.display">
+                <input type="text" name="serviceName" ng-model="container.annotate.regimage"
+                       class="form-control input-block foucsinput"
+                       name="name" class="form-control">
             </div>
             <!--<div class="row col-md-12" style="margin: 30px 0;padding: 0;">-->
             <!--<i class="faa faa-check"></i>-->
