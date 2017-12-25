@@ -49,19 +49,23 @@
                 <hr class="firstline_hr" style=""/>
                 <div class="row">
                     <div class="col-md-4 p0">
-                        <div class="center-block">
+                        <div class="center-block highbox-wrop">
                             <highchart ng-show="isdata.CpuorMem" config="usage_rate"></highchart>
                         </div>
 
                     </div>
                     <div class="col-md-4 p0" >
+                        <div class="center-block highbox-wrop">
                         <highchart ng-show="isdata.CpuorMem" config="usage"></highchart>
+                        </div>
                     </div>
 
                     <div class="col-md-4 p0" ng-mouseover="hover = true" ng-mouseleave="hover = false">
+                        <div class="center-block highbox-wrop">
                         <div class="alert-box" ng-show = "hover"> Sent:{{newpiedata.tx_rate.use}} {{newpiedata.tx_rate.unit}}<br/>
                             Received:{{newpiedata.rx_rate.use}} {{newpiedata.rx_rate.unit}}</div>
                         <highchart ng-show="isdata.CpuorMem" config="network"></highchart>
+                        </div>
                     </div>
                 </div>
             </div>
