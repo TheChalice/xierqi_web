@@ -332,6 +332,62 @@ define(['angular', 'moment'], function(angular, moment) {
                 return url;
             };
         })
+        .filter('routeTargetPortMapping', function() {
+            var portDisplayValue = function(servicePort, containerPort, protocol) {
+                servicePort = servicePort || "<unknown>";
+                containerPort = containerPort || "<unknown>";
+
+                // \u2192 is a right arrow (see examples below)
+                var mapping = "Service Port " + servicePort + " \u2192 Container Port " + containerPort;
+                if (protocol) {
+                    mapping += " (" + protocol + ")";
+                }
+
+                return mapping;
+            };
+
+            // Returns a display value for a route target port that includes the
+            // service port, e.g.
+            //   Service Port 8080 -> Container Port 8081
+            // If no target port for the route or service is undefined, returns an
+            // empty string.
+            // If the corresponding port is not found, returns
+            //   Service Port <unknown> -> Container Port 8081
+            // or
+            //   Service Port web -> Container Port <unknown>
+            return function(route, service) {
+                if (!route.spec.port || !route.spec.port.targetPort || !service) {
+                    return '';
+                }
+                var targetPort = route.spec.port.targetPort;
+                var isPortNamed = function(port) {
+                    return angular.isString(port);
+                };
+                // Find the corresponding service port.
+                var servicePort = function(targetPort, service) {
+                    return _.find(service.spec.ports, function(servicePort) {
+                        if (isPortNamed(targetPort)) {
+                            // When using a named port in the route target port, it refers to the service port.
+                            return servicePort.name === targetPort;
+                        }
+                        // Otherwise it refers to the container port (the service target port).
+                        // If service target port is a string, we won't be able to correlate the route port.
+                        return servicePort.targetPort === targetPort;
+                    });
+                }; //getServicePortForRoute(targetPort, service);
+                if (!servicePort(targetPort, service)) {
+                    // Named ports refer to the service port name.
+                    if (angular.isString(targetPort)) {
+                        return portDisplayValue(targetPort, null);
+                    }
+
+                    // Numbers refer to the container port.
+                    return portDisplayValue(null, targetPort);
+                }
+
+                return portDisplayValue(servicePort(targetPort, service).port, servicePort(targetPort, service).targetPort, servicePort(targetPort, service).protocol);
+            };
+        })
         // .filter('routeLabel', function(RoutesService, routeHostFilter, routeWebURLFilter, isWebRouteFilter) {
         .filter('routeLabel', function(routeHostFilter, routeWebURLFilter, isWebRouteFilter) {
             return function(route, host, omitPath) {
@@ -462,8 +518,7 @@ define(['angular', 'moment'], function(angular, moment) {
         }])
         .filter('deploymentStatus', function(annotationFilter, hasDeploymentConfigFilter) {
             return function(deployment) {
-                console.log("!!!!deployment", deployment)
-                    // We should show Cancelled as an actual status instead of showing Failed
+
                 if (annotationFilter(deployment, 'deploymentCancelled')) {
                     return "Cancelled";
                 }
@@ -473,6 +528,14 @@ define(['angular', 'moment'], function(angular, moment) {
                     return "Active";
                 }
                 return status;
+            };
+        })
+        .filter('routeIngressCondition', function() {
+            return function(ingress, type) {
+                if (!ingress) {
+                    return null;
+                }
+                return _.find(ingress.conditions, { type: type });
             };
         })
         .filter('podStatus', function() {
@@ -545,6 +608,23 @@ define(['angular', 'moment'], function(angular, moment) {
                 return numRestarts;
             };
         })
+        .filter('rcStatusFilter', [function () {
+            return function (phase) {
+                if (phase == "New" || phase == "Pending" || phase == "Running") {
+                    return "正在部署"
+                } else if (phase == "Complete") {
+                    return "部署成功"
+                } else if (phase == "Failed") {
+                    return "部署失败"
+                } else if (phase == "Error") {
+                    return "部署错误"
+                } else if (phase == "Cancelled") {
+                    return "终止"
+                } else {
+                    return phase || "-"
+                }
+            };
+        }])
         .filter('imageObjectRef', function() {
             return function(objectRef, /* optional */ nsIfUnspecified, shortOutput) {
                 if (!objectRef) {

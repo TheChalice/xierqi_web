@@ -1,0 +1,375 @@
+<div class="service-config">
+    <!--配置信息-->
+    <h2 style="margin-bottom: 19px;">部署详情</h2>
+
+    <div class="row">
+        <div class="col-md-12 bushu_marginBottom">
+            <div class="col-md-2 col-md-2_padding">Selectors</div>
+            <div class="col-md-10">app = hsss deploymentconfig=hsss</div>
+        </div>
+        <div class="col-md-12 bushu_marginBottom">
+            <div class="col-md-2 col-md-2_padding">Stratege</div>
+            <div class="col-md-10">Rolling</div>
+        </div>
+        <div class="col-md-12 bushu_marginBottom">
+            <div class="col-md-2 col-md-2_padding">Timeout</div>
+            <div class="col-md-10">600 sec</div>
+        </div>
+        <div class="col-md-12 bushu_marginBottom">
+            <div class="col-md-2 col-md-2_padding">Update Period</div>
+            <div class="col-md-10">1 sec</div>
+        </div>
+        <div class="col-md-12 bushu_marginBottom">
+            <div class="col-md-2 col-md-2_padding">Intervel</div>
+            <div class="col-md-10">1 sec</div>
+        </div>
+        <div class="col-md-12 bushu_marginBottom">
+            <div class="col-md-2 col-md-2_padding">Max Unavailable</div>
+            <div class="col-md-10">25%</div>
+        </div>
+        <div class="col-md-12 bushu_marginBottom">
+            <div class="col-md-2 col-md-2_padding">Max Surge</div>
+            <div class="col-md-10">25%</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" style="padding-top: 10px;">
+            <h3>弹性伸缩</h3>
+            <c-checkbox checked="quota.rubustCheck" style="margin: 13px 0"></c-checkbox>
+        </div>
+        <div class="row" style="margin-bottom: 40px;">
+            <div class="col-sm-12">
+                <span class="col-sm-4" style="margin-right:-90px;">POD数量
+                    <input ng-model="dc.spec.replicas" name="cdm" min="1" max="10"
+                           ng-keyup="mustnum($event,dc.spec.replicas,10)" type="text" placeholder="3"
+                           style="width:68px; height:30px;">
+                </span>
+                <span ng-show="quota.rubustCheck">
+                  <span class="col-sm-4" style="margin-right:-80px;">POD最大阀值
+                    <input ng-model="horiz.spec.maxReplicas"
+                           value="{{dc.spec.replicas}}"
+                           ng-keyup="mustnum($event,horiz.spec.maxReplicas,10)" type="text"
+                           placeholder="{{dc.spec.replicas}}" style="width:68px; height:30px;">
+                </span>
+                <span class="col-sm-4">CPU阀值
+                    <input ng-model="horiz.spec.targetCPUUtilizationPercentage"
+                           ng-keyup="mustnum($event,horiz.spec.targetCPUUtilizationPercentage,100)"
+                           placeholder="80"
+                           style="width:68px; height:30px;">%
+                </span>
+                </span>
+
+            </div>
+        </div>
+    </div>
+    <div class="row " style="margin-bottom: 36px;">
+        <div class="col-sm-12">
+            <h3>自动部署</h3>
+            <label ng-class="{'active': grid.configChange}" ng-click="grid.configChange=!grid.configChange"
+                   style="cursor: pointer;">
+                <i class="faa faa-check"></i>
+                &nbsp;&nbsp;配置变化触发自动部署
+            </label>
+            <!--<i class="faa faa-check"></i>-->
+            <!--&nbsp;&nbsp;配置变化触发自动部署-->
+        </div>
+    </div>
+    <div class="continerboxs">
+        <h3>镜像信息</h3>
+
+        <div class="container-fluid container-bar" ng-repeat="container in dc.spec.template.spec.containers">
+            <div class="text-right">
+                <a class="fa fa-lg fa-times-circle" style="color: #9fa7b7;" ng-click="rmContainer($index)"
+                   uib-tooltip="删除"
+                   href="javascript:;"></a>
+            </div>
+            <div class="text-left">
+                <label ng-class="{'active': container.display}" ng-click="container.display=!container.display"
+                       style="cursor: pointer;">
+                    <i class="faa faa-check"></i>
+                    &nbsp;&nbsp;私有
+                </label>
+                <label ng-class="{'active': !container.display}" ng-click="container.display=!container.display"
+                       style="cursor: pointer;">
+                    <i class="faa faa-check"></i>
+                    &nbsp;&nbsp;公有
+                </label>
+            </div>
+
+
+            <div class="row col-md-12">
+                <div class="dropdown dropdown-select" style="width:156px;height: 32px;">
+                    <button class="btn dropdown-toggle" data-toggle="dropdown">
+                        <span>{{container.annotate.image}}</span>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" style="max-height: 250px;overflow-y:scroll;">
+                        <li ng-repeat="(i,item) in container.annotate.images" ng-click="selectimage(i,item,container)">
+                            <a>{{i}}</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="dropdown dropdown-select" style="width:156px;height: 32px;">
+                    <button class="btn dropdown-toggle" data-toggle="dropdown">
+                        <span>{{container.annotate.tag}}</span>
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li ng-repeat="tag in container.annotate.tags" ng-click="selecttag($index,container)">
+                            <a>{{tag.tag}}</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!--<div class="row col-md-12" style="margin: 30px 0;padding: 0;">-->
+            <!--<i class="faa faa-check"></i>-->
+            <!--&nbsp;&nbsp;配置变化触发自动部署-->
+            <!--</div>-->
+            <!--<div class="row col-md-12" style="margin-bottom:24px;">-->
+            <!--<i class="fa fa-plus-circle fa-lg"></i>-->
+            <!--&nbsp;&nbsp;配置变化触发自动部署-->
+            <!--</div>-->
+            <div class="col-md-12" style="padding-top: 10px;">
+                <h3>可用性探测</h3>
+                <div>
+                   <span class="my-checkbox">
+                    <span class="checkbox-check" ng-class="{active: container.doset}"
+                          ng-click="survey($index)">
+                                            <span class="check-btn"></span>
+                                        </span>
+                </span>
+                </div>
+                <div ng-if="container.doset" style="margin-top:20px;" class="row">
+                    <div class="col-md-12 mt10">
+                        <div>
+                            <br/>
+                            <label style="font-size: 14px; font-weight: normal;">类型&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <br/>
+                            <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
+                                <div class="dropdown dropdown-select" style="width: 100%;">
+                                    <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                        <span>{{container.dosetcon}}</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="javascript:;" ng-click="container.dosetcon = 'HTTP'">{{'HTTP'}}</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:;" ng-click="container.dosetcon = '命令'">{{'命令'}}</a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:;" ng-click="container.dosetcon = 'TCP'">{{'TCP'}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <br>
+
+
+                        </div>
+                    </div>
+                    <div class="dohttp" ng-if="container.dosetcon === 'HTTP'">
+                        <div class="col-md-12 mt10">
+                            <div>
+                                <br/>
+                                <label style="font-size: 14px; font-weight: normal;">路径&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <br/>
+                                <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
+                                    <input type="text" name="candopath"
+                                           class="form-control" style="font-size: 12px;"
+                                           ng-model="container.readinessProbe.httpGet.path"
+                                           required
+                                           placeholder="/"/>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt10">
+                            <div>
+                                <br/>
+                                <label style="font-size: 14px; font-weight: normal;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <br/>
+                                <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
+                                    <!--<input type="number" name="candoport"-->
+                                    <!--class="form-control" style="font-size: 12px;"-->
+                                    <!--ng-model="container.readinessProbe.httpGet.port"-->
+                                    <!--required-->
+                                    <!--placeholder="1"/>-->
+                                    <div class="dropdown dropdown-select" style="width: 100%;">
+                                        <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                            <span>{{container.readinessProbe.httpGet.port || "请选择端口"}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li ng-repeat="port in portsArr">
+                                                <a href="javascript:;"
+                                                   ng-click="container.readinessProbe.httpGet.port = port.containerPort">{{port.containerPort}}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dohttp" ng-if="container.dosetcon === '命令'">
+                        <div class="col-md-12 mt10">
+                            <div class="commandwrop">
+                                <br/>
+                                <label style="font-size: 14px; font-weight: normal;">命令&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <br/>
+                                <div class="row"
+                                     ng-repeat="com in container.readinessProbe.exec.command track by $index"
+                                     ng-init="innerindex=$index">
+                                    <div class="col-md-11" style="padding-top: 5px;">
+                                        <input type="text" name="candoname"
+                                               class="form-control" style="font-size: 12px;"
+                                               ng-model=com.key
+                                               required
+                                               ng-keypress="($event.which === 13)?addexec(outindex,innerindex,$event):0"
+                                               placeholder="1"/>
+
+                                    </div>
+                                    <div class="col-md-1" style="height: 39px;line-height: 39px;padding:0px;">
+                                        <i class="fa fa-lg" style="cursor: pointer"
+                                           ng-click="innerindex==0?addexec(outindex,innerindex,$event):deleexec(outindex,innerindex)"
+                                           ng-class="{'fa-times-circle':!$first, 'fa-plus-circle':$first}"></i>
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dohttp" ng-if="container.dosetcon === 'TCP'">
+                        <div class="col-md-12 mt10">
+                            <div>
+                                <br/>
+                                <label style="font-size: 14px; font-weight: normal;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <br/>
+                                <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
+                                    <!--<input type="number" name="candoname"-->
+                                    <!--class="form-control" style="font-size: 12px;"-->
+                                    <!--ng-model="container.readinessProbe.tcpSocket.port"-->
+                                    <!--required-->
+                                    <!--placeholder="1"/>-->
+                                    <div class="dropdown dropdown-select" style="width: 100%;">
+                                        <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                            <span>{{container.readinessProbe.tcpSocket.port || "请选择端口"}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li ng-repeat="port in portsArr">
+                                                <a href="javascript:;"
+                                                   ng-click="container.readinessProbe.tcpSocket.port = port.containerPort">{{port.containerPort}}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+
+
+                                <br>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .bushu_marginBottom {
+        margin-bottom: 21px;
+    }
+
+    .file-input {
+        position: absolute;
+        width: 54px;
+        height: 34px;
+        top: 0;
+        right: 0;
+        filter: alpha(opacity:0);
+        opacity: 0;
+    }
+
+    .btnout {
+        background: #e0e0e0;
+    !important;
+        color: #000;
+    !important;
+    }
+
+    .btnout:focus {
+        background: #e0e0e0;
+    !important;
+    }
+
+    .btnout:hover {
+        color: black;
+    !important;
+    }
+
+    .faa-zn-size {
+        background-size: contain;
+    }
+
+    .dropdown-menu > li > a {
+        height: auto !important;
+    }
+
+    .timee ul > li {
+        margin: 0;
+        margin-bottom: 20px;
+    }
+
+    .file-input {
+        position: absolute;
+        width: 54px;
+        height: 34px;
+        top: 0;
+        right: 0;
+        filter: alpha(opacity:0);
+        opacity: 0;
+    }
+
+    .mt {
+        margin-top: 5px;
+    }
+
+    #btnout {
+        background: #e0e0e0;
+        color: #000;
+    }
+
+    #btnout:focus {
+        background: #e0e0e0;
+    }
+
+    #btnout:hover {
+        color: black;
+    }
+
+    .testt {
+        font-size: 12px;
+        line-height: 20px;
+        background: none;
+        border: none;
+        color: #333333;
+        height: 300px;
+        word-break: break-all;
+        word-wrap: break-word;
+        white-space: pre-wrap;
+        display: block;
+        max-height: 300px;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .col-md-2_padding {
+        padding: 0px;
+    }
+</style>
+

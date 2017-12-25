@@ -37,8 +37,7 @@ define([
         'hc.marked',
         'rzModule',
         'highcharts-ng',
-        'treeControl',
-
+        'treeControl'
     ]);
 
     myApp.constant('GLOBAL', {
@@ -50,8 +49,10 @@ define([
             host_repos: '/v1/repos',
             host_registry: '/registry/api',
             host_lapi: '/lapi',
+            host_authorize: '/authorize',
             host_saas: '/saas/v1',
             host_payment: '/payment/v1',
+            host_repo: '/repos',
             host_integration: '/integration/v1',
             host_hawkular: '/hawkular/metrics',
             host_wss: '/ws/oapi/v1',
@@ -60,6 +61,8 @@ define([
             signin_uri: '/signin',
             host_webhooks: 'http://hook.dataapp.c.citic/oapi/v1',
             service_url:'<ROUTER_DOMAIN_SUFFIX>',
+            //internal_registry:'docker-registry.default.svc:5000',
+            internal_registry:'<INTERNAL_REGISTRY_ADDR>',
             //service_url:'.cloud.new.dataos.io',
             common_url:'<REGISTRY_PUBLIC_ADDR>',
             //private_url:'registry.dataos.io',
