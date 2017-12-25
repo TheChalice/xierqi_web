@@ -59,15 +59,15 @@
     </ul>-->
     <div class="">环境变量设置</div>
     <div class="row" ng-if="envs.length > 0" ng-repeat="env in envs" style="margin: 30px 0;">
-        <div class="col-md-5 col_md_5_margin">
+        <div style="float:left;width:40%;" class="">
             <span>键</span>
-            <input type="text" ng-model="env.name" style="width: 345px;height: 32px;">
+            <input type="text" ng-model="env.name" style="width:345px;height: 32px;">
         </div>
-        <div class="col-md-5 col_md_5_margin">
+        <div style="float:left;width:40%;" class="">
             <span>值</span>
             <input type="text" ng-model="env.value" style="width:345px;height: 32px;">
         </div>
-        <div class="col-sm-2">
+        <div style="float:left;width:20%;" class="">
             <a href="javascript:;" style='color: #9fa7b7; height: 32px;line-height:32px;' ng-click="delEnv($index)"
                class="fa fa-lg fa-times-circle">
             </a>
