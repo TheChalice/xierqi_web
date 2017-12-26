@@ -258,6 +258,7 @@ define(['angular', 'moment'], function (angular, moment) {
                 return "";
             }
         }])
+
         .filter('imageStreamName', function () {
             return function (image) {
                 if (!image) {
@@ -331,6 +332,7 @@ define(['angular', 'moment'], function (angular, moment) {
                 return url;
             };
         }])
+
         .filter('routeTargetPortMapping', function () {
             var portDisplayValue = function (servicePort, containerPort, protocol) {
                 servicePort = servicePort || "<unknown>";
@@ -516,7 +518,8 @@ define(['angular', 'moment'], function (angular, moment) {
                 return !!annotationFilter(deployment, 'deploymentConfig');
             };
         }])
-        .filter('deploymentStatus', ["annotationFilter", "hasDeploymentConfigFilter", function (annotationFilter, hasDeploymentConfigFilter) {
+        .filter('deploymentStatus', ["annotationFilter", "hasDeploymentConfigFilter",
+            function (annotationFilter, hasDeploymentConfigFilter) {
             return function (deployment) {
 
                 if (annotationFilter(deployment, 'deploymentCancelled')) {
@@ -553,6 +556,7 @@ define(['angular', 'moment'], function (angular, moment) {
 
                 // Print detailed container reasons if available. Only the last will be
                 // displayed if multiple containers have this detail.
+                console.log('_',_);
                 angular.forEach(pod.status.containerStatuses, function (containerStatus) {
                     var containerReason = _.get(containerStatus, 'state.waiting.reason') || _.get(containerStatus, 'state.terminated.reason'),
                         signal,
