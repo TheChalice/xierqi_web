@@ -9,16 +9,73 @@ angular.module('console.deployments.detail', [
             ]
         }
     ])
-    .controller('DeploymentsDetailCtrl', ['Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag',
-        function (Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag) {
+    .controller('DeploymentsDetailCtrl', ['$log','Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag',
+        function ($log,Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag) {
             $scope.dc = angular.copy(mydc)
             $scope.mytag = angular.copy(mytag)
-
             $scope.envs = [];
             $scope.grid = {}
             $scope.quota = {}
             $scope.imagedockermap = {}
             $scope.imagemap = {}
+            $scope.horiz = {
+                "apiVersion": "autoscaling/v1",
+                "kind": "HorizontalPodAutoscaler",
+                "metadata": {"name": $scope.dc.metadata.name, "labels": {"app": $scope.dc.metadata.name}},
+                "spec": {
+                    "scaleTargetRef": {
+                        "kind": "DeploymentConfig",
+                        "name": $scope.dc.metadata.name,
+                        "apiVersion": "extensions/v1beta1",
+                        "subresource": "scale"
+                    },
+                    "minReplicas": null,
+                    "maxReplicas": null,
+                    "targetCPUUtilizationPercentage": null
+                }
+            }
+            var watchdcs = function (resourceVersion) {
+                Ws.watch({
+                    api: 'other',
+                    resourceVersion: resourceVersion,
+                    namespace: $rootScope.namespace,
+                    type: 'deploymentconfigs',
+                    name: ''
+                }, function (res) {
+                    var data = JSON.parse(res.data);
+                    updateDcs(data);
+                }, function () {
+                    $log.info("webSocket start");
+                }, function () {
+                    $log.info("webSocket stop");
+
+                });
+            };
+            watchdcs(mydc.metadata.resourceVersion)
+            var updateDcs = function (data) {
+                if (data.type == 'ERROR') {
+                    $log.info("err", data.object.message);
+                    Ws.clear();
+                    //serviceList();
+                    return;
+                }
+                //console.log('data.object', data.object);
+                $scope.resourceVersion = data.object.metadata.resourceVersion;
+
+
+                if (data.type == 'ADDED') {
+                    //$scope.rcs.items.shift(data.object);
+                } else if (data.type == "MODIFIED") {
+                    $scope.dc.status.replicas = data.object.status.replicas
+                }
+            }
+            var creathor= function () {
+                $scope.horiz.spec.maxReplicas = parseInt($scope.horiz.spec.maxReplicas)||dc.spec.replicas;
+                $scope.horiz.spec.targetCPUUtilizationPercentage = parseInt($scope.horiz.spec.targetCPUUtilizationPercentage)||80;
+                horizontalpodautoscalers.create({namespace: $rootScope.namespace}, $scope.horiz, function (data) {
+
+                })
+            }
             var makeimagemap = function () {
                 angular.forEach($scope.mytag.items, function (tag, i) {
                     $scope.imagedockermap[tag.image.dockerImageReference] = {
@@ -50,18 +107,33 @@ angular.module('console.deployments.detail', [
                 });
             }
             $scope.updateDc = function () {
-
                 DeploymentConfig.get({
                     namespace: $rootScope.namespace,
                     name: $stateParams.name,
                     region: $rootScope.region
                 }, function (datadc) {
-
-                    updatedcput(datadc)
-
+                    $scope.dc.status.latestVersion=datadc.status.latestVersion+1;
+                    if ($scope.quota.rubustCheck) {
+                        creathor()
+                    }
+                    updatedcput($scope.dc)
                 })
-
             };
+            $scope.deployDc = function () {
+                var sendobj = {
+                    "kind": "DeploymentRequest",
+                    "apiVersion": "v1",
+                    "name": $scope.dc.metadata.name,
+                    "latest": true,
+                    "force": true
+                }
+                Dcinstantiate.create({namespace: $rootScope.namespace,name:$stateParams.name},sendobj, function (obj) {
+                    console.log(obj);
+                })
+            }
+            $scope.$on('$destroy', function(){
+                Ws.clear();
+            });
         }])
     .directive('deploymentsEvent', function () {
         return {
@@ -228,10 +300,11 @@ angular.module('console.deployments.detail', [
                         con.image = con.annotate.tags[idx].dockerImageReference;
                         //con.image=
                     }
+
                     $scope.checkoutreg = function (con, status) {
                         if (status === true && !con.annotate.image) {
                             console.log($scope.mytag.items[0].metadata.name.split(':'));
-                            var imagenametext=$scope.mytag.items[0].metadata.name
+                            var imagenametext = $scope.mytag.items[0].metadata.name
                             con.annotate.image = imagenametext.split(':')[0]
                             con.annotate.tag = imagenametext.split(':')[1]
                             con.annotate.images = angular.copy($scope.imagemap)
