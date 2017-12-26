@@ -2,7 +2,7 @@
     transform-origin: 50% 50%;
     animation: rotateq 1s infinite linear;
 }
-
+s
 @-webkit-keyframes rotateq {
     0% {
         -webkit-transform: rotate(0deg);
@@ -90,3 +90,4 @@
 .dl-horizontal .left dd {
     text-align: left;
 }
+*:focus { border: 1px solid #f2f2f2; }

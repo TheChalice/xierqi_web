@@ -90,3 +90,4 @@
 .tab-jia-default li .nav-link:hover {
     color: #333;
 }
+*:focus { border: 1px solid #f2f2f2; }

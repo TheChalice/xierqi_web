@@ -39,11 +39,12 @@
             <c-checkbox checked="quota.rubustCheck" style="margin: 13px 0"></c-checkbox>
         </div>
         <div class="row" style="margin-bottom: 40px;">
+
             <div class="col-sm-12">
                 <span class="col-sm-4" style="margin-right:-90px;">POD数量
                     <input ng-model="dc.spec.replicas" name="cdm" min="1" max="10"
-                           ng-keyup="mustnum($event,dc.spec.replicas,10)" type="text" placeholder="3"
-                           style="width:68px; height:30px;">
+                           ng-keyup="mustnum($event,dc.spec.replicas,10)" placeholder="3"
+                           style="width:68px; height:30px;" >
                 </span>
                 <span ng-show="quota.rubustCheck">
                   <span class="col-sm-4" style="margin-right:-80px;">POD最大阀值
@@ -2696,5 +2697,7 @@
     .col-md-2_padding {
         padding: 0px;
     }
+  *:focus { border: 1px solid #f2f2f2; }
+
 </style>
 

@@ -41,3 +41,4 @@
     line-height:34px!important;color:#fff;border-radius:4px;font-size:14px;text-indent:30px;}
 .quick_menu  .quick_bs a:focus,.quick_menu .quick_bs a:hover{background:#55c45f;color:#fff;}
 .btn-group.open .ser_drp_set{width:30px;}
+*:focus { border: 1px solid #f2f2f2; }
