@@ -3,6 +3,8 @@ dist=dist
 echo "[build]"
 npm run build
 
+set -v
+
 echo "[prepare]"
 mkdir -p $dist/vendor
 
@@ -17,7 +19,8 @@ cp -r bower_components/marked $dist/vendor/
 cp -r bower_components/kubernetes-container-terminal $dist/vendor/
 cp -r bower_components/angular-tree-control $dist/vendor/
 
-set -v
+echo "[post processing]"
+
 sed -i 's~="../bower_components/~="./vendor/~g' $dist/index.html
 
 echo "[end]"
