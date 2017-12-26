@@ -30,7 +30,8 @@
         highcharts: '../bower_components/highcharts/highcharts',
         angularSlider: '../bower_components/angularjs-slider/dist/rzslider.min',
         treeControl: '../bower_components/angular-tree-control/angular-tree-control',
-        highchartsNg: '../bower_components/highcharts-ng/dist/highcharts-ng.min'
+        highchartsNg: '../bower_components/highcharts-ng/dist/highcharts-ng.min',
+        lodash: '../bower_components/lodash/lodash'
 
     },
     shim : {
@@ -83,6 +84,9 @@
         },
         'highchartsNg': {
             deps: ['angular', 'highcharts']
+        },
+        'lodash': {
+            deps: ['angular']
         }
     }
 }

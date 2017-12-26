@@ -20,6 +20,7 @@ define([
     'kubernetesUI',
     'highchartsNg',
     'treeControl',
+    'lodash'
 ], function (angular) {
 
     // 声明应用及其依赖
