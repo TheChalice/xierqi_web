@@ -216,6 +216,19 @@ angular.module('console.deployments.detail', [
                             }
                         }
                     }
+                    $scope.showEnv = function(idx){
+                        if($scope.dc.spec.template.spec.containers[idx].annotate.isShowEnv){
+                            $scope.dc.spec.template.spec.containers[idx].annotate.isShowEnv = false;
+                        }else{
+                            $scope.dc.spec.template.spec.containers[idx].annotate.isShowEnv = true;
+                        }
+                    }
+                    $scope.delcontainerEnv = function(outerIndex,innerIndex){
+                        $scope.dc.spec.template.spec.containers[outerIndex].env.splice(innerIndex, 1);
+                    }
+                    $scope.addContainerEnv = function(outerIndex,innerIndex){
+                        $scope.dc.spec.template.spec.containers[outerIndex].env.push({name: '', value: ''});
+                    }
                     $scope.selectimage = function (i, item, con) {
                         console.log(i, item);
                         con.annotate.image = i

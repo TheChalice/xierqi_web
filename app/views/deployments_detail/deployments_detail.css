@@ -67,3 +67,13 @@
 }
 .tab-jia-default .tab-content{border: 0;padding:20px 0px;}
 .tab-jia-default li .nav-link:hover{color:#333;}
+.dropdown-menu-span{
+    width: 100%;
+    display: inline-block;
+    line-height:34px;
+    padding-left:12px;
+    overflow: hidden;
+}
+.dropdown-menu-span:hover{
+    background: #dfe4ef
+}
