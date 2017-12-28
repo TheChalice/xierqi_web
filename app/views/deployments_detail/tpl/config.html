@@ -83,7 +83,7 @@
                    uib-tooltip="删除"
                    href="javascript:;"></a>
             </div>
-            <div class="text-left">
+            <div class="text-left" style="padding-left: 20px;">
                 <label ng-class="{'active': container.display}" ng-click="checkoutreg(container,true)"
                        style="cursor: pointer;">
                     <i class="faa faa-check"></i>
@@ -125,7 +125,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="row col-md-12" ng-show="!container.display">
+            <div class="row col-md-11" style="padding-right: 0;padding-left: 35px;" ng-show="!container.display">
                 <input type="text" name="serviceName" ng-model="container.annotate.regimage"
                        class="form-control input-block foucsinput"
                        name="name" class="form-control">
@@ -138,7 +138,7 @@
             <!--<i class="fa fa-plus-circle fa-lg"></i>-->
             <!--&nbsp;&nbsp;配置变化触发自动部署-->
             <!--</div>-->
-            <div class="col-md-12" style="padding-top: 10px;padding-left: 0px;">
+            <div class="col-md-12" style="padding-top: 10px;padding-left: 20px;">
                 <h3>可用性探测</h3>
                 <div>
                    <span class="my-checkbox">
@@ -149,7 +149,7 @@
                 </span>
                 </div>
                 <div ng-if="container.doset" style="margin-top:20px;" class="row">
-                    <div class="col-md-12 mt10">
+                    <div class="col-md-12 mt10" style="padding-left: 0;">
                         <div>
                             <br/>
                             <label style="font-size: 14px; font-weight: normal;">类型&nbsp;&nbsp;&nbsp;&nbsp;</label>
@@ -179,10 +179,10 @@
                         </div>
                     </div>
                     <div class="dohttp" ng-if="container.dosetcon === 'HTTP'">
-                        <div class="col-md-12 mt10">
+                        <div class="col-md-12 mt10" style="padding-left: 0;">
                             <div>
                                 <br/>
-                                <label style="font-size: 14px; font-weight: normal;">路径&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <label style="font-size: 14px; font-weight: normal;padding-left: 0;">路径&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                 <br/>
                                 <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
                                     <input type="text" name="candopath"
@@ -194,12 +194,12 @@
                                 <br>
                             </div>
                         </div>
-                        <div class="col-md-12 mt10">
+                        <div class="col-md-12 mt10" style="padding-left: 0;">
                             <div>
                                 <br/>
                                 <label style="font-size: 14px; font-weight: normal;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                 <br/>
-                                <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
+                                <div class="col-md-11" style="padding-left: 0;">
                                     <input type="text" name="candopath"
                                            class="form-control" style="font-size: 12px;"
                                            ng-model="container.readinessProbe.httpGet.port"
@@ -213,59 +213,48 @@
                             </div>
                         </div>
                     </div>
-                    <div class="dohttp" ng-if="container.dosetcon === '命令'">
-                        <div class="col-md-12 mt10">
-                            <div class="commandwrop">
+                    <div class="dohttp" ng-show="container.dosetcon === '命令'">
+                        <div class="col-md-11 mt10" style="padding-left: 0;padding-right: 30px;">
+                            <div>
                                 <br/>
                                 <label style="font-size: 14px; font-weight: normal;">命令&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                 <br/>
                                 <div class="row"
                                      ng-repeat="com in container.readinessProbe.exec.command track by $index"
                                      ng-init="innerindex=$index">
-                                    <div class="col-md-11" style="padding-top: 5px;">
+                                    <div class="col-md-12" style="padding-top: 5px;">
                                         <input type="text" name="candoname"
                                                class="form-control" style="font-size: 12px;"
                                                ng-model=com.key
                                                required
-                                               ng-keypress="($event.which === 13)?addexec(outindex,innerindex,$event):0"
                                                placeholder="1"/>
 
                                     </div>
-                                    <div class="col-md-1" style="height: 39px;line-height: 39px;padding:0px;">
-                                        <i class="fa fa-lg" style="cursor: pointer"
-                                           ng-click="innerindex==0?addexec(outindex,innerindex,$event):deleexec(outindex,innerindex)"
-                                           ng-class="{'fa-times-circle':!$first, 'fa-plus-circle':$first}"></i>
-                                    </div>
+                                    <!--<div class="col-md-1" style="height: 39px;line-height: 39px;padding:0px;">-->
+                                        <!--<i class="fa fa-lg" style="cursor: pointer"-->
+                                           <!--ng-click="innerindex==0?addexec(outindex,innerindex,$event):deleexec(outindex,innerindex)"-->
+                                           <!--ng-class="{'fa-times-circle':!$first, 'fa-plus-circle':$first}"></i>-->
+                                    <!--</div>-->
                                 </div>
                                 <br>
                             </div>
                         </div>
                     </div>
                     <div class="dohttp" ng-if="container.dosetcon === 'TCP'">
-                        <div class="col-md-12 mt10">
+                        <div class="col-md-12 mt10" style="padding-left: 0;">
                             <div>
                                 <br/>
-                                <label style="font-size: 14px; font-weight: normal;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <label style="font-size: 14px; font-weight: normal;padding-left: 0;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                 <br/>
-                                <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
-                                    <!--<input type="number" name="candoname"-->
-                                    <!--class="form-control" style="font-size: 12px;"-->
-                                    <!--ng-model="container.readinessProbe.tcpSocket.port"-->
-                                    <!--required-->
-                                    <!--placeholder="1"/>-->
-                                    <div class="dropdown dropdown-select" style="width: 100%;">
-                                        <button class="btn dropdown-toggle" data-toggle="dropdown">
-                                            <span>{{container.readinessProbe.tcpSocket.port || "请选择端口"}}</span>
-                                            <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li ng-repeat="port in portsArr">
-                                                <a href="javascript:;"
-                                                   ng-click="container.readinessProbe.tcpSocket.port = port.containerPort">{{port.containerPort}}</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-
+                                <div class="col-md-11"  style="padding-left: 0;">
+                                    <input type="text" name="candopath"
+                                           class="form-control" style="font-size: 12px;"
+                                           ng-model="container.readinessProbe.tcpSocket.port"
+                                           min="0"
+                                           max="65535"
+                                           ng-pattern="/^\d+$/"
+                                           required
+                                           placeholder=""/>
                                 </div>
 
 
@@ -278,7 +267,7 @@
 
 
             </div>
-            <div class="col-md-12" style="padding-top: 10px;padding-left: 0px;">
+            <div class="col-md-12" style="padding-top: 10px;padding-left: 20px;">
                 <h3>环境变量
                     <span style="font-size: 14px;font-weight: 300; cursor: pointer; color: orange;margin-left: 10px;" ng-click="container.annotate.isShowEnv=!container.annotate.isShowEnv">
                     <i style="font-style: normal;" ng-show="!container.annotate.isShowEnv">Show</i>
