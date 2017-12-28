@@ -155,125 +155,6 @@ angular.module('console.deployments.detail', [
                 Ws.clear();
             });
         }])
-    .directive('deploymentsEvent', function () {
-        return {
-            restrict: 'E',
-            templateUrl: 'views/deployments_detail/tpl/event.html',
-            scope: false,
-            controller: ['$scope', 'Ws', 'Event', '$rootScope', function ($scope, Ws, Event, $rootScope) {
-
-                function watchevent(resourceVersion) {
-                    Ws.watch({
-                        api: 'k8s',
-                        resourceVersion: resourceVersion,
-                        namespace: $rootScope.namespace,
-                        type: 'events',
-                        name: ''
-                    }, function (res) {
-                        var data = JSON.parse(res.data);
-                        updateEvent(data);
-                    }, function () {
-                        //$log.info("webSocket startRC");
-                    }, function () {
-
-                    });
-                }
-
-                var updateEvent = function (data) {
-                    if (data.type == "ADDED") {
-
-                        if (data.object.involvedObject.name.split('-')[0] == $scope.dc.metadata.name) {
-                            data.object.mysort = -(new Date(data.object.metadata.creationTimestamp)).getTime()
-                            $scope.eventsws.items.push(data.object);
-
-                            //$scope.eventsws.items=sortevent($scope.eventsws.items)
-                            //console.log(data.object.involvedObject.name.split('-')[0] == $scope.dc.metadata.name);
-                            $scope.$apply()
-                        }
-
-                    } else if (data.type == "MODIFIED") {
-
-                        if ($scope.dc && data.object.involvedObject.name.split('-')[0] == $scope.dc.metadata.name) {
-                            data.object.mysort = -(new Date(data.object.metadata.creationTimestamp)).getTime()
-                            $scope.eventsws.items.push(data.object);
-                            $scope.$apply()
-                        }
-
-                    }
-                    //console.log($scope.eventsws);
-                }
-                var loadeventws = function () {
-                    Event.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (res) {
-                        //console.log('event',res);
-                        if (!$scope.eventsws) {
-                            $scope.eventsws = []
-                            var arr = []
-                            angular.forEach(res.items, function (event, i) {
-                                if (event.involvedObject.kind !== 'BackingServiceInstance') {
-                                    if ($scope.dc && event.involvedObject.name.split('-')[0] == $scope.dc.metadata.name && event.involvedObject.name.split('-')[2] != 'build') {
-                                        arr.push(event)
-
-                                    }
-                                }
-
-                            })
-                            angular.forEach(arr, function (item, i) {
-                                arr[i].mysort = -(new Date(item.metadata.creationTimestamp)).getTime()
-                            })
-                            arr.sort(function (x, y) {
-                                return x.mysort > y.mysort ? -1 : 1;
-                            });
-                            $scope.eventsws.items = arr;
-
-                        }
-
-
-                        $scope.resource = res.metadata.resourceVersion;
-                        watchevent(res.metadata.resourceVersion);
-                    }, function (res) {
-                        //todo 错误处理
-                        // $log.info("loadEvents err", res)
-                    });
-
-                };
-                loadeventws()
-            }],
-        };
-    })
-    .directive('deploymentsEnv', function () {
-        return {
-            restrict: 'E',
-            templateUrl: 'views/deployments_detail/tpl/env.html',
-            scope: false,
-            controller: ['$scope', function ($scope) {
-                var inEnvs = function (name) {
-                    for (var i = 0; i < $scope.envs.length; i++) {
-                        if ($scope.envs[i].name == name) {
-                            return true;
-                        }
-                    }
-                    return false;
-                };
-                var getEnvs = function (containers) {
-                    for (var i = 0; i < containers.length; i++) {
-                        var envs = containers[i].env || [];
-                        for (var j = 0; j < envs.length; j++) {
-                            if (!inEnvs(envs[j].name)) {
-                                $scope.envs.push(envs[j]);
-                            }
-                        }
-                    }
-                };
-                getEnvs($scope.dc.spec.template.spec.containers);
-                $scope.addEnv = function () {
-                    $scope.envs.push({name: '', value: ''});
-                }
-                $scope.delEnv = function (idx) {
-                    $scope.envs.splice(idx, 1);
-                };
-            }],
-        };
-    })
     .directive('deploymentsConfig', function () {
         return {
             restrict: 'E',
@@ -319,6 +200,11 @@ angular.module('console.deployments.detail', [
                         $scope.dc.spec.template.spec.containers[outerIndex].env.splice(innerIndex, 1);
                     }
                     $scope.addContainerEnv = function(outerIndex,innerIndex){
+                        if ($scope.dc.spec.template.spec.containers[outerIndex].env) {
+
+                        }else {
+                            $scope.dc.spec.template.spec.containers[outerIndex].env=[]
+                        }
                         $scope.dc.spec.template.spec.containers[outerIndex].env.push({name: '', value: ''});
                     }
                     $scope.selectimage = function (i, item, con) {
