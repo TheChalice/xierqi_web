@@ -18,6 +18,9 @@ angular.module('console.deployments.detail', [
             $scope.quota = {}
             $scope.imagedockermap = {}
             $scope.imagemap = {}
+            $scope.loaddirs={
+                loadcon:''
+            }
             $scope.horiz = {
                 "apiVersion": "autoscaling/v1",
                 "kind": "HorizontalPodAutoscaler",
@@ -70,12 +73,22 @@ angular.module('console.deployments.detail', [
                 }
             }
             var creathor= function () {
-                $scope.horiz.spec.maxReplicas = parseInt($scope.horiz.spec.maxReplicas)||dc.spec.replicas;
+                $scope.horiz.spec.maxReplicas = parseInt($scope.horiz.spec.maxReplicas)||$scope.dc.spec.replicas;
                 $scope.horiz.spec.targetCPUUtilizationPercentage = parseInt($scope.horiz.spec.targetCPUUtilizationPercentage)||80;
                 horizontalpodautoscalers.create({namespace: $rootScope.namespace}, $scope.horiz, function (data) {
 
                 })
             }
+             var delhor= function () {
+
+                 horizontalpodautoscalers.delete({
+                     namespace: $rootScope.namespace,
+                     name: $scope.dc.metadata.name
+                 }, function (data) {
+                     //alert(11)
+                 })
+            }
+
             var makeimagemap = function () {
                 angular.forEach($scope.mytag.items, function (tag, i) {
                     $scope.imagedockermap[tag.image.dockerImageReference] = {
@@ -101,7 +114,9 @@ angular.module('console.deployments.detail', [
                     name: dc.metadata.name,
                     region: $rootScope.region
                 }, dc, function (res) {
-                    $scope.dc = angular.copy(res)
+                    $scope.dc = angular.copy(res);
+                    console.log('$scope.dc', $scope.dc);
+                    $scope.loaddirs.loadcon()
                 }, function (res) {
 
                 });
@@ -112,9 +127,14 @@ angular.module('console.deployments.detail', [
                     name: $stateParams.name,
                     region: $rootScope.region
                 }, function (datadc) {
+
                     $scope.dc.status.latestVersion=datadc.status.latestVersion+1;
+                    $scope.dc.metadata.resourceVersion=datadc.metadata.resourceVersion;
+                    console.log($scope.envs);
                     if ($scope.quota.rubustCheck) {
                         creathor()
+                    }else {
+                        delhor()
                     }
                     updatedcput($scope.dc)
                 })
@@ -318,47 +338,50 @@ angular.module('console.deployments.detail', [
                             con.display = !con.display
                         }
                     }
-                    angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
-                        //console.log(con, $scope.imagedockermap);
-                        if (con.image.indexOf(GLOBAL.internal_registry) === 0) {
-                            con.display = true;
-                            con.regimage = ''
-                            con.annotate = {
-                                image: $scope.imagedockermap[con.image].image,
-                                tag: $scope.imagedockermap[con.image].tag,
-                                images: angular.copy($scope.imagemap),
-                                tags: $scope.imagemap[$scope.imagedockermap[con.image].image],
-                                regimage: ''
-                            }
-                        } else {
+                    $scope.loaddirs.loadcon= function () {
+                        angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
+                            console.log($scope.imagedockermap[con.image]);
+                            if ($scope.imagedockermap[con.image]) {
+                                con.display = true;
+                                con.regimage = ''
+                                con.annotate = {
+                                    image: $scope.imagedockermap[con.image].image,
+                                    tag: $scope.imagedockermap[con.image].tag,
+                                    images: angular.copy($scope.imagemap),
+                                    tags: $scope.imagemap[$scope.imagedockermap[con.image].image],
+                                    regimage: ''
+                                }
+                            } else {
 
-                            con.annotate = {
-                                regimage: con.image
+                                con.annotate = {
+                                    regimage: con.image
+                                }
+                                con.display = false;
                             }
-                            con.display = false;
-                        }
-                        if (con.readinessProbe) {
-                            con.doset = true;
-                            if (con.readinessProbe.httpGet) {
-                                con.dosetcon = 'HTTP'
-                            } else if (con.readinessProbe.tcpSocket) {
-                                con.dosetcon = 'TCP'
-                            } else if (con.readinessProbe.exec) {
-                                var copyexec = angular.copy(con.readinessProbe.exec.command)
-                                angular.forEach(copyexec, function (exec, k) {
-                                    con.readinessProbe.exec.command[k] = {key: exec};
-                                })
-                                con.dosetcon = '命令'
+                            if (con.readinessProbe) {
+                                con.doset = true;
+                                if (con.readinessProbe.httpGet) {
+                                    con.dosetcon = 'HTTP'
+                                } else if (con.readinessProbe.tcpSocket) {
+                                    con.dosetcon = 'TCP'
+                                } else if (con.readinessProbe.exec) {
+                                    var copyexec = angular.copy(con.readinessProbe.exec.command)
+                                    angular.forEach(copyexec, function (exec, k) {
+                                        con.readinessProbe.exec.command[k] = {key: exec};
+                                    })
+                                    con.dosetcon = '命令'
 
+                                }
                             }
-                        }
-                    })
+                        })
 
-                    angular.forEach($scope.dc.spec.triggers, function (trigger) {
-                        if (trigger.type == 'ConfigChange') {
-                            $scope.grid.configChange = true;
-                        }
-                    });
+                        angular.forEach($scope.dc.spec.triggers, function (trigger) {
+                            if (trigger.type == 'ConfigChange') {
+                                $scope.grid.configChange = true;
+                            }
+                        });
+                    }
+                    $scope.loaddirs.loadcon()
 
                     gethor($scope.dc.metadata.name);
                 }],
