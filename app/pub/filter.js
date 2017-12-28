@@ -459,6 +459,15 @@ define(['angular', 'moment'], function(angular, moment) {
                 }
             };
         })
+        .filter('uid', function() {
+            return function(resource) {
+                if (resource && resource.metadata && resource.metadata.uid) {
+                    return resource.metadata.uid;
+                } else {
+                    return resource;
+                }
+            };
+        })
         .filter('annotationName', function() {
             // This maps an annotation key to all known synonymous keys to insulate
             // the referring code from key renames across API versions.
@@ -608,8 +617,8 @@ define(['angular', 'moment'], function(angular, moment) {
                 return numRestarts;
             };
         })
-        .filter('rcStatusFilter', [function () {
-            return function (phase) {
+        .filter('rcStatusFilter', [function() {
+            return function(phase) {
                 if (phase == "New" || phase == "Pending" || phase == "Running") {
                     return "正在部署"
                 } else if (phase == "Complete") {
@@ -623,6 +632,61 @@ define(['angular', 'moment'], function(angular, moment) {
                 } else {
                     return phase || "-"
                 }
+            };
+        }])
+        .filter('isDebugPod', function(annotationFilter) {
+            return function(pod) {
+                return !!annotationFilter(pod, 'debug.openshift.io/source-resource');
+            };
+        })
+        .filter('debugPodSourceName', function(annotationFilter) {
+            return function(pod) {
+                var source = annotationFilter(pod, 'debug.openshift.io/source-resource');
+                if (!source) {
+                    return '';
+                }
+
+                var parts = source.split('/');
+                if (parts.length !== 2) {
+                    Logger.warn('Invalid debug.openshift.io/source-resource annotation value "' + source + '"');
+                    return '';
+                }
+
+                return parts[1];
+            };
+        })
+        .filter("toArray", function() {
+            return _.toArray;
+        })
+        .filter('orderObjectsByDate', ["toArrayFilter", function(toArrayFilter) {
+            return function(items, reverse) {
+                items = toArrayFilter(items);
+
+                /*
+                 * Note: This is a hotspot in our code. We sort frequently by date on
+                 *       the overview and browse pages.
+                 */
+
+                items.sort(function(a, b) {
+                    if (!a.metadata || !a.metadata.creationTimestamp || !b.metadata || !b.metadata.creationTimestamp) {
+                        throw "orderObjectsByDate expects all objects to have the field metadata.creationTimestamp";
+                    }
+
+                    // The date format can be sorted using straight string comparison.
+                    // Compare as strings for performance.
+                    // Example Date: 2016-02-02T21:53:07Z
+                    if (a.metadata.creationTimestamp < b.metadata.creationTimestamp) {
+                        return reverse ? 1 : -1;
+                    }
+
+                    if (a.metadata.creationTimestamp > b.metadata.creationTimestamp) {
+                        return reverse ? -1 : 1;
+                    }
+
+                    return 0;
+                });
+
+                return items;
             };
         }])
         .filter('imageObjectRef', function() {
