@@ -2,7 +2,8 @@
     transform-origin: 50% 50%;
     animation: rotateq 1s infinite linear;
 }
-s
+*:focus { border: 1px solid #f2f2f2; }
+
 @-webkit-keyframes rotateq {
     0% {
         -webkit-transform: rotate(0deg);

@@ -42,20 +42,20 @@
                 <span class="col-sm-4" style="margin-right:-90px;">POD数量
                     <input ng-model="dc.spec.replicas" name="cdm" min="1" max="10"
                            ng-keyup="mustnum($event,dc.spec.replicas,10)" type="text" placeholder="3"
-                           style="width:68px; height:30px;">
+                           style="width:68px; height:30px;" class="input_focus">
                 </span>
                 <span ng-show="quota.rubustCheck">
                   <span class="col-sm-4" style="margin-right:-80px;">POD最大阀值
                     <input ng-model="horiz.spec.maxReplicas"
                            value="{{dc.spec.replicas}}"
                            ng-keyup="mustnum($event,horiz.spec.maxReplicas,10)" type="text"
-                           placeholder="{{dc.spec.replicas}}" style="width:68px; height:30px;">
+                           placeholder="{{dc.spec.replicas}}" style="width:68px; height:30px;" class="input_focus">
                 </span>
                 <span class="col-sm-4">CPU阀值
                     <input ng-model="horiz.spec.targetCPUUtilizationPercentage"
                            ng-keyup="mustnum($event,horiz.spec.targetCPUUtilizationPercentage,100)"
                            placeholder="80"
-                           style="width:68px; height:30px;">%
+                           style="width:68px; height:30px;"class="input_focus" >%
                 </span>
                 </span>
 
@@ -310,10 +310,11 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="row col-md-12" ng-click="addContainerEnv(outerIndex)" style="margin:0 0 20px 0;">
+                        <div class="row col-md-12" ng-click="addContainerEnv(outerIndex)" style="margin:0 0 20px 0;cursor: pointer;">
                             <i class="fa fa-plus-circle fa-lg"></i>
                             &nbsp;&nbsp;创建环境变量
                         </div>
+
                         <style>
                             .hhh .sss:last-child {
                                 border-bottom:none;
@@ -427,6 +428,13 @@
 
     .col-md-2_padding {
         padding: 0px;
+    }
+    .input_focus {
+        padding: 6px 12px;
+    }
+
+    .input_focus :focus {
+        border: 1px solid #f2f2f2;
     }
 </style>
 
