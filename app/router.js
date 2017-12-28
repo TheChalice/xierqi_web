@@ -456,42 +456,27 @@ define([
                         }]
                     }
                 })
-                .state('console.service_detail', {
-                    url: '/service/:name',
-                    params: {
-                        from: null
-                    },
-                    templateUrl: 'views/service_detail/service_detail.html',
-                    controller: 'ServiceDetailCtrl',
+                .state('console.route_detail', {
+                    url: '/route/:name',
+                    templateUrl: 'views/route_details/route_details.html',
+                    controller: 'RouteDetailCtrl',
                     resolve: {
                         dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/service_detail/service_detail.js'])
-                        }]
+                            return $ocLazyLoad.load(['views/route_details/route_details.js'])
+                        }],
+                        routeDetails: ['Route', 'Cookie', '$stateParams',
+                            function(Route, Cookie, $stateParams) {
+                                return Route.get({ namespace: Cookie.get('namespace'), name: $stateParams.name }).$promise
+                            }
+                        ],
+                        services: ['Service', 'Cookie', '$stateParams',
+                            function(Service, Cookie, $stateParams) {
+                                return Service.get({ namespace: Cookie.get('namespace') }).$promise
+                            }
+                        ]
                     }
                 })
-
-            .state('console.route_detail', {
-                url: '/route/:name',
-                templateUrl: 'views/services_detail/route_detail.html',
-                controller: 'RouteDetailCtrl',
-                resolve: {
-                    dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                        return $ocLazyLoad.load(['views/services_detail/route_detail.js'])
-                    }],
-                    routeDetails: ['Route', 'Cookie', '$stateParams',
-                        function(Route, Cookie, $stateParams) {
-                            return Route.get({ namespace: Cookie.get('namespace'), name: $stateParams.name }).$promise
-                        }
-                    ],
-                    services: ['Service', 'Cookie', '$stateParams',
-                        function(Service, Cookie, $stateParams) {
-                            return Service.get({ namespace: Cookie.get('namespace') }).$promise
-                        }
-                    ]
-                }
-            })
-
-            .state('console.deployments_detail', {
+                .state('console.deployments_detail', {
                     url: '/deployments/:name',
                     params: {
                         from: null
@@ -515,16 +500,16 @@ define([
                         }]
                     }
                 })
-                .state('console.services_detail', {
-                    url: '/services/:name',
+                .state('console.service_details', {
+                    url: '/service/:name',
                     params: {
                         from: null
                     },
-                    templateUrl: 'views/services_detail/services_detail.html',
+                    templateUrl: 'views/service_details/service_details.html',
                     controller: 'ServicesDetailCtrl',
                     resolve: {
                         dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/services_detail/services_detail.js'])
+                            return $ocLazyLoad.load(['views/service_details/service_details.js'])
                         }],
                         routes: ['Route', 'Cookie',
                             function(Route, Cookie) {

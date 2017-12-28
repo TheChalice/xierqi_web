@@ -1,15 +1,16 @@
 'use strict';
-angular.module('console.services.detail', [
+angular.module('console.services', [
         'kubernetesUI',
         {
             files: [
-                'views/service_detail/service_detail.css',
+                'views/service_details/service_details.css',
                 'components/datepick/datepick.js',
                 'components/checkbox/checkbox.js'
             ]
         }
     ])
     .controller('ServicesDetailCtrl', [
-        function () {
+        function() {
 
-        }]);
+        }
+    ]);
