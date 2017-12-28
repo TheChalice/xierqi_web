@@ -12,7 +12,9 @@
             <!--ng-class="{'btn-orange':dianl, 'btn-disabled': dianbl}"-->
             <!--ng-click="frm.$valid && create()">开始构建</a>-->
             <a class="btn pull-right btn-green"
-               ng-click="updateDc()">部署</a>
+               ng-click="deployDc()">更新部署</a>
+            <a class="btn pull-right btn-orange" style="margin-right: 20px;"
+               ng-click="updateDc()">保存修改</a>
             <!--<a class="btn pull-right"-->
             <!--ng-show="dc.state != 'normal'"-->
             <!--ng-class="{'btn-green':startBtn.dianl, 'btn-orange': startBtn.dianlz}"-->
@@ -79,12 +81,6 @@
             </uib-tab-heading>
             <deployments-config></deployments-config>
         </uib-tab>
-        <!--<uib-tab index="3">-->
-            <!--<uib-tab-heading>-->
-                <!--<i class="faa faa-jia-target"></i>环境变量-->
-            <!--</uib-tab-heading>-->
-            <!--<deployments-env></deployments-env>-->
-        <!--</uib-tab>-->
         <uib-tab index="3">
             <uib-tab-heading>
                 <i class="faa ser-jia-edit"></i> 部署事件
