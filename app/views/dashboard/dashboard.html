@@ -48,28 +48,29 @@
                 <h2>资源统计</h2>
                 <hr class="firstline_hr" style=""/>
                 <div class="row">
-                    <div class="col-md-1-5 p0">
+                    <div class="col-md-4 p0">
+                        <div class="center-block highbox-wrop">
+                            <highchart ng-show="isdata.CpuorMem" config="usage_rate"></highchart>
+                        </div>
 
-                        <highchart ng-show="isdata.CpuorMem" config="usage_rate"></highchart>
                     </div>
-                    <div class="col-md-1-5 p0" >
+                    <div class="col-md-4 p0" >
+                        <div class="center-block highbox-wrop">
                         <highchart ng-show="isdata.CpuorMem" config="usage"></highchart>
+                        </div>
                     </div>
-                    <div class="col-md-1-5 p0" >
-                        <highchart ng-show="isdata.CpuorMem" config="rx_rate"></highchart>
-                    </div>
-                    <div class="col-md-1-5 p0" >
-                        <highchart ng-show="isdata.CpuorMem" config="tx_rate"></highchart>
-                    </div>
-                    <div class="col-md-1-5 p0" ng-mouseover="hover = true" ng-mouseleave="hover = false">
-                        <div class="alert-box" ng-show = "hover"> tx_rate:{{newpiedata.tx_rate.use}} {{newpiedata.tx_rate.unit}}
-                                                  rx_rate:{{newpiedata.rx_rate.use}} {{newpiedata.rx_rate.unit}}</div>
+
+                    <div class="col-md-4 p0" ng-mouseover="hover = true" ng-mouseleave="hover = false">
+                        <div class="center-block highbox-wrop">
+                        <div class="alert-box" ng-show = "hover"> Sent:{{newpiedata.tx_rate.use}} {{newpiedata.tx_rate.unit}}<br/>
+                            Received:{{newpiedata.rx_rate.use}} {{newpiedata.rx_rate.unit}}</div>
                         <highchart ng-show="isdata.CpuorMem" config="network"></highchart>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="secondline bg-color" style="" ng-show="isdata.charts">
+        <div class="secondline bg-color col-md-12 block firstline_Resources">
             <h2 class="secondline_h2" style="">资源监测</h2>
             <hr class="secondline_hr" style=""/>
             <div class="firstline_tr" style="">

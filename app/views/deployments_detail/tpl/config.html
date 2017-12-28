@@ -74,22 +74,22 @@
             <!--&nbsp;&nbsp;配置变化触发自动部署-->
         </div>
     </div>
-    <div class="continerboxs">
+    <div class="continerboxs" style="width: 70%;">
         <h3>镜像信息</h3>
 
-        <div class="container-fluid container-bar" ng-repeat="container in dc.spec.template.spec.containers">
+        <div class="container-fluid container-bar" ng-repeat="container in dc.spec.template.spec.containers" ng-init="outerIndex = $index">
             <div class="text-right">
                 <a class="fa fa-lg fa-times-circle" style="color: #9fa7b7;" ng-click="rmContainer($index)"
                    uib-tooltip="删除"
                    href="javascript:;"></a>
             </div>
             <div class="text-left">
-                <label ng-class="{'active': container.display}" ng-click="container.display=!container.display"
+                <label ng-class="{'active': container.display}" ng-click="checkoutreg(container,true)"
                        style="cursor: pointer;">
                     <i class="faa faa-check"></i>
                     &nbsp;&nbsp;私有
                 </label>
-                <label ng-class="{'active': !container.display}" ng-click="container.display=!container.display"
+                <label ng-class="{'active': !container.display}" ng-click="checkoutreg(container,false)"
                        style="cursor: pointer;">
                     <i class="faa faa-check"></i>
                     &nbsp;&nbsp;公有
@@ -97,15 +97,15 @@
             </div>
 
 
-            <div class="row col-md-12">
+            <div class="row col-md-12" ng-show="container.display">
                 <div class="dropdown dropdown-select" style="width:156px;height: 32px;">
                     <button class="btn dropdown-toggle" data-toggle="dropdown">
                         <span>{{container.annotate.image}}</span>
                         <span class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu" style="max-height: 250px;overflow-y:scroll;">
+                    <ul class="dropdown-menu" style="max-height: 250px;overflow-y:scroll;min-width: 156px;border-color: #c9c9c9">
                         <li ng-repeat="(i,item) in container.annotate.images" ng-click="selectimage(i,item,container)">
-                            <a>{{i}}</a>
+                            <span class="dropdown-menu-span">{{i}}</span>
                         </li>
                     </ul>
                 </div>
@@ -114,12 +114,17 @@
                         <span>{{container.annotate.tag}}</span>
                         <span class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu" style="max-height: 250px;overflow-y:scroll;min-width: 156px;border-color: #c9c9c9">
                         <li ng-repeat="tag in container.annotate.tags" ng-click="selecttag($index,container)">
-                            <a>{{tag.tag}}</a>
+                            <span class="dropdown-menu-span">{{tag.tag}}</span>
                         </li>
                     </ul>
                 </div>
+            </div>
+            <div class="row col-md-12" ng-show="!container.display">
+                <input type="text" name="serviceName" ng-model="container.annotate.regimage"
+                       class="form-control input-block foucsinput"
+                       name="name" class="form-control">
             </div>
             <!--<div class="row col-md-12" style="margin: 30px 0;padding: 0;">-->
             <!--<i class="faa faa-check"></i>-->
@@ -129,12 +134,12 @@
             <!--<i class="fa fa-plus-circle fa-lg"></i>-->
             <!--&nbsp;&nbsp;配置变化触发自动部署-->
             <!--</div>-->
-            <div class="col-md-12" style="padding-top: 10px;">
+            <div class="col-md-12" style="padding-top: 10px;padding-left: 0px;">
                 <h3>可用性探测</h3>
                 <div>
                    <span class="my-checkbox">
                     <span class="checkbox-check" ng-class="{active: container.doset}"
-                          ng-click="survey($index)">
+                          ng-click="survey(outerIndex)">
                                             <span class="check-btn"></span>
                                         </span>
                 </span>
@@ -276,6 +281,58 @@
                     </div>
                 </div>
 
+
+            </div>
+            <div class="col-md-12" style="padding-top: 10px;padding-left: 0px;">
+                <h3>环境变量</h3>
+                <div>
+                   <span class="my-checkbox">
+                    <span class="checkbox-check" ng-class="{active: container.annotate.isShowEnv}"
+                          ng-click="showEnv(outerIndex)">
+                                            <span class="check-btn"></span>
+                                        </span>
+                </span>
+                </div>
+                <div ng-if="container.annotate.isShowEnv" style="margin-top:20px;" class="row">
+                    <div class="service-ctrl" style="">
+                        <div class="row" ng-if="container.env.length > 0" ng-repeat="env in container.env" ng-init="innerIndex = $index" style="margin: 30px 0;">
+                            <div class="col-md-5">
+                                <span>键</span>
+                                <input type="text" ng-model="env.name" style="width:90%;height: 32px;">
+                            </div>
+                            <div class="col-md-5">
+                                <span>值</span>
+                                <input type="text" ng-model="env.value" style="width:90%;height: 32px;">
+                            </div>
+                            <div class="col-sm-2">
+                                <a href="javascript:;" style='color: #9fa7b7; height: 32px;line-height:32px;' ng-click="delcontainerEnv(outerIndex,innerIndex)"
+                                   class="fa fa-lg fa-times-circle">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row col-md-12" ng-click="addContainerEnv(outerIndex)" style="margin:0 0 20px 0;">
+                            <i class="fa fa-plus-circle fa-lg"></i>
+                            &nbsp;&nbsp;创建环境变量
+                        </div>
+                        <style>
+                            .hhh .sss:last-child {
+                                border-bottom:none;
+                            }
+                            .sss{
+
+                                height: 40px;line-height: 40px;
+                                padding-right: 0; padding-left: 0px;padding-bottom: 0px; border-bottom: 1px solid #e6e9f2;
+                            }
+                            .rongqi li {
+                                text-align: center;
+                            }
+                            .col_md_5_margin{
+                                margin-right:-90px;
+                            }
+                        </style>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>

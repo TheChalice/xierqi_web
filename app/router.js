@@ -387,6 +387,16 @@ define([
                         }]
                     }
                 })
+                .state('console.stateful-sets-detail', {
+                    url: '/stateful-sets-detail',
+                    templateUrl: 'views/apps/stateful-sets-detail/stateful-sets-detail.html',
+                    controller: 'Stateful-setsDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/apps/stateful-sets-detail/stateful-sets-detail.js', 'views/apps/apps.css'])
+                        }]
+                    }
+                })
                 .state('console.pods', {
                     url: '/pods',
                     templateUrl: 'views/apps/pods/pods.html',

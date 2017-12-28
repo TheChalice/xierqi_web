@@ -168,7 +168,6 @@ define(['angular', 'moment'], function(angular, moment) {
                 return filtered;
 
 
-
             };
         })
         .filter('payFilter', [function() {
@@ -264,10 +263,8 @@ define(['angular', 'moment'], function(angular, moment) {
                 if (!image) {
                     return "";
                 }
-
                 var match = image.match(/\/([^/]*)@sha256/);
                 if (!match) {
-
                     //return image
                     var tag = image.split(':')[image.split(':').length - 1];
                     var imagename = image.split(':' + tag)[0];
@@ -284,7 +281,6 @@ define(['angular', 'moment'], function(angular, moment) {
                 }
                 var images = image.split("@");
                 return images[0]
-
             };
         })
         .filter("stripSHAPrefix", function() {
@@ -296,7 +292,6 @@ define(['angular', 'moment'], function(angular, moment) {
                 if (!/sha256:/.test(id)) {
                     return ""
                 }
-
                 return id.replace(/.*sha256:/, "");
             };
         })
@@ -314,15 +309,13 @@ define(['angular', 'moment'], function(angular, moment) {
                 }
             }
         })
-        .filter('isWebRoute', function(routeHostFilter) {
-
+        .filter('isWebRoute', ["routeHostFilter", function(routeHostFilter) {
             return function(route) {
                 return !!routeHostFilter(route, true) &&
                     _.get(route, 'spec.wildcardPolicy') !== 'Subdomain';
             };
-        })
-        .filter('routeWebURL', function(routeHostFilter) {
-
+        }])
+        .filter('routeWebURL', ["routeHostFilter", function(routeHostFilter) {
             return function(route, host, omitPath) {
                 var scheme = (route.spec.tls && route.spec.tls.tlsTerminationType !== "") ? "https" : "http";
                 var url = scheme + "://" + (host || routeHostFilter(route));
@@ -331,7 +324,7 @@ define(['angular', 'moment'], function(angular, moment) {
                 }
                 return url;
             };
-        })
+        }])
         .filter('routeTargetPortMapping', function() {
             var portDisplayValue = function(servicePort, containerPort, protocol) {
                 servicePort = servicePort || "<unknown>";
@@ -388,38 +381,39 @@ define(['angular', 'moment'], function(angular, moment) {
                 return portDisplayValue(servicePort(targetPort, service).port, servicePort(targetPort, service).targetPort, servicePort(targetPort, service).protocol);
             };
         })
-        // .filter('routeLabel', function(RoutesService, routeHostFilter, routeWebURLFilter, isWebRouteFilter) {
-        .filter('routeLabel', function(routeHostFilter, routeWebURLFilter, isWebRouteFilter) {
-            return function(route, host, omitPath) {
+        .filter('routeLabel', ["routeHostFilter", "routeWebURLFilter", "isWebRouteFilter",
+            function(routeHostFilter, routeWebURLFilter, isWebRouteFilter) {
+                return function(route, host, omitPath) {
 
-                if (isWebRouteFilter(route)) {
-                    return routeWebURLFilter(route, host, omitPath);
-                }
+                    if (isWebRouteFilter(route)) {
+                        return routeWebURLFilter(route, host, omitPath);
+                    }
 
-                var label = (host || routeHostFilter(route));
-                if (!label) {
-                    return '<unknown host>';
-                }
+                    var label = (host || routeHostFilter(route));
+                    if (!label) {
+                        return '<unknown host>';
+                    }
 
-                var getSubdomain = function(route) {
-                    var hostname = _.get(route, 'spec.host', '');
-                    return hostname.replace(/^[a-z0-9]([-a-z0-9]*[a-z0-9])\./, '');
-                };
+                    var getSubdomain = function(route) {
+                        var hostname = _.get(route, 'spec.host', '');
+                        return hostname.replace(/^[a-z0-9]([-a-z0-9]*[a-z0-9])\./, '');
+                    };
 
-                if (_.get(route, 'spec.wildcardPolicy') === 'Subdomain') {
-                    label = '*.' + getSubdomain(route); //RoutesService.getSubdomain(route);
-                }
+                    if (_.get(route, 'spec.wildcardPolicy') === 'Subdomain') {
+                        label = '*.' + getSubdomain(route); //RoutesService.getSubdomain(route);
+                    }
 
-                if (omitPath) {
+                    if (omitPath) {
+                        return label;
+                    }
+
+                    if (route.spec.path) {
+                        label += route.spec.path;
+                    }
                     return label;
-                }
-
-                if (route.spec.path) {
-                    label += route.spec.path;
-                }
-                return label;
-            };
-        })
+                };
+            }
+        ])
         .filter('routeHost', function() {
             return function(route, onlyAdmitted) {
                 if (!_.get(route, 'status.ingress')) {
@@ -525,20 +519,22 @@ define(['angular', 'moment'], function(angular, moment) {
                 return !!annotationFilter(deployment, 'deploymentConfig');
             };
         }])
-        .filter('deploymentStatus', function(annotationFilter, hasDeploymentConfigFilter) {
-            return function(deployment) {
+        .filter('deploymentStatus', ["annotationFilter", "hasDeploymentConfigFilter",
+            function(annotationFilter, hasDeploymentConfigFilter) {
+                return function(deployment) {
 
-                if (annotationFilter(deployment, 'deploymentCancelled')) {
-                    return "Cancelled";
-                }
-                var status = annotationFilter(deployment, 'deploymentStatus');
-                // If it is just an RC (non-deployment) or it is a deployment with more than 0 replicas
-                if (!hasDeploymentConfigFilter(deployment) || status === "Complete" && deployment.spec.replicas > 0) {
-                    return "Active";
-                }
-                return status;
-            };
-        })
+                    if (annotationFilter(deployment, 'deploymentCancelled')) {
+                        return "Cancelled";
+                    }
+                    var status = annotationFilter(deployment, 'deploymentStatus');
+                    // If it is just an RC (non-deployment) or it is a deployment with more than 0 replicas
+                    if (!hasDeploymentConfigFilter(deployment) || status === "Complete" && deployment.spec.replicas > 0) {
+                        return "Active";
+                    }
+                    return status;
+                };
+            }
+        ])
         .filter('routeIngressCondition', function() {
             return function(ingress, type) {
                 if (!ingress) {
@@ -562,6 +558,7 @@ define(['angular', 'moment'], function(angular, moment) {
 
                 // Print detailed container reasons if available. Only the last will be
                 // displayed if multiple containers have this detail.
+                console.log('_', _);
                 angular.forEach(pod.status.containerStatuses, function(containerStatus) {
                     var containerReason = _.get(containerStatus, 'state.waiting.reason') || _.get(containerStatus, 'state.terminated.reason'),
                         signal,
@@ -594,9 +591,9 @@ define(['angular', 'moment'], function(angular, moment) {
                 return humanizedReason.replace("Back Off", "Back-off").replace("O Auth", "OAuth");
             };
         })
-        .filter('humanizePodStatus', function(humanizeReasonFilter) {
+        .filter('humanizePodStatus', ["humanizeReasonFilter", function(humanizeReasonFilter) {
             return humanizeReasonFilter;
-        })
+        }])
         .filter('numContainersReady', function() {
             return function(pod) {
                 var numReady = 0;
@@ -634,12 +631,12 @@ define(['angular', 'moment'], function(angular, moment) {
                 }
             };
         }])
-        .filter('isDebugPod', function(annotationFilter) {
+        .filter('isDebugPod', ["annotationFilter", function(annotationFilter) {
             return function(pod) {
                 return !!annotationFilter(pod, 'debug.openshift.io/source-resource');
             };
-        })
-        .filter('debugPodSourceName', function(annotationFilter) {
+        }])
+        .filter('debugPodSourceName', ["annotationFilter", function(annotationFilter) {
             return function(pod) {
                 var source = annotationFilter(pod, 'debug.openshift.io/source-resource');
                 if (!source) {
@@ -654,7 +651,7 @@ define(['angular', 'moment'], function(angular, moment) {
 
                 return parts[1];
             };
-        })
+        }])
         .filter("toArray", function() {
             return _.toArray;
         })

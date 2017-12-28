@@ -214,7 +214,7 @@ angular.module('console.dashboard', [
                     }],
                     size: {
                         height: 230,
-                        width: 950
+                        width: 880
                     },
                     func: function (chart) {
                         //setup some logic for the chart
@@ -367,7 +367,7 @@ angular.module('console.dashboard', [
                             text: ''
                         },
                         tooltip: {
-                            enabled: true
+                            enabled: false
                         },
                         credits: {
                             enabled: false
@@ -466,13 +466,14 @@ angular.module('console.dashboard', [
                     $scope.nettxdata = [];
                     $scope.netrxdata = [];
                     angular.forEach(networkrx, function (input, i) {
+                        //console.log(input.avg);
                         $scope.nettxdata.push(Math.round(input.avg * 100) / 100)
                     })
                     angular.forEach(networktx, function (input, i) {
                         $scope.netrxdata.push(Math.round(input.avg * 100) / 100)
                     })
 
-                    console.log('$scope.nettxdata', $scope.nettxdata);
+                    //console.log('$scope.nettxdata', $scope.nettxdata);
                     $scope.chartnetConfig = netChart();
                     //console.log('$scope.netrxdata', $scope.netrxdata);
                 })
@@ -484,7 +485,7 @@ angular.module('console.dashboard', [
             }, function (res) {
                 // $log.info('metrics cpu all', res);
                 $scope.cpuData = prepareData('CPU', res);
-                console.log('$scope.cpuData', $scope.cpuData);
+                //console.log('$scope.cpuData', $scope.cpuData);
                 angular.forEach($scope.cpuData, function (item, i) {
 
 
@@ -505,7 +506,7 @@ angular.module('console.dashboard', [
                         if (item == null) {
                             $scope.memData[i] = 0
                         } else {
-                            $scope.memData[i] = Math.round(item * 10000) / 10000
+                            $scope.memData[i] = Math.round(item/1024/1024 * 100) / 100
                         }
                     })
                     //$scope.memData
@@ -613,12 +614,10 @@ angular.module('console.dashboard', [
                             for (var w = 0; w < mem.length; w++) {
                                 memsun += mem[w]
                             }
-                            console.log(cpusun, memsun)
+                            //console.log(cpusun, memsun)
                             //alert(11)
                             if (cpusun || memsun) {
 
-                                // var cpunum = cpusun / cpu.length / 500 * 100 || 0;
-                                // var memnum = memsun / mem.length / 1000000 / 250 * 100 || 0
                                 var cpunum = cpusun / cpu.length || 0;
                                 var memnum = memsun / mem.length / 1000000 || 0
 
@@ -626,16 +625,6 @@ angular.module('console.dashboard', [
                                 memnum = toDecimal(memnum);
                                 memnum = Math.round(memnum * 100) / 100;
                                 cpunum = Math.round(cpunum * 100) / 100;
-                                //console.log(memnum);
-
-
-                                // console.log(cpunum,memnum);
-                                // $scope.pieConfigCpu = setPieChart('CPU', '500m', cpunum);
-                                // $scope.pieConfigMem = setPieChart('内存', '250Mi', memnum);
-                                //no quota.
-
-                                //$scope.pieConfigCpu = setPieChart('CPU', cpunum + '%', 0, false);
-                                //$scope.pieConfigMem = setPieChart('内存', memnum + 'MB', 0, false);
 
                                 $scope.chartConfig = setChart();
                                 //$scope.chartnetConfig = netChart();
@@ -646,7 +635,6 @@ angular.module('console.dashboard', [
                                 //$scope.pieConfigCpu = setPieChart('CPU', 'N/A', 0);
                                 //$scope.pieConfigMem = setPieChart('内存', 'N/A', 0);
                                 $scope.chartConfig = setChart();
-                                //$scope.chartnetConfig = netChart();
                                 $scope.isdata.CpuorMem = true;
                                 $scope.isdata.charts = true;
                             }

@@ -983,12 +983,10 @@ define([
             });
             return wechatid;
         }])
-        // .factory('appServices', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
-        //     var appServices = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/services/:name', {namespace: '@namespace',name: '@name'}, {
-        //         get: {method: 'GET'}
-        //     });
-        //     return appServices;
-        // }])
+        .factory('statefuldetail', ['$resource', 'GLOBAL', function($resource, GLOBAL) { //数据集成 公开数据集详情预览
+            var statefuldetail = $resource(GLOBAL.host_newk8s1 + '/namespaces/:username/statefulsets/:name', {namespaces:'@username',name:'@name'}, {});
+            return statefuldetail;
+        }])
 
 
 });

@@ -1,9 +1,9 @@
-FROM registry.dataos.io/guestbook/datafoundry-citic-base
+FROM registry.new.dataos.io/datafoundry/web-base
 
 # Copy code
-COPY . /datafoundry-citic
+COPY . /datafoundry
 
-WORKDIR /datafoundry-citic
+WORKDIR /datafoundry
 
 RUN bower install && npm install
 
@@ -13,7 +13,11 @@ RUN bower install && npm install
 # Set bower root allow
 
 RUN cp usr / -rf && rm usr -rf &&  \
-    ./release.sh
+    ./release.sh && \
+    npm uninstall bower -g && \
+    apk del git nodejs --purge && \
+    rm /root/.cache /root/.npm -rf && \
+    rm bower_components node_modules app conf -rf
 
 EXPOSE 80 
 
