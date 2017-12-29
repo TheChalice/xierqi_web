@@ -656,5 +656,21 @@ define(['angular', 'moment'], function (angular, moment) {
                 var ref = ns + objectRef.name;
                 return ref;
             };
-        });
+        })
+        .filter('deploymentStatus', ['annotationFilter','hasDeploymentConfigFilter',function(annotationFilter, hasDeploymentConfigFilter) {
+            return function(deployment) {
+                //console.log('deployment', deployment);
+                // We should show Cancelled as an actual status instead of showing Failed
+                //console.log('annotationFilter', annotationFilter);
+                if (annotationFilter(deployment, 'deploymentCancelled')) {
+                    return "Cancelled";
+                }
+                var status = annotationFilter(deployment, 'deploymentStatus');
+                // If it is just an RC (non-deployment) or it is a deployment with more than 0 replicas
+                if (!hasDeploymentConfigFilter(deployment) || status === "Complete" && deployment.spec.replicas > 0) {
+                    return "Active";
+                }
+                return status;
+            };
+        }])
 });
