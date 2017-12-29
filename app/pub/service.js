@@ -1483,7 +1483,7 @@ define(['angular'], function (angular) {
                 if (lastValue > point.value) {
                     return null;
                 }
-                console.log('lastValuelastValuelastValue',lastValue);
+                //console.log('lastValuelastValuelastValue',lastValue);
                 var timeInMillis = point.end - point.start;
                 var usageInMillis = (point.value - lastValue) / 1000000;
                 return (usageInMillis / timeInMillis) * 1000;
@@ -1781,5 +1781,36 @@ define(['angular'], function (angular) {
                     return $q.reject(response);
                 }
             };
-        }]);
+        }])
+        .factory("ConversionService", function() {
+            var bytesToMiB = function(value) {
+                if (!value) {
+                    return value;
+                }
+
+                return value / (1024 * 1024);
+            };
+
+            var bytesToKiB = function(value) {
+                if (!value) {
+                    return value;
+                }
+
+                return value / 1024;
+            };
+
+            var millicoresToCores = function(value) {
+                if (!value) {
+                    return value;
+                }
+
+                return value / 1000;
+            };
+
+            return {
+                bytesToMiB: bytesToMiB,
+                bytesToKiB: bytesToKiB,
+                millicoresToCores: millicoresToCores
+            };
+        });
 });

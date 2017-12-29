@@ -77,13 +77,14 @@
     <div class="continerboxs" style="width: 70%;">
         <h3>镜像信息</h3>
 
-        <div class="container-fluid container-bar" ng-repeat="container in dc.spec.template.spec.containers" ng-init="outerIndex = $index">
+        <div class="container-fluid container-bar" ng-repeat="container in dc.spec.template.spec.containers"
+             ng-init="outerIndex = $index">
             <div class="text-right">
                 <a class="fa fa-lg fa-times-circle" style="color: #9fa7b7;" ng-click="rmContainer($index)"
                    uib-tooltip="删除"
                    href="javascript:;"></a>
             </div>
-            <div class="text-left">
+            <div class="text-left" style="padding-left: 20px;">
                 <label ng-class="{'active': container.display}" ng-click="checkoutreg(container,true)"
                        style="cursor: pointer;">
                     <i class="faa faa-check"></i>
@@ -98,13 +99,15 @@
 
 
             <div class="row col-md-12" ng-show="container.display">
-                <div class="dropdown dropdown-select" style="width:156px;height: 32px;">
+                <div class="dropdown dropdown-select" style="width:210px;height: 32px;">
                     <button class="btn dropdown-toggle" data-toggle="dropdown">
                         <span>{{container.annotate.image}}</span>
                         <span class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu" style="max-height: 250px;overflow-y:scroll;min-width: 156px;border-color: #c9c9c9">
-                        <li ng-repeat="(i,item) in container.annotate.images" ng-click="selectimage(i,item,container)">
+                    <ul class="dropdown-menu"
+                        style="max-height: 250px;overflow-y:scroll;min-width: 156px;border-color: #c9c9c9">
+                        <li ng-repeat="(i,item) in container.annotate.images" style="height: 34px;font-size: 12px;"
+                            ng-click="selectimage(i,item,container)">
                             <span class="dropdown-menu-span">{{i}}</span>
                         </li>
                     </ul>
@@ -114,14 +117,16 @@
                         <span>{{container.annotate.tag}}</span>
                         <span class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu" style="max-height: 250px;overflow-y:scroll;min-width: 156px;border-color: #c9c9c9">
-                        <li ng-repeat="tag in container.annotate.tags" ng-click="selecttag($index,container)">
+                    <ul class="dropdown-menu"
+                        style="max-height: 250px;overflow-y:scroll;min-width: 156px;border-color: #c9c9c9">
+                        <li ng-repeat="tag in container.annotate.tags" style="height: 34px;font-size: 12px;"
+                            ng-click="selecttag($index,container)">
                             <span class="dropdown-menu-span">{{tag.tag}}</span>
                         </li>
                     </ul>
                 </div>
             </div>
-            <div class="row col-md-12" ng-show="!container.display">
+            <div class="row col-md-11" style="padding-right: 0;padding-left: 35px;" ng-show="!container.display">
                 <input type="text" name="serviceName" ng-model="container.annotate.regimage"
                        class="form-control input-block foucsinput"
                        name="name" class="form-control">
@@ -134,7 +139,7 @@
             <!--<i class="fa fa-plus-circle fa-lg"></i>-->
             <!--&nbsp;&nbsp;配置变化触发自动部署-->
             <!--</div>-->
-            <div class="col-md-12" style="padding-top: 10px;padding-left: 0px;">
+            <div class="col-md-12" style="padding-top: 10px;padding-left: 20px;">
                 <h3>可用性探测</h3>
                 <div>
                    <span class="my-checkbox">
@@ -145,7 +150,7 @@
                 </span>
                 </div>
                 <div ng-if="container.doset" style="margin-top:20px;" class="row">
-                    <div class="col-md-12 mt10">
+                    <div class="col-md-12 mt10" style="padding-left: 0;">
                         <div>
                             <br/>
                             <label style="font-size: 14px; font-weight: normal;">类型&nbsp;&nbsp;&nbsp;&nbsp;</label>
@@ -175,10 +180,10 @@
                         </div>
                     </div>
                     <div class="dohttp" ng-if="container.dosetcon === 'HTTP'">
-                        <div class="col-md-12 mt10">
+                        <div class="col-md-12 mt10" style="padding-left: 0;">
                             <div>
                                 <br/>
-                                <label style="font-size: 14px; font-weight: normal;">路径&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <label style="font-size: 14px; font-weight: normal;padding-left: 0;">路径&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                 <br/>
                                 <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
                                     <input type="text" name="candopath"
@@ -190,87 +195,67 @@
                                 <br>
                             </div>
                         </div>
-                        <div class="col-md-12 mt10">
+                        <div class="col-md-12 mt10" style="padding-left: 0;">
                             <div>
                                 <br/>
                                 <label style="font-size: 14px; font-weight: normal;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                 <br/>
-                                <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
-                                    <!--<input type="number" name="candoport"-->
-                                    <!--class="form-control" style="font-size: 12px;"-->
-                                    <!--ng-model="container.readinessProbe.httpGet.port"-->
-                                    <!--required-->
-                                    <!--placeholder="1"/>-->
-                                    <div class="dropdown dropdown-select" style="width: 100%;">
-                                        <button class="btn dropdown-toggle" data-toggle="dropdown">
-                                            <span>{{container.readinessProbe.httpGet.port || "请选择端口"}}</span>
-                                            <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li ng-repeat="port in portsArr">
-                                                <a href="javascript:;"
-                                                   ng-click="container.readinessProbe.httpGet.port = port.containerPort">{{port.containerPort}}</a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                <div class="col-md-11" style="padding-left: 0;">
+                                    <input type="text" name="candopath"
+                                           class="form-control" style="font-size: 12px;"
+                                           ng-model="container.readinessProbe.httpGet.port"
+                                           min="0"
+                                           max="65535"
+                                           ng-pattern="/^\d+$/"
+                                           required
+                                           placeholder=""/>
                                 </div>
                                 <br>
                             </div>
                         </div>
                     </div>
-                    <div class="dohttp" ng-if="container.dosetcon === '命令'">
-                        <div class="col-md-12 mt10">
-                            <div class="commandwrop">
+                    <div class="dohttp" ng-show="container.dosetcon === '命令'">
+                        <div class="col-md-11 mt10" style="padding-left: 0;padding-right: 30px;">
+                            <div>
                                 <br/>
                                 <label style="font-size: 14px; font-weight: normal;">命令&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                 <br/>
                                 <div class="row"
                                      ng-repeat="com in container.readinessProbe.exec.command track by $index"
                                      ng-init="innerindex=$index">
-                                    <div class="col-md-11" style="padding-top: 5px;">
+                                    <div class="col-md-12" style="padding-top: 5px;">
                                         <input type="text" name="candoname"
                                                class="form-control" style="font-size: 12px;"
                                                ng-model=com.key
                                                required
-                                               ng-keypress="($event.which === 13)?addexec(outindex,innerindex,$event):0"
                                                placeholder="1"/>
 
                                     </div>
-                                    <div class="col-md-1" style="height: 39px;line-height: 39px;padding:0px;">
-                                        <i class="fa fa-lg" style="cursor: pointer"
-                                           ng-click="innerindex==0?addexec(outindex,innerindex,$event):deleexec(outindex,innerindex)"
-                                           ng-class="{'fa-times-circle':!$first, 'fa-plus-circle':$first}"></i>
-                                    </div>
+                                    <!--<div class="col-md-1" style="height: 39px;line-height: 39px;padding:0px;">-->
+                                        <!--<i class="fa fa-lg" style="cursor: pointer"-->
+                                           <!--ng-click="innerindex==0?addexec(outindex,innerindex,$event):deleexec(outindex,innerindex)"-->
+                                           <!--ng-class="{'fa-times-circle':!$first, 'fa-plus-circle':$first}"></i>-->
+                                    <!--</div>-->
                                 </div>
                                 <br>
                             </div>
                         </div>
                     </div>
                     <div class="dohttp" ng-if="container.dosetcon === 'TCP'">
-                        <div class="col-md-12 mt10">
+                        <div class="col-md-12 mt10" style="padding-left: 0;">
                             <div>
                                 <br/>
-                                <label style="font-size: 14px; font-weight: normal;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <label style="font-size: 14px; font-weight: normal;padding-left: 0;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                 <br/>
-                                <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
-                                    <!--<input type="number" name="candoname"-->
-                                    <!--class="form-control" style="font-size: 12px;"-->
-                                    <!--ng-model="container.readinessProbe.tcpSocket.port"-->
-                                    <!--required-->
-                                    <!--placeholder="1"/>-->
-                                    <div class="dropdown dropdown-select" style="width: 100%;">
-                                        <button class="btn dropdown-toggle" data-toggle="dropdown">
-                                            <span>{{container.readinessProbe.tcpSocket.port || "请选择端口"}}</span>
-                                            <span class="caret"></span>
-                                        </button>
-                                        <ul class="dropdown-menu">
-                                            <li ng-repeat="port in portsArr">
-                                                <a href="javascript:;"
-                                                   ng-click="container.readinessProbe.tcpSocket.port = port.containerPort">{{port.containerPort}}</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-
+                                <div class="col-md-11"  style="padding-left: 0;">
+                                    <input type="text" name="candopath"
+                                           class="form-control" style="font-size: 12px;"
+                                           ng-model="container.readinessProbe.tcpSocket.port"
+                                           min="0"
+                                           max="65535"
+                                           ng-pattern="/^\d+$/"
+                                           required
+                                           placeholder=""/>
                                 </div>
 
 
@@ -283,19 +268,18 @@
 
 
             </div>
-            <div class="col-md-12" style="padding-top: 10px;padding-left: 0px;">
-                <h3>环境变量</h3>
-                <div>
-                   <span class="my-checkbox">
-                    <span class="checkbox-check" ng-class="{active: container.annotate.isShowEnv}"
-                          ng-click="showEnv(outerIndex)">
-                                            <span class="check-btn"></span>
-                                        </span>
-                </span>
-                </div>
+            <div class="col-md-12" style="padding-top: 10px;padding-left: 20px;">
+                <h3>环境变量
+                    <span style="font-size: 14px;font-weight: 300; cursor: pointer; color: orange;margin-left: 10px;" ng-click="container.annotate.isShowEnv=!container.annotate.isShowEnv">
+                    <i style="font-style: normal;" ng-show="!container.annotate.isShowEnv">Show</i>
+                    <i style="font-style: normal;" ng-show="container.annotate.isShowEnv">Hide</i>
+                    </span>
+                </h3>
+
                 <div ng-if="container.annotate.isShowEnv" style="margin-top:20px;" class="row">
                     <div class="service-ctrl" style="">
-                        <div class="row" ng-if="container.env.length > 0" ng-repeat="env in container.env" ng-init="innerIndex = $index" style="margin: 30px 0;">
+                        <div class="row" ng-if="container.env.length > 0" ng-repeat="env in container.env"
+                             ng-init="innerIndex = $index" style="margin: 30px 0;">
                             <div class="col-md-5">
                                 <span>键</span>
                                 <input type="text" ng-model="env.name" style="width:90%;height: 32px;">
@@ -305,15 +289,22 @@
                                 <input type="text" ng-model="env.value" style="width:90%;height: 32px;">
                             </div>
                             <div class="col-sm-2">
-                                <a href="javascript:;" style='color: #9fa7b7; height: 32px;line-height:32px;' ng-click="delcontainerEnv(outerIndex,innerIndex)"
+                                <a href="javascript:;" style='color: #9fa7b7; height: 32px;line-height:32px;'
+                                   ng-click="delcontainerEnv(outerIndex,innerIndex)"
                                    class="fa fa-lg fa-times-circle">
                                 </a>
                             </div>
                         </div>
                         <div class="row col-md-12" ng-click="addContainerEnv(outerIndex)" style="margin:0 0 20px 0;cursor: pointer;">
                             <i class="fa fa-plus-circle fa-lg"></i>
-                            &nbsp;&nbsp;创建环境变量
+                            &nbsp;&nbsp;增加环境变量
                         </div>
+                        <style>
+                            .hhh .sss:last-child {
+                                border-bottom: none;
+                            }
+
+                            .sss {
 
 
 
@@ -337,6 +328,23 @@
     }
     .sss{
 
+                                height: 40px;
+                                line-height: 40px;
+                                padding-right: 0;
+                                padding-left: 0px;
+                                padding-bottom: 0px;
+                                border-bottom: 1px solid #e6e9f2;
+                            }
+
+                            .rongqi li {
+                                text-align: center;
+                            }
+
+                            .col_md_5_margin {
+                                margin-right: -90px;
+                            }
+                        </style>
+                    </div>
         height: 40px;line-height: 40px;
         padding-right: 0; padding-left: 0px;padding-bottom: 0px; border-bottom: 1px solid #e6e9f2;
     }
