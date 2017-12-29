@@ -1311,7 +1311,7 @@ a {
 
 .foucsinput:focus {
     /*-webkit-transition:border linear .2s,-webkit-box-shadow linear .5s;*/
-    border-color: #f00;
+    /*border-color: #f00;*/
     -webkit-box-shadow: 0 0 1px #f6a540;
 }
 
