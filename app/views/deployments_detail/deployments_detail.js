@@ -122,6 +122,31 @@ angular.module('console.deployments.detail', [
                 });
             }
             $scope.updateDc = function () {
+                angular.forEach($scope.dc.spec.template.spec.containers, function (con,i) {
+                    console.log(con.dosetcon.doset);
+                    if (con.doset) {
+
+                        if (con.readinessProbe.httpGet) {
+                            con.readinessProbe.httpGet.port = parseInt(con.readinessProbe.httpGet.port)
+
+                        } else if (con.readinessProbe.tcpSocket) {
+                            con.readinessProbe.tcpSocket.port = parseInt(con.readinessProbe.tcpSocket.port)
+
+                        }
+                        console.log('con', con);
+                        if (con.readinessProbe && con.dosetcon === '命令' && con.readinessProbe.exec) {
+                            console.log('con.readinessProbe.exec.command', con.readinessProbe.exec.command);
+                            angular.forEach(con.readinessProbe.exec.command, function (item, k) {
+                                console.log(item.key);
+                                con.readinessProbe.exec.command[k] = item.key
+
+                            })
+                        }
+                        con.readinessProbe.initialDelaySeconds = parseInt(con.readinessProbe.initialDelaySeconds)
+                        con.readinessProbe.timeoutSeconds = parseInt(con.readinessProbe.timeoutSeconds)
+                    }
+                })
+
                 DeploymentConfig.get({
                     namespace: $rootScope.namespace,
                     name: $stateParams.name,
@@ -306,7 +331,7 @@ angular.module('console.deployments.detail', [
                                 }
                                 con.display = false;
                             }
-                            console.log('con.readinessProbe',con.readinessProbe);
+                            //console.log('con.readinessProbe',con.readinessProbe);
                             if (con.readinessProbe) {
                                 con.doset = true;
                                 if (con.readinessProbe.httpGet) {
@@ -314,7 +339,7 @@ angular.module('console.deployments.detail', [
                                 } else if (con.readinessProbe.tcpSocket) {
                                     con.dosetcon = 'TCP'
                                 } else if (con.readinessProbe.exec) {
-                                    console.log(con.readinessProbe.exec);
+                                    //console.log(con.readinessProbe.exec);
                                     var copyexec = angular.copy(con.readinessProbe.exec.command)
                                     angular.forEach(copyexec, function (exec, k) {
                                         con.readinessProbe.exec.command[k] = {key: exec};
