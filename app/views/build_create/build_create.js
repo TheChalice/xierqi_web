@@ -36,6 +36,7 @@ angular.module('console.build_create_new', [
                             }
                         }
                     ],
+                    runPolicy: "Parallel",
                     source: {
                         type: 'Git',
                         git: {
