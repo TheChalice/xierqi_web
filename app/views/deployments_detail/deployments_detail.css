@@ -27,7 +27,9 @@
     border-radius: 2px;
     padding: 3px 15px;
 }
-
+.service-config .condigmaarginbottom {
+    margin-bottom: 30px;
+}
 .text-Succeeded {
     color: #55c45f;
 }

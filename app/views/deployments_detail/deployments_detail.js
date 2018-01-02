@@ -14,6 +14,7 @@ angular.module('console.deployments.detail', [
     .controller('DeploymentsDetailCtrl', ['$log','Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag',
         function ($log,Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag) {
             $scope.dc = angular.copy(mydc)
+            console.log('mydc', mydc);
             $scope.mytag = angular.copy(mytag)
             $scope.eventfifter='DeploymentConfig';
             $scope.envs = [];
@@ -21,7 +22,7 @@ angular.module('console.deployments.detail', [
             $scope.quota = {}
             $scope.imagedockermap = {}
             $scope.imagemap = {}
-            $scope.loaddirs={
+            $scope.loaddirs= {
                 loadcon:''
             }
             $scope.horiz = {
@@ -217,6 +218,11 @@ angular.module('console.deployments.detail', [
                             }
                         }
                     }
+                    $scope.rmContainer = function (idx) {
+                        $scope.dc.spec.template.spec.containers.splice(idx, 1);
+
+                    };
+
                     $scope.$watch('dc.spec.template.spec.containers', function (n, o) {
                         if (n == o) {
                             return;
@@ -285,7 +291,6 @@ angular.module('console.deployments.detail', [
                         $scope.dc.spec.template.spec.containers[outerIndex].env.push({name: '', value: ''});
                     }
                     $scope.selectimage = function (i, item, con) {
-                        console.log(i, item);
                         con.annotate.image = i
                         con.annotate.tag = item[0].tag
                         con.annotate.tags = item;
