@@ -77,7 +77,7 @@
                         {{pod | numContainersReady}}/{{pod.spec.containers.length}}
                     </td>
                     <td data-title="Restarts">{{pod | numContainerRestarts}}</td>
-                    <td data-title="Age"><span uib-tooltip="{{pod.metadata.creationTimestamp | timescon}}">{{pod.metadata.creationTimestamp  | dateRelative}}</span></td>
+                    <td data-title="Age"><span>{{pod.metadata.creationTimestamp  | dateRelative}}</span></td>
                 </tr>
                 <tr>
                     <td colspan="7" style="text-align: center;background: #fff;position:relative" ng-if="items.length===0">
