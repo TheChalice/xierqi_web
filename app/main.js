@@ -99,7 +99,7 @@ require.config({
     priority: [
         "angular"
     ],
-    waitSeconds:30,
+    waitSeconds:60,
     deps: window.__karma__ ? allTestFiles : [],
     callback: window.__karma__ ? window.__karma__.start : null,
 });
