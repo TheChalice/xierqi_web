@@ -558,7 +558,7 @@ define(['angular', 'moment'], function(angular, moment) {
 
                 // Print detailed container reasons if available. Only the last will be
                 // displayed if multiple containers have this detail.
-                console.log('_', _);
+
                 angular.forEach(pod.status.containerStatuses, function(containerStatus) {
                     var containerReason = _.get(containerStatus, 'state.waiting.reason') || _.get(containerStatus, 'state.terminated.reason'),
                         signal,
@@ -580,7 +580,6 @@ define(['angular', 'moment'], function(angular, moment) {
                         reason = "Exit Code: " + exitCode;
                     }
                 });
-                console.log('reason', reason)
                 return reason;
             };
         })
