@@ -65,7 +65,7 @@
                 </tr>
                 <tr ng-if="items.length>0" ng-repeat="dc in items">
                     <td data-title="Name" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
-                        <a class="href-orange" ui-sref="console.service_detail({name: dc.metadata.name})">
+                        <a class="href-orange" ui-sref="console.stateful-sets-detail({name: dc.metadata.name})">
                             {{dc.metadata.name}}
                         </a>
                     </td>
