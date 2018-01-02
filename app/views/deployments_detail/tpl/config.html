@@ -84,7 +84,7 @@
                    uib-tooltip="删除"
                    href="javascript:;"></a>
             </div>
-            <div class="text-left" style="padding-left: 20px;">
+            <div class="text-left" style="padding-left: 20px; margin-bottom: 20px;">
                 <label ng-class="{'active': container.display}" ng-click="checkoutreg(container,true)"
                        style="cursor: pointer;">
                     <i class="faa faa-check"></i>
@@ -131,17 +131,19 @@
                        class="form-control input-block foucsinput"
                        name="name" class="form-control">
             </div>
-            <div class="col-md-12" style="padding-top: 10px;padding-left: 20px;">
-                <h3>可用性探测</h3>
-                <div>
+            <div class="col-md-12" style="padding-top: 10px;padding-left: 20px;  margin-bottom: 20px;">
+                <div class="col-md-2 col-md-2_padding" style="margin-top: 8px;"> <h3 style="margin-bottom: 0;">可用性探测</h3></div>
+                <div class="col-md-10"><div>
                    <span class="my-checkbox">
                     <span class="checkbox-check" ng-class="{active: container.doset}"
                           ng-click="survey(outerIndex)">
                                             <span class="check-btn"></span>
                                         </span>
                 </span>
-                </div>
-                <div ng-if="container.doset" style="margin-top:20px;" class="row">
+                </div></div>
+                <!--<h3>可用性探测</h3>-->
+
+                <div ng-if="container.doset" class="row">
                     <div class="col-md-12 mt10" style="padding-left: 0;">
                         <div>
                             <br/>
