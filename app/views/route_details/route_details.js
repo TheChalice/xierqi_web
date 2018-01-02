@@ -25,17 +25,7 @@ angular.module('console.routes', [{
 
             }
             let deleteRoute = () => {
-                // Route.get({ namespace: $scope.namespace }, function(res) {
-                //     console.log("ROUTE get", res);
-                // })
-                Route.delete({ namespace: $scope.route.metadata.namespace, name: $scope.route.metadata.name, region: Cookie.get('region') },
-                    // res => {
-                    //     console.log("deletRoute-yes", res);
-                    // },
-                    // res => {
-                    //     console.log("deletRoute-no", res);
-                    // }
-                )
+                Route.delete({ namespace: $scope.route.metadata.namespace, name: $scope.route.metadata.name, region: Cookie.get('region') }, )
             }
             $scope.delete = () => {
                 if ($scope.route) {

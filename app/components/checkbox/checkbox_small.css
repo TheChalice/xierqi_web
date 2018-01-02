@@ -1,0 +1,36 @@
+.my-checkbox {
+    display: inline-block;
+}
+.my-checkbox .checkbox-check {
+    position: relative;
+    display: inline-block;
+    width: 34px;
+    height: 20px;
+    border-radius: 10px;
+    background: #dde0e9;
+    cursor: pointer;
+    vertical-align: middle;
+}
+.my-checkbox .checkbox-text {
+    vertical-align: middle;
+    font-size: 12px;
+    margin-left: 5px;
+}
+.my-checkbox .checkbox-check.active {
+    background: #7fd149;
+}
+.my-checkbox .checkbox-check .check-btn {
+    display: block;
+    width: 12px;
+    height: 12px;
+    border-radius: 6px;
+    background: #fff;
+    box-shadow: none;
+    position: absolute;
+    left: 4px;
+    top: 4px;
+    transition: left 0.2s;
+}
+.my-checkbox .checkbox-check.active .check-btn {
+    left: 18px;
+}

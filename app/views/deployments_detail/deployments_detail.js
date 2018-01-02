@@ -5,20 +5,93 @@ angular.module('console.deployments.detail', [
             files: [
                 'views/deployments_detail/deployments_detail.css',
                 'components/datepick/datepick.js',
-                'components/checkbox/checkbox.js'
+                'components/checkbox/checkbox.js',
+                'components/checkbox/checkbox_small.js',
+                'components/deploymentsevent/deploymentsevent.js',
             ]
         }
     ])
-    .controller('DeploymentsDetailCtrl', ['Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag',
-        function (Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag) {
+    .controller('DeploymentsDetailCtrl', ['$log','Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag',
+        function ($log,Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag) {
             $scope.dc = angular.copy(mydc)
             $scope.mytag = angular.copy(mytag)
-
+            $scope.eventfifter='DeploymentConfig';
             $scope.envs = [];
             $scope.grid = {}
             $scope.quota = {}
             $scope.imagedockermap = {}
             $scope.imagemap = {}
+            $scope.loaddirs={
+                loadcon:''
+            }
+            $scope.horiz = {
+                "apiVersion": "autoscaling/v1",
+                "kind": "HorizontalPodAutoscaler",
+                "metadata": {"name": $scope.dc.metadata.name, "labels": {"app": $scope.dc.metadata.name}},
+                "spec": {
+                    "scaleTargetRef": {
+                        "kind": "DeploymentConfig",
+                        "name": $scope.dc.metadata.name,
+                        "apiVersion": "extensions/v1beta1",
+                        "subresource": "scale"
+                    },
+                    "minReplicas": null,
+                    "maxReplicas": null,
+                    "targetCPUUtilizationPercentage": null
+                }
+            }
+            var watchdcs = function (resourceVersion) {
+                Ws.watch({
+                    api: 'other',
+                    resourceVersion: resourceVersion,
+                    namespace: $rootScope.namespace,
+                    type: 'deploymentconfigs',
+                    name: ''
+                }, function (res) {
+                    var data = JSON.parse(res.data);
+                    updateDcs(data);
+                }, function () {
+                    $log.info("webSocket start");
+                }, function () {
+                    $log.info("webSocket stop");
+
+                });
+            };
+            watchdcs(mydc.metadata.resourceVersion)
+            var updateDcs = function (data) {
+                if (data.type == 'ERROR') {
+                    $log.info("err", data.object.message);
+                    Ws.clear();
+                    //serviceList();
+                    return;
+                }
+                //console.log('data.object', data.object);
+                $scope.resourceVersion = data.object.metadata.resourceVersion;
+
+
+                if (data.type == 'ADDED') {
+                    //$scope.rcs.items.shift(data.object);
+                } else if (data.type == "MODIFIED") {
+                    $scope.dc.status.replicas = data.object.status.replicas
+                }
+            }
+            var creathor= function () {
+                $scope.horiz.spec.maxReplicas = parseInt($scope.horiz.spec.maxReplicas)||$scope.dc.spec.replicas;
+                $scope.horiz.spec.targetCPUUtilizationPercentage = parseInt($scope.horiz.spec.targetCPUUtilizationPercentage)||80;
+                horizontalpodautoscalers.create({namespace: $rootScope.namespace}, $scope.horiz, function (data) {
+
+                })
+            }
+             var delhor= function () {
+
+                 horizontalpodautoscalers.delete({
+                     namespace: $rootScope.namespace,
+                     name: $scope.dc.metadata.name
+                 }, function (data) {
+                     //alert(11)
+                 })
+            }
+
             var makeimagemap = function () {
                 angular.forEach($scope.mytag.items, function (tag, i) {
                     $scope.imagedockermap[tag.image.dockerImageReference] = {
@@ -44,12 +117,38 @@ angular.module('console.deployments.detail', [
                     name: dc.metadata.name,
                     region: $rootScope.region
                 }, dc, function (res) {
-                    $scope.dc = angular.copy(res)
+                    $scope.dc = angular.copy(res);
+                    console.log('$scope.dc', $scope.dc);
+                    $scope.loaddirs.loadcon()
                 }, function (res) {
 
                 });
             }
             $scope.updateDc = function () {
+                angular.forEach($scope.dc.spec.template.spec.containers, function (con,i) {
+                    console.log(con.dosetcon.doset);
+                    if (con.doset) {
+
+                        if (con.readinessProbe.httpGet) {
+                            con.readinessProbe.httpGet.port = parseInt(con.readinessProbe.httpGet.port)
+
+                        } else if (con.readinessProbe.tcpSocket) {
+                            con.readinessProbe.tcpSocket.port = parseInt(con.readinessProbe.tcpSocket.port)
+
+                        }
+                        console.log('con', con);
+                        if (con.readinessProbe && con.dosetcon === '命令' && con.readinessProbe.exec) {
+                            console.log('con.readinessProbe.exec.command', con.readinessProbe.exec.command);
+                            angular.forEach(con.readinessProbe.exec.command, function (item, k) {
+                                console.log(item.key);
+                                con.readinessProbe.exec.command[k] = item.key
+
+                            })
+                        }
+                        con.readinessProbe.initialDelaySeconds = parseInt(con.readinessProbe.initialDelaySeconds)
+                        con.readinessProbe.timeoutSeconds = parseInt(con.readinessProbe.timeoutSeconds)
+                    }
+                })
 
                 DeploymentConfig.get({
                     namespace: $rootScope.namespace,
@@ -57,131 +156,33 @@ angular.module('console.deployments.detail', [
                     region: $rootScope.region
                 }, function (datadc) {
 
-                    updatedcput(datadc)
-
+                    $scope.dc.status.latestVersion=datadc.status.latestVersion+1;
+                    $scope.dc.metadata.resourceVersion=datadc.metadata.resourceVersion;
+                    console.log($scope.envs);
+                    if ($scope.quota.rubustCheck) {
+                        creathor()
+                    }else {
+                        delhor()
+                    }
+                    updatedcput($scope.dc)
                 })
-
             };
+            $scope.deployDc = function () {
+                var sendobj = {
+                    "kind": "DeploymentRequest",
+                    "apiVersion": "v1",
+                    "name": $scope.dc.metadata.name,
+                    "latest": true,
+                    "force": true
+                }
+                Dcinstantiate.create({namespace: $rootScope.namespace,name:$stateParams.name},sendobj, function (obj) {
+                    console.log(obj);
+                })
+            }
+            $scope.$on('$destroy', function(){
+                Ws.clear();
+            });
         }])
-    .directive('deploymentsEvent', function () {
-        return {
-            restrict: 'E',
-            templateUrl: 'views/deployments_detail/tpl/event.html',
-            scope: false,
-            controller: ['$scope', 'Ws', 'Event', '$rootScope', function ($scope, Ws, Event, $rootScope) {
-
-                function watchevent(resourceVersion) {
-                    Ws.watch({
-                        api: 'k8s',
-                        resourceVersion: resourceVersion,
-                        namespace: $rootScope.namespace,
-                        type: 'events',
-                        name: ''
-                    }, function (res) {
-                        var data = JSON.parse(res.data);
-                        updateEvent(data);
-                    }, function () {
-                        //$log.info("webSocket startRC");
-                    }, function () {
-
-                    });
-                }
-
-                var updateEvent = function (data) {
-                    if (data.type == "ADDED") {
-
-                        if (data.object.involvedObject.name.split('-')[0] == $scope.dc.metadata.name) {
-                            data.object.mysort = -(new Date(data.object.metadata.creationTimestamp)).getTime()
-                            $scope.eventsws.items.push(data.object);
-
-                            //$scope.eventsws.items=sortevent($scope.eventsws.items)
-                            //console.log(data.object.involvedObject.name.split('-')[0] == $scope.dc.metadata.name);
-                            $scope.$apply()
-                        }
-
-                    } else if (data.type == "MODIFIED") {
-
-                        if ($scope.dc && data.object.involvedObject.name.split('-')[0] == $scope.dc.metadata.name) {
-                            data.object.mysort = -(new Date(data.object.metadata.creationTimestamp)).getTime()
-                            $scope.eventsws.items.push(data.object);
-                            $scope.$apply()
-                        }
-
-                    }
-                    //console.log($scope.eventsws);
-                }
-                var loadeventws = function () {
-                    Event.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (res) {
-                        //console.log('event',res);
-                        if (!$scope.eventsws) {
-                            $scope.eventsws = []
-                            var arr = []
-                            angular.forEach(res.items, function (event, i) {
-                                if (event.involvedObject.kind !== 'BackingServiceInstance') {
-                                    if ($scope.dc && event.involvedObject.name.split('-')[0] == $scope.dc.metadata.name && event.involvedObject.name.split('-')[2] != 'build') {
-                                        arr.push(event)
-
-                                    }
-                                }
-
-                            })
-                            angular.forEach(arr, function (item, i) {
-                                arr[i].mysort = -(new Date(item.metadata.creationTimestamp)).getTime()
-                            })
-                            arr.sort(function (x, y) {
-                                return x.mysort > y.mysort ? -1 : 1;
-                            });
-                            $scope.eventsws.items = arr;
-
-                        }
-
-
-                        $scope.resource = res.metadata.resourceVersion;
-                        watchevent(res.metadata.resourceVersion);
-                    }, function (res) {
-                        //todo 错误处理
-                        // $log.info("loadEvents err", res)
-                    });
-
-                };
-                loadeventws()
-            }],
-        };
-    })
-    .directive('deploymentsEnv', function () {
-        return {
-            restrict: 'E',
-            templateUrl: 'views/deployments_detail/tpl/env.html',
-            scope: false,
-            controller: ['$scope', function ($scope) {
-                var inEnvs = function (name) {
-                    for (var i = 0; i < $scope.envs.length; i++) {
-                        if ($scope.envs[i].name == name) {
-                            return true;
-                        }
-                    }
-                    return false;
-                };
-                var getEnvs = function (containers) {
-                    for (var i = 0; i < containers.length; i++) {
-                        var envs = containers[i].env || [];
-                        for (var j = 0; j < envs.length; j++) {
-                            if (!inEnvs(envs[j].name)) {
-                                $scope.envs.push(envs[j]);
-                            }
-                        }
-                    }
-                };
-                getEnvs($scope.dc.spec.template.spec.containers);
-                $scope.addEnv = function () {
-                    $scope.envs.push({name: '', value: ''});
-                }
-                $scope.delEnv = function (idx) {
-                    $scope.envs.splice(idx, 1);
-                };
-            }],
-        };
-    })
     .directive('deploymentsConfig', function () {
         return {
             restrict: 'E',
@@ -216,6 +217,55 @@ angular.module('console.deployments.detail', [
                             }
                         }
                     }
+                    $scope.$watch('dc.spec.template.spec.containers', function (n, o) {
+                        if (n == o) {
+                            return;
+                        }
+                        angular.forEach(n, function (item, i) {
+                            if (o && n && n[i] && o[i]) {
+                                if (n[i].dosetcon != o[i].dosetcon) {
+                                    if (n[i].dosetcon == "HTTP") {
+                                        $scope.dc.spec.template.spec.containers[i].readinessProbe = {
+                                            "httpGet": {
+                                                "path": "",
+                                                "port": "",
+                                                "scheme": "HTTP"
+                                            },
+                                            "initialDelaySeconds": "",
+                                            "timeoutSeconds": "",
+                                            "periodSeconds": 10,
+                                            "successThreshold": 1,
+                                            "failureThreshold": 3
+                                        }
+                                    } else if (n[i].dosetcon == "命令") {
+                                        $scope.dc.spec.template.spec.containers[i].readinessProbe = {
+                                            "exec": {
+                                                "command": [
+                                                    {key: ''}
+                                                ]
+                                            },
+                                            "initialDelaySeconds": "",
+                                            "timeoutSeconds": "",
+                                            "periodSeconds": 10,
+                                            "successThreshold": 1,
+                                            "failureThreshold": 3
+                                        }
+                                    } else if (n[i].dosetcon == "TCP") {
+                                        $scope.dc.spec.template.spec.containers[i].readinessProbe = {
+                                            "tcpSocket": {
+                                                "port": ""
+                                            },
+                                            "initialDelaySeconds": "",
+                                            "timeoutSeconds": "",
+                                            "periodSeconds": 10,
+                                            "successThreshold": 1,
+                                            "failureThreshold": 3
+                                        }
+                                    }
+                                }
+                            }
+                        })
+                    }, true)
                     $scope.showEnv = function(idx){
                         if($scope.dc.spec.template.spec.containers[idx].annotate.isShowEnv){
                             $scope.dc.spec.template.spec.containers[idx].annotate.isShowEnv = false;
@@ -227,6 +277,11 @@ angular.module('console.deployments.detail', [
                         $scope.dc.spec.template.spec.containers[outerIndex].env.splice(innerIndex, 1);
                     }
                     $scope.addContainerEnv = function(outerIndex,innerIndex){
+                        if ($scope.dc.spec.template.spec.containers[outerIndex].env) {
+
+                        }else {
+                            $scope.dc.spec.template.spec.containers[outerIndex].env=[]
+                        }
                         $scope.dc.spec.template.spec.containers[outerIndex].env.push({name: '', value: ''});
                     }
                     $scope.selectimage = function (i, item, con) {
@@ -241,10 +296,11 @@ angular.module('console.deployments.detail', [
                         con.image = con.annotate.tags[idx].dockerImageReference;
                         //con.image=
                     }
+
                     $scope.checkoutreg = function (con, status) {
                         if (status === true && !con.annotate.image) {
                             console.log($scope.mytag.items[0].metadata.name.split(':'));
-                            var imagenametext=$scope.mytag.items[0].metadata.name
+                            var imagenametext = $scope.mytag.items[0].metadata.name
                             con.annotate.image = imagenametext.split(':')[0]
                             con.annotate.tag = imagenametext.split(':')[1]
                             con.annotate.images = angular.copy($scope.imagemap)
@@ -258,47 +314,52 @@ angular.module('console.deployments.detail', [
                             con.display = !con.display
                         }
                     }
-                    angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
-                        //console.log(con, $scope.imagedockermap);
-                        if (con.image.indexOf(GLOBAL.internal_registry) === 0) {
-                            con.display = true;
-                            con.regimage = ''
-                            con.annotate = {
-                                image: $scope.imagedockermap[con.image].image,
-                                tag: $scope.imagedockermap[con.image].tag,
-                                images: angular.copy($scope.imagemap),
-                                tags: $scope.imagemap[$scope.imagedockermap[con.image].image],
-                                regimage: ''
-                            }
-                        } else {
+                    $scope.loaddirs.loadcon= function () {
+                        angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
+                            ;
+                            if ($scope.imagedockermap[con.image]) {
+                                con.display = true;
+                                con.regimage = ''
+                                con.annotate = {
+                                    image: $scope.imagedockermap[con.image].image,
+                                    tag: $scope.imagedockermap[con.image].tag,
+                                    images: angular.copy($scope.imagemap),
+                                    tags: $scope.imagemap[$scope.imagedockermap[con.image].image],
+                                    regimage: ''
+                                }
+                            } else {
 
-                            con.annotate = {
-                                regimage: con.image
+                                con.annotate = {
+                                    regimage: con.image
+                                }
+                                con.display = false;
                             }
-                            con.display = false;
-                        }
-                        if (con.readinessProbe) {
-                            con.doset = true;
-                            if (con.readinessProbe.httpGet) {
-                                con.dosetcon = 'HTTP'
-                            } else if (con.readinessProbe.tcpSocket) {
-                                con.dosetcon = 'TCP'
-                            } else if (con.readinessProbe.exec) {
-                                var copyexec = angular.copy(con.readinessProbe.exec.command)
-                                angular.forEach(copyexec, function (exec, k) {
-                                    con.readinessProbe.exec.command[k] = {key: exec};
-                                })
-                                con.dosetcon = '命令'
+                            //console.log('con.readinessProbe',con.readinessProbe);
+                            if (con.readinessProbe) {
+                                con.doset = true;
+                                if (con.readinessProbe.httpGet) {
+                                    con.dosetcon = 'HTTP'
+                                } else if (con.readinessProbe.tcpSocket) {
+                                    con.dosetcon = 'TCP'
+                                } else if (con.readinessProbe.exec) {
+                                    //console.log(con.readinessProbe.exec);
+                                    var copyexec = angular.copy(con.readinessProbe.exec.command)
+                                    angular.forEach(copyexec, function (exec, k) {
+                                        con.readinessProbe.exec.command[k] = {key: exec};
+                                    })
+                                    con.dosetcon = '命令'
 
+                                }
                             }
-                        }
-                    })
+                        })
 
-                    angular.forEach($scope.dc.spec.triggers, function (trigger) {
-                        if (trigger.type == 'ConfigChange') {
-                            $scope.grid.configChange = true;
-                        }
-                    });
+                        angular.forEach($scope.dc.spec.triggers, function (trigger) {
+                            if (trigger.type == 'ConfigChange') {
+                                $scope.grid.configChange = true;
+                            }
+                        });
+                    }
+                    $scope.loaddirs.loadcon()
 
                     gethor($scope.dc.metadata.name);
                 }],
