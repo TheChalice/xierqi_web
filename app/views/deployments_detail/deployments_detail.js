@@ -5,7 +5,9 @@ angular.module('console.deployments.detail', [
             files: [
                 'views/deployments_detail/deployments_detail.css',
                 'components/datepick/datepick.js',
-                'components/checkbox/checkbox.js'
+                'components/checkbox/checkbox.js',
+                'components/checkbox/checkbox_small.js',
+                'components/deploymentsevent/deploymentsevent.js',
             ]
         }
     ])
@@ -13,6 +15,7 @@ angular.module('console.deployments.detail', [
         function ($log,Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag) {
             $scope.dc = angular.copy(mydc)
             $scope.mytag = angular.copy(mytag)
+            $scope.eventfifter='DeploymentConfig';
             $scope.envs = [];
             $scope.grid = {}
             $scope.quota = {}

@@ -33,15 +33,17 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12" style="padding-top: 10px;">
-            <h3>弹性伸缩</h3>
-            <c-checkbox checked="quota.rubustCheck" style="margin: 13px 0"></c-checkbox>
+        <div class="col-md-12">
+            <div class="col-md-2 col-md-2_padding"> <h3>弹性伸缩</h3></div>
+            <div class="col-md-10"><checkbox-small checked="quota.rubustCheck"></checkbox-small></div>
+            <!--<h3>弹性伸缩 </h3>-->
+
         </div>
         <div class="row" style="margin-bottom: 40px;">
             <div class="col-sm-12">
                 <span class="col-sm-4" style="margin-right:-90px;">POD数量
                     <input ng-model="dc.spec.replicas" name="cdm" min="1" max="10"
-                           type="text" placeholder="3"
+                           type="text" placeholder=""
                            style="width:68px; height:30px;">
                 </span>
                 <span ng-show="quota.rubustCheck">
@@ -96,7 +98,7 @@
             </div>
 
 
-            <div class="row col-md-12" ng-show="container.display">
+            <div class="row col-md-12" style="padding-left: 35px;" ng-show="container.display">
                 <div class="dropdown dropdown-select" style="width:210px;height: 32px;">
                     <button class="btn dropdown-toggle" data-toggle="dropdown">
                         <span>{{container.annotate.image}}</span>
@@ -226,7 +228,7 @@
                                                class="form-control" style="font-size: 12px;"
                                                ng-model=com.key
                                                required
-                                               placeholder="1"/>
+                                               placeholder=""/>
 
                                     </div>
                                     <!--<div class="col-md-1" style="height: 39px;line-height: 39px;padding:0px;">-->
