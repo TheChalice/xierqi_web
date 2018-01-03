@@ -24,7 +24,7 @@ define([
 ], function (angular) {
 
     // 声明应用及其依赖
-    var myApp = angular.module('myApp', [
+    var DataFoundry = angular.module('DataFoundry', [
         'oc.lazyLoad',
         'ui.bootstrap',
         'myApp.router',     //路由模块
@@ -41,7 +41,7 @@ define([
         'treeControl'
     ]);
 
-    myApp.constant('GLOBAL', {
+    DataFoundry.constant('GLOBAL', {
             size: 10,
             host: '/oapi/v1',
             host_k8s: '/api/v1',
@@ -178,5 +178,5 @@ define([
             });
         }]);
 
-    return myApp;
+    return DataFoundry;
 });
