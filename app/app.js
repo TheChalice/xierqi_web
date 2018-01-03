@@ -60,7 +60,6 @@ define([
             host_wss_k8s: '/ws/api/v1',
             login_uri: '/login',
             signin_uri: '/signin',
-
             host_webhooks: '<WEBHOOK_PREFIX>',
             service_url:'<ROUTER_DOMAIN_SUFFIX>',
             //internal_registry:'docker-registry.default.svc:5000',
@@ -68,7 +67,7 @@ define([
             //service_url:'.cloud.new.dataos.io',
             common_url:'<REGISTRY_PUBLIC_ADDR>',
             //private_url:'registry.dataos.io',
-            private_url:'<REGISTRY_PRIVATE_ADDR>',
+            private_url:'<REGISTRY_PRIVATE_ADDR>'
 
         })
         .constant('AUTH_EVENTS', {

@@ -23,18 +23,20 @@ angular.module('console.services', [
                     "Pending": "This pod will not receive traffic until all of its containers have been created."
                 };
 
-                function getPodsForService(podsList) {
+               var getPodsForService = function (podsList) {
                     if (!$scope.service.spec.selector) return;
-                    _.each(podsList, pod => {
-                        let podForService = _.filter([pod.metadata.labels], _.matches($scope.service.spec.selector)) || [];
+
+                    _.each(podsList, function (pod) {
+                        var podForService = _.filter([pod.metadata.labels], _.matches($scope.service.spec.selector)) || [];
                         if (podForService.length !== 0) {
                             $scope.podsForService[pod.metadata.name] = pod;
                         }
-                    })
+                    }  )
+
                 }
 
-                function getRoutesForService(routesList) {
-                    angular.forEach(routesList, route => {
+               var getRoutesForService =  function (routesList) {
+                    angular.forEach(routesList, function (route) {
                         if (route.spec.to.kind === "Service" &&
                             route.spec.to.name === $scope.service.metadata.name) {
                             $scope.routesForService[route.metadata.name] = route;
@@ -42,24 +44,26 @@ angular.module('console.services', [
                     });
                 };
 
-                function getPortsByRoute() {
-                    _.each($scope.service.spec.ports, port => {
-                        var reachedByRoute = false;
-                        if (port.nodePort) {
-                            $scope.showNodePorts = true;
-                        }
-                        _.each($scope.routesForService, route => {
-                            if (!route.spec.port || route.spec.port.targetPort === port.name ||
-                                route.spec.port.targetPort === port.targetPort) {
-                                $scope.portsByRoute[route.metadata.name] = $scope.portsByRoute[route.metadata.name] || [];
-                                $scope.portsByRoute[route.metadata.name].push(port);
-                                reachedByRoute = true;
+               var getPortsByRoute =  function () {
+                    _.each($scope.service.spec.ports, function (port) {
+                        {
+                            var reachedByRoute = false;
+                            if (port.nodePort) {
+                                $scope.showNodePorts = true;
                             }
-                        });
+                            _.each($scope.routesForService, function (route) {
+                                if (!route.spec.port || route.spec.port.targetPort === port.name ||
+                                    route.spec.port.targetPort === port.targetPort) {
+                                    $scope.portsByRoute[route.metadata.name] = $scope.portsByRoute[route.metadata.name] || [];
+                                    $scope.portsByRoute[route.metadata.name].push(port);
+                                    reachedByRoute = true;
+                                }
+                            });
 
-                        if (!reachedByRoute) {
-                            $scope.portsByRoute[''] = $scope.portsByRoute[''] || [];
-                            $scope.portsByRoute[''].push(port);
+                            if (!reachedByRoute) {
+                                $scope.portsByRoute[''] = $scope.portsByRoute[''] || [];
+                                $scope.portsByRoute[''].push(port);
+                            }
                         }
                     });
                 };
@@ -70,27 +74,28 @@ angular.module('console.services', [
                 if (pods) {
                     getPodsForService(pods.items);
                     if (endpoints) {
-                        _.each(endpoints.items, svcEndpoint => {
+                        _.each(endpoints.items, function (svcEndpoint) {
                             if (svcEndpoint.metadata.name === $scope.service.metadata.name) {
-                                _.each(svcEndpoint.subsets, subset => {
-                                    _.each(subset.addresses, address => {
+                                _.each(svcEndpoint.subsets, function (subset) {
+                                    _.each(subset.addresses, function (address) {
                                         if (_.get(address, "targetRef.kind") === "Pod") {
                                             $scope.podsWithEndpoints[address.targetRef.name] = true;
                                         }
                                     });
-                                });
+                                } );
                             }
                         });
                     }
                 }
-                let deleteService = () => {
-                    Service.delete({ namespace: $scope.service.metadata.namespace, name: $scope.service.metadata.name, region: Cookie.get('region') }, )
+                var deleteService = function () {
+                    Service.delete({ namespace: $scope.service.metadata.namespace, name: $scope.service.metadata.name, region: Cookie.get('region') })
                 }
-                $scope.delete = () => {
+                $scope.delete= function () {
                     if ($scope.service) {
                         deleteService();
                     }
-                };
+                }
+
 
             }
         }
