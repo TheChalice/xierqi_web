@@ -377,7 +377,7 @@ define([
             return Event;
         }])
         .factory('Endpoint', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
-            var Endpoint = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/endpoints',
+            var Endpoint = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/endpoints'
                 // {
                 //     name: '@name',
                 //     namespace: '@namespace',
