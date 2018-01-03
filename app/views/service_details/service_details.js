@@ -79,7 +79,6 @@ angular.module('console.services', [
                                 _.each(svcEndpoint.subsets, function (subset) {
                                     _.each(subset.addresses, function (address) {
                                         if (_.get(address, "targetRef.kind") === "Pod") {
-                                            //console.log('address.targetRef.name', address.targetRef.name);
                                             $scope.podsWithEndpoints[address.targetRef.name] = true;
                                         }
                                     });
