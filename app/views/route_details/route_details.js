@@ -12,8 +12,8 @@ angular.module('console.routes', [{
                 $scope.route = routeDetails;
                 $scope.services = {};
 
-                function getService(routeToNm, serviceList) {
-                    for (let i = 0; i < serviceList.length; i++) {
+               var getService =  function getService(routeToNm, serviceList) {
+                    for (var i = 0; i < serviceList.length; i++) {
                         if (routeToNm === serviceList[i].metadata.name) {
                             return serviceList[i];
                         }
@@ -24,10 +24,10 @@ angular.module('console.routes', [{
                 }
 
             }
-            let deleteRoute = () => {
-                Route.delete({ namespace: $scope.route.metadata.namespace, name: $scope.route.metadata.name, region: Cookie.get('region') }, )
+            var deleteRoute = function ()  {
+                Route.delete({ namespace: $scope.route.metadata.namespace, name: $scope.route.metadata.name, region: Cookie.get('region') } )
             }
-            $scope.delete = () => {
+            $scope.delete =function () {
                 if ($scope.route) {
                     deleteRoute();
                 }
