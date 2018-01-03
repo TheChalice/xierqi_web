@@ -67,7 +67,7 @@ define([
             //service_url:'.cloud.new.dataos.io',
             common_url:'<REGISTRY_PUBLIC_ADDR>',
             //private_url:'registry.dataos.io',
-            private_url:'<REGISTRY_PRIVATE_ADDR>',
+            private_url:'<REGISTRY_PRIVATE_ADDR>'
 
         })
         .constant('AUTH_EVENTS', {
