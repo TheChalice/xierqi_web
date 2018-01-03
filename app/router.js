@@ -781,6 +781,18 @@ define([
                  }
              })
 
+                //rc
+                .state('console.rc', {
+                    url: '/rc/:name',
+                    templateUrl: 'views/rc/rc_detail.html',
+                    controller: 'rcCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/rc/rc_detail.js')
+                        }]
+                    }
+                })
+
         }]);
 
 });
