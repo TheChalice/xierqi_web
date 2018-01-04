@@ -89,7 +89,7 @@ angular.module('home', [])
                 //    //console.log('套餐', data);
                 //    //$rootScope.payment=data;
                 //    if (data.purchased) {
-                        $state.go("console.dashboard")
+                        $state.go("console.dashboard",{namespace:$rootScope.namespace})
                 //    }else{
                 //        $state.go("console.noplan")
                 //    }
