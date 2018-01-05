@@ -5,12 +5,12 @@
     </colgroup>
     <thead>
         <tr>
-            <th>{{customNameHeader || 'Name'}}</th>
-            <th>Status</th>
-            <th>Containers Ready</th>
-            <th>Container Restarts</th>
-            <th>Age</th>
-            <th ng-if="activePods">Receiving Traffic</th>
+            <th style="border-bottom-width:1px;background:#e6e9f2;border:none;">{{customNameHeader || 'Name'}}</th>
+            <th style="border-bottom-width:1px;background:#e6e9f2;border:none;">Status</th>
+            <th style="border-bottom-width:1px;background:#e6e9f2;border:none;">Containers Ready</th>
+            <th style="border-bottom-width:1px;background:#e6e9f2;border:none;">Container Restarts</th>
+            <th style="border-bottom-width:1px;background:#e6e9f2;border:none;">Age</th>
+            <th style="border-bottom-width:1px;background:#e6e9f2;border:none;" ng-if="activePods">Receiving Traffic</th>
         </tr>
     </thead>
     <tbody ng-if="!sortedPods.length">

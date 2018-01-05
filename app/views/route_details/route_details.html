@@ -73,21 +73,21 @@
             <div class="row" ng-if="route">
                 <div class="col-sm-12">
                     <div ui-sref="console.create_routes({name:route.metadata.name})">{{route.metadata.name}}修改</div>
-                    <h4 class="mar-top-xl">Details</h4>
+                    <h4 style="margin-bottom:20px;padding-bottom:15px;color:#666;border-bottom:1px solid #c9c9c9;"class="mar-top-xl">Details</h4>
                     <dl class="dl-horizontal left">
                         <dt style="text-align:left" ng-if-start="route.spec.wildcardPolicy && route.spec.wildcardPolicy !== 'None' && route.spec.wildcardPolicy !== 'Subdomain'">Wildcard Policy:</dt>
                         <dd ng-if-end>{{route.spec.wildcardPolicy}}</dd>
-                        <dt style="text-align:left">Path:</dt>
+                        <dt style="margin-bottom:20px;text-align:left">Path:</dt>
                         <dd>
                             <span ng-if="route.spec.path">{{route.spec.path}}</span>
                             <span ng-if="!route.spec.path"><em>none</em></span>
                         </dd>
-                        <dt style="text-align:left">{{route.spec.to.kind || "Routes To"}}:</dt>
+                        <dt style="margin-bottom:20px;text-align:left">{{route.spec.to.kind || "Routes To"}}:</dt>
                         <dd>
                             <!-- <a ng-href="{{route.spec.to.name | navigateResourceURL : route.spec.to.kind : route.metadata.namespace}}">{{route.spec.to.name}}</a> -->
                             <a class="href-orange">{{route.spec.to.name}}</a>
                         </dd>
-                        <dt style="text-align:left">Target Port:</dt>
+                        <dt style="margin-bottom:20px;text-align:left">Target Port:</dt>
                         <dd>
                             <span ng-if="route.spec.port.targetPort">
                           {{route.spec.port.targetPort}}
@@ -100,7 +100,7 @@
                     </dl>
                     <div ng-if="route.spec.alternateBackends.length" class="row">
                         <div class="col-sm-12 mar-bottom-lg">
-                            <h4>Traffic</h4>
+                            <h4 style="margin:20px 0;padding:20px 0 15px 0;border-bottom:1px solid #c9c9c9;color:#666;">Traffic</h4>
                             <div class="help-block">
                                 This route splits traffic across multiple services.
                             </div>
@@ -112,8 +112,8 @@
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th>Service</th>
-                                        <th>Weight</th>
+                                        <th style="background:#e6e9f2;border-bottom-width:1px;border: none;">Service</th>
+                                        <th style="background:#e6e9f2;border-bottom-width:1px;border: none;">Weight</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -140,13 +140,13 @@
                         </div>
                     </div>
                     <div style="margin-bottom: 10px;">
-                        <h4>TLS Settings</h4>
+                        <h4 style="margin:20px 0;padding:20px 0 15px 0;color:#666;border-bottom:1px solid #c9c9c9;">TLS Settings</h4>
                         <dl class="dl-horizontal left" ng-if="route.spec.tls">
-                            <dt style="text-align:left">Termination Type:</dt>
+                            <dt style="margin-bottom:20px;text-align:left">Termination Type:</dt>
                             <dd>{{route.spec.tls.termination | humanizeTLSTermination}}</dd>
-                            <dt style="text-align:left">Insecure Traffic:</dt>
+                            <dt style="margin-bottom:20px;text-align:left">Insecure Traffic:</dt>
                             <dd>{{route.spec.tls.insecureEdgeTerminationPolicy || 'None'}}</dd>
-                            <dt style="text-align:left">Certificate:</dt>
+                            <dt style="margin-bottom:20px;text-align:left">Certificate:</dt>
                             <dd>
                                 <span ng-show="route.spec.tls.certificate && !reveal.certificate">
                                     <a href="" class="href-orange"  ng-click="reveal.certificate = true">Show</a>
@@ -156,7 +156,7 @@
                             <div ng-if="reveal.certificate">
                                 <pre class="clipped">{{route.spec.tls.certificate}}</pre>
                             </div>
-                            <dt style="text-align:left">Key:</dt>
+                            <dt style="margin-bottom:20px;text-align:left">Key:</dt>
                             <dd>
                                 <span ng-if="route.spec.tls.key && !reveal.key">
                                     <a class="href-orange" href="" ng-click="reveal.key = true">Show</a>

@@ -2,13 +2,13 @@
 <table class="table table-bordered table-mobile">
     <thead>
         <tr>
-            <th>{{customNameHeader || 'Route'}}<span ng-if="showNodePorts"> / Node Port</span></th>
-            <th role="presentation"></th>
-            <th>Service Port</th>
-            <th role="presentation"></th>
-            <th>Target Port</th>
-            <th>Hostname</th>
-            <th>TLS Termination</th>
+            <th style="border-bottom-width:1px;background:#e6e9f2;border:none;">{{customNameHeader || 'Route'}}<span ng-if="showNodePorts"> / Node Port</span></th>
+            <th style="border-bottom-width:1px;background:#e6e9f2;border:none;" role="presentation"></th>
+            <th style="border-bottom-width:1px;background:#e6e9f2;border:none;">Service Port</th>
+            <th style="border-bottom-width:1px;background:#e6e9f2;border:none;" role="presentation"></th>
+            <th style="border-bottom-width:1px;background:#e6e9f2;border:none;">Target Port</th>
+            <th style="border-bottom-width:1px;background:#e6e9f2;border:none;">Hostname</th>
+            <th style="border-bottom-width:1px;background:#e6e9f2;border:none;">TLS Termination</th>
         </tr>
     </thead>
     <tbody ng-if="!portsByRoute">
@@ -21,7 +21,7 @@
         <!-- <tbody ng-if="(portsByRoute | hashSize) > 0"> -->
         <tr ng-repeat-start="(routeName,ports) in portsByRoute" style="display: none;"></tr>
         <tr ng-repeat="port in ports" ng-if="routeName !== ''">
-            <td data-title="{{customNameHeader || 'Route'}}{{ showNodePorts ? ' / Node Port' : '' }}">
+            <td  style="border-right:none;" data-title="{{customNameHeader || 'Route'}}{{ showNodePorts ? ' / Node Port' : '' }}">
                 <a href="{{routes[routeName]">{{routes[routeName].metadata.name}}</a>
                 <!-- <a href="{{routes[routeName] | navigateResourceURL}}">{{routes[routeName].metadata.name}}</a> -->
                 <route-warnings ng-if="routes[routeName].spec.to.kind !== 'Service' || services" route="routes[routeName]" services="services">
@@ -30,12 +30,12 @@
                 <span ng-if="port.nodePort"> / {{port.nodePort}}</span>
                 </span>
             </td>
-            <td role="presentation" content="\2192" class="text-muted arrow">&#8594</td>
+            <td  role="presentation" content="\2192" class="text-muted arrow">&#8594</td>
             <td data-title="Service Port">
                 {{port.port}}/{{port.protocol}}
                 <span ng-if="port.name">({{port.name}})</span>
             </td>
-            <td role="presentation" content: "\2192" class="text-muted arrow">&#8594</td>
+            <td role="presentation" content:"\2192" class="text-muted arrow">&#8594</td>
             <td data-title="Target Port">
                 {{port.targetPort}}
             </td>
@@ -83,3 +83,9 @@
         </tr>
     </tbody>
 </table>
+<style>
+    .table-bordered>tbody>tr>td{
+        border:none!important;
+        border-bottom: 1px solid #f3f3f3!important;
+    }
+</style>
