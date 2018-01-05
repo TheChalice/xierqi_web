@@ -763,6 +763,23 @@ define([
                      ]
                  }
              })
+             //新建deployment
+             .state('console.create_deployment', {
+                 url: '/create_deployment/:name',
+                 templateUrl: 'views/create_deployment/create_deployment.html',
+                 controller: 'createDeploymentCtrl',
+                 resolve: {
+                     dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                         return $ocLazyLoad.load('views/create_deployment/create_deployment.js')
+                     }],
+                     myProject: ['Project', 'Cookie','$stateParams',
+                         function(Project, Cookie,$stateParams) {
+                             return Project.get().$promise
+                         }
+                     ]
+
+                 }
+             })
 
         }]);
 
