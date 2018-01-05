@@ -381,9 +381,9 @@ angular.module("console.header", [{
                     "pub/img/imagecenter.png"
                 );
 
-                $scope.hasBack = function() {
+                $scope.hasBack = function(){
 
-                    if ($state.current.name == "console.noplan" || $state.current.name == "console.Integration" || $state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name == "console.notification" || $state.current.name == "console.resource_management") {
+                    if ($state.current.name == "console.stateful-sets"||$state.current.name == "console.routes"||$state.current.name == "console.services"||$state.current.name == "console.pods"||$state.current.name == "console.deployments"||$state.current.name == "console.noplan" || $state.current.name == "console.Integration" || $state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name == "console.notification" || $state.current.name == "console.resource_management") {
 
                         return false
                     }
