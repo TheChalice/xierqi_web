@@ -446,6 +446,21 @@ define([
                         }]
                     }
                 })
+                .state('console.import', {
+                    url: '/import',
+                    templateUrl: 'views/import_from_file/import_from_file.html',
+                    controller: 'ImportFromFileCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/import_from_file/import_from_file.js'])
+                        }],
+                        project: ['Project', 'Cookie',
+                            function(Project, Cookie) {
+                                return Project.get({ name: Cookie.get('namespace') }).$promise
+                            }
+                        ]
+                    }
+                })
                 .state('console.quick_deploy', {
                     url: '/quick/deploy',
                     templateUrl: 'views/quick_deploy/quick_deploy.html',

@@ -7,6 +7,7 @@ angular.module('console.deployments', [{
     }])
     .controller('DeploymentsCtrl', ['$rootScope', '$scope', 'replicas', 'dc', '$filter',
         function($rootScope, $scope, replicas, dc, $filter) {
+            console.log("$scope.namespace ", $scope.namespace)
             $scope.text = "No deployments have been added to project " + $scope.namespace + ".";
             if (dc.items) {
                 angular.forEach(dc.items, function(dc, i) {
@@ -20,5 +21,10 @@ angular.module('console.deployments', [{
                 $scope.items = dc.items;
                 console.log("$scope.items", $scope.items)
             }
+            $scope.showOrderingPanel = function(panelName) {
+                $scope.orderingPanelVisible = true;
+                console.log('------------------------> panelName', panelName)
+                $scope.orderKind = panelName;
+            };
         }
     ]);
