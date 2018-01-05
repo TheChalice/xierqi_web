@@ -19,12 +19,14 @@ define([
     'angularSlider',
     'kubernetesUI',
     'highchartsNg',
+    'patternfly',
+    'angular_patternfly',
     'treeControl',
     'lodash'
 ], function (angular) {
 
     // 声明应用及其依赖
-    var myApp = angular.module('myApp', [
+    var DataFoundry = angular.module('DataFoundry', [
         'oc.lazyLoad',
         'ui.bootstrap',
         'myApp.router',     //路由模块
@@ -38,10 +40,11 @@ define([
         'hc.marked',
         'rzModule',
         'highcharts-ng',
+        "patternfly.wizard",
         'treeControl'
     ]);
 
-    myApp.constant('GLOBAL', {
+    DataFoundry.constant('GLOBAL', {
             size: 10,
             host: '/oapi/v1',
             host_k8s: '/api/v1',
@@ -85,7 +88,8 @@ define([
             ]);
         }])
 
-        .run(['$rootScope', 'account', '$state', function ($rootScope, account, $state) {
+        .run(['$rootScope', 'account', '$state','Cookie' ,
+            function ($rootScope, account, $state,Cookie) {
             $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
                 $rootScope.transfering = true;
 
@@ -104,6 +108,7 @@ define([
                         //  console.log('detail', e.detail);
                         //  console.log(toState.name)
                         //console.log(e);
+
                         if (toState.name !== "home.index") {
                             if(e.detail>0){
                                 window.scrollBy(0,40);
@@ -113,7 +118,14 @@ define([
                         }
                     })
                 }
-
+                if (toState.name !== 'login') {
+                    //console.log('namespace',$rootScope.namespace);
+                    //console.log('$state.params.namespace', $state.params.namespace);
+                    if ($state.params.namespace) {
+                        $rootScope.namespace=$state.params.namespace
+                        Cookie.set('namespace', $rootScope.namespace, 10 * 365 * 24 * 3600 * 1000);
+                    }
+                }
 
                 if (toState.name !== "home.index") {
                     $('html').css('overflow', 'auto');
@@ -178,5 +190,5 @@ define([
             });
         }]);
 
-    return myApp;
+    return DataFoundry;
 });

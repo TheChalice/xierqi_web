@@ -9,8 +9,8 @@ angular.module('console', [
             ]
         }
     ])
-    .controller('ConsoleCtrl', ['creatproject','$timeout', 'sessiontoken', 'regions', 'account', '$http', '$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', 'user', 'Project', 'Cookie', '$state',
-        function (creatproject,$timeout, sessiontoken, regions, account, $http, $rootScope, $scope, $log, AUTH_EVENTS, User, user, Project, Cookie, $state) {
+    .controller('ConsoleCtrl', ['creatproject','$timeout', 'sessiontoken', 'regions', 'account', '$http', '$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', 'user', 'Project', 'Cookie', '$state','pro',
+        function (creatproject,$timeout, sessiontoken, regions, account, $http, $rootScope, $scope, $log, AUTH_EVENTS, User, user, Project, Cookie, $state,pro) {
             //$('html').css('overflow', 'auto');
             //sessiontoken.get({},function (user) {
             //    console.log(user);
@@ -19,7 +19,15 @@ angular.module('console', [
             // if ($state.current.name === 'console.dashboard') {
             //     alert(11)
             // }
-
+            //console.log('pro', pro);
+            //if ($state.params.namespace) {
+            //angular.forEach(pro.items, function (item) {
+            //    if (item.metadata.name === $state.params.namespace) {
+            //        $rootScope.namespace=$state.params.namespace
+            //        Cookie.set('namespace', $rootScope.namespace, 10 * 365 * 24 * 3600 * 1000);
+            //    }
+            //})
+            //}
             if ($rootScope.user) {
                 console.log('$rootScope.user', $rootScope.user.metadata.name);
             } else {

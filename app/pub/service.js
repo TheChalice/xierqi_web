@@ -1544,36 +1544,12 @@ define(['angular'], function (angular) {
                     };
                     localStorage.setItem('Auth', $base64.encode(credentials.username + ':' + credentials.password))
 
-                    var loadProject = function (name) {
+                    var loadProject = function (name,callback) {
                         // $log.info("load project");
                         Project.get({region: credentials.region}, function (data) {
+                            callback(name,data)
                             //console.log("load project success", data);
-                            for (var i = 0; i < data.items.length; i++) {
-                                if (data.items[i].metadata.name == name) {
-                                    $rootScope.namespace = name;
-                                    angular.forEach(data.items, function (item, i) {
 
-                                        data.items[i].sortname = item.metadata.annotations['openshift.io/display-name'] || item.metadata.name;
-
-
-                                    })
-                                    data.items.sort(function (x, y) {
-                                        return x.sortname > y.sortname ? 1 : -1;
-                                    });
-                                    angular.forEach(data.items, function (project, i) {
-                                        if (/^[\u4e00-\u9fa5]/i.test(project.metadata.annotations['openshift.io/display-name'])) {
-                                            //console.log(project.metadata.annotations['openshift.io/display-name']);
-                                            //data.items.push(project);
-                                            data.items.unshift(project);
-
-                                            data.items.splice(i + 1, 1);
-                                        }
-                                    });
-                                    $rootScope.projects = data.items;
-                                    return;
-                                }
-                            }
-                            $log.info("can't find project");
                         }, function (res) {
                             $log.info("find project err", res);
                         });
@@ -1611,30 +1587,44 @@ define(['angular'], function (angular) {
 
                                 $rootScope.user = res;
                                 //localStorage.setItem('cade',null)
-                                loadProject(credentials.username);
-                                localStorage.setItem("code", 1);
-                                $rootScope.loginyanzheng = false;
-                                if (stateParams) {
-                                    $rootScope.loding = false;
-                                    if (stateParams.type == 'saas') {
-                                        $state.go('console.create_saas', {name: stateParams.name});
-                                    } else if (stateParams.type == 'image') {
-                                        $state.go('console.service_create', {image: stateParams.name});
-                                    } else if (stateParams.type == 'bkservice') {
-                                        $state.go('console.apply_instance', {name: stateParams.name});
-                                    } else {
-                                        //  TODO 查看收藏功能
+                                loadProject(credentials.username, function (name,data) {
+                                    for (var i = 0; i < data.items.length; i++) {
+                                        if (data.items[i].metadata.name == name) {
+                                            $rootScope.namespace = name;
+                                            angular.forEach(data.items, function (item, i) {
+
+                                                data.items[i].sortname = item.metadata.annotations['openshift.io/display-name'] || item.metadata.name;
+
+
+                                            })
+                                            data.items.sort(function (x, y) {
+                                                return x.sortname > y.sortname ? 1 : -1;
+                                            });
+                                            angular.forEach(data.items, function (project, i) {
+                                                if (/^[\u4e00-\u9fa5]/i.test(project.metadata.annotations['openshift.io/display-name'])) {
+                                                    //console.log(project.metadata.annotations['openshift.io/display-name']);
+                                                    //data.items.push(project);
+                                                    data.items.unshift(project);
+
+                                                    data.items.splice(i + 1, 1);
+                                                }
+                                            });
+                                            $rootScope.projects = data.items;
+                                        }
                                     }
-                                } else {
-                                    //获取套餐
-
+                                    localStorage.setItem("code", 1);
+                                    $rootScope.loginyanzheng = false;
+                                        //获取套餐
                                     $rootScope.loding = false;
-                                    $state.go('console.dashboard');
-                                    //跳转dashboard
+                                    $state.go("console.dashboard",{namespace:$rootScope.namespace})
+                                        //跳转dashboard
 
 
-                                    //$state.go('console.dashboard');
-                                }
+                                        //$state.go('console.dashboard');
+
+
+                                });
+
 
 
                                 //var inputDaovoice = function () {

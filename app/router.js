@@ -147,7 +147,7 @@ define([
                     }
                 })
                 .state('console', {
-                    url: '/console',
+                    url: '/console/project',
                     templateUrl: 'views/console/console.html',
                     controller: 'ConsoleCtrl',
                     resolve: {
@@ -155,8 +155,10 @@ define([
                             return $ocLazyLoad.load('views/console/console.js')
                         }],
                         user: ['regions', 'Cookie', '$rootScope', 'User', function(regions, Cookie, $rootScope, User) {
-
                             return User.get({ name: '~', region: Cookie.get('region') }).$promise;
+                        }],
+                        pro: ['$stateParams', 'Project', 'Cookie', '$rootScope', function($stateParams, Project, Cookie, $rootScope) {
+                            return Project.get().$promise;
                         }]
                     },
                     abstract: true
@@ -193,10 +195,12 @@ define([
                     }
                 })
                 .state('console.dashboard', {
-                    url: '/dashboard',
+                    url: '/:namespace/dashboard',
                     templateUrl: 'views/dashboard/dashboard.html',
                     controller: 'dashboardCtrl',
-                    params: {},
+                    params: {
+                        namespace:null
+                    },
                     resolve: {
                         dep: ['$ocLazyLoad', function($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/dashboard/dashboard.js'])
@@ -346,18 +350,7 @@ define([
                     }
                 })
                 //service
-
-            // .state('console.service', {
-            //     url: '/service',
-            //     templateUrl: 'views/service/service.html',
-            //     controller: 'ServiceCtrl',
-            //     resolve: {
-            //         dep: ['$ocLazyLoad', function($ocLazyLoad) {
-            //             return $ocLazyLoad.load(['views/service/service.js', 'views/service/service.css'])
-            //         }]
-            //     }
-            // })
-            .state('console.deployments', {
+                .state('console.deployments', {
                     url: '/deployments',
                     templateUrl: 'views/apps/deployments/deployments.html',
                     controller: 'DeploymentsCtrl',
@@ -758,8 +751,8 @@ define([
                     }
                 })
 
-            //pods详情
-            .state('console.pods_detail', {
+                //pods详情
+                .state('console.pods_detail', {
                 url: '/pods_detail',
                 templateUrl: 'views/pods_detail/pods_detail.html',
                 controller: 'podsdetailCtrl',
@@ -769,6 +762,51 @@ define([
                     }]
                 }
             })
+            //新建routes
+             .state('console.create_routes', {
+                 url: '/create_routes/:name',
+                 templateUrl: 'views/create_file/create_routes/create_routes.html',
+                 controller: 'CreateRoutesCtrl',
+                 resolve: {
+                     dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                         return $ocLazyLoad.load('views/create_file/create_routes/create_routes.js')
+                     }],
+                     createRoutes: ['Route', 'Cookie','$stateParams',
+                         function(Route, Cookie,$stateParams) {
+                             return Route.get({ namespace: Cookie.get('namespace'),name:$stateParams.name}).$promise
+                         }
+                     ]
+                 }
+             })
+             //新建deployment
+             .state('console.create_deployment', {
+                 url: '/create_deployment',
+                 templateUrl: 'views/create_deployment/create_deployment.html',
+                 controller: 'createDeploymentCtrl',
+                 resolve: {
+                     dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                         return $ocLazyLoad.load('views/create_deployment/create_deployment.js')
+                     }],
+                     myProject: ['Project', 'Cookie','$stateParams',
+                         function(Project, Cookie,$stateParams) {
+                             return Project.get().$promise
+                         }
+                     ]
+
+                 }
+             })
+
+                //rc
+                .state('console.rc', {
+                    url: '/rc/:name',
+                    templateUrl: 'views/rc/rc_detail.html',
+                    controller: 'rcCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/rc/rc_detail.js')
+                        }]
+                    }
+                })
 
         }]);
 
