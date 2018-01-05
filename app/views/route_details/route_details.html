@@ -72,6 +72,7 @@
         <div>
             <div class="row" ng-if="route">
                 <div class="col-sm-12">
+                    <div ui-sref="console.create_routes({name:route.metadata.name})">{{route.metadata.name}}修改</div>
                     <h4 style="margin-bottom:20px;padding-bottom:15px;color:#666;border-bottom:1px solid #c9c9c9;"class="mar-top-xl">Details</h4>
                     <dl class="dl-horizontal left">
                         <dt style="text-align:left" ng-if-start="route.spec.wildcardPolicy && route.spec.wildcardPolicy !== 'None' && route.spec.wildcardPolicy !== 'Subdomain'">Wildcard Policy:</dt>
