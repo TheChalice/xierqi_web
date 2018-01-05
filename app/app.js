@@ -19,6 +19,8 @@ define([
     'angularSlider',
     'kubernetesUI',
     'highchartsNg',
+    'patternfly',
+    'angular_patternfly',
     'treeControl',
     'lodash'
 ], function (angular) {
@@ -38,6 +40,7 @@ define([
         'hc.marked',
         'rzModule',
         'highcharts-ng',
+        "patternfly",
         'treeControl'
     ]);
 
