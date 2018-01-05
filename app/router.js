@@ -754,6 +754,22 @@ define([
                     }]
                 }
             })
+            //新建routes
+             .state('console.create_routes', {
+                 url: '/create_routes/:name',
+                 templateUrl: 'views/create_file/create_routes/create_routes.html',
+                 controller: 'CreateRoutesCtrl',
+                 resolve: {
+                     dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                         return $ocLazyLoad.load('views/create_file/create_routes/create_routes.js')
+                     }],
+                     createRoutes: ['Route', 'Cookie','$stateParams',
+                         function(Route, Cookie,$stateParams) {
+                             return Route.get({ namespace: Cookie.get('namespace'),name:$stateParams.name}).$promise
+                         }
+                     ]
+                 }
+             })
 
         }]);
 
