@@ -757,11 +757,11 @@ define([
             //新建routes
              .state('console.create_routes', {
                  url: '/create_routes/:name',
-                 templateUrl: 'views/apps/create_routes/create_routes.html',
+                 templateUrl: 'views/create_file/create_routes/create_routes.html',
                  controller: 'CreateRoutesCtrl',
                  resolve: {
                      dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                         return $ocLazyLoad.load('views/apps/create_routes/create_routes.js')
+                         return $ocLazyLoad.load('views/create_file/create_routes/create_routes.js')
                      }],
                      createRoutes: ['Route', 'Cookie','$stateParams',
                          function(Route, Cookie,$stateParams) {
