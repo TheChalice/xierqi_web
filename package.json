@@ -21,6 +21,7 @@
         "lodash": "3.10.1"
     },
     "dependencies": {
+        "angular-patternfly": "^4.14.1",
         "angular-tree-control": "^0.2.28"
     }
 }
