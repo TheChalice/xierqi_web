@@ -416,7 +416,6 @@ angular.module('console.deployments.detail', [
                             labelSelector: labelSelector,
                             region: $rootScope.region
                         }, function (res) {
-                            //$log.info("replicationControllers", res);
                             res.items = Sort.sort(res.items, -1);
                             for (var i = 0; i < res.items.length; i++) {
                                 res.items[i].dc = JSON.parse(res.items[i].metadata.annotations['openshift.io/encoded-deployment-config']);

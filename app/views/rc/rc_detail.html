@@ -1,0 +1,42 @@
+<div id="rc">
+    <div class="panel panel-default" style="margin-bottom: 50px">
+        <div class="panel-heading">
+                CCCC
+                <!--<i class="faa faa-cmd"></i>&nbsp;&nbsp;{{dc.metadata.name}}-->
+        </div>
+    </div>
+    <uib-tabset class="tab-default tab-pods">
+        <uib-tab index="1">
+            <uib-tab-heading>
+                Details
+            </uib-tab-heading>
+            <div ng-include="'views/rc/tpl/details.html'"></div>
+        </uib-tab>
+        <uib-tab index="2">
+            <uib-tab-heading>
+                Environment
+            </uib-tab-heading>
+            <div ng-include="'views/rc/tpl/environment.html'"></div>
+        </uib-tab>
+        <uib-tab index="3">
+            <uib-tab-heading>
+                Metrics
+            </uib-tab-heading>
+            <div ng-include="'views/rc/tpl/metrics.html'"></div>
+        </uib-tab>
+        <uib-tab index="4">
+            <uib-tab-heading>
+                Logs
+            </uib-tab-heading>
+            <div ng-include="'views/rc/tpl/logs.html'"></div>
+        </uib-tab>
+        <uib-tab index="5">
+            <uib-tab-heading>
+                Events
+            </uib-tab-heading>
+            <div ng-include="'views/rc/tpl/events.html'"></div>
+        </uib-tab>
+
+    </uib-tabset>
+
+</div>
