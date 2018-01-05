@@ -21,7 +21,7 @@
         <!-- <tbody ng-if="(portsByRoute | hashSize) > 0"> -->
         <tr ng-repeat-start="(routeName,ports) in portsByRoute" style="display: none;"></tr>
         <tr ng-repeat="port in ports" ng-if="routeName !== ''">
-            <td data-title="{{customNameHeader || 'Route'}}{{ showNodePorts ? ' / Node Port' : '' }}">
+            <td  style="border-right:none;" data-title="{{customNameHeader || 'Route'}}{{ showNodePorts ? ' / Node Port' : '' }}">
                 <a href="{{routes[routeName]">{{routes[routeName].metadata.name}}</a>
                 <!-- <a href="{{routes[routeName] | navigateResourceURL}}">{{routes[routeName].metadata.name}}</a> -->
                 <route-warnings ng-if="routes[routeName].spec.to.kind !== 'Service' || services" route="routes[routeName]" services="services">
@@ -30,7 +30,7 @@
                 <span ng-if="port.nodePort"> / {{port.nodePort}}</span>
                 </span>
             </td>
-            <td role="presentation" content="\2192" class="text-muted arrow">&#8594</td>
+            <td  role="presentation" content="\2192" class="text-muted arrow">&#8594</td>
             <td data-title="Service Port">
                 {{port.port}}/{{port.protocol}}
                 <span ng-if="port.name">({{port.name}})</span>
@@ -83,3 +83,9 @@
         </tr>
     </tbody>
 </table>
+<style>
+    .table-bordered>tbody>tr>td{
+        border:none!important;
+        border-bottom: 1px solid #f3f3f3!important;
+    }
+</style>
