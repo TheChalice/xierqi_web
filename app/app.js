@@ -40,7 +40,7 @@ define([
         'hc.marked',
         'rzModule',
         'highcharts-ng',
-        "patternfly",
+        "patternfly.wizard",
         'treeControl'
     ]);
 
