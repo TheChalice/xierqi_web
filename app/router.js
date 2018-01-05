@@ -765,7 +765,7 @@ define([
              })
              //新建deployment
              .state('console.create_deployment', {
-                 url: '/create_deployment/:name',
+                 url: '/create_deployment',
                  templateUrl: 'views/create_deployment/create_deployment.html',
                  controller: 'createDeploymentCtrl',
                  resolve: {
