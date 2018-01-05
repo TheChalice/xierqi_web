@@ -1,97 +1,153 @@
 <!-- detail -->
 <div id="rc">
-    <!-- Status -->
-    <h2>Status</h2>
-    <div class="detail_set">
-        <div class="list_block">
-            <div class="list_b_l"><p class="tit">Status:</p></div>
-            <div class="list_b_r"><p class="tit">Error, ran for 10 minutes, 1 second</p></div>
-        </div>
-
-        <div class="list_block">
-            <div class="list_b_l"><p class="tit">IP:</p></div>
-            <div class="list_b_r"><p class="tit">172.26.1.44</p></div>
-        </div>
-
-        <div class="list_block">
-            <div class="list_b_l"><p class="tit">Node:</p></div>
-            <div class="list_b_r"><p class="tit">10.23.4.26</p></div>
-        </div>
-
-        <div class="list_block">
-            <div class="list_b_l"><p class="tit">Restart Policy:</p></div>
-            <div class="list_b_r"><p class="tit">Never</p></div>
-        </div>
-
-        <div class="list_block">
-            <div class="list_b_l"><p class="tit">Active Deadline:</p></div>
-            <div class="list_b_r"><p class="tit">6 hours</p></div>
+    <div class="row matgin-bt">
+        <div class="col-md-2">Status:</div>
+        <div class="col-md-10"> <status-icon status="statefulSet | deploymentStatus"></status-icon>{{replicaSet | deploymentStatus}}</div>
+    </div>
+    <div class="row matgin-bt">
+        <div class="col-md-2">Replicas:</div>
+        <div class="col-md-10">{{replicaSet.status.replicas}} replica</div>
+    </div>
+    <div class="row matgin-bt">
+        <div class="col-md-2">CONTAINER:</div>
+        <div class="col-md-10">{{replicaSet.metadata.name}}</div>
+    </div>
+    <div class="row matgin-bt">
+        <div class="col-md-2">Command:</div>
+        <div class="col-md-10"><span ng-repeat="command in replicaSet.spec.template.spec.containers[0].command">{{command}}&nbsp;&nbsp;</span></div>
+    </div>
+    <div class="row matgin-bt" ng-repeat="mount in replicaSet.spec.template.spec.containers[0].volumeMounts">
+        <div class="col-md-2">Mount:</div>
+        <div class="col-md-10">{{mount.name}}<span ng-if="mount.subPath">{{mount.subPath}}</span>&#8201;&#8594;&#8201;<span>{{mount.mountPath}}</span>
         </div>
     </div>
-
-    <!-- Container deployment -->
-    <h2>Container deployment</h2>
-    <div class="detail_set">
-        <div class="list_block">
-            <div class="list_b_l"><p class="tit">State:</p></div>
-            <div class="list_b_r"><p class="tit">Terminated at Dec 12, 2017 3:38:52 PM with exit code 1 (Error)</p></div>
+    <div class="row matgin-bt">
+        <div class="col-md-2">Ports:</div>
+        <div class="col-md-10">{{replicaSet.spec.template.spec.containers[0].ports[0].containerPort}}/{{replicaSet.spec.template.spec.containers[0].ports[0].protocol}}</div>
+    </div>
+    <div class="row matgin-bt">
+        <div class="col-md-2">CPU:</div>
+        <div class="col-md-10">{{replicaSet.spec.template.spec.containers[0].resources.limits.cpu}} to {{replicaSet.spec.template.spec.containers[0].resources.requests.cpu}} </div>
+    </div>
+    <div class="row matgin-bt">
+        <div class="col-md-2">Memory:</div>
+        <div class="col-md-10">{{replicaSet.spec.template.spec.containers[0].resources.requests.memory}} to {{replicaSet.spec.template.spec.containers[0].resources.limits.memory}} </div>
+    </div>
+    <div class="row matgin-bt">
+        <div class="col-md-2">Readiness Probe:</div>
+        <div class="col-md-10">GET{{replicaSet.spec.template.spec.containers[0].readinessProbe.httpGet.path}} on {{replicaSet.spec.template.spec.containers[0].readinessProbe.httpGet.port}} 2379 ({{statefuldetail.spec.template.spec.containers[0].readinessProbe.httpGet.scheme}})<small>
+            {{replicaSet.spec.template.spec.containers[0].readinessProbe.initialDelaySeconds}}s delay, {{replicaSet.spec.template.spec.containers[0].readinessProbe.timeoutSeconds}}s timeout</small></div>
+    </div>
+    <div class="row matgin-bt">
+        <div class="col-md-2">Liveness Probe: </div>
+        <div class="col-md-10">GET{{replicaSet.spec.template.spec.containers[0].livenessProbe.httpGet.path}} on {{replicaSet.spec.template.spec.containers[0].livenessProbe.httpGet.port}} 2379 ({{statefuldetail.spec.template.spec.containers[0].readinessProbe.httpGet.scheme}})<small>
+            {{replicaSet.spec.template.spec.containers[0].livenessProbe.initialDelaySeconds}}s delay, {{replicaSet.spec.template.spec.containers[0].livenessProbe.timeoutSeconds}}s timeout</small></div>
+    </div>
+    <h4 ng-if="replicaSet.spec.volumeClaimTemplates" style="border-bottom: 1px solid #c9c9c9;padding:15px 0;color:#666;">volumeClaimTemplates</h4>
+    <div ng-repeat="template in replicaSet.spec.volumeClaimTemplates">
+        <div class="row matgin-bt">
+            <div class="col-md-2">Storage claim:</div>
+            <div class="col-md-10">{{template.metadata.name}}</div>
         </div>
-
-        <div class="list_block">
-            <div class="list_b_l"><p class="tit">Ready:</p></div>
-            <div class="list_b_r"><p class="tit">false</p></div>
+        <div class="row matgin-bt">
+            <div class="col-md-2" >Access Modes:</div>
+            <div class="col-md-10"><span ng-repeat="mode in template.spec.accessModes">{{mode}}<span ng-if="!$last">, </span></span></div>
         </div>
-
-        <div class="list_block">
-            <div class="list_b_l"><p class="tit">Restart Count:</p></div>
-            <div class="list_b_r"><p class="tit">0</p></div>
+        <div class="row matgin-bt">
+            <div class="col-md-2">Capacity:</div>
+            <div class="col-md-10">{{template.spec.resources.requests.storage}}</div>
         </div>
     </div>
-
-    <!-- Annotations -->
-    <h2>Annotations</h2>
-    <div class="detail_set">
-        <div class="list_block">
-            <div class="list_n_l"><p class="tit">openshift.io/deployment.name</p></div>
-            <div class="list_n_r"><p class="tit">gogo-1</p></div>
+    <h4 style="border-bottom: 1px solid #c9c9c9;padding:15px 0;color:#666;">Volumes</h4>
+    <div ng-if="replicaSet.spec.template.spec.volumes"  ng-repeat="volume in statefuldetail.spec.template.spec.volumes">
+        <div class="row matgin-bt">
+            <div class="col-md-2">volumeName:</div>
+            <div class="col-md-10">{{volume.name}}</div>
+        </div>
+        <div ng-if="volume.secret">
+            <div class="row matgin-bt" >
+                <div class="col-md-2">Type:</div>
+                <div class="col-md-10">secret<span class="small text-muted">(populated by a secret when the pod is created)</span></div>
+            </div>
+            <div class="row matgin-bt" >
+                <div class="col-md-2">Secret:</div>
+                <div class="col-md-10">{{volume.secret.secretName}}</div>
+            </div>
+            <div class="row matgin-bt" ng-repeat="item in volume.secret.items">
+                <div class="col-md-2">Key to File:</div>
+                <div class="col-md-10">{{item.key}}&#8201;&#8594;&#8201;{{item.path}}</div>
+            </div>
+        </div>
+        <div ng-if="volume.configMap">
+            <div class="row matgin-bt" >
+                <div class="col-md-2">Type:</div>
+                <div class="col-md-10">config map<span class="small text-muted">((populated by a config map)</span></div>
+            </div>
+            <div class="row matgin-bt" >
+                <div class="col-md-2">Secret:</div>
+                <div class="col-md-10">{{volume.configMap.name}}</div>
+            </div>
+            <div class="row matgin-bt" ng-repeat="item in volume.configMap.items">
+                <div class="col-md-2">Key to File:</div>
+                <div class="col-md-10">{{item.key}}&#8201;&#8594;&#8201;{{item.path}}</div>
+            </div>
+        </div>
+        <div ng-if="volume.persistentVolumeClaim">
+            <div class="row matgin-bt" >
+                <div class="col-md-2">Type:</div>
+                <div class="col-md-10">persistent volume claim<span class="small text-muted">(reference to a persistent volume claim)</span></div>
+            </div>
+            <div class="row matgin-bt" >
+                <div class="col-md-2">Claim name:</div>
+                <div class="col-md-10">{{volume.persistentVolumeClaim.claimName}}</div>
+            </div>
+            <div class="row matgin-bt">
+                <div class="col-md-10" ng-if="volume.persistentVolumeClaim.readOnly">read-only</div>
+                <div class="col-md-10" ng-if="!volume.persistentVolumeClaim.readOnly">read-write</div>
+            </div>
         </div>
 
-        <div class="list_block">
-            <div class="list_n_l"><p class="tit">openshift.io/scc</p></div>
-            <div class="list_n_r"><p class="tit">restricted</p></div>
+    </div>
+    <div ng-if="!replicaSet.spec.template.spec.volumes" class="row matgin-bt"><div class="col-md-10">none</div></div>
+    <h4 style="padding:15px 0;color:#666;">Pods</h4>
+    <div class="table-responsive" style="margin-top: 20px;">
+        <table class="table table-hover table-default">
+            <tr>
+                <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Name</th>
+                <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Status</th>
+                <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Containers Ready</th>
+                <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Containers Restart</th>
+                <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Age</th>
+            </tr>
+            <tr ng-repeat="pod in replicaPods">
+                <td data-title="Name" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
+                    <!-- <a class="href-orange" ui-sref="console.service_detail({name: pod.metadata.name})">
+                        {{pod.metadata.name}}
+                    </a> -->
+                    <a class="href-orange" ui-sref="console.pods_detail({name: pod.metadata.name})">
+                        {{pod.metadata.name}}
+                    </a>
+                </td>
+                <td data-title="Status">
+                    <!-- {{pod.status}} -->
+                    <status-icon status="pod | podStatus" disable-animation></status-icon>
+                    <span flex>{{pod | podStatus | humanizePodStatus}}</span>
+                </td>
+                <td data-title="Ready">
+                    {{pod | numContainersReady}}/{{pod.spec.containers.length}}
+                </td>
+                <td data-title="Restarts">{{pod | numContainerRestarts}}</td>
+                <td data-title="Age"><span uib-tooltip="{{pod.metadata.creationTimestamp | timescon}}">{{pod.metadata.creationTimestamp  | dateRelative}}</span></td>
+            </tr>
+            <tr>
+                <td colspan="7" style="text-align: center;background: #fff;position:relative" ng-if="items.length===0">
+                    <p class="blank_block"> <span class="blank_tit"> {{text}}</span></p>
+                </td>
+            </tr>
+        </table>
+        <div class="text-center" style="text-align:center;" ng-if="grid.total > 10">
+            <uib-pagination class="pagination" ng-model="grid.page" total-items="grid.total" items-per-page="grid.size" class="pagination-sm" boundary-links="false" max-size="12" rotate="true" previous-text="<" next-text=">">
+            </uib-pagination>
         </div>
     </div>
-
-    <!-- Template -->
-    <h2>Template</h2>
-    <p class="h_tit">Containers</p>
-    <p class="h_tit_sm">CONTAINER: DEPLOYMENT</p>
-    <div class="detail_set">
-        <div class="list_block">
-            <div class="list_b_l"><p class="tit">Image:</p></div>
-            <div class="list_b_r"><p class="tit">w_openshift/origin-deployer</p></div>
-        </div>
-
-        <div class="list_block">
-            <div class="list_b_l"><p class="tit">Mount: </p></div>
-            <div class="list_b_r"><p class="tit">deployer-token-6xrfl → /var/run/secrets/kubernetes.io/serviceaccount<span class="redy_tit"> read-only</span></p></div>
-        </div>
-    </div>
-
-    <p class="h_tit">Volumes</p>
-    <p class="h_tit_sm">deployer-token-6xrfl</p>
-    <div class="detail_set">
-        <div class="list_block">
-            <div class="list_b_l"><p class="tit">Type:</p></div>
-            <div class="list_b_r"><p class="tit">secret<span class="redy_tit"> (populated by a secret when the pod is created)</span></p></div>
-        </div>
-
-        <div class="list_block">
-            <div class="list_b_l"><p class="tit">Secret:</p></div>
-            <div class="list_b_r"><p class="tit">deployer-token-6xrfl</p></div>
-        </div>
-    </div>
-
-
-
 </div>

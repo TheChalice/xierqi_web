@@ -1,8 +1,7 @@
 <div id="rc">
     <div class="panel panel-default" style="margin-bottom: 50px">
         <div class="panel-heading">
-                CCCC
-                <!--<i class="faa faa-cmd"></i>&nbsp;&nbsp;{{dc.metadata.name}}-->
+            <i class="faa faa-cmd"></i>&nbsp;&nbsp;{{rc.metadata.name}}
         </div>
     </div>
     <uib-tabset class="tab-default tab-pods">
@@ -34,9 +33,8 @@
             <uib-tab-heading>
                 Events
             </uib-tab-heading>
-            <div ng-include="'views/rc/tpl/events.html'"></div>
+            <deployments-event></deployments-event>
         </uib-tab>
-
     </uib-tabset>
 
 </div>
