@@ -765,7 +765,7 @@ define([
              })
              //新建deployment
              .state('console.create_deployment', {
-                 url: '/create_deployment/:name',
+                 url: '/create_deployment',
                  templateUrl: 'views/create_deployment/create_deployment.html',
                  controller: 'createDeploymentCtrl',
                  resolve: {
@@ -780,6 +780,18 @@ define([
 
                  }
              })
+
+                //rc
+                .state('console.rc', {
+                    url: '/rc/:name',
+                    templateUrl: 'views/rc/rc_detail.html',
+                    controller: 'rcCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/rc/rc_detail.js')
+                        }]
+                    }
+                })
 
         }]);
 

@@ -1556,7 +1556,7 @@ a {
 .active .accountbg,.nav-link:hover i.accountbg{background:url(../../pub/img/user_mange.png) no-repeat;background-size:contain}
 /*************************图标替换 20161123 jia end***************/
 /*输入框获取焦点*/
-input:focus{border-color: #c9c9c9!important;}
+/*input:focus{border-color: #c9c9c9!important;}*/
 /*20161214 jiasx add*/
 .fa-info-circle:before{margin-right:3px;}
 /*按钮颜色设置*/
