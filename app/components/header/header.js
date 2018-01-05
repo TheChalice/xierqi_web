@@ -76,6 +76,7 @@ angular.module("console.header", [{
                     Project.get({ region: $rootScope.region }, function(data) {
 
                         angular.forEach(data.items, function(item, i) {
+                            //console.log('$rootScope.namespace', $rootScope.namespace);
                             if (item.metadata.name === $rootScope.namespace) {
 
                                 $scope.projectname = item.metadata.annotations['openshift.io/display-name'] === '' || !item.metadata.annotations['openshift.io/display-name'] ? item.metadata.name : item.metadata.annotations['openshift.io/display-name'];
