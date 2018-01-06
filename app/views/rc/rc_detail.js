@@ -134,10 +134,10 @@ angular.module('console.rc', [
                     tags: "descriptor_name:memory/usage|cpu/usage_rate,type:pod_container,pod_id:" + $scope.uid + ",container_name:" + $scope.containerName,
                     bucketDuration: "120000ms",
                     start: "-60mn"
-                }
+                };
                 getcpuandmemory(cpuandmemoryobj);
                 getNetwork(networkobj);
-            })
+            });
 
             var getcpuandmemory = function (cpuandmemoryobj) {
                 PieChar.create(cpuandmemoryobj, function (data) {
@@ -189,23 +189,21 @@ angular.module('console.rc', [
                         } else if (k == 'rx_rate') {
                             networktx = item
                         }
-
-                    })
+                    });
                     angular.forEach(networkrx, function (input, i) {
                         if (!input.empty) {
                             $scope.netrxdata.push(Math.floor(input.avg / 1024 * 1000) / 1000)
                         } else {
                             $scope.netrxdata.push(0)
                         }
-
-                    })
+                    });
                     angular.forEach(networktx, function (input, i) {
                         if (!input.empty) {
                             $scope.nettxdata.push(Math.floor(input.avg / 1024 * 1000) / 1000)
                         } else {
                             $scope.nettxdata.push(0)
                         }
-                    })
+                    });
                     $scope.TxConfig = netChart($scope.nettxdata, 'Network (Sent)KB/s');
                     $scope.RxConfig = netChart($scope.netrxdata, 'Network (Received)KB/s');
                 })
