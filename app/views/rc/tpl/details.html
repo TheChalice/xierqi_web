@@ -32,6 +32,15 @@
         </div>
     </div>
 
+    <h3>Template</h3>
+    <pod-template
+            pod-template="replicaSet.spec.template"
+            images-by-docker-reference="imagesByDockerReference"
+            builds="builds"
+            detailed="true"
+            add-health-check-url="{{((!deploymentConfig || isActive)) ? healthCheckURL : ''}}">
+    </pod-template>
+
     <h4 ng-if="replicaSet.spec.volumeClaimTemplates"
         style="border-bottom: 1px solid #c9c9c9;padding:15px 0;color:#666;">volumeClaimTemplates</h4>
     <div ng-repeat="template in replicaSet.spec.volumeClaimTemplates">
