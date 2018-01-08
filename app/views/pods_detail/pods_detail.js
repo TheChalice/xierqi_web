@@ -6,8 +6,14 @@ angular.module('console.pods_detail', [
             ]
         }
     ])
-    .controller('podsdetailCtrl', ['$rootScope', '$scope', '$state', '$log', 
-        function ($rootScope, $scope, $state, $log) {
+    .controller('podsdetailCtrl', ['$rootScope', '$scope', '$state', '$log', 'podDetails',
+        function ($rootScope, $scope, $state, $log,podDetails) {
+
+            if (podDetails) {
+                $scope.Pod = podDetails;
+
+                
+            }
 
           //memory模块设置
           var times = (new Date()).getTime();

@@ -4,10 +4,10 @@ define([
     'angular',
     'uiRouter',
     'ocLazyLoad'
-], function(angular) {
+], function (angular) {
 
     return angular.module('myApp.router', ['ui.router', 'oc.lazyLoad'])
-        .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+        .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
             //$urlRouterProvider.otherwise("/console/build/create");
             $urlRouterProvider.otherwise("/login");
@@ -23,13 +23,13 @@ define([
 
 
             $stateProvider
-            //home
+                //home
                 .state('home', {
                     url: '/home',
                     templateUrl: 'views/home/home.html',
                     controller: 'HomeCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/home/home.js')
                         }]
                     },
@@ -40,7 +40,7 @@ define([
                     templateUrl: 'views/home/recharge/recharge.html',
                     controller: 'rechargeCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/home/recharge/recharge.js')
                         }]
                     }
@@ -50,7 +50,7 @@ define([
                     templateUrl: 'views/home/builder/builder.html',
                     controller: 'builderCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/home/builder/builder.js')
                         }]
                     }
@@ -70,7 +70,7 @@ define([
                     templateUrl: 'views/home/application/application.html',
                     controller: 'applicationCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/home/application/application.js')
                         }]
                     }
@@ -80,7 +80,7 @@ define([
                     templateUrl: 'views/home/index_backing_service/index_backing_service.html',
                     controller: 'index_backing_serviceCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/home/index_backing_service/index_backing_service.js')
                         }]
                     }
@@ -91,7 +91,7 @@ define([
                     templateUrl: 'views/home/index_backing_Sdetail/index_backing_Sdetail.html',
                     controller: 'index_backing_SdetailCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/home/index_backing_Sdetail/index_backing_Sdetail.js')
                         }]
                     }
@@ -101,7 +101,7 @@ define([
                     templateUrl: 'views/home/application_image_detail/application_image_detail.html',
                     controller: 'application_image_detailCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/home/application_image_detail/application_image_detail.js')
                         }]
                     }
@@ -111,7 +111,7 @@ define([
                     templateUrl: 'views/home/application_saas_detail/application_saas_detail.html',
                     controller: 'application_saas_detailCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/home/application_saas_detail/application_saas_detail.js')
                         }]
                     }
@@ -121,7 +121,7 @@ define([
                     templateUrl: 'views/home/introduce/introduce.html',
                     controller: 'introduceCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/home/introduce/introduce.js')
                         }]
                     }
@@ -131,7 +131,7 @@ define([
                     templateUrl: 'views/login/login.html',
                     controller: 'loginCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/login/login.js')
                         }]
                     }
@@ -141,7 +141,7 @@ define([
                     templateUrl: 'views/regist/regist.html',
                     controller: 'registCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/regist/regist.js')
                         }]
                     }
@@ -151,13 +151,13 @@ define([
                     templateUrl: 'views/console/console.html',
                     controller: 'ConsoleCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/console/console.js')
                         }],
-                        user: ['regions', 'Cookie', '$rootScope', 'User', function(regions, Cookie, $rootScope, User) {
+                        user: ['regions', 'Cookie', '$rootScope', 'User', function (regions, Cookie, $rootScope, User) {
                             return User.get({ name: '~', region: Cookie.get('region') }).$promise;
                         }],
-                        pro: ['$stateParams', 'Project', 'Cookie', '$rootScope', function($stateParams, Project, Cookie, $rootScope) {
+                        pro: ['$stateParams', 'Project', 'Cookie', '$rootScope', function ($stateParams, Project, Cookie, $rootScope) {
                             return Project.get().$promise;
                         }]
                     },
@@ -175,7 +175,7 @@ define([
                     templateUrl: 'views/backing_service_detail/backing_service_detail.html',
                     controller: 'BackingServiceInstanceCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/backing_service_detail/backing_service_detail.js'])
                         }]
                     }
@@ -189,7 +189,7 @@ define([
                         index: null
                     },
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/apply_instance/apply_instance.js'])
                         }]
                     }
@@ -199,10 +199,10 @@ define([
                     templateUrl: 'views/dashboard/dashboard.html',
                     controller: 'dashboardCtrl',
                     params: {
-                        namespace:null
+                        namespace: null
                     },
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/dashboard/dashboard.js'])
                         }]
                     }
@@ -215,7 +215,7 @@ define([
                         index: null
                     },
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/user/user.js')
                         }]
                     }
@@ -228,7 +228,7 @@ define([
                     },
                     controller: 'orgCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/org/org.js')
                         }]
                     }
@@ -238,7 +238,7 @@ define([
                     templateUrl: 'views/notification/notification.html',
                     controller: 'notificationCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/notification/notification.js')
                         }]
                     }
@@ -249,7 +249,7 @@ define([
                     templateUrl: 'views/build/build.html',
                     controller: 'BuildCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/build/build.js')
                         }]
                     }
@@ -259,7 +259,7 @@ define([
                     templateUrl: 'views/build_create/build_create.html',
                     controller: 'BuildCreateCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/build_create/build_create.js')
                         }]
                     }
@@ -272,7 +272,7 @@ define([
                     templateUrl: 'views/build_detail/build_detail.html',
                     controller: 'BuildDetailCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/build_detail/build_detail.js')
                         }]
                     }
@@ -282,7 +282,7 @@ define([
                     templateUrl: 'views/build_create_new/build_create_new.html',
                     controller: 'BuildcCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/build_create_new/build_create_new.js')
                         }]
                     }
@@ -296,14 +296,14 @@ define([
                         index: null
                     },
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/image/image.js', 'views/image/image.css'])
                         }],
-                        primage: ['pubregistry', 'regions', 'Cookie', '$rootScope', 'User', function(pubregistry, regions, Cookie, $rootScope, User) {
+                        primage: ['pubregistry', 'regions', 'Cookie', '$rootScope', 'User', function (pubregistry, regions, Cookie, $rootScope, User) {
 
-                            pubregistry.get(function(data) {
+                            pubregistry.get(function (data) {
                                 return data
-                            }, function(err) {
+                            }, function (err) {
                                 return err
                             });
                         }]
@@ -314,7 +314,7 @@ define([
                     templateUrl: 'views/image_detail/image_detail.html',
                     controller: 'ImageDetailCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/image_detail/image_detail.js'])
                         }]
                     }
@@ -324,7 +324,7 @@ define([
                     templateUrl: 'views/primage_detail/primage_detail.html',
                     controller: 'prImageDetailCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/primage_detail/primage_detail.js'])
                         }]
                     }
@@ -334,7 +334,7 @@ define([
                     templateUrl: 'views/image_Public/image_Public.html',
                     controller: 'imagePublicCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/image_Public/image_Public.js'])
                         }]
                     }
@@ -344,7 +344,7 @@ define([
                     templateUrl: 'views/image_Public/image_regstry.html',
                     controller: 'imagePublicCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/image_Public/image_Public.js'])
                         }]
                     }
@@ -355,16 +355,16 @@ define([
                     templateUrl: 'views/apps/deployments/deployments.html',
                     controller: 'DeploymentsCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/apps/deployments/deployments.js', 'views/apps/apps.css'])
                         }],
                         dc: ['DeploymentConfig', 'Cookie',
-                            function(DeploymentConfig, Cookie) {
+                            function (DeploymentConfig, Cookie) {
                                 return DeploymentConfig.get({ namespace: Cookie.get('namespace') }).$promise
                             }
                         ],
                         replicas: ['ReplicationController', 'Cookie',
-                            function(ReplicationController, Cookie) {
+                            function (ReplicationController, Cookie) {
                                 return ReplicationController.get({ namespace: Cookie.get('namespace') }).$promise
                             }
                         ]
@@ -375,7 +375,7 @@ define([
                     templateUrl: 'views/apps/stateful-sets/stateful-sets.html',
                     controller: 'Stateful-setsCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/apps/stateful-sets/stateful-sets.js', 'views/apps/apps.css'])
                         }]
                     }
@@ -385,7 +385,7 @@ define([
                     templateUrl: 'views/apps/stateful-sets-detail/stateful-sets-detail.html',
                     controller: 'Stateful-setsDetailCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/apps/stateful-sets-detail/stateful-sets-detail.js', 'views/apps/apps.css'])
                         }]
                     }
@@ -395,7 +395,7 @@ define([
                     templateUrl: 'views/apps/pods/pods.html',
                     controller: 'PodsCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/apps/pods/pods.js', 'views/apps/apps.css'])
                         }]
                     }
@@ -405,7 +405,7 @@ define([
                     templateUrl: 'views/apps/services/services.html',
                     controller: 'ServicesCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/apps/services/services.js', 'views/apps/apps.css'])
                         }]
                     }
@@ -415,11 +415,11 @@ define([
                     templateUrl: 'views/apps/routes/routes.html',
                     controller: 'RoutesCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/apps/routes/routes.js', 'views/apps/apps.css'])
                         }],
                         routes: ['Route', 'Cookie',
-                            function(Route, Cookie) {
+                            function (Route, Cookie) {
                                 return Route.get({ namespace: Cookie.get('namespace') }).$promise
                             }
                         ]
@@ -434,7 +434,7 @@ define([
                         ports: null
                     },
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/service_create/service_create.js'])
                         }]
                     }
@@ -444,7 +444,7 @@ define([
                     templateUrl: 'views/quick_deploy/quick_deploy.html',
                     controller: 'QuickDeployCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/quick_deploy/quick_deploy.js'])
                         }]
                     }
@@ -454,16 +454,16 @@ define([
                     templateUrl: 'views/route_details/route_details.html',
                     controller: 'RouteDetailCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/route_details/route_details.js'])
                         }],
                         routeDetails: ['Route', 'Cookie', '$stateParams',
-                            function(Route, Cookie, $stateParams) {
+                            function (Route, Cookie, $stateParams) {
                                 return Route.get({ namespace: Cookie.get('namespace'), name: $stateParams.name }).$promise
                             }
                         ],
                         services: ['Service', 'Cookie', '$stateParams',
-                            function(Service, Cookie, $stateParams) {
+                            function (Service, Cookie, $stateParams) {
                                 return Service.get({ namespace: Cookie.get('namespace') }).$promise
                             }
                         ]
@@ -477,16 +477,16 @@ define([
                     templateUrl: 'views/deployments_detail/deployments_detail.html',
                     controller: 'DeploymentsDetailCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/deployments_detail/deployments_detail.js'])
                         }],
-                        mydc: ['$stateParams', 'DeploymentConfig', 'Cookie', '$rootScope', function($stateParams, DeploymentConfig, Cookie, $rootScope) {
+                        mydc: ['$stateParams', 'DeploymentConfig', 'Cookie', '$rootScope', function ($stateParams, DeploymentConfig, Cookie, $rootScope) {
                             return DeploymentConfig.get({
                                 namespace: Cookie.get('namespace'),
                                 name: $stateParams.name
                             }).$promise;
                         }],
-                        mytag: ['$stateParams', 'ImageStreamTag', 'Cookie', '$rootScope', function($stateParams, ImageStreamTag, Cookie, $rootScope) {
+                        mytag: ['$stateParams', 'ImageStreamTag', 'Cookie', '$rootScope', function ($stateParams, ImageStreamTag, Cookie, $rootScope) {
                             return ImageStreamTag.get({
                                 namespace: Cookie.get('namespace')
                             }).$promise;
@@ -501,26 +501,26 @@ define([
                     templateUrl: 'views/service_details/service_details.html',
                     controller: 'ServicesDetailCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/service_details/service_details.js'])
                         }],
                         routes: ['Route', 'Cookie',
-                            function(Route, Cookie) {
+                            function (Route, Cookie) {
                                 return Route.get({ namespace: Cookie.get('namespace') }).$promise
                             }
                         ],
                         pods: ['Pod', 'Cookie',
-                            function(Pod, Cookie) {
+                            function (Pod, Cookie) {
                                 return Pod.get({ namespace: Cookie.get('namespace') }).$promise
                             }
                         ],
                         endpoints: ['Endpoint', 'Cookie',
-                            function(Endpoint, Cookie) {
+                            function (Endpoint, Cookie) {
                                 return Endpoint.get({ namespace: Cookie.get('namespace') }).$promise
                             }
                         ],
                         serviceDetails: ['Service', 'Cookie', '$stateParams',
-                            function(Service, Cookie, $stateParams) {
+                            function (Service, Cookie, $stateParams) {
                                 return Service.get({ namespace: Cookie.get('namespace'), name: $stateParams.name }).$promise
                             }
                         ]
@@ -534,7 +534,7 @@ define([
                     templateUrl: 'views/backing_service/backing_service.html',
                     controller: 'BackingServiceCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/backing_service/backing_service.js'])
                         }]
                     }
@@ -545,7 +545,7 @@ define([
                     templateUrl: 'views/create_saas/create_saas.html',
                     controller: 'create_saasCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/create_saas/create_saas.js')
                         }]
                     }
@@ -559,7 +559,7 @@ define([
                     templateUrl: 'views/resource_management/resource_management.html',
                     controller: 'resmanageCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/resource_management/resource_management.js')
                         }]
                     }
@@ -569,7 +569,7 @@ define([
                     templateUrl: 'views/create_constantly_volume/create_constantly_volume.html',
                     controller: 'createconvolumeCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/create_constantly_volume/create_constantly_volume.js')
                         }]
                     }
@@ -579,7 +579,7 @@ define([
                     templateUrl: 'views/create_config_volume/create_config_volume.html',
                     controller: 'createfigvolumeCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/create_config_volume/create_config_volume.js')
                         }]
                     }
@@ -589,7 +589,7 @@ define([
                     templateUrl: 'views/create_secret/create_secret.html',
                     controller: 'createSecretCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/create_secret/create_secret.js')
                         }]
                     }
@@ -599,7 +599,7 @@ define([
                     templateUrl: 'views/config_detail/config_detail.html',
                     controller: 'configDetailCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/config_detail/config_detail.js')
                         }]
                     }
@@ -609,7 +609,7 @@ define([
                     templateUrl: 'views/secret_detail/secret_detail.html',
                     controller: 'secretDetailCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/secret_detail/secret_detail.js')
                         }]
                     }
@@ -619,7 +619,7 @@ define([
                     templateUrl: 'views/constantly_detail/constantly_detail.html',
                     controller: 'constDetailCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/constantly_detail/constantly_detail.js')
                         }]
                     }
@@ -633,7 +633,7 @@ define([
                     templateUrl: 'views/Integration/Integration.html',
                     controller: 'IntegrationCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/Integration/Integration.js'])
                         }]
                     }
@@ -650,7 +650,7 @@ define([
                     templateUrl: 'views/Integration_detail/Integration_detail.html',
                     controller: 'IntegrationDetailCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/Integration_detail/Integration_detail.js'])
                         }]
                     }
@@ -662,7 +662,7 @@ define([
                     templateUrl: 'views/Integration_dlist/Integration_dlist.html',
                     controller: 'IntegrationDlistCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/Integration_dlist/Integration_dlist.js'])
                         }]
                     }
@@ -676,7 +676,7 @@ define([
                         plan: null
                     },
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/dataseverdetail/dataseverdetail.js'])
                         }]
                     }
@@ -687,7 +687,7 @@ define([
                     templateUrl: 'views/plan/plan.html',
                     controller: 'planCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/plan/plan.js')
                         }]
                     }
@@ -697,7 +697,7 @@ define([
                     templateUrl: 'views/noplan/noplan.html',
                     controller: 'noplanCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/noplan/noplan.js')
                         }]
                     }
@@ -707,7 +707,7 @@ define([
                     templateUrl: 'views/admin/admin.html',
                     controller: 'adminCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/admin/admin.js')
                         }]
                     }
@@ -717,7 +717,7 @@ define([
                     templateUrl: 'views/pay/pay.html',
                     controller: 'payCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/pay/pay.js')
                         }]
                     }
@@ -730,56 +730,60 @@ define([
                     },
                     controller: 'wechatPayCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/wechat_pay/wechat_pay.js')
                         }]
                     }
                 })
-
                 //pods详情
                 .state('console.pods_detail', {
-                url: '/pods_detail',
-                templateUrl: 'views/pods_detail/pods_detail.html',
-                controller: 'podsdetailCtrl',
-                resolve: {
-                    dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                        return $ocLazyLoad.load('views/pods_detail/pods_detail.js')
-                    }]
-                }
-            })
-            //新建routes
-             .state('console.create_routes', {
-                 url: '/create_routes/:name',
-                 templateUrl: 'views/create_file/create_routes/create_routes.html',
-                 controller: 'CreateRoutesCtrl',
-                 resolve: {
-                     dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                         return $ocLazyLoad.load('views/create_file/create_routes/create_routes.js')
-                     }],
-                     createRoutes: ['Route', 'Cookie','$stateParams',
-                         function(Route, Cookie,$stateParams) {
-                             return Route.get({ namespace: Cookie.get('namespace'),name:$stateParams.name}).$promise
-                         }
-                     ]
-                 }
-             })
-             //新建deployment
-             .state('console.create_deployment', {
-                 url: '/create_deployment',
-                 templateUrl: 'views/create_deployment/create_deployment.html',
-                 controller: 'createDeploymentCtrl',
-                 resolve: {
-                     dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                         return $ocLazyLoad.load('views/create_deployment/create_deployment.js')
-                     }],
-                     myProject: ['Project', 'Cookie','$stateParams',
-                         function(Project, Cookie,$stateParams) {
-                             return Project.get().$promise
-                         }
-                     ]
+                    url: '/pods_detail/:name',
+                    templateUrl: 'views/pods_detail/pods_detail.html',
+                    controller: 'podsdetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/pods_detail/pods_detail.js')
+                        }],
+                        podDetails: ['Pod', 'Cookie', '$stateParams',
+                            function (Pod, Cookie, $stateParams) {
+                                return Pod.get({ namespace: Cookie.get('namespace'), name: $stateParams.name }).$promise
+                            }
+                        ]
+                    }
+                })
+                //新建routes
+                .state('console.create_routes', {
+                    url: '/create_routes/:name',
+                    templateUrl: 'views/create_file/create_routes/create_routes.html',
+                    controller: 'CreateRoutesCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/create_file/create_routes/create_routes.js')
+                        }],
+                        createRoutes: ['Route', 'Cookie', '$stateParams',
+                            function (Route, Cookie, $stateParams) {
+                                return Route.get({ namespace: Cookie.get('namespace'), name: $stateParams.name }).$promise
+                            }
+                        ]
+                    }
+                })
+                //新建deployment
+                .state('console.create_deployment', {
+                    url: '/create_deployment',
+                    templateUrl: 'views/create_deployment/create_deployment.html',
+                    controller: 'createDeploymentCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/create_deployment/create_deployment.js')
+                        }],
+                        myProject: ['Project', 'Cookie', '$stateParams',
+                            function (Project, Cookie, $stateParams) {
+                                return Project.get().$promise
+                            }
+                        ]
 
-                 }
-             })
+                    }
+                })
 
                 //rc
                 .state('console.rc', {
@@ -787,10 +791,10 @@ define([
                     templateUrl: 'views/rc/rc_detail.html',
                     controller: 'rcCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/rc/rc_detail.js')
                         }],
-                        mypod: ['$stateParams', 'Pod', 'Cookie', '$rootScope', function($stateParams, Pod, Cookie, $rootScope) {
+                        mypod: ['$stateParams', 'Pod', 'Cookie', '$rootScope', function ($stateParams, Pod, Cookie, $rootScope) {
                             return Pod.get({
                                 namespace: Cookie.get('namespace')
                             }).$promise;
