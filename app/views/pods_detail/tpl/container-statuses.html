@@ -5,7 +5,7 @@
   detailed (optional)
  -->
 123213
-<div ng-if="detailed && Pod.status.initContainerStatuses.length">
+<!-- <div ng-if="detailed && Pod.status.initContainerStatuses.length">
   <h4 class="mar-bottom-xl" row ng-if="initContainersTerminated">
     <span><i class="fa fa-check text-success"></i></span>
     <span flex>
@@ -43,12 +43,12 @@
       <dd>{{containerStatus.restartCount}}</dd>
     </dl>
   </div>
-</div>
+</div> -->
 
 <div ng-repeat="containerStatus in Pod.status.containerStatuses track by containerStatus.name" >
   <h4>Container {{containerStatus.name}}123</h4>
 
-  <dl class="dl-horizontal left">
+  <!-- <dl class="dl-horizontal left">
     <dt>State:</dt>
     <dd>
       <kubernetes-object-describe-container-state container-state="containerStatus.state"></kubernetes-object-describe-container-state>
@@ -65,5 +65,5 @@
     <div ng-if="hasDebugTerminal && showDebugAction(containerStatus) && ('pods' | canI : 'create')" class="debug-pod-action">
       <a href="" ng-click="debugTerminal(containerStatus.name)" role="button">Debug in Terminal</a>
     </div>
-  </dl>
+  </dl> -->
 </div>

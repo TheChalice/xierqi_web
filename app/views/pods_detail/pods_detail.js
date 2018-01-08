@@ -2,7 +2,8 @@
 angular.module('console.pods_detail', [
         {
             files: [
-                'views/pods_detail/pods_detail.css'
+                'views/pods_detail/pods_detail.css',
+                'components/deploymentsevent/deploymentsevent.js'
             ]
         }
     ])
@@ -10,17 +11,12 @@ angular.module('console.pods_detail', [
         function ($rootScope, $scope, $state, $log,podDetails) {
 
             if (podDetails) {
-                //console.log("pod.status.containerStatuses12",podDetails.status.containerStatuses)
-                //$scope.Pod = podDetails;
+               //Environment模块
                 $scope.Pod = angular.copy(podDetails);
-                console.log("podDetails12",podDetails);
-                //$scope.rc = angular.copy(podDetails);
-                
                 $scope.environment = $scope.Pod.spec.containers[0].env;
-                console.log("environment",$scope.environment);
-                //.spec.containers["0"].env[1].name
-
-                //.spec.containers["0"].env
+                
+                
+                
                 
             }
 
