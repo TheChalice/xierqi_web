@@ -50,6 +50,7 @@ define([
             host_k8s: '/api/v1',
             host_newk8s: '/apis/autoscaling/v1',
             host_newk8s1: '/apis/apps/v1beta1',
+            host_newk8s2: '/apis/extensions/v1beta1',
             host_repos: '/v1/repos',
             host_registry: '/registry/api',
             host_lapi: '/lapi',

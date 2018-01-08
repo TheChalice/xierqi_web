@@ -358,9 +358,14 @@ define([
                         dep: ['$ocLazyLoad', function($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/apps/deployments/deployments.js', 'views/apps/apps.css'])
                         }],
-                        dc: ['DeploymentConfig', 'Cookie',
+                        mydcs: ['DeploymentConfig', 'Cookie',
                             function(DeploymentConfig, Cookie) {
                                 return DeploymentConfig.get({ namespace: Cookie.get('namespace') }).$promise
+                            }
+                        ],
+                        mydeployment: ['Deployments', 'Cookie',
+                            function(Deployments, Cookie) {
+                                return Deployments.get({ namespace: Cookie.get('namespace') }).$promise
                             }
                         ],
                         replicas: ['ReplicationController', 'Cookie',
