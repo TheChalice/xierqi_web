@@ -387,7 +387,12 @@ define([
                     resolve: {
                         dep: ['$ocLazyLoad', function($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/apps/stateful-sets-detail/stateful-sets-detail.js', 'views/apps/apps.css'])
-                        }]
+                        }],
+                        podList: ['Pod', 'Cookie',
+                            function(Pod, Cookie) {
+                                return Pod.get({ namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ],
                     }
                 })
                 .state('console.pods', {
