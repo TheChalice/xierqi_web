@@ -355,16 +355,21 @@ define([
                     templateUrl: 'views/apps/deployments/deployments.html',
                     controller: 'DeploymentsCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/apps/deployments/deployments.js', 'views/apps/apps.css'])
                         }],
-                        dc: ['DeploymentConfig', 'Cookie',
-                            function (DeploymentConfig, Cookie) {
+                        mydcs: ['DeploymentConfig', 'Cookie',
+                            function(DeploymentConfig, Cookie) {
                                 return DeploymentConfig.get({ namespace: Cookie.get('namespace') }).$promise
                             }
                         ],
+                        mydeployment: ['Deployments', 'Cookie',
+                            function(Deployments, Cookie) {
+                                return Deployments.get({ namespace: Cookie.get('namespace') }).$promise
+                            }
+                        ],
                         replicas: ['ReplicationController', 'Cookie',
-                            function (ReplicationController, Cookie) {
+                            function(ReplicationController, Cookie) {
                                 return ReplicationController.get({ namespace: Cookie.get('namespace') }).$promise
                             }
                         ]
@@ -469,24 +474,24 @@ define([
                         ]
                     }
                 })
-                .state('console.deployments_detail', {
-                    url: '/deployments/:name',
+                .state('console.deploymentconfig_detail', {
+                    url: '/deploymentconfig/:name',
                     params: {
                         from: null
                     },
-                    templateUrl: 'views/deployments_detail/deployments_detail.html',
-                    controller: 'DeploymentsDetailCtrl',
+                    templateUrl: 'views/deploymentconfig_detail/deploymentconfig_detail.html',
+                    controller: 'DeploymentConfigDetailCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/deployments_detail/deployments_detail.js'])
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/deploymentconfig_detail/deploymentconfig_detail.js'])
                         }],
-                        mydc: ['$stateParams', 'DeploymentConfig', 'Cookie', '$rootScope', function ($stateParams, DeploymentConfig, Cookie, $rootScope) {
+                        mydc: ['$stateParams', 'DeploymentConfig', 'Cookie', '$rootScope', function($stateParams, DeploymentConfig, Cookie, $rootScope) {
                             return DeploymentConfig.get({
                                 namespace: Cookie.get('namespace'),
                                 name: $stateParams.name
                             }).$promise;
                         }],
-                        mytag: ['$stateParams', 'ImageStreamTag', 'Cookie', '$rootScope', function ($stateParams, ImageStreamTag, Cookie, $rootScope) {
+                        mytag: ['$stateParams', 'ImageStreamTag', 'Cookie', '$rootScope', function($stateParams, ImageStreamTag, Cookie, $rootScope) {
                             return ImageStreamTag.get({
                                 namespace: Cookie.get('namespace')
                             }).$promise;
