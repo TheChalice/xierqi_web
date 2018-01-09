@@ -474,11 +474,11 @@ angular.module('console.deploymentconfig_detail', [
 
                             $scope.baocuname = data.object.metadata.name;
 
-                            if (data.object.spec.selector.deploymentconfig === $scope.dc.metadata.name) {
-                                $scope.dc.spec.replicas = data.object.spec.replicas;
-                                $scope.dc.status.replicas = data.object.status.replicas;
-                                $scope.$apply();
-                            }
+                            //if (data.object.spec.selector.deploymentconfig === $scope.dc.metadata.name) {
+                            //    //$scope.dc.spec.replicas = data.object.spec.replicas;
+                            //    $scope.dc.status.replicas = data.object.status.replicas;
+                            //    $scope.$apply();
+                            //}
                             angular.forEach($scope.rcs.items, function (item, i) {
                                 if (item.metadata.name == data.object.metadata.name) {
                                     $scope.rcs.items[i] = data.object;
