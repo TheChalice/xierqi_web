@@ -44,7 +44,7 @@ define(['angular'], function(angular) {
                     portsByRoute: '=',
                     showNodePorts: '=?',
                     // Alternative header text to display in the 'Name' column.
-                    customNameHeader: '=?',
+                    customNameHeader: '=?'
                 },
                 templateUrl: 'views/directives/traffic-table.html'
             };
@@ -75,5 +75,33 @@ define(['angular'], function(angular) {
                 }
             };
         })
+        .directive('podTemplate', function() {
+            return {
+                restrict: 'E',
+                scope: {
+                    podTemplate: '=',
+                    imagesByDockerReference: '=',
+                    builds: '=',
+                    detailed: '=?',
+                    // Optional URL for setting health checks on the resource when missing.
+                    addHealthCheckUrl: '@?'
+                },
+                templateUrl: 'views/directives/_pod-template.html'
+            };
+        })
+        .directive('podTemplateContainer', function() {
+            return {
+                restrict: 'E',
+                scope: {
+                    container: '=podTemplateContainer',
+                    imagesByDockerReference: '=',
+                    builds: '=',
+                    detailed: '=?',
+                    labelPrefix: '@?'
+                },
+                templateUrl: 'views/directives/_pod-template-container.html'
+            };
+        })
+
 
 });

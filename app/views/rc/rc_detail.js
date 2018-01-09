@@ -91,22 +91,26 @@ angular.module('console.rc', [
             var getOwnerReferences = function (apiObject) {
                 return _.get(apiObject, 'metadata.ownerReferences');
             };
-            var filterForController = function (apiObjects, controller) {
+            var filterForController = function(apiObjects, controller) {
                 var controllerUID = _.get(controller, 'metadata.uid');
-                return _.filter(apiObjects, function (apiObject) {
+                return _.filter(apiObjects, function(apiObject) {
                     return _.some(getOwnerReferences(apiObject), {
                         uid: controllerUID,
                         controller: true
                     });
                 });
-            }
-            $scope.replicaPods = filterForController(mypod.items, ReplicationController);
+            };
+            var getPods = function(ReplicationController){
+                $scope.replicaPods = filterForController(mypod.items, ReplicationController);
+                // console.log('mypod.items $scope.replicaPods',$scope.replicaPods);
+            };
+
             angular.forEach(mypod.items, function (pod, i) {
-                if (pod.metadata.name.indexOf($stateParams.name) == 0) {
+                if (pod.metadata.name.indexOf($state.params.name) === 0) {
                     $scope.uid = pod.metadata.uid;
-                    console.log($scope.uid);
+                    // console.log($scope.uid);
                 }
-            })
+            });
 
             function loadrc(callback) {
                 ReplicationController.get({
@@ -115,12 +119,13 @@ angular.module('console.rc', [
                 }, function (res) {
                     // console.log('-----res--->>>', res);
                     // getPods(res);
-                    $scope.rc = angular.copy(res);
-                    $scope.replicaSet = $scope.rc;
+                    // $scope.rc = angular.copy(res);
+                    $scope.replicaSet = angular.copy(res);
                     $scope.environment = $scope.replicaSet.spec.template.spec.containers[0].env;
                     $scope.lables = $scope.replicaSet.metadata.labels.app;
-                    $scope.containerName = $scope.rc.spec.template.spec.containers[0].name;
-                    callback($scope.lables)
+                    $scope.containerName = $scope.replicaSet.spec.template.spec.containers[0].name;
+                    callback($scope.lables);
+                    getPods(res);
                 });
             }
 
@@ -134,10 +139,10 @@ angular.module('console.rc', [
                     tags: "descriptor_name:memory/usage|cpu/usage_rate,type:pod_container,pod_id:" + $scope.uid + ",container_name:" + $scope.containerName,
                     bucketDuration: "120000ms",
                     start: "-60mn"
-                }
+                };
                 getcpuandmemory(cpuandmemoryobj);
                 getNetwork(networkobj);
-            })
+            });
 
             var getcpuandmemory = function (cpuandmemoryobj) {
                 PieChar.create(cpuandmemoryobj, function (data) {
@@ -189,23 +194,21 @@ angular.module('console.rc', [
                         } else if (k == 'rx_rate') {
                             networktx = item
                         }
-
-                    })
+                    });
                     angular.forEach(networkrx, function (input, i) {
                         if (!input.empty) {
                             $scope.netrxdata.push(Math.floor(input.avg / 1024 * 1000) / 1000)
                         } else {
                             $scope.netrxdata.push(0)
                         }
-
-                    })
+                    });
                     angular.forEach(networktx, function (input, i) {
                         if (!input.empty) {
                             $scope.nettxdata.push(Math.floor(input.avg / 1024 * 1000) / 1000)
                         } else {
                             $scope.nettxdata.push(0)
                         }
-                    })
+                    });
                     $scope.TxConfig = netChart($scope.nettxdata, 'Network (Sent)KB/s');
                     $scope.RxConfig = netChart($scope.netrxdata, 'Network (Received)KB/s');
                 })
