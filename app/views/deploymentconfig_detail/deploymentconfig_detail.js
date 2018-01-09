@@ -1,9 +1,9 @@
 'use strict';
-angular.module('console.deployments.detail', [
+angular.module('console.deploymentconfig_detail', [
         'kubernetesUI',
         {
             files: [
-                'views/deployments_detail/deployments_detail.css',
+                'views/deploymentconfig_detail/deploymentconfig_detail.css',
                 'components/datepick/datepick.js',
                 'components/checkbox/checkbox.js',
                 'components/checkbox/checkbox_small.js',
@@ -11,10 +11,10 @@ angular.module('console.deployments.detail', [
             ]
         }
     ])
-    .controller('DeploymentsDetailCtrl', ['$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag',
+    .controller('DeploymentConfigDetailCtrl', ['$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag',
         function ($log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag) {
             $scope.dc = angular.copy(mydc)
-            console.log('mydc', mydc);
+            //console.log('mydc', mydc);
             $scope.mytag = angular.copy(mytag)
             $scope.eventfifter = 'DeploymentConfig';
             $scope.envs = [];
@@ -28,7 +28,8 @@ angular.module('console.deployments.detail', [
             $scope.horiz = {
                 "apiVersion": "autoscaling/v1",
                 "kind": "HorizontalPodAutoscaler",
-                "metadata": {"name": $scope.dc.metadata.name, "labels": {"app": $scope.dc.metadata.name}},
+                "metadata": {"name": $scope.dc.metadata.name,
+                    "labels": {"app": $scope.dc.metadata.name}},
                 "spec": {
                     "scaleTargetRef": {
                         "kind": "DeploymentConfig",
@@ -73,6 +74,7 @@ angular.module('console.deployments.detail', [
                 if (data.type == 'ADDED') {
                     //$scope.rcs.items.shift(data.object);
                 } else if (data.type == "MODIFIED") {
+                    data.object.spec.replicas= $scope.dc.spec.replicas
                     $scope.dc.status.replicas = data.object.status.replicas
                 }
             }
@@ -190,7 +192,7 @@ angular.module('console.deployments.detail', [
     .directive('deploymentsConfig', function () {
         return {
             restrict: 'E',
-            templateUrl: 'views/deployments_detail/tpl/config.html',
+            templateUrl: 'views/deploymentconfig_detail/tpl/config.html',
             scope: false,
             controller: ['$scope', 'horizontalpodautoscalers', '$rootScope', 'GLOBAL', 'ImageStreamTag', 'ImageStream',
                 function ($scope, horizontalpodautoscalers, $rootScope, GLOBAL, ImageStreamTag, ImageStream) {
@@ -238,7 +240,6 @@ angular.module('console.deployments.detail', [
                         $scope.dc.spec.template.spec.containers.splice(idx, 1);
 
                     };
-
                     $scope.$watch('dc.spec.template.spec.containers', function (n, o) {
                         if (n == o) {
                             return;
@@ -388,7 +389,7 @@ angular.module('console.deployments.detail', [
     .directive('deploymentsHistory', function () {
         return {
             restrict: 'E',
-            templateUrl: 'views/deployments_detail/tpl/history.html',
+            templateUrl: 'views/deploymentconfig_detail/tpl/history.html',
             scope: false,
             controller: ['$scope', 'ReplicationController', '$rootScope', 'Ws', 'Sort',
                 function ($scope, ReplicationController, $rootScope, Ws, Sort) {
@@ -416,7 +417,6 @@ angular.module('console.deployments.detail', [
                             labelSelector: labelSelector,
                             region: $rootScope.region
                         }, function (res) {
-                            //$log.info("replicationControllers", res);
                             res.items = Sort.sort(res.items, -1);
                             for (var i = 0; i < res.items.length; i++) {
                                 res.items[i].dc = JSON.parse(res.items[i].metadata.annotations['openshift.io/encoded-deployment-config']);

@@ -358,9 +358,14 @@ define([
                         dep: ['$ocLazyLoad', function($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/apps/deployments/deployments.js', 'views/apps/apps.css'])
                         }],
-                        dc: ['DeploymentConfig', 'Cookie',
+                        mydcs: ['DeploymentConfig', 'Cookie',
                             function(DeploymentConfig, Cookie) {
                                 return DeploymentConfig.get({ namespace: Cookie.get('namespace') }).$promise
+                            }
+                        ],
+                        mydeployment: ['Deployments', 'Cookie',
+                            function(Deployments, Cookie) {
+                                return Deployments.get({ namespace: Cookie.get('namespace') }).$promise
                             }
                         ],
                         replicas: ['ReplicationController', 'Cookie',
@@ -469,16 +474,16 @@ define([
                         ]
                     }
                 })
-                .state('console.deployments_detail', {
-                    url: '/deployments/:name',
+                .state('console.deploymentconfig_detail', {
+                    url: '/deploymentconfig/:name',
                     params: {
                         from: null
                     },
-                    templateUrl: 'views/deployments_detail/deployments_detail.html',
-                    controller: 'DeploymentsDetailCtrl',
+                    templateUrl: 'views/deploymentconfig_detail/deploymentconfig_detail.html',
+                    controller: 'DeploymentConfigDetailCtrl',
                     resolve: {
                         dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/deployments_detail/deployments_detail.js'])
+                            return $ocLazyLoad.load(['views/deploymentconfig_detail/deploymentconfig_detail.js'])
                         }],
                         mydc: ['$stateParams', 'DeploymentConfig', 'Cookie', '$rootScope', function($stateParams, DeploymentConfig, Cookie, $rootScope) {
                             return DeploymentConfig.get({
@@ -780,6 +785,23 @@ define([
 
                  }
              })
+
+                //rc
+                .state('console.rc', {
+                    url: '/rc/:name',
+                    templateUrl: 'views/rc/rc_detail.html',
+                    controller: 'rcCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/rc/rc_detail.js')
+                        }],
+                        mypod: ['$stateParams', 'Pod', 'Cookie', '$rootScope', function($stateParams, Pod, Cookie, $rootScope) {
+                            return Pod.get({
+                                namespace: Cookie.get('namespace')
+                            }).$promise;
+                        }]
+                    }
+                })
 
         }]);
 

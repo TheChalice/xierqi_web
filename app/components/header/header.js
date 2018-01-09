@@ -531,6 +531,16 @@ angular.module("console.header", [{
                 return "数据预览";
             case "console.dataseverdetail":
                 return "创建服务实例";
+            case "console.stateful-sets-detail":
+                return "stateful-sets详情";
+            case "console.stateful-sets":
+                return "stateful-sets";
+            case "console.create_routes":
+                return "route设置";
+            case "console.routes":
+                return "routes";
+            case "console.route":
+                return "route详情";
 
         }
     };
