@@ -241,6 +241,18 @@ define([
             });
             return DeploymentConfig;
         }])
+        .factory('Deployments', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
+            var Deployments = $resource(GLOBAL.host_newk8s2 + '/namespaces/:namespace/deployments/:name', {
+                name: '@name',
+                namespace: '@namespace'
+            }, {
+                create: { method: 'POST' },
+                put: { method: 'PUT' },
+                patch: { method: "PATCH" }
+            });
+
+            return Deployments;
+        }])
         .factory('ReplicationController', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
             var ReplicationController = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/replicationcontrollers/:name?region=:region', {
                 name: '@name',
@@ -594,6 +606,7 @@ define([
             })
             return deletepod;
         }])
+
         .factory('orgList', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
             var orgList = $resource(GLOBAL.host_lapi + '/v1/orgs/:namespace/roles', { namespace: '@namespace' }, {})
             return orgList;
