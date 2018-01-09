@@ -2,12 +2,23 @@
 angular.module('console.pods_detail', [
         {
             files: [
-                'views/pods_detail/pods_detail.css'
+                'views/pods_detail/pods_detail.css',
+                'components/deploymentsevent/deploymentsevent.js'
             ]
         }
     ])
-    .controller('podsdetailCtrl', ['$rootScope', '$scope', '$state', '$log', 
-        function ($rootScope, $scope, $state, $log) {
+    .controller('podsdetailCtrl', ['$rootScope', '$scope', '$state', '$log', 'podDetails',
+        function ($rootScope, $scope, $state, $log,podDetails) {
+
+            if (podDetails) {
+               //Environment模块
+                $scope.Pod = angular.copy(podDetails);
+                $scope.environment = $scope.Pod.spec.containers[0].env;
+                
+                
+                
+                
+            }
 
           //memory模块设置
           var times = (new Date()).getTime();
