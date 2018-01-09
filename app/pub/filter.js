@@ -729,4 +729,79 @@ define(['angular', 'moment'], function(angular, moment) {
                 return status;
             };
         }])
+        .filter("toArray", function() {
+            return _.toArray;
+        })
+        .filter('orderObjectsByDate', ["toArrayFilter", function(toArrayFilter) {
+            return function(items, reverse) {
+                items = toArrayFilter(items);
+
+                /*
+                 * Note: This is a hotspot in our code. We sort frequently by date on
+                 *       the overview and browse pages.
+                 */
+
+                items.sort(function (a, b) {
+                    if (!a.metadata || !a.metadata.creationTimestamp || !b.metadata || !b.metadata.creationTimestamp) {
+                        throw "orderObjectsByDate expects all objects to have the field metadata.creationTimestamp";
+                    }
+
+                    // The date format can be sorted using straight string comparison.
+                    // Compare as strings for performance.
+                    // Example Date: 2016-02-02T21:53:07Z
+                    if (a.metadata.creationTimestamp < b.metadata.creationTimestamp) {
+                        return reverse ? 1 : -1;
+                    }
+
+                    if (a.metadata.creationTimestamp > b.metadata.creationTimestamp) {
+                        return reverse ? -1 : 1;
+                    }
+
+                    return 0;
+                });
+
+                return items;
+            };
+        }])
+        .filter('lastDeploymentRevision', function(annotationFilter) {
+            return function(deployment) {
+                if (!deployment) {
+                    return '';
+                }
+
+                var revision = annotationFilter(deployment, 'deployment.kubernetes.io/revision');
+                return revision ? "#" + revision : 'Unknown';
+            };
+        }).filter('camelToLower', function() {
+            return function(str) {
+                if (!str) {
+                    return str;
+                }
+
+                // Use the special logic in _.startCase to handle camel case strings, kebab
+                // case strings, snake case strings, etc.
+                return _.startCase(str).toLowerCase();
+            };
+        }).filter('upperFirst', function() {
+            // Uppercase the first letter of a string (without making any other changes).
+            // Different than `capitalize` because it doesn't lowercase other letters.
+            return function(str) {
+                if (!str) {
+                    return str;
+                }
+
+                return str.charAt(0).toUpperCase() + str.slice(1);
+            };
+        }).filter('sentenceCase', ["camelToLowerFilter", "upperFirstFilter", function(camelToLowerFilter, upperFirstFilter) {
+            // Converts a camel case string to sentence case
+            return function(str) {
+                if (!str) {
+                    return str;
+                }
+
+                // Unfortunately, _.lowerCase() and _.upperFirst() aren't in our lodash version.
+                var lower = camelToLowerFilter(str);
+                return upperFirstFilter(lower);
+            };
+        }])
 });
