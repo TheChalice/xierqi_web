@@ -71,7 +71,7 @@
                     <tr ng-repeat="deployments in items">
                         <td data-title="Name" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
 
-                            <a class="href-orange" ui-sref="console.deployments_detail({name: deployments.metadata.name})">{{deployments.metadata.name}}</a>
+                            <a class="href-orange" ui-sref="console.deploymentconfig_detail({name: deployments.metadata.name})">{{deployments.metadata.name}}</a>
 
                         </td>
                         <td data-title="Last Version">
@@ -148,8 +148,8 @@
                         <span>{{deployment.status.replicas}}/</span>{{deployment.spec.replicas}} replica<span ng-if="deployment.spec.replicas != 1">s</span>
                     </td>
                     <td data-title="Created">
-                        <span uib-tooltip="{{deployments.metadata.creationTimestamp  | timescon}}">
-                                {{deployments.metadata.creationTimestamp | dateRelative}}
+                        <span uib-tooltip="{{deployment.metadata.creationTimestamp  | timescon}}">
+                                {{deployment.metadata.creationTimestamp | dateRelative}}
                             </span>
                     </td>
                     <td data-title="Strategy">

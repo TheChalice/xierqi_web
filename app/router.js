@@ -474,16 +474,16 @@ define([
                         ]
                     }
                 })
-                .state('console.deployments_detail', {
-                    url: '/deployments/:name',
+                .state('console.deploymentconfig_detail', {
+                    url: '/deploymentconfig/:name',
                     params: {
                         from: null
                     },
-                    templateUrl: 'views/deployments_detail/deployments_detail.html',
-                    controller: 'DeploymentsDetailCtrl',
+                    templateUrl: 'views/deploymentconfig_detail/deploymentconfig_detail.html',
+                    controller: 'DeploymentConfigDetailCtrl',
                     resolve: {
                         dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/deployments_detail/deployments_detail.js'])
+                            return $ocLazyLoad.load(['views/deploymentconfig_detail/deploymentconfig_detail.js'])
                         }],
                         mydc: ['$stateParams', 'DeploymentConfig', 'Cookie', '$rootScope', function($stateParams, DeploymentConfig, Cookie, $rootScope) {
                             return DeploymentConfig.get({
