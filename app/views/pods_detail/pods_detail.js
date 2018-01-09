@@ -14,6 +14,7 @@ angular.module('console.pods_detail', [
                //Environment模块
                 $scope.Pod = angular.copy(podDetails);
                 $scope.environment = $scope.Pod.spec.containers[0].env;
+               
                 
                 
                 

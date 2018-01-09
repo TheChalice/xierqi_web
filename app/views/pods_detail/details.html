@@ -11,15 +11,14 @@
             <dl class="dl-horizontal left">
               <dt>Status:</dt>
               <dd>
-                    <status-icon status="pod | podStatus"></status-icon>
-                    <!-- {{pod | podStatus | sentenceCase}} -->
-                    <!-- {{pod | podStatus}} -->
+                    <status-icon status="Pod | podStatus"></status-icon>
+                     {{Pod | podStatus | sentenceCase}}
                 
-                <!-- <span ng-if="pod | podCompletionTime">, ran for {{(pod | podStartTime) | duration : (pod | podCompletionTime)}}</span>
-                <span ng-if="Pod.metadata.deletionTimestamp">(expires {{Pod.metadata.deletionTimestamp | date : 'medium'}})</span> -->
+                <span ng-if="Pod | podCompletionTime">, ran for {{(Pod | podStartTime) | duration : (Pod | podCompletionTime)}}</span>
+                <span ng-if="Pod.metadata.deletionTimestamp">(expires {{Pod.metadata.deletionTimestamp | date : 'medium'}})</span>
               </dd>
-              <!-- <dt ng-if-start="pod.status.message">Message:</dt>
-              <dd ng-if-end>{{Pod.status.message}}</dd> -->
+              <dt ng-if-start="Pod.status.message">Message:</dt>
+              <dd ng-if-end>{{Pod.status.message}}</dd>
               <dt ng-if-start="dcName">
                 Deployment:
               </dt>
@@ -50,19 +49,19 @@
               <dd>{{Pod.spec.nodeName || 'unknown'}} <span ng-if="pod.status.hostIP && pod.spec.nodeName != pod.status.hostIP">({{pod.status.hostIP}})</span></dd>
               <dt>Restart Policy:</dt>
               <dd>{{Pod.spec.restartPolicy || 'Always'}}</dd>
-              <!-- <dt ng-if-start="Pod.spec.activeDeadlineSeconds">Active Deadline:</dt> -->
-              <!-- <dd ng-if-end>
+              <dt ng-if-start="Pod.spec.activeDeadlineSeconds">Active Deadline:</dt>
+              <dd ng-if-end>
                 
                 <span ng-if="Pod.spec.activeDeadlineSeconds < 60">
                   {{Pod.spec.activeDeadlineSeconds}} seconds
                 </span>
                 <span ng-if="Pod.spec.activeDeadlineSeconds >= 60">
-                  {{Pod.spec.activeDeadlineSeconds | humanizeDurationValue : 'seconds'}}
-                </span>
-                <span ng-if="Pod.status.phase === 'Running' && Pod.status.startTime" class="text-muted">
+                    {{Pod.spec.activeDeadlineSeconds | humanizeDurationValue : 'seconds'}}
+                  </span>
+                <!-- <span >
                   (<duration-until-now timestamp="Pod.status.startTime"></duration-until-now> elapsed)
-                </span>
-              </dd> -->
+                </span> -->
+              </dd>
             </dl>
             <div>
               <container-statuses
