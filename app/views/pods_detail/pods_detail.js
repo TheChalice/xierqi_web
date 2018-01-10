@@ -10,16 +10,23 @@ angular.module('console.pods_detail', [
     .controller('podsdetailCtrl', ['$rootScope', '$scope', '$state', '$log', 'podDetails',
         function ($rootScope, $scope, $state, $log,podDetails) {
 
+
+           
+
             if (podDetails) {
-               //Environment模块
-                $scope.Pod = angular.copy(podDetails);
-                $scope.environment = $scope.Pod.spec.containers[0].env;
-               
+                //Environment模块
+                 $scope.Pod = angular.copy(podDetails);
+                 $scope.environment = $scope.Pod.spec.containers[0].env;
                 
-                
-                
-                
-            }
+     
+        
+             }
+            
+
+
+            
+
+            
 
           //memory模块设置
           var times = (new Date()).getTime();

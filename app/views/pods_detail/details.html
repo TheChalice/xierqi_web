@@ -19,13 +19,14 @@
               </dd>
               <dt ng-if-start="Pod.status.message">Message:</dt>
               <dd ng-if-end>{{Pod.status.message}}</dd>
-              <dt ng-if-start="dcName">
+              <dt ng-if-start="Pod.metadata.labels.deploymentconfig">
                 Deployment:
               </dt>
               <dd ng-if-end>
-                <a ng-href="{{dcName | navigateResourceURL : 'DeploymentConfig' : Pod.metadata.namespace}}">{{dcName}}</a><span ng-if="rcName">,
+                {{Pod.metadata.labels.deploymentconfig}}, #{{Pod.metadata.annotations["openshift.io/deployment-config.latest-version"]}}
+                <!-- <a ng-href="{{dcName | navigateResourceURL : 'DeploymentConfig' : Pod.metadata.namespace}}">{{dcName}}</a><span ng-if="rcName">,
                 <a ng-href="{{rcName | navigateResourceURL : 'ReplicationController' : Pod.metadata.namespace}}"
-                  ><span ng-if="deploymentVersion">#{{deploymentVersion}}</span><span ng-if="!deploymentVersion">{{rcName}}</span></a></span>
+                  ><span ng-if="deploymentVersion">#{{deploymentVersion}}</span><span ng-if="!deploymentVersion">{{rcName}}</span></a></span> -->
               </dd>
               <!-- <dt ng-if-start="!dcName && controllerRef">
                 {{controllerRef.kind | humanizeKind : true}}:
