@@ -1,0 +1,37 @@
+
+#rs .tab-default li .nav-link{font-size:14px;color:#333;}
+#rs .tab-default li .nav-link:hover{font-size:14px;}
+#rs .tab-default li.active .nav-link,
+#rs .tab-default li.active .nav-link:focus,
+#rs .tab-default li.active .nav-link:hover{border:0px;border-bottom:2px solid #F8A632;
+    color:#333;font-size:14px;}
+#rs .tab-default .nav-tabs{border-bottom:1px solid #E0E6ED;}
+#rs .tab-default .tab-content{border:0px;padding:20px 0px;}
+
+/* detail 模块 */
+#rs h2{font-size:14px;color:#000;font-weight:bold;margin:0px;margin-bottom:20px;}
+#rs .list_block{height:auto;overflow:hidden;margin-bottom:14px;}
+#rs .list_block .list_b_l{float:left;width:16%;}
+#rs .list_block .list_b_r{float:left;width:84%;}
+#rs .list_block .list_n_l{float:left;width:30%;}
+#rs .list_block .list_n_r{float:left;width:70%;}
+#rs .list_b_l .tit{font-size:14px;color:#666;}
+#rs .list_b_r .tit{font-size:14px;color:#333;}
+#rs .h_tit{font-size:14px;color:#666;}
+#rs .h_tit_sm{font-size:14px;color:#666;}
+#rs .redy_tit{font-size:14px;color:#9c9c9c;}
+
+
+/* Environment 模块 */
+#Environment h2{font-size:14px;color:#000;font-weight:bold;margin:0px;margin-bottom:20px;}
+#Environment .form-control{width:100%;height:27px;padding:2px 6px;background-color:#fff;border:1px solid #bbb;border-radius:1px;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);box-shadow:inset 0 1px 1px rgba(0,0,0,.075);-webkit-transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;-o-transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s}
+#Environment .form-control:-ms-input-placeholder{color:#999;font-style:italic}
+#Environment .form-control::-webkit-input-placeholder{color:#999;font-style:italic}
+#Environment .form-control:-moz-placeholder{color:#999;font-style:italic}
+#Environment .form-control::-moz-placeholder{color:#999;font-style:italic;opacity:1}
+#Environment .envi_main{display:table;position:relative;table-layout:fixed;width:100%;margin-bottom:20px;}
+#Environment .form_block{width:50%;float:left;padding-right:5px;}
+#Environment .form-control[disabled], #Environment .form-control[readonly]{background-color:#f5f5f5;color:#8b8d8f;}
+
+/* Metrics  模块*/
+#Metrics h2{font-size:14px;color:#000;font-weight:bold;margin:0px;margin-bottom:20px;}s

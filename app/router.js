@@ -372,6 +372,11 @@ define([
                             function(ReplicationController, Cookie) {
                                 return ReplicationController.get({ namespace: Cookie.get('namespace') }).$promise
                             }
+                        ],
+                        ReplicaSet: ['ReplicaSet', 'Cookie',
+                            function(ReplicaSet, Cookie) {
+                                return ReplicaSet.get({ namespace: Cookie.get('namespace') }).$promise
+                            }
                         ]
                     }
                 })
@@ -836,7 +841,22 @@ define([
                         }]
                     }
                 })
-
+                //rs
+                .state('console.rs', {
+                    url: '/rs/:name',
+                    templateUrl: 'views/rs/rs_detail.html',
+                    controller: 'rsCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/rs/rs_detail.js')
+                        }],
+                        mypod: ['$stateParams', 'Pod', 'Cookie', '$rootScope', function($stateParams, Pod, Cookie, $rootScope) {
+                            return Pod.get({
+                                namespace: Cookie.get('namespace')
+                            }).$promise;
+                        }]
+                    }
+                })
         }]);
 
 });
