@@ -836,7 +836,22 @@ define([
                         }]
                     }
                 })
-
+                //rs
+                .state('console.rs', {
+                    url: '/rs/:name',
+                    templateUrl: 'views/rs/rs_detail.html',
+                    controller: 'rsCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/rs/rs_detail.js')
+                        }],
+                        mypod: ['$stateParams', 'Pod', 'Cookie', '$rootScope', function($stateParams, Pod, Cookie, $rootScope) {
+                            return Pod.get({
+                                namespace: Cookie.get('namespace')
+                            }).$promise;
+                        }]
+                    }
+                })
         }]);
 
 });
