@@ -1,5 +1,6 @@
 'use strict';
 angular.module('console.pods_detail', [
+        'kubernetesUI',
         {
             files: [
                 'views/pods_detail/pods_detail.css',
