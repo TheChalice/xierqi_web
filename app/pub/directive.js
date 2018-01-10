@@ -75,20 +75,7 @@ define(['angular'], function(angular) {
                 }
             };
         })
-        .directive('podTemplate', function() {
-            return {
-                restrict: 'E',
-                scope: {
-                    podTemplate: '=',
-                    imagesByDockerReference: '=',
-                    builds: '=',
-                    detailed: '=?',
-                    // Optional URL for setting health checks on the resource when missing.
-                    addHealthCheckUrl: '@?'
-                },
-                templateUrl: 'views/directives/_pod-template.html'
-            };
-        })
+        
         .directive('podTemplateContainer', function() {
             return {
                 restrict: 'E',
@@ -99,7 +86,7 @@ define(['angular'], function(angular) {
                     detailed: '=?',
                     labelPrefix: '@?'
                 },
-                templateUrl: 'views/directives/_pod-template-container.html'
+                templateUrl: 'views/pods_detail/tpl/pod-template-container.html'
             };
         })
 
@@ -163,6 +150,35 @@ define(['angular'], function(angular) {
               }
             };
           })
+
+          .directive('podTemplate', function() {
+            return {
+              restrict: 'E',
+              scope: {
+                podTemplate: '=',
+                imagesByDockerReference: '=',
+                builds: '=',
+                detailed: '=?',
+                // Optional URL for setting health checks on the resource when missing.
+                addHealthCheckUrl: '@?'
+              },
+              templateUrl: 'views/pods_detail/tpl/pod-template.html'
+            };
+          })
+
+          .directive('volumes', function() {
+            return {
+              restrict: 'E',
+              scope: {
+                volumes: '=',
+                namespace: '=',
+                canRemove: '=?',
+                removeFn: '&?'
+              },
+              templateUrl: 'views/pods_detail/tpl/volumes.html'
+            };
+          })
+          
 
 
 });
