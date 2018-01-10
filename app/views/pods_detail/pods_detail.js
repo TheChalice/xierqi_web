@@ -2,15 +2,25 @@
 angular.module('console.pods_detail', [
         {
             files: [
-                'views/pods_detail/pods_detail.css'
+                'views/pods_detail/pods_detail.css',
+                'components/deploymentsevent/deploymentsevent.js'
             ]
         }
     ])
-    .controller('podsdetailCtrl', ['$rootScope', '$scope', '$state', '$log', 'mypod',
-        function ($rootScope, $scope, $state, $log,mypod) {
-            console.log('mypod', mypod);
+    .controller('podsdetailCtrl', ['$rootScope', '$scope', '$state', '$log', 'podDetails','mypod',
+        function ($rootScope, $scope, $state, $log,podDetails,mypod) {
             $scope.pod=angular.copy(mypod)
-            //memory模块设置
+            if (podDetails) {
+               //Environment模块
+                $scope.Pod = angular.copy(podDetails);
+                $scope.environment = $scope.Pod.spec.containers[0].env;
+
+
+
+
+            }
+
+          //memory模块设置
           var times = (new Date()).getTime();
           var setChart = function () {
             return {
