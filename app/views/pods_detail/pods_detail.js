@@ -10,6 +10,7 @@ angular.module('console.pods_detail', [
     .controller('podsdetailCtrl', ['$rootScope', '$scope', '$state', '$log', 'mypod','Ws',
         function ($rootScope, $scope, $state, $log,mypod,Ws) {
             $scope.pod=angular.copy(mypod)
+            $scope.environment = $scope.pod.spec.containers[0].env;
 
             $scope.$on('$destroy', function () {
                 Ws.clear();
