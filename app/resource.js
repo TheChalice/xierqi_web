@@ -253,6 +253,18 @@ define([
 
             return Deployments;
         }])
+        .factory('ReplicaSet', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
+            var ReplicaSet = $resource(GLOBAL.host_newk8s2 + '/namespaces/:namespace/replicasets/proxy-3168510234', {
+                // name: '@name',
+                namespace: '@namespace'
+            }, {
+                create: { method: 'POST' },
+                put: { method: 'PUT' },
+                patch: { method: "PATCH" }
+            });
+
+            return ReplicaSet;
+        }])
         .factory('ReplicationController', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
             var ReplicationController = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/replicationcontrollers/:name?region=:region', {
                 name: '@name',

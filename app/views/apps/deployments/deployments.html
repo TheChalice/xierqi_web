@@ -140,8 +140,8 @@
                         <a>{{deployment.metadata.name}}</a>
                     </td>
                     <td data-title="Last Version">
-                        <span">
-                          <a>{{deployment | lastDeploymentRevision}}</a>
+                        <span>
+                          <a ui-sref="console.rs({name:deployment.metadata.name})">{{deployment | lastDeploymentRevision}}</a>
                         </span>
                     </td>
                     <td data-title="Replicas">
