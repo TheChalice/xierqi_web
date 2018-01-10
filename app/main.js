@@ -40,8 +40,9 @@ require.config({
         highchartsNg: '../bower_components/highcharts-ng/dist/highcharts-ng.min',
         treeControl: '../bower_components/angular-tree-control/angular-tree-control',
         lodash: '../bower_components/lodash/lodash',
-        angular_patternfly: '../bower_components/angular-patternfly/dist/angular-patternfly',
-        patternfly: '../bower_components/patternfly/dist/js/patternfly'
+        patternfly: '../bower_components/patternfly/dist/js/patternfly',
+        angular_patternfly: '../bower_components/angular-patternfly/dist/angular-patternfly'
+
     },
     shim: {
         'angular': {

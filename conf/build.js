@@ -31,7 +31,9 @@
         angularSlider: '../bower_components/angularjs-slider/dist/rzslider.min',
         treeControl: '../bower_components/angular-tree-control/angular-tree-control',
         highchartsNg: '../bower_components/highcharts-ng/dist/highcharts-ng.min',
-        lodash: '../bower_components/lodash/lodash'
+        lodash: '../bower_components/lodash/lodash',
+        patternfly: '../bower_components/patternfly/dist/js/patternfly',
+        angular_patternfly: '../bower_components/angular-patternfly/dist/angular-patternfly'
 
     },
     shim : {
@@ -87,6 +89,12 @@
         },
         'lodash': {
             deps: ['angular']
+        },
+        'patternfly':{
+            deps: ['jquery']
+        },
+        'angular_patternfly': {
+            deps: ['angular','bootstrap','patternfly']
         }
     }
 }
