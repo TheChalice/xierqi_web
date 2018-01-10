@@ -2,16 +2,16 @@
  * Created by niuniu on 2018/1/5.
  */
 'use strict';
-angular.module('console.rc', [
+angular.module('console.rs', [
     {
         files: [
-            'views/rc/rc_detail.css',
+            'views/rs/rs_detail.css',
             'components/deploymentsevent/deploymentsevent.js'
         ]
     }
 ])
-    .controller('rcCtrl', ['$rootScope', '$scope', '$stateParams', 'Metrics', 'PieChar', 'mypod', '$interval', '$state', '$log', 'ReplicationController',
-        function ($rootScope, $scope, $stateParams, Metrics, PieChar, mypod, $interval, $state, $log, ReplicationController) {
+    .controller('rsCtrl', ['$rootScope', '$scope', '$stateParams', 'Metrics', 'PieChar', 'mypod', '$interval', '$state', '$log','ReplicaSet',
+        function ($rootScope, $scope, $stateParams, Metrics, PieChar, mypod, $interval, $state, $log, ReplicaSet) {
             // console.log($state.params.name);
             // console.log($stateParams.name);
             // $scope.dcName = $stateParams.name;
@@ -100,24 +100,24 @@ angular.module('console.rc', [
                     });
                 });
             };
-            var getPods = function(ReplicationController){
-                $scope.replicaPods = filterForController(mypod.items, ReplicationController);
-                // console.log('mypod.items $scope.replicaPods',$scope.replicaPods);
+            var getPods = function(ReplicaSet){
+                $scope.replicaPods = filterForController(mypod.items, ReplicaSet);
+                console.log('mypod.items $scope.replicaPods',$scope.replicaPods);
             };
 
             angular.forEach(mypod.items, function (pod, i) {
                 if (pod.metadata.name.indexOf($state.params.name) === 0) {
                     $scope.uid = pod.metadata.uid;
-                    // console.log($scope.uid);
+                    console.log($scope.uid);
                 }
             });
 
             function loadrc(callback) {
-                ReplicationController.get({
+                ReplicaSet.get({
                     namespace: $rootScope.namespace,
                     name: $state.params.name
                 }, function (res) {
-                    // console.log('-----res--->>>', res);
+                    console.log('-----res---rsrs>>>', res);
                     // getPods(res);
                     // $scope.rc = angular.copy(res);
                     $scope.replicaSet = angular.copy(res);

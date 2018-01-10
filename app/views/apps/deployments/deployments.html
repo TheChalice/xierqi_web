@@ -137,11 +137,12 @@
                 <!--<tr ng-repeat="deployments in mydeploylist">-->
                 <tr ng-repeat="deployment in mydeploylist | orderObjectsByDate : true">
                     <td data-title="Name">
-                        <a>{{deployment.metadata.name}}</a>
+                        <a class="href-orange" ui-sref="console.deployment_detail({name: deployment.metadata.name})">{{deployment.metadata.name}}</a>
+
                     </td>
                     <td data-title="Last Version">
-                        <span">
-                          <a>{{deployment | lastDeploymentRevision}}</a>
+                        <span>
+                          <a ui-sref="console.rs({name:deployment.metadata.name})">{{deployment | lastDeploymentRevision}}</a>
                         </span>
                     </td>
                     <td data-title="Replicas">

@@ -1,0 +1,273 @@
+<div id="rs">
+    <div class="panel panel-default" style="margin-bottom: 50px">
+        <div class="panel-heading">
+            <i class="faa faa-cmd"></i>&nbsp;&nbsp;{{replicaSet.metadata.name}}
+        </div>
+    </div>
+    <uib-tabset class="tab-default tab-image-jia-defautl" active="check">
+        <uib-tab index="1">
+            <uib-tab-heading>
+                <i class="myimage"></i>&nbsp;&nbsp;Details
+            </uib-tab-heading>
+            <div>
+                <div class="row matgin-bt">
+                    <div class="col-md-2">Deployment:</div>
+                    <div class="col-md-10">{{replicaSet.metadata.labels.app}}</div>
+                </div>
+                <div class="row matgin-bt">
+                    <div class="col-md-2">Selectors:</div>
+                    <div class="col-md-10"><span ng-repeat="(name , value) in replicaSet.spec.selector.matchLabels">{{name}}={{value}}&nbsp;&nbsp;</span>
+                    </div>
+                </div>
+                <div class="row matgin-bt">
+                    <div class="col-md-2">Replicas:</div>
+                    <div class="col-md-10">
+            <span>{{replicaSet.spec.replicas}} current / {{replicaSet.status.replicas}} desired &nbsp;&nbsp;
+                <a href="#" title="Edit" class="action-button">
+                    <i class="glyphicon glyphicon-pencil"></i>
+                </a>
+            </span>
+                    </div>
+                </div>
+
+                <!--<h3>Template</h3>-->
+                <!--<pod-template-->
+                        <!--pod-template="replicaSet.spec.template"-->
+                        <!--images-by-docker-reference="imagesByDockerReference"-->
+                        <!--builds="builds"-->
+                        <!--detailed="true"-->
+                        <!--add-health-check-url="{{((!deploymentConfig || isActive)) ? healthCheckURL : ''}}">-->
+                <!--</pod-template>-->
+
+                <h4 ng-if="replicaSet.spec.volumeClaimTemplates"
+                    style="border-bottom: 1px solid #c9c9c9;padding:15px 0;color:#666;">volumeClaimTemplates</h4>
+                <div ng-repeat="template in replicaSet.spec.volumeClaimTemplates">
+                    <div class="row matgin-bt">
+                        <div class="col-md-2">Storage claim:</div>
+                        <div class="col-md-10">{{template.metadata.name}}</div>
+                    </div>
+                    <div class="row matgin-bt">
+                        <div class="col-md-2">Access Modes:</div>
+                        <div class="col-md-10"><span ng-repeat="mode in template.spec.accessModes">{{mode}}<span
+                                ng-if="!$last">, </span></span></div>
+                    </div>
+                    <div class="row matgin-bt">
+                        <div class="col-md-2">Capacity:</div>
+                        <div class="col-md-10">{{template.spec.resources.requests.storage}}</div>
+                    </div>
+                </div>
+                <h4 style="border-bottom: 1px solid #c9c9c9;padding:15px 0;color:#666;">Volumes</h4>
+                <div ng-if="replicaSet.spec.template.spec.volumes" ng-repeat="volume in statefuldetail.spec.template.spec.volumes">
+                    <div class="row matgin-bt">
+                        <div class="col-md-2">volumeName:</div>
+                        <div class="col-md-10">{{volume.name}}</div>
+                    </div>
+                    <div ng-if="volume.secret">
+                        <div class="row matgin-bt">
+                            <div class="col-md-2">Type:</div>
+                            <div class="col-md-10">secret<span class="small text-muted">(populated by a secret when the pod is created)</span>
+                            </div>
+                        </div>
+                        <div class="row matgin-bt">
+                            <div class="col-md-2">Secret:</div>
+                            <div class="col-md-10">{{volume.secret.secretName}}</div>
+                        </div>
+                        <div class="row matgin-bt" ng-repeat="item in volume.secret.items">
+                            <div class="col-md-2">Key to File:</div>
+                            <div class="col-md-10">{{item.key}}&#8201;&#8594;&#8201;{{item.path}}</div>
+                        </div>
+                    </div>
+                    <div ng-if="volume.configMap">
+                        <div class="row matgin-bt">
+                            <div class="col-md-2">Type:</div>
+                            <div class="col-md-10">config map<span class="small text-muted">((populated by a config map)</span>
+                            </div>
+                        </div>
+                        <div class="row matgin-bt">
+                            <div class="col-md-2">Secret:</div>
+                            <div class="col-md-10">{{volume.configMap.name}}</div>
+                        </div>
+                        <div class="row matgin-bt" ng-repeat="item in volume.configMap.items">
+                            <div class="col-md-2">Key to File:</div>
+                            <div class="col-md-10">{{item.key}}&#8201;&#8594;&#8201;{{item.path}}</div>
+                        </div>
+                    </div>
+                    <div ng-if="volume.persistentVolumeClaim">
+                        <div class="row matgin-bt">
+                            <div class="col-md-2">Type:</div>
+                            <div class="col-md-10">persistent volume claim<span class="small text-muted">(reference to a persistent volume claim)</span>
+                            </div>
+                        </div>
+                        <div class="row matgin-bt">
+                            <div class="col-md-2">Claim name:</div>
+                            <div class="col-md-10">{{volume.persistentVolumeClaim.claimName}}</div>
+                        </div>
+                        <div class="row matgin-bt">
+                            <div class="col-md-10" ng-if="volume.persistentVolumeClaim.readOnly">read-only</div>
+                            <div class="col-md-10" ng-if="!volume.persistentVolumeClaim.readOnly">read-write</div>
+                        </div>
+                    </div>
+
+                </div>
+                <div ng-if="!replicaSet.spec.template.spec.volumes" class="row matgin-bt">
+                    <div class="col-md-10">none</div>
+                </div>
+                <h4 style="padding:15px 0;color:#666;">Pods</h4>
+                <div class="table-responsive" style="margin-top: 20px;">
+                    <table class="table table-hover table-default">
+                        <tr>
+                            <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Name</th>
+                            <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Status</th>
+                            <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Containers Ready</th>
+                            <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Containers Restart</th>
+                            <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Age</th>
+                        </tr>
+                        <tr ng-repeat="pod in replicaPods">
+                            <td data-title="Name"
+                                style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
+                                <!-- <a class="href-orange" ui-sref="console.service_detail({name: pod.metadata.name})">
+                                    {{pod.metadata.name}}
+                                </a> -->
+                                <a class="href-orange" ui-sref="console.pods_detail({name: pod.metadata.name})">
+                                    {{pod.metadata.name}}
+                                </a>
+                            </td>
+                            <td data-title="Status">
+                                <!-- {{pod.status}} -->
+                                <status-icon status="pod | podStatus" disable-animation></status-icon>
+                                <span flex>{{pod | podStatus | humanizePodStatus}}</span>
+                            </td>
+                            <td data-title="Ready">
+                                {{pod | numContainersReady}}/{{pod.spec.containers.length}}
+                            </td>
+                            <td data-title="Restarts">{{pod | numContainerRestarts}}</td>
+                            <td data-title="Age"><span uib-tooltip="{{pod.metadata.creationTimestamp | timescon}}">{{pod.metadata.creationTimestamp  | dateRelative}}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="7" style="text-align: center;background: #fff;position:relative" ng-if="items.length===0">
+                                <p class="blank_block"><span class="blank_tit"> {{text}}</span></p>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="text-center" style="text-align:center;" ng-if="grid.total > 10">
+                        <uib-pagination class="pagination" ng-model="grid.page" total-items="grid.total" items-per-page="grid.size"
+                                        class="pagination-sm" boundary-links="false" max-size="12" rotate="true" previous-text="<"
+                                        next-text=">">
+                        </uib-pagination>
+                    </div>
+                </div>
+            </div>
+        </uib-tab>
+        <uib-tab index="2">
+            <uib-tab-heading>
+                <i class="myimage"></i>&nbsp;&nbsp;Environment
+            </uib-tab-heading>
+            <div id="Environment">
+                <div class="detail_set">
+                    <div class="envi_main" ng-repeat="env in environment">
+                        <div class="form_block">
+                            <input type="text" class="form-control" readonly="readonly" value={{env.name}}>
+                        </div>
+
+                        <div class="form_block">
+                            <input type="text" class="form-control" readonly="readonly" value={{env.value}}>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--<uib-tab heading="Environment" active="selectedTab.environment">-->
+                <!--<uib-tab-heading>Environment</uib-tab-heading>-->
+                <!--&lt;!&ndash;-->
+                  <!--Use the `hasDeployment` filter rather than checking for the `deployment` scope-->
+                  <!--var. This prevents the editor from displaying briefly before the deployment has-->
+                  <!--loaded, which adds an empty env var name/value to the array. The empty-->
+                  <!--value breaks `container.env.length` check for the no env vars message.-->
+                <!--&ndash;&gt;-->
+                <!--<div ng-if="(replicaSet | hasDeployment) || (replicaSet | hasDeploymentConfig)">-->
+                    <!--<p ng-if="deployment && ({ group: 'extensions', resource: 'deployments' })">-->
+                        <!--<span class="pficon pficon-info" aria-hidden="true"></span>-->
+                        <!--Environment variables can be edited on the <a ng-href="{{deployment | navigateResourceURL}}?tab=environment">deployment</a>.-->
+                    <!--</p>-->
+                    <!--<p ng-if="(replicaSet | hasDeploymentConfig)">-->
+                        <!--<span class="pficon pficon-info" aria-hidden="true"></span>-->
+                        <!--Environment variables can be edited on the <a ng-href="{{replicaSet | configURLForResource}}?tab=environment">deployment configuration</a>.-->
+                    <!--</p>-->
+                    <!--<div ng-repeat="container in updatedReplicaSet.spec.template.spec.containers">-->
+                        <!--<h3>Container {{container.name}} Environment Variables</h3>-->
+                        <!--<key-value-editor-->
+                                <!--ng-if="container.env.length"-->
+                                <!--entries="container.env"-->
+                                <!--key-placeholder="Name"-->
+                                <!--value-placeholder="Value"-->
+                                <!--cannot-add-->
+                                <!--cannot-delete-->
+                                <!--cannot-sort-->
+                                <!--is-readonly-->
+                                <!--show-header></key-value-editor>-->
+                        <!--<em ng-if="!container.env.length">The container specification has no environment variables set.</em>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<ng-form ng-if="!(replicaSet | hasDeployment) && !(replicaSet | hasDeploymentConfig)" name="forms.envForm">-->
+                    <!--<confirm-on-exit dirty="forms.envForm.$dirty"></confirm-on-exit>-->
+                    <!--<div ng-repeat="container in updatedReplicaSet.spec.template.spec.containers">-->
+                        <!--<div ng-if="resource | canI : 'update'">-->
+                            <!--<key-value-editor-->
+                                    <!--entries="container.env"-->
+                                    <!--key-placeholder="Name"-->
+                                    <!--value-placeholder="Value"-->
+                                    <!--value-from-selector-options="valueFromObjects"-->
+                                    <!--key-validator="[A-Za-z_][A-Za-z0-9_]*"-->
+                                    <!--key-validator-error="Please enter a valid key"-->
+                                    <!--key-validator-error-tooltip="A valid environment variable name is an alphanumeric (a-z and 0-9) string beginning with a letter that may contain underscores."-->
+                                    <!--add-row-link="Add Environment Variable"-->
+                                    <!--add-row-with-selectors-link="Add Environment Variable Using a Config Map or Secret"-->
+                                    <!--show-header></key-value-editor>-->
+                            <!--<button-->
+                                    <!--class="btn btn-default"-->
+                                    <!--ng-click="saveEnvVars()"-->
+                                    <!--ng-disabled="forms.envForm.$pristine || forms.envForm.$invalid">Save</button>-->
+                            <!--<a-->
+                                    <!--ng-if="!forms.envForm.$pristine"-->
+                                    <!--href=""-->
+                                    <!--ng-click="clearEnvVarUpdates()"-->
+                                    <!--class="mar-left-sm"-->
+                                    <!--style="vertical-align: -2px;">Clear changes</a>-->
+                        <!--</div>-->
+                        <!--<div ng-if="!(resource | canI : 'update')">-->
+                            <!--<key-value-editor-->
+                                    <!--ng-if="container.env.length"-->
+                                    <!--entries="container.env"-->
+                                    <!--key-placeholder="Name"-->
+                                    <!--value-placeholder="Value"-->
+                                    <!--cannot-add-->
+                                    <!--cannot-delete-->
+                                    <!--cannot-sort-->
+                                    <!--is-readonly-->
+                                    <!--show-header></key-value-editor>-->
+                            <!--<em ng-if="!container.env.length">The container specification has no environment variables set.</em>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</ng-form>-->
+            <!--</uib-tab>-->
+        </uib-tab>
+        <uib-tab index="3">
+            <uib-tab-heading>
+                <i class="myimage"></i>&nbsp;&nbsp;Metrics
+            </uib-tab-heading>
+            <div id="metrics">
+                <highchart config="MemConfig"></highchart>
+                <highchart config="CpuConfig" style="margin-top:30px;"></highchart>
+                <highchart  config="TxConfig" style="margin-top:30px;"></highchart>
+                <highchart  config="RxConfig" style="margin-top:30px;"></highchart>
+            </div>
+
+        </uib-tab>
+        <uib-tab index="4">
+            <uib-tab-heading>
+                <i class="myimage"></i>&nbsp;&nbsp;Events
+            </uib-tab-heading>
+            <deployments-event></deployments-event>
+        </uib-tab>
+    </uib-tabset>
+</div>

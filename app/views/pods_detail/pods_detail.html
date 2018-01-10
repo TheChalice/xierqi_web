@@ -1,5 +1,10 @@
 <!-- pods详情页 -->
 <div id="pods_detail">
+    <p>
+        <span class="pd_name">{{pod.metadata.name}}</span>
+        &nbsp;&nbsp;
+        <span class="pd_dt">created&nbsp;{{pod.metadata.creationTimestamp | dateRelative}}</span>
+    </p>
     <uib-tabset class="tab-default tab-pods">
             <uib-tab index="1">
                 <uib-tab-heading>
@@ -23,7 +28,7 @@
                 <uib-tab-heading>
                     Logs
                 </uib-tab-heading>
-                <div ng-include="'views/service_detail/service_event.html'"></div>
+                <pod-logs pod-name="{{pod.metadata.name}}" pod-container-name="{{pod.spec.containers[0].name}}" pod-resource-version="{{pod.metadata.resourceVersion}}"></pod-logs>
             </uib-tab>
             <uib-tab index="5">
                 <uib-tab-heading>
