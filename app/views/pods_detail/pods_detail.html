@@ -34,7 +34,8 @@
                 <uib-tab-heading>
                     Terminal
                 </uib-tab-heading>
-                <div ng-include="'views/service_detail/service_event.html'"></div>
+                <kubernetes-container-terminal pod="pod" container="pod.spec.containers[0].name">
+                </kubernetes-container-terminal>
             </uib-tab>
             <uib-tab index="6">
                 <uib-tab-heading>
