@@ -23,7 +23,7 @@
                 <uib-tab-heading>
                     Logs
                 </uib-tab-heading>
-                <div ng-include="'views/service_detail/service_event.html'"></div>
+                <pod-logs pod-name="{{pod.metadata.name}}" pod-container-name="{{pod.spec.containers[0].name}}" pod-resource-version="{{pod.metadata.resourceVersion}}"></pod-logs>
             </uib-tab>
             <uib-tab index="5">
                 <uib-tab-heading>

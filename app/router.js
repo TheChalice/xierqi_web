@@ -771,12 +771,18 @@ define([
 
                 //pods详情
                 .state('console.pods_detail', {
-                url: '/pods_detail',
+                url: '/pods_detail/:name',
                 templateUrl: 'views/pods_detail/pods_detail.html',
                 controller: 'podsdetailCtrl',
                 resolve: {
                     dep: ['$ocLazyLoad', function($ocLazyLoad) {
                         return $ocLazyLoad.load('views/pods_detail/pods_detail.js')
+                    }],
+                    mypod: ['$stateParams', 'Pod', 'Cookie', '$rootScope', function($stateParams, Pod, Cookie, $rootScope) {
+                        return Pod.get({
+                            namespace: Cookie.get('namespace'),
+                            name:$stateParams.name
+                        }).$promise;
                     }]
                 }
             })
