@@ -1,97 +1,96 @@
-<!-- detail -->
-<div id="detail">
-    <!-- Status -->
-   <h2>Status</h2>
-    <div class="detail_set">
-        <div class="list_block">
-            <div class="list_b_l"><p class="tit">Status:</p></div>
-            <div class="list_b_r"><p class="tit">Error, ran for 10 minutes, 1 second</p></div>
+<div class="resource-details">
+        <div class="row">
+          <div class="col-lg-6">
+            <h3>
+              Status
+              <small ng-if="pod | isDebugPod">
+                debugging
+                <a ng-href="{{pod | debugPodSourceName | navigateResourceURL : 'Pod' : pod.metadata.namespace}}">{{pod | debugPodSourceName}}</a>
+              </small>
+            </h3>
+            <dl class="dl-horizontal left">
+              <dt>Status:</dt>
+              <dd>
+                    <status-icon status="pod | podStatus"></status-icon>
+                    <!-- {{pod | podStatus | sentenceCase}} -->
+                    <!-- {{pod | podStatus}} -->
+                
+                <!-- <span ng-if="pod | podCompletionTime">, ran for {{(pod | podStartTime) | duration : (pod | podCompletionTime)}}</span>
+                <span ng-if="Pod.metadata.deletionTimestamp">(expires {{Pod.metadata.deletionTimestamp | date : 'medium'}})</span> -->
+              </dd>
+              <!-- <dt ng-if-start="pod.status.message">Message:</dt>
+              <dd ng-if-end>{{Pod.status.message}}</dd> -->
+              <dt ng-if-start="dcName">
+                Deployment:
+              </dt>
+              <dd ng-if-end>
+                <a ng-href="{{dcName | navigateResourceURL : 'DeploymentConfig' : Pod.metadata.namespace}}">{{dcName}}</a><span ng-if="rcName">,
+                <a ng-href="{{rcName | navigateResourceURL : 'ReplicationController' : Pod.metadata.namespace}}"
+                  ><span ng-if="deploymentVersion">#{{deploymentVersion}}</span><span ng-if="!deploymentVersion">{{rcName}}</span></a></span>
+              </dd>
+              <!-- <dt ng-if-start="!dcName && controllerRef">
+                {{controllerRef.kind | humanizeKind : true}}:
+              </dt>
+              <dd ng-if-end>
+                <a ng-href="{{controllerRef.name | navigateResourceURL : controllerRef.kind : pod.metadata.namespace}}">{{controllerRef.name}}</a>
+              </dd> -->
+              <dt ng-if-start="Pod.metadata.deletionTimestamp && Pod.spec.terminationGracePeriodSeconds">Grace Period:</dt>
+              <dd ng-if-end>
+                
+                <span ng-if="Pod.spec.terminationGracePeriodSeconds < 60">
+                  {{pod.spec.terminationGracePeriodSeconds}} seconds
+                </span>
+                <span ng-if="Pod.spec.terminationGracePeriodSeconds >= 60">
+                  {{pod.spec.terminationGracePeriodSeconds | humanizeDurationValue : 'seconds'}}
+                </span>
+              </dd>
+              <dt>IP:</dt>
+              <dd>{{Pod.status.podIP || 'unknown'}}</dd>
+              <dt>Node:</dt>
+              <dd>{{Pod.spec.nodeName || 'unknown'}} <span ng-if="pod.status.hostIP && pod.spec.nodeName != pod.status.hostIP">({{pod.status.hostIP}})</span></dd>
+              <dt>Restart Policy:</dt>
+              <dd>{{Pod.spec.restartPolicy || 'Always'}}</dd>
+              <!-- <dt ng-if-start="Pod.spec.activeDeadlineSeconds">Active Deadline:</dt> -->
+              <!-- <dd ng-if-end>
+                
+                <span ng-if="Pod.spec.activeDeadlineSeconds < 60">
+                  {{Pod.spec.activeDeadlineSeconds}} seconds
+                </span>
+                <span ng-if="Pod.spec.activeDeadlineSeconds >= 60">
+                  {{Pod.spec.activeDeadlineSeconds | humanizeDurationValue : 'seconds'}}
+                </span>
+                <span ng-if="Pod.status.phase === 'Running' && Pod.status.startTime" class="text-muted">
+                  (<duration-until-now timestamp="Pod.status.startTime"></duration-until-now> elapsed)
+                </span>
+              </dd> -->
+            </dl>
+            <div>
+              <container-statuses
+                pod="pod"
+                on-debug-terminal="debugTerminal"
+                detailed="true"></container-statuses>
+            </div>
+          </div>
+          <div class="col-lg-6">
+      
+            <h3>Template</h3>
+            <!-- <pod-template
+              pod-template="pod"
+              images-by-docker-reference="imagesByDockerReference"
+              builds="builds"
+              detailed="true">
+            </pod-template> -->
+      
+            <h4>Volumes</h4>
+            <!-- <volumes ng-if="pod.spec.volumes.length" volumes="pod.spec.volumes" namespace="project.metadata.name"></volumes> -->
+            <div ng-if="!pod.spec.volumes.length">none</div>
+            <!-- <p ng-if="dcName && ('deploymentconfigs' | canI : 'update')">
+              <a ng-href="project/{{project.metadata.name}}/attach-pvc?kind=DeploymentConfig&name={{dcName}}">Add Storage to {{dcName}}</a>
+              <span class="action-divider" aria-hidden="true">|</span>
+              <a ng-href="project/{{project.metadata.name}}/add-config-volume?kind=DeploymentConfig&name={{dcName}}">Add Config Files to {{dcName}}</a>
+            </p> -->
+          </div>
         </div>
-
-        <div class="list_block">
-            <div class="list_b_l"><p class="tit">IP:</p></div>
-            <div class="list_b_r"><p class="tit">172.26.1.44</p></div>
-        </div>
-
-        <div class="list_block">
-            <div class="list_b_l"><p class="tit">Node:</p></div>
-            <div class="list_b_r"><p class="tit">10.23.4.26</p></div>
-        </div>
-
-        <div class="list_block">
-            <div class="list_b_l"><p class="tit">Restart Policy:</p></div>
-            <div class="list_b_r"><p class="tit">Never</p></div>
-        </div>
-
-        <div class="list_block">
-            <div class="list_b_l"><p class="tit">Active Deadline:</p></div>
-            <div class="list_b_r"><p class="tit">6 hours</p></div>
-        </div>
-    </div>
-
-    <!-- Container deployment -->
-   <h2>Container deployment</h2>
-   <div class="detail_set">
-       <div class="list_block">
-           <div class="list_b_l"><p class="tit">State:</p></div>
-           <div class="list_b_r"><p class="tit">Terminated at Dec 12, 2017 3:38:52 PM with exit code 1 (Error)</p></div>
-       </div>
-
-       <div class="list_block">
-           <div class="list_b_l"><p class="tit">Ready:</p></div>
-           <div class="list_b_r"><p class="tit">false</p></div>
-       </div>
-
-       <div class="list_block">
-           <div class="list_b_l"><p class="tit">Restart Count:</p></div>
-           <div class="list_b_r"><p class="tit">0</p></div>
-       </div> 
-   </div>
-
-   <!-- Annotations -->
-   <h2>Annotations</h2>
-   <div class="detail_set">
-       <div class="list_block">
-           <div class="list_n_l"><p class="tit">openshift.io/deployment.name</p></div>
-           <div class="list_n_r"><p class="tit">gogo-1</p></div>
-       </div>
-
-       <div class="list_block">
-           <div class="list_n_l"><p class="tit">openshift.io/scc</p></div>
-           <div class="list_n_r"><p class="tit">restricted</p></div>
-       </div>
-   </div>
-
-    <!-- Template -->
-   <h2>Template</h2>
-   <p class="h_tit">Containers</p>
-   <p class="h_tit_sm">CONTAINER: DEPLOYMENT</p>
-   <div class="detail_set">
-       <div class="list_block">
-           <div class="list_b_l"><p class="tit">Image:</p></div>
-           <div class="list_b_r"><p class="tit">w_openshift/origin-deployer</p></div>
-       </div>
-
-       <div class="list_block">
-           <div class="list_b_l"><p class="tit">Mount: </p></div>
-           <div class="list_b_r"><p class="tit">deployer-token-6xrfl → /var/run/secrets/kubernetes.io/serviceaccount<span class="redy_tit"> read-only</span></p></div>
-       </div>
-   </div>
-
-   <p class="h_tit">Volumes</p>
-   <p class="h_tit_sm">deployer-token-6xrfl</p>
-   <div class="detail_set">
-       <div class="list_block">
-           <div class="list_b_l"><p class="tit">Type:</p></div>
-           <div class="list_b_r"><p class="tit">secret<span class="redy_tit"> (populated by a secret when the pod is created)</span></p></div>
-       </div>
-
-       <div class="list_block">
-           <div class="list_b_l"><p class="tit">Secret:</p></div>
-           <div class="list_b_r"><p class="tit">deployer-token-6xrfl</p></div>
-       </div>
-   </div>
-
-
-
-</div>
+        <!-- <annotations annotations="pod.metadata.annotations"></annotations> -->
+      </div>
+      

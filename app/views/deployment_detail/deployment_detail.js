@@ -1,9 +1,9 @@
 'use strict';
-angular.module('console.deploymentconfig_detail', [
+angular.module('console.deployment_detail', [
         'kubernetesUI',
         {
             files: [
-                'views/deploymentconfig_detail/deploymentconfig_detail.css',
+                'views/deployment_detail/deployment_detail.css',
                 'components/datepick/datepick.js',
                 'components/checkbox/checkbox.js',
                 'components/checkbox/checkbox_small.js',
@@ -11,12 +11,12 @@ angular.module('console.deploymentconfig_detail', [
             ]
         }
     ])
-    .controller('DeploymentConfigDetailCtrl', ['$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag',
+    .controller('DeploymentDetailCtrl', ['$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag',
         function ($log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag) {
             $scope.dc = angular.copy(mydc)
-            //console.log('mydc', mydc);
+            console.log('mydc', mydc);
             $scope.mytag = angular.copy(mytag)
-            $scope.eventfifter = 'DeploymentConfig';
+            $scope.eventfifter = 'Deployment';
             $scope.envs = [];
             $scope.grid = {}
             $scope.quota = {}
@@ -192,7 +192,7 @@ angular.module('console.deploymentconfig_detail', [
     .directive('deploymentsConfig', function () {
         return {
             restrict: 'E',
-            templateUrl: 'views/deploymentconfig_detail/tpl/config.html',
+            templateUrl: 'views/deployment_detail/tpl/config.html',
             scope: false,
             controller: ['$scope', 'horizontalpodautoscalers', '$rootScope', 'GLOBAL', 'ImageStreamTag', 'ImageStream',
                 function ($scope, horizontalpodautoscalers, $rootScope, GLOBAL, ImageStreamTag, ImageStream) {
@@ -389,7 +389,7 @@ angular.module('console.deploymentconfig_detail', [
     .directive('deploymentsHistory', function () {
         return {
             restrict: 'E',
-            templateUrl: 'views/deploymentconfig_detail/tpl/history.html',
+            templateUrl: 'views/deployment_detail/tpl/history.html',
             scope: false,
             controller: ['$scope', 'ReplicationController', '$rootScope', 'Ws', 'Sort',
                 function ($scope, ReplicationController, $rootScope, Ws, Sort) {

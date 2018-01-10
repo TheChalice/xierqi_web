@@ -392,7 +392,12 @@ define([
                     resolve: {
                         dep: ['$ocLazyLoad', function($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/apps/stateful-sets-detail/stateful-sets-detail.js', 'views/apps/apps.css'])
-                        }]
+                        }],
+                        podList: ['Pod', 'Cookie',
+                            function(Pod, Cookie) {
+                                return Pod.get({ namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ],
                     }
                 })
                 .state('console.pods', {
@@ -487,6 +492,29 @@ define([
                         }],
                         mydc: ['$stateParams', 'DeploymentConfig', 'Cookie', '$rootScope', function($stateParams, DeploymentConfig, Cookie, $rootScope) {
                             return DeploymentConfig.get({
+                                namespace: Cookie.get('namespace'),
+                                name: $stateParams.name
+                            }).$promise;
+                        }],
+                        mytag: ['$stateParams', 'ImageStreamTag', 'Cookie', '$rootScope', function($stateParams, ImageStreamTag, Cookie, $rootScope) {
+                            return ImageStreamTag.get({
+                                namespace: Cookie.get('namespace')
+                            }).$promise;
+                        }]
+                    }
+                })
+                .state('console.deployment_detail', {
+                    url: '/deployment/:name',
+                    templateUrl: 'views/deployment_detail/deployment_detail.html',
+                    controller: 'DeploymentDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/deployment_detail/deployment_detail.js'])
+                        }],
+                        mydc: ['$stateParams', 'Deployments', 'Cookie', '$rootScope',
+                            function($stateParams, Deployments, Cookie, $rootScope) {
+                            //console.log('$stateParams', $stateParams);
+                            return Deployments.get({
                                 namespace: Cookie.get('namespace'),
                                 name: $stateParams.name
                             }).$promise;
@@ -743,12 +771,18 @@ define([
 
                 //pods详情
                 .state('console.pods_detail', {
-                url: '/pods_detail',
+                url: '/pods_detail/:name',
                 templateUrl: 'views/pods_detail/pods_detail.html',
                 controller: 'podsdetailCtrl',
                 resolve: {
                     dep: ['$ocLazyLoad', function($ocLazyLoad) {
                         return $ocLazyLoad.load('views/pods_detail/pods_detail.js')
+                    }],
+                    mypod: ['$stateParams', 'Pod', 'Cookie', '$rootScope', function($stateParams, Pod, Cookie, $rootScope) {
+                        return Pod.get({
+                            namespace: Cookie.get('namespace'),
+                            name:$stateParams.name
+                        }).$promise;
                     }]
                 }
             })

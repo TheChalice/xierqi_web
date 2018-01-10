@@ -2,13 +2,18 @@
 angular.module('console.pods_detail', [
         {
             files: [
-                'views/pods_detail/pods_detail.css'
+                'views/pods_detail/pods_detail.css',
+                'components/deploymentsevent/deploymentsevent.js'
             ]
         }
     ])
-    .controller('podsdetailCtrl', ['$rootScope', '$scope', '$state', '$log', 
-        function ($rootScope, $scope, $state, $log) {
+    .controller('podsdetailCtrl', ['$rootScope', '$scope', '$state', '$log', 'mypod','Ws',
+        function ($rootScope, $scope, $state, $log,mypod,Ws) {
+            $scope.pod=angular.copy(mypod)
 
+            $scope.$on('$destroy', function () {
+                Ws.clear();
+            });
           //memory模块设置
           var times = (new Date()).getTime();
           var setChart = function () {
@@ -290,5 +295,57 @@ angular.module('console.pods_detail', [
 
             
             
-        }]);
+        }])
+    .directive('podLogs', function () {
+        return {
+            restrict: 'EA',
+            templateUrl: 'views/pods_detail/tpl/logs.html',
+            scope: {
+                podName : '@podName',
+                podContainerName : '@podContainerName',
+                podResourceVersion : '@podResourceVersion'
+            },
+            controller: ['$scope', 'ReplicationController', '$rootScope', 'Ws', '$base64','ansi_ups','$sce','$log',
+                function ($scope, ReplicationController, $rootScope, Ws, $base64,ansi_ups,$sce,$log) {
+                    console.log($scope.podResourceVersion,$scope.podContainerName);
+                    $scope.$on('$destroy', function () {
+                        Ws.clear();
+                    });
+                    var watchpod = function (resourceVersion, conname,name) {
+                        Ws.watch({
+                            api: 'k8s',
+                            resourceVersion: resourceVersion,
+                            namespace: $rootScope.namespace,
+                            type: 'pods',
+                            name: name + '/log',
+                            pod: conname,
+                            protocols: 'base64.binary.k8s.io'
+                        }, function (res) {
+
+                            if (res.data && typeof res.data == "string") {
+                                $scope.result += $base64.decode(res.data);
+                                var html = ansi_ups.ansi_to_html($scope.result);
+                                $scope.log = $sce.trustAsHtml(html);
+                                //console.log('$scope.log ', html);
+                                $scope.$apply();
+
+                            }
+
+                            //loglast()
+                        }, function () {
+                            $log.info("webSocket startRC");
+                        }, function () {
+                            $log.info("webSocket stopRC");
+                            var key = Ws.key($rootScope.namespace, 'pods', $scope.pod);
+                            if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
+                                return;
+                            }
+                            //watchpod($scope.resourceVersion);
+                        });
+                    };
+                    watchpod($scope.podResourceVersion,$scope.podContainerName,$scope.podName)
+                }],
+        };
+    })
+
 
