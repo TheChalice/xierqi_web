@@ -826,6 +826,47 @@ define(['angular', 'moment'], function(angular, moment) {
                 });
             };
         })
+        //add
+        .filter('podStartTime', function() {
+            return function(pod) {
+              var earliestStartTime = null;
+              _.each(_.get(pod, 'status.containerStatuses'), function(containerStatus){
+                var status = _.get(containerStatus, 'state.running') || _.get(containerStatus, 'state.terminated');
+                if (!status) {
+                  return;
+                }
+                if (!earliestStartTime || moment(status.startedAt).isBefore(earliestStartTime)) {
+                  earliestStartTime = status.startedAt;
+                }
+              });
+              return earliestStartTime;
+            };
+          })
+
+        .filter('podCompletionTime', function() {
+            return function(pod) {
+              var lastFinishTime = null;
+              _.each(_.get(pod, 'status.containerStatuses'), function(containerStatus){
+                var status = _.get(containerStatus, 'state.terminated');
+                if (!status) {
+                  return;
+                }
+                if (!lastFinishTime || moment(status.finishedAt).isAfter(lastFinishTime)) {
+                  lastFinishTime = status.finishedAt;
+                }
+              });
+              return lastFinishTime;
+            };
+          })
+
+          .filter("humanizeDurationValue", function() {
+            return function(a, b) {
+            return moment.duration(a, b).humanize();
+            };
+            })
+
+
+          //add
         .filter("limitToOrAll", function(limitToFilter) {
             return function(input, limit) {
                 if (isNaN(limit)) {

@@ -1,9 +1,9 @@
 <!-- pods详情页 -->
 <div id="pods_detail">
     <p>
-        <span class="pd_name">{{Pod.metadata.name}}</span>
+        <span class="pd_name">{{pod.metadata.name}}</span>
         &nbsp;&nbsp;
-        <span class="pd_dt">created&nbsp;{{Pod.metadata.creationTimestamp | dateRelative}}</span>
+        <span class="pd_dt">created&nbsp;{{pod.metadata.creationTimestamp | dateRelative}}</span>
     </p>
     <uib-tabset class="tab-default tab-pods">
             <uib-tab index="1">
@@ -34,7 +34,8 @@
                 <uib-tab-heading>
                     Terminal
                 </uib-tab-heading>
-                <div ng-include="'views/service_detail/service_event.html'"></div>
+                <kubernetes-container-terminal pod="pod" container="pod.spec.containers[0].name">
+                </kubernetes-container-terminal>
             </uib-tab>
             <uib-tab index="6">
                 <uib-tab-heading>

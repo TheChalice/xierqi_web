@@ -12,21 +12,21 @@
               <dt>Status:</dt>
               <dd>
                     <status-icon status="pod | podStatus"></status-icon>
-                    <!-- {{pod | podStatus | sentenceCase}} -->
-                    <!-- {{pod | podStatus}} -->
+                     {{pod | podStatus | sentenceCase}}
                 
-                <!-- <span ng-if="pod | podCompletionTime">, ran for {{(pod | podStartTime) | duration : (pod | podCompletionTime)}}</span>
-                <span ng-if="Pod.metadata.deletionTimestamp">(expires {{Pod.metadata.deletionTimestamp | date : 'medium'}})</span> -->
+                <span ng-if="pod | podCompletionTime">, ran for {{(pod | podStartTime) | duration : (pod | podCompletionTime)}}</span>
+                <span ng-if="pod.metadata.deletionTimestamp">(expires {{pod.metadata.deletionTimestamp | date : 'medium'}})</span>
               </dd>
-              <!-- <dt ng-if-start="pod.status.message">Message:</dt>
-              <dd ng-if-end>{{Pod.status.message}}</dd> -->
-              <dt ng-if-start="dcName">
+              <dt ng-if-start="pod.status.message">Message:</dt>
+              <dd ng-if-end>{{pod.status.message}}</dd>
+              <dt ng-if-start="pod.metadata.labels.deploymentconfig">
                 Deployment:
               </dt>
               <dd ng-if-end>
-                <a ng-href="{{dcName | navigateResourceURL : 'DeploymentConfig' : Pod.metadata.namespace}}">{{dcName}}</a><span ng-if="rcName">,
+                {{pod.metadata.labels.deploymentconfig}}, #{{pod.metadata.annotations["openshift.io/deployment-config.latest-version"]}}
+                <!-- <a ng-href="{{dcName | navigateResourceURL : 'DeploymentConfig' : Pod.metadata.namespace}}">{{dcName}}</a><span ng-if="rcName">,
                 <a ng-href="{{rcName | navigateResourceURL : 'ReplicationController' : Pod.metadata.namespace}}"
-                  ><span ng-if="deploymentVersion">#{{deploymentVersion}}</span><span ng-if="!deploymentVersion">{{rcName}}</span></a></span>
+                  ><span ng-if="deploymentVersion">#{{deploymentVersion}}</span><span ng-if="!deploymentVersion">{{rcName}}</span></a></span> -->
               </dd>
               <!-- <dt ng-if-start="!dcName && controllerRef">
                 {{controllerRef.kind | humanizeKind : true}}:
@@ -34,35 +34,35 @@
               <dd ng-if-end>
                 <a ng-href="{{controllerRef.name | navigateResourceURL : controllerRef.kind : pod.metadata.namespace}}">{{controllerRef.name}}</a>
               </dd> -->
-              <dt ng-if-start="Pod.metadata.deletionTimestamp && Pod.spec.terminationGracePeriodSeconds">Grace Period:</dt>
+              <dt ng-if-start="pod.metadata.deletionTimestamp && pod.spec.terminationGracePeriodSeconds">Grace Period:</dt>
               <dd ng-if-end>
                 
-                <span ng-if="Pod.spec.terminationGracePeriodSeconds < 60">
+                <span ng-if="pod.spec.terminationGracePeriodSeconds < 60">
                   {{pod.spec.terminationGracePeriodSeconds}} seconds
                 </span>
-                <span ng-if="Pod.spec.terminationGracePeriodSeconds >= 60">
+                <span ng-if="pod.spec.terminationGracePeriodSeconds >= 60">
                   {{pod.spec.terminationGracePeriodSeconds | humanizeDurationValue : 'seconds'}}
                 </span>
               </dd>
               <dt>IP:</dt>
-              <dd>{{Pod.status.podIP || 'unknown'}}</dd>
+              <dd>{{pod.status.podIP || 'unknown'}}</dd>
               <dt>Node:</dt>
-              <dd>{{Pod.spec.nodeName || 'unknown'}} <span ng-if="pod.status.hostIP && pod.spec.nodeName != pod.status.hostIP">({{pod.status.hostIP}})</span></dd>
+              <dd>{{pod.spec.nodeName || 'unknown'}} <span ng-if="pod.status.hostIP && pod.spec.nodeName != pod.status.hostIP">({{pod.status.hostIP}})</span></dd>
               <dt>Restart Policy:</dt>
-              <dd>{{Pod.spec.restartPolicy || 'Always'}}</dd>
-              <!-- <dt ng-if-start="Pod.spec.activeDeadlineSeconds">Active Deadline:</dt> -->
-              <!-- <dd ng-if-end>
+              <dd>{{pod.spec.restartPolicy || 'Always'}}</dd>
+              <dt ng-if-start="pod.spec.activeDeadlineSeconds">Active Deadline:</dt>
+              <dd ng-if-end>
                 
-                <span ng-if="Pod.spec.activeDeadlineSeconds < 60">
-                  {{Pod.spec.activeDeadlineSeconds}} seconds
+                <span ng-if="pod.spec.activeDeadlineSeconds < 60">
+                  {{pod.spec.activeDeadlineSeconds}} seconds
                 </span>
-                <span ng-if="Pod.spec.activeDeadlineSeconds >= 60">
-                  {{Pod.spec.activeDeadlineSeconds | humanizeDurationValue : 'seconds'}}
-                </span>
-                <span ng-if="Pod.status.phase === 'Running' && Pod.status.startTime" class="text-muted">
+                <span ng-if="pod.spec.activeDeadlineSeconds >= 60">
+                    {{pod.spec.activeDeadlineSeconds | humanizeDurationValue : 'seconds'}}
+                  </span>
+                <!-- <span >
                   (<duration-until-now timestamp="Pod.status.startTime"></duration-until-now> elapsed)
-                </span>
-              </dd> -->
+                </span> -->
+              </dd>
             </dl>
             <div>
               <container-statuses

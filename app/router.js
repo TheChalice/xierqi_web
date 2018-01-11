@@ -371,6 +371,11 @@ define([
                             function (ReplicationController, Cookie) {
                                 return ReplicationController.get({namespace: Cookie.get('namespace')}).$promise
                             }
+                        ],
+                        ReplicaSet: ['ReplicaSet', 'Cookie',
+                            function(ReplicaSet, Cookie) {
+                                return ReplicaSet.get({ namespace: Cookie.get('namespace') }).$promise
+                            }
                         ]
                     }
                 })
