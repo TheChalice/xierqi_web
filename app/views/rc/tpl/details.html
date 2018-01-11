@@ -41,78 +41,122 @@
             add-health-check-url="{{((!deploymentConfig || isActive)) ? healthCheckURL : ''}}">
     </pod-template>
 
-    <h4 ng-if="replicaSet.spec.volumeClaimTemplates"
-        style="border-bottom: 1px solid #c9c9c9;padding:15px 0;color:#666;">volumeClaimTemplates</h4>
-    <div ng-repeat="template in replicaSet.spec.volumeClaimTemplates">
-        <div class="row matgin-bt">
-            <div class="col-md-2">Storage claim:</div>
-            <div class="col-md-10">{{template.metadata.name}}</div>
+    <h4>Volumes</h4>
+    <div ng-if="kind === 'ReplicaSet'">
+        <div ng-if="deployment">
+            <volumes volumes="replicaSet.spec.template.spec.volumes" namespace="project.metadata.name"></volumes>
+            <div ng-if="{ group: 'extensions', resource: 'deployments' }">
+                <a ng-href="project/{{project.metadata.name}}/attach-pvc?kind=Deployment&name={{deployment.metadata.name}}&group=extensions">Add Storage</a>
+                <span class="action-divider" aria-hidden="true">|</span>
+                <a ng-href="project/{{project.metadata.name}}/add-config-volume?kind=Deployment&name={{deployment.metadata.name}}">Add Config Files</a>
+            </div>
+            <div ng-if="!replicaSet.spec.template.spec.volumes.length && !({ group: 'extensions', resource: 'deployments' })">none</div>
         </div>
-        <div class="row matgin-bt">
-            <div class="col-md-2">Access Modes:</div>
-            <div class="col-md-10"><span ng-repeat="mode in template.spec.accessModes">{{mode}}<span
-                    ng-if="!$last">, </span></span></div>
-        </div>
-        <div class="row matgin-bt">
-            <div class="col-md-2">Capacity:</div>
-            <div class="col-md-10">{{template.spec.resources.requests.storage}}</div>
+        <div ng-if="!deployment">
+            <div ng-if="resource">
+                <volumes
+                        volumes="replicaSet.spec.template.spec.volumes"
+                        namespace="project.metadata.name"
+                        can-remove="true"
+                        remove-fn="removeVolume(volume)">
+                </volumes>
+                <a ng-href="project/{{project.metadata.name}}/attach-pvc?kind=ReplicaSet&name={{replicaSet.metadata.name}}&group=extensions">Add Storage</a>
+                <span class="action-divider" aria-hidden="true">|</span>
+                <a ng-href="project/{{project.metadata.name}}/add-config-volume?kind=ReplicaSet&name={{replicaSet.metadata.name}}&group=extensions">Add Config Files</a>
+            </div>
+            <div ng-if="!(resource)">
+                <volumes volumes="replicaSet.spec.template.spec.volumes" namespace="project.metadata.name"></volumes>
+                <span ng-if="!replicaSet.spec.template.spec.volumes.length">none</span>
+            </div>
         </div>
     </div>
-    <h4 style="border-bottom: 1px solid #c9c9c9;padding:15px 0;color:#666;">Volumes</h4>
-    <div ng-if="replicaSet.spec.template.spec.volumes" ng-repeat="volume in statefuldetail.spec.template.spec.volumes">
-        <div class="row matgin-bt">
-            <div class="col-md-2">volumeName:</div>
-            <div class="col-md-10">{{volume.name}}</div>
+    <div ng-if="kind === 'ReplicationController'">
+        <div ng-if="deploymentConfigName">
+            <volumes volumes="replicaSet.spec.template.spec.volumes" namespace="project.metadata.name"></volumes>
+            <div ng-if="'deploymentconfigs'">
+                <a ng-href="project/{{project.metadata.name}}/attach-pvc?kind=DeploymentConfig&name={{deploymentConfigName}}">Add Storage to {{deploymentConfigName}}</a>
+                <span class="action-divider" aria-hidden="true">|</span>
+                <a ng-href="project/{{project.metadata.name}}/add-config-volume?kind=DeploymentConfig&name={{deploymentConfigName}}">Add Config Files to {{deploymentConfigName}}</a>
+            </div>
+            <div ng-if="!replicaSet.spec.template.spec.volumes.length && !('deploymentconfigs')">none</div>
         </div>
-        <div ng-if="volume.secret">
-            <div class="row matgin-bt">
-                <div class="col-md-2">Type:</div>
-                <div class="col-md-10">secret<span class="small text-muted">(populated by a secret when the pod is created)</span>
-                </div>
+        <div ng-if="!deploymentConfigName">
+            <div ng-if="resource">
+                <volumes
+                        volumes="replicaSet.spec.template.spec.volumes"
+                        namespace="project.metadata.name"
+                        can-remove="true"
+                        remove-fn="removeVolume(volume)">
+                </volumes>
+                <a ng-href="project/{{project.metadata.name}}/attach-pvc?kind=ReplicationController&name={{replicaSet.metadata.name}}">Add Storage</a>
+                <span class="action-divider" aria-hidden="true">|</span>
+                <a ng-href="project/{{project.metadata.name}}/add-config-volume?kind=ReplicationController&name={{replicaSet.metadata.name}}">Add Config Files</a>
             </div>
-            <div class="row matgin-bt">
-                <div class="col-md-2">Secret:</div>
-                <div class="col-md-10">{{volume.secret.secretName}}</div>
-            </div>
-            <div class="row matgin-bt" ng-repeat="item in volume.secret.items">
-                <div class="col-md-2">Key to File:</div>
-                <div class="col-md-10">{{item.key}}&#8201;&#8594;&#8201;{{item.path}}</div>
-            </div>
-        </div>
-        <div ng-if="volume.configMap">
-            <div class="row matgin-bt">
-                <div class="col-md-2">Type:</div>
-                <div class="col-md-10">config map<span class="small text-muted">((populated by a config map)</span>
-                </div>
-            </div>
-            <div class="row matgin-bt">
-                <div class="col-md-2">Secret:</div>
-                <div class="col-md-10">{{volume.configMap.name}}</div>
-            </div>
-            <div class="row matgin-bt" ng-repeat="item in volume.configMap.items">
-                <div class="col-md-2">Key to File:</div>
-                <div class="col-md-10">{{item.key}}&#8201;&#8594;&#8201;{{item.path}}</div>
+            <div ng-if="!(resource)">
+                <volumes volumes="replicaSet.spec.template.spec.volumes" namespace="project.metadata.name"></volumes>
+                <span ng-if="!replicaSet.spec.template.spec.volumes.length">none</span>
             </div>
         </div>
-        <div ng-if="volume.persistentVolumeClaim">
-            <div class="row matgin-bt">
-                <div class="col-md-2">Type:</div>
-                <div class="col-md-10">persistent volume claim<span class="small text-muted">(reference to a persistent volume claim)</span>
-                </div>
-            </div>
-            <div class="row matgin-bt">
-                <div class="col-md-2">Claim name:</div>
-                <div class="col-md-10">{{volume.persistentVolumeClaim.claimName}}</div>
-            </div>
-            <div class="row matgin-bt">
-                <div class="col-md-10" ng-if="volume.persistentVolumeClaim.readOnly">read-only</div>
-                <div class="col-md-10" ng-if="!volume.persistentVolumeClaim.readOnly">read-write</div>
-            </div>
+    </div>
+    <!-- Autoscaling -->
+    <div ng-if="!deploymentConfigName || autoscalers.length">
+        <h3>Autoscaling</h3>
+
+        <!-- Show any warnings. -->
+        <div ng-repeat="warning in hpaWarnings" class="alert alert-warning">
+            <span class="pficon pficon-warning-triangle-o" aria-hidden="true"></span>
+            <span class="sr-only">Warning:</span>
+            {{warning.message}}
+
+            <!-- If the CPU request is missing, add an action to set one. -->
+            <span ng-if="warning.reason === 'NoCPURequest'">
+      <!-- Prompt to set CPU request on the DC if this is a deployment. -->
+      <a ng-href="project/{{projectName}}/set-limits?kind=DeploymentConfig&name={{deploymentConfigName}}"
+         ng-if="deploymentConfigName && !deploymentConfigMissing && ('deploymentconfigs')"
+         role="button">Edit Resource
+        <span ng-if="!('cpu' | isRequestCalculated : project)">Requests and</span> Limits</a>
+                <!-- Prompt to set CPU request on the RC if not a deployment. -->
+      <a ng-href="project/{{projectName}}/set-limits?kind=ReplicationController&name={{replicaSet.metadata.name}}"
+         ng-if="!deploymentConfigName && kind === 'ReplicationController' && (resource)"
+         role="button">Edit Resource
+        <span ng-if="!('cpu' | isRequestCalculated : project)">Requests and</span> Limits</a>
+      <a ng-href="project/{{projectName}}/set-limits?kind=ReplicaSet&name={{replicaSet.metadata.name}}&group=extensions"
+         ng-if="!deploymentConfigName && kind === 'ReplicaSet' && (resource )"
+         role="button">Edit Resource
+        <span ng-if="!('cpu' | isRequestCalculated : project)">Requests and</span> Limits</a>
+    </span>
         </div>
 
-    </div>
-    <div ng-if="!replicaSet.spec.template.spec.volumes" class="row matgin-bt">
-        <div class="col-md-10">none</div>
+        <!-- Create autoscaler -->
+        <div ng-if="!autoscalers.length">
+    <span ng-if="{resource: 'horizontalpodautoscalers', group: 'autoscaling'}">
+      <a ng-if="replicaSet.kind === 'ReplicaSet' && !deployment"
+         ng-href="project/{{projectName}}/edit/autoscaler?kind=ReplicaSet&name={{replicaSet.metadata.name}}&group=extensions"
+         role="button">Add Autoscaler</a>
+      <a ng-if="replicaSet.kind === 'ReplicaSet' && deployment"
+         ng-href="project/{{projectName}}/edit/autoscaler?kind=Deployment&name={{deployment.metadata.name}}&group=extensions"
+         role="button">Add Autoscaler</a>
+      <a ng-if="replicaSet.kind === 'ReplicationController' && !deploymentConfigName"
+         ng-href="project/{{projectName}}/edit/autoscaler?kind=ReplicationController&name={{replicaSet.metadata.name}}"
+         role="button">Add Autoscaler</a>
+      <a ng-if="replicaSet.kind === 'ReplicationController' && deploymentConfigName"
+         ng-href="project/{{projectName}}/edit/autoscaler?kind=DeploymentConfig&name={{deploymentConfigName}}"
+         role="button">Add Autoscaler</a>
+    </span>
+            <span ng-if="!({resource: 'horizontalpodautoscalers', group: 'autoscaling'})">
+      Autoscaling is not enabled. There are no autoscalers for this
+      <span ng-if="deploymentConfigName">deployment config or deployment.</span>
+      <span ng-if="!deploymentConfigName">{{replicaSet.kind | humanizeKind}}.</span>
+    </span>
+        </div>
+
+        <!-- HPA details -->
+        <div ng-repeat="hpa in autoscalers | orderBy : 'name'">
+            <hpa hpa="hpa"
+                 show-scale-target="hpa.spec.scaleTargetRef.kind !== 'ReplicationController'"
+                 alerts="alerts">
+            </hpa>
+        </div>
     </div>
     <h4 style="padding:15px 0;color:#666;">Pods</h4>
     <div class="table-responsive" style="margin-top: 20px;">

@@ -826,4 +826,42 @@ define(['angular', 'moment'], function(angular, moment) {
                 });
             };
         })
+        .filter("limitToOrAll", function(limitToFilter) {
+            return function(input, limit) {
+                if (isNaN(limit)) {
+                    return input;
+                }
+
+                return limitToFilter(input, limit);
+            };
+        })
+        .filter('volumeMountMode', function() {
+            var isConfigVolume = function(volume) {
+                return _.has(volume, 'configMap') || _.has(volume, 'secret');
+            };
+
+            return function(mount, volumes) {
+                if (!mount) {
+                    return '';
+                }
+
+                // Config maps and secrets are always read-only, even if not explicitly
+                // set in the volume mount.
+                var volume = _.find(volumes, { name: mount.name });
+                if (isConfigVolume(volume)) {
+                    return 'read-only';
+                }
+
+                if (_.get(volume, 'persistentVolumeClaim.readOnly')) {
+                    return 'read-only';
+                }
+
+                return mount.readOnly ? 'read-only' : 'read-write';
+            };
+        })
+        .filter('navigateResourceURL', function(Navigate) {
+            return function(resource, kind, namespace, apiVersion) {
+                return Navigate.resourceURL(resource, kind, namespace, null, {apiVersion: apiVersion});
+            };
+        })
 });

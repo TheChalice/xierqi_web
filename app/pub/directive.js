@@ -163,6 +163,17 @@ define(['angular'], function(angular) {
               }
             };
           })
-
+        .directive('volumes', function() {
+            return {
+                restrict: 'E',
+                scope: {
+                    volumes: '=',
+                    namespace: '=',
+                    canRemove: '=?',
+                    removeFn: '&?'
+                },
+                templateUrl: 'views/directives/_volumes.html'
+            };
+        })
 
 });

@@ -145,73 +145,73 @@ angular.module('console.rs', [
             });
 
             var getcpuandmemory = function (cpuandmemoryobj) {
-                PieChar.create(cpuandmemoryobj, function (data) {
-                    // console.log('getcpuandmemory--->>>gauge', data.gauge);
-                    var cpudata = [];
-                    var memdata = [];
-                    $scope.cpuData = [];
-                    $scope.memData = [];
-                    angular.forEach(data.gauge, function (item, i) {
-                        var k = i.split('/')[i.split('/').length - 2];
-                        if (k == 'cpu') {
-                            cpudata = item;
-                            angular.forEach(cpudata, function (input, i) {
-                                if (!input.empty) {
-                                    $scope.cpuData.push(Math.floor(input.avg / 1000 * 1000) / 1000);
-                                } else {
-                                    $scope.cpuData.push(0);
-                                }
-                            })
-
-                        } else if (k == 'memory') {
-                            memdata = item;
-                            angular.forEach(memdata, function (input, i) {
-                                if (!input.empty) {
-                                    $scope.memData.push(Math.floor(input.avg / (1024 * 1024) * 100) / 100);
-                                } else {
-                                    $scope.memData.push(0);
-                                }
-
-                            });
-                        }
-                    });
-                    $scope.CpuConfig = netChart($scope.cpuData, 'CPU/cores');
-                    $scope.MemConfig = netChart($scope.memData, 'Memory/MiB');
-                })
+                // PieChar.create(cpuandmemoryobj, function (data) {
+                //     // console.log('getcpuandmemory--->>>gauge', data.gauge);
+                //     var cpudata = [];
+                //     var memdata = [];
+                //     $scope.cpuData = [];
+                //     $scope.memData = [];
+                //     angular.forEach(data.gauge, function (item, i) {
+                //         var k = i.split('/')[i.split('/').length - 2];
+                //         if (k == 'cpu') {
+                //             cpudata = item;
+                //             angular.forEach(cpudata, function (input, i) {
+                //                 if (!input.empty) {
+                //                     $scope.cpuData.push(Math.floor(input.avg / 1000 * 1000) / 1000);
+                //                 } else {
+                //                     $scope.cpuData.push(0);
+                //                 }
+                //             })
+                //
+                //         } else if (k == 'memory') {
+                //             memdata = item;
+                //             angular.forEach(memdata, function (input, i) {
+                //                 if (!input.empty) {
+                //                     $scope.memData.push(Math.floor(input.avg / (1024 * 1024) * 100) / 100);
+                //                 } else {
+                //                     $scope.memData.push(0);
+                //                 }
+                //
+                //             });
+                //         }
+                //     });
+                //     $scope.CpuConfig = netChart($scope.cpuData, 'CPU/cores');
+                //     $scope.MemConfig = netChart($scope.memData, 'Memory/MiB');
+                // })
             };
 
             var getNetwork = function (networkobj) {
-                PieChar.create(networkobj, function (data) {
-                    // console.log('getNetwork--->>>gauge', data.gauge);
-                    var networkrx = [];
-                    var networktx = [];
-                    $scope.nettxdata = [];
-                    $scope.netrxdata = [];
-                    angular.forEach(data.gauge, function (item, i) {
-                        var k = i.split('/')[i.split('/').length - 1];
-                        if (k == 'tx_rate') {
-                            networkrx = item
-                        } else if (k == 'rx_rate') {
-                            networktx = item
-                        }
-                    });
-                    angular.forEach(networkrx, function (input, i) {
-                        if (!input.empty) {
-                            $scope.netrxdata.push(Math.floor(input.avg / 1024 * 1000) / 1000)
-                        } else {
-                            $scope.netrxdata.push(0)
-                        }
-                    });
-                    angular.forEach(networktx, function (input, i) {
-                        if (!input.empty) {
-                            $scope.nettxdata.push(Math.floor(input.avg / 1024 * 1000) / 1000)
-                        } else {
-                            $scope.nettxdata.push(0)
-                        }
-                    });
-                    $scope.TxConfig = netChart($scope.nettxdata, 'Network (Sent)KB/s');
-                    $scope.RxConfig = netChart($scope.netrxdata, 'Network (Received)KB/s');
-                })
+            //     PieChar.create(networkobj, function (data) {
+            //         // console.log('getNetwork--->>>gauge', data.gauge);
+            //         var networkrx = [];
+            //         var networktx = [];
+            //         $scope.nettxdata = [];
+            //         $scope.netrxdata = [];
+            //         angular.forEach(data.gauge, function (item, i) {
+            //             var k = i.split('/')[i.split('/').length - 1];
+            //             if (k == 'tx_rate') {
+            //                 networkrx = item
+            //             } else if (k == 'rx_rate') {
+            //                 networktx = item
+            //             }
+            //         });
+            //         angular.forEach(networkrx, function (input, i) {
+            //             if (!input.empty) {
+            //                 $scope.netrxdata.push(Math.floor(input.avg / 1024 * 1000) / 1000)
+            //             } else {
+            //                 $scope.netrxdata.push(0)
+            //             }
+            //         });
+            //         angular.forEach(networktx, function (input, i) {
+            //             if (!input.empty) {
+            //                 $scope.nettxdata.push(Math.floor(input.avg / 1024 * 1000) / 1000)
+            //             } else {
+            //                 $scope.nettxdata.push(0)
+            //             }
+            //         });
+            //         $scope.TxConfig = netChart($scope.nettxdata, 'Network (Sent)KB/s');
+            //         $scope.RxConfig = netChart($scope.netrxdata, 'Network (Received)KB/s');
+            //     })
             };
 
             var timer = $interval(function () {
