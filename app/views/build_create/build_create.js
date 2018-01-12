@@ -120,11 +120,12 @@ angular.module('console.build_create_new', [
                 loadgitdata(git)
             }
 
-            $scope.$watch('check', function (n, o) {
+            $scope.$watch('buildcheck', function (n, o) {
                 if (n === o) {
                     return
                 }
                 if (n) {
+                    console.log(n);
                     clearselec()
                     if (n === 1) {
                         $scope.gitstatus = 'gitlab'
@@ -193,7 +194,7 @@ angular.module('console.build_create_new', [
                 ImageStream.create({namespace: $rootScope.namespace}, imageStream, function (res) {
                     console.log('res', res);
                 })
-                if ($scope.check !== 3) {
+                if ($scope.buildcheck !== 3) {
 
                     $scope.buildConfig.spec.source.git.ref = $scope.gitdata.branchs[$scope.grid.branch].name;
                     if ($scope.gitstatus === 'gitlab') {
