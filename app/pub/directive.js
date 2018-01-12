@@ -175,5 +175,56 @@ define(['angular'], function(angular) {
                 templateUrl: 'views/directives/_volumes.html'
             };
         })
+        .directive('podLogs', function () {
+            return {
+                restrict: 'EA',
+                templateUrl: 'views/directives/logs.html',
+                scope: {
+                    podName: '@podName',
+                    podContainerName: '@podContainerName',
+                    podResourceVersion: '@podResourceVersion',
+                    type: '@type'
+                },
+                controller: ['$scope', 'ReplicationController', '$rootScope', 'Ws', '$base64', 'ansi_ups', '$sce', '$log',
+                    function ($scope, ReplicationController, $rootScope, Ws, $base64, ansi_ups, $sce, $log) {
+                        console.log('$scope.podName---',$scope.podName);
+                        var watchpod = function (resourceVersion, conname, name) {
+                            var wsobj ={
+                                api: 'k8s',
+                                namespace: $rootScope.namespace,
+                                type: $scope.type,
+                                name: name + '/log',
+                                protocols: 'base64.binary.k8s.io'
+                            };
+                            if (resourceVersion) {
+                                wsobj.resourceVersion=resourceVersion
+                            }
+                            if (conname) {
+                                wsobj.pod=pod
+                            }
+                            // console.log('wsobj', wsobj);
+                            Ws.watch(wsobj, function (res) {
+                                if (res.data && typeof res.data == "string") {
+                                    $scope.result += $base64.decode(res.data);
+                                    var html = ansi_ups.ansi_to_html($scope.result);
+                                    $scope.log = $sce.trustAsHtml(html);
+                                    //console.log('$scope.log ', html);
+                                    $scope.$apply();
+
+                                }
+                            }, function () {
+                                $log.info("webSocket startRC");
+                            }, function () {
+                                $log.info("webSocket stopRC");
+                                var key = Ws.key($rootScope.namespace, 'pods', $scope.pod);
+                                if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
+                                    return;
+                                }
+                            });
+                        };
+                        watchpod($scope.podResourceVersion, $scope.podContainerName, $scope.podName)
+                    }]
+            };
+        })
 
 });
