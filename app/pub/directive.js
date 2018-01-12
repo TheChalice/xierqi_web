@@ -86,7 +86,7 @@ define(['angular'], function(angular) {
                     // Optional URL for setting health checks on the resource when missing.
                     addHealthCheckUrl: '@?'
                 },
-                templateUrl: 'views/directives/_pod-template.html'
+                templateUrl: 'views/pods_detail/tpl/pod-template.html'
             };
         })
         .directive('podTemplateContainer', function() {
@@ -99,7 +99,7 @@ define(['angular'], function(angular) {
                     detailed: '=?',
                     labelPrefix: '@?'
                 },
-                templateUrl: 'views/directives/_pod-template-container.html'
+                templateUrl: 'views/pods_detail/tpl/pod-template-container.html'
             };
         })
 
