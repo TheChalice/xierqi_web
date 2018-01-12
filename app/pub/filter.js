@@ -763,7 +763,7 @@ define(['angular', 'moment'], function(angular, moment) {
                 return items;
             };
         }])
-        .filter('lastDeploymentRevision', function(annotationFilter) {
+        .filter('lastDeploymentRevision', ['annotationFilter',function(annotationFilter) {
             return function(deployment) {
                 if (!deployment) {
                     return '';
@@ -772,7 +772,7 @@ define(['angular', 'moment'], function(angular, moment) {
                 var revision = annotationFilter(deployment, 'deployment.kubernetes.io/revision');
                 return revision ? "#" + revision : 'Unknown';
             };
-        }).filter('camelToLower', function() {
+        }]).filter('camelToLower', function() {
             return function(str) {
                 if (!str) {
                     return str;

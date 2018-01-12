@@ -11,8 +11,8 @@ angular.module('console.deploymentconfig_detail', [
             ]
         }
     ])
-    .controller('DeploymentConfigDetailCtrl', ['$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag',
-        function ($log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag) {
+    .controller('DeploymentConfigDetailCtrl', ['$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag','$state',
+        function ($log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag,$state) {
             $scope.dc = angular.copy(mydc)
             //console.log('mydc', mydc);
             $scope.mytag = angular.copy(mytag)
@@ -185,6 +185,15 @@ angular.module('console.deploymentconfig_detail', [
                     console.log(obj);
                 })
             }
+            $scope.deleteDc = function () {
+                DeploymentConfig.delete({
+                    namespace: $rootScope.namespace,
+                    name: $stateParams.name
+                }, function (datadc) {
+                    $state.go('console.deployments')
+                    console.log('datadc', datadc);
+                })
+            };
             $scope.$on('$destroy', function () {
                 Ws.clear();
             });

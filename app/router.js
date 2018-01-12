@@ -523,6 +523,13 @@ define([
                                     name: $stateParams.name
                                 }).$promise;
                             }],
+                        myreplicaSet: ['$stateParams', 'ReplicaSet', 'Cookie', '$rootScope',
+                            function ($stateParams, ReplicaSet, Cookie, $rootScope) {
+                                //console.log('$stateParams', $stateParams);
+                                return ReplicaSet.get({
+                                    namespace: Cookie.get('namespace')
+                                }).$promise;
+                            }],
                         mytag: ['$stateParams', 'ImageStreamTag', 'Cookie', '$rootScope', function ($stateParams, ImageStreamTag, Cookie, $rootScope) {
                             return ImageStreamTag.get({
                                 namespace: Cookie.get('namespace')

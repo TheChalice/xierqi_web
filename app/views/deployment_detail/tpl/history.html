@@ -4,38 +4,29 @@
 <!--</div>-->
 <div class="timeline">
     <ul>
-        <li ng-repeat="item in rcs.items">
+        <li ng-repeat="item in replicaset">
             <label>
                 <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
                 {{item.metadata.creationTimestamp | dateRelative}}
             </label>
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-sm-3" ui-sref="console.rc({name:item.metadata.name})">
-                        #{{item.metadata.annotations['openshift.io/deployment-config.latest-version']}}
+                    <div class="col-sm-3" ui-sref="console.rs({name:item.metadata.name})">
+                        #{{item.metadata.annotations['deployment.kubernetes.io/revision']}}
                     </div>
-                    <div class="col-sm-3">
-                        <span class="icon12 icon12-{{item.metadata.annotations['openshift.io/deployment.phase']}}"
-                              ng-class="{'fa-spin': item.metadata.annotations['openshift.io/deployment.phase'] == 'Running' || item.metadata.annotations['openshift.io/deployment.phase'] == 'Pending'}">
-
+                    <div class="col-sm-3"  ui-sref="console.rs({name:item.metadata.name})">
+                        <span>
+                            {{item.metadata.name}}
                         </span>
                         <!--switch to Chinese-->
-                        {{item.metadata.annotations['openshift.io/deployment.phase'] | rcStatusFilter}}
+
                     </div>
                     <div class="col-sm-3">
 
                     </div>
                     <div class="col-sm-3">
-                        <span ng-if="!item.dc.status.details.causes.length">未知</span>
-                        <span ng-if="item.dc.status.details.causes.length">
-                            <span ng-repeat="cause in item.dc.status.details.causes">
-                              <span ng-switch="cause.type">
-                                <span ng-switch-when="ImageChange">镜像变化</span>
-                                <span ng-switch-when="ConfigChange">配置变化</span>
-                                <span ng-switch-default>{{cause.type}}</span>
-                              </span>
-                            </span>
-                          </span>
+                        <span >{{item.spec.replicas}}&nbsp;&nbsp;&nbsp;&nbsp;replicas</span>
+
                     </div>
                 </div>
             </div>
