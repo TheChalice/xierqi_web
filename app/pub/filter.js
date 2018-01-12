@@ -763,7 +763,7 @@ define(['angular', 'moment'], function(angular, moment) {
                 return items;
             };
         }])
-        .filter('lastDeploymentRevision', function(annotationFilter) {
+        .filter('lastDeploymentRevision', ['annotationFilter',function(annotationFilter) {
             return function(deployment) {
                 if (!deployment) {
                     return '';
@@ -772,7 +772,7 @@ define(['angular', 'moment'], function(angular, moment) {
                 var revision = annotationFilter(deployment, 'deployment.kubernetes.io/revision');
                 return revision ? "#" + revision : 'Unknown';
             };
-        }).filter('camelToLower', function() {
+        }]).filter('camelToLower', function() {
             return function(str) {
                 if (!str) {
                     return str;
@@ -865,6 +865,38 @@ define(['angular', 'moment'], function(angular, moment) {
             };
             })
 
-          
-          //add
+        .filter("limitToOrAll", ['limitToFilter', function(limitToFilter) {
+            return function(input, limit) {
+                if (isNaN(limit)) {
+                    return input;
+                }
+
+                return limitToFilter(input, limit);
+            };
+        }])
+        .filter('volumeMountMode',  function() {
+            var isConfigVolume = function(volume) {
+                return _.has(volume, 'configMap') || _.has(volume, 'secret');
+            };
+
+            return function(mount, volumes) {
+                if (!mount) {
+                    return '';
+                }
+
+                // Config maps and secrets are always read-only, even if not explicitly
+                // set in the volume mount.
+                var volume = _.find(volumes, { name: mount.name });
+                if (isConfigVolume(volume)) {
+                    return 'read-only';
+                }
+
+                if (_.get(volume, 'persistentVolumeClaim.readOnly')) {
+                    return 'read-only';
+                }
+
+                return mount.readOnly ? 'read-only' : 'read-write';
+            };
+        })
+
 });

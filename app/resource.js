@@ -254,8 +254,8 @@ define([
             return Deployments;
         }])
         .factory('ReplicaSet', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
-            var ReplicaSet = $resource(GLOBAL.host_newk8s2 + '/namespaces/:namespace/replicasets/proxy-3168510234', {
-                // name: '@name',
+            var ReplicaSet = $resource(GLOBAL.host_newk8s2 + '/namespaces/:namespace/replicasets/:name', {
+                name: '@name',
                 namespace: '@namespace'
             }, {
                 create: { method: 'POST' },

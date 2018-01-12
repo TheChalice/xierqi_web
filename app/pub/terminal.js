@@ -36,8 +36,8 @@ define(['angular'], function (angular) {
             ];
         })
         .directive('kubernetesContainerTerminal', [
-            "$q", "kubernetesContainerSocket", "Cookie",
-            function($q, kubernetesContainerSocket, Cookie) {
+            "$q", "kubernetesContainerSocket", "Cookie",'$location',
+            function($q, kubernetesContainerSocket, Cookie,$location) {
                 return {
                     restrict: 'E',
                     scope: {
@@ -134,7 +134,10 @@ define(['angular'], function (angular) {
                                 term.write('\x1b[31m' + message + '\x1b[m\r\n');
                                 scope.$apply(disconnect);
                             }
-                            console.log('url', url);
+
+                            console.log('$location', $location);
+                            //url='ws://localhost:8080/ws'+url;
+                            //console.log('url', url);
                             $q.when(kubernetesContainerSocket(url, "base64.channel.k8s.io"),
                                 function resolved(socket) {
                                     ws = socket;
