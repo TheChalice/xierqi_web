@@ -27,7 +27,7 @@
             <uib-tab-heading>
                 Logs
             </uib-tab-heading>
-            <div ng-include="'views/rc/tpl/logs.html'"></div>
+            <pod-logs pod-name="{{replicaSet.metadata.annotations['openshift.io/deployment-config.name']}}" type="deploymentconfigs"></pod-logs>
         </uib-tab>
         <uib-tab index="5">
             <uib-tab-heading>

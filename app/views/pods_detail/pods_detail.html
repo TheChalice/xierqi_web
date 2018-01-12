@@ -28,7 +28,11 @@
                 <uib-tab-heading>
                     Logs
                 </uib-tab-heading>
-                <pod-logs pod-name="{{pod.metadata.name}}" pod-container-name="{{pod.spec.containers[0].name}}" pod-resource-version="{{pod.metadata.resourceVersion}}"></pod-logs>
+                <pod-logs  pod-name="{{pod.metadata.name}}"
+                           pod-container-name="{{pod.spec.containers[0].name}}"
+                           pod-resource-version="{{pod.metadata.resourceVersion}}"
+                           type="pods"
+                ></pod-logs>
             </uib-tab>
             <uib-tab index="5">
                 <uib-tab-heading>
