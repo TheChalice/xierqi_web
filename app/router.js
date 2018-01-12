@@ -800,51 +800,6 @@ define([
                         }]
                     }
                 })
-                //新建routes
-                .state('console.create_routes', {
-                    url: '/create_routes/:name',
-                    templateUrl: 'views/create_file/create_routes/create_routes.html',
-                    controller: 'CreateRoutesCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/create_file/create_routes/create_routes.js')
-                        }],
-                        createRoutes: ['Route', 'Cookie', '$stateParams',
-                            function (Route, Cookie, $stateParams) {
-                                return Route.get({namespace: Cookie.get('namespace'), name: $stateParams.name}).$promise
-                            }
-                        ]
-                    }
-                })
-                //新建deployment
-                .state('console.create_deployment', {
-                    url: '/create_deployment',
-                    templateUrl: 'views/create_deployment/create_deployment.html',
-                    controller: 'createDeploymentCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/create_deployment/create_deployment.js')
-                        }],
-                        myProject: ['Project', 'Cookie', '$stateParams',
-                            function (Project, Cookie, $stateParams) {
-                                return Project.get().$promise
-                            }
-                        ]
-                url: '/pods_detail/:name',
-                templateUrl: 'views/pods_detail/pods_detail.html',
-                controller: 'podsdetailCtrl',
-                resolve: {
-                    dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                        return $ocLazyLoad.load('views/pods_detail/pods_detail.js')
-                    }],
-                    mypod: ['$stateParams', 'Pod', 'Cookie', '$rootScope', function($stateParams, Pod, Cookie, $rootScope) {
-                        return Pod.get({
-                            namespace: Cookie.get('namespace'),
-                            name:$stateParams.name
-                        }).$promise;
-                    }]
-                }
-            })
             //新建routes
              .state('console.create_routes', {
                  url: '/create_routes/:name',
