@@ -790,6 +790,9 @@ define([
              .state('console.create_routes', {
                  url: '/create_routes/:name',
                  templateUrl: 'views/create_file/create_routes/create_routes.html',
+                 params: {
+                     name:null
+                 },
                  controller: 'CreateRoutesCtrl',
                  resolve: {
                      dep: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -798,6 +801,11 @@ define([
                      createRoutes: ['Route', 'Cookie','$stateParams',
                          function(Route, Cookie,$stateParams) {
                              return Route.get({ namespace: Cookie.get('namespace'),name:$stateParams.name}).$promise
+                         }
+                     ],
+                     ServiceList:['Service', 'Cookie',
+                         function(Service, Cookie) {
+                             return Service.get({ namespace: Cookie.get('namespace')}).$promise
                          }
                      ]
                  }
