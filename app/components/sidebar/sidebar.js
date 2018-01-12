@@ -72,7 +72,7 @@ angular.module("console.sidebar", [
                         {name:'仪表盘',img:'icon25 icon25-dashboard',url:'console.dashboard',children:[]},
                         {name:'代码构建',img:'icon25 icon25-build',url:'console.build',children:[]},
                         {name:'镜像仓库',img:'icon25 icon25-repository',url:'console.image',children:[]},
-                        {name:'服务部署',img:'icon25 icon25-deployment',url:'',children:app},
+                        {name:'服务部署',img:'icon25 icon25-deployment',url:null,children:app},
                         {name:'资源管理',img:'icon25 icon25-resource',url:'console.resource_management',children:[]}
                     ];
 
