@@ -74,12 +74,11 @@
         </div>
         <div flex class="word-break">
           <span class="pod-template-key">
-            Command:{{pod}}
+            Command:
           </span>
             <span>
             <code class="command">
-                    <p 
-                      ng-repeat="podtname in pod.spec.containers[0].command">{{podtname}}213</p>
+                    <span ng-repeat="podtname in container.command">{{podtname}}&nbsp;</span>
               <!-- <truncate-long-text
                       content="container | entrypoint : imagesByDockerReference[container.image]"
                       limit="80"
