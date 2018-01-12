@@ -373,8 +373,8 @@ define([
                             }
                         ],
                         ReplicaSet: ['ReplicaSet', 'Cookie',
-                            function(ReplicaSet, Cookie) {
-                                return ReplicaSet.get({ namespace: Cookie.get('namespace') }).$promise
+                            function (ReplicaSet, Cookie) {
+                                return ReplicaSet.get({namespace: Cookie.get('namespace')}).$promise
                             }
                         ]
                     }
@@ -836,11 +836,18 @@ define([
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/rc/rc_detail.js')
                         }],
-                        mypod: ['$stateParams', 'Pod', 'Cookie', '$rootScope', function ($stateParams, Pod, Cookie, $rootScope) {
+                        mypos: ['$stateParams', 'Pod', 'Cookie', '$rootScope', function ($stateParams, Pod, Cookie, $rootScope) {
                             return Pod.get({
                                 namespace: Cookie.get('namespace')
                             }).$promise;
-                        }]
+                        }],
+                        myrc: ['$stateParams', 'ReplicationController', 'Cookie', '$rootScope',
+                            function ($stateParams, ReplicationController, Cookie, $rootScope) {
+                                return ReplicationController.get({
+                                    namespace: Cookie.get('namespace'),
+                                    name: $stateParams.name
+                                }).$promise;
+                            }]
                     }
                 })
                 //rs
@@ -852,7 +859,7 @@ define([
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/rs/rs_detail.js')
                         }],
-                        mypod: ['$stateParams', 'Pod', 'Cookie', '$rootScope', function ($stateParams, Pod, Cookie, $rootScope) {
+                        mypos: ['$stateParams', 'Pod', 'Cookie', '$rootScope', function ($stateParams, Pod, Cookie, $rootScope) {
                             return Pod.get({
                                 namespace: Cookie.get('namespace')
                             }).$promise;

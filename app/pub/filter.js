@@ -865,9 +865,7 @@ define(['angular', 'moment'], function(angular, moment) {
             };
             })
 
-
-          //add
-        .filter("limitToOrAll", function(limitToFilter) {
+        .filter("limitToOrAll", ['limitToFilter', function(limitToFilter) {
             return function(input, limit) {
                 if (isNaN(limit)) {
                     return input;
@@ -875,8 +873,8 @@ define(['angular', 'moment'], function(angular, moment) {
 
                 return limitToFilter(input, limit);
             };
-        })
-        .filter('volumeMountMode', function() {
+        }])
+        .filter('volumeMountMode',  function() {
             var isConfigVolume = function(volume) {
                 return _.has(volume, 'configMap') || _.has(volume, 'secret');
             };
@@ -900,9 +898,5 @@ define(['angular', 'moment'], function(angular, moment) {
                 return mount.readOnly ? 'read-only' : 'read-write';
             };
         })
-        .filter('navigateResourceURL', function(Navigate) {
-            return function(resource, kind, namespace, apiVersion) {
-                return Navigate.resourceURL(resource, kind, namespace, null, {apiVersion: apiVersion});
-            };
-        })
+
 });

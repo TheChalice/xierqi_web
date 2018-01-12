@@ -20,7 +20,7 @@
             <dt>Secret:</dt>
             <dd>
         <span ng-if="'secrets'">
-          <a ng-href="{{volume.secret.secretName | navigateResourceURL : 'Secret' : namespace}}">{{volume.secret.secretName}}</a>
+          <a>{{volume.secret.secretName}}</a>
         </span>
                 <span ng-if="!('secrets')">
           {{volume.secret.secretName}}
@@ -38,7 +38,7 @@
                 <span class="small text-muted">(reference to a persistent volume claim)</span>
             </dd>
             <dt>Claim name:</dt>
-            <dd><a ng-href="{{volume.persistentVolumeClaim.claimName | navigateResourceURL : 'PersistentVolumeClaim' : namespace}}">{{volume.persistentVolumeClaim.claimName}}</a></dd>
+            <dd><a>{{volume.persistentVolumeClaim.claimName}}</a></dd>
             <dt>Mode:</dt>
             <dd>
                 <span ng-if="volume.persistentVolumeClaim.readOnly">read-only</span>
@@ -95,7 +95,7 @@
                 <span class="small text-muted">(populated by a config map)</span>
             </dd>
             <dt>Config Map:</dt>
-            <dd><a ng-href="{{volume.configMap.name | navigateResourceURL : 'ConfigMap' : namespace}}">{{volume.configMap.name}}</a></dd>
+            <dd><a>{{volume.configMap.name}}</a></dd>
             <div ng-repeat="item in volume.configMap.items">
                 <dt>Key to File:</dt>
                 <dd>{{item.key}}&#8201;&#8594;&#8201;{{item.path}}</dd>
