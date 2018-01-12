@@ -94,7 +94,6 @@ angular.module('console.deployment_detail', [
                     //alert(11)
                 })
             }
-
             var makeimagemap = function () {
                 angular.forEach($scope.mytag.items, function (tag, i) {
                     $scope.imagedockermap[tag.image.dockerImageReference] = {
@@ -184,7 +183,16 @@ angular.module('console.deployment_detail', [
                 }, sendobj, function (obj) {
                     console.log(obj);
                 })
-            }
+            };
+            $scope.deleteDc = function () {
+                DeploymentConfig.delete({
+                    namespace: $rootScope.namespace,
+                    name: $stateParams.name
+                }, function (datadc) {
+                    console.log('datadc', datadc);
+                })
+            };
+
             $scope.$on('$destroy', function () {
                 Ws.clear();
             });
