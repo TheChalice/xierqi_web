@@ -255,7 +255,7 @@ define([
         }])
         .factory('ReplicaSet', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
             var ReplicaSet = $resource(GLOBAL.host_newk8s2 + '/namespaces/:namespace/replicasets/:name', {
-                // name: '@name',
+                name: '@name',
                 namespace: '@namespace'
             }, {
                 create: { method: 'POST' },
