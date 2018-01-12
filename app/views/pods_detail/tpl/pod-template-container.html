@@ -127,13 +127,13 @@
         <div flex>
             <span class="pod-template-key">CPU:</span>
             <span ng-if="container.resources.requests.cpu && container.resources.limits.cpu">
-            {{container.resources.requests.cpu | usageWithUnits: 'cpu'}} to {{container.resources.limits.cpu | usageWithUnits: 'cpu'}}
+            {{container.resources.requests.cpu}} to {{container.resources.limits.cpu}}
           </span>
             <span ng-if="!container.resources.requests.cpu">
-            {{container.resources.limits.cpu | usageWithUnits: 'cpu'}} limit
+            {{container.resources.limits.cpu}} limit
           </span>
             <span ng-if="!container.resources.limits.cpu">
-            {{container.resources.requests.cpu | usageWithUnits: 'cpu'}} requested
+            {{container.resources.requests.cpu }} requested
           </span>
         </div>
     </div>
@@ -145,13 +145,13 @@
         <div flex>
             <span class="pod-template-key">Memory:</span>
             <span ng-if="container.resources.requests.memory && container.resources.limits.memory">
-            {{container.resources.requests.memory | usageWithUnits: 'memory'}} to {{container.resources.limits.memory | usageWithUnits: 'memory'}}
+            {{container.resources.requests.memory}} to {{container.resources.limits.memory}}
           </span>
             <span ng-if="!container.resources.requests.memory">
-            {{container.resources.limits.memory | usageWithUnits: 'memory'}} limit
+            {{container.resources.limits.memory }} limit
           </span>
             <span ng-if="!container.resources.limits.memory">
-            {{container.resources.requests.memory | usageWithUnits: 'memory'}} requested
+            {{container.resources.requests.memory }} requested
           </span>
         </div>
     </div>
