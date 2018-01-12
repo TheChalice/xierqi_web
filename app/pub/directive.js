@@ -188,19 +188,19 @@ define(['angular'], function(angular) {
                 controller: ['$scope', 'ReplicationController', '$rootScope', 'Ws', '$base64', 'ansi_ups', '$sce', '$log',
                     function ($scope, ReplicationController, $rootScope, Ws, $base64, ansi_ups, $sce, $log) {
                         console.log('$scope.podName---',$scope.podName);
-                        var watchpod = function (resourceVersion, conname, name) {
+                        var watchpod = function (resourceVersion, podContainerName, podName) {
                             var wsobj ={
                                 api: 'k8s',
                                 namespace: $rootScope.namespace,
                                 type: $scope.type,
-                                name: name + '/log',
+                                name: podName + '/log',
                                 protocols: 'base64.binary.k8s.io'
                             };
                             if (resourceVersion) {
                                 wsobj.resourceVersion=resourceVersion
                             }
-                            if (conname) {
-                                wsobj.pod=pod
+                            if (podContainerName) {
+                                wsobj.pod=podContainerName
                             }
                             // console.log('wsobj', wsobj);
                             Ws.watch(wsobj, function (res) {

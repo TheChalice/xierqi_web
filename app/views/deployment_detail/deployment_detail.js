@@ -11,10 +11,20 @@ angular.module('console.deployment_detail', [
             ]
         }
     ])
-    .controller('DeploymentDetailCtrl', ['$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag',
-        function ($log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag) {
+    .controller('DeploymentDetailCtrl', ['$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag','myreplicaSet',
+        function ($log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag,myreplicaSet) {
             $scope.dc = angular.copy(mydc)
-            console.log('mydc', mydc);
+            $scope.replicaset=[];
+            console.log('myreplicaSet.items', myreplicaSet.items);
+            angular.forEach(myreplicaSet.items, function (item,i) {
+                //console.log(item.metadata.labels.app);
+                if (item.metadata.labels.app === $scope.dc.metadata.name) {
+                    $scope.replicaset.push(item)
+                }
+                //
+            })
+
+
             $scope.mytag = angular.copy(mytag)
             $scope.eventfifter = 'Deployment';
             $scope.envs = [];
@@ -394,109 +404,16 @@ angular.module('console.deployment_detail', [
                 }],
         };
     })
-    .directive('deploymentsHistory', function () {
+    .directive('deploymentsRsHistory', function () {
         return {
             restrict: 'E',
             templateUrl: 'views/deployment_detail/tpl/history.html',
             scope: false,
             controller: ['$scope', 'ReplicationController', '$rootScope', 'Ws', 'Sort',
                 function ($scope, ReplicationController, $rootScope, Ws, Sort) {
-                    var serviceState = function () {
-                        if ($scope.dc.spec.replicas == 0) {
-                            return 'ready'; //未启动
-                        }
-                        if ($scope.dc.status.replicas == 0) {
-                            return 'ready'; //未启动
-                        }
-                        if ($scope.dc.status.replicas == 0) {
-                            return 'abnormal';  //异常
-                        }
-                        if ($scope.dc.status.replicas == $scope.dc.spec.replicas) {
-                            return 'normal';    //正常
-                        }
-                        return 'warning';   //告警
-                    };
-
-                    var loadRcs = function (name) {
-                        //console.log(name);
-                        var labelSelector = 'openshift.io/deployment-config.name=' + name;
-                        ReplicationController.get({
-                            namespace: $rootScope.namespace,
-                            labelSelector: labelSelector,
-                            region: $rootScope.region
-                        }, function (res) {
-                            res.items = Sort.sort(res.items, -1);
-                            for (var i = 0; i < res.items.length; i++) {
-                                res.items[i].dc = JSON.parse(res.items[i].metadata.annotations['openshift.io/encoded-deployment-config']);
-                                if (res.items[i].metadata.name == $scope.dc.metadata.name + '-' + $scope.dc.status.latestVersion) {
-                                    //$scope.dc.status.replicas = res.items[i].status.replicas;
-                                    $scope.dc.status.phase = res.items[i].metadata.annotations['openshift.io/deployment.phase'];
-                                }
-                                if (res.items[i].metadata.annotations['openshift.io/deployment.cancelled'] == 'true') {
-                                    res.items[i].metadata.annotations['openshift.io/deployment.phase'] = 'Cancelled';
-                                }
-                            }
-                            $scope.rcs = angular.copy(res);
-                            //console.log('$scope.rcs', $scope.rcs);
-                            $scope.dc.state = serviceState();
-
-                            $scope.resourceVersion = res.metadata.resourceVersion;
 
 
-                            watchRcs(res.metadata.resourceVersion);
-                        }, function (res) {
-                            //todo 错误处理
-                        });
-                    };
-                    var watchRcs = function (resourceVersion) {
-                        Ws.watch({
-                            api: 'k8s',
-                            resourceVersion: resourceVersion,
-                            namespace: $rootScope.namespace,
-                            type: 'replicationcontrollers',
-                            name: ''
-                        }, function (res) {
-                            var data = JSON.parse(res.data);
-                            updateRcs(data);
-                        }, function () {
-                            //$log.info("webSocket startRC");
-                        }, function () {
-                            //$log.info("webSocket stopRC");
-                            var key = Ws.key($rootScope.namespace, 'replicationcontrollers', '');
-                            if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
-                                return;
-                            }
-                        });
-                    };
-                    //执行log
-                    var updateRcs = function (data) {
 
-                        if (data.type == 'ADDED') {
-
-                            if ($scope.rcs.items.length > 0) {
-                                $scope.rcs.items.unshift(data.object);
-                            } else {
-                                $scope.rcs.items = [data.object];
-                            }
-                        } else if (data.type == "MODIFIED") {
-
-                            $scope.baocuname = data.object.metadata.name;
-
-                            //if (data.object.spec.selector.deploymentconfig === $scope.dc.metadata.name) {
-                            //    //$scope.dc.spec.replicas = data.object.spec.replicas;
-                            //    $scope.dc.status.replicas = data.object.status.replicas;
-                            //    $scope.$apply();
-                            //}
-                            angular.forEach($scope.rcs.items, function (item, i) {
-                                if (item.metadata.name == data.object.metadata.name) {
-                                    $scope.rcs.items[i] = data.object;
-                                    $scope.$apply();
-                                }
-                            });
-                        }
-
-                    };
-                    loadRcs($scope.dc.metadata.name);
                 }],
         };
     })
