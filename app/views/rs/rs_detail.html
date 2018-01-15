@@ -16,17 +16,17 @@
                 </div>
                 <div class="row matgin-bt">
                     <div class="col-md-2">Selectors:</div>
-                    <div class="col-md-10"><span ng-repeat="(name , value) in replicaSet.spec.selector.matchLabels">{{name}}={{value}}&nbsp;&nbsp;</span>
+                    <div class="col-md-10"><span ng-repeat="(name , value) in replicaSet.spec.selector.matchLabels">{{name}}={{value}}&nbsp;&nbsp;<br /></span>
                     </div>
                 </div>
                 <div class="row matgin-bt">
                     <div class="col-md-2">Replicas:</div>
                     <div class="col-md-10">
-            <span>{{replicaSet.spec.replicas}} current / {{replicaSet.status.replicas}} desired &nbsp;&nbsp;
-                <a href="#" title="Edit" class="action-button">
-                    <i class="glyphicon glyphicon-pencil"></i>
-                </a>
-            </span>
+                <span>{{replicaSet.spec.replicas}} current / {{replicaSet.status.replicas}} desired &nbsp;&nbsp;
+                    <a href="#" title="Edit" class="action-button">
+                        <i class="glyphicon glyphicon-pencil"></i>
+                    </a>
+                </span>
                     </div>
                 </div>
 
@@ -41,13 +41,18 @@
                 <h4>Volumes</h4>
                 <div ng-if="kind === 'ReplicaSet'">
                     <div ng-if="deployment">
-                        <volumes volumes="replicaSet.spec.template.spec.volumes" namespace="project.metadata.name"></volumes>
+                        <volumes volumes="replicaSet.spec.template.spec.volumes"
+                                 namespace="project.metadata.name"></volumes>
                         <div ng-if="{ group: 'extensions', resource: 'deployments' }">
-                            <a ng-href="project/{{project.metadata.name}}/attach-pvc?kind=Deployment&name={{deployment.metadata.name}}&group=extensions">Add Storage</a>
+                            <a ng-href="project/{{project.metadata.name}}/attach-pvc?kind=Deployment&name={{deployment.metadata.name}}&group=extensions">Add
+                                Storage</a>
                             <span class="action-divider" aria-hidden="true">|</span>
-                            <a ng-href="project/{{project.metadata.name}}/add-config-volume?kind=Deployment&name={{deployment.metadata.name}}">Add Config Files</a>
+                            <a ng-href="project/{{project.metadata.name}}/add-config-volume?kind=Deployment&name={{deployment.metadata.name}}">Add
+                                Config Files</a>
                         </div>
-                        <div ng-if="!replicaSet.spec.template.spec.volumes.length && !({ group: 'extensions', resource: 'deployments' })">none</div>
+                        <div ng-if="!replicaSet.spec.template.spec.volumes.length && !({ group: 'extensions', resource: 'deployments' })">
+                            none
+                        </div>
                     </div>
                     <div ng-if="!deployment">
                         <div ng-if="resource">
@@ -57,23 +62,29 @@
                                     can-remove="true"
                                     remove-fn="removeVolume(volume)">
                             </volumes>
-                            <a ng-href="project/{{project.metadata.name}}/attach-pvc?kind=ReplicaSet&name={{replicaSet.metadata.name}}&group=extensions">Add Storage</a>
+                            <a ng-href="project/{{project.metadata.name}}/attach-pvc?kind=ReplicaSet&name={{replicaSet.metadata.name}}&group=extensions">Add
+                                Storage</a>
                             <span class="action-divider" aria-hidden="true">|</span>
-                            <a ng-href="project/{{project.metadata.name}}/add-config-volume?kind=ReplicaSet&name={{replicaSet.metadata.name}}&group=extensions">Add Config Files</a>
+                            <a ng-href="project/{{project.metadata.name}}/add-config-volume?kind=ReplicaSet&name={{replicaSet.metadata.name}}&group=extensions">Add
+                                Config Files</a>
                         </div>
                         <div ng-if="!(resource)">
-                            <volumes volumes="replicaSet.spec.template.spec.volumes" namespace="project.metadata.name"></volumes>
+                            <volumes volumes="replicaSet.spec.template.spec.volumes"
+                                     namespace="project.metadata.name"></volumes>
                             <span ng-if="!replicaSet.spec.template.spec.volumes.length">none</span>
                         </div>
                     </div>
                 </div>
                 <div ng-if="kind === 'ReplicationController'">
                     <div ng-if="deploymentConfigName">
-                        <volumes volumes="replicaSet.spec.template.spec.volumes" namespace="project.metadata.name"></volumes>
+                        <volumes volumes="replicaSet.spec.template.spec.volumes"
+                                 namespace="project.metadata.name"></volumes>
                         <div ng-if="'deploymentconfigs'">
-                            <a ng-href="project/{{project.metadata.name}}/attach-pvc?kind=DeploymentConfig&name={{deploymentConfigName}}">Add Storage to {{deploymentConfigName}}</a>
+                            <a ng-href="project/{{project.metadata.name}}/attach-pvc?kind=DeploymentConfig&name={{deploymentConfigName}}">Add
+                                Storage to {{deploymentConfigName}}</a>
                             <span class="action-divider" aria-hidden="true">|</span>
-                            <a ng-href="project/{{project.metadata.name}}/add-config-volume?kind=DeploymentConfig&name={{deploymentConfigName}}">Add Config Files to {{deploymentConfigName}}</a>
+                            <a ng-href="project/{{project.metadata.name}}/add-config-volume?kind=DeploymentConfig&name={{deploymentConfigName}}">Add
+                                Config Files to {{deploymentConfigName}}</a>
                         </div>
                         <div ng-if="!replicaSet.spec.template.spec.volumes.length && !('deploymentconfigs')">none</div>
                     </div>
@@ -85,74 +96,17 @@
                                     can-remove="true"
                                     remove-fn="removeVolume(volume)">
                             </volumes>
-                            <a ng-href="project/{{project.metadata.name}}/attach-pvc?kind=ReplicationController&name={{replicaSet.metadata.name}}">Add Storage</a>
+                            <a ng-href="project/{{project.metadata.name}}/attach-pvc?kind=ReplicationController&name={{replicaSet.metadata.name}}">Add
+                                Storage</a>
                             <span class="action-divider" aria-hidden="true">|</span>
-                            <a ng-href="project/{{project.metadata.name}}/add-config-volume?kind=ReplicationController&name={{replicaSet.metadata.name}}">Add Config Files</a>
+                            <a ng-href="project/{{project.metadata.name}}/add-config-volume?kind=ReplicationController&name={{replicaSet.metadata.name}}">Add
+                                Config Files</a>
                         </div>
                         <div ng-if="!(resource)">
-                            <volumes volumes="replicaSet.spec.template.spec.volumes" namespace="project.metadata.name"></volumes>
+                            <volumes volumes="replicaSet.spec.template.spec.volumes"
+                                     namespace="project.metadata.name"></volumes>
                             <span ng-if="!replicaSet.spec.template.spec.volumes.length">none</span>
                         </div>
-                    </div>
-                </div>
-                <!-- Autoscaling -->
-                <div ng-if="!deploymentConfigName || autoscalers.length">
-                    <h3>Autoscaling</h3>
-
-                    <!-- Show any warnings. -->
-                    <div ng-repeat="warning in hpaWarnings" class="alert alert-warning">
-                        <span class="pficon pficon-warning-triangle-o" aria-hidden="true"></span>
-                        <span class="sr-only">Warning:</span>
-                        {{warning.message}}
-
-                        <!-- If the CPU request is missing, add an action to set one. -->
-                        <span ng-if="warning.reason === 'NoCPURequest'">
-      <!-- Prompt to set CPU request on the DC if this is a deployment. -->
-      <a ng-href="project/{{projectName}}/set-limits?kind=DeploymentConfig&name={{deploymentConfigName}}"
-         ng-if="deploymentConfigName && !deploymentConfigMissing && ('deploymentconfigs')"
-         role="button">Edit Resource
-        <span ng-if="!('cpu' | isRequestCalculated : project)">Requests and</span> Limits</a>
-                            <!-- Prompt to set CPU request on the RC if not a deployment. -->
-      <a ng-href="project/{{projectName}}/set-limits?kind=ReplicationController&name={{replicaSet.metadata.name}}"
-         ng-if="!deploymentConfigName && kind === 'ReplicationController' && (resource)"
-         role="button">Edit Resource
-        <span ng-if="!('cpu' | isRequestCalculated : project)">Requests and</span> Limits</a>
-      <a ng-href="project/{{projectName}}/set-limits?kind=ReplicaSet&name={{replicaSet.metadata.name}}&group=extensions"
-         ng-if="!deploymentConfigName && kind === 'ReplicaSet' && (resource )"
-         role="button">Edit Resource
-        <span ng-if="!('cpu' | isRequestCalculated : project)">Requests and</span> Limits</a>
-    </span>
-                    </div>
-
-                    <!-- Create autoscaler -->
-                    <div ng-if="!autoscalers.length">
-    <span ng-if="{resource: 'horizontalpodautoscalers', group: 'autoscaling'}">
-      <a ng-if="replicaSet.kind === 'ReplicaSet' && !deployment"
-         ng-href="project/{{projectName}}/edit/autoscaler?kind=ReplicaSet&name={{replicaSet.metadata.name}}&group=extensions"
-         role="button">Add Autoscaler</a>
-      <a ng-if="replicaSet.kind === 'ReplicaSet' && deployment"
-         ng-href="project/{{projectName}}/edit/autoscaler?kind=Deployment&name={{deployment.metadata.name}}&group=extensions"
-         role="button">Add Autoscaler</a>
-      <a ng-if="replicaSet.kind === 'ReplicationController' && !deploymentConfigName"
-         ng-href="project/{{projectName}}/edit/autoscaler?kind=ReplicationController&name={{replicaSet.metadata.name}}"
-         role="button">Add Autoscaler</a>
-      <a ng-if="replicaSet.kind === 'ReplicationController' && deploymentConfigName"
-         ng-href="project/{{projectName}}/edit/autoscaler?kind=DeploymentConfig&name={{deploymentConfigName}}"
-         role="button">Add Autoscaler</a>
-    </span>
-                        <span ng-if="!({resource: 'horizontalpodautoscalers', group: 'autoscaling'})">
-      Autoscaling is not enabled. There are no autoscalers for this
-      <span ng-if="deploymentConfigName">deployment config or deployment.</span>
-      <span ng-if="!deploymentConfigName">{{replicaSet.kind | humanizeKind}}.</span>
-    </span>
-                    </div>
-
-                    <!-- HPA details -->
-                    <div ng-repeat="hpa in autoscalers | orderBy : 'name'">
-                        <hpa hpa="hpa"
-                             show-scale-target="hpa.spec.scaleTargetRef.kind !== 'ReplicationController'"
-                             alerts="alerts">
-                        </hpa>
                     </div>
                 </div>
                 <h4 style="padding:15px 0;color:#666;">Pods</h4>
@@ -161,8 +115,11 @@
                         <tr>
                             <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Name</th>
                             <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Status</th>
-                            <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Containers Ready</th>
-                            <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Containers Restart</th>
+                            <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Containers Ready
+                            </th>
+                            <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Containers
+                                Restart
+                            </th>
                             <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Age</th>
                         </tr>
                         <tr ng-repeat="pod in replicaPods">
@@ -188,14 +145,17 @@
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="7" style="text-align: center;background: #fff;position:relative" ng-if="items.length===0">
+                            <td colspan="7" style="text-align: center;background: #fff;position:relative"
+                                ng-if="items.length===0">
                                 <p class="blank_block"><span class="blank_tit"> {{text}}</span></p>
                             </td>
                         </tr>
                     </table>
                     <div class="text-center" style="text-align:center;" ng-if="grid.total > 10">
-                        <uib-pagination class="pagination" ng-model="grid.page" total-items="grid.total" items-per-page="grid.size"
-                                        class="pagination-sm" boundary-links="false" max-size="12" rotate="true" previous-text="<"
+                        <uib-pagination class="pagination" ng-model="grid.page" total-items="grid.total"
+                                        items-per-page="grid.size"
+                                        class="pagination-sm" boundary-links="false" max-size="12" rotate="true"
+                                        previous-text="<"
                                         next-text=">">
                         </uib-pagination>
                     </div>
@@ -204,7 +164,7 @@
         </uib-tab>
         <uib-tab index="2">
             <uib-tab-heading>
-                <i class="myimage"></i>&nbsp;&nbsp;Environment
+                <i class="Environment"></i>&nbsp;&nbsp;Environment
             </uib-tab-heading>
             <div id="Environment">
                 <div class="detail_set">
@@ -224,11 +184,11 @@
             <uib-tab-heading>
                 <i class="myimage"></i>&nbsp;&nbsp;Metrics
             </uib-tab-heading>
-            <div id="metrics">
+            <div id="Metrics">
                 <highchart config="MemConfig"></highchart>
                 <highchart config="CpuConfig" style="margin-top:30px;"></highchart>
-                <highchart  config="TxConfig" style="margin-top:30px;"></highchart>
-                <highchart  config="RxConfig" style="margin-top:30px;"></highchart>
+                <highchart config="TxConfig" style="margin-top:30px;"></highchart>
+                <highchart config="RxConfig" style="margin-top:30px;"></highchart>
             </div>
 
         </uib-tab>

@@ -13,12 +13,11 @@
     </div>
     <div class="row matgin-bt">
         <div class="col-md-2">Status Reason:</div>
-        <div class="col-md-10"><a
-                href="#">{{replicaSet.metadata.annotations['openshift.io/deployment.status-reason']}}</a></div>
+        <div class="col-md-10">{{replicaSet.metadata.annotations['openshift.io/deployment.status-reason']}}</div>
     </div>
     <div class="row matgin-bt">
         <div class="col-md-2">Selectors:</div>
-        <div class="col-md-10"><span ng-repeat="(name , value) in replicaSet.spec.selector">{{name}}={{value}}&nbsp;&nbsp;</span>
+        <div class="col-md-10"><span ng-repeat="(name , value) in replicaSet.spec.selector">{{name}}={{value}}&nbsp;&nbsp;<br /></span>
         </div>
     </div>
     <div class="row matgin-bt">
@@ -98,66 +97,7 @@
             </div>
         </div>
     </div>
-    <!-- Autoscaling -->
-    <div ng-if="!deploymentConfigName || autoscalers.length">
-        <h3>Autoscaling</h3>
 
-        <!-- Show any warnings. -->
-        <div ng-repeat="warning in hpaWarnings" class="alert alert-warning">
-            <span class="pficon pficon-warning-triangle-o" aria-hidden="true"></span>
-            <span class="sr-only">Warning:</span>
-            {{warning.message}}
-
-            <!-- If the CPU request is missing, add an action to set one. -->
-            <span ng-if="warning.reason === 'NoCPURequest'">
-      <!-- Prompt to set CPU request on the DC if this is a deployment. -->
-      <a ng-href="project/{{projectName}}/set-limits?kind=DeploymentConfig&name={{deploymentConfigName}}"
-         ng-if="deploymentConfigName && !deploymentConfigMissing && ('deploymentconfigs')"
-         role="button">Edit Resource
-        <span ng-if="!('cpu' | isRequestCalculated : project)">Requests and</span> Limits</a>
-                <!-- Prompt to set CPU request on the RC if not a deployment. -->
-      <a ng-href="project/{{projectName}}/set-limits?kind=ReplicationController&name={{replicaSet.metadata.name}}"
-         ng-if="!deploymentConfigName && kind === 'ReplicationController' && (resource)"
-         role="button">Edit Resource
-        <span ng-if="!('cpu' | isRequestCalculated : project)">Requests and</span> Limits</a>
-      <a ng-href="project/{{projectName}}/set-limits?kind=ReplicaSet&name={{replicaSet.metadata.name}}&group=extensions"
-         ng-if="!deploymentConfigName && kind === 'ReplicaSet' && (resource )"
-         role="button">Edit Resource
-        <span ng-if="!('cpu' | isRequestCalculated : project)">Requests and</span> Limits</a>
-    </span>
-        </div>
-
-        <!-- Create autoscaler -->
-        <div ng-if="!autoscalers.length">
-    <span ng-if="{resource: 'horizontalpodautoscalers', group: 'autoscaling'}">
-      <a ng-if="replicaSet.kind === 'ReplicaSet' && !deployment"
-         ng-href="project/{{projectName}}/edit/autoscaler?kind=ReplicaSet&name={{replicaSet.metadata.name}}&group=extensions"
-         role="button">Add Autoscaler</a>
-      <a ng-if="replicaSet.kind === 'ReplicaSet' && deployment"
-         ng-href="project/{{projectName}}/edit/autoscaler?kind=Deployment&name={{deployment.metadata.name}}&group=extensions"
-         role="button">Add Autoscaler</a>
-      <a ng-if="replicaSet.kind === 'ReplicationController' && !deploymentConfigName"
-         ng-href="project/{{projectName}}/edit/autoscaler?kind=ReplicationController&name={{replicaSet.metadata.name}}"
-         role="button">Add Autoscaler</a>
-      <a ng-if="replicaSet.kind === 'ReplicationController' && deploymentConfigName"
-         ng-href="project/{{projectName}}/edit/autoscaler?kind=DeploymentConfig&name={{deploymentConfigName}}"
-         role="button">Add Autoscaler</a>
-    </span>
-            <span ng-if="!({resource: 'horizontalpodautoscalers', group: 'autoscaling'})">
-      Autoscaling is not enabled. There are no autoscalers for this
-      <span ng-if="deploymentConfigName">deployment config or deployment.</span>
-      <span ng-if="!deploymentConfigName">{{replicaSet.kind | humanizeKind}}.</span>
-    </span>
-        </div>
-
-        <!-- HPA details -->
-        <div ng-repeat="hpa in autoscalers | orderBy : 'name'">
-            <hpa hpa="hpa"
-                 show-scale-target="hpa.spec.scaleTargetRef.kind !== 'ReplicationController'"
-                 alerts="alerts">
-            </hpa>
-        </div>
-    </div>
     <h4 style="padding:15px 0;color:#666;">Pods</h4>
     <div class="table-responsive" style="margin-top: 20px;">
         <table class="table table-hover table-default">
