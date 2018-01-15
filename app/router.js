@@ -390,7 +390,7 @@ define([
                     }
                 })
                 .state('console.stateful-sets-detail', {
-                    url: '/stateful_sets/:name',
+                    url: '/stateful-sets/:name',
                     templateUrl: 'views/apps/stateful-sets-detail/stateful-sets-detail.html',
                     controller: 'Stateful-setsDetailCtrl',
                     resolve: {
