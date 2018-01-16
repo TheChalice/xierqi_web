@@ -4,20 +4,21 @@
         <div class="row">
             <div class="col-md-12 service-createlist" style="margin-top: 30px;">
                 <div class="service-createheader">
-                    Create deployment
+                    Create deployment  {{i}}
                 </div>
                 <div class="service-createbody">
                     <div class="input-group divradio" style="margin-bottom: 30px;">
                         <label>
-                            <input type="radio" class="service-createradio" name="changetype" value="ture"
+                            <input type="radio" class="service-createradio" name="changetype" value="1"
                                    ng-model="institution.display"
-                                   ng-checked="true">
+                                   ng-checked="1">
                         </label>
                         <span class="radioname">
                             镜像地址
                         </span>
                         <input autocomplete="off" type="text"
                                name="serviceName"
+                               ng-disabled="institution.display==2"
                                ng-model="postobj.spec.images[0].from.name"
                                class="service-createinput"
                                type="text" name="name" class="form-control"
@@ -26,14 +27,14 @@
                     </div>
                     <div class="input-group divradio">
                         <label>
-                            <input type="radio" name="changetype" class="service-createradio" value="false"
+                            <input type="radio" name="changetype" class="service-createradio" value="2"
                                    ng-model="institution.display">
                         </label>
                         <span class="radioname">
                             image stream
                         </span>
                         <div class="dropdown dropdown-select" style="min-width: 156px;height: 32px;margin-right: 58px;">
-                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown" ng-disabled="institution.display==1">
                                 <span>111</span>
                                 <span class="caret"></span>
                             </button>
@@ -48,7 +49,7 @@
                             tag
                         </span>
                         <div class="dropdown dropdown-select" style="min-width: 156px;height: 32px;margin-right: 58px;">
-                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown" ng-disabled="institution.display==1">
                                 <span>111</span>
                                 <span class="caret"></span>
                             </button>
