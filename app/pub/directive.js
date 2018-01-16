@@ -49,7 +49,7 @@ define(['angular'], function(angular) {
                 templateUrl: 'views/directives/traffic-table.html'
             };
         })
-        .directive('podsTable', function($filter) {
+        .directive('podsTable', ["$filter", function($filter) {
             return {
                 restrict: 'E',
                 scope: {
@@ -74,7 +74,7 @@ define(['angular'], function(angular) {
                     $scope.$watch('pods', sortPods);
                 }
             };
-        })
+        }])
         .directive('podTemplate', function() {
             return {
                 restrict: 'E',
@@ -86,7 +86,7 @@ define(['angular'], function(angular) {
                     // Optional URL for setting health checks on the resource when missing.
                     addHealthCheckUrl: '@?'
                 },
-                templateUrl: 'views/pods_detail/tpl/pod-template.html'
+                templateUrl: 'views/directives/pod-template.html'
             };
         })
         .directive('podTemplateContainer', function() {
@@ -99,12 +99,20 @@ define(['angular'], function(angular) {
                     detailed: '=?',
                     labelPrefix: '@?'
                 },
-                templateUrl: 'views/pods_detail/tpl/pod-template-container.html'
+                templateUrl: 'views/directives/pod-template-container.html'
             };
         })
+        .directive('probe', function() {
+            return {
+              restrict: 'E',
+              scope: {
+                probe: '='
+              },
+              templateUrl: 'views/directives/probe.html'
+            };
+          })
 
-
-        .directive('containerStatuses', function($filter) {
+        .directive('containerStatuses', ["$filter", function($filter) {
             return {
               restrict: 'E',
               scope: {
@@ -162,7 +170,7 @@ define(['angular'], function(angular) {
                 };
               }
             };
-          })
+          }])
         .directive('volumes', function() {
             return {
                 restrict: 'E',
@@ -209,6 +217,8 @@ define(['angular'], function(angular) {
                                     var html = ansi_ups.ansi_to_html($scope.result);
                                     $scope.log = $sce.trustAsHtml(html);
                                     //console.log('$scope.log ', html);
+                                    var wid_height=$("#sidebar-right-fixed").height();
+                                    $("#sc").height(wid_height-365);
                                     $scope.$apply();
 
                                 }
