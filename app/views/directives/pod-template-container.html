@@ -2,7 +2,7 @@
     <div class="component-label">
         <span ng-bind-template="{{labelPrefix||'Container'}}:">
 
-        </span> {{container.name}}
+        </span> <span style='text-transform: capitalize'>{{container.name}}</span>
     </div>
 
     <div row ng-if="container.image" class="pod-template-image icon-row">
@@ -68,7 +68,7 @@
         </div>
     </div>
 
-    <div row  class="icon-row">
+    <div row  class="icon-row" ng-if="container.command.length > 0">
         <div class="icon-wrap">
             <span aria-hidden="true" class="fa fa-terminal"></span>
         </div>
