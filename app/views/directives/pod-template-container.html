@@ -1,5 +1,5 @@
 <div class="pod-template">
-    <div class="component-label" style="margin-top: 20px;text-transform: uppercase">
+    <div class="component-label">
         <span ng-bind-template="{{labelPrefix||'Container'}}:">
 
         </span> {{container.name}}
@@ -68,25 +68,24 @@
         </div>
     </div>
 
-    <div row ng-if="detailed && (container.command.length || container.args.length)" class="icon-row">
+    <div row  class="icon-row">
         <div class="icon-wrap">
             <span aria-hidden="true" class="fa fa-terminal"></span>
         </div>
         <div flex class="word-break">
           <span class="pod-template-key">
-            Command:
+            Command:{{pod}}
           </span>
             <span>
             <code class="command">
-                <span ng-repeat="list in container.args">{{list}} </span>
-
-            <!--<truncate-long-text-->
-            <!--content="container | entrypoint : imagesByDockerReference[container.image]"-->
-            <!--limit="80"-->
-            <!--newline-limit="1"-->
-            <!--expandable="true"-->
-            <!--use-word-boundary="false">-->
-            <!--</truncate-long-text>-->
+                    <span ng-repeat="podtname in container.command">{{podtname}}&nbsp;</span>
+              <!-- <truncate-long-text
+                      content="container | entrypoint : imagesByDockerReference[container.image]"
+                      limit="80"
+                      newline-limit="1"
+                      expandable="true"
+                      use-word-boundary="false">
+              </truncate-long-text> -->
             </code>
           </span>
         </div>

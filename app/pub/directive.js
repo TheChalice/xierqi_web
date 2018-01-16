@@ -86,7 +86,7 @@ define(['angular'], function(angular) {
                     // Optional URL for setting health checks on the resource when missing.
                     addHealthCheckUrl: '@?'
                 },
-                templateUrl: 'views/pods_detail/tpl/pod-template.html'
+                templateUrl: 'views/directives/pod-template.html'
             };
         })
         .directive('podTemplateContainer', function() {
@@ -99,10 +99,18 @@ define(['angular'], function(angular) {
                     detailed: '=?',
                     labelPrefix: '@?'
                 },
-                templateUrl: 'views/pods_detail/tpl/pod-template-container.html'
+                templateUrl: 'views/directives/pod-template-container.html'
             };
         })
-
+        .directive('probe', function() {
+            return {
+              restrict: 'E',
+              scope: {
+                probe: '='
+              },
+              templateUrl: 'views/directives/probe.html'
+            };
+          })
 
         .directive('containerStatuses', ["$filter", function($filter) {
             return {
@@ -183,19 +191,22 @@ define(['angular'], function(angular) {
                     podName: '@podName',
                     podContainerName: '@podContainerName',
                     podResourceVersion: '@podResourceVersion',
-                    type: '@type'
+                    type: '@type',
+                    api:'@api'
                 },
                 controller: ['$scope', 'ReplicationController', '$rootScope', 'Ws', '$base64', 'ansi_ups', '$sce', '$log',
                     function ($scope, ReplicationController, $rootScope, Ws, $base64, ansi_ups, $sce, $log) {
                         console.log('$scope.podName---',$scope.podName);
-                        var watchpod = function (resourceVersion, podContainerName, podName) {
+                        var watchpod = function (resourceVersion, podContainerName, podName,api) {
                             var wsobj ={
-                                api: 'k8s',
                                 namespace: $rootScope.namespace,
                                 type: $scope.type,
                                 name: podName + '/log',
                                 protocols: 'base64.binary.k8s.io'
                             };
+                            if (api) {
+                                wsobj.api=api
+                            }
                             if (resourceVersion) {
                                 wsobj.resourceVersion=resourceVersion
                             }
@@ -209,6 +220,8 @@ define(['angular'], function(angular) {
                                     var html = ansi_ups.ansi_to_html($scope.result);
                                     $scope.log = $sce.trustAsHtml(html);
                                     //console.log('$scope.log ', html);
+                                    var wid_height=$("#sidebar-right-fixed").height();
+                                    $("#sc").height(wid_height-365);
                                     $scope.$apply();
 
                                 }
@@ -222,7 +235,7 @@ define(['angular'], function(angular) {
                                 }
                             });
                         };
-                        watchpod($scope.podResourceVersion, $scope.podContainerName, $scope.podName)
+                        watchpod($scope.podResourceVersion, $scope.podContainerName, $scope.podName,$scope.api)
                     }]
             };
         })
