@@ -37,6 +37,13 @@ color:#333;font-size:14px;}
 #detail .redy_tit{font-size:14px;color:#9c9c9c;}
 
 
+kubernetes-container-terminal{width:100%;}
+kubernetes-container-terminal .terminal-wrapper{width:100%;}
+kubernetes-container-terminal .terminal-wrapper .terminal{width:100%;}
+kubernetes-container-terminal .terminal-actions {position: absolute;}
+
+
+
 @font-face {
     font-family: "PatternFlyIcons-webfont";
     src: url("PatternFlyIcons-webfont.eot");
