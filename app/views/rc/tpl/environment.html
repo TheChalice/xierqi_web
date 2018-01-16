@@ -1,6 +1,6 @@
 <div id="Environment">
     <div class="detail_set">
-        <div class="envi_main" ng-repeat="env in environment">
+        <div class="envi_main" ng-if="environment" ng-repeat="env in environment">
             <div class="form_block">
                 <input type="text" class="form-control" readonly="readonly" value={{env.name}}>
             </div>
@@ -9,5 +9,6 @@
                 <input type="text" class="form-control" readonly="readonly" value={{env.value}}>
             </div>
         </div>
+        <div ng-if="!environment" class="envi_main"><div class="col-md-10">The container specification has no environment variables set.</div></div>
     </div>
 </div>

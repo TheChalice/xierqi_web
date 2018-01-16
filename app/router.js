@@ -851,11 +851,12 @@ define([
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/rc/rc_detail.js')
                         }],
-                        mypos: ['$stateParams', 'Pod', 'Cookie', '$rootScope', function ($stateParams, Pod, Cookie, $rootScope) {
+                        myPodList: ['$stateParams', 'Pod', 'Cookie', '$rootScope', function ($stateParams, Pod, Cookie, $rootScope) {
                             return Pod.get({
                                 namespace: Cookie.get('namespace')
                             }).$promise;
                         }],
+
                         myrc: ['$stateParams', 'ReplicationController', 'Cookie', '$rootScope',
                             function ($stateParams, ReplicationController, Cookie, $rootScope) {
                                 return ReplicationController.get({
@@ -874,7 +875,8 @@ define([
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/rs/rs_detail.js')
                         }],
-                        mypos: ['$stateParams', 'Pod', 'Cookie', '$rootScope', function ($stateParams, Pod, Cookie, $rootScope) {
+
+                        myPodList: ['$stateParams', 'Pod', 'Cookie', '$rootScope', function ($stateParams, Pod, Cookie, $rootScope) {
                             return Pod.get({
                                 namespace: Cookie.get('namespace')
                             }).$promise;
