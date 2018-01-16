@@ -49,7 +49,7 @@ define(['angular'], function(angular) {
                 templateUrl: 'views/directives/traffic-table.html'
             };
         })
-        .directive('podsTable', function($filter) {
+        .directive('podsTable', ["$filter", function($filter) {
             return {
                 restrict: 'E',
                 scope: {
@@ -74,7 +74,7 @@ define(['angular'], function(angular) {
                     $scope.$watch('pods', sortPods);
                 }
             };
-        })
+        }])
         .directive('podTemplate', function() {
             return {
                 restrict: 'E',
@@ -104,7 +104,7 @@ define(['angular'], function(angular) {
         })
 
 
-        .directive('containerStatuses', function($filter) {
+        .directive('containerStatuses', ["$filter", function($filter) {
             return {
               restrict: 'E',
               scope: {
@@ -162,7 +162,7 @@ define(['angular'], function(angular) {
                 };
               }
             };
-          })
+          }])
         .directive('volumes', function() {
             return {
                 restrict: 'E',
