@@ -13,7 +13,8 @@ define(['angular'], function (angular) {
                         if (window.location.protocol != "https:") {
                             wsscheme = "ws://";
                         }
-                        url = wsscheme + window.location.host +window.location.pathname +'/ws' + url;
+                        //console.log('window.location.pathname',window.location.pathname);
+                        url = wsscheme + window.location.host +window.location.pathname +'ws' + url;
                     }
                     return new window.WebSocket(url, protocols);
                 };
@@ -135,7 +136,7 @@ define(['angular'], function (angular) {
                                 scope.$apply(disconnect);
                             }
 
-                            console.log('$location', $location);
+                            //console.log('$location', $location);
                             //url='ws://localhost:8080/ws'+url;
                             //console.log('url', url);
                             $q.when(kubernetesContainerSocket(url, "base64.channel.k8s.io"),

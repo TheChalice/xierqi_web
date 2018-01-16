@@ -49,7 +49,7 @@ define(['angular'], function(angular) {
                 templateUrl: 'views/directives/traffic-table.html'
             };
         })
-        .directive('podsTable', function($filter) {
+        .directive('podsTable', ["$filter", function($filter) {
             return {
                 restrict: 'E',
                 scope: {
@@ -74,7 +74,7 @@ define(['angular'], function(angular) {
                     $scope.$watch('pods', sortPods);
                 }
             };
-        })
+        }])
         .directive('podTemplate', function() {
             return {
                 restrict: 'E',
@@ -86,7 +86,7 @@ define(['angular'], function(angular) {
                     // Optional URL for setting health checks on the resource when missing.
                     addHealthCheckUrl: '@?'
                 },
-                templateUrl: 'views/directives/_pod-template.html'
+                templateUrl: 'views/pods_detail/tpl/pod-template.html'
             };
         })
         .directive('podTemplateContainer', function() {
@@ -99,12 +99,12 @@ define(['angular'], function(angular) {
                     detailed: '=?',
                     labelPrefix: '@?'
                 },
-                templateUrl: 'views/directives/_pod-template-container.html'
+                templateUrl: 'views/pods_detail/tpl/pod-template-container.html'
             };
         })
 
 
-        .directive('containerStatuses', function($filter) {
+        .directive('containerStatuses', ["$filter", function($filter) {
             return {
               restrict: 'E',
               scope: {
@@ -162,7 +162,7 @@ define(['angular'], function(angular) {
                 };
               }
             };
-          })
+          }])
         .directive('volumes', function() {
             return {
                 restrict: 'E',
