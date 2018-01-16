@@ -22,7 +22,8 @@ define([
     'patternfly',
     'angular_patternfly',
     'treeControl',
-    'lodash'
+    'lodash',
+    'stateEvents'
 ], function (angular) {
 
     // 声明应用及其依赖
@@ -41,7 +42,8 @@ define([
         'rzModule',
         'highcharts-ng',
         "patternfly.wizard",
-        'treeControl'
+        'treeControl',
+        'ui.router.state.events'
     ]);
 
     DataFoundry.constant('GLOBAL', {
