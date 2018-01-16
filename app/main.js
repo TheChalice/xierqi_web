@@ -41,7 +41,8 @@ require.config({
         treeControl: '../bower_components/angular-tree-control/angular-tree-control',
         lodash: '../bower_components/lodash/lodash',
         patternfly: '../bower_components/patternfly/dist/js/patternfly',
-        angular_patternfly: '../bower_components/angular-patternfly/dist/angular-patternfly'
+        angular_patternfly: '../bower_components/angular-patternfly/dist/angular-patternfly',
+        stateEvents: '../bower_components/angular-ui-router/release/stateEvents'
 
     },
     shim: {
@@ -103,6 +104,9 @@ require.config({
         },
         'angular_patternfly': {
             deps: ['angular','bootstrap','patternfly']
+        },
+        'stateEvents': {
+            deps: ['angular','uiRouter']
         }
     },
     priority: [
