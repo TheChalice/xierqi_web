@@ -22,7 +22,8 @@ define([
     'patternfly',
     'angular_patternfly',
     'treeControl',
-    'lodash'
+    'lodash',
+    'stateEvents'
 ], function (angular) {
 
     // 声明应用及其依赖
@@ -100,6 +101,7 @@ define([
 
             $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
                 //更新header标题
+                alert(1)
                 if(navigator.userAgent.indexOf("Firefox")>0){
                     // console.log('dasd');
                     $(document).unbind('DOMMouseScroll');
