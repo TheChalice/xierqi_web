@@ -23,9 +23,9 @@
             </div>
 
             <div class="input-group col-sm-4 searchbar">
-                <input type="text" class="form-control" placeholder="搜索服务名称" ng-keyup=servicesearch($event) ng-model="grid.txt">
+                <input type="text" class="form-control" placeholder="搜索pod名称" ng-keyup=search() ng-model="grid.txt">
                 <span class="input-group-btn">
-                        <a class="btn" ng-click="servicesearch('search')"></a>
+                        <a class="btn" ng-click="search()"></a>
                     </span>
             </div>
         </div>
@@ -38,7 +38,7 @@
                     <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Containers Restart</th>
                     <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Age</th>
                 </tr>
-                <tr ng-repeat="pod in items">
+                <tr ng-repeat="pod in podItem">
                     <td data-title="Name" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
                         <!-- <a class="href-orange" ui-sref="console.service_detail({name: pod.metadata.name})">
                             {{pod.metadata.name}}
@@ -64,10 +64,15 @@
                     </td>
                 </tr>
             </table>
-            <div class="text-center" style="text-align:center;" ng-if="grid.total > 10">
-                <uib-pagination class="pagination" ng-model="grid.page" total-items="grid.total" items-per-page="grid.size" class="pagination-sm" boundary-links="false" max-size="12" rotate="true" previous-text="<" next-text=">">
+            <div class="text-center" ng-if="grid.total > 10" class="table_mar_top" style="">
+                <uib-pagination class="pagination pagination-sm" ng-model="grid.page" total-items="grid.total"
+                                items-per-page="grid.size" boundary-links="false" max-size="12" rotate="true"
+                                previous-text="<"
+                                next-text=">">
                 </uib-pagination>
+
             </div>
+
         </div>
     </div>
 </div>
