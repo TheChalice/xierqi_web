@@ -9,7 +9,7 @@
     </div>
     <div class="row matgin-bt">
         <div class="col-md-2">Deployment Config:</div>
-        <div class="col-md-10" ui-sref="#">{{replicaSet.spec.selector.deploymentconfig}}</div>
+        <div class="col-md-10 jumpUrl" ui-sref="console.deploymentconfig_detail({name:replicaSet.spec.selector.deploymentconfig})">{{replicaSet.spec.selector.deploymentconfig}}</div>
     </div>
     <div class="row matgin-bt">
         <div class="col-md-2">Status Reason:</div>
@@ -24,14 +24,14 @@
         <div class="col-md-2">Replicas:</div>
         <div class="col-md-10">
             <span>{{replicaSet.spec.replicas}} current / {{replicaSet.status.replicas}} desired &nbsp;&nbsp;
-                <a href="#" title="Edit" class="action-button">
-                    <i class="glyphicon glyphicon-pencil"></i>
-                </a>
+                <!--<span title="Edit" class="action-button">-->
+                    <!--<i class="glyphicon glyphicon-pencil"></i>-->
+                <!--</span>-->
             </span>
         </div>
     </div>
 
-    <h3>Template</h3>
+    <h3 style="border-bottom: 1px solid #c9c9c9;padding:15px 0;color:#666;font-size: 18px;">Template</h3>
     <pod-template
             pod-template="replicaSet.spec.template"
             images-by-docker-reference="imagesByDockerReference"
