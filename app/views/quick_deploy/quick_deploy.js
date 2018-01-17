@@ -12,7 +12,7 @@ angular.module('console.quick_deploy', [
         function (mytag, ImageStreamImage, myimage, imagestreamimports, GLOBAL, resourcequotas, $http, by, diploma, Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service) {
             $scope.institution = {
                 display: 1,
-                configregistry:false
+                configregistry: false
             }
 
             $scope.err = {
@@ -23,7 +23,8 @@ angular.module('console.quick_deploy', [
                 },
                 name: {
                     null: false,
-
+                    repeated: false,
+                    pattern: false
                 }
             }
 
@@ -153,10 +154,12 @@ angular.module('console.quick_deploy', [
                     return
                 }
                 if (n) {
-                    //$scope.namerr.nil = false;
-                    //$scope.namerr.rexed = false;
-                    //$scope.namerr.repeated = false;
-                    dcname(n)
+                    $scope.err.name.pattern = false;
+
+                    $scope.err.name.null = false;
+
+                    $scope.err.name.repeated = false;
+                    //dcname(n)
                 }
             })
 
@@ -175,13 +178,16 @@ angular.module('console.quick_deploy', [
             }
 
             var prepareService = function (service, dc) {
-                service.metadata.name = dc.metadata.name;
-                service.metadata.labels.app = dc.metadata.name;
-                service.spec.selector.app = dc.metadata.name;
-                service.spec.selector.deploymentconfig = dc.metadata.name;
+                service.metadata.name = $scope.fuwuname;
+                service.metadata.labels.app = $scope.fuwuname;
+                service.spec.selector.app = $scope.fuwuname;
+                service.spec.selector.deploymentconfig = $scope.fuwuname;
             };
 
             function creatdc() {
+
+                dcname($scope.fuwuname, $scope.imagetext)
+                prepareLabel($scope.dc)
                 prepareEnv($scope.dc)
                 DeploymentConfig.get({
                     namespace: $rootScope.namespace,
@@ -234,7 +240,7 @@ angular.module('console.quick_deploy', [
                     name: $scope.fuwuname
                 }, function (serve) {
                     //console.log('serve', serve);
-                    $scope.namerr.repeated = true;
+                    $scope.err.name.repeated = true;
                 }, function (err) {
                     //console.log('err', err.status);
                     if (err.status === 404) {
@@ -279,18 +285,42 @@ angular.module('console.quick_deploy', [
 
             }
 
-            $scope.createDc = function () {
-                //if ($scope.postobj.spec.images[0].from.name === '') {
-                //    $scope.namerr.urlnull = true;
-                //}
-                //for (var k in $scope.namerr) {
-                //    if ($scope.namerr[k]) {
-                //        return
-                //}
-                //}
+            function invrepname() {
+                var norep = true
+                angular.forEach($scope.servelist.items, function (dc, i) {
+                    //console.log(dc.metadata.name, $scope.fuwuname);
+                    if (dc.metadata.name === $scope.fuwuname) {
+                        norep = false
 
-                dcname($scope.fuwuname, $scope.imagetext)
-                prepareLabel($scope.dc)
+                    }
+                })
+                if (norep) {
+                    return true
+                } else {
+                    return false
+                }
+
+            }
+
+            $scope.createDc = function () {
+                //console.log($scope.frm.serviceName.$error.pattern);
+                if ($scope.frm.serviceName.$error.pattern) {
+                    $scope.err.name.pattern = true;
+                    return
+                }
+                console.log($scope.fuwuname);
+                if (!$scope.fuwuname) {
+                    $scope.err.name.null = true;
+                    return
+                }
+                //console.log(invrepname());
+                if (!invrepname()) {
+                    $scope.err.name.repeated = true;
+                    return
+                }
+
+
+
                 if ($scope.hasport) {
                     createService($scope.dc)
                 } else {
@@ -353,7 +383,7 @@ angular.module('console.quick_deploy', [
                             }
                             $scope.finding = true;
                             if ($scope.institution.configregistry) {
-                                $scope.postobj.spec.images[0].importPolicy= {
+                                $scope.postobj.spec.images[0].importPolicy = {
                                     insecure: true
                                 }
                             }
@@ -399,7 +429,7 @@ angular.module('console.quick_deploy', [
                                 }
                                 $scope.showall = true;
 
-
+                                $scope.dc.metadata.labels[0].value =$scope.fuwuname ;
                             }, function (err) {
                                 //$scope.namerr.url = true;
                                 $scope.finding = false;
@@ -422,7 +452,6 @@ angular.module('console.quick_deploy', [
                             $scope.fuwuname = $scope.checked.image;
                             //tag.image.
                             angular.forEach($scope.istag.items, function (istag, i) {
-
                                 if (istag.image.metadata.name === tag.image.metadata.name) {
                                     console.log(istag.image.dockerImageReference);
                                     $scope.imagetext = istag.image.dockerImageReference;
@@ -430,6 +459,7 @@ angular.module('console.quick_deploy', [
                             })
                             $scope.showall = true;
 
+                            $scope.dc.metadata.labels[0].value =$scope.fuwuname ;
 
                         })
                     }

@@ -30,6 +30,9 @@
     padding-bottom: 11px;
     border-bottom: 1px solid #E0E6ED;
 }
+.service-create .err {
+    line-height: 32px;
+}
 .service-create .service-createbody {
     margin-top: 23px;
     min-height: 50px;
