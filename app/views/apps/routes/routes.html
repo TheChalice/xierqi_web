@@ -21,7 +21,7 @@
     </div>
     <div ng-if="items">
         <div style="margin-right:0;margin-left:-15px;">
-            <div class="col-sm-4 col-xs-4 serv_jia_btn" style="" role="group" aria-label="">
+            <div class="col-sm-4 col-xs-4 serv_jia_btn new_deploycol" style="" role="group" aria-label="">
                 <div class="btn-group" role="group">
                     <a id="creatbtn" class="btn btn-green" ui-sref="console.create_routes">
                         <i class="fa fa-plus fa-lg"></i>
@@ -60,16 +60,16 @@
                     <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">TLS Termination</th>
                 </tr>
                 <tr ng-repeat="route in routeItem">
-                    <td data-title="Name" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
+                    <td  data-title="Name" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
 
-                        <a class="href-orange" ui-sref="console.route_detail({name: route.metadata.name})">
+                        <a class="a_color_org" ui-sref="console.route_detail({name: route.metadata.name})">
 
                             {{route.metadata.name}}
                         </a>
                     </td>
                     <td data-title="Hostname" data-title="Hostname">
                         <span ng-if="(route | isWebRoute)">
-                            <a href="{{route | routeWebURL}}" target="_blank"> 
+                            <a class="a_color_org" href="{{route | routeWebURL}}" target="_blank">
                                 {{route | routeLabel}} 
                                 <i class="fa fa-external-link" aria-hidden="true"></i>
                             </a>
@@ -128,3 +128,24 @@
     </div>
 
 </div>
+<style>
+    .table>a{
+        color:#f6a540;
+    }
+    .table>a :hover{
+        color:#e5993a;
+    }
+    .table-bordered>tbody>tr>td{
+        border-left:none !important;
+        border-right:none !important;
+      }
+    .new_deploycol a :hover{
+         color:#fff;
+    }
+    .a_color_org{
+        color:#f6a540 !important;
+    }
+    .a_color_org :hover{
+        color:#e5993a !important;
+    }
+</style>
