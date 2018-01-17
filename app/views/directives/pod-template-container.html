@@ -2,7 +2,7 @@
     <div class="component-label">
         <span ng-bind-template="{{labelPrefix||'Container'}}:">
 
-        </span> {{container.name}}
+        </span> <span style='text-transform: capitalize'>{{container.name}}</span>
     </div>
 
     <div row ng-if="container.image" class="pod-template-image icon-row">
@@ -68,7 +68,7 @@
         </div>
     </div>
 
-    <div row  class="icon-row">
+    <div row ng-if="detailed && (container.command.length || container.args.length)" class="icon-row">
         <div class="icon-wrap">
             <span aria-hidden="true" class="fa fa-terminal"></span>
         </div>
@@ -78,7 +78,7 @@
           </span>
             <span>
             <code class="command">
-                    <span ng-repeat="podtname in container.command">{{podtname}}&nbsp;</span>
+                    <span ng-repeat="podtname in container.args">{{podtname}}&nbsp;</span>
               <!-- <truncate-long-text
                       content="container | entrypoint : imagesByDockerReference[container.image]"
                       limit="80"

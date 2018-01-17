@@ -1,208 +1,277 @@
 <div class="service-create" style="margin-top:-30px">
-    <style>
-        .loadEffect {
-            width: 100px;
-            height: 100px;
-            position: relative;
-            margin: 0 auto;
-            margin-top: 100px;
-        }
 
-        .loadEffect span {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            background: #f8b551;
-            position: absolute;
-            -webkit-animation: load 1.04s ease infinite;
-        }
-
-        @-webkit-keyframes load {
-            0% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0.2;
-            }
-        }
-
-        .loadEffect span:nth-child(1) {
-            left: 0;
-            top: 50%;
-            margin-top: -8px;
-            -webkit-animation-delay: 0.13s;
-        }
-
-        .loadEffect span:nth-child(2) {
-            left: 14px;
-            top: 14px;
-            -webkit-animation-delay: 0.26s;
-        }
-
-        .loadEffect span:nth-child(3) {
-            left: 50%;
-            top: 0;
-            margin-left: -8px;
-            -webkit-animation-delay: 0.39s;
-        }
-
-        .loadEffect span:nth-child(4) {
-            top: 14px;
-            right: 14px;
-            -webkit-animation-delay: 0.52s;
-        }
-
-        .loadEffect span:nth-child(5) {
-            right: 0;
-            top: 50%;
-            margin-top: -8px;
-            -webkit-animation-delay: 0.65s;
-        }
-
-        .loadEffect span:nth-child(6) {
-            right: 14px;
-            bottom: 14px;
-            -webkit-animation-delay: 0.78s;
-        }
-
-        .loadEffect span:nth-child(7) {
-            bottom: 0;
-            left: 50%;
-            margin-left: -8px;
-            -webkit-animation-delay: 0.91s;
-        }
-
-        .loadEffect span:nth-child(8) {
-            bottom: 14px;
-            left: 14px;
-            -webkit-animation-delay: 1.04s;
-        }
-    </style>
     <form name="frm">
         <div class="row">
-            <div class="col-md-12">
-                <div class="info">
+            <div class="col-md-12 service-createlist" style="margin-top: 30px;">
+                <div class="service-createheader">
+                    Create deployment  {{i}}
+                </div>
+                <div class="service-createbody">
+                    <div class="input-group divradio" style="margin-bottom: 30px;">
+                        <label>
+                            <input type="radio" class="service-createradio" name="changetype" value="1"
+                                   ng-model="institution.display"
+                                   ng-checked="1">
+                        </label>
+                        <span class="radioname">
+                            镜像地址
+                        </span>
+                        <input autocomplete="off" type="text"
+                               name="serviceName"
+                               ng-disabled="institution.display==2"
+                               ng-model="postobj.spec.images[0].from.name"
+                               class="service-createinput"
+                               type="text" name="name" class="form-control"
+                               ng-keyup="myKeyup($event)"
+                               placeholder="例如：nginx">
+                    </div>
+                    <div class="input-group divradio">
+                        <label>
+                            <input type="radio" name="changetype" class="service-createradio" value="2"
+                                   ng-model="institution.display">
+                        </label>
+                        <span class="radioname">
+                            image stream
+                        </span>
+                        <div class="dropdown dropdown-select" style="min-width: 156px;height: 32px;margin-right: 58px;">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown" ng-disabled="institution.display==1">
+                                <span>111</span>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu"
+                                style="max-height: 250px;overflow-y:scroll;min-width: 156px;border-color: #c9c9c9">
+                                <li style="height: 34px;font-size: 12px;">
+                                    <span class="dropdown-menu-span">1</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <span class="radioname">
+                            tag
+                        </span>
+                        <div class="dropdown dropdown-select" style="min-width: 156px;height: 32px;margin-right: 58px;">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown" ng-disabled="institution.display==1">
+                                <span>111</span>
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu"
+                                style="max-height: 250px;overflow-y:scroll;min-width: 156px;border-color: #c9c9c9">
+                                <li style="height: 34px;font-size: 12px;">
+                                    <span class="dropdown-menu-span">1</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 service-createlist">
+                <div class="service-createheader">
+                    镜像详情
+                </div>
+                <div class="service-createbody">
+
+                    <p>
+                        <span>{{curl}}</span><span>&nbsp;{{creattime|dateRelative}},&nbsp;&nbsp;{{imagesizs}}&nbsp;MiB</span>
+                    </p>
+                    <p></p>
+                    <p><span>{{fuwuname}}</span>&nbsp;&nbsp;导出端口&nbsp;&nbsp;{{strport}}</p>
+                    <p></p>
 
                 </div>
+            </div>
+            <div class="col-md-12 service-createlist">
+                <div class="service-createheader">
+                    服务名称
+                </div>
+                <div class="service-createbody input-group">
+                    <input autocomplete="off" type="text" name="serviceName" ng-model="fuwuname"
+                           class="form-control service-createname"
+                           onkeypress="if((event.keyCode > 31 && event.keyCode < 44) || (event.keyCode > 46 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97))event.returnValue = false;"
+                           type="text" name="name" class="form-control">
 
-                <div class="col-md-12">
-                    <div ng-show="!grid.checked">
-                        <div class="service-config">
-                            <div class="panel panel-default panel-jia-create">
-                                <div class="panel-heading panel-title"
-                                     style="font-weight: bold;font-size: 16px;background:none;font-weight:normal;">
-                                    快速部署
-                                </div>
-                                <hr style="visibility:visible; margin:0 18px;border-top:1px solid #dedede"/>
 
-                                <div class="panel-body" style="padding: 30px 40px 10px;">
-                                    <div class="row">
-                                        <div class="col-md-2" style="padding-top: 8px;">
-                                            <h3 class="require" style="font-weight:normal;">镜像地址</h3>
-                                        </div>
-                                        <div class="col-md-6 input-group searchbar" style="position: relative;">
-                                            <!--onkeypress="if((event.keyCode > 31 && event.keyCode < 44) || (event.keyCode > 46 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97))event.returnValue = false;"-->
+                </div>
+            </div>
+            <div class="col-md-12 service-createlist">
+                <div class="service-createheader">
+                    环境变量设置
+                </div>
+                <div class="service-createbody">
+                    <div>
+                        <span class="service-createevenname">键</span>
+                        <input type="text" class="service-createenv" ng-model="env.name"
+                               style="width:354px;height: 32px;">
+                        <span class="service-createevenname">值</span>
+                        <input type="text" ng-model="env.value" style="width:354px;height: 32px;">
+
+                            <span ng-click="delcontainerEnv(outerIndex,innerIndex)"
+                                  class="fa fa-lg fa-times-circle"
+                                  style="color: #a0a8b8;cursor: pointer;margin-left: 10px;">
+                            </span>
+                    </div>
+                    <div ng-click="addContainerEnv(outerIndex)" style="margin-top: 31px;">
+                        <i class="fa fa-plus-circle fa-lg" style="color: #00cc66"></i>
+                        &nbsp;&nbsp;增加环境变量
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-12 service-createlist">
+                <div class="service-createheader">
+                    labels
+                </div>
+                <div class="service-createbody">
+                    <div>
+                        <span class="service-createevenname">键</span>
+                        <input type="text" class="service-createenv" ng-model="env.name"
+                               style="width:354px;height: 32px;">
+                        <span class="service-createevenname">值</span>
+                        <input type="text" ng-model="env.value" style="width:354px;height: 32px;">
+
+                            <span ng-click="delcontainerEnv(outerIndex,innerIndex)"
+                                  class="fa fa-lg fa-times-circle"
+                                  style="color: #a0a8b8;cursor: pointer;margin-left: 10px;">
+                            </span>
+                    </div>
+                    <div ng-click="addContainerEnv(outerIndex)" style="margin-top: 31px;">
+                        <i class="fa fa-plus-circle fa-lg" style="color: #00cc66"></i>
+                        &nbsp;&nbsp;增加labels
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-12">
+                <a href="javascript:;" ng-click="createDc()"
+                   class="btn btn-block btn-orange"
+                   style="color: white">
+                    创建服务
+                </a>
+            </div>
+        </div>
+
+        <div class="col-md-12" ng-show="false">
+            <div class="info">
+
+            </div>
+
+            <div class="col-md-12">
+
+                <div ng-show="!grid.checked">
+                    <div class="service-config">
+                        <div class="panel panel-default panel-jia-create">
+                            <div class="panel-heading panel-title "
+                                 style="">
+
+                            </div>
+                            <hr style="visibility:visible; margin:0 18px;border-top:1px solid #dedede"/>
+
+                            <div class="panel-body" style="padding: 30px 40px 10px;">
+                                <div class="row">
+                                    <div class="col-md-2" style="padding-top: 8px;">
+                                        <h3 class="require" style="font-weight:normal;">镜像地址</h3>
+                                    </div>
+                                    <div class="col-md-6 input-group searchbar" style="position: relative;">
+                                        <!--onkeypress="if((event.keyCode > 31 && event.keyCode < 44) || (event.keyCode > 46 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97))event.returnValue = false;"-->
                                                 <span class="input-group-btn"
                                                       style="position: absolute;right: 20px;top:0;z-index: 1;">
                                                     <a class="btn" ng-click="find()"></a>
                                                 </span>
-                                            <input autocomplete="off" style="z-index: 0" type="text"
-                                                   id="sevicecreateinp" name="serviceName"
-                                                   ng-model="postobj.spec.images[0].from.name"
-                                                   class="form-control input-block foucsinput"
-                                                   type="text" name="name" class="form-control"
-                                                   ng-keyup="myKeyup($event)"
-                                                   placeholder="例如：nginx">
-                                        </div>
-
-                                        <small ng-if="namerr.urlnull" class="fa fa-info-circle err-tip">请输入正确的镜像地址
-                                        </small>
-                                        <small ng-if="namerr.url" class="fa fa-info-circle err-tip">找不到镜像</small>
-                                        <small ng-if="namerr.quanxian" class="fa fa-info-circle err-tip">没有访问权限
-                                        </small>
-
-
+                                        <input autocomplete="off" style="z-index: 0" type="text"
+                                               id="sevicecreateinp" name="serviceName"
+                                               ng-model="postobj.spec.images[0].from.name"
+                                               class="form-control input-block foucsinput"
+                                               type="text" name="name" class="form-control"
+                                               ng-keyup="myKeyup($event)"
+                                               placeholder="例如：nginx">
                                     </div>
-                                    <hr style="visibility:visible;border-top:1px solid #dedede"/>
-                                    <div style="text-align: center;margin-top: -30px;"ng-show="finding">
+
+                                    <small ng-if="namerr.urlnull" class="fa fa-info-circle err-tip">请输入正确的镜像地址
+                                    </small>
+                                    <small ng-if="namerr.url" class="fa fa-info-circle err-tip">找不到镜像</small>
+                                    <small ng-if="namerr.quanxian" class="fa fa-info-circle err-tip">没有访问权限
+                                    </small>
+
+
+                                </div>
+                                <hr style="visibility:visible;border-top:1px solid #dedede"/>
+                                <div style="text-align: center;margin-top: -30px;" ng-show="finding">
                                     <!--<div style="text-align: center;" ng-show="finding">-->
-                                        <div>
-                                            <div class="loadEffect">
-                                                <span></span>
-                                                <span></span>
-                                                <span></span>
-                                                <span></span>
-                                                <span></span>
-                                                <span></span>
-                                                <span></span>
-                                                <span></span>
-                                            </div>
+                                    <div>
+                                        <div class="loadEffect">
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
                                             <span>正在获取镜像信息
                                         </span>
-                                        </div>
+                                    </div>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="panel-body" style="padding: 10px 40px 30px; " ng-show="!finding&&hasurl">
+                                <div class="row" style="margin-bottom: 20px;">
+                                    <div class="col-md-2" style="padding-top: 8px;">
+                                        <h3 class="" style="font-weight:normal;">镜像详情</h3>
+                                    </div>
+
+                                    <div class="col-md-6" style="font-size:14px;color: #5a6378;padding-left:13px;">
+                                        <p><span>{{curl}}</span><span>&nbsp;{{creattime|dateRelative}},&nbsp;&nbsp;{{imagesizs}}&nbsp;MiB</span>
                                         </p>
+                                        <p></p>
+                                        <p><span>{{fuwuname}}</span>&nbsp;&nbsp;导出端口&nbsp;&nbsp;{{strport}}</p>
+                                        <p></p>
+                                    </div>
+                                    <div class="col-md-4">
                                     </div>
                                 </div>
+                                <div class="row">
 
-                                <div class="panel-body" style="padding: 10px 40px 30px; " ng-show="!finding&&hasurl">
-                                    <div class="row" style="margin-bottom: 20px;">
-                                        <div class="col-md-2" style="padding-top: 8px;">
-                                            <h3 class="" style="font-weight:normal;">镜像详情</h3>
-                                        </div>
-
-                                        <div class="col-md-6" style="font-size:14px;color: #5a6378;padding-left:13px;">
-                                            <p><span>{{curl}}</span><span>&nbsp;{{creattime|dateRelative}},&nbsp;&nbsp;{{imagesizs}}&nbsp;MiB</span>
-                                            </p>
-                                            <p></p>
-                                            <p><span>{{fuwuname}}</span>&nbsp;&nbsp;导出端口&nbsp;&nbsp;{{strport}}</p>
-                                            <p></p>
-                                        </div>
-                                        <div class="col-md-4">
-                                        </div>
+                                    <div class="col-md-2" style="padding-top: 8px;">
+                                        <h3 class="require" style="font-weight:normal;">服务名称</h3>
                                     </div>
-                                    <div class="row">
+                                    <div class="col-md-6 input-group searchbar">
+                                        <!--onkeypress="if((event.keyCode > 31 && event.keyCode < 44) || (event.keyCode > 46 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97))event.returnValue = false;"-->
 
-                                        <div class="col-md-2" style="padding-top: 8px;">
-                                            <h3 class="require" style="font-weight:normal;">服务名称</h3>
-                                        </div>
-                                        <div class="col-md-6 input-group searchbar">
-                                            <!--onkeypress="if((event.keyCode > 31 && event.keyCode < 44) || (event.keyCode > 46 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97))event.returnValue = false;"-->
+                                        <input autocomplete="off" type="text" name="serviceName" ng-model="fuwuname"
+                                               class="form-control input-block foucsinput"
+                                               onkeypress="if((event.keyCode > 31 && event.keyCode < 44) || (event.keyCode > 46 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97))event.returnValue = false;"
+                                               type="text" name="name" class="form-control">
 
-                                            <input autocomplete="off" type="text" name="serviceName" ng-model="fuwuname"
-                                                   class="form-control input-block foucsinput"
-                                                   onkeypress="if((event.keyCode > 31 && event.keyCode < 44) || (event.keyCode > 46 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97))event.returnValue = false;"
-                                                   type="text" name="name" class="form-control">
-
-                                            <!--<small ng-show="frm.serviceName.$dirty && grid.rexnameerr" class="fa fa-info-circle err-tip">&nbsp;请输入小写英文字母</small>-->
-                                            <!--<small ng-show="frm.serviceName.$dirty && grid.createdcerr" class="fa fa-info-circle err-tip">&nbsp;服务名称不合法</small>-->
-                                            <!--<small ng-show="grid.servicenameerr" class="fa fa-info-circle err-tip">&nbsp;服务名称错误</small>-->
-                                        </div>
-
-                                        <small ng-if="namerr.nil" class="fa fa-info-circle err-tip">请输入正确构建名称
-                                        </small>
-                                        <small ng-if="namerr.rexed" class="fa fa-info-circle err-tip">
-                                            请输入4~30位名称,名称只能包含英文、数字以及“-”
-                                        </small>
-                                        <small ng-if="namerr.repeated" class="fa fa-info-circle err-tip">输入的名称已重复
-                                        </small>
+                                        <!--<small ng-show="frm.serviceName.$dirty && grid.rexnameerr" class="fa fa-info-circle err-tip">&nbsp;请输入小写英文字母</small>-->
+                                        <!--<small ng-show="frm.serviceName.$dirty && grid.createdcerr" class="fa fa-info-circle err-tip">&nbsp;服务名称不合法</small>-->
+                                        <!--<small ng-show="grid.servicenameerr" class="fa fa-info-circle err-tip">&nbsp;服务名称错误</small>-->
                                     </div>
-                                    <hr style="visibility:visible;border-top:1px solid #dedede"/>
 
+                                    <small ng-if="namerr.nil" class="fa fa-info-circle err-tip">请输入正确构建名称
+                                    </small>
+                                    <small ng-if="namerr.rexed" class="fa fa-info-circle err-tip">
+                                        请输入4~30位名称,名称只能包含英文、数字以及“-”
+                                    </small>
+                                    <small ng-if="namerr.repeated" class="fa fa-info-circle err-tip">输入的名称已重复
+                                    </small>
                                 </div>
+                                <hr style="visibility:visible;border-top:1px solid #dedede"/>
+
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="col-md-12" style="" ng-show="!namerr.canbuild">
-                    <a href="javascript:;" ng-click="createDc()"
-                       class="btn btn-block btn-orange"
-                       style="color: white">
-                        创建服务
-                    </a>
-                </div>
+            <div class="col-md-12" style="" ng-show="!namerr.canbuild">
+                <a href="javascript:;" ng-click="createDc()"
+                   class="btn btn-block btn-orange"
+                   style="color: white">
+                    创建服务
+                </a>
             </div>
         </div>
-    </form>
+</div>
+</form>
 </div>
