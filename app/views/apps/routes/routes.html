@@ -60,16 +60,16 @@
                     <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">TLS Termination</th>
                 </tr>
                 <tr ng-repeat="route in routeItem">
-                    <td data-title="Name" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
+                    <td  data-title="Name" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
 
-                        <a class="href-orange" ui-sref="console.route_detail({name: route.metadata.name})">
+                        <a class="a_color_org" ui-sref="console.route_detail({name: route.metadata.name})">
 
                             {{route.metadata.name}}
                         </a>
                     </td>
                     <td data-title="Hostname" data-title="Hostname">
                         <span ng-if="(route | isWebRoute)">
-                            <a href="{{route | routeWebURL}}" target="_blank"> 
+                            <a class="a_color_org" href="{{route | routeWebURL}}" target="_blank">
                                 {{route | routeLabel}} 
                                 <i class="fa fa-external-link" aria-hidden="true"></i>
                             </a>
@@ -141,5 +141,11 @@
       }
     .new_deploycol a :hover{
          color:#fff;
+    }
+    .a_color_org{
+        color:#f6a540 !important;
+    }
+    .a_color_org :hover{
+        color:#e5993a !important;
     }
 </style>
