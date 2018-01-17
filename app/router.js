@@ -199,7 +199,7 @@ define([
                     templateUrl: 'views/dashboard/dashboard.html',
                     controller: 'dashboardCtrl',
                     params: {
-                        namespace:null
+                        namespace: null
                     },
                     resolve: {
                         dep: ['$ocLazyLoad', function($ocLazyLoad) {
@@ -439,7 +439,7 @@ define([
                         }]
                     }
                 })
-                .state('console.import', {
+                .state('console.import_from_file', {
                     url: '/import',
                     templateUrl: 'views/import_from_file/import_from_file.html',
                     controller: 'ImportFromFileCtrl',
@@ -751,62 +751,62 @@ define([
                     }
                 })
 
-                //pods详情
-                .state('console.pods_detail', {
-                url: '/pods_detail',
-                templateUrl: 'views/pods_detail/pods_detail.html',
-                controller: 'podsdetailCtrl',
-                resolve: {
-                    dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                        return $ocLazyLoad.load('views/pods_detail/pods_detail.js')
-                    }]
-                }
-            })
-            //新建routes
-             .state('console.create_routes', {
-                 url: '/create_routes/:name',
-                 templateUrl: 'views/create_file/create_routes/create_routes.html',
-                 controller: 'CreateRoutesCtrl',
-                 resolve: {
-                     dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                         return $ocLazyLoad.load('views/create_file/create_routes/create_routes.js')
-                     }],
-                     createRoutes: ['Route', 'Cookie','$stateParams',
-                         function(Route, Cookie,$stateParams) {
-                             return Route.get({ namespace: Cookie.get('namespace'),name:$stateParams.name}).$promise
-                         }
-                     ]
-                 }
-             })
-             //新建deployment
-             .state('console.create_deployment', {
-                 url: '/create_deployment',
-                 templateUrl: 'views/create_deployment/create_deployment.html',
-                 controller: 'createDeploymentCtrl',
-                 resolve: {
-                     dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                         return $ocLazyLoad.load('views/create_deployment/create_deployment.js')
-                     }],
-                     myProject: ['Project', 'Cookie','$stateParams',
-                         function(Project, Cookie,$stateParams) {
-                             return Project.get().$promise
-                         }
-                     ]
-
-                 }
-             })
-
-                //rc
-                .state('console.rc', {
-                    url: '/rc/:name',
-                    templateUrl: 'views/rc/rc_detail.html',
-                    controller: 'rcCtrl',
+            //pods详情
+            .state('console.pods_detail', {
+                    url: '/pods_detail',
+                    templateUrl: 'views/pods_detail/pods_detail.html',
+                    controller: 'podsdetailCtrl',
                     resolve: {
                         dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/rc/rc_detail.js')
+                            return $ocLazyLoad.load('views/pods_detail/pods_detail.js')
                         }]
                     }
                 })
+                //新建routes
+                .state('console.create_routes', {
+                    url: '/create_routes/:name',
+                    templateUrl: 'views/create_file/create_routes/create_routes.html',
+                    controller: 'CreateRoutesCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/create_file/create_routes/create_routes.js')
+                        }],
+                        createRoutes: ['Route', 'Cookie', '$stateParams',
+                            function(Route, Cookie, $stateParams) {
+                                return Route.get({ namespace: Cookie.get('namespace'), name: $stateParams.name }).$promise
+                            }
+                        ]
+                    }
+                })
+                //新建deployment
+                .state('console.create_deployment', {
+                    url: '/create_deployment',
+                    templateUrl: 'views/create_deployment/create_deployment.html',
+                    controller: 'createDeploymentCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/create_deployment/create_deployment.js')
+                        }],
+                        myProject: ['Project', 'Cookie', '$stateParams',
+                            function(Project, Cookie, $stateParams) {
+                                return Project.get().$promise
+                            }
+                        ]
+
+                    }
+                })
+
+            //rc
+            .state('console.rc', {
+                url: '/rc/:name',
+                templateUrl: 'views/rc/rc_detail.html',
+                controller: 'rcCtrl',
+                resolve: {
+                    dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        return $ocLazyLoad.load('views/rc/rc_detail.js')
+                    }]
+                }
+            })
 
         }]);
 

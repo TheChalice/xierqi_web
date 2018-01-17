@@ -1,15 +1,13 @@
 {
-    appDir:"../app",
+    appDir: "../app",
     baseUrl: "./",
     dir: "../dist",
     optimize: "uglify",
     optimizeCss: "standard",
     removeCombined: true,
-    modules: [
-    {
+    modules: [{
         name: 'app'
-    }
-],
+    }],
     paths: {
         bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min',
         jquery: '../bower_components/jquery/dist/jquery.min',
@@ -31,13 +29,14 @@
         angularSlider: '../bower_components/angularjs-slider/dist/rzslider.min',
         treeControl: '../bower_components/angular-tree-control/angular-tree-control',
         highchartsNg: '../bower_components/highcharts-ng/dist/highcharts-ng.min',
-        lodash: '../bower_components/lodash/lodash'
+        lodash: '../bower_components/lodash/lodash',
+        jsyaml: '../bower_components/js-yaml/dist/js-yaml'
 
     },
-    shim : {
+    shim: {
         'angular': {
             deps: ['jquery'],
-                exports: 'angular'
+            exports: 'angular'
         },
         // 'qrcode': {
         //     deps: ['angular','jquery']
@@ -47,7 +46,7 @@
         },
         'angularMocks': {
             deps: ['angular'],
-                exports: 'angular.mock'
+            exports: 'angular.mock'
         },
         'treeControl': {
             deps: ['angular']
@@ -71,7 +70,7 @@
             deps: ['jquery']
         },
         'angularSlider': {
-            deps: ['angular','jquery']
+            deps: ['angular', 'jquery']
         },
         'angularBase64': {
             deps: ['angular']
@@ -86,6 +85,9 @@
             deps: ['angular', 'highcharts']
         },
         'lodash': {
+            deps: ['angular']
+        },
+        'jsyaml': {
             deps: ['angular']
         }
     }

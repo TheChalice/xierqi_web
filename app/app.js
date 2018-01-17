@@ -10,9 +10,11 @@ define([
     'resource',
     'pub/controller',
     'pub/service',
+    'pub/origin-web-service',
     'pub/directive',
     'pub/filter',
     'pub/ws',
+    'pub/fromFile',
     'components/version/version',
     'angularMd',
     'angularClipboard',
@@ -22,15 +24,18 @@ define([
     'patternfly',
     'angular_patternfly',
     'treeControl',
-    'lodash'
-], function (angular) {
+    'lodash',
+    'jsyaml',
+    'ace',
+    'ui_ace'
+], function(angular) {
 
     // 声明应用及其依赖
     var DataFoundry = angular.module('DataFoundry', [
         'oc.lazyLoad',
         'ui.bootstrap',
-        'myApp.router',     //路由模块
-        'myApp.resource',   //资源模块
+        'myApp.router', //路由模块
+        'myApp.resource', //资源模块
         'myApp.controller',
         'myApp.service',
         'myApp.directive',
@@ -40,8 +45,11 @@ define([
         'hc.marked',
         'rzModule',
         'highcharts-ng',
-        "patternfly.wizard",
-        'treeControl'
+        'patternfly.wizard',
+        'treeControl',
+        'ui.ace',
+        'myApp.origin-web-service',
+        'myApp.fromFile'
     ]);
 
     DataFoundry.constant('GLOBAL', {
@@ -64,13 +72,13 @@ define([
             login_uri: '/login',
             signin_uri: '/signin',
             host_webhooks: '<WEBHOOK_PREFIX>',
-            service_url:'<ROUTER_DOMAIN_SUFFIX>',
+            service_url: '<ROUTER_DOMAIN_SUFFIX>',
             //internal_registry:'docker-registry.default.svc:5000',
-            internal_registry:'<INTERNAL_REGISTRY_ADDR>',
+            internal_registry: '<INTERNAL_REGISTRY_ADDR>',
             //service_url:'.cloud.new.dataos.io',
-            common_url:'<REGISTRY_PUBLIC_ADDR>',
+            common_url: '<REGISTRY_PUBLIC_ADDR>',
             //private_url:'registry.dataos.io',
-            private_url:'<REGISTRY_PRIVATE_ADDR>'
+            private_url: '<REGISTRY_PRIVATE_ADDR>'
 
         })
         .constant('AUTH_EVENTS', {
@@ -79,41 +87,41 @@ define([
             httpForbidden: 'auth-http-forbidden'
         })
 
-        .config(['$httpProvider', 'GLOBAL', function ($httpProvider) {
-            $httpProvider.interceptors.push([
-                '$injector',
-                function ($injector) {
-                    return $injector.get('AuthInterceptor');
-                }
-            ]);
-        }])
+    .config(['$httpProvider', 'GLOBAL', function($httpProvider) {
+        $httpProvider.interceptors.push([
+            '$injector',
+            function($injector) {
+                return $injector.get('AuthInterceptor');
+            }
+        ]);
+    }])
 
-        .run(['$rootScope', 'account', '$state','Cookie' ,
-            function ($rootScope, account, $state,Cookie) {
-            $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+    .run(['$rootScope', 'account', '$state', 'Cookie',
+        function($rootScope, account, $state, Cookie) {
+            $rootScope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
                 $rootScope.transfering = true;
 
 
 
             });
 
-            $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+            $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
                 //更新header标题
-                if(navigator.userAgent.indexOf("Firefox")>0){
+                if (navigator.userAgent.indexOf("Firefox") > 0) {
                     // console.log('dasd');
                     $(document).unbind('DOMMouseScroll');
 
 
-                    $(document).bind('DOMMouseScroll',function(e){
+                    $(document).bind('DOMMouseScroll', function(e) {
                         //  console.log('detail', e.detail);
                         //  console.log(toState.name)
                         //console.log(e);
 
                         if (toState.name !== "home.index") {
-                            if(e.detail>0){
-                                window.scrollBy(0,40);
-                            }else{
-                                window.scrollBy(0,-40);
+                            if (e.detail > 0) {
+                                window.scrollBy(0, 40);
+                            } else {
+                                window.scrollBy(0, -40);
                             }
                         }
                     })
@@ -122,7 +130,7 @@ define([
                     //console.log('namespace',$rootScope.namespace);
                     //console.log('$state.params.namespace', $state.params.namespace);
                     if ($state.params.namespace) {
-                        $rootScope.namespace=$state.params.namespace
+                        $rootScope.namespace = $state.params.namespace
                         Cookie.set('namespace', $rootScope.namespace, 10 * 365 * 24 * 3600 * 1000);
                     }
                 }
@@ -136,10 +144,10 @@ define([
                 } else {
                     $('html').css('overflow', 'hidden');
                     $('.foot_main').css('display', 'none');
-                    scrollTo(0,0);
+                    scrollTo(0, 0);
 
                 }
-                if (toState&&$rootScope.namespace && $rootScope.region) {
+                if (toState && $rootScope.namespace && $rootScope.region) {
 
                     //console.log('套餐', data);
                     //$rootScope.payment=data;
@@ -172,10 +180,10 @@ define([
                         //$rootScope.projects=false;
                         //alert(1)
                         $rootScope.showsidebar = false;
-                        $('#sidebar-right-fixed').css("marginLeft",0)
-                    }else {
+                        $('#sidebar-right-fixed').css("marginLeft", 0)
+                    } else {
                         $rootScope.showsidebar = true;
-                        $('#sidebar-right-fixed').css("marginLeft",188)
+                        $('#sidebar-right-fixed').css("marginLeft", 188)
                     }
 
                     //跳转购买套餐
@@ -188,7 +196,8 @@ define([
                 }
 
             });
-        }]);
+        }
+    ]);
 
     return DataFoundry;
 });

@@ -729,4 +729,68 @@ define(['angular', 'moment'], function(angular, moment) {
                 return status;
             };
         }])
+        .filter('displayName', ["annotationFilter", function(annotationFilter) {
+            // annotationOnly - if true, don't fall back to using metadata.name when
+            //                  there's no displayName annotation
+            return function(resource, annotationOnly) {
+                var displayName = annotationFilter(resource, "displayName");
+                if (displayName || annotationOnly) {
+                    return displayName;
+                }
+
+                if (resource && resource.metadata) {
+                    return resource.metadata.name;
+                }
+
+                return null;
+            };
+        }])
+        .filter('upperFirst', function() {
+            // Uppercase the first letter of a string (without making any other changes).
+            // Different than `capitalize` because it doesn't lowercase other letters.
+            return _.upperFirst;
+        })
+        .filter('startCase', function() {
+            return _.startCase;
+        })
+        .filter('humanizeKind', ["startCaseFilter", function(startCaseFilter) {
+            // Changes "ReplicationController" to "replication controller".
+            // If useTitleCase, returns "Replication Controller".
+            return function(kind, useTitleCase) {
+                if (!kind) {
+                    return kind;
+                }
+
+                if (kind === 'ServiceInstance') {
+                    return useTitleCase ? 'Provisioned Service' : 'provisioned service';
+                }
+
+                var humanized = _.startCase(kind);
+                if (useTitleCase) {
+                    return humanized;
+                }
+
+                return humanized.toLowerCase();
+            };
+        }])
+        .filter("getErrorDetails", ["upperFirstFilter", function(upperFirstFilter) {
+            return function(result, capitalize) {
+                if (!result) {
+                    return "";
+                }
+
+                var error = result.data || {};
+                if (error.message) {
+                    return capitalize ? upperFirstFilter(error.message) : error.message;
+                }
+
+                var status = result.status || error.status;
+                if (status) {
+                    return "Status: " + status;
+                }
+
+                return "";
+            };
+        }]);
+
 });
