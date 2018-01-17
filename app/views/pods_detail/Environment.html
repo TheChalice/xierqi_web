@@ -1,25 +1,16 @@
 <!-- detail -->
 <div id="Environment">
-    <!-- Status -->
-    <h2>Container deployment Environment Variables</h2>
-    <div class="detail_set">
-        <div class="envi_main" ng-repeat="env in environment">
-            <div class="form_block">
-                <input type="text" class="form-control" readonly="readonly" value="{{env.name}}">
-            </div>
-
-            <div class="form_block">
-                <input type="text" class="form-control" readonly="readonly" value="{{env.value}}">
-            </div>
+    <div ng-repeat="container in containers">
+        <h2>Container {{container.name}} Environment Variables</h2>
+        <div class='envi_main' ng-repeat="container in environment">
+          <div class="form_block">
+            <input type="text" class="form-control" readonly="readonly" value="{{container.name}}">
         </div>
 
-        
-
-
-
-
+        <div class="form_block">
+            <input type="text" class="form-control" readonly="readonly" value="{{container.value}}">
+        </div>
     </div>
-
-
-
+        <em ng-if="!container.env.length">The container specification has no environment variables set.</em>
+      </div>
 </div>
