@@ -14,7 +14,7 @@ angular.module('console.deploymentconfig_detail', [
     .controller('DeploymentConfigDetailCtrl', ['$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag','$state',
         function ($log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag,$state) {
             $scope.dc = angular.copy(mydc)
-            //console.log('mydc', mydc);
+            console.log('mydc', mytag);
             $scope.mytag = angular.copy(mytag)
             $scope.eventfifter = 'DeploymentConfig';
             $scope.envs = [];
