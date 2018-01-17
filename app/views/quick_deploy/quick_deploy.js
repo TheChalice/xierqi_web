@@ -11,14 +11,28 @@ angular.module('console.quick_deploy', [
     .controller('QuickDeployCtrl', ['mytag', 'ImageStreamImage', 'myimage', 'imagestreamimports', 'GLOBAL', 'resourcequotas', '$http', 'by', 'diploma', 'Confirm', 'Toast', '$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service',
         function (mytag, ImageStreamImage, myimage, imagestreamimports, GLOBAL, resourcequotas, $http, by, diploma, Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service) {
             $scope.institution = {
-                display: 1
+                display: 1,
+                configregistry:false
             }
-            //console.log('myimage', mytag);
+
+            $scope.err = {
+                url: {
+                    null: false,
+                    notfind: false,
+                    role: false
+                },
+                name: {
+                    null: false,
+
+                }
+            }
+
             $scope.istag = angular.copy(mytag)
-            ////$scope.hasurl = false;
-            //$scope.finding = false;
+
             $scope.imageslist = [];
+
             $scope.tagslist = [];
+
             angular.forEach(myimage.items, function (image) {
                 //console.log('image.status.tags', image.status.tags);
                 if (image.status.tags) {
@@ -44,8 +58,11 @@ angular.module('console.quick_deploy', [
                                 "kind": "DockerImage",
                                 "name": ""
                             }
+
                         }
                     ]
+
+
                 },
                 "status": {}
             }
@@ -74,16 +91,9 @@ angular.module('console.quick_deploy', [
                     "sessionAffinity": "None"
                 }
             };
-            //$scope.namerr = {
-            //    urlnull: false,
-            //    url: false,
-            //    quanxian: false,
-            //    nil: true,
-            //    rexed: false,
-            //    repeated: false,
-            //    canbuild: true
-            //}
+
             $scope.showall = false;
+
             $scope.hasport = false;
 
             $scope.dc = {
@@ -149,6 +159,7 @@ angular.module('console.quick_deploy', [
                     dcname(n)
                 }
             })
+
             function dcname(n, image) {
                 $scope.dc.metadata.name = n;
 
@@ -247,7 +258,7 @@ angular.module('console.quick_deploy', [
                 var labels = angular.copy(dc.metadata.labels)
                 $scope.dc.metadata.labels = {}
                 angular.forEach(labels, function (label, i) {
-                    if (label.name !=='' && label.value !== "") {
+                    if (label.name !== '' && label.value !== "") {
                         $scope.dc.metadata.labels[label.name] = label.value;
                     }
                 })
@@ -255,14 +266,14 @@ angular.module('console.quick_deploy', [
 
             function prepareEnv(dc) {
                 var envs = angular.copy(dc.spec.template.spec.containers[0].env);
-                $scope.dc.spec.template.spec.containers[0].env=[];
+                $scope.dc.spec.template.spec.containers[0].env = [];
                 angular.forEach(envs, function (env, i) {
                     if (env.name !== '' && env.value !== '') {
-                        $scope.dc.spec.template.spec.containers[0].env.push({name:env.name,value:env.value})
+                        $scope.dc.spec.template.spec.containers[0].env.push({name: env.name, value: env.value})
                     }
                 })
                 if ($scope.dc.spec.template.spec.containers[0].env.length > 0) {
-                }else {
+                } else {
                     delete $scope.dc.spec.template.spec.containers[0].env
                 }
 
@@ -277,9 +288,9 @@ angular.module('console.quick_deploy', [
                 //        return
                 //}
                 //}
+
                 dcname($scope.fuwuname, $scope.imagetext)
                 prepareLabel($scope.dc)
-
                 if ($scope.hasport) {
                     createService($scope.dc)
                 } else {
@@ -288,7 +299,6 @@ angular.module('console.quick_deploy', [
 
             }
         }])
-
     .directive('createDeployment', function () {
         return {
             restrict: 'E',
@@ -333,23 +343,37 @@ angular.module('console.quick_deploy', [
                     }
 
                     $scope.find = function () {
+                        $scope.err.url.null = false;
+                        $scope.err.url.role = false;
+                        $scope.err.url.notfind = false;
                         if (!$scope.finding) {
                             if ($scope.postobj.spec.images[0].from.name === '') {
+                                $scope.err.url.null = true
                                 return
                             }
                             $scope.finding = true;
-
+                            if ($scope.institution.configregistry) {
+                                $scope.postobj.spec.images[0].importPolicy= {
+                                    insecure: true
+                                }
+                            }
                             $scope.postobj.spec.images[0].from.name = $scope.postobj.spec.images[0].from.name.replace(/^\s+|\s+$/g, "");
                             imagestreamimports.create({namespace: $rootScope.namespace}, $scope.postobj, function (images) {
                                 $scope.finding = false;
                                 console.log('images', images);
                                 if (images.status.images && images.status.images[0] && images.status.images[0].status) {
                                     if (images.status.images[0].status.code && images.status.images[0].status.code === 401) {
-                                        //$scope.namerr.quanxian = true;
+                                        $scope.err.url.role = true;
                                         return
                                     }
                                     if (images.status.images[0].status.code && images.status.images[0].status.code === 404) {
                                         //$scope.namerr.url = true;
+                                        $scope.err.url.notfind = true;
+                                        return
+                                    }
+                                    if (images.status.images[0].status.code && images.status.images[0].status.code === 500) {
+                                        //$scope.namerr.url = true;
+                                        $scope.err.url.role = true;
                                         return
                                     }
                                 }
@@ -412,7 +436,6 @@ angular.module('console.quick_deploy', [
                 }],
         };
     })
-
     .directive('dcLoading', function () {
         return {
             restrict: 'E',
