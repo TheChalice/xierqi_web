@@ -57,7 +57,7 @@
                     <span class="col-sm-4">CPU阀值
                         <input ng-model="horiz.spec.targetCPUUtilizationPercentage"
                                placeholder="80"
-                               style="width:68px; height:30px;padding:6px 12px;">%
+                               style="width:68px; margin-right:;height:30px;padding:6px 12px;">%
                     </span>
                 </span>
             </div>
@@ -82,7 +82,7 @@
              ng-init="outerIndex = $index">
             <div class="text-right" ng-show="dc.spec.template.spec.containers.length>1">
                 <a class="fa fa-lg fa-times-circle" style="color: #9fa7b7;" ng-click="rmContainer($index)"
-                   uib-tooltip="删除"
+
                    href="javascript:;"></a>
             </div>
             <div class="text-left" style="padding-left: 20px; margin-bottom: 20px;">
@@ -276,14 +276,14 @@
                         <div class="row" ng-if="container.env.length > 0" ng-repeat="env in container.env"
                              ng-init="innerIndex = $index" style="margin: 30px 0;">
                             <div class="col-md-5">
-                                <span>键</span>
-                                <input type="text" ng-model="env.name" style="width:90%;height: 32px;">
+                                <span style="margin-right:12px;">键</span>
+                                <input type="text" ng-model="env.name" style="width:90%;height: 32px;padding:6px 12px;">
                             </div>
                             <div class="col-md-5">
-                                <span>值</span>
-                                <input type="text" ng-model="env.value" style="width:90%;height: 32px;">
+                                <span style="margin-right:12px;padding-right:0;">值</span>
+                                <input type="text" ng-model="env.value" style="width:90%;height: 32px;padding:6px 12px;">
                             </div>
-                            <div class="col-sm-2">
+                            <div class="col-sm-2" style="padding-left:0;">
                                 <a href="javascript:;" style='color: #9fa7b7; height: 32px;line-height:32px;'
                                    ng-click="delcontainerEnv(outerIndex,innerIndex)"
                                    class="fa fa-lg fa-times-circle">
@@ -291,7 +291,7 @@
                             </div>
                         </div>
                         <div class="row col-md-12" ng-click="addContainerEnv(outerIndex)" style="margin:0 0 20px 0;">
-                            <i class="fa fa-plus-circle fa-lg"></i>
+                            <i class="fa fa-plus-circle fa-lg" style="cursor:pointer;"></i>
                             &nbsp;&nbsp;增加环境变量
                         </div>
                         <style>
@@ -323,7 +323,7 @@
             </div>
         </div>
         <div class="row col-md-12">
-            <i class="fa fa-plus-circle fa-lg" ng-click="addcon()"></i>
+            <i class="fa fa-plus-circle fa-lg" style="cursor:pointer;" ng-click="addcon()"></i>
             &nbsp;&nbsp;添加容器
         </div>
     </div>
