@@ -10,8 +10,8 @@ angular.module('console.rc', [
         ]
     }
 ])
-    .controller('rcCtrl', ['$rootScope', '$scope', '$stateParams', 'Metrics', 'PieChar', 'mypos', '$interval', '$state', '$log', 'ReplicationController', 'myrc',
-        function ($rootScope, $scope, $stateParams, Metrics, PieChar, mypos, $interval, $state, $log, ReplicationController, myrc) {
+    .controller('rcCtrl', ['$rootScope', '$scope', '$stateParams', 'Metrics', 'PieChar', 'myPodList', '$interval', '$state', '$log', 'ReplicationController', 'myrc',
+        function ($rootScope, $scope, $stateParams, Metrics, PieChar, myPodList, $interval, $state, $log, ReplicationController, myrc) {
             // console.log('myrc', myrc);
             var times = (new Date()).getTime();
             var netChart = function (title, arr) {
@@ -87,7 +87,7 @@ angular.module('console.rc', [
                 $scope.environment = $scope.replicaSet.spec.template.spec.containers[0].env;
                 $scope.containerName = $scope.replicaSet.spec.template.spec.containers[0].name;
                 console.log('$scope.containerName',$scope.containerName);
-                $scope.replicaPods = filterForController(mypos.items, myrc);
+                $scope.replicaPods = filterForController(myPodList.items, myrc);
                 console.log('$scope.replicaPods-=-=-=', $scope.replicaPods);
                 var poduid = [];
                 for (var i = 0; i < $scope.replicaPods.length; i++) {

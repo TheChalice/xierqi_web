@@ -10,8 +10,8 @@ angular.module('console.rs', [
         ]
     }
 ])
-    .controller('rsCtrl', ['$rootScope', '$scope', '$stateParams', 'Metrics', 'PieChar', 'mypos', '$interval', '$state', '$log', 'ReplicaSet',
-        function ($rootScope, $scope, $stateParams, Metrics, PieChar, mypos, $interval, $state, $log, ReplicaSet) {
+    .controller('rsCtrl', ['$rootScope', '$scope', '$stateParams', 'Metrics', 'PieChar', 'myPodList', 'Scale', '$interval', '$state', '$log', 'ReplicaSet',
+        function ($rootScope, $scope, $stateParams, Metrics, PieChar, myPodList, Scale, $interval, $state, $log, ReplicaSet) {
             // console.log($state.params.name);
             // console.log($stateParams.name);
             // $scope.dcName = $stateParams.name;
@@ -85,13 +85,13 @@ angular.module('console.rs', [
                 });
             };
 
-
             ReplicaSet.get({namespace: $rootScope.namespace, name: $state.params.name}, function (res) {
                 $scope.replicaSet = angular.copy(res);
                 $scope.environment = $scope.replicaSet.spec.template.spec.containers[0].env;
                 $scope.containerName = $scope.replicaSet.spec.template.spec.containers[0].name;
+                $scope.scaleName = $scope.replicaSet.metadata.labels.app;
                 console.log('$scope.containerName',$scope.containerName);
-                $scope.replicaPods = filterForController(mypos.items, res);
+                $scope.replicaPods = filterForController(myPodList.items, res);
                 console.log('$scope.replicaPods-=-=-=', $scope.replicaPods);
                 var poduid = [];
                 for (var i = 0; i < $scope.replicaPods.length; i++) {
@@ -110,6 +110,7 @@ angular.module('console.rs', [
                 };
                 getNetwork(networkobj);
                 getcpuandmemory(cpuandmemoryobj);
+
             });
 
             var getcpuandmemory = function (cpuandmemoryobj) {
