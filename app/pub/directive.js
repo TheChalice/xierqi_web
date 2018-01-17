@@ -191,19 +191,22 @@ define(['angular'], function(angular) {
                     podName: '@podName',
                     podContainerName: '@podContainerName',
                     podResourceVersion: '@podResourceVersion',
-                    type: '@type'
+                    type: '@type',
+                    api:'@api'
                 },
                 controller: ['$scope', 'ReplicationController', '$rootScope', 'Ws', '$base64', 'ansi_ups', '$sce', '$log',
                     function ($scope, ReplicationController, $rootScope, Ws, $base64, ansi_ups, $sce, $log) {
                         console.log('$scope.podName---',$scope.podName);
-                        var watchpod = function (resourceVersion, podContainerName, podName) {
+                        var watchpod = function (resourceVersion, podContainerName, podName,api) {
                             var wsobj ={
-                                api: 'k8s',
                                 namespace: $rootScope.namespace,
                                 type: $scope.type,
                                 name: podName + '/log',
                                 protocols: 'base64.binary.k8s.io'
                             };
+                            if (api) {
+                                wsobj.api=api
+                            }
                             if (resourceVersion) {
                                 wsobj.resourceVersion=resourceVersion
                             }
@@ -232,7 +235,7 @@ define(['angular'], function(angular) {
                                 }
                             });
                         };
-                        watchpod($scope.podResourceVersion, $scope.podContainerName, $scope.podName)
+                        watchpod($scope.podResourceVersion, $scope.podContainerName, $scope.podName,$scope.api)
                     }]
             };
         })
