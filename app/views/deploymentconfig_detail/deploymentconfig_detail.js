@@ -16,7 +16,7 @@ angular.module('console.deploymentconfig_detail', [
             $scope.dc = angular.copy(mydc)
             console.log('mydc', mytag);
             $scope.mytag = angular.copy(mytag)
-            $scope.eventfifter = 'DeploymentConfig';
+
             $scope.envs = [];
             $scope.grid = {}
             $scope.quota = {}
