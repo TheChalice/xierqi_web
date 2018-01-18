@@ -6,15 +6,16 @@ define(['angular', 'moment'], function (angular, moment) {
         .filter('dateRelative', [function () {
             // dropSuffix will tell moment whether to include the "ago" text
             console.log('timestamp', 1);
+            moment.locale('en');
             return function (timestamp, dropSuffix) {
-
                 if (!timestamp) {
                     return "-";
                 }
-
                 return moment(timestamp).fromNow(dropSuffix);
             };
+            
         }])
+        
         .filter('duration', [function () {
             return function (um) {
                 if (!um) {
@@ -93,6 +94,22 @@ define(['angular', 'moment'], function (angular, moment) {
                 return humanizedDuration.join("");
             };
         }])
+
+
+        .filter('durdate', [function () {
+            return function (um) {
+                if (!um) {
+                    return "-";
+                }
+                console.log('um1234',um);
+                um = (new Date(um)).getTime();
+                moment.locale('en');
+                var humanizedDuration=moment(new Date(um)).format(" MMMM Do YYYY, h:mm:ss a"); 
+                console.log("humanizedDuration",humanizedDuration);
+                return humanizedDuration;
+            };
+        }])
+        
         .filter('phaseFilter', [function () {
             return function (phase) {
                 if (phase == "Complete") {
