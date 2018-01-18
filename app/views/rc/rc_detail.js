@@ -81,6 +81,7 @@ angular.module('console.rc', [
                     });
                 });
             };
+
             var getMyrc = function () {
                 $scope.replicaSet = angular.copy(myrc);
                 $scope.envOrigin = $scope.replicaSet.spec.template.spec.containers[0];
@@ -255,14 +256,8 @@ angular.module('console.rc', [
                 getNetwork(networkobj);
                 getcpuandmemory(cpuandmemoryobj);
 
-                var timer = $interval(function () {
-                    getNetwork()
-                }, 60000);
-                $scope.$on("$destroy",
-                    function () {
-                        $interval.cancel(timer);
-                    }
-                );
+
+
                 $scope.isShow = true;
                 $scope.confirm = function (num) {
                     ScaleRc.put({
