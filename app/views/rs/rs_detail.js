@@ -12,9 +12,6 @@ angular.module('console.rs', [
 ])
     .controller('rsCtrl', ['$rootScope', '$scope', '$stateParams', 'Metrics', 'PieChar', 'myPodList', 'ScaleRs', '$interval', '$state', '$log', 'ReplicaSet',
         function ($rootScope, $scope, $stateParams, Metrics, PieChar, myPodList, ScaleRs, $interval, $state, $log, ReplicaSet) {
-            // console.log($state.params.name);
-            // console.log($stateParams.name);
-            // $scope.dcName = $stateParams.name;
 
             $scope.times = (new Date()).getTime();
             var netChart = function (title, arr) {
@@ -285,7 +282,6 @@ angular.module('console.rs', [
                             replicas: num
                         }
                     }, function (res) {
-                        // console.log('scale---->>>', res);
                         $scope.isShow = !$scope.isShow;
                         $scope.replicaSet.status.replicas = res.spec.replicas;
                     })
