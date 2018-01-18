@@ -21,11 +21,11 @@
 #rs .h_tit_sm{font-size:14px;color:#666;}
 #rs .redy_tit{font-size:14px;color:#9c9c9c;}
 .jumpUrl{
-    color: #00a8e1;
+    color: #f6a540;
 }
 .jumpUrl:hover{
     cursor: pointer;
-    color: #0088ce;
+    color: #e5993a;
 }
 .tit{font-size:14px;color:#000;font-weight:bold;margin:0px;margin-bottom:10px;}
 .icon-wrap{float:left;margin-right:6px;}
@@ -68,6 +68,7 @@
 #Environment .envi_main{display:table;position:relative;table-layout:fixed;width:100%;margin-bottom:20px;}
 #Environment .form_block{width:50%;float:left;padding-right:5px;}
 #Environment .form-control[disabled], #Environment .form-control[readonly]{background-color:#f5f5f5;color:#8b8d8f;}
+#Environment .tit{padding-left: 0;color:#999;font-style:italic;opacity:1;font-size: 14px;}
 
 /* Metrics  模块*/
 #Metrics h2{font-size:14px;color:#000;font-weight:bold;margin:0px;margin-bottom:20px;}s

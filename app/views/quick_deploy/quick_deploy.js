@@ -25,7 +25,16 @@ angular.module('console.quick_deploy', [
                     null: false,
                     repeated: false,
                     pattern: false
+                },
+                env :{
+                    null:false,
+                    repeated: false,
+                },
+                label:{
+                    null:false,
+                    repeated: false, 
                 }
+
             }
 
             $scope.istag = angular.copy(mytag)
@@ -165,7 +174,6 @@ angular.module('console.quick_deploy', [
 
             function dcname(n, image) {
                 $scope.dc.metadata.name = n;
-
                 $scope.dc.metadata.labels[0].value = n;
                 $scope.dc.spec.selector.deploymentconfig = n;
                 $scope.dc.spec.selector.app = n;
@@ -301,7 +309,12 @@ angular.module('console.quick_deploy', [
                 }
 
             }
-
+            function invEnv(){
+                var envs=angular.copy($scope.dc.spec.template.spec.containers[0].env)
+                angular.forEach(envs, function (env) {
+                    
+                })
+            }
             $scope.createDc = function () {
                 //console.log($scope.frm.serviceName.$error.pattern);
                 if ($scope.frm.serviceName.$error.pattern) {
@@ -318,7 +331,7 @@ angular.module('console.quick_deploy', [
                     $scope.err.name.repeated = true;
                     return
                 }
-
+                invEnv()
 
 
                 if ($scope.hasport) {

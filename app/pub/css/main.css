@@ -2,15 +2,15 @@
     outline: none !important;
 }
 /*去掉type=number的上下箭头*/
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-}
-input::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-}
-input[type=number] {
-    -moz-appearance:textfield;
-}
+/*input::-webkit-inner-spin-button {*/
+    /*-webkit-appearance: none;*/
+/*}*/
+/*input::-webkit-outer-spin-button {*/
+    /*-webkit-appearance: none;*/
+/*}*/
+/*input[type=number] {*/
+    /*-moz-appearance:textfield;*/
+/*}*/
 
 /*这就是省略号喽*/
 .in_nowrap{white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;}
@@ -1311,8 +1311,8 @@ a {
 
 .foucsinput:focus {
     /*-webkit-transition:border linear .2s,-webkit-box-shadow linear .5s;*/
-    border-color: #f00;
-    -webkit-box-shadow: 0 0 1px #f6a540;
+
+
 }
 
 @keyframes unspin {
@@ -1560,6 +1560,13 @@ a {
 /*20161214 jiasx add*/
 input{
     color:#333;
+    border-radius:2px;
+    border:1px solid #DBDBDB ;
+}
+.dropdown>.btn{
+    -webkit-box-shadow:none;
+    box-shadow:none;
+
 }
 .fa-info-circle:before{margin-right:3px;}
 /*按钮颜色设置*/

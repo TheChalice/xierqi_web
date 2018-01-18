@@ -10,9 +10,8 @@ angular.module('console.rc', [
         ]
     }
 ])
-    .controller('rcCtrl', ['$rootScope', '$scope', '$stateParams', 'Metrics', 'PieChar', 'myPodList', '$interval', '$state', '$log', 'ReplicationController', 'myrc',
-        function ($rootScope, $scope, $stateParams, Metrics, PieChar, myPodList, $interval, $state, $log, ReplicationController, myrc) {
-            // console.log('myrc', myrc);
+    .controller('rcCtrl', ['$rootScope', '$scope', '$stateParams', 'Metrics', 'PieChar', 'myPodList', '$interval', '$state', '$log', 'ReplicationController', 'myrc', 'ScaleRc',
+        function ($rootScope, $scope, $stateParams, Metrics, PieChar, myPodList, $interval, $state, $log, ReplicationController, myrc, ScaleRc) {
             var times = (new Date()).getTime();
             var netChart = function (title, arr) {
                 return {
@@ -82,11 +81,13 @@ angular.module('console.rc', [
                     });
                 });
             };
+
             var getMyrc = function () {
                 $scope.replicaSet = angular.copy(myrc);
-                $scope.environment = $scope.replicaSet.spec.template.spec.containers[0].env;
+                $scope.envOrigin = $scope.replicaSet.spec.template.spec.containers[0];
+                $scope.envProxy = $scope.replicaSet.spec.template.spec.containers[1];
                 $scope.containerName = $scope.replicaSet.spec.template.spec.containers[0].name;
-                console.log('$scope.containerName',$scope.containerName);
+                console.log('$scope.containerName', $scope.containerName);
                 $scope.replicaPods = filterForController(myPodList.items, myrc);
                 console.log('$scope.replicaPods-=-=-=', $scope.replicaPods);
                 var poduid = [];
@@ -255,14 +256,33 @@ angular.module('console.rc', [
                 getNetwork(networkobj);
                 getcpuandmemory(cpuandmemoryobj);
 
-                var timer = $interval(function () {
-                    getNetwork()
-                }, 60000);
-                $scope.$on("$destroy",
-                    function () {
-                        $interval.cancel(timer);
-                    }
-                );
+
+
+                $scope.isShow = true;
+                $scope.confirm = function (num) {
+                    ScaleRc.put({
+                        namespace: $rootScope.namespace,
+                        name: $scope.replicaSet.spec.selector.deploymentconfig,
+                        kind: "Scale",
+                        apiVersion: "extensions/v1beta1",
+                        metadata: {
+                            name: $scope.replicaSet.spec.selector.deploymentconfig,
+                            namespace: $rootScope.namespace
+                        },
+                        spec: {
+                            replicas: num
+                        }
+                    }, function (res) {
+                        $scope.isShow = !$scope.isShow;
+                        $scope.replicaSet.status.replicas = res.spec.replicas;
+                    })
+                };
+                $scope.changeScale = function () {
+                    $scope.isShow = !$scope.isShow;
+                };
+                $scope.cancel = function () {
+                    $scope.isShow = !$scope.isShow;
+                }
             };
             getMyrc();
         }]);
