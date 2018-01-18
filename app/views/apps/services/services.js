@@ -18,7 +18,7 @@ angular.module('console.services', [{
             })
             $scope.grid = {
                 page: 1,
-                size: 1,
+                size: 10,
                 txt: ''
             };
             $scope.$watch('grid.page', function (newVal, oldVal) {

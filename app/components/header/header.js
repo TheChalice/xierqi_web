@@ -466,7 +466,7 @@ angular.module("console.header", [{
     return function(state) {
         switch (state) {
             case "console.deployments":
-                return "111"
+                return "deployments"
             case "console.dashboard":
                 return "仪表盘"
             case "console.build":
@@ -483,8 +483,8 @@ angular.module("console.header", [{
                 return "镜像详情";
             case "console.image_regstry":
                 return "镜像详情";
-            case "console.service":
-                return "服务部署";
+            case "console.service_details":
+                return "service详情";
             case "console.service_detail":
                 return "服务详情";
             case "console.service_create":
@@ -539,8 +539,16 @@ angular.module("console.header", [{
                 return "route设置";
             case "console.routes":
                 return "routes";
-            case "console.route":
+            case "console.route_detail":
                 return "route详情";
+            case "console.deploymentconfig_detail":
+                return "deployment详情";
+            case "console.pods":
+                return "pods";
+            case "console.pods_detail":
+                return "pod详情";
+            case "console.services":
+                return "services";
 
         }
     };

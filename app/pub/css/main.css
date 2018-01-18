@@ -14,7 +14,7 @@
 
 /*这就是省略号喽*/
 .in_nowrap{white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;}
-a:focus, a:hover{color:#e5993a;}
+/*a:focus, a:hover{color:#e5993a;}*/
 body {
     padding-top:55px;/* jia 20161128 头部高度调整 padding-top:70px;*/
     font-family: -apple-system, BlinkMacSystemFont, Neue Haas Grotesk Text Pro, Arial Nova, Segoe UI, Helvetica Neue, \.PingFang SC, PingFang SC, Microsoft YaHei, Microsoft JhengHei, Source Han Sans SC, Noto Sans CJK SC, Source Han Sans CN, Noto Sans SC, Source Han Sans TC, Noto Sans CJK TC, Hiragino Sans GB, sans-serif
@@ -811,8 +811,8 @@ a {
 
 .faa-check {
     background-position: -16px -220px;
-    width: 15px;
-    height: 15px;
+    width: 14px;
+    height: 14px;
 }
 
 .active > .faa-check {
@@ -1558,6 +1558,9 @@ a {
 /*输入框获取焦点*/
 /*input:focus{border-color: #c9c9c9!important;}*/
 /*20161214 jiasx add*/
+input{
+    color:#333;
+}
 .fa-info-circle:before{margin-right:3px;}
 /*按钮颜色设置*/
 .build-jia{background:#55c45f;}
