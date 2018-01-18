@@ -196,7 +196,7 @@ define(['angular'], function(angular) {
                 },
                 controller: ['$scope', 'ReplicationController', '$rootScope', 'Ws', '$base64', 'ansi_ups', '$sce', '$log',
                     function ($scope, ReplicationController, $rootScope, Ws, $base64, ansi_ups, $sce, $log) {
-                        console.log('$scope.podName---',$scope.podName);
+                        //console.log('$scope.podName---',$scope.podName);
                         var watchpod = function (resourceVersion, podContainerName, podName,api) {
                             var wsobj ={
                                 namespace: $rootScope.namespace,
