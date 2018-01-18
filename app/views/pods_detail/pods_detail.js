@@ -107,7 +107,7 @@ angular.module('console.pods_detail', [
                 })        
             }
 
-            podschat(mypod.spec.containers[0].name,mypod.metadata.uid,'network/rx_rate');
+            //podschat(mypod.spec.containers[0].name,mypod.metadata.uid,'network/rx_rate');
             
         
 
