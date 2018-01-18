@@ -9,7 +9,10 @@
     </div>
     <div class="row matgin-bt">
         <div class="col-md-2">Deployment Config:</div>
-        <div class="col-md-10 jumpUrl" ui-sref="console.deploymentconfig_detail({name:replicaSet.spec.selector.deploymentconfig})">{{replicaSet.spec.selector.deploymentconfig}}</div>
+        <div class="col-md-10 jumpUrl"
+             ui-sref="console.deploymentconfig_detail({name:replicaSet.spec.selector.deploymentconfig})">
+            {{replicaSet.spec.selector.deploymentconfig}}
+        </div>
     </div>
     <div class="row matgin-bt">
         <div class="col-md-2">Status Reason:</div>
@@ -17,17 +20,23 @@
     </div>
     <div class="row matgin-bt">
         <div class="col-md-2">Selectors:</div>
-        <div class="col-md-10"><span ng-repeat="(name , value) in replicaSet.spec.selector">{{name}}={{value}}&nbsp;&nbsp;<br /></span>
+        <div class="col-md-10"><span ng-repeat="(name , value) in replicaSet.spec.selector">{{name}}={{value}}&nbsp;&nbsp;<br/></span>
         </div>
     </div>
     <div class="row matgin-bt">
         <div class="col-md-2">Replicas:</div>
         <div class="col-md-10">
-            <span>{{replicaSet.spec.replicas}} current / {{replicaSet.status.replicas}} desired &nbsp;&nbsp;
-                <!--<span title="Edit" class="action-button">-->
-                    <!--<i class="glyphicon glyphicon-pencil"></i>-->
-                <!--</span>-->
-            </span>
+            <div>
+                <span ng-show="isShow">{{replicaSet.spec.replicas}} current / {{replicaSet.status.replicas}} desired &nbsp;&nbsp;
+                  <i class="glyphicon glyphicon-pencil jumpUrl"
+                     ng-click="changeScale();$event.stopPropagation();"></i>
+                </span>
+                <form ng-show="!isShow">
+                    <input type="number" ng-model="iptReplicas" min="1" max="20" value={{replicaSet.status.replicas}}>
+                    <i class="glyphicon glyphicon-ok" ng-click="confirm(iptReplicas)"></i>
+                    <i class="glyphicon glyphicon-remove" ng-click="cancel()"></i>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -41,17 +50,18 @@
     </pod-template>
 
     <h4 style="border-bottom: 1px solid #c9c9c9;padding:15px 0;color:#666;">Volumes</h4>
-    <div ng-if="replicaSet.spec.template.spec.volumes"  ng-repeat="volume in replicaSet.spec.template.spec.volumes">
+    <div ng-if="replicaSet.spec.template.spec.volumes" ng-repeat="volume in replicaSet.spec.template.spec.volumes">
         <div class="row matgin-bt">
             <div class="col-md-2">volumeName:</div>
             <div class="col-md-10">{{volume.name}}</div>
         </div>
         <div ng-if="volume.secret">
-            <div class="row matgin-bt" >
+            <div class="row matgin-bt">
                 <div class="col-md-2">Type:</div>
-                <div class="col-md-10">secret<span class="small text-muted">(populated by a secret when the pod is created)</span></div>
+                <div class="col-md-10">secret<span class="small text-muted">(populated by a secret when the pod is created)</span>
+                </div>
             </div>
-            <div class="row matgin-bt" >
+            <div class="row matgin-bt">
                 <div class="col-md-2">Secret:</div>
                 <div class="col-md-10">{{volume.secret.secretName}}</div>
             </div>
@@ -61,11 +71,12 @@
             </div>
         </div>
         <div ng-if="volume.configMap">
-            <div class="row matgin-bt" >
+            <div class="row matgin-bt">
                 <div class="col-md-2">Type:</div>
-                <div class="col-md-10">config map<span class="small text-muted">((populated by a config map)</span></div>
+                <div class="col-md-10">config map<span class="small text-muted">((populated by a config map)</span>
+                </div>
             </div>
-            <div class="row matgin-bt" >
+            <div class="row matgin-bt">
                 <div class="col-md-2">Secret:</div>
                 <div class="col-md-10">{{volume.configMap.name}}</div>
             </div>
@@ -75,11 +86,12 @@
             </div>
         </div>
         <div ng-if="volume.persistentVolumeClaim">
-            <div class="row matgin-bt" >
+            <div class="row matgin-bt">
                 <div class="col-md-2">Type:</div>
-                <div class="col-md-10">persistent volume claim<span class="small text-muted">(reference to a persistent volume claim)</span></div>
+                <div class="col-md-10">persistent volume claim<span class="small text-muted">(reference to a persistent volume claim)</span>
+                </div>
             </div>
-            <div class="row matgin-bt" >
+            <div class="row matgin-bt">
                 <div class="col-md-2">Claim name:</div>
                 <div class="col-md-10">{{volume.persistentVolumeClaim.claimName}}</div>
             </div>
@@ -90,7 +102,9 @@
         </div>
 
     </div>
-    <div ng-if="!replicaSet.spec.template.spec.volumes" class="row matgin-bt"><div class="col-md-10">none</div></div>
+    <div ng-if="!replicaSet.spec.template.spec.volumes" class="row matgin-bt">
+        <div class="col-md-10">none</div>
+    </div>
 
     <h4 style="padding:15px 0;color:#666;">Pods</h4>
     <div class="table-responsive" style="margin-top: 20px;">
