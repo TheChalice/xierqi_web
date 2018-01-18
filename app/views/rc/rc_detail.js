@@ -87,9 +87,10 @@ angular.module('console.rc', [
                 $scope.envOrigin = $scope.replicaSet.spec.template.spec.containers[0];
                 $scope.envProxy = $scope.replicaSet.spec.template.spec.containers[1];
                 $scope.containerName = $scope.replicaSet.spec.template.spec.containers[0].name;
-                console.log('$scope.containerName', $scope.containerName);
+                // console.log('$scope.containerName', $scope.containerName);
                 $scope.replicaPods = filterForController(myPodList.items, myrc);
-                console.log('$scope.replicaPods-=-=-=', $scope.replicaPods);
+                // console.log('$scope.replicaPods-=-=-=', $scope.replicaPods);
+
                 var poduid = [];
                 for (var i = 0; i < $scope.replicaPods.length; i++) {
                     poduid.push($scope.replicaPods[i].metadata.uid);
@@ -209,7 +210,7 @@ angular.module('console.rc', [
                                 data: '',
                                 pointStart: $scope.times + 3600 * 1000,
                                 pointInterval: 15 * 60 * 1000 //时间间隔
-                            }
+                            };
                             var networkrx = [];
                             var networktx = [];
                             var newnettxdata = [];
