@@ -15,6 +15,8 @@ angular.module('console.pods_detail', [
             $scope.containers = $scope.pod.spec.containers;
             $scope.environment = $scope.pod.spec.containers[0].env;
 
+            
+
            
             $scope.$on('$destroy', function () {
                 Ws.clear();
@@ -101,7 +103,7 @@ angular.module('console.pods_detail', [
                     bucketDuration: '120000ms',
                     start:'1516103373792'
                 }, function (res) {
-                           console.log('-------------------------res',res) 
+                        //    console.log('-------------------------res',res) 
                            $scope.CpuConfig = netChart('CPU/cores',res);
                         
                 })        
