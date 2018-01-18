@@ -1,0 +1,1 @@
+/** * Created by sorcerer on 2017/12/29. */angular.module("console.pubmetrics", []).directive('publicMetrics', function () {    return {        restrict: 'E',        templateUrl: 'views/directives/public_metrics.html',        scope: {            configData:"="        },        controller: ['$scope', function ($scope) {        }]    };})
