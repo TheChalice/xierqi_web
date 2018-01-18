@@ -43,9 +43,11 @@
     padding: 6px 12px;
     font-size: 14px;
     line-height: 1.42857143;
-    width: 432px;
+    width: 431px;
 }
-
+.service-create .disable {
+    background-color: #e6e9f2;
+}
 .service-create .service-createbody .radioname{
     margin: 0 15px;
 }
