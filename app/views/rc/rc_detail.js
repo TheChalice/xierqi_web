@@ -12,7 +12,6 @@ angular.module('console.rc', [
 ])
     .controller('rcCtrl', ['$rootScope', '$scope', '$stateParams', 'Metrics', 'PieChar', 'myPodList', '$interval', '$state', '$log', 'ReplicationController', 'myrc', 'ScaleRc',
         function ($rootScope, $scope, $stateParams, Metrics, PieChar, myPodList, $interval, $state, $log, ReplicationController, myrc, ScaleRc) {
-            // console.log('myrc', myrc);
             var times = (new Date()).getTime();
             var netChart = function (title, arr) {
                 return {
@@ -274,7 +273,6 @@ angular.module('console.rc', [
                             replicas: num
                         }
                     }, function (res) {
-                        // console.log('scale---->>>', res);
                         $scope.isShow = !$scope.isShow;
                         $scope.replicaSet.status.replicas = res.spec.replicas;
                     })
