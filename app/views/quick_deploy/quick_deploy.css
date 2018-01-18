@@ -22,6 +22,7 @@
 .service-create .service-createlist {
 
 }
+
 .service-create .service-createheader {
     font-weight: bolder;
     padding-left: 2px;
@@ -30,23 +31,41 @@
     padding-bottom: 11px;
     border-bottom: 1px solid #E0E6ED;
 }
+
 .service-create .err {
     line-height: 32px;
 }
+
 .service-create .service-createbody {
     margin-top: 23px;
     min-height: 50px;
     padding-bottom: 30px;
 }
+
 .service-create .service-createinput {
     height: 34px;
     padding: 6px 12px;
     font-size: 14px;
     line-height: 1.42857143;
-    width: 432px;
+    width: 431px;
 }
 
-.service-create .service-createbody .radioname{
+.service-create .disable {
+    background-color: #e6e9f2;
+    border: 1px;
+    padding-left: 13px;
+    box-shadow: 0px 0px 0px #e6e9f2 inset;
+}
+
+.service-create .envinp {
+    width: 354px;
+    height: 32px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+}
+
+.service-create .service-createbody .radioname {
     margin: 0 15px;
 }
 
@@ -54,25 +73,31 @@
     width: 414px;
     height: 32px;
 }
+
 .service-create .service-createradio[type=radio]:checked {
-   background: #00cc66;
+    background: #00cc66;
 }
+
 .service-create .service-createevenname {
     margin-right: 10px;
 }
+
 .service-create .service-createenv {
     margin-right: 42px;
 }
-.service-create .dropdown-menu li>a {
-    line-height: 34px;height: 34px;
+
+.service-create .dropdown-menu li > a {
+    line-height: 34px;
+    height: 34px;
 }
+
 .service-create .envone {
     margin-top: 10px;
 }
+
 .bgcgray {
     background-color: #c9c9c9;
 }
-
 
 .btn_file {
     color: #5a6378;

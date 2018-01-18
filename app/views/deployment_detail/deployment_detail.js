@@ -11,8 +11,8 @@ angular.module('console.deployment_detail', [
             ]
         }
     ])
-    .controller('DeploymentDetailCtrl', ['$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag','myreplicaSet',
-        function ($log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag,myreplicaSet) {
+    .controller('DeploymentDetailCtrl', ['Confirm','delTip','$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag','myreplicaSet',
+        function (Confirm,delTip,$log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag,myreplicaSet) {
             $scope.dc = angular.copy(mydc)
             $scope.replicaset=[];
             console.log('myreplicaSet.items', myreplicaSet.items);
@@ -194,13 +194,19 @@ angular.module('console.deployment_detail', [
                     console.log(obj);
                 })
             };
-            $scope.deleteDc = function () {
-                DeploymentConfig.delete({
-                    namespace: $rootScope.namespace,
-                    name: $stateParams.name
-                }, function (datadc) {
-                    console.log('datadc', datadc);
+            $scope.deleteDc = function (val) {
+                delTip.open("删除Deployment", "您确定要删除"+val, true).then(function(){
+                    DeploymentConfig.delete({
+                        namespace: $rootScope.namespace,
+                        name: $stateParams.name
+                    }, function (datadc) {
+                        $state.go('console.deployments');
+                    },function(){
+                        Confirm.open("删除Deployment", "删除"+val+"失败", null, null,true)
+                    })
                 })
+
+
             };
 
             $scope.$on('$destroy', function () {
