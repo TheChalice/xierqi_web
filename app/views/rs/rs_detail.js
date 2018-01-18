@@ -10,11 +10,12 @@ angular.module('console.rs', [
         ]
     }
 ])
-    .controller('rsCtrl', ['$rootScope', '$scope', '$stateParams', 'Metrics', 'PieChar', 'myPodList', 'Scale', '$interval', '$state', '$log', 'ReplicaSet',
-        function ($rootScope, $scope, $stateParams, Metrics, PieChar, myPodList, Scale, $interval, $state, $log, ReplicaSet) {
+    .controller('rsCtrl', ['$rootScope', '$scope', '$stateParams', 'Metrics', 'PieChar', 'myPodList', 'ScaleRs', '$interval', '$state', '$log', 'ReplicaSet',
+        function ($rootScope, $scope, $stateParams, Metrics, PieChar, myPodList, ScaleRs, $interval, $state, $log, ReplicaSet) {
             // console.log($state.params.name);
             // console.log($stateParams.name);
             // $scope.dcName = $stateParams.name;
+
             $scope.times = (new Date()).getTime();
             var netChart = function (title, arr) {
                 return {
@@ -84,63 +85,125 @@ angular.module('console.rs', [
                     });
                 });
             };
+            var getMyRs = function () {
+                ReplicaSet.get({namespace: $rootScope.namespace, name: $state.params.name}, function (res) {
+                    $scope.replicaSet = angular.copy(res);
+                    $scope.envOrigin = $scope.replicaSet.spec.template.spec.containers[0];
+                    $scope.envProxy = $scope.replicaSet.spec.template.spec.containers[1];
+                    $scope.containerName = $scope.replicaSet.spec.template.spec.containers[0].name;
+                    $scope.scaleName = $scope.replicaSet.metadata.labels.app;
+                    console.log('$scope.containerName', $scope.containerName);
+                    $scope.replicaPods = filterForController(myPodList.items, res);
+                    console.log('$scope.replicaPods-=-=-=', $scope.replicaPods);
+                    var poduid = [];
+                    for (var i = 0; i < $scope.replicaPods.length; i++) {
+                        poduid.push($scope.replicaPods[i].metadata.uid);
+                    }
+                    var newpoduid = poduid.join('|');
+                    var networkobj = {
+                        tags: 'descriptor_name:network/tx_rate|network/rx_rate,type:pod,pod_id:' + newpoduid,
+                        bucketDuration: "120000ms",
+                        start: "-60mn"
+                    };
+                    var cpuandmemoryobj = {
+                        tags: "descriptor_name:memory/usage|cpu/usage_rate,type:pod_container,pod_id:" + newpoduid + ",container_name:" + $scope.containerName,
+                        bucketDuration: "120000ms",
+                        start: "-60mn"
+                    };
+                    getNetwork(networkobj);
+                    getcpuandmemory(cpuandmemoryobj);
 
-            ReplicaSet.get({namespace: $rootScope.namespace, name: $state.params.name}, function (res) {
-                $scope.replicaSet = angular.copy(res);
-                $scope.environment = $scope.replicaSet.spec.template.spec.containers[0].env;
-                $scope.containerName = $scope.replicaSet.spec.template.spec.containers[0].name;
-                $scope.scaleName = $scope.replicaSet.metadata.labels.app;
-                console.log('$scope.containerName',$scope.containerName);
-                $scope.replicaPods = filterForController(myPodList.items, res);
-                console.log('$scope.replicaPods-=-=-=', $scope.replicaPods);
-                var poduid = [];
-                for (var i = 0; i < $scope.replicaPods.length; i++) {
-                    poduid.push($scope.replicaPods[i].metadata.uid);
-                }
-                var newpoduid = poduid.join('|');
-                var networkobj = {
-                    tags: 'descriptor_name:network/tx_rate|network/rx_rate,type:pod,pod_id:' + newpoduid,
-                    bucketDuration: "120000ms",
-                    start: "-60mn"
-                };
-                var cpuandmemoryobj = {
-                    tags: "descriptor_name:memory/usage|cpu/usage_rate,type:pod_container,pod_id:" + newpoduid + ",container_name:" + $scope.containerName,
-                    bucketDuration: "120000ms",
-                    start: "-60mn"
-                };
-                getNetwork(networkobj);
-                getcpuandmemory(cpuandmemoryobj);
+                });
 
-            });
-
-            var getcpuandmemory = function (cpuandmemoryobj) {
-                PieChar.create(cpuandmemoryobj, function (data) {
-                    var CPUmetricsList = [];
-                    var MEMmetricsList = [];
-                    angular.forEach(data.gauge, function (item, i) {
-                        var newcpuData = [];
-                        var newmemData = [];
-                        var cpudata = [];
-                        var memdata = [];
-                        var k = i.split('/')[i.split('/').length - 2];
-                        var curPodUid = i.split('/')[i.split('/').length - 3];
-                        var curPodName = '';
-                        for (var i = 0; i < $scope.replicaPods.length; i++) {
-                            if ($scope.replicaPods[i].metadata.uid == curPodUid) {
-                                curPodName = $scope.replicaPods[i].metadata.name;
-                            }
-                        }
-                        if (k == 'cpu') {
-                            cpudata = item;
-                            angular.forEach(cpudata, function (input, i) {
-                                if (!input.empty) {
-                                    newcpuData.push(Math.floor(input.avg / 1000 * 1000) / 1000);
-                                } else {
-                                    newcpuData.push(0);
+                var getcpuandmemory = function (cpuandmemoryobj) {
+                    PieChar.create(cpuandmemoryobj, function (data) {
+                        var CPUmetricsList = [];
+                        var MEMmetricsList = [];
+                        angular.forEach(data.gauge, function (item, i) {
+                            var newcpuData = [];
+                            var newmemData = [];
+                            var cpudata = [];
+                            var memdata = [];
+                            var k = i.split('/')[i.split('/').length - 2];
+                            var curPodUid = i.split('/')[i.split('/').length - 3];
+                            var curPodName = '';
+                            for (var i = 0; i < $scope.replicaPods.length; i++) {
+                                if ($scope.replicaPods[i].metadata.uid == curPodUid) {
+                                    curPodName = $scope.replicaPods[i].metadata.name;
                                 }
-                            });
-                            var obj = {
-                                name: curPodName,
+                            }
+                            if (k == 'cpu') {
+                                cpudata = item;
+                                angular.forEach(cpudata, function (input, i) {
+                                    if (!input.empty) {
+                                        newcpuData.push(Math.floor(input.avg / 1000 * 1000) / 1000);
+                                    } else {
+                                        newcpuData.push(0);
+                                    }
+                                });
+                                var obj = {
+                                    name: curPodName,
+                                    fillColor: {
+                                        linearGradient: {x1: 0, y1: 1, x2: 0, y2: 0}, //横向渐变效果 如果将x2和y2值交换将会变成纵向渐变效果
+                                        stops: [
+                                            [0, Highcharts.Color('#fff').setOpacity(0.8).get('rgba')],
+                                            [1, '#4ca7de']
+                                        ]
+                                    },
+                                    // lineColor: '#4d5266',
+                                    fillOpacity: 0.6,
+                                    marker: {
+                                        enabled: true
+                                    },
+                                    data: newcpuData,
+                                    pointStart: $scope.times + 3600 * 1000,
+                                    pointInterval: 15 * 60 * 1000 //时间间隔
+                                };
+                                CPUmetricsList.push(obj);
+
+                            } else if (k == 'memory') {
+                                memdata = item;
+                                angular.forEach(memdata, function (input, i) {
+                                    if (!input.empty) {
+                                        newmemData.push(Math.floor(input.avg / (1024 * 1024) * 100) / 100);
+                                    } else {
+                                        newmemData.push(0);
+                                    }
+
+                                });
+                                var obj = {
+                                    name: curPodName,
+                                    fillColor: {
+                                        linearGradient: {x1: 0, y1: 1, x2: 0, y2: 0}, //横向渐变效果 如果将x2和y2值交换将会变成纵向渐变效果
+                                        stops: [
+                                            [0, Highcharts.Color('#fff').setOpacity(0.8).get('rgba')],
+                                            [1, '#4ca7de']
+                                        ]
+                                    },
+                                    // lineColor: '#4d5266',
+                                    fillOpacity: 0.6,
+                                    marker: {
+                                        enabled: true
+                                    },
+                                    data: newmemData,
+                                    pointStart: $scope.times + 3600 * 1000,
+                                    pointInterval: 15 * 60 * 1000 //时间间隔
+                                };
+                                MEMmetricsList.push(obj);
+                            }
+                        });
+                        $scope.CpuConfig = netChart('CPU/cores', CPUmetricsList);
+                        $scope.MemConfig = netChart('Memory/MiB', MEMmetricsList);
+                    })
+                };
+
+                var getNetwork = function (networkobj) {
+                    PieChar.create(networkobj, function (data) {
+                        var TXmetricsList = [];
+                        var RXmetricsList = [];
+                        angular.forEach(data.gauge, function (item, i) {
+                            var testobj = {
+                                name: '',
                                 fillColor: {
                                     linearGradient: {x1: 0, y1: 1, x2: 0, y2: 0}, //横向渐变效果 如果将x2和y2值交换将会变成纵向渐变效果
                                     stops: [
@@ -153,119 +216,87 @@ angular.module('console.rs', [
                                 marker: {
                                     enabled: true
                                 },
-                                data: newcpuData,
+                                data: '',
                                 pointStart: $scope.times + 3600 * 1000,
                                 pointInterval: 15 * 60 * 1000 //时间间隔
-                            };
-                            CPUmetricsList.push(obj);
-
-                        } else if (k == 'memory') {
-                            memdata = item;
-                            angular.forEach(memdata, function (input, i) {
-                                if (!input.empty) {
-                                    newmemData.push(Math.floor(input.avg / (1024 * 1024) * 100) / 100);
-                                } else {
-                                    newmemData.push(0);
-                                }
-
-                            });
-                            var obj = {
-                                name: curPodName,
-                                fillColor: {
-                                    linearGradient: {x1: 0, y1: 1, x2: 0, y2: 0}, //横向渐变效果 如果将x2和y2值交换将会变成纵向渐变效果
-                                    stops: [
-                                        [0, Highcharts.Color('#fff').setOpacity(0.8).get('rgba')],
-                                        [1, '#4ca7de']
-                                    ]
-                                },
-                                // lineColor: '#4d5266',
-                                fillOpacity: 0.6,
-                                marker: {
-                                    enabled: true
-                                },
-                                data: newmemData,
-                                pointStart: $scope.times + 3600 * 1000,
-                                pointInterval: 15 * 60 * 1000 //时间间隔
-                            };
-                            MEMmetricsList.push(obj);
-                        }
-                    });
-                    $scope.CpuConfig = netChart('CPU/cores', CPUmetricsList);
-                    $scope.MemConfig = netChart('Memory/MiB', MEMmetricsList);
-                })
-            };
-
-            var getNetwork = function (networkobj) {
-                PieChar.create(networkobj, function (data) {
-                    var TXmetricsList = [];
-                    var RXmetricsList = [];
-                    angular.forEach(data.gauge, function (item, i) {
-                        var testobj = {
-                            name: '',
-                            fillColor: {
-                                linearGradient: {x1: 0, y1: 1, x2: 0, y2: 0}, //横向渐变效果 如果将x2和y2值交换将会变成纵向渐变效果
-                                stops: [
-                                    [0, Highcharts.Color('#fff').setOpacity(0.8).get('rgba')],
-                                    [1, '#4ca7de']
-                                ]
-                            },
-                            // lineColor: '#4d5266',
-                            fillOpacity: 0.6,
-                            marker: {
-                                enabled: true
-                            },
-                            data: '',
-                            pointStart: $scope.times + 3600 * 1000,
-                            pointInterval: 15 * 60 * 1000 //时间间隔
-                        }
-                        var networkrx = [];
-                        var networktx = [];
-                        var newnettxdata = [];
-                        var newnetrxdata = [];
-                        var k = i.split('/')[i.split('/').length - 1];
-                        var curPodUid = i.split('/')[i.split('/').length - 3];
-                        var curPodName = '';
-                        for (var i = 0; i < $scope.replicaPods.length; i++) {
-                            if ($scope.replicaPods[i].metadata.uid == curPodUid) {
-                                curPodName = $scope.replicaPods[i].metadata.name;
                             }
-                        }
-                        if (k == 'tx_rate') {
-                            networkrx = item;
-                            angular.forEach(networkrx, function (input, i) {
-                                if (!input.empty) {
-                                    newnetrxdata.push(Math.floor(input.avg / 1024 * 1000) / 1000)
-                                } else {
-                                    newnetrxdata.push(0)
+                            var networkrx = [];
+                            var networktx = [];
+                            var newnettxdata = [];
+                            var newnetrxdata = [];
+                            var k = i.split('/')[i.split('/').length - 1];
+                            var curPodUid = i.split('/')[i.split('/').length - 3];
+                            var curPodName = '';
+                            for (var i = 0; i < $scope.replicaPods.length; i++) {
+                                if ($scope.replicaPods[i].metadata.uid == curPodUid) {
+                                    curPodName = $scope.replicaPods[i].metadata.name;
                                 }
-                            });
-                            testobj.name = curPodName;
-                            testobj.data = newnetrxdata;
-                            TXmetricsList.push(testobj);
-                        } else if (k == 'rx_rate') {
-                            networktx = item;
-                            angular.forEach(networktx, function (input, i) {
-                                if (!input.empty) {
-                                    newnettxdata.push(Math.floor(input.avg / 1024 * 1000) / 1000)
-                                } else {
-                                    newnettxdata.push(0)
-                                }
-                            });
-                            testobj.name = curPodName;
-                            testobj.data = newnettxdata;
-                            RXmetricsList.push(testobj);
+                            }
+                            if (k == 'tx_rate') {
+                                networkrx = item;
+                                angular.forEach(networkrx, function (input, i) {
+                                    if (!input.empty) {
+                                        newnetrxdata.push(Math.floor(input.avg / 1024 * 1000) / 1000)
+                                    } else {
+                                        newnetrxdata.push(0)
+                                    }
+                                });
+                                testobj.name = curPodName;
+                                testobj.data = newnetrxdata;
+                                TXmetricsList.push(testobj);
+                            } else if (k == 'rx_rate') {
+                                networktx = item;
+                                angular.forEach(networktx, function (input, i) {
+                                    if (!input.empty) {
+                                        newnettxdata.push(Math.floor(input.avg / 1024 * 1000) / 1000)
+                                    } else {
+                                        newnettxdata.push(0)
+                                    }
+                                });
+                                testobj.name = curPodName;
+                                testobj.data = newnettxdata;
+                                RXmetricsList.push(testobj);
+                            }
+                        });
+                        $scope.TxConfig = netChart('Network (Sent)KB/s', TXmetricsList);
+                        $scope.RxConfig = netChart('Network (Received)KB/s', RXmetricsList);
+                    })
+                };
+                var timer = $interval(function () {
+                    getNetwork()
+                }, 60000);
+                $scope.$on("$destroy",
+                    function () {
+                        $interval.cancel(timer);
+                    }
+                );
+                $scope.isShow = true;
+                $scope.confirm = function (num) {
+                    ScaleRs.put({
+                        namespace: $rootScope.namespace,
+                        name: $scope.replicaSet.metadata.labels.app,
+                        kind: "Scale",
+                        apiVersion: "extensions/v1beta1",
+                        metadata: {
+                            name: $scope.replicaSet.metadata.labels.app,
+                            namespace: $rootScope.namespace
+                        },
+                        spec: {
+                            replicas: num
                         }
-                    });
-                    $scope.TxConfig = netChart('Network (Sent)KB/s', TXmetricsList);
-                    $scope.RxConfig = netChart('Network (Received)KB/s', RXmetricsList);
-                })
-            };
-            var timer = $interval(function () {
-                getNetwork()
-            }, 60000);
-            $scope.$on("$destroy",
-                function () {
-                    $interval.cancel(timer);
+                    }, function (res) {
+                        // console.log('scale---->>>', res);
+                        $scope.isShow = !$scope.isShow;
+                        $scope.replicaSet.status.replicas = res.spec.replicas;
+                    })
+                };
+                $scope.changeScale = function () {
+                    $scope.isShow = !$scope.isShow;
+                };
+                $scope.cancel = function () {
+                    $scope.isShow = !$scope.isShow;
                 }
-            );
+            };
+            getMyRs();
+
         }]);
