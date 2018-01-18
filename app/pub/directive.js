@@ -202,7 +202,8 @@ define(['angular'], function(angular) {
                                 namespace: $rootScope.namespace,
                                 type: $scope.type,
                                 name: podName + '/log',
-                                protocols: 'base64.binary.k8s.io'
+                                protocols: 'base64.binary.k8s.io',
+                                tailLines:500
                             };
                             if (api) {
                                 wsobj.api=api
