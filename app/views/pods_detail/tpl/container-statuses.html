@@ -52,12 +52,12 @@
       <dt>State:</dt>
       <dd>
         
-        <p ng-repeat="(namea,nameb) in pod.status.containerStatuses[0].state">{{namea}} {{nameb.startedAt}} {{nameb.exitCode}} {{nameb.reason}} </p>
+        <p ng-repeat="(namea,nameb) in pod.status.containerStatuses[0].state">{{namea}} {{nameb.startedAt | durdate}} {{nameb.exitCode}} {{nameb.reason}} </p>
         <!-- <kubernetes-object-describe-container-state container-state="containerStatus.state"></kubernetes-object-describe-container-state> -->
       </dd>
       <dt ng-if="(containerStatus.lastState)">Last State</dt>
       <dd ng-if="(containerStatus.lastState)">
-          <p ng-repeat="(namex,namey) in pod.status.containerStatuses[0].lastState">{{namex}} {{namey.startedAt}} {{namey.exitCode}} {{namey.reason}} </p>
+          <p ng-repeat="(namex,namey) in pod.status.containerStatuses[0].lastState">{{namex}} {{namey.finishedAt | durdate}} {{namey.exitCode}} {{namey.reason}} </p>
         <!-- <kubernetes-object-describe-container-state container-state="containerStatus.lastState"></kubernetes-object-describe-container-state> -->
       </dd>
       <dt>Ready:</dt>
