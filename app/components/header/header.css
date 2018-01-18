@@ -127,8 +127,8 @@
     -webkit-transition:all 300ms;
     -moz-transition:all 300ms;
     transition:all 300ms;
-    height:52px!important;
-    line-height:52px!important;
+    height:52px;
+    line-height:52px;
 
 }
 

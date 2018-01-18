@@ -2,15 +2,15 @@
     outline: none !important;
 }
 /*去掉type=number的上下箭头*/
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-}
-input::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-}
-input[type=number] {
-    -moz-appearance:textfield;
-}
+/*input::-webkit-inner-spin-button {*/
+    /*-webkit-appearance: none;*/
+/*}*/
+/*input::-webkit-outer-spin-button {*/
+    /*-webkit-appearance: none;*/
+/*}*/
+/*input[type=number] {*/
+    /*-moz-appearance:textfield;*/
+/*}*/
 
 /*这就是省略号喽*/
 .in_nowrap{white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;}

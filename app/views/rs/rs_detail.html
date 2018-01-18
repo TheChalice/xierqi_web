@@ -26,14 +26,16 @@
                     <div class="col-md-2">Replicas:</div>
                     <div class="col-md-10">
                         <div>
-                            <span>{{replicaSet.spec.replicas}} current / {{replicaSet.status.replicas}} desired &nbsp;&nbsp;
-                            <!--<i class="glyphicon glyphicon-pencil jumpUrl" ng-click="changeScale()"></i>-->
+                            <span ng-show="isShow">{{replicaSet.spec.replicas}} current / {{replicaSet.status.replicas}} desired &nbsp;&nbsp;
+                            <i class="glyphicon glyphicon-pencil jumpUrl"
+                               ng-click="changeScale();$event.stopPropagation();"></i>
                             </span>
-                            <!--<span style="display: none">-->
-                                <!--<form>-->
-                                    <!--<input type="number" min="1" max="10" value="{{replicaSet.status.replicas}}">  <i class="glyphicon glyphicon-ok" ng-click="confirm()"></i>  <i class="glyphicon glyphicon-remove" ng-click="cancel()"></i>-->
-                                <!--</form>-->
-                            <!--</span>-->
+                            <form ng-show="!isShow">
+                                <input type="number" ng-model="iptReplicas" min="1" max="20"
+                                       value={{replicaSet.status.replicas}}>
+                                <i class="glyphicon glyphicon-ok" ng-click="confirm(iptReplicas)"></i>
+                                <i class="glyphicon glyphicon-remove" ng-click="cancel()"></i>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -163,17 +165,45 @@
             </uib-tab-heading>
             <div id="Environment">
                 <div class="detail_set">
-                    <div class="envi_main" ng-if="environment" ng-repeat="env in environment">
-                        <div class="form_block">
-                            <input type="text" class="form-control" readonly="readonly" value={{env.name}}>
-                        </div>
+                    <div ng-if="envOrigin.name">
+                        <h4>Container {{envOrigin.name}} Environment Variables</h4>
+                        <div ng-if="envOrigin.env">
+                            <div class="form_block">Name</div>
+                            <div class="form_block">Value</div>
+                            <div class="envi_main" ng-repeat="env in envOrigin.env">
+                                <div class="form_block">
+                                    <input type="text" class="form-control" readonly="readonly" value={{env.name}}>
+                                </div>
 
-                        <div class="form_block">
-                            <input type="text" class="form-control" readonly="readonly" value={{env.value}}>
+                                <div class="form_block">
+                                    <input type="text" class="form-control" readonly="readonly" value={{env.value}}>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="!envOrigin.env" class="envi_main">
+                            <div class="col-md-10 tit">The container specification has no environment variables set.
+                            </div>
                         </div>
                     </div>
-                    <div ng-if="!environment" class="envi_main">
-                        <div class="col-md-10">The container specification has no environment variables set.</div>
+                    <div ng-if="envProxy.name">
+                        <h4>Container {{envProxy.name}} Environment Variables</h4>
+                        <div ng-if="envProxy.env">
+                            <div class="form_block">Name</div>
+                            <div class="form_block">Value</div>
+                            <div class="envi_main" ng-repeat="envv in envProxy.env">
+                                <div class="form_block">
+                                    <input type="text" class="form-control" readonly="readonly" value={{envv.name}}>
+                                </div>
+
+                                <div class="form_block">
+                                    <input type="text" class="form-control" readonly="readonly" value={{envv.value}}>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="!envProxy.env" class="envi_main">
+                            <div class="col-md-10 tit">The container specification has no environment variables set.
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
