@@ -11,8 +11,8 @@ angular.module('console.deploymentconfig_detail', [
             ]
         }
     ])
-    .controller('DeploymentConfigDetailCtrl', ['$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag','$state',
-        function ($log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag,$state) {
+    .controller('DeploymentConfigDetailCtrl', ['Confirm','delTip','$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag','$state',
+        function (Confirm,delTip,$log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag,$state) {
             $scope.dc = angular.copy(mydc)
             console.log('mydc', mytag);
             $scope.mytag = angular.copy(mytag)
@@ -185,14 +185,18 @@ angular.module('console.deploymentconfig_detail', [
                     console.log(obj);
                 })
             }
-            $scope.deleteDc = function () {
-                DeploymentConfig.delete({
-                    namespace: $rootScope.namespace,
-                    name: $stateParams.name
-                }, function (datadc) {
-                    $state.go('console.deployments')
-                    console.log('datadc', datadc);
+            $scope.deleteDc = function (val) {
+                delTip.open("删除Deployment", "您确定要删除"+val, true).then(function(){
+                    DeploymentConfig.delete({
+                        namespace: $rootScope.namespace,
+                        name: $stateParams.name
+                    }, function (datadc) {
+                        $state.go('console.deployments');
+                    },function(){
+                        Confirm.open("删除Deployment", "删除"+val+"失败", null, null,true)
+                    })
                 })
+
             };
             $scope.$on('$destroy', function () {
                 Ws.clear();
