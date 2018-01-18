@@ -6,7 +6,6 @@ define(['angular', 'moment'], function (angular, moment) {
         .filter('dateRelative', [function () {
             // dropSuffix will tell moment whether to include the "ago" text
             console.log('timestamp', 1);
-            moment.locale('en');
             return function (timestamp, dropSuffix) {
                 if (!timestamp) {
                     return "-";
@@ -103,7 +102,7 @@ define(['angular', 'moment'], function (angular, moment) {
                 }
                 console.log('um1234',um);
                 um = (new Date(um)).getTime();
-                moment.locale('en');
+                // moment.locale('en');
                 var humanizedDuration=moment(new Date(um)).format(" MMMM Do YYYY, h:mm:ss a"); 
                 console.log("humanizedDuration",humanizedDuration);
                 return humanizedDuration;
