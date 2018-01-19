@@ -16,6 +16,8 @@ color:#333;font-size:14px;}
 #pods_detail .pd_name{font-size:24px;color:#333;}
 #pods_detail .pd_dt{font-size:14px;color:#9c9c9c;}
 
+#pods_detail .pod_term{width:100%;}
+
 
 /* detail 模块 */
 #detail .tit{font-size:14px;color:#000;font-weight:bold;margin:0px;margin-bottom:10px;}
@@ -23,6 +25,7 @@ color:#333;font-size:14px;}
 #detail .dl-horizontal dt{text-align:left;font-weight:normal;color:#666;font-size:14px;}
 #detail .icon-wrap{float:left;margin-right:6px;}
 #detail .tit_vol{margin-top:16px;}
+
 
 
 #detail .list_block{height:auto;overflow:hidden;margin-bottom:14px;}
@@ -39,7 +42,7 @@ color:#333;font-size:14px;}
 
 kubernetes-container-terminal{width:100%;}
 kubernetes-container-terminal .terminal-wrapper{width:100%;}
-kubernetes-container-terminal .terminal-wrapper .terminal{width:100%;}
+kubernetes-container-terminal .terminal-wrapper .terminal{width:100%;height:100%;}
 kubernetes-container-terminal .terminal-actions {position: absolute;}
 
 
