@@ -22,7 +22,11 @@
                 <uib-tab-heading>
                     Metrics
                 </uib-tab-heading>
-                <public-metrics dcname="pod.metadata.labels.app" podlists="podlist"></public-metrics>
+                <public-metrics conname="pod.spec.containers[0].name"
+                                podid="pod.metadata.uid"
+                                podname="pod.metadata.name">
+
+                </public-metrics>
             </uib-tab>
             <uib-tab index="4">
                 <uib-tab-heading>
