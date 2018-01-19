@@ -29,6 +29,10 @@
 }
 .tit{font-size:14px;color:#000;font-weight:bold;margin:0px;margin-bottom:10px;}
 .icon-wrap{float:left;margin-right:6px;}
+
+.poda > a:focus {
+    color: #f6a540;
+}
 @font-face {
     font-family: "PatternFlyIcons-webfont";
     /*src: url("PatternFlyIcons-webfont.eot");*/
