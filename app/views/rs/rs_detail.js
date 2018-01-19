@@ -284,6 +284,7 @@ angular.module('console.rs', [
                     }, function (res) {
                         $scope.isShow = !$scope.isShow;
                         $scope.replicaSet.status.replicas = res.spec.replicas;
+                        $scope.replicaSet.spec.replicas = res.spec.replicas;
                     })
                 };
                 $scope.changeScale = function () {
