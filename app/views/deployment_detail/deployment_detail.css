@@ -79,3 +79,10 @@
 .dropdown-menu-span:hover{
     background: #dfe4ef
 }
+.dList{
+    color: #f6a540;
+}
+.dList:hover{
+    cursor: pointer;
+    color: #e5993a;
+}
