@@ -8,10 +8,6 @@
             z-index: 0;
         }
     </style>
-    <div class="alert alert-warning alert-dismissible sevice_alert_jia" style="background:#f5f5f5;border:0;box-shadow: none">
-        <span class="close service_close">&times;</span>
-        <p style="font-size:12px;">如果需要使用持久化卷、配置卷和密钥，暂时需要在部署前提前创建。</p>
-    </div>
 
     <div>
         <div style="margin-right:0;margin-left:-15px;">
@@ -49,10 +45,10 @@
             </div>
 
             <div class="input-group col-sm-4 searchbar">
-                <input type="text" class="form-control" placeholder="搜索服务名称" ng-keyup=servicesearch($event) ng-model="grid.txt">
+                <input type="text" class="form-control" placeholder="搜索服务名称" ng-keyup=search($event) ng-model="grid.txt">
                 <!--ng-model="txt" ng-focus="showTip=true;" -->
                 <span class="input-group-btn">
-                        <a class="btn" ng-click="servicesearch('search')"></a>
+                        <a class="btn" ng-click="search('search')"></a>
                     </span>
             </div>
         </div>
@@ -67,7 +63,7 @@
                 </tr>
                 <!--<tr ng-repeat="bc in items">-->
                 <!--<tr ng-repeat="deployments in items">-->
-                    <tr ng-repeat="deployments in items">
+                    <tr ng-repeat="deployments in deploymentOneItem">
                         <td data-title="Name" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
 
                             <a class="href-orange" ui-sref="console.deploymentconfig_detail({name: deployments.metadata.name})">{{deployments.metadata.name}}</a>
@@ -117,13 +113,17 @@
                         </td>
                     </tr>
             </table>
-            <div class="text-center" style="text-align:center;" ng-if="grid.total > 10">
-                <uib-pagination class="pagination" ng-model="grid.page" total-items="grid.total" items-per-page="grid.size" class="pagination-sm" boundary-links="false" max-size="12" rotate="true" previous-text="<" next-text=">">
+            <div class="text-center" ng-if="grid.total > 10" class="table_mar_top" style="">
+                <uib-pagination class="pagination pagination-sm" ng-model="grid.page" total-items="grid.total"
+                                items-per-page="grid.size" boundary-links="false" max-size="12" rotate="true"
+                                previous-text="<"
+                                next-text=">">
                 </uib-pagination>
+
             </div>
 
         </div>
-        <div class="table-responsive" style="margin-top: 20px;" ng-show="mydeploylist.length>0">
+        <div class="table-responsive" style="margin-top: 20px;" ng-show="deploymentTwoItem.length>0">
             <table class="table table-hover table-default">
                 <tr>
                     <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Name</th>
@@ -134,7 +134,7 @@
                 </tr>
                 <!--<tr ng-repeat="bc in items">-->
                 <!--<tr ng-repeat="deployments in mydeploylist">-->
-                <tr ng-repeat="deployment in mydeploylist | orderObjectsByDate : true">
+                <tr ng-repeat="deployment in deploymentTwoItem | orderObjectsByDate : true">
                     <td data-title="Name">
                         <a class="href-orange" ui-sref="console.deployment_detail({name: deployment.metadata.name})">{{deployment.metadata.name}}</a>
 
@@ -160,16 +160,20 @@
                         <!-- <td data-title="Trigger">{{deployments.status.details.message}}</td> -->
                     </tr>
                     <tr>
-                        <td colspan="7" style="text-align: center;background: #fff;position:relative" ng-if="items.length===0">
+                        <td colspan="7" style="text-align: center;background: #fff;position:relative" ng-if="deploymentTwoItem.length===0">
                             <p class="blank_block"> <span class="blank_tit"> {{text}}</span></p>
                         </td>
                     </tr>
             </table>
-            <div class="text-center" style="text-align:center;" ng-if="grid.total > 10">
-                <uib-pagination class="pagination" ng-model="grid.page" total-items="grid.total" items-per-page="grid.size" class="pagination-sm" boundary-links="false" max-size="12" rotate="true" previous-text="<" next-text=">">
-                </uib-pagination>
-            </div>
 
+            <div class="text-center" ng-if="gridTwo.total > 10" class="table_mar_top" style="">
+                <uib-pagination class="pagination pagination-sm" ng-model="gridTwo.page" total-items="gridTwo.total"
+                                items-per-page="gridTwo.size" boundary-links="false" max-size="12" rotate="true"
+                                previous-text="<"
+                                next-text=">">
+                </uib-pagination>
+
+            </div>
         </div>
     </div>
 
