@@ -71,6 +71,9 @@ define([
                         '&region=' + $rootScope.region +
                         '&access_token=' + token;
                 }
+                if (params.tailLines) {
+                    url=url+'&tailLines=' + params.tailLines;
+                }
                 if (params.protocols) {
                     $ws({
                         method: 'WATCH',

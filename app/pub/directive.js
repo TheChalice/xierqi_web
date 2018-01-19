@@ -196,13 +196,14 @@ define(['angular'], function(angular) {
                 },
                 controller: ['$scope', 'ReplicationController', '$rootScope', 'Ws', '$base64', 'ansi_ups', '$sce', '$log',
                     function ($scope, ReplicationController, $rootScope, Ws, $base64, ansi_ups, $sce, $log) {
-                        console.log('$scope.podName---',$scope.podName);
+                        //console.log('$scope.podName---',$scope.podName);
                         var watchpod = function (resourceVersion, podContainerName, podName,api) {
                             var wsobj ={
                                 namespace: $rootScope.namespace,
                                 type: $scope.type,
                                 name: podName + '/log',
-                                protocols: 'base64.binary.k8s.io'
+                                protocols: 'base64.binary.k8s.io',
+                                tailLines:500
                             };
                             if (api) {
                                 wsobj.api=api

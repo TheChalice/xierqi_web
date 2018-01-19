@@ -1740,7 +1740,7 @@ define(['angular'], function (angular) {
                     }
 
                     if (/^\/hawkular/.test(config.url)) {
-                        console.log('config.url', config.url);
+                        //console.log('config.url', config.url);
                         config.headers["Content-Type"] = "application/json";
                         config.headers["Hawkular-Tenant"] = $rootScope.namespace;
                     }
