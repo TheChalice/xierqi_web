@@ -807,7 +807,12 @@ define([
                                 namespace: Cookie.get('namespace'),
                                 name: $stateParams.name
                             }).$promise;
-                        }]
+                        }],
+                        podList: ['Pod', 'Cookie',
+                            function (Pod, Cookie) {
+                                return Pod.get({namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ],
                     }
                 })
                  //新建routes

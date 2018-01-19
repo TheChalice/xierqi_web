@@ -22,7 +22,7 @@
                 <uib-tab-heading>
                     Metrics
                 </uib-tab-heading>
-                <div ng-include="'views/pods_detail/Metrics.html'"></div>
+                <public-metrics dcname="pod.metadata.labels.app" podlists="podlist"></public-metrics>
             </uib-tab>
             <uib-tab index="4">
                 <uib-tab-heading>

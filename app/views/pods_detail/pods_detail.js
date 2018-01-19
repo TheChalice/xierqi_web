@@ -4,14 +4,17 @@ angular.module('console.pods_detail', [
         {
             files: [
                 'views/pods_detail/pods_detail.css',
-                'components/deploymentsevent/deploymentsevent.js'
+                'components/deploymentsevent/deploymentsevent.js',
+                'components/public_metrics/public_metrics.js',
             ]
         }
     ])
-    .controller('podsdetailCtrl', ['$rootScope', '$scope', '$state', '$log', 'mypod','Ws','Metrics',
-        function ($rootScope, $scope, $state, $log,mypod,Ws,Metrics) {
-            
-            $scope.pod=angular.copy(mypod)  
+    .controller('podsdetailCtrl', ['$rootScope', '$scope', '$state', '$log', 'mypod','Ws','Metrics','podList',
+        function ($rootScope, $scope, $state, $log,mypod,Ws,Metrics,podList) {
+
+            $scope.podlist = angular.copy(podList);
+            $scope.pod=angular.copy(mypod)
+            //console.log('mypod', );
             $scope.containers = $scope.pod.spec.containers;
             $scope.environment = $scope.pod.spec.containers[0].env;
 
@@ -80,7 +83,7 @@ angular.module('console.pods_detail', [
             var getOwnerReferences = function(apiObject) {
                 return _.get(apiObject, 'metadata.ownerReferences');
             };
-            
+
             //作用
             var filterForController = function(apiObjects, controller) {
                 var controllerUID = _.get(controller, 'metadata.uid');
@@ -92,19 +95,19 @@ angular.module('console.pods_detail', [
                 });
             }
 
-            
 
-        
+
+
             var podschat = function(name,uid,type){
                 Metrics.mem.query({
                     gauges: name+'/'+uid+'/'+type,
                     bucketDuration: '120000ms',
                     start:'1516103373792'
                 }, function (res) {
-                           console.log('-------------------------res',res) 
+                           console.log('-------------------------res',res)
                            $scope.CpuConfig = netChart('CPU/cores',res);
-                        
-                })        
+
+                })
             }
 
             //podschat(mypod.spec.containers[0].name,mypod.metadata.uid,'network/rx_rate');
