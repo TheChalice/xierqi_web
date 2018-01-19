@@ -402,6 +402,11 @@ define([
                                 return Pod.get({namespace: Cookie.get('namespace')}).$promise
                             }
                         ],
+                        stateful: ['statefuldetail', 'Cookie','$stateParams',
+                            function (statefuldetail, Cookie,$stateParams) {
+                                return statefuldetail.get({username: Cookie.get('namespace'),name:$stateParams.name}).$promise
+                            }
+                        ],
                     }
                 })
                 .state('console.pods', {

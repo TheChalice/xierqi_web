@@ -115,6 +115,7 @@ define([
             return Ws;
         }])
         .factory('sessiontoken', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
+            //console.log('q11');
             var sessiontoken = $resource('./sessiontoken', {}, {});
             return sessiontoken;
         }])
