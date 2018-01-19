@@ -13,13 +13,10 @@ angular.module('console.pods_detail', [
         function ($rootScope, $scope, $state, $log,mypod,Ws,Metrics,podList) {
 
             $scope.podlist = angular.copy(podList);
-            $scope.pod=angular.copy(mypod)
-            //console.log('mypod', );
+            $scope.pod=angular.copy(mypod);
+            console.log('mypod',mypod);
             $scope.containers = $scope.pod.spec.containers;
             $scope.environment = $scope.pod.spec.containers[0].env;
-
-
-
 
             $scope.$on('$destroy', function () {
                 Ws.clear();
