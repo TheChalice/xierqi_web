@@ -1,4 +1,4 @@
-<div class="pod-template" style="padding-top: 20px;">
+<div class="pod-template" style="padding-top:8px;">
     <div class="component-label" style="text-transform: uppercase;">
         <span ng-bind-template="{{labelPrefix||'Container'}}:">
 
@@ -78,7 +78,7 @@
           </span>
             <span>
             <code class="command">
-                    <span ng-repeat="podtname in container.args">{{podtname}}&nbsp;</span>
+                    <span ng-repeat="podtname in container.args || container.command">{{podtname}}&nbsp;</span>
               <!-- <truncate-long-text
                       content="container | entrypoint : imagesByDockerReference[container.image]"
                       limit="80"

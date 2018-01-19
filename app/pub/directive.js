@@ -1,28 +1,28 @@
 'use strict';
 
-define(['angular'], function(angular) {
+define(['angular'], function (angular) {
     return angular.module('myApp.directive', [])
-        .directive('fullHeight', [function() {
-            return function(scope, element, attr) {
+        .directive('fullHeight', [function () {
+            return function (scope, element, attr) {
                 var height = document.documentElement.clientHeight - 70 + 'px';
                 element.css({
                     'min-height': height
                 });
             }
         }])
-        .directive('onFinishRender', function($timeout) {
+        .directive('onFinishRender', function ($timeout) {
             return {
                 restrict: 'A',
-                link: function(scope, element, attr) {
+                link: function (scope, element, attr) {
                     if (scope.$last === true) {
-                        $timeout(function() {
+                        $timeout(function () {
                             scope.$emit('ngRepeatFinished');
                         });
                     }
                 }
             };
         })
-        .directive('statusIcon', function() {
+        .directive('statusIcon', function () {
             return {
                 restrict: 'E',
                 templateUrl: 'views/directives/_status-icon.html',
@@ -30,12 +30,12 @@ define(['angular'], function(angular) {
                     status: '=',
                     disableAnimation: "@"
                 },
-                link: function($scope, $elem, $attrs) {
+                link: function ($scope, $elem, $attrs) {
                     $scope.spinning = !angular.isDefined($attrs.disableAnimation);
                 }
             };
         })
-        .directive('trafficTable', function() {
+        .directive('trafficTable', function () {
             return {
                 restrict: 'E',
                 scope: {
@@ -49,7 +49,7 @@ define(['angular'], function(angular) {
                 templateUrl: 'views/directives/traffic-table.html'
             };
         })
-        .directive('podsTable', ["$filter", function($filter) {
+        .directive('podsTable', ["$filter", function ($filter) {
             return {
                 restrict: 'E',
                 scope: {
@@ -64,10 +64,10 @@ define(['angular'], function(angular) {
                     podFailureReasons: '=?'
                 },
                 templateUrl: 'views/directives/pods-table.html',
-                link: function($scope) {
+                link: function ($scope) {
                     var orderObjectsByDate = $filter('orderObjectsByDate');
-                    var sortPods = _.debounce(function(pods) {
-                        $scope.$evalAsync(function() {
+                    var sortPods = _.debounce(function (pods) {
+                        $scope.$evalAsync(function () {
                             $scope.sortedPods = orderObjectsByDate(pods, true);
                         });
                     }, 150, { maxWait: 500 });
@@ -75,7 +75,7 @@ define(['angular'], function(angular) {
                 }
             };
         }])
-        .directive('podTemplate', function() {
+        .directive('podTemplate', function () {
             return {
                 restrict: 'E',
                 scope: {
@@ -89,7 +89,7 @@ define(['angular'], function(angular) {
                 templateUrl: 'views/directives/pod-template.html'
             };
         })
-        .directive('podTemplateContainer', function() {
+        .directive('podTemplateContainer', function () {
             return {
                 restrict: 'E',
                 scope: {
@@ -102,76 +102,86 @@ define(['angular'], function(angular) {
                 templateUrl: 'views/directives/pod-template-container.html'
             };
         })
-        .directive('probe', function() {
+        .directive('probe', function () {
             return {
-              restrict: 'E',
-              scope: {
-                probe: '='
-              },
-              templateUrl: 'views/directives/probe.html'
+                restrict: 'E',
+                scope: {
+                    probe: '='
+                },
+                templateUrl: 'views/directives/probe.html'
             };
-          })
+        })
 
-        .directive('containerStatuses', ["$filter", function($filter) {
+        .directive('containerStatuses', ["$filter", function ($filter) {
             return {
-              restrict: 'E',
-              scope: {
-                pod: '=',
-                onDebugTerminal: '=?',
-                detailed: '=?'
-              },
-              templateUrl: 'views/pods_detail/tpl/container-statuses.html',
-              link: function(scope) {
-                scope.hasDebugTerminal = angular.isFunction(scope.onDebugTerminal);
-        
-                // var isContainerTerminatedSuccessfully = $filter('isContainerTerminatedSuccessfully');
-                // var haveAllContainersTerminatedSuccessfully = function(containerStatuses) {
-                //   return _.every(containerStatuses, isContainerTerminatedSuccessfully);
-                // };
-        
-                scope.$watch('pod', function(updatedPod) {
-                //   scope.initContainersTerminated = haveAllContainersTerminatedSuccessfully(updatedPod.status.initContainerStatuses);
-        
-                  if (scope.expandInitContainers !== false) {
-                    scope.expandInitContainers = !scope.initContainersTerminated;
-                  }
-                });
-        
-                scope.toggleInitContainer = function() {
-                  scope.expandInitContainers = !scope.expandInitContainers;
-                };
-        
-                scope.showDebugAction = function (containerStatus) {
-        
-                  if (_.get(scope.pod, 'status.phase') === 'Completed') {
-                    return false;
-                  }
-        
-                  if ($filter('annotation')(scope.pod, 'openshift.io/build.name')) {
-                    return false;
-                  }
-        
-                  if ($filter('isDebugPod')(scope.pod)) {
-                    return false;
-                  }
-        
-                  var waitingReason = _.get(containerStatus, 'state.waiting.reason');
-                  if (waitingReason === 'ImagePullBackOff' || waitingReason === 'ErrImagePull') {
-                    return false;
-                  }
-        
-                  return !_.get(containerStatus, 'state.running') || !containerStatus.ready;
-                };
-        
-                scope.debugTerminal = function(containerStatusName) {
-                  if (scope.hasDebugTerminal) {
-                    return scope.onDebugTerminal.call(this, containerStatusName);
-                  }
-                };
-              }
+                restrict: 'E',
+                scope: {
+                    pod: '=',
+                    onDebugTerminal: '=?',
+                    detailed: '=?'
+                },
+                templateUrl: 'views/pods_detail/tpl/container-statuses.html',
+                controller: ['$scope', '$rootScope',
+                    function ($scope, $rootScope) {
+                        $scope.lastset = function (obj) {
+                            for (var name in obj) {
+                                return false;
+                            }
+                            return true;
+                        }
+                    }],
+                link: function (scope) {
+                    scope.hasDebugTerminal = angular.isFunction(scope.onDebugTerminal);
+
+                    // var isContainerTerminatedSuccessfully = $filter('isContainerTerminatedSuccessfully');
+                    // var haveAllContainersTerminatedSuccessfully = function(containerStatuses) {
+                    //   return _.every(containerStatuses, isContainerTerminatedSuccessfully);
+                    // };
+
+
+                    scope.$watch('pod', function (updatedPod) {
+                        //   scope.initContainersTerminated = haveAllContainersTerminatedSuccessfully(updatedPod.status.initContainerStatuses);
+
+                        if (scope.expandInitContainers !== false) {
+                            scope.expandInitContainers = !scope.initContainersTerminated;
+                        }
+                    });
+
+                    scope.toggleInitContainer = function () {
+                        scope.expandInitContainers = !scope.expandInitContainers;
+                    };
+
+                    scope.showDebugAction = function (containerStatus) {
+
+                        if (_.get(scope.pod, 'status.phase') === 'Completed') {
+                            return false;
+                        }
+
+                        if ($filter('annotation')(scope.pod, 'openshift.io/build.name')) {
+                            return false;
+                        }
+
+                        if ($filter('isDebugPod')(scope.pod)) {
+                            return false;
+                        }
+
+                        var waitingReason = _.get(containerStatus, 'state.waiting.reason');
+                        if (waitingReason === 'ImagePullBackOff' || waitingReason === 'ErrImagePull') {
+                            return false;
+                        }
+
+                        return !_.get(containerStatus, 'state.running') || !containerStatus.ready;
+                    };
+
+                    scope.debugTerminal = function (containerStatusName) {
+                        if (scope.hasDebugTerminal) {
+                            return scope.onDebugTerminal.call(this, containerStatusName);
+                        }
+                    };
+                }
             };
-          }])
-        .directive('volumes', function() {
+        }])
+        .directive('volumes', function () {
             return {
                 restrict: 'E',
                 scope: {
@@ -196,13 +206,14 @@ define(['angular'], function(angular) {
                 },
                 controller: ['$scope', 'ReplicationController', '$rootScope', 'Ws', '$base64', 'ansi_ups', '$sce', '$log',
                     function ($scope, ReplicationController, $rootScope, Ws, $base64, ansi_ups, $sce, $log) {
-                        console.log('$scope.podName---',$scope.podName);
+                        //console.log('$scope.podName---',$scope.podName);
                         var watchpod = function (resourceVersion, podContainerName, podName,api) {
                             var wsobj ={
                                 namespace: $rootScope.namespace,
                                 type: $scope.type,
                                 name: podName + '/log',
-                                protocols: 'base64.binary.k8s.io'
+                                protocols: 'base64.binary.k8s.io',
+                                tailLines:500
                             };
                             if (api) {
                                 wsobj.api=api
