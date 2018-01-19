@@ -95,6 +95,18 @@
     margin-top: 10px;
 }
 
+.service-create .input-group-btn .btn {
+    background: url('../../pub/img/search.png') no-repeat;
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    -webkit-box-shadow:none;
+}
+
+.service-create .input-group-btn .btn:active {
+
+}
+
 .bgcgray {
     background-color: #c9c9c9;
 }

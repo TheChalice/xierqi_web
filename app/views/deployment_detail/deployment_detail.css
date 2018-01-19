@@ -45,7 +45,7 @@
 .service-ctrl hr {
     margin: 0 0 30px 0;;
 }
-.dropdown-menu > li > a {
+.build-detail .dropdown-menu > li > a {
     font-size: 12px;
     padding-top: 0px;
     padding-bottom: 0px;

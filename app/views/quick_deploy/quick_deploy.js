@@ -171,6 +171,21 @@ angular.module('console.quick_deploy', [
                     //dcname(n)
                 }
             })
+            $scope.$watch('institution.display', function (n, o) {
+                if (n == o) {
+                    return
+                }
+                if (n) {
+                    console.log(n);
+                    $scope.showall=false
+                    $scope.checked = {
+                        namespace: '',
+                        image: '',
+                        tag: ''
+                    }
+                    $scope.postobj.spec.images[0].from.name=''
+                }
+            })
 
             function dcname(n, image) {
                 $scope.dc.metadata.name = n;
@@ -386,6 +401,9 @@ angular.module('console.quick_deploy', [
                     }
 
                     $scope.find = function () {
+                        if ($scope.institution.display == 2) {
+                            return
+                        }
                         $scope.err.url.null = false;
                         $scope.err.url.role = false;
                         $scope.err.url.notfind = false;
