@@ -71,6 +71,15 @@
                                                 </div>
                                             </div>
                                             <div class="form-group tab-reg-div">
+                                                <label for="ref" class="col-md-3 control-label tab-reg-label"
+                                                >分支/Tag/Commit</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" placeholder="" class="form-control tab-reg-input"
+                                                           id="ref"
+                                                           ng-model="buildConfig.spec.source.git.ref">
+                                                </div>
+                                            </div>
+                                            <div class="form-group tab-reg-div">
                                                 <label for="dockeraddress" class="col-md-3 control-label tab-reg-label"
                                                 >Dockerfile路径</label>
                                                 <div class="col-md-9">
