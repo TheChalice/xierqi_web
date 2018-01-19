@@ -89,9 +89,9 @@ angular.module('console.rs', [
                     $scope.envProxy = $scope.replicaSet.spec.template.spec.containers[1];
                     $scope.containerName = $scope.replicaSet.spec.template.spec.containers[0].name;
                     $scope.scaleName = $scope.replicaSet.metadata.labels.app;
-                    console.log('$scope.containerName', $scope.containerName);
+                    // console.log('$scope.containerName', $scope.containerName);
                     $scope.replicaPods = filterForController(myPodList.items, res);
-                    console.log('$scope.replicaPods-=-=-=', $scope.replicaPods);
+                    // console.log('$scope.replicaPods-=-=-=', $scope.replicaPods);
                     var poduid = [];
                     for (var i = 0; i < $scope.replicaPods.length; i++) {
                         poduid.push($scope.replicaPods[i].metadata.uid);
@@ -284,6 +284,7 @@ angular.module('console.rs', [
                     }, function (res) {
                         $scope.isShow = !$scope.isShow;
                         $scope.replicaSet.status.replicas = res.spec.replicas;
+                        $scope.replicaSet.spec.replicas = res.spec.replicas;
                     })
                 };
                 $scope.changeScale = function () {
