@@ -532,23 +532,23 @@ angular.module("console.header", [{
             case "console.dataseverdetail":
                 return "创建服务实例";
             case "console.stateful-sets-detail":
-                return "stateful-sets详情";
+                return "Stateful Sets 详情";
             case "console.stateful-sets":
-                return "stateful-sets";
+                return "Stateful Sets";
             case "console.create_routes":
-                return "route设置";
+                return "Route 设置";
             case "console.routes":
-                return "routes";
+                return "Routes";
             case "console.route_detail":
-                return "route详情";
+                return "Route 详情";
             case "console.deploymentconfig_detail":
-                return "deployment详情";
+                return "Deployment 详情";
             case "console.pods":
-                return "pods";
+                return "Pods";
             case "console.pods_detail":
-                return "pod详情";
+                return "Pod 详情";
             case "console.services":
-                return "services";
+                return "Services";
 
         }
     };
