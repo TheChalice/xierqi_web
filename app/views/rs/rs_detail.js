@@ -10,8 +10,8 @@ angular.module('console.rs', [
         ]
     }
 ])
-    .controller('rsCtrl', ['$rootScope', '$scope', '$stateParams', 'Metrics', 'PieChar', 'myPodList', 'ScaleRs', '$interval', '$state', '$log', 'ReplicaSet',
-        function ($rootScope, $scope, $stateParams, Metrics, PieChar, myPodList, ScaleRs, $interval, $state, $log, ReplicaSet) {
+    .controller('rsCtrl', ['$rootScope', '$scope', '$stateParams', 'Metrics', 'PieChar', 'myPodList', 'ScaleRs', '$interval', '$state', '$log', 'ReplicaSet','Ws',
+        function ($rootScope, $scope, $stateParams, Metrics, PieChar, myPodList, ScaleRs, $interval, $state, $log, ReplicaSet, Ws) {
 
             $scope.times = (new Date()).getTime();
             var netChart = function (title, arr) {
@@ -259,12 +259,9 @@ angular.module('console.rs', [
                         $scope.RxConfig = netChart('Network (Received)KB/s', RXmetricsList);
                     })
                 };
-                var timer = $interval(function () {
-                    getNetwork()
-                }, 60000);
                 $scope.$on("$destroy",
                     function () {
-                        $interval.cancel(timer);
+                        Ws.clear();
                     }
                 );
                 $scope.isShow = true;
