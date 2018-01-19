@@ -18,7 +18,7 @@
             </div>
             <div class="row matgin-bt">
                 <div class="col-md-2">Command:</div>
-                <div class="col-md-10"><span ng-repeat="command in statefuldetail.spec.template.spec.containers[0].command">{{command}}&nbsp;&nbsp;</span></div>
+                <div class="col-md-10"><code class="command"><span ng-repeat="command in statefuldetail.spec.template.spec.containers[0].command">{{command}}&nbsp;&nbsp;</span></code></div>
             </div>
             <div class="row matgin-bt" ng-repeat="mount in statefuldetail.spec.template.spec.containers[0].volumeMounts">
                 <div class="col-md-2">Mount:</div>
