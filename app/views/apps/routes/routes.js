@@ -44,12 +44,6 @@ angular.module('console.routes', [{
                             iarr.push(item)
                         }
                     })
-                    if(iarr.length===0){
-                        $scope.text3='没有查询到相关数据';
-                    }
-                    else{
-                        $scope.text3='您还没有创建密钥';
-                    }
                     $scope.items=angular.copy(iarr);
                     refresh(1);
                     $scope.grid.total = $scope.items.length;
