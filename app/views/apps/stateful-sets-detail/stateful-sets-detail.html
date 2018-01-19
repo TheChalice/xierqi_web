@@ -68,42 +68,42 @@
                     <div class="col-md-2">volumeName:</div>
                     <div class="col-md-10">{{volume.name}}</div>
                 </div>
-                <div ng-if="volume.secret">
+                <div ng-if="volume.secret" style="padding-top: 20px;">
                     <div class="row matgin-bt" >
                         <div class="col-md-2">Type:</div>
                         <div class="col-md-10">secret<span class="small text-muted">(populated by a secret when the pod is created)</span></div>
                     </div>
                     <div class="row matgin-bt" >
                         <div class="col-md-2">Secret:</div>
-                        <div class="col-md-10">{{volume.secret.secretName}}</div>
+                        <div class="col-md-10"> <a class="href-orange" ui-sref="console.secret_detail({name: volume.secret.secretName})">{{volume.secret.secretName}}</a></div>
                     </div>
                     <div class="row matgin-bt" ng-repeat="item in volume.secret.items">
                         <div class="col-md-2">Key to File:</div>
                         <div class="col-md-10">{{item.key}}&#8201;&#8594;&#8201;{{item.path}}</div>
                     </div>
                 </div>
-                <div ng-if="volume.configMap">
+                <div ng-if="volume.configMap" style="padding-top: 20px;">
                     <div class="row matgin-bt" >
                         <div class="col-md-2">Type:</div>
                         <div class="col-md-10">config map<span class="small text-muted">((populated by a config map)</span></div>
                     </div>
                     <div class="row matgin-bt" >
                         <div class="col-md-2">Secret:</div>
-                        <div class="col-md-10">{{volume.configMap.name}}</div>
+                        <div class="col-md-10"><a class="href-orange" ui-sref="console.config_detail({name: volume.configMap.name})">{{volume.configMap.name}}</a></div>
                     </div>
                     <div class="row matgin-bt" ng-repeat="item in volume.configMap.items">
                         <div class="col-md-2">Key to File:</div>
                         <div class="col-md-10">{{item.key}}&#8201;&#8594;&#8201;{{item.path}}</div>
                     </div>
                 </div>
-                <div ng-if="volume.persistentVolumeClaim">
+                <div ng-if="volume.persistentVolumeClaim" style="padding-top: 20px;">
                     <div class="row matgin-bt" >
                         <div class="col-md-2">Type:</div>
                         <div class="col-md-10">persistent volume claim<span class="small text-muted">(reference to a persistent volume claim)</span></div>
                     </div>
                     <div class="row matgin-bt" >
                         <div class="col-md-2">Claim name:</div>
-                        <div class="col-md-10">{{volume.persistentVolumeClaim.claimName}}</div>
+                        <div class="col-md-10"><a class="href-orange" ui-sref="console.constantly_detail({name:volume.persistentVolumeClaim.claimName})">{{volume.persistentVolumeClaim.claimName}}</a></div>
                     </div>
                     <div class="row matgin-bt">
                         <div class="col-md-10" ng-if="volume.persistentVolumeClaim.readOnly">read-only</div>

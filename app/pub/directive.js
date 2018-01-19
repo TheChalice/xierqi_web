@@ -201,24 +201,28 @@ define(['angular'], function (angular) {
                     podName: '@podName',
                     podContainerName: '@podContainerName',
                     podResourceVersion: '@podResourceVersion',
-                    type: '@type'
+                    type: '@type',
+                    api:'@api'
                 },
                 controller: ['$scope', 'ReplicationController', '$rootScope', 'Ws', '$base64', 'ansi_ups', '$sce', '$log',
                     function ($scope, ReplicationController, $rootScope, Ws, $base64, ansi_ups, $sce, $log) {
-                        console.log('$scope.podName---', $scope.podName);
-                        var watchpod = function (resourceVersion, podContainerName, podName) {
-                            var wsobj = {
-                                api: 'k8s',
+                        //console.log('$scope.podName---',$scope.podName);
+                        var watchpod = function (resourceVersion, podContainerName, podName,api) {
+                            var wsobj ={
                                 namespace: $rootScope.namespace,
                                 type: $scope.type,
                                 name: podName + '/log',
-                                protocols: 'base64.binary.k8s.io'
+                                protocols: 'base64.binary.k8s.io',
+                                tailLines:500
                             };
+                            if (api) {
+                                wsobj.api=api
+                            }
                             if (resourceVersion) {
-                                wsobj.resourceVersion = resourceVersion
+                                wsobj.resourceVersion=resourceVersion
                             }
                             if (podContainerName) {
-                                wsobj.pod = podContainerName
+                                wsobj.pod=podContainerName
                             }
                             // console.log('wsobj', wsobj);
                             Ws.watch(wsobj, function (res) {
@@ -227,8 +231,8 @@ define(['angular'], function (angular) {
                                     var html = ansi_ups.ansi_to_html($scope.result);
                                     $scope.log = $sce.trustAsHtml(html);
                                     //console.log('$scope.log ', html);
-                                    var wid_height = $("#sidebar-right-fixed").height();
-                                    $("#sc").height(wid_height - 365);
+                                    var wid_height=$("#sidebar-right-fixed").height();
+                                    $("#sc").height(wid_height-365);
                                     $scope.$apply();
 
                                 }
@@ -242,7 +246,7 @@ define(['angular'], function (angular) {
                                 }
                             });
                         };
-                        watchpod($scope.podResourceVersion, $scope.podContainerName, $scope.podName)
+                        watchpod($scope.podResourceVersion, $scope.podContainerName, $scope.podName,$scope.api)
                     }]
             };
         })

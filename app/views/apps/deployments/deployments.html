@@ -15,9 +15,9 @@
 
     <div>
         <div style="margin-right:0;margin-left:-15px;">
-            <div class="col-sm-4 col-xs-4 serv_jia_btn" style="" role="group" aria-label="">
-                <div class="btn-group" role="group">
-                    <a id="creatbtn" class="btn btn-green" ui-sref="console.service_create">
+            <div class="col-sm-4 col-xs-4 serv_jia_btn new_deploycol" style="" role="group" aria-label="">
+                <div class="btn-group " role="group">
+                    <a id="creatbtn" class="btn btn-green " ui-sref="console.service_create">
                         <i class="fa fa-plus fa-lg"></i>
                         <span class=""> 新建部署</span>
                     </a>
@@ -32,7 +32,6 @@
                     <ul class="dropdown-menu quick_menu">
                         <!--<li ui-sref="console.service_create" ><a href="#">新建服务</a></li>-->
                         <li class="quick_bs" ui-sref="console.quick_deploy"><a href="#">快速部署</a></li>
-                        <li class="quick_bs" ui-sref="console.create_deployment"><a href="#">创建dc</a></li>
                     </ul>
 
                 </div>
@@ -75,7 +74,7 @@
 
                         </td>
                         <td data-title="Last Version">
-                            <span ng-if="deployments.status.latestVersion >0" style="color: #f6a540">{{deployments.status.latestVersion}}</span>
+                            <span ng-if="deployments.status.latestVersion >0" style="color: #f6a540;cursor: pointer;" ui-sref="console.rc({name:deployments.rc.metadata.name})">{{deployments.status.latestVersion}}</span>
                             <span ng-if="deployments.status.latestVersion ==0">No deployments</span>
                         </td>
                         <td data-title="Status">
@@ -142,7 +141,7 @@
                     </td>
                     <td data-title="Last Version">
                         <span>
-                          <a class="href-orange" ui-sref="console.rs({name:deployment.rs.metadata.name})">{{deployment | lastDeploymentRevision}}</a>
+                          <a class="href-orange" ui-sref="console.rs({name:deployment.rs.metadata.name})" style="color: #f6a540;cursor: pointer;">{{deployment | lastDeploymentRevision}}</a>
                         </span>
                     </td>
                     <td data-title="Replicas">
@@ -176,3 +175,8 @@
 
 
 </div>
+<style>
+    .new_deploycol a :hover{
+        color:#fff;
+    }
+</style>

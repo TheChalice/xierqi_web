@@ -1,13 +1,38 @@
 <div id="Environment">
     <div class="detail_set">
-        <div class="envi_main" ng-repeat="env in environment">
-            <div class="form_block">
-                <input type="text" class="form-control" readonly="readonly" value={{env.name}}>
-            </div>
+        <div ng-if="envOrigin.name">
+            <h4>Container {{envOrigin.name}} Environment Variables</h4>
+            <div ng-if="envOrigin.env">
+                <div class="form_block">Name</div>
+                <div class="form_block">Value</div>
+                <div class="envi_main"  ng-repeat="env in envOrigin.env">
+                    <div class="form_block">
+                        <input type="text" class="form-control" readonly="readonly" value={{env.name}}>
+                    </div>
 
-            <div class="form_block">
-                <input type="text" class="form-control" readonly="readonly" value={{env.value}}>
+                    <div class="form_block">
+                        <input type="text" class="form-control" readonly="readonly" value={{env.value}}>
+                    </div>
+                </div>
             </div>
+            <div ng-if="!envOrigin.env" class="envi_main"><div class="col-md-10 tit">The container specification has no environment variables set.</div></div>
+        </div>
+        <div ng-if="envProxy.name">
+            <h4>Container {{envProxy.name}} Environment Variables</h4>
+            <div ng-if="envProxy.env">
+                <div class="form_block">Name</div>
+                <div class="form_block">Value</div>
+                <div class="envi_main" ng-repeat="envv in envProxy.env">
+                    <div class="form_block">
+                        <input type="text" class="form-control" readonly="readonly" value={{envv.name}}>
+                    </div>
+
+                    <div class="form_block">
+                        <input type="text" class="form-control" readonly="readonly" value={{envv.value}}>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="!envProxy.env" class="envi_main"><div class="col-md-10 tit">The container specification has no environment variables set.</div></div>
         </div>
     </div>
 </div>

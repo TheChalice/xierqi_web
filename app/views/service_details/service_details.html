@@ -38,7 +38,7 @@
                                 <h4 class="media-heading">pod个数(正常/期望)</h4>
                                 <small>
                                     <span ng-repeat="pod in podsForService">
-                                        <a class="href-orange">{{pod.metadata.name}}</a>
+                                        <a class="href-orange" ui-sref="console.pods_detail({name: pod.metadata.name})">{{pod.metadata.name}}</a>
                                     </span>
                                 </small>
                             </div>
@@ -94,11 +94,11 @@
                                     </span> -->
                                 </dd>
                             </dl>
-                            <h3>Traffic</h3>
+                            <h4 style="color:#666;">Traffic</h4>
                             <div>
                                 <traffic-table ports-by-route="portsByRoute" routes="routesForService" services="services" show-node-ports="showNodePorts" custom-name-header="'Route'"></traffic-table>
                             </div>
-                            <h3>Pods</h3>
+                            <h4 style="color:#666;">Pods</h4>
                             <div>
                                 <pods-table pods="podsForService" active-pods="podsWithEndpoints" custom-name-header="'Pod'" pod-failure-reasons="podFailureReasons"></pods-table>
                             </div>

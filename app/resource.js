@@ -253,6 +253,26 @@ define([
 
             return Deployments;
         }])
+        .factory('ScaleRs', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
+            var ScaleRs = $resource(GLOBAL.host_newk8s2 + '/namespaces/:namespace/deployments/:name/scale', {
+                name: '@name',
+                namespace: '@namespace'
+            }, {
+                put: { method: 'PUT' }
+            });
+
+            return ScaleRs;
+        }])
+        .factory('ScaleRc', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
+            var ScaleRc = $resource(GLOBAL.host + '/namespaces/:namespace/deploymentconfigs/:name/scale', {
+                name: '@name',
+                namespace: '@namespace'
+            }, {
+                put: { method: 'PUT' }
+            });
+
+            return ScaleRc;
+        }])
         .factory('ReplicaSet', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
             var ReplicaSet = $resource(GLOBAL.host_newk8s2 + '/namespaces/:namespace/replicasets/:name', {
                 name: '@name',

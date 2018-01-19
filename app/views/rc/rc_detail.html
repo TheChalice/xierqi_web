@@ -7,33 +7,33 @@
     <uib-tabset class="tab-default tab-pods">
         <uib-tab index="1">
             <uib-tab-heading>
-                Details
+                <i class="myimage"></i>  Details
             </uib-tab-heading>
             <div ng-include="'views/rc/tpl/details.html'"></div>
         </uib-tab>
         <uib-tab index="2">
             <uib-tab-heading>
-                Environment
+                <i class="myimage"></i>  Environment
             </uib-tab-heading>
             <div ng-include="'views/rc/tpl/environment.html'"></div>
         </uib-tab>
         <uib-tab index="3">
             <uib-tab-heading>
-                Metrics
+                <i class="myimage"></i>  Metrics
             </uib-tab-heading>
             <div ng-include="'views/rc/tpl/metrics.html'"></div>
         </uib-tab>
         <uib-tab index="4">
             <uib-tab-heading>
-                Logs
+                <i class="myimage"></i>  Logs
             </uib-tab-heading>
             <pod-logs pod-name="{{replicaSet.metadata.annotations['openshift.io/deployment-config.name']}}" type="deploymentconfigs"></pod-logs>
         </uib-tab>
         <uib-tab index="5">
             <uib-tab-heading>
-                Events
+                <i class="myimage"></i>  Events
             </uib-tab-heading>
-            <deployments-event></deployments-event>
+            <deployments-event dcname="replicaSet.metadata.name" dcfit="ReplicationController"></deployments-event>
         </uib-tab>
     </uib-tabset>
 
