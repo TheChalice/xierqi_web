@@ -101,7 +101,7 @@ define(['angular', 'moment'], function (angular, moment) {
                     return "-";
                 }
                 um = (new Date(um)).getTime();
-                // moment.locale('en');
+                moment.locale('zh-cn');
                 var humanizedDuration=moment(new Date(um)).format(" MMMM Do YYYY, h:mm:ss a"); 
                 return humanizedDuration;
             };
