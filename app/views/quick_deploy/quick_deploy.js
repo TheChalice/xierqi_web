@@ -171,6 +171,20 @@ angular.module('console.quick_deploy', [
                     //dcname(n)
                 }
             })
+            $scope.$watch('institution.display', function (n, o) {
+                if (n == o) {
+                    return
+                }
+                if (n) {
+                    console.log(n);
+                    $scope.showall=false
+                    $scope.checked = {
+                        namespace: '',
+                        image: '',
+                        tag: ''
+                    }
+                }
+            })
 
             function dcname(n, image) {
                 $scope.dc.metadata.name = n;
