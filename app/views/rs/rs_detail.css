@@ -51,6 +51,9 @@
     -webkit-font-smoothing: antialiased;
 }
 
+.poda > a:focus {
+    color: #f6a540;
+}
 
 
 .fa-refresh:before{content:"\f021";}
