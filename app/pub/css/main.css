@@ -1581,3 +1581,8 @@ input{
 .pr40 {
     padding-right: 40px;
 }
+
+
+td a:focus, a:hover {
+    color: #f6a540
+}
