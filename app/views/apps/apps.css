@@ -93,14 +93,15 @@
 a {
     color: #666;
 }
-
+/* 
 a :hover {
     color: #e5993a;
 }
-
+ */
 .nav-tabs > li.active > a {
     color: #e5993a;
 }
+
 
 .nav-tabs > li.active > a:focus {
     color: #e5993a;
