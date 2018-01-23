@@ -1,6 +1,6 @@
 <div class="resource-details" id="detail">
   <div class="row">
-    <div class="col-lg-9">
+    <div class="col-lg-12">
       <h3 class="tit">
         Status
         <small ng-if="pod | isDebugPod">
@@ -70,7 +70,7 @@
         <container-statuses pod="pod" on-debug-terminal="debugTerminal" detailed="true"></container-statuses>
       </div>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-12">
 
       <h3 class="tit">Template</h3>
       <pod-template pod-template="pod" images-by-docker-reference="imagesByDockerReference" builds="builds" detailed="true">
