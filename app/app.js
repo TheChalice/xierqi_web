@@ -81,7 +81,6 @@ define([
             loginSuccess: 'auth-login-success',
             httpForbidden: 'auth-http-forbidden'
         })
-
         .config(['$httpProvider', 'GLOBAL', function ($httpProvider) {
             $httpProvider.interceptors.push([
                 '$injector',

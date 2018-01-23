@@ -907,15 +907,7 @@ a {
     color: #393f4f;
 }
 
-.service-config .container-bar {
-    padding: 10px 15px;
-    border: 1px solid #c9c9c9;
-    border-radius: 2px;
-    color: #5a6378;
-    font-size: 12px;
-    line-height: 25px;
-    margin-bottom: 15px;
-}
+
 
 .service-config a.icon25 {
     margin: 0 5px;
@@ -1924,9 +1916,6 @@ input {
     padding-right: 40px;
 }
 
-td a:focus, a:hover {
-    color: #f6a540
-}
 
 @font-face {
     font-family: PatternFlyIcons-webfont;
