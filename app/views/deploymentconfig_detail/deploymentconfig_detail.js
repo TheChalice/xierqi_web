@@ -310,6 +310,8 @@ angular.module('console.deploymentconfig_detail', [
                         }
                     }
                     $scope.delcontainerEnv = function (outerIndex, innerIndex) {
+                        console.log('outerIndex', outerIndex);
+                        console.log('innerIndex', innerIndex);
                         $scope.dc.spec.template.spec.containers[outerIndex].env.splice(innerIndex, 1);
                     }
                     $scope.addContainerEnv = function (outerIndex, innerIndex) {
