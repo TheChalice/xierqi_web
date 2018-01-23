@@ -10,7 +10,7 @@
       </h3>
       <dl class="dl-horizontal left">
         <dt>Status:</dt>
-        <dd>
+        <dd class="dl_right_tit">
           <status-icon status="pod | podStatus"></status-icon>
           {{pod | podStatus | sentenceCase}}
 
@@ -45,13 +45,13 @@
           </span>
         </dd>
         <dt>IP:</dt>
-        <dd>{{pod.status.podIP || 'unknown'}}</dd>
+        <dd class="dl_right_tit">{{pod.status.podIP || 'unknown'}}</dd>
         <dt>Node:</dt>
-        <dd>{{pod.spec.nodeName || 'unknown'}}
+        <dd class="dl_right_tit">{{pod.spec.nodeName || 'unknown'}}
           <span ng-if="pod.status.hostIP && pod.spec.nodeName != pod.status.hostIP">({{pod.status.hostIP}})</span>
         </dd>
         <dt>Restart Policy:</dt>
-        <dd>{{pod.spec.restartPolicy || 'Always'}}</dd>
+        <dd class="dl_right_tit">{{pod.spec.restartPolicy || 'Always'}}</dd>
         <dt ng-if-start="pod.spec.activeDeadlineSeconds">Active Deadline:</dt>
         <dd ng-if-end>
 

@@ -184,8 +184,45 @@ define([
 
 
                 }
+                $rootScope.app = [
+                    { name: 'Deployments', url: 'console.deployments',stateUrl:null ,children: [] },
+                    { name: 'Stateful Sets', url: 'console.stateful-sets',stateUrl:null , children: [] },
+                    { name: 'Pods', url: 'console.pods',stateUrl:null , children: [] },
+                    { name: 'Services', url: 'console.services', stateUrl:null ,children: [] },
+                    { name: 'Routes', url: 'console.routes',stateUrl:null , children: [] }
+                ];
+                $rootScope.dataForTheTree =
+                    [
+                        {name:'仪表盘',img:'icon25 icon25-dashboard',url:'console.dashboard',stateUrl:null ,children:[]},
+                        {name:'代码构建',img:'icon25 icon25-build',url:'console.build',stateUrl:null ,children:[]},
+                        {name:'镜像仓库',img:'icon25 icon25-repository',url:'console.image',stateUrl:null ,children:[]},
+                        {name:'服务部署',img:'icon25 icon25-deployment',url:null,stateUrl:null ,children:$rootScope.app},
+                        {name:'资源管理',img:'icon25 icon25-resource',url:'console.resource_management',stateUrl:null ,children:[]}
+                    ];
                 if (toState && toState.name) {
                     $rootScope.console.state = toState.name;
+                    if(toState.name.indexOf('dashboard') != -1){
+                        $rootScope.dataForTheTree[0].stateUrl = toState.name
+                    }else if(toState.name.indexOf('build') != -1){
+                        $rootScope.dataForTheTree[1].stateUrl = toState.name;
+                    }else if(toState.name.indexOf('image') != -1){
+                        $rootScope.dataForTheTree[2].stateUrl = toState.name;
+                    }else if(toState.name.indexOf('deployment') != -1 || toState.name.indexOf('quick_deploy') != -1 || toState.name.indexOf('service_create') != -1){
+                        $rootScope.app[0].stateUrl = toState.name;
+                    }else if(toState.name.indexOf('stateful-sets') != -1){
+                        $rootScope.app[1].stateUrl = toState.name;
+                    }else if(toState.name.indexOf('pods') != -1){
+                        $rootScope.app[2].stateUrl = toState.name;
+                    }else if(toState.name.indexOf('services') != -1 || toState.name.indexOf('service_details') != -1){
+                        $rootScope.app[3].stateUrl = toState.name;
+                    }else if(toState.name.indexOf('route') != -1){
+                        $rootScope.app[4].stateUrl = toState.name;
+                    }else if(toState.name.indexOf('resource_management') != -1 || toState.name.indexOf('constantly_') != -1 || toState.name.indexOf('config_') != -1 || toState.name.indexOf('create_secret') != -1 || toState.name.indexOf('secret_detail') != -1){
+                        $rootScope.dataForTheTree[4].stateUrl = toState.name;
+                    }
+
+
+
                     $rootScope.transfering = false;
                 }
 
