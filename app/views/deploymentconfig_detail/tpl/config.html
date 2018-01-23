@@ -7,7 +7,7 @@
     <div class="row condigmaarginbottom">
         <div class="col-md-12 bushu_marginBottom">
             <div class="col-md-2 col-md-2_padding">Selectors</div>
-            <div class="col-md-10">app = {{dc.metadata.name}} <br/> deploymentconfig={{dc.metadata.name}}</div>
+            <div class="col-md-10">app = {{dc.metadata.name}} <br/> deploymentconfig = {{dc.metadata.name}}</div>
         </div>
         <div class="col-md-12 bushu_marginBottom">
             <div class="col-md-2 col-md-2_padding">Stratege</div>
@@ -53,7 +53,7 @@
                            style="">
                 </div>
                 <div class="podlist" ng-show="quota.rubustCheck">
-                    Pod最大阀值
+                    Pod最大数
                     <input class="podnum" ng-model="horiz.spec.maxReplicas"
                            value="{{dc.spec.replicas}}" type="text"
                            placeholder="{{dc.spec.replicas}}"
@@ -308,12 +308,12 @@
                             </div>
                             <div class="envlist" style="padding-left:0;">
                                 <a href="javascript:;" style='color: #9fa7b7;'
-                                   ng-click="delcontainerEnv(outerIndex,innerIndex)"
+                                   ng-click="delcontainerEnv(outerIndex,$index)"
                                    class="fa fa-lg fa-times-circle">
                                 </a>
                             </div>
                         </div>
-                        <div class="" ng-click="addContainerEnv(outerIndex)" style="margin-top: 10px; font-size: 14px;">
+                        <div class="" ng-click="addContainerEnv(outerIndex)"  style="cursor: pointer;margin-top: 10px; font-size: 14px;">
                             <i class="fa fa-plus-circle fa-lg" style="cursor:pointer;"></i>
                             &nbsp;<span style="color: #55c45f;">增加环境变量</span>
                         </div>
