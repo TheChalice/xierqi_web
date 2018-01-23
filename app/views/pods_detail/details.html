@@ -1,6 +1,6 @@
 <div class="resource-details" id="detail">
   <div class="row">
-    <div class="col-lg-9">
+    <div class="col-lg-12">
       <h3 class="tit">
         Status
         <small ng-if="pod | isDebugPod">
@@ -10,7 +10,7 @@
       </h3>
       <dl class="dl-horizontal left">
         <dt>Status:</dt>
-        <dd>
+        <dd class="dl_right_tit">
           <status-icon status="pod | podStatus"></status-icon>
           {{pod | podStatus | sentenceCase}}
 
@@ -45,13 +45,13 @@
           </span>
         </dd>
         <dt>IP:</dt>
-        <dd>{{pod.status.podIP || 'unknown'}}</dd>
+        <dd class="dl_right_tit">{{pod.status.podIP || 'unknown'}}</dd>
         <dt>Node:</dt>
-        <dd>{{pod.spec.nodeName || 'unknown'}}
+        <dd class="dl_right_tit">{{pod.spec.nodeName || 'unknown'}}
           <span ng-if="pod.status.hostIP && pod.spec.nodeName != pod.status.hostIP">({{pod.status.hostIP}})</span>
         </dd>
         <dt>Restart Policy:</dt>
-        <dd>{{pod.spec.restartPolicy || 'Always'}}</dd>
+        <dd class="dl_right_tit">{{pod.spec.restartPolicy || 'Always'}}</dd>
         <dt ng-if-start="pod.spec.activeDeadlineSeconds">Active Deadline:</dt>
         <dd ng-if-end>
 
@@ -70,7 +70,7 @@
         <container-statuses pod="pod" on-debug-terminal="debugTerminal" detailed="true"></container-statuses>
       </div>
     </div>
-    <div class="col-lg-6">
+    <div class="col-lg-12">
 
       <h3 class="tit">Template</h3>
       <pod-template pod-template="pod" images-by-docker-reference="imagesByDockerReference" builds="builds" detailed="true">

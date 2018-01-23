@@ -50,20 +50,20 @@
   
     <dl class="dl-horizontal left">
       <dt>State:</dt>
-      <dd>
+      <dd class="dl_right_tit">
         
         <p ng-repeat="(namea,nameb) in pod.status.containerStatuses[0].state">{{namea}} {{nameb.startedAt | durdate}} {{nameb.exitCode}} {{nameb.reason}} </p>
         <!-- <kubernetes-object-describe-container-state container-state="containerStatus.state"></kubernetes-object-describe-container-state> -->
       </dd>
       <dt ng-if="!lastset(containerStatus.lastState)">Last State</dt>
-      <dd ng-if="!lastset(containerStatus.lastState)">
+      <dd class="dl_right_tit" ng-if="!lastset(containerStatus.lastState)">
           <p ng-repeat="(namex,namey) in pod.status.containerStatuses[0].lastState">{{namex}} {{namey.finishedAt | durdate}} {{namey.exitCode}} {{namey.reason}} </p>
         <!-- <kubernetes-object-describe-container-state container-state="containerStatus.lastState"></kubernetes-object-describe-container-state> -->
       </dd>
       <dt>Ready:</dt>
-      <dd>{{containerStatus.ready}}</dd>
+      <dd class="dl_right_tit">{{containerStatus.ready}}</dd>
       <dt>Restart Count:</dt>
-      <dd>{{containerStatus.restartCount}}</dd>
+      <dd class="dl_right_tit">{{containerStatus.restartCount}}</dd>
   
       <!-- <div ng-if="hasDebugTerminal && showDebugAction(containerStatus) && ('pods' | canI : 'create')" class="debug-pod-action">
         <a href="" ng-click="debugTerminal(containerStatus.name)" role="button">Debug in Terminal</a>

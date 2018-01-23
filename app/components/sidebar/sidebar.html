@@ -21,7 +21,7 @@
          options="treeOptions"
          on-selection="showSelected(node)"
          selected-node="node1" >
-        <a  ng-if="!activeStyle" ng-class="{'select':state.includes(node.url)}" ng-click="goUrl(node.url)">{{node.name}}</a>
+        <a  ng-if="!activeStyle" ng-class="{'select':state.includes(node.stateUrl)}" ng-click="goUrl(node.url)">{{node.name}}</a>
         <a ng-if="activeStyle" ng-click="goUrl(node.url)" class="{{node.img}}" uib-tooltip="{{node.name}} " tooltip-placement="right">
         </a>
 
