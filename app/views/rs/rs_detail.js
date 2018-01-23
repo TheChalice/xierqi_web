@@ -30,16 +30,16 @@ angular.module('console.rs', [
             };
             var getMyRs = function () {
                 $scope.replicaSet = angular.copy(myrs);
-                console.log('$scope.replicaSet', $scope.replicaSet);
+                // console.log('$scope.replicaSet', $scope.replicaSet);
 
                 $scope.envOrigin = $scope.replicaSet.spec.template.spec.containers[0];
                 $scope.envProxy = $scope.replicaSet.spec.template.spec.containers[1];
                 $scope.containerName = $scope.replicaSet.spec.template.spec.containers[0].name;
                 $scope.conname = $scope.containerName;
                 $scope.scaleName = $scope.replicaSet.metadata.labels.app;
-                console.log('$scope.containerName', $scope.containerName);
+                // console.log('$scope.containerName', $scope.containerName);
                 $scope.replicaPods = filterForController(myPodList.items, myrs);
-                console.log('$scope.replicaPods-=-=-=', $scope.replicaPods);
+                // console.log('$scope.replicaPods-=-=-=', $scope.replicaPods);
                 var poduid = [];
                 for (var i = 0; i < $scope.replicaPods.length; i++) {
                     poduid.push($scope.replicaPods[i].metadata.uid);
