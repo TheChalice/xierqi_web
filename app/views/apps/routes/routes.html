@@ -61,6 +61,8 @@
                         <a class="a_color_org" ui-sref="console.route_detail({name: route.metadata.name})">
 
                             {{route.metadata.name}}
+                            <span class="pficon-warning-triangle-o" ng-show="!(route | isWebRoute)"></span>
+                            <!--<i >叹号</i>-->
                         </a>
                     </td>
                     <td data-title="Hostname" data-title="Hostname">
@@ -74,10 +76,10 @@
                             {{route | routeLabel}}
                         </span>
 
-                        <span ng-if="!route.status.ingress" data-toggle="popover" data-trigger="hover" data-content="The route is not accepting traffic yet because it has not been admitted by a router." style="cursor: help; padding-left: 5px;">
-                            <status-icon status="'Pending'"></status-icon>s
-                            <span class="sr-only">Pending</span>
-                        </span>
+                        <!--<span ng-if="!route.status.ingress" data-toggle="popover" data-trigger="hover" data-content="The route is not accepting traffic yet because it has not been admitted by a router." style="cursor: help; padding-left: 5px;">-->
+                            <!--<status-icon status="'Pending'"></status-icon>s-->
+                            <!--<span class="sr-only">Pending</span>-->
+                        <!--</span>-->
                     </td>
                     <!--
                     Right now only services are supported. If other types are
