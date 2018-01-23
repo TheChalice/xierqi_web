@@ -186,7 +186,7 @@ angular.module('console.deploymentconfig_detail', [
                 })
             }
             $scope.deleteDc = function (val) {
-                delTip.open("删除Deployment", "您确定要删除"+val, true).then(function(){
+                delTip.open("删除Deployment", val, true).then(function(){
                     DeploymentConfig.delete({
                         namespace: $rootScope.namespace,
                         name: $stateParams.name
