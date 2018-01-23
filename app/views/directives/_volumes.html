@@ -4,7 +4,7 @@
   namespace
  -->
 <div ng-repeat="volume in volumes">
-    <h4>
+    <h4 class='tit_f'>
         {{volume.name}}
         <span ng-if="canRemove" class="header-actions">
       <a href="" ng-click="removeFn({volume: volume})">Remove</a>
@@ -19,8 +19,8 @@
             </dd>
             <dt>Secret:</dt>
             <dd>
-        <span ng-if="'secrets'">
-          <a>{{volume.secret.secretName}}</a>
+        <span ng-if="'secrets'" >
+          <a class='sec_href'>{{volume.secret.secretName}}</a>
         </span>
                 <span ng-if="!('secrets')">
           {{volume.secret.secretName}}
