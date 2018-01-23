@@ -900,7 +900,14 @@ define([
                             return Pod.get({
                                 namespace: Cookie.get('namespace')
                             }).$promise;
-                        }]
+                        }],
+                        myrs: ['$stateParams', 'ReplicaSet', 'Cookie', '$rootScope',
+                            function ($stateParams, ReplicaSet, Cookie, $rootScope) {
+                                return ReplicaSet.get({
+                                    namespace: Cookie.get('namespace'),
+                                    name: $stateParams.name
+                                }).$promise;
+                            }]
                     }
                 })
         }]);
