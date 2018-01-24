@@ -1,10 +1,9 @@
 <div id="rs">
-    <div class="panel panel-default rsDetail">
-        <div class="panel-heading">
-            {{replicaSet.metadata.name}}
-            <small style="color: #5a6378;font-size: 12px;">创建时间{{replicaSet.metadata.creationTimestamp | dateRelative}}</small>
-        </div>
-    </div>
+    <p>
+        <span class="pd_name">{{replicaSet.metadata.name}}</span>
+        &nbsp;&nbsp;
+        <span class="pd_dt">created&nbsp;{{replicaSet.metadata.creationTimestamp | dateRelative}}</span>
+    </p>
     <uib-tabset class="tab-default tab-image-jia-defautl" active="check">
         <uib-tab index="1">
             <uib-tab-heading>

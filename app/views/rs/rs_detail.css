@@ -1,4 +1,6 @@
 #rs .rsDetail{margin-bottom: 30px;font-size: 24px}
+#rs .pd_name{font-size:24px;color:#333;}
+#rs .pd_dt{font-size:14px;color:#9c9c9c;}
 #rs .tab-default li .nav-link{font-size:14px;color:#333;}
 #rs .tab-default li .nav-link:hover{font-size:14px;}
 #rs .tab-default li.active .nav-link,
@@ -48,13 +50,13 @@
 }
 
 .poda > a:focus {color: #f6a540;}
-.subtitle{border-bottom: 1px solid #c9c9c9;padding-bottom: 10px;padding-top:30px;margin:0px;font-size:14px;font-weight:bold;color: #333;}
+.subtitle{padding-bottom: 10px;padding-top:30px;margin:0px;font-size:14px;font-weight:bold;color: #333;}
 
 
 .fa-refresh:before{content:"\f021";}
 .pficon-image:before{content:"\e61f";}
 
-
+#rs .tit_f{font-size:14px;color:#000;font-weight:normal;margin:0px;margin-bottom:10px;}
 
 /* Environment 模块 */
 #Environment h2{font-size:14px;color:#000;font-weight:bold;margin:0px;margin-bottom:20px;}
