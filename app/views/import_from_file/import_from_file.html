@@ -1,26 +1,26 @@
-<div pf-wizard title="Import YAML / JSON" on-cancel="$ctrl.close()" on-finish="$ctrl.close()" hide-sidebar="true" next-title="$ctrl.nextButtonTitle" next-callback="$ctrl.nextCallback" current-step="$ctrl.currentStep" wizard-done="$ctrl.wizardDone" on-step-changed="$ctrl.stepChanged(step)"
-    step-class="order-service-wizard-step">
-    <div pf-wizard-step step-title="YAML / JSON" step-id="file" step-priority="1" substeps="false" ok-to-nav-away="true" allow-click-nav="false" next-enabled="!$ctrl.importForm.$invalid">
+<!-- <div pf-wizard title="Import YAML / JSON" on-cancel="$ctrl.close()" on-finish="$ctrl.close()" hide-sidebar="true" next-title="$ctrl.nextButtonTitle" next-callback="$ctrl.nextCallback" current-step="$ctrl.currentStep" wizard-done="$ctrl.wizardDone" on-step-changed="$ctrl.stepChanged(step)"
+    step-class="order-service-wizard-step"> -->
+<!-- <div pf-wizard-step step-title="YAML / JSON" step-id="file" step-priority="1" substeps="false" ok-to-nav-away="true" allow-click-nav="false" next-enabled="!$ctrl.importForm.$invalid">
         <div class="wizard-pf-main-inner-shadow-covers">
             <div class="order-service-config">
-                <div class="wizard-pf-main-form-contents">
-                    <form name="importForm">
-                        <from-file is-dialog="true" project="project"></from-file>
-                    </form>
-                </div>
+                <div class="wizard-pf-main-form-contents"> -->
+<form name="importForm">
+    <from-file is-dialog="true" project="project"></from-file>
+</form>
+<!-- </div>
             </div>
         </div>
-    </div>
-    <div pf-wizard-step step-title="Results" step-id="results" step-priority="3" substeps="false" ok-to-nav-away="true" allow-click-nav="false" prev-enabled="false">
+    </div> -->
+<!-- <div pf-wizard-step step-title="Results" step-id="results" step-priority="3" substeps="false" ok-to-nav-away="true" allow-click-nav="false" prev-enabled="false">
         <div class="wizard-pf-main-inner-shadow-covers">
             <div class="order-service-config">
                 <div class="wizard-pf-main-form-contents">
                     <!-- We don't want the directive to render until the results step is shown, this makes sure processed template info gets pulled from cache correctly -->
-                    <next-steps ng-if="$ctrl.currentStep === 'Results'" project="$ctrl.selectedProject" project-name="$ctrl.selectedProject.metadata.name" login-base-url="$ctrl.loginBaseUrl" on-continue="$ctrl.close" show-project-name="$ctrl.showProjectName" kind="$ctrl.kind"
-                        name="$ctrl.name" action-label="$ctrl.actionLabel">
-                    </next-steps>
-                </div>
-            </div>
-        </div>
-    </div>
+<!-- <next-steps ng-if="$ctrl.currentStep === 'Results'" project="$ctrl.selectedProject" project-name="$ctrl.selectedProject.metadata.name" login-base-url="$ctrl.loginBaseUrl" on-continue="$ctrl.close" show-project-name="$ctrl.showProjectName" kind="$ctrl.kind"
+    name="$ctrl.name" action-label="$ctrl.actionLabel">
+</next-steps>
 </div>
+</div>
+</div>
+</div>-->
+<!-- </div> -->

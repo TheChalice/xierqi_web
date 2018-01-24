@@ -1885,7 +1885,7 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
 
                 // Only update `ctrl.resource` if the value has changed.
                 if (current !== previous) {
-                    console.log('resource', resource)
+                    //console.log('resource', resource)
                     ctrl.resource = resource;
                 }
                 // Check for warnings.

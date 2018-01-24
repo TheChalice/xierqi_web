@@ -9,10 +9,15 @@
         }])
         .controller('ImportFromFileCtrl', ImportFromFileCtrl);
 
+    function ImportFromFileCtrl1($scope, $timeout, project, $filter, $rootScope) {
+        var ctrl = this;
+    };
+
     function ImportFromFileCtrl($scope, $timeout, project, $filter, $rootScope) {
         var ctrl = this;
         var annotation = $filter('annotation');
         //var imageForIconClass = $filter('imageForIconClass');
+        console.log('project', project)
         $scope.project = project;
         ctrl.$onInit = function() {
             console.log('ctrl.$onInit')

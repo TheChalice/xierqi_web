@@ -40,6 +40,10 @@ require.config({
         highchartsNg: '../bower_components/highcharts-ng/dist/highcharts-ng.min',
         treeControl: '../bower_components/angular-tree-control/angular-tree-control',
         lodash: '../bower_components/lodash/lodash',
+        URI: '../bower_components/uri.js/src/URI.min',
+        URITemplate: "../bower_components/uri.js/src/URITemplate",
+        jqueryURI: "../bower_components/uri.js/src/jquery.URI",
+        fragmentURI: "../bower_components/uri.js/src/URI.fragmentURI",
         angular_patternfly: '../bower_components/angular-patternfly/dist/angular-patternfly',
         patternfly: '../bower_components/patternfly/dist/js/patternfly',
         jsyaml: '../bower_components/js-yaml/dist/js-yaml',
@@ -98,6 +102,19 @@ require.config({
             deps: ['angular']
         },
         'lodash': {
+            deps: ['angular']
+        },
+
+        'URITemplate': {
+            deps: ['angular', 'URI']
+        },
+        'jqueryURI': {
+            deps: ['angular', 'URI']
+        },
+        'fragmentURI': {
+            deps: ['angular', 'URI']
+        },
+        'URI': {
             deps: ['angular']
         },
         'patternfly': {
