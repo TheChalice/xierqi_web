@@ -177,12 +177,14 @@ angular.module('console.deploymentconfig_detail', [
                         con.readinessProbe.initialDelaySeconds = parseInt(con.readinessProbe.initialDelaySeconds)
                         con.readinessProbe.timeoutSeconds = parseInt(con.readinessProbe.timeoutSeconds)
                     }
+
                     if (con.volment) {
                         con.volumeMounts = []
                         creatvol(con, con.volments)
                         //
                     } else {
-                        //delete con.volumeMounts
+                        delete con.volumeMounts
+                        delete con.volments
                     }
 
                 })
