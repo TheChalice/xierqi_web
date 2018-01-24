@@ -11,10 +11,10 @@ angular.module('console.deploymentconfig_detail', [
             ]
         }
     ])
-    .controller('DeploymentConfigDetailCtrl', ['Confirm', 'delTip', '$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag', '$state',
-        function (Confirm, delTip, $log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag, $state) {
+    .controller('DeploymentConfigDetailCtrl', ['Toast','Confirm', 'delTip', '$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag', '$state',
+        function (Toast,Confirm, delTip, $log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag, $state) {
             $scope.dc = angular.copy(mydc)
-            console.log('mydc', mydc);
+            //console.log('mydc', mydc);
             $scope.mytag = angular.copy(mytag)
             var cont = 0
             $scope.envs = [];
@@ -137,7 +137,7 @@ angular.module('console.deploymentconfig_detail', [
                             if (volment.secretName || volment.name || volment.claimName) {
                                 if (volment.mountPath) {
                                     var vol = angular.copy(volment)
-                                    console.log(volment);
+                                    //console.log(volment);
                                     con.volumeMounts.push({name: 'volumes' + cont, mountPath: vol.mountPath})
                                     delete vol.mountPath
                                     var volobj = {name: 'volumes' + cont}
@@ -151,9 +151,27 @@ angular.module('console.deploymentconfig_detail', [
                 })
 
             }
+            var volrepeat= function (vols) {
+                var rep=false;
+                angular.forEach(vols, function (ovol,i) {
+                    angular.forEach(vols, function (ivol,k) {
+                        if (i !== k) {
+                            if (ovol.mountPath === ivol.mountPath) {
+                                rep=true
+                            }
+                        }
+                    })
+                })
+                if (rep) {
+                    return true
+                }else{
+                    return false
+                }
 
+            }
             $scope.updateDc = function () {
                 $scope.dc.spec.template.spec.volumes = []
+                var cancreat= true
                 angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
                     //console.log(con.dosetcon.doset);
                     if (con.doset) {
@@ -181,6 +199,10 @@ angular.module('console.deploymentconfig_detail', [
                     if (con.volment) {
                         con.volumeMounts = []
                         creatvol(con, con.volments)
+                        if (volrepeat(con.volumeMounts)) {
+                            Toast.open('卷路径重复');
+                            cancreat=false
+                        }
                         //
                     } else {
                         delete con.volumeMounts
@@ -188,6 +210,9 @@ angular.module('console.deploymentconfig_detail', [
                     }
 
                 })
+                if (!cancreat) {
+                    return
+                }
                 //console.log('$scope.dc.spec.template.spec', $scope.dc.spec.template.spec);
 
                 DeploymentConfig.get({
