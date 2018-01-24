@@ -86,9 +86,10 @@
     margin-right: 42px;
 }
 
-.service-create .dropdown-menu li > a {
+.service-create .service-createbody .dropdown-menu li > a {
     line-height: 34px;
     height: 34px;
+    padding:0 12px;
 }
 
 .service-create .envone {
