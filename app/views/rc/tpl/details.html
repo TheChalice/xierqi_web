@@ -1,29 +1,29 @@
 <!-- detail -->
 <div id="rc">
-    <div class="row matgin-bt">
+    <div class="row matgin-txt">
         <div class="col-md-2">Status:</div>
         <div class="col-md-10">
             <status-icon status="replicaSet | deploymentStatus"></status-icon>
             {{replicaSet | deploymentStatus}}
         </div>
     </div>
-    <div class="row matgin-bt">
+    <div class="row matgin-txt">
         <div class="col-md-2">Deployment Config:</div>
         <div class="col-md-10 jumpUrl"
              ui-sref="console.deploymentconfig_detail({name:replicaSet.spec.selector.deploymentconfig})">
             {{replicaSet.spec.selector.deploymentconfig}}
         </div>
     </div>
-    <div class="row matgin-bt">
+    <div class="row matgin-txt">
         <div class="col-md-2">Status Reason:</div>
         <div class="col-md-10">{{replicaSet.metadata.annotations['openshift.io/deployment.status-reason']}}</div>
     </div>
-    <div class="row matgin-bt">
+    <div class="row matgin-txt">
         <div class="col-md-2">Selectors:</div>
         <div class="col-md-10"><span ng-repeat="(name , value) in replicaSet.spec.selector">{{name}}={{value}}&nbsp;&nbsp;<br/></span>
         </div>
     </div>
-    <div class="row matgin-bt">
+    <div class="row matgin-txt">
         <div class="col-md-2">Replicas:</div>
         <div class="col-md-10">
             <div>
@@ -40,7 +40,7 @@
         </div>
     </div>
 
-    <h3 style="border-bottom: 1px solid #c9c9c9;padding:15px 0;color:#666;font-size: 18px;">Template</h3>
+    <h3 class="subtitle">Template</h3>
     <pod-template
             pod-template="replicaSet.spec.template"
             images-by-docker-reference="imagesByDockerReference"
@@ -49,64 +49,64 @@
             add-health-check-url="{{((!deploymentConfig || isActive)) ? healthCheckURL : ''}}">
     </pod-template>
 
-    <h4 style="border-bottom: 1px solid #c9c9c9;padding:15px 0;color:#666;">Volumes</h4>
+    <h4 class="subtitle">Volumes</h4>
     <div ng-if="replicaSet.spec.template.spec.volumes" ng-repeat="volume in replicaSet.spec.template.spec.volumes">
-        <div class="row matgin-bt">
+        <div class="row matgin-txt">
             <div class="col-md-2">volumeName:</div>
             <div class="col-md-10">{{volume.name}}</div>
         </div>
         <div ng-if="volume.secret">
-            <div class="row matgin-bt">
+            <div class="row matgin-txt">
                 <div class="col-md-2">Type:</div>
                 <div class="col-md-10">secret<span class="small text-muted">(populated by a secret when the pod is created)</span>
                 </div>
             </div>
-            <div class="row matgin-bt">
+            <div class="row matgin-txt">
                 <div class="col-md-2">Secret:</div>
                 <div class="col-md-10">{{volume.secret.secretName}}</div>
             </div>
-            <div class="row matgin-bt" ng-repeat="item in volume.secret.items">
+            <div class="row matgin-txt" ng-repeat="item in volume.secret.items">
                 <div class="col-md-2">Key to File:</div>
                 <div class="col-md-10">{{item.key}}&#8201;&#8594;&#8201;{{item.path}}</div>
             </div>
         </div>
         <div ng-if="volume.configMap">
-            <div class="row matgin-bt">
+            <div class="row matgin-txt">
                 <div class="col-md-2">Type:</div>
                 <div class="col-md-10">config map<span class="small text-muted">((populated by a config map)</span>
                 </div>
             </div>
-            <div class="row matgin-bt">
+            <div class="row matgin-txt">
                 <div class="col-md-2">Secret:</div>
                 <div class="col-md-10">{{volume.configMap.name}}</div>
             </div>
-            <div class="row matgin-bt" ng-repeat="item in volume.configMap.items">
+            <div class="row matgin-txt" ng-repeat="item in volume.configMap.items">
                 <div class="col-md-2">Key to File:</div>
                 <div class="col-md-10">{{item.key}}&#8201;&#8594;&#8201;{{item.path}}</div>
             </div>
         </div>
         <div ng-if="volume.persistentVolumeClaim">
-            <div class="row matgin-bt">
+            <div class="row matgin-txt">
                 <div class="col-md-2">Type:</div>
                 <div class="col-md-10">persistent volume claim<span class="small text-muted">(reference to a persistent volume claim)</span>
                 </div>
             </div>
-            <div class="row matgin-bt">
+            <div class="row matgin-txt">
                 <div class="col-md-2">Claim name:</div>
                 <div class="col-md-10">{{volume.persistentVolumeClaim.claimName}}</div>
             </div>
-            <div class="row matgin-bt">
+            <div class="row matgin-txt">
                 <div class="col-md-10" ng-if="volume.persistentVolumeClaim.readOnly">read-only</div>
                 <div class="col-md-10" ng-if="!volume.persistentVolumeClaim.readOnly">read-write</div>
             </div>
         </div>
 
     </div>
-    <div ng-if="!replicaSet.spec.template.spec.volumes" class="row matgin-bt">
+    <div ng-if="!replicaSet.spec.template.spec.volumes" class="row matgin-txt">
         <div class="col-md-10">none</div>
     </div>
 
-    <h4 style="padding:15px 0;color:#666;">Pods</h4>
+    <h4 class="subtitle">Pods</h4>
     <div class="table-responsive" style="margin-top: 20px;">
         <table class="table table-hover table-default">
             <tr>
