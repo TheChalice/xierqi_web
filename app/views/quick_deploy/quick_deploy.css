@@ -1,4 +1,4 @@
-.service-create .tab-cube {
+.deploy-create .tab-cube {
     display: inline-block;
     /*width: 300px;*/
     height: 40px;
@@ -13,17 +13,19 @@
     cursor: pointer;
 }
 
-.service-create .tab-cube:active, .service-create .tab-cube:hover, .service-create .tab-cube.active {
+.deploy-create .tab-cube:active,
+.deploy-create .tab-cube:hover,
+.deploy-create .tab-cube.active {
     /*border: 1px solid #55c45f;*/
     color: #55c45f;
     /*color: #4960e6;*/
 }
 
-.service-create .service-createlist {
+.deploy-create .service-createlist {
 
 }
 
-.service-create .service-createheader {
+.deploy-create .service-createheader {
     font-weight: bolder;
     padding-left: 2px;
     font-size: 14px;
@@ -32,17 +34,17 @@
     border-bottom: 1px solid #E0E6ED;
 }
 
-.service-create .err {
+.deploy-create .err {
     line-height: 32px;
 }
 
-.service-create .service-createbody {
+.deploy-create .service-createbody {
     margin-top: 23px;
     min-height: 50px;
     padding-bottom: 30px;
 }
 
-.service-create .service-createinput {
+.deploy-create .service-createinput {
     height: 34px;
     padding: 6px 12px;
     font-size: 14px;
@@ -50,14 +52,14 @@
     width: 431px;
 }
 
-.service-create .disable {
+.deploy-create .disable {
     background-color: #e6e9f2;
     border: 1px;
     padding-left: 13px;
     box-shadow: 0px 0px 0px #e6e9f2 inset;
 }
 
-.service-create .envinp {
+.deploy-create .envinp {
     width: 354px;
     height: 32px;
     padding: 6px 12px;
@@ -65,37 +67,38 @@
     line-height: 1.42857143;
 }
 
-.service-create .service-createbody .radioname {
+.deploy-create .service-createbody .radioname {
     margin: 0 15px;
 }
 
-.service-create .service-createname {
+.deploy-create .service-createname {
     width: 414px;
     height: 32px;
 }
 
-.service-create .service-createradio[type=radio]:checked {
+.deploy-create .service-createradio[type=radio]:checked {
     background: #00cc66;
 }
 
-.service-create .service-createevenname {
+.deploy-create .service-createevenname {
     margin-right: 10px;
 }
 
-.service-create .service-createenv {
+.deploy-create .service-createenv {
     margin-right: 42px;
 }
 
-.service-create .dropdown-menu li > a {
+.deploy-create .service-createbody .dropdown-menu li > a {
     line-height: 34px;
     height: 34px;
+    padding:0 12px;
 }
 
-.service-create .envone {
+.deploy-create .envone {
     margin-top: 10px;
 }
 
-.service-create .input-group-btn .btn {
+.deploy-create .input-group-btn .btn {
     background: url('../../pub/img/search.png') no-repeat;
     width: 15px;
     height: 15px;
@@ -103,7 +106,7 @@
     -webkit-box-shadow:none;
 }
 
-.service-create .input-group-btn .btn:active {
+.deploy-create .input-group-btn .btn:active {
 
 }
 

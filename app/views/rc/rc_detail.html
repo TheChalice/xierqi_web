@@ -1,37 +1,40 @@
 <div id="rc">
-    <div class="panel panel-default" style="margin-bottom: 50px">
-        <div class="panel-heading">
-            <i class="faa faa-cmd"></i>&nbsp;&nbsp;{{replicaSet.metadata.name}}
-        </div>
-    </div>
+    <p>
+        <span class="pd_name">{{replicaSet.metadata.name}}</span>
+        &nbsp;&nbsp;
+        <span class="pd_dt">created&nbsp;{{replicaSet.metadata.creationTimestamp | dateRelative}}</span>
+    </p>
     <uib-tabset class="tab-default tab-pods">
         <uib-tab index="1">
             <uib-tab-heading>
-                <i class="myimage"></i>  Details
+                Details
             </uib-tab-heading>
             <div ng-include="'views/rc/tpl/details.html'"></div>
         </uib-tab>
         <uib-tab index="2">
             <uib-tab-heading>
-                <i class="myimage"></i>  Environment
+                Environment
             </uib-tab-heading>
             <div ng-include="'views/rc/tpl/environment.html'"></div>
         </uib-tab>
         <uib-tab index="3">
             <uib-tab-heading>
-                <i class="myimage"></i>  Metrics
+                Metrics
             </uib-tab-heading>
-            <div ng-include="'views/rc/tpl/metrics.html'"></div>
+            <public-metrics conname="conname"
+                            podid="poduid"
+                            stateful-pods="replicaPods">
+            </public-metrics>
         </uib-tab>
         <uib-tab index="4">
             <uib-tab-heading>
-                <i class="myimage"></i>  Logs
+                Logs
             </uib-tab-heading>
             <pod-logs pod-name="{{replicaSet.metadata.annotations['openshift.io/deployment-config.name']}}" type="deploymentconfigs"></pod-logs>
         </uib-tab>
         <uib-tab index="5">
             <uib-tab-heading>
-                <i class="myimage"></i>  Events
+                Events
             </uib-tab-heading>
             <deployments-event dcname="replicaSet.metadata.name" dcfit="ReplicationController"></deployments-event>
         </uib-tab>

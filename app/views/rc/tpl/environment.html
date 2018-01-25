@@ -1,7 +1,7 @@
 <div id="Environment">
     <div class="detail_set">
         <div ng-if="envOrigin.name">
-            <h4>Container {{envOrigin.name}} Environment Variables</h4>
+            <div class='subtit'>Container {{envOrigin.name}} Environment Variables</div>
             <div ng-if="envOrigin.env">
                 <div class="form_block">Name</div>
                 <div class="form_block">Value</div>
@@ -18,7 +18,7 @@
             <div ng-if="!envOrigin.env" class="envi_main"><div class="col-md-10 tit">The container specification has no environment variables set.</div></div>
         </div>
         <div ng-if="envProxy.name">
-            <h4>Container {{envProxy.name}} Environment Variables</h4>
+            <div class='subtit'>Container {{envProxy.name}} Environment Variables</div>
             <div ng-if="envProxy.env">
                 <div class="form_block">Name</div>
                 <div class="form_block">Value</div>
@@ -26,7 +26,6 @@
                     <div class="form_block">
                         <input type="text" class="form-control" readonly="readonly" value={{envv.name}}>
                     </div>
-
                     <div class="form_block">
                         <input type="text" class="form-control" readonly="readonly" value={{envv.value}}>
                     </div>

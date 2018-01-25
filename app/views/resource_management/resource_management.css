@@ -70,9 +70,10 @@
 #resource_management .listitem {
     color: #e5993a;
 }
+/* 
 #resource_management .listitem:hover{
     color:#5a6378;
-}
+} */
 #resource_management .tab-back-zn-default {
     padding:20px 40px 40px;
     background:#fff;

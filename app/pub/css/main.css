@@ -1581,3 +1581,37 @@ input{
 .pr40 {
     padding-right: 40px;
 }
+
+td  a:hover, a:focus{
+    color: #e5993a;
+}
+
+
+@font-face {
+    font-family: PatternFlyIcons-webfont;
+    src: url(./font/PatternFlyIcons-webfont.eot);
+    src: url(./font/PatternFlyIcons-webfont.eot?#iefix) format("embedded-opentype"),
+    url(./font/PatternFlyIcons-webfont.ttf) format("truetype"),
+    url(./font/PatternFlyIcons-webfont.woff) format("woff"),
+    url(./font/PatternFlyIcons-webfont.svg#PatternFlyIcons-webfont) format("svg");
+    font-weight: 400;
+    font-style: normal
+}
+
+[class*=" pficon-"], [class^=pficon-] {
+    display: inline-block;
+    font-family: PatternFlyIcons-webfont;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    line-height: 1;
+    speak: none;
+    text-transform: none;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased
+}
+
+.pficon-warning-triangle-o:before {
+    color: #ec7a08;
+    content: "\e913";
+}
