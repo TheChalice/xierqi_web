@@ -91,11 +91,9 @@
         <div class="tittle">
             <span>镜像信息</span>
         </div>
-
-
-        <div class="container-fluid container-bar" ng-repeat="container in dc.spec.template.spec.containers"
+        <div style="min-width: 750px;" class="container-fluid container-bar" ng-repeat="container in dc.spec.template.spec.containers"
              ng-init="outerIndex = $index">
-            <div  style="margin-bottom: 10px; width: 100%;">
+            <div style="margin-bottom: 10px; width: 100%;">
                 <div style="display: inline-block;" class="text-left">
                     <label ng-class="{'active': container.display}" ng-click="checkoutreg(container,true)"
                            style="cursor: pointer;">
@@ -113,7 +111,6 @@
                        href="javascript:;"></a>
                 </div>
             </div>
-
             <div ng-show="container.display">
                 <div class="dropdown dropdown-select" style="min-width:300px;height: 34px;">
                     <button class="btn dropdown-toggle" data-toggle="dropdown">
@@ -279,21 +276,174 @@
 
             </div>
             <div style="margin-top: 30px">
+                <span class="usetest">挂载卷</span>
+                <span class="my-checkbox">
+                    <span class="checkbox-check usetest" ng-class="{active: container.volment}"
+                          ng-click="addvol(outerIndex)">
+                                            <span class="check-btn"></span>
+                                        </span>
+                </span>
+                <div ng-show="container.volment" style="margin-top:10px;">
+                    <div><span>密钥</span></div>
+                    <div class="service-ctrl" style="">
+                        <div ng-if="container.volments.secret.length > 0" style="margin-bottom: 10px;"
+                             ng-repeat="secret in container.volments.secret"
+                             ng-init="innerIndex = $index">
+
+                            <div class="dropdown dropdown-select" style="min-width:300px;height: 32px;">
+                                <button class="btn dropdown-toggle" data-toggle="dropdown" style="height: 32px;">
+                                    <span>{{secret.secretName}}</span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu"
+                                    style="max-height: 250px;overflow-y:auto;min-width:300px;;border-color: #c9c9c9">
+                                    <li ng-repeat="Sec in SecretList" style="font-size: 12px;"
+                                        ng-click="secret.secretName=Sec.metadata.name">
+                                        <span class="dropdown-menu-span"
+                                              style="overflow-y: auto;">{{Sec.metadata.name}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="envlist" style="width: 20px;">
+
+                            </div>
+                            <div class="envlist">
+                                <!--<span style="margin-right:12px;padding-right:0;">值</span>-->
+                                <input type="text" ng-model="secret.mountPath" placeholder="mountPath"
+                                       style="width: 300px;;height: 32px;padding:6px 12px;">
+                            </div>
+                            <div class="envlist" style="width: 13px;">
+
+                            </div>
+                            <div class="envlist" style="padding-left:0;">
+                                <a href="javascript:;" style='color: #9fa7b7;'
+                                   ng-click="delconvol(outerIndex,$index,'secret')"
+                                   class="fa fa-lg fa-times-circle">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="" ng-click="addconvol(outerIndex,'secret','secretName')"
+                             style="cursor: pointer;margin-top: 10px; font-size: 14px;">
+                            <i class="fa fa-plus-circle fa-lg" style="cursor:pointer;"></i>
+                            &nbsp;<span style="color: #55c45f;">增加密钥</span>
+                        </div>
+                    </div>
+                    <div><span>配置卷</span></div>
+                    <div class="service-ctrl" style="">
+                        <div ng-if="container.volments.configMap.length > 0" style="margin-bottom: 10px;"
+                             ng-repeat="config in container.volments.configMap"
+                             ng-init="innerIndex = $index">
+
+                            <div class="dropdown dropdown-select" style="min-width:300px;height: 32px;">
+                                <button class="btn dropdown-toggle" data-toggle="dropdown" style="height: 32px;">
+                                    <span>{{config.name}}</span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu"
+                                    style="max-height: 250px;overflow-y:auto;min-width:300px;;border-color: #c9c9c9">
+                                    <li ng-repeat="con in ConfigMapList" style="font-size: 12px;"
+                                        ng-click="config.name=con.metadata.name">
+                                        <span class="dropdown-menu-span"
+                                              style="overflow-y: auto;">{{con.metadata.name}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="envlist" style="width: 20px;">
+
+                            </div>
+                            <div class="envlist">
+                                <!--<span style="margin-right:12px;padding-right:0;">值</span>-->
+                                <input type="text" ng-model="config.mountPath" placeholder="mountPath"
+                                       style="width: 300px;;height: 32px;padding:6px 12px;">
+                            </div>
+                            <div class="envlist" style="width: 13px;">
+
+                            </div>
+                            <div class="envlist" style="padding-left:0;">
+                                <a href="javascript:;" style='color: #9fa7b7;'
+                                   ng-click="delconvol(outerIndex,$index,'configMap')"
+                                   class="fa fa-lg fa-times-circle">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="" ng-click="addconvol(outerIndex,'configMap','name')"
+                             style="cursor: pointer;margin-top: 10px; font-size: 14px;">
+                            <i class="fa fa-plus-circle fa-lg" style="cursor:pointer;"></i>
+                            &nbsp;<span style="color: #55c45f;">增加配置卷</span>
+                        </div>
+                    </div>
+                    <div><span>持久化卷</span></div>
+                    <div class="service-ctrl" style="">
+                        <div ng-if="container.volments.persistentVolumeClaim.length > 0" style="margin-bottom: 10px;"
+                             ng-repeat="persistentVolume in container.volments.persistentVolumeClaim"
+                             ng-init="innerIndex = $index">
+
+                            <div class="dropdown dropdown-select" style="min-width:300px;height: 32px;">
+                                <button class="btn dropdown-toggle" data-toggle="dropdown" style="height: 32px;">
+                                    <span>{{persistentVolume.claimName}}</span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu"
+                                    style="max-height: 250px;overflow-y:auto;min-width:300px;;border-color: #c9c9c9">
+                                    <li ng-repeat="Persistent in PersistentVolumeClaimList" style="font-size: 12px;"
+                                        ng-click="persistentVolume.claimName=Persistent.metadata.name">
+                                        <span class="dropdown-menu-span"
+                                              style="overflow-y: auto;">{{Persistent.metadata.name}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="envlist" style="width: 20px;">
+
+                            </div>
+                            <div class="envlist">
+                                <!--<span style="margin-right:12px;padding-right:0;">值</span>-->
+                                <input type="text" ng-model="persistentVolume.mountPath" placeholder="mountPath"
+                                       style="width: 300px;;height: 32px;padding:6px 12px;">
+                            </div>
+                            <div class="envlist" style="width: 13px;">
+
+                            </div>
+                            <div class="envlist" style="padding-left:0;">
+                                <a href="javascript:;" style='color: #9fa7b7;'
+                                   ng-click="delconvol(outerIndex,$index,'persistentVolumeClaim')"
+                                   class="fa fa-lg fa-times-circle">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="" ng-click="addconvol(outerIndex,'persistentVolumeClaim','claimName')"
+                             style="cursor: pointer;margin-top: 10px; font-size: 14px;">
+                            <i class="fa fa-plus-circle fa-lg" style="cursor:pointer;"></i>
+                            &nbsp;<span style="color: #55c45f;">增加持久化卷</span>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <div style="margin-top: 30px">
                 <span class="usetest" style="margin-right: 18px;">
                     环境变量
                 </span>
                 <span style="font-size: 14px;font-weight: 300; cursor: pointer; color: orange;margin-left: 10px;"
-                          ng-click="container.annotate.isShowEnv=!container.annotate.isShowEnv">
+                      ng-click="container.annotate.isShowEnv=!container.annotate.isShowEnv">
                     <i style="font-style: normal;" ng-show="!container.annotate.isShowEnv">展开</i>
                     <i style="font-style: normal;" ng-show="container.annotate.isShowEnv">收起</i>
                 </span>
                 <div ng-show="container.annotate.isShowEnv" style="margin-top:10px;">
                     <div class="service-ctrl" style="">
-                        <div ng-if="container.env.length > 0" style="margin-bottom: 10px;" ng-repeat="env in container.env"
+                        <div ng-if="container.env.length > 0" style="margin-bottom: 10px;"
+                             ng-repeat="env in container.env"
                              ng-init="innerIndex = $index">
                             <div class="envlist">
                                 <!--<span style="margin-right:12px;">键</span>-->
-                                <input type="text" ng-model="env.name" placeholder="键" style="width: 300px;;height: 32px;padding:6px 12px;">
+                                <input type="text" ng-model="env.name" placeholder="键"
+                                       style="width: 300px;;height: 32px;padding:6px 12px;">
                             </div>
                             <div class="envlist" style="width: 20px;">
 
@@ -313,7 +463,8 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="" ng-click="addContainerEnv(outerIndex)"  style="cursor: pointer;margin-top: 10px; font-size: 14px;">
+                        <div class="" ng-click="addContainerEnv(outerIndex)"
+                             style="cursor: pointer;margin-top: 10px; font-size: 14px;">
                             <i class="fa fa-plus-circle fa-lg" style="cursor:pointer;"></i>
                             &nbsp;<span style="color: #55c45f;">增加环境变量</span>
                         </div>
@@ -346,7 +497,8 @@
             </div>
         </div>
         <div class="row col-md-12">
-            <span style="cursor: pointer;" ng-click="addcon()"><i class="fa fa-plus-circle fa-lg" style="cursor:pointer;" ></i>
+            <span style="cursor: pointer;" ng-click="addcon()"><i class="fa fa-plus-circle fa-lg"
+                                                                  style="cursor:pointer;"></i>
             &nbsp;&nbsp;<span style="color: #55c45f">添加容器</span></span>
 
         </div>

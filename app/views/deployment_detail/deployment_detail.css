@@ -2,23 +2,28 @@
     margin-left: 30px;
     font-size: 12px;
 }
+
 .pod-config > h2 {
     font-size: 14px;
     font-weight: normal;
     margin: 30px 0 20px 0;
 }
+
 .pod-config h3 {
     font-size: 12px;
     font-weight: normal;
     margin-bottom: 20px;
 }
+
 .pod-config p {
     word-break: break-all;
     word-wrap: break-word;
 }
+
 .pod-config .panel-heading {
     font-size: 14px;
 }
+
 .pod-config .tag {
     display: inline-block;
     width: 30%;
@@ -27,12 +32,15 @@
     border-radius: 2px;
     padding: 3px 15px;
 }
+
 .service-config .condigmaarginbottom {
     margin-bottom: 30px;
 }
+
 .text-Succeeded {
     color: #55c45f;
 }
+
 .text-Pending {
     color: #FF0000;
 }
@@ -42,9 +50,11 @@
     font-weight: normal;
     margin: 0 0 5px 0;
 }
+
 .service-ctrl hr {
     margin: 0 0 30px 0;;
 }
+
 .build-detail .dropdown-menu > li > a {
     font-size: 12px;
     padding-top: 0px;
@@ -55,34 +65,203 @@
     line-height: 30px;
     text-overflow: ellipsis;
 }
-.btn_file{
-    color: #5a6378;margin-right:0px;text-shadow:0 0 0 #fff;border: none;border-left: 1px solid #c9c9c9;background: #e6e9f2;padding: 5px 12px;
+
+.btn_file {
+    color: #5a6378;
+    margin-right: 0px;
+    text-shadow: 0 0 0 #fff;
+    border: none;
+    border-left: 1px solid #c9c9c9;
+    background: #e6e9f2;
+    padding: 5px 12px;
 }
-.btn_file:hover{
+
+.btn_file:hover {
     background: #5a6378;
 }
 
-.tab-jia-default li.active .nav-link, .tab-jia-default li.active .nav-link:focus, .tab-jia-default li.active .nav-link:hover{
-    border:0;
-    border-bottom:2px solid #e5993a;
-    color:#333;
+.tab-jia-default li.active .nav-link, .tab-jia-default li.active .nav-link:focus, .tab-jia-default li.active .nav-link:hover {
+    border: 0;
+    border-bottom: 2px solid #e5993a;
+    color: #333;
 }
-.tab-jia-default .tab-content{border: 0;padding:20px 0px;}
-.tab-jia-default li .nav-link:hover{color:#333;}
-.dropdown-menu-span{
+
+.tab-jia-default .tab-content {
+    border: 0;
+    padding: 30px 0px;
+}
+
+.tab-jia-default li .nav-link:hover {
+    color: #333;
+}
+
+.dropdown-menu-span {
     width: 100%;
     display: inline-block;
-    line-height:34px;
-    padding-left:12px;
+    line-height: 34px;
+    padding-left: 12px;
     overflow: hidden;
 }
-.dropdown-menu-span:hover{
+
+.dropdown-menu-span:hover {
     background: #dfe4ef
 }
-.dList{
+
+.dcList {
     color: #f6a540;
 }
-.dList:hover{
+
+.dcList:hover {
     cursor: pointer;
     color: #e5993a;
 }
+
+.service-config .tittle span {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.service-config .tittle {
+    margin-bottom: 10px;
+}
+
+.service-config .podlist {
+    display: inline-block;
+    margin-left: 30px;
+}
+
+.service-config .podnum {
+    width: 68px;
+    height: 30px;
+    padding: 6px 12px;
+    margin-left: 10px;
+}
+
+.service-config .baifen {
+    margin-left: 5px;
+}
+.service-config .envlist {
+    /*margin-left: 5px;*/
+    display: inline-block;
+}
+.service-config .usetest {
+    display: inline-block;
+    margin-top: -2px;
+    font-size: 14px;
+    margin-right: 15px;
+}
+
+.service-config .biaodian {
+    height: 34px;
+    display: inline-block;
+    line-height: 34px;
+    width: 20px;
+    text-align: center;
+}
+
+.service-config .container-bar {
+    padding: 20px 20px;
+    border: 1px solid #c9c9c9;
+    border-radius: 2px;
+    color: #5a6378;
+    font-size: 12px;
+    line-height: 25px;
+    margin-bottom: 15px;
+}
+.bushu_marginBottom {
+    margin-bottom: 0px;
+}
+
+.file-input {
+    position: absolute;
+    width: 54px;
+    height: 34px;
+    top: 0;
+    right: 0;
+    filter: alpha(opacity:0);
+    opacity: 0;
+}
+
+.btnout {
+    background: #e0e0e0;
+!important;
+    color: #000;
+!important;
+}
+
+.btnout:focus {
+    background: #e0e0e0;
+!important;
+}
+
+.btnout:hover {
+    color: black;
+!important;
+}
+
+.faa-zn-size {
+    background-size: contain;
+}
+
+/*.build-detail .dropdown-menu > li > a {*/
+    /*height: auto !important;*/
+/*}*/
+
+.timee ul > li {
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+.file-input {
+    position: absolute;
+    width: 54px;
+    height: 34px;
+    top: 0;
+    right: 0;
+    filter: alpha(opacity:0);
+    opacity: 0;
+}
+
+.mt {
+    margin-top: 5px;
+}
+
+#btnout {
+    background: #e0e0e0;
+    color: #000;
+}
+
+#btnout:focus {
+    background: #e0e0e0;
+}
+
+#btnout:hover {
+    color: black;
+}
+
+.testt {
+    font-size: 12px;
+    line-height: 20px;
+    background: none;
+    border: none;
+    color: #333333;
+    height: 300px;
+    word-break: break-all;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    display: block;
+    max-height: 300px;
+    width: 100%;
+    max-width: 100%;
+}
+
+.col-md-2_padding {
+    padding: 0px;
+}
+
+.build-detail .dropdown-menu > li {
+    height: 32px;
+}
+
+
+
