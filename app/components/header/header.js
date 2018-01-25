@@ -542,6 +542,8 @@ angular.module("console.header", [{
             case "console.route_detail":
                 return "Route 详情";
             case "console.deploymentconfig_detail":
+                return "Deploymentconfig 详情";
+            case "console.deployment_detail":
                 return "Deployment 详情";
             case "console.pods":
                 return "Pods";
