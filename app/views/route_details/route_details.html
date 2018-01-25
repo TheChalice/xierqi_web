@@ -119,7 +119,7 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <a>{{route.spec.to.name}}</a>
+                                            <a class="href-orange" ui-sref="console.service_details({name: route.spec.to.name})">{{route.spec.to.name}}</a>
                                             <!--<a ng-href="{{route.spec.to.name | navigateResourceURL : route.spec.to.kind : route.metadata.namespace}}">{{route.spec.to.name}}</a> -->
                                         </td>
                                         <td>
@@ -129,7 +129,7 @@
                                     <tr ng-repeat="alternate in route.spec.alternateBackends">
                                         <td>
                                             <!-- <a ng-href="{{alternate.name | navigateResourceURL : alternate.kind : route.metadata.namespace}}">{{alternate.name}}</a> -->
-                                            <a>{{alternate.name}}</a>
+                                            <a class="href-orange" ui-sref="console.service_details({name: route.spec.to.name})">{{alternate.name}}</a>
                                         </td>
                                         <td>
                                             {{alternate.weight}}

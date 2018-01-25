@@ -837,6 +837,11 @@ define([
                              return Route.get({ namespace: Cookie.get('namespace'),name:$stateParams.name}).$promise
                          }
                      ],
+                     routesList: ['Route', 'Cookie','$stateParams',
+                         function(Route, Cookie) {
+                             return Route.get({ namespace: Cookie.get('namespace')}).$promise
+                         }
+                     ],
                      ServiceList:['Service', 'Cookie',
                          function(Service, Cookie) {
                              return Service.get({ namespace: Cookie.get('namespace')}).$promise
