@@ -111,7 +111,6 @@ define(['angular'], function (angular) {
                 templateUrl: 'views/directives/probe.html'
             };
         })
-
         .directive('containerStatuses', ["$filter", function ($filter) {
             return {
                 restrict: 'E',
@@ -199,15 +198,42 @@ define(['angular'], function (angular) {
                 templateUrl: 'views/directives/logs.html',
                 scope: {
                     podName: '@podName',
-                    podContainerName: '@podContainerName',
+                    podContainer: '=',
                     podResourceVersion: '@podResourceVersion',
                     type: '@type',
                     api: '@api'
                 },
                 controller: ['$scope', 'ReplicationController', '$rootScope', 'Ws', '$base64', 'ansi_ups', '$sce', '$log',
                     function ($scope, ReplicationController, $rootScope, Ws, $base64, ansi_ups, $sce, $log) {
-                        //console.log('$scope.podName---',$scope.podName);
+                        //console.log('$scope.podContainer',$scope.podContainer);
+                        $scope.copycon=angular.copy($scope.podContainer)
+                        $scope.conlist=[]
+                        var makeconarr= function (name) {
+                            $scope.conlist=[]
+                            angular.forEach($scope.copycon, function (con,i) {
+                                if (con.name != name) {
+                                    $scope.conlist.push(con)
+                                }
+                            })
+                        }
+                        if ($scope.podContainer) {
+                            $scope.podContainername=$scope.podContainer[0].name
+                            if ($scope.podContainer.length > 1) {
+                                $scope.showcon=true
+                                $scope.selectcon=$scope.podContainer[0].name
+                                makeconarr($scope.selectcon)
+                            }
+                        }
+                        $scope.changecon= function (name) {
+                            $scope.selectcon=name;
+                            $scope.podContainername=name;
+                            makeconarr(name)
+                            Ws.clear();
+                            watchpod($scope.podResourceVersion, $scope.podContainername, $scope.podName, $scope.api);
+                        }
+
                         var watchpod = function (resourceVersion, podContainerName, podName, api) {
+                            $scope.log=''
                             var wsobj = {
                                 namespace: $rootScope.namespace,
                                 type: $scope.type,
@@ -256,7 +282,7 @@ define(['angular'], function (angular) {
                                 }
                             });
                         };
-                        watchpod($scope.podResourceVersion, $scope.podContainerName, $scope.podName, $scope.api)
+                        watchpod($scope.podResourceVersion, $scope.podContainername, $scope.podName, $scope.api)
                     }]
             };
         })
