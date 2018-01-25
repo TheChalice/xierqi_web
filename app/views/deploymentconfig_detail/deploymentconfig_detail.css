@@ -62,10 +62,13 @@
     display: block;
     white-space: nowrap;
     overflow: hidden;
-    line-height: 30px;
+    line-height: 32px;
+    height: 32px;
     text-overflow: ellipsis;
 }
-
+.build-detail .dropdown-menu > li {
+    height: 32px;
+}
 .btn_file {
     color: #5a6378;
     margin-right: 0px;
@@ -203,9 +206,9 @@
     background-size: contain;
 }
 
-.build-detail .dropdown-menu > li > a {
-    height: auto !important;
-}
+/*.build-detail .dropdown-menu > li > a {*/
+    /*height: auto !important;*/
+/*}*/
 
 .timee ul > li {
     margin: 0;
