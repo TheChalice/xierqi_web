@@ -459,8 +459,7 @@ angular.module('console.deploymentconfig_detail', [
                         }
                     }
                     $scope.loaddirs.loadcon = function () {
-                        angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
-                            ;
+                        angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {;
                             if ($scope.imagedockermap[con.image]) {
                                 con.display = true;
                                 con.regimage = ''
@@ -497,6 +496,7 @@ angular.module('console.deploymentconfig_detail', [
                             }
                             if (con.volumeMounts) {
                                 con.volment = true;
+                                //console.log($scope.dc.spec.template.spec.volumes);
                                 if ($scope.dc.spec.template.spec.volumes) {
                                     con.volments = {
                                         secret: [],
@@ -519,6 +519,7 @@ angular.module('console.deploymentconfig_detail', [
                                             }
                                         })
                                     })
+                                    //console.log('con.volment', con.volments);
 
 
                                 }
