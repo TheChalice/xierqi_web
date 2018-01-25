@@ -5,27 +5,27 @@
     </div>
     <div class="row condigmaarginbottom">
         <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">Selectors</div>
+            <div class="col-md-2 col-md-2_padding">Selectors:</div>
             <div class="col-md-10">app = {{dc.metadata.name}} <br/> deploymentconfig = {{dc.metadata.name}}</div>
         </div>
         <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">Stratege</div>
+            <div class="col-md-2 col-md-2_padding">Stratege:</div>
             <div class="col-md-10">{{dc.spec.strategy.type}}</div>
         </div>
         <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">Timeout</div>
+            <div class="col-md-2 col-md-2_padding">Timeout:</div>
             <div class="col-md-10">{{dc.spec.strategy.rollingParams.timeoutSeconds}} sec</div>
         </div>
         <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">Update Period</div>
+            <div class="col-md-2 col-md-2_padding">Update Period:</div>
             <div class="col-md-10">{{dc.spec.strategy.rollingParams.updatePeriodSeconds}} sec</div>
         </div>
         <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">Intervel</div>
+            <div class="col-md-2 col-md-2_padding">Intervel:</div>
             <div class="col-md-10">{{dc.spec.strategy.rollingParams.intervalSeconds}} sec</div>
         </div>
         <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">Max Unavailable</div>
+            <div class="col-md-2 col-md-2_padding">Max Unavailable:</div>
             <div class="col-md-10">{{dc.spec.strategy.rollingParams.maxUnavailable}}</div>
         </div>
         <div class="col-md-12">
@@ -283,14 +283,14 @@
                                         </span>
                 </span>
                 <div ng-show="container.volment" style="margin-top:10px;">
-                    <div><span>密钥</span></div>
+                    <div><span>密钥</span><span ng-show="err.vol.secret"><small class="fa fa-info-circle err-tip">请输入正确的密钥信息</small></span></div>
                     <div class="service-ctrl" style="">
                         <div ng-if="container.volments.secret.length > 0" style="margin-bottom: 10px;"
                              ng-repeat="secret in container.volments.secret"
                              ng-init="innerIndex = $index">
 
                             <div class="dropdown dropdown-select" style="min-width:300px;height: 32px;">
-                                <button class="btn dropdown-toggle" data-toggle="dropdown" style="height: 32px;">
+                                <button ng-class="{'err':secret.keyerr}" class="btn dropdown-toggle" data-toggle="dropdown" style="height: 32px;">
                                     <span style="color: #999999" ng-show="!secret.secretName">请选择卷名称</span>
                                     <span style="color: #333333" ng-show="secret.secretName">{{secret.secretName}}</span>
                                     <span class="caret"></span>
@@ -303,6 +303,7 @@
                                               style="overflow-y: auto;">{{Sec.metadata.name}}</span>
                                     </li>
                                 </ul>
+
                             </div>
 
                             <div class="envlist" style="width: 20px;">
@@ -310,8 +311,9 @@
                             </div>
                             <div class="envlist">
                                 <!--<span style="margin-right:12px;padding-right:0;">值</span>-->
-                                <input type="text" ng-model="secret.mountPath" placeholder="请填写挂载路径"
+                                <input ng-class="{'err':secret.mountPatherr}" type="text" ng-model="secret.mountPath" placeholder="请填写挂载路径"
                                        style="width: 300px;;height: 32px;padding:6px 12px;">
+
                             </div>
                             <div class="envlist" style="width: 13px;">
 
