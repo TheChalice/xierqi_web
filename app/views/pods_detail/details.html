@@ -13,8 +13,8 @@
         <dd class="dl_right_tit">
           <status-icon status="pod | podStatus"></status-icon>
           {{pod | podStatus | sentenceCase}}
-
-          <span ng-if="pod | podCompletionTime">, ran for {{(pod | podStartTime) | duration : (pod | podCompletionTime)}}</span>
+          <!-- {{(pod | podStartTime) | duration : (pod | podCompletionTime)}} -->
+          <span ng-if="pod | podCompletionTime">, ran for  {{(pod | podStartTime) | duration : (pod | podCompletionTime)}}</span>
           <span ng-if="pod.metadata.deletionTimestamp">(expires {{pod.metadata.deletionTimestamp | date : 'medium'}})</span>
         </dd>
         <dt ng-if-start="pod.status.message">Message:</dt>
@@ -28,12 +28,13 @@
                 <a ng-href="{{rcName | navigateResourceURL : 'ReplicationController' : Pod.metadata.namespace}}"
                   ><span ng-if="deploymentVersion">#{{deploymentVersion}}</span><span ng-if="!deploymentVersion">{{rcName}}</span></a></span> -->
         </dd>
-        <!-- <dt ng-if-start="!dcName && controllerRef">
-                {{controllerRef.kind | humanizeKind : true}}:
-              </dt>
-              <dd ng-if-end>
-                <a ng-href="{{controllerRef.name | navigateResourceURL : controllerRef.kind : pod.metadata.namespace}}">{{controllerRef.name}}</a>
-              </dd> -->
+        <dt ng-if-start="pod.metadata.labels['pod-template-hash']">
+          Replica Set:
+        </dt>
+       
+        <dd ng-if-end>
+            {{pod.metadata.ownerReferences[0].name}} 
+        </dd>
         <dt ng-if-start="pod.metadata.deletionTimestamp && pod.spec.terminationGracePeriodSeconds">Grace Period:</dt>
         <dd ng-if-end>
 
