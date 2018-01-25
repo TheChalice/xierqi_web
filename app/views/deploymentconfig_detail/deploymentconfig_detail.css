@@ -66,6 +66,14 @@
     height: 32px;
     text-overflow: ellipsis;
 }
+
+input:-ms-input-placeholder{
+    color: #999999;opacity:1;
+}
+
+input::-webkit-input-placeholder{
+    color: #999999;opacity:1;
+}
 .build-detail .dropdown-menu > li {
     height: 32px;
 }

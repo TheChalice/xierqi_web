@@ -3,34 +3,33 @@
     <div class="tittle">
         <span>部署详情</span>
     </div>
-
     <div class="row condigmaarginbottom">
         <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">Selectors</div>
+            <div class="col-md-2 col-md-2_padding">Selectors:</div>
             <div class="col-md-10">app = {{dc.metadata.name}} <br/> deploymentconfig = {{dc.metadata.name}}</div>
         </div>
         <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">Stratege</div>
+            <div class="col-md-2 col-md-2_padding">Stratege:</div>
             <div class="col-md-10">{{dc.spec.strategy.type}}</div>
         </div>
         <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">Timeout</div>
+            <div class="col-md-2 col-md-2_padding">Timeout:</div>
             <div class="col-md-10">{{dc.spec.strategy.rollingParams.timeoutSeconds}} sec</div>
         </div>
         <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">Update Period</div>
+            <div class="col-md-2 col-md-2_padding">Update Period:</div>
             <div class="col-md-10">{{dc.spec.strategy.rollingParams.updatePeriodSeconds}} sec</div>
         </div>
         <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">Intervel</div>
+            <div class="col-md-2 col-md-2_padding">Intervel:</div>
             <div class="col-md-10">{{dc.spec.strategy.rollingParams.intervalSeconds}} sec</div>
         </div>
         <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">Max Unavailable</div>
+            <div class="col-md-2 col-md-2_padding">Max Unavailable:</div>
             <div class="col-md-10">{{dc.spec.strategy.rollingParams.maxUnavailable}}</div>
         </div>
         <div class="col-md-12">
-            <div class="col-md-2 col-md-2_padding">Max Surge</div>
+            <div class="col-md-2 col-md-2_padding">Max Surge:</div>
             <div class="col-md-10">{{dc.spec.strategy.rollingParams.maxSurge}}</div>
         </div>
     </div>
@@ -284,15 +283,16 @@
                                         </span>
                 </span>
                 <div ng-show="container.volment" style="margin-top:10px;">
-                    <div><span>密钥</span></div>
+                    <div><span>密钥</span><span ng-show="err.vol.secret"><small class="fa fa-info-circle err-tip">请输入正确的密钥信息</small></span></div>
                     <div class="service-ctrl" style="">
                         <div ng-if="container.volments.secret.length > 0" style="margin-bottom: 10px;"
                              ng-repeat="secret in container.volments.secret"
                              ng-init="innerIndex = $index">
 
                             <div class="dropdown dropdown-select" style="min-width:300px;height: 32px;">
-                                <button class="btn dropdown-toggle" data-toggle="dropdown" style="height: 32px;">
-                                    <span>{{secret.secretName}}</span>
+                                <button ng-class="{'err':secret.keyerr}" class="btn dropdown-toggle" data-toggle="dropdown" style="height: 32px;">
+                                    <span style="color: #999999" ng-show="!secret.secretName">请选择卷名称</span>
+                                    <span style="color: #333333" ng-show="secret.secretName">{{secret.secretName}}</span>
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu"
@@ -303,6 +303,7 @@
                                               style="overflow-y: auto;">{{Sec.metadata.name}}</span>
                                     </li>
                                 </ul>
+
                             </div>
 
                             <div class="envlist" style="width: 20px;">
@@ -310,8 +311,9 @@
                             </div>
                             <div class="envlist">
                                 <!--<span style="margin-right:12px;padding-right:0;">值</span>-->
-                                <input type="text" ng-model="secret.mountPath" placeholder="mountPath"
+                                <input ng-class="{'err':secret.mountPatherr}" type="text" ng-model="secret.mountPath" placeholder="请填写挂载路径"
                                        style="width: 300px;;height: 32px;padding:6px 12px;">
+
                             </div>
                             <div class="envlist" style="width: 13px;">
 
@@ -324,7 +326,7 @@
                             </div>
                         </div>
                         <div class="" ng-click="addconvol(outerIndex,'secret','secretName')"
-                             style="cursor: pointer;margin-top: 10px; font-size: 14px;">
+                             style="cursor: pointer;margin-top: 3px; font-size: 14px;margin-bottom: 15px;">
                             <i class="fa fa-plus-circle fa-lg" style="cursor:pointer;"></i>
                             &nbsp;<span style="color: #55c45f;">增加密钥</span>
                         </div>
@@ -337,7 +339,9 @@
 
                             <div class="dropdown dropdown-select" style="min-width:300px;height: 32px;">
                                 <button class="btn dropdown-toggle" data-toggle="dropdown" style="height: 32px;">
-                                    <span>{{config.name}}</span>
+
+                                    <span style="color: #999999" ng-show="!config.name">请选择卷名称</span>
+                                    <span style="color: #333333" ng-show="config.name">{{config.name}}</span>
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu"
@@ -355,7 +359,7 @@
                             </div>
                             <div class="envlist">
                                 <!--<span style="margin-right:12px;padding-right:0;">值</span>-->
-                                <input type="text" ng-model="config.mountPath" placeholder="mountPath"
+                                <input type="text" ng-model="config.mountPath" placeholder="请填写挂载路径"
                                        style="width: 300px;;height: 32px;padding:6px 12px;">
                             </div>
                             <div class="envlist" style="width: 13px;">
@@ -369,7 +373,7 @@
                             </div>
                         </div>
                         <div class="" ng-click="addconvol(outerIndex,'configMap','name')"
-                             style="cursor: pointer;margin-top: 10px; font-size: 14px;">
+                             style="cursor: pointer;margin-top: 3px; font-size: 14px;margin-bottom: 15px;">
                             <i class="fa fa-plus-circle fa-lg" style="cursor:pointer;"></i>
                             &nbsp;<span style="color: #55c45f;">增加配置卷</span>
                         </div>
@@ -382,7 +386,8 @@
 
                             <div class="dropdown dropdown-select" style="min-width:300px;height: 32px;">
                                 <button class="btn dropdown-toggle" data-toggle="dropdown" style="height: 32px;">
-                                    <span>{{persistentVolume.claimName}}</span>
+                                    <span style="color: #999999" ng-show="!persistentVolume.claimName">请选择卷名称</span>
+                                    <span style="color: #333333" ng-show="persistentVolume.claimName">{{persistentVolume.claimName}}</span>
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu"
@@ -400,7 +405,7 @@
                             </div>
                             <div class="envlist">
                                 <!--<span style="margin-right:12px;padding-right:0;">值</span>-->
-                                <input type="text" ng-model="persistentVolume.mountPath" placeholder="mountPath"
+                                <input type="text" ng-model="persistentVolume.mountPath" placeholder="请填写挂载路径"
                                        style="width: 300px;;height: 32px;padding:6px 12px;">
                             </div>
                             <div class="envlist" style="width: 13px;">
@@ -414,7 +419,7 @@
                             </div>
                         </div>
                         <div class="" ng-click="addconvol(outerIndex,'persistentVolumeClaim','claimName')"
-                             style="cursor: pointer;margin-top: 10px; font-size: 14px;">
+                             style="cursor: pointer;margin-top: 3px; font-size: 14px;margin-bottom: 15px;">
                             <i class="fa fa-plus-circle fa-lg" style="cursor:pointer;"></i>
                             &nbsp;<span style="color: #55c45f;">增加持久化卷</span>
                         </div>
@@ -424,8 +429,6 @@
                 </div>
 
             </div>
-
-
             <div style="margin-top: 30px">
                 <span class="usetest" style="margin-right: 18px;">
                     环境变量
