@@ -50,7 +50,7 @@
                 <uib-tab-heading>
                     Events
                 </uib-tab-heading>
-                <div ng-include="'views/pods_detail/pods_event.html'"></div>
+                <deployments-event dcname="pod.metadata.name" dcfit="Pod"></deployments-event>
             </uib-tab>
     
         </uib-tabset>
