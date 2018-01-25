@@ -12,11 +12,11 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-3 " >
-                        <span class="dList" ui-sref="console.rs({name:item.metadata.name})">
+                        <span class="dList href-orange" style="cursor: pointer;" ui-sref="console.rs({name:item.metadata.name})">
                             #{{item.metadata.annotations['deployment.kubernetes.io/revision']}}
                         </span>
                     </div>
-                    <div class="col-sm-3"  ui-sref="console.rs({name:item.metadata.name})">
+                    <div class="col-sm-3" >
                         <span>
                             {{item.metadata.name}}
                         </span>
