@@ -331,7 +331,7 @@
                     </div>
                     <div><span>配置卷</span></div>
                     <div class="service-ctrl" style="">
-                        <div ng-if="container.volments.secret.length > 0" style="margin-bottom: 10px;"
+                        <div ng-if="container.volments.configMap.length > 0" style="margin-bottom: 10px;"
                              ng-repeat="config in container.volments.configMap"
                              ng-init="innerIndex = $index">
 
@@ -376,7 +376,7 @@
                     </div>
                     <div><span>持久化卷</span></div>
                     <div class="service-ctrl" style="">
-                        <div ng-if="container.volments.secret.length > 0" style="margin-bottom: 10px;"
+                        <div ng-if="container.volments.persistentVolumeClaim.length > 0" style="margin-bottom: 10px;"
                              ng-repeat="persistentVolume in container.volments.persistentVolumeClaim"
                              ng-init="innerIndex = $index">
 
