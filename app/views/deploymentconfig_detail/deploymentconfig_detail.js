@@ -413,7 +413,21 @@ angular.module('console.deploymentconfig_detail', [
                     }
 
                     $scope.addconvol = function (outerIndex, obj, key) {
+
                         if ($scope.dc.spec.template.spec.containers[outerIndex].volments) {
+                            var canadd=true
+                            angular.forEach($scope.dc.spec.template.spec.containers[outerIndex].volments[obj], function (vol,i) {
+                                if (vol[key] && vol.mountPath) {
+
+                                }else {
+                                    canadd=false
+                                }
+                            })
+                            if (!canadd) {
+                              return
+                            }
+
+
                         } else {
                             $scope.dc.spec.template.spec.containers[outerIndex].volments = {}
                         }
