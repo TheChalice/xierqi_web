@@ -33,7 +33,7 @@
                     Logs
                 </uib-tab-heading>
                 <pod-logs  pod-name="{{pod.metadata.name}}"
-                           pod-container-name="{{pod.spec.containers[0].name}}"
+                           pod-container="pod.spec.containers"
                            pod-resource-version="{{pod.metadata.resourceVersion}}"
                            type="pods"
                            api="k8s"
@@ -50,7 +50,7 @@
                 <uib-tab-heading>
                     Events
                 </uib-tab-heading>
-                <div ng-include="'views/pods_detail/pods_event.html'"></div>
+                <deployments-event dcname="pod.metadata.name" dcfit="Pod"></deployments-event>
             </uib-tab>
     
         </uib-tabset>

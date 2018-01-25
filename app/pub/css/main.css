@@ -1615,3 +1615,14 @@ td  a:hover, a:focus{
     color: #ec7a08;
     content: "\e913";
 }
+
+.pod-logs .dropdown-menu>li{
+    height: 32px;
+}
+
+.pod-logs .dropdown-menu>li:hover {
+    background: #dfe4ef;
+}
+
+
+
