@@ -9,8 +9,8 @@ angular.module('console.pods_detail', [
             ]
         }
     ])
-    .controller('podsdetailCtrl', ['$rootScope', '$scope', '$state', '$log', 'mypod','Ws','Metrics','podList',
-        function ($rootScope, $scope, $state, $log,mypod,Ws,Metrics,podList) {
+    .controller('podsdetailCtrl', ['$rootScope', '$scope', '$state', '$log', 'mypod','Ws','Metrics','podList','Pod',
+        function ($rootScope, $scope, $state, $log,mypod,Ws,Metrics,podList,Pod) {
 
             $scope.podlist = angular.copy(podList);
             $scope.pod=angular.copy(mypod);
@@ -26,7 +26,11 @@ angular.module('console.pods_detail', [
             var getOwnerReferences = function(apiObject) {
                 return _.get(apiObject, 'metadata.ownerReferences');
             };
-            
+            $scope.delete = function(name){
+                Pod.delete({ namespace: $scope.namespace,name:name }, function(res) {
+                    $state.go('console.pods');
+                });
+            }
             
         }])
 
