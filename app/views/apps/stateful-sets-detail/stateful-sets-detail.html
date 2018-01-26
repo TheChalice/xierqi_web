@@ -39,12 +39,12 @@
             </div>
             <div class="row matgin-bt">
                 <div class="col-md-2 width150 color666">Readiness Probe:</div>
-                <div class="col-md-10">GET{{statefuldetail.spec.template.spec.containers[0].readinessProbe.httpGet.path}} on {{statefuldetail.spec.template.spec.containers[0].readinessProbe.httpGet.port}} 2379 ({{statefuldetail.spec.template.spec.containers[0].readinessProbe.httpGet.scheme}})<small>
+                <div class="col-md-10">GET&nbsp;{{statefuldetail.spec.template.spec.containers[0].readinessProbe.httpGet.path}} on {{statefuldetail.spec.template.spec.containers[0].readinessProbe.httpGet.port}}  ({{statefuldetail.spec.template.spec.containers[0].readinessProbe.httpGet.scheme}})<small>
                     {{statefuldetail.spec.template.spec.containers[0].readinessProbe.initialDelaySeconds}}s delay, {{statefuldetail.spec.template.spec.containers[0].readinessProbe.timeoutSeconds}}s timeout</small></div>
             </div>
             <div class="row matgin-bt">
                 <div class="col-md-2 width150 color666">Liveness Probe: </div>
-                <div class="col-md-10">GET{{statefuldetail.spec.template.spec.containers[0].livenessProbe.httpGet.path}} on {{statefuldetail.spec.template.spec.containers[0].livenessProbe.httpGet.port}} 2379 ({{statefuldetail.spec.template.spec.containers[0].readinessProbe.httpGet.scheme}})<small>
+                <div class="col-md-10">GET&nbsp;{{statefuldetail.spec.template.spec.containers[0].livenessProbe.httpGet.path}} on {{statefuldetail.spec.template.spec.containers[0].livenessProbe.httpGet.port}} ({{statefuldetail.spec.template.spec.containers[0].readinessProbe.httpGet.scheme}})<small>
                     {{statefuldetail.spec.template.spec.containers[0].livenessProbe.initialDelaySeconds}}s delay, {{statefuldetail.spec.template.spec.containers[0].livenessProbe.timeoutSeconds}}s timeout</small></div>
             </div>
             <div ng-if="statefuldetail.spec.volumeClaimTemplates" style="padding:10px 0;color:#333;font-weight: bold;">volumeClaimTemplates</div>
