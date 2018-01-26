@@ -12,9 +12,12 @@
             <div>
                 <div class="row matgin-txt">
                     <div class="col-md-2">Deployment:</div>
-                    <div class="col-md-10 jumpUrl"
-                         ui-sref="console.deployment_detail({name:replicaSet.metadata.labels.app})">
-                        {{replicaSet.metadata.labels.app}}
+                    <div class="col-md-10">
+                        <span class="jumpUrl"
+                              ui-sref="console.deployment_detail({name:replicaSet.metadata.labels.app})">
+                                                 {{replicaSet.metadata.labels.app}}
+
+                        </span>
                     </div>
                 </div>
                 <div class="row matgin-txt">
