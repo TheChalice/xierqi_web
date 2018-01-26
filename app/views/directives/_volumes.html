@@ -7,8 +7,8 @@
     <h4 class='tit_f'>
         {{volume.name}}
         <span ng-if="canRemove" class="header-actions">
-      <a href="" ng-click="removeFn({volume: volume})">Remove</a>
-    </span>
+            <a href="" ng-click="removeFn({volume: volume})">Remove</a>
+        </span>
     </h4>
     <dl class="dl-horizontal left">
         <div ng-if="volume.secret">
@@ -19,12 +19,12 @@
             </dd>
             <dt>Secret:</dt>
             <dd>
-        <span ng-if="'secrets'" >
-          <a class='sec_href'>{{volume.secret.secretName}}</a>
-        </span>
+                <span ng-if="'secrets'">
+                    <span id="dt_set" ui-sref="console.secret_detail({name: volume.secret.secretName})">{{volume.secret.secretName}}</span>
+                </span>
                 <span ng-if="!('secrets')">
-          {{volume.secret.secretName}}
-        </span>
+                    {{volume.secret.secretName}}
+                </span>
             </dd>
             <div ng-repeat="item in volume.secret.items">
                 <dt>Key to File:</dt>
@@ -38,7 +38,10 @@
                 <span class="small text-muted">(reference to a persistent volume claim)</span>
             </dd>
             <dt>Claim name:</dt>
-            <dd><a class='sec_href'>{{volume.persistentVolumeClaim.claimName}}</a></dd>
+            <dd>
+                <span id="dt_set" ui-sref="console.constantly_detail({name:volume.persistentVolumeClaim.claimName})">
+                    {{volume.persistentVolumeClaim.claimName}}</span>
+            </dd>
             <dt>Mode:</dt>
             <dd>
                 <span ng-if="volume.persistentVolumeClaim.readOnly">read-only</span>
@@ -95,7 +98,10 @@
                 <span class="small text-muted">(populated by a config map)</span>
             </dd>
             <dt>Config Map:</dt>
-            <dd><a class='sec_href'>{{volume.configMap.name}}</a></dd>
+            <dd>
+                <span id="dt_set" ui-sref="console.config_detail({name:volume.configMap.name})">
+                    {{volume.configMap.name}}</span>
+            </dd>
             <div ng-repeat="item in volume.configMap.items">
                 <dt>Key to File:</dt>
                 <dd>{{item.key}}&#8201;&#8594;&#8201;{{item.path}}</dd>
