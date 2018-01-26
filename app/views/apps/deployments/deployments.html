@@ -70,8 +70,8 @@
 
                         </td>
                         <td data-title="Last Version">
-                            <span ng-if="deployments.status.latestVersion >0" style="color: #f6a540;cursor: pointer;" ui-sref="console.rc({name:deployments.rc.metadata.name})">{{deployments.status.latestVersion}}</span>
-                            <span ng-if="deployments.status.latestVersion ==0">No deployments</span>
+                            <a ng-if="deployments.status.latestVersion >0" style="color: #f6a540;cursor: pointer;" ui-sref="console.rc({name:deployments.rc.metadata.name})">{{deployments.status.latestVersion}}</a>
+                            <a ng-if="deployments.status.latestVersion ==0">No deployments</a>
                         </td>
                         <td data-title="Status">
                             <div row class="status" ng-if="deployments.status.latestVersion>0">
