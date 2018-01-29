@@ -291,7 +291,7 @@
                              ng-init="innerIndex = $index">
 
                             <div class="dropdown dropdown-select" style="min-width:300px;height: 32px;">
-                                <button ng-class="{'err':secret.keyerr}" class="btn dropdown-toggle" data-toggle="dropdown" style="height: 32px;">
+                                <button ng-class="{'err':secret.nameerr}" class="btn dropdown-toggle" data-toggle="dropdown" style="height: 32px;">
                                     <span style="color: #999999" ng-show="!secret.secretName">请选择卷名称</span>
                                     <span style="color: #333333" ng-show="secret.secretName">{{secret.secretName}}</span>
                                     <span class="caret"></span>
@@ -339,7 +339,7 @@
                              ng-init="innerIndex = $index">
 
                             <div class="dropdown dropdown-select" style="min-width:300px;height: 32px;">
-                                <button class="btn dropdown-toggle" data-toggle="dropdown" style="height: 32px;">
+                                <button  ng-class="{'err':config.nameerr}" class="btn dropdown-toggle" data-toggle="dropdown" style="height: 32px;">
 
                                     <span style="color: #999999" ng-show="!config.name">请选择卷名称</span>
                                     <span style="color: #333333" ng-show="config.name">{{config.name}}</span>
@@ -360,7 +360,7 @@
                             </div>
                             <div class="envlist">
                                 <!--<span style="margin-right:12px;padding-right:0;">值</span>-->
-                                <input type="text" ng-model="config.mountPath" placeholder="请填写挂载路径"
+                                <input  ng-class="{'err':config.mountPatherr}" type="text" ng-model="config.mountPath" placeholder="请填写挂载路径"
                                        style="width: 300px;;height: 32px;padding:6px 12px;">
                             </div>
                             <div class="envlist" style="width: 13px;">
@@ -386,7 +386,7 @@
                              ng-init="innerIndex = $index">
 
                             <div class="dropdown dropdown-select" style="min-width:300px;height: 32px;">
-                                <button class="btn dropdown-toggle" data-toggle="dropdown" style="height: 32px;">
+                                <button  ng-class="{'err':persistentVolume.nameerr}" class="btn dropdown-toggle" data-toggle="dropdown" style="height: 32px;">
                                     <span style="color: #999999" ng-show="!persistentVolume.claimName">请选择卷名称</span>
                                     <span style="color: #333333" ng-show="persistentVolume.claimName">{{persistentVolume.claimName}}</span>
                                     <span class="caret"></span>
@@ -406,7 +406,7 @@
                             </div>
                             <div class="envlist">
                                 <!--<span style="margin-right:12px;padding-right:0;">值</span>-->
-                                <input type="text" ng-model="persistentVolume.mountPath" placeholder="请填写挂载路径"
+                                <input ng-class="{'err':persistentVolume.mountPatherr}" type="text" ng-model="persistentVolume.mountPath" placeholder="请填写挂载路径"
                                        style="width: 300px;;height: 32px;padding:6px 12px;">
                             </div>
                             <div class="envlist" style="width: 13px;">

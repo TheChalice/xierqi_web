@@ -71,7 +71,7 @@
                         </td>
                         <td data-title="Last Version">
                             <span ng-if="deployments.status.latestVersion >0" style="color: #f6a540;cursor: pointer;" ui-sref="console.rc({name:deployments.rc.metadata.name})">{{deployments.status.latestVersion}}</span>
-                            <span ng-if="deployments.status.latestVersion ==0">No deployments</span>
+                            <span class="nodeploy" ng-if="deployments.status.latestVersion ==0">No deployments</span>
                         </td>
                         <td data-title="Status">
                             <div row class="status" ng-if="deployments.status.latestVersion>0">
@@ -182,5 +182,9 @@
 <style>
     .new_deploycol a :hover{
         color:#fff;
+    }
+    .nodeploy :hover {
+        color: #0b0000;
+
     }
 </style>

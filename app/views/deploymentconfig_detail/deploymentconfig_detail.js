@@ -125,16 +125,59 @@ angular.module('console.deploymentconfig_detail', [
             makeimagemap()
             var volerr= function (vol) {
                 var volerr=false;
+                var cunt=0;
+                var copyarr=[]
+                $scope.err = {
+                    vol: {
+                        secret:false,
+                        configMap:false,
+                        persistentVolumeClaim:false,
+                        mountPath:false
+                    }
+                }
+                angular.forEach(vol, function (item,i) {
+                    angular.forEach(item, function (ovolment,k) {
+                        ovolment.id=cunt;
+                        ovolment.index=k;
+                        ovolment.type=i
+                        cunt=cunt+1;
+                        copyarr.push(ovolment)
+                    })
+                })
+                console.log('vol', vol);
                 angular.forEach(vol, function (item,i) {
 
-                    angular.forEach(item, function (volment,k) {
+                    angular.forEach(item, function (ovolment,k) {
                         //console.log('item', volment.mountPath);
-                        if (!volment.mountPath) {
-                            volment.mountPatherr=true;
+                        ovolment.mountPatherr=false;
+                        ovolment.nameerr=false;
+                        angular.forEach(copyarr, function (ivolment,j) {
+                            //console.log(ovolment.id, ivolment.id);
+                            if (ovolment.id !== ivolment.id) {
+                                if (ovolment.mountPath === ivolment.mountPath) {
+                                    volerr=true;
+                                    console.log(ivolment, vol[i]);
+                                    vol[ivolment.type][ivolment.index].mountPatherr=true;
+                                    ovolment.mountPatherr=true;
+                                    $scope.err.vol.mountPath=true;
+                                }
+                            }
+                        })
+                        if (ovolment.name || ovolment.secretName || ovolment.claimName) {
+
+                        }else {
+                            volerr=true
+                            ovolment.nameerr=true;
+                            $scope.err.vol[i]=true
+                        }
+
+                        if (!ovolment.mountPath) {
+                            ovolment.mountPatherr=true;
                             volerr=true
                             $scope.err.vol.mountPath=true
                         }
                     })
+
                 })
                 if (volerr) {
                     return true
@@ -178,6 +221,7 @@ angular.module('console.deploymentconfig_detail', [
                 })
 
             }
+
             var volrepeat= function (vols) {
                 var rep=false;
                 angular.forEach(vols, function (ovol,i) {
@@ -229,10 +273,10 @@ angular.module('console.deploymentconfig_detail', [
                             cancreat=false
                         }
                         creatvol(con, con.volments)
-                        if (volrepeat(con.volumeMounts)) {
-                            Toast.open('卷路径重复');
-                            cancreat=false
-                        }
+                        //if (volrepeat(con.volumeMounts)) {
+                        //    Toast.open('卷路径重复');
+                        //    cancreat=false
+                        //}
                         //
                     } else {
                         delete con.volumeMounts
