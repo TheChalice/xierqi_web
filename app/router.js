@@ -915,6 +915,16 @@ define([
                             }]
                     }
                 })
+                .state('console.resource_configMap', {
+                    url: '/resource_configMap',
+                    templateUrl: 'views/resource_configMap/resource_configMap.html',
+                    controller: 'configMapCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/resource_configMap/resource_configMap.js')
+                        }]
+                    }
+                })
         }]);
 
 });
