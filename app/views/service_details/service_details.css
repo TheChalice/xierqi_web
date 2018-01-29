@@ -93,3 +93,4 @@ dt{
 .tab-jia-default li .nav-link:hover {
     color: #333;
 }
+#services_detail .resource-details .dl-horizontal dd{margin-left:0px;}

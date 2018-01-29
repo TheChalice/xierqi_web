@@ -73,11 +73,11 @@
             <span aria-hidden="true" class="fa fa-terminal"></span>
         </div>
         <div flex class="word-break pod_list_mt">
-          <span class="pod-template-key" style="width:135px;">
+          <span class="pod-template-key" style="width:137px;">
             Command:
           </span>
             <span>
-            <code class="command">
+            <code class="command" style="padding:2px;">
                     <span ng-repeat="podtname in container.args || container.command">{{podtname}}&nbsp;</span>
               <!-- <truncate-long-text
                       content="container | entrypoint : imagesByDockerReference[container.image]"
