@@ -77,6 +77,9 @@ input::-webkit-input-placeholder{
 .build-detail .dropdown-menu > li {
     height: 32px;
 }
+.build-detail .err {
+   border-color: red;
+}
 .btn_file {
     color: #5a6378;
     margin-right: 0px;

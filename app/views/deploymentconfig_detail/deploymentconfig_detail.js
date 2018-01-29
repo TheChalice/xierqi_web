@@ -14,8 +14,16 @@ angular.module('console.deploymentconfig_detail', [
     .controller('DeploymentConfigDetailCtrl', ['Toast','Confirm', 'delTip', '$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag', '$state',
         function (Toast,Confirm, delTip, $log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag, $state) {
             $scope.dc = angular.copy(mydc)
-            console.log('mydc', mydc);
+            //console.log('mydc', mydc);
             $scope.mytag = angular.copy(mytag)
+            $scope.err = {
+                vol: {
+                    secret:false,
+                    configMap:false,
+                    persistentVolumeClaim:false,
+                    mountPath:false
+                }
+            }
             var cont = 0
             $scope.envs = [];
             $scope.grid = {}
@@ -96,7 +104,6 @@ angular.module('console.deploymentconfig_detail', [
                     //alert(11)
                 })
             }
-
             var makeimagemap = function () {
                 angular.forEach($scope.mytag.items, function (tag, i) {
                     $scope.imagedockermap[tag.image.dockerImageReference] = {
@@ -116,6 +123,25 @@ angular.module('console.deploymentconfig_detail', [
                 //console.log($scope.imagedockermap, $scope.imagemap);
             }
             makeimagemap()
+            var volerr= function (vol) {
+                var volerr=false;
+                angular.forEach(vol, function (item,i) {
+
+                    angular.forEach(item, function (volment,k) {
+                        //console.log('item', volment.mountPath);
+                        if (!volment.mountPath) {
+                            volment.mountPatherr=true;
+                            volerr=true
+                            $scope.err.vol.mountPath=true
+                        }
+                    })
+                })
+                if (volerr) {
+                    return true
+                }else {
+                    return false
+                }
+            }
             var updatedcput = function (dc) {
                 DeploymentConfig.put({
                     namespace: $rootScope.namespace,
@@ -130,6 +156,7 @@ angular.module('console.deploymentconfig_detail', [
                 });
             }
             var creatvol = function (con, vol) {
+
                 angular.forEach(vol, function (item, i) {
                     if (item.length > 0) {
                         //console.log(item, i);
@@ -164,7 +191,7 @@ angular.module('console.deploymentconfig_detail', [
                 })
                 if (rep) {
                     return true
-                }else{
+                } else {
                     return false
                 }
 
@@ -198,6 +225,9 @@ angular.module('console.deploymentconfig_detail', [
 
                     if (con.volment) {
                         con.volumeMounts = []
+                        if (volerr(con.volments)) {
+                            cancreat=false
+                        }
                         creatvol(con, con.volments)
                         if (volrepeat(con.volumeMounts)) {
                             Toast.open('卷路径重复');

@@ -282,8 +282,9 @@
                                             <span class="check-btn"></span>
                                         </span>
                 </span>
+                <span ng-show="err.vol.mountPath"><small class="fa fa-info-circle err-tip">请输入正确的挂载路径</small></span>
                 <div ng-show="container.volment" style="margin-top:10px;">
-                    <div><span>密钥</span><span ng-show="err.vol.secret"><small class="fa fa-info-circle err-tip">请输入正确的密钥信息</small></span></div>
+                    <div><span>密钥</span></div>
                     <div class="service-ctrl" style="">
                         <div ng-if="container.volments.secret.length > 0" style="margin-bottom: 10px;"
                              ng-repeat="secret in container.volments.secret"
