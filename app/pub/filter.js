@@ -107,7 +107,7 @@ define(['angular', 'moment'], function (angular, moment) {
             };
         }])
 
-        .filter('duration', [function () {
+        .filter('durationtwo', [function () {
             return function (um, t) {
                 var durstatus = new Date(t).getTime() - new Date(um).getTime();
                 var duration = moment.duration(durstatus);
