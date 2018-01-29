@@ -837,6 +837,11 @@ define([
                              return Route.get({ namespace: Cookie.get('namespace'),name:$stateParams.name}).$promise
                          }
                      ],
+                     routesList: ['Route', 'Cookie','$stateParams',
+                         function(Route, Cookie) {
+                             return Route.get({ namespace: Cookie.get('namespace')}).$promise
+                         }
+                     ],
                      ServiceList:['Service', 'Cookie',
                          function(Service, Cookie) {
                              return Service.get({ namespace: Cookie.get('namespace')}).$promise
@@ -908,6 +913,16 @@ define([
                                     name: $stateParams.name
                                 }).$promise;
                             }]
+                    }
+                })
+                .state('console.resource_configMap', {
+                    url: '/resource_configMap',
+                    templateUrl: 'views/resource_configMap/resource_configMap.html',
+                    controller: 'configMapCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/resource_configMap/resource_configMap.js')
+                        }]
                     }
                 })
         }]);

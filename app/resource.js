@@ -404,7 +404,8 @@ define([
                 namespace: '@namespace',
                 region: '@region'
             }, {
-                create: { method: 'POST' }
+                create: { method: 'POST' },
+                delete: { method: 'DELETE' },
             });
             Pod.log = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/pods/:name/log?region=:region', {
                 name: '@name',

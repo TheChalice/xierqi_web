@@ -191,13 +191,19 @@ define([
                     { name: 'Services', url: 'console.services', stateUrl:null ,children: [] },
                     { name: 'Routes', url: 'console.routes',stateUrl:null , children: [] }
                 ];
+                $rootScope.resources = [
+                    { name: '持久化卷', url: 'console.resource_persistentVolume',stateUrl:null ,children: [] },
+                    { name: '配置卷', url: 'console.resource_configMap',stateUrl:null ,children: [] }
+                ];
+
                 $rootScope.dataForTheTree =
                     [
                         {name:'仪表盘',img:'icon25 icon25-dashboard',url:'console.dashboard',stateUrl:null ,children:[]},
                         {name:'代码构建',img:'icon25 icon25-build',url:'console.build',stateUrl:null ,children:[]},
                         {name:'镜像仓库',img:'icon25 icon25-repository',url:'console.image',stateUrl:null ,children:[]},
                         {name:'服务部署',img:'icon25 icon25-deployment',url:null,stateUrl:null ,children:$rootScope.app},
-                        {name:'资源管理',img:'icon25 icon25-resource',url:'console.resource_management',stateUrl:null ,children:[]}
+                        {name:'后端服务',img:'icon25 icon25-service',url:'console.backing_service',stateUrl:null ,children:[]},
+                        {name:'资源管理',img:'icon25 icon25-resource',url:null,stateUrl:null ,children:$rootScope.resources}
                     ];
                 if (toState && toState.name) {
                     $rootScope.console.state = toState.name;
@@ -217,8 +223,14 @@ define([
                         $rootScope.app[3].stateUrl = toState.name;
                     }else if(toState.name.indexOf('route') != -1){
                         $rootScope.app[4].stateUrl = toState.name;
-                    }else if(toState.name.indexOf('resource_management') != -1 || toState.name.indexOf('constantly_') != -1 || toState.name.indexOf('config_') != -1 || toState.name.indexOf('create_secret') != -1 || toState.name.indexOf('secret_detail') != -1){
-                        $rootScope.dataForTheTree[4].stateUrl = toState.name;
+                    }
+                    // else if(toState.name.indexOf('resource_management') != -1 || toState.name.indexOf('constantly_') != -1 || toState.name.indexOf('config_') != -1 || toState.name.indexOf('create_secret') != -1 || toState.name.indexOf('secret_detail') != -1){
+                    //     $rootScope.dataForTheTree[4].stateUrl = toState.name;
+                    // }
+                    else if(toState.name.indexOf('_persistentVolume') != -1 ){
+                        $rootScope.resources[0].stateUrl = toState.name;
+                    }else if(toState.name.indexOf('_configMap') != -1 ){
+                        $rootScope.resources[1].stateUrl = toState.name;
                     }
 
 

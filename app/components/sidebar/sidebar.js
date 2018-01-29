@@ -29,6 +29,7 @@ angular.module("console.sidebar", [
                            $("#sidebar-container").removeClass("sider_zx");
                            $("#sidebar-right-fixed").removeClass("sidebar-fixed");
                            $rootScope.dataForTheTree[3].children = $rootScope.app
+                           $rootScope.dataForTheTree[4].children = $rootScope.resources
                        }
                 }
                 $scope.activeStyle = false;
@@ -56,9 +57,11 @@ angular.module("console.sidebar", [
                     if($(".zx_set_btn").hasClass('zx_set_btn_rotate')){
                         $scope.activeStyle = true;
                         $rootScope.dataForTheTree[3].children = [];
+                        $rootScope.dataForTheTree[4].children = [];
                     }else{
                         $scope.activeStyle = false;
                         $rootScope.dataForTheTree[3].children = $rootScope.app
+                        $rootScope.dataForTheTree[4].children = $rootScope.resources
 
                     }
                 }
