@@ -14,7 +14,7 @@
           <status-icon status="pod | podStatus"></status-icon>
           {{pod | podStatus | sentenceCase}}
           <!-- {{(pod | podStartTime) | duration : (pod | podCompletionTime)}} -->
-          <span ng-if="pod | podCompletionTime">, ran for  {{(pod | podStartTime) | duration : (pod | podCompletionTime)}}</span>
+          <span ng-if="pod | podCompletionTime">, ran for  {{(pod | podStartTime) | durationtwo : (pod | podCompletionTime)}}</span>
           <span ng-if="pod.metadata.deletionTimestamp">(expires {{pod.metadata.deletionTimestamp | date : 'medium'}})</span>
         </dd>
         <dt ng-if-start="pod.status.message">Message:</dt>
@@ -23,7 +23,11 @@
           Deployment:
         </dt>
         <dd ng-if-end>
-          {{pod.metadata.labels.deploymentconfig}}, #{{pod.metadata.annotations["openshift.io/deployment-config.latest-version"]}}
+          <span id="dt_set" ui-sref="console.deploymentconfig_detail({name:pod.metadata.labels.deploymentconfig})">
+            {{pod.metadata.labels.deploymentconfig}}</span>, 
+          <span id="dt_set" ui-sref="console.rc({name:pod.metadata.labels.deployment})">
+            #{{pod.metadata.annotations["openshift.io/deployment-config.latest-version"]}}
+          </span>
           <!-- <a ng-href="{{dcName | navigateResourceURL : 'DeploymentConfig' : Pod.metadata.namespace}}">{{dcName}}</a><span ng-if="rcName">,
                 <a ng-href="{{rcName | navigateResourceURL : 'ReplicationController' : Pod.metadata.namespace}}"
                   ><span ng-if="deploymentVersion">#{{deploymentVersion}}</span><span ng-if="!deploymentVersion">{{rcName}}</span></a></span> -->
@@ -33,7 +37,9 @@
         </dt>
        
         <dd ng-if-end>
+            <span id="dt_set" ui-sref="console.rs({name:pod.metadata.ownerReferences[0].name})">
             {{pod.metadata.ownerReferences[0].name}} 
+            </span>
         </dd>
         <dt ng-if-start="pod.metadata.deletionTimestamp && pod.spec.terminationGracePeriodSeconds">Grace Period:</dt>
         <dd ng-if-end>

@@ -12,9 +12,9 @@ define(['angular', 'moment'], function (angular, moment) {
                 }
                 return moment(timestamp).fromNow(dropSuffix);
             };
-            
+
         }])
-        
+
         .filter('duration', [function () {
             return function (um) {
                 if (!um) {
@@ -102,11 +102,47 @@ define(['angular', 'moment'], function (angular, moment) {
                 }
                 um = (new Date(um)).getTime();
                 moment.locale('zh-cn');
-                var humanizedDuration=moment(new Date(um)).format(" MMMM Do YYYY, h:mm:ss a"); 
+                var humanizedDuration = moment(new Date(um)).format(" MMMM Do YYYY, h:mm:ss a");
                 return humanizedDuration;
             };
         }])
-        
+
+        .filter('durationtwo', [function () {
+            return function (um, t) {
+                var durstatus = new Date(t).getTime() - new Date(um).getTime();
+                var duration = moment.duration(durstatus);
+                var humanizedDuration = [];
+                var years = duration.years();
+                var months = duration.months();
+                var days = duration.days();
+                var hours = duration.hours();
+                var minutes = duration.minutes();
+                var seconds = duration.seconds();
+                function add(count, pluralText) {
+                    if (count > 0) {
+                        humanizedDuration.push(count + pluralText);
+                    }
+                }
+
+                add(years, "年");
+                add(months, "月");
+                add(days, "日");
+                add(hours, "时");
+                add(minutes, "分");
+                add(seconds, "秒");
+
+                if (humanizedDuration.length === 0) {
+                    humanizedDuration.push("0秒");
+                }
+
+                if (humanizedDuration.length > 2) {
+                    humanizedDuration.length = 2;
+                }
+
+                return humanizedDuration.join("");
+            };
+        }])
+
         .filter('phaseFilter', [function () {
             return function (phase) {
                 if (phase == "Complete") {
@@ -779,8 +815,8 @@ define(['angular', 'moment'], function (angular, moment) {
         }])
 
 
-        .filter('lastDeploymentRevision', ['annotationFilter',function(annotationFilter) {
-            return function(deployment) {
+        .filter('lastDeploymentRevision', ['annotationFilter', function (annotationFilter) {
+            return function (deployment) {
                 if (!deployment) {
                     return '';
                 }
@@ -788,8 +824,8 @@ define(['angular', 'moment'], function (angular, moment) {
                 var revision = annotationFilter(deployment, 'deployment.kubernetes.io/revision');
                 return revision ? "#" + revision : 'Unknown';
             };
-        }]).filter('camelToLower', function() {
-            return function(str) {
+        }]).filter('camelToLower', function () {
+            return function (str) {
                 if (!str) {
                     return str;
                 }
@@ -859,6 +895,8 @@ define(['angular', 'moment'], function (angular, moment) {
             };
         })
 
+
+
         .filter('podCompletionTime', function () {
             return function (pod) {
                 var lastFinishTime = null;
@@ -874,6 +912,8 @@ define(['angular', 'moment'], function (angular, moment) {
                 return lastFinishTime;
             };
         })
+
+
 
         .filter("humanizeDurationValue", function () {
             return function (a, b) {
@@ -905,9 +945,9 @@ define(['angular', 'moment'], function (angular, moment) {
             };
         })
 
-    
-        .filter("limitToOrAll", ['limitToFilter', function(limitToFilter) {
-            return function(input, limit) {
+
+        .filter("limitToOrAll", ['limitToFilter', function (limitToFilter) {
+            return function (input, limit) {
                 if (isNaN(limit)) {
                     return input;
                 }
@@ -915,12 +955,12 @@ define(['angular', 'moment'], function (angular, moment) {
                 return limitToFilter(input, limit);
             };
         }])
-        .filter('volumeMountMode',  function() {
-            var isConfigVolume = function(volume) {
+        .filter('volumeMountMode', function () {
+            var isConfigVolume = function (volume) {
                 return _.has(volume, 'configMap') || _.has(volume, 'secret');
             };
 
-            return function(mount, volumes) {
+            return function (mount, volumes) {
                 if (!mount) {
                     return '';
                 }
