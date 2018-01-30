@@ -193,7 +193,8 @@ define([
                 ];
                 $rootScope.resources = [
                     { name: '持久化卷', url: 'console.resource_persistentVolume',stateUrl:null ,children: [] },
-                    { name: '配置卷', url: 'console.resource_configMap',stateUrl:null ,children: [] }
+                    { name: '配置卷', url: 'console.resource_configMap',stateUrl:null ,children: [] },
+                    { name: '密钥', url: 'console.resource_secret',stateUrl:null ,children: [] }
                 ];
 
                 $rootScope.dataForTheTree =
@@ -231,6 +232,8 @@ define([
                         $rootScope.resources[0].stateUrl = toState.name;
                     }else if(toState.name.indexOf('_configMap') != -1 ){
                         $rootScope.resources[1].stateUrl = toState.name;
+                    }else if(toState.name.indexOf('_secret') != -1 ){
+                        $rootScope.resources[2].stateUrl = toState.name;
                     }
 
 
