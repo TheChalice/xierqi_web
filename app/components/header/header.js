@@ -384,7 +384,7 @@ angular.module("console.header", [{
 
                 $scope.hasBack = function(){
 
-                    if ($state.current.name == "console.stateful-sets"||$state.current.name == "console.routes"||$state.current.name == "console.services"||$state.current.name == "console.pods"||$state.current.name == "console.deployments"||$state.current.name == "console.noplan" || $state.current.name == "console.Integration" || $state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name == "console.notification" || $state.current.name == "console.resource_management") {
+                    if ($state.current.name == "console.resource_secret"||$state.current.name == "console.resource_configMap"||$state.current.name == "console.resource_persistentVolume"||$state.current.name == "console.stateful-sets"||$state.current.name == "console.routes"||$state.current.name == "console.services"||$state.current.name == "console.pods"||$state.current.name == "console.deployments"||$state.current.name == "console.noplan" || $state.current.name == "console.Integration" || $state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name == "console.notification" || $state.current.name == "console.resource_management") {
 
                         return false
                     }
@@ -551,6 +551,12 @@ angular.module("console.header", [{
                 return "Pod 详情";
             case "console.services":
                 return "Services";
+            case "console.resource_persistentVolume":
+                return "持久化卷";
+            case "console.resource_configMap":
+                return "配置卷";
+            case "console.resource_secret":
+                return "密钥";
 
         }
     };

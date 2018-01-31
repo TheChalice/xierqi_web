@@ -915,6 +915,36 @@ define([
                             }]
                     }
                 })
+                .state('console.resource_configMap', {
+                    url: '/configmaps',
+                    templateUrl: 'views/resource_configMap/resource_configMap.html',
+                    controller: 'configMapCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/resource_configMap/resource_configMap.js')
+                        }]
+                    }
+                })
+                .state('console.resource_persistentVolume', {
+                    url: '/storage',
+                    templateUrl: 'views/resource_persistentVolume/resource_persistentVolume.html',
+                    controller: 'persistentVolumeCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/resource_persistentVolume/resource_persistentVolume.js')
+                        }]
+                    }
+                })
+                .state('console.resource_secret', {
+                    url: '/secrets',
+                    templateUrl: 'views/resource_secret/resource_secret.html',
+                    controller: 'resourceSecret',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/resource_secret/resource_secret.js')
+                        }]
+                    }
+                })
         }]);
 
 });
