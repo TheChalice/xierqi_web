@@ -300,6 +300,15 @@ define([
             });
             return ReplicationController;
         }])
+        .factory('DeploymentConfigRollback', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
+            var DeploymentConfigRollback = $resource(GLOBAL.host + '/namespaces/:namespace/deploymentconfigrollbacks', {
+                namespace: '@namespace'
+            }, {
+                create: { method: 'POST' },
+                put: { method: 'PUT' }
+            });
+            return DeploymentConfigRollback;
+        }])
         .factory('Dcinstantiate', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
             var Dcinstantiate = $resource(GLOBAL.host + '/namespaces/:namespace/deploymentconfigs/:name/instantiate', {
                 name: '@name',
