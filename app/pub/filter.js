@@ -763,6 +763,16 @@ define(['angular', 'moment'], function (angular, moment) {
                 return ref;
             };
         })
+        .filter('deploymentIsLatest', function(annotationFilter) {
+            return function(deployment, deploymentConfig) {
+                if (!deploymentConfig || !deployment) {
+                    return false;
+                }
+                var deploymentVersion = parseInt(annotationFilter(deployment, 'deploymentVersion'));
+                var deploymentConfigVersion = deploymentConfig.status.latestVersion;
+                return deploymentVersion === deploymentConfigVersion;
+            };
+        })
         .filter('deploymentStatus', ['annotationFilter', 'hasDeploymentConfigFilter', function (annotationFilter, hasDeploymentConfigFilter) {
             return function (deployment) {
                 //console.log('deployment', deployment);
