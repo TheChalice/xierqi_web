@@ -23,7 +23,8 @@ define([
     'angular_patternfly',
     'treeControl',
     'lodash',
-    'stateEvents'
+    'stateEvents',
+       'toastr',
 ], function (angular) {
 
     // 声明应用及其依赖
@@ -43,7 +44,8 @@ define([
         'highcharts-ng',
         "patternfly.wizard",
         'treeControl',
-        'ui.router.state.events'
+        'ui.router.state.events',
+        'toastr'
     ]);
 
     DataFoundry.constant('GLOBAL', {
