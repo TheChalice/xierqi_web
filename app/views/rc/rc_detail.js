@@ -77,7 +77,9 @@ angular.module('console.rc', [
                         !deploymentIsLatest($scope.replicaSet, $scope.deploymentConfig) &&
                         !$scope.replicaSet.metadata.deletionTimestamp ;
                 };
+                $scope.flag = false;
                 $scope.rollbackToDeployment = function(changeScaleSettings, changeStrategy, changeTriggers) {
+                    $scope.flag = true;
                     var rollbackdata = {
                         kind: "DeploymentConfigRollback",
                         apiVersion:"v1",
@@ -90,9 +92,9 @@ angular.module('console.rc', [
                         }
                     };
                     DeploymentConfigRollback.create({namespace: $rootScope.namespace}, rollbackdata, function (data) {
-                        // console.log('444', data);
+                        console.log('DeploymentConfigRollback is ok');
                         DeploymentConfig.put({namespace: $rootScope.namespace,name:data.metadata.name}, data, function (res) {
-                            // console.log('555', res);
+                            console.log('DeploymentConfig put is ok');
                             // if (res.kind === 'DeploymentConfig') {
                             //     Notification.success("Deployment #" + res.status.latestVersion + " is rolling back " + $scope.replicaSet.spec.selector.deploymentconfig + " to " + $scope.replicaSet.metadata.name + ".");
                             // }
