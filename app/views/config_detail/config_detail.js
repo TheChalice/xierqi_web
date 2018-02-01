@@ -158,7 +158,7 @@ angular.module('console.config_detail', [
                 delete $scope.volume.configitems;
                 configmaps.updata({namespace: $rootScope.namespace,name:$stateParams.name,region:$rootScope.region}, $scope.volume, function (res) {
                     //console.log('createconfig----', res);
-                    $state.go('console.resource_management', {index: 2});
+                    $state.go('console.resource_configMap', {index: 2});
                     //$state.go('console.build_detail', {name: name, from: 'create'})
                 })
             }
@@ -172,7 +172,7 @@ angular.module('console.config_detail', [
                         // $state.go('console.resource_management', {index: 2});
                         //$state.go('console.build_detail', {name: name, from: 'create'})
                     }, function (err) {
-                        Confirm.open("删除密钥", "删除密钥失败", "存储卷已经挂载在容器中，您需要先停止服务，卸载存储卷后，才能删除。", null,true)
+                        Confirm.open("删除密钥卷", "删除密钥卷失败", "存储卷已经挂载在容器中，您需要先停止服务，卸载存储卷后，才能删除。", null,true)
                     })
                 })
             }

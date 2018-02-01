@@ -56,7 +56,7 @@ angular.module('console.pods', [{
                     $scope.text3='没有查询到相关数据';
                 }
                 else{
-                    $scope.text3='您还没有创建密钥';
+                    $scope.text3='您还没有创建密钥卷';
                 }
                 $scope.items=angular.copy(iarr);
                 refresh(1);

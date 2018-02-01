@@ -510,11 +510,11 @@ angular.module("console.header", [{
             case "console.create_config_configMap":
                 return "新建配置卷";
             case "console.create_secret":
-                return "新建密钥";
+                return "新建密钥卷";
             case "console.config_configMap":
                 return "配置卷详情";
             case "console.secret_secret":
-                return "密钥详情";
+                return "密钥卷详情";
             case "console.constantly_persistentVolume":
                 return "持久卷详情";
             case "console.create_saas":
@@ -556,7 +556,7 @@ angular.module("console.header", [{
             case "console.resource_configMap":
                 return "配置卷";
             case "console.resource_secret":
-                return "密钥";
+                return "密钥卷";
 
         }
     };
