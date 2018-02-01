@@ -613,19 +613,7 @@ define([
                     }
                 })
                 //resource management
-                .state('console.resource_management', {
-                    url: '/resource_management',
-                    params: {
-                        index: null
-                    },
-                    templateUrl: 'views/resource_management/resource_management.html',
-                    controller: 'resmanageCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/resource_management/resource_management.js')
-                        }]
-                    }
-                })
+
                 .state('console.create_constantly_persistentVolume', {
                     url: '/resource_create_persistentVolume',
                     templateUrl: 'views/create_constantly_volume/create_constantly_volume.html',
@@ -657,7 +645,7 @@ define([
                     }
                 })
                 .state('console.config_configMap', {
-                    url: '/resource_management/configMap/:name',
+                    url: '/configmaps/:name',
                     templateUrl: 'views/config_detail/config_detail.html',
                     controller: 'configDetailCtrl',
                     resolve: {
@@ -667,7 +655,7 @@ define([
                     }
                 })
                 .state('console.secret_secret', {
-                    url: '/resource_management/secret/:name',
+                    url: '/secrets/:name',
                     templateUrl: 'views/secret_detail/secret_detail.html',
                     controller: 'secretDetailCtrl',
                     resolve: {
@@ -677,7 +665,7 @@ define([
                     }
                 })
                 .state('console.constantly_persistentVolume', {
-                    url: '/resource_management/persistentVolume/:name',
+                    url: '/storage/:name',
                     templateUrl: 'views/constantly_detail/constantly_detail.html',
                     controller: 'constDetailCtrl',
                     resolve: {
