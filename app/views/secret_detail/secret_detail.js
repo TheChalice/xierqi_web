@@ -80,7 +80,9 @@ angular.module('console.secret_secret', [
                 _utf8_decode: function (e) {
                     var t = "";
                     var n = 0;
-                    var r = c1 = c2 = 0;
+                    var c2 = 0
+                    var c1=0
+                    var r =0;
                     while (n < e.length) {
                         r = e.charCodeAt(n);
                         if (r < 128) {
@@ -109,7 +111,8 @@ angular.module('console.secret_secret', [
                 //$scope.item.change = false;
                 $scope.change = false;
                 angular.forEach(res.data, function (res, i) {
-                    $scope.item.secretarr.push({key: i, value: res,showLog:false});
+
+                    $scope.item.secretarr.push({key: i, value:Base64.decode(res),showLog:false});
                 });
                 //console.log($scope.item.secretarr);
             })
