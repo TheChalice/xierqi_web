@@ -516,7 +516,7 @@ angular.module("console.header", [{
             case "console.secret_secret":
                 return "密钥卷详情";
             case "console.constantly_persistentVolume":
-                return "持久卷详情";
+                return "存储卷详情";
             case "console.create_saas":
                 return "新建服务实例";
             case "console.pay":

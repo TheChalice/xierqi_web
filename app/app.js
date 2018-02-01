@@ -24,7 +24,7 @@ define([
     'treeControl',
     'lodash',
     'stateEvents',
-       'toastr',
+    'toastr'
 ], function (angular) {
 
     // 声明应用及其依赖

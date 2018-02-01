@@ -37,8 +37,8 @@ angular.module('console.routes', [{
                 if ($scope.route) {
                     delTip.open("删除Route", val, true).then(function(){
                         deleteRoute(val);
-                    })
 
+                    });
                 }
             };
 

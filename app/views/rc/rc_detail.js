@@ -11,8 +11,8 @@ angular.module('console.rc', [
         ]
     }
 ])
-    .controller('rcCtrl', ['$rootScope', '$scope', '$stateParams', 'Metrics', 'PieChar', 'myPodList', '$interval', '$state', '$log', 'ReplicationController', 'myrc', 'ScaleRc', '$filter', 'DeploymentConfigRollback', 'DeploymentConfig',
-        function ($rootScope, $scope, $stateParams, Metrics, PieChar, myPodList, $interval, $state, $log, ReplicationController, myrc, ScaleRc, $filter, DeploymentConfigRollback, DeploymentConfig) {
+    .controller('rcCtrl', ['$rootScope', '$scope', '$stateParams', 'Metrics', 'PieChar', 'myPodList', '$interval', '$state', '$log', 'ReplicationController', 'myrc', 'ScaleRc', '$filter', 'DeploymentConfigRollback', 'DeploymentConfig', 'toastr',
+        function ($rootScope, $scope, $stateParams, Metrics, PieChar, myPodList, $interval, $state, $log, ReplicationController, myrc, ScaleRc, $filter, DeploymentConfigRollback, DeploymentConfig, toastr) {
 
             var getOwnerReferences = function (apiObject) {
                 return _.get(apiObject, 'metadata.ownerReferences');
@@ -95,6 +95,10 @@ angular.module('console.rc', [
                         console.log('DeploymentConfigRollback is ok');
                         DeploymentConfig.put({namespace: $rootScope.namespace,name:data.metadata.name}, data, function (res) {
                             console.log('DeploymentConfig put is ok');
+                            toastr.success('roll back 成功', {
+                                timeOut: 2000,
+                                closeButton: true
+                            });
                             // if (res.kind === 'DeploymentConfig') {
                             //     Notification.success("Deployment #" + res.status.latestVersion + " is rolling back " + $scope.replicaSet.spec.selector.deploymentconfig + " to " + $scope.replicaSet.metadata.name + ".");
                             // }
