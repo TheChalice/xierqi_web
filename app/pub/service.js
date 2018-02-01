@@ -751,7 +751,7 @@ define(['angular'], function (angular) {
                                 }
                                 //console.log('==================nnnnnn',n);
                             }, true)
-                            ////添加密钥
+                            ////添加密钥卷
                             $scope.addsecretarr = function () {
                                 $scope.grid.change = true;
                                 $scope.secretarr.push({
@@ -762,14 +762,14 @@ define(['angular'], function (angular) {
                                     mountPath: ''
                                 });
                             }
-                            ////删除密钥
+                            ////删除密钥卷
                             $scope.delsecretarr = function (idx) {
                                 $scope.secretarr.splice(idx, 1);
                             }
                             $scope.changesecrename = function (idx, val) {
                                 $scope.secretarr[idx].secret.secretName = val
                             }
-                            ////获取密钥列表
+                            ////获取密钥卷列表
                             var loadsecretsList = function () {
                                 secretskey.get({
                                     namespace: $rootScope.namespace,
@@ -875,7 +875,7 @@ define(['angular'], function (angular) {
                                         "mountPath": $scope.secretarr[i].mountPath
                                     }
                                     if ($scope.secretarr[i].secret.secretName == '名称' || !$scope.secretarr[i].mountPath) {
-                                        //alert('密钥不能为空')
+                                        //alert('密钥卷不能为空')
                                         return;
                                     }
                                     thisvolumes.push(volumeval);

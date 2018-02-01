@@ -229,20 +229,20 @@ angular.module('console.secret_secret', [
                 }, $scope.item, function (res) {
                     //console.log('test the item', res);
                     Toast.open('保存成功')
-                    $state.go('console.resource_management', {index: 3})
+                    $state.go('console.resource_secret', {index: 3})
                 })
             }
             $scope.delete = function () {
                 //delSecret.del({namespace: $rootScope.namespace}, function () {
                 //    $state.go('console.resource_management', {index: 3})
                 //})
-                Confirm.open("删除密钥", "您确定要删除密钥吗？", "密钥已经挂载在容器中，删除此密钥，容器启动将异常", "stop").then(function(){
+                Confirm.open("删除密钥卷", "您确定要删除密钥卷吗？", "密钥已经挂载在容器中，删除此密钥，容器启动将异常", "stop").then(function(){
 
                     deleteSecret.delete({namespace: $rootScope.namespace,region:$rootScope.region,name:$scope.item.metadata.name}, function () {
                         $state.go('console.resource_secret', {index: 3})
                         // $state.go('console.resource_management', {index: 3})
                     },function (err) {
-                        Confirm.open("删除密钥", "删除密钥失败", "存储卷已经挂载在容器中，您需要先停止服务，         卸载存储卷后，才能删除。", null,true)
+                        Confirm.open("删除密钥卷", "删除密钥卷失败", "存储卷已经挂载在容器中，您需要先停止服务，         卸载存储卷后，才能删除。", null,true)
                     })
 
 
