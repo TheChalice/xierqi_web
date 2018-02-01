@@ -11,8 +11,8 @@ angular.module('console.deploymentconfig_detail', [
             ]
         }
     ])
-    .controller('DeploymentConfigDetailCtrl', ['Toast','Confirm', 'delTip', '$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag', '$state',
-        function (Toast,Confirm, delTip, $log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag, $state) {
+    .controller('DeploymentConfigDetailCtrl', ['Toast','Confirm', 'delTip', '$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag', '$state','toastr',
+        function (Toast,Confirm, delTip, $log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag, $state,toastr) {
             $scope.dc = angular.copy(mydc)
             console.log('mydc', mydc);
             $scope.mytag = angular.copy(mytag)
@@ -175,7 +175,6 @@ angular.module('console.deploymentconfig_detail', [
                 angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
                     //console.log(con.dosetcon.doset);
                     if (con.doset) {
-
                         if (con.readinessProbe.httpGet) {
                             con.readinessProbe.httpGet.port = parseInt(con.readinessProbe.httpGet.port)
 
@@ -202,6 +201,7 @@ angular.module('console.deploymentconfig_detail', [
                         if (volrepeat(con.volumeMounts)) {
                             Toast.open('卷路径重复');
                             cancreat=false
+                            toastr.error('操作失败');
                         }
                         //
                     } else {
@@ -245,6 +245,7 @@ angular.module('console.deploymentconfig_detail', [
                     namespace: $rootScope.namespace,
                     name: $stateParams.name
                 }, sendobj, function (obj) {
+                    toastr.success('操作成功');
                     console.log(obj);
                 })
             }
@@ -254,9 +255,11 @@ angular.module('console.deploymentconfig_detail', [
                         namespace: $rootScope.namespace,
                         name: $stateParams.name
                     }, function (datadc) {
+                        toastr.success('操作成功');
                         $state.go('console.deployments');
                     }, function () {
-                        Confirm.open("删除Deployment", "删除" + val + "失败", null, null, true)
+                        Confirm.open("删除Deployment", "删除" + val + "失败", null, null, true);
+                        toastr.error('操作失败');
                     })
                 })
 
