@@ -12,15 +12,15 @@
         <uib-tabset class="tab-default tab-back-zn-default " active="check">
             <uib-tab index="1" >
                 <uib-tab-heading class="uib-tab-heading_width" style="">
-                    <i class="constantlyvolume"></i>&nbsp;&nbsp;持久化卷
+                    <i class="constantlyvolume"></i>&nbsp;&nbsp;存储卷
                 </uib-tab-heading>
                 <div>
                     <div class="row tool_nav" style="">
                         <div class="col-sm-7 col-xs-4">
-                            <a class="btn btn-green btn-green_res"  ui-sref="console.create_constantly_volume" style="">
+                            <a class="btn btn-green btn-green_res"  ui-sref="console.create_constantly_persistentVolume" style="">
 
                                 <i class="fa fa-plus fa-lg"></i>
-                                <span class="hidden-xs">新建持久化卷</span>
+                                <span class="hidden-xs">新建存储卷</span>
                             </a>
                             <a class="btn btn-skyblue btn-skyblue_res" style="">
                                 <i class="fa fa-refresh fa-lg"ng-class="{'fa-spin': grid.constantlyvolume}"></i>
@@ -46,10 +46,10 @@
                         <table class="table-hover table-default table_hover" style="">
                             <tr class="tr_border" style="">
                                 <div class="row">
-                                    <th class='col-lg-2 col-md-2 col-sm-1'>持久化卷名称</th>
-                                    <th class='col-lg-2 col-md-2 col-sm-1'>持久化卷状态</th>
+                                    <th class='col-lg-2 col-md-2 col-sm-1'>存储卷名称</th>
+                                    <th class='col-lg-2 col-md-2 col-sm-1'>存储卷状态</th>
                                     <th class='col-lg-2 col-md-2 col-sm-2'>创建时间</th>
-                                    <th class='col-lg-2 col-md-2 col-sm-2'>持久化卷大小</th>
+                                    <th class='col-lg-2 col-md-2 col-sm-2'>存储卷大小</th>
                                     <th class='col-lg-3 col-md-3 col-sm-2'>挂载服务数量</th>
                                 </div>
                             </tr>
@@ -95,7 +95,7 @@
                 <div>
                     <div class="row tool_nav" style="">
                         <div class="col-sm-7 col-xs-4">
-                            <a class="btn btn-green btn-green_res" style="" ui-sref="console.create_config_volume">
+                            <a class="btn btn-green btn-green_res" style="" ui-sref="console.create_config_configMap">
                                 <i class="fa fa-plus fa-lg"></i>
                                 <span class="hidden-xs"> 新建配置卷</span>
                             </a>
@@ -162,14 +162,14 @@
             </uib-tab>
             <uib-tab index="3">
                 <uib-tab-heading class="uib-tab-heading_width" style="">
-                    <i class="secret"></i>&nbsp;&nbsp;密钥
+                    <i class="secret"></i>&nbsp;&nbsp;密钥卷
                 </uib-tab-heading>
                 <div>
                     <div class="row tool_nav" style="">
                         <div class="col-sm-7 col-xs-4">
                             <a class="btn btn-green btn-green_res" style="" ui-sref="console.create_secret">
                                 <i class="fa fa-plus fa-lg"></i>
-                                <span class="hidden-xs"> 新建密钥</span>
+                                <span class="hidden-xs"> 新建密钥卷</span>
                             </a>
                             <a class="btn btn-skyblue btn-skyblue_res" ng-click="secretReload()"
                                style="">
@@ -197,13 +197,13 @@
                                style="">
                             <tr>
                                 <div class="row">
-                                    <th class='col-lg-2 col-md-2 col-sm-1'>密钥名称</th>
+                                    <th class='col-lg-2 col-md-2 col-sm-1'>密钥卷名称</th>
                                     <th class='col-lg-2 col-md-2 col-sm-2'>创建时间</th>
                                 </div>
                             </tr>
                             <tr ng-repeat="items in secretitems">
                                 <td class="td_borderBottom td_overflow" style="">
-                                    <a class="listitem" uib-tooltip="{{items.metadata.name}}" tooltip-placement="top" ui-sref="console.secret_detail({name:items.metadata.name})"
+                                    <a class="listitem" uib-tooltip="{{items.metadata.name}}" tooltip-placement="top" ui-sref="console.secret_secret({name:items.metadata.name})"
                                        style="">
                                         {{items.metadata.name}}
                                     </a>

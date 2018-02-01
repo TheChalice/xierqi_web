@@ -1,5 +1,5 @@
 'use strict';
-angular.module('console.create_config_volume', [
+angular.module('console.create_config_configMap', [
     {
         files: []
     }
@@ -232,10 +232,10 @@ angular.module('console.create_config_volume', [
         configmaps.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.volume, function (res) {
             //console.log('createconfig----', res);
             $scope.loaded=false;
-            $state.go('console.resource_management', {index: 2});
+            $state.go('console.resource_configMap', {index: 2});
             //$state.go('console.build_detail', {name: name, from: 'create'})
         }, function (res) {
-            $state.go('console.create_config_volume');
+            $state.go('console.create_config_configMap');
         })
     }
 }])

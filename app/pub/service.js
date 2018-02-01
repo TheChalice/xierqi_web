@@ -751,7 +751,7 @@ define(['angular'], function (angular) {
                                 }
                                 //console.log('==================nnnnnn',n);
                             }, true)
-                            ////添加密钥
+                            ////添加密钥卷
                             $scope.addsecretarr = function () {
                                 $scope.grid.change = true;
                                 $scope.secretarr.push({
@@ -762,14 +762,14 @@ define(['angular'], function (angular) {
                                     mountPath: ''
                                 });
                             }
-                            ////删除密钥
+                            ////删除密钥卷
                             $scope.delsecretarr = function (idx) {
                                 $scope.secretarr.splice(idx, 1);
                             }
                             $scope.changesecrename = function (idx, val) {
                                 $scope.secretarr[idx].secret.secretName = val
                             }
-                            ////获取密钥列表
+                            ////获取密钥卷列表
                             var loadsecretsList = function () {
                                 secretskey.get({
                                     namespace: $rootScope.namespace,
@@ -815,9 +815,9 @@ define(['angular'], function (angular) {
                             $scope.changeconfigname = function (idx, val) {
                                 $scope.configmap[idx].configMap.name = val
                             }
-                            ////////持久化卷
+                            ////////存储卷
 
-                            ///获取持久化卷
+                            ///获取存储卷
 
                             var loadpersistent = function () {
 
@@ -835,7 +835,7 @@ define(['angular'], function (angular) {
                                 })
                             }
                             loadpersistent();
-                            //////添加持久化卷
+                            //////添加存储卷
                             $scope.addpersistent = function () {
                                 $scope.grid.change = true;
                                 $scope.persistentarr.push({
@@ -846,7 +846,7 @@ define(['angular'], function (angular) {
                                     mountPath: ''
                                 });
                             }
-                            ///删除持久化卷
+                            ///删除存储卷
                             $scope.delpersistent = function (idx) {
                                 $scope.persistentarr.splice(idx, 1);
                             }
@@ -875,7 +875,7 @@ define(['angular'], function (angular) {
                                         "mountPath": $scope.secretarr[i].mountPath
                                     }
                                     if ($scope.secretarr[i].secret.secretName == '名称' || !$scope.secretarr[i].mountPath) {
-                                        //alert('密钥不能为空')
+                                        //alert('密钥卷不能为空')
                                         return;
                                     }
                                     thisvolumes.push(volumeval);

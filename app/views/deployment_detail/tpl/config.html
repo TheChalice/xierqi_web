@@ -272,7 +272,7 @@
                                         </span>
                 </span>
                 <div ng-show="container.volment" style="margin-top:10px;">
-                    <div><span>密钥</span></div>
+                    <div><span>密钥卷</span></div>
                     <div class="service-ctrl" style="">
                         <div ng-if="container.volments.secret.length > 0" style="margin-bottom: 10px;"
                              ng-repeat="secret in container.volments.secret"
@@ -314,7 +314,7 @@
                         <div class="" ng-click="addconvol(outerIndex,'secret','secretName')"
                              style="cursor: pointer;margin-top: 10px; font-size: 14px;">
                             <i class="fa fa-plus-circle fa-lg" style="cursor:pointer;"></i>
-                            &nbsp;<span style="color: #55c45f;">增加密钥</span>
+                            &nbsp;<span style="color: #55c45f;">增加密钥卷</span>
                         </div>
                     </div>
                     <div><span>配置卷</span></div>
@@ -362,7 +362,7 @@
                             &nbsp;<span style="color: #55c45f;">增加配置卷</span>
                         </div>
                     </div>
-                    <div><span>持久化卷</span></div>
+                    <div><span>存储卷</span></div>
                     <div class="service-ctrl" style="">
                         <div ng-if="container.volments.persistentVolumeClaim.length > 0" style="margin-bottom: 10px;"
                              ng-repeat="persistentVolume in container.volments.persistentVolumeClaim"
@@ -404,7 +404,7 @@
                         <div class="" ng-click="addconvol(outerIndex,'persistentVolumeClaim','claimName')"
                              style="cursor: pointer;margin-top: 10px; font-size: 14px;">
                             <i class="fa fa-plus-circle fa-lg" style="cursor:pointer;"></i>
-                            &nbsp;<span style="color: #55c45f;">增加持久化卷</span>
+                            &nbsp;<span style="color: #55c45f;">增加存储卷</span>
                         </div>
                     </div>
 

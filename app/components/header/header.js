@@ -384,7 +384,7 @@ angular.module("console.header", [{
 
                 $scope.hasBack = function(){
 
-                    if ($state.current.name == "console.stateful-sets"||$state.current.name == "console.routes"||$state.current.name == "console.services"||$state.current.name == "console.pods"||$state.current.name == "console.deployments"||$state.current.name == "console.noplan" || $state.current.name == "console.Integration" || $state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name == "console.notification" || $state.current.name == "console.resource_management") {
+                    if ($state.current.name == "console.resource_secret"||$state.current.name == "console.resource_configMap"||$state.current.name == "console.resource_persistentVolume"||$state.current.name == "console.stateful-sets"||$state.current.name == "console.routes"||$state.current.name == "console.services"||$state.current.name == "console.pods"||$state.current.name == "console.deployments"||$state.current.name == "console.noplan" || $state.current.name == "console.Integration" || $state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name == "console.notification" || $state.current.name == "console.resource_management") {
 
                         return false
                     }
@@ -505,17 +505,17 @@ angular.module("console.header", [{
                 return "消息中心";
             case "console.resource_management":
                 return "资源管理";
-            case "console.create_constantly_volume":
-                return "新建持久化卷";
-            case "console.create_config_volume":
+            case "console.create_constantly_persistentVolume":
+                return "新建存储卷";
+            case "console.create_config_configMap":
                 return "新建配置卷";
             case "console.create_secret":
-                return "新建密钥";
-            case "console.config_detail":
+                return "新建密钥卷";
+            case "console.config_configMap":
                 return "配置卷详情";
-            case "console.secret_detail":
-                return "密钥详情";
-            case "console.constantly_detail":
+            case "console.secret_secret":
+                return "密钥卷详情";
+            case "console.constantly_persistentVolume":
                 return "持久卷详情";
             case "console.create_saas":
                 return "新建服务实例";
@@ -551,6 +551,12 @@ angular.module("console.header", [{
                 return "Pod 详情";
             case "console.services":
                 return "Services";
+            case "console.resource_persistentVolume":
+                return "存储卷";
+            case "console.resource_configMap":
+                return "配置卷";
+            case "console.resource_secret":
+                return "密钥卷";
 
         }
     };

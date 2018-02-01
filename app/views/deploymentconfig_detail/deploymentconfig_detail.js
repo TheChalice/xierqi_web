@@ -14,8 +14,16 @@ angular.module('console.deploymentconfig_detail', [
     .controller('DeploymentConfigDetailCtrl', ['Toast','Confirm', 'delTip', '$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag', '$state','toastr',
         function (Toast,Confirm, delTip, $log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag, $state,toastr) {
             $scope.dc = angular.copy(mydc)
-            console.log('mydc', mydc);
+            //console.log('mydc', mydc);
             $scope.mytag = angular.copy(mytag)
+            $scope.err = {
+                vol: {
+                    secret:false,
+                    configMap:false,
+                    persistentVolumeClaim:false,
+                    mountPath:false
+                }
+            }
             var cont = 0
             $scope.envs = [];
             $scope.grid = {}
@@ -96,7 +104,6 @@ angular.module('console.deploymentconfig_detail', [
                     //alert(11)
                 })
             }
-
             var makeimagemap = function () {
                 angular.forEach($scope.mytag.items, function (tag, i) {
                     $scope.imagedockermap[tag.image.dockerImageReference] = {
@@ -116,6 +123,68 @@ angular.module('console.deploymentconfig_detail', [
                 //console.log($scope.imagedockermap, $scope.imagemap);
             }
             makeimagemap()
+            var volerr= function (vol) {
+                var volerr=false;
+                var cunt=0;
+                var copyarr=[]
+                $scope.err = {
+                    vol: {
+                        secret:false,
+                        configMap:false,
+                        persistentVolumeClaim:false,
+                        mountPath:false
+                    }
+                }
+                angular.forEach(vol, function (item,i) {
+                    angular.forEach(item, function (ovolment,k) {
+                        ovolment.id=cunt;
+                        ovolment.index=k;
+                        ovolment.type=i
+                        cunt=cunt+1;
+                        copyarr.push(ovolment)
+                    })
+                })
+                console.log('vol', vol);
+                angular.forEach(vol, function (item,i) {
+
+                    angular.forEach(item, function (ovolment,k) {
+                        //console.log('item', volment.mountPath);
+                        ovolment.mountPatherr=false;
+                        ovolment.nameerr=false;
+                        angular.forEach(copyarr, function (ivolment,j) {
+                            //console.log(ovolment.id, ivolment.id);
+                            if (ovolment.id !== ivolment.id) {
+                                if (ovolment.mountPath === ivolment.mountPath) {
+                                    volerr=true;
+                                    console.log(ivolment, vol[i]);
+                                    vol[ivolment.type][ivolment.index].mountPatherr=true;
+                                    ovolment.mountPatherr=true;
+                                    $scope.err.vol.mountPath=true;
+                                }
+                            }
+                        })
+                        if (ovolment.name || ovolment.secretName || ovolment.claimName) {
+
+                        }else {
+                            volerr=true
+                            ovolment.nameerr=true;
+                            $scope.err.vol[i]=true
+                        }
+
+                        if (!ovolment.mountPath) {
+                            ovolment.mountPatherr=true;
+                            volerr=true
+                            $scope.err.vol.mountPath=true
+                        }
+                    })
+
+                })
+                if (volerr) {
+                    return true
+                }else {
+                    return false
+                }
+            }
             var updatedcput = function (dc) {
                 DeploymentConfig.put({
                     namespace: $rootScope.namespace,
@@ -130,6 +199,7 @@ angular.module('console.deploymentconfig_detail', [
                 });
             }
             var creatvol = function (con, vol) {
+
                 angular.forEach(vol, function (item, i) {
                     if (item.length > 0) {
                         //console.log(item, i);
@@ -151,6 +221,7 @@ angular.module('console.deploymentconfig_detail', [
                 })
 
             }
+
             var volrepeat= function (vols) {
                 var rep=false;
                 angular.forEach(vols, function (ovol,i) {
@@ -164,7 +235,7 @@ angular.module('console.deploymentconfig_detail', [
                 })
                 if (rep) {
                     return true
-                }else{
+                } else {
                     return false
                 }
 
@@ -197,12 +268,15 @@ angular.module('console.deploymentconfig_detail', [
 
                     if (con.volment) {
                         con.volumeMounts = []
-                        creatvol(con, con.volments)
-                        if (volrepeat(con.volumeMounts)) {
-                            Toast.open('卷路径重复');
+                        if (volerr(con.volments)) {
                             cancreat=false
                             toastr.error('操作失败');
                         }
+                        creatvol(con, con.volments)
+                        //if (volrepeat(con.volumeMounts)) {
+                        //    Toast.open('卷路径重复');
+                        //    cancreat=false
+                        //}
                         //
                     } else {
                         delete con.volumeMounts

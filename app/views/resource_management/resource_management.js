@@ -190,7 +190,7 @@ angular.module('console.resource_management', [
 
                 }
             }
-            $scope.text='您还没有创建持久化卷';
+            $scope.text='您还没有创建存储卷';
             $scope.rmsearch = function (event) {
                 if (true) {
                     if (!$scope.grid.rmtxt) {
@@ -219,7 +219,7 @@ angular.module('console.resource_management', [
                         $scope.text='没有查询到相关数据';
                     }
                     else{
-                        $scope.text='您还没有创建持久化卷';
+                        $scope.text='您还没有创建存储卷';
                     }
                     $scope.persistentdata=angular.copy(iarr);
                     rmrefresh(1);
@@ -323,7 +323,7 @@ angular.module('console.resource_management', [
 
             $scope.loadconfigmaps();
 
-            //////////////////////////密钥
+            //////////////////////////密钥卷
 
             $scope.loadsecrets = function () {
                 secretskey.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (res) {
@@ -370,7 +370,7 @@ angular.module('console.resource_management', [
                 $scope.secretitems = $scope.secretdata.slice(skip, skip + $scope.secrets.size)||[];
                 //$scope.secrets.total = $scope.secretitems.length;
             };
-            $scope.text3=' 您还没有创建密钥';
+            $scope.text3=' 您还没有创建密钥卷';
             $scope.scretssearch = function (event) {
                 if (true) {
                     if (!$scope.secrets.txt) {
@@ -398,7 +398,7 @@ angular.module('console.resource_management', [
                         $scope.text3='没有查询到相关数据';
                     }
                     else{
-                        $scope.text3='您还没有创建密钥';
+                        $scope.text3='您还没有创建密钥卷';
                     }
                     $scope.secretdata=angular.copy(iarr);
                     secretrefresh(1);

@@ -11,8 +11,8 @@ angular.module('console.rc', [
         ]
     }
 ])
-    .controller('rcCtrl', ['$rootScope', '$scope', '$stateParams', 'Metrics', 'PieChar', 'myPodList', '$interval', '$state', '$log', 'ReplicationController', 'myrc', 'ScaleRc',
-        function ($rootScope, $scope, $stateParams, Metrics, PieChar, myPodList, $interval, $state, $log, ReplicationController, myrc, ScaleRc) {
+    .controller('rcCtrl', ['$rootScope', '$scope', '$stateParams', 'Metrics', 'PieChar', 'myPodList', '$interval', '$state', '$log', 'ReplicationController', 'myrc', 'ScaleRc', '$filter', 'DeploymentConfigRollback', 'DeploymentConfig',
+        function ($rootScope, $scope, $stateParams, Metrics, PieChar, myPodList, $interval, $state, $log, ReplicationController, myrc, ScaleRc, $filter, DeploymentConfigRollback, DeploymentConfig) {
 
             var getOwnerReferences = function (apiObject) {
                 return _.get(apiObject, 'metadata.ownerReferences');
@@ -44,7 +44,6 @@ angular.module('console.rc', [
                     poduid.push($scope.replicaPods[i].metadata.uid);
                 }
                 $scope.poduid = poduid.join('|');
-
                 $scope.isShow = true;
                 $scope.confirm = function (num) {
                     ScaleRc.put({
@@ -70,7 +69,38 @@ angular.module('console.rc', [
                 };
                 $scope.cancel = function () {
                     $scope.isShow = !$scope.isShow;
-                }
+                };
+                var deploymentStatus = $filter('deploymentStatus');
+                var deploymentIsLatest = $filter('deploymentIsLatest');
+                $scope.showRollbackAction = function() {
+                    return deploymentStatus($scope.replicaSet) === 'Complete' &&
+                        !deploymentIsLatest($scope.replicaSet, $scope.deploymentConfig) &&
+                        !$scope.replicaSet.metadata.deletionTimestamp ;
+                };
+                $scope.flag = false;
+                $scope.rollbackToDeployment = function(changeScaleSettings, changeStrategy, changeTriggers) {
+                    $scope.flag = true;
+                    var rollbackdata = {
+                        kind: "DeploymentConfigRollback",
+                        apiVersion:"v1",
+                        spec:{
+                            from:{name:$scope.replicaSet.metadata.name},
+                            includeTemplate:true,
+                            includeReplicationMeta: changeScaleSettings,
+                            includeStrategy: changeStrategy,
+                            includeTriggers: changeTriggers
+                        }
+                    };
+                    DeploymentConfigRollback.create({namespace: $rootScope.namespace}, rollbackdata, function (data) {
+                        console.log('DeploymentConfigRollback is ok');
+                        DeploymentConfig.put({namespace: $rootScope.namespace,name:data.metadata.name}, data, function (res) {
+                            console.log('DeploymentConfig put is ok');
+                            // if (res.kind === 'DeploymentConfig') {
+                            //     Notification.success("Deployment #" + res.status.latestVersion + " is rolling back " + $scope.replicaSet.spec.selector.deploymentconfig + " to " + $scope.replicaSet.metadata.name + ".");
+                            // }
+                        })
+                    })
+                };
             };
             getMyrc();
         }]);

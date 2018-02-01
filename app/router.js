@@ -445,7 +445,7 @@ define([
                     }
                 })
                 .state('console.service_create', {
-                    url: '/service/create',
+                    url: '/create-deploy',
                     templateUrl: 'views/service_create/service_create.html',
                     controller: 'ServiceCreateCtrl',
                     params: {
@@ -459,7 +459,7 @@ define([
                     }
                 })
                 .state('console.quick_deploy', {
-                    url: '/quick/deploy',
+                    url: '/create-quick-deploy',
                     templateUrl: 'views/quick_deploy/quick_deploy.html',
                     controller: 'QuickDeployCtrl',
                     resolve: {
@@ -613,21 +613,9 @@ define([
                     }
                 })
                 //resource management
-                .state('console.resource_management', {
-                    url: '/resource_management',
-                    params: {
-                        index: null
-                    },
-                    templateUrl: 'views/resource_management/resource_management.html',
-                    controller: 'resmanageCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/resource_management/resource_management.js')
-                        }]
-                    }
-                })
-                .state('console.create_constantly_volume', {
-                    url: '/resource_create_persistentVolume',
+
+                .state('console.create_constantly_persistentVolume', {
+                    url: '/create-pvc',
                     templateUrl: 'views/create_constantly_volume/create_constantly_volume.html',
                     controller: 'createconvolumeCtrl',
                     resolve: {
@@ -636,8 +624,8 @@ define([
                         }]
                     }
                 })
-                .state('console.create_config_volume', {
-                    url: '/resource_create_configMap',
+                .state('console.create_config_configMap', {
+                    url: '/create-configmap',
                     templateUrl: 'views/create_config_volume/create_config_volume.html',
                     controller: 'createfigvolumeCtrl',
                     resolve: {
@@ -647,7 +635,7 @@ define([
                     }
                 })
                 .state('console.create_secret', {
-                    url: '/create_secret',
+                    url: '/create-secret',
                     templateUrl: 'views/create_secret/create_secret.html',
                     controller: 'createSecretCtrl',
                     resolve: {
@@ -656,8 +644,8 @@ define([
                         }]
                     }
                 })
-                .state('console.config_detail', {
-                    url: '/resource_management/configMap/:name',
+                .state('console.config_configMap', {
+                    url: '/configmaps/:name',
                     templateUrl: 'views/config_detail/config_detail.html',
                     controller: 'configDetailCtrl',
                     resolve: {
@@ -666,8 +654,8 @@ define([
                         }]
                     }
                 })
-                .state('console.secret_detail', {
-                    url: '/resource_management/secret/:name',
+                .state('console.secret_secret', {
+                    url: '/secrets/:name',
                     templateUrl: 'views/secret_detail/secret_detail.html',
                     controller: 'secretDetailCtrl',
                     resolve: {
@@ -676,8 +664,8 @@ define([
                         }]
                     }
                 })
-                .state('console.constantly_detail', {
-                    url: '/resource_management/persistentVolume/:name',
+                .state('console.constantly_persistentVolume', {
+                    url: '/storage/:name',
                     templateUrl: 'views/constantly_detail/constantly_detail.html',
                     controller: 'constDetailCtrl',
                     resolve: {
@@ -822,7 +810,7 @@ define([
                 })
                  //新建routes
                 .state('console.create_routes', {
-                 url: '/create_routes/:name',
+                 url: '/create-route/:name',
                  templateUrl: 'views/create_file/create_routes/create_routes.html',
                  params: {
                      name:null
@@ -916,12 +904,32 @@ define([
                     }
                 })
                 .state('console.resource_configMap', {
-                    url: '/resource_configMap',
+                    url: '/configmaps',
                     templateUrl: 'views/resource_configMap/resource_configMap.html',
                     controller: 'configMapCtrl',
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/resource_configMap/resource_configMap.js')
+                        }]
+                    }
+                })//resource_persistentVolume
+                .state('console.resource_persistentVolume', {
+                    url: '/storage',
+                    templateUrl: 'views/resource_persistentVolume/resource_persistentVolume.html',
+                    controller: 'persistentVolumeCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/resource_persistentVolume/resource_persistentVolume.js')
+                        }]
+                    }
+                })
+                .state('console.resource_secret', {
+                    url: '/secrets',
+                    templateUrl: 'views/resource_secret/resource_secret.html',
+                    controller: 'resourceSecret',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/resource_secret/resource_secret.js')
                         }]
                     }
                 })
