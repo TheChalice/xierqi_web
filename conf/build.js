@@ -34,7 +34,8 @@
         lodash: '../bower_components/lodash/lodash',
         patternfly: '../bower_components/patternfly/dist/js/patternfly',
         angular_patternfly: '../bower_components/angular-patternfly/dist/angular-patternfly',
-        stateEvents: '../bower_components/angular-ui-router/release/stateEvents'
+        stateEvents: '../bower_components/angular-ui-router/release/stateEvents',
+        toastr: '../bower_components/angular-toastr/dist/angular-toastr.tpls'
 
     },
     shim : {
@@ -99,6 +100,9 @@
         },
         'stateEvents': {
             deps: ['angular','uiRouter']
+        },
+        'toastr': {
+            deps: ['angular','bootstrap']
         }
     }
 }
