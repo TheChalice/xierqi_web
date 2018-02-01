@@ -18,6 +18,7 @@ cp -r bower_components/marked $dist/vendor/
 cp -r bower_components/kubernetes-container-terminal $dist/vendor/
 cp -r bower_components/angular-tree-control $dist/vendor/
 cp -r bower_components/angular-patternfly $dist/vendor/
+cp -r bower_components/angular-toastr $dist/vendor/
 
 set -v
 echo "[post processing]"

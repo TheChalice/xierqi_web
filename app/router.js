@@ -445,7 +445,7 @@ define([
                     }
                 })
                 .state('console.service_create', {
-                    url: '/service/create',
+                    url: '/create-deploy',
                     templateUrl: 'views/service_create/service_create.html',
                     controller: 'ServiceCreateCtrl',
                     params: {
@@ -459,7 +459,7 @@ define([
                     }
                 })
                 .state('console.quick_deploy', {
-                    url: '/quick/deploy',
+                    url: '/create-quick-deploy',
                     templateUrl: 'views/quick_deploy/quick_deploy.html',
                     controller: 'QuickDeployCtrl',
                     resolve: {
@@ -615,7 +615,7 @@ define([
                 //resource management
 
                 .state('console.create_constantly_persistentVolume', {
-                    url: '/resource_create_persistentVolume',
+                    url: '/create-pvc',
                     templateUrl: 'views/create_constantly_volume/create_constantly_volume.html',
                     controller: 'createconvolumeCtrl',
                     resolve: {
@@ -625,7 +625,7 @@ define([
                     }
                 })
                 .state('console.create_config_configMap', {
-                    url: '/resource_create_configMap',
+                    url: '/create-configmap',
                     templateUrl: 'views/create_config_volume/create_config_volume.html',
                     controller: 'createfigvolumeCtrl',
                     resolve: {
@@ -635,7 +635,7 @@ define([
                     }
                 })
                 .state('console.create_secret', {
-                    url: '/create_secret',
+                    url: '/create-secret',
                     templateUrl: 'views/create_secret/create_secret.html',
                     controller: 'createSecretCtrl',
                     resolve: {
@@ -810,7 +810,7 @@ define([
                 })
                  //新建routes
                 .state('console.create_routes', {
-                 url: '/create_routes/:name',
+                 url: '/create-route/:name',
                  templateUrl: 'views/create_file/create_routes/create_routes.html',
                  params: {
                      name:null

@@ -8,8 +8,8 @@ angular.module('console.build.detail', [
             ]
         }
     ])
-    .controller('BuildDetailCtrl', ['$sce','ansi_ups','ImageStreamTag', 'deleteSecret', 'Ws', 'Sort', 'GLOBAL', '$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'UUID', 'WebhookLab', 'WebhookHub', 'WebhookLabDel', 'WebhookHubDel', 'ImageStream', 'WebhookLabget', 'WebhookGitget'
-        , function ($sce,ansi_ups,ImageStreamTag, deleteSecret, Ws, Sort, GLOBAL, $rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, UUID, WebhookLab, WebhookHub, WebhookLabDel, WebhookHubDel, ImageStream, WebhookLabget, WebhookGitget) {
+    .controller('BuildDetailCtrl', ['$sce','ansi_ups','ImageStreamTag', 'deleteSecret', 'Ws', 'Sort', 'GLOBAL', '$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'UUID', 'WebhookLab', 'WebhookHub', 'WebhookLabDel', 'WebhookHubDel', 'ImageStream', 'WebhookLabget', 'WebhookGitget','toastr'
+        , function ($sce,ansi_ups,ImageStreamTag, deleteSecret, Ws, Sort, GLOBAL, $rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, UUID, WebhookLab, WebhookHub, WebhookLabDel, WebhookHubDel, ImageStream, WebhookLabget, WebhookGitget,toastr) {
             $scope.grid = {};
 
             //console.log('路由',$state);
@@ -102,8 +102,11 @@ angular.module('console.build.detail', [
                     $scope.$broadcast('timeline', 'add', res);
                     createWebhook();
                     //deleteWebhook();
+                    toastr.success('操作成功');
+
                 }, function (res) {
                     //todo 错误处理
+                    toastr.error('操作成功');
                 });
             };
 
@@ -122,7 +125,7 @@ angular.module('console.build.detail', [
                             name: "custom-git-builder-" + $rootScope.user.metadata.name + '-' + name,
                             region: $rootScope.region
                         }), {}, function (res) {
-
+                            
                         }
                         removeIs($scope.data.metadata.name);
                         removeBuilds($scope.data.metadata.name);
@@ -135,7 +138,7 @@ angular.module('console.build.detail', [
                                     user: $scope.data.metadata.annotations.user,
                                     repo: $scope.data.metadata.annotations.repo
                                 }, function (item1) {
-
+                                    
                                 })
                             } else {
                                 WebhookLabDel.del({
@@ -144,13 +147,15 @@ angular.module('console.build.detail', [
                                     build: $stateParams.name,
                                     repo: $scope.data.metadata.annotations.repo
                                 }, function (data2) {
-
+                                    
                                 });
                             }
                         }
                         $state.go("console.build");
+                        toastr.success('操作成功');
                     }, function (res) {
                         //todo 错误处理
+                        toastr.error('操作失败');
                     });
                 });
             };
