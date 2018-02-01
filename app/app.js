@@ -26,7 +26,6 @@ define([
     'treeControl',
     'lodash',
     'jsyaml',
-    'URI', 'URITemplate', 'jqueryURI', 'URITemplate',
     'ace',
     'ui_ace'
 ], function(angular) {
@@ -99,10 +98,10 @@ define([
 
     .run(['$rootScope', 'account', '$state', 'Cookie',
         function($rootScope, account, $state, Cookie) {
-            var masterPublicHostname = 'https://new.dataos.io:8443';
+            var masterPublicHostname = 'http://127.0.0.1:8080';
             window.OPENSHIFT_CONFIG = {
                 apis: {
-                    "hostPort": "new.dataos.io:8443",
+                    "hostPort": "127.0.0.1:8080",
                     "prefix": "/apis",
                     "groups": {
                         "authentication.k8s.io": {
@@ -1773,7 +1772,7 @@ define([
                 },
                 api: {
                     "openshift": {
-                        "hostPort": "new.dataos.io:8443",
+                        "hostPort": "127.0.0.1:8080",
                         "prefix": "/oapi",
                         "resources": {
                             "v1": {
@@ -2503,7 +2502,7 @@ define([
                         }
                     },
                     "k8s": {
-                        "hostPort": "new.dataos.io:8443",
+                        "hostPort": "127.0.0.1:8080",
                         "prefix": "/api",
                         "resources": {
                             "v1": {

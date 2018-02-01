@@ -11,8 +11,8 @@ define(['angular'], function(angular) {
             DataService,
             // Navigate,
             // NotificationsService,
-            // QuotaService,
-            // SecurityCheckService,
+            QuotaService,
+            SecurityCheckService,
             TaskList
             // ,ProjectsService
         ) {
@@ -26,9 +26,9 @@ define(['angular'], function(angular) {
                 controller: function($scope) {
                     var aceEditorSession;
                     $scope.noProjectsCantCreate = false;
-                    console.log("$scope.resource:", $scope.resource)
+
                     var humanizeKind = $filter('humanizeKind');
-                    // var getErrorDetails = $filter('getErrorDetails');
+                    //var getErrorDetails = $filter('getErrorDetails');
                     TaskList.clear();
 
                     $scope.$on('no-projects-cannot-create', function() {
@@ -44,7 +44,6 @@ define(['angular'], function(angular) {
                     });
 
                     $scope.aceLoaded = function(editor) {
-                        console.log("fromFile editor :", editor)
                         aceEditorSession = editor.getSession();
                         aceEditorSession.setOption('tabSize', 2);
                         aceEditorSession.setOption('useSoftTabs', true);
@@ -55,6 +54,7 @@ define(['angular'], function(angular) {
                     var launchConfirmationDialog = function(alerts) {
                         var modalInstance = $uibModal.open({
                             animation: true,
+                            backdrop: 'static',
                             templateUrl: 'views/modals/confirm.html',
                             controller: 'ConfirmModalController',
                             resolve: {
@@ -75,7 +75,7 @@ define(['angular'], function(angular) {
 
                     var alerts = {};
                     var hideErrorNotifications = function() {
-                        console.log('hideErrorNotifications')
+                        console.log('hideErrorNotifications', "from-file-error")
                             // NotificationsService.hideNotification("from-file-error");
                             // _.each(alerts, function(alert) {
                             //     if (alert.id && (alert.type === 'error' || alert.type === 'warning')) {
@@ -85,39 +85,41 @@ define(['angular'], function(angular) {
                     };
 
                     var showWarningsOrCreate = function(result) {
-                        console.log('showWarningsOrCreate')
-                            // // Hide any previous notifications when form is resubmitted.
-                            // hideErrorNotifications();
-                            // alerts = SecurityCheckService.getSecurityAlerts($scope.createResources, $scope.input.selectedProject.metadata.name);
+                        console.log('showWarningsOrCreate', result)
+                            // Hide any previous notifications when form is resubmitted.
+                        hideErrorNotifications();
+                        alerts = SecurityCheckService.getSecurityAlerts($scope.createResources, $scope.input.selectedProject.metadata.name);
 
                         // // Now that all checks are completed, show any Alerts if we need to
-                        // var quotaAlerts = result.quotaAlerts || [];
-                        // alerts = alerts.concat(quotaAlerts);
-                        // var errorAlerts = _.filter(alerts, { type: 'error' });
-                        // if (errorAlerts.length) {
-                        //     _.each(alerts, function(alert) {
-                        //         alert.id = _.uniqueId('from-file-alert-');
-                        //         NotificationsService.addNotification(alert);
-                        //     });
-                        //     $scope.disableInputs = false;
-                        // } else if (alerts.length) {
-                        //     launchConfirmationDialog(alerts);
-                        //     $scope.disableInputs = false;
-                        // } else {
-                        //     createAndUpdate();
-                        // }
+                        var quotaAlerts = result.quotaAlerts || [];
+                        alerts = alerts.concat(quotaAlerts);
+                        var errorAlerts = _.filter(alerts, { type: 'error' });
+                        console.log("errorAlerts in showWarningsOrCreate", errorAlerts, alerts)
+                        if (errorAlerts.length) {
+                            _.each(alerts, function(alert) {
+                                alert.id = _.uniqueId('from-file-alert-');
+                                NotificationsService.addNotification(alert);
+                            });
+                            $scope.disableInputs = false;
+                        } else if (alerts.length) {
+                            launchConfirmationDialog(alerts);
+                            $scope.disableInputs = false;
+                        } else {
+                            console.log('must be here!!!')
+                            createAndUpdate();
+                        }
                     };
 
-                    // var createProjectIfNecessary = function() {
-                    //     if (_.has($scope.input.selectedProject, 'metadata.uid')) {
-                    //         return $q.when($scope.input.selectedProject);
-                    //     }
+                    var createProjectIfNecessary = function() {
+                        if (_.has($scope.input.selectedProject, 'metadata.uid')) {
+                            return $q.when($scope.input.selectedProject);
+                        }
 
-                    //     var newProjName = $scope.input.selectedProject.metadata.name;
-                    //     var newProjDisplayName = $scope.input.selectedProject.metadata.annotations['new-display-name'];
-                    //     var newProjDesc = $filter('description')($scope.input.selectedProject);
-                    //     return ProjectsService.create(newProjName, newProjDisplayName, newProjDesc);
-                    // };
+                        var newProjName = $scope.input.selectedProject.metadata.name;
+                        var newProjDisplayName = $scope.input.selectedProject.metadata.annotations['new-display-name'];
+                        var newProjDesc = $filter('description')($scope.input.selectedProject);
+                        return ProjectsService.create(newProjName, newProjDisplayName, newProjDesc);
+                    };
 
                     $scope.create = function() {
                         delete $scope.error;
@@ -166,41 +168,49 @@ define(['angular'], function(angular) {
                             resourceCheckPromises.push(checkIfExists(item));
                         });
 
-                        // createProjectIfNecessary().then(function(project) {
-                        //     $scope.input.selectedProject = project;
-                        //     $q.all(resourceCheckPromises).then(function() {
-                        //         if ($scope.errorOccurred) {
-                        //             return;
-                        //         }
-                        //         // If resource is Template and it doesn't exist in the project
-                        //         if ($scope.createResources.length === 1 && $scope.resourceList[0].kind === "Template") {
-                        //             openTemplateProcessModal();
-                        //             // Else if any resources already exist
-                        //         } else if (!_.isEmpty($scope.updateResources)) {
-                        //             $scope.updateTemplate = $scope.updateResources.length === 1 && $scope.updateResources[0].kind === "Template";
-                        //             if ($scope.updateTemplate) {
-                        //                 openTemplateProcessModal();
-                        //             } else {
-                        //                 confirmReplace();
-                        //             }
-                        //         } else {
-                        //             console.log("QuotaService")
-                        //                 // QuotaService.getLatestQuotaAlerts($scope.createResources, { namespace: $scope.input.selectedProject.metadata.name }).then(showWarningsOrCreate);
-                        //         }
-                        //     });
-                        // }, function(e) {
-                        //     if (e.data.reason === 'AlreadyExists') {
-                        //         $scope.projectNameTaken = true;
-                        //     } else {
-                        //         console.log("NotificationsService ", "import-create-project-error", "error", "An error occurred creating project.")
-                        //             // NotificationsService.addNotification({
-                        //             //     id: "import-create-project-error",
-                        //             //     type: "error",
-                        //             //     message: "An error occurred creating project.",
-                        //             //     details: getErrorDetails(e)
-                        //             // });
-                        //     }
-                        // });
+                        createProjectIfNecessary().then(function(project) {
+                            $scope.input.selectedProject = project;
+                            $q.all(resourceCheckPromises).then(function() {
+                                if ($scope.errorOccurred) {
+                                    return;
+                                }
+                                console.log("=====>000000   $scope.createResources", $scope.createResources)
+                                    // If resource is Template and it doesn't exist in the project
+                                if ($scope.createResources.length === 1 && $scope.resourceList[0].kind === "Template") {
+                                    openTemplateProcessModal();
+                                    // Else if any resources already exist
+                                } else if (!_.isEmpty($scope.updateResources)) {
+                                    $scope.updateTemplate = $scope.updateResources.length === 1 && $scope.updateResources[0].kind === "Template";
+                                    if ($scope.updateTemplate) {
+                                        openTemplateProcessModal();
+                                    } else {
+                                        confirmReplace();
+                                    }
+                                } else {
+                                    console.log("=====>1111")
+                                    QuotaService.getLatestQuotaAlerts($scope.createResources, { namespace: $scope.input.selectedProject.metadata.name })
+                                        .then(
+                                            // function(res) {
+                                            // console.log("createProjectIfNecessary() QuotaService showWarningsOrCreate", res)
+                                            showWarningsOrCreate
+                                            // }
+                                        )
+                                }
+                            });
+                        }, function(e) {
+                            console.log("=====>33333")
+                            if (e.data.reason === 'AlreadyExists') {
+                                $scope.projectNameTaken = true;
+                            } else {
+                                console.log("NotificationsService ", "import-create-project-error", "error", "An error occurred creating project.")
+                                    // NotificationsService.addNotification({
+                                    //     id: "import-create-project-error",
+                                    //     type: "error",
+                                    //     message: "An error occurred creating project.",
+                                    //     details: getErrorDetails(e)
+                                    // });
+                            }
+                        });
                     };
 
                     $scope.cancel = function() {
@@ -265,19 +275,21 @@ define(['angular'], function(angular) {
                     }
 
                     function confirmReplace() {
+                        console.log("confirmReplace")
                         var modalInstance = $uibModal.open({
                             animation: true,
-                            templateUrl: 'views/modals/confirm-replace.html',
-                            controller: 'ConfirmReplaceModalController',
+                            templateUrl: 'views/modals/confirm-replace/confirm-replace.html',
+                            controllerUrl: 'views/modals/confirm-replace/confirm-replace.js',
                             scope: $scope
                         });
                         modalInstance.result.then(function() {
                             console.log("QuotaService")
-                                // QuotaService.getLatestQuotaAlerts($scope.createResources, { namespace: $scope.input.selectedProject.metadata.name }).then(showWarningsOrCreate);
+                            QuotaService.getLatestQuotaAlerts($scope.createResources, { namespace: $scope.input.selectedProject.metadata.name }).then(showWarningsOrCreate);
                         });
                     }
 
                     function createAndUpdate() {
+                        console.log("================>createAndUpdate() ", $scope.createResources.length)
                         var createResourcesSum = $scope.createResources.length,
                             updateResourcesSum = $scope.updateResources.length;
 
@@ -291,7 +303,10 @@ define(['angular'], function(angular) {
                             if (createResourcesSum > 0) {
                                 createUpdatePromises.push(createResourceList());
                             }
-                            $q.all(createUpdatePromises).then(redirect);
+                            $q.all(createUpdatePromises).then(
+                                //redirect
+                                () => { console.log("Done!") }
+                            );
                         }
                     }
 
@@ -344,7 +359,8 @@ define(['angular'], function(angular) {
                         return DataService.get(resourceGroupVersion, item.metadata.name, { namespace: $scope.input.selectedProject.metadata.name }, { errorNotification: false }).then(
                             // resource does exist
                             function(resource) {
-                                // All fields, except 'metadata' will be copied from the submitted file.
+                                console.log('DataService.get resource', resource)
+                                    // All fields, except 'metadata' will be copied from the submitted file.
                                 var updatedResource = angular.copy(item);
                                 // Update only 'annotations' and 'labels' fields from the metadata field.
                                 var updatedMetadata = angular.copy(resource.metadata);
@@ -365,6 +381,7 @@ define(['angular'], function(angular) {
                     // createUpdateSingleResource function will create/update just a single resource on a none-List resource kind.
                     function createUpdateSingleResource() {
                         var resource;
+                        console.log('createUpdateSingleResource() =====>  $scope.createResources', $scope.createResources)
                         if (!_.isEmpty($scope.createResources)) {
                             resource = _.head($scope.createResources);
                             console.log('createUpdateSingleResource resource', resource)
@@ -542,5 +559,6 @@ define(['angular'], function(angular) {
                     $scope.$on('$destroy', hideErrorNotifications);
                 }
             };
-        });
+        })
+
 });

@@ -1,6 +1,5 @@
 'use strict';
 define(['angular',
-        'URI',
         'ngResource',
         'lodash',
     ], function(angular) {
@@ -12,51 +11,6 @@ define(['angular',
 
         .constant("APIS_CFG", _.get(window.OPENSHIFT_CONFIG, "apis", {}))
 
-        .constant('API_PREFERRED_VERSIONS', {
-            appliedclusterresourcequotas: { group: 'quota.openshift.io', version: 'v1', resource: 'appliedclusterresourcequotas' },
-            builds: { group: 'build.openshift.io', version: 'v1', resource: 'builds' },
-            'builds/clone': { group: 'build.openshift.io', version: 'v1', resource: 'builds/clone' },
-            'builds/log': { group: 'build.openshift.io', version: 'v1', resource: 'builds/log' },
-            'buildconfigs/instantiate': { group: 'build.openshift.io', version: 'v1', resource: 'buildconfigs/instantiate' },
-            buildconfigs: { group: 'build.openshift.io', version: 'v1', resource: 'buildconfigs' },
-            configmaps: { version: 'v1', resource: 'configmaps' },
-            clusterserviceclasses: { group: 'servicecatalog.k8s.io', version: 'v1beta1', resource: 'clusterserviceclasses' },
-            clusterserviceplans: { group: 'servicecatalog.k8s.io', version: 'v1beta1', resource: 'clusterserviceplans' },
-            deployments: { group: 'apps', version: 'v1beta1', resource: 'deployments' },
-            deploymentconfigs: { group: 'apps.openshift.io', version: 'v1', resource: 'deploymentconfigs' },
-            'deploymentconfigs/instantiate': { group: 'apps.openshift.io', version: 'v1', resource: 'deploymentconfigs/instantiate' },
-            'deploymentconfigs/rollback': { group: 'apps.openshift.io', version: 'v1', resource: 'deploymentconfigs/rollback' },
-            'deploymentconfigs/log': { group: 'apps.openshift.io', version: 'v1', resource: 'deploymentconfigs/log' },
-            endpoints: { version: 'v1', resoource: 'endpoints' },
-            events: { version: 'v1', resource: 'events' },
-            horizontalpodautoscalers: { group: 'autoscaling', version: 'v1', resource: 'horizontalpodautoscalers' },
-            imagestreams: { group: 'image.openshift.io', version: 'v1', resource: 'imagestreams' },
-            imagestreamtags: { group: 'image.openshift.io', version: 'v1', resource: 'imagestreamtags' },
-            imagestreamimages: { group: 'image.openshift.io', version: 'v1', resource: 'imagestreamimages' },
-            limitranges: { version: 'v1', resource: 'limitranges' },
-            pods: { version: 'v1', resource: 'pods' },
-            'pods/log': { version: 'v1', resource: 'pods/log' },
-            projects: { group: 'project.openshift.io', version: 'v1', resource: 'projects' },
-            projectrequests: { group: 'project.openshift.io', version: 'v1', resource: 'projectrequests' },
-            persistentvolumeclaims: { version: 'v1', resource: 'persistentvolumeclaims' },
-            replicasets: { group: 'extensions', version: 'v1beta1', resource: 'replicasets' },
-            replicationcontrollers: { version: 'v1', resource: 'replicationcontrollers' },
-            resourcequotas: { version: 'v1', resource: 'resourcequotas' },
-            rolebindings: { version: 'v1', resource: 'rolebindings' },
-            routes: { group: 'route.openshift.io', version: 'v1', resource: 'routes' },
-            secrets: { version: 'v1', resource: 'secrets' },
-            selfsubjectrulesreviews: { group: 'authorization.openshift.io', version: 'v1', resource: 'selfsubjectrulesreviews' },
-            services: { version: 'v1', resource: 'services' },
-            serviceaccounts: { version: 'v1', resource: 'serviceaccounts' },
-            servicebindings: { group: 'servicecatalog.k8s.io', version: 'v1beta1', resource: 'servicebindings' },
-            serviceinstances: { group: 'servicecatalog.k8s.io', version: 'v1beta1', resource: 'serviceinstances' },
-            statefulsets: { group: 'apps', version: 'v1beta1', resource: 'statefulsets' },
-            storageclasses: { group: 'storage.k8s.io', version: 'v1', resource: 'storageclasses' },
-            templates: { group: 'template.openshift.io', verison: 'v1', resource: 'templates' },
-            users: { group: 'user.openshift.io', version: 'v1', resource: 'users' }
-        })
-
-
         .factory('Constants', function() {
             var constants = _.clone(window.OPENSHIFT_CONSTANTS || {});
             var version = _.clone(window.OPENSHIFT_VERSION || {});
@@ -64,17 +18,16 @@ define(['angular',
             return constants;
         })
 
-        .factory('DataService', ['$http', '$rootScope', '$q', '$timeout', 'API_CFG', 'APIService',
-            function($http, $rootScope, $q, $timeout, API_CFG, APIService, ) {
-                // .factory('DataService', [function() {
-                console.log('DataService', URI)
-                    // Accept PartialObjectMetadataList. Unfortunately we can't use the Accept
-                    // header to fallback to JSON due to an API server content negotiation bug.
-                    // https://github.com/kubernetes/kubernetes/issues/50519
-                    //
-                    // This is a potential version skew issue for when the web console runs in
-                    // a pod where we potentially need to support different server versions.
-                    // https://trello.com/c/9oaUh8xP
+        .factory('DataService', ['$http', '$rootScope', '$q', '$timeout', 'API_CFG', 'APIService', '$cacheFactory',
+            function($http, $rootScope, $q, $timeout, API_CFG, APIService, $cacheFactory) {
+
+                // Accept PartialObjectMetadataList. Unfortunately we can't use the Accept
+                // header to fallback to JSON due to an API server content negotiation bug.
+                // https://github.com/kubernetes/kubernetes/issues/50519
+                //
+                // This is a potential version skew issue for when the web console runs in
+                // a pod where we potentially need to support different server versions.
+                // https://trello.com/c/9oaUh8xP
                 var ACCEPT_PARTIAL_OBJECT_METADATA_LIST = 'application/json;as=PartialObjectMetadataList;v=v1alpha1;g=meta.k8s.io';
 
                 function Data(array) {
@@ -190,14 +143,14 @@ define(['angular',
                     this._watchOperationMap = {};
                     this._listOperationMap = {};
                     this._resourceVersionMap = {};
-                    // this._dataCache = $cacheFactory('dataCache', {
-                    //     // 25 is a reasonable number to keep at least one or two projects worth of data in cache
-                    //     number: 25
-                    // });
-                    // this._immutableDataCache = $cacheFactory('immutableDataCache', {
-                    //     // 50 is a reasonable number for the immutable resources that are stored per resource instead of grouped by type
-                    //     number: 50
-                    // });
+                    this._dataCache = $cacheFactory('dataCache', {
+                        // 25 is a reasonable number to keep at least one or two projects worth of data in cache
+                        number: 25
+                    });
+                    this._immutableDataCache = $cacheFactory('immutableDataCache', {
+                        // 50 is a reasonable number for the immutable resources that are stored per resource instead of grouped by type
+                        number: 50
+                    });
                     this._watchOptionsMap = {};
                     this._watchWebsocketsMap = {};
                     this._watchPollTimeoutsMap = {};
@@ -224,7 +177,9 @@ define(['angular',
                     resource = APIService.toResourceGroupVersion(resource);
 
                     var key = this._uniqueKey(resource, null, context, opts);
+                    console.log('key', key)
                     var deferred = this._listDeferred(key);
+                    console.log('DataService.prototype.list  deferred', deferred)
                     if (callback) {
                         deferred.promise.then(callback);
                     }
@@ -336,31 +291,31 @@ define(['angular',
                 // context:   API context (e.g. {project: "..."})
                 // opts:      http - options to pass to the inner $http call
                 // Returns a promise resolved with response data or rejected with {data:..., status:..., headers:..., config:...} when the delete call completes.
-                // DataService.prototype.patch = function(resourceGroupVersion, name, object, context, opts) {
-                //   opts = opts || {};
-                //   var deferred = $q.defer();
-                //   var self = this;
-                //   this._getNamespace(resourceGroupVersion, context, opts).then(function(ns){
-                //     $http(angular.extend({
-                //       method: 'PATCH',
-                //       auth: {},
-                //       data: object,
-                //       url: self._urlForResource(resourceGroupVersion, name, context, false, ns)
-                //     }, opts.http || {}))
-                //     .success(function(data, status, headerFunc, config, statusText) {
-                //       deferred.resolve(data);
-                //     })
-                //     .error(function(data, status, headers, config) {
-                //       deferred.reject({
-                //         data: data,
-                //         status: status,
-                //         headers: headers,
-                //         config: config
-                //       });
-                //     });
-                //   });
-                //   return deferred.promise;
-                // };
+                DataService.prototype.patch = function(resourceGroupVersion, name, object, context, opts) {
+                    opts = opts || {};
+                    var deferred = $q.defer();
+                    var self = this;
+                    this._getNamespace(resourceGroupVersion, context, opts).then(function(ns) {
+                        $http(angular.extend({
+                                method: 'PATCH',
+                                auth: {},
+                                data: object,
+                                url: self._urlForResource(resourceGroupVersion, name, context, false, ns)
+                            }, opts.http || {}))
+                            .success(function(data, status, headerFunc, config, statusText) {
+                                deferred.resolve(data);
+                            })
+                            .error(function(data, status, headers, config) {
+                                deferred.reject({
+                                    data: data,
+                                    status: status,
+                                    headers: headers,
+                                    config: config
+                                });
+                            });
+                    });
+                    return deferred.promise;
+                };
 
                 // resource:  API resource (e.g. "pods")
                 // name:      API name, the unique name for the object.
@@ -371,30 +326,29 @@ define(['angular',
                 // Returns a promise resolved with response data or rejected with {data:..., status:..., headers:..., config:...} when the delete call completes.
                 DataService.prototype.create = function(resource, name, object, context, opts) {
                     resource = APIService.deriveTargetResource(resource, object);
-                    console.log("resource")
                     opts = opts || {};
                     var deferred = $q.defer();
                     var self = this;
-                    console.log("DataService.prototype.create !!!!!!!!!!!")
-                        // this._getNamespace(resource, context, opts).then(function(ns) {
-                        //     $http(angular.extend({
-                        //             method: 'POST',
-                        //             auth: {},
-                        //             data: object,
-                        //             url: self._urlForResource(resource, name, context, false, ns)
-                        //         }, opts.http || {}))
-                        //         .success(function(data, status, headerFunc, config, statusText) {
-                        //             deferred.resolve(data);
-                        //         })
-                        //         .error(function(data, status, headers, config) {
-                        //             deferred.reject({
-                        //                 data: data,
-                        //                 status: status,
-                        //                 headers: headers,
-                        //                 config: config
-                        //             });
-                        //         });
-                        // });
+                    console.log("========>DataService.prototype.create")
+                    this._getNamespace(resource, context, opts).then(function(ns) {
+                        $http(angular.extend({
+                                method: 'POST',
+                                auth: {},
+                                data: object,
+                                url: self._urlForResource(resource, name, context, false, ns)
+                            }, opts.http || {}))
+                            .success(function(data, status, headerFunc, config, statusText) {
+                                deferred.resolve(data);
+                            })
+                            .error(function(data, status, headers, config) {
+                                deferred.reject({
+                                    data: data,
+                                    status: status,
+                                    headers: headers,
+                                    config: config
+                                });
+                            });
+                    });
                     return deferred.promise;
                 };
 
@@ -407,7 +361,6 @@ define(['angular',
                 // where success and failure contain an array of results from the individual
                 // create calls.
                 DataService.prototype.batch = function(objects, context, action, opts) {
-                    console.log(' DataService.prototype.batch objects, context, action, opts', objects, context, action, opts)
                     var deferred = $q.defer();
                     var successResults = [];
                     var failureResults = [];
@@ -422,7 +375,6 @@ define(['angular',
                     }
 
                     _.each(objects, function(object) {
-                        console.log('object', object, 'APIService.objectToResourceGroupVersion(object)', APIService.objectToResourceGroupVersion(object))
                         var resource = APIService.objectToResourceGroupVersion(object);
                         if (!resource) {
                             // include the original object, so the error handler can display the kind/name
@@ -482,7 +434,6 @@ define(['angular',
                 //            http - options to pass to the inner $http call
                 //            errorNotification - will popup an error notification if the API request fails (default true)
                 DataService.prototype.get = function(resource, name, context, opts) {
-                    console.log(' DataService.prototype.get resource, name, context, opts', resource, name, context, opts)
                     resource = APIService.toResourceGroupVersion(resource);
                     opts = opts || {};
                     var key = this._uniqueKey(resource, name, context, opts);
@@ -490,47 +441,47 @@ define(['angular',
                     delete opts.force;
 
                     var deferred = $q.defer();
-                    console.log('key', key, 'this._immutableData(key)', this._immutableData(key))
-                    var existingImmutableData = this._immutableData(key);
+                    // console.log('key', key, 'this._immutableData(key)', this._immutableData(key))
+                    //var existingImmutableData = this._immutableData(key);
 
                     // special case, if we have an immutable item, we can return it immediately
-                    if (this._hasImmutable(resource, existingImmutableData, name)) {
-                        $timeout(function() {
-                            // we can be guaranteed this wont change on us, just send what we have in existingData
-                            deferred.resolve(existingImmutableData.by('metadata.name')[name]);
-                        }, 0);
-                    } else {
-                        var self = this;
-                        console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-                            // this._getNamespace(resource, context, opts).then(function(ns) {
-                            //     $http(angular.extend({
-                            //             method: 'GET',
-                            //             auth: {},
-                            //             url: self._urlForResource(resource, name, context, false, ns)
-                            //         }, opts.http || {}))
-                            //         .success(function(data, status, headerFunc, config, statusText) {
-                            //             if (self._isImmutable(resource)) {
-                            //                 if (!existingImmutableData) {
-                            //                     self._immutableData(key, [data]);
-                            //                 } else {
-                            //                     existingImmutableData.update(data, "ADDED");
-                            //                 }
-                            //             }
-                            //             deferred.resolve(data);
-                            //         })
-                            //         .error(function(data, status, headers, config) {
-                            //             if (opts.errorNotification !== false) {
-                            //                 showRequestError("Failed to get " + resource + "/" + name, status);
-                            //             }
-                            //             deferred.reject({
-                            //                 data: data,
-                            //                 status: status,
-                            //                 headers: headers,
-                            //                 config: config
-                            //             });
-                            //         });
-                            // });
-                    }
+                    // if (this._hasImmutable(resource, existingImmutableData, name)) {
+                    //     $timeout(function() {
+                    //         // we can be guaranteed this wont change on us, just send what we have in existingData
+                    //         deferred.resolve(existingImmutableData.by('metadata.name')[name]);
+                    //     }, 0);
+                    // } else {
+                    var self = this;
+                    console.log("============>DataService.prototype.get")
+                    this._getNamespace(resource, context, opts).then(function(ns) {
+                        $http(angular.extend({
+                                method: 'GET',
+                                auth: {},
+                                url: self._urlForResource(resource, name, context, false, ns)
+                            }, opts.http || {}))
+                            .success(function(data, status, headerFunc, config, statusText) {
+                                if (self._isImmutable(resource)) {
+                                    if (!existingImmutableData) {
+                                        self._immutableData(key, [data]);
+                                    } else {
+                                        existingImmutableData.update(data, "ADDED");
+                                    }
+                                }
+                                deferred.resolve(data);
+                            })
+                            .error(function(data, status, headers, config) {
+                                if (opts.errorNotification !== false) {
+                                    showRequestError("Failed to get " + resource + "/" + name, status);
+                                }
+                                deferred.reject({
+                                    data: data,
+                                    status: status,
+                                    headers: headers,
+                                    config: config
+                                });
+                            });
+                    });
+                    // }
                     return deferred.promise;
                 };
 
@@ -547,57 +498,57 @@ define(['angular',
                     var errorQueue = {};
 
                     var stream;
-                    // var makeStream = function() {
-                    //     return self._getNamespace(resource, context, {})
-                    //         .then(function(params) {
-                    //             var cumulativeBytes = 0;
-                    //             return $ws({
-                    //                 url: self._urlForResource(resource, name, context, true, _.extend(params, opts)),
-                    //                 auth: {},
-                    //                 onopen: function(evt) {
-                    //                     _.each(openQueue, function(fn) {
-                    //                         fn(evt);
-                    //                     });
-                    //                 },
-                    //                 onmessage: function(evt) {
-                    //                     if (!_.isString(evt.data)) {
-                    //                         Logger.log('log stream response is not a string', evt.data);
-                    //                         return;
-                    //                     }
+                    var makeStream = function() {
+                        return self._getNamespace(resource, context, {})
+                            .then(function(params) {
+                                var cumulativeBytes = 0;
+                                return $ws({
+                                    url: self._urlForResource(resource, name, context, true, _.extend(params, opts)),
+                                    auth: {},
+                                    onopen: function(evt) {
+                                        _.each(openQueue, function(fn) {
+                                            fn(evt);
+                                        });
+                                    },
+                                    onmessage: function(evt) {
+                                        if (!_.isString(evt.data)) {
+                                            Logger.log('log stream response is not a string', evt.data);
+                                            return;
+                                        }
 
-                    //                     var message;
-                    //                     if (!isRaw) {
-                    //                         message = base64.decode(base64util.pad(evt.data));
-                    //                         // Count bytes for log streams, which will stop when limitBytes is reached.
-                    //                         // There's no other way to detect we've reach the limit currently.
-                    //                         cumulativeBytes += message.length;
-                    //                     }
+                                        var message;
+                                        if (!isRaw) {
+                                            message = base64.decode(base64util.pad(evt.data));
+                                            // Count bytes for log streams, which will stop when limitBytes is reached.
+                                            // There's no other way to detect we've reach the limit currently.
+                                            cumulativeBytes += message.length;
+                                        }
 
-                    //                     _.each(messageQueue, function(fn) {
-                    //                         if (isRaw) {
-                    //                             fn(evt.data);
-                    //                         } else {
-                    //                             fn(message, evt.data, cumulativeBytes);
-                    //                         }
-                    //                     });
-                    //                 },
-                    //                 onclose: function(evt) {
-                    //                     _.each(closeQueue, function(fn) {
-                    //                         fn(evt);
-                    //                     });
-                    //                 },
-                    //                 onerror: function(evt) {
-                    //                     _.each(errorQueue, function(fn) {
-                    //                         fn(evt);
-                    //                     });
-                    //                 },
-                    //                 protocols: protocols
-                    //             }).then(function(ws) {
-                    //                 Logger.log("Streaming pod log", ws);
-                    //                 return ws;
-                    //             });
-                    //         });
-                    // };
+                                        _.each(messageQueue, function(fn) {
+                                            if (isRaw) {
+                                                fn(evt.data);
+                                            } else {
+                                                fn(message, evt.data, cumulativeBytes);
+                                            }
+                                        });
+                                    },
+                                    onclose: function(evt) {
+                                        _.each(closeQueue, function(fn) {
+                                            fn(evt);
+                                        });
+                                    },
+                                    onerror: function(evt) {
+                                        _.each(errorQueue, function(fn) {
+                                            fn(evt);
+                                        });
+                                    },
+                                    protocols: protocols
+                                }).then(function(ws) {
+                                    Logger.log("Streaming pod log", ws);
+                                    return ws;
+                                });
+                            });
+                    };
                     return {
                         onOpen: function(fn) {
                             if (!_.isFunction(fn)) {
@@ -1028,81 +979,82 @@ define(['angular',
                 };
 
 
-                // DataService.prototype._startListOp = function(resource, context, opts) {
-                //     opts = opts || {};
-                //     var params = _.get(opts, 'http.params') || {};
-                //     var key = this._uniqueKey(resource, null, context, opts);
-                //     // mark the operation as in progress
-                //     this._listInFlight(key, true);
+                DataService.prototype._startListOp = function(resource, context, opts) {
+                    opts = opts || {};
+                    var params = _.get(opts, 'http.params') || {};
+                    var key = this._uniqueKey(resource, null, context, opts);
+                    // mark the operation as in progress
+                    this._listInFlight(key, true);
 
-                //     var headers = {};
-                //     if (opts.partialObjectMetadataList) {
-                //         headers.Accept = ACCEPT_PARTIAL_OBJECT_METADATA_LIST;
-                //     }
+                    var headers = {};
+                    if (opts.partialObjectMetadataList) {
+                        headers.Accept = ACCEPT_PARTIAL_OBJECT_METADATA_LIST;
+                    }
 
-                //     var self = this;
-                //     if (context.projectPromise && !resource.equals("projects")) {
-                //         context.projectPromise.done(function(project) {
-                //             $http(angular.extend({
-                //                     method: 'GET',
-                //                     auth: {},
-                //                     headers: headers,
-                //                     url: self._urlForResource(resource, null, context, false, _.assign({}, params, { namespace: project.metadata.name }))
-                //                 }, opts.http || {}))
-                //                 .success(function(data, status, headerFunc, config, statusText) {
-                //                     self._listOpComplete(key, resource, context, opts, data);
-                //                 }).error(function(data, status, headers, config) {
-                //                     // mark list op as complete
-                //                     self._listInFlight(key, false);
-                //                     var deferred = self._listDeferred(key);
-                //                     delete self._listDeferredMap[key];
-                //                     deferred.reject({
-                //                         data: data,
-                //                         status: status,
-                //                         headers: headers,
-                //                         config: config
-                //                     });
+                    var self = this;
+                    if (context.projectPromise && !resource.equals("projects")) {
+                        context.projectPromise.done(function(project) {
+                            $http(angular.extend({
+                                    method: 'GET',
+                                    auth: {},
+                                    headers: headers,
+                                    url: self._urlForResource(resource, null, context, false, _.assign({}, params, { namespace: project.metadata.name }))
+                                }, opts.http || {}))
+                                .success(function(data, status, headerFunc, config, statusText) {
+                                    self._listOpComplete(key, resource, context, opts, data);
+                                }).error(function(data, status, headers, config) {
+                                    // mark list op as complete
+                                    self._listInFlight(key, false);
+                                    var deferred = self._listDeferred(key);
+                                    delete self._listDeferredMap[key];
+                                    deferred.reject({
+                                        data: data,
+                                        status: status,
+                                        headers: headers,
+                                        config: config
+                                    });
 
-                //                     if (!_.get(opts, 'errorNotification', true)) {
-                //                         return;
-                //                     }
+                                    if (!_.get(opts, 'errorNotification', true)) {
+                                        return;
+                                    }
 
-                //                     showRequestError("Failed to list " + resource, status);
-                //                 });
-                //         });
-                //     } else {
-                //         $http({
-                //             method: 'GET',
-                //             auth: {},
-                //             headers: headers,
-                //             url: this._urlForResource(resource, null, context, false, params),
-                //         }).success(function(data, status, headerFunc, config, statusText) {
-                //             self._listOpComplete(key, resource, context, opts, data);
-                //         }).error(function(data, status, headers, config) {
-                //             // mark list op as complete
-                //             self._listInFlight(key, false);
-                //             var deferred = self._listDeferred(key);
-                //             delete self._listDeferredMap[key];
-                //             deferred.reject({
-                //                 data: data,
-                //                 status: status,
-                //                 headers: headers,
-                //                 config: config
-                //             });
+                                    showRequestError("Failed to list " + resource, status);
+                                });
+                        });
+                    } else {
+                        $http({
+                            method: 'GET',
+                            auth: {},
+                            headers: headers,
+                            url: this._urlForResource(resource, null, context, false, params),
+                        }).success(function(data, status, headerFunc, config, statusText) {
+                            self._listOpComplete(key, resource, context, opts, data);
+                        }).error(function(data, status, headers, config) {
+                            // mark list op as complete
+                            self._listInFlight(key, false);
+                            var deferred = self._listDeferred(key);
+                            delete self._listDeferredMap[key];
+                            deferred.reject({
+                                data: data,
+                                status: status,
+                                headers: headers,
+                                config: config
+                            });
 
-                //             if (!_.get(opts, 'errorNotification', true)) {
-                //                 return;
-                //             }
+                            if (!_.get(opts, 'errorNotification', true)) {
+                                return;
+                            }
 
-                //             showRequestError("Failed to list " + resource, status);
-                //         });
-                //     }
-                // };
+                            showRequestError("Failed to list " + resource, status);
+                        });
+                    }
+                };
 
                 DataService.prototype._listOpComplete = function(key, resource, context, opts, data) {
                     if (!data.items) {
                         console.warn("List request for " + resource + " returned a null items array.  This is an invalid API response.");
                     }
+
                     var items = data.items || [];
                     // Here we normalize all items to have a kind property.
                     // One of the warts in the kubernetes REST API is that items retrieved
@@ -1118,8 +1070,8 @@ define(['angular',
                             }
                         });
                     }
-
-                    // mark list op as complete
+                    console.log('_listOpComplete data', data)
+                        // mark list op as complete
                     this._listInFlight(key, false);
                     var deferred = this._listDeferred(key);
                     delete this._listDeferredMap[key];
@@ -1127,6 +1079,7 @@ define(['angular',
                     // Some responses might not have `data.metadata` (for instance, PartialObjectMetadataList).
                     var resourceVersion = _.get(data, 'resourceVersion') || _.get(data, 'metadata.resourceVersion');
                     this._resourceVersion(key, resourceVersion);
+
                     this._data(key, items);
                     deferred.resolve(this._data(key));
                     this._watchCallbacks(key).fire(this._data(key));
@@ -1142,50 +1095,50 @@ define(['angular',
                     }
                 };
 
-                // DataService.prototype._startWatchOp = function(key, resource, context, opts, resourceVersion) {
-                //     this._watchInFlight(key, true);
-                //     // Note: current impl uses one websocket per resource
-                //     // eventually want a single websocket connection that we
-                //     // send a subscription request to for each resource
+                DataService.prototype._startWatchOp = function(key, resource, context, opts, resourceVersion) {
+                    this._watchInFlight(key, true);
+                    // Note: current impl uses one websocket per resource
+                    // eventually want a single websocket connection that we
+                    // send a subscription request to for each resource
 
-                //     // Only listen for updates if websockets are available
-                //     if ($ws.available()) {
-                //         var self = this;
-                //         var params = _.get(opts, 'http.params') || {};
-                //         params.watch = true;
-                //         if (resourceVersion) {
-                //             params.resourceVersion = resourceVersion;
-                //         }
-                //         if (context.projectPromise && !resource.equals("projects")) {
-                //             context.projectPromise.done(function(project) {
-                //                 params.namespace = project.metadata.name;
-                //                 $ws({
-                //                     method: "WATCH",
-                //                     url: self._urlForResource(resource, null, context, true, params),
-                //                     auth: {},
-                //                     onclose: $.proxy(self, "_watchOpOnClose", resource, context, opts),
-                //                     onmessage: $.proxy(self, "_watchOpOnMessage", resource, context, opts),
-                //                     onopen: $.proxy(self, "_watchOpOnOpen", resource, context, opts)
-                //                 }).then(function(ws) {
-                //                     Logger.log("Watching", ws);
-                //                     self._watchWebsockets(key, ws);
-                //                 });
-                //             });
-                //         } else {
-                //             $ws({
-                //                 method: "WATCH",
-                //                 url: self._urlForResource(resource, null, context, true, params),
-                //                 auth: {},
-                //                 onclose: $.proxy(self, "_watchOpOnClose", resource, context, opts),
-                //                 onmessage: $.proxy(self, "_watchOpOnMessage", resource, context, opts),
-                //                 onopen: $.proxy(self, "_watchOpOnOpen", resource, context, opts)
-                //             }).then(function(ws) {
-                //                 Logger.log("Watching", ws);
-                //                 self._watchWebsockets(key, ws);
-                //             });
-                //         }
-                //     }
-                // };
+                    // Only listen for updates if websockets are available
+                    if ($ws.available()) {
+                        var self = this;
+                        var params = _.get(opts, 'http.params') || {};
+                        params.watch = true;
+                        if (resourceVersion) {
+                            params.resourceVersion = resourceVersion;
+                        }
+                        if (context.projectPromise && !resource.equals("projects")) {
+                            context.projectPromise.done(function(project) {
+                                params.namespace = project.metadata.name;
+                                $ws({
+                                    method: "WATCH",
+                                    url: self._urlForResource(resource, null, context, true, params),
+                                    auth: {},
+                                    onclose: $.proxy(self, "_watchOpOnClose", resource, context, opts),
+                                    onmessage: $.proxy(self, "_watchOpOnMessage", resource, context, opts),
+                                    onopen: $.proxy(self, "_watchOpOnOpen", resource, context, opts)
+                                }).then(function(ws) {
+                                    Logger.log("Watching", ws);
+                                    self._watchWebsockets(key, ws);
+                                });
+                            });
+                        } else {
+                            $ws({
+                                method: "WATCH",
+                                url: self._urlForResource(resource, null, context, true, params),
+                                auth: {},
+                                onclose: $.proxy(self, "_watchOpOnClose", resource, context, opts),
+                                onmessage: $.proxy(self, "_watchOpOnMessage", resource, context, opts),
+                                onopen: $.proxy(self, "_watchOpOnOpen", resource, context, opts)
+                            }).then(function(ws) {
+                                Logger.log("Watching", ws);
+                                self._watchWebsockets(key, ws);
+                            });
+                        }
+                    }
+                };
 
                 DataService.prototype._watchOpOnOpen = function(resource, context, opts, event) {
                     Logger.log('Websocket opened for resource/context', resource, context);
@@ -1332,9 +1285,7 @@ define(['angular',
 
 
                 DataService.prototype._urlForResource = function(resource, name, context, isWebsocket, params) {
-                    console.log('DataService.prototype._urlForResource', resource, name, context, isWebsocket, params)
                     var apiInfo = APIService.apiInfo(resource);
-                    console.log('==>apiInfo', apiInfo)
                     if (!apiInfo) {
                         Logger.error("_urlForResource called with unknown resource", resource, arguments);
                         return null;
@@ -1384,8 +1335,7 @@ define(['angular',
                     } else {
                         template = namespaceInPath ? URL_NAMESPACED_GET_LIST : URL_GET_LIST;
                     }
-                    console.log('template', template)
-                    return template; //URI.expand(template, templateOptions).toString();
+                    return URI.expand(template, templateOptions).toString();
                 };
 
                 DataService.prototype.url = function(options) {
@@ -1401,6 +1351,7 @@ define(['angular',
                             group: options.group,
                             version: options.version
                         });
+
                         return this._urlForResource(resource, options.name, null, !!options.isWebsocket, opts);
                     }
                     return null;
@@ -1433,7 +1384,6 @@ define(['angular',
                 };
 
                 DataService.prototype._getNamespace = function(resource, context, opts) {
-                    console.log('DataService.prototype._getNamespace', resource, context, opts)
                     var deferred = $q.defer();
                     if (opts.namespace) {
                         deferred.resolve({ namespace: opts.namespace });
@@ -1477,17 +1427,17 @@ define(['angular',
             var API_CFG = _.get(window.OPENSHIFT_CONFIG, "api", {})
             var APIS_CFG = _.get(window.OPENSHIFT_CONFIG, "apis", {})
 
-            console.log('token', token)
-                // toResourceGroupVersion() returns a ResourceGroupVersion.
-                // If resource is already a ResourceGroupVersion, returns itself.
-                //
-                // if r is a string, the empty group and default version for the empty group are assumed.
-                //
-                // if r is an object, the resource, group, and version attributes are read.
-                // a missing group attribute defaults to the legacy group.
-                // a missing version attribute defaults to the default version for the group, or undefined if the group is unknown.
-                //
-                // if r is already a ResourceGroupVersion, it is returned as-is
+
+            // toResourceGroupVersion() returns a ResourceGroupVersion.
+            // If resource is already a ResourceGroupVersion, returns itself.
+            //
+            // if r is a string, the empty group and default version for the empty group are assumed.
+            //
+            // if r is an object, the resource, group, and version attributes are read.
+            // a missing group attribute defaults to the legacy group.
+            // a missing version attribute defaults to the default version for the group, or undefined if the group is unknown.
+            //
+            // if r is already a ResourceGroupVersion, it is returned as-is
             var toResourceGroupVersion = function(r) {
                 if (r instanceof ResourceGroupVersion) {
                     return r;
@@ -1591,10 +1541,10 @@ define(['angular',
                     return "";
                 }
                 var resource = kind;
-                // if (humanize) {
-                //     var humanizeKind = $filter("humanizeKind");
-                //     resource = humanizeKind(resource);
-                // }
+                if (humanize) {
+                    var humanizeKind = $filter("humanizeKind");
+                    resource = humanizeKind(resource);
+                }
                 resource = String(resource).toLowerCase();
                 if (resource === 'endpoints' || resource === 'securitycontextconstraints') {
                     // no-op, plural is the singular
@@ -1653,25 +1603,15 @@ define(['angular',
 
                 resource = toResourceGroupVersion(resource);
                 var primaryResource = resource.primaryResource();
-                console.log('primaryResource', primaryResource)
                 var discoveredResource;
                 // API info for resources in an API group, if the resource was not found during discovery return undefined
                 if (resource.group) {
-                    console.log('if resource.group', "groups", resource.group, "versions", resource.version, "resources", primaryResource)
-                    console.log('APIS_CFG', APIS_CFG, 'API_CFG', API_CFG)
                     discoveredResource = _.get(APIS_CFG, ["groups", resource.group, "versions", resource.version, "resources", primaryResource]);
-                    console.log('discoveredResource', discoveredResource)
-
-                    // var isResource = $resource("/apis" + "/" + resource.group + "/" + resource.version + "/" + primaryResource, { token: '@token' });
-
-                    // isResource.get({}, function(res) {
-                    //     console.log('isResorce', res)
-                    // });
                     if (!discoveredResource) {
                         return undefined;
                     }
                     var hostPrefixObj = _.get(APIS_CFG, ["groups", resource.group, 'hostPrefix']) || APIS_CFG;
-                    console.log('hostPrefixObj', hostPrefixObj)
+
                     return {
                         resource: resource.resource,
                         group: resource.group,
@@ -1688,10 +1628,8 @@ define(['angular',
                 // Scan through resources to determine which this is.
                 var api;
                 for (var apiName in API_CFG) {
-                    console.log('Resources without an API group')
                     api = API_CFG[apiName];
                     discoveredResource = _.get(api, ["resources", resource.version, primaryResource]);
-                    console.log('discoveredResource', discoveredResource)
                     if (!discoveredResource) {
                         continue;
                     }
@@ -1895,8 +1833,546 @@ define(['angular',
 
 
             return taskList;
-        });
+        })
 
+        .factory("QuotaService", ['APIService', '$filter', '$rootScope', '$q', 'Constants', 'DataService',
+            function(APIService,
+                $filter,
+                //$location,
+                $rootScope,
+                // $routeParams,
+                $q,
+                Constants,
+                DataService,
+                // EventsService,
+                // Logger,
+                // NotificationsService
+            ) {
+                var isNil = $filter('isNil');
+                var usageValue = $filter('usageValue');
+                var usageWithUnits = $filter('usageWithUnits');
+                var percent = $filter('percent');
+
+                var isBestEffortPod = function(pod) {
+                    // To be best effort a pod must not have any containers that have non-zero requests or limits
+                    // Break out as soon as we find any pod with a non-zero request or limit
+                    return _.every(pod.spec.containers, function(container) {
+                        var hasNonZeroRequest = _.some(_.get(container, 'resources.requests'), function(request) {
+                            return !isNil(request) && usageValue(request) !== 0;
+                        });
+                        var hasNonZeroLimit = _.some(_.get(container, 'resources.limits'), function(limit) {
+                            return !isNil(limit) && usageValue(limit) !== 0;
+                        });
+                        return !hasNonZeroRequest && !hasNonZeroLimit;
+                    });
+                };
+
+                var isTerminatingPod = function(pod) {
+                    // a pod is terminating if activeDeadlineSeconds is set, ADS can be zero
+                    return _.has(pod, 'spec.activeDeadlineSeconds');
+                };
+
+                var filterQuotasForPodTemplate = function(podTemplate, quotas) {
+                    var bestEffortPod = isBestEffortPod(podTemplate);
+                    var terminatingPod = isTerminatingPod(podTemplate);
+                    return _.filter(quotas, function(quota) {
+                        // A quota matches a pod if all scopes match the pod
+                        // Break out early if we find any scope that does not match
+                        var matchesPod = function(scope) {
+                            switch (scope) {
+                                case "Terminating":
+                                    return terminatingPod;
+                                case "NotTerminating":
+                                    return !terminatingPod;
+                                case "BestEffort":
+                                    return bestEffortPod;
+                                case "NotBestEffort":
+                                    return !bestEffortPod;
+                            }
+                            return true;
+                        };
+                        var scopes = quota.spec.quota ? quota.spec.quota.scopes : quota.spec.scopes;
+                        return _.every(scopes, matchesPod);
+                    });
+                };
+
+                var filterQuotasForResource = function(resource, quotas) {
+                    if (!resource) {
+                        return quotas;
+                    }
+                    if (resource.kind === 'Pod') {
+                        return filterQuotasForPodTemplate(resource, quotas);
+                    } else if (_.has(resource, "spec.template")) {
+                        return filterQuotasForPodTemplate(resource.spec.template, quotas);
+                    }
+                    // We plan on having other resources that scopes will affect
+                    return quotas;
+                };
+
+                var humanizeQuotaResource = $filter('humanizeQuotaResource');
+                var humanizeKind = $filter('humanizeKind');
+
+                var getQuotaResourceReachedAlert = function(quota, resource, type) {
+                    var q = quota.status.total || quota.status;
+                    if (usageValue(q.hard[type]) <= usageValue(q.used[type])) {
+                        var details, message;
+                        if (resource.kind === 'Pod') {
+                            details = "You will not be able to create the " + humanizeKind(resource.kind) + " '" + resource.metadata.name + "'.";
+                        } else {
+                            details = "You can still create " + humanizeKind(resource.kind) + " '" + resource.metadata.name + "' but no pods will be created until resources are freed.";
+                        }
+                        if (type === "pods") {
+                            message = 'You are at your quota for pods.';
+                        } else {
+                            message = 'You are at your quota for ' + humanizeQuotaResource(type) + ' on pods.';
+                        }
+                        return {
+                            type: resource.kind === 'Pod' ? 'error' : 'warning',
+                            message: message,
+                            details: details,
+                            links: [{
+                                href: "project/" + quota.metadata.namespace + "/quota",
+                                label: "View Quota",
+                                target: "_blank"
+                            }]
+                        };
+                    }
+                    return null;
+                };
+
+                var QUOTA_TYPE_TO_RESOURCE = {
+                    'cpu': "resources.requests.cpu",
+                    'requests.cpu': "resources.requests.cpu",
+                    'limits.cpu': "resources.limits.cpu",
+                    'memory': "resources.requests.memory",
+                    'requests.memory': "resources.requests.memory",
+                    'limits.memory': "resources.limits.memory",
+                    'persistentvolumeclaims': "resources.limits.persistentvolumeclaims",
+                    'requests.storage': "resources.request.storage"
+                };
+
+                var getRequestedResourceQuotaAlert = function(quota, resource, podTemplate, type) {
+                    var q = quota.status.total || quota.status;
+                    var containerField = QUOTA_TYPE_TO_RESOURCE[type];
+                    var templateTotal = 0;
+                    _.each(podTemplate.spec.containers, function(container) {
+                        var templateVal = _.get(container, containerField);
+                        if (templateVal) {
+                            templateTotal += usageValue(templateVal);
+                        }
+                    });
+                    if (usageValue(q.hard[type]) < usageValue(q.used[type]) + templateTotal) {
+                        var detail;
+                        if (resource.kind === 'Pod') {
+                            detail = "You may not be able to create the " + humanizeKind(resource.kind) + " '" + resource.metadata.name + "'.";
+                        } else {
+                            detail = "You can still create " + humanizeKind(resource.kind) + " '" + resource.metadata.name + "' but you may not have pods created until resources are freed.";
+                        }
+                        return {
+                            type: 'warning',
+                            message: 'You are close to your quota for ' + humanizeQuotaResource(type) + " on pods.",
+                            details: detail,
+                            links: [{
+                                href: "project/" + quota.metadata.namespace + "/quota",
+                                label: "View Quota",
+                                target: "_blank"
+                            }]
+                        };
+                    }
+                };
+
+                var getResourceLimitAlerts = function(resource, quota) {
+                    var alerts = [];
+                    var podTemplate = resource.kind === "Pod" ? resource : _.get(resource, 'spec.template');
+                    if (!podTemplate) {
+                        // Didn't have a pod template, so we don't care about this resource
+                        return alerts;
+                    }
+
+                    // Otherwise this is a pod or something that creates pods so return alerts if we are at quota already
+                    // for any of these.  If you add new types to this list, add them to the type map above, or exclude
+                    // them from the total checks.
+                    _.each([
+                        'cpu',
+                        'memory',
+                        'requests.cpu',
+                        'requests.memory',
+                        'limits.cpu',
+                        'limits.memory',
+                        'pods'
+                    ], function(type) {
+                        var q = quota.status.total || quota.status;
+                        // Don't check 'pods' quota if the resource is a pod, that will create duplicate warnings in combination with getQuotaAlerts
+                        if (resource.kind === 'Pod' && type === 'pods') {
+                            return;
+                        }
+
+                        if (!_.has(q, ['hard', type]) || !_.has(q, ['used', type])) {
+                            return;
+                        }
+
+                        var quotaReachedAlert = getQuotaResourceReachedAlert(quota, resource, type);
+                        if (quotaReachedAlert) {
+                            alerts.push(quotaReachedAlert);
+                        } else if (type !== 'pods') {
+                            // Only calculate this if we havent already reached quota
+                            var requestedAlert = getRequestedResourceQuotaAlert(quota, resource, podTemplate, type);
+                            if (requestedAlert) {
+                                alerts.push(requestedAlert);
+                            }
+                        }
+                    });
+
+                    return alerts;
+                };
+
+                var getQuotaAlerts = function(resources, quotas, clusterQuotas) {
+                    var alerts = [];
+
+                    if (!resources || !quotas) {
+                        return alerts;
+                    }
+
+                    _.each(resources, function(resource) {
+                        var filteredQuotas = filterQuotasForResource(resource, quotas);
+                        var filteredClusterQuotas = filterQuotasForResource(resource, clusterQuotas);
+
+                        var rgv = APIService.objectToResourceGroupVersion(resource);
+                        if (!rgv) {
+                            return;
+                        }
+
+                        var humanizedResource = APIService.kindToResource(resource.kind, true);
+                        var humanizedKind = humanizeKind(resource.kind);
+                        var quotaKey = "";
+                        if (rgv.group) {
+                            quotaKey = rgv.group + "/";
+                        }
+                        quotaKey += rgv.resource;
+                        var alertsForQuota = function(quota) {
+                            var q = quota.status.total || quota.status;
+                            if (!isNil(q.hard[quotaKey]) && usageValue(q.hard[quotaKey]) <= usageValue(q.used[quotaKey])) {
+                                alerts.push({
+                                    type: 'error',
+                                    message: "You are at your quota of " + q.hard[quotaKey] + " " + (q.hard[quotaKey] === "1" ? humanizedKind : humanizedResource) +
+                                        " in this project.",
+                                    details: "You will not be able to create the " + humanizedKind + " '" + resource.metadata.name + "'.",
+                                    links: [{
+                                        href: "project/" + quota.metadata.namespace + "/quota",
+                                        label: "View Quota",
+                                        target: "_blank"
+                                    }]
+                                });
+                            }
+
+                            alerts = alerts.concat(getResourceLimitAlerts(resource, quota));
+                        };
+                        _.each(filteredQuotas, alertsForQuota);
+                        _.each(filteredClusterQuotas, alertsForQuota);
+                    });
+
+                    return alerts;
+                };
+
+                var getLatestQuotaAlerts = function(resources, context) {
+                    var quotas, clusterQuotas, promises = [];
+                    console.log("get here getLatestQuotaAlerts promises", promises);
+                    // double check using the latest quotas
+                    promises.push(
+                        DataService.list("resourcequotas", context).then(function(quotaData) {
+                            console.log("quotaData", quotaData);
+                            quotas = quotaData.by("metadata.name");
+                            //Logger.log("quotas", quotas);
+                        })
+                        .catch(err => { console.log("err", err); })
+                    );
+
+                    promises.push(DataService.list("appliedclusterresourcequotas", context).then(function(clusterQuotaData) {
+                        clusterQuotas = clusterQuotaData.by("metadata.name");
+                        console.log("cluster quotas", clusterQuotas);
+                        //Logger.log("cluster quotas", clusterQuotas);
+                    }));
+                    console.log("get here getLatestQuotaAlerts promises", promises, resources, quotas, clusterQuotas);
+                    return $q.all(promises).then(function() {
+                        console.log("came 1111", resources, quotas, clusterQuotas);
+                        var quotaAlerts = getQuotaAlerts(resources, quotas, clusterQuotas);
+                        console.log("quotaAlerts", quotaAlerts);
+                        return {
+                            quotaAlerts: quotaAlerts
+                        };
+                    });
+                };
+
+                var COMPUTE_RESOURCE_QUOTAS = [
+                    "cpu",
+                    "requests.cpu",
+                    "memory",
+                    "requests.memory",
+                    "limits.cpu",
+                    "limits.memory"
+                ];
+
+                var getNotificaitonMessage = function(used, usedValue, hard, hardValue, quotaKey) {
+                    // Note: This function returns HTML markup, not plain text
+
+                    var msgPrefix = "Your project is " + (hardValue < usedValue ? 'over' : 'at') + " quota. ";
+                    var msg;
+                    if (_.includes(COMPUTE_RESOURCE_QUOTAS, quotaKey)) {
+                        msg = msgPrefix + "It is using " + percent((usedValue / hardValue), 0) + " of " + usageWithUnits(hard, quotaKey) + " " + humanizeQuotaResource(quotaKey) + ".";
+                    } else {
+                        msg = msgPrefix + "It is using " + usedValue + " of " + hardValue + " " + humanizeQuotaResource(quotaKey) + ".";
+                    }
+
+                    msg = _.escape(msg);
+
+                    if (Constants.QUOTA_NOTIFICATION_MESSAGE && Constants.QUOTA_NOTIFICATION_MESSAGE[quotaKey]) {
+                        // QUOTA_NOTICIATION_MESSAGE can contain HTML and shouldn't be escaped.
+                        msg += " " + Constants.QUOTA_NOTIFICATION_MESSAGE[quotaKey];
+                    }
+
+                    return msg;
+                };
+
+                // Return notifications if you are at quota or over any quota for any resource. Do *not*
+                // warn about quota for 'resourcequotas' or resources whose hard limit is
+                // 0, however.
+                var getQuotaNotifications = function(quotas, clusterQuotas, projectName) {
+                    var notifications = [];
+
+                    var notificationsForQuota = function(quota) {
+                        var q = quota.status.total || quota.status;
+                        _.each(q.hard, function(hard, quotaKey) {
+                            var hardValue = usageValue(hard);
+                            var used = _.get(q, ['used', quotaKey]);
+                            var usedValue = usageValue(used);
+
+                            // We always ignore quota warnings about being out of
+                            // resourcequotas since end users cant do anything about it
+                            if (quotaKey === 'resourcequotas' || !hardValue || !usedValue) {
+                                return;
+                            }
+
+                            if (hardValue <= usedValue) {
+                                notifications.push({
+                                    id: projectName + "/quota-limit-reached-" + quotaKey,
+                                    namespace: projectName,
+                                    type: (hardValue < usedValue ? 'warning' : 'info'),
+                                    message: getNotificaitonMessage(used, usedValue, hard, hardValue, quotaKey),
+                                    isHTML: true,
+                                    skipToast: true,
+                                    showInDrawer: true,
+                                    actions: [{
+                                            name: 'View Quotas',
+                                            title: 'View project quotas',
+                                            onClick: function() {
+                                                //$location.url("/project/" + $routeParams.project + "/quota");
+                                                $rootScope.$emit('NotificationDrawerWrapper.hide');
+                                            }
+                                        },
+                                        {
+                                            name: "Don't Show Me Again",
+                                            title: 'Permenantly hide this notificaiton until quota limit changes',
+                                            onClick: function(notification) {
+                                                NotificationsService.permanentlyHideNotification(notification.uid, notification.namespace);
+                                                $rootScope.$emit('NotificationDrawerWrapper.clear', notification);
+                                            }
+                                        },
+                                        {
+                                            name: "Clear",
+                                            title: 'Clear this notificaiton',
+                                            onClick: function(notification) {
+                                                $rootScope.$emit('NotificationDrawerWrapper.clear', notification);
+                                            }
+                                        }
+                                    ]
+                                });
+                            }
+                        });
+                    };
+                    _.each(quotas, notificationsForQuota);
+                    _.each(clusterQuotas, notificationsForQuota);
+
+                    return notifications;
+                };
+
+                // Warn if you are at quota or over any quota for any resource. Do *not*
+                // warn about quota for 'resourcequotas' or resources whose hard limit is
+                // 0, however.
+                var isAnyQuotaExceeded = function(quotas, clusterQuotas, typesToCheck) {
+                    var isExceeded = function(quota) {
+                        var q = quota.status.total || quota.status;
+                        return _.some(q.hard, function(hard, quotaKey) {
+                            // We always ignore quota warnings about being out of
+                            // resourcequotas since end users cant do anything about it
+                            if (quotaKey === 'resourcequotas') {
+                                return false;
+                            }
+                            if (!typesToCheck || _.includes(typesToCheck, quotaKey)) {
+                                hard = usageValue(hard);
+                                if (!hard) {
+                                    return false;
+                                }
+
+                                var used = usageValue(_.get(q, ['used', quotaKey]));
+                                if (!used) {
+                                    return false;
+                                }
+
+                                return hard <= used;
+                            }
+                        });
+                    };
+                    return _.some(quotas, isExceeded) || _.some(clusterQuotas, isExceeded);
+                };
+
+                // Same as above but only looking at storage items: requests.storage, persistentvolumeclaims
+                //   Warn if you are at quota or over any storage quota for any resource.
+                var isAnyStorageQuotaExceeded = function(quotas, clusterQuotas) {
+                    return isAnyQuotaExceeded(quotas, clusterQuotas, ['requests.storage', 'persistentvolumeclaims']);
+                };
+
+                // Check if requested quota will exceed any quotas if attempted
+                var willRequestExceedQuota = function(quotas, clusterQuotas, requestedQuotaKey, request) {
+                    var isExceeded = function(quota) {
+                        var q = quota.status.total || quota.status;
+                        var value = usageValue(request);
+                        if (!requestedQuotaKey) {
+                            return false;
+                        }
+                        var hard = _.get(q.hard, requestedQuotaKey);
+                        hard = usageValue(hard);
+                        if (!hard) {
+                            return false;
+                        }
+                        var used = usageValue(_.get(q, ['used', requestedQuotaKey]));
+                        if (!used) {
+                            return hard < value;
+                        }
+
+                        return hard < (used + value);
+                    };
+                    return _.some(quotas, isExceeded) || _.some(clusterQuotas, isExceeded);
+                };
+
+                return {
+                    filterQuotasForResource: filterQuotasForResource,
+                    isBestEffortPod: isBestEffortPod,
+                    isTerminatingPod: isTerminatingPod,
+                    getResourceLimitAlerts: getResourceLimitAlerts,
+                    // Gets quota alerts relevant to a set of resources
+                    // Returns: Array of alerts
+                    getQuotaAlerts: getQuotaAlerts,
+                    getLatestQuotaAlerts: getLatestQuotaAlerts,
+                    isAnyQuotaExceeded: isAnyQuotaExceeded,
+                    isAnyStorageQuotaExceeded: isAnyStorageQuotaExceeded,
+                    willRequestExceedQuota: willRequestExceedQuota,
+                    getQuotaNotifications: getQuotaNotifications
+                };
+            }
+        ])
+
+        .factory("SecurityCheckService", function(APIService, $filter, Constants) {
+            var humanizeKind = $filter('humanizeKind');
+            var getSecurityAlerts = function(resources, project) {
+                var alerts = [];
+                var unrecognizedResources = [];
+                var clusterScopedResources = [];
+                var roleBindingResources = [];
+                var roleResources = [];
+                var notWhitelistedResources = [];
+                _.each(resources, function(resource) {
+                    if (!_.get(resource, "kind")) {
+                        // This isn't a valid API object
+                        return;
+                    }
+                    var rgv = APIService.objectToResourceGroupVersion(resource);
+                    var apiInfo = APIService.apiInfo(rgv);
+                    if (!apiInfo) {
+                        unrecognizedResources.push(resource);
+                        return;
+                    }
+                    if (!apiInfo.namespaced) {
+                        clusterScopedResources.push(resource);
+                    } else if (rgv.resource === "rolebindings" && (rgv.group === '' || rgv.group === "rbac.authorization.k8s.io")) {
+                        // If role in the rolebinding is one of the "safe" ones ignore it (view or image puller), otherwise warn
+                        var roleRef = _.get(resource, 'roleRef.name');
+                        if (roleRef !== 'view' && roleRef !== 'system:image-puller') {
+                            roleBindingResources.push(resource);
+                        }
+                    } else if (rgv.resource === "roles" && (rgv.group === '' || rgv.group === "rbac.authorization.k8s.io")) {
+                        roleResources.push(resource);
+                    }
+                    //!!!!!!!Temporary!!!!!!!!!
+                    //  else if (!_.find(Constants.SECURITY_CHECK_WHITELIST, { resource: rgv.resource, group: rgv.group })) {
+                    //     notWhitelistedResources.push(resource);
+                    // }
+                });
+                if (unrecognizedResources.length) {
+                    var unrecognizedStrs = _.uniq(_.map(unrecognizedResources, function(resource) {
+                        var apiVersion = _.get(resource, 'apiVersion', '<none>');
+                        return 'API version ' + apiVersion + ' for kind ' + humanizeKind(resource.kind);
+                    }));
+                    alerts.push({
+                        type: 'warning',
+                        message: "Some resources will not be created.",
+                        details: "The following resource versions are not supported by the server: " + unrecognizedStrs.join(", ")
+                    });
+                }
+                if (clusterScopedResources.length) {
+                    var clusterStrs = _.uniq(_.map(clusterScopedResources, function(resource) {
+                        return humanizeKind(resource.kind);
+                    }));
+                    alerts.push({
+                        type: 'warning',
+                        message: "This will create resources outside of the project, which might impact all users of the cluster.",
+                        details: "Typically only cluster administrators can create these resources. The cluster-level resources being created are: " + clusterStrs.join(", ")
+                    });
+                }
+                if (roleBindingResources.length) {
+                    var roleBindingStrs = [];
+                    _.each(roleBindingResources, function(resource) {
+                        _.each(resource.subjects, function(subject) {
+                            var str = humanizeKind(subject.kind) + " ";
+                            if (subject.kind === 'ServiceAccount') {
+                                str += (subject.namespace || project) + "/";
+                            }
+                            str += subject.name;
+                            roleBindingStrs.push(str);
+                        });
+                    });
+                    roleBindingStrs = _.uniq(roleBindingStrs);
+                    alerts.push({
+                        type: 'warning',
+                        message: "This will grant permissions to your project.",
+                        details: "Permissions are being granted to: " + roleBindingStrs.join(", ")
+                    });
+                }
+                if (roleResources.length) {
+                    alerts.push({
+                        type: 'info',
+                        message: "This will create additional membership roles within the project.",
+                        details: "Admins will be able to grant these custom roles to users, groups, and service accounts."
+                    });
+                }
+                if (notWhitelistedResources.length) {
+                    var notWhitelistStrs = _.uniq(_.map(notWhitelistedResources, function(resource) {
+                        return humanizeKind(resource.kind);
+                    }));
+                    alerts.push({
+                        type: 'warning',
+                        message: "This will create resources that may have security or project behavior implications.",
+                        details: "Make sure you understand what they do before creating them. The resources being created are: " + notWhitelistStrs.join(", ")
+                    });
+                }
+                return alerts;
+            };
+
+            return {
+                // Gets security alerts relevant to a set of resources
+                // Returns: Array of alerts
+                getSecurityAlerts: getSecurityAlerts
+            };
+        });
     })
     // ResourceGroupVersion represents a fully qualified resource
 function ResourceGroupVersion(resource, group, version) {

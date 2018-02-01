@@ -773,6 +773,222 @@ define(['angular', 'moment'], function(angular, moment) {
                 return humanized.toLowerCase();
             };
         }])
+        .filter('usageValue', function() {
+            return function(value) {
+                if (!value) {
+                    return value;
+                }
+                var split = /(-?[0-9\.]+)\s*(.*)/.exec(value);
+                if (!split) {
+                    // We didn't get an amount? shouldn't happen but just in case
+                    return value;
+                }
+                var number = split[1];
+                if (number.indexOf(".") >= 0) {
+                    number = parseFloat(number);
+                } else {
+                    number = parseInt(split[1]);
+                }
+                var siSuffix = split[2];
+                var multiplier = 1;
+                switch (siSuffix) {
+                    case 'E':
+                        multiplier = Math.pow(1000, 6);
+                        break;
+                    case 'P':
+                        multiplier = Math.pow(1000, 5);
+                        break;
+                    case 'T':
+                        multiplier = Math.pow(1000, 4);
+                        break;
+                    case 'G':
+                        multiplier = Math.pow(1000, 3);
+                        break;
+                    case 'M':
+                        multiplier = Math.pow(1000, 2);
+                        break;
+                    case 'K':
+                    case 'k':
+                        multiplier = 1000;
+                        break;
+                    case 'm':
+                        multiplier = 0.001;
+                        break;
+                    case 'Ei':
+                        multiplier = Math.pow(1024, 6);
+                        break;
+                    case 'Pi':
+                        multiplier = Math.pow(1024, 5);
+                        break;
+                    case 'Ti':
+                        multiplier = Math.pow(1024, 4);
+                        break;
+                    case 'Gi':
+                        multiplier = Math.pow(1024, 3);
+                        break;
+                    case 'Mi':
+                        multiplier = Math.pow(1024, 2);
+                        break;
+                    case 'Ki':
+                        multiplier = 1024;
+                        break;
+                }
+
+                return number * multiplier;
+            };
+        })
+        .filter('humanizeUnit', function() {
+            return function(unit, type, singular) {
+                switch (type) {
+                    case "memory":
+                    case "limits.memory":
+                    case "requests.memory":
+                    case "storage":
+                        if (!unit) {
+                            return unit;
+                        }
+                        return unit + "B";
+                    case "cpu":
+                    case "limits.cpu":
+                    case "requests.cpu":
+                        if (unit === "m") {
+                            unit = "milli";
+                        }
+                        var suffix = (singular) ? 'core' : 'cores';
+                        return (unit || '') + suffix;
+                    default:
+                        return unit;
+                }
+            };
+        })
+        // Returns the amount and unit for compute resources, normalizing the unit.
+        .filter('amountAndUnit', function(humanizeUnitFilter) {
+            return function(value, type, humanizeUnits) {
+                if (!value) {
+                    return [value, null];
+                }
+                var split = /(-?[0-9\.]+)\s*(.*)/.exec(value);
+                if (!split) {
+                    // We didn't get an amount? shouldn't happen but just in case
+                    return [value, null];
+                }
+
+                var amount = split[1];
+                var unit = split[2];
+                if (humanizeUnits) {
+                    unit = humanizeUnitFilter(unit, type, amount === "1");
+                }
+
+                return [amount, unit];
+            };
+        })
+        .filter('percent', function() {
+            // Takes a number like 0.33 and returns "33%". `precision` is the optional
+            // number of digits to appear after the decimal point.
+            return function(value, precision) {
+                if (value === null || value === undefined) {
+                    return value;
+                }
+                return _.round(Number(value) * 100, precision) + "%";
+            };
+        })
+        .filter('humanizeQuotaResource', function() {
+            return function(resourceType, useTitleCase) {
+                if (!resourceType) {
+                    return resourceType;
+                }
+
+                var nameTitleCaseFormatMap = {
+                    'configmaps': 'Config Maps',
+                    'cpu': 'CPU (Request)',
+                    'limits.cpu': 'CPU (Limit)',
+                    'limits.memory': 'Memory (Limit)',
+                    'memory': 'Memory (Request)',
+                    'openshift.io/imagesize': 'Image Size',
+                    'openshift.io/imagestreamsize': 'Image Stream Size',
+                    'openshift.io/projectimagessize': 'Project Image Size',
+                    'persistentvolumeclaims': 'Persistent Volume Claims',
+                    'requests.storage': 'Storage (Request)',
+                    'pods': 'Pods',
+                    'replicationcontrollers': 'Replication Controllers',
+                    'requests.cpu': 'CPU (Request)',
+                    'requests.memory': 'Memory (Request)',
+                    'resourcequotas': 'Resource Quotas',
+                    'secrets': 'Secrets',
+                    'services': 'Services',
+                    'services.loadbalancers': 'Service Load Balancers',
+                    'services.nodeports': 'Service Node Ports'
+                };
+
+                var nameFormatMap = {
+                    'configmaps': 'config maps',
+                    'cpu': 'CPU (request)',
+                    'limits.cpu': 'CPU (limit)',
+                    'limits.memory': 'memory (limit)',
+                    'memory': 'memory (request)',
+                    'openshift.io/imagesize': 'image size',
+                    'openshift.io/imagestreamsize': 'image stream size',
+                    'openshift.io/projectimagessize': 'project image size',
+                    'persistentvolumeclaims': 'persistent volume claims',
+                    'requests.storage': 'storage (request)',
+                    'replicationcontrollers': 'replication controllers',
+                    'requests.cpu': 'CPU (request)',
+                    'requests.memory': 'memory (request)',
+                    'resourcequotas': 'resource quotas',
+                    'services.loadbalancers': 'service load balancers',
+                    'services.nodeports': 'service node ports'
+                };
+                if (useTitleCase) {
+                    return nameTitleCaseFormatMap[resourceType] || resourceType;
+                }
+                return nameFormatMap[resourceType] || resourceType;
+            };
+        })
+        .filter('humanizeKind', ["startCaseFilter", function(startCaseFilter) {
+            // Changes "ReplicationController" to "replication controller".
+            // If useTitleCase, returns "Replication Controller".
+            return function(kind, useTitleCase) {
+                if (!kind) {
+                    return kind;
+                }
+
+                if (kind === 'ServiceInstance') {
+                    return useTitleCase ? 'Provisioned Service' : 'provisioned service';
+                }
+
+                var humanized = _.startCase(kind);
+                if (useTitleCase) {
+                    return humanized;
+                }
+
+                return humanized.toLowerCase();
+            };
+        }])
+        // Checks if a value is null or undefined.
+        .filter('isNil', function() {
+            return function(value) {
+                return value === null || value === undefined;
+            };
+        })
+        // Formats a compute resource value for display.
+        .filter('usageWithUnits', function(amountAndUnitFilter) {
+            return function(value, type) {
+                var toString = _.spread(function(amount, unit) {
+                    if (!unit) {
+                        return amount;
+                    }
+
+                    return amount + " " + unit;
+                });
+
+                return toString(amountAndUnitFilter(value, type, true));
+            };
+        })
+        .filter('upperFirst', function() {
+            // Uppercase the first letter of a string (without making any other changes).
+            // Different than `capitalize` because it doesn't lowercase other letters.
+            return _.upperFirst;
+        })
         .filter("getErrorDetails", ["upperFirstFilter", function(upperFirstFilter) {
             return function(result, capitalize) {
                 if (!result) {
@@ -792,5 +1008,6 @@ define(['angular', 'moment'], function(angular, moment) {
                 return "";
             };
         }]);
+
 
 });
