@@ -20,7 +20,7 @@
             <dt>Secret:</dt>
             <dd>
                 <span ng-if="'secrets'">
-                    <span id="dt_set" ui-sref="console.secret_detail({name: volume.secret.secretName})">{{volume.secret.secretName}}</span>
+                    <span id="dt_set" ui-sref="console.secret_secret({name: volume.secret.secretName})">{{volume.secret.secretName}}</span>
                 </span>
                 <span ng-if="!('secrets')">
                     {{volume.secret.secretName}}
@@ -39,7 +39,7 @@
             </dd>
             <dt>Claim name:</dt>
             <dd>
-                <span id="dt_set" ui-sref="console.constantly_detail({name:volume.persistentVolumeClaim.claimName})">
+                <span id="dt_set" ui-sref="console.constantly_persistentVolume({name:volume.persistentVolumeClaim.claimName})">
                     {{volume.persistentVolumeClaim.claimName}}</span>
             </dd>
             <dt>Mode:</dt>
@@ -99,7 +99,7 @@
             </dd>
             <dt>Config Map:</dt>
             <dd>
-                <span id="dt_set" ui-sref="console.config_detail({name:volume.configMap.name})">
+                <span id="dt_set" ui-sref="console.config_configMap({name:volume.configMap.name})">
                     {{volume.configMap.name}}</span>
             </dd>
             <div ng-repeat="item in volume.configMap.items">

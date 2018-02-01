@@ -626,7 +626,7 @@ define([
                         }]
                     }
                 })
-                .state('console.create_constantly_volume', {
+                .state('console.create_constantly_persistentVolume', {
                     url: '/resource_create_persistentVolume',
                     templateUrl: 'views/create_constantly_volume/create_constantly_volume.html',
                     controller: 'createconvolumeCtrl',
@@ -636,7 +636,7 @@ define([
                         }]
                     }
                 })
-                .state('console.create_config_volume', {
+                .state('console.create_config_configMap', {
                     url: '/resource_create_configMap',
                     templateUrl: 'views/create_config_volume/create_config_volume.html',
                     controller: 'createfigvolumeCtrl',
@@ -656,7 +656,7 @@ define([
                         }]
                     }
                 })
-                .state('console.config_detail', {
+                .state('console.config_configMap', {
                     url: '/resource_management/configMap/:name',
                     templateUrl: 'views/config_detail/config_detail.html',
                     controller: 'configDetailCtrl',
@@ -666,7 +666,7 @@ define([
                         }]
                     }
                 })
-                .state('console.secret_detail', {
+                .state('console.secret_secret', {
                     url: '/resource_management/secret/:name',
                     templateUrl: 'views/secret_detail/secret_detail.html',
                     controller: 'secretDetailCtrl',
@@ -676,7 +676,7 @@ define([
                         }]
                     }
                 })
-                .state('console.constantly_detail', {
+                .state('console.constantly_persistentVolume', {
                     url: '/resource_management/persistentVolume/:name',
                     templateUrl: 'views/constantly_detail/constantly_detail.html',
                     controller: 'constDetailCtrl',
@@ -924,7 +924,7 @@ define([
                             return $ocLazyLoad.load('views/resource_configMap/resource_configMap.js')
                         }]
                     }
-                })
+                })//resource_persistentVolume
                 .state('console.resource_persistentVolume', {
                     url: '/storage',
                     templateUrl: 'views/resource_persistentVolume/resource_persistentVolume.html',
