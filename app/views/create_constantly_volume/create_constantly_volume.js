@@ -189,7 +189,7 @@ angular.module('console.create_constantly_persistentVolume', [
             }, function (err) {
                 $scope.loaded = false;
                 // Toast.open('创建失败,请重试');
-                toastr.error('创建失败,请重试', {
+                toastr.error('创建失败，请重试', {
                     closeButton: true
                 });
             });

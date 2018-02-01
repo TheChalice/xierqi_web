@@ -254,7 +254,7 @@ angular.module('console.secret_secret', [
                         toastr.error('删除失败，请重试', {
                             closeButton: true
                         });
-                        Confirm.open("删除密钥卷", "删除密钥卷失败", "存储卷已经挂载在容器中，您需要先停止服务，         卸载存储卷后，才能删除。", null,true)
+                        Confirm.open("删除密钥卷", "删除密钥卷失败", "存储卷已经挂载在容器中，您需要先停止服务，卸载存储卷后，才能删除。", null,true)
                     })
 
 

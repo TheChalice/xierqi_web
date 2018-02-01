@@ -170,7 +170,7 @@ angular.module('console.config_detail', [
                         //$state.go('console.build_detail', {name: name, from: 'create'})
                     }, function (err) {
                         Confirm.open("删除密钥卷", "删除密钥卷失败", "存储卷已经挂载在容器中，您需要先停止服务，卸载存储卷后，才能删除。", null,true)
-                        toastr.error('删除失败,请重试', {
+                        toastr.error('删除失败，请重试', {
                             closeButton: true,
                             timeOut: 2000
                         });

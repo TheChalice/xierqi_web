@@ -283,7 +283,7 @@ angular.module('console.create_secret', [
             });
             $state.go('console.resource_secret', {index: 3});
         }, function (res) {
-            toastr.error('创建失败,请重试', {
+            toastr.error('创建失败，请重试', {
                 closeButton: true
             });
             if (res.status == 409) {

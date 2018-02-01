@@ -55,7 +55,7 @@ angular.module('console.constantly_persistentVolume', [
                             });
                             $state.go('console.resource_persistentVolume', {index: 1})
                         }, function (err) {
-                            toastr.error('删除失败,请重试', {
+                            toastr.error('删除失败，请重试', {
                                 closeButton: true
                             });
                         });
