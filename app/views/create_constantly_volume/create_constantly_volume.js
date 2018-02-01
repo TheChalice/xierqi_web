@@ -3,8 +3,8 @@ angular.module('console.create_constantly_persistentVolume', [
     {
         files: []
     }
-]).controller('createconvolumeCtrl', ['persistent','Tip','checkout','market','Toast','$state', '$rootScope', 'volume', '$scope',
-    function (persistent,Tip,checkout,market,Toast,$state, $rootScope, volume, $scope) {
+]).controller('createconvolumeCtrl', ['persistent', 'Tip', 'checkout', 'market', 'Toast', '$state', '$rootScope', 'volume', '$scope', 'toastr',
+    function (persistent, Tip, checkout, market, Toast, $state, $rootScope, volume, $scope, toastr) {
 
         $scope.slider = {
             value: 1,
@@ -13,17 +13,16 @@ angular.module('console.create_constantly_persistentVolume', [
                 ceil: 5,
                 step: 1,
                 showSelectionBar: true,
-                showTicksValues:1,
-                translate: function(value, sliderId, label) {
+                showTicksValues: 1,
+                translate: function (value, sliderId, label) {
                     switch (label) {
 
                         default:
-                            return  value + 'GB'
+                            return value + 'GB'
                     }
                 }
             }
         };
-
 
 
         $scope.danwei = 'GB';
@@ -31,11 +30,11 @@ angular.module('console.create_constantly_persistentVolume', [
             inved: false,
             num: false,
             dianji: false
-        }
-        $scope.err= {
-            blank:false,
-            valid:false
-        }
+        };
+        $scope.err = {
+            blank: false,
+            valid: false
+        };
         $scope.volume = {
             name: '',
             size: '',
@@ -44,28 +43,28 @@ angular.module('console.create_constantly_persistentVolume', [
                     'dadafoundry.io/create-by': $rootScope.namespace
                 }
             }
-        }
+        };
         //type=persistent_volume
-        $scope.getPlan=true;
-        market.get({region:$rootScope.region,type:'volume'}, function (data) {
+        $scope.getPlan = true;
+        market.get({region: $rootScope.region, type: 'volume'}, function (data) {
             console.log(data.plans);
             $scope.plans = data.plans;
-             $scope.getPlan=false;
-        })
+            $scope.getPlan = false;
+        });
         $scope.$watch('slider.value', function (n, o) {
             if (n == o) {
                 return
             }
-            if (n && n >0) {
-                $scope.grid.num=false
+            if (n && n > 0) {
+                $scope.grid.num = false
 
             }
-        })
+        });
         $scope.namerr = {
             nil: false,
             rexed: false,
             repeated: false
-        }
+        };
         $scope.nameblur = function () {
             //console.log($scope.buildConfig.metadata.name);
             if (!$scope.volume.name) {
@@ -73,10 +72,10 @@ angular.module('console.create_constantly_persistentVolume', [
             } else {
                 $scope.namerr.nil = false
             }
-        }
+        };
         $scope.namefocus = function () {
             $scope.namerr.nil = false
-        }
+        };
         //secretskey.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (res) {
         //    //console.log('-------loadsecrets', res);
         //    $scope.secremnamearr=res.items;
@@ -86,10 +85,10 @@ angular.module('console.create_constantly_persistentVolume', [
             namespace: $rootScope.namespace,
             region: $rootScope.region
         }, function (res) {
-            $scope.persmnamearr=res.items;
+            $scope.persmnamearr = res.items;
         })
 
-        var rex =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
+        var rex = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
 
         $scope.$watch('volume.name', function (n, o) {
             if (n === o) {
@@ -98,7 +97,7 @@ angular.module('console.create_constantly_persistentVolume', [
             if (n && n.length > 0) {
                 if (rex.test(n)) {
                     $scope.namerr.rexed = false;
-                    $scope.namerr.repeated=false;
+                    $scope.namerr.repeated = false;
                     if ($scope.persmnamearr) {
                         //console.log($scope.buildConfiglist);
                         angular.forEach($scope.persmnamearr, function (bsiname, i) {
@@ -118,17 +117,17 @@ angular.module('console.create_constantly_persistentVolume', [
             } else {
                 $scope.namerr.rexed = false;
             }
-        })
-        $scope.empty=function(){
-            if ( $scope.volume.name==='') {
+        });
+        $scope.empty = function () {
+            if ($scope.volume.name === '') {
 
                 //alert(1)
                 $scope.err.blank = false;
                 return
             }
-        }
-        $scope.isEmpty=function(){
-            if ( $scope.volume.name==='') {
+        };
+        $scope.isEmpty = function () {
+            if ($scope.volume.name === '') {
                 //alert(1)
                 $scope.err.blank = true;
                 return
@@ -136,16 +135,16 @@ angular.module('console.create_constantly_persistentVolume', [
                 $scope.err.blank = false;
             }
 
-        }
+        };
         $scope.creat = function () {
-            if (!$scope.namerr.nil && !$scope.namerr.rexed && !$scope.namerr.repeated&&!$scope.timeouted) {
+            if (!$scope.namerr.nil && !$scope.namerr.rexed && !$scope.namerr.repeated && !$scope.timeouted) {
 
-            }else {
+            } else {
                 return
             }
-            var r =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
+            var r = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
 
-            if ($scope.volume.name==='') {
+            if ($scope.volume.name === '') {
                 //alert(1)
                 $scope.err.blank = true;
                 return
@@ -156,17 +155,17 @@ angular.module('console.create_constantly_persistentVolume', [
             }
 
             if ($scope.slider.value === 0) {
-                $scope.grid.num=true;
+                $scope.grid.num = true;
                 return
             }
-            $scope.volume.size=$scope.slider.value
+            $scope.volume.size = $scope.slider.value
 
-            angular.forEach($scope.plans, function (plan,i) {
-                console.log($scope.slider.value,plan.plan_level*10);
-                if ($scope.slider.value === plan.plan_level*10) {
+            angular.forEach($scope.plans, function (plan, i) {
+                console.log($scope.slider.value, plan.plan_level * 10);
+                if ($scope.slider.value === plan.plan_level * 10) {
                     $scope.plan_id = plan.plan_id;
                 }
-            })
+            });
 
             $scope.loaded = true;
             console.log($scope.plan_id);
@@ -179,15 +178,21 @@ angular.module('console.create_constantly_persistentVolume', [
             //        resource_name:$scope.volume.name
             //    }
             //}, function (data) {
-                //console.log(data);
-                volume.create({namespace: $rootScope.namespace}, $scope.volume, function (res) {
-                    //alert(11111)
-                    $scope.loaded = false;
+            //console.log(data);
+            volume.create({namespace: $rootScope.namespace}, $scope.volume, function (res) {
+                //alert(11111)
+                $scope.loaded = false;
+                toastr.success('创建成功', {
+                    closeButton: true
+                });
                 $state.go('console.resource_persistentVolume', {index: 1});
-                }, function (err) {
-                    $scope.loaded = false;
-                    Toast.open('创建失败,请重试');
-                })
+            }, function (err) {
+                $scope.loaded = false;
+                // Toast.open('创建失败,请重试');
+                toastr.error('创建失败,请重试', {
+                    closeButton: true
+                });
+            });
 
             //}, function (err) {
             //    $scope.loaded = false;
@@ -206,7 +211,5 @@ angular.module('console.create_constantly_persistentVolume', [
             //    }
             //
             //})
-
-
         }
-    }])
+    }]);

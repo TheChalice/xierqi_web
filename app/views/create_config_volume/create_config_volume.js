@@ -3,7 +3,7 @@ angular.module('console.create_config_configMap', [
     {
         files: []
     }
-]).controller('createfigvolumeCtrl', ['$state', '$rootScope', '$scope', 'configmaps', function ($state, $rootScope, $scope, configmaps) {
+]).controller('createfigvolumeCtrl', ['$state', '$rootScope', '$scope', 'configmaps', 'toastr', function ($state, $rootScope, $scope, configmaps, toastr) {
     $scope.volume = {
         "kind": "ConfigMap",
         "apiVersion": "v1",
@@ -232,9 +232,15 @@ angular.module('console.create_config_configMap', [
         configmaps.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.volume, function (res) {
             //console.log('createconfig----', res);
             $scope.loaded=false;
+            toastr.success('创建成功', {
+                closeButton: true
+            });
             $state.go('console.resource_configMap', {index: 2});
             //$state.go('console.build_detail', {name: name, from: 'create'})
         }, function (res) {
+            toastr.error('创建失败,请重试', {
+                closeButton: true
+            });
             $state.go('console.create_config_configMap');
         })
     }

@@ -4,8 +4,8 @@ angular.module('console.secret_secret', [
             files: []
         }
     ])
-    .controller('secretDetailCtrl', ['Confirm','Toast','by', '$state', '$http', '$scope', '$rootScope', 'listSecret', 'modifySecret', 'deleteSecret', '$stateParams',
-        function (Confirm,Toast,by, $state, $http, $scope, $rootScope, listSecret, modifySecret, deleteSecret, $stateParams) {
+    .controller('secretDetailCtrl', ['Confirm','Toast','by', '$state', '$http', '$scope', '$rootScope', 'listSecret', 'modifySecret', 'deleteSecret', '$stateParams', 'toastr',
+        function (Confirm,Toast,by, $state, $http, $scope, $rootScope, listSecret, modifySecret, deleteSecret, $stateParams, toastr) {
             $scope.grid = {
                 status: false,
 
@@ -213,7 +213,7 @@ angular.module('console.secret_secret', [
                 //    var v = $scope.secretarr[i].v;
                 //    $scope.item.data[k] = Base64.encode(v);
                 //}
-                $scope.item.data={}
+                $scope.item.data={};
                 if ($scope.item.secretarr) {
                     var arr = $scope.item.secretarr.concat($scope.item.newarr);
                 }else {
@@ -231,7 +231,10 @@ angular.module('console.secret_secret', [
                     region:$rootScope.region
                 }, $scope.item, function (res) {
                     //console.log('test the item', res);
-                    Toast.open('保存成功')
+                    // Toast.open('保存成功')
+                    toastr.success('更新成功', {
+                        closeButton: true
+                    });
                     $state.go('console.resource_secret', {index: 3})
                 })
             }
@@ -242,9 +245,15 @@ angular.module('console.secret_secret', [
                 Confirm.open("删除密钥卷", "您确定要删除密钥卷吗？", "密钥已经挂载在容器中，删除此密钥，容器启动将异常", "stop").then(function(){
 
                     deleteSecret.delete({namespace: $rootScope.namespace,region:$rootScope.region,name:$scope.item.metadata.name}, function () {
+                        toastr.success('删除成功', {
+                            closeButton: true
+                        });
                         $state.go('console.resource_secret', {index: 3})
                         // $state.go('console.resource_management', {index: 3})
                     },function (err) {
+                        toastr.error('删除失败，请重试', {
+                            closeButton: true
+                        });
                         Confirm.open("删除密钥卷", "删除密钥卷失败", "存储卷已经挂载在容器中，您需要先停止服务，         卸载存储卷后，才能删除。", null,true)
                     })
 
