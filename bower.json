@@ -30,7 +30,8 @@
     "angularjs-slider": "^5.8.7",
     "angular-patternfly": "3.24.0",
     "patternfly": "3.24.0",
-    "angular-tree-control": "^0.2.28"
+    "angular-tree-control": "^0.2.28",
+    "angular-toastr": "^2.1.1"
   },
   "description": "angular seed",
   "main": "index.js",
