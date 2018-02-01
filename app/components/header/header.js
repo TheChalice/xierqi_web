@@ -505,17 +505,17 @@ angular.module("console.header", [{
                 return "消息中心";
             case "console.resource_management":
                 return "资源管理";
-            case "console.create_constantly_volume":
-                return "新建持久化卷";
-            case "console.create_config_volume":
+            case "console.create_constantly_persistentVolume":
+                return "新建存储卷";
+            case "console.create_config_configMap":
                 return "新建配置卷";
             case "console.create_secret":
                 return "新建密钥";
-            case "console.config_detail":
+            case "console.config_configMap":
                 return "配置卷详情";
-            case "console.secret_detail":
+            case "console.secret_secret":
                 return "密钥详情";
-            case "console.constantly_detail":
+            case "console.constantly_persistentVolume":
                 return "持久卷详情";
             case "console.create_saas":
                 return "新建服务实例";
@@ -552,7 +552,7 @@ angular.module("console.header", [{
             case "console.services":
                 return "Services";
             case "console.resource_persistentVolume":
-                return "持久化卷";
+                return "存储卷";
             case "console.resource_configMap":
                 return "配置卷";
             case "console.resource_secret":

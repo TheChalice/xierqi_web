@@ -1,5 +1,5 @@
 'use strict';
-angular.module('console.constantly_detail', [
+angular.module('console.constantly_persistentVolume', [
         {
             files: [
 
@@ -30,10 +30,10 @@ angular.module('console.constantly_detail', [
             })
             $scope.delete= function () {
 
-                Confirm.open("删除持久化卷", "您确定要删除持久化卷吗？", "持久化卷中的数据将被删除", "stop").then(function(){
+                Confirm.open("删除存储卷", "您确定要删除存储卷吗？", "存储卷中的数据将被删除", "stop").then(function(){
 
                     if ($scope.persistents.arr.length > 0) {
-                        Confirm.open("删除持久化卷", "删除持久化卷失败", "持久化卷已经挂载在容器中，您需要先停止服务，卸载持久化卷后，才能删除。", null,true)
+                        Confirm.open("删除存储卷", "删除存储卷失败", "存储卷已经挂载在容器中，您需要先停止服务，卸载存储卷后，才能删除。", null,true)
 
                     }else {
                         //orders.query({region:$rootScope.region,resource_name:$stateParams.name,namespace:$rootScope.namespace,
@@ -47,7 +47,8 @@ angular.module('console.constantly_detail', [
                         //    }else {
                                 delvolume.del({namespace: $rootScope.namespace,name:$stateParams.name}, function (res) {
                                     //console.log(res);
-                                    $state.go('console.resource_management', {index: 1})
+                                    // $state.go('console.resource_management', {index: 1})
+                                    $state.go('console.resource_persistentVolume', {index: 1})
                                 }, function (err) {
 
                                 })

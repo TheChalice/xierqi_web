@@ -278,7 +278,7 @@ angular.module('console.create_secret', [
             $scope.grid.nameerr = false;
             //console.log('createconfig----',res);
             $scope.loaded = false;
-            $state.go('console.resource_management', {index: 3});
+            $state.go('console.resource_secret', {index: 3});
         }, function (res) {
             if (res.status == 409) {
                 $scope.grid.nameerr = true;

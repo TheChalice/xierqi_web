@@ -815,9 +815,9 @@ define(['angular'], function (angular) {
                             $scope.changeconfigname = function (idx, val) {
                                 $scope.configmap[idx].configMap.name = val
                             }
-                            ////////持久化卷
+                            ////////存储卷
 
-                            ///获取持久化卷
+                            ///获取存储卷
 
                             var loadpersistent = function () {
 
@@ -835,7 +835,7 @@ define(['angular'], function (angular) {
                                 })
                             }
                             loadpersistent();
-                            //////添加持久化卷
+                            //////添加存储卷
                             $scope.addpersistent = function () {
                                 $scope.grid.change = true;
                                 $scope.persistentarr.push({
@@ -846,7 +846,7 @@ define(['angular'], function (angular) {
                                     mountPath: ''
                                 });
                             }
-                            ///删除持久化卷
+                            ///删除存储卷
                             $scope.delpersistent = function (idx) {
                                 $scope.persistentarr.splice(idx, 1);
                             }

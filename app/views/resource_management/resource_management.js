@@ -190,7 +190,7 @@ angular.module('console.resource_management', [
 
                 }
             }
-            $scope.text='您还没有创建持久化卷';
+            $scope.text='您还没有创建存储卷';
             $scope.rmsearch = function (event) {
                 if (true) {
                     if (!$scope.grid.rmtxt) {
@@ -219,7 +219,7 @@ angular.module('console.resource_management', [
                         $scope.text='没有查询到相关数据';
                     }
                     else{
-                        $scope.text='您还没有创建持久化卷';
+                        $scope.text='您还没有创建存储卷';
                     }
                     $scope.persistentdata=angular.copy(iarr);
                     rmrefresh(1);

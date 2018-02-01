@@ -1,5 +1,5 @@
 'use strict';
-angular.module('console.create_constantly_volume', [
+angular.module('console.create_constantly_persistentVolume', [
     {
         files: []
     }
@@ -183,7 +183,7 @@ angular.module('console.create_constantly_volume', [
                 volume.create({namespace: $rootScope.namespace}, $scope.volume, function (res) {
                     //alert(11111)
                     $scope.loaded = false;
-                $state.go('console.resource_management', {index: 1});
+                $state.go('console.resource_persistentVolume', {index: 1});
                 }, function (err) {
                     $scope.loaded = false;
                     Toast.open('创建失败,请重试');
