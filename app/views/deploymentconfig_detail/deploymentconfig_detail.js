@@ -93,6 +93,7 @@ angular.module('console.deploymentconfig_detail', [
                 $scope.horiz.spec.targetCPUUtilizationPercentage = parseInt($scope.horiz.spec.targetCPUUtilizationPercentage) || 80;
                 horizontalpodautoscalers.create({namespace: $rootScope.namespace}, $scope.horiz, function (data) {
 
+
                 })
             }
             var puthor = function (horiz,name) {
@@ -313,8 +314,16 @@ angular.module('console.deploymentconfig_detail', [
                         horizontalpodautoscalers.get({namespace: $rootScope.namespace,name:$stateParams.name}, function (data) {
                             console.log('sdata', data);
                             puthor(data,$stateParams.name)
+                            toastr.success('操作成功', {
+                                timeOut: 2000,
+                                closeButton: true
+                            });
                         }, function (err) {
                             creathor()
+                            toastr.error('删除失败,请重试', {
+                                timeOut: 2000,
+                                closeButton: true
+                            });
                         })
 
                     } else {
