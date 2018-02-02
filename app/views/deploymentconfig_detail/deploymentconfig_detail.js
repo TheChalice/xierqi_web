@@ -95,6 +95,13 @@ angular.module('console.deploymentconfig_detail', [
 
                 })
             }
+            var puthor = function (horiz,name) {
+                horiz.spec.maxReplicas = parseInt($scope.horiz.spec.maxReplicas) || $scope.dc.spec.replicas;
+                horiz.spec.targetCPUUtilizationPercentage = parseInt($scope.horiz.spec.targetCPUUtilizationPercentage) || 80;
+                horizontalpodautoscalers.put({namespace: $rootScope.namespace,name:name}, horiz, function (data) {
+                    console.log('data', data);
+                })
+            }
             var delhor = function () {
 
                 horizontalpodautoscalers.delete({
@@ -300,7 +307,13 @@ angular.module('console.deploymentconfig_detail', [
                     //console.log($scope.envs);
 
                     if ($scope.quota.rubustCheck) {
-                        creathor()
+                        horizontalpodautoscalers.get({namespace: $rootScope.namespace,name:$stateParams.name}, function (data) {
+                            console.log('sdata', data);
+                            puthor(data,$stateParams.name)
+                        }, function (err) {
+                            creathor()
+                        })
+
                     } else {
                         delhor()
                     }
