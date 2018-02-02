@@ -234,6 +234,7 @@ define(['angular'], function (angular) {
 
                         var watchpod = function (resourceVersion, podContainerName, podName, api) {
                             $scope.log=''
+                            $scope.result=''
                             var wsobj = {
                                 namespace: $rootScope.namespace,
                                 type: $scope.type,
