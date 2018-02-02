@@ -41,6 +41,7 @@ define(['angular'], function (angular) {
             function ($q, kubernetesContainerSocket, Cookie, $location) {
                 return {
                     restrict: 'E',
+                    templateUrl:'views/directives/terminal.html',
                     scope: {
                         pod: '&',
                         container: '&',
@@ -48,7 +49,8 @@ define(['angular'], function (angular) {
                         prevent: '=',
                         rows: '=',
                         cols: '=',
-                        screenKeys: '='
+                        screenKeys: '=',
+                        podContainer: '=',
                     },
                     link: function (scope, element, attrs) {
                         /* term.js wants the parent element to build its terminal inside of */
@@ -88,7 +90,30 @@ define(['angular'], function (angular) {
                         term.open(outer[0]);
                         term.cursorHidden = true;
                         term.refresh(term.x, term.y);
-
+                        scope.copycon=angular.copy(scope.podContainer)
+                        scope.conlist=[]
+                        var makeconarr= function (name) {
+                            scope.conlist=[]
+                            angular.forEach(scope.copycon, function (con,i) {
+                                if (con.name != name) {
+                                    scope.conlist.push(con)
+                                }
+                            })
+                        }
+                        if (scope.podContainer) {
+                            scope.podContainername=scope.podContainer[0].name
+                            if (scope.podContainer.length > 1) {
+                                scope.showcon=true
+                                scope.selectcon=scope.podContainer[0].name
+                                makeconarr(scope.selectcon)
+                            }
+                        }
+                        scope.changecon= function (name) {
+                            scope.selectcon=name;
+                            scope.podContainername=name;
+                            makeconarr(name)
+                            connect()
+                        }
                         term.on('data', function (data) {
                             if (ws && ws.readyState === 1)
                                 ws.send("0" + window.btoa(data));
@@ -113,7 +138,8 @@ define(['angular'], function (angular) {
                                 url += '?';
                             url += "stdout=1&stdin=1&stderr=1&tty=1";
 
-                            var container = scope.container ? scope.container() : null;
+                            var container = scope.podContainername ? scope.podContainername : null;
+                            //console.log('container', container);
                             if (container)
                                 url += "&container=" + encodeURIComponent(container);
 
@@ -149,7 +175,7 @@ define(['angular'], function (angular) {
                             }
 
                             //console.log('$location', $location);
-                            //url='ws://localhost:8080/ws'+url;
+                            url='ws://localhost:8080/ws'+url;
                             //console.log('url', url);
                             $q.when(kubernetesContainerSocket(url, "base64.channel.k8s.io"),
                                 function resolved(socket) {
