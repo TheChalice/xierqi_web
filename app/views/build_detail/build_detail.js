@@ -102,11 +102,17 @@ angular.module('console.build.detail', [
                     $scope.$broadcast('timeline', 'add', res);
                     createWebhook();
                     //deleteWebhook();
-                    toastr.success('操作成功');
+                    toastr.success('操作成功', {
+                        timeOut: 2000,
+                        closeButton: true
+                    });
 
                 }, function (res) {
                     //todo 错误处理
-                    toastr.error('操作成功');
+                    toastr.error('删除失败,请重试', {
+                        timeOut: 2000,
+                        closeButton: true
+                    });
                 });
             };
 
@@ -647,6 +653,10 @@ angular.module('console.build.detail', [
                 Confirm.open(title, msg, tip, 'recycle').then(function () {
                     Build.remove({ namespace: $rootScope.namespace, name: name }, function () {
                         $log.info("deleted");
+                        toastr.success('操作成功', {
+                            timeOut: 2000,
+                            closeButton: true
+                        });
                         for (var i = 0; i < $scope.databuild.items.length; i++) {
                             if (name == $scope.databuild.items[i].metadata.name) {
                                 $scope.databuild.items.splice(i, 1)
@@ -664,6 +674,10 @@ angular.module('console.build.detail', [
                         //   $rootScope.testq.git = $scope.data.items[0].spec.revision.git.commit;
                         // }
                     }, function (res) {
+                        toastr.error('删除失败,请重试', {
+                            timeOut: 2000,
+                            closeButton: true
+                        });
                         //todo 错误处理
                         $log.info("err", res);
                     });
