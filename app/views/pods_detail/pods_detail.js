@@ -30,10 +30,16 @@ angular.module('console.pods_detail', [
                 delTip.open("删除Pod", name, true).then(function () {
                     Pod.delete({ namespace: $scope.namespace,name:name }, function (res) {
                         $state.go('console.pods');
-                        toastr.success('操作成功');
+                        toastr.success('操作成功', {
+                            timeOut: 2000,
+                            closeButton: true
+                        });
                     }, function () {
                         Confirm.open("删除Pod", "删除" + name + "失败", null, null, true)
-                        toastr.error('操作失败');
+                        toastr.error('删除失败,请重试', {
+                            timeOut: 2000,
+                            closeButton: true
+                        });
                     })
                 })
             }

@@ -1,20 +1,20 @@
 'use strict';
 
 angular.module('console.build.detail', [
-        {
-            files: [
-                'components/checkbox/checkbox.js',
-                'views/build_detail/build_detail.css'
-            ]
-        }
-    ])
-    .controller('BuildDetailCtrl', ['$sce','ansi_ups','ImageStreamTag', 'deleteSecret', 'Ws', 'Sort', 'GLOBAL', '$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'UUID', 'WebhookLab', 'WebhookHub', 'WebhookLabDel', 'WebhookHubDel', 'ImageStream', 'WebhookLabget', 'WebhookGitget','toastr'
-        , function ($sce,ansi_ups,ImageStreamTag, deleteSecret, Ws, Sort, GLOBAL, $rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, UUID, WebhookLab, WebhookHub, WebhookLabDel, WebhookHubDel, ImageStream, WebhookLabget, WebhookGitget,toastr) {
+    {
+        files: [
+            'components/checkbox/checkbox.js',
+            'views/build_detail/build_detail.css'
+        ]
+    }
+])
+    .controller('BuildDetailCtrl', ['$sce', 'ansi_ups', 'ImageStreamTag', 'deleteSecret', 'Ws', 'Sort', 'GLOBAL', '$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'UUID', 'WebhookLab', 'WebhookHub', 'WebhookLabDel', 'WebhookHubDel', 'ImageStream', 'WebhookLabget', 'WebhookGitget', 'toastr'
+        , function ($sce, ansi_ups, ImageStreamTag, deleteSecret, Ws, Sort, GLOBAL, $rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, UUID, WebhookLab, WebhookHub, WebhookLabDel, WebhookHubDel, ImageStream, WebhookLabget, WebhookGitget, toastr) {
             $scope.grid = {};
 
             //console.log('路由',$state);
             $scope.grid.checked = false;
-            $scope.grid.pedding=false
+            $scope.grid.pedding = false
 
             $scope.bcName = $stateParams.name;
 
@@ -102,11 +102,17 @@ angular.module('console.build.detail', [
                     $scope.$broadcast('timeline', 'add', res);
                     createWebhook();
                     //deleteWebhook();
-                    toastr.success('操作成功');
+                    toastr.success('操作成功', {
+                        timeOut: 2000,
+                        closeButton: true
+                    });
 
                 }, function (res) {
                     //todo 错误处理
-                    toastr.error('操作成功');
+                    toastr.error('删除失败,请重试', {
+                        timeOut: 2000,
+                        closeButton: true
+                    });
                 });
             };
 
@@ -125,7 +131,7 @@ angular.module('console.build.detail', [
                             name: "custom-git-builder-" + $rootScope.user.metadata.name + '-' + name,
                             region: $rootScope.region
                         }), {}, function (res) {
-                            
+
                         }
                         removeIs($scope.data.metadata.name);
                         removeBuilds($scope.data.metadata.name);
@@ -138,7 +144,7 @@ angular.module('console.build.detail', [
                                     user: $scope.data.metadata.annotations.user,
                                     repo: $scope.data.metadata.annotations.repo
                                 }, function (item1) {
-                                    
+
                                 })
                             } else {
                                 WebhookLabDel.del({
@@ -147,15 +153,21 @@ angular.module('console.build.detail', [
                                     build: $stateParams.name,
                                     repo: $scope.data.metadata.annotations.repo
                                 }, function (data2) {
-                                    
+
                                 });
                             }
                         }
                         $state.go("console.build");
-                        toastr.success('操作成功');
+                        toastr.success('操作成功', {
+                            timeOut: 2000,
+                            closeButton: true
+                        });
                     }, function (res) {
                         //todo 错误处理
-                        toastr.error('操作失败');
+                        toastr.error('删除失败,请重试', {
+                            timeOut: 2000,
+                            closeButton: true
+                        });
                     });
                 });
             };
@@ -164,7 +176,7 @@ angular.module('console.build.detail', [
                 if (!bcName) {
                     return;
                 }
-                Build.remove({namespace: $rootScope.namespace, labelSelector: 'buildconfig=' + bcName}, function () {
+                Build.remove({ namespace: $rootScope.namespace, labelSelector: 'buildconfig=' + bcName }, function () {
                     $log.info("remove builds of " + bcName + " success");
                 }, function (res) {
                     $log.info("remove builds of " + bcName + " error");
@@ -226,7 +238,7 @@ angular.module('console.build.detail', [
                     $scope.grid.checkedLocal = $scope.grid.checked;
                     if (!checked) {
                         createWebhook();
-                    }else {
+                    } else {
                         deleteWebhook();
                     }
 
@@ -269,6 +281,9 @@ angular.module('console.build.detail', [
 
             var getConfig = function (triggers, type) {
                 //console.log(triggers)
+                if(triggers==""){
+                    return;
+                    }                    
                 var str = ''
                 if (type == 'github' && triggers[0].github) {
                     str = GLOBAL.host_webhooks + '/namespaces/' + $rootScope.namespace + '/buildconfigs/' + $scope.data.metadata.name + '/webhooks/' + triggers[0].github.secret + '/github'
@@ -336,7 +351,7 @@ angular.module('console.build.detail', [
                 var host = $scope.data.spec.source.git.uri;
                 var triggers = $scope.data.spec.triggers;
                 //console.log('triggers', triggers);
-                $scope.grid.pedding=true
+                $scope.grid.pedding = true
                 console.log('checked', $scope.grid.checked);
                 if (!$scope.grid.checked) {
                     var config = getConfig(triggers, 'github');
@@ -350,12 +365,12 @@ angular.module('console.build.detail', [
                             build: $stateParams.name,
                             user: $scope.data.metadata.annotations.user,
                             repo: $scope.data.metadata.annotations.repo,
-                            spec: {"active": true, events: ['push', 'pull_request', 'status'], config: {url: config}}
+                            spec: { "active": true, events: ['push', 'pull_request', 'status'], config: { url: config } }
                         }, function (item) {
-                            $scope.grid.pedding=false
+                            $scope.grid.pedding = false
                             $scope.grid.checked = true
                         }, function (err) {
-                            $scope.grid.pedding=false
+                            $scope.grid.pedding = false
                         });
                     } else {
                         var config = getConfig(triggers, 'gitlab');
@@ -365,9 +380,9 @@ angular.module('console.build.detail', [
                             namespace: $rootScope.namespace,
                             build: $stateParams.name,
                             repo: $scope.data.metadata.annotations.repo,
-                            spec: {url: config}
+                            spec: { url: config }
                         }, function (data) {
-                            $scope.grid.pedding=false
+                            $scope.grid.pedding = false
                             $scope.grid.checked = true
                             //console.log("test repo", $scope.data.metadata.annotations.repo)
                         });
@@ -377,7 +392,7 @@ angular.module('console.build.detail', [
 
             var deleteWebhook = function () {
                 var host = $scope.data.spec.source.git.uri;
-                $scope.grid.pedding=true;
+                $scope.grid.pedding = true;
                 if ($scope.grid.checked) {
                     if (getSourceHost(host) === 'github.com') {
                         WebhookHubDel.del({
@@ -387,10 +402,10 @@ angular.module('console.build.detail', [
                             user: $scope.data.metadata.annotations.user,
                             repo: $scope.data.metadata.annotations.repo
                         }, function (item1) {
-                            $scope.grid.pedding=false
-                            $scope.grid.checked=false
+                            $scope.grid.pedding = false
+                            $scope.grid.checked = false
                         }, function (err) {
-                            $scope.grid.pedding=false
+                            $scope.grid.pedding = false
                         })
                     } else {
                         WebhookLabDel.del({
@@ -400,9 +415,9 @@ angular.module('console.build.detail', [
                             build: $stateParams.name,
                             repo: $scope.data.metadata.annotations.repo
                         }, function (data2) {
-                            $scope.grid.pedding=false
+                            $scope.grid.pedding = false
                         }, function (err) {
-                            $scope.grid.pedding=false
+                            $scope.grid.pedding = false
                         });
                     }
                 }
@@ -411,7 +426,7 @@ angular.module('console.build.detail', [
             $scope.isshow = true;
             $scope.gitStore = {};
 
-//获取build记录
+            //获取build记录
             var loadBuildHistory = function (name) {
                 //console.log('name',name)
                 Build.get({
@@ -567,13 +582,13 @@ angular.module('console.build.detail', [
 
             loadBuildHistory($state.params.name);
 
-//如果是新创建的打开第一个日志,并监控
+            //如果是新创建的打开第一个日志,并监控
             if ($stateParams.from == "create") {
                 $scope.$watch("databuild", function (newVal, oldVal) {
                     //console.log(newVal);
 
                     if (newVal != oldVal) {
-                        if (newVal.items.length > 0&&$scope.databuild.items[0].object) {
+                        if (newVal.items.length > 0 && $scope.databuild.items[0].object) {
 
                             $scope.getLog(0);
 
@@ -618,16 +633,16 @@ angular.module('console.build.detail', [
                 });
             };
 
-//$scope.pull = function(idx){
-//    // console.log(idx)
-//    // console.log(idx,$scope.data.status.tags[idx].tag)
-//    var name = $scope.name + ':' + $scope.date.status.tags[idx].tag;
-//    // var name = $scope.data.items[idx].spec.output.to.name;
-//    console.log('name',name);
-//    ModalPullImage.open(name, true).then(function (res) {
-//        console.log("cmd", res);
-//    });
-//};
+            //$scope.pull = function(idx){
+            //    // console.log(idx)
+            //    // console.log(idx,$scope.data.status.tags[idx].tag)
+            //    var name = $scope.name + ':' + $scope.date.status.tags[idx].tag;
+            //    // var name = $scope.data.items[idx].spec.output.to.name;
+            //    console.log('name',name);
+            //    ModalPullImage.open(name, true).then(function (res) {
+            //        console.log("cmd", res);
+            //    });
+            //};
 
             $scope.delete = function (idx) {
                 var title = "删除构建";
@@ -639,8 +654,12 @@ angular.module('console.build.detail', [
                     return;
                 }
                 Confirm.open(title, msg, tip, 'recycle').then(function () {
-                    Build.remove({namespace: $rootScope.namespace, name: name}, function () {
+                    Build.remove({ namespace: $rootScope.namespace, name: name }, function () {
                         $log.info("deleted");
+                        toastr.success('操作成功', {
+                            timeOut: 2000,
+                            closeButton: true
+                        });
                         for (var i = 0; i < $scope.databuild.items.length; i++) {
                             if (name == $scope.databuild.items[i].metadata.name) {
                                 $scope.databuild.items.splice(i, 1)
@@ -658,6 +677,10 @@ angular.module('console.build.detail', [
                         //   $rootScope.testq.git = $scope.data.items[0].spec.revision.git.commit;
                         // }
                     }, function (res) {
+                        toastr.error('删除失败,请重试', {
+                            timeOut: 2000,
+                            closeButton: true
+                        });
                         //todo 错误处理
                         $log.info("err", res);
                     });
@@ -689,5 +712,5 @@ angular.module('console.build.detail', [
             });
 
         }])
-;
+    ;
 

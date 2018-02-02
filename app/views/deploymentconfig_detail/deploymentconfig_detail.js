@@ -93,6 +93,7 @@ angular.module('console.deploymentconfig_detail', [
                 $scope.horiz.spec.targetCPUUtilizationPercentage = parseInt($scope.horiz.spec.targetCPUUtilizationPercentage) || 80;
                 horizontalpodautoscalers.create({namespace: $rootScope.namespace}, $scope.horiz, function (data) {
 
+
                 })
             }
             var puthor = function (horiz,name) {
@@ -277,7 +278,10 @@ angular.module('console.deploymentconfig_detail', [
                         con.volumeMounts = []
                         if (volerr(con.volments)) {
                             cancreat=false
-                            toastr.error('操作失败');
+                            toastr.error('删除失败,请重试', {
+                                timeOut: 2000,
+                                closeButton: true
+                            });
                         }
                         creatvol(con, con.volments)
                         //if (volrepeat(con.volumeMounts)) {
@@ -310,8 +314,16 @@ angular.module('console.deploymentconfig_detail', [
                         horizontalpodautoscalers.get({namespace: $rootScope.namespace,name:$stateParams.name}, function (data) {
                             console.log('sdata', data);
                             puthor(data,$stateParams.name)
+                            toastr.success('操作成功', {
+                                timeOut: 2000,
+                                closeButton: true
+                            });
                         }, function (err) {
                             creathor()
+                            toastr.error('删除失败,请重试', {
+                                timeOut: 2000,
+                                closeButton: true
+                            });
                         })
 
                     } else {
@@ -332,7 +344,10 @@ angular.module('console.deploymentconfig_detail', [
                     namespace: $rootScope.namespace,
                     name: $stateParams.name
                 }, sendobj, function (obj) {
-                    toastr.success('操作成功');
+                    toastr.success('操作成功', {
+                        timeOut: 2000,
+                        closeButton: true
+                    });
                     console.log(obj);
                 })
             }
@@ -342,11 +357,17 @@ angular.module('console.deploymentconfig_detail', [
                         namespace: $rootScope.namespace,
                         name: $stateParams.name
                     }, function (datadc) {
-                        toastr.success('操作成功');
+                        toastr.success('操作成功', {
+                            timeOut: 2000,
+                            closeButton: true
+                        });
                         $state.go('console.deployments');
                     }, function () {
                         Confirm.open("删除Deployment", "删除" + val + "失败", null, null, true);
-                        toastr.error('操作失败');
+                        toastr.error('删除失败,请重试', {
+                            timeOut: 2000,
+                            closeButton: true
+                        });
                     })
                 })
 
