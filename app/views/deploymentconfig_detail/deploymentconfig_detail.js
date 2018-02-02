@@ -270,7 +270,10 @@ angular.module('console.deploymentconfig_detail', [
                         con.volumeMounts = []
                         if (volerr(con.volments)) {
                             cancreat=false
-                            toastr.error('操作失败');
+                            toastr.error('删除失败,请重试', {
+                                timeOut: 2000,
+                                closeButton: true
+                            });
                         }
                         creatvol(con, con.volments)
                         //if (volrepeat(con.volumeMounts)) {
@@ -319,7 +322,10 @@ angular.module('console.deploymentconfig_detail', [
                     namespace: $rootScope.namespace,
                     name: $stateParams.name
                 }, sendobj, function (obj) {
-                    toastr.success('操作成功');
+                    toastr.success('操作成功', {
+                        timeOut: 2000,
+                        closeButton: true
+                    });
                     console.log(obj);
                 })
             }
@@ -329,11 +335,17 @@ angular.module('console.deploymentconfig_detail', [
                         namespace: $rootScope.namespace,
                         name: $stateParams.name
                     }, function (datadc) {
-                        toastr.success('操作成功');
+                        toastr.success('操作成功', {
+                            timeOut: 2000,
+                            closeButton: true
+                        });
                         $state.go('console.deployments');
                     }, function () {
                         Confirm.open("删除Deployment", "删除" + val + "失败", null, null, true);
-                        toastr.error('操作失败');
+                        toastr.error('删除失败,请重试', {
+                            timeOut: 2000,
+                            closeButton: true
+                        });
                     })
                 })
 

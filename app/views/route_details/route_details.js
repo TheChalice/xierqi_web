@@ -26,11 +26,18 @@ angular.module('console.routes', [{
             }
             var deleteRoute = function (val)  {
                 Route.delete({ namespace: $scope.route.metadata.namespace, name: $scope.route.metadata.name, region: Cookie.get('region') },function(){
-                    toastr.success('操作成功');
+
+                    toastr.success('操作成功', {
+                        timeOut: 2000,
+                        closeButton: true
+                    });
                     $state.go('console.routes')
                 },function(){
                     Confirm.open("删除Route", "删除"+val+"失败", null, null,true);
-                    toastr.error('操作失败');
+                    toastr.error('删除失败,请重试', {
+                        timeOut: 2000,
+                        closeButton: true
+                    });
                 } )
             }
             $scope.delete =function (val) {
