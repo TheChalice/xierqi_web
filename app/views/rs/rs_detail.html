@@ -100,6 +100,7 @@
                             <div class="col-md-10">{{volume.persistentVolumeClaim.claimName}}</div>
                         </div>
                         <div class="row matgin-txt">
+                            <div class="col-md-2">Mode:</div>
                             <div class="col-md-10" ng-if="volume.persistentVolumeClaim.readOnly">read-only</div>
                             <div class="col-md-10" ng-if="!volume.persistentVolumeClaim.readOnly">read-write</div>
                         </div>

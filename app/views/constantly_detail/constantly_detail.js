@@ -1,41 +1,43 @@
 'use strict';
 angular.module('console.constantly_persistentVolume', [
-        {
-            files: [
-
-            ]
-        }
-    ])
-    .controller('constDetailCtrl', ['delorders','orders','Confirm','delvolume','volume','DeploymentConfig','persistent','$stateParams','$state', '$http', '$scope', '$rootScope',
-        function(delorders,orders,Confirm,delvolume,volume,DeploymentConfig,persistent,$stateParams,$state, $http, $scope, $rootScope){
+    {
+        files: []
+    }
+])
+    .controller('constDetailCtrl', ['delorders', 'orders', 'Confirm', 'delvolume', 'volume', 'DeploymentConfig', 'persistent', '$stateParams', '$state', '$http', '$scope', '$rootScope', 'toastr',
+        function (delorders, orders, Confirm, delvolume, volume, DeploymentConfig, persistent, $stateParams, $state, $http, $scope, $rootScope, toastr) {
             //console.log($stateParams.name);
-            $scope.name=$stateParams.name
-            persistent.get({namespace: $rootScope.namespace,name:$stateParams.name,region:$rootScope.region}, function (res) {
+            $scope.name = $stateParams.name
+            persistent.get({
+                namespace: $rootScope.namespace,
+                name: $stateParams.name,
+                region: $rootScope.region
+            }, function (res) {
                 //console.log('chijiu',res);
-                res.arr=[];
-                DeploymentConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function (dcres) {
-                    angular.forEach(dcres.items, function (dcitem,i) {
-                        angular.forEach(dcitem.spec.template.spec.volumes, function (item,i) {
-                            if (item.persistentVolumeClaim&&res.metadata.name == item.persistentVolumeClaim.claimName) {
+                res.arr = [];
+                DeploymentConfig.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (dcres) {
+                    angular.forEach(dcres.items, function (dcitem, i) {
+                        angular.forEach(dcitem.spec.template.spec.volumes, function (item, i) {
+                            if (item.persistentVolumeClaim && res.metadata.name == item.persistentVolumeClaim.claimName) {
                                 res.arr.push(dcitem.metadata.name)
                             }
                         })
                     })
-                    res.spec.resources.requests.storage=res.spec.resources.requests.storage.replace('i','B')
-                    $scope.persistents=res;
+                    res.spec.resources.requests.storage = res.spec.resources.requests.storage.replace('i', 'B')
+                    $scope.persistents = res;
                     //console.log('chijiu',res);
                 })
             }, function (err) {
 
             })
-            $scope.delete= function () {
+            $scope.delete = function () {
 
-                Confirm.open("删除存储卷", "您确定要删除存储卷吗？", "存储卷中的数据将被删除", "stop").then(function(){
+                Confirm.open("删除存储卷", "您确定要删除存储卷吗？", "存储卷中的数据将被删除", "stop").then(function () {
 
                     if ($scope.persistents.arr.length > 0) {
-                        Confirm.open("删除存储卷", "删除存储卷失败", "存储卷已经挂载在容器中，您需要先停止服务，卸载存储卷后，才能删除。", null,true)
+                        Confirm.open("删除存储卷", "删除存储卷失败", "存储卷已经挂载在容器中，您需要先停止服务，卸载存储卷后，才能删除。", null, true)
 
-                    }else {
+                    } else {
                         //orders.query({region:$rootScope.region,resource_name:$stateParams.name,namespace:$rootScope.namespace,
                         //    status:'consuming'}, function (data) {
                         //    console.log('data',data);
@@ -45,24 +47,21 @@ angular.module('console.constantly_persistentVolume', [
                         //        })
                         //
                         //    }else {
-                                delvolume.del({namespace: $rootScope.namespace,name:$stateParams.name}, function (res) {
-                                    //console.log(res);
-                                    // $state.go('console.resource_management', {index: 1})
-                                    $state.go('console.resource_persistentVolume', {index: 1})
-                                }, function (err) {
-
-                                })
-                            //}
+                        delvolume.del({namespace: $rootScope.namespace, name: $stateParams.name}, function (res) {
+                            //console.log(res);
+                            // $state.go('console.resource_management', {index: 1})
+                            toastr.success('删除成功', {
+                                closeButton: true
+                            });
+                            $state.go('console.resource_persistentVolume', {index: 1})
+                        }, function (err) {
+                            toastr.error('删除失败，请重试', {
+                                closeButton: true
+                            });
+                        });
+                        //}
                         //})
-
                     }
-
-
-
                 })
-
-
             }
-
-
         }]);

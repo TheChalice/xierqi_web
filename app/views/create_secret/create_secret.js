@@ -3,7 +3,7 @@ angular.module('console.create_secret', [
     {
         files: []
     }
-]).controller('createSecretCtrl', ['$scope', '$rootScope', 'secretskey', '$state', function ($scope, $rootScope, secretskey, $state) {
+]).controller('createSecretCtrl', ['$scope', '$rootScope', 'secretskey', '$state', 'toastr', function ($scope, $rootScope, secretskey, $state, toastr) {
     $scope.grid = {
         secreteno: false,
         secretnames: true,
@@ -278,8 +278,14 @@ angular.module('console.create_secret', [
             $scope.grid.nameerr = false;
             //console.log('createconfig----',res);
             $scope.loaded = false;
+            toastr.success('创建成功', {
+                closeButton: true
+            });
             $state.go('console.resource_secret', {index: 3});
         }, function (res) {
+            toastr.error('创建失败，请重试', {
+                closeButton: true
+            });
             if (res.status == 409) {
                 $scope.grid.nameerr = true;
             }
