@@ -281,6 +281,9 @@ angular.module('console.build.detail', [
 
             var getConfig = function (triggers, type) {
                 //console.log(triggers)
+                if(triggers==""){
+                    return;
+                    }                    
                 var str = ''
                 if (type == 'github' && triggers[0].github) {
                     str = GLOBAL.host_webhooks + '/namespaces/' + $rootScope.namespace + '/buildconfigs/' + $scope.data.metadata.name + '/webhooks/' + triggers[0].github.secret + '/github'
