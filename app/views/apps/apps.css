@@ -90,14 +90,20 @@
     text-align: left;
 }
 
-a {
-    color: #666;
-}
+/*a {*/
+    /*color: #666;*/
+/*}*/
 /* 
 a :hover {
     color: #e5993a;
 }
  */
+#creatbtn span{
+    color:#ffffff;
+}
+#creatbtn i{
+    color:#ffffff;
+}
 .nav-tabs > li.active > a {
     color: #e5993a;
 }

@@ -18,7 +18,7 @@ angular.module('console.dashboard', [
                 rx_rate: {name: 'rx_rate', use: 0, unit: ' KiB/s'},
                 tx_rate: {name: 'tx_rate', use: 0, unit: ' KiB/s'}
             }
-            var times = (new Date()).getTime()
+            var timesnow = (new Date()).getTime()
 
             var PieCharobj = {
                 "tags": "descriptor_name:network/tx_rate|network/rx_rate|memory/usage|cpu/usage_rate,type:pod",
@@ -166,8 +166,8 @@ angular.module('console.dashboard', [
                         fillColor: {
                             linearGradient: {x1: 0, y1: 1, x2: 0, y2: 0}, //横向渐变效果 如果将x2和y2值交换将会变成纵向渐变效果
                             stops: [
-                                [0, Highcharts.Color('#333').setOpacity(0.5).get('rgba')],
-                                [1, Highcharts.Color('#333').setOpacity(0.8).get('rgba')]
+                                [0, Highcharts.Color('#f8b551').setOpacity(0.1).get('rgba')],
+                                [1, '#f8b551']
                             ]
                         },
                         lineColor: '#fff',
@@ -175,16 +175,17 @@ angular.module('console.dashboard', [
                         marker: {
                             enabled: false
                         },
+                        yAxis: 1,
                         data: $scope.nettxdata,
-                        pointStart: times + 3600 * 1000,
+                        pointStart: timesnow + 3600 * 1000,
                         pointInterval: 15 * 60 * 1000 //时间间隔
                     }, {
                         name: 'network_rx',
                         fillColor: {
                             linearGradient: {x1: 0, y1: 1, x2: 0, y2: 0}, //横向渐变效果 如果将x2和y2值交换将会变成纵向渐变效果
                             stops: [
-                                [0, Highcharts.Color('#b3d4fc').setOpacity(0.5).get('rgba')],
-                                [1, Highcharts.Color('#b3d4fc').setOpacity(0.8).get('rgba')]
+                                [0, Highcharts.Color('#c4cddc').setOpacity(0.1).get('rgba')],
+                                [1, '#c4cddc']
                             ]
                         },
                         lineColor: '#fff',
@@ -194,7 +195,7 @@ angular.module('console.dashboard', [
                         },
                         yAxis: 0,
                         data: $scope.netrxdata,
-                        pointStart: times + 3600 * 1000,
+                        pointStart: timesnow + 3600 * 1000,
                         pointInterval: 15 * 60 * 1000 //时间间隔
                     }],
                     xAxis: {
@@ -205,16 +206,27 @@ angular.module('console.dashboard', [
                     yAxis: [{
                         // gridLineDashStyle: 'ShortDash',
                         title: {
-                            text: 'network (KB／s)',
+                            text: 'network_rx (KB／s)',
                             style: {
-                                color: '#bec0c7'
+                                color: '#c4cddc'
                             }
                         }
+
+                    },{
+                        // gridLineDashStyle: 'ShortDash',
+                        title: {
+                            text: 'network_tx (KB／s)',
+                            style: {
+                                color: '#f8b551'
+                            }
+                        },
+                        opposite: true
+
 
                     }],
                     size: {
                         height: 230,
-                        width: 880
+                        width: 950
                     },
                     func: function (chart) {
                         //setup some logic for the chart
@@ -256,8 +268,8 @@ angular.module('console.dashboard', [
                         fillColor: {
                             linearGradient: {x1: 0, y1: 1, x2: 0, y2: 0}, //横向渐变效果 如果将x2和y2值交换将会变成纵向渐变效果
                             stops: [
-                                [0, Highcharts.Color('#fff').setOpacity(0.8).get('rgba')],
-                                [1, '#4ca7de']
+                                [0, Highcharts.Color('#f8b551').setOpacity(0.1).get('rgba')],
+                                [1, '#f8b551']
                             ]
                         },
                         lineColor: '#fff',
@@ -267,7 +279,7 @@ angular.module('console.dashboard', [
                         },
                         yAxis: 1,
                         data: $scope.cpuData,
-                        pointStart: times + 3600 * 1000,
+                        pointStart: timesnow + 3600 * 1000,
                         pointInterval: 15 * 60 * 1000 //时间间隔
                     },
                         {
@@ -275,8 +287,8 @@ angular.module('console.dashboard', [
                             fillColor: {
                                 linearGradient: {x1: 0, y1: 1, x2: 0, y2: 0}, //横向渐变效果 如果将x2和y2值交换将会变成纵向渐变效果
                                 stops: [
-                                    [0, Highcharts.Color('#36a390').setOpacity(0.8).get('rgba')],
-                                    [1, '#79d87e']
+                                    [0, Highcharts.Color('#c4cddc').setOpacity(0.1).get('rgba')],
+                                    [1, '#c4cddc']
                                 ]
                             },
                             lineColor: '#fff',
@@ -286,7 +298,7 @@ angular.module('console.dashboard', [
                             },
                             yAxis: 0,
                             data: $scope.memData,
-                            pointStart: times + 3600 * 1000,
+                            pointStart: timesnow + 3600 * 1000,
                             pointInterval: 15 * 60 * 1000 //时间间隔
                         }],
                     xAxis: {
@@ -453,14 +465,18 @@ angular.module('console.dashboard', [
                 f = Math.round(x * 10000) / 10000;
                 return f;
             }
+
             //https://hawkular-metrics.new.dataos.io/hawkular/metrics/gauges/pod/b2fc3818-ad7d-11e7-ad35-fa163e095b60/network/rx_rate/data?bucketDuration=120000ms&start=-60mn
             Metrics.network.all.query({
                 tags: 'descriptor_name:network/tx_rate,pod_namespace:' + $rootScope.namespace,
-                buckets: 28
+                'start': "-6h",
+                bucketDuration: "12mn"
             }, function (networktx) {
                 Metrics.network.all.query({
                     tags: 'descriptor_name:network/rx_rate,pod_namespace:' + $rootScope.namespace,
-                    buckets: 28
+                    'start': "-6h",
+                    bucketDuration: "12mn"
+
                 }, function (networkrx) {
 
                     $scope.nettxdata = [];
@@ -481,7 +497,8 @@ angular.module('console.dashboard', [
 
             Metrics.cpu.all.query({
                 tags: 'descriptor_name:cpu/usage,pod_namespace:' + $rootScope.namespace,
-                buckets: 30
+                'start': "-6h",
+                bucketDuration: "12mn"
             }, function (res) {
                 // $log.info('metrics cpu all', res);
                 $scope.cpuData = prepareData('CPU', res);
@@ -498,7 +515,8 @@ angular.module('console.dashboard', [
                 // console.log('$scope.cpuData',$scope.cpuData)
                 Metrics.mem.all.query({
                     tags: 'descriptor_name:memory/usage,pod_namespace:' + $rootScope.namespace,
-                    buckets: 30
+                    'start': "-6h",
+                    bucketDuration: "12mn"
                 }, function (res) {
                     // $log.info('metrics mem all', res);
                     $scope.memData = prepareData('内存', res);
