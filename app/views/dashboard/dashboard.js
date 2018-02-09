@@ -166,8 +166,8 @@ angular.module('console.dashboard', [
                         fillColor: {
                             linearGradient: {x1: 0, y1: 1, x2: 0, y2: 0}, //横向渐变效果 如果将x2和y2值交换将会变成纵向渐变效果
                             stops: [
-                                [0, Highcharts.Color('#f8b551').setOpacity(0.1).get('rgba')],
-                                [1, '#f8b551']
+                                [0, Highcharts.Color('#4ca7de').setOpacity(0.1).get('rgba')],
+                                [1, '#4ca7de']
                             ]
                         },
                         lineColor: '#fff',
@@ -184,8 +184,8 @@ angular.module('console.dashboard', [
                         fillColor: {
                             linearGradient: {x1: 0, y1: 1, x2: 0, y2: 0}, //横向渐变效果 如果将x2和y2值交换将会变成纵向渐变效果
                             stops: [
-                                [0, Highcharts.Color('#c4cddc').setOpacity(0.1).get('rgba')],
-                                [1, '#c4cddc']
+                                [0, Highcharts.Color('#79d87e').setOpacity(0.1).get('rgba')],
+                                [1, '#79d87e']
                             ]
                         },
                         lineColor: '#fff',
@@ -209,7 +209,7 @@ angular.module('console.dashboard', [
                         title: {
                             text: 'network_rx (KB／s)',
                             style: {
-                                color: '#c4cddc'
+                                color: '#79d87e'
                             }
                         }
 
@@ -219,7 +219,7 @@ angular.module('console.dashboard', [
                         title: {
                             text: 'network_tx (KB／s)',
                             style: {
-                                color: '#f8b551'
+                                color: '#4ca7de'
                             }
                         },
                         opposite: true
