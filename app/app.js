@@ -52,6 +52,7 @@ define([
             size: 10,
             host: '/oapi/v1',
             host_k8s: '/api/v1',
+            broker_apigroup: '/apis/prd.asiainfo.com/v1',
             host_newk8s: '/apis/autoscaling/v1',
             host_newk8s1: '/apis/apps/v1beta1',
             host_newk8s2: '/apis/extensions/v1beta1',
