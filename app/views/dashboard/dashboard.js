@@ -204,6 +204,7 @@ angular.module('console.dashboard', [
                         gridLineWidth: 1
                     },
                     yAxis: [{
+                        max:90,
                         // gridLineDashStyle: 'ShortDash',
                         title: {
                             text: 'network_rx (KB／s)',
@@ -213,6 +214,7 @@ angular.module('console.dashboard', [
                         }
 
                     },{
+                        max:90,
                         // gridLineDashStyle: 'ShortDash',
                         title: {
                             text: 'network_tx (KB／s)',
@@ -302,11 +304,14 @@ angular.module('console.dashboard', [
                             pointInterval: 15 * 60 * 1000 //时间间隔
                         }],
                     xAxis: {
+
                         // categories: ['12:00','14:00', '16:00', '18:00', '20:00', '22:00', '24:00'],
                         type: 'datetime',
                         gridLineWidth: 1
                     },
                     yAxis: [{
+                        //offset:5,
+                        max:90,
                         // gridLineDashStyle: 'ShortDash',
                         title: {
                             text: 'memory (M)',
@@ -316,6 +321,8 @@ angular.module('console.dashboard', [
                         }
 
                     }, {
+                        //offset:5,
+                        max:90,
                         // gridLineDashStyle: 'ShortDash',
                         title: {
                             text: 'CPU (%)',
@@ -453,7 +460,7 @@ angular.module('console.dashboard', [
                 var res = [];
                 MetricsService.normalize(data, tp);
                 for (var i = 0; i < data.length - 1; i++) {
-                    res.push(data[i].value);
+                    res.push(data[i].avg);
                 }
                 return res;
             };
@@ -500,168 +507,183 @@ angular.module('console.dashboard', [
                 'start': "-6h",
                 bucketDuration: "12mn"
             }, function (res) {
-                // $log.info('metrics cpu all', res);
-                $scope.cpuData = prepareData('CPU', res);
-                //console.log('$scope.cpuData', $scope.cpuData);
-                angular.forEach($scope.cpuData, function (item, i) {
-
-
-                    if (item == null) {
-                        $scope.cpuData[i] = 0
-                    } else {
-                        $scope.cpuData[i] = Math.round(item * 10000) / 10000
+                 $log.info('metrics cpu all', res);
+                angular.forEach(res, function (mem,i) {
+                    if (mem.empty) {
+                        $scope.cpuData.push(0)
+                    }else {
+                        $scope.cpuData.push(Math.round(mem.avg/1024/1024/1024 * 10000) / 10000)
                     }
                 })
+                //$scope.cpuData = prepareData('CPU', res);
+                ////console.log('$scope.cpuData', $scope.cpuData);
+                //angular.forEach($scope.cpuData, function (item, i) {
+                //
+                //
+                //    if (item == null) {
+                //        $scope.cpuData[i] = 0
+                //    } else {
+                //        $scope.cpuData[i] = Math.round(item * 10000) / 10000
+                //    }
+                //})
                 // console.log('$scope.cpuData',$scope.cpuData)
                 Metrics.mem.all.query({
                     tags: 'descriptor_name:memory/usage,pod_namespace:' + $rootScope.namespace,
                     'start': "-6h",
                     bucketDuration: "12mn"
                 }, function (res) {
-                    // $log.info('metrics mem all', res);
-                    $scope.memData = prepareData('内存', res);
-                    angular.forEach($scope.memData, function (item, i) {
-                        if (item == null) {
-                            $scope.memData[i] = 0
-                        } else {
-                            $scope.memData[i] = Math.round(item/1024/1024 * 100) / 100
+                     $log.info('metrics mem all', res);
+                    angular.forEach(res, function (mem,i) {
+                        if (mem.empty) {
+                            $scope.memData.push(0)
+                        }else {
+                            $scope.memData.push(Math.round(mem.avg/1024/1024 * 100) / 100)
                         }
                     })
+                    //$scope.memData = prepareData('内存', res);
+                    //angular.forEach($scope.memData, function (item, i) {
+                    //    if (item == null) {
+                    //        $scope.memData[i] = 0
+                    //    } else {
+                    //        $scope.memData[i] = Math.round(item/1024/1024 * 100) / 100
+                    //    }
+                    //})
+                    $scope.chartConfig = setChart();
                     //$scope.memData
                     // console.log('$scope.memData',$scope.memData)
-                    resourcequotas.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
-                        if (data.items[0]) {
-                            // console.log($scope.cpuData);
-                            // console.log($scope.memData);
-                            parseInt(data.items[0].spec.hard['limits.memory'])
-                            var cpu = [];
-                            var cpusun = 0;
-                            var mem = [];
-                            var memsun = 0;
-                            for (var i = 0; i < $scope.cpuData.length; i++) {
-                                if ($scope.cpuData[i] != 0) {
-                                    cpu.push($scope.cpuData[i])
-                                }
-                                if ($scope.memData[i] != 0) {
-                                    mem.push($scope.memData[i])
-                                }
-                            }
-                            for (var q = 0; q < cpu.length; q++) {
-                                cpusun += cpu[q]
-                            }
-                            for (var w = 0; w < mem.length; w++) {
-                                memsun += mem[w]
-                            }
-                            // console.log(cpusun,memsun)
-                            // var cpunum = 0
-                            // var memnum = 0
-                            // if (cpu.length && mem.length) {
-                            //   cpunum = cpusun / cpu.length / 500 * 100;
-                            //   memnum = memsun / mem.length / 1000000 / 250 * 100;
-                            //   cpunum = toDecimal(cpunum);
-                            //   memnum = toDecimal(memnum);
-                            // }
-
-                            // console.log(cpunum,memnum)
-                            //quotaed
-                            var userd = {
-                                usedM: parseInt(data.items[0].status.used['limits.memory']),
-                                usedC: parseInt(data.items[0].status.used['limits.cpu']),
-                                headM: parseInt(data.items[0].status.hard['limits.memory']) * 1000,
-                                headC: parseInt(data.items[0].status.hard['limits.cpu']) * 1000,
-                            }
-
-                            //console.log('数据', data);
-                            //console.log(userd.headC, userd.headM);
-                            //console.log(userd.usedC, userd.usedM);
-                            userd.usedM = userd.usedM > userd.headM ? userd.headM : userd.usedM;
-                            userd.usedC = userd.usedC > userd.headC ? userd.headC : userd.usedC;
-                            //console.log(userd.headC, userd.headM);
-                            //console.log(userd.usedC, userd.usedM);
-
-                            var memnums = (userd.usedM / userd.headM) * 100;
-                            var cpunums = (userd.usedC / userd.headC) * 100;
-                            //console.log(memnums,cpunums);
-                            memnums = Math.round(memnums * 100) / 100
-                            cpunums = Math.round(cpunums * 100) / 100
-                            // data.items[0].status.hard['limits.cpu']
-                            // console.log(data.items[0].status.used['limits.memory'],data.items[0].status.used['limits.cpu']);
-                            // console.log(data.items[0].status.hard['limits.memory'],data.items[0].status.hard['limits.cpu']);
-                            //if (memnums == 100 || cpunums == 100) {
-                            //    if (memnums == 100 && cpunums != 100) {
-                            //        $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true, 'red');
-                            //        $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu'] + 'Cores', cpunums, true, '#f6a540');
-                            //    } else if (cpunums == 100 && memnums != 100) {
-                            //        $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu'] + 'Cores', cpunums, true, 'red');
-                            //        $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true, '#f6a540');
-                            //    } else {
-                            //        $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu'] + 'Cores', cpunums, true, 'red');
-                            //        $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true, 'red');
-                            //
-                            //    }
-                            //
-                            //} else {
-                            //    $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true, '#f6a540');
-                            //    $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu'] + 'G/Hz', cpunums, true, '#f6a540');
-                            //}
-                            // $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'GB', cpunums, true,'#f6a540');
-                            $scope.chartConfig = setChart();
-
-                            $scope.isdata.CpuorMem = true;
-                            $scope.isdata.charts = true;
-
-                        } else {
-                            //console.log('配额',data);
-                            var cpu = [];
-                            var cpusun = 0;
-                            var mem = [];
-                            var memsun = 0;
-                            for (var i = 0; i < $scope.cpuData.length; i++) {
-                                if ($scope.cpuData[i] != null) {
-                                    cpu.push($scope.cpuData[i])
-                                }
-                                // console.log($scope.cpuData[i],$scope.memData[i])
-                                if ($scope.memData[i] != null) {
-                                    mem.push($scope.memData[i])
-                                }
-                            }
-                            // console.log(cpu,mem)
-                            for (var q = 0; q < cpu.length; q++) {
-                                cpusun += cpu[q]
-                            }
-                            for (var w = 0; w < mem.length; w++) {
-                                memsun += mem[w]
-                            }
-                            //console.log(cpusun, memsun)
-                            //alert(11)
-                            if (cpusun || memsun) {
-
-                                var cpunum = cpusun / cpu.length || 0;
-                                var memnum = memsun / mem.length / 1000000 || 0
-
-                                cpunum = toDecimal(cpunum);
-                                memnum = toDecimal(memnum);
-                                memnum = Math.round(memnum * 100) / 100;
-                                cpunum = Math.round(cpunum * 100) / 100;
-
-                                $scope.chartConfig = setChart();
-                                //$scope.chartnetConfig = netChart();
-                                $scope.isdata.CpuorMem = true;
-                                $scope.isdata.charts = true;
-                            } else {
-                                //no quota, no usage.
-                                //$scope.pieConfigCpu = setPieChart('CPU', 'N/A', 0);
-                                //$scope.pieConfigMem = setPieChart('内存', 'N/A', 0);
-                                $scope.chartConfig = setChart();
-                                $scope.isdata.CpuorMem = true;
-                                $scope.isdata.charts = true;
-                            }
-
-                        }
-                    }, function (err) {
-                        $scope.pieConfigCpu = setPieChart('CPU', 'N/A', 0);
-                        $scope.pieConfigMem = setPieChart('内存', 'N/A', 0);
-                    })
+                    //resourcequotas.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
+                    //    if (data.items[0]) {
+                    //        // console.log($scope.cpuData);
+                    //        // console.log($scope.memData);
+                    //        parseInt(data.items[0].spec.hard['limits.memory'])
+                    //        var cpu = [];
+                    //        var cpusun = 0;
+                    //        var mem = [];
+                    //        var memsun = 0;
+                    //        for (var i = 0; i < $scope.cpuData.length; i++) {
+                    //            if ($scope.cpuData[i] != 0) {
+                    //                cpu.push($scope.cpuData[i])
+                    //            }
+                    //            if ($scope.memData[i] != 0) {
+                    //                mem.push($scope.memData[i])
+                    //            }
+                    //        }
+                    //        for (var q = 0; q < cpu.length; q++) {
+                    //            cpusun += cpu[q]
+                    //        }
+                    //        for (var w = 0; w < mem.length; w++) {
+                    //            memsun += mem[w]
+                    //        }
+                    //        // console.log(cpusun,memsun)
+                    //        // var cpunum = 0
+                    //        // var memnum = 0
+                    //        // if (cpu.length && mem.length) {
+                    //        //   cpunum = cpusun / cpu.length / 500 * 100;
+                    //        //   memnum = memsun / mem.length / 1000000 / 250 * 100;
+                    //        //   cpunum = toDecimal(cpunum);
+                    //        //   memnum = toDecimal(memnum);
+                    //        // }
+                    //
+                    //        // console.log(cpunum,memnum)
+                    //        //quotaed
+                    //        var userd = {
+                    //            usedM: parseInt(data.items[0].status.used['limits.memory']),
+                    //            usedC: parseInt(data.items[0].status.used['limits.cpu']),
+                    //            headM: parseInt(data.items[0].status.hard['limits.memory']) * 1000,
+                    //            headC: parseInt(data.items[0].status.hard['limits.cpu']) * 1000,
+                    //        }
+                    //
+                    //        //console.log('数据', data);
+                    //        //console.log(userd.headC, userd.headM);
+                    //        //console.log(userd.usedC, userd.usedM);
+                    //        userd.usedM = userd.usedM > userd.headM ? userd.headM : userd.usedM;
+                    //        userd.usedC = userd.usedC > userd.headC ? userd.headC : userd.usedC;
+                    //        //console.log(userd.headC, userd.headM);
+                    //        //console.log(userd.usedC, userd.usedM);
+                    //
+                    //        var memnums = (userd.usedM / userd.headM) * 100;
+                    //        var cpunums = (userd.usedC / userd.headC) * 100;
+                    //        //console.log(memnums,cpunums);
+                    //        memnums = Math.round(memnums * 100) / 100
+                    //        cpunums = Math.round(cpunums * 100) / 100
+                    //        // data.items[0].status.hard['limits.cpu']
+                    //        // console.log(data.items[0].status.used['limits.memory'],data.items[0].status.used['limits.cpu']);
+                    //        // console.log(data.items[0].status.hard['limits.memory'],data.items[0].status.hard['limits.cpu']);
+                    //        //if (memnums == 100 || cpunums == 100) {
+                    //        //    if (memnums == 100 && cpunums != 100) {
+                    //        //        $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true, 'red');
+                    //        //        $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu'] + 'Cores', cpunums, true, '#f6a540');
+                    //        //    } else if (cpunums == 100 && memnums != 100) {
+                    //        //        $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu'] + 'Cores', cpunums, true, 'red');
+                    //        //        $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true, '#f6a540');
+                    //        //    } else {
+                    //        //        $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu'] + 'Cores', cpunums, true, 'red');
+                    //        //        $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true, 'red');
+                    //        //
+                    //        //    }
+                    //        //
+                    //        //} else {
+                    //        //    $scope.pieConfigMem = setPieChart('内存', data.items[0].spec.hard['limits.memory'], memnums, true, '#f6a540');
+                    //        //    $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu'] + 'G/Hz', cpunums, true, '#f6a540');
+                    //        //}
+                    //        // $scope.pieConfigCpu = setPieChart('CPU', data.items[0].spec.hard['limits.cpu']+'GB', cpunums, true,'#f6a540');
+                    //        $scope.chartConfig = setChart();
+                    //
+                    //        $scope.isdata.CpuorMem = true;
+                    //        $scope.isdata.charts = true;
+                    //
+                    //    } else {
+                    //        //console.log('配额',data);
+                    //        var cpu = [];
+                    //        var cpusun = 0;
+                    //        var mem = [];
+                    //        var memsun = 0;
+                    //        for (var i = 0; i < $scope.cpuData.length; i++) {
+                    //            if ($scope.cpuData[i] != null) {
+                    //                cpu.push($scope.cpuData[i])
+                    //            }
+                    //            // console.log($scope.cpuData[i],$scope.memData[i])
+                    //            if ($scope.memData[i] != null) {
+                    //                mem.push($scope.memData[i])
+                    //            }
+                    //        }
+                    //        // console.log(cpu,mem)
+                    //        for (var q = 0; q < cpu.length; q++) {
+                    //            cpusun += cpu[q]
+                    //        }
+                    //        for (var w = 0; w < mem.length; w++) {
+                    //            memsun += mem[w]
+                    //        }
+                    //        //console.log(cpusun, memsun)
+                    //        //alert(11)
+                    //        if (cpusun || memsun) {
+                    //
+                    //            var cpunum = cpusun / cpu.length || 0;
+                    //            var memnum = memsun / mem.length / 1000000 || 0
+                    //
+                    //            cpunum = toDecimal(cpunum);
+                    //            memnum = toDecimal(memnum);
+                    //            memnum = Math.round(memnum * 100) / 100;
+                    //            cpunum = Math.round(cpunum * 100) / 100;
+                    //
+                    //            $scope.chartConfig = setChart();
+                    //            //$scope.chartnetConfig = netChart();
+                    //            $scope.isdata.CpuorMem = true;
+                    //            $scope.isdata.charts = true;
+                    //        } else {
+                    //            //no quota, no usage.
+                    //            //$scope.pieConfigCpu = setPieChart('CPU', 'N/A', 0);
+                    //            //$scope.pieConfigMem = setPieChart('内存', 'N/A', 0);
+                    //            $scope.chartConfig = setChart();
+                    //            $scope.isdata.CpuorMem = true;
+                    //            $scope.isdata.charts = true;
+                    //        }
+                    //
+                    //    }
+                    //}, function (err) {
+                    //    $scope.pieConfigCpu = setPieChart('CPU', 'N/A', 0);
+                    //    $scope.pieConfigMem = setPieChart('内存', 'N/A', 0);
+                    //})
 
                 }, function (res) {
                     $log.info('metrics mem all err', res);
@@ -681,45 +703,45 @@ angular.module('console.dashboard', [
             $scope.isdata.charts = false;
             $scope.pieConfigCpu = setPieChart('CPU', 'loading...', 0.1);
             $scope.pieConfigMem = setPieChart('内存', 'loading...', 0.1);
-            $scope.podList = 0;
-            var podList = function () {
-                Pod.get({namespace: $scope.namespace, region: $rootScope.region}, function (res) {
-                    //console.log("pod...res....", res);
-                    for (var i = 0; i < res.items.length; i++) {
-                        if (res.items[i].status.phase == 'Running') {
-                            $scope.podList++;
-                        }
-                    }
-                }, function (res) {
-                    //console.log("pod...reserr....", res);
-                })
-            }
-
-            var dcList = function () {
-                DeploymentConfig.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
-                    $log.info('dcList----', data);
-                    $scope.dcList = data.items.length;
-                }, function (res) {
-                    $log.info('dcListerr', res);
-                    $scope.dcList = 0;
-                    //todo ������
-                });
-            }
-            var bsiList = function () {
-                BackingServiceInstance.get({
-                    namespace: $rootScope.namespace,
-                    region: $rootScope.region
-                }, function (res) {
-                    //console.log("bsiList......", res);
-                    $scope.bsiList = res.items.length;
-                }, function (res) {
-                    //console.log("bsiList...bsiListerr....", res);
-                    $scope.bsiList = 0;
-                })
-            }
-            podList();
-            dcList();
-            bsiList();
+            //$scope.podList = 0;
+            //var podList = function () {
+            //    Pod.get({namespace: $scope.namespace, region: $rootScope.region}, function (res) {
+            //        //console.log("pod...res....", res);
+            //        for (var i = 0; i < res.items.length; i++) {
+            //            if (res.items[i].status.phase == 'Running') {
+            //                $scope.podList++;
+            //            }
+            //        }
+            //    }, function (res) {
+            //        //console.log("pod...reserr....", res);
+            //    })
+            //}
+            //
+            //var dcList = function () {
+            //    DeploymentConfig.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
+            //        $log.info('dcList----', data);
+            //        $scope.dcList = data.items.length;
+            //    }, function (res) {
+            //        $log.info('dcListerr', res);
+            //        $scope.dcList = 0;
+            //        //todo ������
+            //    });
+            //}
+            //var bsiList = function () {
+            //    BackingServiceInstance.get({
+            //        namespace: $rootScope.namespace,
+            //        region: $rootScope.region
+            //    }, function (res) {
+            //        //console.log("bsiList......", res);
+            //        $scope.bsiList = res.items.length;
+            //    }, function (res) {
+            //        //console.log("bsiList...bsiListerr....", res);
+            //        $scope.bsiList = 0;
+            //    })
+            //}
+            //podList();
+            //dcList();
+            //bsiList();
 
         }]);
 
