@@ -20,7 +20,8 @@ angular.module('console.create_secret', [
         },
         "data": {},
         "secretsarr": [],
-        "type": "Opaque"
+        "type": "Opaque",
+        "configarr": []
     }
     var Base64 = {
         _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=", encode: function (e) {
@@ -108,6 +109,40 @@ angular.module('console.create_secret', [
             return t
         }
     }
+
+    $scope.add = function () {
+        document.getElementById('file-input').addEventListener('change', readSingleFile, false);
+    }
+
+    function readSingleFile(e) {
+        var thisfilename = this.value;
+        if (thisfilename.indexOf('\\')) {
+            var arr = thisfilename.split('\\');
+            thisfilename = arr[arr.length - 1]
+        }
+        var file = e.target.files[0];
+        if (!file) {
+            return;
+        }
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var content = e.target.result;
+            $scope.secrets.configarr.push({key: thisfilename, value: content,showLog:false})
+
+            $scope.$apply();
+        };
+        reader.readAsText(file);
+    };
+
+    $scope.getLog= function (idx) {
+        $scope.secrets.configarr[idx].showLog=!$scope.secrets.configarr[idx].showLog
+    }
+
+    $scope.deletekv = function (idx) {
+        $scope.secrets.configarr.splice(idx, 1);
+    };
+
+
     //$scope.secretsarr = [];
     $scope.addSecret = function () {
         $scope.secrets.secretsarr.push({key: '', value: ''});
