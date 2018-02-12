@@ -183,7 +183,8 @@ angular.module('console.create_secret', [
         $scope.grid.keybuhefa = false;
 
         if (n.metadata.name && n.secretsarr) {
-            var arr = angular.copy(n.secretsarr);
+            // var arr = angular.copy(n.secretsarr);
+            var arr = n.secretsarr.concat(n.configarr);
             arr.sort(by("key"));
             if (arr && arr.length > 0) {
                 var kong = false;
@@ -304,11 +305,20 @@ angular.module('console.create_secret', [
         }
         //console.log($scope.secretsarr)
         $scope.loaded = true;
-        angular.forEach($scope.secrets.secretsarr, function (item, i) {
-            console.log(item.key, item.value);
+        var arr = $scope.secrets.secretsarr.concat($scope.secrets.configarr);
+        console.log("0089",arr);
+
+        angular.forEach(arr, function (item, i) {
             $scope.secrets.data[item.key] = Base64.encode(item.value);
         })
+
+        // angular.forEach($scope.secrets.secretsarr, function (item, i) {
+        //     console.log(item.key, item.value);
+        //     $scope.secrets.data[item.key] = Base64.encode(item.value);
+        // })
+
         delete $scope.secrets.secretsarr;
+        delete $scope.secrets.configarr;
         secretskey.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.secrets, function (res) {
             $scope.grid.nameerr = false;
             //console.log('createconfig----',res);
