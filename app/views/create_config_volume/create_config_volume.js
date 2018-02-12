@@ -86,7 +86,8 @@ angular.module('console.create_config_configMap', [
 
             if (arr && arr.length > 0) {
                 var kong = false;
-                var r =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
+                // var r =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
+                var r = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
                 angular.forEach(arr, function (item, i) {
 
                     if (!item.key || !item.value) {
