@@ -6,8 +6,8 @@ angular.module('console.backing_service_detail', [
             ]
         }
     ])
-    .controller('BackingServiceInstanceCtrl', ['market', 'delorders', 'orders', '$log', '$scope', '$rootScope', '$stateParams', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'Confirm', 'BackingServiceInstanceBd', '$state', 'Toast', 'Ws'
-        , function (market, delorders, orders, $log, $scope, $rootScope, $stateParams, BackingService, BackingServiceInstance, ServiceSelect, Confirm, BackingServiceInstanceBd, $state, Toast, Ws) {
+    .controller('BackingServiceInstanceCtrl', ['GLOBAL','market', 'delorders', 'orders', '$log', '$scope', '$rootScope', '$stateParams', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'Confirm', 'BackingServiceInstanceBd', '$state', 'Toast', 'Ws'
+        , function (GLOBAL,market, delorders, orders, $log, $scope, $rootScope, $stateParams, BackingService, BackingServiceInstance, ServiceSelect, Confirm, BackingServiceInstanceBd, $state, Toast, Ws) {
             $scope.grid = {}
             var cuename = $stateParams.name;
 
@@ -215,6 +215,7 @@ angular.module('console.backing_service_detail', [
 
             var watchBsi = function (resourceVersion) {
                 Ws.watch({
+                    api:'broker',
                     resourceVersion: resourceVersion,
                     namespace: $rootScope.namespace,
                     type: 'backingserviceinstances',

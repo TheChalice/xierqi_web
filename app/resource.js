@@ -38,8 +38,10 @@ define([
                 if (params.api == 'k8s') {
                     host = host + GLOBAL.host_wss_k8s;
                     // host=host+'dev.dataos.io:8443/api/v1';
-                } else {
+                } else if(params.api == 'broker'){
                     //var token = tokenarr[0];
+                    host = host + GLOBAL.broker_apigroup;
+                }else{
                     host = host + GLOBAL.host_wss;
                 }
                 var tokens = Cookie.get('df_access_token');
@@ -354,7 +356,7 @@ define([
             return Route;
         }])
         .factory('BackingServiceInstance', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
-            var BackingServiceInstance = $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances/:name?region=:region', {
+            var BackingServiceInstance = $resource(GLOBAL.broker_apigroup + '/namespaces/:namespace/backingserviceinstances/:name?region=:region', {
                 name: '@name',
                 namespace: '@namespace',
                 region: '@region'
@@ -362,7 +364,7 @@ define([
                 create: { method: 'POST' },
                 del: { method: 'DELETE' }
             });
-            BackingServiceInstance.bind = $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances/:name/binding?region=:region', {
+            BackingServiceInstance.bind = $resource(GLOBAL.broker_apigroup + '/namespaces/:namespace/backingserviceinstances/:name/binding?region=:region', {
                 name: '@name',
                 namespace: '@namespace',
                 region: '@region'
@@ -398,7 +400,7 @@ define([
             return imagestreamimports;
         }])
         .factory('BackingService', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
-            var BackingService = $resource(GLOBAL.host + '/namespaces/:namespace/backingservices/:name?region=:region', {
+            var BackingService = $resource(GLOBAL.broker_apigroup + '/namespaces/:namespace/backingservices/:name?region=:region', {
                 name: '@name',
                 namespace: '@namespace',
                 region: '@region'
