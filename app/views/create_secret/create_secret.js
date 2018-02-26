@@ -20,7 +20,8 @@ angular.module('console.create_secret', [
         },
         "data": {},
         "secretsarr": [],
-        "type": "Opaque"
+        "type": "Opaque",
+        "configarr": []
     }
     var Base64 = {
         _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=", encode: function (e) {
@@ -108,6 +109,40 @@ angular.module('console.create_secret', [
             return t
         }
     }
+
+    $scope.add = function () {
+        document.getElementById('file-input').addEventListener('change', readSingleFile, false);
+    }
+
+    function readSingleFile(e) {
+        var thisfilename = this.value;
+        if (thisfilename.indexOf('\\')) {
+            var arr = thisfilename.split('\\');
+            thisfilename = arr[arr.length - 1]
+        }
+        var file = e.target.files[0];
+        if (!file) {
+            return;
+        }
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            var content = e.target.result;
+            $scope.secrets.configarr.push({key: thisfilename, value: content,showLog:false})
+
+            $scope.$apply();
+        };
+        reader.readAsText(file);
+    };
+
+    $scope.getLog= function (idx) {
+        $scope.secrets.configarr[idx].showLog=!$scope.secrets.configarr[idx].showLog
+    }
+
+    $scope.deletekv = function (idx) {
+        $scope.secrets.configarr.splice(idx, 1);
+    };
+
+
     //$scope.secretsarr = [];
     $scope.addSecret = function () {
         $scope.secrets.secretsarr.push({key: '', value: ''});
@@ -148,7 +183,8 @@ angular.module('console.create_secret', [
         $scope.grid.keybuhefa = false;
 
         if (n.metadata.name && n.secretsarr) {
-            var arr = angular.copy(n.secretsarr);
+            // var arr = angular.copy(n.secretsarr);
+            var arr = n.secretsarr.concat(n.configarr);
             arr.sort(by("key"));
             if (arr && arr.length > 0) {
                 var kong = false;
@@ -269,11 +305,20 @@ angular.module('console.create_secret', [
         }
         //console.log($scope.secretsarr)
         $scope.loaded = true;
-        angular.forEach($scope.secrets.secretsarr, function (item, i) {
-            console.log(item.key, item.value);
+        var arr = $scope.secrets.secretsarr.concat($scope.secrets.configarr);
+        console.log("0089",arr);
+
+        angular.forEach(arr, function (item, i) {
             $scope.secrets.data[item.key] = Base64.encode(item.value);
         })
+
+        // angular.forEach($scope.secrets.secretsarr, function (item, i) {
+        //     console.log(item.key, item.value);
+        //     $scope.secrets.data[item.key] = Base64.encode(item.value);
+        // })
+
         delete $scope.secrets.secretsarr;
+        delete $scope.secrets.configarr;
         secretskey.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.secrets, function (res) {
             $scope.grid.nameerr = false;
             //console.log('createconfig----',res);

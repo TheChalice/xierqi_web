@@ -116,6 +116,27 @@ angular.module('console.secret_secret', [
                 });
                 //console.log($scope.item.secretarr);
             })
+
+            function readSingleFile(e) {
+                var thisfilename = this.value;
+                //console.log(thisfilename);
+                if (thisfilename.indexOf('\\')) {
+                    var arr = thisfilename.split('\\');
+                    thisfilename = arr[arr.length - 1]
+                }
+                var file = e.target.files[0];
+                if (!file) {
+                    return;
+                }
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var content = e.target.result;
+                    $scope.item.secretarr.push({key: thisfilename, value: content,showLog:false})
+                    //console.log($scope.volume.configarr);
+                    $scope.$apply();
+                };
+                reader.readAsText(file);
+            };
             $scope.getLog= function (idx) {
                 $scope.item.secretarr[idx].showLog=!$scope.item.secretarr[idx].showLog;
             }
@@ -181,6 +202,10 @@ angular.module('console.secret_secret', [
                 console.log($scope.item.secretarr[idx].showLog);
                 $scope.item.secretarr[idx].showLog=!$scope.item.secretarr[idx].showLog
             }
+
+            $scope.add= function () {
+                document.getElementById('file-input').addEventListener('change', readSingleFile, false);
+            };
 
             $scope.deletekv = function (idx) {
                 $scope.item.secretarr.splice(idx, 1);
