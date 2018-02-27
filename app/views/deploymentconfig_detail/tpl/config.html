@@ -33,6 +33,7 @@
             <div class="col-md-10">{{dc.spec.strategy.rollingParams.maxSurge}}</div>
         </div>
     </div>
+
     <div class="row condigmaarginbottom">
         <div class="col-md-12">
             <div class="col-md-2 col-md-2_padding tittle">
@@ -72,6 +73,7 @@
 
         </div>
     </div>
+
     <div class="row condigmaarginbottom">
         <div class="col-sm-12">
             <div class="tittle">
@@ -86,6 +88,7 @@
             <!--&nbsp;&nbsp;配置变化触发自动部署-->
         </div>
     </div>
+
     <div class="continerboxs" style="width: 70%;">
         <div class="tittle">
             <span>镜像信息</span>
@@ -146,6 +149,14 @@
                        class="form-control input-block foucsinput"
                        name="name" class="form-control">
             </div>
+            <div style="margin-top: 30px;" ng-show="container.display">
+                <label ng-class="{'active': container.imageChange}" ng-click="container.imageChange=!container.imageChange"
+                       style="cursor: pointer;">
+                    <i class="faa faa-check"></i>
+                    &nbsp;&nbsp;镜像变化触发自动部署
+                </label>
+            </div>
+
             <div style="margin-top: 30px">
                 <span class="usetest">可用性探测</span>
                 <span class="my-checkbox">
