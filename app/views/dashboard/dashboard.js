@@ -204,7 +204,7 @@ angular.module('console.dashboard', [
                         gridLineWidth: 1
                     },
                     yAxis: [{
-                        max:90,
+                        //max:90,
                         // gridLineDashStyle: 'ShortDash',
                         title: {
                             text: 'network_rx (KB／s)',
@@ -214,7 +214,7 @@ angular.module('console.dashboard', [
                         }
 
                     },{
-                        max:90,
+                        //max:90,
                         // gridLineDashStyle: 'ShortDash',
                         title: {
                             text: 'network_tx (KB／s)',
@@ -311,7 +311,7 @@ angular.module('console.dashboard', [
                     },
                     yAxis: [{
                         //offset:5,
-                        max:90,
+                        //max:90,
                         // gridLineDashStyle: 'ShortDash',
                         title: {
                             text: 'memory (M)',
@@ -322,7 +322,7 @@ angular.module('console.dashboard', [
 
                     }, {
                         //offset:5,
-                        max:90,
+                        //max:90,
                         // gridLineDashStyle: 'ShortDash',
                         title: {
                             text: 'CPU (%)',
