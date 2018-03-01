@@ -65,7 +65,7 @@ define([
             host_repo: '/repos',
             host_integration: '/integration/v1',
             host_hawkular: '/hawkular/metrics',
-            host_wss: '/ws/oapi/v1',
+            host_wss: '/ws/oapi/v1/watch',
             host_wss_k8s: '/ws/api/v1',
             login_uri: '/login',
             signin_uri: '/signin',

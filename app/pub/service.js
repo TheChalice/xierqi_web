@@ -1734,9 +1734,13 @@ define(['angular'], function (angular) {
                     } else {
                         //console.log('token错误');
                     }
-                    //console.log(tokens,token, regions);
+                    console.log('config',config);
                     if (config.headers && token) {
                         config.headers["Authorization"] = "Bearer " + token;
+                    }else {
+                        config.headers={
+                            "Authorization":"Bearer " + token
+                        }
                     }
 
                     if (/^\/hawkular/.test(config.url)) {
