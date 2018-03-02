@@ -189,7 +189,10 @@ angular.module('console.quick_deploy', [
 
             function dcname(n, image) {
                 $scope.dc.metadata.name = n;
-                $scope.dc.metadata.labels[0].value = n;
+                if ($scope.dc.metadata.labels&&$scope.dc.metadata.labels[0]) {
+                    $scope.dc.metadata.labels[0].value = n;
+                }
+
                 $scope.dc.spec.selector.deploymentconfig = n;
                 $scope.dc.spec.selector.app = n;
                 $scope.dc.spec.template.metadata.labels.deploymentconfig = n;
@@ -446,9 +449,10 @@ angular.module('console.quick_deploy', [
                                 $scope.tag = name.split(':').length > 1 ? name.split(':')[1] : 'latest';
                                 $scope.imagetext = $scope.postobj.spec.images[0].from.name;
 
-                                var imagetag = 'dadafoundry.io/image-' + $scope.postobj.spec.images[0].from.name;
-                                $scope.dc.metadata.annotations[imagetag] = $scope.fuwuname + ":" + $scope.tag;
-                                $scope.dc.metadata.annotations[imagetag] = $scope.fuwuname + ":" + $scope.tag;
+                                //var imagetag = 'dadafoundry.io/image-' + $scope.postobj.spec.images[0].from.name;
+                                //
+                                //$scope.dc.metadata.annotations[imagetag] = $scope.fuwuname + ":" + $scope.tag;
+
                                 if (images.status.images[0] && images.status.images[0].image.dockerImageMetadata) {
                                     imagetimemessage(images.status.images[0].image.dockerImageMetadata.Created)
                                     if (images.status.images[0].image.dockerImageMetadata.Config.ExposedPorts) {
