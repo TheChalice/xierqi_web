@@ -11,7 +11,9 @@
             <span class="panel-title">
                 <span class="icon25 icon25-panel"></span>&nbsp;&nbsp;{{data.metadata.name}}
             </span>
-                <a class="btn btn-gray pull-right btn_a" style="" ng-click="deletes()"><i class="fa fa-trash-o fa-lg"></i></a>
+                <a class="btn btn-gray pull-right btn_a" style="" ng-click="deletes()">
+                    <!-- <i class="fa fa-trash-o fa-lg"></i> -->删除
+                </a>
                 <a class="btn btn-green pull-right" ng-click="startBuild()">构建</a>
             </div>
             <div class="panel-body">
@@ -64,7 +66,8 @@
         <uib-tabset class="tab-default tab-jia-default" active="active">
             <uib-tab index="1">
                 <uib-tab-heading>
-                    <span class="icon20 icon20-log"></span> 构建记录
+                    <!-- <span class="icon20 icon20-log"></span>  -->
+                    构建记录
                 </uib-tab-heading>
                 <div class="timeline">
                     <ul>
@@ -124,7 +127,8 @@
             </uib-tab>
             <uib-tab index="2">
                 <uib-tab-heading>
-                    <span class="icon20 icon20-paper"></span> 配置信息
+                    <!-- <span class="icon20 icon20-paper"></span>  -->
+                    配置信息
                 </uib-tab-heading>
                 <form class="form-horizontal" name="frm">
                     <div class="form-group" ng-show="showwebhook">

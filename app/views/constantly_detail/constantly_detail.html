@@ -1,4 +1,4 @@
-<div class="config-detail">
+<div class="config-detail" id="config-detail">
     <div class="loader" ng-show="!persistents">
         <div class="loader-inner ball-clip-rotate-multiple">
             <div></div>
@@ -11,7 +11,10 @@
             <span class="panel-title">
                 <span class="icon25 configicon"></span>&nbsp;&nbsp;{{name}}
             </span>
-                <a class="btn btn-gray pull-right" style=" padding: 5px 10px; margin-left: 15px; height:34px; width:36px" ng-click="delete()"><i class="fa fa-trash-o fa-lg"></i></a>
+                <a class="btn btn-gray pull-right" style=" padding: 6px 12px; margin-left: 15px;font-size:14px;" ng-click="delete()">
+                    <!-- <i class="fa fa-trash-o fa-lg"></i> -->
+                    删除
+                </a>
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -74,7 +77,8 @@
         <uib-tabset class="tab-default" active="active">
             <uib-tab index="1">
                 <uib-tab-heading>
-                    <i class="icon20 icon20-paper"></i> 挂载信息
+                    <!-- <i class="icon20 icon20-paper"></i>  -->
+                    挂载信息
                 </uib-tab-heading>
                 <div class="panel-default">
                     <div class="panel-heading">
@@ -109,4 +113,15 @@
     .listitem:hover{
         color: #5b73eb;
     }
+
+
+    #config-detail .tab-default li.active .nav-link,
+    #config-detail .tab-default li.active .nav-link:focus, 
+    #config-detail .tab-default li.active .nav-link:hover{
+        border:none;
+        border-bottom:2px solid #47B2FB;
+        color:#47B2FB;
+    }
+
+    
 </style>

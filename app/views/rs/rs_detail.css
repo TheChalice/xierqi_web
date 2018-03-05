@@ -5,8 +5,8 @@
 #rs .tab-default li .nav-link:hover{font-size:14px;}
 #rs .tab-default li.active .nav-link,
 #rs .tab-default li.active .nav-link:focus,
-#rs .tab-default li.active .nav-link:hover{border:0px;border-bottom:2px solid #F8A632;
-    color:#333;font-size:14px;}
+#rs .tab-default li.active .nav-link:hover{border:0px;border-bottom:2px solid #47B2FB;
+    color:#47B2FB;font-size:14px;}
 #rs .tab-default .nav-tabs{border-bottom:1px solid #E0E6ED;}
 #rs .tab-default .tab-content{border:0px;padding:20px 0px;}
 

@@ -5,11 +5,11 @@
 #pods_detail .tab-default li .nav-link:hover{font-size:14px;color:#333;}
 #pods_detail .tab-default li.active a,
 #pods_detail .tab-default li.active a:focus,
-#pods_detail .tab-default li.active a:hover{border:0px;border-bottom:2px solid #F8A632;
-color:#F8A632;font-size:14px;}
+#pods_detail .tab-default li.active a:hover{border:0px;border-bottom:2px solid #47B2FB;
+color:#47B2FB;font-size:14px;}
 
-#dt_set{color:#f6a540;}
-#dt_set:hover{color:#e5993a;cursor: pointer;text-decoration:underline;}
+#dt_set{color:#47B2FB;}
+#dt_set:hover{color:#98D4FD;cursor: pointer;text-decoration:underline;}
 
 #pods_detail .nav-tabs>li>a{color:#333;}
 #pods_detail .nav-tabs>li>a:hover{background:none;color:#F8A632;border-color:#fff #fff #ddd;}

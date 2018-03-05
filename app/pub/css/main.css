@@ -74,7 +74,7 @@ a {
     /*background-color: #3c29d6;!*16 12-14 by zn for zhongxin *!*/
 /*}*/
 .btn-green {
-    background-color: #55c45f;
+    background-color: #47B2FB;
     /*background-color: #5c72e9;!*16 12-14 by zn for zhongxin *!*/
     color:#fff;
     -webkit-transition:all 1s;
@@ -89,39 +89,47 @@ a {
     /*background-color: #3c29d6;!*16 12-14 by zn for zhongxin *!*/
 }
 .btn-gray {
-    background-color: #9fa7b7;
+    background-color: #fff;
     -webkit-transition:all 1s;
     -moz-transition:all 1s;
     transition:all 1s;
+    border:1px solid #47B2FB;
+    -webkit-border-radius:4px;
+    -moz-border-radius:4px;
+    border-radius:4px;
+    color:#47B2FB;font-size:12px;
 }
 
 .btn-gray:hover {
-    background-color: #3c4251;
+    background-color: #fff;
+    border:1px solid #98D4FD;
+    color:#82CAFB;
+    
 }
 
 .btn-skyblue {
     /*background-color: #5c72e9;*/
-    background-color: #55c45f;
+    background-color: #47B2FB;
     -webkit-transition:all 1s;
     -moz-transition:all 1s;
     transition:all 1s;
 }
 
 .btn-skyblue:hover {
-    background-color: #469450;
+    background-color: #98D4FD;
     /*background-color: #6b5ce9;*/
 }
 
 .btn-orange {
-    background-color: #f6a540;
+    background-color: #47B2FB;
     /*background-color: #5b73eb;*/
     -webkit-transition:all 1s;
     -moz-transition:all 1s;
-    transition:all 1s;
+    transition:all 1s;font-size:12px;
 }
 
 .btn-orange:hover {
-    background-color:#e5993a;
+    background-color:#98D4FD;
     /*background-color:#4960e6;*/
 }
 
@@ -368,7 +376,7 @@ a {
 
 .tab-default li .nav-link {
     border: none;
-    color: #333;
+    color: #475669;
     font-size:16px;
 }
 
@@ -405,17 +413,17 @@ a {
 
 /*a标签默认样式*/
 .href-orange {
-    color: #f6a540;
+    color: #47B2FB;
     text-decoration: none;
 }
 
 .href-orange:hover {
-    color: #e5993a;
+    color: #98D4FD;
     text-decoration: none;
 }
 
 .href-orange:active {
-    color: #e5993a;
+    color: #168DDE;
     text-decoration: none;
 }
 
@@ -549,7 +557,7 @@ a {
 
 /*图标颜色*/
 .fa-orange {
-    color: #f6a540;
+    color: #47B2FB;
     /*中信项目 jiasx*/
     /*color:#5c72e9;*/
 }
@@ -569,11 +577,15 @@ a {
 .pagination > .active > a:focus,
 .pagination > .active > a:hover,
 .pagination > .active > span,
-.pagination > .active > span:focus,
-.pagination > .active > span:hover {
-    background-color: #f6a540;
-    border-color: #f6a540;
+.pagination > .active > span:focus {
+    background-color: #47B2FB;
+    border-color: #47B2FB;color:#fff;
 }
+.pagination > .active > span:hover{
+    background-color: #fff;
+    border-color: #47B2FB;color:#47B2FB;
+}
+
 .pagination-sm > li > a,.pagination-sm > li > span{
     margin-left:5px;
     border:none;
@@ -625,7 +637,7 @@ a {
     width: 8px;
     height: 8px;
     border-radius: 4px;
-    background: #f6a540;
+    background: #47B2FB;
     /*中信项目 jiasx*/
     /*background:#5c72e9;*/
 }
@@ -1570,8 +1582,8 @@ input{
 }
 .fa-info-circle:before{margin-right:3px;}
 /*按钮颜色设置*/
-.build-jia{background:#55c45f;}
-.build-jia:hover{background-color: #469450;color:#fff!important;}
+.build-jia{background:#47B2FB;}
+.build-jia:hover{background-color: #98D4FD;color:#fff!important;}
 
 .build_searchbar .btn{background:url(../img/search.png) no-repeat 0 -1px!important;}
 .build_searchbar .btn:hover {
@@ -1583,7 +1595,7 @@ input{
 }
 
 td  a:hover, a:focus{
-    color: #e5993a;
+    color: #47B2FB;
 }
 
 

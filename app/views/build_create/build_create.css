@@ -1,1 +1,283 @@
-#newbuildcreat .build-jia-default {    border: none;}#newbuildcreat .build-jia-default .panel-jia-heading {    background: none;    border-bottom: 1px solid #f2f2f2;    margin-left: 21px;    margin-right: 21px;}#newbuildcreat .panel-jia-title {    color: #333;}#newbuildcreat .tab-jia-default .tab-content {    padding: 30px 20px;    height: auto;    overflow: hidden;    border: none;}#newbuildcreat .panel-block-jia-body {    padding: 22px 52px 52px;}#newbuildcreat .form-jia-line {    padding-bottom: 16px;    border-bottom: 1px solid #f2f2f2;}#newbuildcreat .view-jia-tit {    color: #55c45f;}#newbuildcreat .view-jia-tit:hover {    color: #469450}#newbuildcreat .tab-jia-default li.active .nav-link, .tab-jia-default li.active .nav-link:focus, .tab-jia-default li.active .nav-link:hover {    color: #f6a540;    padding: 10px 23px;}#newbuildcreat .zhuan {    animation: rotate 1s infinite linear;}#newbuildcreat@keyframes rotate {    0% {        transform: rotate(0deg);    }    100% {        transform: rotate(360deg);    }}#newbuildcreat .is-box {    margin-top: 30px;}#newbuildcreat .is-box .panel {    padding-left: 0px;    padding-right: 0px;    width: 30%;    height: 200px;}#newbuildcreat .is-box .panel .panel-heading {    width: 100%;    background-color: #f7f7f7;}#newbuildcreat .col-sm-10 {    padding-right: 42px;}#newbuildcreat .is-box .panel .panel-body {    width: 100%;    padding: 0px;    margin-bottom: 0px;    height: 150px;    overflow-y: auto;}#newbuildcreat .is-box .panel .panel-body ul {    list-style: none;    margin: 0;    padding: 0;}#newbuildcreat .is-box .panel .panel-body li {    height: 40px;    line-height: 40px;}#newbuildcreat .is-box .panel .panel-body ul li a {    padding: 0px 15px;}#newbuildcreat .is-box .panel .panel-body ul li a:active {    color: #5a6378;}#newbuildcreat .is-box .panel .panel-body ul li a:focus {    text-decoration: none;}#newbuildcreat .is-box .panel .panel-body ul li a.active {    background: #f5f6fa;    color: #5a6378;}#newbuildcreat .is-box .panel .panel-body img {    margin-right: 10px;}#newbuildcreat .gitlabbox {    width: 100%;    overflow: hidden;    border: 1px solid #c9c9c9;    padding: 40px 0px;}#newbuildcreat .gitlabBtn {    width: 70%;    height: 34px;    background: #55c45f;    line-height: 34px;    text-align: center;    color: #fff;    cursor: pointer;}#newbuildcreat .gitlabBtn:hover {    background: #469450;}#newbuildcreat .labcon a:link, .labcon a:visited {    display: block;    white-space: nowrap;    overflow: hidden;    text-overflow: ellipsis;}#newbuildcreat .running {    animation: rotate 1s infinite linear;}#newbuildcreat@-webkit-keyframes rotate {    0% {        -webkit-transform: rotate(0deg);    }    100% {        -webkit-transform: rotate(360deg);    }}#newbuildcreat .form-group input {    width: 100%;}#newbuildcreat #bc .disabled {    /*background-color: #e6e9f2;*/}#newbuildcreat #bc .disabled a:hover {    color: #c7c7c7 !important;}#newbuildcreat #bc .disabled a {    color: #c7c7c7 !important;}#newbuildcreat #bc li.active > a {    border: none;    border-bottom: 2px solid #f8b551;}#newbuildcreat .creat-name-input {    ime-mode: disabled}#newbuildcreat .creat-tab-lablel {    color: #5a6378;    font-size: 14px;    text-align: left;    font-weight: normal;}#newbuildcreat .creat-name-lablel {    color: #333;    font-size: 14px;    font-weight: normal;    text-align: left;}#newbuildcreat .build-creat-center .tab-lab {    height: 50px}#newbuildcreat .build-creat-center .tab-lab .tab-lab-reload {    margin-top: -5px;    margin-right: -10px}#newbuildcreat .build-creat-center .tab-lab .tab-lab-img {    float: left;    margin-right: 20px;}#newbuildcreat .build-creat-center .tab-lab .tab-lab-text {    font-size: 12px;    height: 20px}#newbuildcreat .build-creat-center .tab-reg {    height: 50px}#newbuildcreat .build-creat-center .tab-reg .tab-reg-tittle {    font-size: 12px;    padding-bottom: 10px}#newbuildcreat .build-creat-center .tab-reg .tab-reg-label {    text-align: left;    font-size: 12px;    font-weight: normal;}#newbuildcreat .build-creat-center .tab-reg .tab-reg-input {    height: 30px;    margin-left: -20px}#newbuildcreat .build-creat-center .tab-reg .tab-reg-div {    margin-top: 30px}#newbuildcreat .build-creat-center .creat-box .box-div {    margin-right: 30px;    position: relative;}#newbuildcreat .build-creat-center .creat-box .box-search {    border-left: none;    border-right: none;    position: relative;    top: 0;    left: 0;    width: 100%;}#newbuildcreat .build-creat-center .creat-box .box-search .box-search-span {    right: 14px;    top: 4px;    z-index: 999;}#newbuildcreat .build-creat-foot .creat-foot-time {    color: #5a6378;    font-size: 14px;    text-align: left;    font-weight: normal;}#newbuildcreat .build-creat-foot .creat-foot-input {    width: 80px;    display: inline-block;}#newbuildcreat .build-creat-foot .creat-foot-min {    display: inline-block; margin-right: 20px}
+#newbuildcreat .build-jia-default {
+    border: none;border:
+}
+
+#newbuildcreat .build-jia-default .panel-jia-heading {
+    background: none;
+    border-bottom: 1px solid #f2f2f2;
+    margin-left: 21px;
+    margin-right: 21px;
+}
+
+#newbuildcreat .panel-jia-title {
+    color: #333;
+}
+
+#newbuildcreat .tab-jia-default .tab-content {
+    padding: 30px 20px;
+    height: auto;
+    overflow: hidden;
+    border: none;
+}
+
+#newbuildcreat .panel-block-jia-body {
+    padding: 22px 52px 52px;
+}
+
+#newbuildcreat .form-jia-line {
+    padding-bottom: 16px;
+    border-bottom: 1px solid #f2f2f2;
+}
+
+#newbuildcreat .view-jia-tit {
+    color: #47B2FB;
+}
+
+#newbuildcreat .view-jia-tit:hover {
+    color: #98D4FD
+}
+
+#newbuildcreat .tab-jia-default li.active .nav-link, .tab-jia-default li.active .nav-link:focus, .tab-jia-default li.active .nav-link:hover {
+    color: #f6a540;
+    padding: 10px 23px;
+}
+
+#newbuildcreat .zhuan {
+    animation: rotate 1s infinite linear;
+}
+
+#newbuildcreat
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+#newbuildcreat .is-box {
+    margin-top: 30px;
+}
+
+#newbuildcreat .is-box .panel {
+    padding-left: 0px;
+    padding-right: 0px;
+    width: 30%;
+    height: 200px;
+}
+
+#newbuildcreat .is-box .panel .panel-heading {
+    width: 100%;
+    background-color: #f7f7f7;
+}
+
+#newbuildcreat .col-sm-10 {
+    padding-right: 42px;
+}
+
+#newbuildcreat .is-box .panel .panel-body {
+    width: 100%;
+    padding: 0px;
+    margin-bottom: 0px;
+    height: 150px;
+    overflow-y: auto;
+}
+
+#newbuildcreat .is-box .panel .panel-body ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#newbuildcreat .is-box .panel .panel-body li {
+    height: 40px;
+    line-height: 40px;
+}
+
+#newbuildcreat .is-box .panel .panel-body ul li a {
+    padding: 0px 15px;
+}
+
+#newbuildcreat .is-box .panel .panel-body ul li a:active {
+    color: #5a6378;
+}
+
+#newbuildcreat .is-box .panel .panel-body ul li a:focus {
+    text-decoration: none;
+}
+
+#newbuildcreat .is-box .panel .panel-body ul li a.active {
+    background: #f5f6fa;
+    color: #5a6378;
+}
+
+#newbuildcreat .is-box .panel .panel-body img {
+    margin-right: 10px;
+}
+
+#newbuildcreat .gitlabbox {
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid #c9c9c9;
+    padding: 40px 0px;
+}
+
+#newbuildcreat .gitlabBtn {
+    width: 70%;
+    height: 34px;
+    background: #55c45f;
+    line-height: 34px;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+}
+
+#newbuildcreat .gitlabBtn:hover {
+    background: #469450;
+}
+
+#newbuildcreat .labcon a:link, .labcon a:visited {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#newbuildcreat .running {
+    animation: rotate 1s infinite linear;
+}
+
+#newbuildcreat
+
+@-webkit-keyframes rotate {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+#newbuildcreat .form-group input {
+    width: 100%;
+}
+
+#newbuildcreat #bc .disabled {
+    /*background-color: #e6e9f2;*/
+}
+
+#newbuildcreat #bc .disabled a:hover {
+    color: #c7c7c7 !important;
+}
+
+#newbuildcreat #bc .disabled a {
+    color: #c7c7c7 !important;
+}
+
+#newbuildcreat #bc li.active > a {
+    border: none;
+    border-bottom: 2px solid #47B2FB;
+    color:#47B2FB;
+}
+
+#newbuildcreat .creat-name-input {
+    ime-mode: disabled
+}
+
+#newbuildcreat .creat-tab-lablel {
+    color: #5a6378;
+    font-size: 14px;
+    text-align: left;
+    font-weight: normal;
+}
+
+#newbuildcreat .creat-name-lablel {
+    color: #333;
+    font-size: 14px;
+    font-weight: normal;
+    text-align: left;
+}
+
+#newbuildcreat .build-creat-center .tab-lab {
+    height: 50px
+}
+
+#newbuildcreat .build-creat-center .tab-lab .tab-lab-reload {
+    margin-top: -5px;
+    margin-right: -10px
+}
+
+#newbuildcreat .build-creat-center .tab-lab .tab-lab-img {
+    float: left;
+    margin-right: 20px;
+}
+
+#newbuildcreat .build-creat-center .tab-lab .tab-lab-text {
+    font-size: 12px;
+    height: 20px
+}
+
+#newbuildcreat .build-creat-center .tab-reg {
+    height: 50px
+}
+
+#newbuildcreat .build-creat-center .tab-reg .tab-reg-tittle {
+    font-size: 12px;
+    padding-bottom: 10px
+}
+
+#newbuildcreat .build-creat-center .tab-reg .tab-reg-label {
+    text-align: left;
+    font-size: 12px;
+    font-weight: normal;
+}
+
+#newbuildcreat .build-creat-center .tab-reg .tab-reg-input {
+    height: 30px;
+    margin-left: -20px
+}
+
+#newbuildcreat .build-creat-center .tab-reg .tab-reg-div {
+    margin-top: 30px
+}
+
+#newbuildcreat .build-creat-center .creat-box .box-div {
+    margin-right: 30px;
+    position: relative;
+}
+
+#newbuildcreat .build-creat-center .creat-box .box-search {
+    border-left: none;
+    border-right: none;
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+#newbuildcreat .build-creat-center .creat-box .box-search .box-search-span {
+    right: 14px;
+    top: 4px;
+    z-index: 999;
+}
+
+#newbuildcreat .build-creat-foot .creat-foot-time {
+    color: #5a6378;
+    font-size: 14px;
+    text-align: left;
+    font-weight: normal;
+}
+
+#newbuildcreat .build-creat-foot .creat-foot-input {
+    width: 80px;
+    display: inline-block;
+}
+
+#newbuildcreat .build-creat-foot .creat-foot-min {
+    display: inline-block; margin-right: 20px
+}
+
+
+
