@@ -177,13 +177,12 @@ define(['angular',
                     resource = APIService.toResourceGroupVersion(resource);
 
                     var key = this._uniqueKey(resource, null, context, opts);
-                    console.log('key', key)
+                    //console.log('key', key)
                     var deferred = this._listDeferred(key);
-                    console.log('DataService.prototype.list  deferred', deferred)
+                    //console.log('DataService.prototype.list  deferred', deferred)
                     if (callback) {
                         deferred.promise.then(callback);
                     }
-
                     if (this._isCached(key)) {
                         // A watch operation is running, and we've already received the
                         // initial set of data for this resource
@@ -329,7 +328,7 @@ define(['angular',
                     opts = opts || {};
                     var deferred = $q.defer();
                     var self = this;
-                    console.log("========>DataService.prototype.create")
+                    //console.log("========>DataService.prototype.create")
                     this._getNamespace(resource, context, opts).then(function(ns) {
                         $http(angular.extend({
                                 method: 'POST',
@@ -452,7 +451,7 @@ define(['angular',
                     //     }, 0);
                     // } else {
                     var self = this;
-                    console.log("============>DataService.prototype.get")
+                    //console.log("============>DataService.prototype.get")
                     this._getNamespace(resource, context, opts).then(function(ns) {
                         $http(angular.extend({
                                 method: 'GET',
@@ -1070,8 +1069,8 @@ define(['angular',
                             }
                         });
                     }
-                    console.log('_listOpComplete data', data)
-                        // mark list op as complete
+                    //console.log('_listOpComplete data', data)
+                    // mark list op as complete
                     this._listInFlight(key, false);
                     var deferred = this._listDeferred(key);
                     delete this._listDeferredMap[key];
@@ -1329,7 +1328,6 @@ define(['angular',
                         namespace: namespace,
                         q: params
                     };
-                    console.log()
                     if (name) {
                         template = namespaceInPath ? URL_NAMESPACED_OBJECT : URL_OBJECT;
                     } else {
@@ -2076,27 +2074,26 @@ define(['angular',
 
                 var getLatestQuotaAlerts = function(resources, context) {
                     var quotas, clusterQuotas, promises = [];
-                    console.log("get here getLatestQuotaAlerts promises", promises);
+                    //console.log("get here getLatestQuotaAlerts promises", promises);
                     // double check using the latest quotas
                     promises.push(
                         DataService.list("resourcequotas", context).then(function(quotaData) {
-                            console.log("quotaData", quotaData);
+                            //console.log("quotaData", quotaData);
                             quotas = quotaData.by("metadata.name");
                             //Logger.log("quotas", quotas);
                         })
-                        .catch(err => { console.log("err", err); })
                     );
 
                     promises.push(DataService.list("appliedclusterresourcequotas", context).then(function(clusterQuotaData) {
                         clusterQuotas = clusterQuotaData.by("metadata.name");
-                        console.log("cluster quotas", clusterQuotas);
+                        //console.log("cluster quotas", clusterQuotas);
                         //Logger.log("cluster quotas", clusterQuotas);
                     }));
-                    console.log("get here getLatestQuotaAlerts promises", promises, resources, quotas, clusterQuotas);
+                    //console.log("get here getLatestQuotaAlerts promises", promises, resources, quotas, clusterQuotas);
                     return $q.all(promises).then(function() {
-                        console.log("came 1111", resources, quotas, clusterQuotas);
+                        //console.log("came 1111", resources, quotas, clusterQuotas);
                         var quotaAlerts = getQuotaAlerts(resources, quotas, clusterQuotas);
-                        console.log("quotaAlerts", quotaAlerts);
+                        //console.log("quotaAlerts", quotaAlerts);
                         return {
                             quotaAlerts: quotaAlerts
                         };

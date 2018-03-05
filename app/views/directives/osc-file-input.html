@@ -4,8 +4,8 @@
     </div>
     <div class="input-group">
         <input type="text" class="form-control" ng-model="fileName" readonly ng-show="supportsFileUpload" ng-disabled="disabled" ng-attr-aria-describedby="{{helpText ? helpID : undefined}}">
-        <span class="input-group-btn">
-        <span class="btn btn-default btn-file" ng-show="supportsFileUpload" ng-attr-disabled="{{ (disabled || readonly) || undefined }}">
+        <span class="input-group-btn" style="padding: 0px;">
+        <span class="btn btn-default btn-file" style="border-radius: 0px; color: #363636;" ng-show="supportsFileUpload" ng-attr-disabled="{{ (disabled || readonly) || undefined }}">
           Browse&hellip;
           <input type="file" ng-disabled="disabled || readonly" class="form-control">
         </span>

@@ -15,6 +15,7 @@ define([
     'pub/filter',
     'pub/ws',
     'pub/fromFile',
+    'pub/modals',
     'components/version/version',
     'angularMd',
     'angularClipboard',
@@ -49,7 +50,8 @@ define([
         'treeControl',
         'ui.ace',
         'myApp.origin-web-service',
-        'myApp.fromFile'
+        'myApp.fromFile',
+        'myApp.modals'
     ]);
 
     DataFoundry.constant('GLOBAL', {

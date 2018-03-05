@@ -5,6 +5,7 @@ define(['angular'], function(angular) {
             $filter,
             $location,
             $q,
+            $state,
             $uibModal,
             APIService,
             // CachedTemplateService,
@@ -85,28 +86,28 @@ define(['angular'], function(angular) {
                     };
 
                     var showWarningsOrCreate = function(result) {
-                        console.log('showWarningsOrCreate', result)
-                            // Hide any previous notifications when form is resubmitted.
-                        hideErrorNotifications();
+
+                        // Hide any previous notifications when form is resubmitted.
+                        //hideErrorNotifications();
                         alerts = SecurityCheckService.getSecurityAlerts($scope.createResources, $scope.input.selectedProject.metadata.name);
 
                         // // Now that all checks are completed, show any Alerts if we need to
                         var quotaAlerts = result.quotaAlerts || [];
                         alerts = alerts.concat(quotaAlerts);
                         var errorAlerts = _.filter(alerts, { type: 'error' });
-                        console.log("errorAlerts in showWarningsOrCreate", errorAlerts, alerts)
+                        //console.log("=====>errorAlerts", errorAlerts)
                         if (errorAlerts.length) {
                             _.each(alerts, function(alert) {
                                 alert.id = _.uniqueId('from-file-alert-');
-                                NotificationsService.addNotification(alert);
+                                // NotificationsService.addNotification(alert);
                             });
                             $scope.disableInputs = false;
                         } else if (alerts.length) {
                             launchConfirmationDialog(alerts);
                             $scope.disableInputs = false;
                         } else {
-                            console.log('must be here!!!')
                             createAndUpdate();
+                            console.log("=====>after createAndUpdate()")
                         }
                     };
 
@@ -174,8 +175,8 @@ define(['angular'], function(angular) {
                                 if ($scope.errorOccurred) {
                                     return;
                                 }
-                                console.log("=====>000000   $scope.createResources", $scope.createResources)
-                                    // If resource is Template and it doesn't exist in the project
+                                //console.log("=====>000000   $scope.createResources", $scope.createResources)
+                                // If resource is Template and it doesn't exist in the project
                                 if ($scope.createResources.length === 1 && $scope.resourceList[0].kind === "Template") {
                                     openTemplateProcessModal();
                                     // Else if any resources already exist
@@ -187,22 +188,18 @@ define(['angular'], function(angular) {
                                         confirmReplace();
                                     }
                                 } else {
-                                    console.log("=====>1111")
                                     QuotaService.getLatestQuotaAlerts($scope.createResources, { namespace: $scope.input.selectedProject.metadata.name })
                                         .then(
-                                            // function(res) {
-                                            // console.log("createProjectIfNecessary() QuotaService showWarningsOrCreate", res)
                                             showWarningsOrCreate
-                                            // }
                                         )
                                 }
                             });
                         }, function(e) {
-                            console.log("=====>33333")
                             if (e.data.reason === 'AlreadyExists') {
                                 $scope.projectNameTaken = true;
                             } else {
                                 console.log("NotificationsService ", "import-create-project-error", "error", "An error occurred creating project.")
+                                    //$state.go('console.dashboard');
                                     // NotificationsService.addNotification({
                                     //     id: "import-create-project-error",
                                     //     type: "error",
@@ -279,9 +276,11 @@ define(['angular'], function(angular) {
                         var modalInstance = $uibModal.open({
                             animation: true,
                             templateUrl: 'views/modals/confirm-replace/confirm-replace.html',
-                            controllerUrl: 'views/modals/confirm-replace/confirm-replace.js',
+                            controller: 'ConfirmReplaceModalController',
+                            //controllerUrl: 'views/modals/confirm-replace/confirm-replace.js',
                             scope: $scope
                         });
+                        console.log("modalInstance", modalInstance)
                         modalInstance.result.then(function() {
                             console.log("QuotaService")
                             QuotaService.getLatestQuotaAlerts($scope.createResources, { namespace: $scope.input.selectedProject.metadata.name }).then(showWarningsOrCreate);
@@ -308,6 +307,7 @@ define(['angular'], function(angular) {
                                 () => { console.log("Done!") }
                             );
                         }
+                        $state.go('console.dashboard');
                     }
 
                     // Redirect to newFromTemplate page in case the resource type is Template and user wants to process it.
@@ -425,7 +425,7 @@ define(['angular'], function(angular) {
                                             // });
                                     }
 
-                                    redirect();
+                                    //redirect();
                                 },
                                 // update resource failure
                                 function(result) {
@@ -556,7 +556,7 @@ define(['angular'], function(angular) {
                     // button is outside the component since it is in the wizard footer. Listen
                     // for an event for when the button is clicked.
                     $scope.$on('importFileFromYAMLOrJSON', $scope.create);
-                    $scope.$on('$destroy', hideErrorNotifications);
+                    //$scope.$on('$destroy', hideErrorNotifications);
                 }
             };
         })
