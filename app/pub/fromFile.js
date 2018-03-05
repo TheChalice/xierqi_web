@@ -272,7 +272,7 @@ define(['angular'], function(angular) {
                     }
 
                     function confirmReplace() {
-                        console.log("confirmReplace")
+                        //console.log("confirmReplace")
                         var modalInstance = $uibModal.open({
                             animation: true,
                             templateUrl: 'views/modals/confirm-replace/confirm-replace.html',
@@ -280,15 +280,15 @@ define(['angular'], function(angular) {
                             //controllerUrl: 'views/modals/confirm-replace/confirm-replace.js',
                             scope: $scope
                         });
-                        console.log("modalInstance", modalInstance)
+                        //console.log("modalInstance", modalInstance)
                         modalInstance.result.then(function() {
-                            console.log("QuotaService")
+                            //console.log("QuotaService")
                             QuotaService.getLatestQuotaAlerts($scope.createResources, { namespace: $scope.input.selectedProject.metadata.name }).then(showWarningsOrCreate);
                         });
                     }
 
                     function createAndUpdate() {
-                        console.log("================>createAndUpdate() ", $scope.createResources.length)
+                        //console.log("================>createAndUpdate() ", $scope.createResources.length)
                         var createResourcesSum = $scope.createResources.length,
                             updateResourcesSum = $scope.updateResources.length;
 
@@ -359,8 +359,8 @@ define(['angular'], function(angular) {
                         return DataService.get(resourceGroupVersion, item.metadata.name, { namespace: $scope.input.selectedProject.metadata.name }, { errorNotification: false }).then(
                             // resource does exist
                             function(resource) {
-                                console.log('DataService.get resource', resource)
-                                    // All fields, except 'metadata' will be copied from the submitted file.
+                                //console.log('DataService.get resource', resource)
+                                // All fields, except 'metadata' will be copied from the submitted file.
                                 var updatedResource = angular.copy(item);
                                 // Update only 'annotations' and 'labels' fields from the metadata field.
                                 var updatedMetadata = angular.copy(resource.metadata);
