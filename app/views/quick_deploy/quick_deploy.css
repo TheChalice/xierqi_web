@@ -1,4 +1,4 @@
-.service-create .tab-cube {
+.deploy-create .tab-cube {
     display: inline-block;
     /*width: 300px;*/
     height: 40px;
@@ -12,31 +12,202 @@
 
     cursor: pointer;
 }
-.service-create .tab-cube:active, .service-create .tab-cube:hover, .service-create .tab-cube.active {
+
+.deploy-create .tab-cube:active,
+.deploy-create .tab-cube:hover,
+.deploy-create .tab-cube.active {
     /*border: 1px solid #55c45f;*/
     color: #55c45f;
     /*color: #4960e6;*/
 }
+
+.deploy-create .service-createlist {
+
+}
+
+.deploy-create .service-createheader {
+    font-weight: bolder;
+    padding-left: 2px;
+    font-size: 14px;
+    color: #333333;
+    padding-bottom: 11px;
+    border-bottom: 1px solid #E0E6ED;
+}
+
+.deploy-create .err {
+    line-height: 32px;
+}
+
+.deploy-create .service-createbody {
+    margin-top: 23px;
+    min-height: 50px;
+    padding-bottom: 30px;
+}
+
+.deploy-create .service-createinput {
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    width: 431px;
+}
+
+.deploy-create .disable {
+    background-color: #e6e9f2;
+    border: 1px;
+    padding-left: 13px;
+    box-shadow: 0px 0px 0px #e6e9f2 inset;
+}
+
+.deploy-create .envinp {
+    width: 354px;
+    height: 32px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+}
+
+.deploy-create .service-createbody .radioname {
+    margin: 0 15px;
+}
+
+.deploy-create .service-createname {
+    width: 414px;
+    height: 32px;
+}
+
+.deploy-create .service-createradio[type=radio]:checked {
+    background: #00cc66;
+}
+
+.deploy-create .service-createevenname {
+    margin-right: 10px;
+}
+
+.deploy-create .service-createenv {
+    margin-right: 42px;
+}
+
+.deploy-create .service-createbody .dropdown-menu li > a {
+    line-height: 34px;
+    height: 34px;
+    padding:0 12px;
+}
+
+.deploy-create .envone {
+    margin-top: 10px;
+}
+
+.deploy-create .input-group-btn .btn {
+    background: url('../../pub/img/search.png') no-repeat;
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    -webkit-box-shadow:none;
+}
+
+.deploy-create .input-group-btn .btn:active {
+
+}
+
 .bgcgray {
     background-color: #c9c9c9;
 }
-.service-create .dropdown-menu > li > a {
-    font-size: 12px;
-    padding-top: 0px;
-    padding-bottom: 0px;
-    display: block;
-    white-space: nowrap;
-    overflow: hidden;
-    line-height: 30px;
-    text-overflow: ellipsis;
-    height:42px;line-height:42px!important;
+
+.btn_file {
+    color: #5a6378;
+    margin-right: 0px;
+    text-shadow: 0 0 0 #fff;
+    border: none;
+    border-left: 1px solid #c9c9c9;
+    background: #e6e9f2;
+    padding: 5px 12px;
 }
-.btn_file{
-    color: #5a6378;margin-right:0px;text-shadow:0 0 0 #fff;border: none;border-left: 1px solid #c9c9c9;background: #e6e9f2;padding: 5px 12px;
-}
-.btn_file:hover{
+
+.btn_file:hover {
     background: #5a6378;
 }
 
 /*20161214 jia add*/
-.panel-jia-create{border:0;}
+.panel-jia-create {
+    border: 0;
+}
+
+.loadEffect {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    margin: 0 auto;
+    margin-top: 100px;
+}
+
+.loadEffect span {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #f8b551;
+    position: absolute;
+    -webkit-animation: load 1.04s ease infinite;
+}
+
+@-webkit-keyframes load {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.2;
+    }
+}
+
+.loadEffect span:nth-child(1) {
+    left: 0;
+    top: 50%;
+    margin-top: -8px;
+    -webkit-animation-delay: 0.13s;
+}
+
+.loadEffect span:nth-child(2) {
+    left: 14px;
+    top: 14px;
+    -webkit-animation-delay: 0.26s;
+}
+
+.loadEffect span:nth-child(3) {
+    left: 50%;
+    top: 0;
+    margin-left: -8px;
+    -webkit-animation-delay: 0.39s;
+}
+
+.loadEffect span:nth-child(4) {
+    top: 14px;
+    right: 14px;
+    -webkit-animation-delay: 0.52s;
+}
+
+.loadEffect span:nth-child(5) {
+    right: 0;
+    top: 50%;
+    margin-top: -8px;
+    -webkit-animation-delay: 0.65s;
+}
+
+.loadEffect span:nth-child(6) {
+    right: 14px;
+    bottom: 14px;
+    -webkit-animation-delay: 0.78s;
+}
+
+.loadEffect span:nth-child(7) {
+    bottom: 0;
+    left: 50%;
+    margin-left: -8px;
+    -webkit-animation-delay: 0.91s;
+}
+
+.loadEffect span:nth-child(8) {
+    bottom: 14px;
+    left: 14px;
+    -webkit-animation-delay: 1.04s;
+}

@@ -6,8 +6,8 @@ angular.module('console.build_create_new', [
             ]
         }
     ])
-    .controller('BuildCreateCtrl', ['repositorysecret', 'repositorybranches', 'repositorygit', 'authorize', 'createdeploy', 'randomWord', '$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch', 'labOwner', 'psgitlab', 'laborgs', 'labBranch', 'ImageStream', 'BuildConfig', 'Alert', '$http', 'Cookie', '$base64', 'secretskey',
-        function (repositorysecret, repositorybranches, repositorygit, authorize, createdeploy, randomWord, $rootScope, $scope, $state, $log, Owner, Org, Branch, labOwner, psgitlab, laborgs, labBranch, ImageStream, BuildConfig, Alert, $http, Cookie, $base64, secretskey) {
+    .controller('BuildCreateCtrl', ['repositorysecret', 'repositorybranches', 'repositorygit', 'authorize', 'createdeploy', 'randomWord', '$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch', 'labOwner', 'psgitlab', 'laborgs', 'labBranch', 'ImageStream', 'BuildConfig', 'Alert', '$http', 'Cookie', '$base64', 'secretskey','toastr',
+        function (repositorysecret, repositorybranches, repositorygit, authorize, createdeploy, randomWord, $rootScope, $scope, $state, $log, Owner, Org, Branch, labOwner, psgitlab, laborgs, labBranch, ImageStream, BuildConfig, Alert, $http, Cookie, $base64, secretskey,toastr) {
             $scope.grid = {
                 org: null,
                 repo: null,
@@ -120,11 +120,12 @@ angular.module('console.build_create_new', [
                 loadgitdata(git)
             }
 
-            $scope.$watch('check', function (n, o) {
+            $scope.$watch('buildcheck', function (n, o) {
                 if (n === o) {
                     return
                 }
                 if (n) {
+                    console.log(n);
                     clearselec()
                     if (n === 1) {
                         $scope.gitstatus = 'gitlab'
@@ -193,7 +194,7 @@ angular.module('console.build_create_new', [
                 ImageStream.create({namespace: $rootScope.namespace}, imageStream, function (res) {
                     console.log('res', res);
                 })
-                if ($scope.check !== 3) {
+                if ($scope.buildcheck !== 3) {
 
                     $scope.buildConfig.spec.source.git.ref = $scope.gitdata.branchs[$scope.grid.branch].name;
                     if ($scope.gitstatus === 'gitlab') {
@@ -237,9 +238,12 @@ angular.module('console.build_create_new', [
                             namespace: $rootScope.namespace,
                             region: $rootScope.region
                         }, $scope.secret, function (item) {
+                            alert(1);
                             $scope.buildConfig.spec.source.sourceSecret.name = $scope.secret.metadata.name;
                             createBC();
+                           
                         }, function (res) {
+                               
                             if (res.status == 409) {
                                 $scope.buildConfig.spec.source.sourceSecret.name = $scope.secret.metadata.name;
                                 createBC();
@@ -265,9 +269,17 @@ angular.module('console.build_create_new', [
                     region: $rootScope.region
                 }, $scope.buildConfig, function (res) {
                     $log.info("buildConfig", res);
+                    toastr.success('操作成功', {
+                        timeOut: 2000,
+                        closeButton: true
+                    });
                     createBuild(res.metadata.name);
                     $scope.creating = false;
                 }, function (res) {
+                    toastr.error('删除失败,请重试', {
+                        timeOut: 2000,
+                        closeButton: true
+                    }); 
                     $scope.creating = false;
                     if (res.data.code == 409) {
                         Alert.open('错误', "构建名称重复", true);

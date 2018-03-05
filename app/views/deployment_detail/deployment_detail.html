@@ -6,7 +6,7 @@
                 <i class="faa faa-cmd"></i>&nbsp;&nbsp;{{dc.metadata.name}}&nbsp;&nbsp;
                 <span ng-if="dc.state == 'normal'" style="color: #55c45f;">运行中</span>
             </span>
-            <a class="btn btn-gray pull-right" style=" padding: 5px 10px; margin-left: 15px; height:34px; width:36px" ng-click="delete()"><i class="fa fa-trash-o fa-lg"></i></a>
+            <a class="btn btn-gray pull-right" style="padding: 5px 10px; margin-left: 15px; height:34px; width:36px" ng-click="deleteDc(dc.metadata.name)"><i class="fa fa-trash-o fa-lg"></i></a>
             <!--<a class="btn btn-block"-->
             <!--ng-disabled=dianbl-->
             <!--ng-class="{'btn-orange':dianl, 'btn-disabled': dianbl}"-->
@@ -73,22 +73,36 @@
             <uib-tab-heading>
                 <i class="faa faa-jia-mark"></i> 部署记录
             </uib-tab-heading>
-            <deployments-history></deployments-history>
+            <deployments-rs-history></deployments-rs-history>
         </uib-tab>
         <!--</uib-tab>-->
         <uib-tab index="2">
             <uib-tab-heading>
                 <i class="faa faa-jia-text"></i> 配置信息
             </uib-tab-heading>
-            <deployments-config></deployments-config>
+            <deployments-rs-config></deployments-rs-config>
         </uib-tab>
         <uib-tab index="3">
             <uib-tab-heading>
                 <i class="faa ser-jia-edit"></i> 部署事件
             </uib-tab-heading>
-            <deployments-event></deployments-event>
+            <deployments-event dcname="dc.metadata.name" dcfit="DeploymentConfig"></deployments-event>
         </uib-tab>
     </uib-tabset>
 </div>
 
 </div>
+<style>
+    a{
+        color:#666;
+    }
+    a :hover{
+        color:#e5993a;
+    }
+    .nav-tabs>li.active>a{
+        color:#e5993a;
+    }
+    .nav-tabs>li.active>a:focus{
+        color:#e5993a;
+    }
+</style>

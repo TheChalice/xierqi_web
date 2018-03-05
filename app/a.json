@@ -1,0 +1,129 @@
+{
+    "kind": "DeploymentConfig",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "go-web-demo",
+        "namespace": "chaizs",
+        "selfLink": "/oapi/v1/namespaces/chaizs/deploymentconfigrollbacks/go-web-demo",
+        "uid": "48799b67-dbe2-11e7-97ab-fa163e095b60",
+        "resourceVersion": "9068775",
+        "generation": 23,
+        "creationTimestamp": "2017-12-08T06:37:38Z",
+        "labels": {
+            "app": "go-web-demo"
+        },
+        "annotations": {
+            "dadafoundry.io/create-by": "wangyd3",
+            "dadafoundry.io/image-go-web-demo": "go-web-demo:v1",
+            "dadafoundry.io/imageorisshow": "",
+            "dadafoundry.io/imageorpublic": "",
+            "openshift.io/generated-by": "OpenShiftWebConsole"
+        }
+    },
+    "spec": {
+        "strategy": {
+            "type": "Rolling",
+            "rollingParams": {
+                "updatePeriodSeconds": 1,
+                "intervalSeconds": 1,
+                "timeoutSeconds": 600,
+                "maxUnavailable": "25%",
+                "maxSurge": "25%"
+            },
+            "resources": {
+                "requests": {
+                    "cpu": "100m"
+                }
+            },
+            "activeDeadlineSeconds": 21600
+        },
+        "triggers": [
+            {
+                "type": "ConfigChange"
+            }
+        ],
+        "replicas": 1,
+        "test": false,
+        "selector": {
+            "app": "go-web-demo",
+            "deploymentconfig": "go-web-demo"
+        },
+        "template": {
+            "metadata": {
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "go-web-demo",
+                    "deploymentconfig": "go-web-demo"
+                },
+                "annotations": {
+                    "openshift.io/generated-by": "OpenShiftWebConsole"
+                }
+            },
+            "spec": {
+                "volumes": [
+                    {
+                        "name": "volumes0",
+                        "persistentVolumeClaim": {
+                            "claimName": "abc1111"
+                        }
+                    }
+                ],
+                "containers": [
+                    {
+                        "name": "go-web-demo",
+                        "image": "registry.dataos.io/chaizs/go-web-demo:v1",
+                        "resources": {},
+                        "volumeMounts": [
+                            {
+                                "name": "volumes0",
+                                "mountPath": "/mnt"
+                            }
+                        ],
+                        "terminationMessagePath": "/dev/termination-log",
+                        "terminationMessagePolicy": "File",
+                        "imagePullPolicy": "IfNotPresent"
+                    }
+                ],
+                "restartPolicy": "Always",
+                "terminationGracePeriodSeconds": 30,
+                "dnsPolicy": "ClusterFirst",
+                "securityContext": {},
+                "schedulerName": "default-scheduler"
+            }
+        }
+    },
+    "status": {
+        "latestVersion": 15,
+        "observedGeneration": 23,
+        "replicas": 1,
+        "updatedReplicas": 1,
+        "availableReplicas": 1,
+        "unavailableReplicas": 0,
+        "details": {
+            "message": "config change",
+            "causes": [
+                {
+                    "type": "ConfigChange"
+                }
+            ]
+        },
+        "conditions": [
+            {
+                "type": "Available",
+                "status": "True",
+                "lastUpdateTime": "2018-01-29T20:59:51Z",
+                "lastTransitionTime": "2018-01-29T20:59:51Z",
+                "message": "Deployment config has minimum availability."
+            },
+            {
+                "type": "Progressing",
+                "status": "True",
+                "lastUpdateTime": "2018-01-30T07:27:15Z",
+                "lastTransitionTime": "2018-01-30T07:27:13Z",
+                "reason": "NewReplicationControllerAvailable",
+                "message": "replication controller \"go-web-demo-14\" successfully rolled out"
+            }
+        ],
+        "readyReplicas": 1
+    }
+}

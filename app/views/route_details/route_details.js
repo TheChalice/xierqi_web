@@ -5,8 +5,8 @@ angular.module('console.routes', [{
             'views/apps/apps.css'
         ]
     }])
-    .controller('RouteDetailCtrl', ['$scope', 'Route', 'routeDetails', 'services', 'Cookie',
-        function($scope, Route, routeDetails, services, Cookie) {
+    .controller('RouteDetailCtrl', ['$state','$scope', 'Route', 'routeDetails', 'services', 'Cookie','Confirm','delTip','toastr',
+        function($state,$scope, Route, routeDetails, services, Cookie,Confirm,delTip,toastr) {
             $scope.text = "No routes have been added to project " + $scope.namespace + ".";
             if (routeDetails) {
                 $scope.route = routeDetails;
@@ -24,12 +24,28 @@ angular.module('console.routes', [{
                 }
 
             }
-            var deleteRoute = function ()  {
-                Route.delete({ namespace: $scope.route.metadata.namespace, name: $scope.route.metadata.name, region: Cookie.get('region') } )
+            var deleteRoute = function (val)  {
+                Route.delete({ namespace: $scope.route.metadata.namespace, name: $scope.route.metadata.name, region: Cookie.get('region') },function(){
+
+                    toastr.success('操作成功', {
+                        timeOut: 2000,
+                        closeButton: true
+                    });
+                    $state.go('console.routes')
+                },function(){
+                    Confirm.open("删除Route", "删除"+val+"失败", null, null,true);
+                    toastr.error('删除失败,请重试', {
+                        timeOut: 2000,
+                        closeButton: true
+                    });
+                } )
             }
-            $scope.delete =function () {
+            $scope.delete =function (val) {
                 if ($scope.route) {
-                    deleteRoute();
+                    delTip.open("删除Route", val, true).then(function(){
+                        deleteRoute(val);
+
+                    });
                 }
             };
 

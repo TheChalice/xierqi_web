@@ -35,23 +35,24 @@
                     <!--<label class="col-md-2 control-label tex-left" style="margin-top: 12px;color: #5a6378; font-size:14px; text-align: left; font-weight: normal">文件配置</label>-->
                     <div class="col-md-2">
                         <a href="javascript:;" ng-click="add()"
-                           style="line-height: 40px; margin-top: -20px;" class="href-add test11">
-                            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;<span style="font-size: 12px">添加配置文件</span>
-                            <input type="file" id="file-input" value="选择"/>
+                           style="line-height: 40px; margin-top: -20px;cursor:pointer;" class="href-add test11">
+                            <i style="cursor:pointer;" class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;<span style="font-size: 12px;cursor:pointer;">添加文件</span>
+                            <input type="file" id="file-input" value="选择" style="cursor:pointer;"/>
                         </a>
                     </div>
                     <div class="col-md-2">
                         <a href="javascript:;" ng-click="addConfig($index)" class="ceaeter"
                            style="line-height: 40px; margin-top: -20px;">
                             <i class="fa fa-plus-circle fa-green fa-lg"></i>
-                            <span class="font12" style="color: #55c45f">创建&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="font12" style="color: #55c45f">创建键值&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
                                 <!--<small ng-if="grid.keynull" class="err-tip"><i class="fa fa-info-circle"></i>&nbsp;key值或value值为空</small>-->
                             </span>
                         </a>
                     </div>
                     <div class="col-md-8" style="line-height: 40px;font-size: 12px;">
-                        <small ng-if="grid.keybuhefa" class="err-tip"><i class="fa fa-info-circle"></i>&nbsp;key值不合法</small>
+                        <!-- 沟通后 这个判断先去掉 -->
+                        <!-- <small ng-if="grid.keybuhefa" class="err-tip"><i class="fa fa-info-circle"></i>&nbsp;key值不合法</small> -->
 
                         <small ng-if="grid.keychongfu" class="err-tip"><i class="fa fa-info-circle"></i>&nbsp;key值重复
                         </small>
@@ -117,7 +118,7 @@
     }
 
     .href-add:hover {
-        color: #f6a540;
+        color: #55c45f;
     }
 
     .testt {

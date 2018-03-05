@@ -38,8 +38,10 @@ define([
                 if (params.api == 'k8s') {
                     host = host + GLOBAL.host_wss_k8s;
                     // host=host+'dev.dataos.io:8443/api/v1';
-                } else {
+                } else if(params.api == 'broker'){
                     //var token = tokenarr[0];
+                    host = host + GLOBAL.broker_apigroup;
+                }else{
                     host = host + GLOBAL.host_wss;
                 }
                 var tokens = Cookie.get('df_access_token');
@@ -70,6 +72,9 @@ define([
                         '&resourceVersion=' + params.resourceVersion +
                         '&region=' + $rootScope.region +
                         '&access_token=' + token;
+                }
+                if (params.tailLines) {
+                    url=url+'&tailLines=' + params.tailLines;
                 }
                 if (params.protocols) {
                     $ws({
@@ -112,6 +117,7 @@ define([
             return Ws;
         }])
         .factory('sessiontoken', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
+            //console.log('q11');
             var sessiontoken = $resource('./sessiontoken', {}, {});
             return sessiontoken;
         }])
@@ -241,6 +247,50 @@ define([
             });
             return DeploymentConfig;
         }])
+        .factory('Deployments', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
+            var Deployments = $resource(GLOBAL.host_newk8s2 + '/namespaces/:namespace/deployments/:name', {
+                name: '@name',
+                namespace: '@namespace'
+            }, {
+                create: { method: 'POST' },
+                put: { method: 'PUT' },
+                patch: { method: "PATCH" }
+            });
+
+            return Deployments;
+        }])
+        .factory('ScaleRs', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
+            var ScaleRs = $resource(GLOBAL.host_newk8s2 + '/namespaces/:namespace/deployments/:name/scale', {
+                name: '@name',
+                namespace: '@namespace'
+            }, {
+                put: { method: 'PUT' }
+            });
+
+            return ScaleRs;
+        }])
+        .factory('ScaleRc', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
+            var ScaleRc = $resource(GLOBAL.host + '/namespaces/:namespace/deploymentconfigs/:name/scale', {
+                name: '@name',
+                namespace: '@namespace'
+            }, {
+                put: { method: 'PUT' }
+            });
+
+            return ScaleRc;
+        }])
+        .factory('ReplicaSet', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
+            var ReplicaSet = $resource(GLOBAL.host_newk8s2 + '/namespaces/:namespace/replicasets/:name', {
+                name: '@name',
+                namespace: '@namespace'
+            }, {
+                create: { method: 'POST' },
+                put: { method: 'PUT' },
+                patch: { method: "PATCH" }
+            });
+
+            return ReplicaSet;
+        }])
         .factory('ReplicationController', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
             var ReplicationController = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/replicationcontrollers/:name?region=:region', {
                 name: '@name',
@@ -251,6 +301,15 @@ define([
                 put: { method: 'PUT' }
             });
             return ReplicationController;
+        }])
+        .factory('DeploymentConfigRollback', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
+            var DeploymentConfigRollback = $resource(GLOBAL.host + '/namespaces/:namespace/deploymentconfigrollbacks', {
+                namespace: '@namespace'
+            }, {
+                create: { method: 'POST' },
+                put: { method: 'PUT' }
+            });
+            return DeploymentConfigRollback;
         }])
         .factory('Dcinstantiate', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
             var Dcinstantiate = $resource(GLOBAL.host + '/namespaces/:namespace/deploymentconfigs/:name/instantiate', {
@@ -297,7 +356,7 @@ define([
             return Route;
         }])
         .factory('BackingServiceInstance', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
-            var BackingServiceInstance = $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances/:name?region=:region', {
+            var BackingServiceInstance = $resource(GLOBAL.broker_apigroup + '/namespaces/:namespace/backingserviceinstances/:name?region=:region', {
                 name: '@name',
                 namespace: '@namespace',
                 region: '@region'
@@ -305,7 +364,7 @@ define([
                 create: { method: 'POST' },
                 del: { method: 'DELETE' }
             });
-            BackingServiceInstance.bind = $resource(GLOBAL.host + '/namespaces/:namespace/backingserviceinstances/:name/binding?region=:region', {
+            BackingServiceInstance.bind = $resource(GLOBAL.broker_apigroup + '/namespaces/:namespace/backingserviceinstances/:name/binding?region=:region', {
                 name: '@name',
                 namespace: '@namespace',
                 region: '@region'
@@ -341,7 +400,7 @@ define([
             return imagestreamimports;
         }])
         .factory('BackingService', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
-            var BackingService = $resource(GLOBAL.host + '/namespaces/:namespace/backingservices/:name?region=:region', {
+            var BackingService = $resource(GLOBAL.broker_apigroup + '/namespaces/:namespace/backingservices/:name?region=:region', {
                 name: '@name',
                 namespace: '@namespace',
                 region: '@region'
@@ -356,7 +415,8 @@ define([
                 namespace: '@namespace',
                 region: '@region'
             }, {
-                create: { method: 'POST' }
+                create: { method: 'POST' },
+                delete: { method: 'DELETE' },
             });
             Pod.log = $resource(GLOBAL.host_k8s + '/namespaces/:namespace/pods/:name/log?region=:region', {
                 name: '@name',
@@ -594,6 +654,7 @@ define([
             })
             return deletepod;
         }])
+
         .factory('orgList', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
             var orgList = $resource(GLOBAL.host_lapi + '/v1/orgs/:namespace/roles', { namespace: '@namespace' }, {})
             return orgList;

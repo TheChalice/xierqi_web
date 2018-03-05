@@ -7,12 +7,91 @@ define(['angular', 'moment'], function(angular, moment) {
             // dropSuffix will tell moment whether to include the "ago" text
             console.log('timestamp', 1);
             return function(timestamp, dropSuffix) {
-
                 if (!timestamp) {
                     return "-";
                 }
-
                 return moment(timestamp).fromNow(dropSuffix);
+            };
+
+        }])
+        .filter('truncate', function() {
+            return function(str, charLimit, useWordBoundary, newlineLimit) {
+                if (!str) {
+                    return str;
+                }
+
+                var truncated = str;
+
+                if (charLimit) {
+                    truncated = truncated.substring(0, charLimit);
+                }
+
+                if (newlineLimit) {
+                    var nthNewline = str.split("\n", newlineLimit).join("\n").length;
+                    truncated = truncated.substring(0, nthNewline);
+                }
+
+                if (useWordBoundary !== false) {
+                    // Find the last word break, but don't look more than 10 characters back.
+                    // Make sure we show at least the first 5 characters.
+                    var startIndex = Math.max(4, charLimit - 10);
+                    var lastSpace = truncated.lastIndexOf(/\s/, startIndex);
+                    if (lastSpace !== -1) {
+                        truncated = truncated.substring(0, lastSpace);
+                    }
+                }
+
+                return truncated;
+            };
+        })
+        .filter('highlightKeywords', ["KeywordService", function(KeywordService) {
+            // Returns HTML wrapping the matching words in a `mark` tag.
+            return function(str, keywords, caseSensitive) {
+                if (!str) {
+                    return str;
+                }
+
+                if (_.isEmpty(keywords)) {
+                    return _.escape(str);
+                }
+
+                // If passed a plain string, get the keywords from KeywordService.
+                if (_.isString(keywords)) {
+                    keywords = KeywordService.generateKeywords(keywords);
+                }
+
+                // Combine the keywords into a single regex.
+                var source = _.map(keywords, function(keyword) {
+                    if (_.isRegExp(keyword)) {
+                        return keyword.source;
+                    }
+                    return _.escapeRegExp(keyword);
+                }).join('|');
+
+                // Search for matches.
+                var match;
+                var result = '';
+                var lastIndex = 0;
+                var flags = caseSensitive ? 'g' : 'ig';
+                var regex = new RegExp(source, flags);
+                while ((match = regex.exec(str)) !== null) {
+                    // Escape any text between the end of the last match and the start of
+                    // this match, and add it to the result.
+                    if (lastIndex < match.index) {
+                        result += _.escape(str.substring(lastIndex, match.index));
+                    }
+
+                    // Wrap the match in a `mark` element to use the Bootstrap / Patternfly highlight styles.
+                    result += "<mark>" + _.escape(match[0]) + "</mark>";
+                    lastIndex = regex.lastIndex;
+                }
+
+                // Escape any remaining text and add it to the result.
+                if (lastIndex < str.length) {
+                    result += _.escape(str.substring(lastIndex));
+                }
+
+                return result;
             };
         }])
         .filter('duration', [function() {
@@ -93,7 +172,58 @@ define(['angular', 'moment'], function(angular, moment) {
                 return humanizedDuration.join("");
             };
         }])
-        .filter('phaseFilter', [function() {
+
+
+    .filter('durdate', [function() {
+        return function(um) {
+            if (!um) {
+                return "-";
+            }
+            um = (new Date(um)).getTime();
+            moment.locale('zh-cn');
+            var humanizedDuration = moment(new Date(um)).format(" MMMM Do YYYY, h:mm:ss a");
+            return humanizedDuration;
+        };
+    }])
+
+    .filter('durationtwo', [function() {
+        return function(um, t) {
+            var durstatus = new Date(t).getTime() - new Date(um).getTime();
+            var duration = moment.duration(durstatus);
+            var humanizedDuration = [];
+            var years = duration.years();
+            var months = duration.months();
+            var days = duration.days();
+            var hours = duration.hours();
+            var minutes = duration.minutes();
+            var seconds = duration.seconds();
+
+            function add(count, pluralText) {
+                if (count > 0) {
+                    humanizedDuration.push(count + pluralText);
+                }
+            }
+
+            add(years, "年");
+            add(months, "月");
+            add(days, "日");
+            add(hours, "时");
+            add(minutes, "分");
+            add(seconds, "秒");
+
+            if (humanizedDuration.length === 0) {
+                humanizedDuration.push("0秒");
+            }
+
+            if (humanizedDuration.length > 2) {
+                humanizedDuration.length = 2;
+            }
+
+            return humanizedDuration.join("");
+        };
+    }])
+
+    .filter('phaseFilter', [function() {
             return function(phase) {
                 if (phase == "Complete") {
                     return "构建成功"
@@ -713,6 +843,16 @@ define(['angular', 'moment'], function(angular, moment) {
                 return ref;
             };
         })
+        .filter('deploymentIsLatest', function(annotationFilter) {
+            return function(deployment, deploymentConfig) {
+                if (!deploymentConfig || !deployment) {
+                    return false;
+                }
+                var deploymentVersion = parseInt(annotationFilter(deployment, 'deploymentVersion'));
+                var deploymentConfigVersion = deploymentConfig.status.latestVersion;
+                return deploymentVersion === deploymentConfigVersion;
+            };
+        })
         .filter('deploymentStatus', ['annotationFilter', 'hasDeploymentConfigFilter', function(annotationFilter, hasDeploymentConfigFilter) {
             return function(deployment) {
                 //console.log('deployment', deployment);
@@ -1008,6 +1148,197 @@ define(['angular', 'moment'], function(angular, moment) {
                 return "";
             };
         }]);
+    .filter("toArray", function() {
+            return _.toArray;
+        })
+        .filter('orderObjectsByDate', ["toArrayFilter", function(toArrayFilter) {
+            return function(items, reverse) {
+                items = toArrayFilter(items);
 
+                /*
+                 * Note: This is a hotspot in our code. We sort frequently by date on
+                 *       the overview and browse pages.
+                 */
 
+                items.sort(function(a, b) {
+                    if (!a.metadata || !a.metadata.creationTimestamp || !b.metadata || !b.metadata.creationTimestamp) {
+                        throw "orderObjectsByDate expects all objects to have the field metadata.creationTimestamp";
+                    }
+
+                    // The date format can be sorted using straight string comparison.
+                    // Compare as strings for performance.
+                    // Example Date: 2016-02-02T21:53:07Z
+                    if (a.metadata.creationTimestamp < b.metadata.creationTimestamp) {
+                        return reverse ? 1 : -1;
+                    }
+
+                    if (a.metadata.creationTimestamp > b.metadata.creationTimestamp) {
+                        return reverse ? -1 : 1;
+                    }
+
+                    return 0;
+                });
+
+                return items;
+            };
+        }])
+        .filter('lastDeploymentRevision', ['annotationFilter', function(annotationFilter) {
+            return function(deployment) {
+                if (!deployment) {
+                    return '';
+                }
+
+                var revision = annotationFilter(deployment, 'deployment.kubernetes.io/revision');
+                return revision ? "#" + revision : 'Unknown';
+            };
+        }])
+        .filter('camelToLower', function() {
+            return function(str) {
+                if (!str) {
+                    return str;
+                }
+
+                // Use the special logic in _.startCase to handle camel case strings, kebab
+                // case strings, snake case strings, etc.
+                return _.startCase(str).toLowerCase();
+            };
+        })
+        .filter('upperFirst', function() {
+            // Uppercase the first letter of a string (without making any other changes).
+            // Different than `capitalize` because it doesn't lowercase other letters.
+            return function(str) {
+                if (!str) {
+                    return str;
+                }
+
+                return str.charAt(0).toUpperCase() + str.slice(1);
+            };
+        })
+        .filter('sentenceCase', ["camelToLowerFilter", "upperFirstFilter", function(camelToLowerFilter, upperFirstFilter) {
+            // Converts a camel case string to sentence case
+            return function(str) {
+                if (!str) {
+                    return str;
+                }
+
+                // Unfortunately, _.lowerCase() and _.upperFirst() aren't in our lodash version.
+                var lower = camelToLowerFilter(str);
+                return upperFirstFilter(lower);
+            };
+        }])
+        .filter('podTemplate', function() {
+            return function(apiObject) {
+                if (!apiObject) {
+                    return null;
+                }
+
+                if (apiObject.kind === 'Pod') {
+                    return apiObject;
+                }
+
+                return _.get(apiObject, 'spec.template');
+            };
+        })
+        .filter('hasHealthChecks', function() {
+            return function(podTemplate) {
+                // Returns true if every container has a readiness or liveness probe.
+                var containers = _.get(podTemplate, 'spec.containers', []);
+                return _.every(containers, function(container) {
+                    return container.readinessProbe || container.livenessProbe;
+                });
+            };
+        })
+        //add
+        .filter('podStartTime', function() {
+            return function(pod) {
+                var earliestStartTime = null;
+                _.each(_.get(pod, 'status.containerStatuses'), function(containerStatus) {
+                    var status = _.get(containerStatus, 'state.running') || _.get(containerStatus, 'state.terminated');
+                    if (!status) {
+                        return;
+                    }
+                    if (!earliestStartTime || moment(status.startedAt).isBefore(earliestStartTime)) {
+                        earliestStartTime = status.startedAt;
+                    }
+                });
+                return earliestStartTime;
+            };
+        })
+        .filter('podCompletionTime', function() {
+            return function(pod) {
+                var lastFinishTime = null;
+                _.each(_.get(pod, 'status.containerStatuses'), function(containerStatus) {
+                    var status = _.get(containerStatus, 'state.terminated');
+                    if (!status) {
+                        return;
+                    }
+                    if (!lastFinishTime || moment(status.finishedAt).isAfter(lastFinishTime)) {
+                        lastFinishTime = status.finishedAt;
+                    }
+                });
+                return lastFinishTime;
+            };
+        })
+        .filter("humanizeDurationValue", function() {
+            return function(a, b) {
+                return moment.duration(a, b).humanize();
+            };
+        })
+        .filter('volumeMountMode', function() {
+            var isConfigVolume = function(volume) {
+                return _.has(volume, 'configMap') || _.has(volume, 'secret');
+            };
+
+            return function(mount, volumes) {
+                if (!mount) {
+                    return '';
+                }
+
+                // Config maps and secrets are always read-only, even if not explicitly
+                // set in the volume mount.
+                var volume = _.find(volumes, { name: mount.name });
+                if (isConfigVolume(volume)) {
+                    return 'read-only';
+                }
+
+                if (_.get(volume, 'persistentVolumeClaim.readOnly')) {
+                    return 'read-only';
+                }
+
+                return mount.readOnly ? 'read-only' : 'read-write';
+            };
+        })
+        .filter("limitToOrAll", ['limitToFilter', function(limitToFilter) {
+            return function(input, limit) {
+                if (isNaN(limit)) {
+                    return input;
+                }
+
+                return limitToFilter(input, limit);
+            };
+        }])
+        .filter('volumeMountMode', function() {
+            var isConfigVolume = function(volume) {
+                return _.has(volume, 'configMap') || _.has(volume, 'secret');
+            };
+
+            return function(mount, volumes) {
+                if (!mount) {
+                    return '';
+                }
+
+                // Config maps and secrets are always read-only, even if not explicitly
+                // set in the volume mount.
+                var volume = _.find(volumes, { name: mount.name });
+                if (isConfigVolume(volume)) {
+                    return 'read-only';
+                }
+
+                if (_.get(volume, 'persistentVolumeClaim.readOnly')) {
+                    return 'read-only';
+                }
+
+                return mount.readOnly ? 'read-only' : 'read-write';
+            };
+        })
 });

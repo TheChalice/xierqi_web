@@ -1,16 +1,47 @@
 
+#pods_detail .contains-actions{font-size:24px;font-weight:normal;color:#333;}
 /* pods详情页选项卡设置 */
 #pods_detail .tab-default li .nav-link{font-size:14px;color:#333;}
-#pods_detail .tab-default li .nav-link:hover{font-size:14px;}
-#pods_detail .tab-default li.active .nav-link,
-#pods_detail .tab-default li.active .nav-link:focus,
-#pods_detail .tab-default li.active .nav-link:hover{border:0px;border-bottom:2px solid #F8A632;
-color:#333;font-size:14px;}
+#pods_detail .tab-default li .nav-link:hover{font-size:14px;color:#333;}
+#pods_detail .tab-default li.active a,
+#pods_detail .tab-default li.active a:focus,
+#pods_detail .tab-default li.active a:hover{border:0px;border-bottom:2px solid #F8A632;
+color:#F8A632;font-size:14px;}
+
+#dt_set{color:#f6a540;}
+#dt_set:hover{color:#e5993a;cursor: pointer;text-decoration:underline;}
+
+#pods_detail .nav-tabs>li>a{color:#333;}
+#pods_detail .nav-tabs>li>a:hover{background:none;color:#F8A632;border-color:#fff #fff #ddd;}
 #pods_detail .tab-default .nav-tabs{border-bottom:1px solid #E0E6ED;}
 #pods_detail .tab-default .tab-content{border:0px;padding:20px 0px;}
+#pods_detail .pd_name{font-size:24px;color:#333;}
+#pods_detail .pd_dt{font-size:14px;color:#9c9c9c;}
+#pods_detail .pod_term{width:100%;}
+#pods_detail .dl-horizontal dd{margin-left:0px;}
+#pods_detail .dl_right_tit{color:#333;font-size:14px;}
+
+#pods_detail .pd_tem_l{float:left;width:160px;font-size:14px;color:#666;}
+#pods_detail .pd_tem_r{color:#333;font-size:14px;}
+
+#pods_detail .pod-template-key{width:138px;display:inline-block;}
+#pods_detail code span{display:inline-block;}
+
+#pods_detail .pod_list_mt{margin-bottom:0px;overflow:hidden;}
+
+.pod_term .btn{color:#333;}
+#pods_detail .sec_href{color:#F8A632;}
+
 
 /* detail 模块 */
-#detail h2{font-size:18px;color:#666;margin:0px;margin:20px 0;border-bottom:1px solid #c9c9c9;padding-bottom:15px;}
+#detail .tit{font-size:14px;color:#333;font-weight:bold;margin:0px;margin-bottom:10px;}
+#detail .tit_f{font-size:14px;color:#000;font-weight:normal;margin:0px;margin-bottom:10px;}
+#detail .dl-horizontal dt{text-align:left;font-weight:normal;color:#666;font-size:14px;}
+#detail .icon-wrap{float:left;margin-right:6px;}
+#detail .tit_vol{margin-top:16px;}
+
+
+
 #detail .list_block{height:auto;overflow:hidden;margin-bottom:14px;}
 #detail .list_block .list_b_l{float:left;width:16%;}
 #detail .list_block .list_b_r{float:left;width:84%;}
@@ -21,10 +52,47 @@ color:#333;font-size:14px;}
 #detail .h_tit{font-size:14px;color:#666;}
 #detail .h_tit_sm{font-size:14px;color:#666;}
 #detail .redy_tit{font-size:14px;color:#9c9c9c;}
+#detail .pod-template{padding-top:4px;}
+
+
+kubernetes-container-terminal{width:100%;}
+kubernetes-container-terminal .terminal-wrapper{width:100%;}
+kubernetes-container-terminal .terminal-wrapper .terminal{width:100%;height:100%;}
+kubernetes-container-terminal .terminal-actions {position: absolute;}
+
+
+
+@font-face {
+    font-family: "PatternFlyIcons-webfont";
+    src: url("PatternFlyIcons-webfont.eot");
+    src: url("../pods_detail/fonts/PatternFlyIcons-webfont.eot?#iefix") format("embedded-opentype"), url("../pods_detail/fonts/PatternFlyIcons-webfont.ttf") format("truetype"), url("../pods_detail/fonts/PatternFlyIcons-webfont.woff") format("woff"), url("../pods_detail/fonts/PatternFlyIcons-webfont.svg#PatternFlyIcons-webfont") format("svg");
+    font-weight: normal;
+    font-style: normal;
+  }
+  [class^="pficon-"],
+  [class*=" pficon-"] {
+    display: inline-block;
+    font-family: "PatternFlyIcons-webfont";
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 1;
+    speak: none;
+    text-transform: none;
+    /* Better Font Rendering =========== */
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+  }
+
+
+
+.fa-refresh:before{content:"\f021";}
+.pficon-image:before{content:"\e61f";}
+
 
 
 /* Environment 模块 */
-#Environment h2{font-size:14px;color:#666;margin:0px;margin-bottom:20px;border-bottom:1px solid #c9c9c9;padding-bottom:15px;}
+#Environment h2{font-size:14px;color:#333;font-weight:bold;margin:0px;margin-bottom:20px;}
 #Environment .form-control{width:100%;height:27px;padding:2px 6px;background-color:#fff;border:1px solid #bbb;border-radius:1px;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);box-shadow:inset 0 1px 1px rgba(0,0,0,.075);-webkit-transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;-o-transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s}
 #Environment .form-control:-ms-input-placeholder{color:#999;font-style:italic}
 #Environment .form-control::-webkit-input-placeholder{color:#999;font-style:italic}
@@ -34,5 +102,9 @@ color:#333;font-size:14px;}
 #Environment .form_block{width:50%;float:left;padding-right:5px;}
 #Environment .form-control[disabled], #Environment .form-control[readonly]{background-color:#f5f5f5;color:#8b8d8f;}
 
+
+
 /* Metrics  模块*/
-#Metrics h2{font-size:14px;color:#666;margin:0px;margin-bottom:20px;border-bottom:1px solid #c9c9c9;padding-bottom:15px;}
+#Metrics h2{font-size:14px;color:#000;font-weight:bold;margin:0px;margin-bottom:20px;}
+.dl-horizontal p{margin:0;}
+

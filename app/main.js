@@ -45,7 +45,9 @@ require.config({
         patternfly: '../bower_components/patternfly/dist/js/patternfly',
         jsyaml: '../bower_components/js-yaml/dist/js-yaml',
         ace: '../bower_components/ace-builds/src-min-noconflict/ace',
-        ui_ace: '../bower_components/angular-ui-ace/ui-ace'
+        ui_ace: '../bower_components/angular-ui-ace/ui-ace',
+        stateEvents: '../bower_components/angular-ui-router/release/stateEvents',
+        toastr: '../bower_components/angular-toastr/dist/angular-toastr.tpls',
     },
     shim: {
         'angular': {
@@ -116,6 +118,12 @@ require.config({
         },
         'ui_ace': {
             deps: ['angular', 'ace']
+        },
+        'stateEvents': {
+            deps: ['angular', 'uiRouter']
+        },
+        'toastr': {
+            deps: ['angular', 'bootstrap']
         }
     },
     priority: [

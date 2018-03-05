@@ -22,7 +22,7 @@
                         <div class="form-group form-jia-line build-creat-center">
                             <label class="col-sm-2 control-label creat-tab-lablel">代码URL</label>
                             <div class="col-sm-10 bc creat-tab" id="bc">
-                                <uib-tabset class="tab-default tab-jia-default" active="check">
+                                <uib-tabset class="tab-default tab-jia-default" active="buildcheck">
                                     <!--gitlab-->
                                     <uib-tab index="1" heading="GitLab">
                                         <div class="tabinfo tab-lab">
@@ -71,6 +71,15 @@
                                                 </div>
                                             </div>
                                             <div class="form-group tab-reg-div">
+                                                <label for="ref" class="col-md-3 control-label tab-reg-label"
+                                                >分支/Tag/Commit</label>
+                                                <div class="col-md-9">
+                                                    <input type="text" placeholder="" class="form-control tab-reg-input"
+                                                           id="ref"
+                                                           ng-model="buildConfig.spec.source.git.ref">
+                                                </div>
+                                            </div>
+                                            <div class="form-group tab-reg-div">
                                                 <label for="dockeraddress" class="col-md-3 control-label tab-reg-label"
                                                 >Dockerfile路径</label>
                                                 <div class="col-md-9">
@@ -98,7 +107,7 @@
                                         </form>
                                     </uib-tab>
                                 </uib-tabset>
-                                <div class="is-box creat-box" ng-hide="check===3">
+                                <div class="is-box creat-box" ng-hide=buildcheck==3>
                                     <div class="panel panel-default first col-md-4 box-div">
                                         <div class="panel-heading">
                                             <img src="views/build_create_new/img/user.png">

@@ -1,9 +1,9 @@
 'use strict';
-angular.module('console.create_config_volume', [
+angular.module('console.create_config_configMap', [
     {
         files: []
     }
-]).controller('createfigvolumeCtrl', ['$state', '$rootScope', '$scope', 'configmaps', function ($state, $rootScope, $scope, configmaps) {
+]).controller('createfigvolumeCtrl', ['$state', '$rootScope', '$scope', 'configmaps', 'toastr', function ($state, $rootScope, $scope, configmaps, toastr) {
     $scope.volume = {
         "kind": "ConfigMap",
         "apiVersion": "v1",
@@ -21,6 +21,7 @@ angular.module('console.create_config_volume', [
         keybuhefa: false,
         keynull: false
     }
+    //排序
     var by = function (name) {
         return function (o, p) {
             var a, b;
@@ -59,6 +60,7 @@ angular.module('console.create_config_volume', [
             $scope.$apply();
         };
         reader.readAsText(file);
+
     };
 
     $scope.getLog= function (idx) {
@@ -84,7 +86,8 @@ angular.module('console.create_config_volume', [
 
             if (arr && arr.length > 0) {
                 var kong = false;
-                var r =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
+                // var r =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
+                var r = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
                 angular.forEach(arr, function (item, i) {
 
                     if (!item.key || !item.value) {
@@ -104,23 +107,25 @@ angular.module('console.create_config_volume', [
                     }
                 });
                 if (!kong) {
+                    // alert("111")
                     $scope.grid.configpost = true
                 } else {
+                    // alert("222")
                     $scope.grid.configpost = false
                 }
             } else {
+                // alert("333");
                 $scope.grid.configpost = false
             }
         } else {
             $scope.grid.configpost = false
         }
-
     }, true);
 
     $scope.rmovekv = function (idx) {
         $scope.volume.configitems.splice(idx, 1);
     }
-
+    //添加文件
     $scope.add = function () {
         document.getElementById('file-input').addEventListener('change', readSingleFile, false);
     }
@@ -136,7 +141,6 @@ angular.module('console.create_config_volume', [
     /////手动配置
 
     $scope.addConfig = function () {
-
         $scope.volume.configitems.push({key: '', value: ''});
 
     }
@@ -158,7 +162,7 @@ angular.module('console.create_config_volume', [
         $scope.namerr.nil = false
     }
     configmaps.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (res) {
-        //console.log(res);
+        // console.log(res);
         //if (res.items && res.items.length > 0) {
         //    angular.forEach(res.items, function (item, i) {
         //        res.items[i].sorttime = (new Date(item.metadata.creationTimestamp)).getTime()
@@ -180,11 +184,13 @@ angular.module('console.create_config_volume', [
         //}
         $scope.cfmnamearr=res.items;
 
+        
+
 
     })
 
     var rex =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
-
+    
     $scope.$watch('volume.metadata.name', function (n, o) {
         if (n === o) {
             return;
@@ -196,9 +202,9 @@ angular.module('console.create_config_volume', [
                 if ($scope.cfmnamearr) {
                     //console.log($scope.buildConfiglist);
                     angular.forEach($scope.cfmnamearr, function (bsiname, i) {
-                        console.log(bsiname);
+                        // console.log(bsiname);
                         if (bsiname.metadata.name === n) {
-                            console.log(bsiname,n);
+                            // console.log(bsiname,n);
                             $scope.namerr.repeated = true;
 
                         }
@@ -216,7 +222,7 @@ angular.module('console.create_config_volume', [
 
     $scope.cearteconfig = function () {
         if (!$scope.namerr.nil && !$scope.namerr.rexed && !$scope.namerr.repeated&&!$scope.timeouted) {
-
+                // alert("000");
         }else {
             return
         }
@@ -232,10 +238,16 @@ angular.module('console.create_config_volume', [
         configmaps.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.volume, function (res) {
             //console.log('createconfig----', res);
             $scope.loaded=false;
-            $state.go('console.resource_management', {index: 2});
+            toastr.success('创建成功', {
+                closeButton: true
+            });
+            $state.go('console.resource_configMap', {index: 2});
             //$state.go('console.build_detail', {name: name, from: 'create'})
         }, function (res) {
-            $state.go('console.create_config_volume');
+            toastr.error('创建失败，请重试', {
+                closeButton: true
+            });
+            $state.go('console.create_config_configMap');
         })
     }
 }])

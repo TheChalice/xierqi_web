@@ -54,7 +54,7 @@ dt{
     margin: 0 0 30px 0;;
 }
 
-.dropdown-menu > li > a {
+#services_detail .dropdown-menu > li > a {
     font-size: 12px;
     padding-top: 0px;
     padding-bottom: 0px;
@@ -93,3 +93,4 @@ dt{
 .tab-jia-default li .nav-link:hover {
     color: #333;
 }
+#services_detail .resource-details .dl-horizontal dd{margin-left:0px;}

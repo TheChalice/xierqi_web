@@ -1,1 +1,37 @@
-<div>222</div>
+<div id="Environment">
+    <div class="detail_set">
+        <div ng-if="envOrigin.name">
+            <div class='subtit'>Container {{envOrigin.name}} Environment Variables</div>
+            <div ng-if="envOrigin.env">
+                <div class="form_block">Name</div>
+                <div class="form_block">Value</div>
+                <div class="envi_main"  ng-repeat="env in envOrigin.env">
+                    <div class="form_block">
+                        <input type="text" class="form-control" readonly="readonly" value={{env.name}}>
+                    </div>
+
+                    <div class="form_block">
+                        <input type="text" class="form-control" readonly="readonly" value={{env.value}}>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="!envOrigin.env" class="envi_main"><div class="col-md-10 tit">The container specification has no environment variables set.</div></div>
+        </div>
+        <div ng-if="envProxy.name">
+            <div class='subtit'>Container {{envProxy.name}} Environment Variables</div>
+            <div ng-if="envProxy.env">
+                <div class="form_block">Name</div>
+                <div class="form_block">Value</div>
+                <div class="envi_main" ng-repeat="envv in envProxy.env">
+                    <div class="form_block">
+                        <input type="text" class="form-control" readonly="readonly" value={{envv.name}}>
+                    </div>
+                    <div class="form_block">
+                        <input type="text" class="form-control" readonly="readonly" value={{envv.value}}>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="!envProxy.env" class="envi_main"><div class="col-md-10 tit">The container specification has no environment variables set.</div></div>
+        </div>
+    </div>
+</div>

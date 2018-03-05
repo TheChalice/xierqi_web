@@ -384,7 +384,7 @@ angular.module("console.header", [{
 
                 $scope.hasBack = function(){
 
-                    if ($state.current.name == "console.stateful-sets"||$state.current.name == "console.routes"||$state.current.name == "console.services"||$state.current.name == "console.pods"||$state.current.name == "console.deployments"||$state.current.name == "console.noplan" || $state.current.name == "console.Integration" || $state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name == "console.notification" || $state.current.name == "console.resource_management") {
+                    if ($state.current.name == "console.resource_secret"||$state.current.name == "console.resource_configMap"||$state.current.name == "console.resource_persistentVolume"||$state.current.name == "console.stateful-sets"||$state.current.name == "console.routes"||$state.current.name == "console.services"||$state.current.name == "console.pods"||$state.current.name == "console.deployments"||$state.current.name == "console.noplan" || $state.current.name == "console.Integration" || $state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name == "console.notification" || $state.current.name == "console.resource_management") {
 
                         return false
                     }
@@ -466,7 +466,7 @@ angular.module("console.header", [{
     return function(state) {
         switch (state) {
             case "console.deployments":
-                return "111"
+                return "deployments"
             case "console.dashboard":
                 return "仪表盘"
             case "console.build":
@@ -483,8 +483,8 @@ angular.module("console.header", [{
                 return "镜像详情";
             case "console.image_regstry":
                 return "镜像详情";
-            case "console.service":
-                return "服务部署";
+            case "console.service_details":
+                return "service详情";
             case "console.service_detail":
                 return "服务详情";
             case "console.service_create":
@@ -505,18 +505,18 @@ angular.module("console.header", [{
                 return "消息中心";
             case "console.resource_management":
                 return "资源管理";
-            case "console.create_constantly_volume":
-                return "新建持久化卷";
-            case "console.create_config_volume":
+            case "console.create_constantly_persistentVolume":
+                return "新建存储卷";
+            case "console.create_config_configMap":
                 return "新建配置卷";
             case "console.create_secret":
-                return "新建密钥";
-            case "console.config_detail":
+                return "新建密钥卷";
+            case "console.config_configMap":
                 return "配置卷详情";
-            case "console.secret_detail":
-                return "密钥详情";
-            case "console.constantly_detail":
-                return "持久卷详情";
+            case "console.secret_secret":
+                return "密钥卷详情";
+            case "console.constantly_persistentVolume":
+                return "存储卷详情";
             case "console.create_saas":
                 return "新建服务实例";
             case "console.pay":
@@ -531,6 +531,32 @@ angular.module("console.header", [{
                 return "数据预览";
             case "console.dataseverdetail":
                 return "创建服务实例";
+            case "console.stateful-sets-detail":
+                return "Stateful Sets 详情";
+            case "console.stateful-sets":
+                return "Stateful Sets";
+            case "console.create_routes":
+                return "Route 设置";
+            case "console.routes":
+                return "Routes";
+            case "console.route_detail":
+                return "Route 详情";
+            case "console.deploymentconfig_detail":
+                return "Deploymentconfig 详情";
+            case "console.deployment_detail":
+                return "Deployment 详情";
+            case "console.pods":
+                return "Pods";
+            case "console.pods_detail":
+                return "Pod 详情";
+            case "console.services":
+                return "Services";
+            case "console.resource_persistentVolume":
+                return "存储卷";
+            case "console.resource_configMap":
+                return "配置卷";
+            case "console.resource_secret":
+                return "密钥卷";
 
         }
     };

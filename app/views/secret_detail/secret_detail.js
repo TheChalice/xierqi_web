@@ -1,11 +1,11 @@
 'use strict';
-angular.module('console.secret_detail', [
+angular.module('console.secret_secret', [
         {
             files: []
         }
     ])
-    .controller('secretDetailCtrl', ['Confirm','Toast','by', '$state', '$http', '$scope', '$rootScope', 'listSecret', 'modifySecret', 'deleteSecret', '$stateParams',
-        function (Confirm,Toast,by, $state, $http, $scope, $rootScope, listSecret, modifySecret, deleteSecret, $stateParams) {
+    .controller('secretDetailCtrl', ['Confirm','Toast','by', '$state', '$http', '$scope', '$rootScope', 'listSecret', 'modifySecret', 'deleteSecret', '$stateParams', 'toastr',
+        function (Confirm,Toast,by, $state, $http, $scope, $rootScope, listSecret, modifySecret, deleteSecret, $stateParams, toastr) {
             $scope.grid = {
                 status: false,
 
@@ -80,7 +80,9 @@ angular.module('console.secret_detail', [
                 _utf8_decode: function (e) {
                     var t = "";
                     var n = 0;
-                    var r = c1 = c2 = 0;
+                    var c2 = 0
+                    var c1=0
+                    var r =0;
                     while (n < e.length) {
                         r = e.charCodeAt(n);
                         if (r < 128) {
@@ -109,10 +111,32 @@ angular.module('console.secret_detail', [
                 //$scope.item.change = false;
                 $scope.change = false;
                 angular.forEach(res.data, function (res, i) {
-                    $scope.item.secretarr.push({key: i, value: res,showLog:false});
+
+                    $scope.item.secretarr.push({key: i, value:Base64.decode(res),showLog:false});
                 });
                 //console.log($scope.item.secretarr);
             })
+
+            function readSingleFile(e) {
+                var thisfilename = this.value;
+                //console.log(thisfilename);
+                if (thisfilename.indexOf('\\')) {
+                    var arr = thisfilename.split('\\');
+                    thisfilename = arr[arr.length - 1]
+                }
+                var file = e.target.files[0];
+                if (!file) {
+                    return;
+                }
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var content = e.target.result;
+                    $scope.item.secretarr.push({key: thisfilename, value: content,showLog:false})
+                    //console.log($scope.volume.configarr);
+                    $scope.$apply();
+                };
+                reader.readAsText(file);
+            };
             $scope.getLog= function (idx) {
                 $scope.item.secretarr[idx].showLog=!$scope.item.secretarr[idx].showLog;
             }
@@ -179,6 +203,10 @@ angular.module('console.secret_detail', [
                 $scope.item.secretarr[idx].showLog=!$scope.item.secretarr[idx].showLog
             }
 
+            $scope.add= function () {
+                document.getElementById('file-input').addEventListener('change', readSingleFile, false);
+            };
+
             $scope.deletekv = function (idx) {
                 $scope.item.secretarr.splice(idx, 1);
             };
@@ -210,7 +238,7 @@ angular.module('console.secret_detail', [
                 //    var v = $scope.secretarr[i].v;
                 //    $scope.item.data[k] = Base64.encode(v);
                 //}
-                $scope.item.data={}
+                $scope.item.data={};
                 if ($scope.item.secretarr) {
                     var arr = $scope.item.secretarr.concat($scope.item.newarr);
                 }else {
@@ -228,20 +256,30 @@ angular.module('console.secret_detail', [
                     region:$rootScope.region
                 }, $scope.item, function (res) {
                     //console.log('test the item', res);
-                    Toast.open('保存成功')
-                    $state.go('console.resource_management', {index: 3})
+                    // Toast.open('保存成功')
+                    toastr.success('更新成功', {
+                        closeButton: true
+                    });
+                    $state.go('console.resource_secret', {index: 3})
                 })
             }
             $scope.delete = function () {
                 //delSecret.del({namespace: $rootScope.namespace}, function () {
                 //    $state.go('console.resource_management', {index: 3})
                 //})
-                Confirm.open("删除密钥", "您确定要删除密钥吗？", "密钥已经挂载在容器中，删除此密钥，容器启动将异常", "stop").then(function(){
+                Confirm.open("删除密钥卷", "您确定要删除密钥卷吗？", "密钥已经挂载在容器中，删除此密钥，容器启动将异常", "stop").then(function(){
 
                     deleteSecret.delete({namespace: $rootScope.namespace,region:$rootScope.region,name:$scope.item.metadata.name}, function () {
-                        $state.go('console.resource_management', {index: 3})
+                        toastr.success('删除成功', {
+                            closeButton: true
+                        });
+                        $state.go('console.resource_secret', {index: 3})
+                        // $state.go('console.resource_management', {index: 3})
                     },function (err) {
-                        Confirm.open("删除密钥", "删除密钥失败", "持久化卷已经挂载在容器中，您需要先停止服务，         卸载持久化卷后，才能删除。", null,true)
+                        toastr.error('删除失败，请重试', {
+                            closeButton: true
+                        });
+                        Confirm.open("删除密钥卷", "删除密钥卷失败", "存储卷已经挂载在容器中，您需要先停止服务，卸载存储卷后，才能删除。", null,true)
                     })
 
 

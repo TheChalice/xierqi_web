@@ -2,18 +2,19 @@
 
 define(['angular'], function (angular) {
     return angular.module('kubernetesUI', [])
-        .provider('kubernetesContainerSocket', function() {
+        .provider('kubernetesContainerSocket', function () {
             var self = this;
 
             /* The default WebSocketFactory */
-            self.WebSocketFactory = function() {
+            self.WebSocketFactory = function () {
                 return function ContainerWebSocket(url, protocols) {
                     if (url.indexOf("/") === 0) {
-                        var  wsscheme = "wss://";
+                        var wsscheme = "wss://";
                         if (window.location.protocol != "https:") {
                             wsscheme = "ws://";
                         }
-                        url = wsscheme + window.location.host +window.location.pathname +'/ws' + url;
+                        //console.log('window.location.pathname',window.location.pathname);
+                        url = wsscheme + window.location.host + window.location.pathname + 'ws' + url;
                     }
                     return new window.WebSocket(url, protocols);
                 };
@@ -30,16 +31,17 @@ define(['angular'], function (angular) {
 
             self.$get = [
                 "$injector",
-                function($injector) {
+                function ($injector) {
                     return load($injector, self.WebSocketFactory);
                 }
             ];
         })
         .directive('kubernetesContainerTerminal', [
-            "$q", "kubernetesContainerSocket", "Cookie",
-            function($q, kubernetesContainerSocket, Cookie) {
+            "$q", "kubernetesContainerSocket", "Cookie", '$location',
+            function ($q, kubernetesContainerSocket, Cookie, $location) {
                 return {
                     restrict: 'E',
+                    templateUrl:'views/directives/terminal.html',
                     scope: {
                         pod: '&',
                         container: '&',
@@ -47,9 +49,10 @@ define(['angular'], function (angular) {
                         prevent: '=',
                         rows: '=',
                         cols: '=',
-                        screenKeys: '='
+                        screenKeys: '=',
+                        podContainer: '=',
                     },
-                    link: function(scope, element, attrs) {
+                    link: function (scope, element, attrs) {
                         /* term.js wants the parent element to build its terminal inside of */
                         var outer = angular.element("<div class='terminal-wrapper'>");
                         element.append(outer);
@@ -65,6 +68,18 @@ define(['angular'], function (angular) {
                         var alive = null;
                         var ws = null;
 
+                        //不同屏幕处理
+                        var w_h_ter = function () {
+                            var wid_height = $(window).height();
+                            $(".pod_term .terminal-wrapper").height(wid_height - 253);
+                        }
+                        $(window).resize(function () {
+                            w_h_ter();
+                        });
+                        $(function () {
+                            w_h_ter();
+                        })
+
                         var term = new Terminal({
                             cols: scope.cols || 80,
                             rows: scope.rows || 24,
@@ -75,8 +90,31 @@ define(['angular'], function (angular) {
                         term.open(outer[0]);
                         term.cursorHidden = true;
                         term.refresh(term.x, term.y);
-
-                        term.on('data', function(data) {
+                        scope.copycon=angular.copy(scope.podContainer)
+                        scope.conlist=[]
+                        var makeconarr= function (name) {
+                            scope.conlist=[]
+                            angular.forEach(scope.copycon, function (con,i) {
+                                if (con.name != name) {
+                                    scope.conlist.push(con)
+                                }
+                            })
+                        }
+                        if (scope.podContainer) {
+                            scope.podContainername=scope.podContainer[0].name
+                            if (scope.podContainer.length > 1) {
+                                scope.showcon=true
+                                scope.selectcon=scope.podContainer[0].name
+                                makeconarr(scope.selectcon)
+                            }
+                        }
+                        scope.changecon= function (name) {
+                            scope.selectcon=name;
+                            scope.podContainername=name;
+                            makeconarr(name)
+                            connect()
+                        }
+                        term.on('data', function (data) {
                             if (ws && ws.readyState === 1)
                                 ws.send("0" + window.btoa(data));
                         });
@@ -100,23 +138,24 @@ define(['angular'], function (angular) {
                                 url += '?';
                             url += "stdout=1&stdin=1&stderr=1&tty=1";
 
-                            var container = scope.container ? scope.container() : null;
+                            var container = scope.podContainername ? scope.podContainername : null;
+                            //console.log('container', container);
                             if (container)
                                 url += "&container=" + encodeURIComponent(container);
 
                             var command = scope.command;
                             if (!command)
-                                command = [ "/bin/sh", "-i" ];
+                                command = ["/bin/sh", "-i"];
                             if (typeof (command) === "string")
-                                command = [ command ];
-                            command.forEach(function(arg) {
+                                command = [command];
+                            command.forEach(function (arg) {
                                 url += "&command=" + encodeURIComponent(arg);
                             });
                             var tokens = Cookie.get('df_access_token');
                             var regions = Cookie.get('region');
                             var tokenarr = tokens.split(',');
                             var region = regions.split('-')[2];
-                            var token = tokenarr[region-1];
+                            var token = tokenarr[region - 1];
 
                             url += "&access_token=" + token;
 
@@ -134,20 +173,23 @@ define(['angular'], function (angular) {
                                 term.write('\x1b[31m' + message + '\x1b[m\r\n');
                                 scope.$apply(disconnect);
                             }
-                            console.log('url', url);
+
+                            //console.log('$location', $location);
+                            //url='ws://localhost:8080/ws'+url;
+                            //console.log('url', url);
                             $q.when(kubernetesContainerSocket(url, "base64.channel.k8s.io"),
                                 function resolved(socket) {
                                     ws = socket;
 
-                                    ws.onopen = function(ev) {
-                                        alive = window.setInterval(function() {
+                                    ws.onopen = function (ev) {
+                                        alive = window.setInterval(function () {
                                             ws.send("0");
                                         }, 30 * 1000);
                                     };
 
-                                    ws.onmessage = function(ev) {
+                                    ws.onmessage = function (ev) {
                                         var data = ev.data.slice(1);
-                                        switch(ev.data[0]) {
+                                        switch (ev.data[0]) {
                                             case '1':
                                             case '2':
                                             case '3':
@@ -164,7 +206,7 @@ define(['angular'], function (angular) {
                                         }
                                     };
 
-                                    ws.onclose = function(ev) {
+                                    ws.onclose = function (ev) {
                                         fatal(ev.reason);
                                     };
                                 },
@@ -195,12 +237,12 @@ define(['angular'], function (angular) {
                             alive = null;
                         }
 
-                        scope.$watch("prevent", function(prevent) {
+                        scope.$watch("prevent", function (prevent) {
                             if (!prevent)
                                 connect();
                         });
 
-                        scope.$on("$destroy", function() {
+                        scope.$on("$destroy", function () {
                             if (term)
                                 term.destroy();
                             disconnect();

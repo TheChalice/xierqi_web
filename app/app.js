@@ -28,7 +28,9 @@ define([
     'lodash',
     'jsyaml',
     'ace',
-    'ui_ace'
+    'ui_ace',
+    'stateEvents',
+    'toastr'
 ], function(angular) {
 
     // 声明应用及其依赖
@@ -51,15 +53,19 @@ define([
         'ui.ace',
         'myApp.origin-web-service',
         'myApp.fromFile',
-        'myApp.modals'
+        'myApp.modals',
+        'ui.router.state.events',
+        'toastr'
     ]);
 
     DataFoundry.constant('GLOBAL', {
             size: 10,
             host: '/oapi/v1',
             host_k8s: '/api/v1',
+            broker_apigroup: '/apis/prd.asiainfo.com/v1',
             host_newk8s: '/apis/autoscaling/v1',
             host_newk8s1: '/apis/apps/v1beta1',
+            host_newk8s2: '/apis/extensions/v1beta1',
             host_repos: '/v1/repos',
             host_registry: '/registry/api',
             host_lapi: '/lapi',
@@ -3069,8 +3075,59 @@ define([
 
 
                 }
+                $rootScope.app = [
+                    { name: 'Deployments', url: 'console.deployments', stateUrl: null, children: [] },
+                    { name: 'Stateful Sets', url: 'console.stateful-sets', stateUrl: null, children: [] },
+                    { name: 'Pods', url: 'console.pods', stateUrl: null, children: [] },
+                    { name: 'Services', url: 'console.services', stateUrl: null, children: [] },
+                    { name: 'Routes', url: 'console.routes', stateUrl: null, children: [] }
+                ];
+                $rootScope.resources = [
+                    { name: '存储卷', url: 'console.resource_persistentVolume', stateUrl: null, children: [] },
+                    { name: '配置卷', url: 'console.resource_configMap', stateUrl: null, children: [] },
+                    { name: '密钥卷', url: 'console.resource_secret', stateUrl: null, children: [] }
+                ];
+
+                $rootScope.dataForTheTree = [
+                    { name: '仪表盘', img: 'icon25 icon25-dashboard', url: 'console.dashboard', stateUrl: null, children: [] },
+                    { name: '代码构建', img: 'icon25 icon25-build', url: 'console.build', stateUrl: null, children: [] },
+                    { name: '镜像仓库', img: 'icon25 icon25-repository', url: 'console.image', stateUrl: null, children: [] },
+                    { name: '服务部署', img: 'icon25 icon25-deployment', url: null, stateUrl: null, children: $rootScope.app },
+                    { name: '后端服务', img: 'icon25 icon25-service', url: 'console.backing_service', stateUrl: null, children: [] },
+                    { name: '资源管理', img: 'icon25 icon25-resource', url: null, stateUrl: null, children: $rootScope.resources }
+                ];
                 if (toState && toState.name) {
                     $rootScope.console.state = toState.name;
+                    if (toState.name.indexOf('dashboard') != -1) {
+                        $rootScope.dataForTheTree[0].stateUrl = toState.name
+                    } else if (toState.name.indexOf('build') != -1) {
+                        $rootScope.dataForTheTree[1].stateUrl = toState.name;
+                    } else if (toState.name.indexOf('image') != -1) {
+                        $rootScope.dataForTheTree[2].stateUrl = toState.name;
+                    } else if (toState.name.indexOf('deployment') != -1 || toState.name.indexOf('quick_deploy') != -1 || toState.name.indexOf('service_create') != -1) {
+                        $rootScope.app[0].stateUrl = toState.name;
+                    } else if (toState.name.indexOf('stateful-sets') != -1) {
+                        $rootScope.app[1].stateUrl = toState.name;
+                    } else if (toState.name.indexOf('pods') != -1) {
+                        $rootScope.app[2].stateUrl = toState.name;
+                    } else if (toState.name.indexOf('services') != -1 || toState.name.indexOf('service_details') != -1) {
+                        $rootScope.app[3].stateUrl = toState.name;
+                    } else if (toState.name.indexOf('route') != -1) {
+                        $rootScope.app[4].stateUrl = toState.name;
+                    }
+                    // else if(toState.name.indexOf('resource_management') != -1 || toState.name.indexOf('constantly_') != -1 || toState.name.indexOf('config_') != -1 || toState.name.indexOf('create_secret') != -1 || toState.name.indexOf('secret_detail') != -1){
+                    //     $rootScope.dataForTheTree[4].stateUrl = toState.name;
+                    // }
+                    else if (toState.name.indexOf('_persistentVolume') != -1) {
+                        $rootScope.resources[0].stateUrl = toState.name;
+                    } else if (toState.name.indexOf('_configMap') != -1) {
+                        $rootScope.resources[1].stateUrl = toState.name;
+                    } else if (toState.name.indexOf('_secret') != -1) {
+                        $rootScope.resources[2].stateUrl = toState.name;
+                    }
+
+
+
                     $rootScope.transfering = false;
                 }
 

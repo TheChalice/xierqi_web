@@ -47,7 +47,7 @@
 }
 
 .serv_jia_btn {
-    padding-left: 15px!important;
+    padding-left: 15px !important;
 }
 
 .ser_drp_set {
@@ -62,11 +62,11 @@
 
 .quick_menu .quick_bs a {
     padding: 0px;
-    width: 128px!important;
+    width: 128px !important;
     background: #55c45f;
     display: block;
-    height: 34px!important;
-    line-height: 34px!important;
+    height: 34px !important;
+    line-height: 34px !important;
     color: #fff;
     border-radius: 4px;
     font-size: 14px;
@@ -91,61 +91,43 @@
     text-align: left;
 }
 
-.drag-and-drop-zone {
-    display: none;
+
+/*a {*/
+
+
+/*color: #666;*/
+
+
+/*}*/
+
+
+/* 
+a :hover {
+    color: #e5993a;
+}
+ */
+
+#creatbtn span {
+    color: #ffffff;
 }
 
-.show-drag-and-drop-zone {
-    border-style: dashed;
-    display: block;
-    border-color: rgb(136, 136, 136);
-    border-width: 3px;
-    background-color: rgba(255, 255, 255, 0.6);
-    margin: -3px;
-    text-align: center;
-    vertical-align: middle;
-    p {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translateX(-50%) translateY(-50%);
-        font-size: 24px;
-        font-weight: 400;
-        margin: 0;
-    }
+#creatbtn i {
+    color: #ffffff;
 }
 
-.highlight-drag-and-drop-zone {
-    border-color: #0099d3;
-    p {
-        color: #0099d3;
-    }
+.nav-tabs>li.active>a {
+    color: #e5993a;
 }
 
-.show-drag-and-drop-zone {
-    border-style: dashed;
-    display: block;
-    border-color: #888;
-    border-width: 3px;
-    background-color: rgba(255, 255, 255, .6);
-    margin: -3px;
-    vertical-align: middle
+.nav-tabs>li.active>a:focus {
+    color: #e5993a;
 }
 
-.show-drag-and-drop-zone p {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-50%);
-    font-size: 24px;
-    font-weight: 400;
-    margin: 0
+tr:hover {
+    background: #f5f5f5;
 }
 
-.highlight-drag-and-drop-zone {
-    border-color: #0099d3
-}
-
-.highlight-drag-and-drop-zone p {
-    color: #0099d3
+.table-bordered>tbody>tr>td {
+    border-left: none !important;
+    border-right: none !important;
 }
