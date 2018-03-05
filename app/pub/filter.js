@@ -1147,8 +1147,8 @@ define(['angular', 'moment'], function(angular, moment) {
 
                 return "";
             };
-        }]);
-    .filter("toArray", function() {
+        }])
+        .filter("toArray", function() {
             return _.toArray;
         })
         .filter('orderObjectsByDate', ["toArrayFilter", function(toArrayFilter) {
