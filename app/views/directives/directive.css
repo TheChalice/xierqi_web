@@ -5,11 +5,12 @@
 .config-map-table {
     .key,
     .truncated-content {
-        font-family:@font-family-monospace;
+        font-family: @font-family-monospace;
     }
 }
 
-.data-toolbar{}
+.data-toolbar {}
+
 .table-toolbar {
     .vertical-divider {
         // Controls are stacked at mobile, so hide the divider.
@@ -99,8 +100,8 @@
             .truncated-content {
                 white-space: pre;
             }
+        }
     }
-}
     &.table-bordered {
         >tbody,
         >thead {

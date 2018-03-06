@@ -4,11 +4,11 @@ if (window.__karma__) {
     var allTestFiles = [];
     var TEST_REGEXP = /_test\.js$/;
 
-    var pathToModule = function (path) {
+    var pathToModule = function(path) {
         return path.replace(/^\/base\/app\//, '').replace(/\.js$/, '');
     };
 
-    Object.keys(window.__karma__.files).forEach(function (file) {
+    Object.keys(window.__karma__.files).forEach(function(file) {
         if (TEST_REGEXP.test(file)) {
             // Normalize paths to RequireJS module names.
             allTestFiles.push(pathToModule(file));
@@ -40,12 +40,14 @@ require.config({
         highchartsNg: '../bower_components/highcharts-ng/dist/highcharts-ng.min',
         treeControl: '../bower_components/angular-tree-control/angular-tree-control',
         lodash: '../bower_components/lodash/lodash',
-        patternfly: '../bower_components/patternfly/dist/js/patternfly',
+
         angular_patternfly: '../bower_components/angular-patternfly/dist/angular-patternfly',
+        patternfly: '../bower_components/patternfly/dist/js/patternfly',
+        jsyaml: '../bower_components/js-yaml/dist/js-yaml',
+        ace: '../bower_components/ace-builds/src-min-noconflict/ace',
+        ui_ace: '../bower_components/angular-ui-ace/ui-ace',
         stateEvents: '../bower_components/angular-ui-router/release/stateEvents',
         toastr: '../bower_components/angular-toastr/dist/angular-toastr.tpls',
-
-
     },
     shim: {
         'angular': {
@@ -81,7 +83,7 @@ require.config({
             deps: ['jquery']
         },
         'angularSlider': {
-            deps: ['angular','jquery']
+            deps: ['angular', 'jquery']
         },
         'angularBase64': {
             deps: ['angular']
@@ -101,34 +103,43 @@ require.config({
         'lodash': {
             deps: ['angular']
         },
-        'patternfly':{
+
+        'patternfly': {
             deps: ['jquery']
         },
+        'jsyaml': {
+            deps: ['angular']
+        },
         'angular_patternfly': {
-            deps: ['angular','bootstrap','patternfly']
+            deps: ['angular', 'bootstrap', 'patternfly']
+        },
+        'ace': {
+            deps: ['jquery']
+        },
+        'ui_ace': {
+            deps: ['angular', 'ace']
         },
         'stateEvents': {
-            deps: ['angular','uiRouter']
+            deps: ['angular', 'uiRouter']
         },
         'toastr': {
-            deps: ['angular','bootstrap']
+            deps: ['angular', 'bootstrap']
         }
     },
     priority: [
         "angular"
     ],
-    waitSeconds:60,
+    waitSeconds: 60,
     deps: window.__karma__ ? allTestFiles : [],
     callback: window.__karma__ ? window.__karma__.start : null,
 });
 
 require([
-        'app'
-    ], function (app) {
-        var $html = angular.element(document.getElementsByTagName('html')[0]);
-        angular.element().ready(function () {
-            // bootstrap the app manually
-            angular.bootstrap(document, ['DataFoundry']);
-        });
-    }
-);
+    'app'
+], function(app) {
+    var $html = angular.element(document.getElementsByTagName('html')[0]);
+    angular.element().ready(function() {
+        // bootstrap the app manually
+        angular.bootstrap(document, ['DataFoundry']);
+    });
+});

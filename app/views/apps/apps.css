@@ -12,25 +12,26 @@
     }
 }
 
-.pagination > li > a,
-.pagination-sm > li > span {
+.pagination>li>a,
+.pagination-sm>li>span {
     margin-left: 5px;
     border: none;
     background: #f7f7f7;
     color: black;
 }
 
-.pagination > li > a:hover {
+.pagination>li>a:hover {
     color: black;
 }
 
-.pagination > .disabled > a {
+.pagination>.disabled>a {
     background: #f7f7f7;
 }
 
-.pagination > .disabled > a:hover {
+.pagination>.disabled>a:hover {
     background: #f7f7f7;
 }
+
 
 /*����Ϊ��ʱ״̬*/
 
@@ -90,32 +91,43 @@
     text-align: left;
 }
 
+
 /*a {*/
-    /*color: #666;*/
+
+
+/*color: #666;*/
+
+
 /*}*/
+
+
 /* 
 a :hover {
     color: #e5993a;
 }
  */
-#creatbtn span{
-    color:#ffffff;
+
+#creatbtn span {
+    color: #ffffff;
 }
-#creatbtn i{
-    color:#ffffff;
+
+#creatbtn i {
+    color: #ffffff;
 }
-.nav-tabs > li.active > a {
+
+.nav-tabs>li.active>a {
     color: #e5993a;
 }
 
-
-.nav-tabs > li.active > a:focus {
+.nav-tabs>li.active>a:focus {
     color: #e5993a;
 }
-tr:hover{
-    background:#f5f5f5;
+
+tr:hover {
+    background: #f5f5f5;
 }
-.table-bordered > tbody > tr > td {
+
+.table-bordered>tbody>tr>td {
     border-left: none !important;
     border-right: none !important;
 }

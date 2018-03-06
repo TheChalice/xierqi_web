@@ -1,15 +1,13 @@
 {
-    appDir:"../app",
+    appDir: "../app",
     baseUrl: "./",
     dir: "../dist",
     optimize: "uglify",
     optimizeCss: "standard",
     removeCombined: true,
-    modules: [
-    {
+    modules: [{
         name: 'app'
-    }
-],
+    }],
     paths: {
         bootstrap: '../bower_components/bootstrap/dist/js/bootstrap.min',
         jquery: '../bower_components/jquery/dist/jquery.min',
@@ -35,13 +33,13 @@
         patternfly: '../bower_components/patternfly/dist/js/patternfly',
         angular_patternfly: '../bower_components/angular-patternfly/dist/angular-patternfly',
         stateEvents: '../bower_components/angular-ui-router/release/stateEvents',
-        toastr: '../bower_components/angular-toastr/dist/angular-toastr.tpls'
-
+        toastr: '../bower_components/angular-toastr/dist/angular-toastr.tpls',
+        jsyaml: '../bower_components/js-yaml/dist/js-yaml'
     },
-    shim : {
+    shim: {
         'angular': {
             deps: ['jquery'],
-                exports: 'angular'
+            exports: 'angular'
         },
         // 'qrcode': {
         //     deps: ['angular','jquery']
@@ -51,7 +49,7 @@
         },
         'angularMocks': {
             deps: ['angular'],
-                exports: 'angular.mock'
+            exports: 'angular.mock'
         },
         'treeControl': {
             deps: ['angular']
@@ -75,7 +73,7 @@
             deps: ['jquery']
         },
         'angularSlider': {
-            deps: ['angular','jquery']
+            deps: ['angular', 'jquery']
         },
         'angularBase64': {
             deps: ['angular']
@@ -92,17 +90,20 @@
         'lodash': {
             deps: ['angular']
         },
-        'patternfly':{
+        'jsyaml': {
+            deps: ['angular']
+        }
+        'patternfly': {
             deps: ['jquery']
         },
         'angular_patternfly': {
-            deps: ['angular','bootstrap','patternfly']
+            deps: ['angular', 'bootstrap', 'patternfly']
         },
         'stateEvents': {
-            deps: ['angular','uiRouter']
+            deps: ['angular', 'uiRouter']
         },
         'toastr': {
-            deps: ['angular','bootstrap']
+            deps: ['angular', 'bootstrap']
         }
     }
 }

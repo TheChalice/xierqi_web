@@ -1,12 +1,12 @@
 'use strict';
 
-define(['angular', 'moment'], function (angular, moment) {
+define(['angular', 'moment'], function(angular, moment) {
     moment.locale('zh-cn');
     return angular.module('myApp.filter', [])
-        .filter('dateRelative', [function () {
+        .filter('dateRelative', [function() {
             // dropSuffix will tell moment whether to include the "ago" text
             console.log('timestamp', 1);
-            return function (timestamp, dropSuffix) {
+            return function(timestamp, dropSuffix) {
                 if (!timestamp) {
                     return "-";
                 }
@@ -94,8 +94,8 @@ define(['angular', 'moment'], function (angular, moment) {
                 return result;
             };
         }])
-        .filter('duration', [function () {
-            return function (um) {
+        .filter('duration', [function() {
+            return function(um) {
                 if (!um) {
                     return "-";
                 }
@@ -133,8 +133,8 @@ define(['angular', 'moment'], function (angular, moment) {
                 return humanizedDuration.join("");
             };
         }])
-        .filter('duration2', [function () {
-            return function (um) {
+        .filter('duration2', [function() {
+            return function(um) {
                 if (!um) {
                     return "-";
                 }
@@ -174,56 +174,57 @@ define(['angular', 'moment'], function (angular, moment) {
         }])
 
 
-        .filter('durdate', [function () {
-            return function (um) {
-                if (!um) {
-                    return "-";
+    .filter('durdate', [function() {
+        return function(um) {
+            if (!um) {
+                return "-";
+            }
+            um = (new Date(um)).getTime();
+            moment.locale('zh-cn');
+            var humanizedDuration = moment(new Date(um)).format(" MMMM Do YYYY, h:mm:ss a");
+            return humanizedDuration;
+        };
+    }])
+
+    .filter('durationtwo', [function() {
+        return function(um, t) {
+            var durstatus = new Date(t).getTime() - new Date(um).getTime();
+            var duration = moment.duration(durstatus);
+            var humanizedDuration = [];
+            var years = duration.years();
+            var months = duration.months();
+            var days = duration.days();
+            var hours = duration.hours();
+            var minutes = duration.minutes();
+            var seconds = duration.seconds();
+
+            function add(count, pluralText) {
+                if (count > 0) {
+                    humanizedDuration.push(count + pluralText);
                 }
-                um = (new Date(um)).getTime();
-                moment.locale('zh-cn');
-                var humanizedDuration = moment(new Date(um)).format(" MMMM Do YYYY, h:mm:ss a");
-                return humanizedDuration;
-            };
-        }])
+            }
 
-        .filter('durationtwo', [function () {
-            return function (um, t) {
-                var durstatus = new Date(t).getTime() - new Date(um).getTime();
-                var duration = moment.duration(durstatus);
-                var humanizedDuration = [];
-                var years = duration.years();
-                var months = duration.months();
-                var days = duration.days();
-                var hours = duration.hours();
-                var minutes = duration.minutes();
-                var seconds = duration.seconds();
-                function add(count, pluralText) {
-                    if (count > 0) {
-                        humanizedDuration.push(count + pluralText);
-                    }
-                }
+            add(years, "年");
+            add(months, "月");
+            add(days, "日");
+            add(hours, "时");
+            add(minutes, "分");
+            add(seconds, "秒");
 
-                add(years, "年");
-                add(months, "月");
-                add(days, "日");
-                add(hours, "时");
-                add(minutes, "分");
-                add(seconds, "秒");
+            if (humanizedDuration.length === 0) {
+                humanizedDuration.push("0秒");
+            }
 
-                if (humanizedDuration.length === 0) {
-                    humanizedDuration.push("0秒");
-                }
+            if (humanizedDuration.length > 2) {
+                humanizedDuration.length = 2;
+            }
 
-                if (humanizedDuration.length > 2) {
-                    humanizedDuration.length = 2;
-                }
+            return humanizedDuration.join("");
+        };
+    }])
 
-                return humanizedDuration.join("");
-            };
-        }])
-
-        .filter('phaseFilter', [function () {
-            return function (phase) {
+    .filter('phaseFilter', [function() {
+            return function(phase) {
                 if (phase == "Complete") {
                     return "构建成功"
                 } else if (phase == "Running") {
@@ -241,8 +242,8 @@ define(['angular', 'moment'], function (angular, moment) {
                 }
             };
         }])
-        .filter('bsiphaseFilter', [function () {
-            return function (phase) {
+        .filter('bsiphaseFilter', [function() {
+            return function(phase) {
                 if (phase == 'Bound') {
                     return "已绑定"
                 } else if (phase == 'Unbound') {
@@ -256,8 +257,8 @@ define(['angular', 'moment'], function (angular, moment) {
                 }
             };
         }])
-        .filter('bandFilter', [function () {
-            return function (phase) {
+        .filter('bandFilter', [function() {
+            return function(phase) {
                 if (phase == 'band') {
                     return "已挂载"
                 } else if (phase == 'Unbound') {
@@ -271,22 +272,22 @@ define(['angular', 'moment'], function (angular, moment) {
                 }
             };
         }])
-        .filter('numfilter', function () {
+        .filter('numfilter', function() {
             // 分类过滤器
-            return function (items, condition) {
+            return function(items, condition) {
                 //console.log(items, condition);
                 var filtered = [];
 
                 if (condition === undefined || condition === '') {
                     if (items.length) {
-                        angular.forEach(items, function (item, i) {
+                        angular.forEach(items, function(item, i) {
                             item.show = true
                         })
                     }
                     return items;
                 }
 
-                angular.forEach(items, function (item) {
+                angular.forEach(items, function(item) {
                     if (condition.label === item.label) {
                         item.show = true
                         filtered.push(item);
@@ -299,8 +300,8 @@ define(['angular', 'moment'], function (angular, moment) {
 
             };
         })
-        .filter('payFilter', [function () {
-            return function (phase) {
+        .filter('payFilter', [function() {
+            return function(phase) {
                 if (phase === 'coupon') {
                     return "充值卡"
                 } else if (phase === 'wechat') {
@@ -310,8 +311,8 @@ define(['angular', 'moment'], function (angular, moment) {
                 }
             };
         }])
-        .filter('paytypeFilter', [function () {
-            return function (phase) {
+        .filter('paytypeFilter', [function() {
+            return function(phase) {
                 if (phase === 'O') {
                     return "充值成功"
                 } else if (phase === 'F') {
@@ -325,48 +326,48 @@ define(['angular', 'moment'], function (angular, moment) {
                 }
             };
         }])
-        .filter("timescon", [function () {
-            return function (times) {
+        .filter("timescon", [function() {
+            return function(times) {
                 if (times) {
                     //var timesfilter = times.replace(/[a-zA-Z]/g,'');
                     return moment(times).format('YYYY-MM-DD HH:mm:ss');
                 }
             }
         }])
-        .filter("timesconbuy", [function () {
-            return function (times) {
+        .filter("timesconbuy", [function() {
+            return function(times) {
                 if (times) {
                     //var timesfilter = times.replace(/[a-zA-Z]/g,'');
                     return moment(parseInt(moment(times).format('X')) - 28800).format('YYYY-MM-DD HH:mm:ss');
                 }
             }
         }])
-        .filter("duration3", [function () {
-            return function (times) {
+        .filter("duration3", [function() {
+            return function(times) {
                 if (times) {
                     //var timesfilter = times.replace(/[a-zA-Z]/g,'');
                     return moment(times).fromNow();
                 }
             }
         }])
-        .filter("timescon2", [function () {
-            return function (times) {
+        .filter("timescon2", [function() {
+            return function(times) {
                 if (times) {
                     //var timesfilter = times.replace(/[a-zA-Z]/g,'');
                     return moment(times).format('HH:mm:ss');
                 }
             }
         }])
-        .filter("timescon3", [function () {
-            return function (times) {
+        .filter("timescon3", [function() {
+            return function(times) {
                 if (times) {
                     //var timesfilter = times.replace(/[a-zA-Z]/g,'');
                     return moment(times).format('YYYY-MM-DD');
                 }
             }
         }])
-        .filter('webhooks', ['$rootScope', 'GLOBAL', function ($rootScope, GLOBAL) {
-            return function (buildConfig) {
+        .filter('webhooks', ['$rootScope', 'GLOBAL', function($rootScope, GLOBAL) {
+            return function(buildConfig) {
                 var triggers = buildConfig.spec.triggers;
                 for (var k in triggers) {
                     if (triggers[k].type == 'GitHub') {
@@ -376,8 +377,8 @@ define(['angular', 'moment'], function (angular, moment) {
                 return "";
             }
         }])
-        .filter('secret', [function () {
-            return function (buildConfig) {
+        .filter('secret', [function() {
+            return function(buildConfig) {
                 var triggers = buildConfig.spec.triggers;
                 for (var k in triggers) {
                     if (triggers[k].type == 'GitHub') {
@@ -387,8 +388,8 @@ define(['angular', 'moment'], function (angular, moment) {
                 return "";
             }
         }])
-        .filter('imageStreamName', function () {
-            return function (image) {
+        .filter('imageStreamName', function() {
+            return function(image) {
                 if (!image) {
                     return "";
                 }
@@ -403,8 +404,8 @@ define(['angular', 'moment'], function (angular, moment) {
                 return match[1];
             };
         })
-        .filter('imageStreamName1', function () {
-            return function (image) {
+        .filter('imageStreamName1', function() {
+            return function(image) {
                 if (!image) {
                     return "";
                 }
@@ -412,8 +413,8 @@ define(['angular', 'moment'], function (angular, moment) {
                 return images[0]
             };
         })
-        .filter("stripSHAPrefix", function () {
-            return function (id) {
+        .filter("stripSHAPrefix", function() {
+            return function(id) {
                 if (!id) {
                     return id;
                 }
@@ -424,13 +425,13 @@ define(['angular', 'moment'], function (angular, moment) {
                 return id.replace(/.*sha256:/, "");
             };
         })
-        .filter("trimTag", function () {
-            return function (id) {
+        .filter("trimTag", function() {
+            return function(id) {
                 return id.replace(/:.*/, "");
             };
         })
-        .filter("trimMore", function () {
-            return function (str) {
+        .filter("trimMore", function() {
+            return function(str) {
                 if (str.length >= 15) {
                     return str.slice(0, 15) + '...';
                 } else {
@@ -438,14 +439,14 @@ define(['angular', 'moment'], function (angular, moment) {
                 }
             }
         })
-        .filter('isWebRoute', ["routeHostFilter", function (routeHostFilter) {
-            return function (route) {
+        .filter('isWebRoute', ["routeHostFilter", function(routeHostFilter) {
+            return function(route) {
                 return !!routeHostFilter(route, true) &&
                     _.get(route, 'spec.wildcardPolicy') !== 'Subdomain';
             };
         }])
-        .filter('routeWebURL', ["routeHostFilter", function (routeHostFilter) {
-            return function (route, host, omitPath) {
+        .filter('routeWebURL', ["routeHostFilter", function(routeHostFilter) {
+            return function(route, host, omitPath) {
                 var scheme = (route.spec.tls && route.spec.tls.tlsTerminationType !== "") ? "https" : "http";
                 var url = scheme + "://" + (host || routeHostFilter(route));
                 if (route.spec.path && !omitPath) {
@@ -454,8 +455,8 @@ define(['angular', 'moment'], function (angular, moment) {
                 return url;
             };
         }])
-        .filter('routeTargetPortMapping', function () {
-            var portDisplayValue = function (servicePort, containerPort, protocol) {
+        .filter('routeTargetPortMapping', function() {
+            var portDisplayValue = function(servicePort, containerPort, protocol) {
                 servicePort = servicePort || "<unknown>";
                 containerPort = containerPort || "<unknown>";
 
@@ -477,17 +478,17 @@ define(['angular', 'moment'], function (angular, moment) {
             //   Service Port <unknown> -> Container Port 8081
             // or
             //   Service Port web -> Container Port <unknown>
-            return function (route, service) {
+            return function(route, service) {
                 if (!route.spec.port || !route.spec.port.targetPort || !service) {
                     return '';
                 }
                 var targetPort = route.spec.port.targetPort;
-                var isPortNamed = function (port) {
+                var isPortNamed = function(port) {
                     return angular.isString(port);
                 };
                 // Find the corresponding service port.
-                var servicePort = function (targetPort, service) {
-                    return _.find(service.spec.ports, function (servicePort) {
+                var servicePort = function(targetPort, service) {
+                    return _.find(service.spec.ports, function(servicePort) {
                         if (isPortNamed(targetPort)) {
                             // When using a named port in the route target port, it refers to the service port.
                             return servicePort.name === targetPort;
@@ -511,8 +512,8 @@ define(['angular', 'moment'], function (angular, moment) {
             };
         })
         .filter('routeLabel', ["routeHostFilter", "routeWebURLFilter", "isWebRouteFilter",
-            function (routeHostFilter, routeWebURLFilter, isWebRouteFilter) {
-                return function (route, host, omitPath) {
+            function(routeHostFilter, routeWebURLFilter, isWebRouteFilter) {
+                return function(route, host, omitPath) {
 
                     if (isWebRouteFilter(route)) {
                         return routeWebURLFilter(route, host, omitPath);
@@ -523,7 +524,7 @@ define(['angular', 'moment'], function (angular, moment) {
                         return '<unknown host>';
                     }
 
-                    var getSubdomain = function (route) {
+                    var getSubdomain = function(route) {
                         var hostname = _.get(route, 'spec.host', '');
                         return hostname.replace(/^[a-z0-9]([-a-z0-9]*[a-z0-9])\./, '');
                     };
@@ -543,8 +544,8 @@ define(['angular', 'moment'], function (angular, moment) {
                 };
             }
         ])
-        .filter('routeHost', function () {
-            return function (route, onlyAdmitted) {
+        .filter('routeHost', function() {
+            return function(route, onlyAdmitted) {
                 if (!_.get(route, 'status.ingress')) {
                     return _.get(route, 'spec.host');
                 }
@@ -553,7 +554,7 @@ define(['angular', 'moment'], function (angular, moment) {
                     return route.spec.host;
                 }
                 var oldestAdmittedIngress = null;
-                angular.forEach(route.status.ingress, function (ingress) {
+                angular.forEach(route.status.ingress, function(ingress) {
                     if (_.some(ingress.conditions, { type: "Admitted", status: "True" }) &&
                         (!oldestAdmittedIngress || oldestAdmittedIngress.lastTransitionTime > ingress.lastTransitionTime)) {
                         oldestAdmittedIngress = ingress;
@@ -567,8 +568,8 @@ define(['angular', 'moment'], function (angular, moment) {
                 return onlyAdmitted ? null : route.spec.host;
             };
         })
-        .filter('humanizeTLSTermination', function () {
-            return function (termination) {
+        .filter('humanizeTLSTermination', function() {
+            return function(termination) {
                 console.log('termination', termination)
                 switch (termination) {
                     case 'edge':
@@ -582,8 +583,8 @@ define(['angular', 'moment'], function (angular, moment) {
                 }
             };
         })
-        .filter('uid', function () {
-            return function (resource) {
+        .filter('uid', function() {
+            return function(resource) {
                 if (resource && resource.metadata && resource.metadata.uid) {
                     return resource.metadata.uid;
                 } else {
@@ -591,7 +592,7 @@ define(['angular', 'moment'], function (angular, moment) {
                 }
             };
         })
-        .filter('annotationName', function () {
+        .filter('annotationName', function() {
             // This maps an annotation key to all known synonymous keys to insulate
             // the referring code from key renames across API versions.
             var annotationMap = {
@@ -618,12 +619,12 @@ define(['angular', 'moment'], function (angular, moment) {
                 "idledPreviousScale": ["idling.alpha.openshift.io/previous-scale"],
                 "systemOnly": ["authorization.openshift.io/system-only"]
             };
-            return function (annotationKey) {
+            return function(annotationKey) {
                 return annotationMap[annotationKey] || null;
             };
         })
-        .filter('annotation', ["annotationNameFilter", function (annotationNameFilter) {
-            return function (resource, key) {
+        .filter('annotation', ["annotationNameFilter", function(annotationNameFilter) {
+            return function(resource, key) {
                 if (resource && resource.metadata && resource.metadata.annotations) {
                     // If the key's already in the annotation map, return it.
                     if (resource.metadata.annotations[key] !== undefined) {
@@ -643,14 +644,14 @@ define(['angular', 'moment'], function (angular, moment) {
                 return null;
             };
         }])
-        .filter('hasDeploymentConfig', ["annotationFilter", function (annotationFilter) {
-            return function (deployment) {
+        .filter('hasDeploymentConfig', ["annotationFilter", function(annotationFilter) {
+            return function(deployment) {
                 return !!annotationFilter(deployment, 'deploymentConfig');
             };
         }])
         .filter('deploymentStatus', ["annotationFilter", "hasDeploymentConfigFilter",
-            function (annotationFilter, hasDeploymentConfigFilter) {
-                return function (deployment) {
+            function(annotationFilter, hasDeploymentConfigFilter) {
+                return function(deployment) {
 
                     if (annotationFilter(deployment, 'deploymentCancelled')) {
                         return "Cancelled";
@@ -664,17 +665,17 @@ define(['angular', 'moment'], function (angular, moment) {
                 };
             }
         ])
-        .filter('routeIngressCondition', function () {
-            return function (ingress, type) {
+        .filter('routeIngressCondition', function() {
+            return function(ingress, type) {
                 if (!ingress) {
                     return null;
                 }
                 return _.find(ingress.conditions, { type: type });
             };
         })
-        .filter('podStatus', function () {
+        .filter('podStatus', function() {
             // Return results that match kubernetes/pkg/kubectl/resource_printer.go
-            return function (pod) {
+            return function(pod) {
                 if (!pod || (!pod.metadata.deletionTimestamp && !pod.status)) {
                     return '';
                 }
@@ -688,7 +689,7 @@ define(['angular', 'moment'], function (angular, moment) {
                 // Print detailed container reasons if available. Only the last will be
                 // displayed if multiple containers have this detail.
 
-                angular.forEach(pod.status.containerStatuses, function (containerStatus) {
+                angular.forEach(pod.status.containerStatuses, function(containerStatus) {
                     var containerReason = _.get(containerStatus, 'state.waiting.reason') || _.get(containerStatus, 'state.terminated.reason'),
                         signal,
                         exitCode;
@@ -712,20 +713,20 @@ define(['angular', 'moment'], function (angular, moment) {
                 return reason;
             };
         })
-        .filter('humanizeReason', function () {
-            return function (reason) {
+        .filter('humanizeReason', function() {
+            return function(reason) {
                 var humanizedReason = _.startCase(reason);
                 // Special case some values like "BackOff" -> "Back-off"
                 return humanizedReason.replace("Back Off", "Back-off").replace("O Auth", "OAuth");
             };
         })
-        .filter('humanizePodStatus', ["humanizeReasonFilter", function (humanizeReasonFilter) {
+        .filter('humanizePodStatus', ["humanizeReasonFilter", function(humanizeReasonFilter) {
             return humanizeReasonFilter;
         }])
-        .filter('numContainersReady', function () {
-            return function (pod) {
+        .filter('numContainersReady', function() {
+            return function(pod) {
                 var numReady = 0;
-                angular.forEach(pod.status.containerStatuses, function (status) {
+                angular.forEach(pod.status.containerStatuses, function(status) {
                     if (status.ready) {
                         numReady++;
                     }
@@ -733,17 +734,17 @@ define(['angular', 'moment'], function (angular, moment) {
                 return numReady;
             };
         })
-        .filter('numContainerRestarts', function () {
-            return function (pod) {
+        .filter('numContainerRestarts', function() {
+            return function(pod) {
                 var numRestarts = 0;
-                angular.forEach(pod.status.containerStatuses, function (status) {
+                angular.forEach(pod.status.containerStatuses, function(status) {
                     numRestarts += status.restartCount;
                 });
                 return numRestarts;
             };
         })
-        .filter('rcStatusFilter', [function () {
-            return function (phase) {
+        .filter('rcStatusFilter', [function() {
+            return function(phase) {
                 if (phase == "New" || phase == "Pending" || phase == "Running") {
                     return "正在部署"
                 } else if (phase == "Complete") {
@@ -759,13 +760,13 @@ define(['angular', 'moment'], function (angular, moment) {
                 }
             };
         }])
-        .filter('isDebugPod', ["annotationFilter", function (annotationFilter) {
-            return function (pod) {
+        .filter('isDebugPod', ["annotationFilter", function(annotationFilter) {
+            return function(pod) {
                 return !!annotationFilter(pod, 'debug.openshift.io/source-resource');
             };
         }])
-        .filter('debugPodSourceName', ["annotationFilter", function (annotationFilter) {
-            return function (pod) {
+        .filter('debugPodSourceName', ["annotationFilter", function(annotationFilter) {
+            return function(pod) {
                 var source = annotationFilter(pod, 'debug.openshift.io/source-resource');
                 if (!source) {
                     return '';
@@ -780,11 +781,11 @@ define(['angular', 'moment'], function (angular, moment) {
                 return parts[1];
             };
         }])
-        .filter("toArray", function () {
+        .filter("toArray", function() {
             return _.toArray;
         })
-        .filter('orderObjectsByDate', ["toArrayFilter", function (toArrayFilter) {
-            return function (items, reverse) {
+        .filter('orderObjectsByDate', ["toArrayFilter", function(toArrayFilter) {
+            return function(items, reverse) {
                 items = toArrayFilter(items);
 
                 /*
@@ -792,7 +793,7 @@ define(['angular', 'moment'], function (angular, moment) {
                  *       the overview and browse pages.
                  */
 
-                items.sort(function (a, b) {
+                items.sort(function(a, b) {
                     if (!a.metadata || !a.metadata.creationTimestamp || !b.metadata || !b.metadata.creationTimestamp) {
                         throw "orderObjectsByDate expects all objects to have the field metadata.creationTimestamp";
                     }
@@ -814,8 +815,8 @@ define(['angular', 'moment'], function (angular, moment) {
                 return items;
             };
         }])
-        .filter('imageObjectRef', function () {
-            return function (objectRef, /* optional */ nsIfUnspecified, shortOutput) {
+        .filter('imageObjectRef', function() {
+            return function(objectRef, /* optional */ nsIfUnspecified, shortOutput) {
                 if (!objectRef) {
                     return "";
                 }
@@ -852,8 +853,8 @@ define(['angular', 'moment'], function (angular, moment) {
                 return deploymentVersion === deploymentConfigVersion;
             };
         })
-        .filter('deploymentStatus', ['annotationFilter', 'hasDeploymentConfigFilter', function (annotationFilter, hasDeploymentConfigFilter) {
-            return function (deployment) {
+        .filter('deploymentStatus', ['annotationFilter', 'hasDeploymentConfigFilter', function(annotationFilter, hasDeploymentConfigFilter) {
+            return function(deployment) {
                 //console.log('deployment', deployment);
                 // We should show Cancelled as an actual status instead of showing Failed
                 //console.log('annotationFilter', annotationFilter);
@@ -868,11 +869,290 @@ define(['angular', 'moment'], function (angular, moment) {
                 return status;
             };
         }])
-        .filter("toArray", function () {
+        .filter('displayName', ["annotationFilter", function(annotationFilter) {
+            // annotationOnly - if true, don't fall back to using metadata.name when
+            //                  there's no displayName annotation
+            return function(resource, annotationOnly) {
+                var displayName = annotationFilter(resource, "displayName");
+                if (displayName || annotationOnly) {
+                    return displayName;
+                }
+
+                if (resource && resource.metadata) {
+                    return resource.metadata.name;
+                }
+
+                return null;
+            };
+        }])
+        .filter('upperFirst', function() {
+            // Uppercase the first letter of a string (without making any other changes).
+            // Different than `capitalize` because it doesn't lowercase other letters.
+            return _.upperFirst;
+        })
+        .filter('startCase', function() {
+            return _.startCase;
+        })
+        .filter('humanizeKind', ["startCaseFilter", function(startCaseFilter) {
+            // Changes "ReplicationController" to "replication controller".
+            // If useTitleCase, returns "Replication Controller".
+            return function(kind, useTitleCase) {
+                if (!kind) {
+                    return kind;
+                }
+
+                if (kind === 'ServiceInstance') {
+                    return useTitleCase ? 'Provisioned Service' : 'provisioned service';
+                }
+
+                var humanized = _.startCase(kind);
+                if (useTitleCase) {
+                    return humanized;
+                }
+
+                return humanized.toLowerCase();
+            };
+        }])
+        .filter('usageValue', function() {
+            return function(value) {
+                if (!value) {
+                    return value;
+                }
+                var split = /(-?[0-9\.]+)\s*(.*)/.exec(value);
+                if (!split) {
+                    // We didn't get an amount? shouldn't happen but just in case
+                    return value;
+                }
+                var number = split[1];
+                if (number.indexOf(".") >= 0) {
+                    number = parseFloat(number);
+                } else {
+                    number = parseInt(split[1]);
+                }
+                var siSuffix = split[2];
+                var multiplier = 1;
+                switch (siSuffix) {
+                    case 'E':
+                        multiplier = Math.pow(1000, 6);
+                        break;
+                    case 'P':
+                        multiplier = Math.pow(1000, 5);
+                        break;
+                    case 'T':
+                        multiplier = Math.pow(1000, 4);
+                        break;
+                    case 'G':
+                        multiplier = Math.pow(1000, 3);
+                        break;
+                    case 'M':
+                        multiplier = Math.pow(1000, 2);
+                        break;
+                    case 'K':
+                    case 'k':
+                        multiplier = 1000;
+                        break;
+                    case 'm':
+                        multiplier = 0.001;
+                        break;
+                    case 'Ei':
+                        multiplier = Math.pow(1024, 6);
+                        break;
+                    case 'Pi':
+                        multiplier = Math.pow(1024, 5);
+                        break;
+                    case 'Ti':
+                        multiplier = Math.pow(1024, 4);
+                        break;
+                    case 'Gi':
+                        multiplier = Math.pow(1024, 3);
+                        break;
+                    case 'Mi':
+                        multiplier = Math.pow(1024, 2);
+                        break;
+                    case 'Ki':
+                        multiplier = 1024;
+                        break;
+                }
+
+                return number * multiplier;
+            };
+        })
+        .filter('humanizeUnit', function() {
+            return function(unit, type, singular) {
+                switch (type) {
+                    case "memory":
+                    case "limits.memory":
+                    case "requests.memory":
+                    case "storage":
+                        if (!unit) {
+                            return unit;
+                        }
+                        return unit + "B";
+                    case "cpu":
+                    case "limits.cpu":
+                    case "requests.cpu":
+                        if (unit === "m") {
+                            unit = "milli";
+                        }
+                        var suffix = (singular) ? 'core' : 'cores';
+                        return (unit || '') + suffix;
+                    default:
+                        return unit;
+                }
+            };
+        })
+        // Returns the amount and unit for compute resources, normalizing the unit.
+        .filter('amountAndUnit', function(humanizeUnitFilter) {
+            return function(value, type, humanizeUnits) {
+                if (!value) {
+                    return [value, null];
+                }
+                var split = /(-?[0-9\.]+)\s*(.*)/.exec(value);
+                if (!split) {
+                    // We didn't get an amount? shouldn't happen but just in case
+                    return [value, null];
+                }
+
+                var amount = split[1];
+                var unit = split[2];
+                if (humanizeUnits) {
+                    unit = humanizeUnitFilter(unit, type, amount === "1");
+                }
+
+                return [amount, unit];
+            };
+        })
+        .filter('percent', function() {
+            // Takes a number like 0.33 and returns "33%". `precision` is the optional
+            // number of digits to appear after the decimal point.
+            return function(value, precision) {
+                if (value === null || value === undefined) {
+                    return value;
+                }
+                return _.round(Number(value) * 100, precision) + "%";
+            };
+        })
+        .filter('humanizeQuotaResource', function() {
+            return function(resourceType, useTitleCase) {
+                if (!resourceType) {
+                    return resourceType;
+                }
+
+                var nameTitleCaseFormatMap = {
+                    'configmaps': 'Config Maps',
+                    'cpu': 'CPU (Request)',
+                    'limits.cpu': 'CPU (Limit)',
+                    'limits.memory': 'Memory (Limit)',
+                    'memory': 'Memory (Request)',
+                    'openshift.io/imagesize': 'Image Size',
+                    'openshift.io/imagestreamsize': 'Image Stream Size',
+                    'openshift.io/projectimagessize': 'Project Image Size',
+                    'persistentvolumeclaims': 'Persistent Volume Claims',
+                    'requests.storage': 'Storage (Request)',
+                    'pods': 'Pods',
+                    'replicationcontrollers': 'Replication Controllers',
+                    'requests.cpu': 'CPU (Request)',
+                    'requests.memory': 'Memory (Request)',
+                    'resourcequotas': 'Resource Quotas',
+                    'secrets': 'Secrets',
+                    'services': 'Services',
+                    'services.loadbalancers': 'Service Load Balancers',
+                    'services.nodeports': 'Service Node Ports'
+                };
+
+                var nameFormatMap = {
+                    'configmaps': 'config maps',
+                    'cpu': 'CPU (request)',
+                    'limits.cpu': 'CPU (limit)',
+                    'limits.memory': 'memory (limit)',
+                    'memory': 'memory (request)',
+                    'openshift.io/imagesize': 'image size',
+                    'openshift.io/imagestreamsize': 'image stream size',
+                    'openshift.io/projectimagessize': 'project image size',
+                    'persistentvolumeclaims': 'persistent volume claims',
+                    'requests.storage': 'storage (request)',
+                    'replicationcontrollers': 'replication controllers',
+                    'requests.cpu': 'CPU (request)',
+                    'requests.memory': 'memory (request)',
+                    'resourcequotas': 'resource quotas',
+                    'services.loadbalancers': 'service load balancers',
+                    'services.nodeports': 'service node ports'
+                };
+                if (useTitleCase) {
+                    return nameTitleCaseFormatMap[resourceType] || resourceType;
+                }
+                return nameFormatMap[resourceType] || resourceType;
+            };
+        })
+        .filter('humanizeKind', ["startCaseFilter", function(startCaseFilter) {
+            // Changes "ReplicationController" to "replication controller".
+            // If useTitleCase, returns "Replication Controller".
+            return function(kind, useTitleCase) {
+                if (!kind) {
+                    return kind;
+                }
+
+                if (kind === 'ServiceInstance') {
+                    return useTitleCase ? 'Provisioned Service' : 'provisioned service';
+                }
+
+                var humanized = _.startCase(kind);
+                if (useTitleCase) {
+                    return humanized;
+                }
+
+                return humanized.toLowerCase();
+            };
+        }])
+        // Checks if a value is null or undefined.
+        .filter('isNil', function() {
+            return function(value) {
+                return value === null || value === undefined;
+            };
+        })
+        // Formats a compute resource value for display.
+        .filter('usageWithUnits', function(amountAndUnitFilter) {
+            return function(value, type) {
+                var toString = _.spread(function(amount, unit) {
+                    if (!unit) {
+                        return amount;
+                    }
+
+                    return amount + " " + unit;
+                });
+
+                return toString(amountAndUnitFilter(value, type, true));
+            };
+        })
+        .filter('upperFirst', function() {
+            // Uppercase the first letter of a string (without making any other changes).
+            // Different than `capitalize` because it doesn't lowercase other letters.
+            return _.upperFirst;
+        })
+        .filter("getErrorDetails", ["upperFirstFilter", function(upperFirstFilter) {
+            return function(result, capitalize) {
+                if (!result) {
+                    return "";
+                }
+
+                var error = result.data || {};
+                if (error.message) {
+                    return capitalize ? upperFirstFilter(error.message) : error.message;
+                }
+
+                var status = result.status || error.status;
+                if (status) {
+                    return "Status: " + status;
+                }
+
+                return "";
+            };
+        }])
+        .filter("toArray", function() {
             return _.toArray;
         })
-        .filter('orderObjectsByDate', ["toArrayFilter", function (toArrayFilter) {
-            return function (items, reverse) {
+        .filter('orderObjectsByDate', ["toArrayFilter", function(toArrayFilter) {
+            return function(items, reverse) {
                 items = toArrayFilter(items);
 
                 /*
@@ -880,7 +1160,7 @@ define(['angular', 'moment'], function (angular, moment) {
                  *       the overview and browse pages.
                  */
 
-                items.sort(function (a, b) {
+                items.sort(function(a, b) {
                     if (!a.metadata || !a.metadata.creationTimestamp || !b.metadata || !b.metadata.creationTimestamp) {
                         throw "orderObjectsByDate expects all objects to have the field metadata.creationTimestamp";
                     }
@@ -902,10 +1182,8 @@ define(['angular', 'moment'], function (angular, moment) {
                 return items;
             };
         }])
-
-
-        .filter('lastDeploymentRevision', ['annotationFilter', function (annotationFilter) {
-            return function (deployment) {
+        .filter('lastDeploymentRevision', ['annotationFilter', function(annotationFilter) {
+            return function(deployment) {
                 if (!deployment) {
                     return '';
                 }
@@ -913,8 +1191,9 @@ define(['angular', 'moment'], function (angular, moment) {
                 var revision = annotationFilter(deployment, 'deployment.kubernetes.io/revision');
                 return revision ? "#" + revision : 'Unknown';
             };
-        }]).filter('camelToLower', function () {
-            return function (str) {
+        }])
+        .filter('camelToLower', function() {
+            return function(str) {
                 if (!str) {
                     return str;
                 }
@@ -923,19 +1202,21 @@ define(['angular', 'moment'], function (angular, moment) {
                 // case strings, snake case strings, etc.
                 return _.startCase(str).toLowerCase();
             };
-        }).filter('upperFirst', function () {
+        })
+        .filter('upperFirst', function() {
             // Uppercase the first letter of a string (without making any other changes).
             // Different than `capitalize` because it doesn't lowercase other letters.
-            return function (str) {
+            return function(str) {
                 if (!str) {
                     return str;
                 }
 
                 return str.charAt(0).toUpperCase() + str.slice(1);
             };
-        }).filter('sentenceCase', ["camelToLowerFilter", "upperFirstFilter", function (camelToLowerFilter, upperFirstFilter) {
+        })
+        .filter('sentenceCase', ["camelToLowerFilter", "upperFirstFilter", function(camelToLowerFilter, upperFirstFilter) {
             // Converts a camel case string to sentence case
-            return function (str) {
+            return function(str) {
                 if (!str) {
                     return str;
                 }
@@ -945,8 +1226,8 @@ define(['angular', 'moment'], function (angular, moment) {
                 return upperFirstFilter(lower);
             };
         }])
-        .filter('podTemplate', function () {
-            return function (apiObject) {
+        .filter('podTemplate', function() {
+            return function(apiObject) {
                 if (!apiObject) {
                     return null;
                 }
@@ -958,20 +1239,20 @@ define(['angular', 'moment'], function (angular, moment) {
                 return _.get(apiObject, 'spec.template');
             };
         })
-        .filter('hasHealthChecks', function () {
-            return function (podTemplate) {
+        .filter('hasHealthChecks', function() {
+            return function(podTemplate) {
                 // Returns true if every container has a readiness or liveness probe.
                 var containers = _.get(podTemplate, 'spec.containers', []);
-                return _.every(containers, function (container) {
+                return _.every(containers, function(container) {
                     return container.readinessProbe || container.livenessProbe;
                 });
             };
         })
         //add
-        .filter('podStartTime', function () {
-            return function (pod) {
+        .filter('podStartTime', function() {
+            return function(pod) {
                 var earliestStartTime = null;
-                _.each(_.get(pod, 'status.containerStatuses'), function (containerStatus) {
+                _.each(_.get(pod, 'status.containerStatuses'), function(containerStatus) {
                     var status = _.get(containerStatus, 'state.running') || _.get(containerStatus, 'state.terminated');
                     if (!status) {
                         return;
@@ -983,13 +1264,10 @@ define(['angular', 'moment'], function (angular, moment) {
                 return earliestStartTime;
             };
         })
-
-
-
-        .filter('podCompletionTime', function () {
-            return function (pod) {
+        .filter('podCompletionTime', function() {
+            return function(pod) {
                 var lastFinishTime = null;
-                _.each(_.get(pod, 'status.containerStatuses'), function (containerStatus) {
+                _.each(_.get(pod, 'status.containerStatuses'), function(containerStatus) {
                     var status = _.get(containerStatus, 'state.terminated');
                     if (!status) {
                         return;
@@ -1001,20 +1279,17 @@ define(['angular', 'moment'], function (angular, moment) {
                 return lastFinishTime;
             };
         })
-
-
-
-        .filter("humanizeDurationValue", function () {
-            return function (a, b) {
+        .filter("humanizeDurationValue", function() {
+            return function(a, b) {
                 return moment.duration(a, b).humanize();
             };
         })
-        .filter('volumeMountMode', function () {
-            var isConfigVolume = function (volume) {
+        .filter('volumeMountMode', function() {
+            var isConfigVolume = function(volume) {
                 return _.has(volume, 'configMap') || _.has(volume, 'secret');
             };
 
-            return function (mount, volumes) {
+            return function(mount, volumes) {
                 if (!mount) {
                     return '';
                 }
@@ -1033,10 +1308,8 @@ define(['angular', 'moment'], function (angular, moment) {
                 return mount.readOnly ? 'read-only' : 'read-write';
             };
         })
-
-
-        .filter("limitToOrAll", ['limitToFilter', function (limitToFilter) {
-            return function (input, limit) {
+        .filter("limitToOrAll", ['limitToFilter', function(limitToFilter) {
+            return function(input, limit) {
                 if (isNaN(limit)) {
                     return input;
                 }
@@ -1044,12 +1317,12 @@ define(['angular', 'moment'], function (angular, moment) {
                 return limitToFilter(input, limit);
             };
         }])
-        .filter('volumeMountMode', function () {
-            var isConfigVolume = function (volume) {
+        .filter('volumeMountMode', function() {
+            var isConfigVolume = function(volume) {
                 return _.has(volume, 'configMap') || _.has(volume, 'secret');
             };
 
-            return function (mount, volumes) {
+            return function(mount, volumes) {
                 if (!mount) {
                     return '';
                 }
