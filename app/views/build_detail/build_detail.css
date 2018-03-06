@@ -123,6 +123,9 @@
 #build-detail .input_sty{
     width: 80px;display: inline-block;
 }
+#build-detail .input_sty:hover{border:1px solid #47B2FB}
+#build-detail .input_sty[disabled]{cursor:not-allowed;background:#EFF2F7;border:1px solid #E0E6ED}
+
 #build-detail .form_group_span{
     display: inline-block;
 }

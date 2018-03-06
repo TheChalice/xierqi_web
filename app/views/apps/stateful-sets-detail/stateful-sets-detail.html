@@ -2,7 +2,8 @@
     <uib-tabset class="tab-default tab-image-jia-defautl" active="check">
         <uib-tab index="1">
             <uib-tab-heading>
-                <i class="myimage"></i>&nbsp;&nbsp;Details
+                <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
+                Details
             </uib-tab-heading>
                 <div class="row matgin-bt">
                     <div class="col-md-2 width150 color666">Status:</div>
@@ -156,20 +157,22 @@
         </uib-tab>
         <uib-tab index="2">
             <uib-tab-heading>
-                <i class="myimage"></i>&nbsp;&nbsp;Environment
+                <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
+                Environment
             </uib-tab-heading>
             <div class="row matgin-bt" ng-repeat="env in statefuldetail.spec.template.spec.containers[0].env">
                 <div class="col-md-6">
-                    <input class="col-md-11 input-key" type="text" ng-disabled="true" ng-model="env.name"  style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;">
+                    <input class="col-md-11 input-key" type="text" ng-disabled="true" ng-model="env.name"  style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:not-allowed">
                 </div>
                 <div class="col-md-6">
-                    <input class="col-md-11 input-key" ng-disabled="true"  type="text" ng-model="env.value"  style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;">
+                    <input class="col-md-11 input-key" ng-disabled="true"  type="text" ng-model="env.value"  style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:not-allowed">
                 </div>
              </div>
         </uib-tab>
         <uib-tab index="3">
             <uib-tab-heading>
-                <i class="myimage"></i>&nbsp;&nbsp;Metrics
+                <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
+                Metrics
             </uib-tab-heading>
             <public-metrics conname="conname"
                             podid="poduid"
@@ -179,7 +182,8 @@
         </uib-tab>
         <uib-tab index="4">
             <uib-tab-heading>
-                <i class="myimage"></i>&nbsp;&nbsp;Events
+                <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
+                Events
             </uib-tab-heading>
             <deployments-event dcname="dcName" dcfit="DeploymentConfig"></deployments-event>
         </uib-tab>

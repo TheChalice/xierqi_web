@@ -1,12 +1,20 @@
 .searchbar {
     height: 36px;
-    border: 1px solid #c9c9c9;
-    border-radius: 2px;
+    border: 1px solid #CCD5E0;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
 }
+
+.searchbar:hover{border:1px solid #47B2FB}
+.searchbar:active{border:1px solid #47B2FB}
+
 .searchbar .form-control {
     border: none;
     box-shadow: none;
-    color: #5a6378;
+    color: #A2B0C4;
+    border-top-right-radius:4px;
+    border-bottom-right-radius:4px;font-size:12px;
 }
 .searchbar .btn {
     height: 100%;

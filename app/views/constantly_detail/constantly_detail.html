@@ -87,7 +87,7 @@
                     <div class="panel-body" style="padding:0">
                         <ul style="padding: 0;margin: 0;">
                             <li ng-repeat="item in persistents.arr" class="listitems" style="list-style: none;height: 60px;line-height: 60px;">
-                                <a class="listitem" ui-sref="console.service_detail({name:item})" style="color:#f6a540">{{item}}</a></li>
+                                <a class="listitem" ui-sref="console.service_detail({name:item})">{{item}}</a></li>
                             <div style="text-align: center;background:#f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;"
                                  ng-if="persistents.arr.length===0"><p class="blank_block"><span class="blank_tit">无挂载服务</span></p></div>
                         </ul>
@@ -110,8 +110,12 @@
     .listitems:hover {
         background-color: #f7f8fb;
     }
+    .listitem{color:#47B2FB;}
     .listitem:hover{
-        color: #5b73eb;
+        color: #98D4FD;
+    }
+    .listitem:visited{
+        color: #168DDE;
     }
 
 

@@ -163,6 +163,9 @@
 #newbuildcreat .form-group input {
     width: 100%;
 }
+#newbuildcreat .form-group input:hover{
+    border:1px solid #47B2FB;
+}
 
 #newbuildcreat #bc .disabled {
     /*background-color: #e6e9f2;*/
@@ -216,7 +219,7 @@
 
 #newbuildcreat .build-creat-center .tab-lab .tab-lab-text {
     font-size: 12px;
-    height: 20px
+
 }
 
 #newbuildcreat .build-creat-center .tab-reg {
@@ -278,6 +281,10 @@
 #newbuildcreat .build-creat-foot .creat-foot-min {
     display: inline-block; margin-right: 20px
 }
+
+.view_tit_set{color:#47B2FB;cursor:pointer}
+.view_tit_set:hover{color:#98D4FD;}
+.view_tit_set:active{color:#168DDE}
 
 
 

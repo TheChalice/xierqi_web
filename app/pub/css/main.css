@@ -82,12 +82,17 @@ a {
     transition:all 1s;
 }
 
-.btn-greennew:hover {
-    background-color: #469450;
+.btn-green:hover {
+    background-color: #98D4FD;
     color:#fff;
 
     /*background-color: #3c29d6;!*16 12-14 by zn for zhongxin *!*/
 }
+.btn-green:active {
+    background-color: #168DDE;
+    color:#fff;
+}
+.btn-green.focus{color:#fff;}
 .btn-gray {
     background-color: #fff;
     -webkit-transition:all 1s;
@@ -106,6 +111,7 @@ a {
     color:#82CAFB;
     
 }
+
 
 .btn-skyblue {
     /*background-color: #5c72e9;*/
@@ -363,12 +369,13 @@ a {
     color: #5a6378;
 }
 
+
 .form-control:focus {
     box-shadow: none;
     border: 1px solid #c9c9c9;
     border-radius: 2px 2px 0 0;
 }
-
+.form-control:hover{border:1px solid #47B2FB;}
 /*tab默认样式*/
 .tab-default .nav-tabs {
     border-bottom: 1px solid #c9c9c9;
@@ -377,7 +384,7 @@ a {
 .tab-default li .nav-link {
     border: none;
     color: #475669;
-    font-size:16px;
+    font-size:16px;padding:10px 23px;
 }
 
 .tab-default li .nav-link:hover {
@@ -563,7 +570,7 @@ a {
 }
 /*loading效果 jiasx*/
 .fa-green {
-    color: #55c45f;
+    color: #47B2FB;
     /*中信项目 jiasx*/
     /*color:#5c72e9;*/
 
@@ -674,6 +681,7 @@ a {
     margin: 15px 0 0 30px;
     background: #000;
 }
+.testt:hover{border:1px solid #47B2FB}
 
 .well.well-log pre {
     font-size: 12px;
@@ -711,6 +719,7 @@ a {
     display: inline-block;
     vertical-align: bottom;
 }
+.dropdown-select > .btn:hover{border:1px solid #47B2FB}
 
 .dropdown-select > .btn {
     width: 100%;
@@ -879,6 +888,7 @@ a {
     border: 1px solid #c9c9c9;
     border-radius: 2px;
 }
+.input-small:hover{border:1px solid #47B2FB}
 
 .service-config {
     color: #393f4f;
@@ -929,7 +939,7 @@ a {
     color:#333;
 }
 
-.service-config .fa-lg{color:#55c45f;}
+.service-config .fa-lg{color:#47B2FB;}
 
 .service-config .href-add:hover {
     color: #469450;
@@ -972,7 +982,7 @@ a {
 .searchbar .form-control {
     border: none;
     box-shadow: none;
-    color: #5a6378;
+    color: #A2B0C4;
     z-index:999;
 }
 
@@ -1233,13 +1243,14 @@ a {
 
 /*green adding button*/
 .href-add {
-    color: #55c45f;
+    color: #47B2FB;
     text-decoration: none;
 }
 
 .href-add:hover {
-    color: #469450;
+    color: #98D4FD;
 }
+.href-add:active{color:#168DDE;}
 
 /*bootstorp五等份*/
 .col-xs-1-5,
@@ -1258,11 +1269,11 @@ a {
 }
 
 .secret_detail .add a {
-    color: #55c45f;
+    color: #47B2FB;
 }
 
 .secret_detail .add a:hover {
-    color: #469450;
+    color: #47B2FB;
 }
 
 .secret_detail.href-add {
@@ -1450,7 +1461,7 @@ a {
     position: absolute;
     left: 50%;
     top: 50%;
-    border: 4px solid #f8b551;
+    border: 4px solid #47B2FB;
     border-bottom-color: transparent;
     border-top-color: transparent;
     border-radius: 100%;
@@ -1468,7 +1479,7 @@ a {
     height: 30px;
     -webkit-animation-duration: 0.5s;
     animation-duration: 0.5s;
-    border-color: #f8b551 transparent #f8b551 transparent;
+    border-color: #47B2FB transparent #47B2FB transparent;
     -webkit-animation-direction: reverse;
     animation-direction: reverse;
 }
@@ -1584,6 +1595,8 @@ input{
 /*按钮颜色设置*/
 .build-jia{background:#47B2FB;}
 .build-jia:hover{background-color: #98D4FD;color:#fff!important;}
+.build-jia:active{background-color: #168DDE;color:#fff!important;}
+
 
 .build_searchbar .btn{background:url(../img/search.png) no-repeat 0 -1px!important;}
 .build_searchbar .btn:hover {

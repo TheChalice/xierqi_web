@@ -41,7 +41,7 @@
             </td>
             <td data-title="Hostname">
                 <span ng-if="(routes[routeName] | isWebRoute)" class="word-break">
-                <a href="{{routes[routeName] | routeWebURL}}" target="_blank">
+                <a href="{{routes[routeName] | routeWebURL}}" target="_blank" class="table_data">
                   {{routes[routeName] | routeLabel}}
                   <i class="fa fa-external-link" aria-hidden="true"></i>
                 </a>
@@ -88,4 +88,7 @@
         border: none!important;
         border-bottom: 1px solid #f3f3f3!important;
     }
+    .table_data{color:#47B2FB;}
+    .table_data:hover{color:#98D4FD;}
+    .table_data:active{color:#168DDE;}
 </style>
