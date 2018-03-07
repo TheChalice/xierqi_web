@@ -34,7 +34,9 @@
         angular_patternfly: '../bower_components/angular-patternfly/dist/angular-patternfly',
         stateEvents: '../bower_components/angular-ui-router/release/stateEvents',
         toastr: '../bower_components/angular-toastr/dist/angular-toastr.tpls',
-        jsyaml: '../bower_components/js-yaml/dist/js-yaml'
+        jsyaml: '../bower_components/js-yaml/dist/js-yaml',
+        ace: '../bower_components/ace-builds/src-min-noconflict/ace',
+        ui_ace: '../bower_components/angular-ui-ace/ui-ace'
     },
     shim: {
         'angular': {
@@ -104,6 +106,12 @@
         },
         'toastr': {
             deps: ['angular', 'bootstrap']
+        },
+        'ace': {
+            deps: ['jquery']
+        },
+        'ui_ace': {
+            deps: ['angular', 'ace','jquery']
         }
     }
 }
