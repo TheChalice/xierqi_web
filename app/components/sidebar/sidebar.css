@@ -1,5 +1,5 @@
 #sidebar {
-    background: #e6e9f2;
+    background: #F5F6F9;
 }
 #sidebar ul > li {
     margin: 0;
@@ -31,48 +31,50 @@
 .icon25-dashboard {
     background-image: url(img/dashboard.png);
 }
-#sidebar ul > li > a:hover .icon25-dashboard {
+[treecontrol].tree-light li div.tree-label a:hover{color:#1F2D3D}
+
+
+.tree-label:hover .icon25-dashboard{background-image:url(img/dashboard-hover.png);}
+.tree-label .select.icon25-dashboard {
     background-image: url(img/dashboard-active.png);
 }
 
 .icon25-build {
     background-image: url(img/build.png);
 }
-#sidebar ul > li > a:hover .icon25-build {
+.tree-label:hover .icon25-build{background-image:url(img/build-hover.png);}
+.tree-label .select.icon25-build {
     background-image: url(img/build-active.png);
 }
 
 .icon25-repository {
     background-image: url(img/repository.png);
 }
-#sidebar ul > li > a:hover .icon25-repository {
+.tree-label:hover .icon25-repository{background-image:url(img/repository-hover.png);}
+.tree-label .select.icon25-repository {
     background-image: url(img/repository-active.png);
 }
 
 .icon25-deployment {
     background-image: url(img/deployment.png);
 }
-#sidebar ul > li > a:hover .icon25-deployment {
+.tree-label:hover .icon25-deployment{background-image:url(img/deployment-hover.png);}
+.tree-label .select.icon25-deployment {
     background-image: url(img/deployment-active.png);
 }
 
 .icon25-service {
     background-image: url(img/service.png);
 }
-#sidebar ul > li > a:hover .icon25-service {
+.tree-label:hover .icon25-service{background-image:url(img/service-hover.png);}
+.tree-label .select.icon25-service {
     background-image: url(img/service-active.png);
 }
 .icon25-Integration {
     background-image: url(img/Integration.png);
 }
-#sidebar ul > li > a:hover .icon25-Integration {
-    background-image: url(img/Integration_active.png);
-}
-
-.icon25-Integration {
-    background-image: url(img/Integration.png);
-}
-#sidebar ul > li > a:hover .icon25-Integration {
+.tree-label:hover .icon25-Integration{background-image:url(img/Integration-hover.png);}
+.tree-label .select.icon25-Integration {
     background-image: url(img/Integration_active.png);
 }
 
@@ -86,6 +88,7 @@
 .icon25-resource {
     background-image: url(img/resource.png);
 }
+.tree-label:hover .icon25-resource{background-image:url(img/resource-hover.png);}
 #sidebar ul > li > a:hover .icon25-resource {
     background-image: url(img/resource-active.png);
 }
@@ -202,7 +205,7 @@
     top:11px;
 }
 [treecontrol].tree-light li div.tree-label:hover{
-    background: #dcdfe8;
+    
 }
 
 [treecontrol].tree-light li div.tree-selected {
@@ -216,11 +219,11 @@
 [treecontrol] ul{
     overflow: visible;
 }
-.zx_set_btn{background:#e6e9f2 url(img/zx_set.png) no-repeat center;width:14px;height:14px;background-size:14px 14px;display:block;padding:21px 94px;-webkit-transition:all 0.3s linear ;-moz-transition:all 0.3s linear;transition:all 0.3s linear;
+.zx_set_btn{background:#E5E9F2 url(img/zx_set.png) no-repeat center;width:14px;height:14px;background-size:14px 14px;display:block;padding:21px 94px;-webkit-transition:all 0.3s linear ;-moz-transition:all 0.3s linear;transition:all 0.3s linear;
 }
-.zx_set_btn:hover{background:#dcdfe8 url(img/zx_set_hover.png) no-repeat center;background-size:14px 14px;}
+.zx_set_btn:hover{background:#E5E9F2 url(img/zx_set_hover.png) no-repeat center;background-size:14px 14px;}
 .zx_set_btn_rotate{
-    background:#e6e9f2 url(img/zx_set_active.png) no-repeat center;
+    background:#E5E9F2 url(img/zx_set_active.png) no-repeat center;
     width:14px;
     height:14px;
     background-size:14px 14px;
@@ -228,6 +231,6 @@
     padding:21px 37px;
     -webkit-transition:all 0.3s linear ;-moz-transition:all 0.3s linear;transition:all 0.3s linear;
 }
-.zx_set_btn_rotate:hover{background:#dcdfe8 url(img/zx_set_active_hover.png) no-repeat center;background-size:14px 14px;}
+.zx_set_btn_rotate:hover{background:#E5E9F2 url(img/zx_set_active_hover.png) no-repeat center;background-size:14px 14px;}
 .sider_zx{width:74px!important;-webkit-transition:all 0.3s linear ;-moz-transition:all 0.3s linear;transition:all 0.3s linear;}
 .sidebar-fixed{margin-left:74px!important;-webkit-transition:all 0.3s linear ;-moz-transition:all 0.3s linear;transition:all 0.3s linear;}
