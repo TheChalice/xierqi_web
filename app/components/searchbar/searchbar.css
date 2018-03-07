@@ -22,8 +22,8 @@
     box-shadow: none;
 }
 
-.searchbar .btn:hover {
-    background-image: url(img/search-focus.png);
+.searchbar:hover .btn {
+    background: url(img/search-focus.png) no-repeat!important;
 }
 .searchbar .tip-board {
     border: 1px solid #c9c9c9;

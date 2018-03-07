@@ -32,6 +32,8 @@
     padding: 20px 15px 10px 40px;
     font-size: 16px;
 }
+#header #header-title span:nth-child(2){color:#A2B0C4}
+#header #header-title span:nth-child(2):hover{color:#fff}
 
 
 #header #header-menu {
@@ -120,7 +122,7 @@
 
 }
 .dropdown-menu > li > a{
-    font-size:12px;
+    font-size:14px;
     padding-top:0px;
     padding-bottom:0px;
     display:block;

@@ -994,8 +994,8 @@ a {
 }
 .input-group-btn{padding:8px 0px;}
 
-.searchbar .btn:hover {
-    background: url(../img/search-focus.png) no-repeat 0 0px!important; ;
+.searchbar:hover .btn {
+    background: url(../img/search-focus.png) no-repeat!important;
 }
 
 .search_btn .btn{background:url(../img/search.png) no-repeat 0 0px!important;display:block;width:15px;height:15px!important;}
