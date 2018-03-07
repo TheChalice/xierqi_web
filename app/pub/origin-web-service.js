@@ -1316,9 +1316,12 @@ define(['angular',
                         delete params.namespace;
                     }
                     var template;
+
+                    //console.log('+window.location.port', window.location.host);
+
                     var templateOptions = {
                         protocol: protocol,
-                        hostPort: apiInfo.hostPort,
+                        hostPort: window.location.host,
                         prefix: apiInfo.prefix,
                         group: apiInfo.group,
                         version: apiInfo.version,
