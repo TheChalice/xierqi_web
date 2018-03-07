@@ -94,7 +94,7 @@
         },
         'jsyaml': {
             deps: ['angular']
-        }
+        },
         'patternfly': {
             deps: ['jquery']
         },
