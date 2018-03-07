@@ -108,7 +108,7 @@ require.config({
             deps: ['jquery']
         },
         'jsyaml': {
-            deps: ['angular']
+            deps: ['angular','jquery']
         },
         'angular_patternfly': {
             deps: ['angular', 'bootstrap', 'patternfly']
@@ -117,7 +117,7 @@ require.config({
             deps: ['jquery']
         },
         'ui_ace': {
-            deps: ['angular', 'ace']
+            deps: ['angular', 'ace','jquery']
         },
         'stateEvents': {
             deps: ['angular', 'uiRouter']
