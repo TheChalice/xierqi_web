@@ -17,8 +17,6 @@ angular.module('console.pods', [{
                 $scope.items = res.items;
                 $scope.copyPod = angular.copy($scope.items);
                 $scope.grid.total = $scope.items.length;
-                console.log("1234",res.metadata.resourceVersion);
-                console.log("00000",$scope.items)
                 watchpod(res.metadata.resourceVersion);
                 $scope.grid.page = 1;
                 $scope.grid.txt = '';
