@@ -5,22 +5,83 @@ angular.module('console.stateful-sets', [{
             'views/apps/apps.css'
         ]
     }])
-    .controller('Stateful-setsCtrl', ['statefulsets', '$scope','Ws',
-        function(statefulsets, $scope,Ws) {
+    .controller('Stateful-setsCtrl', ['statefulsets', '$scope','Ws','$rootScope','$log',
+        function(statefulsets, $scope,Ws,$rootScope,$log) {
             $scope.text = "No stateful sets have been added to project " + $scope.namespace + ".";
-            statefulsets.get({ namespace: $scope.namespace }, function(res) {
-                $scope.items = res.items;
-                $scope.copySets = angular.copy($scope.items);
-                $scope.grid.total = $scope.items.length;
-                $scope.grid.page = 1;
-                $scope.grid.txt = '';
-                refresh(1);
-            });
+            var getStatefulsets = function(){
+                statefulsets.get({ namespace: $scope.namespace }, function(res) {
+                    $scope.items = res.items;
+                    $scope.copySets = angular.copy($scope.items);
+                    $scope.grid.total = $scope.items.length;
+                    $scope.grid.page = 1;
+                    $scope.grid.txt = '';
+                    $scope.resourceVersion = res.metadata.resourceVersion;
+                    watchPc(res.metadata.resourceVersion);
+                    refresh(1);
+                });
+            }
+            getStatefulsets();
             $scope.grid = {
                 page: 1,
                 size: 10,
                 txt: ''
             };
+
+            var watchPc = function (resourceVersion) {
+                Ws.watch({
+                    api: 'wsapis',
+                    resourceVersion: resourceVersion,
+                    namespace: $rootScope.namespace,
+                    type: 'statefulsets',
+                    name: ''
+                }, function (res) {
+                    var data = JSON.parse(res.data);
+                    updatePC(data);
+                    //console.log(data);
+                }, function () {
+                    $log.info("webSocket start");
+                }, function () {
+                    $log.info("webSocket stop");
+                    var key = Ws.key($rootScope.namespace, 'statefulsets', '');
+                    if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
+                        return;
+                    }
+                    watchPc($scope.resourceVersion);
+                });
+            };
+            var updatePC = function (data) {
+                if (data.type == 'ERROR') {
+                    $log.info("err", data.object.message);
+                    Ws.clear();
+                    getStatefulsets();
+                    return;
+                }
+                $scope.resourceVersion = data.object.metadata.resourceVersion;
+                data.object.spec.resources.requests.storage=data.object.spec.resources.requests.storage.replace('i','B')
+                if (data.type == 'ADDED') {
+                    $scope.items.unshift(data.object)
+                    refresh(1);
+                    $scope.$apply();
+                } else if (data.type == "MODIFIED") {
+                    //data.object.spec.resources.requests.storage=data.object.spec.resources.requests.storage.replace('i','B')
+                    angular.forEach($scope.items, function (item, i) {
+                        if (item.metadata.name == data.object.metadata.name) {
+                            $scope.items[i] = data.object;
+                            refresh(1);
+                            $scope.$apply();
+                        }
+                    })
+                }else if (data.type == "DELETED") {
+                    //data.object.spec.resources.requests.storage=data.object.spec.resources.requests.storage.replace('i','B')
+                    angular.forEach($scope.items, function (item, i) {
+                        if (item.metadata.name == data.object.metadata.name) {
+                            $scope.items.splice(i,1)
+                            refresh(1);
+                            $scope.$apply();
+                        }
+                    })
+                }
+            }
             $scope.$watch('grid.page', function (newVal, oldVal) {
                 if (newVal != oldVal) {
                     refresh(newVal);

@@ -41,6 +41,9 @@ define([
                 } else if(params.api == 'broker'){
                     //var token = tokenarr[0];
                     host = host + GLOBAL.broker_apigroup;
+                }else if(params.api == 'wsapis'){
+                    //var token = tokenarr[0];
+                    host = host + GLOBAL.host_ws_apis;
                 }else{
                     host = host + GLOBAL.host_wss;
                 }
