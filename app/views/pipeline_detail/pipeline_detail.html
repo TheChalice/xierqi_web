@@ -1,4 +1,223 @@
-<div id="build-detail" class="build-detail" style="">
-   1111
+<div id="pipeline-detail" class="pipeline-detail" style="">
+   <div>
+    <div class="panel panel-default panel_marginBottom" style="">
+        <div class="panel-heading">
+        <span class="panel-title">
+            <span class="icon25 icon25-panel"></span>&nbsp;&nbsp;etcd-1
+        </span>
+            <a class="btn btn-gray pull-right btn_a" style="" ng-click="deletes()"><i class="fa fa-trash-o fa-lg"></i></a>
+            <a class="btn btn-green pull-right" ng-click="startBuild()">构建</a>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="media media-sm">
+                        <div class="media-left">
+                            <img class="media-object" src="views/build_detail/img/images_104.png">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">创建时间</h4>
+                            <small class="small_col" style="" uib-tooltip="{{data.metadata.creationTimestamp | timescon}}">2018-01-12 12:34</small>
+                        </div>
+                    </div>
+                </div>
+                
+               
+            </div>
+        </div>
+    </div>
+
+    <uib-tabset class="tab-default tab-jia-default" active="active">
+        <uib-tab index="1">
+            <uib-tab-heading>
+                <span class="icon20 icon20-log"></span> 历史版本
+            </uib-tab-heading>
+            <div class="timeline">
+                <ul>
+                    <li>
+                        <label uib-tooltip="{{item.metadata.creationTimestamp | timescon}}">
+                            <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                            {{item.metadata.creationTimestamp | dateRelative}}111
+                        </label>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    版本：<span class="ver_tit">#1</span>
+                                </div>
+                                <div class="col-sm-6">
+                                    <span>构建时长:{{item.status.duration | duration}}</span>
+                                </div>
+                                <div class="col-sm-2 text-right">
+                                    <a ng-if="item.status.phase == 'Pending' || item.status.phase == 'Running' || item.status.phase == 'New'"
+                                       ng-click="stop($index)" class="icon25 icon25-stop" uib-tooltip="终止" href="javascript:;"></a>
+                                    <a class="icon25 icon25-collapse" uib-tooltip="查看内容" ng-click="getLog($index,item)"
+                                       href="javascript:;"></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div uib-collapse="item.showLog">
+
+                            <div class="pipline_log">
+                                        <div class="pipl_block load col-sm-2">
+                                            <span class="file_name">文件名(刷新)</span>
+                                            <div class="pipl_block_set load_set">
+                                                <div class="fa_set">
+                                                    <i class="fa fa-refresh fa-fw fa_block_set"></i>
+                                                </div>
+                                            </div>
+                                            <span class="sec">1秒</span>
+                                        </div>
+                                        <div class="arrow_btn">
+                                                <i class="fa fa-arrow-right"></i>
+                                        </div>
+
+                                        <div class="pipl_block load col-sm-2">
+                                                <span class="file_name">文件名(报错)</span>
+                                                <div class="pipl_block_set error_set">
+                                                    <div class="fa_set">
+                                                        <i class="fa fa-times fa-fw fa_block_set"></i>
+                                                    </div>
+                                                </div>
+                                                <span class="sec">1秒</span>
+                                            </div>
+                                            <div class="arrow_btn">
+                                                    <i class="fa fa-arrow-right"></i>
+                                            </div>
+
+                                            <div class="pipl_block load col-sm-2">
+                                                    <span class="file_name">文件名(成功)</span>
+                                                    <div class="pipl_block_set succ_set">
+                                                        <div class="fa_set">
+                                                            <i class="fa fa-check fa-fw fa_block_set"></i>
+                                                        </div>
+                                                    </div>
+                                                    <span class="sec">1秒</span>
+                                                </div>
+
+                                                <div class="arrow_btn">
+                                                        <i class="fa fa-arrow-right"></i>
+                                                </div>
+    
+                                                <div class="pipl_block load col-sm-2">
+                                                        <span class="file_name">文件名(刷新)</span>
+                                                        <div class="pipl_block_set load_set">
+                                                            <div class="fa_set">
+                                                                <i class="fa fa-refresh fa-fw fa_block_set"></i>
+                                                            </div>
+                                                        </div>
+                                                        <span class="sec">1秒</span>
+                                                    </div>
+
+                                                    <div class="arrow_btn">
+                                                            <i class="fa fa-arrow-right"></i>
+                                                    </div>
+        
+                                                    <div class="pipl_block load col-sm-2">
+                                                            <span class="file_name">文件名(刷新)</span>
+                                                            <div class="pipl_block_set load_set">
+                                                                <div class="fa_set">
+                                                                    <i class="fa fa-refresh fa-fw fa_block_set"></i>
+                                                                </div>
+                                                            </div>
+                                                            <span class="sec">1秒</span>
+                                                        </div>
+
+                                                        <div class="arrow_btn">
+                                                                <i class="fa fa-arrow-right"></i>
+                                                        </div>
+            
+                                                        <div class="pipl_block load col-sm-2">
+                                                                <span class="file_name">文件名(刷新)</span>
+                                                                <div class="pipl_block_set load_set">
+                                                                    <div class="fa_set">
+                                                                        <i class="fa fa-refresh fa-fw fa_block_set"></i>
+                                                                    </div>
+                                                                </div>
+                                                                <span class="sec">1秒</span>
+                                                            </div>
+
+                                                            <div class="pipl_block load col-sm-2">
+                                                                    <span class="file_name">文件名(刷新)</span>
+                                                                    <div class="pipl_block_set load_set">
+                                                                        <div class="fa_set">
+                                                                            <i class="fa fa-refresh fa-fw fa_block_set"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <span class="sec">1秒</span>
+                                                                </div>
+                                        
+                            </div>
+                        </div>
+
+
+                    </li>
+                    <div class="border_background" style="" ng-if="databuild.items.length===0" class="ng-scope"><p class="blank_block">  <span class="blank_tit">您还没有构建记录</span></p></div>
+                </ul>
+            </div>
+            <!--<c-timeline name="bcName" type="build"></c-timeline>-->
+        </uib-tab>
+        <uib-tab index="2">
+            <uib-tab-heading>
+                <span class="icon20 icon20-paper"></span> 配置信息
+            </uib-tab-heading>
+            <form class="form-horizontal" name="frm">
+                <div class="form-group" ng-show="showwebhook">
+                    <!--<label class="col-sm-2 text-left" id="autobuild">自动构建触发条件</label>-->
+                    <label class="col-sm-3 text-left">是否自动构建</label>
+                    <div class="col-sm-2">
+                        <!--<c-checkbox checked="grid.checked"></c-checkbox>-->
+                        <!--ng-class="{'aciive': grid.checked, 'inactive': gird.uncheked}"-->
+                        <span class="my-checkbox">
+                            <span class="checkbox-check" ng-class="{active: grid.checked}" ng-click="saveTrigger(grid.checked)">
+                                <span class="check-btn"></span>
+                            </span>
+                            <!--<span ng-if="text" class="checkbox-text">{{text}}</span>-->
+                        </span>
+                    </div>
+
+                </div>
+                <div class="form-group" ng-show="!showwebhook">
+                    <!--<label class="col-sm-2 text-left" id="autobuild">自动构建触发条件</label>-->
+                    <label class="col-sm-3 text-left text-left_color" style="">是否自动构建</label>
+                    <div class="col-sm-2">
+                        <span class="my-checkbox">
+                        <span class="checkbox-check">
+                            <span class="check-btn"></span>
+                        </span>
+
+                    </span>
+                        <!--ng-class="{'aciive': grid.checked, 'inactive': gird.uncheked}"-->
+                    </div>
+
+                </div>
+
+                <div class="form-group form-group_padding" style="" ng-if="false">
+                    <label class="col-sm-3 text-left">是否持续集成</label>
+                    <div class="col-sm-2">
+                        <c-checkbox checked="checked"></c-checkbox>
+                    </div>
+                    <div class="col-sm-7" ng-if="checked">
+                        <small class="small_margin" style="">点击按钮，进行持续集成配置</small>
+                        <a class="btn btn-orange">持续集成配置</a>
+                    </div>
+                </div>
+
+                <div class="form-group form-group_paddingTop" style="">
+                    <label class="col-sm-3 text-left">构建超时时长</label>
+                    <div class="col-sm-9">
+                        <input class="input_sty" ng-model="grid.completionDeadlineMinutes" name="cdm" min="1" max="60" ng-disabled="!deadlineMinutesEnable" style="" type="number" class="form-control">
+                        <span class="form_group_span" style="">&nbsp;mins&nbsp;</span>
+                        <a href="javascript:;" class="form_group_a" style="" ng-click="frm.cdm.$valid && save()">
+                            <span class="fa fa-orange" ng-class="{'fa-pencil': !deadlineMinutesEnable, 'fa-check-circle': deadlineMinutesEnable}"></span>
+                        </a>
+                        <span class="font12">&nbsp;&nbsp;构建超时时长请不要超过60Mins</span><br>
+                        <small ng-if="frm.cdm.$invalid" class="fa fa-exclamation-circle fa_small" style="">&nbsp;您设置的时长超过了限制，请重新设置</small>
+                    </div>
+                </div>
+            </form>
+        </uib-tab>
+    </uib-tabset>
+
+   </div>
 </div>
 
