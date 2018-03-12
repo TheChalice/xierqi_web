@@ -243,6 +243,16 @@ define([
                     }
                 })
                 //build
+                .state('console.pipeline', {
+                    url: '/pipeline',
+                    templateUrl: 'views/pipeline/pipeline.html',
+                    controller: 'PipelineCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/pipeline/pipeline.js')
+                        }]
+                    }
+                })
                 .state('console.build', {
                     url: '/build',
                     templateUrl: 'views/build/build.html',
@@ -276,6 +286,20 @@ define([
                         }]
                     }
                 })
+                .state('console.pipeline_detail', {
+                    url: '/pipeline/:name',
+                    params: {
+                        from: null
+                    },
+                    templateUrl: 'views/pipeline_detail/pipeline_detail.html',
+                    controller: 'pipelineDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/pipeline_detail/pipeline_detail.js')
+                        }]
+                    }
+                })
+
                 .state('console.build_create_new', {
                     url: '/construction/create/new',
                     templateUrl: 'views/build_create_new/build_create_new.html',

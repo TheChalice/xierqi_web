@@ -1,0 +1,78 @@
+<div id="build" style="">
+
+
+        <div class="table-responsive table_topMargin" style="">
+            <table class="table table-hover table-default table-buju" style="">
+                <tr>
+                    <div class="row row_set"><!-- 20160921 jia 服务分类模块问题 -->
+                        <th class='col-lg-2 col-md-2 col-sm-1'>构建名称</th>
+                        <th class='col-lg-2 col-md-2 col-sm-2'>最近构建状态</th>
+                        <th class='col-lg-2 col-md-2 col-sm-2'>最近构建时间</th>
+                        <th class='col-lg-2 col-md-2 col-sm-3'>最近构建时长</th>
+                        <!--<th class='col-lg-1 col-md-1 col-sm-2' style='word-break:keep-all;white-space:nowrap;'>构建类型</th>-->
+                        <th class="col-lg-3 col-md-3 col-sm-3 table_headOperating" style=''>操作</th>
+                    </div>
+
+                </tr>
+                <tr ng-repeat="bc in items">
+                    <td class='buildname'
+                        style="">
+                        <a class="href-orange"
+                           ui-sref="console.pipeline_detail({name: bc.metadata.name})"
+                           uib-tooltip="{{bc.metadata.name}}"
+                           tooltip-placement="top">{{bc.metadata.name}}</a>
+                    </td>
+                    <td>
+                    <span class="icon12 icon12-{{bc.build.status.phase}}"
+                          ng-class="{'fa-spin': bc.build.status.phase == 'Running' || bc.build.status.phase == 'Pending'}"></span>
+
+                        {{bc.build.status.phase | phaseFilter}}
+                    </td>
+                    <td><span uib-tooltip="{{bc.build.metadata.creationTimestamp | timescon}}">{{bc.build.metadata.creationTimestamp | dateRelative}}</span>
+                    </td>
+                    <td>{{bc.build.status.duration | duration}}</td>
+                    <!--<td>-->
+                    <!--<i ng-if="true" class="fa fa-hand-pointer-o">&nbsp;手动</i>-->
+                    <!--<i ng-if="false" class="fa fa-television">&nbsp;自动</i>-->
+                    <!--</td>-->
+                    <td class="text-center threec OperatingContent" style="">
+                        <div class="row Operating"
+                             style=''>
+                            <div class="col-md-1 col-lg-1 col-sm-1">
+
+                            </div>
+                            <a class="icon25 icon25-start col-lg-4 col-md-4 col-sm-4"
+                               style="padding-left: 20px;" href="javascript:;"
+                               ng-click="startBuild($index)" ng-show="bc.build.status.phase != 'Running'"
+                               uib-tooltip="构建"></a>
+
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5" class="td_colspan_li" style="" ng-if="items.length===0"><p class="blank_block">  <span class="blank_tit">{{text}}</span></p></td>
+                </tr>
+            </table>
+            <div class="text-center" ng-if="grid.total > 10">
+                <uib-pagination class="pagination"
+                                ng-model="grid.page"
+                                total-items="grid.total"
+                                items-per-page="grid.size"
+                                class="pagination-sm"
+                                boundary-links="false"
+                                max-size="12"
+                                rotate="true"
+                                previous-text="<"
+                                next-text=">"
+                                >
+                </uib-pagination>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<style>
+
+
+</style>
