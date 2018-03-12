@@ -6,7 +6,7 @@
                 <tr>
                     <div class="row row_set"><!-- 20160921 jia 服务分类模块问题 -->
                         <th class='col-lg-2 col-md-2 col-sm-1'>构建名称</th>
-                        <th class='col-lg-2 col-md-2 col-sm-2'>最近构建状态</th>
+                        <th class='col-lg-2 col-md-2 col-sm-2'>版本</th>
                         <th class='col-lg-2 col-md-2 col-sm-2'>最近构建时间</th>
                         <th class='col-lg-2 col-md-2 col-sm-3'>最近构建时长</th>
                         <!--<th class='col-lg-1 col-md-1 col-sm-2' style='word-break:keep-all;white-space:nowrap;'>构建类型</th>-->
@@ -23,10 +23,10 @@
                            tooltip-placement="top">{{bc.metadata.name}}</a>
                     </td>
                     <td>
-                    <span class="icon12 icon12-{{bc.build.status.phase}}"
-                          ng-class="{'fa-spin': bc.build.status.phase == 'Running' || bc.build.status.phase == 'Pending'}"></span>
+                        <a class="href-orange"
+                           ui-sref="console.pipelinetag_detail({name: bc.metadata.name,tag:bc.build.metadata.annotations['openshift.io/build.number']})"
+                           tooltip-placement="top">#{{bc.build.metadata.annotations['openshift.io/build.number']}}</a>
 
-                        {{bc.build.status.phase | phaseFilter}}
                     </td>
                     <td><span uib-tooltip="{{bc.build.metadata.creationTimestamp | timescon}}">{{bc.build.metadata.creationTimestamp | dateRelative}}</span>
                     </td>

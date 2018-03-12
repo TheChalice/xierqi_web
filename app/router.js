@@ -299,6 +299,19 @@ define([
                         }]
                     }
                 })
+                .state('console.pipelinetag_detail', {
+                    url: '/pipeline/:name/:tag',
+                    params: {
+
+                    },
+                    templateUrl: 'views/pipelineTag_detail/pipelineTag_detail.html',
+                    controller: 'pipelineTagDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/pipelineTag_detail/pipelineTag_detail.js')
+                        }]
+                    }
+                })
 
                 .state('console.build_create_new', {
                     url: '/construction/create/new',
