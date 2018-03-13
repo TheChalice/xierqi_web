@@ -1,142 +1,55 @@
-.build-detail .form-group {
-    padding-bottom: 30px;
-    border-bottom: 1px solid #c9c9c9;
+#build-detail .pd_name {
+    font-size: 24px;
+    color: #333;
 }
-.build-detail .form-group:last-child {
-    border-bottom: none;
+
+#build-detail .pd_dt {
+    font-size: 14px;
+    color: #9c9c9c;
 }
-.icon-edit {
-    background-image: url(img/images_134.png);
+
+#build-detail .tab-default li .nav-link {
+    font-size: 14px;
+    color: #333;
 }
-#condition {
-    padding-top: 10px;
+
+#build-detail .tab-default li .nav-link:hover {
+    font-size: 14px;
 }
-#pushtag {
-    margin-top: 25px;
-    margin-bottom: 30px;
+
+#build-detail .tab-default li.active .nav-link,
+#build-detail .tab-default li.active .nav-link:focus,
+#build-detail .tab-default li.active .nav-link:hover {
+    border: 0px;
+    border-bottom: 2px solid #F8A632;
+    color: #333;
+    font-size: 14px;
 }
-.font12 {
+
+#build-detail .tab-default .nav-tabs {
+    border-bottom: 1px solid #E0E6ED;
+}
+
+#build-detail .tab-default .tab-content {
+    border: 0px;
+    padding: 20px 0px;
+}
+
+.hide-ng-leave .ng-animate, .hide-ng-leave .ng-leave, .hide-ng-leave.ng-animate, .hide-ng-leave.ng-leave {
+    animation: none 0s;
+    transition: none;
+    --webkit-transition: none
+}
+
+.subtitle {
+    font-family: MicrosoftYaHei-Bold;
     font-size: 12px;
-    color: #5a6378;
-    font-weight:normal;
+    color: #1F2D3D;
+    font-weight:500;
 }
-.text-left {
-    font-weight: normal;
+.matgin-txt{
+    font-family: MicrosoftYaHei;
+    font-size: 12px;
+    color: #475669;
+    letter-spacing: 0;
 }
-
-.till{
-    display: none;
-}
-.tell:hover>.till{
-    display: block;
-}
-/*.href-orange{*/
-    /*color: #f6a540;*/
-    /*text-decoration: none;*/
-/*}*/
-/*.href-orange:hover {*/
-    /*color: #5b73eb;*/
-    /*text-decoration: none;*/
-/*}*/
-/*.href-orange:active {*/
-    /*color: #5b73eb;*/
-    /*text-decoration: none;*/
-/*}*/
-/*����Ϊ��ʱ״̬*/
-.blank_block{margin-bottom:0;}
-.blank_tit{font-size:14px;color:#5a6378;margin-left:10px;vertical-align:middle;}
-
-.tab-jia-default li.active .nav-link, .tab-jia-default li.active .nav-link:focus, .tab-jia-default li.active .nav-link:hover{
-    border:0;
-    border-bottom:2px solid #f8b551;
-    color:#333;
-}
-.tab-jia-default .tab-content{border: 0;}
-.tab-jia-default li .nav-link:hover{color:#333;}
-/*new code*/
-
-#build-detail{
-    background:#fff;padding:20px 40px 40px;
-}
-#build-detail .panel_marginBottom{
-    margin-bottom: 50px;
-}
-#build-detail .btn_a{
-    padding: 5px 10px;
-    margin-left: 15px;
-    height:34px;
-    width:36px;
-}
-#build-detail .small_col{
-    color: #5a6378;
-}
-#build-detail .media-body_tell{
-    width: 100%;
-}
-#build-detail .till{
-    position: absolute;
-    top: -6px;
-    padding: 0 8px;
-    border-radius:3px;
-    white-space:nowrap;
-    left: 0;
-    background-color: black;
-    color: white;
-}
-#build-detail .href-orange_a{
-    width:60%;
-}
-#build-detail .tell_position{
-    position: relative;
-}
-#build-detail .till_position{
-    position: absolute;top: -30px;padding: 0 8px;border-radius:3px;left: 0;background-color: black;color: white
-}
-#build-detail .tell_white_space{
-    white-space:nowrap;overflow: hidden;text-overflow: ellipsis;
-}
-#build-detail .well-log_overflow{
-    overflow: auto;
-}
-#build-detail .sa_color{
-    color:#e4e4e4;
-}
-#build-detail .border_background{
-    border:1px solid #e5e5e5;
-    padding-top:10px;
-    padding-bottom:10px;
-    background:#f7f8fc;
-    text-align: center;
-    position:relative;
-}
-#build-detail .text-left_color{
-    color: darkgray;
-}
-#build-detail .form-group_padding{
-    padding-top: 30px;
-}
-#build-detail .small_margin{
-    margin-right: 20px;
-}
-#build-detail .form-group_paddingTop{
-    padding-top: 50px;
-}
-#build-detail .input_sty{
-    width: 80px;display: inline-block;
-}
-#build-detail .form_group_span{
-    display: inline-block;
-}
-#build-detail .form_group_a{
-    text-decoration: none;
-}
-#build-detail .fa_small{
-    font-size: 12px;color: #ec6941;
-}
-#build-detail .till{
-    display: none;
-}
-#build-detail .tell:hover>.till{
-    display: block;
-}
-/*new code end*/
