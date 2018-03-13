@@ -304,7 +304,10 @@ define(['angular'], function(angular) {
                             }
                             $q.all(createUpdatePromises).then(
                                 //redirect
-                                () => { console.log("Done!") }
+                                function () {
+                                    console.log("Done!")
+                                }
+
                             );
                         }
                         $state.go('console.dashboard');

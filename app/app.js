@@ -65,6 +65,7 @@ define([
             broker_apigroup: '/apis/prd.asiainfo.com/v1',
             host_newk8s: '/apis/autoscaling/v1',
             host_ws_apis: '/ws/apis/apps/v1beta1',
+            host_ws_apisextensions: '/ws/apis/extensions/v1beta1',
             host_newk8s1: '/apis/apps/v1beta1',
             host_newk8s2: '/apis/extensions/v1beta1',
             host_repos: '/v1/repos',
