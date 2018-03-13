@@ -301,15 +301,23 @@ define([
                 })
                 .state('console.pipelinetag_detail', {
                     url: '/pipeline/:name/:tag',
-                    params: {
-
-                    },
+                    // params: {
+                    //
+                    // },
                     templateUrl: 'views/pipelineTag_detail/pipelineTag_detail.html',
                     controller: 'pipelineTagDetailCtrl',
                     resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/pipelineTag_detail/pipelineTag_detail.js')
-                        }]
+                        }],
+                        myPipelineDetail: ['$stateParams', 'Build', 'Cookie', '$rootScope',
+                            function ($stateParams, Build, Cookie, $rootScope) {
+                                return Build.get({
+                                    namespace: Cookie.get('namespace'),
+                                    name: $stateParams.name + '-' + $stateParams.tag
+                                }).$promise;
+                            }
+                        ]
                     }
                 })
 

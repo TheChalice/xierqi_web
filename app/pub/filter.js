@@ -1341,4 +1341,44 @@ define(['angular', 'moment'], function(angular, moment) {
                 return mount.readOnly ? 'read-only' : 'read-write';
             };
         })
+        .filter('jenkinsLogURL', function(annotationFilter) {
+            return function(build, asPlainText) {
+                var logURL = annotationFilter(build, 'jenkinsLogURL');
+                if (!logURL || asPlainText) {
+                    return logURL;
+                }
+
+                // Link to the Jenkins console that follows the log instead of the raw log text.
+                return logURL.replace(/\/consoleText$/, '/console');
+            };
+        })
+        .filter('startCase', function () {
+            return function(str) {
+                if (!str) {
+                    return str;
+                }
+
+                // https://lodash.com/docs#startCase
+                return _.startCase(str);
+            };
+        })
+        .filter('buildStrategy', function() {
+            return function(build) {
+                if (!build || !build.spec || !build.spec.strategy) {
+                    return null;
+                }
+                switch (build.spec.strategy.type) {
+                    case 'Source':
+                        return build.spec.strategy.sourceStrategy;
+                    case 'Docker':
+                        return build.spec.strategy.dockerStrategy;
+                    case 'Custom':
+                        return build.spec.strategy.customStrategy;
+                    case 'JenkinsPipeline':
+                        return build.spec.strategy.jenkinsPipelineStrategy;
+                    default:
+                        return null;
+                }
+            };
+        })
 });
