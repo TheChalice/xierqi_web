@@ -652,11 +652,13 @@ define(['angular', 'moment'], function(angular, moment) {
         .filter('deploymentStatus', ["annotationFilter", "hasDeploymentConfigFilter",
             function(annotationFilter, hasDeploymentConfigFilter) {
                 return function(deployment) {
-
+                    console.log("annotationFilter(deployment, 'deploymentCancelled')", annotationFilter(deployment, 'deploymentCancelled'));
                     if (annotationFilter(deployment, 'deploymentCancelled')) {
                         return "Cancelled";
                     }
+                    console.log(annotationFilter(deployment, 'deploymentStatus'));
                     var status = annotationFilter(deployment, 'deploymentStatus');
+
                     // If it is just an RC (non-deployment) or it is a deployment with more than 0 replicas
                     if (!hasDeploymentConfigFilter(deployment) || status === "Complete" && deployment.spec.replicas > 0) {
                         return "Active";
