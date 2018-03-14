@@ -44,6 +44,9 @@ define([
                 }else if(params.api == 'wsapis'){
                     //var token = tokenarr[0];
                     host = host + GLOBAL.host_ws_apis;
+                }else if(params.api == 'extensions'){
+                    //var token = tokenarr[0];
+                    host = host + GLOBAL.host_ws_apisextensions;
                 }else{
                     host = host + GLOBAL.host_wss;
                 }

@@ -246,6 +246,7 @@ angular.module('console.quick_deploy', [
             var createService = function (dc) {
                 prepareService($scope.service, dc);
                 var ps = [];
+                console.log('$scope.port', $scope.port);
                 angular.forEach($scope.port, function (port, i) {
                     var val = port.protocol.toUpperCase()
                     ps.push({
@@ -392,6 +393,7 @@ angular.module('console.quick_deploy', [
 
                     function imageportmessage(port) {
                         var port = port;
+                        console.log('port', port);
                         $scope.port = []
                         $scope.strport = '';
                         for (var k in port) {
@@ -455,8 +457,8 @@ angular.module('console.quick_deploy', [
 
                                 if (images.status.images[0] && images.status.images[0].image.dockerImageMetadata) {
                                     imagetimemessage(images.status.images[0].image.dockerImageMetadata.Created)
+                                    console.log('images.status.images[0].image.dockerImageMetadata.Config.ExposedPorts', images.status.images[0].image.dockerImageMetadata);
                                     if (images.status.images[0].image.dockerImageMetadata.Config.ExposedPorts) {
-                                        //console.log('images.status.images[0].image.dockerImageMetadata.Config.ExposedPorts', images.status.images[0].image.dockerImageMetadata);
                                         imageportmessage(images.status.images[0].image.dockerImageMetadata.Config.ExposedPorts)
                                     }
                                 } else {
@@ -482,7 +484,10 @@ angular.module('console.quick_deploy', [
                         }, function (tag) {
                             console.log('tag', tag);
                             imagetimemessage(tag.image.metadata.creationTimestamp)
-                            imageportmessage(tag.image.dockerImageMetadata.Config.ExposedPorts)
+                            if (tag.image.dockerImageMetadata.Config.ExposedPorts) {
+                                imageportmessage(tag.image.dockerImageMetadata.Config.ExposedPorts)
+                            }
+
                             $scope.curl = $scope.checked.image;
                             $scope.fuwuname = $scope.checked.image;
                             //tag.image.

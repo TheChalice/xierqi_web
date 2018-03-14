@@ -50,7 +50,6 @@ angular.module('console.pods', [{
                 if (data.type == 'ERROR') {
                     $log.info("err", data.object.message);
                     Ws.clear();
-                    persistentlist();
                     return;
                 }
                 $scope.resourceVersion = data.object.metadata.resourceVersion;

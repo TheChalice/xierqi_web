@@ -1,4 +1,137 @@
 <div id="build-detail" class="build-detail" style="">
-   222
+    <p>
+        <span class="pd_name">{{buildSet.metadata.name}}</span>
+        &nbsp;&nbsp;
+        <span class="pd_dt">created&nbsp;{{buildSet.metadata.creationTimestamp | dateRelative}}</span>
+    </p>
+    <uib-tabset class="tab-default tab-pods">
+        <uib-tab index="1">
+            <uib-tab-heading>
+                Details
+            </uib-tab-heading>
+            <div>
+                <h3 class="subtitle">Status</h3>
+                <div class="row matgin-txt">
+                    <div class="col-md-2">Status:</div>
+                    <div class="col-md-10">
+                        <status-icon status="buildSet.status.phase"></status-icon>
+                        <span ng-if="!buildSet.status.message || buildSet.status.phase === 'Cancelled'">{{buildSet.status.phase}}</span>
+                        <span ng-if="buildSet.status.message && buildSet.status.phase !== 'Cancelled'">{{buildSet.status.message}}</span>
+                        <span ng-if="buildSet | jenkinsLogURL">
+                            <span class="text-muted">&ndash;</span>
+                            <a ng-href="{{buildSet | jenkinsLogURL}}" target="_blank">View Log</a>
+                        </span>
+                    </div>
+                </div>
+                <div class="row matgin-txt">
+                    <div class="col-md-2">Started:</div>
+                    <div class="col-md-10">
+                        <span ng-if="buildSet.status.startTimestamp">
+                            <span am-time-ago="build.status.startTimestamp"></span>
+                            <span><span class="text-muted">&ndash;</span> {{buildSet.status.startTimestamp | date : 'medium'}}</span>
+                        </span>
+                        <span ng-if="!buildSet.status.startTimestamp"><em>not started</em></span>
+                    </div>
+                </div>
+                <div class="row matgin-txt">
+                    <div class="col-md-2">Duration:</div>
+                    <div class="col-md-10">
+                        <span ng-switch="buildSet.status.phase" class="hide-ng-leave">
+                            <span ng-switch-when="Complete">{{(buildSet.status.startTimestamp || buildSet.metadata.creationTimestamp) | duration : buildSet.status.completionTimestamp}}</span>
+                            <span ng-switch-when="Failed">{{buildSet.status.startTimestamp | duration : buildSet.status.completionTimestamp}}</span>
+                            <span ng-switch-when="Running">running for <duration-until-now
+                                    timestamp="buildSet.status.startTimestamp"></duration-until-now></span>
+                            <span ng-switch-when="Pending">waiting for <duration-until-now
+                                    timestamp="buildSet.metadata.creationTimestamp"></duration-until-now></span>
+                            <span ng-switch-when="New">waiting for {{buildSet.metadata.creationTimestamp}}</span>
+                            <span ng-switch-default>
+                                <span ng-if="buildSet.status.startTimestamp">{{buildSet.status.startTimestamp | duration : buildSet.status.completionTimestamp}}</span>
+                                <span ng-if="!buildSet.status.startTimestamp">waited for {{buildSet.metadata.creationTimestamp | duration : buildSet.status.completionTimestamp}}</span>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+                <div class="row matgin-txt">
+                    <div class="col-md-2">Triggered By:</div>
+                    <div class="col-md-10">
+                        <div ng-repeat="trigger in buildSet.spec.triggeredBy">
+                            <div ng-switch="trigger.message">
+                                <span ng-switch-when="Manually triggered">Manual build</span>
+                                <span ng-switch-when="GitHub WebHook">
+                                    <ng-include src=" 'views/_webhook-trigger-cause.html' "></ng-include>
+                                </span>
+                                <span ng-switch-when="Generic WebHook">
+                                    <ng-include src=" 'views/_webhook-trigger-cause.html' "></ng-include>
+                                </span>
+                                <span ng-switch-when="Image change">
+                                    {{trigger.message}} for {{trigger.imageChangeBuild.fromRef.name}}
+                                </span>
+                                <span ng-switch-default ng-bind-html="trigger.message | linkify : '_blank'"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="subtitle" >Configuration</h3>
+                <div class="row matgin-txt">
+                    <div class="col-md-2">Build Strategy:</div>
+                    <div class="col-md-10">{{buildSet.spec.strategy.type | startCase}}</div>
+                    <div ng-if-start="(buildSet | buildStrategy).from">Builder Image:</div>
+                    <div ng-if-end class="truncate">{{(buildSet | buildStrategy).from | imageObjectRef :
+                        buildSet.metadata.namespace}}<span ng-if="!(buildSet | buildStrategy).from"><em>none</em></span>
+                    </div>
+                    <div class="col-md-2">Source Type:</div>
+                    <div class="col-md-10">{{buildSet.spec.source.type}}</div>
+                    <div class="col-md-2" ng-if-start="buildSet.spec.source.git.uri">Source Repo:</div>
+                    <div class="col-md-10" ng-if-end><span class="word-break"><osc-git-link
+                            uri="build.spec.source.git.uri"
+                            ref="build.spec.source.git.ref"
+                            context-dir="build.spec.source.contextDir">{{buildSet.spec.source.git.uri}}</osc-git-link></span>
+                    </div>
+                    <div class="col-md-2" ng-if-start="buildSet.spec.source.git.ref">Source Ref:</div>
+                    <div class="col-md-10" ng-if-end>{{buildSet.spec.source.git.ref}}</div>
+                    <div class="col-md-2" ng-if-start="buildSet.spec.source.contextDir">Source Context Dir:</div>
+                    <div class="col-md-10" ng-if-end>{{buildSet.spec.source.contextDir}}</div>
+                    <div class="col-md-2" ng-if-start="buildSet.spec.revision.git.commit">Source Commit:</div>
+                    <div class="col-md-10" ng-if-end>
+                        {{buildSet.spec.revision.git.message}}
+                        <osc-git-link
+                                class="hash"
+                                uri="build.spec.source.git.uri"
+                                ref="build.spec.revision.git.commit">{{buildSet.spec.revision.git.commit | limitTo:7}}
+                        </osc-git-link>
+                        <span ng-if="buildSet.spec.revision.git.author">
+                            authored by {{buildSet.spec.revision.git.author.name}}
+                        </span>
+                    </div>
+                </div>
+                <div class="row matgin-txt">
+                    <div class="col-md-2">Jenkinsfile:</div>
+                    <div class="col-md-10">
+                        &nbsp;
+                    </div>
+                    <div style="height:400px; border: 1px solid #8b8d8f;margin:20px 15px 0 15px;" ui-ace="{
+                        mode: 'groovy',
+                        theme: 'eclipse',
+                        showGutter: false,
+                        rendererOptions: {
+                          fadeFoldWidgets: true,
+                          highlightActiveLine: false,
+                          showPrintMargin: false
+                        },
+                        advanced: {
+                          highlightActiveLine: false
+                        }
+                    }" readonly ng-model="buildSet.spec.strategy.jenkinsPipelineStrategy.jenkinsfile" class="ace-bordered ace-inline ace-read-only">
+                    </div>
+                </div>
+                </div>
+        </uib-tab>
+        <uib-tab index="2">
+            <uib-tab-heading>
+                Events
+            </uib-tab-heading>
+            <deployments-event dcname="Build.metadata.name" dcfit="Build"></deployments-event>
+        </uib-tab>
+    </uib-tabset>
 </div>
 
