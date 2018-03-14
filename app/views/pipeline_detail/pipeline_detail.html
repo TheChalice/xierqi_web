@@ -180,7 +180,7 @@
                     <div class="dl_list">
                         <dt style="margin-bottom:4px;">Jenkinsfile</dt>
                         <dd>
-                                <div style="height:280px; border: 1px solid #d1d1d1;background:#fafafa" ui-ace="{
+                            <div style="height:280px; border: 1px solid #d1d1d1;background:#fafafa" ui-ace="{
                                     mode: 'groovy',
                                     theme: 'eclipse',
                                     showGutter: false,
@@ -193,38 +193,44 @@
                                       highlightActiveLine: false
                                     }
                                   }" readonly ng-model="BuildConfig.spec.strategy.jenkinsPipelineStrategy.jenkinsfile" class="ace-bordered ace-inline ace-read-only"></div>
-                                </div>
-                        </dd>
                     </div>
+                    </dd>
+                </div>
 
 
-                    <p class="tit_details">Triggers</p>
-                    <div>
-                        <dt>Generic Webhook URL:
-                        </dt>
-                        <dd>
-                            <copy-to-clipboard clipboard-text="BuildConfig.metadata.name | webhookURL : trigger.type : trigger.generic.secret : project.metadata.name"></copy-to-clipboard>
-                        </dd>
-                    </div>
+                <p class="tit_details">Triggers</p>
+                <div ng-repeat="trigger in BuildConfig.spec.triggers | orderBy : 'type' : false : compareTriggers">
+                    <div ng-switch="trigger.type">
+                        <div ng-switch-when="Generic">
+                            <dt>Generic 网络URL:
+                            </dt>
+                            <dd>
+                                {{BuildConfig.metadata.name | webhookURL : trigger.type : trigger.generic.secret : projectname}}
+                                <!-- <copy-to-clipboard clipboard-text="BuildConfig.metadata.name | webhookURL : trigger.type : trigger.generic.secret : nameset"></copy-to-clipboard> -->
+                            </dd>
+                        </div>
 
-                    <div>
-                        <dt>GitHub Webhook URL:
-                        </dt>
-                        <dd>
-                            <copy-to-clipboard clipboard-text="BuildConfig.metadata.name | webhookURL : trigger.type : trigger.github.secret : project.metadata.name"></copy-to-clipboard>
-                        </dd>
+                        <div ng-switch-when="GitHub">
+                            <dt>GitHub 网络URL:
+                            </dt>
+                            <dd>
+                                {{BuildConfig.metadata.name | webhookURL : trigger.type : trigger.github.secret : projectname}}
+                                <!-- <copy-to-clipboard clipboard-text="BuildConfig.metadata.name | webhookURL : trigger.type : trigger.github.secret : projectname"></copy-to-clipboard> -->
+                            </dd>
+                        </div>
                     </div>
-
-                    <div >
-                        <dt>Manual (CLI):
-                        </dt>
-                        <dd>
-                            <copy-to-clipboard clipboard-text="'oc start-build ' + BuildConfig.metadata.name + ' -n ' + project.metadata.name"></copy-to-clipboard>
-                        </dd>
-                    </div>
+                </div>
+                <div>
+                    <dt>Manual (CLI):
+                    </dt>
+                    <dd>
+                        'oc start-build ' + {{BuildConfig.metadata.name}} + ' -n ' + {{projectname}}
+                        <!-- <copy-to-clipboard clipboard-text="'oc start-build ' + BuildConfig.metadata.name + ' -n ' + nameset"></copy-to-clipboard> -->
+                    </dd>
+                </div>
 
             </uib-tab>
         </uib-tabset>
 
-        </div>
     </div>
+</div>
