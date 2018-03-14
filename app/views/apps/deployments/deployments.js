@@ -59,8 +59,7 @@ angular.module('console.deployments', [{
                 //$scope.grid.total = $scope.items.length;
                 refreshTwo(1);
             })
-            Wsapi(ReplicaSet.items,ReplicaSet.metadata.resourceVersion,'extensions','replicasets', function (items) {
-               ;
+            Wsapi(ReplicaSet.items,ReplicaSet.metadata.resourceVersion,'extensions','replicasets', function (items) {;
                 refreshTwo(1);
             })
             Wsapi($scope.items,mydcs.metadata.resourceVersion,false,'deploymentconfigs', function (items) {
