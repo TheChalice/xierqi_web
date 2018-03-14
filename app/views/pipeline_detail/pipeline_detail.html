@@ -178,7 +178,7 @@
                     </div>
 
                     <div class="dl_list">
-                        <dt style="margin-bottom:4px;">Jenkinsfile</dt>
+                        <dt style="margin-bottom:4px;font-weight:normal">Jenkinsfile</dt>
                         <dd>
                             <div style="height:280px; border: 1px solid #d1d1d1;background:#fafafa" ui-ace="{
                                     mode: 'groovy',
@@ -198,35 +198,47 @@
                 </div>
 
 
-                <p class="tit_details">Triggers</p>
+                <p class="tit_details trig_tp">Triggers</p>
                 <div ng-repeat="trigger in BuildConfig.spec.triggers | orderBy : 'type' : false : compareTriggers">
                     <div ng-switch="trigger.type">
                         <div ng-switch-when="Generic">
-                            <dt>Generic 网络URL:
-                            </dt>
-                            <dd>
-                                {{BuildConfig.metadata.name | webhookURL : trigger.type : trigger.generic.secret : projectname}}
-                                <!-- <copy-to-clipboard clipboard-text="BuildConfig.metadata.name | webhookURL : trigger.type : trigger.generic.secret : nameset"></copy-to-clipboard> -->
-                            </dd>
+                                <div class="pip_block">
+                                        <p class="pit_left">Generic 网络URL:</p>
+                                    <span class="pip_tit">
+                                    {{BuildConfig.metadata.name | webhookURL : trigger.type : trigger.generic.secret : projectname}}
+                                    </span>
+                                   
+                                        <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
+                                   
+                                    
+                                    <!-- <span class="set_tit" ng-class="{'iscopyactive':isCopy}" ng-click="gencopy($event)">{{copyCon}}</span> -->
+                                </div>
+                           
                         </div>
 
                         <div ng-switch-when="GitHub">
-                            <dt>GitHub 网络URL:
-                            </dt>
-                            <dd>
-                                {{BuildConfig.metadata.name | webhookURL : trigger.type : trigger.github.secret : projectname}}
-                                <!-- <copy-to-clipboard clipboard-text="BuildConfig.metadata.name | webhookURL : trigger.type : trigger.github.secret : projectname"></copy-to-clipboard> -->
-                            </dd>
+                                <div class="pip_block">
+                                        <p class="pit_left">GitHub 网络URL:</p>
+                                    <span class="pip_tit">
+                                        {{BuildConfig.metadata.name | webhookURL : trigger.type : trigger.github.secret : projectname}}
+                                    </span>
+                                    <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
+                                    <!-- <span class="set_tita" ng-class="{'iscopyactive':isCopy}" ng-click="gitcopy($event)">{{copyCon}}</span> -->
+                                </div>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <dt>Manual (CLI):
-                    </dt>
-                    <dd>
-                        'oc start-build ' + {{BuildConfig.metadata.name}} + ' -n ' + {{projectname}}
-                        <!-- <copy-to-clipboard clipboard-text="'oc start-build ' + BuildConfig.metadata.name + ' -n ' + nameset"></copy-to-clipboard> -->
-                    </dd>
+                   
+                        <div class="pip_block">
+                                <p class="pit_left">Manual (CLI):</p>
+                            <span class="pip_tit">
+                                oc start-build {{BuildConfig.metadata.name}} -n {{projectname}}
+                            </span>
+                            <i class="pip_btn fa fa-clipboard" uib-tooltip="复制"  ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
+                            <!-- <span class="set_tita" ng-class="{'iscopyactive':isCopy}" ng-click="gitcopy($event)">{{copyCon}}</span> -->
+                        </div>
+                    
                 </div>
 
             </uib-tab>
