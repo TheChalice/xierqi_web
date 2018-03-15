@@ -164,6 +164,7 @@ height:auto;overflow:hidden;}
 .arrow_btn{float:left;margin-left:4px;margin-right:4px;margin-top:16px;}
 .arrow_btn .fa-arrow-right{color:#A2B0C4;}
 .fa_block_set{color:#fff;}
+#pipeline-detail .btn_a{margin-left:15px;}
 
 
 /* *************配置信息模块********************* */
