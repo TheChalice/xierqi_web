@@ -83,7 +83,7 @@ angular.module('console.pipeline.detail', [
                 var e = event.target.previousElementSibling;
                 var textInput = document.createElement('input');
                 textInput.setAttribute('value', e.textContent)
-                //textInput.style.cssText = "position: absolute; top:0; left: -9999px";
+                textInput.style.cssText = "position: absolute; top:0; left: -9999px";
                 document.body.appendChild(textInput);
                 textInput.select();
                 var success = document.execCommand('copy');
