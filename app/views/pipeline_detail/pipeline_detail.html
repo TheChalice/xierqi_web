@@ -36,22 +36,21 @@
                 </uib-tab-heading>
                 <div class="timeline">
                     <ul>
-                        <li>
-                            <label uib-tooltip="{{item.metadata.creationTimestamp | timescon}}">
-                                <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp; {{item.metadata.creationTimestamp | dateRelative}}111
-                            </label>
+                        <li ng-repeat="item in databuild.items">
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-sm-4">
                                         版本：
-                                        <span class="ver_tit">#1</span>
+        <a class="ver_tit" 
+        ui-sref="console.pipelinetag_detail({name:item.status.config.name,tag:item.metadata.annotations['openshift.io/build.number']})">
+            #{{item.metadata.annotations['openshift.io/build.number']}}</a>
                                     </div>
                                     <div class="col-sm-6">
-                                        <span>状态</span>
+                                        <span>状态：{{item.status.phase | rcStatusFilter}}</span>
                                     </div>
                                     <div class="col-sm-2 text-right">
-                                        <a ng-if="item.status.phase == 'Pending' || item.status.phase == 'Running' || item.status.phase == 'New'" ng-click="stop($index)"
-                                            class="icon25 icon25-stop" uib-tooltip="终止" href="javascript:;"></a>
+                                        <!-- <a ng-if="item.status.phase == 'Pending' || item.status.phase == 'Running' || item.status.phase == 'New'" ng-click="stop($index)"
+                                            class="icon25 icon25-stop" uib-tooltip="终止" href="javascript:;"></a> -->
                                         <a class="icon25 icon25-collapse" uib-tooltip="查看内容" ng-click="getLog($index,item)" href="javascript:;"></a>
                                     </div>
                                 </div>

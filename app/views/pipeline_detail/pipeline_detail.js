@@ -8,8 +8,8 @@ angular.module('console.pipeline.detail', [
         ]
     }
 ])
-    .controller('pipelineDetailCtrl', ['$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'toastr', 'BuildConfigs', 'Project','deleteSecret'
-        , function ($rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, toastr, BuildConfigs, Project,deleteSecret) {
+    .controller('pipelineDetailCtrl', ['$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'toastr', 'BuildConfigs', 'Project','deleteSecret','Sort','Ws'
+        , function ($rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, toastr, BuildConfigs, Project,deleteSecret,Sort,Ws) {
             Project.get({ region: $rootScope.region }, function (data) {
                 angular.forEach(data.items, function (item, i) {
                     if (item.metadata.name === $rootScope.namespace) {
@@ -19,6 +19,62 @@ angular.module('console.pipeline.detail', [
                 $scope.BuildConfig = angular.copy(BuildConfigs);
             });
 
+           //获取pipline记录
+            var loadPiplineHistory = function (name) {
+                //console.log('name',name)
+                Build.get({
+                    namespace: $rootScope.namespace,
+                    labelSelector: 'buildconfig=' + name,
+                    region: $rootScope.region
+                }, function (data) {
+                    console.log("history", data);
+                    data.items = Sort.sort(data.items, -1); //排序
+                    $scope.databuild = data;
+                    console.log('oooollllllll',$scope.databuild);
+                    if ($stateParams.from == "create/new") {
+                        $scope.databuild.items[0].showLog = true;
+                    }
+                    //console.log($scope.databuild);
+                    //fillHistory(data.items);
+
+                    //emit(imageEnable(data.items));
+                    $scope.resourceVersion = data.metadata.resourceVersion;
+                    watchBuilds(data.metadata.resourceVersion);
+                }, function (res) {
+                    //todo 错误处理
+                });
+            };
+
+            loadPiplineHistory($state.params.name);
+
+
+            var watchBuilds = function (resourceVersion) {
+                Ws.watch({
+                    resourceVersion: resourceVersion,
+                    namespace: $rootScope.namespace,
+                    type: 'builds',
+                    name: ''
+                }, function (res) {
+                    var data = JSON.parse(res.data);
+                    updateBuilds(data);
+                }, function () {
+                    $log.info("webSocket start");
+                }, function () {
+                    $log.info("webSocket stop");
+                    var key = Ws.key($rootScope.namespace, 'builds', '');
+                    //console.log(key, $rootScope);
+                    if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
+                        return;
+                    }
+                    watchBuilds($scope.resourceVersion);
+                });
+            };
+           
+
+           
+
+
+            
             $scope.gcopy = () =>copyblock(event)
 
 
