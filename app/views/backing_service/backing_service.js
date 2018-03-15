@@ -502,11 +502,11 @@ angular.module('console.backing_service', [
                     $log.info("webSocket start");
                 }, function () {
                     $log.info("webSocket stop");
-                    var key = Ws.key($rootScope.namespace, 'backingserviceinstances', '');
-                    if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
-                        return;
-                    }
-                    watchBsi($scope.resourceVersion);
+                    //var key = Ws.key($rootScope.namespace, 'backingserviceinstances', '');
+                    //if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
+                    //    return;
+                    //}
+                    //watchBsi($scope.resourceVersion);
                 });
             };
             // 我的后端服务长连接监视方法

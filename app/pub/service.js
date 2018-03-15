@@ -1122,24 +1122,24 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
 
                                 } else if (idx == 2) {
                                     //////仓库镜像
-                                    pubregistry.get(function(data) {
-                                        $scope.images.items = []
-                                        angular.forEach(data.repositories, function(image, i) {
-                                            var namespace = image.split('/')[0];
-                                            var name = image.split('/')[1];
-                                            //if (namespace === $rootScope.namespace) {
-                                            //$scope.images.items.push({name:image,tags:[]})
-                                            pubregistrytag.get({ namespace: namespace, name: name }, function(tag) {
-                                                    console.log('tag', tag);
-                                                    $scope.images.items.push(tag)
-                                                        //$scope.images.items[i].tags=tag.tags
-                                                        //console.log('$scope.primage', $scope.primage);
-                                                })
-                                                //}
-
-                                        })
-
-                                    })
+                                    //pubregistry.get(function(data) {
+                                    //    $scope.images.items = []
+                                    //    angular.forEach(data.repositories, function(image, i) {
+                                    //        var namespace = image.split('/')[0];
+                                    //        var name = image.split('/')[1];
+                                    //        //if (namespace === $rootScope.namespace) {
+                                    //        //$scope.images.items.push({name:image,tags:[]})
+                                    //        pubregistrytag.get({ namespace: namespace, name: name }, function(tag) {
+                                    //                console.log('tag', tag);
+                                    //                $scope.images.items.push(tag)
+                                    //                    //$scope.images.items[i].tags=tag.tags
+                                    //                    //console.log('$scope.primage', $scope.primage);
+                                    //            })
+                                    //            //}
+                                    //
+                                    //    })
+                                    //
+                                    //})
 
                                     $scope.imgcon = $scope.images;
                                 }

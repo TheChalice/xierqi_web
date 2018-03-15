@@ -343,14 +343,14 @@ define([
                         dep: ['$ocLazyLoad', function($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/image/image.js', 'views/image/image.css'])
                         }],
-                        primage: ['pubregistry', 'regions', 'Cookie', '$rootScope', 'User', function(pubregistry, regions, Cookie, $rootScope, User) {
-
-                            pubregistry.get(function(data) {
-                                return data
-                            }, function(err) {
-                                return err
-                            });
-                        }]
+                        //primage: ['pubregistry', 'regions', 'Cookie', '$rootScope', 'User', function(pubregistry, regions, Cookie, $rootScope, User) {
+                        //
+                        //    pubregistry.get(function(data) {
+                        //        return data
+                        //    }, function(err) {
+                        //        return err
+                        //    });
+                        //}]
                     }
                 })
                 .state('console.image_detail', {
