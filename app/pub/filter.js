@@ -186,6 +186,19 @@ define(['angular', 'moment'], function(angular, moment) {
         };
     }])
 
+    .filter('webhookURL', function(DataService) {
+        return function(buildConfig, type, secret, project) {
+          return DataService.url({
+            // arbitrarily many subresources can be included
+            // url encoding of the segments is handled by the url() function
+            // subresource segments cannot contain '/'
+            resource: "buildconfigs/webhooks/" + secret + "/" + type.toLowerCase(),
+            name: buildConfig,
+            namespace: project
+          });
+        };
+      })
+
     .filter('durationtwo', [function() {
         return function(um, t) {
             var durstatus = new Date(t).getTime() - new Date(um).getTime();

@@ -286,6 +286,7 @@ define([
                         }]
                     }
                 })
+                
                 .state('console.pipeline_detail', {
                     url: '/pipeline/:name',
                     params: {
@@ -296,9 +297,21 @@ define([
                     resolve: {
                         dep: ['$ocLazyLoad', function($ocLazyLoad) {
                             return $ocLazyLoad.load('views/pipeline_detail/pipeline_detail.js')
-                        }]
+                        }],
+                        BuildConfigs: ['$stateParams', 'BuildConfig', 'Cookie', '$rootScope', function($stateParams, BuildConfig, Cookie, $rootScope) {
+                            return BuildConfig.get({
+                                namespace: Cookie.get('namespace'),
+                                name: $stateParams.name
+                            }).$promise;
+                        }],
+                        BuildConfigList: ['BuildConfig', 'Cookie',
+                            function(BuildConfig, Cookie) {
+                                return BuildConfig.get({ namespace: Cookie.get('namespace') }).$promise
+                            }
+                        ],
                     }
                 })
+
                 .state('console.pipelinetag_detail', {
                     url: '/pipeline/:name/:tag',
                     // params: {
