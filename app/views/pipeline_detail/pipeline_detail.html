@@ -8,7 +8,7 @@
                 <a class="btn btn-gray pull-right btn_a" style="" ng-click="deletes()">
                     <i class="fa fa-trash-o fa-lg"></i>
                 </a>
-                <a class="btn btn-green pull-right" ng-click="startBuild()">构建</a>
+                <a class="btn btn-green pull-right" ng-click="startBuild()">更新部署</a>
             </div>
             <div class="panel-body">
                 <div class="row">
@@ -37,13 +37,13 @@
                 <div class="timeline">
                     <ul>
                         <li ng-repeat="item in databuild.items">
+                            <span class="dot"></span>
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-sm-4">
                                         版本：
-        <a class="ver_tit" 
-        ui-sref="console.pipelinetag_detail({name:item.status.config.name,tag:item.metadata.annotations['openshift.io/build.number']})">
-            #{{item.metadata.annotations['openshift.io/build.number']}}</a>
+                                        <a class="ver_tit" ui-sref="console.pipelinetag_detail({name:item.status.config.name,tag:item.metadata.annotations['openshift.io/build.number']})">
+                                            #{{item.metadata.annotations['openshift.io/build.number']}}</a>
                                     </div>
                                     <div class="col-sm-6">
                                         <span>状态：{{item.status.phase | rcStatusFilter}}</span>
@@ -51,105 +51,30 @@
                                     <div class="col-sm-2 text-right">
                                         <!-- <a ng-if="item.status.phase == 'Pending' || item.status.phase == 'Running' || item.status.phase == 'New'" ng-click="stop($index)"
                                             class="icon25 icon25-stop" uib-tooltip="终止" href="javascript:;"></a> -->
-                                        <a class="icon25 icon25-collapse" uib-tooltip="查看内容" ng-click="getLog($index,item)" href="javascript:;"></a>
+                                        <a class="icon25 icon25-collapse" uib-tooltip="查看状态" ng-click="getLog($index,item)" href="javascript:;"></a>
                                     </div>
                                 </div>
                             </div>
-                            <div uib-collapse="item.showLog">
+                            <div uib-collapse="!item.showLog">
 
                                 <div class="pipline_log">
-                                    <div class="pipl_block load col-sm-2">
-                                        <span class="file_name">文件名(刷新)</span>
-                                        <div class="pipl_block_set load_set">
-                                            <div class="fa_set">
-                                                <i class="fa fa-refresh fa-fw fa_block_set"></i>
+
+                                    <div class="pipl_block load">
+                                        <div class="pip_b_l">
+                                            <span class="file_name">{{item.metadata.name}}</span>
+                                            <div class="pipl_block_set load_{{item.status.phase}}">
+                                                <div class="fa_set">
+                                                    <i class="fa fa_block_set"></i>
+                                                </div>
                                             </div>
+                                            <span class="sec">{{item.metadata.creationTimestamp | dateRelative}}</span>
                                         </div>
-                                        <span class="sec">1秒</span>
-                                    </div>
-                                    <div class="arrow_btn">
-                                        <i class="fa fa-arrow-right"></i>
-                                    </div>
-
-                                    <div class="pipl_block load col-sm-2">
-                                        <span class="file_name">文件名(报错)</span>
-                                        <div class="pipl_block_set error_set">
-                                            <div class="fa_set">
-                                                <i class="fa fa-times fa-fw fa_block_set"></i>
-                                            </div>
+                                        <div class="arrow_btn">
+                                            <i class="fa fa-arrow-right"></i>
                                         </div>
-                                        <span class="sec">1秒</span>
                                     </div>
-                                    <div class="arrow_btn">
-                                        <i class="fa fa-arrow-right"></i>
-                                    </div>
-
-                                    <div class="pipl_block load col-sm-2">
-                                        <span class="file_name">文件名(成功)</span>
-                                        <div class="pipl_block_set succ_set">
-                                            <div class="fa_set">
-                                                <i class="fa fa-check fa-fw fa_block_set"></i>
-                                            </div>
-                                        </div>
-                                        <span class="sec">1秒</span>
-                                    </div>
-
-                                    <div class="arrow_btn">
-                                        <i class="fa fa-arrow-right"></i>
-                                    </div>
-
-                                    <div class="pipl_block load col-sm-2">
-                                        <span class="file_name">文件名(刷新)</span>
-                                        <div class="pipl_block_set load_set">
-                                            <div class="fa_set">
-                                                <i class="fa fa-refresh fa-fw fa_block_set"></i>
-                                            </div>
-                                        </div>
-                                        <span class="sec">1秒</span>
-                                    </div>
-
-                                    <div class="arrow_btn">
-                                        <i class="fa fa-arrow-right"></i>
-                                    </div>
-
-                                    <div class="pipl_block load col-sm-2">
-                                        <span class="file_name">文件名(刷新)</span>
-                                        <div class="pipl_block_set load_set">
-                                            <div class="fa_set">
-                                                <i class="fa fa-refresh fa-fw fa_block_set"></i>
-                                            </div>
-                                        </div>
-                                        <span class="sec">1秒</span>
-                                    </div>
-
-                                    <div class="arrow_btn">
-                                        <i class="fa fa-arrow-right"></i>
-                                    </div>
-
-                                    <div class="pipl_block load col-sm-2">
-                                        <span class="file_name">文件名(刷新)</span>
-                                        <div class="pipl_block_set load_set">
-                                            <div class="fa_set">
-                                                <i class="fa fa-refresh fa-fw fa_block_set"></i>
-                                            </div>
-                                        </div>
-                                        <span class="sec">1秒</span>
-                                    </div>
-
-                                    <div class="pipl_block load col-sm-2">
-                                        <span class="file_name">文件名(刷新)</span>
-                                        <div class="pipl_block_set load_set">
-                                            <div class="fa_set">
-                                                <i class="fa fa-refresh fa-fw fa_block_set"></i>
-                                            </div>
-                                        </div>
-                                        <span class="sec">1秒</span>
-                                    </div>
-
                                 </div>
                             </div>
-
-
                         </li>
                         <div class="border_background" style="" ng-if="databuild.items.length===0" class="ng-scope">
                             <p class="blank_block">
@@ -201,43 +126,37 @@
                 <div ng-repeat="trigger in BuildConfig.spec.triggers | orderBy : 'type' : false : compareTriggers">
                     <div ng-switch="trigger.type">
                         <div ng-switch-when="Generic">
-                                <div class="pip_block">
-                                        <p class="pit_left">Generic 网络URL:</p>
-                                    <span class="pip_tit">
+                            <div class="pip_block">
+                                <p class="pit_left">Generic 网络URL:</p>
+                                <span class="pip_tit">
                                     {{BuildConfig.metadata.name | webhookURL : trigger.type : trigger.generic.secret : projectname}}
-                                    </span>
-                                   
-                                        <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
-                                   
-                                    
-                                    <!-- <span class="set_tit" ng-class="{'iscopyactive':isCopy}" ng-click="gencopy($event)">{{copyCon}}</span> -->
-                                </div>
-                           
+                                </span>
+                                <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
+                            </div>
+
                         </div>
 
                         <div ng-switch-when="GitHub">
-                                <div class="pip_block">
-                                        <p class="pit_left">GitHub 网络URL:</p>
-                                    <span class="pip_tit">
-                                        {{BuildConfig.metadata.name | webhookURL : trigger.type : trigger.github.secret : projectname}}
-                                    </span>
-                                    <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
-                                    <!-- <span class="set_tita" ng-class="{'iscopyactive':isCopy}" ng-click="gitcopy($event)">{{copyCon}}</span> -->
-                                </div>
+                            <div class="pip_block">
+                                <p class="pit_left">GitHub 网络URL:</p>
+                                <span class="pip_tit">
+                                    {{BuildConfig.metadata.name | webhookURL : trigger.type : trigger.github.secret : projectname}}
+                                </span>
+                                <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div>
-                   
-                        <div class="pip_block">
-                                <p class="pit_left">Manual (CLI):</p>
-                            <span class="pip_tit">
-                                oc start-build {{BuildConfig.metadata.name}} -n {{projectname}}
-                            </span>
-                            <i class="pip_btn fa fa-clipboard" uib-tooltip="复制"  ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
-                            <!-- <span class="set_tita" ng-class="{'iscopyactive':isCopy}" ng-click="gitcopy($event)">{{copyCon}}</span> -->
-                        </div>
-                    
+
+                    <div class="pip_block">
+                        <p class="pit_left">Manual (CLI):</p>
+                        <span class="pip_tit">
+                            oc start-build {{BuildConfig.metadata.name}} -n {{projectname}}
+                        </span>
+                        <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
+                    </div>
+
                 </div>
 
             </uib-tab>

@@ -8,8 +8,8 @@ angular.module('console.pipeline.detail', [
         ]
     }
 ])
-    .controller('pipelineDetailCtrl', ['$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'toastr', 'BuildConfigs', 'Project','deleteSecret','Sort','Ws'
-        , function ($rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, toastr, BuildConfigs, Project,deleteSecret,Sort,Ws) {
+    .controller('pipelineDetailCtrl', ['$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'toastr', 'BuildConfigs', 'Project', 'deleteSecret', 'Sort', 'Ws'
+        , function ($rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, toastr, BuildConfigs, Project, deleteSecret, Sort, Ws) {
             Project.get({ region: $rootScope.region }, function (data) {
                 angular.forEach(data.items, function (item, i) {
                     if (item.metadata.name === $rootScope.namespace) {
@@ -19,7 +19,7 @@ angular.module('console.pipeline.detail', [
                 $scope.BuildConfig = angular.copy(BuildConfigs);
             });
 
-           //获取pipline记录
+            //获取pipline记录
             var loadPiplineHistory = function (name) {
                 //console.log('name',name)
                 Build.get({
@@ -30,7 +30,6 @@ angular.module('console.pipeline.detail', [
                     console.log("history", data);
                     data.items = Sort.sort(data.items, -1); //排序
                     $scope.databuild = data;
-                    console.log('oooollllllll',$scope.databuild);
                     if ($stateParams.from == "create/new") {
                         $scope.databuild.items[0].showLog = true;
                     }
@@ -46,8 +45,7 @@ angular.module('console.pipeline.detail', [
             };
 
             loadPiplineHistory($state.params.name);
-
-
+            // websocket设置
             var watchBuilds = function (resourceVersion) {
                 Ws.watch({
                     resourceVersion: resourceVersion,
@@ -69,16 +67,10 @@ angular.module('console.pipeline.detail', [
                     watchBuilds($scope.resourceVersion);
                 });
             };
-           
 
-           
-
-
-            
-            $scope.gcopy = () =>copyblock(event)
-
-
-           //复制方法
+            //复制事件
+            $scope.gcopy = () => copyblock(event)
+            //复制方法
             var copyblock = function (event) {
                 var e = event.target.previousElementSibling;
                 var textInput = document.createElement('input');
@@ -87,17 +79,17 @@ angular.module('console.pipeline.detail', [
                 document.body.appendChild(textInput);
                 textInput.select();
                 var success = document.execCommand('copy');
-                if (success) { 
-                    if(event.target.innerText=="复制"){
-                        event.target.innerText='已复制'
+                if (success) {
+                    if (event.target.innerText == "复制") {
+                        event.target.innerText = '已复制'
                     }
-                   
+
                 }
             }
-
+            //删除方法
             $scope.deletes = function () {
                 var name = $scope.BuildConfig.metadata.name;
-                console.log("12123",$scope.BuildConfig);
+                console.log("12123", $scope.BuildConfig);
                 Confirm.open("删除构建", "您确定要删除构建吗？", "删除构建将删除构建的所有历史数据以及相关的镜像，且该操作不能恢复", 'recycle').then(function () {
                     BuildConfig.remove({
                         namespace: $rootScope.namespace,
@@ -137,7 +129,7 @@ angular.module('console.pipeline.detail', [
                                 });
                             }
                         }
-                        $state.go("console.build");
+                        $state.go("console.pipeline");
                         toastr.success('操作成功', {
                             timeOut: 2000,
                             closeButton: true
@@ -153,11 +145,22 @@ angular.module('console.pipeline.detail', [
 
 
             }
-            
+            //查看内容
+             $scope.getLog = function (idx) {
+                console.log("9999",$scope.databuild)
+                var o = $scope.databuild.items[idx];
+                console.log("12321",o)
+                o.showLog = !o.showLog;
 
-
-            $scope.getLog = function (idx) {
-
+                if (o.status.phase == "New") {
+                    
+                }
+                //存储已经调取过的log
+                if (o.buildLog) {
+                    loglast()
+                    return;
+                }
+               
             };
 
         }])

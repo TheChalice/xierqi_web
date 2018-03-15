@@ -54,7 +54,7 @@
 .tab-jia-default .tab-content{border: 0;}
 .tab-jia-default li .nav-link:hover{color:#333;}
 /*new code*/
-
+#pipeline-detail .tab-default .tab-content{border:0;padding:20px 0px;}
 #pipeline{
     background:#fff;padding:20px 40px 40px;
 }
@@ -141,31 +141,40 @@
 }
 #pipeline-detail .ver_tit{color:#f6a540;}
 
-.pipline_log{margin-left:30px;border-radius:2px;border:none;background:#F9FAFC;padding:3px 10px;border: 1px solid #E0E6ED;border-top:0px;
+.pipline_log{margin-left:30px;border-radius:2px;border:none;background:#F9FAFC;padding:16px 16px;border: 1px solid #E0E6ED;border-top:0px;
 height:auto;overflow:hidden;}
-
-
-
 .pipl_block{text-align:center;float:left;width:15%;}
-
+.pip_b_l{float:left;}
+.pipline_log .pipl_block:last-child .arrow_btn{display:none;}
 .pipl_block .file_name{font-size:12px;color: #475669;display:block;margin-bottom:8px;}
 .pipl_block_set{height:4px;position:relative;}
 .pipl_block .sec{font-size:12px;color: #A2B0C4;display:block;margin-top:8px;}
-.pipl_block .fa-refresh{color:#fff;}
+/* .pipl_block .fa-refresh{color:#fff;} */
 .pipl_block .fa_set{width:18px;height:18px;border-radius:50%;position: absolute;
     top: -7px;left: 50%;margin-left: -9px;}
-.load_set .fa_set{background:#47B2FB;}
-.load_set{background:#47B2FB;}
-.error_set .fa_set{background:#FB6362;}
-.error_set{background:#FB6362;}
-
-.succ_set .fa_set{background:#50E3C2;}
-.succ_set{background:#50E3C2;}
-.arrow_btn{float:left;margin-left:4px;margin-right:4px;margin-top:16px;}
+.arrow_btn{float:left;margin-left:18px;margin-right:18px;margin-top:16px;}
 .arrow_btn .fa-arrow-right{color:#A2B0C4;}
-.fa_block_set{color:#fff;}
 #pipeline-detail .btn_a{margin-left:15px;}
-
+/******************************* 查看状态 **********************/
+.fa_block_set{color:#fff;}
+/* 刷新状态 */
+.load_New{background:#47B2FB;}
+.load_New .fa_set{background:#47B2FB;}
+.load_New .fa_set i{color:#fff;position:relative;}
+.load_New .fa_set i:before{content:"\f021";position:absolute;width:12px;height:14px;
+    left:50%;margin-left:-6px;top:50%;margin-top:-13px;}
+/* 错误状态 */
+.load_Error{background:#FB6362;}
+.load_Error .fa_set{background:#FB6362;}
+.load_Error .fa_set i{color:#fff;position:relative;}
+.load_Error .fa_set i:before{content:"\f00d";position:absolute;width:12px;height:14px;
+    left:50%;margin-left:-6px;top:50%;margin-top:-13px;}
+/* 成功状态 */
+.load_Complete{background:#50E3C2;}
+.load_Complete .fa_set{background:#50E3C2;}
+.load_Complete .fa_set i{color:#fff;position:relative;}
+.load_Complete .fa_set i:before{content:"\f00c";position:absolute;width:12px;height:14px;
+    left:50%;margin-left:-6px;top:50%;margin-top:-13px;}
 
 /* *************配置信息模块********************* */
 .tit_details{font-size:14px;color:#1F2D3D;font-weight:bold;}
