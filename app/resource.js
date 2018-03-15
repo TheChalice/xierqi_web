@@ -156,6 +156,7 @@ define([
                 region: '@region'
             }, {
                 create: { method: 'POST' },
+                delete: { method: 'DELETE' },
                 put: { method: 'PUT' }
             });
             Build.log = $resource(GLOBAL.host + '/namespaces/:namespace/builds/:name/log', {

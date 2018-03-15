@@ -3,6 +3,10 @@
         <span class="pd_name">{{buildSet.metadata.name}}</span>
         &nbsp;&nbsp;
         <span class="pd_dt">created&nbsp;{{buildSet.metadata.creationTimestamp | dateRelative}}</span>
+        <span><a class="btn btn-gray pull-right" style=" padding: 5px 10px; margin-left: 15px; height:34px; width:36px" ng-click="deletePipeTag(buildSet.metadata.name)">
+                <i class="fa fa-trash-o fa-lg"></i>
+            </a>
+        </span>
     </p>
     <uib-tabset class="tab-default tab-pods">
         <uib-tab index="1">
@@ -43,7 +47,10 @@
                                     timestamp="buildSet.status.startTimestamp"></duration-until-now></span>
                             <span ng-switch-when="Pending">waiting for <duration-until-now
                                     timestamp="buildSet.metadata.creationTimestamp"></duration-until-now></span>
-                            <span ng-switch-when="New">waiting for {{buildSet.metadata.creationTimestamp}}</span>
+                            <!--<span ng-switch-when="New">waiting for {{buildSet.metadata.creationTimestamp}}-->
+                            <!--<span uib-tooltip="{{buildSet.metadata.creationTimestamp | timescon}}">{{buildSet.metadata.creationTimestamp | dateRelative}}-->
+                            <span ng-switch-when="New">waiting for {{buildSet.metadata.creationTimestamp | dateRelative}}
+                            </span>
                             <span ng-switch-default>
                                 <span ng-if="buildSet.status.startTimestamp">{{buildSet.status.startTimestamp | duration : buildSet.status.completionTimestamp}}</span>
                                 <span ng-if="!buildSet.status.startTimestamp">waited for {{buildSet.metadata.creationTimestamp | duration : buildSet.status.completionTimestamp}}</span>
