@@ -436,10 +436,40 @@
                             &nbsp;<span style="color: #55c45f;">增加存储卷</span>
                         </div>
                     </div>
+                    <div ng-if="container.emptyDir.length>0"><span>emptyDir</span></div>
+                    <div class="service-ctrl" style="">
+                        <div style="margin-bottom: 10px;"
+                             ng-repeat="empty in container.emptyDir"
+                             ng-init="innerIndex = $index">
 
+                            <div class="dropdown dropdown-select" style="min-width:300px;height: 32px;">
+                                <button class="btn dropdown-toggle"  style="height: 32px;background-color:#EFF2F7;">
+                                    {{empty.name}}
+                                </button>
+                            </div>
 
+                            <div class="envlist" style="width: 20px;">
+
+                            </div>
+                            <div class="envlist">
+                                <!--<span style="margin-right:12px;padding-right:0;">值</span>-->
+                                <input  type="text" ng-model="empty.mountPath" placeholder="挂载路径" ng-disabled="true"
+                                       style="width: 300px;;height: 32px;padding:6px 12px;background-color:#EFF2F7;">
+                            </div>
+                            <div class="envlist" style="width: 13px;">
+
+                            </div>
+                            <div class="envlist" style="padding-left:0;">
+                                <a href="javascript:;" style='color: #9fa7b7;'
+                                   ng-click="delempty(outerIndex,$index)"
+                                   class="fa fa-lg fa-times-circle">
+                                </a>
+                            </div>
+
+                        </div>
+
+                    </div>
                 </div>
-
             </div>
             <div style="margin-top: 30px">
                 <span class="usetest" style="margin-right: 18px;">
