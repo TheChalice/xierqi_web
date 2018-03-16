@@ -186,6 +186,19 @@ define(['angular', 'moment'], function(angular, moment) {
         };
     }])
 
+    .filter('webhookURL', function(DataService) {
+        return function(buildConfig, type, secret, project) {
+          return DataService.url({
+            // arbitrarily many subresources can be included
+            // url encoding of the segments is handled by the url() function
+            // subresource segments cannot contain '/'
+            resource: "buildconfigs/webhooks/" + secret + "/" + type.toLowerCase(),
+            name: buildConfig,
+            namespace: project
+          });
+        };
+      })
+
     .filter('durationtwo', [function() {
         return function(um, t) {
             var durstatus = new Date(t).getTime() - new Date(um).getTime();
@@ -652,11 +665,13 @@ define(['angular', 'moment'], function(angular, moment) {
         .filter('deploymentStatus', ["annotationFilter", "hasDeploymentConfigFilter",
             function(annotationFilter, hasDeploymentConfigFilter) {
                 return function(deployment) {
-
+                    console.log("annotationFilter(deployment, 'deploymentCancelled')", annotationFilter(deployment, 'deploymentCancelled'));
                     if (annotationFilter(deployment, 'deploymentCancelled')) {
                         return "Cancelled";
                     }
+                    console.log(annotationFilter(deployment, 'deploymentStatus'));
                     var status = annotationFilter(deployment, 'deploymentStatus');
+
                     // If it is just an RC (non-deployment) or it is a deployment with more than 0 replicas
                     if (!hasDeploymentConfigFilter(deployment) || status === "Complete" && deployment.spec.replicas > 0) {
                         return "Active";
@@ -1339,6 +1354,46 @@ define(['angular', 'moment'], function(angular, moment) {
                 }
 
                 return mount.readOnly ? 'read-only' : 'read-write';
+            };
+        })
+        .filter('jenkinsLogURL', function(annotationFilter) {
+            return function(build, asPlainText) {
+                var logURL = annotationFilter(build, 'jenkinsLogURL');
+                if (!logURL || asPlainText) {
+                    return logURL;
+                }
+
+                // Link to the Jenkins console that follows the log instead of the raw log text.
+                return logURL.replace(/\/consoleText$/, '/console');
+            };
+        })
+        .filter('startCase', function () {
+            return function(str) {
+                if (!str) {
+                    return str;
+                }
+
+                // https://lodash.com/docs#startCase
+                return _.startCase(str);
+            };
+        })
+        .filter('buildStrategy', function() {
+            return function(build) {
+                if (!build || !build.spec || !build.spec.strategy) {
+                    return null;
+                }
+                switch (build.spec.strategy.type) {
+                    case 'Source':
+                        return build.spec.strategy.sourceStrategy;
+                    case 'Docker':
+                        return build.spec.strategy.dockerStrategy;
+                    case 'Custom':
+                        return build.spec.strategy.customStrategy;
+                    case 'JenkinsPipeline':
+                        return build.spec.strategy.jenkinsPipelineStrategy;
+                    default:
+                        return null;
+                }
             };
         })
 });

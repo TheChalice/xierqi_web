@@ -1,0 +1,166 @@
+<div id="pipeline-detail" class="pipeline-detail" style="">
+    <div>
+        <div class="panel panel-default panel_marginBottom" style="">
+            <div class="panel-heading">
+                <span class="panel-title">
+                    <span class="icon25 icon25-panel"></span>&nbsp;&nbsp; {{BuildConfig.metadata.name}}
+                </span>
+                <a class="btn btn-gray pull-right btn_a" style="" ng-click="deletes()">
+                    <i class="fa fa-trash-o fa-lg"></i>
+                </a>
+                <a class="btn btn-green pull-right" ng-click="startBuild()">更新部署</a>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <div class="media media-sm">
+                            <div class="media-left">
+                                <img class="media-object" src="views/build_detail/img/images_104.png">
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading">创建时间</h4>
+                                <small class="small_col">{{BuildConfig.metadata.creationTimestamp | dateRelative}}</small>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+        <uib-tabset class="tab-default tab-jia-default" active="active">
+            <uib-tab index="1">
+                <uib-tab-heading>
+                    <span class="icon20 icon20-log"></span> 历史版本
+                </uib-tab-heading>
+                <div class="timeline">
+                    <ul>
+                        <li ng-repeat="item in databuild.items">
+                            <span class="dot"></span>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        版本：
+                                        <a class="ver_tit" ui-sref="console.pipelinetag_detail({name:item.status.config.name,tag:item.metadata.annotations['openshift.io/build.number']})">
+                                            #{{item.metadata.annotations['openshift.io/build.number']}}</a>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <span>状态：{{item.status.phase | rcStatusFilter}}</span>
+                                    </div>
+                                    <div class="col-sm-2 text-right">
+                                        <!-- <a ng-if="item.status.phase == 'Pending' || item.status.phase == 'Running' || item.status.phase == 'New'" ng-click="stop($index)"
+                                            class="icon25 icon25-stop" uib-tooltip="终止" href="javascript:;"></a> -->
+                                        <a class="icon25 icon25-collapse" uib-tooltip="查看状态" ng-click="getLog($index,item)" href="javascript:;"></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div uib-collapse="!item.showLog">
+
+                                <div class="pipline_log">
+
+                                    <div class="pipl_block load">
+                                        <div class="pip_b_l">
+                                            <span class="file_name">{{item.metadata.name}}</span>
+                                            <div class="pipl_block_set load_{{item.status.phase}}">
+                                                <div class="fa_set">
+                                                    <i class="fa fa_block_set"></i>
+                                                </div>
+                                            </div>
+                                            <span class="sec">{{item.metadata.creationTimestamp | dateRelative}}</span>
+                                        </div>
+                                        <div class="arrow_btn">
+                                            <i class="fa fa-arrow-right"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <div class="border_background" style="" ng-if="databuild.items.length===0" class="ng-scope">
+                            <p class="blank_block">
+                                <span class="blank_tit">您还没有构建记录</span>
+                            </p>
+                        </div>
+                    </ul>
+                </div>
+                <!--<c-timeline name="bcName" type="build"></c-timeline>-->
+            </uib-tab>
+            <uib-tab index="2">
+                <uib-tab-heading>
+                    <span class="icon20 icon20-paper"></span> 配置信息
+                </uib-tab-heading>
+                <div class="resource-details">
+                    <p class="tit_details">详细信息</p>
+                    <div class="dl_list">
+                        <dt class="pz_l">Build Strategy:</dt>
+                        <dd>{{BuildConfig.spec.strategy.type}}</dd>
+                    </div>
+
+                    <div class="dl_list">
+                        <dt class="pz_l">Run Policy:</dt>
+                        <dd>{{BuildConfig.spec.runPolicy}}</dd>
+                    </div>
+
+                    <div class="dl_list">
+                        <dt style="margin-bottom:4px;font-weight:normal">Jenkinsfile</dt>
+                        <dd>
+                            <div style="height:280px; border: 1px solid #d1d1d1;background:#fafafa" ui-ace="{
+                                    mode: 'groovy',
+                                    theme: 'eclipse',
+                                    showGutter: false,
+                                    rendererOptions: {
+                                      fadeFoldWidgets: true,
+                                      highlightActiveLine: false,
+                                      showPrintMargin: false
+                                    },
+                                    advanced: {
+                                      highlightActiveLine: false
+                                    }
+                                  }" readonly ng-model="BuildConfig.spec.strategy.jenkinsPipelineStrategy.jenkinsfile" class="ace-bordered ace-inline ace-read-only"></div>
+                    </div>
+                    </dd>
+                </div>
+
+
+                <p class="tit_details trig_tp">Triggers</p>
+                <div ng-repeat="trigger in BuildConfig.spec.triggers | orderBy : 'type' : false : compareTriggers">
+                    <div ng-switch="trigger.type">
+                        <div ng-switch-when="Generic">
+                            <div class="pip_block">
+                                <p class="pit_left">Generic 网络URL:</p>
+                                <span class="pip_tit">
+                                    {{BuildConfig.metadata.name | webhookURL : trigger.type : trigger.generic.secret : projectname}}
+                                </span>
+                                <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
+                            </div>
+
+                        </div>
+
+                        <div ng-switch-when="GitHub">
+                            <div class="pip_block">
+                                <p class="pit_left">GitHub 网络URL:</p>
+                                <span class="pip_tit">
+                                    {{BuildConfig.metadata.name | webhookURL : trigger.type : trigger.github.secret : projectname}}
+                                </span>
+                                <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+
+                    <div class="pip_block">
+                        <p class="pit_left">Manual (CLI):</p>
+                        <span class="pip_tit">
+                            oc start-build {{BuildConfig.metadata.name}} -n {{projectname}}
+                        </span>
+                        <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
+                    </div>
+
+                </div>
+
+            </uib-tab>
+        </uib-tabset>
+
+    </div>
+</div>

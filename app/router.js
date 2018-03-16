@@ -243,6 +243,16 @@ define([
                     }
                 })
                 //build
+                .state('console.pipeline', {
+                    url: '/pipeline',
+                    templateUrl: 'views/pipeline/pipeline.html',
+                    controller: 'PipelineCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/pipeline/pipeline.js')
+                        }]
+                    }
+                })
                 .state('console.build', {
                     url: '/build',
                     templateUrl: 'views/build/build.html',
@@ -276,6 +286,54 @@ define([
                         }]
                     }
                 })
+                
+                .state('console.pipeline_detail', {
+                    url: '/pipeline/:name',
+                    params: {
+                        from: null
+                    },
+                    templateUrl: 'views/pipeline_detail/pipeline_detail.html',
+                    controller: 'pipelineDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/pipeline_detail/pipeline_detail.js')
+                        }],
+                        BuildConfigs: ['$stateParams', 'BuildConfig', 'Cookie', '$rootScope', function($stateParams, BuildConfig, Cookie, $rootScope) {
+                            return BuildConfig.get({
+                                namespace: Cookie.get('namespace'),
+                                name: $stateParams.name
+                            }).$promise;
+                        }],
+                        BuildConfigList: ['BuildConfig', 'Cookie',
+                            function(BuildConfig, Cookie) {
+                                return BuildConfig.get({ namespace: Cookie.get('namespace') }).$promise
+                            }
+                        ],
+                    }
+                })
+
+                .state('console.pipelinetag_detail', {
+                    url: '/pipeline/:name/:tag',
+                    // params: {
+                    //
+                    // },
+                    templateUrl: 'views/pipelineTag_detail/pipelineTag_detail.html',
+                    controller: 'pipelineTagDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/pipelineTag_detail/pipelineTag_detail.js')
+                        }],
+                        myPipelineDetail: ['$stateParams', 'Build', 'Cookie', '$rootScope',
+                            function ($stateParams, Build, Cookie, $rootScope) {
+                                return Build.get({
+                                    namespace: Cookie.get('namespace'),
+                                    name: $stateParams.name + '-' + $stateParams.tag
+                                }).$promise;
+                            }
+                        ]
+                    }
+                })
+
                 .state('console.build_create_new', {
                     url: '/construction/create/new',
                     templateUrl: 'views/build_create_new/build_create_new.html',
@@ -298,14 +356,14 @@ define([
                         dep: ['$ocLazyLoad', function($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/image/image.js', 'views/image/image.css'])
                         }],
-                        primage: ['pubregistry', 'regions', 'Cookie', '$rootScope', 'User', function(pubregistry, regions, Cookie, $rootScope, User) {
-
-                            pubregistry.get(function(data) {
-                                return data
-                            }, function(err) {
-                                return err
-                            });
-                        }]
+                        //primage: ['pubregistry', 'regions', 'Cookie', '$rootScope', 'User', function(pubregistry, regions, Cookie, $rootScope, User) {
+                        //
+                        //    pubregistry.get(function(data) {
+                        //        return data
+                        //    }, function(err) {
+                        //        return err
+                        //    });
+                        //}]
                     }
                 })
                 .state('console.image_detail', {

@@ -40,10 +40,13 @@ define([
                     // host=host+'dev.dataos.io:8443/api/v1';
                 } else if(params.api == 'broker'){
                     //var token = tokenarr[0];
-                    host = host + GLOBAL.broker_apigroup;
+                    host = host + GLOBAL.broker_ws_apigroup;
                 }else if(params.api == 'wsapis'){
                     //var token = tokenarr[0];
                     host = host + GLOBAL.host_ws_apis;
+                }else if(params.api == 'extensions'){
+                    //var token = tokenarr[0];
+                    host = host + GLOBAL.host_ws_apisextensions;
                 }else{
                     host = host + GLOBAL.host_wss;
                 }
@@ -153,6 +156,7 @@ define([
                 region: '@region'
             }, {
                 create: { method: 'POST' },
+                delete: { method: 'DELETE' },
                 put: { method: 'PUT' }
             });
             Build.log = $resource(GLOBAL.host + '/namespaces/:namespace/builds/:name/log', {

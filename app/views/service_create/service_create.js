@@ -857,7 +857,7 @@ angular.module('console.service.create', [
                 });
             };
 
-            loadBsi();
+            //loadBsi();
 
 
             var cintainersidx;

@@ -63,8 +63,10 @@ define([
             host: '/oapi/v1',
             host_k8s: '/api/v1',
             broker_apigroup: '/apis/prd.asiainfo.com/v1',
+            broker_ws_apigroup: '/ws/apis/prd.asiainfo.com/v1',
             host_newk8s: '/apis/autoscaling/v1',
             host_ws_apis: '/ws/apis/apps/v1beta1',
+            host_ws_apisextensions: '/ws/apis/extensions/v1beta1',
             host_newk8s1: '/apis/apps/v1beta1',
             host_newk8s2: '/apis/extensions/v1beta1',
             host_repos: '/v1/repos',
@@ -3094,6 +3096,7 @@ define([
                     { name: '仪表盘', img: 'icon25 icon25-dashboard', url: 'console.dashboard', stateUrl: null, children: [] },
                     { name: '代码构建', img: 'icon25 icon25-build', url: 'console.build', stateUrl: null, children: [] },
                     { name: '镜像仓库', img: 'icon25 icon25-repository', url: 'console.image', stateUrl: null, children: [] },
+                    { name: 'Pipeline', img: 'icon25 icon25-repository', url: 'console.pipeline', stateUrl: null, children: [] },
                     { name: '服务部署', img: 'icon25 icon25-deployment', url: null, stateUrl: null, children: $rootScope.app },
                     { name: '后端服务', img: 'icon25 icon25-service', url: 'console.backing_service', stateUrl: null, children: [] },
                     { name: '资源管理', img: 'icon25 icon25-resource', url: null, stateUrl: null, children: $rootScope.resources }
