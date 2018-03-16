@@ -8,8 +8,8 @@ angular.module('console.pipeline.detail', [
         ]
     }
 ])
-    .controller('pipelineDetailCtrl', ['$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'toastr', 'BuildConfigs', 'Project', 'deleteSecret', 'Sort', 'Ws'
-        , function ($rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, toastr, BuildConfigs, Project, deleteSecret, Sort, Ws) {
+    .controller('pipelineDetailCtrl', ['$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'toastr', 'BuildConfigs', 'Project', 'deleteSecret', 'Sort', 'Ws','delTip'
+        , function ($rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, toastr, BuildConfigs, Project, deleteSecret, Sort, Ws,delTip) {
             Project.get({ region: $rootScope.region }, function (data) {
                 angular.forEach(data.items, function (item, i) {
                     if (item.metadata.name === $rootScope.namespace) {
@@ -69,7 +69,7 @@ angular.module('console.pipeline.detail', [
             };
 
             var updateBuilds = function (data) {
-                //console.log('ws状态', data);
+                console.log('ws状态', data);
                 if (data.type == 'ERROR') {
                     $log.info("err", data.object.message);
                     Ws.clear();
@@ -144,19 +144,12 @@ angular.module('console.pipeline.detail', [
                 };
                 BuildConfig.instantiate.create({
                     namespace: $rootScope.namespace,
-                    name: name,
-                    region: $rootScope.region
+                    name: $scope.BuildConfig.metadata.name
                 }, buildRequest, function (res) {
-                    $log.info("build instantiate success", res);
-                    $scope.active = 1;  //打开记录标签
-                    $scope.$broadcast('timeline', 'add', res);
-                    // createWebhook();
-                    //deleteWebhook();
                     toastr.success('操作成功', {
                         timeOut: 2000,
                         closeButton: true
                     });
-
                 }, function (res) {
                     //todo 错误处理
                     toastr.error('删除失败,请重试', {
@@ -170,51 +163,16 @@ angular.module('console.pipeline.detail', [
             //删除方法
             $scope.deletes = function () {
                 var name = $scope.BuildConfig.metadata.name;
-                console.log("12123", $scope.BuildConfig);
-                Confirm.open("删除构建", "您确定要删除构建吗？", "删除构建将删除构建的所有历史数据以及相关的镜像，且该操作不能恢复", 'recycle').then(function () {
+                delTip.open("删除", $scope.BuildConfig.metadata.name, true).then(function () {
                     BuildConfig.remove({
                         namespace: $rootScope.namespace,
-                        name: name,
-                        region: $rootScope.region
+                        name: $scope.BuildConfig.metadata.name
                     }, {}, function () {
-                        $log.info("remove buildConfig success");
-
-                        deleteSecret.delete({
-                            namespace: $rootScope.namespace,
-                            name: "custom-git-builder-" + $rootScope.user.metadata.name + '-' + name,
-                            region: $rootScope.region
-                        }), {}, function (res) {
-
-                        }
-                        removeIs($scope.BuildConfig.metadata.name);
-                        removeBuilds($scope.BuildConfig.metadata.name);
-                        var host = $scope.data.spec.source.git.uri;
-                        if (!$scope.grid.checked) {
-                            if (getSourceHost(host) === 'github.com') {
-                                WebhookHubDel.del({
-                                    namespace: $rootScope.namespace,
-                                    build: $stateParams.name,
-                                    user: $scope.BuildConfig.metadata.annotations.user,
-                                    repo: $scope.BuildConfig.metadata.annotations.repo
-                                }, function (item1) {
-
-                                })
-                            } else {
-                                WebhookLabDel.del({
-                                    host: 'https://code.dataos.io',
-                                    namespace: $rootScope.namespace,
-                                    build: $stateParams.name,
-                                    repo: $scope.BuildConfig.metadata.annotations.repo
-                                }, function (data2) {
-
-                                });
-                            }
-                        }
-                        $state.go("console.pipeline");
                         toastr.success('操作成功', {
                             timeOut: 2000,
                             closeButton: true
                         });
+                        $state.go("console.pipeline");
                     }, function (res) {
                         //todo 错误处理
                         toastr.error('删除失败,请重试', {
