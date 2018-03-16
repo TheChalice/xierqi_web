@@ -63,6 +63,7 @@ define([
             host: '/oapi/v1',
             host_k8s: '/api/v1',
             broker_apigroup: '/apis/prd.asiainfo.com/v1',
+            broker_ws_apigroup: '/ws/apis/prd.asiainfo.com/v1',
             host_newk8s: '/apis/autoscaling/v1',
             host_ws_apis: '/ws/apis/apps/v1beta1',
             host_ws_apisextensions: '/ws/apis/extensions/v1beta1',
