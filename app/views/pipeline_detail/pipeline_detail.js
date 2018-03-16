@@ -8,8 +8,8 @@ angular.module('console.pipeline.detail', [
         ]
     }
 ])
-    .controller('pipelineDetailCtrl', ['$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'toastr', 'BuildConfigs', 'Project', 'deleteSecret', 'Sort', 'Ws'
-        , function ($rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, toastr, BuildConfigs, Project, deleteSecret, Sort, Ws) {
+    .controller('pipelineDetailCtrl', ['$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'toastr', 'BuildConfigs', 'Project', 'deleteSecret', 'Sort', 'Ws','delTip'
+        , function ($rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, toastr, BuildConfigs, Project, deleteSecret, Sort, Ws,delTip) {
             Project.get({ region: $rootScope.region }, function (data) {
                 angular.forEach(data.items, function (item, i) {
                     if (item.metadata.name === $rootScope.namespace) {
@@ -68,6 +68,54 @@ angular.module('console.pipeline.detail', [
                 });
             };
 
+            var updateBuilds = function (data) {
+                console.log('ws状态', data);
+                if (data.type == 'ERROR') {
+                    $log.info("err", data.object.message);
+                    Ws.clear();
+                    //TODO直接刷新bc会导致页面重新渲染
+                    loadBuildHistory($state.params.name);
+                    return;
+                }
+
+                $scope.resourceVersion = data.object.metadata.resourceVersion;
+
+                if (data.type == 'ADDED') {
+                    data.object.showLog = true;
+                    $scope.databuild.items.unshift(data.object);
+
+                } else if (data.type == "MODIFIED") {
+                    // 这种方式非常不好,尽快修改
+                    angular.forEach($scope.databuild.items, function (item, i) {
+                        if (item.metadata.name == data.object.metadata.name) {
+                            data.object.showLog = $scope.databuild.items[i].showLog;
+                            if (data.object.status.phase == 'Complete') {
+                                emit(true);
+                            }
+                            Build.log.get({
+                                namespace: $rootScope.namespace,
+                                name: data.object.metadata.name,
+                                region: $rootScope.region
+                            }, function (res) {
+                                var result = "";
+                                for (var k in res) {
+                                    if (/^\d+$/.test(k)) {
+                                        result += res[k];
+                                    }
+                                }
+                                var html = ansi_ups.ansi_to_html(result);
+                                data.object.buildLog = $sce.trustAsHtml(html)
+                                //data.object.buildLog = result;
+                                $scope.databuild.items[i] = data.object;
+                                loglast()
+                            }, function () {
+                                $scope.databuild.items[i] = data.object;
+                            });
+                        }
+                    });
+                }
+            };
+
             //复制事件
             $scope.gcopy = () => copyblock(event)
             //复制方法
@@ -86,54 +134,45 @@ angular.module('console.pipeline.detail', [
 
                 }
             }
+             //更新部署
+            $scope.startBuild = function () {
+                var name = $scope.BuildConfig.metadata.name;
+                var buildRequest = {
+                    metadata: {
+                        name: name
+                    }
+                };
+                BuildConfig.instantiate.create({
+                    namespace: $rootScope.namespace,
+                    name: $scope.BuildConfig.metadata.name
+                }, buildRequest, function (res) {
+                    toastr.success('操作成功', {
+                        timeOut: 2000,
+                        closeButton: true
+                    });
+                }, function (res) {
+                    //todo 错误处理
+                    toastr.error('删除失败,请重试', {
+                        timeOut: 2000,
+                        closeButton: true
+                    });
+                });
+            };
+
+
             //删除方法
             $scope.deletes = function () {
                 var name = $scope.BuildConfig.metadata.name;
-                console.log("12123", $scope.BuildConfig);
-                Confirm.open("删除构建", "您确定要删除构建吗？", "删除构建将删除构建的所有历史数据以及相关的镜像，且该操作不能恢复", 'recycle').then(function () {
+                delTip.open("删除", $scope.BuildConfig.metadata.name, true).then(function () {
                     BuildConfig.remove({
                         namespace: $rootScope.namespace,
-                        name: name,
-                        region: $rootScope.region
+                        name: $scope.BuildConfig.metadata.name
                     }, {}, function () {
-                        $log.info("remove buildConfig success");
-
-                        deleteSecret.delete({
-                            namespace: $rootScope.namespace,
-                            name: "custom-git-builder-" + $rootScope.user.metadata.name + '-' + name,
-                            region: $rootScope.region
-                        }), {}, function (res) {
-
-                        }
-                        removeIs($scope.data.metadata.name);
-                        removeBuilds($scope.data.metadata.name);
-                        var host = $scope.data.spec.source.git.uri;
-                        if (!$scope.grid.checked) {
-                            if (getSourceHost(host) === 'github.com') {
-                                WebhookHubDel.del({
-                                    namespace: $rootScope.namespace,
-                                    build: $stateParams.name,
-                                    user: $scope.data.metadata.annotations.user,
-                                    repo: $scope.data.metadata.annotations.repo
-                                }, function (item1) {
-
-                                })
-                            } else {
-                                WebhookLabDel.del({
-                                    host: 'https://code.dataos.io',
-                                    namespace: $rootScope.namespace,
-                                    build: $stateParams.name,
-                                    repo: $scope.data.metadata.annotations.repo
-                                }, function (data2) {
-
-                                });
-                            }
-                        }
-                        $state.go("console.pipeline");
                         toastr.success('操作成功', {
                             timeOut: 2000,
                             closeButton: true
                         });
+                        $state.go("console.pipeline");
                     }, function (res) {
                         //todo 错误处理
                         toastr.error('删除失败,请重试', {
