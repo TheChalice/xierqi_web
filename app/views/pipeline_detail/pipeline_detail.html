@@ -42,7 +42,7 @@
                                 <div class="row">
                                     <div class="col-sm-4">
                                         版本：
-                                        <a class="ver_tit" ui-sref="console.pipelinetag_detail({name:item.status.config.name,tag:item.metadata.annotations['openshift.io/build.number']})">
+                                        <a class="ver_tit" ui-sref="console.pipelinetag_detail({namespace:namespace,name:item.status.config.name,tag:item.metadata.annotations['openshift.io/build.number']})">
                                             #{{item.metadata.annotations['openshift.io/build.number']}}</a>
                                     </div>
                                     <div class="col-sm-6">

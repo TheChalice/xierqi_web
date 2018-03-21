@@ -24,7 +24,7 @@ angular.module('console.pipelinetag.detail', [
                                 timeOut: 2000,
                                 closeButton: true
                             });
-                            $state.go('console.pipeline');
+                            $state.go('console.pipeline',{namespace:$rootScope.namespace});
                         }, function () {
                             Confirm.open("删除" + $scope.buildSet.metadata.name, "删除" + val + "失败", null, null, true);
                             toastr.error('删除失败,请重试', {

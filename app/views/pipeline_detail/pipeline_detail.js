@@ -117,7 +117,7 @@ angular.module('console.pipeline.detail', [
             };
 
             //复制事件
-            $scope.gcopy = () => copyblock(event)
+            //$scope.gcopy = () => copyblock(event)
             //复制方法
             var copyblock = function (event) {
                 var e = event.target.previousElementSibling;
@@ -172,7 +172,7 @@ angular.module('console.pipeline.detail', [
                             timeOut: 2000,
                             closeButton: true
                         });
-                        $state.go("console.pipeline");
+                        $state.go("console.pipeline",{namespace:$rootScope.namespace});
                     }, function (res) {
                         //todo 错误处理
                         toastr.error('删除失败,请重试', {
