@@ -160,6 +160,7 @@ define([
                         }]
                     }
                 })//ok
+                //build
                 .state('console.build', {
                     url: '/:namespace/build',
                     templateUrl: 'views/build/build.html',
@@ -183,7 +184,6 @@ define([
                         }]
                     }
                 })//ok
-
                 .state('console.build_detail', {
                     url: '/:namespace/build/:name',
                     params: {
@@ -196,20 +196,10 @@ define([
                             return $ocLazyLoad.load('views/build_detail/build_detail.js')
                         }]
                     }
-                })
-
-                .state('console.pipeline', {
-                    url: '/pipeline',
-                    templateUrl: 'views/pipeline/pipeline.html',
-                    controller: 'PipelineCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/pipeline/pipeline.js')
-                        }]
-                    }
-                })
+                })//ok
+                //image
                 .state('console.image', {
-                    url: '/image',
+                    url: '/:namespace/image',
                     templateUrl: 'views/image/image.html',
                     controller: 'ImageCtrl',
                     params: {
@@ -229,6 +219,41 @@ define([
                         //}]
                     }
                 })
+                .state('console.image_detail', {
+                    url: '/:namespace/image/myimage/:bc/:name',
+                    templateUrl: 'views/image_detail/image_detail.html',
+                    controller: 'ImageDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/image_detail/image_detail.js'])
+                        }]
+                    }
+                })
+                .state('console.primage_detail', {
+                    url: '/:namespace/image/primage/:name',
+                    templateUrl: 'views/primage_detail/primage_detail.html',
+                    controller: 'prImageDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/primage_detail/primage_detail.js'])
+                        }]
+                    }
+                })
+
+
+
+
+                .state('console.pipeline', {
+                    url: '/pipeline',
+                    templateUrl: 'views/pipeline/pipeline.html',
+                    controller: 'PipelineCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/pipeline/pipeline.js')
+                        }]
+                    }
+                })
+
                 .state('console.backing_service', {
                     url: '/backing_service',
                     params: {
@@ -473,46 +498,7 @@ define([
 
                 //image
 
-                .state('console.image_detail', {
-                    url: '/image/myimage/:bc/:name',
-                    templateUrl: 'views/image_detail/image_detail.html',
-                    controller: 'ImageDetailCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/image_detail/image_detail.js'])
-                        }]
-                    }
-                })
-                .state('console.primage_detail', {
-                    url: '/image/primage/:name',
-                    templateUrl: 'views/primage_detail/primage_detail.html',
-                    controller: 'prImageDetailCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/primage_detail/primage_detail.js'])
-                        }]
-                    }
-                })
-                .state('console.image_Public', {
-                    url: '/image/imagePublic/:bc/:name',
-                    templateUrl: 'views/image_Public/image_Public.html',
-                    controller: 'imagePublicCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/image_Public/image_Public.js'])
-                        }]
-                    }
-                })
-                .state('console.image_regstry', {
-                    url: '/image/image_regstry/:bc/:name',
-                    templateUrl: 'views/image_Public/image_regstry.html',
-                    controller: 'imagePublicCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/image_Public/image_Public.js'])
-                        }]
-                    }
-                })
+
 
                 .state('console.backing_service_detail', {
                     url: '/backing_service/:name',
@@ -1014,6 +1000,28 @@ define([
                         ]
                     }
                 })
+
+
+            //.state('console.image_Public', {
+            //    url: '/image/imagePublic/:bc/:name',
+            //    templateUrl: 'views/image_Public/image_Public.html',
+            //    controller: 'imagePublicCtrl',
+            //    resolve: {
+            //        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+            //            return $ocLazyLoad.load(['views/image_Public/image_Public.js'])
+            //        }]
+            //    }
+            //})
+            //.state('console.image_regstry', {
+            //    url: '/image/image_regstry/:bc/:name',
+            //    templateUrl: 'views/image_Public/image_regstry.html',
+            //    controller: 'imagePublicCtrl',
+            //    resolve: {
+            //        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+            //            return $ocLazyLoad.load(['views/image_Public/image_Public.js'])
+            //        }]
+            //    }
+            //})
 
         }]);
 
