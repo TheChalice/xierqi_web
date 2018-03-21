@@ -159,17 +159,45 @@ define([
                             return $ocLazyLoad.load(['views/dashboard/dashboard.js'])
                         }]
                     }
-                })
+                })//ok
                 .state('console.build', {
-                    url: '/build',
+                    url: '/:namespace/build',
                     templateUrl: 'views/build/build.html',
                     controller: 'BuildCtrl',
+                    params: {
+                        namespace: null
+                    },
                     resolve: {
                         dep: ['$ocLazyLoad', function($ocLazyLoad) {
                             return $ocLazyLoad.load('views/build/build.js')
                         }]
                     }
+                })//ok
+                .state('console.build_create', {
+                    url: '/:namespace/build/create',
+                    templateUrl: 'views/build_create/build_create.html',
+                    controller: 'BuildCreateCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/build_create/build_create.js')
+                        }]
+                    }
+                })//ok
+
+                .state('console.build_detail', {
+                    url: '/:namespace/build/:name',
+                    params: {
+                        from: null
+                    },
+                    templateUrl: 'views/build_detail/build_detail.html',
+                    controller: 'BuildDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/build_detail/build_detail.js')
+                        }]
+                    }
                 })
+
                 .state('console.pipeline', {
                     url: '/pipeline',
                     templateUrl: 'views/pipeline/pipeline.html',
@@ -393,29 +421,7 @@ define([
                         }]
                     }
                 })
-                .state('console.build_create', {
-                    url: '/build/create',
-                    templateUrl: 'views/build_create/build_create.html',
-                    controller: 'BuildCreateCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/build_create/build_create.js')
-                        }]
-                    }
-                })
-                .state('console.build_detail', {
-                    url: '/build/:name',
-                    params: {
-                        from: null
-                    },
-                    templateUrl: 'views/build_detail/build_detail.html',
-                    controller: 'BuildDetailCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/build_detail/build_detail.js')
-                        }]
-                    }
-                })
+
                 
                 .state('console.pipeline_detail', {
                     url: '/pipeline/:name',

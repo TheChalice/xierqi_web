@@ -157,7 +157,7 @@ angular.module('console.build.detail', [
                                 });
                             }
                         }
-                        $state.go("console.build");
+                        $state.go("console.build",{namespace: $rootScope.namespace});
                         toastr.success('操作成功', {
                             timeOut: 2000,
                             closeButton: true
