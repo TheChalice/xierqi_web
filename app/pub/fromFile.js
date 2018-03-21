@@ -199,7 +199,7 @@ define(['angular'], function(angular) {
                                 $scope.projectNameTaken = true;
                             } else {
                                 console.log("NotificationsService ", "import-create-project-error", "error", "An error occurred creating project.")
-                                    //$state.go('console.dashboard');
+                                    //$state.go("console.dashboard", { namespace: $rootScope.namespace });
                                     // NotificationsService.addNotification({
                                     //     id: "import-create-project-error",
                                     //     type: "error",
@@ -310,7 +310,7 @@ define(['angular'], function(angular) {
 
                             );
                         }
-                        $state.go('console.dashboard');
+                        $state.go("console.dashboard", { namespace: $rootScope.namespace });
                     }
 
                     // Redirect to newFromTemplate page in case the resource type is Template and user wants to process it.

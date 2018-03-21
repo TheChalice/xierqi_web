@@ -3079,26 +3079,28 @@ define([
 
 
                 }
+                //console.log("Cookie.get('namespace')",Cookie.get('namespace'));
+                var namespace=Cookie.get('namespace')
                 $rootScope.app = [
-                    { name: 'Deployments', url: 'console.deployments', stateUrl: null, children: [] },
-                    { name: 'Stateful Sets', url: 'console.stateful-sets', stateUrl: null, children: [] },
-                    { name: 'Pods', url: 'console.pods', stateUrl: null, children: [] },
-                    { name: 'Services', url: 'console.services', stateUrl: null, children: [] },
-                    { name: 'Routes', url: 'console.routes', stateUrl: null, children: [] }
+                    { name: 'Deployments', url: 'console.deployments@'+namespace, stateUrl: null, children: [] },
+                    { name: 'Stateful Sets', url: 'console.stateful-sets@'+namespace, stateUrl: null, children: [] },
+                    { name: 'Pods', url: 'console.pods@'+namespace, stateUrl: null, children: [] },
+                    { name: 'Services', url: 'console.services@'+namespace, stateUrl: null, children: [] },
+                    { name: 'Routes', url: 'console.routes@'+namespace, stateUrl: null, children: [] }
                 ];
                 $rootScope.resources = [
-                    { name: '存储卷', url: 'console.resource_persistentVolume', stateUrl: null, children: [] },
-                    { name: '配置卷', url: 'console.resource_configMap', stateUrl: null, children: [] },
-                    { name: '密钥卷', url: 'console.resource_secret', stateUrl: null, children: [] }
+                    { name: '存储卷', url: 'console.resource_persistentVolume@'+namespace, stateUrl: null, children: [] },
+                    { name: '配置卷', url: 'console.resource_configMap@'+namespace, stateUrl: null, children: [] },
+                    { name: '密钥卷', url: 'console.resource_secret@'+namespace, stateUrl: null, children: [] }
                 ];
 
                 $rootScope.dataForTheTree = [
-                    { name: '仪表盘', img: 'icon25 icon25-dashboard', url: 'console.dashboard', stateUrl: null, children: [] },
-                    { name: '代码构建', img: 'icon25 icon25-build', url: 'console.build', stateUrl: null, children: [] },
-                    { name: '镜像仓库', img: 'icon25 icon25-repository', url: 'console.image', stateUrl: null, children: [] },
-                    { name: 'Pipeline', img: 'icon25 icon25-repository', url: 'console.pipeline', stateUrl: null, children: [] },
+                    { name: '仪表盘', img: 'icon25 icon25-dashboard', url: 'console.dashboard@'+namespace, stateUrl: null, children: [] },
+                    { name: '代码构建', img: 'icon25 icon25-build', url: 'console.build@'+namespace, stateUrl: null, children: [] },
+                    { name: '镜像仓库', img: 'icon25 icon25-repository', url: 'console.image@'+namespace, stateUrl: null, children: [] },
+                    { name: 'Pipeline', img: 'icon25 icon25-repository', url: 'console.pipeline@'+namespace, stateUrl: null, children: [] },
                     { name: '服务部署', img: 'icon25 icon25-deployment', url: null, stateUrl: null, children: $rootScope.app },
-                    { name: '后端服务', img: 'icon25 icon25-service', url: 'console.backing_service', stateUrl: null, children: [] },
+                    { name: '后端服务', img: 'icon25 icon25-service', url: 'console.backing_service@'+namespace, stateUrl: null, children: [] },
                     { name: '资源管理', img: 'icon25 icon25-resource', url: null, stateUrl: null, children: $rootScope.resources }
                 ];
                 if (toState && toState.name) {

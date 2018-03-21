@@ -81,7 +81,7 @@ angular.module('console.user', ['kubernetesUI',
             //if (namespace) {
             //
             //} else {
-            //$state.go('console.dashboard');
+            //$state.go("console.dashboard", { namespace: $rootScope.namespace });
             //}
         }
         //load project

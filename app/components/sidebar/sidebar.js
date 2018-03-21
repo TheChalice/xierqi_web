@@ -22,7 +22,11 @@ angular.module("console.sidebar", [
                 $scope.state = $state;
                 $scope.goUrl = function(url){
                        if(url){
-                           $state.go(url);
+                           if (url.split('@')) {
+                               var urlarr = url.split('@');
+                               console.log('urlarr', urlarr);
+                           }
+                           $state.go(urlarr[0],({namespace:urlarr[1]}));
                        }else{
                            $scope.activeStyle = false;
                            $(".zx_set_btn").removeClass("zx_set_btn_rotate");
