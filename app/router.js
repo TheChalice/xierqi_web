@@ -469,7 +469,7 @@ define([
                 })//ok
 
                 .state('console.stateful-sets', {
-                    url: '/stateful-sets',
+                    url: '/:namespace/stateful-sets',
                     templateUrl: 'views/apps/stateful-sets/stateful-sets.html',
                     controller: 'Stateful-setsCtrl',
                     resolve: {
@@ -479,7 +479,7 @@ define([
                     }
                 })
                 .state('console.stateful-sets-detail', {
-                    url: '/stateful-sets/:name',
+                    url: '/:namespace/stateful-sets/:name',
                     templateUrl: 'views/apps/stateful-sets-detail/stateful-sets-detail.html',
                     controller: 'Stateful-setsDetailCtrl',
                     resolve: {
@@ -669,7 +669,7 @@ define([
                             }
                         ]
                     }
-                })
+                })//ok
 
                 .state('console.route_detail', {
                     url: '/routes/:name',
