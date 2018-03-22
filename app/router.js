@@ -511,7 +511,7 @@ define([
                             return $ocLazyLoad.load(['views/apps/pods/pods.js', 'views/apps/apps.css'])
                         }]
                     }
-                })
+                })//ok
                 .state('console.pods_detail', {
                     url: '/:namespace/pods/:name',
                     templateUrl: 'views/pods_detail/pods_detail.html',
@@ -532,7 +532,7 @@ define([
                             }
                         ],
                     }
-                })
+                })//ok
 
                 .state('console.services', {
                     url: '/:namespace/services',
@@ -543,7 +543,7 @@ define([
                             return $ocLazyLoad.load(['views/apps/services/services.js', 'views/apps/apps.css'])
                         }]
                     }
-                })
+                })//ok
                 .state('console.service_details', {
                     url: '/:namespace/services/:name',
                     params: {
@@ -579,7 +579,7 @@ define([
                             }
                         ]
                     }
-                })
+                })//ok
 
                 .state('console.routes', {
                     url: '/:namespace/routes',
@@ -595,7 +595,7 @@ define([
                             }
                         ]
                     }
-                })
+                })//ok
                 .state('console.route_detail', {
                     url: '/:namespace/routes/:name',
                     templateUrl: 'views/route_details/route_details.html',
@@ -615,7 +615,7 @@ define([
                             }
                         ]
                     }
-                })
+                })//ok
                 .state('console.create_routes', {
                     url: '/:namespace/create-route/:name',
                     templateUrl: 'views/create_file/create_routes/create_routes.html',
@@ -643,11 +643,11 @@ define([
                             }
                         ]
                     }
-                })
+                })//ok
 
                 //backing_service
                 .state('console.backing_service', {
-                    url: '/backing_service',
+                    url: '/:namespace/backing_service',
                     params: {
                         index: null
                     },
@@ -661,7 +661,7 @@ define([
 
                 })
                 .state('console.backing_service_detail', {
-                    url: '/backing_service/:name',
+                    url: '/:namespace/backing_service/:name',
                     params: {
                         plan: null,
                         update: false,
@@ -677,7 +677,7 @@ define([
                     }
                 })
                 .state('console.apply_instance', {
-                    url: '/apply_instance/:name',
+                    url: '/:namespace/apply_instance/:name',
                     templateUrl: 'views/apply_instance/apply_instance.html',
                     controller: 'ApplyInstanceCtrl',
                     params: {
@@ -687,6 +687,16 @@ define([
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/apply_instance/apply_instance.js'])
+                        }]
+                    }
+                })
+                .state('console.create_saas', {
+                    url: '/:namespace/create_saas',
+                    templateUrl: 'views/create_saas/create_saas.html',
+                    controller: 'create_saasCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/create_saas/create_saas.js')
                         }]
                     }
                 })
@@ -758,11 +768,7 @@ define([
                         }]
                     }
                 })
-
-
-
-
-
+                //yarm
                 .state('console.import_from_file', {
                     url: '/:namespace/import',
                     templateUrl: 'views/import_from_file/import_from_file.html',
@@ -782,16 +788,7 @@ define([
 
 
 
-                .state('console.create_saas', {
-                    url: '/create_saas/:name',
-                    templateUrl: 'views/create_saas/create_saas.html',
-                    controller: 'create_saasCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/create_saas/create_saas.js')
-                        }]
-                    }
-                })
+
                 //resource management
 
                 .state('console.create_constantly_persistentVolume', {
