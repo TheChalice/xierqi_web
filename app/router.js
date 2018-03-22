@@ -659,7 +659,7 @@ define([
                         }]
                     }
 
-                })
+                })//ok
                 .state('console.backing_service_detail', {
                     url: '/:namespace/backing_service/:name',
                     params: {
@@ -675,7 +675,7 @@ define([
                             return $ocLazyLoad.load(['views/backing_service_detail/backing_service_detail.js'])
                         }]
                     }
-                })
+                })//ok
                 .state('console.apply_instance', {
                     url: '/:namespace/apply_instance/:name',
                     templateUrl: 'views/apply_instance/apply_instance.html',
@@ -689,17 +689,8 @@ define([
                             return $ocLazyLoad.load(['views/apply_instance/apply_instance.js'])
                         }]
                     }
-                })
-                .state('console.create_saas', {
-                    url: '/:namespace/create_saas',
-                    templateUrl: 'views/create_saas/create_saas.html',
-                    controller: 'create_saasCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/create_saas/create_saas.js')
-                        }]
-                    }
-                })
+                })//ok
+
                 //volume
                 .state('console.resource_configMap', {
                     url: '/configmaps',
@@ -733,7 +724,7 @@ define([
                 })
                 //org
                 .state('console.user', {
-                    url: '/user',
+                    url: '/:namespace/user',
                     templateUrl: 'views/user/user.html',
                     controller: 'userCtrl',
                     params: {
@@ -746,7 +737,7 @@ define([
                     }
                 })
                 .state('console.org', {
-                    url: '/org/:useorg',
+                    url: '/:namespace/org/:useorg',
                     templateUrl: 'views/org/org.html',
                     params: {
                         useorg: ''
@@ -759,7 +750,7 @@ define([
                     }
                 })
                 .state('console.notification', {
-                    url: '/notification',
+                    url: '/:namespace/notification',
                     templateUrl: 'views/notification/notification.html',
                     controller: 'notificationCtrl',
                     resolve: {
@@ -962,7 +953,16 @@ define([
                         }]
                     }
                 })
-
+                .state('console.create_saas', {
+                    url: '/:namespace/create_saas',
+                    templateUrl: 'views/create_saas/create_saas.html',
+                    controller: 'create_saasCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/create_saas/create_saas.js')
+                        }]
+                    }
+                })
                 //pods详情
 
                 //新建routes
