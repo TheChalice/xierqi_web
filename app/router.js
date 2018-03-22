@@ -582,7 +582,7 @@ define([
                 })
 
                 .state('console.routes', {
-                    url: '/routes',
+                    url: '/:namespace/routes',
                     templateUrl: 'views/apps/routes/routes.html',
                     controller: 'RoutesCtrl',
                     resolve: {
@@ -596,6 +596,55 @@ define([
                         ]
                     }
                 })
+                .state('console.route_detail', {
+                    url: '/:namespace/routes/:name',
+                    templateUrl: 'views/route_details/route_details.html',
+                    controller: 'RouteDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/route_details/route_details.js'])
+                        }],
+                        routeDetails: ['Route', 'Cookie', '$stateParams',
+                            function (Route, Cookie, $stateParams) {
+                                return Route.get({namespace: Cookie.get('namespace'), name: $stateParams.name}).$promise
+                            }
+                        ],
+                        services: ['Service', 'Cookie', '$stateParams',
+                            function (Service, Cookie, $stateParams) {
+                                return Service.get({namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ]
+                    }
+                })
+                .state('console.create_routes', {
+                    url: '/:namespace/create-route/:name',
+                    templateUrl: 'views/create_file/create_routes/create_routes.html',
+                    params: {
+                        name: null
+                    },
+                    controller: 'CreateRoutesCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/create_file/create_routes/create_routes.js')
+                        }],
+                        createRoutes: ['Route', 'Cookie', '$stateParams',
+                            function (Route, Cookie, $stateParams) {
+                                return Route.get({namespace: Cookie.get('namespace'), name: $stateParams.name}).$promise
+                            }
+                        ],
+                        routesList: ['Route', 'Cookie', '$stateParams',
+                            function (Route, Cookie) {
+                                return Route.get({namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ],
+                        ServiceList: ['Service', 'Cookie',
+                            function (Service, Cookie) {
+                                return Service.get({namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ]
+                    }
+                })
+
                 //backing_service
                 .state('console.backing_service', {
                     url: '/backing_service',
@@ -730,26 +779,6 @@ define([
                     }
                 })//ok
 
-                .state('console.route_detail', {
-                    url: '/routes/:name',
-                    templateUrl: 'views/route_details/route_details.html',
-                    controller: 'RouteDetailCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/route_details/route_details.js'])
-                        }],
-                        routeDetails: ['Route', 'Cookie', '$stateParams',
-                            function (Route, Cookie, $stateParams) {
-                                return Route.get({namespace: Cookie.get('namespace'), name: $stateParams.name}).$promise
-                            }
-                        ],
-                        services: ['Service', 'Cookie', '$stateParams',
-                            function (Service, Cookie, $stateParams) {
-                                return Service.get({namespace: Cookie.get('namespace')}).$promise
-                            }
-                        ]
-                    }
-                })
 
 
 
@@ -940,34 +969,7 @@ define([
                 //pods详情
 
                 //新建routes
-                .state('console.create_routes', {
-                    url: '/create-route/:name',
-                    templateUrl: 'views/create_file/create_routes/create_routes.html',
-                    params: {
-                        name: null
-                    },
-                    controller: 'CreateRoutesCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/create_file/create_routes/create_routes.js')
-                        }],
-                        createRoutes: ['Route', 'Cookie', '$stateParams',
-                            function (Route, Cookie, $stateParams) {
-                                return Route.get({namespace: Cookie.get('namespace'), name: $stateParams.name}).$promise
-                            }
-                        ],
-                        routesList: ['Route', 'Cookie', '$stateParams',
-                            function (Route, Cookie) {
-                                return Route.get({namespace: Cookie.get('namespace')}).$promise
-                            }
-                        ],
-                        ServiceList: ['Service', 'Cookie',
-                            function (Service, Cookie) {
-                                return Service.get({namespace: Cookie.get('namespace')}).$promise
-                            }
-                        ]
-                    }
-                })
+
                 //新建deployment
 
 
