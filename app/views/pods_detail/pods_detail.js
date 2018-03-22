@@ -29,7 +29,7 @@ angular.module('console.pods_detail', [
             $scope.delete = function(name){
                 delTip.open("删除Pod", name, true).then(function () {
                     Pod.delete({ namespace: $scope.namespace,name:name }, function (res) {
-                        $state.go('console.pods');
+                        $state.go('console.pods',{namespace:$rootScope.namespace});
                         toastr.success('操作成功', {
                             timeOut: 2000,
                             closeButton: true

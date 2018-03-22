@@ -91,7 +91,7 @@ angular.module('console.plan', [
                                     //console.log(data);
                                     canbuy = true
                                     Tip.open('提示', '购买成功！', false, true, true).then(function () {
-                                        $state.go('console.dashboard')
+                                        $state.go("console.dashboard", { namespace: $rootScope.namespace })
                                     })
 
                                 }, function (err) {

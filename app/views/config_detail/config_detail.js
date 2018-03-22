@@ -151,7 +151,7 @@ angular.module('console.config_detail', [
                     toastr.success('更新成功', {
                         closeButton: true
                     });
-                    $state.go('console.resource_configMap', {index: 2});
+                    $state.go('console.resource_configMap', {namespace:$rootScope.namespace});
                     //$state.go('console.build_detail', {name: name, from: 'create'})
                 })
             };
@@ -165,7 +165,7 @@ angular.module('console.config_detail', [
                             timeOut: 2000,
                             closeButton: true
                         });
-                        $state.go('console.resource_configMap', {index: 2});
+                        $state.go('console.resource_configMap', {namespace:$rootScope.namespace});
                         // $state.go('console.resource_management', {index: 2});
                         //$state.go('console.build_detail', {name: name, from: 'create'})
                     }, function (err) {

@@ -13,7 +13,7 @@
         <div style="margin-right:0;margin-left:-15px;">
             <div class="col-sm-4 col-xs-4 serv_jia_btn new_deploycol" style="" role="group" aria-label="">
                 <div class="btn-group " role="group">
-                    <a id="creatbtn" class="btn btn-green " ui-sref="console.service_create">
+                    <a id="creatbtn" class="btn btn-green " ui-sref="console.service_create({namespace:namespace})">
                         <i class="fa fa-plus fa-lg"></i>
                         <span class=""> 新建部署</span>
                     </a>
@@ -27,7 +27,7 @@
                     <!--</button>-->
                     <ul class="dropdown-menu quick_menu">
                         <!--<li ui-sref="console.service_create" ><a href="#">新建服务</a></li>-->
-                        <li class="quick_bs"><a ui-sref="console.quick_deploy">快速部署</a></li>
+                        <li class="quick_bs"><a ui-sref="console.quick_deploy({namespace:namespace})">快速部署</a></li>
                     </ul>
 
                 </div>
@@ -66,11 +66,11 @@
                 <tr ng-repeat="deployments in deploymentOneItem">
                     <td data-title="Name" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
 
-                        <a class="href-orange" ui-sref="console.deploymentconfig_detail({name: deployments.metadata.name})">{{deployments.metadata.name}}</a>
+                        <a class="href-orange" ui-sref="console.deploymentconfig_detail({namespace:namespace,name: deployments.metadata.name})">{{deployments.metadata.name}}</a>
 
                     </td>
                     <td data-title="Last Version">
-                        <a ng-if="deployments.status.latestVersion >0" style="color: #f6a540;cursor: pointer;" ui-sref="console.rc({name:deployments.rc.metadata.name})">{{deployments.status.latestVersion}}</a>
+                        <a ng-if="deployments.status.latestVersion >0" style="color: #f6a540;cursor: pointer;" ui-sref="console.rc({namespace:namespace,name:deployments.rc.metadata.name})">{{deployments.status.latestVersion}}</a>
                         <a ng-if="deployments.status.latestVersion ==0">No deployments</a>
                     </td>
                     <td data-title="Status">
@@ -134,12 +134,12 @@
                 <!--<tr ng-repeat="deployments in mydeploylist">-->
                 <tr ng-repeat="deployment in deploymentTwoItem | orderObjectsByDate : true">
                     <td data-title="Name">
-                        <a class="href-orange" ui-sref="console.deployment_detail({name: deployment.metadata.name})">{{deployment.metadata.name}}</a>
+                        <a class="href-orange" ui-sref="console.deployment_detail({namespace:namespace,name: deployment.metadata.name})">{{deployment.metadata.name}}</a>
 
                     </td>
                     <td data-title="Last Version">
                         <span>
-                          <a class="href-orange" ui-sref="console.rs({name:deployment.rs.metadata.name})" style="color: #f6a540;cursor: pointer;">{{deployment | lastDeploymentRevision}}</a>
+                          <a class="href-orange" ui-sref="console.rs({namespace:namespace,name:deployment.rs.metadata.name})" style="color: #f6a540;cursor: pointer;">{{deployment | lastDeploymentRevision}}</a>
                         </span>
                     </td>
                     <td data-title="Replicas">

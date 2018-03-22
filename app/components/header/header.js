@@ -39,7 +39,7 @@ angular.module("console.header", [{
                 //    if ($state.current.name === 'console.dashboard') {
                 //        $state.reload();
                 //    } else {
-                //        $state.go('console.dashboard');
+                //        $state.go("console.dashboard", { namespace: $rootScope.namespace });
                 //    }
                 //    //$state.reload();
                 //}
@@ -447,9 +447,9 @@ angular.module("console.header", [{
                         if ($state.current.name === 'console.dashboard') {
                             $state.reload();
                         } else {
-                            $state.go('console.dashboard');
+                            $state.go("console.dashboard", { namespace: $rootScope.namespace });
                         }
-                        //$state.go('console.dashboard');
+                        //$state.go("console.dashboard", { namespace: $rootScope.namespace });
                         //}
                     }
 

@@ -38,7 +38,7 @@
                                 <h4 class="media-heading">pod个数(正常/期望)</h4>
                                 <small>
                                     <span ng-repeat="pod in podsForService">
-                                        <a class="href-orange" ui-sref="console.pods_detail({name: pod.metadata.name})">{{pod.metadata.name}}</a>
+                                        <a class="href-orange" ui-sref="console.pods_detail({namespace:namespace,name: pod.metadata.name})">{{pod.metadata.name}}</a>
                                     </span>
                                 </small>
                             </div>

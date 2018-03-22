@@ -1641,7 +1641,7 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                                         //跳转dashboard
 
 
-                                    //$state.go('console.dashboard');
+                                    //$state.go("console.dashboard", { namespace: $rootScope.namespace });
 
 
                                 });

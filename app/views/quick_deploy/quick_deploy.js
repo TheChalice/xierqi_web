@@ -228,6 +228,7 @@ angular.module('console.quick_deploy', [
                             region: $rootScope.region
                         }, $scope.dc, function (res) {
                             $state.go('console.deploymentconfig_detail', {
+                                namespace:$rootScope.namespace,
                                 name: $scope.dc.metadata.name,
                                 from: 'create'
                             });

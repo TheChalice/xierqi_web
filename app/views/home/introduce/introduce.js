@@ -47,7 +47,7 @@ angular.module('home.introduce', [
             if(!$rootScope.user){
                 $state.go('login');
             }else{
-                $state.go('console.dashboard');
+                $state.go("console.dashboard", { namespace: $rootScope.namespace });
             }
         }
         $('.imgover').mouseover(function(){

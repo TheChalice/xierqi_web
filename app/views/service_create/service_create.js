@@ -1887,7 +1887,9 @@ angular.module('console.service.create', [
                             timeOut: 2000,
                             closeButton: true
                         });
-                        $state.go('console.deploymentconfig_detail', {name: dc.metadata.name, from: 'create'});
+                        $state.go('console.deploymentconfig_detail', {
+                        namespace:$rootScope.namespace,
+                            name: dc.metadata.name, from: 'create'});
                     }, function (res) {
                         //todo 错误处理
                         $log.info("create dc fail", res);
