@@ -28,8 +28,8 @@ angular.module("console.sidebar", [
                            $(".zx_set_btn").removeClass("zx_set_btn_rotate");
                            $("#sidebar-container").removeClass("sider_zx");
                            $("#sidebar-right-fixed").removeClass("sidebar-fixed");
-                           $rootScope.dataForTheTree[3].children = $rootScope.app
-                           $rootScope.dataForTheTree[5].children = $rootScope.resources
+                           $rootScope.dataForTheTree[4].children = $rootScope.app
+                           $rootScope.dataForTheTree[6].children = $rootScope.resources
                        }
                 }
                 $scope.activeStyle = false;
@@ -56,12 +56,12 @@ angular.module("console.sidebar", [
                     $(".sb-arrow").toggleClass("rotate");
                     if($(".zx_set_btn").hasClass('zx_set_btn_rotate')){
                         $scope.activeStyle = true;
-                        $rootScope.dataForTheTree[3].children = [];
-                        $rootScope.dataForTheTree[5].children = [];
+                        $rootScope.dataForTheTree[4].children = [];
+                        $rootScope.dataForTheTree[6].children = [];
                     }else{
                         $scope.activeStyle = false;
-                        $rootScope.dataForTheTree[3].children = $rootScope.app
-                        $rootScope.dataForTheTree[5].children = $rootScope.resources
+                        $rootScope.dataForTheTree[4].children = $rootScope.app
+                        $rootScope.dataForTheTree[6].children = $rootScope.resources
 
                     }
                 }
