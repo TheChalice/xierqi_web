@@ -477,7 +477,7 @@ define([
                             return $ocLazyLoad.load(['views/apps/stateful-sets/stateful-sets.js', 'views/apps/apps.css'])
                         }]
                     }
-                })
+                })//ok
                 .state('console.stateful-sets-detail', {
                     url: '/:namespace/stateful-sets/:name',
                     templateUrl: 'views/apps/stateful-sets-detail/stateful-sets-detail.html',
@@ -500,10 +500,10 @@ define([
                             }
                         ],
                     }
-                })
+                })//ok
 
                 .state('console.pods', {
-                    url: '/pods',
+                    url: '/:namespace/pods',
                     templateUrl: 'views/apps/pods/pods.html',
                     controller: 'PodsCtrl',
                     resolve: {
@@ -512,6 +512,28 @@ define([
                         }]
                     }
                 })
+                .state('console.pods_detail', {
+                    url: '/:namespace/pods/:name',
+                    templateUrl: 'views/pods_detail/pods_detail.html',
+                    controller: 'podsdetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/pods_detail/pods_detail.js')
+                        }],
+                        mypod: ['$stateParams', 'Pod', 'Cookie', '$rootScope', function ($stateParams, Pod, Cookie, $rootScope) {
+                            return Pod.get({
+                                namespace: Cookie.get('namespace'),
+                                name: $stateParams.name
+                            }).$promise;
+                        }],
+                        podList: ['Pod', 'Cookie',
+                            function (Pod, Cookie) {
+                                return Pod.get({namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ],
+                    }
+                })
+
                 .state('console.services', {
                     url: '/services',
                     templateUrl: 'views/apps/services/services.html',
@@ -915,27 +937,7 @@ define([
                 })
 
                 //pods详情
-                .state('console.pods_detail', {
-                    url: '/pods/:name',
-                    templateUrl: 'views/pods_detail/pods_detail.html',
-                    controller: 'podsdetailCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/pods_detail/pods_detail.js')
-                        }],
-                        mypod: ['$stateParams', 'Pod', 'Cookie', '$rootScope', function ($stateParams, Pod, Cookie, $rootScope) {
-                            return Pod.get({
-                                namespace: Cookie.get('namespace'),
-                                name: $stateParams.name
-                            }).$promise;
-                        }],
-                        podList: ['Pod', 'Cookie',
-                            function (Pod, Cookie) {
-                                return Pod.get({namespace: Cookie.get('namespace')}).$promise
-                            }
-                        ],
-                    }
-                })
+
                 //新建routes
                 .state('console.create_routes', {
                     url: '/create-route/:name',
