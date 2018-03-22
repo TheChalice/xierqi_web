@@ -185,7 +185,7 @@ angular.module('console.create_constantly_persistentVolume', [
                 toastr.success('创建成功', {
                     closeButton: true
                 });
-                $state.go('console.resource_persistentVolume', {index: 1});
+                $state.go('console.resource_persistentVolume', {namespace:$rootScope.namespace});
             }, function (err) {
                 $scope.loaded = false;
                 // Toast.open('创建失败,请重试');

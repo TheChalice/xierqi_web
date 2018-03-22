@@ -241,13 +241,13 @@ angular.module('console.create_config_configMap', [
             toastr.success('创建成功', {
                 closeButton: true
             });
-            $state.go('console.resource_configMap', {index: 2});
+            $state.go('console.resource_configMap', {namespace:$rootScope.namespace});
             //$state.go('console.build_detail', {name: name, from: 'create'})
         }, function (res) {
             toastr.error('创建失败，请重试', {
                 closeButton: true
             });
-            $state.go('console.create_config_configMap');
+            $state.go('console.create_config_configMap',{namespace:$rootScope.namespace});
         })
     }
 }])

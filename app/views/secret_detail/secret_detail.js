@@ -260,7 +260,7 @@ angular.module('console.secret_secret', [
                     toastr.success('更新成功', {
                         closeButton: true
                     });
-                    $state.go('console.resource_secret', {index: 3})
+                    $state.go('console.resource_secret', {namespace:$rootScope.namespace})
                 })
             }
             $scope.delete = function () {
@@ -273,7 +273,7 @@ angular.module('console.secret_secret', [
                         toastr.success('删除成功', {
                             closeButton: true
                         });
-                        $state.go('console.resource_secret', {index: 3})
+                        $state.go('console.resource_secret', {namespace:$rootScope.namespace})
                         // $state.go('console.resource_management', {index: 3})
                     },function (err) {
                         toastr.error('删除失败，请重试', {

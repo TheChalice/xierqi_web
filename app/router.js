@@ -693,7 +693,7 @@ define([
 
                 //volume
                 .state('console.resource_configMap', {
-                    url: '/configmaps',
+                    url: '/:namespace/configmaps',
                     templateUrl: 'views/resource_configMap/resource_configMap.html',
                     controller: 'configMapCtrl',
                     resolve: {
@@ -701,9 +701,30 @@ define([
                             return $ocLazyLoad.load('views/resource_configMap/resource_configMap.js')
                         }]
                     }
-                }) //resource_persistentVolume
+                })
+                .state('console.create_config_configMap', {
+                    url: '/:namespace/create-configmap',
+                    templateUrl: 'views/create_config_volume/create_config_volume.html',
+                    controller: 'createfigvolumeCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/create_config_volume/create_config_volume.js')
+                        }]
+                    }
+                })
+                .state('console.config_configMap', {
+                    url: '/:namespace/configmaps/:name',
+                    templateUrl: 'views/config_detail/config_detail.html',
+                    controller: 'configDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/config_detail/config_detail.js')
+                        }]
+                    }
+                })
+
                 .state('console.resource_persistentVolume', {
-                    url: '/storage',
+                    url: '/:namespace/storage',
                     templateUrl: 'views/resource_persistentVolume/resource_persistentVolume.html',
                     controller: 'persistentVolumeCtrl',
                     resolve: {
@@ -712,8 +733,29 @@ define([
                         }]
                     }
                 })
+                .state('console.create_constantly_persistentVolume', {
+                    url: '/:namespace/create-pvc',
+                    templateUrl: 'views/create_constantly_volume/create_constantly_volume.html',
+                    controller: 'createconvolumeCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/create_constantly_volume/create_constantly_volume.js')
+                        }]
+                    }
+                })
+                .state('console.constantly_persistentVolume', {
+                    url: '/:namespace/storage/:name',
+                    templateUrl: 'views/constantly_detail/constantly_detail.html',
+                    controller: 'constDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/constantly_detail/constantly_detail.js')
+                        }]
+                    }
+                })
+
                 .state('console.resource_secret', {
-                    url: '/secrets',
+                    url: '/:namespace/secrets',
                     templateUrl: 'views/resource_secret/resource_secret.html',
                     controller: 'resourceSecret',
                     resolve: {
@@ -722,6 +764,27 @@ define([
                         }]
                     }
                 })
+                .state('console.create_secret', {
+                    url: '/:namespace/create-secret',
+                    templateUrl: 'views/create_secret/create_secret.html',
+                    controller: 'createSecretCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/create_secret/create_secret.js')
+                        }]
+                    }
+                })
+                .state('console.secret_secret', {
+                    url: '/:namespace/secrets/:name',
+                    templateUrl: 'views/secret_detail/secret_detail.html',
+                    controller: 'secretDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/secret_detail/secret_detail.js')
+                        }]
+                    }
+                })
+
                 //org
                 .state('console.user', {
                     url: '/:namespace/user',
@@ -735,7 +798,7 @@ define([
                             return $ocLazyLoad.load('views/user/user.js')
                         }]
                     }
-                })
+                })//ok
                 .state('console.org', {
                     url: '/:namespace/org/:useorg',
                     templateUrl: 'views/org/org.html',
@@ -748,7 +811,7 @@ define([
                             return $ocLazyLoad.load('views/org/org.js')
                         }]
                     }
-                })
+                })//ok
                 .state('console.notification', {
                     url: '/:namespace/notification',
                     templateUrl: 'views/notification/notification.html',
@@ -758,7 +821,7 @@ define([
                             return $ocLazyLoad.load('views/notification/notification.js')
                         }]
                     }
-                })
+                })//ok
                 //yarm
                 .state('console.import_from_file', {
                     url: '/:namespace/import',
@@ -782,66 +845,7 @@ define([
 
                 //resource management
 
-                .state('console.create_constantly_persistentVolume', {
-                    url: '/create-pvc',
-                    templateUrl: 'views/create_constantly_volume/create_constantly_volume.html',
-                    controller: 'createconvolumeCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/create_constantly_volume/create_constantly_volume.js')
-                        }]
-                    }
-                })
-                .state('console.create_config_configMap', {
-                    url: '/create-configmap',
-                    templateUrl: 'views/create_config_volume/create_config_volume.html',
-                    controller: 'createfigvolumeCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/create_config_volume/create_config_volume.js')
-                        }]
-                    }
-                })
-                .state('console.create_secret', {
-                    url: '/create-secret',
-                    templateUrl: 'views/create_secret/create_secret.html',
-                    controller: 'createSecretCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/create_secret/create_secret.js')
-                        }]
-                    }
-                })
-                .state('console.config_configMap', {
-                    url: '/configmaps/:name',
-                    templateUrl: 'views/config_detail/config_detail.html',
-                    controller: 'configDetailCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/config_detail/config_detail.js')
-                        }]
-                    }
-                })
-                .state('console.secret_secret', {
-                    url: '/secrets/:name',
-                    templateUrl: 'views/secret_detail/secret_detail.html',
-                    controller: 'secretDetailCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/secret_detail/secret_detail.js')
-                        }]
-                    }
-                })
-                .state('console.constantly_persistentVolume', {
-                    url: '/storage/:name',
-                    templateUrl: 'views/constantly_detail/constantly_detail.html',
-                    controller: 'constDetailCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/constantly_detail/constantly_detail.js')
-                        }]
-                    }
-                })
+
                 //数据集成
                 .state('console.Integration', {
                     url: '/Integration',
