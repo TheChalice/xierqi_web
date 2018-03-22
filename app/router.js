@@ -238,8 +238,6 @@ define([
                         }]
                     }
                 })//ok
-
-
                 //pipeline
                 .state('console.pipeline', {
                     url: '/:namespace/pipeline',
@@ -296,8 +294,6 @@ define([
                         ]
                     }
                 })//ok
-
-
                 //app
                 .state('console.deployments', {
                     url: '/deployments',
@@ -397,7 +393,6 @@ define([
                         ]
                     }
                 })
-
                 //backing_service
                 .state('console.backing_service', {
                     url: '/backing_service',
@@ -474,8 +469,7 @@ define([
                         }]
                     }
                 })
-
-
+                //org
                 .state('console.user', {
                     url: '/user',
                     templateUrl: 'views/user/user.html',
@@ -512,13 +506,9 @@ define([
                         }]
                     }
                 })
-                //build
 
 
-                //image
 
-
-                //service
 
                 .state('console.service_create', {
                     url: '/create-deploy',
@@ -987,6 +977,7 @@ define([
                     }
                 })
 
+            //过期route
 
             //.state('console.image_Public', {
             //    url: '/image/imagePublic/:bc/:name',
