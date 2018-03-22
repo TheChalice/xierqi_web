@@ -324,7 +324,7 @@ define([
                             }
                         ]
                     }
-                })
+                })//ok
                 .state('console.deploymentconfig_detail', {
                     url: '/:namespace/deploymentconfigs/:name',
                     params: {
@@ -348,7 +348,7 @@ define([
                             }).$promise;
                         }]
                     }
-                })
+                })//ok
                 .state('console.deployment_detail', {
                     url: '/:namespace/deployments/:name',
                     templateUrl: 'views/deployment_detail/deployment_detail.html',
@@ -380,7 +380,7 @@ define([
                             }).$promise;
                         }]
                     }
-                })
+                })//ok
 
                 .state('console.service_create', {
                     url: '/:namespace/create-deploy',
@@ -395,7 +395,7 @@ define([
                             return $ocLazyLoad.load(['views/service_create/service_create.js'])
                         }]
                     }
-                })
+                })//ok
                 .state('console.quick_deploy', {
                     url: '/:namespace/create-quick-deploy',
                     templateUrl: 'views/quick_deploy/quick_deploy.html',
@@ -415,7 +415,7 @@ define([
                             }).$promise;
                         }]
                     }
-                })
+                })//ok
 
                 //rc
                 .state('console.rc', {
@@ -441,7 +441,7 @@ define([
                             }
                         ]
                     }
-                })
+                })//ok
                 //rs
                 .state('console.rs', {
                     url: '/:namespace/rs/:name',
@@ -466,7 +466,7 @@ define([
                             }
                         ]
                     }
-                })
+                })//ok
 
                 .state('console.stateful-sets', {
                     url: '/stateful-sets',
@@ -501,6 +501,7 @@ define([
                         ],
                     }
                 })
+
                 .state('console.pods', {
                     url: '/pods',
                     templateUrl: 'views/apps/pods/pods.html',
@@ -655,7 +656,7 @@ define([
 
 
                 .state('console.import_from_file', {
-                    url: '/import',
+                    url: '/:namespace/import',
                     templateUrl: 'views/import_from_file/import_from_file.html',
                     controller: 'ImportFromFileCtrl',
                     resolve: {
