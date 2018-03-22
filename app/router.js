@@ -296,7 +296,7 @@ define([
                 })//ok
                 //app
                 .state('console.deployments', {
-                    url: '/deployments',
+                    url: '/:namespace/deployments',
                     templateUrl: 'views/apps/deployments/deployments.html',
                     controller: 'DeploymentsCtrl',
                     resolve: {
@@ -325,6 +325,149 @@ define([
                         ]
                     }
                 })
+                .state('console.deploymentconfig_detail', {
+                    url: '/:namespace/deploymentconfigs/:name',
+                    params: {
+                        from: null
+                    },
+                    templateUrl: 'views/deploymentconfig_detail/deploymentconfig_detail.html',
+                    controller: 'DeploymentConfigDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/deploymentconfig_detail/deploymentconfig_detail.js'])
+                        }],
+                        mydc: ['$stateParams', 'DeploymentConfig', 'Cookie', '$rootScope', function ($stateParams, DeploymentConfig, Cookie, $rootScope) {
+                            return DeploymentConfig.get({
+                                namespace: Cookie.get('namespace'),
+                                name: $stateParams.name
+                            }).$promise;
+                        }],
+                        mytag: ['$stateParams', 'ImageStreamTag', 'Cookie', '$rootScope', function ($stateParams, ImageStreamTag, Cookie, $rootScope) {
+                            return ImageStreamTag.get({
+                                namespace: Cookie.get('namespace')
+                            }).$promise;
+                        }]
+                    }
+                })
+                .state('console.deployment_detail', {
+                    url: '/:namespace/deployments/:name',
+                    templateUrl: 'views/deployment_detail/deployment_detail.html',
+                    controller: 'DeploymentDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/deployment_detail/deployment_detail.js'])
+                        }],
+                        mydc: ['$stateParams', 'Deployments', 'Cookie', '$rootScope',
+                            function ($stateParams, Deployments, Cookie, $rootScope) {
+                                //console.log('$stateParams', $stateParams);
+                                return Deployments.get({
+                                    namespace: Cookie.get('namespace'),
+                                    name: $stateParams.name
+                                }).$promise;
+                            }
+                        ],
+                        myreplicaSet: ['$stateParams', 'ReplicaSet', 'Cookie', '$rootScope',
+                            function ($stateParams, ReplicaSet, Cookie, $rootScope) {
+                                //console.log('$stateParams', $stateParams);
+                                return ReplicaSet.get({
+                                    namespace: Cookie.get('namespace')
+                                }).$promise;
+                            }
+                        ],
+                        mytag: ['$stateParams', 'ImageStreamTag', 'Cookie', '$rootScope', function ($stateParams, ImageStreamTag, Cookie, $rootScope) {
+                            return ImageStreamTag.get({
+                                namespace: Cookie.get('namespace')
+                            }).$promise;
+                        }]
+                    }
+                })
+
+                .state('console.service_create', {
+                    url: '/:namespace/create-deploy',
+                    templateUrl: 'views/service_create/service_create.html',
+                    controller: 'ServiceCreateCtrl',
+                    params: {
+                        image: null,
+                        ports: null
+                    },
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/service_create/service_create.js'])
+                        }]
+                    }
+                })
+                .state('console.quick_deploy', {
+                    url: '/:namespace/create-quick-deploy',
+                    templateUrl: 'views/quick_deploy/quick_deploy.html',
+                    controller: 'QuickDeployCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/quick_deploy/quick_deploy.js'])
+                        }],
+                        myimage: ['ImageStream', 'Cookie', '$stateParams',
+                            function (ImageStream, Cookie, $stateParams) {
+                                return ImageStream.get({namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ],
+                        mytag: ['$stateParams', 'ImageStreamTag', 'Cookie', '$rootScope', function ($stateParams, ImageStreamTag, Cookie, $rootScope) {
+                            return ImageStreamTag.get({
+                                namespace: Cookie.get('namespace')
+                            }).$promise;
+                        }]
+                    }
+                })
+
+                //rc
+                .state('console.rc', {
+                    url: '/:namespace/rc/:name',
+                    templateUrl: 'views/rc/rc_detail.html',
+                    controller: 'rcCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/rc/rc_detail.js')
+                        }],
+                        myPodList: ['$stateParams', 'Pod', 'Cookie', '$rootScope', function ($stateParams, Pod, Cookie, $rootScope) {
+                            return Pod.get({
+                                namespace: Cookie.get('namespace')
+                            }).$promise;
+                        }],
+
+                        myrc: ['$stateParams', 'ReplicationController', 'Cookie', '$rootScope',
+                            function ($stateParams, ReplicationController, Cookie, $rootScope) {
+                                return ReplicationController.get({
+                                    namespace: Cookie.get('namespace'),
+                                    name: $stateParams.name
+                                }).$promise;
+                            }
+                        ]
+                    }
+                })
+                //rs
+                .state('console.rs', {
+                    url: '/:namespace/rs/:name',
+                    templateUrl: 'views/rs/rs_detail.html',
+                    controller: 'rsCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/rs/rs_detail.js')
+                        }],
+
+                        myPodList: ['$stateParams', 'Pod', 'Cookie', '$rootScope', function ($stateParams, Pod, Cookie, $rootScope) {
+                            return Pod.get({
+                                namespace: Cookie.get('namespace')
+                            }).$promise;
+                        }],
+                        myrs: ['$stateParams', 'ReplicaSet', 'Cookie', '$rootScope',
+                            function ($stateParams, ReplicaSet, Cookie, $rootScope) {
+                                return ReplicaSet.get({
+                                    namespace: Cookie.get('namespace'),
+                                    name: $stateParams.name
+                                }).$promise;
+                            }
+                        ]
+                    }
+                })
+
                 .state('console.stateful-sets', {
                     url: '/stateful-sets',
                     templateUrl: 'views/apps/stateful-sets/stateful-sets.html',
@@ -510,20 +653,7 @@ define([
 
 
 
-                .state('console.service_create', {
-                    url: '/create-deploy',
-                    templateUrl: 'views/service_create/service_create.html',
-                    controller: 'ServiceCreateCtrl',
-                    params: {
-                        image: null,
-                        ports: null
-                    },
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/service_create/service_create.js'])
-                        }]
-                    }
-                })
+
                 .state('console.import_from_file', {
                     url: '/import',
                     templateUrl: 'views/import_from_file/import_from_file.html',
@@ -539,26 +669,7 @@ define([
                         ]
                     }
                 })
-                .state('console.quick_deploy', {
-                    url: '/create-quick-deploy',
-                    templateUrl: 'views/quick_deploy/quick_deploy.html',
-                    controller: 'QuickDeployCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/quick_deploy/quick_deploy.js'])
-                        }],
-                        myimage: ['ImageStream', 'Cookie', '$stateParams',
-                            function (ImageStream, Cookie, $stateParams) {
-                                return ImageStream.get({namespace: Cookie.get('namespace')}).$promise
-                            }
-                        ],
-                        mytag: ['$stateParams', 'ImageStreamTag', 'Cookie', '$rootScope', function ($stateParams, ImageStreamTag, Cookie, $rootScope) {
-                            return ImageStreamTag.get({
-                                namespace: Cookie.get('namespace')
-                            }).$promise;
-                        }]
-                    }
-                })
+
                 .state('console.route_detail', {
                     url: '/routes/:name',
                     templateUrl: 'views/route_details/route_details.html',
@@ -579,62 +690,7 @@ define([
                         ]
                     }
                 })
-                .state('console.deploymentconfig_detail', {
-                    url: '/deploymentconfigs/:name',
-                    params: {
-                        from: null
-                    },
-                    templateUrl: 'views/deploymentconfig_detail/deploymentconfig_detail.html',
-                    controller: 'DeploymentConfigDetailCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/deploymentconfig_detail/deploymentconfig_detail.js'])
-                        }],
-                        mydc: ['$stateParams', 'DeploymentConfig', 'Cookie', '$rootScope', function ($stateParams, DeploymentConfig, Cookie, $rootScope) {
-                            return DeploymentConfig.get({
-                                namespace: Cookie.get('namespace'),
-                                name: $stateParams.name
-                            }).$promise;
-                        }],
-                        mytag: ['$stateParams', 'ImageStreamTag', 'Cookie', '$rootScope', function ($stateParams, ImageStreamTag, Cookie, $rootScope) {
-                            return ImageStreamTag.get({
-                                namespace: Cookie.get('namespace')
-                            }).$promise;
-                        }]
-                    }
-                })
-                .state('console.deployment_detail', {
-                    url: '/deployments/:name',
-                    templateUrl: 'views/deployment_detail/deployment_detail.html',
-                    controller: 'DeploymentDetailCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/deployment_detail/deployment_detail.js'])
-                        }],
-                        mydc: ['$stateParams', 'Deployments', 'Cookie', '$rootScope',
-                            function ($stateParams, Deployments, Cookie, $rootScope) {
-                                //console.log('$stateParams', $stateParams);
-                                return Deployments.get({
-                                    namespace: Cookie.get('namespace'),
-                                    name: $stateParams.name
-                                }).$promise;
-                            }
-                        ],
-                        myreplicaSet: ['$stateParams', 'ReplicaSet', 'Cookie', '$rootScope',
-                            function ($stateParams, ReplicaSet, Cookie, $rootScope) {
-                                //console.log('$stateParams', $stateParams);
-                                return ReplicaSet.get({
-                                    namespace: Cookie.get('namespace')
-                                }).$promise;
-                            }
-                        ],
-                        mytag: ['$stateParams', 'ImageStreamTag', 'Cookie', '$rootScope', function ($stateParams, ImageStreamTag, Cookie, $rootScope) {
-                            return ImageStreamTag.get({
-                                namespace: Cookie.get('namespace')
-                            }).$promise;
-                        }]
-                    }
-                })
+
                 .state('console.service_details', {
                     url: '/services/:name',
                     params: {
@@ -909,73 +965,9 @@ define([
                     }
                 })
                 //新建deployment
-                .state('console.create_deployment', {
-                    url: '/create_deployment',
-                    templateUrl: 'views/create_deployment/create_deployment.html',
-                    controller: 'createDeploymentCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/create_deployment/create_deployment.js')
-                        }],
-                        myProject: ['Project', 'Cookie', '$stateParams',
-                            function (Project, Cookie, $stateParams) {
-                                return Project.get().$promise
-                            }
-                        ]
 
-                    }
-                })
 
-                //rc
-                .state('console.rc', {
-                    url: '/rc/:name',
-                    templateUrl: 'views/rc/rc_detail.html',
-                    controller: 'rcCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/rc/rc_detail.js')
-                        }],
-                        myPodList: ['$stateParams', 'Pod', 'Cookie', '$rootScope', function ($stateParams, Pod, Cookie, $rootScope) {
-                            return Pod.get({
-                                namespace: Cookie.get('namespace')
-                            }).$promise;
-                        }],
 
-                        myrc: ['$stateParams', 'ReplicationController', 'Cookie', '$rootScope',
-                            function ($stateParams, ReplicationController, Cookie, $rootScope) {
-                                return ReplicationController.get({
-                                    namespace: Cookie.get('namespace'),
-                                    name: $stateParams.name
-                                }).$promise;
-                            }
-                        ]
-                    }
-                })
-                //rs
-                .state('console.rs', {
-                    url: '/rs/:name',
-                    templateUrl: 'views/rs/rs_detail.html',
-                    controller: 'rsCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/rs/rs_detail.js')
-                        }],
-
-                        myPodList: ['$stateParams', 'Pod', 'Cookie', '$rootScope', function ($stateParams, Pod, Cookie, $rootScope) {
-                            return Pod.get({
-                                namespace: Cookie.get('namespace')
-                            }).$promise;
-                        }],
-                        myrs: ['$stateParams', 'ReplicaSet', 'Cookie', '$rootScope',
-                            function ($stateParams, ReplicaSet, Cookie, $rootScope) {
-                                return ReplicaSet.get({
-                                    namespace: Cookie.get('namespace'),
-                                    name: $stateParams.name
-                                }).$promise;
-                            }
-                        ]
-                    }
-                })
 
             //过期route
 
@@ -1009,6 +1001,22 @@ define([
             //        }]
             //    }
             //})
+            //    .state('console.create_deployment', {
+            //        url: '/:namespace/create_deployment',
+            //        templateUrl: 'views/create_deployment/create_deployment.html',
+            //        controller: 'createDeploymentCtrl',
+            //        resolve: {
+            //            dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+            //                return $ocLazyLoad.load('views/create_deployment/create_deployment.js')
+            //            }],
+            //            myProject: ['Project', 'Cookie', '$stateParams',
+            //                function (Project, Cookie, $stateParams) {
+            //                    return Project.get().$promise
+            //                }
+            //            ]
+            //
+            //        }
+            //    })
 
         }]);
 

@@ -406,7 +406,7 @@ angular.module('console.deploymentconfig_detail', [
                             timeOut: 2000,
                             closeButton: true
                         });
-                        $state.go('console.deployments');
+                        $state.go('console.deployments',{namespace:$rootScope.namespace});
                     }, function () {
                         Confirm.open("删除Deployment", "删除" + val + "失败", null, null, true);
                         toastr.error('删除失败,请重试', {

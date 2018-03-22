@@ -264,7 +264,7 @@ angular.module('console.deployment_detail', [
                         namespace: $rootScope.namespace,
                         name: $stateParams.name
                     }, function (datadc) {
-                        $state.go('console.deployments');
+                        $state.go('console.deployments',{namespace:$rootScope.namespace});
                     }, function () {
                         Confirm.open("删除Deployment", "删除" + val + "失败", null, null, true)
                     })
