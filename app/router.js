@@ -535,7 +535,7 @@ define([
                 })
 
                 .state('console.services', {
-                    url: '/services',
+                    url: '/:namespace/services',
                     templateUrl: 'views/apps/services/services.html',
                     controller: 'ServicesCtrl',
                     resolve: {
@@ -544,6 +544,43 @@ define([
                         }]
                     }
                 })
+                .state('console.service_details', {
+                    url: '/:namespace/services/:name',
+                    params: {
+                        from: null
+                    },
+                    templateUrl: 'views/service_details/service_details.html',
+                    controller: 'ServicesDetailCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/service_details/service_details.js'])
+                        }],
+                        routes: ['Route', 'Cookie',
+                            function (Route, Cookie) {
+                                return Route.get({namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ],
+                        pods: ['Pod', 'Cookie',
+                            function (Pod, Cookie) {
+                                return Pod.get({namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ],
+                        endpoints: ['Endpoint', 'Cookie',
+                            function (Endpoint, Cookie) {
+                                return Endpoint.get({namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ],
+                        serviceDetails: ['Service', 'Cookie', '$stateParams',
+                            function (Service, Cookie, $stateParams) {
+                                return Service.get({
+                                    namespace: Cookie.get('namespace'),
+                                    name: $stateParams.name
+                                }).$promise
+                            }
+                        ]
+                    }
+                })
+
                 .state('console.routes', {
                     url: '/routes',
                     templateUrl: 'views/apps/routes/routes.html',
@@ -714,42 +751,6 @@ define([
                     }
                 })
 
-                .state('console.service_details', {
-                    url: '/services/:name',
-                    params: {
-                        from: null
-                    },
-                    templateUrl: 'views/service_details/service_details.html',
-                    controller: 'ServicesDetailCtrl',
-                    resolve: {
-                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/service_details/service_details.js'])
-                        }],
-                        routes: ['Route', 'Cookie',
-                            function (Route, Cookie) {
-                                return Route.get({namespace: Cookie.get('namespace')}).$promise
-                            }
-                        ],
-                        pods: ['Pod', 'Cookie',
-                            function (Pod, Cookie) {
-                                return Pod.get({namespace: Cookie.get('namespace')}).$promise
-                            }
-                        ],
-                        endpoints: ['Endpoint', 'Cookie',
-                            function (Endpoint, Cookie) {
-                                return Endpoint.get({namespace: Cookie.get('namespace')}).$promise
-                            }
-                        ],
-                        serviceDetails: ['Service', 'Cookie', '$stateParams',
-                            function (Service, Cookie, $stateParams) {
-                                return Service.get({
-                                    namespace: Cookie.get('namespace'),
-                                    name: $stateParams.name
-                                }).$promise
-                            }
-                        ]
-                    }
-                })
 
 
                 .state('console.create_saas', {
