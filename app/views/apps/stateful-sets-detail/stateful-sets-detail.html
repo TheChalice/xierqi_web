@@ -75,7 +75,7 @@
                     </div>
                     <div class="row matgin-bt" >
                         <div class="col-md-2 width150 color666">Secret:</div>
-                        <div class="col-md-10"> <a class="href-orange" ui-sref="console.secret_secret({name: volume.secret.secretName})">{{volume.secret.secretName}}</a></div>
+                        <div class="col-md-10"> <a class="href-orange" ui-sref="console.secret_secret({namespace:namespace,name: volume.secret.secretName})">{{volume.secret.secretName}}</a></div>
                     </div>
                     <div class="row matgin-bt" ng-repeat="item in volume.secret.items">
                         <div class="col-md-2 width150 color666">Key to File:</div>
@@ -89,7 +89,7 @@
                     </div>
                     <div class="row matgin-bt" >
                         <div class="col-md-2 width150 color666">Secret:</div>
-                        <div class="col-md-10"><a class="href-orange" ui-sref="console.config_configMap({name: volume.configMap.name})">{{volume.configMap.name}}</a></div>
+                        <div class="col-md-10"><a class="href-orange" ui-sref="console.config_configMap({namespace:namespace,name: volume.configMap.name})">{{volume.configMap.name}}</a></div>
                     </div>
                     <div class="row matgin-bt" ng-repeat="item in volume.configMap.items">
                         <div class="col-md-2 width150">Key to File:</div>
@@ -103,7 +103,7 @@
                     </div>
                     <div class="row matgin-bt" >
                         <div class="col-md-2 width150 color666">Claim name:</div>
-                        <div class="col-md-10"><a class="href-orange" ui-sref="console.constantly_persistentVolume({name:volume.persistentVolumeClaim.claimName})">{{volume.persistentVolumeClaim.claimName}}</a></div>
+                        <div class="col-md-10"><a class="href-orange" ui-sref="console.constantly_persistentVolume({namespace:namespace,name:volume.persistentVolumeClaim.claimName})">{{volume.persistentVolumeClaim.claimName}}</a></div>
                     </div>
                     <div class="row matgin-bt">
                         <div class="col-md-10" ng-if="volume.persistentVolumeClaim.readOnly">read-only</div>
@@ -127,7 +127,7 @@
                             <!-- <a class="href-orange" ui-sref="console.service_detail({name: pod.metadata.name})">
                                 {{pod.metadata.name}}
                             </a> -->
-                            <a class="href-orange" ui-sref="console.pods_detail({name: pod.metadata.name})">
+                            <a class="href-orange" ui-sref="console.pods_detail({namespace:namespace,name: pod.metadata.name})">
                                 {{pod.metadata.name}}
                             </a>
                         </td>
