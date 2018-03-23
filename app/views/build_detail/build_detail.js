@@ -8,8 +8,8 @@ angular.module('console.build.detail', [
         ]
     }
 ])
-    .controller('BuildDetailCtrl', ['$sce', 'ansi_ups', 'ImageStreamTag', 'deleteSecret', 'Ws', 'Sort', 'GLOBAL', '$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'UUID', 'WebhookLab', 'WebhookHub', 'WebhookLabDel', 'WebhookHubDel', 'ImageStream', 'WebhookLabget', 'WebhookGitget', 'toastr'
-        , function ($sce, ansi_ups, ImageStreamTag, deleteSecret, Ws, Sort, GLOBAL, $rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, UUID, WebhookLab, WebhookHub, WebhookLabDel, WebhookHubDel, ImageStream, WebhookLabget, WebhookGitget, toastr) {
+    .controller('BuildDetailCtrl', ['$sce', 'ansi_ups', 'ImageStreamTag', 'deleteSecret', 'Ws', 'Sort', 'GLOBAL', '$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'UUID', 'WebhookLab', 'WebhookHub', 'WebhookLabDel', 'WebhookHubDel', 'ImageStream', 'WebhookLabget', 'WebhookGitget', 'toastr','$base64'
+        , function ($sce, ansi_ups, ImageStreamTag, deleteSecret, Ws, Sort, GLOBAL, $rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, UUID, WebhookLab, WebhookHub, WebhookLabDel, WebhookHubDel, ImageStream, WebhookLabget, WebhookGitget, toastr,$base64) {
             $scope.grid = {};
 
             //console.log('路由',$state);
@@ -17,7 +17,7 @@ angular.module('console.build.detail', [
             $scope.grid.pedding = false
 
             $scope.bcName = $stateParams.name;
-
+            $scope.websocklink=[]
             $scope.$on('image-enable', function (e, enable) {
                 $scope.imageEnable = enable;
             });
@@ -425,7 +425,9 @@ angular.module('console.build.detail', [
 
             $scope.isshow = true;
             $scope.gitStore = {};
-
+            $scope.databuild={
+                items : []
+            }
             //获取build记录
             var loadBuildHistory = function (name) {
                 //console.log('name',name)
@@ -433,11 +435,13 @@ angular.module('console.build.detail', [
                     namespace: $rootScope.namespace,
                     labelSelector: 'buildconfig=' + name,
                     region: $rootScope.region
-                }, function (data) {
-                    //console.log("history", data);
-                    data.items = Sort.sort(data.items, -1); //排序
-                    $scope.databuild = data;
-                    //console.log($scope.databuild);
+                }, function (res) {
+                    //var obj = angular.copy(res)
+                    //console.log(obj);
+                    //res.items = res.sort(res.items, -1); //排序
+                    //console.log("history", res);
+
+                    console.log($scope.databuild);
                     if ($stateParams.from == "create/new") {
                         $scope.databuild.items[0].showLog = true;
                     }
@@ -445,8 +449,8 @@ angular.module('console.build.detail', [
                     //fillHistory(data.items);
 
                     //emit(imageEnable(data.items));
-                    $scope.resourceVersion = data.metadata.resourceVersion;
-                    watchBuilds(data.metadata.resourceVersion);
+                    $scope.resourceVersion = res.metadata.resourceVersion;
+                    watchBuilds(res.metadata.resourceVersion);
                 }, function (res) {
                     //todo 错误处理
                 });
@@ -531,6 +535,54 @@ angular.module('console.build.detail', [
                     watchBuilds($scope.resourceVersion);
                 });
             };
+            var watchBuildlog = function (name) {
+                var canlink= true
+                angular.forEach($scope.websocklink, function (namelinked) {
+                    if (namelinked === name) {
+                        canlink=false
+                    }
+                })
+                if (canlink) {
+                    $scope.websocklink.push(name)
+                    Ws.watch({
+                        namespace: $rootScope.namespace,
+                        type: 'builds/'+name+'/log',
+                        protocols: 'base64.binary.k8s.io',
+                    }, function (res) {
+                        angular.forEach($scope.databuild.items, function (build) {
+                            //console.log(res);
+                            if (build.metadata.name === name) {
+                                //console.log(build.metadata.name,$base64.decode(res.data));
+                                build.baselog+=$base64.decode(res.data)
+                                var html ='';
+                                console.log('build.baselog', build.baselog);
+                                if (build.baselog!=='undefined') {
+                                    build.baselog=build.baselog.replace('undefined','')
+                                    html = ansi_ups.ansi_to_html(build.baselog)
+                                    //html = ansi_ups.ansi_to_html('none')
+                                }else {
+                                    html = ansi_ups.ansi_to_html('暂无日志')
+
+                                }
+                                build.buildLog=$sce.trustAsHtml(html)
+
+
+                            }
+                        })
+                    }, function () {
+                        $log.info("webSocket start");
+                    }, function () {
+                        $log.info("webSocket stop");
+                        var key = Ws.key($rootScope.namespace, 'builds', '');
+                        //console.log(key, $rootScope);
+                        if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
+                            return;
+                        }
+                    });
+                }
+
+            };
+
 
             var updateBuilds = function (data) {
                 //console.log('ws状态', data);
@@ -538,93 +590,75 @@ angular.module('console.build.detail', [
                     $log.info("err", data.object.message);
                     Ws.clear();
                     //TODO直接刷新bc会导致页面重新渲染
-                    loadBuildHistory($state.params.name);
+                    //loadBuildHistory($state.params.name);
                     return;
                 }
 
                 $scope.resourceVersion = data.object.metadata.resourceVersion;
 
                 if (data.type == 'ADDED') {
-                    data.object.showLog = true;
-                    $scope.databuild.items.unshift(data.object);
+                    //data.object.showLog = true;
+                    if (data.object.metadata.labels&&data.object.metadata.labels.buildconfig) {
+                        if (data.object.metadata.labels.buildconfig === $stateParams.name) {
+                            $scope.databuild.items.unshift(data.object)
+                           var sortresv= function  (a,b){
+                             return b.metadata.resourceVersion - a.metadata.resourceVersion
+                            }
+                            $scope.databuild.items=$scope.databuild.items.sort(sortresv)
+
+                            $scope.$apply()
+                        }
+                    }
 
                 } else if (data.type == "MODIFIED") {
-                    // 这种方式非常不好,尽快修改
-                    angular.forEach($scope.databuild.items, function (item, i) {
-                        if (item.metadata.name == data.object.metadata.name) {
-                            data.object.showLog = $scope.databuild.items[i].showLog;
-                            if (data.object.status.phase == 'Complete') {
-                                emit(true);
-                            }
-                            Build.log.get({
-                                namespace: $rootScope.namespace,
-                                name: data.object.metadata.name,
-                                region: $rootScope.region
-                            }, function (res) {
-                                var result = "";
-                                for (var k in res) {
-                                    if (/^\d+$/.test(k)) {
-                                        result += res[k];
+                    angular.forEach($scope.databuild.items, function (build,i) {
+                        if (build.metadata.name === data.object.metadata.name) {
+                            console.log('build.metadata.name', build.metadata.name);
+                            build.metadata.creationTimestamp=data.object.metadata.creationTimestamp
+                            build.status.phase=data.object.status.phase
+                            build.status.duration=data.object.status.duration
+                            if (data.object.spec.revision&&data.object.spec.revision.git) {
+                                build.spec.revision={
+                                    git:{
+                                        commit:data.object.spec.revision.git.commit
                                     }
                                 }
-                                var html = ansi_ups.ansi_to_html(result);
-                                data.object.buildLog = $sce.trustAsHtml(html)
-                                //data.object.buildLog = result;
-                                $scope.databuild.items[i] = data.object;
-                                loglast()
-                            }, function () {
-                                $scope.databuild.items[i] = data.object;
-                            });
+                                //build.spec.revision.git.commit=
+                            }
+
+                            $scope.$apply()
                         }
-                    });
+                    })
                 }
             };
-
             loadBuildHistory($state.params.name);
 
             //如果是新创建的打开第一个日志,并监控
-            if ($stateParams.from == "create") {
-                $scope.$watch("databuild", function (newVal, oldVal) {
-                    //console.log(newVal);
-
-                    if (newVal != oldVal) {
-                        if (newVal.items.length > 0 && $scope.databuild.items[0].object) {
-
-                            $scope.getLog(0);
-
-                            $scope.databuild.items[0].object.showLog = true;
-                        }
-                    }
-                });
-            }
+            //if ($stateParams.from == "create") {
+            //    $scope.$watch("databuild", function (newVal, oldVal) {
+            //        //console.log(newVal);
+            //
+            //        if (newVal != oldVal) {
+            //            if (newVal.items.length > 0 && $scope.databuild.items[0].object) {
+            //
+            //                $scope.getLog(0);
+            //
+            //                $scope.databuild.items[0].object.showLog = true;
+            //            }
+            //        }
+            //    });
+            //}
 
             $scope.getLog = function (idx) {
                 var o = $scope.databuild.items[idx];
                 o.showLog = !o.showLog;
-
-                if (o.status.phase == "Pending") {
-                    return;
-                }
-                //存储已经调取过的log
-                if (o.buildLog) {
-                    loglast()
-                    return;
-                }
+                watchBuildlog(o.metadata.name)
                 Build.log.get({
                     namespace: $rootScope.namespace,
                     name: o.metadata.name,
                     region: $rootScope.region
                 }, function (res) {
-                    var result = "";
-                    for (var k in res) {
-                        if (/^\d+$/.test(k)) {
-                            result += res[k];
-                        }
-                    }
-                    var html = ansi_ups.ansi_to_html(result);
-                    o.buildLog = $sce.trustAsHtml(html)
-                    //o.buildLog = result;
-                    loglast()
+                    console.log('res', res);
                 }, function (res) {
                     //console.log("res", res);
                     var html = ansi_ups.ansi_to_html(res.data.message);
