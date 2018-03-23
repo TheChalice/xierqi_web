@@ -73,11 +73,14 @@ define([
                         '&region=' + $rootScope.region +
                         '&access_token=' + token;
                 } else {
+
                     var url = host + '/namespaces/' + params.namespace + '/' + params.type + params.name +
                         '?watch=true' +
-                        '&resourceVersion=' + params.resourceVersion +
                         '&region=' + $rootScope.region +
                         '&access_token=' + token;
+                    if (params.resourceVersion) {
+                        url+'&resourceVersion=' + params.resourceVersion
+                    }
                 }
                 if (params.tailLines) {
                     url=url+'&tailLines=' + params.tailLines;
