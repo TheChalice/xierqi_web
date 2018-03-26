@@ -77,11 +77,11 @@ angular.module('console.user', ['kubernetesUI',
             //$scope.checked = namespace;
             //$rootScope.huancun.name = namespace;
             //console.log('$scope.checked', $scope.checked);
-            $state.go('console.org', {useorg: namespace});
+            $state.go('console.org', {namespace:$rootScope.namespace,useorg: namespace});
             //if (namespace) {
             //
             //} else {
-            //$state.go('console.dashboard');
+            //$state.go("console.dashboard", { namespace: $rootScope.namespace });
             //}
         }
         //load project

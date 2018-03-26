@@ -22,14 +22,18 @@ angular.module("console.sidebar", [
                 $scope.state = $state;
                 $scope.goUrl = function(url){
                        if(url){
-                           $state.go(url);
+                           if (url.split('@')) {
+                               var urlarr = url.split('@');
+                               console.log('urlarr', urlarr);
+                           }
+                           $state.go(urlarr[0],({namespace:urlarr[1]}));
                        }else{
                            $scope.activeStyle = false;
                            $(".zx_set_btn").removeClass("zx_set_btn_rotate");
                            $("#sidebar-container").removeClass("sider_zx");
                            $("#sidebar-right-fixed").removeClass("sidebar-fixed");
-                           $rootScope.dataForTheTree[3].children = $rootScope.app
-                           $rootScope.dataForTheTree[5].children = $rootScope.resources
+                           $rootScope.dataForTheTree[4].children = $rootScope.app
+                           $rootScope.dataForTheTree[6].children = $rootScope.resources
                        }
                 }
                 $scope.activeStyle = false;
@@ -56,12 +60,12 @@ angular.module("console.sidebar", [
                     $(".sb-arrow").toggleClass("rotate");
                     if($(".zx_set_btn").hasClass('zx_set_btn_rotate')){
                         $scope.activeStyle = true;
-                        $rootScope.dataForTheTree[3].children = [];
-                        $rootScope.dataForTheTree[5].children = [];
+                        $rootScope.dataForTheTree[4].children = [];
+                        $rootScope.dataForTheTree[6].children = [];
                     }else{
                         $scope.activeStyle = false;
-                        $rootScope.dataForTheTree[3].children = $rootScope.app
-                        $rootScope.dataForTheTree[5].children = $rootScope.resources
+                        $rootScope.dataForTheTree[4].children = $rootScope.app
+                        $rootScope.dataForTheTree[6].children = $rootScope.resources
 
                     }
                 }

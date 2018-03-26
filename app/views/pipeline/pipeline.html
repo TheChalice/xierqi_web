@@ -18,13 +18,13 @@
                     <td class='buildname'
                         style="">
                         <a class="href-orange"
-                           ui-sref="console.pipeline_detail({name: bc.metadata.name})"
+                           ui-sref="console.pipeline_detail({namespace:namespace,name: bc.metadata.name})"
                            uib-tooltip="{{bc.metadata.name}}"
                            tooltip-placement="top">{{bc.metadata.name}}</a>
                     </td>
                     <td>
                         <a class="href-orange"
-                           ui-sref="console.pipelinetag_detail({name: bc.metadata.name,tag:bc.build.metadata.annotations['openshift.io/build.number']})"
+                           ui-sref="console.pipelinetag_detail({namespace:namespace,name: bc.metadata.name,tag:bc.build.metadata.annotations['openshift.io/build.number']})"
                            tooltip-placement="top">#{{bc.build.metadata.annotations['openshift.io/build.number']}}</a>
 
                     </td>

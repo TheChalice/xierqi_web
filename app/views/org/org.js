@@ -294,7 +294,7 @@ angular.module('console.user', [
                     leave.left({org: $stateParams.useorg}, function () {
                         $rootScope.orgStatus = true;
                         $rootScope.delOrgs = true;
-                        $state.go('console.dashboard');
+                        $state.go("console.dashboard", { namespace: $rootScope.namespace });
                     })
                 })
             }

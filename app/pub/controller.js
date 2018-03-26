@@ -16,7 +16,7 @@ define(['angular'], function (angular) {
                 //    Cookie.set('namespace', $rootScope.namespace, 10 * 365 * 24 * 3600 * 1000);
                 //    $rootScope.region = 'cn-north-1';
                 //    Cookie.set('region', $rootScope.region, 10 * 365 * 24 * 3600 * 1000);
-                //    $state.go('console.dashboard');
+                //    $state.go("console.dashboard", { namespace: $rootScope.namespace });
                 //})
                 Cookie.clear('namespace');
                 Cookie.clear('df_access_token');
@@ -38,13 +38,13 @@ define(['angular'], function (angular) {
                 // $rootScope.user = '';
                 // $rootScope.namespace = "";
                 // $state.go('login');
-                //Cookie.clear('namespace');
-                //Cookie.clear('df_access_token');
-                //Cookie.clear('region');
-                //$rootScope.region = '';
-                //$rootScope.user = '';
-                //$rootScope.namespace = "";
-                //$state.go('home.index');
+                Cookie.clear('namespace');
+                Cookie.clear('df_access_token');
+                Cookie.clear('region');
+                $rootScope.region = '';
+                $rootScope.user = '';
+                $rootScope.namespace = "";
+                $state.go('login');
             });
         }]);
 });

@@ -8,7 +8,8 @@ angular.module('console.build', [
         ]
     }
 ])
-    .controller('BuildCtrl', ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'BuildConfig', 'Build', 'GLOBAL', 'Confirm', 'Sort', 'Ws', function ($rootScope, $scope, $log, $state, $stateParams, BuildConfig, Build, GLOBAL, Confirm, Sort, Ws) {
+    .controller('BuildCtrl', ['$rootScope', '$scope', '$log', '$state', '$stateParams', 'BuildConfig', 'Build', 'GLOBAL', 'Confirm', 'Sort', 'Ws',
+        function ($rootScope, $scope, $log, $state, $stateParams, BuildConfig, Build, GLOBAL, Confirm, Sort, Ws) {
 
         //分页
         $scope.grid = {
@@ -112,7 +113,7 @@ angular.module('console.build', [
             Ws.watch({
                 resourceVersion: resourceVersion,
                 namespace: $rootScope.namespace,
-                type: 'builds',
+                type: 'buildconfigs',
                 name: ''
             }, function(res){
                 var data = JSON.parse(res.data);
@@ -150,6 +151,13 @@ angular.module('console.build', [
                     }
                 });
               // console.log('$scope.items.build.status.phase',$scope.items);
+            }else if (data.type == "DELETED") {
+                angular.forEach($scope.items, function (item, i) {
+                    if (item.metadata.name == data.object.metadata.name) {
+                        $scope.items.splice(i,1)
+
+                    }
+                })
             }
         };
 

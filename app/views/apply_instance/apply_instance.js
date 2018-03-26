@@ -116,7 +116,7 @@ angular.module('console.apply_instance', [
                 BackingServiceInstance.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.bsi,function(){
                     $scope.grid.error=false
                     $log.info("build backing service instance success");
-                    $state.go('console.backing_service_detail', {name: cuename, index:2})
+                    $state.go('console.backing_service_detail', {namespace:$rootScope.namespace,name: cuename, index:2})
                 }, function (data) {
                     if (data.status === 409) {
                         $scope.grid.error=true

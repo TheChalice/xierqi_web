@@ -19,7 +19,7 @@
         <div style="margin-right:0;margin-left:-15px;">
             <div class="col-sm-4 col-xs-4 serv_jia_btn new_deploycol" style="" role="group" aria-label="">
                 <div class="btn-group" role="group">
-                    <a id="creatbtn" class="btn btn-green" ui-sref="console.create_routes">
+                    <a id="creatbtn" class="btn btn-green" ui-sref="console.create_routes({namespace:namespace})">
                         <i class="fa fa-plus fa-lg"></i>
                         <span class=""> 新建routes</span>
                     </a>
@@ -58,7 +58,7 @@
                 <tr ng-repeat="route in routeItem">
                     <td  data-title="Name" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
 
-                        <a class="a_color_org" ui-sref="console.route_detail({name: route.metadata.name})">
+                        <a class="a_color_org" ui-sref="console.route_detail({namespace:namespace,name: route.metadata.name})">
 
                             {{route.metadata.name}}
                             <span class="pficon-warning-triangle-o" ng-show="!(route | isWebRoute)"></span>

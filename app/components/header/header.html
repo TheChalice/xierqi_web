@@ -77,7 +77,7 @@
                 <ul id="testjt" class="projectname" uib-dropdown-menu aria-labelledby="user-menu" style="max-height: 338px;border-top:0;border-right:0;overflow:auto;top:53px;right:0px;background: #f7fafc;border-radius:0;">
                     <!--personal account-->
                     <li ng-if="projects" class='personal'>
-                        <a href="javascript:;" ng-click='gotomy()' ui-sref='console.user'>
+                        <a href="javascript:;" ng-click='gotomy()' ui-sref='console.user({namespace:namespace})'>
                             <!--<label>{{user.metadata.name}}</label>-->
                             <i class="df_h_com df_person_active"></i>
                             <span>用户中心</span>
@@ -162,8 +162,8 @@
                 <b class="h_caret"></b>
             </a>
             <ul id="testjt" class="projectname" uib-dropdown-menu aria-labelledby="user-menu" style="max-height: 338px;border-top:0;border-right:0;overflow:auto;top:53px;right:0px;background: #f7fafc;border-radius:0;">
-                <li class="quick_bs" ui-sref="console.quick_deploy"><a href="#">快速部署</a></li>
-                <li class="quick_bs" ui-sref="console.import_from_file"><a href="">Import YAML / JSON</a></li>
+                <li class="quick_bs" ui-sref="console.quick_deploy({namespace:namespace})"><a>快速部署</a></li>
+                <li class="quick_bs" ui-sref="console.import_from_file({namespace:namespace})"><a>Import YAML / JSON</a></li>
             </ul>
         </div>
     </div>

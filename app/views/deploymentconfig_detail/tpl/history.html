@@ -12,7 +12,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-sm-3">
-                        <a class="dcList" ui-sref="console.rc({name:item.metadata.name})">
+                        <a class="dcList" ui-sref="console.rc({namespace:namespace,name:item.metadata.name})">
                         #{{item.metadata.annotations['openshift.io/deployment-config.latest-version']}}
                         </a>
                     </div>

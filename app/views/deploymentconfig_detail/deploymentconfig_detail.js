@@ -320,6 +320,21 @@ angular.module('console.deploymentconfig_detail', [
                         delete con.volumeMounts
                         delete con.volments
                     }
+                    //addemptyDir
+                    if (con.emptyDir.length>0) {
+                        if (!con.volumeMounts) {
+                            con.volumeMounts=[]
+                        }
+                        if (!$scope.dc.spec.template.spec.volumes) {
+                            $scope.dc.spec.template.spec.volumes=[]
+                        }
+                        angular.forEach(con.emptyDir, function (vol,i) {
+                            con.volumeMounts.push(vol.volumeMounts)
+                        })
+                        angular.forEach(con.emptyDir, function (vol,i) {
+                            $scope.dc.spec.template.spec.volumes.push(vol.volumes)
+                        })
+                    }
 
                 })
                 if (!cancreat) {
@@ -391,7 +406,7 @@ angular.module('console.deploymentconfig_detail', [
                             timeOut: 2000,
                             closeButton: true
                         });
-                        $state.go('console.deployments');
+                        $state.go('console.deployments',{namespace:$rootScope.namespace});
                     }, function () {
                         Confirm.open("删除Deployment", "删除" + val + "失败", null, null, true);
                         toastr.error('删除失败,请重试', {
@@ -585,6 +600,9 @@ angular.module('console.deploymentconfig_detail', [
                     $scope.delconvol = function (outerIndex, innerIndex, obj) {
                         $scope.dc.spec.template.spec.containers[outerIndex].volments[obj].splice(innerIndex, 1);
                     }
+                    $scope.delempty = function (outerIndex, innerIndex) {
+                        $scope.dc.spec.template.spec.containers[outerIndex].emptyDir.splice(innerIndex, 1);
+                    }
                     $scope.selectimage = function (i, item, con) {
                         con.annotate.image = i
                         con.annotate.tag = item[0].tag
@@ -596,7 +614,17 @@ angular.module('console.deploymentconfig_detail', [
                         con.image = con.annotate.tags[idx].dockerImageReference;
                         //con.image=
                     }
+                    function cleararr(arr){
+                        var newarr = []
+                        angular.forEach(arr, function (item,i) {
+                            if (item == null) {
 
+                            }else {
+                                newarr.push(item)
+                            }
+                        })
+                        return newarr
+                    }
                     $scope.checkoutreg = function (con, status) {
                         if (status === true && !con.annotate.image) {
                             //console.log($scope.mytag.items[0].metadata.name.split(':'));
@@ -650,9 +678,44 @@ angular.module('console.deploymentconfig_detail', [
 
                                 }
                             }
-                            if (con.volumeMounts) {
+                            //emptyDir
+                            //console.log($scope.dc.spec.template.spec.volumes);
+                            //console.log(con.volumeMounts);
+                            con.emptyDir=[];
+
+                            angular.forEach($scope.dc.spec.template.spec.volumes, function (vol,i) {
+                                angular.forEach(vol, function (value,key) {
+                                    if (key === 'emptyDir') {
+                                        con.emptyDir.push({name:vol.name,volumes:vol})
+                                        $scope.dc.spec.template.spec.volumes.splice(i,1,null)
+                                    }
+                                })
+                            })
+
+                            //$scope.dc.spec.template.spec.volumes=angular.copy(newvol.vol)
+                            if (con.emptyDir.length > 0) {
+                                angular.forEach(con.volumeMounts, function (vol,i) {
+                                    angular.forEach(con.emptyDir, function (emp,k) {
+                                        if (vol.name === emp.name) {
+                                            con.emptyDir[k].mountPath=vol.mountPath
+                                            con.emptyDir[k].volumeMounts=vol
+                                            con.volumeMounts.splice(i,1,null)
+                                        }
+                                    })
+                                })
+                                $scope.dc.spec.template.spec.volumes=cleararr($scope.dc.spec.template.spec.volumes);
+                                con.volumeMounts=cleararr(con.volumeMounts);
+
+                                //console.log($scope.dc.spec.template.spec.volumes);
+                                //console.log(con.volumeMounts);
+                            }
+                            console.log(con.emptyDir);
+                            //console.log('con.volumeMounts', $scope.dc.spec.template.spec.volumes);
+                            if (con.volumeMounts&&con.volumeMounts.length>0) {
+                                //other
                                 con.volment = true;
                                 //console.log($scope.dc.spec.template.spec.volumes);
+                                //console.log(con.volumeMounts);
                                 if ($scope.dc.spec.template.spec.volumes) {
                                     con.volments = {
                                         secret: [],
@@ -667,7 +730,7 @@ angular.module('console.deploymentconfig_detail', [
                                                 angular.forEach(vol, function (item, j) {
                                                     if (j !== 'name') {
                                                         item['mountPath'] = convol.mountPath
-                                                        //console.log(item);
+                                                        console.log(con.volments,j);
                                                         con.volments[j].push(item);
                                                     }
                                                 })

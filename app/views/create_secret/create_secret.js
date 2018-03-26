@@ -326,7 +326,7 @@ angular.module('console.create_secret', [
             toastr.success('创建成功', {
                 closeButton: true
             });
-            $state.go('console.resource_secret', {index: 3});
+            $state.go('console.resource_secret', {namespace:$rootScope.namespace});
         }, function (res) {
             toastr.error('创建失败，请重试', {
                 closeButton: true

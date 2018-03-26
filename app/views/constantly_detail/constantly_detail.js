@@ -53,7 +53,7 @@ angular.module('console.constantly_persistentVolume', [
                             toastr.success('删除成功', {
                                 closeButton: true
                             });
-                            $state.go('console.resource_persistentVolume', {index: 1})
+                            $state.go('console.resource_persistentVolume', {namespace:$rootScope.namespace})
                         }, function (err) {
                             toastr.error('删除失败，请重试', {
                                 closeButton: true
