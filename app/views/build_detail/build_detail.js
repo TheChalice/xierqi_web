@@ -442,9 +442,9 @@ angular.module('console.build.detail', [
                     //console.log("history", res);
 
                     console.log($scope.databuild);
-                    if ($stateParams.from == "create/new") {
-                        $scope.databuild.items[0].showLog = true;
-                    }
+                    //if ($stateParams.from == "create/new") {
+                    //    $scope.databuild.items[0].showLog = true;
+                    //}
                     //console.log($scope.databuild);
                     //fillHistory(data.items);
 

@@ -18,6 +18,9 @@ angular.module('console.pipeline.detail', [
                 })
                 $scope.BuildConfig = angular.copy(BuildConfigs);
             });
+            $scope.databuild={
+                items : []
+            }
 
             //获取pipline记录
             var loadPiplineHistory = function (name) {
@@ -27,12 +30,7 @@ angular.module('console.pipeline.detail', [
                     labelSelector: 'buildconfig=' + name,
                     region: $rootScope.region
                 }, function (data) {
-                    console.log("history", data);
-                    data.items = Sort.sort(data.items, -1); //排序
-                    $scope.databuild = data;
-                    if ($stateParams.from == "create/new") {
-                        $scope.databuild.items[0].showLog = true;
-                    }
+
                     //console.log($scope.databuild);
                     //fillHistory(data.items);
 
@@ -69,50 +67,32 @@ angular.module('console.pipeline.detail', [
             };
 
             var updateBuilds = function (data) {
-                console.log('ws状态', data);
+                //console.log('ws状态', data);
                 if (data.type == 'ERROR') {
                     $log.info("err", data.object.message);
                     Ws.clear();
-                    //TODO直接刷新bc会导致页面重新渲染
-                    loadBuildHistory($state.params.name);
+
                     return;
                 }
 
                 $scope.resourceVersion = data.object.metadata.resourceVersion;
 
                 if (data.type == 'ADDED') {
-                    data.object.showLog = true;
-                    $scope.databuild.items.unshift(data.object);
-
-                } else if (data.type == "MODIFIED") {
-                    // 这种方式非常不好,尽快修改
-                    angular.forEach($scope.databuild.items, function (item, i) {
-                        if (item.metadata.name == data.object.metadata.name) {
-                            data.object.showLog = $scope.databuild.items[i].showLog;
-                            if (data.object.status.phase == 'Complete') {
-                                emit(true);
+                    if (data.object.metadata.labels&&data.object.metadata.labels.buildconfig) {
+                        if (data.object.metadata.labels.buildconfig === $stateParams.name) {
+                            $scope.databuild.items.unshift(data.object)
+                            var sortresv= function  (a,b){
+                                return b.metadata.resourceVersion - a.metadata.resourceVersion
                             }
-                            Build.log.get({
-                                namespace: $rootScope.namespace,
-                                name: data.object.metadata.name,
-                                region: $rootScope.region
-                            }, function (res) {
-                                var result = "";
-                                for (var k in res) {
-                                    if (/^\d+$/.test(k)) {
-                                        result += res[k];
-                                    }
-                                }
-                                var html = ansi_ups.ansi_to_html(result);
-                                data.object.buildLog = $sce.trustAsHtml(html)
-                                //data.object.buildLog = result;
-                                $scope.databuild.items[i] = data.object;
-                                loglast()
-                            }, function () {
-                                $scope.databuild.items[i] = data.object;
-                            });
+                            $scope.databuild.items=$scope.databuild.items.sort(sortresv)
+
+                            $scope.$apply()
                         }
-                    });
+                    }
+                } else if (data.type == "MODIFIED") {
+                    if (data.object.metadata.annotations['openshift.io/jenkins-status-json']) {
+                        console.log(JSON.parse(data.object.metadata.annotations['openshift.io/jenkins-status-json']));
+                    }
                 }
             };
 
@@ -186,19 +166,11 @@ angular.module('console.pipeline.detail', [
             }
             //查看内容
              $scope.getLog = function (idx) {
-                console.log("9999",$scope.databuild)
+
                 var o = $scope.databuild.items[idx];
-                console.log("12321",o)
+
                 o.showLog = !o.showLog;
 
-                if (o.status.phase == "New") {
-                    
-                }
-                //存储已经调取过的log
-                if (o.buildLog) {
-                    loglast()
-                    return;
-                }
                
             };
 
