@@ -443,9 +443,10 @@ angular.module("console.header", [{
                         //        useorg: namespace
                         //    });
                         //} else {
-                        console.log('$state.current.name', $state.current.name);
+                        //console.log('$state.current.name', $state.current.name);
                         if ($state.current.name === 'console.dashboard') {
-                            $state.reload();
+                            //$state.reload();
+                            $state.go("console.dashboard", { namespace: $rootScope.namespace })
                         } else {
                             $state.go("console.dashboard", { namespace: $rootScope.namespace });
                         }
