@@ -97,7 +97,7 @@ angular.module('console.pipeline.detail', [
             };
 
             //复制事件
-            //$scope.gcopy = () => copyblock(event)
+            $scope.gcopy = () => copyblock(event)
             //复制方法
             var copyblock = function (event) {
                 var e = event.target.previousElementSibling;
