@@ -21,7 +21,7 @@ define(['angular', 'moment'], function(angular, moment) {
                 if (!timestamp) {
                     return "-";
                 }
-                console.log('timestamp',moment().minutes(timestamp));
+                //console.log('timestamp',moment().minutes(timestamp));
                var newtimestamp=moment().milliseconds(timestamp)
                 return moment(newtimestamp).fromNow();
 

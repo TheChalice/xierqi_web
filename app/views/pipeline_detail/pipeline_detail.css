@@ -167,10 +167,16 @@ height:auto;overflow:hidden;}
     left:50%;margin-left:-6px;top:50%;margin-top:-13px;}
 
 /* 等待 */
-.load_Pending{background:#47B2FB;}
-.load_Pending .fa_set{background:#47B2FB;}
-.load_Pending .fa_set i{color:#fff;position:relative;}
-.load_Pending .fa_set i:before{content:"\f021";position:absolute;width:12px;height:14px;
+.load_IN_PROGRESS {background:#47B2FB;}
+.load_IN_PROGRESS .fa_set{background:#47B2FB;}
+.load_IN_PROGRESS .fa_set i{color:#fff;position:relative;}
+.load_IN_PROGRESS .fa_set i:before{content:"\f021";position:absolute;width:12px;height:14px;
+    left:50%;margin-left:-6px;top:50%;margin-top:-13px;}
+/* 等待 */
+.load_PAUSED_PENDING_INPUT {background:#f0ab00;}
+.load_PAUSED_PENDING_INPUT .fa_set{background:#f0ab00;}
+.load_PAUSED_PENDING_INPUT .fa_set i{color:#fff;position:relative;}
+.load_PAUSED_PENDING_INPUT .fa_set i:before{content:"\f021";position:absolute;width:12px;height:14px;
     left:50%;margin-left:-6px;top:50%;margin-top:-13px;}
 
 /* 失败状态 */

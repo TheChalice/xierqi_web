@@ -83,7 +83,7 @@ angular.module('console.pipeline.detail', [
 
                             if (data.object.metadata.annotations['openshift.io/jenkins-status-json']) {
                                 var stages=JSON.parse(data.object.metadata.annotations['openshift.io/jenkins-status-json']).stages;
-                                console.log(stages);
+                                //console.log(stages);
                                 data.object.stages=stages
                             }
 
@@ -105,10 +105,11 @@ angular.module('console.pipeline.detail', [
                         //console.log('item.metadata.name', item.metadata.name);
                         if (item.metadata.name === data.object.metadata.name) {
                             item.stages=stages;
-                            console.log('item.metadata.name', item.metadata.name);
+                            //console.log('item.metadata.name', item.metadata.name);
                             console.log('item.stages', item.stages);
                         }
                     })
+                    $scope.$apply()
 
                 }
             };
