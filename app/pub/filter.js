@@ -14,6 +14,20 @@ define(['angular', 'moment'], function(angular, moment) {
             };
 
         }])
+        .filter('Millistime', [function() {
+            // dropSuffix will tell moment whether to include the "ago" text
+
+            return function(timestamp) {
+                if (!timestamp) {
+                    return "-";
+                }
+                //console.log('timestamp',moment().minutes(timestamp));
+               var newtimestamp=moment().milliseconds(timestamp)
+                return moment(newtimestamp).fromNow();
+
+            };
+
+        }])
         .filter('truncate', function() {
             return function(str, charLimit, useWordBoundary, newlineLimit) {
                 if (!str) {
