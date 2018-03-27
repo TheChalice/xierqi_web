@@ -80,6 +80,13 @@ angular.module('console.pipeline.detail', [
                 if (data.type == 'ADDED') {
                     if (data.object.metadata.labels&&data.object.metadata.labels.buildconfig) {
                         if (data.object.metadata.labels.buildconfig === $stateParams.name) {
+
+                            if (data.object.metadata.annotations['openshift.io/jenkins-status-json']) {
+                                var stages=JSON.parse(data.object.metadata.annotations['openshift.io/jenkins-status-json']).stages;
+                                console.log(stages);
+                                data.object.stages=stages
+                            }
+
                             $scope.databuild.items.unshift(data.object)
                             var sortresv= function  (a,b){
                                 return b.metadata.resourceVersion - a.metadata.resourceVersion
@@ -176,8 +183,7 @@ angular.module('console.pipeline.detail', [
             }
             //查看内容
              $scope.getLog = function (idx) {
-
-                var o = $scope.databuild.items[idx];
+                 var o = $scope.databuild.items[idx];
 
                 o.showLog = !o.showLog;
 

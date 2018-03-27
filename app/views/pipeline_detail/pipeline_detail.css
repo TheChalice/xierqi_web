@@ -198,16 +198,16 @@ height:auto;overflow:hidden;}
 .load_New .fa_set i:before{content:"\f021";position:absolute;width:12px;height:14px;
     left:50%;margin-left:-6px;top:50%;margin-top:-13px;}
 /* 错误状态 */
-.load_Error{background:#FB6362;}
-.load_Error .fa_set{background:#FB6362;}
-.load_Error .fa_set i{color:#fff;position:relative;}
-.load_Error .fa_set i:before{content:"\f00d";position:absolute;width:12px;height:14px;
+.load_FAILED{background:#FB6362;}
+.load_FAILED .fa_set{background:#FB6362;}
+.load_FAILED .fa_set i{color:#fff;position:relative;}
+.load_FAILED .fa_set i:before{content:"\f00d";position:absolute;width:12px;height:14px;
     left:50%;margin-left:-6px;top:50%;margin-top:-13px;}
 /* 成功状态 */
-.load_Complete{background:#50E3C2;}
-.load_Complete .fa_set{background:#50E3C2;}
-.load_Complete .fa_set i{color:#fff;position:relative;}
-.load_Complete .fa_set i:before{content:"\f00c";position:absolute;width:12px;height:14px;
+.load_SUCCESS{background:#50E3C2;}
+.load_SUCCESS .fa_set{background:#50E3C2;}
+.load_SUCCESS .fa_set i{color:#fff;position:relative;}
+.load_SUCCESS .fa_set i:before{content:"\f00c";position:absolute;width:12px;height:14px;
     left:50%;margin-left:-6px;top:50%;margin-top:-13px;}
 
 /* *************配置信息模块********************* */
