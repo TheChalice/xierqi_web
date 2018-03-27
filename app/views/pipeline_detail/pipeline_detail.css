@@ -157,6 +157,40 @@ height:auto;overflow:hidden;}
 #pipeline-detail .btn_a{margin-left:15px;}
 /******************************* 查看状态 **********************/
 .fa_block_set{color:#fff;}
+
+/* 新加的 */
+/* 正在部署 */
+.load_Running{background:#47B2FB;}
+.load_Running .fa_set{background:#47B2FB;}
+.load_Running .fa_set i{color:#fff;position:relative;}
+.load_Running .fa_set i:before{content:"\f021";position:absolute;width:12px;height:14px;
+    left:50%;margin-left:-6px;top:50%;margin-top:-13px;}
+
+/* 等待 */
+.load_Pending{background:#47B2FB;}
+.load_Pending .fa_set{background:#47B2FB;}
+.load_Pending .fa_set i{color:#fff;position:relative;}
+.load_Pending .fa_set i:before{content:"\f021";position:absolute;width:12px;height:14px;
+    left:50%;margin-left:-6px;top:50%;margin-top:-13px;}
+
+/* 失败状态 */
+.load_Failed{background:#FB6362;}
+.load_Failed .fa_set{background:#FB6362;}
+.load_Failed .fa_set i{color:#fff;position:relative;}
+.load_Failed .fa_set i:before{content:"\f00d";position:absolute;width:12px;height:14px;
+    left:50%;margin-left:-6px;top:50%;margin-top:-13px;}    
+
+
+/* 终止状态 */
+/* .load_Cancelled{background:#FB6362;}
+.load_Cancelled .fa_set{background:#FB6362;}
+.load_Cancelled .fa_set i{color:#fff;position:relative;}
+.load_Cancelled .fa_set i:before{content:"\f04d";position:absolute;width:12px;height:14px;
+    left:50%;margin-left:-6px;top:50%;margin-top:-13px;}   */
+
+
+/* 新加的 */
+
 /* 刷新状态 */
 .load_New{background:#47B2FB;}
 .load_New .fa_set{background:#47B2FB;}
