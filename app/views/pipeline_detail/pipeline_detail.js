@@ -91,15 +91,25 @@ angular.module('console.pipeline.detail', [
                     }
                 } else if (data.type == "MODIFIED") {
                     if (data.object.metadata.annotations['openshift.io/jenkins-status-json']) {
-                        console.log(JSON.parse(data.object.metadata.annotations['openshift.io/jenkins-status-json']));
+                        var stages=JSON.parse(data.object.metadata.annotations['openshift.io/jenkins-status-json']).stages;
+                        //console.log(stages);
                     }
+                    angular.forEach($scope.databuild.items, function (item,i) {
+                        //console.log('item.metadata.name', item.metadata.name);
+                        if (item.metadata.name === data.object.metadata.name) {
+                            item.stages=stages;
+                            console.log('item.metadata.name', item.metadata.name);
+                            console.log('item.stages', item.stages);
+                        }
+                    })
+
                 }
             };
 
             //复制事件
-            //$scope.gcopy = () => copyblock(event)
+            // = () => copyblock(event)
             //复制方法
-            var copyblock = function (event) {
+            $scope.gcopy = function (event) {
                 var e = event.target.previousElementSibling;
                 var textInput = document.createElement('input');
                 textInput.setAttribute('value', e.textContent)
