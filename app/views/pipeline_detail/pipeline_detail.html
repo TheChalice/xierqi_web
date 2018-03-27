@@ -67,7 +67,7 @@
                                                     <i class="fa fa_block_set"></i>
                                                 </div>
                                             </div>
-                                            <span class="sec">{{stage.durationMillis | duration}}</span>
+                                            <span class="sec">{{stage.durationMillis | Millistime}}</span>
                                         </div>
                                         <div class="arrow_btn">
                                             <i class="fa fa-arrow-right"></i>
@@ -116,7 +116,7 @@
                                     advanced: {
                                       highlightActiveLine: false
                                     }
-                                  }" readonly ng-model="BuildConfig.spec.strategy.jenkinsPipelineStrategy.jenkinsfile" class="ace-bordered ace-inline ace-read-only"></div>
+                                  }" ng-model="BuildConfig.spec.strategy.jenkinsPipelineStrategy.jenkinsfile" class="ace-bordered ace-inline ace-read-only"></div>
                     </div>
                     </dd>
                 </div>
