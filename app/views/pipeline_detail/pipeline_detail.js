@@ -105,6 +105,7 @@ angular.module('console.pipeline.detail', [
                         //console.log('item.metadata.name', item.metadata.name);
                         if (item.metadata.name === data.object.metadata.name) {
                             item.stages=stages;
+                            item.status=data.object.status
                             //console.log('item.metadata.name', item.metadata.name);
                             console.log('item.stages', item.stages);
                         }
