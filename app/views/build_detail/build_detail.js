@@ -548,6 +548,7 @@ angular.module('console.build.detail', [
                         namespace: $rootScope.namespace,
                         type: 'builds/'+name+'/log',
                         protocols: 'base64.binary.k8s.io',
+                        follow:true
                     }, function (res) {
                         angular.forEach($scope.databuild.items, function (build) {
                             //console.log(res);

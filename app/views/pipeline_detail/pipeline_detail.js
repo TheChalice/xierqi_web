@@ -133,7 +133,38 @@ angular.module('console.pipeline.detail', [
 
                 }
             }
-             //更新部署
+             //保存
+            $scope.saveBuild = function () {
+                var name = $scope.BuildConfig.metadata.name;
+                //var buildRequest = {
+                //    metadata: {
+                //        name: name
+                //    }
+                //};
+                console.log('$scope.BuildConfig', $scope.BuildConfig);
+                BuildConfig.get({namespace: $rootScope.namespace,
+                    name: $scope.BuildConfig.metadata.name}, function (getbc) {
+                    console.log(getbc);
+                    BuildConfig.put({
+                        namespace: $rootScope.namespace,
+                        name: $scope.BuildConfig.metadata.name
+                    }, $scope.BuildConfig, function (res) {
+                        console.log('res', res);
+                        toastr.success('操作成功', {
+                            timeOut: 2000,
+                            closeButton: true
+                        });
+                    }, function (res) {
+                        //todo 错误处理
+                        toastr.error('删除失败,请重试', {
+                            timeOut: 2000,
+                            closeButton: true
+                        });
+                    });
+                })
+
+            };
+
             $scope.startBuild = function () {
                 var name = $scope.BuildConfig.metadata.name;
                 var buildRequest = {
@@ -143,12 +174,15 @@ angular.module('console.pipeline.detail', [
                 };
                 BuildConfig.instantiate.create({
                     namespace: $rootScope.namespace,
-                    name: $scope.BuildConfig.metadata.name
+                    name: name
                 }, buildRequest, function (res) {
+                    //$scope.BuildConfig=res
+                    //deleteWebhook();
                     toastr.success('操作成功', {
                         timeOut: 2000,
                         closeButton: true
                     });
+
                 }, function (res) {
                     //todo 错误处理
                     toastr.error('删除失败,请重试', {
@@ -157,7 +191,6 @@ angular.module('console.pipeline.detail', [
                     });
                 });
             };
-
 
             //删除方法
             $scope.deletes = function () {

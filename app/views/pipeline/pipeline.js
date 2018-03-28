@@ -211,7 +211,7 @@ angular.module('console.pipeline', [
             };
             BuildConfig.instantiate.create({namespace: $rootScope.namespace, name: name,region:$rootScope.region}, buildRequest, function(){
                 $log.info("build instantiate success");
-                $state.go('console.build_detail', {name: name, from: 'create'})
+                //$state.go('console.build_detail', {name: name, from: 'create'})
             }, function(res){
                 //todo 错误处理
             });
