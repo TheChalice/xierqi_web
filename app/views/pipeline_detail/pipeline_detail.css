@@ -152,7 +152,7 @@ height:auto;overflow:hidden;}
 /* .pipl_block .fa-refresh{color:#fff;} */
 .pipl_block .fa_set{width:18px;height:18px;border-radius:50%;position: absolute;
     top: -7px;left: 50%;margin-left: -9px;}
-.arrow_btn{float:left;margin-left:18px;margin-right:18px;margin-top:16px;}
+.arrow_btn{float:left;margin-left:8%;margin-right:8%;margin-top:16px;}
 .arrow_btn .fa-arrow-right{color:#A2B0C4;}
 #pipeline-detail .btn_a{margin-left:15px;}
 /******************************* 查看状态 **********************/
