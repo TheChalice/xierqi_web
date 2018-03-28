@@ -1,4 +1,4 @@
-FROM registry.new.dataos.io/datafoundry/web-base
+FROM registry.new.dataos.io/datafoundry/web-base:latest
 
 # Copy code
 COPY . /datafoundry
