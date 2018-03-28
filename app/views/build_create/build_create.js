@@ -98,7 +98,7 @@ angular.module('console.build_create_new', [
                     $scope.gitload[git] = res;
                     if (git === 'gitlab') {
                         $scope.gitdata.orgs = res;
-                    } else if (!cache) {
+                    } else {
                         $scope.gitdata.orgs = res;
                     }
                 }, function (err) {

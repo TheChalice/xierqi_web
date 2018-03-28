@@ -30,7 +30,12 @@ angular.module('console.pipeline.detail', [
                     labelSelector: 'buildconfig=' + name,
                     region: $rootScope.region
                 }, function (data) {
-
+                    $scope.databuild.items=data.items
+                    var sortresv= function  (a,b){
+                        return b.metadata.resourceVersion - a.metadata.resourceVersion
+                    }
+                    $scope.databuild.items=$scope.databuild.items.sort(sortresv)
+                    console.log($scope.databuild);
                     //console.log($scope.databuild);
                     //fillHistory(data.items);
 

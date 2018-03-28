@@ -76,14 +76,15 @@ define([
 
                     var url = host + '/namespaces/' + params.namespace + '/' + params.type + params.name
 
-                    if (params.resourceVersion) {
-                        url+'&resourceVersion=' + params.resourceVersion
-                    }
+
                     //console.log('params.follow', params.follow);
                     if (params.follow) {
                         url = url+'?follow=true'
                     }else {
                         url =url+'?watch=true'
+                    }
+                    if (params.resourceVersion) {
+                        url = url+'&resourceVersion=' + params.resourceVersion
                     }
                     url =url + '&access_token=' + token;
 
