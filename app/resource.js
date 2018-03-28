@@ -74,13 +74,20 @@ define([
                         '&access_token=' + token;
                 } else {
 
-                    var url = host + '/namespaces/' + params.namespace + '/' + params.type + params.name +
-                        '?watch=true' +
-                        '&region=' + $rootScope.region +
-                        '&access_token=' + token;
-                    if (params.resourceVersion) {
-                        url+'&resourceVersion=' + params.resourceVersion
+                    var url = host + '/namespaces/' + params.namespace + '/' + params.type + params.name
+
+
+                    //console.log('params.follow', params.follow);
+                    if (params.follow) {
+                        url = url+'?follow=true'
+                    }else {
+                        url =url+'?watch=true'
                     }
+                    if (params.resourceVersion) {
+                        url = url+'&resourceVersion=' + params.resourceVersion
+                    }
+                    url =url + '&access_token=' + token;
+
                 }
                 if (params.tailLines) {
                     url=url+'&tailLines=' + params.tailLines;

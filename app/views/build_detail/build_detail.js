@@ -436,11 +436,15 @@ angular.module('console.build.detail', [
                     labelSelector: 'buildconfig=' + name,
                     region: $rootScope.region
                 }, function (res) {
-                    //var obj = angular.copy(res)
-                    //console.log(obj);
-                    //res.items = res.sort(res.items, -1); //排序
-                    //console.log("history", res);
-
+                    var obj = angular.copy(res)
+                    console.log(obj);
+                    //res.items = res.items.sort(res.items, -1); //排序
+                    console.log("history", res);
+                    $scope.databuild.items=res.items
+                    var sortresv= function  (a,b){
+                        return b.metadata.resourceVersion - a.metadata.resourceVersion
+                    }
+                    $scope.databuild.items=$scope.databuild.items.sort(sortresv)
                     console.log($scope.databuild);
                     //if ($stateParams.from == "create/new") {
                     //    $scope.databuild.items[0].showLog = true;
@@ -548,6 +552,7 @@ angular.module('console.build.detail', [
                         namespace: $rootScope.namespace,
                         type: 'builds/'+name+'/log',
                         protocols: 'base64.binary.k8s.io',
+                        follow:true
                     }, function (res) {
                         angular.forEach($scope.databuild.items, function (build) {
                             //console.log(res);
@@ -555,7 +560,7 @@ angular.module('console.build.detail', [
                                 //console.log(build.metadata.name,$base64.decode(res.data));
                                 build.baselog+=$base64.decode(res.data)
                                 var html ='';
-                                console.log('build.baselog', build.baselog);
+                                //console.log('build.baselog', build.baselog);
                                 if (build.baselog!=='undefined') {
                                     build.baselog=build.baselog.replace('undefined','')
                                     html = ansi_ups.ansi_to_html(build.baselog)

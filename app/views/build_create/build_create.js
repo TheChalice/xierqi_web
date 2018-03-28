@@ -98,7 +98,7 @@ angular.module('console.build_create_new', [
                     $scope.gitload[git] = res;
                     if (git === 'gitlab') {
                         $scope.gitdata.orgs = res;
-                    } else if (!cache) {
+                    } else {
                         $scope.gitdata.orgs = res;
                     }
                 }, function (err) {
@@ -238,7 +238,7 @@ angular.module('console.build_create_new', [
                             namespace: $rootScope.namespace,
                             region: $rootScope.region
                         }, $scope.secret, function (item) {
-                            alert(1);
+                            //alert(1);
                             $scope.buildConfig.spec.source.sourceSecret.name = $scope.secret.metadata.name;
                             createBC();
                            
@@ -304,7 +304,7 @@ angular.module('console.build_create_new', [
                     region: $rootScope.region
                 }, buildRequest, function () {
                     $log.info("build instantiate success");
-                    $state.go('console.build_detail', {name: name, from: 'create/new'})
+                    $state.go('console.build_detail', {namespace:$rootScope.namespace,name: name, from: 'create/new'})
                 }, function (res) {
                     //console.log("uildConfig.instantiate.create",res);
                     //todo 错误处理

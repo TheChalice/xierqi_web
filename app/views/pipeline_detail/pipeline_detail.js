@@ -30,10 +30,27 @@ angular.module('console.pipeline.detail', [
                     labelSelector: 'buildconfig=' + name,
                     region: $rootScope.region
                 }, function (data) {
-
+                    $scope.databuild.items=data.items
+                    var sortresv= function  (a,b){
+                        return b.metadata.resourceVersion - a.metadata.resourceVersion
+                    }
+                    $scope.databuild.items=$scope.databuild.items.sort(sortresv)
+                    console.log($scope.databuild);
                     //console.log($scope.databuild);
                     //fillHistory(data.items);
+                    angular.forEach($scope.databuild.items, function (item,i) {
+                        //console.log('item.metadata.name', item.metadata.name);
+                        if (item.metadata.annotations['openshift.io/jenkins-status-json']) {
+                            var stages=JSON.parse(item.metadata.annotations['openshift.io/jenkins-status-json']).stages;
+                            //console.log(stages);
 
+                        }
+                            item.stages=stages;
+
+                            //console.log('item.metadata.name', item.metadata.name);
+
+
+                    })
                     //emit(imageEnable(data.items));
                     $scope.resourceVersion = data.metadata.resourceVersion;
                     watchBuilds(data.metadata.resourceVersion);
@@ -133,7 +150,40 @@ angular.module('console.pipeline.detail', [
 
                 }
             }
-             //更新部署
+             //保存
+            $scope.saveBuild = function () {
+                var name = $scope.BuildConfig.metadata.name;
+                //var buildRequest = {
+                //    metadata: {
+                //        name: name
+                //    }
+                //};
+                BuildConfig.get({namespace: $rootScope.namespace,
+                    name: $scope.BuildConfig.metadata.name}, function (getbc) {
+                    if ($scope.BuildConfig.spec.strategy.jenkinsPipelineStrategy&&$scope.BuildConfig.spec.strategy.jenkinsPipelineStrategy.jenkinsfile) {
+                        getbc.spec.strategy.jenkinsPipelineStrategy.jenkinsfile=$scope.BuildConfig.spec.strategy.jenkinsPipelineStrategy.jenkinsfile
+                    }
+                    //console.log(getbc);
+                    BuildConfig.put({
+                        namespace: $rootScope.namespace,
+                        name: $scope.BuildConfig.metadata.name
+                    }, getbc, function (res) {
+                        console.log('res', res);
+                        toastr.success('操作成功', {
+                            timeOut: 2000,
+                            closeButton: true
+                        });
+                    }, function (res) {
+                        //todo 错误处理
+                        toastr.error('删除失败,请重试', {
+                            timeOut: 2000,
+                            closeButton: true
+                        });
+                    });
+                })
+
+            };
+
             $scope.startBuild = function () {
                 var name = $scope.BuildConfig.metadata.name;
                 var buildRequest = {
@@ -143,12 +193,15 @@ angular.module('console.pipeline.detail', [
                 };
                 BuildConfig.instantiate.create({
                     namespace: $rootScope.namespace,
-                    name: $scope.BuildConfig.metadata.name
+                    name: name
                 }, buildRequest, function (res) {
+                    //$scope.BuildConfig=res
+                    //deleteWebhook();
                     toastr.success('操作成功', {
                         timeOut: 2000,
                         closeButton: true
                     });
+
                 }, function (res) {
                     //todo 错误处理
                     toastr.error('删除失败,请重试', {
@@ -157,7 +210,6 @@ angular.module('console.pipeline.detail', [
                     });
                 });
             };
-
 
             //删除方法
             $scope.deletes = function () {
