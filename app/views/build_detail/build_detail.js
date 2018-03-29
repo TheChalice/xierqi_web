@@ -137,21 +137,21 @@ angular.module('console.build.detail', [
                         removeBuilds($scope.data.metadata.name);
                         var host = $scope.data.spec.source.git.uri;
                         if (!$scope.grid.checked) {
+                            console.log('getSourceHost(host)', getSourceHost(host));
                             if (getSourceHost(host) === 'github.com') {
+
                                 WebhookHubDel.del({
-                                    namespace: $rootScope.namespace,
-                                    build: $stateParams.name,
-                                    user: $scope.data.metadata.annotations.user,
-                                    repo: $scope.data.metadata.annotations.repo
+                                    ns: $rootScope.namespace,
+                                    bc: $stateParams.name,
+                                    id:$scope.webhookid
                                 }, function (item1) {
 
                                 })
                             } else {
                                 WebhookLabDel.del({
-                                    host: 'https://code.dataos.io',
-                                    namespace: $rootScope.namespace,
-                                    build: $stateParams.name,
-                                    repo: $scope.data.metadata.annotations.repo
+                                    ns: $rootScope.namespace,
+                                    bc: $stateParams.name,
+                                    id:$scope.webhookid
                                 }, function (data2) {
 
                                 });
@@ -286,10 +286,10 @@ angular.module('console.build.detail', [
                     }                    
                 var str = ''
                 if (type == 'github' && triggers[0].github) {
-                    str = GLOBAL.host_webhooks + '/namespaces/' + $rootScope.namespace + '/buildconfigs/' + $scope.data.metadata.name + '/webhooks/' + triggers[0].github.secret + '/github'
+                    str = GLOBAL.host_webhooks + '/oapi/v1/namespaces/' + $rootScope.namespace + '/buildconfigs/' + $scope.data.metadata.name + '/webhooks/' + triggers[0].github.secret + '/github'
                     return str;
                 } else if (type == 'gitlab' && triggers[1].generic) {
-                    str = GLOBAL.host_webhooks + '/namespaces/' + $rootScope.namespace + '/buildconfigs/' + $scope.data.metadata.name + '/webhooks/' + triggers[1].generic.secret + '/generic'
+                    str = GLOBAL.host_webhooks + '/oapi/v1/namespaces/' + $rootScope.namespace + '/buildconfigs/' + $scope.data.metadata.name + '/webhooks/' + triggers[1].generic.secret + '/generic'
                     return str;
                 }
 
@@ -305,43 +305,49 @@ angular.module('console.build.detail', [
 
             var checkWebStatus = function () {
                 var host = $scope.data.spec.source.git.uri;
+                console.log('getSourceHost(host)', getSourceHost(host));
                 if (getSourceHost(host) === 'github.com') {
                     WebhookGitget.get({
-                        namespace: $rootScope.namespace,
-                        build: $stateParams.name,
-                        region: $rootScope.region
+                        ns: $rootScope.namespace,
+                        bc: $stateParams.name
                     }, function (res) {
-                        //console.log('666',res);
-                        if (res.code == 1200) {
+                        if (res.id) {
+                            $scope.webhookid=res.id
                             $scope.grid.checked = true;
                             $scope.grid.checkeds = true
-
-                        }
-
-                    }, function (res) {
-                        //console.log('666',res);
-                        if (res.data.code == 1404) {
+                        }else {
                             $scope.grid.checked = false;
                             $scope.grid.checkeds = false;
                         }
+
+
+                        //}
+
+                    }, function (res) {
+                        //console.log('666',res);
+                        //if (res.data.code == 1404) {
+
+                        //}
                     })
                 } else {
+
                     WebhookLabget.get({
-                        namespace: $rootScope.namespace,
-                        build: $stateParams.name,
-                        region: $rootScope.region
+                        ns: $rootScope.namespace,
+                        bc: $stateParams.name
                     }, function (res) {
 
-                        if (res.code == 1200) {
+                        if (res.id) {
+                            $scope.webhookid=res.id
                             $scope.grid.checked = true;
+                            $scope.grid.checkeds = true
+                        }else {
+                            $scope.grid.checked = false;
+                            $scope.grid.checkeds = false;
                         }
 
 
                     }, function (res) {
 
-                        if (res.data.code == 1404) {
-                            $scope.grid.checked = false;
-                        }
                     });
                 }
                 //$scope.selection = true
@@ -358,15 +364,35 @@ angular.module('console.build.detail', [
                     if (getSourceHost(host) === 'github.com') {
 
                         $log.info("user is", $scope.data.metadata.annotations.user);
+                        //{
+                        //    name:$scope.data.metadata.annotations.user,
+                        //    Params:{
+                        //    ns:$rootScope.namespace
+                        //    repo: $scope.data.metadata.annotations.repo
+                        //}
+                        //{
+                        //    host: 'https://github.com',
+                        //        namespace: $rootScope.namespace,
+                        //    build: $stateParams.name,
+                        //    ns:$rootScope.namespace,
+                        //    bc:$scope.data.metadata.annotations.user,
+                        //    user: $scope.data.metadata.annotations.user,
+                        //    repo: $scope.data.metadata.annotations.repo,
+                        //    spec: { "active": true, events: ['push', 'pull_request', 'status'], config: { url: config } }
+                        //}
+                        //}
                         WebhookHub.check({
-                            region: $rootScope.region,
-                            host: 'https://github.com',
-                            namespace: $rootScope.namespace,
-                            build: $stateParams.name,
-                            user: $scope.data.metadata.annotations.user,
-                            repo: $scope.data.metadata.annotations.repo,
-                            spec: { "active": true, events: ['push', 'pull_request', 'status'], config: { url: config } }
-                        }, function (item) {
+                            ns:$rootScope.namespace,
+                            bc:$stateParams.name
+                        },{
+                            name:$scope.data.metadata.annotations.user+'/'+$stateParams.name,
+                            params:{
+                                    ns:$scope.data.metadata.annotations.user,
+                                    url:config,
+                                    repo: $scope.data.metadata.annotations.repo
+                                }
+                        }, function (data) {
+                            $scope.webhookid=data.id
                             $scope.grid.pedding = false
                             $scope.grid.checked = true
                         }, function (err) {
@@ -375,13 +401,16 @@ angular.module('console.build.detail', [
                     } else {
                         var config = getConfig(triggers, 'gitlab');
                         WebhookLab.check({
-                            region: $rootScope.region,
-                            host: 'https://code.dataos.io',
-                            namespace: $rootScope.namespace,
-                            build: $stateParams.name,
-                            repo: $scope.data.metadata.annotations.repo,
-                            spec: { url: config }
+                            ns:$rootScope.namespace,
+                            bc:$stateParams.name
+                        },{
+                            name:$scope.data.metadata.annotations.user+'/'+$stateParams.name,
+                            params:{
+                                id:$scope.data.metadata.annotations.id,
+                                url:config
+                            }
                         }, function (data) {
+                            $scope.webhookid=data.id
                             $scope.grid.pedding = false
                             $scope.grid.checked = true
                             //console.log("test repo", $scope.data.metadata.annotations.repo)
@@ -396,11 +425,9 @@ angular.module('console.build.detail', [
                 if ($scope.grid.checked) {
                     if (getSourceHost(host) === 'github.com') {
                         WebhookHubDel.del({
-                            region: $rootScope.region,
-                            namespace: $rootScope.namespace,
-                            build: $stateParams.name,
-                            user: $scope.data.metadata.annotations.user,
-                            repo: $scope.data.metadata.annotations.repo
+                            ns: $rootScope.namespace,
+                            bc: $stateParams.name,
+                            id:$scope.webhookid
                         }, function (item1) {
                             $scope.grid.pedding = false
                             $scope.grid.checked = false
@@ -409,13 +436,12 @@ angular.module('console.build.detail', [
                         })
                     } else {
                         WebhookLabDel.del({
-                            region: $rootScope.region,
-                            host: 'https://code.dataos.io',
-                            namespace: $rootScope.namespace,
-                            build: $stateParams.name,
-                            repo: $scope.data.metadata.annotations.repo
+                            ns: $rootScope.namespace,
+                            bc: $stateParams.name,
+                            id:$scope.webhookid
                         }, function (data2) {
                             $scope.grid.pedding = false
+                            $scope.grid.checked = false
                         }, function (err) {
                             $scope.grid.pedding = false
                         });
@@ -437,15 +463,15 @@ angular.module('console.build.detail', [
                     region: $rootScope.region
                 }, function (res) {
                     var obj = angular.copy(res)
-                    console.log(obj);
+                    //console.log(obj);
                     //res.items = res.items.sort(res.items, -1); //排序
-                    console.log("history", res);
+                    //console.log("history", res);
                     $scope.databuild.items=res.items
                     var sortresv= function  (a,b){
                         return b.metadata.resourceVersion - a.metadata.resourceVersion
                     }
                     $scope.databuild.items=$scope.databuild.items.sort(sortresv)
-                    console.log($scope.databuild);
+                    //console.log($scope.databuild);
                     //if ($stateParams.from == "create/new") {
                     //    $scope.databuild.items[0].showLog = true;
                     //}
