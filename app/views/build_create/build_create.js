@@ -200,7 +200,7 @@ angular.module('console.build_create_new', [
                     if ($scope.gitstatus === 'gitlab') {
 
                         $scope.buildConfig.spec.source.git.uri = $scope.gitload.gitlab[$scope.grid.org].repos[$scope.grid.repo].ssh_clone_url;
-                        console.log('$scope.gitload.gitlab[$scope.grid.org]',$scope.gitload.gitlab[$scope.grid.org]);
+
                         $scope.buildConfig.metadata.annotations.user = $scope.gitload.gitlab[$scope.grid.org].namespace;
                         $scope.buildConfig.metadata.annotations.repo = $scope.gitload.gitlab[$scope.grid.org].repos[$scope.grid.repo].name;
                         $scope.buildConfig.metadata.annotations.id = $scope.gitload.gitlab[$scope.grid.org].repos[$scope.grid.repo].id.toString();
