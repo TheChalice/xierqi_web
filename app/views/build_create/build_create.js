@@ -195,19 +195,26 @@ angular.module('console.build_create_new', [
                     console.log('res', res);
                 })
                 if ($scope.buildcheck !== 3) {
-
+                    //$scope.buildConfig.metadata.annotations.user=$scope.buildConfig.metadata.name
                     $scope.buildConfig.spec.source.git.ref = $scope.gitdata.branchs[$scope.grid.branch].name;
                     if ($scope.gitstatus === 'gitlab') {
 
-                        $scope.buildConfig.spec.source.git.uri = $scope.gitdata.orgs[$scope.grid.org].repos[$scope.grid.repo].ssh_clone_url;
-                    }else {
+                        $scope.buildConfig.spec.source.git.uri = $scope.gitload.gitlab[$scope.grid.org].repos[$scope.grid.repo].ssh_clone_url;
 
-                        $scope.buildConfig.spec.source.git.uri = $scope.gitdata.orgs[$scope.grid.org].repos[$scope.grid.repo].clone_url;
+                        $scope.buildConfig.metadata.annotations.user = $scope.gitload.gitlab[$scope.grid.org].namespace;
+                        $scope.buildConfig.metadata.annotations.repo = $scope.gitload.gitlab[$scope.grid.org].repos[$scope.grid.repo].name;
+                        $scope.buildConfig.metadata.annotations.id = $scope.gitload.gitlab[$scope.grid.org].repos[$scope.grid.repo].id.toString();
+                    }else {
+                        //console.log('$scope.gitdata.orgs[$scope.grid.org].name', );
+                        $scope.buildConfig.spec.source.git.uri = $scope.gitload.github[$scope.grid.org].repos[$scope.grid.repo].clone_url;
+                        $scope.buildConfig.metadata.annotations.user = $scope.gitload.github[$scope.grid.org].namespace;
+                        $scope.buildConfig.metadata.annotations.repo = $scope.gitload.github[$scope.grid.org].repos[$scope.grid.repo].name;
                     }
 
                     $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ":" + $scope.gitdata.branchs[$scope.grid.branch].name;
-                    $scope.buildConfig.metadata.annotations.repo = $scope.gitdata.orgs[$scope.grid.org].repos[$scope.grid.repo].name;
-                    $scope.buildConfig.metadata.annotations.user = $scope.gitdata.orgs[$scope.grid.org].name;
+
+
+
                     //console.log('$scope.gitdata.orgs[$scope.grid.org].repos[$scope.grid.repo]', $scope.gitdata.orgs[$scope.grid.org].repos[$scope.grid.repo].private);
                     if ($scope.gitdata.orgs[$scope.grid.org].repos[$scope.grid.repo].private) {
                         //alert(1)
@@ -225,7 +232,6 @@ angular.module('console.build_create_new', [
                     $scope.buildConfig.spec.source.sourceSecret = {
                         name: ""
                     }
-
                     $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ':latest';
                     $scope.buildConfig.spec.triggers = [];
                     if (!$scope.sername.name && !$scope.sername.pwd) {

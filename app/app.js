@@ -82,6 +82,7 @@ define([
             host_wss_k8s: '/ws/api/v1',
             login_uri: '/login',
             signin_uri: '/signin',
+            //host_webhooks: 'https://lab.new.dataos.io',
             host_webhooks: '<WEBHOOK_PREFIX>',
             // service_url: '.new.dataos.io',
             service_url: '<ROUTER_DOMAIN_SUFFIX>',
