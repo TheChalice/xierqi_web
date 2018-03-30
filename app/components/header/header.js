@@ -468,6 +468,12 @@ angular.module("console.header", [{
         switch (state) {
             case "console.deployments":
                 return "deployments"
+            case "console.pipelinetag_detail":
+                return "pipelinetag详情"
+            case "console.pipeline_detail":
+                return "pipeline详情"
+            case "console.pipeline":
+                return "pipeline"
             case "console.dashboard":
                 return "仪表盘"
             case "console.build":
