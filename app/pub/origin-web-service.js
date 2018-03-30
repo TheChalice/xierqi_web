@@ -1844,7 +1844,7 @@ define(['angular',
                 // $routeParams,
                 $q,
                 Constants,
-                DataService,
+                DataService
                 // EventsService,
                 // Logger,
                 // NotificationsService
