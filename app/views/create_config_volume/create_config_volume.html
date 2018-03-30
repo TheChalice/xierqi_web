@@ -41,10 +41,10 @@
                         </a>
                     </div>
                     <div class="col-md-2">
-                        <a href="javascript:;" ng-click="addConfig($index)" class="ceaeter"
+                        <a href="javascript:;" ng-click="addConfig($index)" class="ceaeter href-add"
                            style="line-height: 40px; margin-top: -20px;">
-                            <i class="fa fa-plus-circle fa-green fa-lg"></i>
-                            <span class="font12" style="color: #55c45f">创建键值&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <i class="fa fa-plus-circle fa-lg"></i>
+                            <span class="font12">创建键值&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
                                 <!--<small ng-if="grid.keynull" class="err-tip"><i class="fa fa-info-circle"></i>&nbsp;key值或value值为空</small>-->
                             </span>
@@ -98,9 +98,9 @@
                         </ul>
                         <div class="col-md-12" style="margin-bottom: 20px;padding: 0;"
                              ng-repeat="item in volume.configitems">
-                            <input class="col-md-5 key" type="text" placeholder="KEY" ng-model="item.key" style="background:none;border:1px solid #c9c9c9;">
+                            <input class="col-md-5 key cret_border" type="text" placeholder="KEY" ng-model="item.key" style="background:none;">
                             <div class="col-md-1"></div>
-                            <textarea class="col-md-5 key" style="padding-top: 0;padding-left: 10px;border: 1px solid #c9c9c9;" type="text" placeholder="VALUE" ng-model="item.value"></textarea>
+                            <textarea class="col-md-5 key cret_border" style="padding-top: 0;padding-left: 10px;" type="text" placeholder="VALUE" ng-model="item.value"></textarea>
                             <a class="fa fa-times-circle col-md-1" ng-click="rmovekv($index)"
                                style="text-decoration: none;text-align: center;line-height: 34px; color: #9fa7b7;" href="javascript:;"></a>
                         </div>
@@ -108,7 +108,7 @@
                 </div>
             </div>
         </div>
-        <a href="javascript:;" ng-if="!frm.$invalid&&grid.configpost" class="btn btn-block create" style="background-color: #e5993a; margin-top: 35px; color: white;" ng-click="cearteconfig()">创建配置卷</a>
+        <a href="javascript:;" ng-if="!frm.$invalid&&grid.configpost" class="btn btn-block create btn-orange" style=" margin-top: 35px; color: white;" ng-click="cearteconfig()">创建配置卷</a>
         <a href="javascript:;" ng-if="!grid.configpost" disabled="disabled" class="btn btn-block create" style="background-color: #CCCCCC; margin-top: 35px; color: white;" >创建配置卷</a>
     </form>
 </div>
@@ -117,9 +117,8 @@
         position: relative;
     }
 
-    .href-add:hover {
-        color: #55c45f;
-    }
+   .cret_border{border:1px solid #CCD5E0;}
+   .cret_border:hover{border:1px solid #47B2FB;}
 
     .testt {
         font-size: 12px;
@@ -158,9 +157,7 @@
         background-color: #f7f8fb;
     }
 
-    .ceaeter:hover {
-        color: #469450;
-    }
+    
 
     .filelink {
         width: 614px;

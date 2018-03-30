@@ -54,12 +54,14 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-gray" ng-click="cancel()" style="color: white">取消</button>
-    <button class="btn btn-gray" ng-if="!cansever" style="color: white">确认</button>
-    <button class="btn btn-orange" ng-if="cansever" ng-click="ok()" style="color: white">确认</button>
+    <button class="btn btn-gray" ng-click="cancel()" >取消</button>
+    <button class="btn btn-gray btn_set_gray" ng-if="!cansever">确认</button>
+    <button class="btn btn-orange" ng-if="cansever" ng-click="ok()">确认</button>
 </div>
 
 <style>
+    .btn_set_gray{border:1px solid #E0E6ED;background:#EFF2F7;color:#A2B0C4;cursor:not-allowed;}
+    .btn_set_gray:hover{border:1px solid #E0E6ED;background:#EFF2F7;color:#A2B0C4;cursor:not-allowed;}
     .is-box {
         overflow: hidden;
         border: 1px solid #c9c9c9;
