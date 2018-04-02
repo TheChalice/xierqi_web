@@ -61,7 +61,7 @@
                                 <div class="pipline_log">
 
                                     <div class="pipl_block load"  ng-repeat="stage in item.stages">
-                                        <div class="pip_b_l">
+                                        <div class="pip_b_l"  ng-class="{'SUCCESS_set':stage.status=='SUCCESS','FAILED_set':stage.status=='FAILED','PRO_set':stage.status=='IN_PROGRESS'}">
                                             <span class="file_name">{{stage.name}}</span>
                                             <div class="pipl_block_set load_{{stage.status}}">
                                                 <div class="fa_set">

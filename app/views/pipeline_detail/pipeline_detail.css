@@ -152,7 +152,7 @@ height:auto;overflow:hidden;}
 /* .pipl_block .fa-refresh{color:#fff;} */
 .pipl_block .fa_set{width:18px;height:18px;border-radius:50%;position: absolute;
     top: -7px;left: 50%;margin-left: -9px;}
-.arrow_btn{float:left;margin-left:8%;margin-top:16px;}
+.arrow_btn{float:left;margin-left:8%;margin-right:8%;margin-top:16px;}
 .arrow_btn .fa-arrow-right{color:#A2B0C4;}
 #pipeline-detail .btn_a{margin-left:15px;}
 /******************************* 查看状态 **********************/
@@ -172,6 +172,19 @@ height:auto;overflow:hidden;}
 .load_IN_PROGRESS .fa_set i{color:#fff;position:relative;}
 .load_IN_PROGRESS .fa_set i:before{content:"\f021";position:absolute;width:12px;height:14px;
     left:50%;margin-left:-6px;top:50%;margin-top:-13px;}
+
+
+    .load_IN_PROGRESS{background:#E5E9F2;animation:loadSUCCESS 1s linear forwards;}
+    @keyframes loadSUCCESS{
+            to{background-color:#47B2FB}
+            }
+    
+    .PRO_set .load_IN_PROGRESS{background: #E5E9F2;}
+    .PRO_set .load_line{animation:progress-rail .8s linear forwards;background-color:#47B2FB;
+                    transform:translateX(-200%);width:25%;height:4px;position:absolute;}
+                    @keyframes progress-rail{to{transform:translateX(100%)}
+                } 
+
 /* 等待 */
 .load_PAUSED_PENDING_INPUT {background:#f0ab00;}
 .load_PAUSED_PENDING_INPUT .fa_set{background:#f0ab00;}
@@ -204,17 +217,40 @@ height:auto;overflow:hidden;}
 .load_New .fa_set i:before{content:"\f021";position:absolute;width:12px;height:14px;
     left:50%;margin-left:-6px;top:50%;margin-top:-13px;}
 /* 错误状态 */
-.load_FAILED{background:#FB6362;}
+.load_FAILED{background:#E5E9F2;animation:loadfailed 1s linear forwards;}
+@keyframes loadfailed{
+    to{background-color:#FB6362}
+    }
+
 .load_FAILED .fa_set{background:#FB6362;}
 .load_FAILED .fa_set i{color:#fff;position:relative;}
 .load_FAILED .fa_set i:before{content:"\f00d";position:absolute;width:12px;height:14px;
     left:50%;margin-left:-6px;top:50%;margin-top:-13px;}
+
+
+.FAILED_set .load_FAILED{background: #E5E9F2;}
+.FAILED_set .load_line{animation:progress-rail .8s linear;background-color:#FB6362;
+        transform:translateX(-200%);width:25%;height:4px;position:absolute;animation-iteration-count:1;}
+        @keyframes progress-rail{to{transform:translateX(100%)}
+    }
+
 /* 成功状态 */
 .load_SUCCESS{background:#50E3C2;}
 .load_SUCCESS .fa_set{background:#50E3C2;}
 .load_SUCCESS .fa_set i{color:#fff;position:relative;}
 .load_SUCCESS .fa_set i:before{content:"\f00c";position:absolute;width:12px;height:14px;
-    left:50%;margin-left:-6px;top:50%;margin-top:-13px;}
+    left:50%;margin-left:-6px;top:50%;margin-top:-13px;
+}
+
+.load_SUCCESS{background:#E5E9F2;animation:loadSUCCESS 1s linear forwards;}
+@keyframes loadSUCCESS{
+        to{background-color:#50E3C2}
+        }
+.SUCCESS_set .load_SUCCESS{background: #E5E9F2;}
+.SUCCESS_set .load_line{animation:progress-rail .8s linear;background-color:#50E3C2;
+                transform:translateX(-200%);width:25%;height:4px;position:absolute;animation-iteration-count:1;}
+                @keyframes progress-rail{to{transform:translateX(100%)}
+            } 
 
 /* *************配置信息模块********************* */
 .tit_details{font-size:14px;color:#1F2D3D;font-weight:bold;}
