@@ -1397,10 +1397,12 @@ a {
     margin-right: 0;line-height: 50px;}
 .footer {
     font-size: 14px;
-    font-weight:bold;
+    font-weight: bold;
     color: #bdc0c7;
     text-align: center;
-    width:1200px;margin:0 auto;
+    width: 1200px;
+    margin: 0 auto;
+}
 
 .footer-td {
     padding-left: 0;
@@ -1586,10 +1588,10 @@ input{
     border-radius:2px;
     border:1px solid #DBDBDB ;
 }
-.dropdown>.btn{
-    -webkit-box-shadow:none;
-    box-shadow:none;
-
+.dropdown>.btn {
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
 .fa-info-circle:before {
     margin-right: 3px;
 }
@@ -1747,22 +1749,12 @@ td  a:hover, a:focus{
     margin: -3px;
     text-align: center;
     vertical-align: middle;
-    p {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translateX(-50%) translateY(-50%);
-        font-size: 24px;
-        font-weight: 400;
-        margin: 0;
-    }
+
 }
 
 .highlight-drag-and-drop-zone {
     border-color: #0099d3;
-    p {
-        color: #0099d3;
-    }
+
 }
 
 .show-drag-and-drop-zone {
