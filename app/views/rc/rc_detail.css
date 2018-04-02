@@ -28,7 +28,7 @@
 #rc .jumpUrl:hover{cursor: pointer;color: #98D4FD;}
 #rc .tit{font-size:14px;color:#000;font-weight:bold;margin:0px;margin-bottom:10px;}
 #rc .icon-wrap{float:left;margin-right:6px;}
-#rc .poda > a:focus {color: #f6a540;}
+#rc .poda > a:focus {color:#47B2FB;}
 #rc .subtitle{padding-bottom: 10px;padding-top:30px;margin:0px;font-size:14px;font-weight:bold;color: #333;}
 @font-face {
     font-family: "PatternFlyIcons-webfont";

@@ -193,7 +193,7 @@ ul,li,ol{list-style:none;margin:0;padding:0;}
 .fl_left ul:last-child{width:130px;}
 .fl_left ul .fl_tit{font-size:16px;color:rgba(255,255,255,0.6);}
 .fl_left ul .fl_detail a{font-size:14px;color:#fff;}
-.fl_left ul .fl_detail a:hover{color:#f6a540;}
+.fl_left ul .fl_detail a:hover{color:#47B2FB}
 .fl_left ul li{margin-bottom:16px;}
 .fl_left ul li:last-child{margin-bottom:0;}
 .fl_right{float:left;margin-left:42px;width:544px;}
