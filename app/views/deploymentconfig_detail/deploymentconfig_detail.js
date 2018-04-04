@@ -305,7 +305,7 @@ angular.module('console.deploymentconfig_detail', [
                         con.volumeMounts = []
                         if (volerr(con.volments)) {
                             cancreat = false
-                            toastr.error('删除失败,请重试', {
+                            toastr.error('失败,请重试', {
                                 timeOut: 2000,
                                 closeButton: true
                             });
@@ -319,6 +319,10 @@ angular.module('console.deploymentconfig_detail', [
                     } else {
                         delete con.volumeMounts
                         delete con.volments
+                    }
+                    //reimage
+                    if (!con.display) {
+                        con.image=con.annotate.regimage
                     }
                     //addemptyDir
                     if (con.emptyDir.length>0) {
