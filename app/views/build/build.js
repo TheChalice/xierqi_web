@@ -79,11 +79,19 @@ angular.module('console.build', [
                 //$log.info('buildConfigs', data);
                 data.items = Sort.sort(data.items, -1); //排序
                 //$scope.copydata = angular.copy(data.items);
-                $scope.data = data.items;
+                $scope.data = [];
+                angular.forEach(data.items, function (item,i) {
+                    if (item.spec.strategy.type!=="JenkinsPipeline") {
+                        $scope.data.push(item)
+                    }
+                })
+
                 $scope.grid.total = data.items.length;
                 //console.log('$scope.data', $scope.data);
                 refresh(1);
                 loadBuilds($scope.data);
+                $scope.resourceVersion = data.metadata.resourceVersion;
+                watchBuilds(data.metadata.resourceVersion);
             }, function(res) {
                 //todo 错误处理
             });
@@ -102,8 +110,7 @@ angular.module('console.build', [
             Build.get({namespace: $rootScope.namespace, labelSelector: labelSelector,region:$rootScope.region}, function (data) {
                 //$log.info("builds", data);
 
-                $scope.resourceVersion = data.metadata.resourceVersion;
-                watchBuilds(data.metadata.resourceVersion);
+
 
                 fillBuildConfigs(data.items);
             });
