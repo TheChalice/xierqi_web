@@ -210,8 +210,12 @@ angular.module('console.build_create_new', [
                         $scope.buildConfig.metadata.annotations.user = $scope.gitload.github[$scope.grid.org].namespace;
                         $scope.buildConfig.metadata.annotations.repo = $scope.gitload.github[$scope.grid.org].repos[$scope.grid.repo].name;
                     }
+                    var name=''
+                    if ($scope.gitdata.branchs[$scope.grid.branch].name) {
+                         name = $scope.gitdata.branchs[$scope.grid.branch].name.replace('/','-');
+                    }
 
-                    $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ":" + $scope.gitdata.branchs[$scope.grid.branch].name;
+                    $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ":" + name;
 
 
 
