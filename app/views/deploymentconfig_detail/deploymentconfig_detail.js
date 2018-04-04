@@ -320,6 +320,10 @@ angular.module('console.deploymentconfig_detail', [
                         delete con.volumeMounts
                         delete con.volments
                     }
+                    //
+                    if (!con.display) {
+                        con.image=con.annotate.regimage
+                    }
                     //addemptyDir
                     if (con.emptyDir.length>0) {
                         if (!con.volumeMounts) {
