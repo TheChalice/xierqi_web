@@ -97,7 +97,7 @@
         卷
         <!--Volumes-->
       </h4>
-      <volumes ng-if="pod.spec.volumes.length" volumes="pod.spec.volumes" namespace="project.metadata.name"></volumes>
+      <volumes ng-if="pod.spec.volumes.length" name="namespace" volumes="pod.spec.volumes" namespace="project.metadata.name"></volumes>
       <div ng-if="!pod.spec.volumes.length">none</div>
       <!-- <p ng-if="dcName && ('deploymentconfigs' | canI : 'update')">
               <a ng-href="project/{{project.metadata.name}}/attach-pvc?kind=DeploymentConfig&name={{dcName}}">Add Storage to {{dcName}}</a>

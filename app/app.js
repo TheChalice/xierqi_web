@@ -3101,7 +3101,7 @@ define([
                     { name: '镜像仓库', img: 'icon25 icon25-repository', url: 'console.image@'+namespace, stateUrl: null, children: [] },
                     { name: '流水线', img: 'icon25 icon25-repository', url: 'console.pipeline@'+namespace, stateUrl: null, children: [] },
                     { name: '容器应用', img: 'icon25 icon25-deployment', url: null, stateUrl: null, children: $rootScope.app },
-                    { name: '后端服务', img: 'icon25 icon25-service', url: 'console.backing_service@'+namespace, stateUrl: null, children: [] },
+                    //{ name: '后端服务', img: 'icon25 icon25-service', url: 'console.backing_service@'+namespace, stateUrl: null, children: [] },
                     { name: '资源管理', img: 'icon25 icon25-resource', url: null, stateUrl: null, children: $rootScope.resources }
                 ];
                 if (toState && toState.name) {
