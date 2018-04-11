@@ -3,31 +3,31 @@
         <uib-tab index="1">
             <uib-tab-heading>
                 <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
-                Details
+                详情
             </uib-tab-heading>
                 <div class="row matgin-bt">
-                    <div class="col-md-2 width150 color666">Status:</div>
+                    <div class="col-md-2 width150 color666">状态:</div>
                     <div class="col-md-10 color"> <status-icon status="statefulSet | deploymentStatus"></status-icon>{{statefuldetail | deploymentStatus}}</div>
                 </div>
             <div class="row matgin-bt">
-                <div class="col-md-2 width150 color666">Replicas:</div>
+                <div class="col-md-2 width150 color666">副本:</div>
                 <div class="col-md-10">{{statefuldetail.status.replicas}} replica</div>
             </div>
             <div class="row matgin-bt">
-                <div class="col-md-2 width150 color666">CONTAINER:</div>
+                <div class="col-md-2 width150 color666">容器:</div>
                 <div class="col-md-10">{{statefuldetail.metadata.name}}</div>
             </div>
             <div class="row matgin-bt">
-                <div class="col-md-2 width150 color666">Command:</div>
+                <div class="col-md-2 width150 color666">命令:</div>
                 <div class="col-md-10"><code class="command"><span ng-repeat="command in statefuldetail.spec.template.spec.containers[0].command">{{command}}&nbsp;&nbsp;</span></code></div>
             </div>
             <div class="row matgin-bt" ng-repeat="mount in statefuldetail.spec.template.spec.containers[0].volumeMounts">
-                <div class="col-md-2 width150 color666">Mount:</div>
+                <div class="col-md-2 width150 color666">挂载:</div>
                 <div class="col-md-10">{{mount.name}}<span ng-if="mount.subPath">{{mount.subPath}}</span>&#8201;&#8594;&#8201;<span>{{mount.mountPath}}</span>
                    </div>
             </div>
             <div class="row matgin-bt">
-                <div class="col-md-2 width150 color666">Ports:</div>
+                <div class="col-md-2 width150 color666">端口:</div>
                 <div class="col-md-10">{{statefuldetail.spec.template.spec.containers[0].ports[0].containerPort}}/{{statefuldetail.spec.template.spec.containers[0].ports[0].protocol}}</div>
             </div>
             <div class="row matgin-bt">
@@ -35,47 +35,47 @@
                 <div class="col-md-10">{{statefuldetail.spec.template.spec.containers[0].resources.limits.cpu}} to {{statefuldetail.spec.template.spec.containers[0].resources.requests.cpu}} </div>
             </div>
             <div class="row matgin-bt">
-                <div class="col-md-2 width150 color666">Memory:</div>
+                <div class="col-md-2 width150 color666">内存:</div>
                 <div class="col-md-10">{{statefuldetail.spec.template.spec.containers[0].resources.requests.memory}} to {{statefuldetail.spec.template.spec.containers[0].resources.limits.memory}} </div>
             </div>
             <div class="row matgin-bt">
-                <div class="col-md-2 width150 color666">Readiness Probe:</div>
+                <div class="col-md-2 width150 color666">健康检查:</div>
                 <div class="col-md-10">GET&nbsp;{{statefuldetail.spec.template.spec.containers[0].readinessProbe.httpGet.path}} on {{statefuldetail.spec.template.spec.containers[0].readinessProbe.httpGet.port}}  ({{statefuldetail.spec.template.spec.containers[0].readinessProbe.httpGet.scheme}})<small>
                     {{statefuldetail.spec.template.spec.containers[0].readinessProbe.initialDelaySeconds}}s delay, {{statefuldetail.spec.template.spec.containers[0].readinessProbe.timeoutSeconds}}s timeout</small></div>
             </div>
             <div class="row matgin-bt">
-                <div class="col-md-2 width150 color666">Liveness Probe: </div>
+                <div class="col-md-2 width150 color666">保活检查: </div>
                 <div class="col-md-10">GET&nbsp;{{statefuldetail.spec.template.spec.containers[0].livenessProbe.httpGet.path}} on {{statefuldetail.spec.template.spec.containers[0].livenessProbe.httpGet.port}} ({{statefuldetail.spec.template.spec.containers[0].readinessProbe.httpGet.scheme}})<small>
                     {{statefuldetail.spec.template.spec.containers[0].livenessProbe.initialDelaySeconds}}s delay, {{statefuldetail.spec.template.spec.containers[0].livenessProbe.timeoutSeconds}}s timeout</small></div>
             </div>
             <div ng-if="statefuldetail.spec.volumeClaimTemplates" style="padding:10px 0;color:#333;font-weight: bold;">volumeClaimTemplates</div>
             <div ng-repeat="template in statefuldetail.spec.volumeClaimTemplates">
                 <div class="row matgin-bt">
-                    <div class="col-md-2 width150 color666">Storage claim:</div>
+                    <div class="col-md-2 width150 color666">存储卷名称:</div>
                     <div class="col-md-10">{{template.metadata.name}}</div>
                 </div>
                 <div class="row matgin-bt">
-                    <div class="col-md-2 width150 color666" >Access Modes:</div>
+                    <div class="col-md-2 width150 color666" >权限:</div>
                     <div class="col-md-10"><span ng-repeat="mode in template.spec.accessModes">{{mode}}<span ng-if="!$last">, </span></span></div>
                 </div>
                 <div class="row matgin-bt">
-                    <div class="col-md-2 width150 color666">Capacity:</div>
+                    <div class="col-md-2 width150 color666">容量:</div>
                     <div class="col-md-10">{{template.spec.resources.requests.storage}}</div>
                 </div>
             </div>
-            <div ng-if="statefuldetail.spec.template.spec.volumes" style="padding:10px 0;color:#333;font-weight: bold;">Volumes</div>
+            <div ng-if="statefuldetail.spec.template.spec.volumes" style="padding:10px 0;color:#333;font-weight: bold;">卷</div>
             <div ng-if="statefuldetail.spec.template.spec.volumes"  ng-repeat="volume in statefuldetail.spec.template.spec.volumes">
                 <div class="row matgin-bt">
-                    <div class="col-md-2 width150 color666">volumeName:</div>
+                    <div class="col-md-2 width150 color666">名称:</div>
                     <div class="col-md-10">{{volume.name}}</div>
                 </div>
                 <div ng-if="volume.secret" style="padding-top:10px;">
                     <div class="row matgin-bt" >
-                        <div class="col-md-2 width150 color666">Type:</div>
-                        <div class="col-md-10">secret<span class="small text-muted">(populated by a secret when the pod is created)</span></div>
+                        <div class="col-md-2 width150 color666">类型:</div>
+                        <div class="col-md-10">密钥卷<span class="small text-muted">(secret)</span></div>
                     </div>
                     <div class="row matgin-bt" >
-                        <div class="col-md-2 width150 color666">Secret:</div>
+                        <div class="col-md-2 width150 color666">卷名称:</div>
                         <div class="col-md-10"> <a class="href-orange" ui-sref="console.secret_secret({namespace:namespace,name: volume.secret.secretName})">{{volume.secret.secretName}}</a></div>
                     </div>
                     <div class="row matgin-bt" ng-repeat="item in volume.secret.items">
@@ -85,11 +85,11 @@
                 </div>
                 <div ng-if="volume.configMap" style="padding-top: 10px;">
                     <div class="row matgin-bt" >
-                        <div class="col-md-2 width150 color666">Type:</div>
-                        <div class="col-md-10">config map<span class="small text-muted">((populated by a config map)</span></div>
+                        <div class="col-md-2 width150 color666">类型:</div>
+                        <div class="col-md-10">配置卷<span class="small text-muted">(configmap)</span></div>
                     </div>
                     <div class="row matgin-bt" >
-                        <div class="col-md-2 width150 color666">Secret:</div>
+                        <div class="col-md-2 width150 color666">卷名称:</div>
                         <div class="col-md-10"><a class="href-orange" ui-sref="console.config_configMap({namespace:namespace,name: volume.configMap.name})">{{volume.configMap.name}}</a></div>
                     </div>
                     <div class="row matgin-bt" ng-repeat="item in volume.configMap.items">
@@ -99,17 +99,17 @@
                 </div>
                 <div ng-if="volume.persistentVolumeClaim" style="padding-top: 10px;">
                     <div class="row matgin-bt" >
-                        <div class="col-md-2 width150 color666">Type:</div>
-                        <div class="col-md-10">persistent volume claim<span class="small text-muted">(reference to a persistent volume claim)</span></div>
+                        <div class="col-md-2 width150 color666">类型:</div>
+                        <div class="col-md-10">存储卷<span class="small text-muted">(persistent volume claim)</span></div>
                     </div>
                     <div class="row matgin-bt" >
-                        <div class="col-md-2 width150 color666">Claim name:</div>
+                        <div class="col-md-2 width150 color666">卷名称:</div>
                         <div class="col-md-10"><a class="href-orange" ui-sref="console.constantly_persistentVolume({namespace:namespace,name:volume.persistentVolumeClaim.claimName})">{{volume.persistentVolumeClaim.claimName}}</a></div>
                     </div>
-                    <div class="row matgin-bt">
-                        <div class="col-md-10" ng-if="volume.persistentVolumeClaim.readOnly">read-only</div>
-                            <div class="col-md-10" ng-if="!volume.persistentVolumeClaim.readOnly">read-write</div>
-                    </div>
+                    <!--<div class="row matgin-bt">-->
+                        <!--<div class="col-md-10" ng-if="volume.persistentVolumeClaim.readOnly">read-only</div>-->
+                            <!--<div class="col-md-10" ng-if="!volume.persistentVolumeClaim.readOnly">read-write</div>-->
+                    <!--</div>-->
                 </div>
 
             </div>
@@ -117,11 +117,11 @@
             <div class="table-responsive">
                 <table class="table table-hover table-default">
                     <tr>
-                        <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Name</th>
-                        <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Status</th>
-                        <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Containers Ready</th>
-                        <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Containers Restart</th>
-                        <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Age</th>
+                        <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">名称</th>
+                        <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">状态</th>
+                        <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">就绪</th>
+                        <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">重启</th>
+                        <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">时长</th>
                     </tr>
                     <tr ng-repeat="pod in statefulPods">
                         <td data-title="Name" class="poda" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
@@ -154,11 +154,164 @@
                     </uib-pagination>
                 </div>
             </div>
+            <!--<uib-tab-heading>-->
+                <!--&lt;!&ndash; <i class="myimage"></i>&nbsp;&nbsp; &ndash;&gt;-->
+                <!--详情-->
+            <!--</uib-tab-heading>-->
+                <!--<div class="row matgin-bt">-->
+                    <!--<div class="col-md-2 width150 color666">Status:</div>-->
+                    <!--<div class="col-md-10 color"> <status-icon status="statefulSet | deploymentStatus"></status-icon>{{statefuldetail | deploymentStatus}}</div>-->
+                <!--</div>-->
+            <!--<div class="row matgin-bt">-->
+                <!--<div class="col-md-2 width150 color666">Replicas:</div>-->
+                <!--<div class="col-md-10">{{statefuldetail.status.replicas}} replica</div>-->
+            <!--</div>-->
+            <!--<div class="row matgin-bt">-->
+                <!--<div class="col-md-2 width150 color666">CONTAINER:</div>-->
+                <!--<div class="col-md-10">{{statefuldetail.metadata.name}}</div>-->
+            <!--</div>-->
+            <!--<div class="row matgin-bt">-->
+                <!--<div class="col-md-2 width150 color666">Command:</div>-->
+                <!--<div class="col-md-10"><code class="command"><span ng-repeat="command in statefuldetail.spec.template.spec.containers[0].command">{{command}}&nbsp;&nbsp;</span></code></div>-->
+            <!--</div>-->
+            <!--<div class="row matgin-bt" ng-repeat="mount in statefuldetail.spec.template.spec.containers[0].volumeMounts">-->
+                <!--<div class="col-md-2 width150 color666">Mount:</div>-->
+                <!--<div class="col-md-10">{{mount.name}}<span ng-if="mount.subPath">{{mount.subPath}}</span>&#8201;&#8594;&#8201;<span>{{mount.mountPath}}</span>-->
+                   <!--</div>-->
+            <!--</div>-->
+            <!--<div class="row matgin-bt">-->
+                <!--<div class="col-md-2 width150 color666">Ports:</div>-->
+                <!--<div class="col-md-10">{{statefuldetail.spec.template.spec.containers[0].ports[0].containerPort}}/{{statefuldetail.spec.template.spec.containers[0].ports[0].protocol}}</div>-->
+            <!--</div>-->
+            <!--<div class="row matgin-bt">-->
+                <!--<div class="col-md-2 width150 color666">CPU:</div>-->
+                <!--<div class="col-md-10">{{statefuldetail.spec.template.spec.containers[0].resources.limits.cpu}} to {{statefuldetail.spec.template.spec.containers[0].resources.requests.cpu}} </div>-->
+            <!--</div>-->
+            <!--<div class="row matgin-bt">-->
+                <!--<div class="col-md-2 width150 color666">Memory:</div>-->
+                <!--<div class="col-md-10">{{statefuldetail.spec.template.spec.containers[0].resources.requests.memory}} to {{statefuldetail.spec.template.spec.containers[0].resources.limits.memory}} </div>-->
+            <!--</div>-->
+            <!--<div class="row matgin-bt">-->
+                <!--<div class="col-md-2 width150 color666">Readiness Probe:</div>-->
+                <!--<div class="col-md-10">GET&nbsp;{{statefuldetail.spec.template.spec.containers[0].readinessProbe.httpGet.path}} on {{statefuldetail.spec.template.spec.containers[0].readinessProbe.httpGet.port}}  ({{statefuldetail.spec.template.spec.containers[0].readinessProbe.httpGet.scheme}})<small>-->
+                    <!--{{statefuldetail.spec.template.spec.containers[0].readinessProbe.initialDelaySeconds}}s delay, {{statefuldetail.spec.template.spec.containers[0].readinessProbe.timeoutSeconds}}s timeout</small></div>-->
+            <!--</div>-->
+            <!--<div class="row matgin-bt">-->
+                <!--<div class="col-md-2 width150 color666">Liveness Probe: </div>-->
+                <!--<div class="col-md-10">GET&nbsp;{{statefuldetail.spec.template.spec.containers[0].livenessProbe.httpGet.path}} on {{statefuldetail.spec.template.spec.containers[0].livenessProbe.httpGet.port}} ({{statefuldetail.spec.template.spec.containers[0].readinessProbe.httpGet.scheme}})<small>-->
+                    <!--{{statefuldetail.spec.template.spec.containers[0].livenessProbe.initialDelaySeconds}}s delay, {{statefuldetail.spec.template.spec.containers[0].livenessProbe.timeoutSeconds}}s timeout</small></div>-->
+            <!--</div>-->
+            <!--<div ng-if="statefuldetail.spec.volumeClaimTemplates" style="padding:10px 0;color:#333;font-weight: bold;">volumeClaimTemplates</div>-->
+            <!--<div ng-repeat="template in statefuldetail.spec.volumeClaimTemplates">-->
+                <!--<div class="row matgin-bt">-->
+                    <!--<div class="col-md-2 width150 color666">Storage claim:</div>-->
+                    <!--<div class="col-md-10">{{template.metadata.name}}</div>-->
+                <!--</div>-->
+                <!--<div class="row matgin-bt">-->
+                    <!--<div class="col-md-2 width150 color666" >Access Modes:</div>-->
+                    <!--<div class="col-md-10"><span ng-repeat="mode in template.spec.accessModes">{{mode}}<span ng-if="!$last">, </span></span></div>-->
+                <!--</div>-->
+                <!--<div class="row matgin-bt">-->
+                    <!--<div class="col-md-2 width150 color666">Capacity:</div>-->
+                    <!--<div class="col-md-10">{{template.spec.resources.requests.storage}}</div>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div ng-if="statefuldetail.spec.template.spec.volumes" style="padding:10px 0;color:#333;font-weight: bold;">Volumes</div>-->
+            <!--<div ng-if="statefuldetail.spec.template.spec.volumes"  ng-repeat="volume in statefuldetail.spec.template.spec.volumes">-->
+                <!--<div class="row matgin-bt">-->
+                    <!--<div class="col-md-2 width150 color666">volumeName:</div>-->
+                    <!--<div class="col-md-10">{{volume.name}}</div>-->
+                <!--</div>-->
+                <!--<div ng-if="volume.secret" style="padding-top:10px;">-->
+                    <!--<div class="row matgin-bt" >-->
+                        <!--<div class="col-md-2 width150 color666">Type:</div>-->
+                        <!--<div class="col-md-10">secret<span class="small text-muted">(populated by a secret when the pod is created)</span></div>-->
+                    <!--</div>-->
+                    <!--<div class="row matgin-bt" >-->
+                        <!--<div class="col-md-2 width150 color666">Secret:</div>-->
+                        <!--<div class="col-md-10"> <a class="href-orange" ui-sref="console.secret_secret({namespace:namespace,name: volume.secret.secretName})">{{volume.secret.secretName}}</a></div>-->
+                    <!--</div>-->
+                    <!--<div class="row matgin-bt" ng-repeat="item in volume.secret.items">-->
+                        <!--<div class="col-md-2 width150 color666">Key to File:</div>-->
+                        <!--<div class="col-md-10">{{item.key}}&#8201;&#8594;&#8201;{{item.path}}</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div ng-if="volume.configMap" style="padding-top: 10px;">-->
+                    <!--<div class="row matgin-bt" >-->
+                        <!--<div class="col-md-2 width150 color666">Type:</div>-->
+                        <!--<div class="col-md-10">config map<span class="small text-muted">((populated by a config map)</span></div>-->
+                    <!--</div>-->
+                    <!--<div class="row matgin-bt" >-->
+                        <!--<div class="col-md-2 width150 color666">Secret:</div>-->
+                        <!--<div class="col-md-10"><a class="href-orange" ui-sref="console.config_configMap({namespace:namespace,name: volume.configMap.name})">{{volume.configMap.name}}</a></div>-->
+                    <!--</div>-->
+                    <!--<div class="row matgin-bt" ng-repeat="item in volume.configMap.items">-->
+                        <!--<div class="col-md-2 width150">Key to File:</div>-->
+                        <!--<div class="col-md-10">{{item.key}}&#8201;&#8594;&#8201;{{item.path}}</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--<div ng-if="volume.persistentVolumeClaim" style="padding-top: 10px;">-->
+                    <!--<div class="row matgin-bt" >-->
+                        <!--<div class="col-md-2 width150 color666">Type:</div>-->
+                        <!--<div class="col-md-10">persistent volume claim<span class="small text-muted">(reference to a persistent volume claim)</span></div>-->
+                    <!--</div>-->
+                    <!--<div class="row matgin-bt" >-->
+                        <!--<div class="col-md-2 width150 color666">Claim name:</div>-->
+                        <!--<div class="col-md-10"><a class="href-orange" ui-sref="console.constantly_persistentVolume({namespace:namespace,name:volume.persistentVolumeClaim.claimName})">{{volume.persistentVolumeClaim.claimName}}</a></div>-->
+                    <!--</div>-->
+                    <!--<div class="row matgin-bt">-->
+                        <!--<div class="col-md-10" ng-if="volume.persistentVolumeClaim.readOnly">read-only</div>-->
+                            <!--<div class="col-md-10" ng-if="!volume.persistentVolumeClaim.readOnly">read-write</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+            <!--</div>-->
+            <!--<div style="padding:10px 0;color:#333;font-weight: bold;">Pods</div>-->
+            <!--<div class="table-responsive">-->
+                <!--<table class="table table-hover table-default">-->
+                    <!--<tr>-->
+                        <!--<th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Name</th>-->
+                        <!--<th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Status</th>-->
+                        <!--<th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Containers Ready</th>-->
+                        <!--<th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Containers Restart</th>-->
+                        <!--<th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Age</th>-->
+                    <!--</tr>-->
+                    <!--<tr ng-repeat="pod in statefulPods">-->
+                        <!--<td data-title="Name" class="poda" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">-->
+                            <!--&lt;!&ndash; <a class="href-orange" ui-sref="console.service_detail({name: pod.metadata.name})">-->
+                                <!--{{pod.metadata.name}}-->
+                            <!--</a> &ndash;&gt;-->
+                            <!--<a class="href-orange" ui-sref="console.pods_detail({namespace:namespace,name: pod.metadata.name})">-->
+                                <!--{{pod.metadata.name}}-->
+                            <!--</a>-->
+                        <!--</td>-->
+                        <!--<td data-title="Status">-->
+                            <!--&lt;!&ndash; {{pod.status}} &ndash;&gt;-->
+                            <!--<status-icon status="pod | podStatus" disable-animation></status-icon>-->
+                            <!--<span flex>{{pod | podStatus | humanizePodStatus}}</span>-->
+                        <!--</td>-->
+                        <!--<td data-title="Ready">-->
+                            <!--{{pod | numContainersReady}}/{{pod.spec.containers.length}}-->
+                        <!--</td>-->
+                        <!--<td data-title="Restarts">{{pod | numContainerRestarts}}</td>-->
+                        <!--<td data-title="Age"><span uib-tooltip="{{pod.metadata.creationTimestamp | timescon}}">{{pod.metadata.creationTimestamp  | dateRelative}}</span></td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td colspan="7" style="text-align: center;background: #fff;position:relative" ng-if="items.length===0">-->
+                            <!--<p class="blank_block"> <span class="blank_tit"> {{text}}</span></p>-->
+                        <!--</td>-->
+                    <!--</tr>-->
+                <!--</table>-->
+                <!--<div class="text-center" style="text-align:center;" ng-if="grid.total > 10">-->
+                    <!--<uib-pagination class="pagination" ng-model="grid.page" total-items="grid.total" items-per-page="grid.size" class="pagination-sm" boundary-links="false" max-size="12" rotate="true" previous-text="<" next-text=">">-->
+                    <!--</uib-pagination>-->
+                <!--</div>-->
+            <!--</div>-->
         </uib-tab>
         <uib-tab index="2">
             <uib-tab-heading>
                 <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
-                Environment
+                环境变量
             </uib-tab-heading>
             <div class="row matgin-bt" ng-repeat="env in statefuldetail.spec.template.spec.containers[0].env">
                 <div class="col-md-6">
@@ -172,7 +325,7 @@
         <uib-tab index="3">
             <uib-tab-heading>
                 <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
-                Metrics
+                监控
             </uib-tab-heading>
             <public-metrics conname="conname"
                             podid="poduid"
@@ -183,7 +336,7 @@
         <uib-tab index="4">
             <uib-tab-heading>
                 <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
-                Events
+                事件
             </uib-tab-heading>
             <deployments-event dcname="dcName" dcfit="DeploymentConfig"></deployments-event>
         </uib-tab>
