@@ -5,33 +5,33 @@
     </div>
     <div class="row condigmaarginbottom">
         <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">Selectors:</div>
+            <div class="col-md-2 col-md-2_padding">选择器:</div>
             <div class="col-md-10">app = {{dc.metadata.name}} <br/> deploymentconfig = {{dc.metadata.name}}</div>
         </div>
         <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">Stratege:</div>
+            <div class="col-md-2 col-md-2_padding">策略:</div>
             <div class="col-md-10">{{dc.spec.strategy.type}}</div>
         </div>
         <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">Timeout:</div>
+            <div class="col-md-2 col-md-2_padding">超时:</div>
             <div class="col-md-10">{{dc.spec.strategy.rollingParams.timeoutSeconds}} sec</div>
         </div>
         <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">Update Period:</div>
+            <div class="col-md-2 col-md-2_padding">更新周期:</div>
             <div class="col-md-10">{{dc.spec.strategy.rollingParams.updatePeriodSeconds}} sec</div>
         </div>
         <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">Intervel:</div>
+            <div class="col-md-2 col-md-2_padding">间隔:</div>
             <div class="col-md-10">{{dc.spec.strategy.rollingParams.intervalSeconds}} sec</div>
         </div>
-        <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">Max Unavailable:</div>
-            <div class="col-md-10">{{dc.spec.strategy.rollingParams.maxUnavailable}}</div>
-        </div>
-        <div class="col-md-12">
-            <div class="col-md-2 col-md-2_padding">Max Surge:</div>
-            <div class="col-md-10">{{dc.spec.strategy.rollingParams.maxSurge}}</div>
-        </div>
+        <!--<div class="col-md-12 bushu_marginBottom">-->
+            <!--<div class="col-md-2 col-md-2_padding">Max Unavailable:</div>-->
+            <!--<div class="col-md-10">{{dc.spec.strategy.rollingParams.maxUnavailable}}</div>-->
+        <!--</div>-->
+        <!--<div class="col-md-12">-->
+            <!--<div class="col-md-2 col-md-2_padding">Max Surge:</div>-->
+            <!--<div class="col-md-10">{{dc.spec.strategy.rollingParams.maxSurge}}</div>-->
+        <!--</div>-->
     </div>
 
     <div class="row condigmaarginbottom">

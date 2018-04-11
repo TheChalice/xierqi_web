@@ -679,11 +679,11 @@ define(['angular', 'moment'], function(angular, moment) {
         .filter('deploymentStatus', ["annotationFilter", "hasDeploymentConfigFilter",
             function(annotationFilter, hasDeploymentConfigFilter) {
                 return function(deployment) {
-                    console.log("annotationFilter(deployment, 'deploymentCancelled')", annotationFilter(deployment, 'deploymentCancelled'));
+                    //console.log("annotationFilter(deployment, 'deploymentCancelled')", annotationFilter(deployment, 'deploymentCancelled'));
                     if (annotationFilter(deployment, 'deploymentCancelled')) {
                         return "Cancelled";
                     }
-                    console.log(annotationFilter(deployment, 'deploymentStatus'));
+                    //console.log(annotationFilter(deployment, 'deploymentStatus'));
                     var status = annotationFilter(deployment, 'deploymentStatus');
 
                     // If it is just an RC (non-deployment) or it is a deployment with more than 0 replicas
@@ -882,22 +882,22 @@ define(['angular', 'moment'], function(angular, moment) {
                 return deploymentVersion === deploymentConfigVersion;
             };
         })
-        .filter('deploymentStatus', ['annotationFilter', 'hasDeploymentConfigFilter', function(annotationFilter, hasDeploymentConfigFilter) {
-            return function(deployment) {
-                //console.log('deployment', deployment);
-                // We should show Cancelled as an actual status instead of showing Failed
-                //console.log('annotationFilter', annotationFilter);
-                if (annotationFilter(deployment, 'deploymentCancelled')) {
-                    return "Cancelled";
-                }
-                var status = annotationFilter(deployment, 'deploymentStatus');
-                // If it is just an RC (non-deployment) or it is a deployment with more than 0 replicas
-                if (!hasDeploymentConfigFilter(deployment) || status === "Complete" && deployment.spec.replicas > 0) {
-                    return "Active";
-                }
-                return status;
-            };
-        }])
+        //.filter('deploymentStatus', ['annotationFilter', 'hasDeploymentConfigFilter', function(annotationFilter, hasDeploymentConfigFilter) {
+        //    return function(deployment) {
+        //        //console.log('deployment', deployment);
+        //        // We should show Cancelled as an actual status instead of showing Failed
+        //        //console.log('annotationFilter', annotationFilter);
+        //        if (annotationFilter(deployment, 'deploymentCancelled')) {
+        //            return "Cancelled";
+        //        }
+        //        var status = annotationFilter(deployment, 'deploymentStatus');
+        //        // If it is just an RC (non-deployment) or it is a deployment with more than 0 replicas
+        //        if (!hasDeploymentConfigFilter(deployment) || status === "Complete" && deployment.spec.replicas > 0) {
+        //            return "Active";
+        //        }
+        //        return status;
+        //    };
+        //}])
         .filter('displayName', ["annotationFilter", function(annotationFilter) {
             // annotationOnly - if true, don't fall back to using metadata.name when
             //                  there's no displayName annotation

@@ -64,8 +64,8 @@ define([
             host_k8s: '/api/v1',
             broker_apigroup: '/apis/prd.asiainfo.com/v1',
             broker_ws_apigroup: '/ws/apis/prd.asiainfo.com/v1',
-            host_newk8s: '/apis/autoscaling/v1',
             host_ws_apis: '/ws/apis/apps/v1beta1',
+            host_newk8s: '/apis/autoscaling/v1',
             host_ws_apisextensions: '/ws/apis/extensions/v1beta1',
             host_newk8s1: '/apis/apps/v1beta1',
             host_newk8s2: '/apis/extensions/v1beta1',
@@ -3083,11 +3083,11 @@ define([
                 //console.log("Cookie.get('namespace')",Cookie.get('namespace'));
                 var namespace=Cookie.get('namespace')
                 $rootScope.app = [
-                    { name: 'Deployments', url: 'console.deployments@'+namespace, stateUrl: null, children: [] },
-                    { name: 'Stateful Sets', url: 'console.stateful-sets@'+namespace, stateUrl: null, children: [] },
-                    { name: 'Pods', url: 'console.pods@'+namespace, stateUrl: null, children: [] },
-                    { name: 'Services', url: 'console.services@'+namespace, stateUrl: null, children: [] },
-                    { name: 'Routes', url: 'console.routes@'+namespace, stateUrl: null, children: [] }
+                    { name: '镜像部署', url: 'console.deployments@'+namespace, stateUrl: null, children: [] },
+                    { name: '有状态集', url: 'console.stateful-sets@'+namespace, stateUrl: null, children: [] },
+                    { name: '容器组', url: 'console.pods@'+namespace, stateUrl: null, children: [] },
+                    { name: '服务端口', url: 'console.services@'+namespace, stateUrl: null, children: [] },
+                    { name: '域名路由', url: 'console.routes@'+namespace, stateUrl: null, children: [] }
                 ];
                 $rootScope.resources = [
                     { name: '存储卷', url: 'console.resource_persistentVolume@'+namespace, stateUrl: null, children: [] },
@@ -3099,8 +3099,8 @@ define([
                     { name: '仪表盘', img: 'icon25 icon25-dashboard', url: 'console.dashboard@'+namespace, stateUrl: null, children: [] },
                     { name: '代码构建', img: 'icon25 icon25-build', url: 'console.build@'+namespace, stateUrl: null, children: [] },
                     { name: '镜像仓库', img: 'icon25 icon25-repository', url: 'console.image@'+namespace, stateUrl: null, children: [] },
-                    { name: 'Pipeline', img: 'icon25 icon25-repository', url: 'console.pipeline@'+namespace, stateUrl: null, children: [] },
-                    { name: '服务部署', img: 'icon25 icon25-deployment', url: null, stateUrl: null, children: $rootScope.app },
+                    { name: '流水线', img: 'icon25 icon25-repository', url: 'console.pipeline@'+namespace, stateUrl: null, children: [] },
+                    { name: '容器应用', img: 'icon25 icon25-deployment', url: null, stateUrl: null, children: $rootScope.app },
                     { name: '后端服务', img: 'icon25 icon25-service', url: 'console.backing_service@'+namespace, stateUrl: null, children: [] },
                     { name: '资源管理', img: 'icon25 icon25-resource', url: null, stateUrl: null, children: $rootScope.resources }
                 ];

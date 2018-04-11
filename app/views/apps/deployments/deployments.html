@@ -55,25 +55,25 @@
         <div class="table-responsive" style="margin-top: 20px;">
             <table class="table table-hover table-default">
                 <tr>
-                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Name</th>
-                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Last Version</th>
-                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Status</th>
-                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Created</th>
-                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Trigger</th>
+                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">名称</th>
+                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">版本</th>
+                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">状态</th>
+                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">创建时间</th>
+                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">触发器</th>
                 </tr>
                 <!--<tr ng-repeat="bc in items">-->
                 <!--<tr ng-repeat="deployments in items">-->
                 <tr ng-repeat="deployments in deploymentOneItem">
-                    <td data-title="Name" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
+                    <td data-title="名称" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
 
                         <a class="href-orange" ui-sref="console.deploymentconfig_detail({namespace:namespace,name: deployments.metadata.name})">{{deployments.metadata.name}}</a>
 
                         </td>
-                        <td data-title="Last Version">
+                        <td data-title="版本">
                             <a ng-if="deployments.status.latestVersion >0" class="last_deploy" ui-sref="console.rc({namespace:namespace,name:deployments.rc.metadata.name})">{{deployments.status.latestVersion}}</a>
                             <a ng-if="deployments.status.latestVersion ==0">No deployments</a>
                         </td>
-                        <td data-title="Status">
+                        <td data-title="状态">
                             <div row class="status" ng-if="deployments.status.latestVersion>0">
                                 <status-icon status="deployments.rc | deploymentStatus" disable-animation></status-icon>
                                 <span flex>
@@ -82,22 +82,22 @@
                             </span>
                         </div>
                     </td>
-                    <td data-title="Created">
+                    <td data-title="创建时间">
                         <span ng-if="deployments.status.latestVersion>0" uib-tooltip="{{deployments.metadata.creationTimestamp  | timescon}}">
                                 {{deployments.metadata.creationTimestamp | dateRelative}}
                             </span>
                     </td>
-                    <td data-title="Trigger">
-                        <span ng-if="!deployments.status.details.causes.length && deployments.status.latestVersion>0">Unknown</span>
+                    <td data-title="触发器">
+                        <span ng-if="!deployments.status.details.causes.length && deployments.status.latestVersion>0">未知</span>
                         <span ng-if="deployments.status.details.causes.length && deployments.status.latestVersion>0">
                                 <span ng-repeat="cause in deployments.status.details.causes">
                                     <span ng-switch="cause.type">
                                         <span ng-switch-when="ImageChange">
                                             <span ng-if="cause.imageTrigger.from">
-                                                <abbr title="{{cause.imageTrigger.from | imageObjectRef : null : true}}">Image</abbr> change
+                                                <abbr title="{{cause.imageTrigger.from | imageObjectRef : null : true}}">镜像变化</abbr>
                                             </span>
                         </span>
-                        <span ng-switch-when="ConfigChange">Config change</span>
+                        <span ng-switch-when="ConfigChange">配置变化</span>
                         <span ng-switch-default>{{cause.type}}</span>
                         </span>
                         </span>
@@ -123,11 +123,11 @@
         <div class="table-responsive" style="margin-top: 20px;" ng-show="deploymentTwoItem.length>0">
             <table class="table table-hover table-default">
                 <tr>
-                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Name</th>
-                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Last Version</th>
-                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Replicas</th>
-                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Created</th>
-                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Trigger</th>
+                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">名称</th>
+                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">版本</th>
+                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">副本</th>
+                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">创建时间</th>
+                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">触发器</th>
                 </tr>
                 <!--<tr ng-repeat="bc in items">-->
                 <!--<tr ng-repeat="deployments in mydeploylist">-->

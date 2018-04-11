@@ -3,7 +3,7 @@
     <p>
         <span class="pd_name">{{pod.metadata.name}}</span>
         &nbsp;&nbsp;
-        <span class="pd_dt">created&nbsp;{{pod.metadata.creationTimestamp | dateRelative}}</span>
+        <span class="pd_dt">创建于&nbsp;{{pod.metadata.creationTimestamp | dateRelative}}</span>
         <a class="btn btn-gray pull-right" style="height:34px; width:36px;padding:6px;" ng-click="delete(pod.metadata.name)">
             <i class="fa fa-trash-o fa-lg"></i>
         </a>
@@ -11,19 +11,19 @@
     <uib-tabset class="tab-default tab-pods">
             <uib-tab index="1">
                 <uib-tab-heading>
-                    Details
+                    详情
                 </uib-tab-heading>
                 <div ng-include="'views/pods_detail/details.html'"></div>
             </uib-tab>
             <uib-tab index="2">
                 <uib-tab-heading>
-                    Environment
+                    环境变量
                 </uib-tab-heading>
                 <div ng-include="'views/pods_detail/Environment.html'"></div>
             </uib-tab>
             <uib-tab index="3">
                 <uib-tab-heading>
-                    Metrics
+                    指标
                 </uib-tab-heading>
                 <public-metrics conname="pod.spec.containers[0].name"
                                 podid="pod.metadata.uid"
@@ -33,7 +33,7 @@
             </uib-tab>
             <uib-tab index="4">
                 <uib-tab-heading>
-                    Logs
+                    日志
                 </uib-tab-heading>
                 <pod-logs  pod-name="{{pod.metadata.name}}"
                            pod-container="pod.spec.containers"
@@ -44,14 +44,14 @@
             </uib-tab>
             <uib-tab index="5">
                 <uib-tab-heading>
-                    Terminal
+                    终端
                 </uib-tab-heading>
                 <kubernetes-container-terminal pod-container="pod.spec.containers" pod="pod" container="pod.spec.containers[0].name" class="pod_term">
                 </kubernetes-container-terminal>
             </uib-tab>
             <uib-tab index="6">
                 <uib-tab-heading>
-                    Events
+                    事件
                 </uib-tab-heading>
                 <deployments-event dcname="pod.metadata.name" dcfit="Pod"></deployments-event>
             </uib-tab>
