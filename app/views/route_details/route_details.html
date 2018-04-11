@@ -1,4 +1,4 @@
-<div class="build-detail" style="background:#fff;padding:20px 40px 40px;">
+<div class="build-detail">
     <div class="loader" ng-show="!route">
         <div class="loader-inner ball-clip-rotate-multiple">
             <div></div>
@@ -73,21 +73,27 @@
         <div>
             <div class="row" ng-if="route">
                 <div class="col-sm-12">
-                    <h4 class="mar-top-xl" style="margin:20px 0;padding:20px 0 15px 0;border-bottom:1px solid #c9c9c9;color:#666;">Details</h4>
+                    <h4 class="mar-top-xl" style="    font-size: 14px;
+    color: #333;
+    font-weight: bold;
+    margin: 0px;
+    margin-bottom: 10px;">Details</h4>
                     <dl class="dl-horizontal left">
                         <dt style="text-align:left" ng-if-start="route.spec.wildcardPolicy && route.spec.wildcardPolicy !== 'None' && route.spec.wildcardPolicy !== 'Subdomain'">Wildcard Policy:</dt>
                         <dd ng-if-end>{{route.spec.wildcardPolicy}}</dd>
-                        <dt style="margin-bottom:20px;text-align:left">Path:</dt>
+                        <dt style="margin-bottom:20px;text-align:left">路径:</dt>
                         <dd>
                             <span ng-if="route.spec.path">{{route.spec.path}}</span>
                             <span ng-if="!route.spec.path"><em>none</em></span>
                         </dd>
-                        <dt style="margin-bottom:20px;text-align:left">{{route.spec.to.kind || "Routes To"}}:</dt>
+                        <dt style="margin-bottom:20px;text-align:left">服务:</dt>
+                        <!--<dt style="margin-bottom:20px;text-align:left">{{route.spec.to.kind || "Routes To"}}:</dt>-->
                         <dd>
                             <!-- <a ng-href="{{route.spec.to.name | navigateResourceURL : route.spec.to.kind : route.metadata.namespace}}">{{route.spec.to.name}}</a> -->
                             <a class="href-orange" ui-sref="console.service_details({namespace:namespace,name: route.spec.to.name})">{{route.spec.to.name}}</a>
                         </dd>
-                        <dt style="margin-bottom:20px;text-align:left">Target Port:</dt>
+                        <dt style="margin-bottom:20px;text-align:left">目标端口:</dt>
+                        <!--<dt style="margin-bottom:20px;text-align:left">Target Port:</dt>-->
                         <dd>
                             <span ng-if="route.spec.port.targetPort">
                           {{route.spec.port.targetPort}}
@@ -140,13 +146,13 @@
                         </div>
                     </div>
                     <div style="margin-bottom: 10px;">
-                        <h4 style="margin:20px 0;padding:20px 0 15px 0;color:#666;border-bottom:1px solid #c9c9c9;">TLS Settings</h4>
+                        <h4 style="margin:20px 0;padding:20px 0 15px 0;color:#666;border-bottom:1px solid #c9c9c9;">TLS 设置</h4>
                         <dl class="dl-horizontal left" ng-if="route.spec.tls">
-                            <dt style="margin-bottom:20px;text-align:left">Termination Type:</dt>
+                            <dt style="margin-bottom:20px;text-align:left">类型:</dt>
                             <dd>{{route.spec.tls.termination | humanizeTLSTermination}}</dd>
-                            <dt style="margin-bottom:20px;text-align:left">Insecure Traffic:</dt>
+                            <dt style="margin-bottom:20px;text-align:left">非安全流量:</dt>
                             <dd>{{route.spec.tls.insecureEdgeTerminationPolicy || 'None'}}</dd>
-                            <dt style="margin-bottom:20px;text-align:left">Certificate:</dt>
+                            <dt style="margin-bottom:20px;text-align:left">证书:</dt>
                             <dd>
                                 <span ng-show="route.spec.tls.certificate && !reveal.certificate">
                                     <a href="" class="href-orange"  ng-click="reveal.certificate = true">Show</a>
@@ -156,7 +162,7 @@
                             <div ng-if="reveal.certificate">
                                 <pre class="clipped">{{route.spec.tls.certificate}}</pre>
                             </div>
-                            <dt style="margin-bottom:20px;text-align:left">Key:</dt>
+                            <dt style="margin-bottom:20px;text-align:left">密钥:</dt>
                             <dd>
                                 <span ng-if="route.spec.tls.key && !reveal.key">
                                     <a class="href-orange" href="" ng-click="reveal.key = true">Show</a>
@@ -166,7 +172,7 @@
                             <div ng-if="reveal.key">
                                 <pre class="clipped">{{route.spec.tls.key}}</pre>
                             </div>
-                            <dt style="text-align:left">CA Certificate:</dt>
+                            <dt style="text-align:left">CA 证书:</dt>
                             <dd>
                                 <span ng-show="route.spec.tls.caCertificate && !reveal.caCertificate">
                                 <a href="" ng-click="reveal.caCertificate = true">Show</a>
@@ -176,7 +182,7 @@
                             <div ng-if="reveal.caCertificate">
                                 <pre class="clipped">{{route.spec.tls.caCertificate}}</pre>
                             </div>
-                            <dt style="text-align:left">Destination CA Cert:</dt>
+                            <dt style="text-align:left">目标 CA 证书:</dt>
                             <dd>
                                 <span ng-show="route.spec.tls.destinationCACertificate && !reveal.destinationCACertificate">
                             <a href="" ng-click="reveal.destinationCACertificate = true">Show</a>
@@ -186,6 +192,50 @@
                             <div ng-if="reveal.destinationCACertificate">
                                 <pre class="clipped">{{route.spec.tls.destinationCACertificate}}</pre>
                             </div>
+                            <!--<dt style="margin-bottom:20px;text-align:left">Termination Type:</dt>-->
+                            <!--<dd>{{route.spec.tls.termination | humanizeTLSTermination}}</dd>-->
+                            <!--<dt style="margin-bottom:20px;text-align:left">Insecure Traffic:</dt>-->
+                            <!--<dd>{{route.spec.tls.insecureEdgeTerminationPolicy || 'None'}}</dd>-->
+                            <!--<dt style="margin-bottom:20px;text-align:left">Certificate:</dt>-->
+                            <!--<dd>-->
+                                <!--<span ng-show="route.spec.tls.certificate && !reveal.certificate">-->
+                                    <!--<a href="" class="href-orange"  ng-click="reveal.certificate = true">Show</a>-->
+                                <!--</span>-->
+                                <!--<span ng-if="!route.spec.tls.certificate"><em>none</em></span>-->
+                            <!--</dd>-->
+                            <!--<div ng-if="reveal.certificate">-->
+                                <!--<pre class="clipped">{{route.spec.tls.certificate}}</pre>-->
+                            <!--</div>-->
+                            <!--<dt style="margin-bottom:20px;text-align:left">Key:</dt>-->
+                            <!--<dd>-->
+                                <!--<span ng-if="route.spec.tls.key && !reveal.key">-->
+                                    <!--<a class="href-orange" href="" ng-click="reveal.key = true">Show</a>-->
+                                <!--</span>-->
+                                <!--<span ng-if="!route.spec.tls.key"><em>none</em></span>-->
+                            <!--</dd>-->
+                            <!--<div ng-if="reveal.key">-->
+                                <!--<pre class="clipped">{{route.spec.tls.key}}</pre>-->
+                            <!--</div>-->
+                            <!--<dt style="text-align:left">CA Certificate:</dt>-->
+                            <!--<dd>-->
+                                <!--<span ng-show="route.spec.tls.caCertificate && !reveal.caCertificate">-->
+                                <!--<a href="" ng-click="reveal.caCertificate = true">Show</a>-->
+                            <!--</span>-->
+                                <!--<span ng-if="!route.spec.tls.caCertificate"><em>none</em></span>-->
+                            <!--</dd>-->
+                            <!--<div ng-if="reveal.caCertificate">-->
+                                <!--<pre class="clipped">{{route.spec.tls.caCertificate}}</pre>-->
+                            <!--</div>-->
+                            <!--<dt style="text-align:left">Destination CA Cert:</dt>-->
+                            <!--<dd>-->
+                                <!--<span ng-show="route.spec.tls.destinationCACertificate && !reveal.destinationCACertificate">-->
+                            <!--<a href="" ng-click="reveal.destinationCACertificate = true">Show</a>-->
+                          <!--</span>-->
+                                <!--<span ng-if="!route.spec.tls.destinationCACertificate"><em>none</em></span>-->
+                            <!--</dd>-->
+                            <!--<div ng-if="reveal.destinationCACertificate">-->
+                                <!--<pre class="clipped">{{route.spec.tls.destinationCACertificate}}</pre>-->
+                            <!--</div>-->
                         </dl>
                         <p ng-if="!route.spec.tls">
                             TLS is not enabled.
