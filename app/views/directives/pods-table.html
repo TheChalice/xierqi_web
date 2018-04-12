@@ -28,7 +28,7 @@
         <tr ng-repeat="pod in sortedPods track by (pod | uid)" class="animate-repeat">
             <td data-title="{{customNameHeader || 'Name'}}">
                 <!-- <a href="{{pod | navigateResourceURL}}">{{pod.metadata.name}}</a> -->
-                <a class="href-orange" ui-sref="console.pods_detail({name: pod.metadata.name})">
+                <a class="href-orange" ui-sref="console.pods_detail({namespace:namespace,name: pod.metadata.name})">
                         {{pod.metadata.name}}
                     </a>
                 <!-- <a href="">{{pod.metadata.name}}</a> -->
