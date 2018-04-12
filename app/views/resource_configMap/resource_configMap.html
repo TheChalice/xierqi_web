@@ -47,7 +47,7 @@
                 <tr ng-repeat="items in configitems">
                     <td class="td_borderBottom .td_textOverflow " style="">
 
-                        <a ui-sref="console.config_configMap({namespace:namespace,name: items.metadata.name})" uib-tooltip="{{items.metadata.name}}" tooltip-placement="top" style="color:#f6a540">{{items.metadata.name}}</a>
+                        <a ui-sref="console.config_configMap({namespace:namespace,name: items.metadata.name})" uib-tooltip="{{items.metadata.name}}" tooltip-placement="top" style="color:#47B2FB">{{items.metadata.name}}</a>
                     </td>
                     <td class="td_borderBottom" style=""><span
                             uib-tooltip="{{items.metadata.creationTimestamp  | timescon}}">{{items.metadata.creationTimestamp | dateRelative}} </span>
