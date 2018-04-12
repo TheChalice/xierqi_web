@@ -7,7 +7,7 @@ angular.module('console.stateful-sets', [{
     }])
     .controller('Stateful-setsCtrl', ['statefulsets', '$scope','Ws','$rootScope','$log',
         function(statefulsets, $scope,Ws,$rootScope,$log) {
-            $scope.text = "No stateful sets have been added to project " + $scope.namespace + ".";
+            $scope.text = "无";
             var getStatefulsets = function(){
                 statefulsets.get({ namespace: $scope.namespace }, function(res) {
                     $scope.items = res.items;

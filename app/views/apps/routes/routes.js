@@ -7,7 +7,8 @@ angular.module('console.routes', [{
     }])
     .controller('RoutesCtrl', ['$scope', 'routes','Route',
         function($scope, routes,Route) {
-            $scope.text = "No routes have been added to project " + $scope.namespace + ".";
+            $scope.text = "无";
+            //$scope.text = "No routes have been added to project " + $scope.namespace + ".";
             $scope.grid = {
                 page: 1,
                 size: 10,

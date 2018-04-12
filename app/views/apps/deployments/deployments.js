@@ -7,7 +7,8 @@ angular.module('console.deployments', [{
     }])
     .controller('DeploymentsCtrl', ['$log','$rootScope', '$scope', 'replicas', 'mydcs', '$filter', 'mydeployment', 'ReplicaSet','Ws',
         function($log,$rootScope, $scope, replicas, mydcs, $filter, mydeployment, ReplicaSet,Ws) {
-            $scope.text = "No deployments have been added to project " + $scope.namespace + ".";
+            $scope.text = "无";
+            //$scope.text = "No deployments have been added to project " + $scope.namespace + ".";
             $scope.grid = {
                 page: 1,
                 size: 10,

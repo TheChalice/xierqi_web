@@ -11,7 +11,7 @@ angular.module('console.services', [
     ])
     .controller('ServicesDetailCtrl', ['$scope', 'serviceDetails', 'Service', 'routes', 'pods', 'endpoints', 'Cookie',
         function($scope, serviceDetails, Service, routes, pods, endpoints, Cookie) {
-            $scope.text = "No routes have been added to project " + $scope.namespace + ".";
+            $scope.text = "无";
 
             if (serviceDetails) {
                 $scope.service = serviceDetails;

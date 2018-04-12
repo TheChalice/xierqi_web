@@ -7,7 +7,8 @@ angular.module('console.services', [{
 }])
     .controller('ServicesCtrl', ['$scope', 'Service', 'Ws', '$rootScope', '$log',
         function ($scope, Service, Ws, $rootScope, $log) {
-            $scope.text = "No services have been added to project " + $scope.namespace + ".";
+            $scope.text = "无";
+            //$scope.text = "No services have been added to project " + $scope.namespace + ".";
             var getServicesSets = function () {
                 Service.get({namespace: $scope.namespace}, function (res) {
                     $scope.items = res.items;

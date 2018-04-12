@@ -7,7 +7,7 @@ angular.module('console.pods', [{
     }])
     .controller('PodsCtrl', ['$scope', 'Pod','Ws','$rootScope','$log',
         function($scope, Pod,Ws,$rootScope,$log) {
-            $scope.text = "No pods have been added to project " + $scope.namespace + ".";
+            $scope.text = "无";
             $scope.grid = {
                 page: 1,
                 size: 10,
