@@ -872,7 +872,7 @@ define(['angular', 'moment'], function(angular, moment) {
                 return ref;
             };
         })
-        .filter('deploymentIsLatest', function(annotationFilter) {
+        .filter('deploymentIsLatest',['annotationFilter',function(annotationFilter) {
             return function(deployment, deploymentConfig) {
                 if (!deploymentConfig || !deployment) {
                     return false;
@@ -881,7 +881,7 @@ define(['angular', 'moment'], function(angular, moment) {
                 var deploymentConfigVersion = deploymentConfig.status.latestVersion;
                 return deploymentVersion === deploymentConfigVersion;
             };
-        })
+        }])
         //.filter('deploymentStatus', ['annotationFilter', 'hasDeploymentConfigFilter', function(annotationFilter, hasDeploymentConfigFilter) {
         //    return function(deployment) {
         //        //console.log('deployment', deployment);
