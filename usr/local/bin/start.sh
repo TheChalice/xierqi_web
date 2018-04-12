@@ -8,7 +8,7 @@ sed -i 's/<ROUTER_DOMAIN_SUFFIX>/'$ROUTER_DOMAIN_SUFFIX'/g'  /datafoundry/dist/a
 sed -i 's/<REGISTRY_PUBLIC_ADDR>/'$REGISTRY_PUBLIC_ADDR'/g'  /datafoundry/dist/app.js
 sed -i 's/<REGISTRY_PRIVATE_ADDR>/'$REGISTRY_PRIVATE_ADDR'/g'  /datafoundry/dist/app.js
 sed -i 's/<INTERNAL_REGISTRY_ADDR>/'$INTERNAL_REGISTRY_ADDR'/g'  /datafoundry/dist/app.js
-sed -i 's/<WEBHOOK_PREFIX>/'$WEBHOOK_PREFIX'/g'  /datafoundry/dist/app.js
+sed -i 's~<WEBHOOK_PREFIX>~'$WEBHOOK_PREFIX'~g'  /datafoundry/dist/app.js
 
 
 # sed -i 's/<redis_host>/'$REDIS_HOST'/g' /usr/local/openresty/nginx/conf/nginx.conf
