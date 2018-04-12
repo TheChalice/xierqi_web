@@ -1697,9 +1697,13 @@ td  a:hover, a:focus{
     border-top-left-radius: 0;
     border-bottom-left-radius: 0
 }
-
+.input-group-addon {
+    background-image:none;
+    background-color: #47B2FB;
+}
 .input-group-addon:last-child {
     border-left: 0
+    
 }
 
 .input-group-btn {
