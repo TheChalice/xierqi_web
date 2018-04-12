@@ -57,7 +57,7 @@ angular.module('console.stateful-sets', [{
                     return;
                 }
                 $scope.resourceVersion = data.object.metadata.resourceVersion;
-                data.object.spec.resources.requests.storage=data.object.spec.resources.requests.storage.replace('i','B')
+                //data.object.spec.resources.requests.storage=data.object.spec.resources.requests.storage.replace('i','B')
                 if (data.type == 'ADDED') {
                     $scope.items.unshift(data.object)
                     refresh(1);

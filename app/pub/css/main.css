@@ -1626,7 +1626,8 @@ td  a:hover, a:focus{
     filter: alpha(opacity=0);
     opacity: 0;
     cursor: inherit;
-    display: block
+    display: block;
+    background-color: #47B2FB;
 }
 
 @font-face {

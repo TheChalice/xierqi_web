@@ -227,6 +227,10 @@ define([
         .factory('statefulsets', ['$resource', 'GLOBAL', function($resource, GLOBAL) {
             var statefulsets = $resource(GLOBAL.host_newk8s1 + '/namespaces/:namespace/statefulsets', {
                 namespace: '@namespace',
+            }, {
+                create: { method: 'POST' },
+                get: { method: 'GET' },
+                delete: { method: "DELETE" }
             });
             //暂未使用
             return statefulsets;
