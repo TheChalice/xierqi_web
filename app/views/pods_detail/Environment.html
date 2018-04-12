@@ -2,13 +2,13 @@
 <div id="Environment">
     <div ng-repeat="container in containers">
         <h2>容器 {{container.name}} 的环境变量</h2>
-        <div class='envi_main' ng-repeat="container in environment">
+        <div class='envi_main' ng-repeat="env in container.env">
           <div class="form_block">
-            <input type="text" class="form-control" readonly="readonly" value="{{container.name}}">
+            <input type="text" class="form-control" readonly="readonly" value="{{env.name}}">
         </div>
 
         <div class="form_block">
-            <input type="text" class="form-control" readonly="readonly" value="{{container.value}}">
+            <input type="text" class="form-control" readonly="readonly" value="{{env.value}}">
         </div>
     </div>
         <em ng-if="!container.env.length">此容器没有设置环境变量.</em>
