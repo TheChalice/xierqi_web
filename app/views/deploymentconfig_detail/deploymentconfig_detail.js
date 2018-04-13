@@ -310,7 +310,7 @@ angular.module('console.deploymentconfig_detail', [
                         con.volumeMounts = []
                         if (volerr(con.volments)) {
                             cancreat = false
-                            toastr.error('删除失败,请重试', {
+                            toastr.error('操作失败,请重试', {
                                 timeOut: 2000,
                                 closeButton: true
                             });
