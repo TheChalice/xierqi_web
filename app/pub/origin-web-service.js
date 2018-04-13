@@ -2268,7 +2268,7 @@ define(['angular',
             }
         ])
 
-        .factory("SecurityCheckService", function(APIService, $filter, Constants) {
+        .factory("SecurityCheckService",['APIService','$filter','Constants', function(APIService, $filter, Constants) {
             var humanizeKind = $filter('humanizeKind');
             var getSecurityAlerts = function(resources, project) {
                 var alerts = [];
@@ -2369,7 +2369,7 @@ define(['angular',
                 // Returns: Array of alerts
                 getSecurityAlerts: getSecurityAlerts
             };
-        });
+        }]);
     })
     // ResourceGroupVersion represents a fully qualified resource
 function ResourceGroupVersion(resource, group, version) {
