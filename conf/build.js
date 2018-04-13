@@ -2,7 +2,7 @@
     appDir: "../app",
     baseUrl: "./",
     dir: "../dist",
-    optimize: "uglify",
+    optimize: "none",
     optimizeCss: "standard",
     removeCombined: true,
     modules: [{
