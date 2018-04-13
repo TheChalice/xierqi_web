@@ -528,8 +528,7 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                 }).result;
             };
         }])
-
-    .service('Alert', ['$uibModal', function($uibModal) {
+        .service('Alert', ['$uibModal', function($uibModal) {
             this.open = function(title, txt, err, regist, active) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/alert.html',

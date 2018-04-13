@@ -1767,7 +1767,7 @@ define(['angular',
             };
         }])
 
-        .factory('TaskList', function($timeout) {
+        .factory('TaskList', ['$timeout',function($timeout) {
 
             // Maximum amount of time that a successful task will hang around after completion
             var TASK_TIMEOUT = 60 * 1000;
@@ -1831,7 +1831,7 @@ define(['angular',
 
 
             return taskList;
-        })
+        }])
 
         .factory("QuotaService", ['APIService', '$filter', '$rootScope', '$q', 'Constants', 'DataService',
             function(APIService,

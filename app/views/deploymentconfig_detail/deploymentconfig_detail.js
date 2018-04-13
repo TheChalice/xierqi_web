@@ -199,6 +199,10 @@ angular.module('console.deploymentconfig_detail', [
                     name: dc.metadata.name,
                     region: $rootScope.region
                 }, dc, function (res) {
+                    toastr.success('操作成功', {
+                        timeOut: 2000,
+                        closeButton: true
+                    });
                     $scope.dc = angular.copy(res);
                     console.log('$scope.dc', $scope.dc);
                     $scope.loaddirs.loadcon()
@@ -363,10 +367,7 @@ angular.module('console.deploymentconfig_detail', [
                         }, function (data) {
                             console.log('sdata', data);
                             puthor(data, $stateParams.name)
-                            toastr.success('操作成功', {
-                                timeOut: 2000,
-                                closeButton: true
-                            });
+
                         }, function (err) {
                             creathor()
                             toastr.error('删除失败,请重试', {
