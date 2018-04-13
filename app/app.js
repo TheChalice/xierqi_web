@@ -3083,11 +3083,11 @@ define([
                 //console.log("Cookie.get('namespace')",Cookie.get('namespace'));
                 var namespace=Cookie.get('namespace')
                 $rootScope.app = [
-                    { name: '镜像部署', url: 'console.deployments@'+namespace, stateUrl: null, children: [] },
+                    { name: '部署镜像', url: 'console.deployments@'+namespace, stateUrl: null, children: [] },
+                    { name: '容器状态', url: 'console.pods@'+namespace, stateUrl: null, children: [] },
+                    { name: '服务地址', url: 'console.services@'+namespace, stateUrl: null, children: [] },
+                    { name: '域名管理', url: 'console.routes@'+namespace, stateUrl: null, children: [] },
                     { name: '有状态集', url: 'console.stateful-sets@'+namespace, stateUrl: null, children: [] },
-                    { name: '容器组', url: 'console.pods@'+namespace, stateUrl: null, children: [] },
-                    { name: '服务端口', url: 'console.services@'+namespace, stateUrl: null, children: [] },
-                    { name: '域名路由', url: 'console.routes@'+namespace, stateUrl: null, children: [] }
                 ];
                 $rootScope.resources = [
                     { name: '存储卷', url: 'console.resource_persistentVolume@'+namespace, stateUrl: null, children: [] },
@@ -3115,13 +3115,13 @@ define([
                     } else if (toState.name.indexOf('deployment') != -1 || toState.name.indexOf('quick_deploy') != -1 || toState.name.indexOf('service_create') != -1) {
                         $rootScope.app[0].stateUrl = toState.name;
                     } else if (toState.name.indexOf('stateful-sets') != -1) {
-                        $rootScope.app[1].stateUrl = toState.name;
-                    } else if (toState.name.indexOf('pods') != -1) {
-                        $rootScope.app[2].stateUrl = toState.name;
-                    } else if (toState.name.indexOf('services') != -1 || toState.name.indexOf('service_details') != -1) {
-                        $rootScope.app[3].stateUrl = toState.name;
-                    } else if (toState.name.indexOf('route') != -1) {
                         $rootScope.app[4].stateUrl = toState.name;
+                    } else if (toState.name.indexOf('pods') != -1) {
+                        $rootScope.app[1].stateUrl = toState.name;
+                    } else if (toState.name.indexOf('services') != -1 || toState.name.indexOf('service_details') != -1) {
+                        $rootScope.app[2].stateUrl = toState.name;
+                    } else if (toState.name.indexOf('route') != -1) {
+                        $rootScope.app[3].stateUrl = toState.name;
                     }
                     // else if(toState.name.indexOf('resource_management') != -1 || toState.name.indexOf('constantly_') != -1 || toState.name.indexOf('config_') != -1 || toState.name.indexOf('create_secret') != -1 || toState.name.indexOf('secret_detail') != -1){
                     //     $rootScope.dataForTheTree[4].stateUrl = toState.name;

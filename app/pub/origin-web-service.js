@@ -1402,14 +1402,11 @@ define(['angular',
             }
         ])
 
-        .factory('APIService', function(
+        .factory('APIService',['API_CFG','APIS_CFG','$resource','Constants','Cookie','$q','$http','$filter','$window', function(
             API_CFG,
             APIS_CFG,
             $resource,
-            // API_PREFERRED_VERSIONS,
-            // AuthService,
             Constants,
-            // Logger,
             Cookie,
             $q,
             $http,
@@ -1768,7 +1765,7 @@ define(['angular',
                 // availableKinds: availableKinds,
                 //getPreferredVersion: getPreferredVersion
             };
-        })
+        }])
 
         .factory('TaskList', function($timeout) {
 
