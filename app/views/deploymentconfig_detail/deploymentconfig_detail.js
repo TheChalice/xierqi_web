@@ -203,6 +203,7 @@ angular.module('console.deploymentconfig_detail', [
                         timeOut: 2000,
                         closeButton: true
                     });
+                    $scope.active=1
                     $scope.dc = angular.copy(res);
                     console.log('$scope.dc', $scope.dc);
                     $scope.loaddirs.loadcon()
