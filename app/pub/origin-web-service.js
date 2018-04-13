@@ -1,11 +1,11 @@
 'use strict';
 define(['angular',
-    'ngResource',
-    'lodash',
-], function(angular) {
+        'ngResource',
+        'lodash',
+    ], function(angular) {
 
-    return angular.module('myApp.origin-web-service', ['angular-clipboard', 'base64', 'ngResource'])
-        // .factory('DataService', function($cacheFactory, $http, $ws, $rootScope, $q, API_CFG, APIService, Logger, $timeout, base64, base64util) {
+        return angular.module('myApp.origin-web-service', ['angular-clipboard', 'base64', 'ngResource'])
+            // .factory('DataService', function($cacheFactory, $http, $ws, $rootScope, $q, API_CFG, APIService, Logger, $timeout, base64, base64util) {
 
         .constant("API_CFG", _.get(window.OPENSHIFT_CONFIG, "api", {}))
 
@@ -19,7 +19,7 @@ define(['angular',
         })
 
         .factory('DataService', ['$http', '$rootScope', '$q', '$timeout', 'API_CFG', 'APIService', '$cacheFactory',
-            function($http, $rootScope, $q, $timeout, API_CFG, APIService, $cacheFactory) {
+                    function($http, $rootScope, $q, $timeout, API_CFG, APIService, $cacheFactory) {
 
                 // Accept PartialObjectMetadataList. Unfortunately we can't use the Accept
                 // header to fallback to JSON due to an API server content negotiation bug.
@@ -228,12 +228,12 @@ define(['angular',
                     }
                     this._getNamespace(resource, context, opts).then(function(ns) {
                         $http(angular.extend({
-                            method: 'DELETE',
-                            auth: {},
-                            data: data,
-                            headers: headers,
-                            url: self._urlForResource(resource, name, context, false, ns)
-                        }, opts.http || {}))
+                                method: 'DELETE',
+                                auth: {},
+                                data: data,
+                                headers: headers,
+                                url: self._urlForResource(resource, name, context, false, ns)
+                            }, opts.http || {}))
                             .success(function(data, status, headerFunc, config, statusText) {
                                 deferred.resolve(data);
                             })
@@ -261,11 +261,11 @@ define(['angular',
                     var self = this;
                     this._getNamespace(resource, context, opts).then(function(ns) {
                         $http(angular.extend({
-                            method: 'PUT',
-                            auth: {},
-                            data: object,
-                            url: self._urlForResource(resource, name, context, false, ns)
-                        }, opts.http || {}))
+                                method: 'PUT',
+                                auth: {},
+                                data: object,
+                                url: self._urlForResource(resource, name, context, false, ns)
+                            }, opts.http || {}))
                             .success(function(data, status, headerFunc, config, statusText) {
                                 deferred.resolve(data);
                             })
@@ -296,11 +296,11 @@ define(['angular',
                     var self = this;
                     this._getNamespace(resourceGroupVersion, context, opts).then(function(ns) {
                         $http(angular.extend({
-                            method: 'PATCH',
-                            auth: {},
-                            data: object,
-                            url: self._urlForResource(resourceGroupVersion, name, context, false, ns)
-                        }, opts.http || {}))
+                                method: 'PATCH',
+                                auth: {},
+                                data: object,
+                                url: self._urlForResource(resourceGroupVersion, name, context, false, ns)
+                            }, opts.http || {}))
                             .success(function(data, status, headerFunc, config, statusText) {
                                 deferred.resolve(data);
                             })
@@ -331,11 +331,11 @@ define(['angular',
                     //console.log("========>DataService.prototype.create")
                     this._getNamespace(resource, context, opts).then(function(ns) {
                         $http(angular.extend({
-                            method: 'POST',
-                            auth: {},
-                            data: object,
-                            url: self._urlForResource(resource, name, context, false, ns)
-                        }, opts.http || {}))
+                                method: 'POST',
+                                auth: {},
+                                data: object,
+                                url: self._urlForResource(resource, name, context, false, ns)
+                            }, opts.http || {}))
                             .success(function(data, status, headerFunc, config, statusText) {
                                 deferred.resolve(data);
                             })
@@ -454,10 +454,10 @@ define(['angular',
                     //console.log("============>DataService.prototype.get")
                     this._getNamespace(resource, context, opts).then(function(ns) {
                         $http(angular.extend({
-                            method: 'GET',
-                            auth: {},
-                            url: self._urlForResource(resource, name, context, false, ns)
-                        }, opts.http || {}))
+                                method: 'GET',
+                                auth: {},
+                                url: self._urlForResource(resource, name, context, false, ns)
+                            }, opts.http || {}))
                             .success(function(data, status, headerFunc, config, statusText) {
                                 if (self._isImmutable(resource)) {
                                     if (!existingImmutableData) {
@@ -994,31 +994,31 @@ define(['angular',
                     if (context.projectPromise && !resource.equals("projects")) {
                         context.projectPromise.done(function(project) {
                             $http(angular.extend({
-                                method: 'GET',
-                                auth: {},
-                                headers: headers,
-                                url: self._urlForResource(resource, null, context, false, _.assign({}, params, { namespace: project.metadata.name }))
-                            }, opts.http || {}))
+                                    method: 'GET',
+                                    auth: {},
+                                    headers: headers,
+                                    url: self._urlForResource(resource, null, context, false, _.assign({}, params, { namespace: project.metadata.name }))
+                                }, opts.http || {}))
                                 .success(function(data, status, headerFunc, config, statusText) {
                                     self._listOpComplete(key, resource, context, opts, data);
                                 }).error(function(data, status, headers, config) {
-                                // mark list op as complete
-                                self._listInFlight(key, false);
-                                var deferred = self._listDeferred(key);
-                                delete self._listDeferredMap[key];
-                                deferred.reject({
-                                    data: data,
-                                    status: status,
-                                    headers: headers,
-                                    config: config
+                                    // mark list op as complete
+                                    self._listInFlight(key, false);
+                                    var deferred = self._listDeferred(key);
+                                    delete self._listDeferredMap[key];
+                                    deferred.reject({
+                                        data: data,
+                                        status: status,
+                                        headers: headers,
+                                        config: config
+                                    });
+
+                                    if (!_.get(opts, 'errorNotification', true)) {
+                                        return;
+                                    }
+
+                                    showRequestError("Failed to list " + resource, status);
                                 });
-
-                                if (!_.get(opts, 'errorNotification', true)) {
-                                    return;
-                                }
-
-                                showRequestError("Failed to list " + resource, status);
-                            });
                         });
                     } else {
                         $http({
@@ -1402,19 +1402,8 @@ define(['angular',
             }
         ])
 
-        .factory('APIService', function(
-            API_CFG,
-            APIS_CFG,
-            $resource,
-            // API_PREFERRED_VERSIONS,
-            // AuthService,
-            Constants,
-            // Logger,
-            Cookie,
-            $q,
-            $http,
-            $filter,
-            $window) {
+        .factory('APIService',['API_CFG','APIS_CFG','$resource','Constants','Cookie','$q','$http','$filter','$window', function(
+                     API_CFG, APIS_CFG, $resource, Constants, Cookie, $q, $http, $filter, $window) {
             // Set the default api versions the console will use if otherwise unspecified
             var defaultVersion = {
                 "": "v1",
@@ -1768,9 +1757,10 @@ define(['angular',
                 // availableKinds: availableKinds,
                 //getPreferredVersion: getPreferredVersion
             };
-        })
+        }])
 
-        .factory('TaskList', function($timeout) {
+        .factory('TaskList', ['$timeout',
+                function($timeout) {
 
             // Maximum amount of time that a successful task will hang around after completion
             var TASK_TIMEOUT = 60 * 1000;
@@ -1834,21 +1824,10 @@ define(['angular',
 
 
             return taskList;
-        })
+        }])
 
         .factory("QuotaService", ['APIService', '$filter', '$rootScope', '$q', 'Constants', 'DataService',
-            function(APIService,
-                     $filter,
-                     //$location,
-                     $rootScope,
-                     // $routeParams,
-                     $q,
-                     Constants,
-                     DataService
-                     // EventsService,
-                     // Logger,
-                     // NotificationsService
-            ) {
+                    function(APIService, $filter, $rootScope, $q, Constants, DataService) {
                 var isNil = $filter('isNil');
                 var usageValue = $filter('usageValue');
                 var usageWithUnits = $filter('usageWithUnits');
@@ -2056,7 +2035,7 @@ define(['angular',
                                 alerts.push({
                                     type: 'error',
                                     message: "You are at your quota of " + q.hard[quotaKey] + " " + (q.hard[quotaKey] === "1" ? humanizedKind : humanizedResource) +
-                                    " in this project.",
+                                        " in this project.",
                                     details: "You will not be able to create the " + humanizedKind + " '" + resource.metadata.name + "'.",
                                     links: [{
                                         href: "project/" + quota.metadata.namespace + "/quota",
@@ -2162,13 +2141,13 @@ define(['angular',
                                     skipToast: true,
                                     showInDrawer: true,
                                     actions: [{
-                                        name: 'View Quotas',
-                                        title: 'View project quotas',
-                                        onClick: function() {
-                                            //$location.url("/project/" + $routeParams.project + "/quota");
-                                            $rootScope.$emit('NotificationDrawerWrapper.hide');
-                                        }
-                                    },
+                                            name: 'View Quotas',
+                                            title: 'View project quotas',
+                                            onClick: function() {
+                                                //$location.url("/project/" + $routeParams.project + "/quota");
+                                                $rootScope.$emit('NotificationDrawerWrapper.hide');
+                                            }
+                                        },
                                         {
                                             name: "Don't Show Me Again",
                                             title: 'Permenantly hide this notificaiton until quota limit changes',
@@ -2271,7 +2250,8 @@ define(['angular',
             }
         ])
 
-        .factory("SecurityCheckService", function(APIService, $filter, Constants) {
+        .factory("SecurityCheckService",['APIService','$filter','Constants',
+                    function(APIService, $filter, Constants) {
             var humanizeKind = $filter('humanizeKind');
             var getSecurityAlerts = function(resources, project) {
                 var alerts = [];
@@ -2372,9 +2352,9 @@ define(['angular',
                 // Returns: Array of alerts
                 getSecurityAlerts: getSecurityAlerts
             };
-        });
-})
-// ResourceGroupVersion represents a fully qualified resource
+        }]);
+    })
+    // ResourceGroupVersion represents a fully qualified resource
 function ResourceGroupVersion(resource, group, version) {
     this.resource = resource;
     this.group = group;

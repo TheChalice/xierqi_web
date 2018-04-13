@@ -1546,7 +1546,7 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
 
         }])
         .service('AuthService', ['account', '$timeout', '$q', 'orgList', '$rootScope', '$http', '$base64', 'Cookie', '$state', '$log', 'Project', 'GLOBAL', 'Alert', 'User',
-            function(account, $timeout, $q, orgList, $rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User) {
+                function(account, $timeout, $q, orgList, $rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User) {
                 this.login = function(credentials, stateParams) {
                     //console.log("login", credentials);
                     //console.log("login", stateParams);

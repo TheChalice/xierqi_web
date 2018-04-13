@@ -1,33 +1,8 @@
 'use strict';
 define(['angular'], function (angular) {
     return angular.module('myApp.fromFile', [])
-        .directive("fromFile", ['$filter',
-            '$location',
-            '$q',
-            '$state',
-            '$uibModal',
-            'APIService',
-            '$rootScope',
-            'DataService',
-            'QuotaService',
-            'SecurityCheckService',
-            'TaskList'
-            , function ($filter,
-                        $location,
-                        $q,
-                        $state,
-                        $uibModal,
-                        APIService,
-                        $rootScope,
-                        // CachedTemplateService,
-                        DataService,
-                        // Navigate,
-                        // NotificationsService,
-                        QuotaService,
-                        SecurityCheckService,
-                        TaskList
-                        // ,ProjectsService
-            ) {
+        .directive("fromFile", ['$filter', '$location', '$q', '$state', '$uibModal', 'APIService', '$rootScope', 'DataService', 'QuotaService', 'SecurityCheckService', 'TaskList',
+                function ($filter, $location, $q, $state, $uibModal, APIService, $rootScope, DataService, QuotaService, SecurityCheckService, TaskList) {
                 return {
                     restrict: "E",
                     scope: {
