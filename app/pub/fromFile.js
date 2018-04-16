@@ -10,7 +10,7 @@ define(['angular'], function (angular) {
                         isDialog: '='
                     },
                     templateUrl: "views/directives/from-file.html",
-                    controller: function ($scope) {
+                    controller: ['$scope',function ($scope) {
                         var aceEditorSession;
                         $scope.noProjectsCantCreate = false;
 
@@ -545,7 +545,7 @@ define(['angular'], function (angular) {
                         // for an event for when the button is clicked.
                         $scope.$on('importFileFromYAMLOrJSON', $scope.create);
                         //$scope.$on('$destroy', hideErrorNotifications);
-                    }
+                    }]
                 };
             }])
 

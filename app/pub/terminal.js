@@ -82,7 +82,7 @@ define(['angular'], function (angular) {
 
                         var term = new Terminal({
                             cols: scope.cols || 80,
-                            rows: scope.rows || 24,
+                            rows: scope.rows || 34,
                             screenKeys: scope.screenKeys || true
                         });
 
