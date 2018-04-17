@@ -54,6 +54,13 @@
 .tree-label .select.icon25-repository {
     background-image: url(img/repository-active.png);
 }
+.icon25-pipeline {
+    background-image: url(img/pipeline.png);
+}
+.tree-label:hover .icon25-pipeline{background-image:url(img/pipeline-hover.png);}
+.tree-label .select.icon25-pipeline {
+    background-image: url(img/pipeline-hover.png);
+}
 
 .icon25-deployment {
     background-image: url(img/deployment.png);
