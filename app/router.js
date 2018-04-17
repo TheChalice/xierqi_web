@@ -239,6 +239,24 @@ define([
                     }
                 })//ok
                 //pipeline
+                .state('console.create_pipeline', {
+                    url: '/:namespace/create-pipeline',
+                    templateUrl: 'views/create_pipeline/create_pipeline.html',
+                    params: {
+                        name: null
+                    },
+                    controller: 'CreatePiplineCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/create_pipeline/create_pipeline.js')
+                        }],
+                        createPipline: ['tempipline', 'Cookie', '$stateParams',
+                            function (tempipline, Cookie, $stateParams) {
+                                return tempipline.get({namespace: 'openshift'}).$promise
+                            }
+                        ]
+                    }
+                })//ok
                 .state('console.pipeline', {
                     url: '/:namespace/pipeline',
                     templateUrl: 'views/pipeline/pipeline.html',
