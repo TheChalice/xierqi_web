@@ -57,7 +57,7 @@
 .icon25-pipeline {
     background-image: url(img/pipeline.png);
 }
-.tree-label:hover .icon25-pipeline{background-image:url(img/pipeline-hover.png);}
+.tree-label:hover .icon25-pipeline{background-image:url(img/pipeline.png);}
 .tree-label .select.icon25-pipeline {
     background-image: url(img/pipeline-hover.png);
 }
