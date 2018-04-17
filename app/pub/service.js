@@ -1012,8 +1012,8 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/modal_choose_image.html',
                     size: 'default modal-lg',
-                    controller: ['pubregistrytag', 'pubregistry', 'platform', 'regpro', '$rootScope', '$scope', '$uibModalInstance', 'images', 'ImageStreamTag', 'ImageStream', '$http', 'platformlist',
-                        function(pubregistrytag, pubregistry, platform, regpro, $rootScope, $scope, $uibModalInstance, images, ImageStreamTag, ImageStream, $http, platformlist) {
+                    controller: ['pubregistrytag', 'pubregistry', 'platform', 'regpro', '$rootScope', '$scope', '$uibModalInstance', 'images', 'ImageStreamTag', 'ImageStream', '$http', 'platformlist','Sort',
+                        function(pubregistrytag, pubregistry, platform, regpro, $rootScope, $scope, $uibModalInstance, images, ImageStreamTag, ImageStream, $http, platformlist,Sort) {
                             //console.log('images', images);
                             $scope.grid = {
                                 cat: 0,
@@ -1084,7 +1084,8 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                             });
 
                             $scope.images = images;
-
+                            $scope.images.items=Sort.sort($scope.images.items, -1)
+                            console.log('images', images);
                             $scope.selectCat = function(idx) {
                                 $scope.imageTags = {};
                                 $scope.images = {};
