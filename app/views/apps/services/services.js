@@ -5,13 +5,14 @@ angular.module('console.services', [{
         'views/apps/apps.css'
     ]
 }])
-    .controller('ServicesCtrl', ['$scope', 'Service', 'Ws', '$rootScope', '$log',
-        function ($scope, Service, Ws, $rootScope, $log) {
+    .controller('ServicesCtrl', ['$scope', 'Service', 'Ws', '$rootScope', '$log','Sort',
+        function ($scope, Service, Ws, $rootScope, $log,Sort) {
             $scope.text = "无";
             //$scope.text = "No services have been added to project " + $scope.namespace + ".";
             var getServicesSets = function () {
                 Service.get({namespace: $scope.namespace}, function (res) {
                     $scope.items = res.items;
+                    $scope.items= Sort.sort($scope.items, -1)
                     $scope.copyServe = angular.copy($scope.items);
                     watchServices(res.metadata.resourceVersion);
                     $scope.grid.total = $scope.items.length;

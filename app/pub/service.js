@@ -1354,6 +1354,8 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                     if (!a.metadata) {
                         return 0;
                     }
+                    console.log('new Date(a.metadata.creationTimestamp)).getTime()',new Date(a.metadata.creationTimestamp).getTime())
+
                     return reverse * ((new Date(a.metadata.creationTimestamp)).getTime() - (new Date(b.metadata.creationTimestamp)).getTime());
                 });
                 return items;

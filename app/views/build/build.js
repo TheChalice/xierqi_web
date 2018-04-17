@@ -76,8 +76,9 @@ angular.module('console.build', [
         //获取buildConfig列表
         var loadBuildConfigs = function() {
             BuildConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function(data){
-                //$log.info('buildConfigs', data);
+                $log.info('buildConfigs', data);
                 data.items = Sort.sort(data.items, -1); //排序
+                console.log('data.items', data.items);
                 //$scope.copydata = angular.copy(data.items);
                 $scope.data = data.items;
                 $scope.grid.total = data.items.length;

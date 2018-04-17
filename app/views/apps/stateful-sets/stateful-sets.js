@@ -5,12 +5,13 @@ angular.module('console.stateful-sets', [{
             'views/apps/apps.css'
         ]
     }])
-    .controller('Stateful-setsCtrl', ['statefulsets', '$scope','Ws','$rootScope','$log',
-        function(statefulsets, $scope,Ws,$rootScope,$log) {
+    .controller('Stateful-setsCtrl', ['statefulsets', '$scope','Ws','$rootScope','$log','Sort',
+        function(statefulsets, $scope,Ws,$rootScope,$log,Sort) {
             $scope.text = "无";
             var getStatefulsets = function(){
                 statefulsets.get({ namespace: $scope.namespace }, function(res) {
                     $scope.items = res.items;
+                    $scope.items= Sort.sort($scope.items, -1)
                     $scope.copySets = angular.copy($scope.items);
                     $scope.grid.total = $scope.items.length;
                     $scope.grid.page = 1;
