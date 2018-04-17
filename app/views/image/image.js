@@ -47,8 +47,12 @@ angular.module('console.image', [
                 })
             }
             registryp.query(function (date) {
-                //console.log('regdate', date);
-                $scope.regdate=date;
+                console.log('regdate', date);
+                angular.forEach(date, function (time,i) {
+                    date.metadata={creationTimestamp:time.creation_time}
+                })
+
+                $scope.regdate=Sort.sort(date, -1);
             }, function (err) {
 
             })
@@ -496,7 +500,8 @@ angular.module('console.image', [
                             })
 
                             $scope.testlist = datalist.items;
-                            //console.log('datalist.items',datalist.items);
+                            $scope.testlist=Sort.sort($scope.testlist, -1)
+                            console.log('datalist.items',datalist.items);
                             //datalist.items.sort(function (x, y) {
                             //    return x.sorttime > y.sorttime ? -1 : 1;
                             //});
