@@ -2,7 +2,7 @@
     <div class="thumb-content">
         <div class="thumb-slide">
             <div class="thumb-op">
-                <p><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{item.status.tags[0].items[0].created | dateRelative}}</p>
+                <p><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{item.metadata.creationTimestamp | dateRelative}}</p>
                 <p><i class="fa fa-flag-o"></i>&nbsp;&nbsp;<!--{{gitStore[item.spec.output.to.name]["ref"]}} - -->
                     {{item.status.tags[0].tag}}
                     <!--{{item.status.tags[0].port}}-->

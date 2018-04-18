@@ -459,7 +459,9 @@ angular.module('console.image', [
             // 我的镜像
             ImageStream.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (datalist) {
                 //$scope.images = res;
-                //console.log('is',datalist.items);
+                console.log('is',datalist.items);
+
+                datalist.items=Sort.sort(datalist.items, -1)
                 var connt = 0
                 if (datalist.items.length === 0) {
                     $scope.testlist = [];
@@ -500,8 +502,7 @@ angular.module('console.image', [
                             })
 
                             $scope.testlist = datalist.items;
-                            $scope.testlist=Sort.sort($scope.testlist, -1)
-                            console.log('datalist.items',datalist.items);
+                            //console.log('datalist.items',datalist.items);
                             //datalist.items.sort(function (x, y) {
                             //    return x.sorttime > y.sorttime ? -1 : 1;
                             //});
