@@ -148,10 +148,17 @@ define([
                 {
                     name: '@name',
                     namespace: '@namespace',
-                }, {
-                    create: {method: 'POST'}
                 });
             return tempipline;
+        }])
+        .factory('processedtemplates', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var processedtemplates = $resource(GLOBAL.host + '/namespaces/:namespace/processedtemplates',
+                {
+                    namespace: '@namespace'
+                },{
+                    create: {method: 'POST'}
+                });
+            return processedtemplates;
         }])
         .factory('hasuser', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
             var hasuser = $resource(GLOBAL.host + '/users', {region: '@region'}, {
