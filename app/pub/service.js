@@ -1548,6 +1548,29 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
             };
 
         }])
+        .service('postapi', ['$rootScope','Route','DeploymentConfig','Service','BuildConfig','ImageStream',
+            function($rootScope,Route,DeploymentConfig,Service,BuildConfig,ImageStream) {
+            this.apis = function(sendobj) {
+                console.log('sendobj', sendobj.kind);
+                if (sendobj.kind === 'Route') {
+                    Route.create({namespace: $rootScope.namespace}, sendobj, function (res) {
+                    })
+                }else if(sendobj.kind === 'DeploymentConfig'){
+                    DeploymentConfig.create({namespace: $rootScope.namespace}, sendobj, function (res) {
+                    })
+                }else if(sendobj.kind === 'Service'){
+                    Service.create({namespace: $rootScope.namespace}, sendobj, function (res) {
+                    })
+                }else if(sendobj.kind === 'BuildConfig'){
+                    BuildConfig.create({namespace: $rootScope.namespace}, sendobj, function (res) {
+                    })
+                }else if(sendobj.kind === 'ImageStream'){
+                    ImageStream.create({namespace: $rootScope.namespace}, sendobj, function (res) {
+                    })
+                }
+            };
+
+        }])
         .service('AuthService', ['account', '$timeout', '$q', 'orgList', '$rootScope', '$http', '$base64', 'Cookie', '$state', '$log', 'Project', 'GLOBAL', 'Alert', 'User',
                 function(account, $timeout, $q, orgList, $rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User) {
                 this.login = function(credentials, stateParams) {
