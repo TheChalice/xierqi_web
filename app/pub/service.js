@@ -1551,7 +1551,7 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
         .service('postapi', ['$rootScope','Route','DeploymentConfig','Service','BuildConfig','ImageStream',
             function($rootScope,Route,DeploymentConfig,Service,BuildConfig,ImageStream) {
             this.apis = function(sendobj) {
-                console.log('sendobj', sendobj.kind);
+                //console.log('sendobj', sendobj.kind);
                 if (sendobj.kind === 'Route') {
                     Route.create({namespace: $rootScope.namespace}, sendobj, function (res) {
                     })
