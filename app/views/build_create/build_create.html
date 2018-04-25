@@ -74,8 +74,8 @@
                                                 <div class="col-md-9">
                                                     <input type="text" class="form-control tab-reg-input" id="address"
                                                            ng-model="buildConfig.spec.source.git.uri">
-                                                    <!--<small class="fa fa-info-circle err-tip">请输入正确仓库地址-->
-                                                    <!--</small>-->
+                                                    <small ng-show="namerr.urlerr" class="fa fa-info-circle err-tip">请输入正确仓库地址
+                                                    </small>
                                                 </div>
                                             </div>
                                             <div class="form-group tab-reg-div">

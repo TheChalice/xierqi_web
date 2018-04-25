@@ -64,7 +64,8 @@ angular.module('console.build_create_new', [
             $scope.namerr={
                 nil:false,
                 rexed:false,
-                repeated:false
+                repeated:false,
+                urlerr:false
             }
             $scope.gitdata = {
                 orgs: [],
@@ -192,7 +193,8 @@ angular.module('console.build_create_new', [
                 $scope.namerr={
                     nil:false,
                     rexed:false,
-                    repeated:false
+                    repeated:false,
+                    urlerr:false
                 }
                 if (!$scope.buildConfig.metadata.name) {
                     $scope.namerr.nil=true
@@ -248,6 +250,10 @@ angular.module('console.build_create_new', [
                     }
 
                 } else {
+                    if (!$scope.buildConfig.spec.source.git.uri) {
+                        $scope.namerr.urlerr=true
+                        return
+                    }
                     $scope.buildConfig.spec.source.sourceSecret = {
                         name: ""
                     }
