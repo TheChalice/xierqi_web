@@ -13,7 +13,8 @@ angular.module('console.build_create_new', [
                 repo: null,
                 branch: null
             }
-            $scope.gitstatus = 'gitlab'
+            $scope.gitstatus = 'gitlab';
+            var r = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
             $scope.buildConfig = {
                 metadata: {
                     name: "",
@@ -60,6 +61,11 @@ angular.module('console.build_create_new', [
                     completionDeadlineSeconds: 1800
                 }
             };
+            $scope.namerr={
+                nil:false,
+                rexed:false,
+                repeated:false
+            }
             $scope.gitdata = {
                 orgs: [],
                 repos: [],
@@ -182,6 +188,19 @@ angular.module('console.build_create_new', [
             }
 
             $scope.create = function () {
+                //console.log(r.test($scope.buildConfig.metadata.name));
+                $scope.namerr={
+                    nil:false,
+                    rexed:false,
+                    repeated:false
+                }
+                if (!$scope.buildConfig.metadata.name) {
+                    $scope.namerr.nil=true
+                    return
+                }else if(!r.test($scope.buildConfig.metadata.name)){
+                    $scope.namerr.rexed=true
+                    return
+                }
 
                 var imageStream = {
                     metadata: {
@@ -282,13 +301,13 @@ angular.module('console.build_create_new', [
                     createBuild(res.metadata.name);
                     $scope.creating = false;
                 }, function (res) {
-                    toastr.error('删除失败,请重试', {
+                    toastr.error('操作失败,请重试', {
                         timeOut: 2000,
                         closeButton: true
                     }); 
                     $scope.creating = false;
                     if (res.data.code == 409) {
-                        Alert.open('错误', "构建名称重复", true);
+                        $scope.namerr.repeated=true
                     } else {
                         // Alert.open('错误', res.data.message, true);
                     }
