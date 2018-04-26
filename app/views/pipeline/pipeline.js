@@ -76,7 +76,7 @@ angular.module('console.pipeline', [
         //获取buildConfig列表
         var loadBuildConfigs = function() {
             BuildConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function(data){
-                //$log.info('buildConfigs', data);
+                //$log.info('buildConfigs', data.metadata.resourceVersion);
                 data.items = Sort.sort(data.items, -1); //排序
 
                 //$scope.copydata = angular.copy(data.items);
@@ -92,10 +92,74 @@ angular.module('console.pipeline', [
                 //console.log('$scope.data', $scope.data);
                 refresh(1);
                 loadBuilds($scope.data);
+                watchBuildconfigs(data.metadata.resourceVersion)
             }, function(res) {
                 //todo 错误处理
             });
         };
+
+            var watchBuildconfigs = function(resourceVersion){
+                Ws.watch({
+                    resourceVersion: resourceVersion,
+                    namespace: $rootScope.namespace,
+                    type: 'buildconfigs',
+                    name: ''
+                }, function(res){
+                    var data = JSON.parse(res.data);
+                    updateBuildConfigs(data);
+                }, function(){
+                    $log.info("webSocket start");
+                }, function(){
+                    $log.info("webSocket stop");
+                    var key = Ws.key($rootScope.namespace, 'buildconfigs', '');
+                    if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
+                        return;
+                    }
+                    //watchBuilds($scope.resourceVersion);
+                });
+            };
+
+            var updateBuildConfigs = function(data){
+                if (data.type == 'ERROR') {
+                    $log.info("err", data.object.message);
+                    Ws.clear();
+                    //loadBuilds($scope.data.items);
+                    return;
+                }
+
+                if (data.type == 'ADDED') {
+                    if (data.object.spec.strategy.type==="JenkinsPipeline") {
+                        console.log('data.object', data.object);
+                        $scope.data.push(data.object)
+                        refresh(1);
+                    }
+
+                } else if (data.type == "MODIFIED") {
+                    angular.forEach($scope.data, function(item, i){
+                        //if (!item.build) {
+                        //    return;
+                        //}
+
+                        if (item.metadata.name == data.object.metadata.name) {
+                            //var build = item.build;
+                            data.object.build = item.build
+                            $scope.data[i] = data.object;
+                        }
+                    });
+                    // console.log('$scope.items.build.status.phase',$scope.items);
+                }else if (data.type == "DELETED") {
+
+                    angular.forEach($scope.data, function (item, i) {
+                        if (item.metadata.name == data.object.metadata.name) {
+
+                            $scope.data.splice(i,1)
+                            console.log('$scope.data', $scope.data);
+                            refresh(1);
+                            $scope.$apply()
+                        }
+                    })
+                }
+            };
 
         //根据buildConfig标签获取build列表
         var loadBuilds = function(items){
@@ -110,7 +174,7 @@ angular.module('console.pipeline', [
             Build.get({namespace: $rootScope.namespace, labelSelector: labelSelector,region:$rootScope.region}, function (data) {
                 //$log.info("builds", data);
 
-                $scope.resourceVersion = data.metadata.resourceVersion;
+                //$scope.resourceVersion = data.metadata.resourceVersion;
                 watchBuilds(data.metadata.resourceVersion);
 
                 fillBuildConfigs(data.items);
@@ -125,7 +189,7 @@ angular.module('console.pipeline', [
                 name: ''
             }, function(res){
                 var data = JSON.parse(res.data);
-                updateBuildConfigs(data);
+                updateBuild(data);
             }, function(){
                 $log.info("webSocket start");
             }, function(){
@@ -138,7 +202,7 @@ angular.module('console.pipeline', [
             });
         };
 
-        var updateBuildConfigs = function(data){
+        var updateBuild = function(data){
             if (data.type == 'ERROR') {
                 $log.info("err", data.object.message);
                 Ws.clear();
@@ -146,9 +210,22 @@ angular.module('console.pipeline', [
                 return;
             }
 
-            $scope.resourceVersion = data.object.metadata.resourceVersion;
+            //$scope.resourceVersion = data.object.metadata.resourceVersion;
             if (data.type == 'ADDED') {
+                angular.forEach($scope.data, function (item,i) {
+                    //console.log('item', data.object);
+                    //var buildnum = data.object.metadata.name.split('-')[data.object.metadata.name.split('-').length-1]
+                    var buildname = data.object.metadata.name.replace(/\-\d+$/,'')
+                    console.log('buildname', buildname,item.metadata.name);
+                    if (buildname === item.metadata.name) {
+                        $scope.data[i].build = data.object
+                        console.log('data.object', $scope.data);
+                        $scope.$apply()
+                    }
 
+
+
+                })
             } else if (data.type == "MODIFIED") {
                 angular.forEach($scope.items, function(item, i){
                     if (!item.build) {
@@ -188,7 +265,7 @@ angular.module('console.pipeline', [
                 //todo 构建类型
             });
             $scope.copydata = angular.copy($scope.data);
-            console.log($scope.copydata);
+            //console.log($scope.copydata);
 
         };
 
