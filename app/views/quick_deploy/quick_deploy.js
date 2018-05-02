@@ -289,7 +289,10 @@ angular.module('console.quick_deploy', [
             };
 
             function prepareLabel(dc) {
+                console.log('dc.metadata.labels', dc.metadata.labels);
+                dc.metadata.labels[0].value =$scope.fuwuname;
                 var labels = angular.copy(dc.metadata.labels)
+
                 $scope.dc.metadata.labels = {}
                 angular.forEach(labels, function (label, i) {
                     if (label.name !== '' && label.value !== "") {
@@ -329,12 +332,14 @@ angular.module('console.quick_deploy', [
                 }
 
             }
+
             function invEnv(){
                 var envs=angular.copy($scope.dc.spec.template.spec.containers[0].env)
                 angular.forEach(envs, function (env) {
                     
                 })
             }
+
             $scope.createDc = function () {
                 //console.log($scope.frm.serviceName.$error.pattern);
                 if ($scope.frm.serviceName.$error.pattern) {
@@ -500,7 +505,7 @@ angular.module('console.quick_deploy', [
                             })
                             $scope.showall = true;
 
-                            $scope.dc.metadata.labels[0].value =$scope.fuwuname ;
+                            //$scope.dc.metadata.labels[0].value =$scope.fuwuname ;
 
                         })
                     }
