@@ -217,7 +217,8 @@ define(['angular'], function (angular) {
                     volumes: '=',
                     namespace: '=',
                     canRemove: '=?',
-                    removeFn: '&?'
+                    removeFn: '&?',
+                    name:'='
                 },
                 templateUrl: 'views/directives/_volumes.html'
             };

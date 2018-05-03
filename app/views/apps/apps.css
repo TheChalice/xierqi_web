@@ -51,7 +51,7 @@
 }
 
 .ser_drp_set {
-    background-color: #55c45f;
+    background-color: #47B2FB;
     width: 30px;
     border-left: 1px solid rgba(0, 0, 0, .125)
 }
@@ -63,7 +63,7 @@
 .quick_menu .quick_bs a {
     padding: 0px;
     width: 128px !important;
-    background: #55c45f;
+    background: #47B2FB;
     display: block;
     height: 34px !important;
     line-height: 34px !important;
@@ -75,7 +75,7 @@
 
 .quick_menu .quick_bs a:focus,
 .quick_menu .quick_bs a:hover {
-    background: #55c45f;
+    background: #98D4FD;
     color: #fff;
 }
 

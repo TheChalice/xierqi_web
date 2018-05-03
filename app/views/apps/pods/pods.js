@@ -5,9 +5,9 @@ angular.module('console.pods', [{
             'views/apps/apps.css'
         ]
     }])
-    .controller('PodsCtrl', ['$scope', 'Pod','Ws','$rootScope','$log',
-        function($scope, Pod,Ws,$rootScope,$log) {
-            $scope.text = "No pods have been added to project " + $scope.namespace + ".";
+    .controller('PodsCtrl', ['$scope', 'Pod','Ws','$rootScope','$log','Sort',
+        function($scope, Pod,Ws,$rootScope,$log,Sort) {
+            $scope.text = "无";
             $scope.grid = {
                 page: 1,
                 size: 10,
@@ -15,6 +15,7 @@ angular.module('console.pods', [{
             };
             Pod.get({ namespace: $scope.namespace }, function(res) {
                 $scope.items = res.items;
+                $scope.items=Sort.sort(res.items, -1)
                 $scope.copyPod = angular.copy($scope.items);
                 $scope.grid.total = $scope.items.length;
                 watchpod(res.metadata.resourceVersion);

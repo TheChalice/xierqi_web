@@ -32,8 +32,17 @@ angular.module("console.sidebar", [
                            $(".zx_set_btn").removeClass("zx_set_btn_rotate");
                            $("#sidebar-container").removeClass("sider_zx");
                            $("#sidebar-right-fixed").removeClass("sidebar-fixed");
-                           $rootScope.dataForTheTree[4].children = $rootScope.app
-                           $rootScope.dataForTheTree[6].children = $rootScope.resources
+                           angular.forEach($rootScope.dataForTheTree, function (data,i) {
+                               //console.log('data', data);
+                               if (data.name == '容器应用') {
+                                   $rootScope.dataForTheTree[i].children = $rootScope.app
+                               }
+                               if (data.name == '资源管理'){
+                                   $rootScope.dataForTheTree[i].children = $rootScope.resources
+                               }
+                           })
+                           //$rootScope.dataForTheTree[4].children = $rootScope.app
+                           //$rootScope.dataForTheTree[5].children = $rootScope.resources
                        }
                 }
                 $scope.activeStyle = false;
@@ -60,12 +69,29 @@ angular.module("console.sidebar", [
                     $(".sb-arrow").toggleClass("rotate");
                     if($(".zx_set_btn").hasClass('zx_set_btn_rotate')){
                         $scope.activeStyle = true;
-                        $rootScope.dataForTheTree[4].children = [];
-                        $rootScope.dataForTheTree[6].children = [];
+                        angular.forEach($rootScope.dataForTheTree, function (data,i) {
+                            //console.log('data', data);
+                            if (data.name == '容器应用') {
+                                $rootScope.dataForTheTree[i].children = []
+                            }
+                            if (data.name == '资源管理'){
+                                $rootScope.dataForTheTree[i].children = []
+                            }
+                        })
+
                     }else{
                         $scope.activeStyle = false;
-                        $rootScope.dataForTheTree[4].children = $rootScope.app
-                        $rootScope.dataForTheTree[6].children = $rootScope.resources
+                        angular.forEach($rootScope.dataForTheTree, function (data,i) {
+                            //console.log('data', data);
+                            if (data.name == '容器应用') {
+                                $rootScope.dataForTheTree[i].children = $rootScope.app
+                            }
+                            if (data.name == '资源管理'){
+                                $rootScope.dataForTheTree[i].children = $rootScope.resources
+                            }
+                        })
+                        //$rootScope.dataForTheTree[4].children = $rootScope.app
+                        //$rootScope.dataForTheTree[5].children = $rootScope.resources
 
                     }
                 }

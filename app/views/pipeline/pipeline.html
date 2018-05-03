@@ -1,75 +1,108 @@
 <div id="build" style="">
 
 
-        <div class="table-responsive table_topMargin" style="">
-            <table class="table table-hover table-default table-buju" style="">
-                <tr>
-                    <div class="row row_set"><!-- 20160921 jia 服务分类模块问题 -->
-                        <th class='col-lg-2 col-md-2 col-sm-1'>构建名称</th>
-                        <th class='col-lg-2 col-md-2 col-sm-2'>版本</th>
-                        <th class='col-lg-2 col-md-2 col-sm-2'>最近构建时间</th>
-                        <th class='col-lg-2 col-md-2 col-sm-3'>最近构建时长</th>
-                        <!--<th class='col-lg-1 col-md-1 col-sm-2' style='word-break:keep-all;white-space:nowrap;'>构建类型</th>-->
-                        <th class="col-lg-3 col-md-3 col-sm-3 table_headOperating" style=''>操作</th>
-                    </div>
+    <div class="table-responsive table_topMargin" style="">
+        <div style="margin-right:0;margin-left:-15px;margin-bottom: 20px;height: 34px;">
+            <div class="col-sm-4 col-xs-4 serv_jia_btn new_deploycol" style="" role="group" aria-label="">
+                <div class="btn-group" role="group">
+                    <a id="creatbtn" class="btn btn-green" ui-sref="console.create_pipeline({namespace:namespace})">
+                        <i class="fa fa-plus fa-lg"></i>
+                        <span class=""> 新建流水线</span>
+                    </a>
+                    <!--<button type="button" id="creat" class="btn dropdown-toggle ser_drp_set" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+                    <!--<span class="caret"></span>-->
+                    <!--<span class="sr-only">Toggle Dropdown</span>-->
+                    <!--</button>-->
+                    <!--<ul class="dropdown-menu quick_menu">-->
+                    <!--<li class="quick_bs" ui-sref="console.quick_deploy"><a href="#">快速部署</a></li>-->
+                    <!--</ul>-->
+                </div>
 
-                </tr>
-                <tr ng-repeat="bc in items">
-                    <td class='buildname'
-                        style="">
-                        <a class="href-orange"
-                           ui-sref="console.pipeline_detail({namespace:namespace,name: bc.metadata.name})"
-                           uib-tooltip="{{bc.metadata.name}}"
-                           tooltip-placement="top">{{bc.metadata.name}}</a>
-                    </td>
-                    <td>
-                        <a class="href-orange"
-                           ui-sref="console.pipelinetag_detail({namespace:namespace,name: bc.metadata.name,tag:bc.build.metadata.annotations['openshift.io/build.number']})"
-                           tooltip-placement="top">#{{bc.build.metadata.annotations['openshift.io/build.number']}}</a>
-
-                    </td>
-                    <td><span uib-tooltip="{{bc.build.metadata.creationTimestamp | timescon}}">{{bc.build.metadata.creationTimestamp | dateRelative}}</span>
-                    </td>
-                    <td>{{bc.build.status.duration | duration}}</td>
-                    <!--<td>-->
-                    <!--<i ng-if="true" class="fa fa-hand-pointer-o">&nbsp;手动</i>-->
-                    <!--<i ng-if="false" class="fa fa-television">&nbsp;自动</i>-->
-                    <!--</td>-->
-                    <td class="text-center threec OperatingContent" style="">
-                        <div class="row Operating"
-                             style=''>
-                            <div class="col-md-1 col-lg-1 col-sm-1">
-
-                            </div>
-                            <a class="icon25 icon25-start col-lg-4 col-md-4 col-sm-4"
-                               style="padding-left: 20px;" href="javascript:;"
-                               ng-click="startBuild($index)" ng-show="bc.build.status.phase != 'Running'"
-                               uib-tooltip="构建"></a>
-
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="5" class="td_colspan_li" style="" ng-if="items.length===0"><p class="blank_block">  <span class="blank_tit">{{text}}</span></p></td>
-                </tr>
-            </table>
-            <div class="text-center" ng-if="grid.total > 10">
-                <uib-pagination class="pagination"
-                                ng-model="grid.page"
-                                total-items="grid.total"
-                                items-per-page="grid.size"
-                                class="pagination-sm"
-                                boundary-links="false"
-                                max-size="12"
-                                rotate="true"
-                                previous-text="<"
-                                next-text=">"
-                                >
-                </uib-pagination>
+                <!--<a class="btn build-jia" ng-click="reload()" style="display:inline-block;">-->
+                    <!--<i class="fa fa-refresh fa-lg"></i>-->
+                <!--</a>-->
+            </div>
+            <div class="col-sm-4">
+            </div>
+            <div class="col-sm-4">
             </div>
 
+            <!--<div class="input-group col-sm-4 searchbar">-->
+            <!--&lt;!&ndash;<input type="text" class="form-control" placeholder="搜索Route名称" ng-keyup=search($event) ng-model="grid.txt">&ndash;&gt;-->
+            <!--&lt;!&ndash;<span class="input-group-btn">&ndash;&gt;-->
+            <!--&lt;!&ndash;<a class="btn" ng-click="scretssearch('search')"></a>&ndash;&gt;-->
+            <!--&lt;!&ndash;</span>&ndash;&gt;-->
+            <!--</div>-->
         </div>
+        <table class="table table-hover table-default table-buju" style="">
+            <tr>
+                <div class="row row_set"><!-- 20160921 jia 服务分类模块问题 -->
+                    <th class='col-lg-2 col-md-2 col-sm-1'>构建名称</th>
+                    <th class='col-lg-2 col-md-2 col-sm-2'>版本</th>
+                    <th class='col-lg-2 col-md-2 col-sm-2'>最近构建时间</th>
+                    <th class='col-lg-2 col-md-2 col-sm-3'>最近构建时长</th>
+                    <!--<th class='col-lg-1 col-md-1 col-sm-2' style='word-break:keep-all;white-space:nowrap;'>构建类型</th>-->
+                    <th class="col-lg-3 col-md-3 col-sm-3 table_headOperating" style=''>操作</th>
+                </div>
+
+            </tr>
+            <tr ng-repeat="bc in data">
+                <td class='buildname'
+                    style="">
+                    <a class="href-orange"
+                       ui-sref="console.pipeline_detail({namespace:namespace,name: bc.metadata.name})"
+                       uib-tooltip="{{bc.metadata.name}}"
+                       tooltip-placement="top">{{bc.metadata.name}}</a>
+                </td>
+                <td>
+                    <a class="href-orange"
+                       ui-sref="console.pipelinetag_detail({namespace:namespace,name: bc.metadata.name,tag:bc.build.metadata.annotations['openshift.io/build.number']})"
+                       tooltip-placement="top">#{{bc.build.metadata.annotations['openshift.io/build.number']}}</a>
+
+                </td>
+                <td><span uib-tooltip="{{bc.build.metadata.creationTimestamp | timescon}}">{{bc.build.metadata.creationTimestamp | dateRelative}}</span>
+                </td>
+                <td>{{bc.build.status.duration | duration}}</td>
+                <!--<td>-->
+                <!--<i ng-if="true" class="fa fa-hand-pointer-o">&nbsp;手动</i>-->
+                <!--<i ng-if="false" class="fa fa-television">&nbsp;自动</i>-->
+                <!--</td>-->
+                <td class="text-center threec OperatingContent" style="">
+                    <div class="row Operating"
+                         style=''>
+                        <div class="col-md-1 col-lg-1 col-sm-1">
+
+                        </div>
+                        <a class="icon25 icon25-start col-lg-4 col-md-4 col-sm-4"
+                           style="padding-left: 20px;" href="javascript:;"
+                           ng-click="startBuild($index)"
+                           uib-tooltip="构建"></a>
+
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5" class="td_colspan_li" style="" ng-if="items.length===0"><p class="blank_block"><span
+                        class="blank_tit">{{text}}</span></p></td>
+            </tr>
+        </table>
+        <div class="text-center" ng-if="grid.total > 10">
+            <uib-pagination class="pagination"
+                            ng-model="grid.page"
+                            total-items="grid.total"
+                            items-per-page="grid.size"
+                            class="pagination-sm"
+                            boundary-links="false"
+                            max-size="12"
+                            rotate="true"
+                            previous-text="<"
+                            next-text=">"
+            >
+            </uib-pagination>
+        </div>
+
     </div>
+</div>
 
 </div>
 <style>

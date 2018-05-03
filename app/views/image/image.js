@@ -47,8 +47,12 @@ angular.module('console.image', [
                 })
             }
             registryp.query(function (date) {
-                //console.log('regdate', date);
-                $scope.regdate=date;
+                console.log('regdate', date);
+                angular.forEach(date, function (time,i) {
+                    date.metadata={creationTimestamp:time.creation_time}
+                })
+
+                $scope.regdate=Sort.sort(date, -1);
             }, function (err) {
 
             })
@@ -455,7 +459,9 @@ angular.module('console.image', [
             // 我的镜像
             ImageStream.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (datalist) {
                 //$scope.images = res;
-                //console.log('is',datalist.items);
+                console.log('is',datalist.items);
+
+                datalist.items=Sort.sort(datalist.items, -1)
                 var connt = 0
                 if (datalist.items.length === 0) {
                     $scope.testlist = [];

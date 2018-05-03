@@ -129,7 +129,7 @@
                                 <!-- <a class="href-orange" ui-sref="console.service_detail({name: pod.metadata.name})">
                                     {{pod.metadata.name}}
                                 </a> -->
-                                <a class="href-orange" ui-sref="console.pods_detail({name: pod.metadata.name})">
+                                <a class="href-orange" ui-sref="console.pods_detail({namespace:namespace,name: pod.metadata.name})">
                                     {{pod.metadata.name}}
                                 </a>
                             </td>
@@ -170,7 +170,7 @@
             <div id="Environment">
                 <div class="detail_set">
                     <div ng-if="envOrigin.name">
-                        <div class='subtit'>Container {{envOrigin.name}} Environment Variables</div>
+                        <div class='subtit'>容器 {{envOrigin.name}} 的环境变量</div>
                         <div ng-if="envOrigin.env">
                             <div class="form_block">Name</div>
                             <div class="form_block">Value</div>
@@ -185,12 +185,12 @@
                             </div>
                         </div>
                         <div ng-if="!envOrigin.env" class="envi_main">
-                            <div class="col-md-10 tit">The container specification has no environment variables set.
+                            <div class="col-md-10 tit">此容器没有设置环境变量.
                             </div>
                         </div>
                     </div>
                     <div ng-if="envProxy.name">
-                        <div class='subtit'>Container {{envProxy.name}} Environment Variables</div>
+                        <div class='subtit'>容器 {{envProxy.name}} 的环境变量</div>
                         <div ng-if="envProxy.env">
                             <div class="form_block">Name</div>
                             <div class="form_block">Value</div>
@@ -205,7 +205,7 @@
                             </div>
                         </div>
                         <div ng-if="!envProxy.env" class="envi_main">
-                            <div class="col-md-10 tit">The container specification has no environment variables set.
+                            <div class="col-md-10 tit">此容器没有设置环境变量.
                             </div>
                         </div>
                     </div>

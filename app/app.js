@@ -64,8 +64,8 @@ define([
             host_k8s: '/api/v1',
             broker_apigroup: '/apis/prd.asiainfo.com/v1',
             broker_ws_apigroup: '/ws/apis/prd.asiainfo.com/v1',
-            host_newk8s: '/apis/autoscaling/v1',
             host_ws_apis: '/ws/apis/apps/v1beta1',
+            host_newk8s: '/apis/autoscaling/v1',
             host_ws_apisextensions: '/ws/apis/extensions/v1beta1',
             host_newk8s1: '/apis/apps/v1beta1',
             host_newk8s2: '/apis/extensions/v1beta1',
@@ -84,8 +84,8 @@ define([
             signin_uri: '/signin',
             //host_webhooks: 'https://lab.new.dataos.io',
             host_webhooks: '<WEBHOOK_PREFIX>',
-            // service_url: '.new.dataos.io',
-            service_url: '<ROUTER_DOMAIN_SUFFIX>',
+            service_url: '.prd.dataos.io',
+            //service_url: '<ROUTER_DOMAIN_SUFFIX>',
             //internal_registry:'docker-registry.default.svc:5000',
             internal_registry: '<INTERNAL_REGISTRY_ADDR>',
             //service_url:'.cloud.new.dataos.io',
@@ -3083,11 +3083,11 @@ define([
                 //console.log("Cookie.get('namespace')",Cookie.get('namespace'));
                 var namespace=Cookie.get('namespace')
                 $rootScope.app = [
-                    { name: 'Deployments', url: 'console.deployments@'+namespace, stateUrl: null, children: [] },
-                    { name: 'Stateful Sets', url: 'console.stateful-sets@'+namespace, stateUrl: null, children: [] },
-                    { name: 'Pods', url: 'console.pods@'+namespace, stateUrl: null, children: [] },
-                    { name: 'Services', url: 'console.services@'+namespace, stateUrl: null, children: [] },
-                    { name: 'Routes', url: 'console.routes@'+namespace, stateUrl: null, children: [] }
+                    { name: '部署镜像', url: 'console.deployments@'+namespace, stateUrl: null, children: [] },
+                    { name: '容器状态', url: 'console.pods@'+namespace, stateUrl: null, children: [] },
+                    { name: '服务地址', url: 'console.services@'+namespace, stateUrl: null, children: [] },
+                    { name: '域名管理', url: 'console.routes@'+namespace, stateUrl: null, children: [] },
+                    { name: '有状态集', url: 'console.stateful-sets@'+namespace, stateUrl: null, children: [] },
                 ];
                 $rootScope.resources = [
                     { name: '存储卷', url: 'console.resource_persistentVolume@'+namespace, stateUrl: null, children: [] },
@@ -3099,9 +3099,9 @@ define([
                     { name: '仪表盘', img: 'icon25 icon25-dashboard', url: 'console.dashboard@'+namespace, stateUrl: null, children: [] },
                     { name: '代码构建', img: 'icon25 icon25-build', url: 'console.build@'+namespace, stateUrl: null, children: [] },
                     { name: '镜像仓库', img: 'icon25 icon25-repository', url: 'console.image@'+namespace, stateUrl: null, children: [] },
-                    { name: 'Pipeline', img: 'icon25 icon25-repository', url: 'console.pipeline@'+namespace, stateUrl: null, children: [] },
-                    { name: '服务部署', img: 'icon25 icon25-deployment', url: null, stateUrl: null, children: $rootScope.app },
-                    { name: '后端服务', img: 'icon25 icon25-service', url: 'console.backing_service@'+namespace, stateUrl: null, children: [] },
+                    //{ name: '流水线', img: 'icon25 icon25-pipeline', url: 'console.pipeline@'+namespace, stateUrl: null, children: [] },
+                    { name: '容器应用', img: 'icon25 icon25-deployment', url: null, stateUrl: null, children: $rootScope.app },
+                    //{ name: '后端服务', img: 'icon25 icon25-service', url: 'console.backing_service@'+namespace, stateUrl: null, children: [] },
                     { name: '资源管理', img: 'icon25 icon25-resource', url: null, stateUrl: null, children: $rootScope.resources }
                 ];
                 if (toState && toState.name) {
@@ -3112,16 +3112,18 @@ define([
                         $rootScope.dataForTheTree[1].stateUrl = toState.name;
                     } else if (toState.name.indexOf('image') != -1) {
                         $rootScope.dataForTheTree[2].stateUrl = toState.name;
+                    } else if (toState.name.indexOf('pipeline') != -1) {
+                        $rootScope.dataForTheTree[3].stateUrl = toState.name;
                     } else if (toState.name.indexOf('deployment') != -1 || toState.name.indexOf('quick_deploy') != -1 || toState.name.indexOf('service_create') != -1) {
                         $rootScope.app[0].stateUrl = toState.name;
                     } else if (toState.name.indexOf('stateful-sets') != -1) {
-                        $rootScope.app[1].stateUrl = toState.name;
-                    } else if (toState.name.indexOf('pods') != -1) {
-                        $rootScope.app[2].stateUrl = toState.name;
-                    } else if (toState.name.indexOf('services') != -1 || toState.name.indexOf('service_details') != -1) {
-                        $rootScope.app[3].stateUrl = toState.name;
-                    } else if (toState.name.indexOf('route') != -1) {
                         $rootScope.app[4].stateUrl = toState.name;
+                    } else if (toState.name.indexOf('pods') != -1) {
+                        $rootScope.app[1].stateUrl = toState.name;
+                    } else if (toState.name.indexOf('services') != -1 || toState.name.indexOf('service_details') != -1) {
+                        $rootScope.app[2].stateUrl = toState.name;
+                    } else if (toState.name.indexOf('route') != -1) {
+                        $rootScope.app[3].stateUrl = toState.name;
                     }
                     // else if(toState.name.indexOf('resource_management') != -1 || toState.name.indexOf('constantly_') != -1 || toState.name.indexOf('config_') != -1 || toState.name.indexOf('create_secret') != -1 || toState.name.indexOf('secret_detail') != -1){
                     //     $rootScope.dataForTheTree[4].stateUrl = toState.name;

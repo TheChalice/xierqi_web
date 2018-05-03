@@ -9,8 +9,8 @@
             background-position-y:center;
         }
         #sidebar .tree-light li a.select {
-            background: #dcdfe8;
-            color:#333;
+            background: #8D9AAD;
+            color:#fff;
         }
 
 
@@ -25,7 +25,7 @@
         <a ng-if="activeStyle" ng-click="goUrl(node.url)" class="{{node.img}}" uib-tooltip="{{node.name}} " tooltip-placement="right">
         </a>
 
-        <span  ng-if="!activeStyle"  class="sbtn-bg {{node.img}}"></span>
+        <span ng-class="{'select':state.includes(node.stateUrl)}"  ng-if="!activeStyle"  class="sbtn-bg {{node.img}}"></span>
     </div>
     <!--<ul class="nav nav-pills nav-stacked nav-jia-pills">-->
 

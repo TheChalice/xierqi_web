@@ -186,9 +186,7 @@ define(['angular', 'moment'], function(angular, moment) {
                 return humanizedDuration.join("");
             };
         }])
-
-
-    .filter('durdate', [function() {
+        .filter('durdate', [function() {
         return function(um) {
             if (!um) {
                 return "-";
@@ -199,8 +197,7 @@ define(['angular', 'moment'], function(angular, moment) {
             return humanizedDuration;
         };
     }])
-
-    .filter('webhookURL', function(DataService) {
+        .filter('webhookURL', ['DataService',function(DataService) {
         return function(buildConfig, type, secret, project) {
           return DataService.url({
             // arbitrarily many subresources can be included
@@ -211,9 +208,8 @@ define(['angular', 'moment'], function(angular, moment) {
             namespace: project
           });
         };
-      })
-
-    .filter('durationtwo', [function() {
+      }])
+        .filter('durationtwo', [function() {
         return function(um, t) {
             var durstatus = new Date(t).getTime() - new Date(um).getTime();
             var duration = moment.duration(durstatus);
@@ -249,8 +245,7 @@ define(['angular', 'moment'], function(angular, moment) {
             return humanizedDuration.join("");
         };
     }])
-
-    .filter('phaseFilter', [function() {
+        .filter('phaseFilter', [function() {
             return function(phase) {
                 if (phase == "Complete") {
                     return "构建成功"
@@ -679,11 +674,11 @@ define(['angular', 'moment'], function(angular, moment) {
         .filter('deploymentStatus', ["annotationFilter", "hasDeploymentConfigFilter",
             function(annotationFilter, hasDeploymentConfigFilter) {
                 return function(deployment) {
-                    console.log("annotationFilter(deployment, 'deploymentCancelled')", annotationFilter(deployment, 'deploymentCancelled'));
+                    //console.log("annotationFilter(deployment, 'deploymentCancelled')", annotationFilter(deployment, 'deploymentCancelled'));
                     if (annotationFilter(deployment, 'deploymentCancelled')) {
                         return "Cancelled";
                     }
-                    console.log(annotationFilter(deployment, 'deploymentStatus'));
+                    //console.log(annotationFilter(deployment, 'deploymentStatus'));
                     var status = annotationFilter(deployment, 'deploymentStatus');
 
                     // If it is just an RC (non-deployment) or it is a deployment with more than 0 replicas
@@ -872,7 +867,7 @@ define(['angular', 'moment'], function(angular, moment) {
                 return ref;
             };
         })
-        .filter('deploymentIsLatest', function(annotationFilter) {
+        .filter('deploymentIsLatest',['annotationFilter',function(annotationFilter) {
             return function(deployment, deploymentConfig) {
                 if (!deploymentConfig || !deployment) {
                     return false;
@@ -881,23 +876,23 @@ define(['angular', 'moment'], function(angular, moment) {
                 var deploymentConfigVersion = deploymentConfig.status.latestVersion;
                 return deploymentVersion === deploymentConfigVersion;
             };
-        })
-        .filter('deploymentStatus', ['annotationFilter', 'hasDeploymentConfigFilter', function(annotationFilter, hasDeploymentConfigFilter) {
-            return function(deployment) {
-                //console.log('deployment', deployment);
-                // We should show Cancelled as an actual status instead of showing Failed
-                //console.log('annotationFilter', annotationFilter);
-                if (annotationFilter(deployment, 'deploymentCancelled')) {
-                    return "Cancelled";
-                }
-                var status = annotationFilter(deployment, 'deploymentStatus');
-                // If it is just an RC (non-deployment) or it is a deployment with more than 0 replicas
-                if (!hasDeploymentConfigFilter(deployment) || status === "Complete" && deployment.spec.replicas > 0) {
-                    return "Active";
-                }
-                return status;
-            };
         }])
+        //.filter('deploymentStatus', ['annotationFilter', 'hasDeploymentConfigFilter', function(annotationFilter, hasDeploymentConfigFilter) {
+        //    return function(deployment) {
+        //        //console.log('deployment', deployment);
+        //        // We should show Cancelled as an actual status instead of showing Failed
+        //        //console.log('annotationFilter', annotationFilter);
+        //        if (annotationFilter(deployment, 'deploymentCancelled')) {
+        //            return "Cancelled";
+        //        }
+        //        var status = annotationFilter(deployment, 'deploymentStatus');
+        //        // If it is just an RC (non-deployment) or it is a deployment with more than 0 replicas
+        //        if (!hasDeploymentConfigFilter(deployment) || status === "Complete" && deployment.spec.replicas > 0) {
+        //            return "Active";
+        //        }
+        //        return status;
+        //    };
+        //}])
         .filter('displayName', ["annotationFilter", function(annotationFilter) {
             // annotationOnly - if true, don't fall back to using metadata.name when
             //                  there's no displayName annotation
@@ -1031,7 +1026,7 @@ define(['angular', 'moment'], function(angular, moment) {
             };
         })
         // Returns the amount and unit for compute resources, normalizing the unit.
-        .filter('amountAndUnit', function(humanizeUnitFilter) {
+        .filter('amountAndUnit',['humanizeUnitFilter', function(humanizeUnitFilter) {
             return function(value, type, humanizeUnits) {
                 if (!value) {
                     return [value, null];
@@ -1050,7 +1045,7 @@ define(['angular', 'moment'], function(angular, moment) {
 
                 return [amount, unit];
             };
-        })
+        }])
         .filter('percent', function() {
             // Takes a number like 0.33 and returns "33%". `precision` is the optional
             // number of digits to appear after the decimal point.
@@ -1140,7 +1135,7 @@ define(['angular', 'moment'], function(angular, moment) {
             };
         })
         // Formats a compute resource value for display.
-        .filter('usageWithUnits', function(amountAndUnitFilter) {
+        .filter('usageWithUnits',['amountAndUnitFilter', function(amountAndUnitFilter) {
             return function(value, type) {
                 var toString = _.spread(function(amount, unit) {
                     if (!unit) {
@@ -1152,7 +1147,7 @@ define(['angular', 'moment'], function(angular, moment) {
 
                 return toString(amountAndUnitFilter(value, type, true));
             };
-        })
+        }])
         .filter('upperFirst', function() {
             // Uppercase the first letter of a string (without making any other changes).
             // Different than `capitalize` because it doesn't lowercase other letters.
@@ -1370,7 +1365,7 @@ define(['angular', 'moment'], function(angular, moment) {
                 return mount.readOnly ? 'read-only' : 'read-write';
             };
         })
-        .filter('jenkinsLogURL', function(annotationFilter) {
+        .filter('jenkinsLogURL',['annotationFilter', function(annotationFilter) {
             return function(build, asPlainText) {
                 var logURL = annotationFilter(build, 'jenkinsLogURL');
                 if (!logURL || asPlainText) {
@@ -1380,7 +1375,7 @@ define(['angular', 'moment'], function(angular, moment) {
                 // Link to the Jenkins console that follows the log instead of the raw log text.
                 return logURL.replace(/\/consoleText$/, '/console');
             };
-        })
+        }])
         .filter('startCase', function () {
             return function(str) {
                 if (!str) {

@@ -29,12 +29,12 @@
     color: #333;
     margin-bottom: 10px;
 }
-/*ÖÐÐÅÏîÄ¿ 20161214 jia add*/
+/*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ 20161214 jia add*/
 .tab-jia-default{border:none;box-shadow: none;}
 .tab-jia-default li.active .nav-link, .tab-jia-default li.active .nav-link:focus, .tab-jia-default li.active .nav-link:hover{
     border:0;
-    border-bottom:2px solid #e5993a;
-    color:#333;
+    border-bottom:2px solid #47B2FB;
+    color:#47B2FB;
 }
 .tab-jia-default .tab-content{border: 0;padding:30px 0;}
 .tab-jia-default li .nav-link:hover{color:#333;}

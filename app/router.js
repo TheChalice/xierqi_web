@@ -239,6 +239,24 @@ define([
                     }
                 })//ok
                 //pipeline
+                .state('console.create_pipeline', {
+                    url: '/:namespace/create-pipeline',
+                    templateUrl: 'views/create_pipeline/create_pipeline.html',
+                    params: {
+                        name: null
+                    },
+                    controller: 'CreatePiplineCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/create_pipeline/create_pipeline.js')
+                        }],
+                        createPipline: ['tempipline', 'Cookie', '$stateParams',
+                            function (tempipline, Cookie, $stateParams) {
+                                return tempipline.get({namespace: 'openshift'}).$promise
+                            }
+                        ]
+                    }
+                })//ok
                 .state('console.pipeline', {
                     url: '/:namespace/pipeline',
                     templateUrl: 'views/pipeline/pipeline.html',
@@ -618,14 +636,14 @@ define([
                 })//ok
                 .state('console.create_routes', {
                     url: '/:namespace/create-route/:name',
-                    templateUrl: 'views/create_file/create_routes/create_routes.html',
+                    templateUrl: 'views/create_routes/create_routes.html',
                     params: {
                         name: null
                     },
                     controller: 'CreateRoutesCtrl',
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/create_file/create_routes/create_routes.js')
+                            return $ocLazyLoad.load('views/create_routes/create_routes.js')
                         }],
                         createRoutes: ['Route', 'Cookie', '$stateParams',
                             function (Route, Cookie, $stateParams) {

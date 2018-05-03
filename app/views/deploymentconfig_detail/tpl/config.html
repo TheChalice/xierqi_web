@@ -5,33 +5,33 @@
     </div>
     <div class="row condigmaarginbottom">
         <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">Selectors:</div>
+            <div class="col-md-2 col-md-2_padding">选择器:</div>
             <div class="col-md-10">app = {{dc.metadata.name}} <br/> deploymentconfig = {{dc.metadata.name}}</div>
         </div>
         <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">Stratege:</div>
+            <div class="col-md-2 col-md-2_padding">策略:</div>
             <div class="col-md-10">{{dc.spec.strategy.type}}</div>
         </div>
         <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">Timeout:</div>
+            <div class="col-md-2 col-md-2_padding">超时:</div>
             <div class="col-md-10">{{dc.spec.strategy.rollingParams.timeoutSeconds}} sec</div>
         </div>
         <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">Update Period:</div>
+            <div class="col-md-2 col-md-2_padding">更新周期:</div>
             <div class="col-md-10">{{dc.spec.strategy.rollingParams.updatePeriodSeconds}} sec</div>
         </div>
         <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">Intervel:</div>
+            <div class="col-md-2 col-md-2_padding">间隔:</div>
             <div class="col-md-10">{{dc.spec.strategy.rollingParams.intervalSeconds}} sec</div>
         </div>
-        <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">Max Unavailable:</div>
-            <div class="col-md-10">{{dc.spec.strategy.rollingParams.maxUnavailable}}</div>
-        </div>
-        <div class="col-md-12">
-            <div class="col-md-2 col-md-2_padding">Max Surge:</div>
-            <div class="col-md-10">{{dc.spec.strategy.rollingParams.maxSurge}}</div>
-        </div>
+        <!--<div class="col-md-12 bushu_marginBottom">-->
+            <!--<div class="col-md-2 col-md-2_padding">Max Unavailable:</div>-->
+            <!--<div class="col-md-10">{{dc.spec.strategy.rollingParams.maxUnavailable}}</div>-->
+        <!--</div>-->
+        <!--<div class="col-md-12">-->
+            <!--<div class="col-md-2 col-md-2_padding">Max Surge:</div>-->
+            <!--<div class="col-md-10">{{dc.spec.strategy.rollingParams.maxSurge}}</div>-->
+        <!--</div>-->
     </div>
 
     <div class="row condigmaarginbottom">
@@ -47,7 +47,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="podlist" style="margin-left:15px;">Pod数
+                <div class="podlist" style="margin-left:15px;">Pod 数
                     <input class="podnum" ng-model="dc.spec.replicas" name="cdm"
                            type="text" placeholder=""
                            style="">
@@ -340,7 +340,7 @@
                         <div class="" ng-click="addconvol(outerIndex,'secret','secretName')"
                              style="cursor: pointer;margin-top: 3px; font-size: 14px;margin-bottom: 15px;">
                             <i class="fa fa-plus-circle fa-lg" style="cursor:pointer;"></i>
-                            &nbsp;<span style="color: #55c45f;">增加密钥卷</span>
+                            &nbsp;<span style="color: #47B2FB;">增加密钥卷</span>
                         </div>
                     </div>
                     <div><span>配置卷</span></div>
@@ -387,7 +387,7 @@
                         <div class="" ng-click="addconvol(outerIndex,'configMap','name')"
                              style="cursor: pointer;margin-top: 3px; font-size: 14px;margin-bottom: 15px;">
                             <i class="fa fa-plus-circle fa-lg" style="cursor:pointer;"></i>
-                            &nbsp;<span style="color: #55c45f;">增加配置卷</span>
+                            &nbsp;<span style="color: #47B2FB;">增加配置卷</span>
                         </div>
                     </div>
                     <div><span>存储卷</span></div>
@@ -433,7 +433,7 @@
                         <div class="" ng-click="addconvol(outerIndex,'persistentVolumeClaim','claimName')"
                              style="cursor: pointer;margin-top: 3px; font-size: 14px;margin-bottom: 15px;">
                             <i class="fa fa-plus-circle fa-lg" style="cursor:pointer;"></i>
-                            &nbsp;<span style="color: #55c45f;">增加存储卷</span>
+                            &nbsp;<span style="color: #47B2FB;">增加存储卷</span>
                         </div>
                     </div>
                     <div ng-if="container.emptyDir.length>0"><span>emptyDir</span></div>
@@ -475,7 +475,7 @@
                 <span class="usetest" style="margin-right: 18px;">
                     环境变量
                 </span>
-                <span style="font-size: 14px;font-weight: 300; cursor: pointer; color: orange;margin-left: 10px;"
+                <span style="font-size: 14px;font-weight: 300; cursor: pointer; color:#47B2FB;margin-left: 10px;"
                       ng-click="container.annotate.isShowEnv=!container.annotate.isShowEnv">
                     <i style="font-style: normal;" ng-show="!container.annotate.isShowEnv">展开</i>
                     <i style="font-style: normal;" ng-show="container.annotate.isShowEnv">收起</i>
@@ -511,7 +511,7 @@
                         <div class="" ng-click="addContainerEnv(outerIndex)"
                              style="cursor: pointer;margin-top: 10px; font-size: 14px;">
                             <i class="fa fa-plus-circle fa-lg" style="cursor:pointer;"></i>
-                            &nbsp;<span style="color: #55c45f;">增加环境变量</span>
+                            &nbsp;<span style="color: #47B2FB">增加环境变量</span>
                         </div>
                         <style>
                             .hhh .sss:last-child {
@@ -544,7 +544,7 @@
         <div class="row col-md-12">
             <span style="cursor: pointer;" ng-click="addcon()"><i class="fa fa-plus-circle fa-lg"
                                                                   style="cursor:pointer;"></i>
-            &nbsp;&nbsp;<span style="color: #55c45f">添加容器</span></span>
+            &nbsp;&nbsp;<span style="color: #47B2FB">添加容器</span></span>
 
         </div>
     </div>

@@ -528,8 +528,7 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                 }).result;
             };
         }])
-
-    .service('Alert', ['$uibModal', function($uibModal) {
+        .service('Alert', ['$uibModal', function($uibModal) {
             this.open = function(title, txt, err, regist, active) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/alert.html',
@@ -1013,8 +1012,8 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/modal_choose_image.html',
                     size: 'default modal-lg',
-                    controller: ['pubregistrytag', 'pubregistry', 'platform', 'regpro', '$rootScope', '$scope', '$uibModalInstance', 'images', 'ImageStreamTag', 'ImageStream', '$http', 'platformlist',
-                        function(pubregistrytag, pubregistry, platform, regpro, $rootScope, $scope, $uibModalInstance, images, ImageStreamTag, ImageStream, $http, platformlist) {
+                    controller: ['pubregistrytag', 'pubregistry', 'platform', 'regpro', '$rootScope', '$scope', '$uibModalInstance', 'images', 'ImageStreamTag', 'ImageStream', '$http', 'platformlist','Sort',
+                        function(pubregistrytag, pubregistry, platform, regpro, $rootScope, $scope, $uibModalInstance, images, ImageStreamTag, ImageStream, $http, platformlist,Sort) {
                             //console.log('images', images);
                             $scope.grid = {
                                 cat: 0,
@@ -1085,7 +1084,8 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                             });
 
                             $scope.images = images;
-
+                            $scope.images.items=Sort.sort($scope.images.items, -1)
+                            console.log('images', images);
                             $scope.selectCat = function(idx) {
                                 $scope.imageTags = {};
                                 $scope.images = {};
@@ -1355,6 +1355,8 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
                     if (!a.metadata) {
                         return 0;
                     }
+                    //console.log('new Date(a.metadata.creationTimestamp)).getTime()',new Date(a.metadata.creationTimestamp).getTime())
+
                     return reverse * ((new Date(a.metadata.creationTimestamp)).getTime() - (new Date(b.metadata.creationTimestamp)).getTime());
                 });
                 return items;
@@ -1546,8 +1548,31 @@ define(['angular', 'jsyaml'], function(angular, jsyaml) {
             };
 
         }])
+        .service('postapi', ['$rootScope','Route','DeploymentConfig','Service','BuildConfig','ImageStream',
+            function($rootScope,Route,DeploymentConfig,Service,BuildConfig,ImageStream) {
+            this.apis = function(sendobj) {
+                //console.log('sendobj', sendobj.kind);
+                if (sendobj.kind === 'Route') {
+                    Route.create({namespace: $rootScope.namespace}, sendobj, function (res) {
+                    })
+                }else if(sendobj.kind === 'DeploymentConfig'){
+                    DeploymentConfig.create({namespace: $rootScope.namespace}, sendobj, function (res) {
+                    })
+                }else if(sendobj.kind === 'Service'){
+                    Service.create({namespace: $rootScope.namespace}, sendobj, function (res) {
+                    })
+                }else if(sendobj.kind === 'BuildConfig'){
+                    BuildConfig.create({namespace: $rootScope.namespace}, sendobj, function (res) {
+                    })
+                }else if(sendobj.kind === 'ImageStream'){
+                    ImageStream.create({namespace: $rootScope.namespace}, sendobj, function (res) {
+                    })
+                }
+            };
+
+        }])
         .service('AuthService', ['account', '$timeout', '$q', 'orgList', '$rootScope', '$http', '$base64', 'Cookie', '$state', '$log', 'Project', 'GLOBAL', 'Alert', 'User',
-            function(account, $timeout, $q, orgList, $rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User) {
+                function(account, $timeout, $q, orgList, $rootScope, $http, $base64, Cookie, $state, $log, Project, GLOBAL, Alert, User) {
                 this.login = function(credentials, stateParams) {
                     //console.log("login", credentials);
                     //console.log("login", stateParams);

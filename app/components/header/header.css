@@ -1,6 +1,6 @@
 #header {/*jia 20170306*/
     height:55px;
-    background:#f8b551;
+    background:#303643;
     width:100%;min-width:1200px;
     /*box-shadow:-5px 3px 5px #f1f1f1;*/
 }
@@ -8,7 +8,7 @@
     padding-left: 27px;
     padding-right: 27px;
     height: 100%;
-    background-color: #f6a540;
+    background-color: #303643;
     float: left;
     cursor: pointer;
 }
@@ -28,10 +28,12 @@
 #header #header-title {
     float: left;
     margin-left: -25px;
-    color: #5a6378;
+    color: #fff;
     padding: 20px 15px 10px 40px;
-    font-size: 18px;
+    font-size: 16px;
 }
+#header #header-title span:nth-child(2){color:#A2B0C4}
+#header #header-title span:nth-child(2):hover{color:#fff}
 
 
 #header #header-menu {
@@ -120,7 +122,7 @@
 
 }
 .dropdown-menu > li > a{
-    font-size:12px;
+    font-size:14px;
     padding-top:0px;
     padding-bottom:0px;
     display:block;
@@ -187,14 +189,14 @@
 /*20161128 jia ͷ���޸� begin*/
 #header #header-brand{padding-left:19px;padding-right:19px;}
 
-#header #header-brand:hover{background-color: #f8b551;}
+#header #header-brand:hover{background-color:#303643;}
 #header #header-brand .header_logo{width:150px;height:18px;padding:0;margin-top:18px;}
 .data_bg{-webkit-transition:  background 300ms;-ms-transition:  background 300ms;-o-transition:  background 300ms;-moz-transition:  background 300ms;transition:  background 300ms;}
 
 .df_news{padding-left:14px;padding-right:14px;border-left:1px solid #f6a540;display:block;float:left;padding-top:18px;padding-bottom:16px;}
 .df_news:hover{background:#f6a540;}
 .header_area:hover{background:#f6a540;}
-.header_per:hover{background:#f6a540;}
+.header_per:hover{background:#242A39;}
 
 
 .df_h_com{width:20px;height:20px;display:inline-block;vertical-align:text-bottom;background-size:contain;margin-right:6px;float:left;}

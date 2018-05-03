@@ -199,6 +199,11 @@ angular.module('console.deploymentconfig_detail', [
                     name: dc.metadata.name,
                     region: $rootScope.region
                 }, dc, function (res) {
+                    toastr.success('操作成功', {
+                        timeOut: 2000,
+                        closeButton: true
+                    });
+                    $scope.active=1
                     $scope.dc = angular.copy(res);
                     console.log('$scope.dc', $scope.dc);
                     $scope.loaddirs.loadcon()
@@ -305,7 +310,9 @@ angular.module('console.deploymentconfig_detail', [
                         con.volumeMounts = []
                         if (volerr(con.volments)) {
                             cancreat = false
-                            toastr.error('失败,请重试', {
+
+                            toastr.error('操作失败,请重试', {
+
                                 timeOut: 2000,
                                 closeButton: true
                             });
@@ -320,7 +327,8 @@ angular.module('console.deploymentconfig_detail', [
                         delete con.volumeMounts
                         delete con.volments
                     }
-                    //reimage
+
+                    
                     if (!con.display) {
                         con.image=con.annotate.regimage
                     }
@@ -363,10 +371,7 @@ angular.module('console.deploymentconfig_detail', [
                         }, function (data) {
                             console.log('sdata', data);
                             puthor(data, $stateParams.name)
-                            toastr.success('操作成功', {
-                                timeOut: 2000,
-                                closeButton: true
-                            });
+
                         }, function (err) {
                             creathor()
                             toastr.error('删除失败,请重试', {

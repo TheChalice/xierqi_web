@@ -1,33 +1,8 @@
 'use strict';
 define(['angular'], function (angular) {
     return angular.module('myApp.fromFile', [])
-        .directive("fromFile", ['$filter',
-            '$location',
-            '$q',
-            '$state',
-            '$uibModal',
-            'APIService',
-            '$rootScope',
-            'DataService',
-            'QuotaService',
-            'SecurityCheckService',
-            'TaskList'
-            , function ($filter,
-                        $location,
-                        $q,
-                        $state,
-                        $uibModal,
-                        APIService,
-                        $rootScope,
-                        // CachedTemplateService,
-                        DataService,
-                        // Navigate,
-                        // NotificationsService,
-                        QuotaService,
-                        SecurityCheckService,
-                        TaskList
-                        // ,ProjectsService
-            ) {
+        .directive("fromFile", ['$filter', '$location', '$q', '$state', '$uibModal', 'APIService', '$rootScope', 'DataService', 'QuotaService', 'SecurityCheckService', 'TaskList',
+                function ($filter, $location, $q, $state, $uibModal, APIService, $rootScope, DataService, QuotaService, SecurityCheckService, TaskList) {
                 return {
                     restrict: "E",
                     scope: {
@@ -35,7 +10,7 @@ define(['angular'], function (angular) {
                         isDialog: '='
                     },
                     templateUrl: "views/directives/from-file.html",
-                    controller: function ($scope) {
+                    controller: ['$scope',function ($scope) {
                         var aceEditorSession;
                         $scope.noProjectsCantCreate = false;
 
@@ -570,7 +545,7 @@ define(['angular'], function (angular) {
                         // for an event for when the button is clicked.
                         $scope.$on('importFileFromYAMLOrJSON', $scope.create);
                         //$scope.$on('$destroy', hideErrorNotifications);
-                    }
+                    }]
                 };
             }])
 

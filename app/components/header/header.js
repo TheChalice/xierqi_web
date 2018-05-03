@@ -467,7 +467,13 @@ angular.module("console.header", [{
     return function(state) {
         switch (state) {
             case "console.deployments":
-                return "deployments"
+                return "镜像部署"
+            case "console.pipelinetag_detail":
+                return "流水线详情"
+            case "console.pipeline_detail":
+                return "流水线详情"
+            case "console.pipeline":
+                return "流水线"
             case "console.dashboard":
                 return "仪表盘"
             case "console.build":
@@ -484,8 +490,6 @@ angular.module("console.header", [{
                 return "镜像详情";
             case "console.image_regstry":
                 return "镜像详情";
-            case "console.service_details":
-                return "service详情";
             case "console.service_detail":
                 return "服务详情";
             case "console.service_create":
@@ -533,25 +537,27 @@ angular.module("console.header", [{
             case "console.dataseverdetail":
                 return "创建服务实例";
             case "console.stateful-sets-detail":
-                return "Stateful Sets 详情";
+                return "有状态集详情";
             case "console.stateful-sets":
-                return "Stateful Sets";
+                return "有状态集";
             case "console.create_routes":
-                return "Route 设置";
+                return "域名路由设置";
             case "console.routes":
-                return "Routes";
+                return "域名路由";
             case "console.route_detail":
-                return "Route 详情";
+                return "域名路由详情";
             case "console.deploymentconfig_detail":
-                return "Deploymentconfig 详情";
+                return "镜像部署 详情";
             case "console.deployment_detail":
-                return "Deployment 详情";
+                return "镜像部署 详情";
             case "console.pods":
-                return "Pods";
+                return "容器组";
             case "console.pods_detail":
-                return "Pod 详情";
+                return "容器组详情";
             case "console.services":
-                return "Services";
+                return "服务端口";
+            case "console.service_details":
+                return "服务端口详情";
             case "console.resource_persistentVolume":
                 return "存储卷";
             case "console.resource_configMap":

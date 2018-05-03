@@ -42,7 +42,7 @@
 }
 .color-orange{
     cursor: pointer;
-    color: #f6a540;
+   color:#47B2FB;
 }
 .color-orange:hover{
     color:#5b73eb;
@@ -165,7 +165,7 @@
     text-align: center;
 }
 .hotconname{
-    color: #f6a540;
+   color:#47B2FB;
     font-weight: bold;
     cursor: pointer;
 }

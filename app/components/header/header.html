@@ -158,12 +158,12 @@
         <div uib-dropdown on-toggle="toggled(open)">
             <a href="javascript:;" id="user-menu" class="per_block" uib-dropdown-toggle>
                 <i class="df_h_com" ng-class="{'df_h_per':!orgimage,'df_o_per':orgimage}"></i>
-                <span class="header_per_tit" title="新建部署"> Add to project</span>
+                <span class="header_per_tit" title="新建部署"> 功能菜单</span>
                 <b class="h_caret"></b>
             </a>
             <ul id="testjt" class="projectname" uib-dropdown-menu aria-labelledby="user-menu" style="max-height: 338px;border-top:0;border-right:0;overflow:auto;top:53px;right:0px;background: #f7fafc;border-radius:0;">
-                <li class="quick_bs" ui-sref="console.quick_deploy({namespace:namespace})"><a>快速部署</a></li>
-                <li class="quick_bs" ui-sref="console.import_from_file({namespace:namespace})"><a>Import YAML / JSON</a></li>
+                <!--<li class="quick_bs" ui-sref="console.quick_deploy({namespace:namespace})"><a>快速部署</a></li>-->
+                <li class="quick_bs" style="cursor: pointer;" ui-sref="console.import_from_file({namespace:namespace})"><a>导入 YAML / JSON</a></li>
             </ul>
         </div>
     </div>

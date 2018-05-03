@@ -2,7 +2,8 @@
 
 define(['angular'], function(angular) {
     return angular.module('myApp.modals', [])
-        .controller('ConfirmReplaceModalController', function($scope, $uibModalInstance) {
+        .controller('ConfirmReplaceModalController',['$scope','$uibModalInstance',
+                            function($scope, $uibModalInstance) {
 
             $scope.replace = function() {
                 $uibModalInstance.close('replace');
@@ -11,5 +12,5 @@ define(['angular'], function(angular) {
             $scope.cancel = function() {
                 $uibModalInstance.dismiss('cancel');
             };
-        });
+        }]);
 })

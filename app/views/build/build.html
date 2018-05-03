@@ -42,7 +42,7 @@
                     <div class="row row_set"><!-- 20160921 jia 服务分类模块问题 -->
                         <th class='col-lg-2 col-md-2 col-sm-1'>构建名称</th>
                         <th class='col-lg-2 col-md-2 col-sm-2'>最近构建状态</th>
-                        <th class='col-lg-2 col-md-2 col-sm-2'>最近构建时间</th>
+                        <th class='col-lg-2 col-md-2 col-sm-2'>创建时间</th>
                         <th class='col-lg-2 col-md-2 col-sm-3'>最近构建时长</th>
                         <!--<th class='col-lg-1 col-md-1 col-sm-2' style='word-break:keep-all;white-space:nowrap;'>构建类型</th>-->
                         <th class="col-lg-3 col-md-3 col-sm-3 table_headOperating" style=''>操作</th>
@@ -63,7 +63,7 @@
 
                         {{bc.build.status.phase | phaseFilter}}
                     </td>
-                    <td><span uib-tooltip="{{bc.build.metadata.creationTimestamp | timescon}}">{{bc.build.metadata.creationTimestamp | dateRelative}}</span>
+                    <td><span uib-tooltip="{{bc.metadata.creationTimestamp | timescon}}">{{bc.metadata.creationTimestamp | dateRelative}}</span>
                     </td>
                     <td>{{bc.build.status.duration | duration}}</td>
                     <!--<td>-->
@@ -78,7 +78,7 @@
                             <a class="icon25 icon25-image col-lg-4 col-md-4 col-sm-4"
                                ng-if="bc.spec.output && bc.spec.output.to && bc.spec.output.to.name"
                                ng-show="bc.build.status.phase !== 'Failed'"
-                               ui-sref="console.image_detail({bc: bc.metadata.name, name: bc.spec.output.to.name})"
+                               ui-sref="console.image_detail({namespace:namespace,bc: bc.metadata.name, name: bc.spec.output.to.name})"
                                uib-tooltip="查看镜像"></a>
                             <a class="icon25 icon25-start col-lg-4 col-md-4 col-sm-4" href="javascript:;"
                                ng-click="startBuild($index)" ng-show="bc.build.status.phase != 'Running'"

@@ -2,14 +2,15 @@
   <div class="row">
     <div class="col-lg-12">
       <h3 class="tit">
-        Status
+        概况
+        <!--Status-->
         <small ng-if="pod | isDebugPod">
           debugging
           <a ng-href="{{pod | debugPodSourceName | navigateResourceURL : 'Pod' : pod.metadata.namespace}}">{{pod | debugPodSourceName}}</a>
         </small>
       </h3>
       <dl class="dl-horizontal left">
-        <dt>Status:</dt>
+        <dt>状态:</dt>
         <dd class="dl_right_tit">
           <status-icon status="pod | podStatus"></status-icon>
           {{pod | podStatus | sentenceCase}}
@@ -20,7 +21,7 @@
         <dt ng-if-start="pod.status.message">Message:</dt>
         <dd ng-if-end>{{pod.status.message}}</dd>
         <dt ng-if-start="pod.metadata.labels.deploymentconfig">
-          Deployment:
+          服务:
         </dt>
         <dd ng-if-end>
           <span id="dt_set" ui-sref="console.deploymentconfig_detail({namespace:namespace,name:pod.metadata.labels.deploymentconfig})">
@@ -33,7 +34,8 @@
                   ><span ng-if="deploymentVersion">#{{deploymentVersion}}</span><span ng-if="!deploymentVersion">{{rcName}}</span></a></span> -->
         </dd>
         <dt ng-if-start="pod.metadata.labels['pod-template-hash']">
-          Replica Set:
+          <!--Replica Set:-->
+          副本:
         </dt>
        
         <dd ng-if-end>
@@ -41,37 +43,45 @@
             {{pod.metadata.ownerReferences[0].name}} 
             </span>
         </dd>
-        <dt ng-if-start="pod.metadata.deletionTimestamp && pod.spec.terminationGracePeriodSeconds">Grace Period:</dt>
-        <dd ng-if-end>
+        <!--<dt ng-if-start="pod.metadata.deletionTimestamp && pod.spec.terminationGracePeriodSeconds">-->
+          <!--Grace Period:-->
+        <!--</dt>-->
+        <!--<dd ng-if-end>-->
 
-          <span ng-if="pod.spec.terminationGracePeriodSeconds < 60">
-            {{pod.spec.terminationGracePeriodSeconds}} seconds
-          </span>
-          <span ng-if="pod.spec.terminationGracePeriodSeconds >= 60">
-            {{pod.spec.terminationGracePeriodSeconds | humanizeDurationValue : 'seconds'}}
-          </span>
-        </dd>
+          <!--<span ng-if="pod.spec.terminationGracePeriodSeconds < 60">-->
+            <!--{{pod.spec.terminationGracePeriodSeconds}} seconds-->
+          <!--</span>-->
+          <!--<span ng-if="pod.spec.terminationGracePeriodSeconds >= 60">-->
+            <!--{{pod.spec.terminationGracePeriodSeconds | humanizeDurationValue : 'seconds'}}-->
+          <!--</span>-->
+        <!--</dd>-->
         <dt>IP:</dt>
         <dd class="dl_right_tit">{{pod.status.podIP || 'unknown'}}</dd>
-        <dt>Node:</dt>
+        <dt>
+          <!--Node:-->
+          节点:
+        </dt>
         <dd class="dl_right_tit">{{pod.spec.nodeName || 'unknown'}}
           <span ng-if="pod.status.hostIP && pod.spec.nodeName != pod.status.hostIP">({{pod.status.hostIP}})</span>
         </dd>
-        <dt>Restart Policy:</dt>
+        <dt>
+          重启策略:
+          <!--Restart Policy:-->
+        </dt>
         <dd class="dl_right_tit">{{pod.spec.restartPolicy || 'Always'}}</dd>
-        <dt ng-if-start="pod.spec.activeDeadlineSeconds">Active Deadline:</dt>
-        <dd ng-if-end>
+        <!--<dt ng-if-start="pod.spec.activeDeadlineSeconds">Active Deadline:</dt>-->
+        <!--<dd ng-if-end>-->
 
-          <span ng-if="pod.spec.activeDeadlineSeconds < 60">
-            {{pod.spec.activeDeadlineSeconds}} seconds
-          </span>
-          <span ng-if="pod.spec.activeDeadlineSeconds >= 60">
-            {{pod.spec.activeDeadlineSeconds | humanizeDurationValue : 'seconds'}}
-          </span>
-          <!-- <span >
-                  (<duration-until-now timestamp="Pod.status.startTime"></duration-until-now> elapsed)
-                </span> -->
-        </dd>
+          <!--<span ng-if="pod.spec.activeDeadlineSeconds < 60">-->
+            <!--{{pod.spec.activeDeadlineSeconds}} seconds-->
+          <!--</span>-->
+          <!--<span ng-if="pod.spec.activeDeadlineSeconds >= 60">-->
+            <!--{{pod.spec.activeDeadlineSeconds | humanizeDurationValue : 'seconds'}}-->
+          <!--</span>-->
+          <!--&lt;!&ndash; <span >-->
+                  <!--(<duration-until-now timestamp="Pod.status.startTime"></duration-until-now> elapsed)-->
+                <!--</span> &ndash;&gt;-->
+        <!--</dd>-->
       </dl>
       <div>
         <container-statuses pod="pod" on-debug-terminal="debugTerminal" detailed="true"></container-statuses>
@@ -79,12 +89,15 @@
     </div>
     <div class="col-lg-12">
 
-      <h3 class="tit">Template</h3>
+      <h3 class="tit">模版</h3>
       <pod-template pod-template="pod" images-by-docker-reference="imagesByDockerReference" builds="builds" detailed="true">
       </pod-template>
 
-      <h4 class="tit tit_vol">Volumes</h4>
-      <volumes ng-if="pod.spec.volumes.length" volumes="pod.spec.volumes" namespace="project.metadata.name"></volumes>
+      <h4 class="tit tit_vol">
+        卷
+        <!--Volumes-->
+      </h4>
+      <volumes ng-if="pod.spec.volumes.length" name="namespace" volumes="pod.spec.volumes" namespace="project.metadata.name"></volumes>
       <div ng-if="!pod.spec.volumes.length">none</div>
       <!-- <p ng-if="dcName && ('deploymentconfigs' | canI : 'update')">
               <a ng-href="project/{{project.metadata.name}}/attach-pvc?kind=DeploymentConfig&name={{dcName}}">Add Storage to {{dcName}}</a>

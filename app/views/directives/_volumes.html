@@ -12,15 +12,22 @@
     </h4>
     <dl class="dl-horizontal left">
         <div ng-if="volume.secret">
-            <dt>Type:</dt>
+            <dt>类型:</dt>
             <dd>
-                secret
-                <span class="small text-muted">(populated by a secret when the pod is created)</span>
+                密钥卷
+                <!--secret-->
+                <span class="small text-muted">
+                    （secret）
+                    <!--(populated by a secret when the pod is created)-->
+                </span>
             </dd>
-            <dt>Secret:</dt>
+            <dt>
+                卷名称:
+                <!--Secret:-->
+            </dt>
             <dd>
                 <span ng-if="'secrets'">
-                    <span id="dt_set" ui-sref="console.secret_secret({name: volume.secret.secretName})">{{volume.secret.secretName}}</span>
+                    <span id="dt_set" ui-sref="console.secret_secret({namespace:name,name: volume.secret.secretName})">{{volume.secret.secretName}}</span>
                 </span>
                 <span ng-if="!('secrets')">
                     {{volume.secret.secretName}}
@@ -32,45 +39,66 @@
             </div>
         </div>
         <div ng-if="volume.persistentVolumeClaim">
-            <dt>Type:</dt>
+            <dt>类型:</dt>
             <dd>
-                persistent volume claim
-                <span class="small text-muted">(reference to a persistent volume claim)</span>
+                存储卷
+                <span class="small text-muted">
+                    （persistent volume claim）
+                    <!--(reference to a persistent volume claim)-->
+                </span>
             </dd>
-            <dt>Claim name:</dt>
+            <dt>
+                卷名称:
+                <!--Claim name:-->
+            </dt>
             <dd>
-                <span id="dt_set" ui-sref="console.constantly_persistentVolume({name:volume.persistentVolumeClaim.claimName})">
+                <span id="dt_set"
+                      ui-sref="console.constantly_persistentVolume({namespace:name,name:volume.persistentVolumeClaim.claimName})">
                     {{volume.persistentVolumeClaim.claimName}}</span>
             </dd>
-            <dt>Mode:</dt>
+            <dt>
+                模式:
+                <!--Mode:-->
+            </dt>
             <dd>
                 <span ng-if="volume.persistentVolumeClaim.readOnly">read-only</span>
                 <span ng-if="!volume.persistentVolumeClaim.readOnly">read-write</span>
             </dd>
         </div>
         <div ng-if="volume.hostPath">
-            <dt>Type:</dt>
+            <dt>类型:</dt>
             <dd>
-                host path
-                <span class="small text-muted">(bare host directory volume)</span>
+
+                主机目录
+                <span class="small text-muted">
+                    （hostpath）
+                    <!--(bare host directory volume)-->
+                </span>
             </dd>
-            <dt>Path:</dt>
+            <dt>路径:</dt>
             <dd>{{volume.hostPath.path}}</dd>
         </div>
         <div ng-if="volume.emptyDir">
-            <dt>Type:</dt>
+            <dt>类型:</dt>
             <dd>
-                empty dir
-                <span class="small text-muted">(temporary directory destroyed with the pod)</span>
+                临时目录
+                <span class="small text-muted">
+                    （emptydir）
+                    <!--(temporary directory destroyed with the pod)-->
+                </span>
             </dd>
-            <dt>Medium:</dt>
+            <dt>
+                介质:
+                <!--Medium:-->
+            </dt>
             <dd>
-                <span ng-if="!volume.emptyDir.medium">node's default</span>
+                <span ng-if="!volume.emptyDir.medium">节点默认</span>
+                <!--<span ng-if="!volume.emptyDir.medium">node's default</span>-->
                 <span ng-if="volume.emptyDir.medium">{{volume.emptyDir.medium}}</span>
             </dd>
         </div>
         <div ng-if="volume.gitRepo">
-            <dt>Type:</dt>
+            <dt>类型:</dt>
             <dd>
                 git repo
                 <span class="small text-muted">(pulled from git when the pod is created)</span>
@@ -81,7 +109,7 @@
             <dd ng-if-end>{{volume.gitRepo.revision}}</dd>
         </div>
         <div ng-if="volume.downwardAPI">
-            <dt>Type:</dt>
+            <dt>类型:</dt>
             <dd>
                 downward API
                 <span class="small text-muted">(populated with information about the pod)</span>
@@ -92,14 +120,17 @@
             </div>
         </div>
         <div ng-if="volume.configMap">
-            <dt>Type:</dt>
+            <dt>类型:</dt>
             <dd>
-                config map
-                <span class="small text-muted">(populated by a config map)</span>
+                配置卷
+                <span class="small text-muted">
+                    （configmap）
+                    <!--(populated by a config map)-->
+                </span>
             </dd>
-            <dt>Config Map:</dt>
+            <dt>卷名称:</dt>
             <dd>
-                <span id="dt_set" ui-sref="console.config_configMap({name:volume.configMap.name})">
+                <span id="dt_set" ui-sref="console.config_configMap({namespace:name,name:volume.configMap.name})">
                     {{volume.configMap.name}}</span>
             </dd>
             <div ng-repeat="item in volume.configMap.items">

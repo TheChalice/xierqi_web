@@ -7,7 +7,8 @@ angular.module('console.routes', [{
     }])
     .controller('RouteDetailCtrl', ['$rootScope','$state','$scope', 'Route', 'routeDetails', 'services', 'Cookie','Confirm','delTip','toastr',
         function($rootScope,$state,$scope, Route, routeDetails, services, Cookie,Confirm,delTip,toastr) {
-            $scope.text = "No routes have been added to project " + $scope.namespace + ".";
+            $scope.text = "无";
+            //$scope.text = "No routes have been added to project " + $scope.namespace + ".";
             if (routeDetails) {
                 $scope.route = routeDetails;
                 $scope.services = {};

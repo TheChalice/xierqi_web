@@ -76,8 +76,9 @@ angular.module('console.build', [
         //获取buildConfig列表
         var loadBuildConfigs = function() {
             BuildConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function(data){
-                //$log.info('buildConfigs', data);
+                $log.info('buildConfigs', data);
                 data.items = Sort.sort(data.items, -1); //排序
+                console.log('data.items', data.items);
                 //$scope.copydata = angular.copy(data.items);
                 $scope.data = [];
                 angular.forEach(data.items, function (item,i) {
@@ -217,7 +218,7 @@ angular.module('console.build', [
             };
             BuildConfig.instantiate.create({namespace: $rootScope.namespace, name: name,region:$rootScope.region}, buildRequest, function(){
                 $log.info("build instantiate success");
-                $state.go('console.build_detail', {name: name, from: 'create'})
+                $state.go('console.build_detail', {namespace:$rootScope.namespace,name: name, from: 'create'})
             }, function(res){
                 //todo 错误处理
             });

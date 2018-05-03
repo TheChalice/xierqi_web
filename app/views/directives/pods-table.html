@@ -6,11 +6,17 @@
     <thead>
         <tr>
             <th style="border-bottom-width:1px;background:#e6e9f2;border:none;">{{customNameHeader || 'Name'}}</th>
-            <th style="border-bottom-width:1px;background:#e6e9f2;border:none;">Status</th>
-            <th style="border-bottom-width:1px;background:#e6e9f2;border:none;">Containers Ready</th>
-            <th style="border-bottom-width:1px;background:#e6e9f2;border:none;">Container Restarts</th>
-            <th style="border-bottom-width:1px;background:#e6e9f2;border:none;">Age</th>
-            <th style="border-bottom-width:1px;background:#e6e9f2;border:none;" ng-if="activePods">Receiving Traffic</th>
+            <th style="border-bottom-width:1px;background:#e6e9f2;border:none;">状态</th>
+            <th style="border-bottom-width:1px;background:#e6e9f2;border:none;">就绪</th>
+            <th style="border-bottom-width:1px;background:#e6e9f2;border:none;">重启</th>
+            <th style="border-bottom-width:1px;background:#e6e9f2;border:none;">时长</th>
+            <th style="border-bottom-width:1px;background:#e6e9f2;border:none;" ng-if="activePods">接受流量</th>
+            <!--<th style="border-bottom-width:1px;background:#e6e9f2;border:none;">{{customNameHeader || 'Name'}}</th>-->
+            <!--<th style="border-bottom-width:1px;background:#e6e9f2;border:none;">Status</th>-->
+            <!--<th style="border-bottom-width:1px;background:#e6e9f2;border:none;">Containers Ready</th>-->
+            <!--<th style="border-bottom-width:1px;background:#e6e9f2;border:none;">Container Restarts</th>-->
+            <!--<th style="border-bottom-width:1px;background:#e6e9f2;border:none;">Age</th>-->
+            <!--<th style="border-bottom-width:1px;background:#e6e9f2;border:none;" ng-if="activePods">Receiving Traffic</th>-->
         </tr>
     </thead>
     <tbody ng-if="!sortedPods.length">
@@ -22,7 +28,7 @@
         <tr ng-repeat="pod in sortedPods track by (pod | uid)" class="animate-repeat">
             <td data-title="{{customNameHeader || 'Name'}}">
                 <!-- <a href="{{pod | navigateResourceURL}}">{{pod.metadata.name}}</a> -->
-                <a class="href-orange" ui-sref="console.pods_detail({name: pod.metadata.name})">
+                <a class="href-orange" ui-sref="console.pods_detail({namespace:namespace,name: pod.metadata.name})">
                         {{pod.metadata.name}}
                     </a>
                 <!-- <a href="">{{pod.metadata.name}}</a> -->

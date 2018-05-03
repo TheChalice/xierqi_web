@@ -5,9 +5,10 @@ angular.module('console.deployments', [{
             'views/apps/apps.css'
         ]
     }])
-    .controller('DeploymentsCtrl', ['$log','$rootScope', '$scope', 'replicas', 'mydcs', '$filter', 'mydeployment', 'ReplicaSet','Ws',
-        function($log,$rootScope, $scope, replicas, mydcs, $filter, mydeployment, ReplicaSet,Ws) {
-            $scope.text = "No deployments have been added to project " + $scope.namespace + ".";
+    .controller('DeploymentsCtrl', ['Sort','$log','$rootScope', '$scope', 'replicas', 'mydcs', '$filter', 'mydeployment', 'ReplicaSet','Ws',
+        function(Sort,$log,$rootScope, $scope, replicas, mydcs, $filter, mydeployment, ReplicaSet,Ws) {
+            $scope.text = "无";
+            //$scope.text = "No deployments have been added to project " + $scope.namespace + ".";
             $scope.grid = {
                 page: 1,
                 size: 10,
@@ -32,9 +33,14 @@ angular.module('console.deployments', [{
             };
 
             $scope.dc=angular.copy(mydcs);
+            $scope.dc.items=Sort.sort(mydcs.items, -1)
             $scope.replicas = angular.copy(replicas);
 
             $scope.deployment=angular.copy(mydeployment);
+            console.log('$scope.deployment.items', $scope.deployment.items);
+            $scope.deployment.items=Sort.sort(mydeployment.items, -1)
+            console.log('$scope.deployment.items', $scope.deployment.items);
+
             $scope.replicasets = angular.copy(ReplicaSet);
 
 
@@ -126,7 +132,7 @@ angular.module('console.deployments', [{
                     refreshTwo(newVal);
                 }
             });
-           function refreshTwo(page) {
+            function refreshTwo(page) {
                 var skip = (page - 1) * $scope.gridTwo.size;
                 $scope.deploymentTwoItem = $scope.mydeploylist.slice(skip, skip + $scope.gridTwo.size) || [];
             };

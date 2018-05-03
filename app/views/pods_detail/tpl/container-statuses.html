@@ -46,10 +46,13 @@
   </div>
   
   <div ng-repeat="containerStatus in pod.status.containerStatuses track by containerStatus.name" >
-    <h4 class="tit">Container {{containerStatus.name}}</h4>
+    <h4 class="tit">容器 {{containerStatus.name}}</h4>
   
     <dl class="dl-horizontal left">
-      <dt>State:</dt>
+      <dt>
+        状态:
+        <!--State:-->
+      </dt>
       <dd class="dl_right_tit">
         
         <p ng-repeat="(namea,nameb) in pod.status.containerStatuses[0].state">{{namea}} {{nameb.startedAt | durdate}} {{nameb.exitCode}} {{nameb.reason}} </p>
@@ -60,9 +63,15 @@
           <p ng-repeat="(namex,namey) in pod.status.containerStatuses[0].lastState">{{namex}} {{namey.finishedAt | durdate}} {{namey.exitCode}} {{namey.reason}} </p>
         <!-- <kubernetes-object-describe-container-state container-state="containerStatus.lastState"></kubernetes-object-describe-container-state> -->
       </dd>
-      <dt>Ready:</dt>
+      <dt>
+        就绪:
+        <!--Ready:-->
+      </dt>
       <dd class="dl_right_tit">{{containerStatus.ready}}</dd>
-      <dt>Restart Count:</dt>
+      <dt>
+        重启次数:
+        <!--Restart Count:-->
+      </dt>
       <dd class="dl_right_tit">{{containerStatus.restartCount}}</dd>
   
       <!-- <div ng-if="hasDebugTerminal && showDebugAction(containerStatus) && ('pods' | canI : 'create')" class="debug-pod-action">

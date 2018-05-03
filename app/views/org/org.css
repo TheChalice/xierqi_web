@@ -79,7 +79,7 @@ ul,li,ol{
     font-size: 16px;
     border-radius: 2px;
     font-weight: bold;
-    color: #f6a540;
+   color:#47B2FB;
 }
 .mianfei {
     width: 60px;
@@ -340,8 +340,11 @@ article .peie {
     border-top: 0;
     border-left: 0;
     border-right: 0;
-    border-bottom:2px solid #f6a540;
+    border-bottom:2px solid #47B2FB;
     color:#333;
 }
 .tab-jia-default .tab-content{border: 0;padding:30px 0;}
 .tab-jia-default li .nav-link:hover{color:#333;}
+
+.change_tit{color:#47B2FB;}
+.change_tit:hover{color:#98D4FD;}

@@ -8,13 +8,13 @@
     /*border: 1px solid #5a6378; /!*16 12-14 by zn for zhongxin*!/*/
     border-radius: 2px;
     text-decoration: none;
-    color: black;
+    color: #A2B0C4;
 
     cursor: pointer;
 }
-.service-create .tab-cube:active, .service-create .tab-cube:hover, .service-create .tab-cube.active {
+.service-create .tab-cube.active {
     /*border: 1px solid #55c45f;*/
-    color: #55c45f;
+    color: #475669;
     /*color: #4960e6;*/
 }
 .bgcgray {

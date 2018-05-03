@@ -19,7 +19,7 @@ define(['angular',
         })
 
         .factory('DataService', ['$http', '$rootScope', '$q', '$timeout', 'API_CFG', 'APIService', '$cacheFactory',
-            function($http, $rootScope, $q, $timeout, API_CFG, APIService, $cacheFactory) {
+                    function($http, $rootScope, $q, $timeout, API_CFG, APIService, $cacheFactory) {
 
                 // Accept PartialObjectMetadataList. Unfortunately we can't use the Accept
                 // header to fallback to JSON due to an API server content negotiation bug.
@@ -1402,19 +1402,8 @@ define(['angular',
             }
         ])
 
-        .factory('APIService', function(
-            API_CFG,
-            APIS_CFG,
-            $resource,
-            // API_PREFERRED_VERSIONS,
-            // AuthService,
-            Constants,
-            // Logger,
-            Cookie,
-            $q,
-            $http,
-            $filter,
-            $window) {
+        .factory('APIService',['API_CFG','APIS_CFG','$resource','Constants','Cookie','$q','$http','$filter','$window', function(
+                     API_CFG, APIS_CFG, $resource, Constants, Cookie, $q, $http, $filter, $window) {
             // Set the default api versions the console will use if otherwise unspecified
             var defaultVersion = {
                 "": "v1",
@@ -1768,9 +1757,10 @@ define(['angular',
                 // availableKinds: availableKinds,
                 //getPreferredVersion: getPreferredVersion
             };
-        })
+        }])
 
-        .factory('TaskList', function($timeout) {
+        .factory('TaskList', ['$timeout',
+                function($timeout) {
 
             // Maximum amount of time that a successful task will hang around after completion
             var TASK_TIMEOUT = 60 * 1000;
@@ -1834,21 +1824,10 @@ define(['angular',
 
 
             return taskList;
-        })
+        }])
 
         .factory("QuotaService", ['APIService', '$filter', '$rootScope', '$q', 'Constants', 'DataService',
-            function(APIService,
-                $filter,
-                //$location,
-                $rootScope,
-                // $routeParams,
-                $q,
-                Constants,
-                DataService,
-                // EventsService,
-                // Logger,
-                // NotificationsService
-            ) {
+                    function(APIService, $filter, $rootScope, $q, Constants, DataService) {
                 var isNil = $filter('isNil');
                 var usageValue = $filter('usageValue');
                 var usageWithUnits = $filter('usageWithUnits');
@@ -2271,7 +2250,8 @@ define(['angular',
             }
         ])
 
-        .factory("SecurityCheckService", function(APIService, $filter, Constants) {
+        .factory("SecurityCheckService",['APIService','$filter','Constants',
+                    function(APIService, $filter, Constants) {
             var humanizeKind = $filter('humanizeKind');
             var getSecurityAlerts = function(resources, project) {
                 var alerts = [];
@@ -2372,7 +2352,7 @@ define(['angular',
                 // Returns: Array of alerts
                 getSecurityAlerts: getSecurityAlerts
             };
-        });
+        }]);
     })
     // ResourceGroupVersion represents a fully qualified resource
 function ResourceGroupVersion(resource, group, version) {
