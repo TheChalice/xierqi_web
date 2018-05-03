@@ -636,14 +636,14 @@ define([
                 })//ok
                 .state('console.create_routes', {
                     url: '/:namespace/create-route/:name',
-                    templateUrl: 'views/create_file/create_routes/create_routes.html',
+                    templateUrl: 'views/create_routes/create_routes.html',
                     params: {
                         name: null
                     },
                     controller: 'CreateRoutesCtrl',
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load('views/create_file/create_routes/create_routes.js')
+                            return $ocLazyLoad.load('views/create_routes/create_routes.js')
                         }],
                         createRoutes: ['Route', 'Cookie', '$stateParams',
                             function (Route, Cookie, $stateParams) {
