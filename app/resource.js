@@ -17,27 +17,20 @@ define([
 
                 var wsscheme = "wss://";
                 if (window.location.protocol != "https:") {
-                    // wsscheme = "wss://";
                     wsscheme = "ws://";
                 }
 
                 var host = wsscheme + location.host;
-                //console.log('host', host);
-                //console.log('location', location);
 
-                // var host = wsscheme;
-                //var tokens = Cookie.get('df_access_token');
                 var regions = Cookie.get('region');
 
-                //var tokenarr = tokens.split(',');
                 var region = regions.split('-')[2];
 
                 var token = '';
-                //var token = tokenarr[region-1];
 
                 if (params.api == 'k8s') {
                     host = host + GLOBAL.host_wss_k8s;
-                    // host=host+'dev.dataos.io:8443/api/v1';
+
                 } else if (params.api == 'broker') {
                     //var token = tokenarr[0];
                     host = host + GLOBAL.broker_ws_apigroup;
