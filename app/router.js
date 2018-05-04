@@ -313,6 +313,8 @@ define([
                     }
                 })//ok
                 //app
+
+                //新建deployment
                 .state('console.deployments', {
                     url: '/:namespace/deployments',
                     templateUrl: 'views/apps/deployments/deployments.html',
@@ -519,7 +521,7 @@ define([
                         ],
                     }
                 })//ok
-
+                //pods详情
                 .state('console.pods', {
                     url: '/:namespace/pods',
                     templateUrl: 'views/apps/pods/pods.html',
@@ -985,7 +987,7 @@ define([
                         }]
                     }
                 })
-                //pods详情
+
 
                 //新建routes
 
