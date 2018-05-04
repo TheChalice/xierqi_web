@@ -201,7 +201,7 @@ angular.module('console.build', [
 
         loadBuildConfigs();
 
-        $scope.refresh = function(){
+        $scope.reload = function(){
             loadBuildConfigs();
             $scope.grid.page = 1;
             $state.reload();
