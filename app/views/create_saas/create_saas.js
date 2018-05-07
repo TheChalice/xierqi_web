@@ -56,11 +56,7 @@ angular.module('console.create_saas', [
                 //});
 
             })
-            //secretskey.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (res) {
-            //    //console.log('-------loadsecrets', res);
-            //    $scope.secremnamearr=res.items;
-            //
-            //})
+           
 
 
             var rex =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
