@@ -26,15 +26,7 @@ angular.module('console.backing_service', [
 
                 }
                 return filtered;
-                // angular.forEach(items, function (item) {
-                //   var str = item.metadata.name.toLowerCase()
-                //   // console.log(condition.name,str)
-                //   if (str.indexOf(condition.name)!=-1) {
-                //     filtered.push(item);
-                //   }
-                // });
-                // console.log(filtered)
-                // return filtered;
+
             }
             else {
                 angular.forEach(items, function (item) {
