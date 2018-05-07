@@ -36,7 +36,11 @@ angular.module('console.resource_management', [
                     rmrefresh(newVal);
                 }
             });
-
+            $scope.constantlyvolume = function () {
+                $scope.grid.constantlyvolume = true;
+                persistentlist('nows');
+                $state.reload();
+            }
             var rmrefresh = function (page) {
                 $(document.body).animate({
                     scrollTop: 0
@@ -47,11 +51,7 @@ angular.module('console.resource_management', [
 
             };
 
-            $scope.constantlyvolume = function () {
-                $scope.grid.constantlyvolume = true;
-                persistentlist('nows');
-                $state.reload();
-            }
+
 
             function persistentlist(nows) {
                 persistent.get({
