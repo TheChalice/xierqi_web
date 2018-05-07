@@ -83,7 +83,7 @@ angular.module('console.apply_instance', [
                                     $scope.namerr.repeated = true;
 
                                 }
-                                //console.log($scope.namerr.repeated);
+
                             })
                         }
 
@@ -100,7 +100,7 @@ angular.module('console.apply_instance', [
                 }else {
                     return
                 }
-                //var plan = $scope.data[$scope.grid.checked];
+
                 $scope.bsi.spec.provisioning.backingservice_plan_guid=$scope.data[$scope.grid.checked].id
                 BackingServiceInstance.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.bsi,function(){
                     $scope.grid.error=false
