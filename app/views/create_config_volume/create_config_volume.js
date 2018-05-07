@@ -139,7 +139,14 @@ angular.module('console.create_config_configMap', [
     }
 
     /////手动配置
+    configmaps.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (res) {
 
+        $scope.cfmnamearr=res.items;
+
+
+
+
+    })
     $scope.addConfig = function () {
         $scope.volume.configitems.push({key: '', value: ''});
 
@@ -161,33 +168,7 @@ angular.module('console.create_config_configMap', [
     $scope.namefocus = function () {
         $scope.namerr.nil = false
     }
-    configmaps.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (res) {
-        // console.log(res);
-        //if (res.items && res.items.length > 0) {
-        //    angular.forEach(res.items, function (item, i) {
-        //        res.items[i].sorttime = (new Date(item.metadata.creationTimestamp)).getTime()
-        //    })
-        //    //console.log($scope.items);
-        //    res.items.sort(function (x, y) {
-        //        return x.sorttime > y.sorttime ? -1 : 1;
-        //    });
-        //    if (!res.items) {
-        //        $scope.configdata = [];
-        //    } else {
-        //        $scope.configdata = res.items;
-        //    }
-        //    $scope.copyconfigdata = angular.copy($scope.configdata)
-        //    $scope.grid.total = $scope.configdata.length;
-        //    $scope.grid.page = 1;
-        //    $scope.grid.txt = '';
-        //    refresh(1);
-        //}
-        $scope.cfmnamearr=res.items;
 
-        
-
-
-    })
 
     var rex =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
     
