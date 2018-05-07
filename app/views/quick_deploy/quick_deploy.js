@@ -14,7 +14,9 @@ angular.module('console.quick_deploy', [
                 display: 1,
                 configregistry: false
             }
-
+            DeploymentConfig.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
+                $scope.servelist = data;
+            })
             $scope.err = {
                 url: {
                     null: false,
@@ -149,10 +151,7 @@ angular.module('console.quick_deploy', [
                 "status": {}
             }
 
-            DeploymentConfig.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
-                $scope.servelist = data;
-                //console.log('scope.servelist', $scope.servelist);
-            })
+
 
             $scope.$watch('fuwuname', function (n, o) {
                 if (n == o) {
