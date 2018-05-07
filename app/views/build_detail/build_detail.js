@@ -57,18 +57,6 @@ angular.module('console.build.detail', [
                         data.spec.source.git.uri = 'https://' + parser.hostname + parser.pathname
                     }
 
-                    //var parser = document.createElement('a');
-                    //
-                    //parser.href = host;
-                    //
-                    //console.log(parser.protocol); // => "http:"
-                    //console.log(parser.hostname); // => "example.com"
-                    //console.log(parser.port);     // => "3000"
-                    //console.log(parser.pathname); // => "/pathname/"
-                    //console.log(parser.hash);     // => "#hash"
-                    //console.log(parser.host);     // => "example.com:3000"
-                    //$log.info("printhost%%%%", host);
-
                     if (data.spec && data.spec.completionDeadlineSeconds) {
                         $scope.grid.completionDeadlineMinutes = parseInt(data.spec.completionDeadlineSeconds / 60);
                     }
