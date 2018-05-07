@@ -32,7 +32,7 @@ angular.module('console.image', [
     .controller('ImageCtrl', ['registryptag','registryp','pubregistrytag','pubregistry','regpro','platformone','ImageStream', '$filter', '$state', '$q', '$http', 'platform', '$rootScope', '$scope', '$log', 'ImageStreamTag', 'BuildConfig', 'Build', 'GLOBAL', 'Sort',
         function (registryptag,registryp,pubregistrytag,pubregistry,regpro,platformone,ImageStream, $filter, $state, $q, $http, platform, $rootScope, $scope, $log, ImageStreamTag, BuildConfig, Build, GLOBAL, Sort) {
             // 数组去重
-            //console.log('$state', $state.params.index);
+
             $scope.primage = [];
             $scope.proname=''
             $scope.changename= function (reg) {
