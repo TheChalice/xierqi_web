@@ -27,7 +27,12 @@ angular.module('console.rc', [
                     });
                 });
             };
-
+            $scope.changeScale = function () {
+                $scope.isShow = !$scope.isShow;
+            };
+            $scope.cancel = function () {
+                $scope.isShow = !$scope.isShow;
+            };
             var getMyrc = function () {
                 $scope.replicaSet = angular.copy(myrc);
                 // console.log('$scope.replicaSet', $scope.replicaSet);
@@ -64,12 +69,7 @@ angular.module('console.rc', [
                         $scope.replicaSet.spec.replicas = res.spec.replicas;
                     })
                 };
-                $scope.changeScale = function () {
-                    $scope.isShow = !$scope.isShow;
-                };
-                $scope.cancel = function () {
-                    $scope.isShow = !$scope.isShow;
-                };
+
                 var deploymentStatus = $filter('deploymentStatus');
                 var deploymentIsLatest = $filter('deploymentIsLatest');
                 $scope.showRollbackAction = function() {
