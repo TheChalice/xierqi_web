@@ -91,9 +91,6 @@ angular.module('console.dashboard', [
             };
 
             Project.get({region: $rootScope.region}, function (data) {
-                //$rootScope.projects = data.items;
-                //console.log('Project', Project);
-                //var newprojects = [];
                 angular.forEach(data.items, function (item, i) {
                     if (item.metadata.name === $rootScope.namespace) {
                         $scope.projectname = item.metadata.annotations['openshift.io/display-name'] === '' ? item.metadata.name : item.metadata.annotations['openshift.io/display-name'];
