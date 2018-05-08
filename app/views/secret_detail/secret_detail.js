@@ -264,9 +264,7 @@ angular.module('console.secret_secret', [
                 })
             }
             $scope.delete = function () {
-                //delSecret.del({namespace: $rootScope.namespace}, function () {
-                //    $state.go('console.resource_management', {index: 3})
-                //})
+                /Users/sorcerer/Desktop/datafoundry_web/app/views/secret_detail/secret_detail.js
                 Confirm.open("删除密钥卷", "您确定要删除密钥卷吗？", "密钥已经挂载在容器中，删除此密钥，容器启动将异常", "stop").then(function(){
 
                     deleteSecret.delete({namespace: $rootScope.namespace,region:$rootScope.region,name:$scope.item.metadata.name}, function () {
