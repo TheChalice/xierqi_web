@@ -28,12 +28,6 @@
                     Roll Back
                 </button>
                 </div>
-                <!-- disabled until we have an api endpoint for retry
-                <button ng-show="(replicaSet | deploymentStatus) == 'Failed'" type="button" ng-click="retryFailedDeployment(replicaSet)" ng-disabled="(deploymentConfigDeploymentsInProgress[deploymentConfigName] | hashSize) > 0" class="btn btn-default btn-xs" ng-if="(replicaSet | deploymentIsLatest : deploymentConfig) && !replicaSet.metadata.deletionTimestamp">Retry</button>
-                -->
-                <!--<button ng-show="(replicaSet) && !replicaSet.metadata.deletionTimestamp && ('replicationcontrollers')"-->
-                  <!--type="button" ng-click="cancelRunningDeployment(replicaSet)"-->
-                  <!--class="btn btn-default btn-xs">Cancel</button>-->
             </span>
         </div>
     </div>
