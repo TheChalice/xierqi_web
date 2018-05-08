@@ -699,14 +699,14 @@ angular.module('console.build.detail', [
 
             $scope.delete = function (idx) {
                 var title = "删除构建";
-                var msg = "您确定要删除构建吗？";
-                var tip = "删除构建将清除构建的所有历史数据以及相关的镜像，该操作不能被恢复";
+                var msg = "您确定要删除构建记录吗？";
+                //var tip = "删除构建将清除构建的所有历史数据以及相关的镜像，该操作不能被恢复";
 
                 var name = $scope.databuild.items[idx].metadata.name;
                 if (!name) {
                     return;
                 }
-                Confirm.open(title, msg, tip, 'recycle').then(function () {
+                Confirm.open(title, msg, '', 'recycle').then(function () {
                     Build.remove({ namespace: $rootScope.namespace, name: name }, function () {
                         $log.info("deleted");
                         toastr.success('操作成功', {
