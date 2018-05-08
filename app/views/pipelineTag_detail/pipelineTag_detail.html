@@ -45,10 +45,9 @@
                             <span ng-switch-when="Failed">{{buildSet.status.startTimestamp | duration : buildSet.status.completionTimestamp}}</span>
                             <span ng-switch-when="Running">running for <duration-until-now
                                     timestamp="buildSet.status.startTimestamp"></duration-until-now></span>
-                            <span ng-switch-when="Pending">waiting for <duration-until-now
+                            <span ng-switch-when="Pending">waiting for
+                                <duration-until-now
                                     timestamp="buildSet.metadata.creationTimestamp"></duration-until-now></span>
-                            <!--<span ng-switch-when="New">waiting for {{buildSet.metadata.creationTimestamp}}-->
-                            <!--<span uib-tooltip="{{buildSet.metadata.creationTimestamp | timescon}}">{{buildSet.metadata.creationTimestamp | dateRelative}}-->
                             <span ng-switch-when="New">waiting for {{buildSet.metadata.creationTimestamp | dateRelative}}
                             </span>
                             <span ng-switch-default>
