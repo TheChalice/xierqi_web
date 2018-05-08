@@ -490,6 +490,8 @@ angular.module("console.header", [{
                 return "镜像详情";
             case "console.image_regstry":
                 return "镜像详情";
+            case "console.primage_detail":
+                return "镜像详情";
             case "console.service_detail":
                 return "服务详情";
             case "console.service_create":
