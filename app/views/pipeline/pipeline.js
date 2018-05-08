@@ -79,7 +79,7 @@ angular.module('console.pipeline', [
                 //$log.info('buildConfigs', data.metadata.resourceVersion);
                 data.items = Sort.sort(data.items, -1); //排序
 
-                //$scope.copydata = angular.copy(data.items);
+
                 $scope.data =[]
                 angular.forEach(data.items, function (item,i) {
                     if (item.spec.strategy.type==="JenkinsPipeline") {
