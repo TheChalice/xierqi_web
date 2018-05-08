@@ -90,9 +90,6 @@ angular.module('console.user', ['kubernetesUI',
             //    console.log('test project', data);
             //})
             Project.get({region: $rootScope.region}, function (data) {
-                //$rootScope.projects = data.items;
-                //console.log('Project', Project);
-                //var newprojects = [];
                 angular.forEach(data.items, function (item, i) {
                     //    //console.log($rootScope.user.metadata.name);
                     //    if (item.metadata.name === $rootScope.user.metadata.name) {
