@@ -8,6 +8,7 @@ angular.module('console.constantly_persistentVolume', [
         function (delorders, orders, Confirm, delvolume, volume, DeploymentConfig, persistent, $stateParams, $state, $http, $scope, $rootScope, toastr) {
             //console.log($stateParams.name);
             $scope.name = $stateParams.name
+            $scope.guazai = '未挂载'
             persistent.get({
                 namespace: $rootScope.namespace,
                 name: $stateParams.name,
@@ -19,6 +20,7 @@ angular.module('console.constantly_persistentVolume', [
                     angular.forEach(dcres.items, function (dcitem, i) {
                         angular.forEach(dcitem.spec.template.spec.volumes, function (item, i) {
                             if (item.persistentVolumeClaim && res.metadata.name == item.persistentVolumeClaim.claimName) {
+                                $scope.guazai = '已挂载'
                                 res.arr.push(dcitem.metadata.name)
                             }
                         })
