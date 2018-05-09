@@ -875,11 +875,11 @@ angular.module('console.service.create', [
                     $scope.dc.spec.template.spec.containers[idx].secretsobj = volumesobj.arr3
                 }, function (close) {
                     //console.log(close);
-                    if (close == 'cancel') {
-                        $scope.dc.spec.template.spec.containers[idx].volumeMounts = [];
-                        $scope.dc.spec.template.spec.volumes = [];
-                        $scope.dc.spec.template.spec.containers[idx].secretsobj = [];
-                    }
+                    //if (close == 'cancel') {
+                    //    $scope.dc.spec.template.spec.containers[idx].volumeMounts = [];
+                    //    $scope.dc.spec.template.spec.volumes = [];
+                    //    $scope.dc.spec.template.spec.containers[idx].secretsobj = [];
+                    //}
                 });
             }
 

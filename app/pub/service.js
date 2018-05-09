@@ -676,6 +676,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/choosSecret.html',
                     size: 'default',
+                    backdrop:'static',
                     controller: ['by', '$scope', '$uibModalInstance', '$log', 'secretskey', '$rootScope', 'configmaps', 'persistent', '$state',
                         function (by, $scope, $uibModalInstance, $log, secretskey, $rootScope, configmaps, persistent, $state) {
                             $scope.secretarr = secretsobj.secretarr;
@@ -1856,7 +1857,9 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                     }
                     //console.log(tokens,token, regions);
                     if (config.headers && token) {
+                        //console.log('window.location.pathname', window.location);
                         config.headers["Authorization"] = "Bearer " + token;
+                        config.headers["Sso"] = window.location.href;
                     }
 
                     if (/^\/hawkular/.test(config.url)) {
