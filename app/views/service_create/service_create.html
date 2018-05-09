@@ -425,13 +425,17 @@
                                                                 </select>
                                                             </div>
                                                             <div class="col-sm-3">
-                                                                <input type="text" maxlength="5" style="height:23px;" class="input-small" onkeyup="value=value.replace(/[^\d]/g,'')"
+                                                                <input type="text" maxlength="5" style="height:23px;" class="input-small"
+                                                                       onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                                                       onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
                                                                        ng-class="{'input-error':port.conflict}"
                                                                        placeholder="例如：80"
                                                                        ng-model="port.containerPort">
                                                             </div>
                                                             <div class="col-sm-3">
-                                                                <input type="text" maxlength="5" style="height:23px;" onkeyup="value=value.replace(/[^\d]/g,'')"
+                                                                <input type="text" maxlength="5" style="height:23px;"
+                                                                       onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                                                       onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
                                                                        ng-model="port.hostPort"
                                                                        placeholder="例如：80"
                                                                        class="input-small"

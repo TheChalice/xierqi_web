@@ -825,8 +825,14 @@ angular.module('console.service.create', [
                     return
                 }
                 angular.forEach(n, function (nport, i) {
-                    if (n[i] && o[i] && n[i].containerPort !== o[i].containerPort) {
-                        $scope.portsArr[i].hostPort = n[i].containerPort
+                    if (n[i]) {
+                        if (n[i].containerPort > 65535) {
+                            $scope.portsArr[i].containerPort=''
+                        }
+                        if (n[i].hostPort > 65535) {
+                            $scope.portsArr[i].hostPort=''
+                        }
+                        //$scope.portsArr[i].hostPort = n[i].containerPort
                     }
                 })
             }, true)
