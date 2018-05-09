@@ -333,7 +333,9 @@
                                                                         <div class="dropdown dropdown-select"
                                                                              style="width: 20%; border: 1px solid #ccc;height:32px;">
                                                                             <div class="input-group" style="width:100%">
-                                                                                <input onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 95%;display: inline-block;border: none;font-size: 12px;height: 30px;"
+                                                                                <input onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                                                                       onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                                                                       style="width: 95%;display: inline-block;border: none;font-size: 12px;height: 30px;"
                                                                                        ng-model="container.readinessProbe.initialDelaySeconds"
                                                                                        type="number" class="form-control">
                                                         <span class="input-group-btn"
@@ -360,7 +362,9 @@
                                                                         <div class="dropdown dropdown-select"
                                                                              style="width: 20%; border: 1px solid #ccc;height:32px;">
                                                                             <div class="input-group" style="width:100%">
-                                                                                <input onkeyup="value=value.replace(/[^\d]/g,'')" style="width: 95%;display: inline-block;border: none;font-size: 12px;height: 30px;"
+                                                                                <input onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                                                                       onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                                                                       style="width: 95%;display: inline-block;border: none;font-size: 12px;height: 30px;"
                                                                                        ng-model="container.readinessProbe.timeoutSeconds"
                                                                                        type="number" class="form-control"
                                                                                 >
