@@ -21,7 +21,16 @@ angular.module('console.constantly_persistentVolume', [
                         angular.forEach(dcitem.spec.template.spec.volumes, function (item, i) {
                             if (item.persistentVolumeClaim && res.metadata.name == item.persistentVolumeClaim.claimName) {
                                 $scope.guazai = '已挂载'
-                                res.arr.push(dcitem.metadata.name)
+                                var has = false
+                                angular.forEach(res.arr, function (key, j) {
+                                    if (key === dcitem.metadata.name) {
+                                        has = true
+                                    }
+                                })
+                                if (!has) {
+                                    res.arr.push(dcitem.metadata.name)
+                                }
+
                             }
                         })
                     })
