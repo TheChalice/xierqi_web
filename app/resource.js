@@ -679,7 +679,6 @@ define([
             })
             return deletepod;
         }])
-
         .factory('orgList', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
             var orgList = $resource(GLOBAL.host_lapi + '/v1/orgs/:namespace/roles', {namespace: '@namespace'}, {})
             return orgList;

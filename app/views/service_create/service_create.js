@@ -149,6 +149,7 @@ angular.module('console.service.create', [
                 isimageChange: true,
                 servicenameerr: false,
                 imagePullSecrets: false,
+                volumerr:false,
                 quota: true,
             };
             $scope.strategy = {
@@ -870,6 +871,7 @@ angular.module('console.service.create', [
 
             $scope.addVolume = function (idx) {
                 var olength = 0;
+                $scope.grid.volumerr = false;
                 if ($scope.dc.spec.template.spec.volumes) {
                     olength = $scope.dc.spec.template.spec.volumes.length;
                 }
@@ -1704,6 +1706,7 @@ angular.module('console.service.create', [
                     return;
                 }
                 //console.log('验证',valid($scope.dc));
+                var mountPatharr = []
                 angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
                     if (ports.cando) {
                         //delete $scope.dc.spec.template.spec.containers[i].cadoerr
@@ -1725,17 +1728,39 @@ angular.module('console.service.create', [
                     } else {
                         delete $scope.dc.spec.template.spec.containers[i].readinessProbe
                     }
-
                     if (ports.port) {
                         delete $scope.dc.spec.template.spec.containers[i].port
                     }
+
+                    angular.forEach(ports.secretsobj, function (secret, j) {
+                        angular.forEach(secret, function (item,l) {
+                            //console.log('item', item.mountPath);
+                            mountPatharr.push(item.mountPath)
+                        })
+                    })
                     if (ports.cando || ports.doset) {
                         delete $scope.dc.spec.template.spec.containers[i].cando
                         delete $scope.dc.spec.template.spec.containers[i].doset
                     }
 
+
                 })
                 //$rootScope.lding = true;
+                var candev = true
+                angular.forEach(mountPatharr, function (omountPath,k) {
+                    angular.forEach(mountPatharr, function (imountPath,l) {
+                        if (l !== k) {
+                            if (omountPath === imountPath) {
+                                candev=false
+                            }
+                        }
+                    })
+                })
+                if (!candev) {
+                    $scope.grid.volumerr = true;
+                    return
+                }
+
                 var dc = angular.copy($scope.dc);
 
 
