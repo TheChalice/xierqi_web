@@ -264,7 +264,7 @@ angular.module('console.service.create', [
                     if ($scope.grid.cafile.value) {
                         $scope.route.spec.tls.caCertificate = $scope.grid.cafile.value
                     }
-                } else if ($scope.grid.tlsset == 'Re-encrypt') {
+                } else if ($scope.grid.tlsset == 'reencrypt') {
                     $scope.route.spec.tls.termination = $scope.grid.tlsset;
                     if ($scope.grid.zsfile.value) {
                         $scope.route.spec.tls.certificate = $scope.grid.zsfile.value
@@ -1415,7 +1415,7 @@ angular.module('console.service.create', [
                     if ($scope.grid.cafile.value) {
                         $scope.route.spec.tls.caCertificate = $scope.grid.cafile.value
                     }
-                } else if ($scope.grid.tlsset == 'Re-encrypt') {
+                } else if ($scope.grid.tlsset == 'reencrypt') {
                     $scope.route.spec.tls.termination = $scope.grid.tlsset;
                     if ($scope.grid.zsfile.value) {
                         $scope.route.spec.tls.certificate = $scope.grid.zsfile.value
