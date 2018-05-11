@@ -224,15 +224,18 @@ angular.module('console.build', [
             });
         };
 
-        $scope.stop = function(idx){
+        $scope.stop = function(idx,bc){
             Confirm.open("提示信息","您确定要终止本次构建吗？").then(function(){
                 var build = $scope.items[idx].build;
                 build.status.cancelled = true;
                 //build.region=$rootScope.region
                 Build.put({namespace: $rootScope.namespace, name: build.metadata.name,region:$rootScope.region}, build, function(res){
+                    bc.build.status.phase ='Cancelled'
                     $log.info("stop build success");
-                    $scope.items[idx].build = res;
+                    //$scope.$apply()
+                    //$scope.items[idx].build = res;
                 }, function(res){
+
                     if(res.data.code== 409){
                         Confirm.open("提示信息","当数据正在New的时候，构建不能停止，请等到正在构建时，再请求停止。");
                     }

@@ -59,7 +59,7 @@
                     </td>
                     <td>
                     <span class="icon12 icon12-{{bc.build.status.phase}}"
-                          ng-class="{'fa-spin': bc.build.status.phase == 'Running' || bc.build.status.phase == 'Pending'}"></span>
+                          ng-class="{'fa-spin': bc.build.status.phase == 'Running' || bc.build.status.phase == 'Pending','icon12-Cancelled': bc.build.status.phase == 'Cancelled'}"></span>
 
                         {{bc.build.status.phase | phaseFilter}}
                     </td>
@@ -84,7 +84,7 @@
                                ng-click="startBuild($index)" ng-show="bc.build.status.phase != 'Running'"
                                uib-tooltip="构建"></a>
                             <a class="icon25 icon25-stop  col-lg-4 col-md-4 col-sm-4" href="javascript:;"
-                               ng-click="stop($index)"
+                               ng-click="stop($index,bc)"
                                ng-show="bc.build.status.phase == 'Pendding' || bc.build.status.phase == 'Running' || bc.build.status.phase == 'New'"
                                uib-tooltip="停止"></a>
                         </div>
