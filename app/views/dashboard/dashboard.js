@@ -274,7 +274,7 @@ angular.module('console.dashboard', [
                         pointInterval: 15 * 60 * 1000 //时间间隔
                     },
                         {
-                            name: '内存',
+                            name: 'memory',
                             fillColor: {
                                 linearGradient: {x1: 0, y1: 1, x2: 0, y2: 0}, //横向渐变效果 如果将x2和y2值交换将会变成纵向渐变效果
                                 stops: [
