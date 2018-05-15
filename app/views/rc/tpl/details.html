@@ -77,51 +77,52 @@
 
     <h4 class="subtitle">Volumes</h4>
     <div ng-if="replicaSet.spec.template.spec.volumes" ng-repeat="volume in replicaSet.spec.template.spec.volumes">
-        <div class="row matgin-txt">
-            <div class="col-md-2">volumeName:</div>
-            <div class="col-md-10">{{volume.name}}</div>
-        </div>
+        <!--<div class="row matgin-txt">-->
+            <!--<div class="col-md-2">volumeName:</div>-->
+            <!--<div class="col-md-10">{{volume.name}}</div>-->
+        <!--</div>-->
         <div ng-if="volume.secret">
             <div class="row matgin-txt">
-                <div class="col-md-2">Type:</div>
+                <div class="col-md-2">类型:</div>
                 <div class="col-md-10">secret<span class="small text-muted">(populated by a secret when the pod is created)</span>
                 </div>
             </div>
             <div class="row matgin-txt">
-                <div class="col-md-2">Secret:</div>
+                <div class="col-md-2">卷名称:</div>
                 <div class="col-md-10">{{volume.secret.secretName}}</div>
             </div>
             <div class="row matgin-txt" ng-repeat="item in volume.secret.items">
-                <div class="col-md-2">Key to File:</div>
+                <div class="col-md-2">路径:</div>
                 <div class="col-md-10">{{item.key}}&#8201;&#8594;&#8201;{{item.path}}</div>
             </div>
         </div>
         <div ng-if="volume.configMap">
             <div class="row matgin-txt">
-                <div class="col-md-2">Type:</div>
+                <div class="col-md-2">类型:</div>
                 <div class="col-md-10">config map<span class="small text-muted">((populated by a config map)</span>
                 </div>
             </div>
             <div class="row matgin-txt">
-                <div class="col-md-2">Secret:</div>
+                <div class="col-md-2">卷名称:</div>
                 <div class="col-md-10">{{volume.configMap.name}}</div>
             </div>
             <div class="row matgin-txt" ng-repeat="item in volume.configMap.items">
-                <div class="col-md-2">Key to File:</div>
+                <div class="col-md-2">路径:</div>
                 <div class="col-md-10">{{item.key}}&#8201;&#8594;&#8201;{{item.path}}</div>
             </div>
         </div>
         <div ng-if="volume.persistentVolumeClaim">
             <div class="row matgin-txt">
-                <div class="col-md-2">Type:</div>
+                <div class="col-md-2">类型:</div>
                 <div class="col-md-10">persistent volume claim<span class="small text-muted">(reference to a persistent volume claim)</span>
                 </div>
             </div>
             <div class="row matgin-txt">
-                <div class="col-md-2">Claim name:</div>
+                <div class="col-md-2">卷名称:</div>
                 <div class="col-md-10">{{volume.persistentVolumeClaim.claimName}}</div>
             </div>
             <div class="row matgin-txt">
+                <div class="col-md-2">模式:</div>
                 <div class="col-md-10" ng-if="volume.persistentVolumeClaim.readOnly">read-only</div>
                 <div class="col-md-10" ng-if="!volume.persistentVolumeClaim.readOnly">read-write</div>
             </div>
