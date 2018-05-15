@@ -459,6 +459,7 @@ angular.module('console.build.detail', [
                         return b.metadata.resourceVersion - a.metadata.resourceVersion
                     }
                     $scope.databuild.items=$scope.databuild.items.sort(sortresv)
+                    $scope.databuild.items=Sort.sort($scope.databuild.items, -1)
                     //console.log($scope.databuild);
                     //if ($stateParams.from == "create/new") {
                     //    $scope.databuild.items[0].showLog = true;
