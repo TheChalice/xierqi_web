@@ -14,9 +14,9 @@ angular.module('console.dashboard', [
             $scope.oldpiedata = {
                 usage_rate: {name: 'CPU', use: 0, unit: ' cores'},
                 usage: {name: 'memory', use: 0, unit: ' MiB'},
-                network:{name: 'network', use: 0, unit: ' KiB/s'},
-                rx_rate: {name: 'rx_rate', use: 0, unit: ' KiB/s'},
-                tx_rate: {name: 'tx_rate', use: 0, unit: ' KiB/s'}
+                network:{name: 'network', use: 0, unit: ' KB/s'},
+                rx_rate: {name: 'rx_rate', use: 0, unit: ' KB/s'},
+                tx_rate: {name: 'tx_rate', use: 0, unit: ' KB/s'}
             }
             var timesnow = (new Date()).getTime()
 
