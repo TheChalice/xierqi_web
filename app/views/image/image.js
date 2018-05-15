@@ -41,8 +41,17 @@ angular.module('console.image', [
                 platform.query({id:reg.project_id}, function (images) {
                     angular.forEach(images, function (image,i) {
                         console.log('image', image);
-                        $scope.primage.push({name:image.name,tags:[],image:image.name,creation_time:image.creation_time})
+                        $scope.primage.push({
+                            name:image.name,
+                            tags:[],
+                            image:image.name,
+                            metadata:{
+                                creationTimestamp:image.creation_time
+                            },
+                            creation_time:image.creation_time})
+
                     })
+                    $scope.primage=Sort.sort($scope.primage, -1)
                     $scope.grid.ckTotal = $scope.primage.length;
                     ckRefresh(1);
                 })
