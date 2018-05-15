@@ -502,6 +502,8 @@ angular.module("console.header", [{
                 return "新建服务";
             case "console.quick_deploy":
                 return "快速部署";
+            case "console.create_pipeline":
+                return "新建流水线";
             case "console.backing_service":
                 return "后端服务";
             case "console.backing_service_detail":
