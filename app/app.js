@@ -84,6 +84,8 @@ define([
             signin_uri: '/signin',
             //host_webhooks: 'https://lab.new.dataos.io',
             host_webhooks: '<WEBHOOK_PREFIX>',
+
+            sso_switch: '<SSO_SWITCH>',
             //service_url: '.prd.dataos.io',
             service_url: '<ROUTER_DOMAIN_SUFFIX>',
             //internal_registry:'docker-registry.default.svc:5000',

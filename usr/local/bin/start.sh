@@ -12,6 +12,7 @@ sed -i 's/<INTERNAL_REGISTRY_ADDR>/'$INTERNAL_REGISTRY_ADDR'/g'  /datafoundry/di
 #prefix includes scheme. / should be instead.
 
 sed -i 's~<WEBHOOK_PREFIX>~'$WEBHOOK_PREFIX'~g'  /datafoundry/dist/app.js
+sed -i 's~<SSO_SWITCH>~'$SSO_SWITCH'~g'  /datafoundry/dist/app.js
 
 
 # sed -i 's/<redis_host>/'$REDIS_HOST'/g' /usr/local/openresty/nginx/conf/nginx.conf
