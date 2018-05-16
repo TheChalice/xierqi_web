@@ -13,7 +13,7 @@ angular.module('console.dashboard', [
             $scope.isdata = {};
             $scope.oldpiedata = {
                 usage_rate: {name: 'CPU', use: 0, unit: ' cores'},
-                usage: {name: 'memory', use: 0, unit: ' M'},
+                usage: {name: 'memory', use: 0, unit: ' MiB'},
                 network:{name: 'network', use: 0, unit: ' KB/s'},
                 rx_rate: {name: 'rx_rate', use: 0, unit: ' KB/s'},
                 tx_rate: {name: 'tx_rate', use: 0, unit: ' KB/s'}
@@ -298,7 +298,7 @@ angular.module('console.dashboard', [
                     },
                     yAxis: [{
                         title: {
-                            text: 'memory (M)',
+                            text: 'memory (MiB)',
                             style: {
                                 color: '#bec0c7'
                             }
