@@ -148,6 +148,7 @@ angular.module('home.login', [])
                     $log.info("find project err", res);
                 });
             };
+            console.log('GLOBAL.sso_switch', GLOBAL.sso_switch);
             if (GLOBAL.sso_switch === 'true') {
                 sessiontoken.get(function (data) {
                     //console.log('data.access_token', data.access_token+','+data.access_token);
@@ -184,6 +185,7 @@ angular.module('home.login', [])
                             localStorage.setItem("code", 1);
                             $rootScope.loginyanzheng = false;
                             //获取套餐
+
                             //$rootScope.loding = false;
                             $state.go("console.dashboard", {namespace: $rootScope.namespace})
 
