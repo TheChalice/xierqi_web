@@ -151,7 +151,7 @@ angular.module('home.login', [])
             if (GLOBAL.sso_switch === 'true') {
                 sessiontoken.get(function (data) {
                     //console.log('data.access_token', data.access_token+','+data.access_token);
-                    Cookie.set('df_access_token', data.access_token, 23 * 3600 * 1000);
+                    Cookie.set('df_access_token', data.access_token+','+data.access_token, 23 * 3600 * 1000);
                     Cookie.set('region', 'cn-north-1', 24 * 3600 * 1000);
                     $rootScope.region = Cookie.get('region');
                     User.get({name: '~'}, function (res) {
