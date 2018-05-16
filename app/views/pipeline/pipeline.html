@@ -33,7 +33,7 @@
                     <th class='col-lg-2 col-md-2 col-sm-1'>构建名称</th>
                     <th class='col-lg-2 col-md-2 col-sm-2'>版本</th>
                     <th class='col-lg-2 col-md-2 col-sm-2'>最近构建时间</th>
-                    <th class='col-lg-2 col-md-2 col-sm-3'>最近构建时长</th>
+                    <!--<th class='col-lg-2 col-md-2 col-sm-3'>最近构建时长</th>-->
                     <!--<th class='col-lg-1 col-md-1 col-sm-2' style='word-break:keep-all;white-space:nowrap;'>构建类型</th>-->
                     <th class="col-lg-3 col-md-3 col-sm-3 table_headOperating" style=''>操作</th>
                 </div>
@@ -55,7 +55,7 @@
                 </td>
                 <td><span uib-tooltip="{{bc.build.metadata.creationTimestamp | timescon}}">{{bc.build.metadata.creationTimestamp | dateRelative}}</span>
                 </td>
-                <td>{{bc.build.status.duration | duration}}</td>
+                <!--<td>{{bc.build.status.duration | duration}}</td>-->
                 <!--<td>-->
                 <!--<i ng-if="true" class="fa fa-hand-pointer-o">&nbsp;手动</i>-->
                 <!--<i ng-if="false" class="fa fa-television">&nbsp;自动</i>-->
