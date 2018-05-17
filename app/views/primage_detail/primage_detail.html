@@ -43,16 +43,16 @@
                                 </label>
                                 <div class="container-fluid">
                                     <div class="row">
-                                        <div class="col-sm-4">
-                                            <div style='white-space:nowrap;overflow: hidden;text-overflow: ellipsis'>
+                                        <div class="col-sm-8" >
+                                            <div>
                                                 <i class="fa fa-flag-o"></i>&nbsp;
                                                 <!--<span ng-if="item.spec.revision.git.ref">-->
-                                                <span uib-tooltip="{{imagename}}:{{item.name}}">{{imagename}}:{{item.name}}</span>
+                                                <span>{{imagename}}:{{item.name}}</span>
                                             </div>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <!--<div class="col-sm-4">-->
 
-                                        </div>
+                                        <!--</div>-->
                                         <div class="col-sm-4 text-right">
                                             <a class="icon25 icon25-download" uib-tooltip="拉取" href="javascript:;"
                                                ng-click="pull(item.name)"></a>
