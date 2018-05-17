@@ -118,7 +118,7 @@ define([
                     }
                 })
                 .state('blank', {
-                    url: '/blank',
+                    url: '/signin',
                     templateUrl: 'views/blank/blank.html',
                     controller: 'blankCtrl',
                     resolve: {
