@@ -10,7 +10,7 @@ define([
         .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
             //$urlRouterProvider.otherwise("/console/build/create");
-            $urlRouterProvider.otherwise("/login");
+            $urlRouterProvider.otherwise("/blank");
 
 
             $stateProvider
@@ -114,6 +114,16 @@ define([
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/login/login.js')
+                        }]
+                    }
+                })
+                .state('blank', {
+                    url: '/blank',
+                    templateUrl: 'views/blank/blank.html',
+                    controller: 'blankCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/blank/blank.js')
                         }]
                     }
                 })
