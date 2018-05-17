@@ -86,6 +86,7 @@ define([
             host_webhooks: '<WEBHOOK_PREFIX>',
 
             sso_switch: '<SSO_SWITCH>',
+            //sso_switch: 'true',
             //service_url: '.prd.dataos.io',
             service_url: '<ROUTER_DOMAIN_SUFFIX>',
             //internal_registry:'docker-registry.default.svc:5000',

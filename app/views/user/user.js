@@ -10,8 +10,8 @@ angular.module('console.user', ['kubernetesUI',
 
         ]
     }
-]).controller('userCtrl', ['$log','Project','orders','amounts', 'market', 'createOrg', '$rootScope', '$state', '$stateParams', 'Cookie', 'Toast', '$scope', 'ModalPwd', 'Addmodal', 'profile', 'pwdModify', '$http', 'Confirm', 'leave', 'orgList', 'Alert',
-    function ($log,Project,orders,amounts, market, createOrg, $rootScope, $state, $stateParams, Cookie, Toast, $scope, ModalPwd, Addmodal, profile, pwdModify, $http, Confirm, leave, orgList, Alert) {
+]).controller('userCtrl', ['GLOBAL','$log','Project','orders','amounts', 'market', 'createOrg', '$rootScope', '$state', '$stateParams', 'Cookie', 'Toast', '$scope', 'ModalPwd', 'Addmodal', 'profile', 'pwdModify', '$http', 'Confirm', 'leave', 'orgList', 'Alert',
+    function (GLOBAL,$log,Project,orders,amounts, market, createOrg, $rootScope, $state, $stateParams, Cookie, Toast, $scope, ModalPwd, Addmodal, profile, pwdModify, $http, Confirm, leave, orgList, Alert) {
         $scope.credentials = {};
         $scope.grid = {
             st: null,
@@ -19,7 +19,12 @@ angular.module('console.user', ['kubernetesUI',
             hpay: true,
             coupon: false,
             page:1,
-            size:10
+            size:10,
+            showtab:true
+        }
+        if (GLOBAL.sso_switch === 'true') {
+            $scope.grid.showtab=false;
+            $scope.check=4
         }
         $scope.$watch('grid.page', function(newVal, oldVal){
             if (newVal != oldVal) {

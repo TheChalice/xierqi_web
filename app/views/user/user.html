@@ -230,12 +230,12 @@
                     </div>
 
                 </uib-tab>
-                <uib-tab index="3">
+                <uib-tab index="3" ng-show="grid.showtab">
                     <uib-tab-heading>
                         <!-- <i class="usersbg"></i>&nbsp;&nbsp; -->
                         用户信息
                     </uib-tab-heading>
-                    <div class="row">
+                    <div class="row" ng-show="grid.showtab">
                         <form class="form-horizontal" style="margin-left: 30px; margin-right: 30px">
                             <!--<p style="margin-top: 10px; font-size: 16px; font-weight: bold; color: #5a6378">个人信息</p>-->
                             <div class="form-group margin">
