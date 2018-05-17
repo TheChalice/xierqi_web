@@ -127,7 +127,7 @@ define([
         }])
         .factory('sessiontoken', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
             //console.log('q11');
-            var sessiontoken = $resource('./sessiontoken', {}, {});
+            var sessiontoken = $resource('/sessiontoken', {}, {});
             return sessiontoken;
         }])
         .factory('User', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
