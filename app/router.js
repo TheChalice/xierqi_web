@@ -10,7 +10,7 @@ define([
         .config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
 
             //$urlRouterProvider.otherwise("/console/build/create");
-            $urlRouterProvider.otherwise("/blank");
+            $urlRouterProvider.otherwise("/signin");
 
 
             $stateProvider

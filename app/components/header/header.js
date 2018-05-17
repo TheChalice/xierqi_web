@@ -9,8 +9,8 @@ angular.module("console.header", [{
         restrict: 'EA',
         replace: true,
         templateUrl: 'components/header/header.html',
-        controller: ['$timeout', '$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
-            function($timeout, $log, Project, account, regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
+        controller: ['GLOBAL','$timeout', '$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
+            function(GLOBAL,$timeout, $log, Project, account, regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
                 ///////分区
                 if (navigator.userAgent.indexOf("Firefox") > 0) {
                     $('#testjt').unbind('DOMMouseScroll');
@@ -34,7 +34,10 @@ angular.module("console.header", [{
                 //    Cookie.set('namespace', $rootScope.namespace, 10 * 365 * 24 * 3600 * 1000);
                 //    $rootScope.region = id
                 //    Cookie.set('region', id, 10 * 365 * 24 * 3600 * 1000);
-
+                $scope.nolohout=false;
+                if (GLOBAL.sso_switch === 'true') {
+                    $scope.nolohout=true;
+                }
                 //   // console.log($state.current.name);
                 //    if ($state.current.name === 'console.dashboard') {
                 //        $state.reload();
