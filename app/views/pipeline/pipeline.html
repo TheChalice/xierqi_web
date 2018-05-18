@@ -50,7 +50,7 @@
                 <td>
                     <a class="href-orange"
                        ui-sref="console.pipelinetag_detail({namespace:namespace,name: bc.metadata.name,tag:bc.build.metadata.annotations['openshift.io/build.number']})"
-                       tooltip-placement="top">#{{bc.build.metadata.annotations['openshift.io/build.number']}}</a>
+                       tooltip-placement="top">{{bc.build.metadata.annotations['openshift.io/build.number']}}</a>
 
                 </td>
                 <td><span uib-tooltip="{{bc.build.metadata.creationTimestamp | timescon}}">{{bc.build.metadata.creationTimestamp | dateRelative}}</span>
