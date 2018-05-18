@@ -37,6 +37,10 @@ angular.module('home.blank', [])
                             $rootScope.projects = prodata.items;
                             if (hasname) {
                                 $state.go("console.dashboard", {namespace: $rootScope.namespace})
+                            }else if(prodata.items.length>0){
+                                $rootScope.namespace=prodata.items[0].metadata.name
+                                Cookie.set('namespace', $rootScope.namespace, 10 * 365 * 24 * 3600 * 1000);
+                                $state.go("console.dashboard", {namespace: $rootScope.namespace})
                             }else {
                                 creatproject.create({'metadata': {
                                     name:$rootScope.user.metadata.name
