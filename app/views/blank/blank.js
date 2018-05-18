@@ -23,6 +23,8 @@ angular.module('home.blank', [])
                     $rootScope.region = Cookie.get('region');
                     User.get({name: '~'}, function (res) {
                         $rootScope.user = res;
+                        $rootScope.namespace=$rootScope.user.metadata.name
+                        Cookie.set('namespace', $rootScope.namespace, 10 * 365 * 24 * 3600 * 1000);
                         var hasname = false;
                         Project.get({}, function (prodata) {
                             angular.forEach(prodata.items, function (item,i) {
