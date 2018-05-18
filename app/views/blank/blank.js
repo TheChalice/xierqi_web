@@ -13,6 +13,7 @@ angular.module('home.blank', [])
                     $log.info("find project err", res);
                 });
             };
+            console.log('GLOBAL.sso_switch', GLOBAL.sso_switch);
             if (GLOBAL.sso_switch === 'true') {
 
                 sessiontoken.get(function (data) {
@@ -22,10 +23,8 @@ angular.module('home.blank', [])
                     $rootScope.region = Cookie.get('region');
                     User.get({name: '~'}, function (res) {
                         $rootScope.user = res;
-                        creatproject.create({'metadata': {
-                            name:$rootScope.user.metadata.name
-                        }}, function (res) {
-                            loadProject(res.metadata.name,function (name, data) {
+                        Project.get({name:$rootScope.user.metadata.name}, function (prodata) {
+                            loadProject($rootScope.user.metadata.name,function (name, data) {
                                 for (var i = 0; i < data.items.length; i++) {
                                     if (data.items[i].metadata.name == name) {
                                         $rootScope.namespace = name;
@@ -38,15 +37,7 @@ angular.module('home.blank', [])
                                         data.items.sort(function (x, y) {
                                             return x.sortname > y.sortname ? 1 : -1;
                                         });
-                                        angular.forEach(data.items, function (project, i) {
-                                            if (/^[\u4e00-\u9fa5]/i.test(project.metadata.annotations['openshift.io/display-name'])) {
-                                                //console.log(project.metadata.annotations['openshift.io/display-name']);
-                                                //data.items.push(project);
-                                                data.items.unshift(project);
 
-                                                data.items.splice(i + 1, 1);
-                                            }
-                                        });
                                         $rootScope.projects = data.items;
                                     }
                                 }
@@ -58,41 +49,50 @@ angular.module('home.blank', [])
                                 $state.go("console.dashboard", {namespace: $rootScope.namespace})
 
                             })
-                        }, function (err) {
-                            loadProject(res.metadata.name,function (name, data) {
-                                for (var i = 0; i < data.items.length; i++) {
-                                    if (data.items[i].metadata.name == name) {
-                                        $rootScope.namespace = name;
-                                        angular.forEach(data.items, function (item, i) {
+                        }, function (res) {
+                            creatproject.create({'metadata': {
+                                name:$rootScope.user.metadata.name
+                            }}, function (res) {
+                                loadProject($rootScope.user.metadata.name,function (name, data) {
+                                    for (var i = 0; i < data.items.length; i++) {
+                                        if (data.items[i].metadata.name == name) {
+                                            $rootScope.namespace = name;
+                                            angular.forEach(data.items, function (item, i) {
 
-                                            data.items[i].sortname = item.metadata.annotations['openshift.io/display-name'] || item.metadata.name;
+                                                data.items[i].sortname = item.metadata.annotations['openshift.io/display-name'] || item.metadata.name;
 
 
-                                        })
-                                        data.items.sort(function (x, y) {
-                                            return x.sortname > y.sortname ? 1 : -1;
-                                        });
-                                        angular.forEach(data.items, function (project, i) {
-                                            if (/^[\u4e00-\u9fa5]/i.test(project.metadata.annotations['openshift.io/display-name'])) {
-                                                //console.log(project.metadata.annotations['openshift.io/display-name']);
-                                                //data.items.push(project);
-                                                data.items.unshift(project);
+                                            })
+                                            data.items.sort(function (x, y) {
+                                                return x.sortname > y.sortname ? 1 : -1;
+                                            });
+                                            angular.forEach(data.items, function (project, i) {
+                                                if (/^[\u4e00-\u9fa5]/i.test(project.metadata.annotations['openshift.io/display-name'])) {
+                                                    //console.log(project.metadata.annotations['openshift.io/display-name']);
+                                                    //data.items.push(project);
+                                                    data.items.unshift(project);
 
-                                                data.items.splice(i + 1, 1);
-                                            }
-                                        });
-                                        $rootScope.projects = data.items;
+                                                    data.items.splice(i + 1, 1);
+                                                }
+                                            });
+                                            $rootScope.projects = data.items;
+                                        }
                                     }
-                                }
-                                localStorage.setItem("code", 1);
-                                $rootScope.loginyanzheng = false;
-                                //获取套餐
+                                    localStorage.setItem("code", 1);
+                                    $rootScope.loginyanzheng = false;
+                                    //获取套餐
 
-                                //$rootScope.loding = false;
-                                $state.go("console.dashboard", {namespace: $rootScope.namespace})
+                                    //$rootScope.loding = false;
+                                    $state.go("console.dashboard", {namespace: $rootScope.namespace})
+
+                                })
+                            }, function (err) {
 
                             })
-                        })
+
+
+                        });
+
 
                     })
 
