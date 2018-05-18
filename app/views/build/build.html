@@ -16,9 +16,9 @@
 
 
 
-                <a class="btn build-jia" ng-click="reload()">
-                    <i class="fa fa-refresh fa-lg"></i><!-- 20160921 jia 代码构建 loading处理按钮向下问题-->
-                </a>
+                <!--<a class="btn build-jia" ng-click="reload()">-->
+                    <!--<i class="fa fa-refresh fa-lg"></i>&lt;!&ndash; 20160921 jia 代码构建 loading处理按钮向下问题&ndash;&gt;-->
+                <!--</a>-->
             </div>
             <!--<div class="col-sm-8 col-xs-8" style="padding-left: 0; ">-->
             <!--<div class="pull-right" style="width:100%;">-->
@@ -95,11 +95,10 @@
                 </tr>
             </table>
             <div class="text-center" ng-if="grid.total > 10">
-                <uib-pagination class="pagination"
+                <uib-pagination class="pagination pagination-sm"
                                 ng-model="grid.page"
                                 total-items="grid.total"
                                 items-per-page="grid.size"
-                                class="pagination-sm"
                                 boundary-links="false"
                                 max-size="12"
                                 rotate="true"

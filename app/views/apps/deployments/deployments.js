@@ -37,9 +37,9 @@ angular.module('console.deployments', [{
             $scope.replicas = angular.copy(replicas);
 
             $scope.deployment=angular.copy(mydeployment);
-            console.log('$scope.deployment.items', $scope.deployment.items);
+            //console.log('$scope.deployment.items', $scope.deployment.items);
             $scope.deployment.items=Sort.sort(mydeployment.items, -1)
-            console.log('$scope.deployment.items', $scope.deployment.items);
+            //console.log('$scope.deployment.items', $scope.deployment.items);
 
             $scope.replicasets = angular.copy(ReplicaSet);
 

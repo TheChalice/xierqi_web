@@ -14,7 +14,7 @@ angular.module('console.build', [
         //分页
         $scope.grid = {
             page: 1,
-            size: GLOBAL.size,
+            size: 10,
             txt: ''
         };
 
@@ -34,7 +34,7 @@ angular.module('console.build', [
         $scope.text='您还没有构建代码';
         $scope.buildsearch = function (event) {
             //if (event.keyCode === 13 || event === 'search') {
-            console.log($scope.grid.txt);
+            //console.log($scope.grid.txt);
             if (!$scope.grid.txt) {
                     $scope.data = angular.copy($scope.copydata)
                     refresh(1);

@@ -111,7 +111,15 @@
                 </tr>
             </table>
             <div class="text-center" ng-if="grid.total > 10" class="table_mar_top" style="">
-                <uib-pagination class="pagination pagination-sm" ng-model="grid.page" total-items="grid.total" items-per-page="grid.size" boundary-links="false" max-size="12" rotate="true" previous-text="<" next-text=">">
+                <uib-pagination class="pagination pagination-sm"
+                                ng-model="grid.page"
+                                total-items="grid.total"
+                                items-per-page="grid.size"
+                                boundary-links="false"
+                                max-size="12"
+                                rotate="true"
+                                previous-text="<"
+                                next-text=">">
                 </uib-pagination>
 
             </div>
@@ -161,7 +169,8 @@
             </table>
 
             <div class="text-center" ng-if="gridTwo.total > 10" class="table_mar_top" style="">
-                <uib-pagination class="pagination pagination-sm" ng-model="gridTwo.page" total-items="gridTwo.total" items-per-page="gridTwo.size" boundary-links="false" max-size="12" rotate="true" previous-text="<" next-text=">">
+                <uib-pagination
+                        class="pagination pagination-sm" ng-model="gridTwo.page" total-items="gridTwo.total" items-per-page="gridTwo.size" boundary-links="false" max-size="12" rotate="true" previous-text="<" next-text=">">
                 </uib-pagination>
 
             </div>
