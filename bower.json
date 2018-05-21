@@ -50,5 +50,8 @@
   "homepage": "https://github.com/lanyuechen/angular-seed",
   "moduleType": [
     "amd"
-  ]
+  ],
+  "devDependencies": {
+    "angular-file-upload": "^2.5.0"
+  }
 }
