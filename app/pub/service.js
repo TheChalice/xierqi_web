@@ -416,7 +416,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
 
             this.ansi_to_html_obj = function () {
                 return new Ansi_Up();
-            }
+            };
             //};
 
             // CommonJS module is defined
@@ -972,22 +972,21 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                             //
                             //} else {
                             $scope.copyCon = '复制';
-                            var names = name
+                            var names = name;
                             //}
 
                             var tokens = Cookie.get('df_access_token').split(',');
                             var token = tokens[0];
                             if (yuorself == 'project') {
                                 $scope.name = name;
-                                $scope.privateurl = GLOBAL.private_url
+                                $scope.privateurl = GLOBAL.private_url;
 
                                 //docker login -u chaizs -p xxzxczxadasd registry.dataos.io && docker pull
                                 $scope.cmd = 'docker login -u ' + Cookie.get('namespace') + ' -p ' + token + ' ' + GLOBAL.private_url + ' && docker pull ' + GLOBAL.private_url + '/' + $rootScope.namespace + '/' + $scope.name;
                             } else {
-                                $scope.privateurl = GLOBAL.common_url
+                                $scope.privateurl = GLOBAL.common_url;
                                 $scope.name = name;
                                 $scope.cmd = 'docker pull ' + GLOBAL.common_url + '/' + $scope.name;
-                                ;
                             }
 
                             $scope.cancel = function () {
@@ -1046,7 +1045,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                 } else {
                                     $scope.cansever = false
                                 }
-                            }, true)
+                            }, true);
                             $scope.test = {
                                 'items': []
                             };
@@ -1496,7 +1495,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                             } else {
                                 $scope.items = [];
                                 txt = txt.replace(/\//g, '\\/');
-                                var reg = new RegExp(txt);
+                                var reg = new RegExp('/' + txt + '/');
                                 angular.forEach($scope.data.items, function (item) {
                                     if (reg.test(item.metadata.name)) {
                                         $scope.items.push(item);
@@ -1600,7 +1599,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                     //console.log("login", credentials);
                     //console.log("login", stateParams);
                     credentials.region = 'cn-north-1'
-                    localStorage.setItem('Auth', $base64.encode(credentials.username + ':' + credentials.password))
+                    localStorage.setItem('Auth', $base64.encode(credentials.username + ':' + credentials.password));
                     $rootScope.loding = true;
                     var deferred = $q.defer();
                     var req = {
@@ -1611,12 +1610,12 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                             'Authorization': 'Basic ' + $base64.encode(credentials.username + ':' + credentials.password)
                         }
                     };
-                    localStorage.setItem('Auth', $base64.encode(credentials.username + ':' + credentials.password))
+                    localStorage.setItem('Auth', $base64.encode(credentials.username + ':' + credentials.password));
 
                     var loadProject = function (name, callback) {
                         // $log.info("load project");
                         Project.get({region: credentials.region}, function (data) {
-                            callback(name, data)
+                            callback(name, data);
                             //console.log("load project success", data);
 
                         }, function (res) {
@@ -1682,7 +1681,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                     $rootScope.loginyanzheng = false;
                                     //获取套餐
                                     $rootScope.loding = false;
-                                    $state.go("console.dashboard", {namespace: $rootScope.namespace})
+                                    $state.go("console.dashboard", {namespace: $rootScope.namespace});
                                     //跳转dashboard
                                     //$state.go("console.dashboard", { namespace: $rootScope.namespace });
                                 });
@@ -1849,7 +1848,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                         config.headers["Hawkular-Tenant"] = $rootScope.namespace;
                     }
                     if (/^\/registry/.test(config.url)) {
-                        var Auth = localStorage.getItem("Auth")
+                        var Auth = localStorage.getItem("Auth");
                         config.headers["Authorization"] = "Basic " + Auth;
                     }
                     if (config.method == 'PATCH') {
