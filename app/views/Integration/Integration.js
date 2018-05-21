@@ -442,10 +442,9 @@ angular.module('console.backing_service', [
 
 
             $scope.keysearch = function (event, search) {
-
                 console.log(event, search);
-
-                if (true) {
+                var keySearchStatus = true;
+                if (keySearchStatus) {
                     if ($scope.grid.txt) {
                         var iarr = [];
                         //console.log($scope.ins);
@@ -477,9 +476,8 @@ angular.module('console.backing_service', [
             };
 
             $scope.keyclasssearch = function (event) {
-
-                if (true) {
-
+                var keyClassSearchStatus = true;
+                if (keyClassSearchStatus) {
                     if ($scope.grid.classtxt) {
                         //console.log($scope.repos);
                         var repoarr = [];
