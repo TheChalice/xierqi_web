@@ -23,7 +23,7 @@ angular.module("console.sidebar", [
                     if (url) {
                         var urlarr = url.split('@');
                         console.log('urlarr', urlarr);
-                        if (urlarr.length) {
+                        if (urlarr && urlarr.length) {
                             $state.go(urlarr[0], ({namespace: urlarr[1]}));
                         }
                     } else {
