@@ -70,7 +70,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                     '14092': '该用户在LDAP已存在',
                     '1409': '重复条目',
                     '2049': '原密码错误'
-                }
+                };
                 return errcode[code] || '内部错误，请通过DaoVoice联系管理员'
             }
         }])
@@ -110,10 +110,10 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
             var ansi_up,
                 VERSION = "1.3.0",
 
-            // check for nodeJS
+                // check for nodeJS
                 hasModule = (typeof module !== 'undefined'),
 
-            // Normal and then Bright
+                // Normal and then Bright
                 ANSI_COLORS = [
                     [
                         {color: "0, 0, 0", 'class': "ansi-black"},
@@ -137,7 +137,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                     ]
                 ],
 
-            // 256 Colors Palette
+                // 256 Colors Palette
                 PALETTE_COLORS;
 
             function Ansi_Up() {
@@ -494,7 +494,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                                     $scope.tip = errcode.open(err.code)
                                                 }
 
-                                            })
+                                            });
                                             //$http.post('/lapi/orgs', {
                                             //    name: $scope.orgName
                                             //}).success(function (item) {
@@ -676,7 +676,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/choosSecret.html',
                     size: 'default',
-                    backdrop:'static',
+                    backdrop: 'static',
                     controller: ['by', '$scope', '$uibModalInstance', '$log', 'secretskey', '$rootScope', 'configmaps', 'persistent', '$state',
                         function (by, $scope, $uibModalInstance, $log, secretskey, $rootScope, configmaps, persistent, $state) {
                             $scope.secretarr = secretsobj.secretarr;
@@ -700,13 +700,12 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                     chongfu: false,
                                     buhefa: false
                                 }
-                            }
+                            };
                             $scope.obj = {
                                 secretarr: $scope.secretarr,
                                 configmap: $scope.configmap,
                                 persistentarr: $scope.persistentarr
-                            }
-                            $
+                            };
                             $scope.$watch('obj', function (n, o) {
                                 if (n == o) {
                                     return
@@ -759,15 +758,14 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                         $scope.grid[i].buhefa = false;
                                         $scope.grid[i].kong = false;
                                     }
-
-                                })
+                                });
                                 if (!kong) {
                                     $scope.isok = true
                                 } else {
                                     $scope.isok = false
                                 }
                                 //console.log('==================nnnnnn',n);
-                            }, true)
+                            }, true);
                             ////添加密钥卷
                             $scope.addsecretarr = function () {
                                 $scope.grid.change = true;
@@ -778,14 +776,14 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                     },
                                     mountPath: ''
                                 });
-                            }
+                            };
                             ////删除密钥卷
                             $scope.delsecretarr = function (idx) {
                                 $scope.secretarr.splice(idx, 1);
-                            }
+                            };
                             $scope.changesecrename = function (idx, val) {
                                 $scope.secretarr[idx].secret.secretName = val
-                            }
+                            };
                             ////获取密钥卷列表
                             var loadsecretsList = function () {
                                 secretskey.get({
@@ -797,7 +795,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                         $scope.loadsecretsitems = res.items;
                                     }
                                 })
-                            }
+                            };
                             loadsecretsList();
 
                             //////配置卷
@@ -811,7 +809,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                         $scope.configmapitem = res.items;
                                     }
                                 })
-                            }
+                            };
                             loadconfigmaps();
 
                             ///添加配置卷  ///
@@ -824,14 +822,14 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                     },
                                     mountPath: ''
                                 });
-                            }
+                            };
                             ////////删除配置卷
                             $scope.delconfigmap = function (idx) {
                                 $scope.configmap.splice(idx, 1);
-                            }
+                            };
                             $scope.changeconfigname = function (idx, val) {
                                 $scope.configmap[idx].configMap.name = val
-                            }
+                            };
                             ////////存储卷
 
                             ///获取存储卷
@@ -846,11 +844,11 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                             if (item.status.phase == "Bound") {
                                                 $scope.persistentitem.push(item)
                                             }
-                                        })
+                                        });
                                         //$scope.persistentitem = res.items;
                                     }
                                 })
-                            }
+                            };
                             loadpersistent();
                             //////添加存储卷
                             $scope.addpersistent = function () {
@@ -862,14 +860,14 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                     },
                                     mountPath: ''
                                 });
-                            }
+                            };
                             ///删除存储卷
                             $scope.delpersistent = function (idx) {
                                 $scope.persistentarr.splice(idx, 1);
-                            }
+                            };
                             $scope.changepersistentname = function (idx, val) {
                                 $scope.persistentarr[idx].persistentVolumeClaim.claimName = val
-                            }
+                            };
                             $scope.govolume = function (path) {
 
                                 $state.go(path);
@@ -886,11 +884,11 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                             "secretName": $scope.secretarr[i].secret.secretName
                                         }
 
-                                    }
+                                    };
                                     var mountsval = {
                                         "name": "volumes" + (i + olength),
                                         "mountPath": $scope.secretarr[i].mountPath
-                                    }
+                                    };
                                     if ($scope.secretarr[i].secret.secretName == '名称' || !$scope.secretarr[i].mountPath) {
                                         //alert('密钥卷不能为空')
                                         return;
@@ -905,11 +903,11 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                             "name": $scope.configmap[j].configMap.name
                                         }
 
-                                    }
+                                    };
                                     var mountsval = {
                                         "name": "volumes" + (j + olength + $scope.secretarr.length),
                                         "mountPath": $scope.configmap[j].mountPath
-                                    }
+                                    };
                                     if ($scope.configmap[j].configMap.name == '名称' || !$scope.configmap[j].mountPath) {
                                         //alert('2不能为空')
                                         return;
@@ -924,11 +922,11 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                             "claimName": $scope.persistentarr[j].persistentVolumeClaim.claimName
                                         }
 
-                                    }
+                                    };
                                     var mountsval = {
                                         "name": "volumes" + (j + olength + $scope.secretarr.length + $scope.configmap.length),
                                         "mountPath": $scope.persistentarr[j].mountPath
-                                    }
+                                    };
                                     //console.log('$scope.persistentarr[j].mountPath', $scope.persistentarr[j].mountPath)
                                     if ($scope.persistentarr[j].persistentVolumeClaim.claimName == '名称' || !$scope.persistentarr[j].mountPath) {
                                         //alert('3不能为空')
@@ -947,7 +945,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                         "persistentarr": $scope.persistentarr
                                     }
                                 });
-                            }
+                            };
                             $scope.cancel = function () {
                                 //$uibModalInstance.close();
                                 //$scope.secretarr=[]
@@ -1054,7 +1052,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                             };
                             $scope.imgcon = {
                                 items: []
-                            }
+                            };
                             $scope.$watch('imageName', function (newVal, oldVal) {
                                 if (newVal != oldVal) {
                                     newVal = newVal.replace(/\\/g);
@@ -1249,7 +1247,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                 if ($scope.grid.version_x === x && $scope.grid.version_y == y) {
                                     $scope.grid.version_x = null;
                                     $scope.grid.version_y = null;
-                                }else {
+                                } else {
                                     $scope.grid.version_x = x;
                                     $scope.grid.version_y = y;
                                 }
@@ -1315,7 +1313,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                     password: $scope.credentials.password,
                                     email: $scope.credentials.email
                                 }, function (data) {
-                                })
+                                });
                                 $uibModalInstance.close();
                             };
                             $scope.cancel = function () {
@@ -1343,13 +1341,13 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                 if (n) {
                                     $scope.pwderr = false;
                                 }
-                            })
+                            });
 
                             $scope.ok = function () {
                                 var possword = {
                                     oldpwd: $scope.credentials.oldpwd,
                                     pwd: $scope.credentials.pwd
-                                }
+                                };
                                 pwdModify.change({
                                     new_password: $scope.credentials.pwd,
                                     old_password: $scope.credentials.oldpwd
@@ -1460,15 +1458,15 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                 dclist.items.push(item)
                             }
                             //dclist
-                        })
+                        });
                         $scope.dc = {
                             name: null,
                             idx: null
-                        }
+                        };
                         $scope.selectDc = function (idx, name) {
-                            $scope.dc.idx = idx
-                            $scope.dc.name = name
-                        }
+                            $scope.dc.idx = idx;
+                            $scope.dc.name = name;
+                        };
                         //$log.info('curdatacurdata', curdata);
                         $scope.data = dclist;
                         $scope.items = dclist.items;
@@ -1498,7 +1496,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                             } else {
                                 $scope.items = [];
                                 txt = txt.replace(/\//g, '\\/');
-                                var reg = eval('/' + txt + '/');
+                                var reg = new RegExp(txt);
                                 angular.forEach($scope.data.items, function (item) {
                                     if (reg.test(item.metadata.name)) {
                                         $scope.items.push(item);
@@ -1637,14 +1635,14 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
 
                         $http(req).success(function (data) {
                             //var arrstr = data.join(',');
-                            var arr = []
+                            var arr = [];
                             //console.log(data);
                             angular.forEach(data, function (token, i) {
                                 //arr.push(token.access_token)
                                 var index = token.region.split('-')[2]
                                 arr[index - 1] = token.access_token
 
-                            })
+                            });
 
                             var arrstr = arr.join(',');
                             //console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&",arrstr);
@@ -1663,11 +1661,8 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                         if (data.items[i].metadata.name == name) {
                                             $rootScope.namespace = name;
                                             angular.forEach(data.items, function (item, i) {
-
                                                 data.items[i].sortname = item.metadata.annotations['openshift.io/display-name'] || item.metadata.name;
-
-
-                                            })
+                                            });
                                             data.items.sort(function (x, y) {
                                                 return x.sortname > y.sortname ? 1 : -1;
                                             });
@@ -1689,14 +1684,8 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                     $rootScope.loding = false;
                                     $state.go("console.dashboard", {namespace: $rootScope.namespace})
                                     //跳转dashboard
-
-
                                     //$state.go("console.dashboard", { namespace: $rootScope.namespace });
-
-
                                 });
-
-
                                 //var inputDaovoice = function () {
                                 //    daovoice('init', {
                                 //        app_id: "b31d2fb1",
@@ -1709,7 +1698,6 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                 //}
                                 //inputDaovoice();
                             });
-
                         }).error(function (data) {
                             //console.log(data);
                             //if (data.code == 401) {
@@ -1760,9 +1748,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                         });
 
                     }
-
                     denglu()
-
                 };
             }
         ])
@@ -1772,26 +1758,21 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                 if (!filterText) {
                     return [];
                 }
-
                 var keywords = _.uniq(filterText.match(/\S+/g));
-
                 // Sort the longest keyword first.
                 keywords.sort(function (a, b) {
                     return b.length - a.length;
                 });
-
                 // Convert the keyword to a case-insensitive regular expression for the filter.
                 return _.map(keywords, function (keyword) {
                     return new RegExp(_.escapeRegExp(keyword), "i");
                 });
             };
-
             var filterForKeywords = function (objects, filterFields, keywords) {
                 var filteredObjects = objects;
                 if (_.isEmpty(keywords)) {
                     return filteredObjects;
                 }
-
                 // Find resources that match all keywords.
                 angular.forEach(keywords, function (regex) {
                     var matchesKeyword = function (obj) {
