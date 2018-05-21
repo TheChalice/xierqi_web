@@ -1,12 +1,12 @@
 'use strict';
 angular.module('console.backing_service', [
-        {
-            files: [
-                'views/Integration/Integration.css',
-                'components/bscard/bscard.js'
-            ]
-        }
-    ])
+    {
+        files: [
+            'views/Integration/Integration.css',
+            'components/bscard/bscard.js'
+        ]
+    }
+])
     .filter('myfilter', function () {
         // 分类过滤器
         return function (items, condition) {
@@ -57,7 +57,7 @@ angular.module('console.backing_service', [
                     }
                 }
                 return res;
-            }
+            };
 
             var loaditc = function (insclass, inslabel) {
 
@@ -83,7 +83,7 @@ angular.module('console.backing_service', [
                         $scope.insclass.push(insdata[i].class);
                         $scope.inslabel.push(insdata[i].provider);
 
-                    })
+                    });
                     $scope.insclass = $scope.insclass.unique();
                     $scope.inslabel = $scope.inslabel.unique();
                     angular.forEach($scope.insclass, function (insclass, i) {
@@ -95,13 +95,13 @@ angular.module('console.backing_service', [
                                 $scope.ins[i].items.push(ins);
                             }
                         })
-                    })
+                    });
                     $scope.inscopy = angular.copy($scope.ins);
                     console.log('$scope.ins', $scope.ins);
                 })
 
-            }
-            loaditc()
+            };
+            loaditc();
             // 得到loadBs对象进行分组
             var loadBs = function () {
                 repositories.query({}, function (repodata) {
@@ -123,13 +123,13 @@ angular.module('console.backing_service', [
                         } else {
                             repodata[i].label = '其他';
                         }
-                        $scope.repoclass.push(repodata[i].class)
-                        $scope.repolabel.push(repodata[i].label)
+                        $scope.repoclass.push(repodata[i].class);
+                        $scope.repolabel.push(repodata[i].label);
 
-                    })
+                    });
                     //console.log($scope.repoclass, $scope.repolabel);
-                    $scope.repoclass = $scope.repoclass.unique()
-                    $scope.repolabel = $scope.repolabel.unique()
+                    $scope.repoclass = $scope.repoclass.unique();
+                    $scope.repolabel = $scope.repolabel.unique();
 
                     //angular.forEach($scope.repoclass, function (repoclass,i) {
                     //    repoarr.push({isshow:true,showTab:true,id:i, class:repoclass,item:[]});
@@ -167,18 +167,18 @@ angular.module('console.backing_service', [
                                     Class: '其他'
                                 };
                             }
-                            if (arr[l].spec.metadata&&!arr[l].spec.metadata.providerDisplayName) {
+                            if (arr[l].spec.metadata && !arr[l].spec.metadata.providerDisplayName) {
                                 arr[l].spec.metadata.providerDisplayName = '其他'
                             }
                             if (arr[l].spec.metadata) {
-                                $scope.providers.push(arr[l].spec.metadata.providerDisplayName)
+                                $scope.providers.push(arr[l].spec.metadata.providerDisplayName);
                                 $scope.cation.push(arr[l].metadata.annotations.Class)
                             }
 
                         }
                         //将分类去重
-                        $scope.cation = $scope.cation.unique()
-                        $scope.providers = $scope.providers.unique()
+                        $scope.cation = $scope.cation.unique();
+                        $scope.providers = $scope.providers.unique();
                         //服务分类属性
                         // item.metadata.annotations.Class
                         // 服务提供者属性
@@ -187,14 +187,14 @@ angular.module('console.backing_service', [
                         for (var j = 0; j < arr.length; j++) {
 
                             for (var b = 0; b < $scope.providers.length; b++) {
-                                if (arr[j].spec.metadata&&arr[j].spec.metadata.providerDisplayName === $scope.providers[b]) {
+                                if (arr[j].spec.metadata && arr[j].spec.metadata.providerDisplayName === $scope.providers[b]) {
                                     arr[j].providerDisplayName = $scope.providers[b];
                                 }
                             }
                         }
                         //服务分类分组
                         for (var i = 0; i < $scope.cation.length; i++) {
-                            $scope.itemsDevop.push([])
+                            $scope.itemsDevop.push([]);
                             for (var m = 0; m < arr.length; m++) {
                                 if (arr[m].metadata.annotations && arr[m].metadata.annotations.Class === $scope.cation[i]) {
                                     $scope.itemsDevop[i].push(arr[m]);
@@ -204,11 +204,11 @@ angular.module('console.backing_service', [
                         // 设置渲染到页面的数据market市场
                         $scope.market = [];
                         for (var s = 0; s < $scope.cation.length; s++) {
-                            $scope.market.push({})
+                            $scope.market.push({});
                             $scope.market[s].name = $scope.cation[s];
                             for (var q = 0; q < $scope.itemsDevop.length; q++) {
                                 if (s == q) {
-                                    $scope.market[s].item = $scope.itemsDevop[q]
+                                    $scope.market[s].item = $scope.itemsDevop[q];
                                     $scope.market[s].isshow = true;
                                     $scope.market[s].showTab = true;
                                     $scope.market[s].id = q;
@@ -286,13 +286,13 @@ angular.module('console.backing_service', [
 
             $scope.classgrid = {
                 selectclass: 'all',
-                selectsclabel: 'all',
-            }
+                selectsclabel: 'all'
+            };
 
             $scope.insgrid = {
                 selectclass: 'all',
-                selectsclabel: 'all',
-            }
+                selectsclabel: 'all'
+            };
 
             //tab切换分类过滤对象
 
@@ -307,27 +307,27 @@ angular.module('console.backing_service', [
                     //
                     //console.log($scope.repoclass[n.selectclass], $scope.repolabel[n.selectsclabel]);
                     //console.log(n.selectclass,n.selectsclabel);
-                    var arr = []
-                    var classr=$scope.repoclass[n.selectclass];
-                    var labelr=$scope.repolabel[n.selectsclabel];
+                    var arr = [];
+                    var classr = $scope.repoclass[n.selectclass];
+                    var labelr = $scope.repolabel[n.selectsclabel];
 
-                    angular.forEach($scope.reposcopy, function (repo,i) {
-                        if (classr&&labelr) {
+                    angular.forEach($scope.reposcopy, function (repo, i) {
+                        if (classr && labelr) {
                             if (classr === repo.class && labelr === repo.label) {
                                 arr.push(repo);
                             }
-                        }else if(classr){
+                        } else if (classr) {
                             if (classr === repo.class) {
                                 arr.push(repo);
                             }
-                        }else if(labelr){
-                            if (labelr=== repo.label) {
+                        } else if (labelr) {
+                            if (labelr === repo.label) {
                                 arr.push(repo);
                             }
                         }
                         //console.log(arr);
-                        $scope.repos=arr;
-                    })
+                        $scope.repos = arr;
+                    });
                     //repositories.get({
                     //    class: $scope.repoclass[n.selectclass],
                     //    label: $scope.repolabel[n.selectsclabel]
@@ -335,20 +335,20 @@ angular.module('console.backing_service', [
                     //    $scope.repos = repodata.data.results;
                     //})
                 } else {
-                    $scope.repos=angular.copy($scope.reposcopy)
+                    $scope.repos = angular.copy($scope.reposcopy)
                     //repositories.get({class: '', label: ''}, function (repodata) {
                     //    $scope.repos = repodata.data.results;
                     //})
                 }
                 $scope.reposcopys = angular.copy($scope.repos);
 
-            }, true)
+            }, true);
 
             $scope.apply = function (id) {
-                instance.create({id:id}, function (data) {
+                instance.create({id: id}, function (data) {
                     console.log('iddata', data);
                 })
-            }
+            };
 
             $scope.$watch('insgrid', function (n, o) {
                 if (n === o) {
@@ -372,7 +372,7 @@ angular.module('console.backing_service', [
                 }
 
 
-            }, true)
+            }, true);
 
             $scope.selectclass = function (tp, key) {
                 //console.log("tp", tp, 'key', key);
@@ -393,7 +393,7 @@ angular.module('console.backing_service', [
                 }
                 $scope.classgrid[tp] = key;
 
-            }
+            };
 
             //服务分类键盘搜索      $scope.isComplete = '';
             //服务分类筛选
@@ -419,13 +419,13 @@ angular.module('console.backing_service', [
                 }
                 $scope.insgrid[tp] = key;
                 // console.log("$scope.itemsDevop", $scope.itemsDevop)
-            }
+            };
             // 正则方式过滤器
             var filter = function (tp, key) {
                 var reg = null;
                 if ($scope.grid.txt) {
                     var txt = $scope.grid.txt.replace(/\//g, '\\/');
-                    reg = eval('/' + txt + '/ig');
+                    reg = new RegExp('/' + txt + '/ig');
                 }
                 angular.forEach($scope.items, function (item) {
                     if (tp == 'serviceCat') {
@@ -441,14 +441,13 @@ angular.module('console.backing_service', [
             };
 
 
+            $scope.keysearch = function (event, search) {
 
-            $scope.keysearch = function (event,search) {
-
-                console.log(event,search);
+                console.log(event, search);
 
                 if (true) {
                     if ($scope.grid.txt) {
-                        var iarr = []
+                        var iarr = [];
                         //console.log($scope.ins);
                         var str = $scope.grid.txt;
                         str = str.toLocaleLowerCase();
@@ -458,15 +457,15 @@ angular.module('console.backing_service', [
                             angular.forEach(repo.items, function (item, k) {
                                 var nstr = item.display_name;
                                 console.log(repo);
-                                nstr=nstr.toLocaleLowerCase();
+                                nstr = nstr.toLocaleLowerCase();
 
                                 if (nstr.indexOf(str) !== -1) {
                                     iarr[i].items.push(item);
                                 }
-                            })
+                            });
                             //console.log(repo.instance_data, $scope.grid.txt);
 
-                        })
+                        });
                         $scope.ins = iarr;
 
                     } else {
@@ -475,7 +474,7 @@ angular.module('console.backing_service', [
                         $scope.ins = angular.copy($scope.inscopy)
                     }
                 }
-            }
+            };
 
             $scope.keyclasssearch = function (event) {
 
@@ -491,21 +490,20 @@ angular.module('console.backing_service', [
                             //console.log(repo.repoName, $scope.grid.classtxt);
                             var nstr = repo.display_name;
 
-                            nstr=nstr.toLocaleLowerCase();
+                            nstr = nstr.toLocaleLowerCase();
                             if (nstr.indexOf(str) !== -1) {
                                 repoarr.push(repo);
                             }
-                        })
+                        });
                         $scope.repos = repoarr;
 
                     } else {
-                        $scope.repos = angular.copy($scope.reposcopys||$scope.reposcopy)
+                        $scope.repos = angular.copy($scope.reposcopys || $scope.reposcopy)
                     }
                 }
-            }
+            };
             //我的后端服务搜索
 
             //服务分类搜索
 
-
-        }])
+        }]);
