@@ -918,7 +918,7 @@ angular.module('console.backing_service', [
                         },
                         bindObj, function (res) {
                             dcs.splice(0, 1);
-                            unbindService(name, dcs, binddcs)
+                            unbindService(name, dcs, binddcs);
                             //Toast.open('正在解除中,请稍等');
                             // console.log('解绑定', res)
                         }, function (res) {
@@ -1027,11 +1027,11 @@ angular.module('console.backing_service', [
                 //}
 
                 if (id === 'ins') {
-                    insid = 'ture'
+                    insid = 'ture';
                     var bindings = $scope.insservice[idx].spec.binding || [];
                     ServiceSelect.open(bindings).then(function (res) {
                         $log.info("selected service", res);
-                        Toast.open('正在绑定,请稍等')
+                        Toast.open('正在绑定,请稍等');
                         if (res.length > 0) {
                             bindService($scope.insservice[idx].metadata.name, res, idx);
                         }
@@ -1042,7 +1042,7 @@ angular.module('console.backing_service', [
                     var bindings = $scope.myservice[id].item[idx].spec.binding || [];
                     ServiceSelect.open(bindings).then(function (res) {
                         $log.info("selected service", res);
-                        Toast.open('正在绑定,请稍等')
+                        Toast.open('正在绑定,请稍等');
                         if (res.length > 0) {
                             bindService($scope.myservice[id].item[idx].metadata.name, res, idx, id);
                         }
@@ -1051,13 +1051,11 @@ angular.module('console.backing_service', [
                     var bindings = $scope.diyservice[idx].spec.binding || [];
                     ServiceSelect.open(bindings).then(function (res) {
                         $log.info("selected service", res);
-                        Toast.open('正在绑定,请稍等')
+                        Toast.open('正在绑定,请稍等');
                         if (res.length > 0) {
                             bindService($scope.diyservice[idx].metadata.name, res, idx);
                         }
                     });
                 }
-
-
             };
         }]);
