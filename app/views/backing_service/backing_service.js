@@ -614,12 +614,11 @@ angular.module('console.backing_service', [
                         }
                     }
                 }
-            }
+            };
             //服务分类键盘搜索
             $scope.marsearch = function (event) {
-
-                if (true) {
-
+                var marsearchStatus = true;
+                if (marsearchStatus) {
                     $scope.market = $scope.fiftermarket ? angular.copy($scope.fiftermarket) : angular.copy($scope.copymarket)
                     if ($scope.grid.txt) {
                         var iarr = [];
@@ -634,25 +633,22 @@ angular.module('console.backing_service', [
                                 if (nstr.indexOf(str) !== -1) {
                                     iarr.push(item)
                                 }
-                            })
+                            });
                             //console.log(repo.instance_data, $scope.grid.txt);
-
-                        })
-                        fiftermarket(iarr)
+                        });
+                        fiftermarket(iarr);
                         $scope.searchmarket = angular.copy($scope.market)
                     } else {
                         //console.log('$scope.inscopy', $scope.inscopy);
-                        $scope.searchmarket = angular.copy($scope.copymarket)
+                        $scope.searchmarket = angular.copy($scope.copymarket);
                         $scope.market = $scope.fiftermarket ? angular.copy($scope.fiftermarket) : angular.copy($scope.copymarket)
                     }
-
-
                 }
-            }
+            };
             $scope.inekeysearch = function (event) {
                 //console.log(event);
-                if (true) {
-
+                var inekeysearchStatus = true;
+                if (inekeysearchStatus) {
                     if ($scope.grid.myinetxt) {
                         console.log($scope.grid.myinetxt);
                         var repoarr = [];
@@ -665,18 +661,19 @@ angular.module('console.backing_service', [
                             if (nstr.indexOf(str) !== -1) {
                                 repoarr.push(repo);
                             }
-                        })
+                        });
                         $scope.insservice = repoarr;
 
                     } else {
                         $scope.insservice = angular.copy($scope.insservicecopy)
                     }
                 }
-            }
+            };
 
             //我的后端服务搜索
             $scope.mysearch = function (event) {
-                if (true) {
+                var mysearchStatus = true;
+                if (mysearchStatus) {
                     if ($scope.grid.mytxt) {
                         var iarr = [];
                         var str = $scope.grid.mytxt;
@@ -688,22 +685,17 @@ angular.module('console.backing_service', [
                                 if (nstr.indexOf(str) !== -1) {
                                     iarr.push(item)
                                 }
-                            })
+                            });
                             //console.log(repo.instance_data, $scope.grid.txt);
-
-                        })
-
+                        });
                         fiftermyservice(iarr);
                         $scope.searchmyservice = angular.copy($scope.myservice)
                     } else {
-                        $scope.searchmyservice = angular.copy($scope.copymyservice)
+                        $scope.searchmyservice = angular.copy($scope.copymyservice);
                         $scope.myservice = $scope.fiftermyservice ? angular.copy($scope.fiftermyservice) : angular.copy($scope.copymyservice)
                     }
                 }
-
-
-            }
-
+            };
             $scope.$watch('grid.mydivtxt', function (n, o) {
                 if (n == o) {
                     return
@@ -711,7 +703,7 @@ angular.module('console.backing_service', [
                 if (n) {
                     var arr = [];
                     var txt = n.replace(/\//g, '\\/');
-                    var reg = eval('/' + txt + '/');
+                    var reg = new RegExp('/' + txt + '/');
                     angular.forEach($scope.diyservice, function (item, i) {
                         if (reg.test(item.metadata.name)) {
                             arr.push(item)
@@ -721,9 +713,7 @@ angular.module('console.backing_service', [
                 } else if (n == "") {
                     $scope.diyservice = $scope.diyservicecopy
                 }
-
-
-            })
+            });
 
             //我的后端服务删除一个实例
             $scope.delebind = function (bsi, dcname) {
@@ -735,7 +725,7 @@ angular.module('console.backing_service', [
                     if (dcname === bind.bind_deploymentconfig) {
                         //binds[i].delete = true;
                     }
-                })
+                });
                 var bindObj = {
                     metadata: {
                         name: name,
@@ -767,12 +757,12 @@ angular.module('console.backing_service', [
                         //$log.info("del bindings err", res);
                     });
 
-            }
+            };
             var newid = null;
             var insid = null;
             $scope.delBsi = function (idx, id) {
                 if (id === 'ins') {
-                    insid = 'ture'
+                    insid = 'ture';
                     if ($scope.insservice[idx].spec.binding) {
                         var curlength = $scope.insservice[idx].spec.binding.length;
                         if (curlength > 0) {
@@ -843,7 +833,7 @@ angular.module('console.backing_service', [
                                     Toast.open('删除成功');
                                 }, function (res) {
                                     $log.info('err', res);
-                                })
+                                });
                                 //}
                                 //})
 
@@ -898,9 +888,7 @@ angular.module('console.backing_service', [
                         });
                     }
                 }
-
-
-            }
+            };
             //我的后端服务解除绑定一个服务
             var unbindService = function (name, dcs, binddcs) {
                 //angular.forEach(dcs, function (binding, i) {
@@ -910,7 +898,7 @@ angular.module('console.backing_service', [
                             //$scope.myservice[id].item[idx].spec.binding[j].delete = true;
                             binddcs[j].delete = true;
                         }
-                    })
+                    });
                     var bindObj = {
                         metadata: {
                             name: name,
@@ -947,14 +935,14 @@ angular.module('console.backing_service', [
                 }
 
                 //});
-            }
+            };
             $scope.delBing = function (idx, id) {
 
 
                 //console.log(id,"11111000");
                 //console.log('$scope.myservice2', $scope.myservice);
                 if (id === 'ins') {
-                    insid = 'ture'
+                    insid = 'ture';
                     var name = $scope.insservice[idx].metadata.name;
                     var bindings = [];
                     var binds = $scope.insservice[idx].spec.binding || [];
@@ -1008,8 +996,8 @@ angular.module('console.backing_service', [
                             bindKind: 'DeploymentConfig'
                         },
                         function (res) {
-                            dcs.splice(0, 1)
-                            bindService(name, dcs)
+                            dcs.splice(0, 1);
+                            bindService(name, dcs);
                             //Toast.open('正在绑定中,请稍等');
                         }, function (res) {
                             //todo 错误处理
@@ -1072,4 +1060,4 @@ angular.module('console.backing_service', [
 
 
             };
-        }])
+        }]);
