@@ -1,12 +1,12 @@
 'use strict';
 angular.module('console.backing_service', [
-        {
-            files: [
-                'views/backing_service/backing_service.css',
-                'components/bscard/bscard.js'
-            ]
-        }
-    ])
+    {
+        files: [
+            'views/backing_service/backing_service.css',
+            'components/bscard/bscard.js'
+        ]
+    }
+])
     .filter('myfilter', function () {
         // 分类过滤器
         return function (items, condition) {
@@ -47,8 +47,8 @@ angular.module('console.backing_service', [
             }
         };
     })
-    .controller('BackingServiceCtrl', ['delorders','orders','$state', '$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'BackingServiceInstanceBd', 'Confirm', 'Toast', 'Ws', '$filter',
-        function (delorders,orders,$state, $log, $rootScope, $scope, BackingService, BackingServiceInstance, ServiceSelect, BackingServiceInstanceBd, Confirm, Toast, Ws, $filter) {
+    .controller('BackingServiceCtrl', ['delorders', 'orders', '$state', '$log', '$rootScope', '$scope', 'BackingService', 'BackingServiceInstance', 'ServiceSelect', 'BackingServiceInstanceBd', 'Confirm', 'Toast', 'Ws', '$filter',
+        function (delorders, orders, $state, $log, $rootScope, $scope, BackingService, BackingServiceInstance, ServiceSelect, BackingServiceInstanceBd, Confirm, Toast, Ws, $filter) {
             // 数组去重方法
             if ($state.params.index) {
                 $scope.check = $state.params.index
@@ -64,7 +64,7 @@ angular.module('console.backing_service', [
                     }
                 }
                 return res;
-            }
+            };
             // 得到loadBs对象进行分组
             var loadBs = function () {
                 BackingService.get({namespace: 'openshift', region: $rootScope.region}, function (data) {
@@ -88,7 +88,7 @@ angular.module('console.backing_service', [
                                     Class: '其他'
                                 };
                             }
-                            if (arr[l].spec.metadata&&!arr[l].spec.metadata.providerDisplayName) {
+                            if (arr[l].spec.metadata && !arr[l].spec.metadata.providerDisplayName) {
                                 arr[l].spec.metadata.providerDisplayName = '其他'
                             }
                             if (arr[l].spec.metadata) {
@@ -100,8 +100,8 @@ angular.module('console.backing_service', [
                     }
 
                     //将分类去重
-                    $scope.cation = $scope.cation.unique()
-                    $scope.providers = $scope.providers.unique()
+                    $scope.cation = $scope.cation.unique();
+                    $scope.providers = $scope.providers.unique();
                     //服务分类属性
                     // item.metadata.annotations.Class
                     // 服务提供者属性
@@ -109,14 +109,14 @@ angular.module('console.backing_service', [
                     //服务提供者分组
                     for (var j = 0; j < arr.length; j++) {
                         for (var b = 0; b < $scope.providers.length; b++) {
-                            if (arr[j].spec.metadata&&arr[j].spec.metadata.providerDisplayName === $scope.providers[b]) {
+                            if (arr[j].spec.metadata && arr[j].spec.metadata.providerDisplayName === $scope.providers[b]) {
                                 arr[j].providerDisplayName = $scope.providers[b];
                             }
                         }
                     }
                     //服务分类分组
                     for (var i = 0; i < $scope.cation.length; i++) {
-                        $scope.itemsDevop.push([])
+                        $scope.itemsDevop.push([]);
                         for (var m = 0; m < arr.length; m++) {
                             if (arr[m].metadata.annotations && arr[m].metadata.annotations.Class === $scope.cation[i]) {
                                 $scope.itemsDevop[i].push(arr[m]);
@@ -126,7 +126,7 @@ angular.module('console.backing_service', [
                     // 设置渲染到页面的数据market市场
                     $scope.market = [];
                     for (var s = 0; s < $scope.cation.length; s++) {
-                        $scope.market.push({})
+                        $scope.market.push({});
                         $scope.market[s].name = $scope.cation[s];
                         for (var q = 0; q < $scope.itemsDevop.length; q++) {
                             if (s == q) {
@@ -154,7 +154,7 @@ angular.module('console.backing_service', [
                     if (other) {
                         $scope.market.push(other)
                     }
-                    $scope.copymarket = angular.copy($scope.market)
+                    $scope.copymarket = angular.copy($scope.market);
                     // 从新将服务分类提取
                     var lins = [];
                     for (var x = 0; x < $scope.market.length; x++) {
@@ -164,9 +164,9 @@ angular.module('console.backing_service', [
                     $scope.cation = lins;
                     // 第一栏分类
                     var fiftobj = {};
-                    var fiftmanobj = {}
+                    var fiftmanobj = {};
                     for (var q = 0; q < data.items.length; q++) {
-                        fiftobj[data.items[q].metadata.name] = data.items[q].metadata.annotations.Class
+                        fiftobj[data.items[q].metadata.name] = data.items[q].metadata.annotations.Class;
                         fiftmanobj[data.items[q].metadata.name] = data.items[q].providerDisplayName
                     }
                     // console.log('fiftobj',fiftobj)
@@ -182,29 +182,29 @@ angular.module('console.backing_service', [
                             //$log.info("backingServiceInstance", res);
                             $scope.resourceVersion = res.metadata.resourceVersion;
                             watchBsi($scope.resourceVersion);
-                            angular.forEach(res.items, function (item,i) {
-                                if (item.spec.binding&&item.spec.binding.length) {
-                                   angular.forEach(item.spec.binding, function (bind,k) {
-                                      //bind.bound_time
-                                       res.items[i].spec.binding[k].mysort=bind.bound_time;
-                                       res.items[i].spec.binding[k].mysort=(new Date(res.items[i].spec.binding[k].mysort)).getTime();
+                            angular.forEach(res.items, function (item, i) {
+                                if (item.spec.binding && item.spec.binding.length) {
+                                    angular.forEach(item.spec.binding, function (bind, k) {
+                                        //bind.bound_time
+                                        res.items[i].spec.binding[k].mysort = bind.bound_time;
+                                        res.items[i].spec.binding[k].mysort = (new Date(res.items[i].spec.binding[k].mysort)).getTime();
 
-                                   })
-                                    res.items[i].spec.binding.sort(function (x,y) {
+                                    });
+                                    res.items[i].spec.binding.sort(function (x, y) {
                                         return x.mysort > y.mysort ? -1 : 1;
                                     })
                                 }
-                            })
-                            angular.forEach(res.items, function (item,i) {
+                            });
+                            angular.forEach(res.items, function (item, i) {
                                 if (item.metadata.creationTimestamp) {
-                                    res.items[i].mysort=item.metadata.creationTimestamp;
-                                    res.items[i].mysort=(new Date(item.metadata.creationTimestamp)).getTime();
+                                    res.items[i].mysort = item.metadata.creationTimestamp;
+                                    res.items[i].mysort = (new Date(item.metadata.creationTimestamp)).getTime();
                                 }
 
-                            })
-                            res.items.sort(function (x,y) {
+                            });
+                            res.items.sort(function (x, y) {
                                 return x.mysort > y.mysort ? -1 : 1;
-                            })
+                            });
                             $scope.bsi = res;
                             for (var i = 0; i < res.items.length; i++) {
                                 for (var k in fiftobj) {
@@ -237,12 +237,12 @@ angular.module('console.backing_service', [
 
                             for (var s = 0; s < $scope.cation.length; s++) {
 
-                                $scope.myservice.push({})
+                                $scope.myservice.push({});
 
                                 $scope.myservice[s].name = $scope.cation[s];
                                 for (var q = 0; q < fiftarr.length; q++) {
                                     if (s == q) {
-                                        $scope.myservice[s].item = fiftarr[q]
+                                        $scope.myservice[s].item = fiftarr[q];
                                         $scope.myservice[s].isshow = true;
                                         $scope.myservice[s].showTab = true;
                                         $scope.myservice[s].id = q;
@@ -260,15 +260,15 @@ angular.module('console.backing_service', [
                             $scope.diyservice = [];
 
                             $scope.insservice = [];
-                            $scope.numservice=[];
+                            $scope.numservice = [];
                             angular.forEach(bciarr, function (item, i) {
                                 if (item.metadata.annotations && item.metadata.annotations['label'] == "integration") {
-                                    item.mysort = (new Date(item.metadata.creationTimestamp)).getTime()
+                                    item.mysort = (new Date(item.metadata.creationTimestamp)).getTime();
                                     $scope.insservice.push(item);
                                 } else if (item.metadata.annotations && item.metadata.annotations['USER-PROVIDED-SERVICE'] == "true") {
-                                    item.mysort = (new Date(item.metadata.creationTimestamp)).getTime()
+                                    item.mysort = (new Date(item.metadata.creationTimestamp)).getTime();
                                     $scope.diyservice.push(item);
-                                }else {
+                                } else {
                                     $scope.numservice.push(item);
                                 }
                             });
@@ -331,11 +331,11 @@ angular.module('console.backing_service', [
             $scope.marketclass = {
                 serviceCat: 'all',
                 vendor: 'all'
-            }
+            };
             $scope.mymarketclass = {
                 serviceCat: 'all',
                 vendor: 'all'
-            }
+            };
 
             //tab切换分类过滤对象
             //$scope.isComplete = '';
@@ -366,14 +366,14 @@ angular.module('console.backing_service', [
                 }
                 $scope.marketclass[tp] = key;
                 // console.log("$scope.itemsDevop", $scope.itemsDevop)
-            }
+            };
             //my服务提供者筛选
             $scope.myselectsc = function (tp, key) {
                 if (key == $scope.mymarketclass[tp]) {
                     key = 'all';
                 }
                 $scope.mymarketclass[tp] = key;
-            }
+            };
 
             function fiftermarket(arr) {
                 $scope.market = [];
@@ -409,7 +409,7 @@ angular.module('console.backing_service', [
                     //
                     //console.log($scope.repoclass[n.selectclass], $scope.repolabel[n.selectsclabel]);
                     //console.log(n.selectclass,n.selectsclabel);
-                    var arr = []
+                    var arr = [];
                     var classr = $scope.cation[n.serviceCat];
                     var labelr = $scope.providers[n.vendor];
                     $scope.market = $scope.searchmarket ? angular.copy($scope.searchmarket) : angular.copy($scope.copymarket)
@@ -430,8 +430,8 @@ angular.module('console.backing_service', [
                             }
 
                         })
-                    })
-                    fiftermarket(arr)
+                    });
+                    fiftermarket(arr);
 
 
                     console.log('$scope.market', $scope.market);
@@ -442,7 +442,7 @@ angular.module('console.backing_service', [
                     $scope.market = $scope.searchmarket ? angular.copy($scope.searchmarket) : angular.copy($scope.copymarket)
                 }
 
-            }, true)
+            }, true);
             $scope.$watch('mymarketclass', function (n, o) {
                 if (n === o) {
                     return
@@ -474,8 +474,8 @@ angular.module('console.backing_service', [
                             }
 
                         })
-                    })
-                    fiftermyservice(arr)
+                    });
+                    fiftermyservice(arr);
 
 
                     //console.log('$scope.myservice', $scope.myservice);
@@ -486,7 +486,7 @@ angular.module('console.backing_service', [
 
                 }
                 //$scope.fiftermarket = angular.copy($scope.market);
-            }, true)
+            }, true);
             // 我的后端服务长连接
             var watchBsi = function (resourceVersion) {
                 Ws.watch({
@@ -548,34 +548,34 @@ angular.module('console.backing_service', [
                                 $scope.$apply();
                             }
                         })
-                    }else {
-                        angular.forEach($scope.myservice, function (bsis,i) {
+                    } else {
+                        angular.forEach($scope.myservice, function (bsis, i) {
                             //console.log('bsis',bsis);
-                            angular.forEach(bsis.item, function (bsi,j) {
+                            angular.forEach(bsis.item, function (bsi, j) {
                                 //console.log(bsi);
                                 if (bsi.metadata.name === data.object.metadata.name) {
                                     //console.log('bsi.metadata.name', bsi.metadata.name);
                                     //if (bsi.spec.binding.length !== data.object.spec.binding.length) {
-                                        //console.log('bsi',bsi);
+                                    //console.log('bsi',bsi);
                                     //angular.forEach(res.items, function (item,i) {
-                                        if (data.object.spec.binding&&data.object.spec.binding.length) {
-                                            angular.forEach(data.object.spec.binding, function (bind,k) {
-                                                //bind.bound_time
-                                                data.object.spec.binding[k].mysort=bind.bound_time;
-                                                data.object.spec.binding[k].mysort=(new Date(data.object.spec.binding[k].mysort)).getTime();
+                                    if (data.object.spec.binding && data.object.spec.binding.length) {
+                                        angular.forEach(data.object.spec.binding, function (bind, k) {
+                                            //bind.bound_time
+                                            data.object.spec.binding[k].mysort = bind.bound_time;
+                                            data.object.spec.binding[k].mysort = (new Date(data.object.spec.binding[k].mysort)).getTime();
 
-                                            })
-                                            data.object.spec.binding.sort(function (x,y) {
-                                                return x.mysort > y.mysort ? -1 : 1;
-                                            })
-                                        }
+                                        });
+                                        data.object.spec.binding.sort(function (x, y) {
+                                            return x.mysort > y.mysort ? -1 : 1;
+                                        })
+                                    }
                                     //})
-                                        data.object.show = bsi.show;
-                                        $scope.myservice[i].item[j] = data.object;
-                                        $scope.$apply();
+                                    data.object.show = bsi.show;
+                                    $scope.myservice[i].item[j] = data.object;
+                                    $scope.$apply();
                                     //}
                                 }
-                            })
+                            });
 
                             if (bsis.item.length == 0) {
                                 $scope.myservice[i].showTab = false;
@@ -588,8 +588,8 @@ angular.module('console.backing_service', [
             };
             // 我的后端服务键盘搜索
             $scope.mykeysearch = function (event) {
-
-                if (true) {
+                var mykeysearchStatus = true;
+                if (mykeysearchStatus) {
                     for (var s = 0; s < $scope.myservice.length; s++) {
                         $scope.myservice[s].showTab = true;
                     }
@@ -726,12 +726,12 @@ angular.module('console.backing_service', [
             })
 
             //我的后端服务删除一个实例
-            $scope.delebind= function (bsi,dcname) {
+            $scope.delebind = function (bsi, dcname) {
                 //console.log(bsi, dcname);
                 var name = bsi.metadata.name;
                 //var bindings = [];
                 var binds = bsi.spec.binding || [];
-                angular.forEach(binds, function (bind,i) {
+                angular.forEach(binds, function (bind, i) {
                     if (dcname === bind.bind_deploymentconfig) {
                         //binds[i].delete = true;
                     }
@@ -806,13 +806,13 @@ angular.module('console.backing_service', [
                 } else if (id || id === 0) {
                     id = id.toString();
                     newid = id;
-                     console.log('del$scope.myservice[id].item[idx]', $scope.myservice[id].item[idx]);
-                    if ($scope.myservice[id].item[idx].spec.binding||$scope.myservice[id].item[idx].spec.binding===null) {
+                    console.log('del$scope.myservice[id].item[idx]', $scope.myservice[id].item[idx]);
+                    if ($scope.myservice[id].item[idx].spec.binding || $scope.myservice[id].item[idx].spec.binding === null) {
                         //alert(1)
                         if ($scope.myservice[id].item[idx].spec.binding) {
                             var curlength = $scope.myservice[id].item[idx].spec.binding.length;
-                        }else {
-                            var curlength=0
+                        } else {
+                            var curlength = 0
                         }
 
 
@@ -822,29 +822,29 @@ angular.module('console.backing_service', [
                             Confirm.open('删除后端服务实例', '您确定要删除该实例吗？此操作不可恢复', '', 'recycle', false).then(function () {
 
                                 //orders.query({region:$rootScope.region,resource_name:$scope.myservice[id].item[idx].metadata.name,namespace:$rootScope.namespace,
-                                    //status:'consuming'}, function (data) {
-                                    //console.log('data',data);
-                                    //if (data.length>0&&data[0].order.id) {
-                                    //    delorders.delete({id:data[0].order.id,action:"cancel",namespace:$rootScope.namespace}, function (data) {
-                                    //        //$state.go('console.resource_management', {index: 1})
-                                    //        console.log($scope.numservice);
-                                    //        $scope.numservice.splice(0, 1);
-                                    //        $scope.myservice[id].item.splice(idx, 1);
-                                    //        Toast.open('删除成功');
-                                    //    })
-                                    //
-                                    //}else {
-                                        BackingServiceInstance.del({
-                                            namespace: $rootScope.namespace,
-                                            name: $scope.myservice[id].item[idx].metadata.name,
-                                            region: $rootScope.region
-                                        }, function (res) {
-                                            $scope.myservice[id].item.splice(idx, 1);
-                                            Toast.open('删除成功');
-                                        }, function (res) {
-                                            $log.info('err', res);
-                                        })
-                                    //}
+                                //status:'consuming'}, function (data) {
+                                //console.log('data',data);
+                                //if (data.length>0&&data[0].order.id) {
+                                //    delorders.delete({id:data[0].order.id,action:"cancel",namespace:$rootScope.namespace}, function (data) {
+                                //        //$state.go('console.resource_management', {index: 1})
+                                //        console.log($scope.numservice);
+                                //        $scope.numservice.splice(0, 1);
+                                //        $scope.myservice[id].item.splice(idx, 1);
+                                //        Toast.open('删除成功');
+                                //    })
+                                //
+                                //}else {
+                                BackingServiceInstance.del({
+                                    namespace: $rootScope.namespace,
+                                    name: $scope.myservice[id].item[idx].metadata.name,
+                                    region: $rootScope.region
+                                }, function (res) {
+                                    $scope.myservice[id].item.splice(idx, 1);
+                                    Toast.open('删除成功');
+                                }, function (res) {
+                                    $log.info('err', res);
+                                })
+                                //}
                                 //})
 
                             });
@@ -902,7 +902,7 @@ angular.module('console.backing_service', [
 
             }
             //我的后端服务解除绑定一个服务
-            var unbindService= function (name, dcs,binddcs) {
+            var unbindService = function (name, dcs, binddcs) {
                 //angular.forEach(dcs, function (binding, i) {
                 if (dcs.length > 0) {
                     angular.forEach(binddcs, function (bind, j) {
@@ -929,14 +929,14 @@ angular.module('console.backing_service', [
                             region: $rootScope.region
                         },
                         bindObj, function (res) {
-                            dcs.splice(0,1);
-                            unbindService(name,dcs,binddcs)
+                            dcs.splice(0, 1);
+                            unbindService(name, dcs, binddcs)
                             //Toast.open('正在解除中,请稍等');
                             // console.log('解绑定', res)
                         }, function (res) {
                             //todo 错误处理
                             // Toast.open('操作失败');
-                            Toast.open(binding.bind_deploymentconfig+'解绑失败,请重试');
+                            Toast.open(binding.bind_deploymentconfig + '解绑失败,请重试');
                             //if (res.data.message.split(':')[1]) {
                             //    Toast.open(res.data.message.split(':')[1].split(';')[0]);
                             //} else {
@@ -984,7 +984,7 @@ angular.module('console.backing_service', [
                     return;
                 }
                 //console.log($scope.myservice,bindings);
-                unbindService(name,bindings,binds)
+                unbindService(name, bindings, binds)
 
             };
             //我的后端服务绑定一个服务
@@ -997,7 +997,7 @@ angular.module('console.backing_service', [
                             namespace: $rootScope.namespace,
                             name: name,
                             region: $rootScope.region
-                        },  {
+                        }, {
                             metadata: {
                                 name: name,
                                 annotations: {
@@ -1008,7 +1008,7 @@ angular.module('console.backing_service', [
                             bindKind: 'DeploymentConfig'
                         },
                         function (res) {
-                            dcs.splice(0,1)
+                            dcs.splice(0, 1)
                             bindService(name, dcs)
                             //Toast.open('正在绑定中,请稍等');
                         }, function (res) {
@@ -1018,7 +1018,7 @@ angular.module('console.backing_service', [
                             //if (res.data.message.split(':')[1]) {
                             //    Toast.open(res.data.message.split(':')[1].split(';')[0]);
                             //} else {
-                            Toast.open(dc.metadata.name+'绑定失败,请重试');
+                            Toast.open(dc.metadata.name + '绑定失败,请重试');
                             //}
                             //
                             //$log.info("bind services " +
