@@ -1,15 +1,15 @@
 'use strict';
 angular.module('console.service.create', [
-        {
-            files: [
-                'components/searchbar/searchbar.js',
-                'components/checkbox/checkbox.js',
-                'views/service_create/service_create.css'
-            ]
-        }
-    ])
-    .controller('ServiceCreateCtrl', ['horizontalpodautoscalers', 'GLOBAL', 'resourcequotas', '$http', 'by', 'diploma', 'Confirm', 'Toast', '$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service', 'ChooseSecret', '$base64', 'secretskey', 'serviceaccounts','toastr',
-        function (horizontalpodautoscalers, GLOBAL, resourcequotas, $http, by, diploma, Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service, ChooseSecret, $base64, secretskey, serviceaccounts,toastr) {
+    {
+        files: [
+            'components/searchbar/searchbar.js',
+            'components/checkbox/checkbox.js',
+            'views/service_create/service_create.css'
+        ]
+    }
+])
+    .controller('ServiceCreateCtrl', ['horizontalpodautoscalers', 'GLOBAL', 'resourcequotas', '$http', 'by', 'diploma', 'Confirm', 'Toast', '$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service', 'ChooseSecret', '$base64', 'secretskey', 'serviceaccounts', 'toastr',
+        function (horizontalpodautoscalers, GLOBAL, resourcequotas, $http, by, diploma, Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service, ChooseSecret, $base64, secretskey, serviceaccounts, toastr) {
             //$log.info('ServiceCreate');
             $('#sevicecreateinp').focus();
             $scope.$on('$viewContentLoaded', function () {
@@ -24,7 +24,7 @@ angular.module('console.service.create', [
                 //  hostPort: "",
                 //  protocol: ""
                 //}
-            ]
+            ];
             //$scope.addprot = function (ind, last) {
             //  if (last) {     //添加
             //    $scope.portsArr.unshift({
@@ -40,7 +40,7 @@ angular.module('console.service.create', [
                 $scope.portsArr.unshift({
                     containerPort: "",
                     protocol: "TCP",
-                    hostPort: "",
+                    hostPort: ""
                 })
             };
 
@@ -87,7 +87,7 @@ angular.module('console.service.create', [
                             "terminationGracePeriodSeconds": 30,
                             "dnsPolicy": "ClusterFirst",
                             "securityContext": {},
-                            'volumes': [],
+                            'volumes': []
 
                         }
                     },
@@ -110,13 +110,13 @@ angular.module('console.service.create', [
                     "maxReplicas": null,
                     "targetCPUUtilizationPercentage": null
                 }
-            }
+            };
             // console.log('$rootScope',$rootScope);
             $scope.quotaerr = {
                 cpuend: false,
-                cpuminbig:false,
-                memoryminbig:false
-            }
+                cpuminbig: false,
+                memoryminbig: false
+            };
             $scope.grid = {
 
                 ports: [],
@@ -149,7 +149,7 @@ angular.module('console.service.create', [
                 isimageChange: true,
                 servicenameerr: false,
                 imagePullSecrets: false,
-                volumerr:false,
+                volumerr: false,
                 quota: true,
             };
             $scope.strategy = {
@@ -157,7 +157,7 @@ angular.module('console.service.create', [
                 max: null,
                 cpuuse: null
 
-            }
+            };
 
             $scope.quota = {
                 rubustCheck: false,
@@ -186,7 +186,7 @@ angular.module('console.service.create', [
                         memoryquota: null
                     }
                 }
-            }
+            };
 
             $scope.$watch('portsArr', function (n, o) {
                 if (n === o) {
@@ -196,7 +196,7 @@ angular.module('console.service.create', [
                     $scope.grid.port = $scope.portsArr[0].hostPort;
                 }
                 //console.log('端口',n);
-            }, true)
+            }, true);
             var rex = /^[0-9]{0,}\.{0,1}\d{1,2}$/;
             $scope.$watch('quota', function (n, o) {
                 if (n === o) {
@@ -204,22 +204,22 @@ angular.module('console.service.create', [
                 }
                 if (n) {
                     console.log(n);
-                    $scope.quotaerr.cpuminbig=false;
-                    $scope.quotaerr.memoryminbig=false;
+                    $scope.quotaerr.cpuminbig = false;
+                    $scope.quotaerr.memoryminbig = false;
                     if (n.rubustCheck) {
                         $scope.quota.doquota = true;
                     }
                     if (n.doquota) {
-                        var cpumin= n.cpu.request.cpuunit==='millcores'?n.cpu.request.cpuquota:n.cpu.request.cpuquota*1000;
-                        var cpumax= n.cpu.limit.cpuunit==='millcores'?n.cpu.limit.cpuquota:n.cpu.limit.cpuquota*1000;
+                        var cpumin = n.cpu.request.cpuunit === 'millcores' ? n.cpu.request.cpuquota : n.cpu.request.cpuquota * 1000;
+                        var cpumax = n.cpu.limit.cpuunit === 'millcores' ? n.cpu.limit.cpuquota : n.cpu.limit.cpuquota * 1000;
                         console.log(cpumax, cpumin);
                         if (cpumax < cpumin) {
-                            $scope.quotaerr.cpuminbig=true;
+                            $scope.quotaerr.cpuminbig = true;
                         }
-                        var memorymin= n.memory.request.memoryunit==='MB'?n.memory.request.memoryquota:n.memory.request.memoryquota*1000;
-                        var memorymax= n.memory.limit.memoryunit==='MB'?n.memory.limit.memoryquota:n.memory.limit.memoryquota*1000;
+                        var memorymin = n.memory.request.memoryunit === 'MB' ? n.memory.request.memoryquota : n.memory.request.memoryquota * 1000;
+                        var memorymax = n.memory.limit.memoryunit === 'MB' ? n.memory.limit.memoryquota : n.memory.limit.memoryquota * 1000;
                         if (memorymax < memorymin) {
-                            $scope.quotaerr.memoryminbig=true;
+                            $scope.quotaerr.memoryminbig = true;
                         }
                     }
 
@@ -331,14 +331,14 @@ angular.module('console.service.create', [
                 });
 
 
-            }
+            };
 
             $scope.showdiploma = function (idx) {
                 //$scope.tlsroutes[idx].spec.zhengshu
                 diploma.open($scope.tlsroutes[idx]).then(function () {
 
                 })
-            }
+            };
 
             function readSingleFile(e, name) {
                 //alert(1111)
@@ -360,35 +360,35 @@ angular.module('console.service.create', [
                     $scope.$apply();
                 };
                 reader.readAsText(file);
-            };
+            }
 
             $scope.addzhengshu = function () {
 
                 document.getElementById('zsfile').addEventListener('change', function (e) {
                     readSingleFile(e, 'zsfile')
                 }, false);
-            }
+            };
 
             $scope.addsy = function () {
 
                 document.getElementById('syfile').addEventListener('change', function (e) {
                     readSingleFile(e, 'syfile')
                 }, false);
-            }
+            };
 
             $scope.addca = function () {
 
                 document.getElementById('cafile').addEventListener('change', function (e) {
                     readSingleFile(e, 'cafile')
                 }, false);
-            }
+            };
 
             $scope.addmca = function () {
 
                 document.getElementById('mcafile').addEventListener('change', function (e) {
                     readSingleFile(e, 'mcafile')
                 }, false);
-            }
+            };
 
             $scope.invalid = {};
 
@@ -452,11 +452,11 @@ angular.module('console.service.create', [
                     }, 100)
                 }
 
-            }
+            };
 
             $scope.deletecando = function (inner, outer) {
                 $scope.dc.spec.template.spec.containers[outer].readinessProbe.exec.command.splice(inner, 1);
-            }
+            };
 
             $scope.$watch('dc.spec.template.spec.containers', function (n, o) {
                 if (n === o) {
@@ -518,7 +518,7 @@ angular.module('console.service.create', [
                     })
                 }
 
-            }, true)
+            }, true);
 
             $scope.triggerConfigTpl = {
                 "type": "ConfigChange"
@@ -591,10 +591,10 @@ angular.module('console.service.create', [
             // 仓库镜像时需要先获取该数据添加到imagePullSecrets字段中
             var getserviceaccounts = function () {
                 serviceaccounts.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (res) {
-                    $scope.serviceas = res
+                    $scope.serviceas = res;
                     //console.log('----------------------', res);
                 })
-            }
+            };
 
             getserviceaccounts();
 
@@ -691,9 +691,9 @@ angular.module('console.service.create', [
                                 }
                             };
                             $scope.dc.metadata.annotations[imagetag] = arr[3] + ":" + arr[2];
-                            $scope.portsArr = []
+                            $scope.portsArr = [];
                             if ($stateParams.ports && $stateParams.ports.length > 0) {
-                                var arr = angular.copy($stateParams.ports)
+                                var arr = angular.copy($stateParams.ports);
                                 angular.forEach(arr, function (port, i) {
 
                                     var strarr = port.split('/');
@@ -701,7 +701,7 @@ angular.module('console.service.create', [
                                     $scope.portsArr.push({
                                         containerPort: parseInt(strarr[0]),
                                         hostPort: parseInt(strarr[0]),
-                                        protocol: val,
+                                        protocol: val
                                     });
                                 })
 
@@ -790,13 +790,13 @@ angular.module('console.service.create', [
                             $scope.portsArr.push({
                                 containerPort: parseInt(strarr[0]),
                                 hostPort: parseInt(strarr[0]),
-                                protocol: val,
+                                protocol: val
                                 //open: true
                             });
                         })
                     }
 
-                })
+                });
                 isConflict();
             };
 
@@ -816,7 +816,7 @@ angular.module('console.service.create', [
                     $log.info('loadDcList', res);
                     //todo ������
                 });
-            }
+            };
 
             loadDcList();
 
@@ -828,15 +828,15 @@ angular.module('console.service.create', [
                 angular.forEach(n, function (nport, i) {
                     if (n[i]) {
                         if (n[i].containerPort > 65535) {
-                            $scope.portsArr[i].containerPort=''
+                            $scope.portsArr[i].containerPort = ''
                         }
                         if (n[i].hostPort > 65535) {
-                            $scope.portsArr[i].hostPort=''
+                            $scope.portsArr[i].hostPort = ''
                         }
                         //$scope.portsArr[i].hostPort = n[i].containerPort
                     }
                 })
-            }, true)
+            }, true);
 
             var loadBsi = function (dc) {
                 BackingServiceInstance.get({
@@ -889,7 +889,7 @@ angular.module('console.service.create', [
                     //    $scope.dc.spec.template.spec.containers[idx].secretsobj = [];
                     //}
                 });
-            }
+            };
 
 
             $scope.delEnv = function (idx) {
@@ -898,7 +898,7 @@ angular.module('console.service.create', [
 
             $scope.addEnv = function () {
                 $scope.envs.push({name: '', value: ''});
-            }
+            };
             //// 选择镜像节流阀
             $scope.chooesimage = false;
 
@@ -918,7 +918,7 @@ angular.module('console.service.create', [
                             container.ports.push({
                                 containerPort: '',
                                 hostPort: '',
-                                protocol: '',
+                                protocol: ''
                                 //open: true
                             })
                         }
@@ -931,7 +931,7 @@ angular.module('console.service.create', [
                             container.isshow = false;
                             //var str1 = res.imagesname.split("/");
                             var tag = res.imagesname.split("/")[res.imagesname.split("/").length - 1];
-                            var strname1 = res.imagesname.split('/' + tag)[0]
+                            var strname1 = res.imagesname.split('/' + tag)[0];
                             //var strname1 = str1[0] + '/' + str1[1];
                             container.truename = strname1.replace('/', "-");
                             container.image = GLOBAL.common_url + '/' + strname1 + ':' + tag;
@@ -985,7 +985,7 @@ angular.module('console.service.create', [
                                     }
                                 }
                             };
-                            container.port = []
+                            container.port = [];
                             $scope.dc.metadata.annotations[imagetag] = container.truename + ":" + tag;
 
                         } else {
@@ -1006,7 +1006,7 @@ angular.module('console.service.create', [
                                 for (var i = 0; i < cons.length; i++) {
                                     if (i != idx) {
                                         if (container.name && cons[i].name == container.name) {
-                                            strname = str[0] + idx
+                                            strname = str[0] + idx;
                                             container.name = strname;
                                         }
                                     }
@@ -1015,7 +1015,7 @@ angular.module('console.service.create', [
                             } else {
                                 for (var i = 1; i < cons.length; i++) {
                                     if (container.name && cons[i].name == container.name) {
-                                        strname = str[0] + idx
+                                        strname = str[0] + idx;
                                         container.name = strname;
                                     }
                                 }
@@ -1065,13 +1065,13 @@ angular.module('console.service.create', [
                                         $scope.portsArr.push({
                                             containerPort: parseInt(strarr[0]),
                                             hostPort: parseInt(strarr[0]),
-                                            protocol: val,
+                                            protocol: val
                                             //open: true
                                         });
                                     })
                                 }
                                 //delete $scope.dc.spec.template.spec.containers[i].port
-                            })
+                            });
                             if ($scope.portsArr.length > 0) {
                                 if ($scope.portsArr[0] && $scope.portsArr[0].hostPort) {
                                     $scope.grid.port = $scope.portsArr[0].hostPort;
@@ -1117,7 +1117,7 @@ angular.module('console.service.create', [
             };
             //
             var isConflict = function () {
-                //console.log($scope.portsArr)
+                // console.log('121212121', $scope.portsArr);
                 var conflict = false;
                 var serviceConflict = false;
                 for (var i = 0; i < $scope.portsArr.length; i++) {
@@ -1145,7 +1145,6 @@ angular.module('console.service.create', [
                         ports[j].serviceConflict = true;
                     }
 
-
                     if (ports[j].containerPort && ports[j].hostPort) {
                         $scope.grid.servicepot = false;
                         $scope.grid.conflict = conflict;
@@ -1153,10 +1152,9 @@ angular.module('console.service.create', [
                         if (j == ports.length - 1) {
                             return conflict || serviceConflict;
                         }
-                    } else if (!ports[j].containerPort && !ports[j].containerPort) {
+                    } else if (!ports[j].containerPort && !ports[j].hostPort) {
                         return false
                     } else {
-
                         $scope.grid.servicepot = true;
                         return true
                     }
@@ -1317,7 +1315,7 @@ angular.module('console.service.create', [
                         //  continue;
                         //}
                         if (ports[j].hostPort) {
-                            var val = ports[j].protocol.toUpperCase()
+                            var val = ports[j].protocol.toUpperCase();
                             ps.push({
                                 name: ports[j].hostPort + '-' + ports[j].protocol.toLowerCase(),
                                 port: parseInt(ports[j].hostPort),
@@ -1457,7 +1455,7 @@ angular.module('console.service.create', [
                 }, function (res) {
                     //console.log("deleService-no", res);
                 })
-            }
+            };
             //  删除同名路由,创建dc之前执行该方法
             var deleRoute = function () {
                 Route.delete({
@@ -1469,7 +1467,7 @@ angular.module('console.service.create', [
                 }, function (res) {
                     //console.log("deleRoute-no", res);
                 })
-            }
+            };
 
             /////验证环境变量
             var prepareport = function () {
@@ -1493,12 +1491,12 @@ angular.module('console.service.create', [
                     }
                 }
                 return createports;
-            }
+            };
             $scope.namerr = {
                 nil: false,
                 rexed: false,
                 repeated: false
-            }
+            };
 
             $scope.nameblur = function () {
                 if (!$scope.dc.metadata.name) {
@@ -1506,10 +1504,10 @@ angular.module('console.service.create', [
                 } else {
                     $scope.namerr.nil = false
                 }
-            }
+            };
             $scope.namefocus = function () {
                 $scope.namerr.nil = false
-            }
+            };
 
             $scope.$watch('dc.metadata.name', function (n, o) {
                 if (n === o) {
@@ -1534,7 +1532,7 @@ angular.module('console.service.create', [
                 } else {
                     $scope.namerr.rexed = false;
                 }
-            })
+            });
             var valid = function (dc) {
                 //console.log('dc', dc);
                 var containers = dc.spec.template.spec.containers;
@@ -1622,7 +1620,7 @@ angular.module('console.service.create', [
                 }
 
 
-            }
+            };
             function geshihuan(unit, num) {
                 if (!num) {
 
@@ -1644,7 +1642,7 @@ angular.module('console.service.create', [
                     if ($scope.quota.cpu.request.cpuquota && $scope.quota.cpu.limit.cpuquota) {
 
                     } else {
-                        $scope.quotaerr.cpuend = true
+                        $scope.quotaerr.cpuend = true;
                         return
                     }
                 }
@@ -1662,20 +1660,20 @@ angular.module('console.service.create', [
                             $scope.dc.spec.template.spec.containers[i].resources.limits.cpu = geshihuan($scope.quota.cpu.limit.cpuunit, $scope.quota.cpu.limit.cpuquota)
                             $scope.dc.spec.template.spec.containers[i].resources.requests.memory = geshihuan($scope.quota.memory.request.memoryunit, $scope.quota.memory.request.memoryquota)
                             $scope.dc.spec.template.spec.containers[i].resources.limits.memory = geshihuan($scope.quota.memory.limit.memoryunit, $scope.quota.memory.limit.memoryquota)
-                           // console.log($scope.dc.spec.template.spec.containers[i].resources,$scope.dc.spec.template.spec.containers[i].resources.requests.memory);
-                            if ($scope.dc.spec.template.spec.containers[i].resources.requests.cpu===false) {
+                            // console.log($scope.dc.spec.template.spec.containers[i].resources,$scope.dc.spec.template.spec.containers[i].resources.requests.memory);
+                            if ($scope.dc.spec.template.spec.containers[i].resources.requests.cpu === false) {
                                 //alert(1)
                                 delete $scope.dc.spec.template.spec.containers[i].resources.requests.cpu
                             }
-                            if($scope.dc.spec.template.spec.containers[i].resources.requests.memory===false){
+                            if ($scope.dc.spec.template.spec.containers[i].resources.requests.memory === false) {
                                 //alert(1)
                                 delete $scope.dc.spec.template.spec.containers[i].resources.requests.memory
                             }
-                            if ($scope.dc.spec.template.spec.containers[i].resources.limits.cpu===false) {
-                             delete $scope.dc.spec.template.spec.containers[i].resources.limits.cpu;
+                            if ($scope.dc.spec.template.spec.containers[i].resources.limits.cpu === false) {
+                                delete $scope.dc.spec.template.spec.containers[i].resources.limits.cpu;
                             }
-                            if($scope.dc.spec.template.spec.containers[i].resources.limits.memory===false){
-                             delete $scope.dc.spec.template.spec.containers[i].resources.limits.memory;
+                            if ($scope.dc.spec.template.spec.containers[i].resources.limits.memory === false) {
+                                delete $scope.dc.spec.template.spec.containers[i].resources.limits.memory;
                             }
                             if (JSON.stringify($scope.dc.spec.template.spec.containers[i].resources.limits) == "{}") {
                                 delete $scope.dc.spec.template.spec.containers[i].resources.limits
@@ -1693,7 +1691,7 @@ angular.module('console.service.create', [
 
                     })
 
-                }else {
+                } else {
                     delete $scope.dc.spec.template.spec.containers[i].resources
                 }
 
@@ -1706,7 +1704,7 @@ angular.module('console.service.create', [
                     return;
                 }
                 //console.log('验证',valid($scope.dc));
-                var mountPatharr = []
+                var mountPatharr = [];
                 angular.forEach($scope.dc.spec.template.spec.containers, function (ports, i) {
                     if (ports.cando) {
                         //delete $scope.dc.spec.template.spec.containers[i].cadoerr
@@ -1733,29 +1731,29 @@ angular.module('console.service.create', [
                     }
 
                     angular.forEach(ports.secretsobj, function (secret, j) {
-                        angular.forEach(secret, function (item,l) {
+                        angular.forEach(secret, function (item, l) {
                             //console.log('item', item.mountPath);
                             mountPatharr.push(item.mountPath)
                         })
-                    })
+                    });
                     if (ports.cando || ports.doset) {
-                        delete $scope.dc.spec.template.spec.containers[i].cando
+                        delete $scope.dc.spec.template.spec.containers[i].cando;
                         delete $scope.dc.spec.template.spec.containers[i].doset
                     }
 
 
-                })
+                });
                 //$rootScope.lding = true;
-                var candev = true
-                angular.forEach(mountPatharr, function (omountPath,k) {
-                    angular.forEach(mountPatharr, function (imountPath,l) {
+                var candev = true;
+                angular.forEach(mountPatharr, function (omountPath, k) {
+                    angular.forEach(mountPatharr, function (imountPath, l) {
                         if (l !== k) {
                             if (omountPath === imountPath) {
-                                candev=false
+                                candev = false
                             }
                         }
                     })
-                })
+                });
                 if (!candev) {
                     $scope.grid.volumerr = true;
                     return
@@ -1813,8 +1811,8 @@ angular.module('console.service.create', [
                     $scope.horiz.metadata.labels.app = name;
                     $scope.horiz.spec.scaleTargetRef.name = name;
                     $scope.horiz.spec.minReplicas = dc.spec.replicas;
-                    $scope.horiz.spec.maxReplicas = parseInt($scope.horiz.spec.maxReplicas)||dc.spec.replicas;
-                    $scope.horiz.spec.targetCPUUtilizationPercentage = parseInt($scope.horiz.spec.targetCPUUtilizationPercentage)||80;
+                    $scope.horiz.spec.maxReplicas = parseInt($scope.horiz.spec.maxReplicas) || dc.spec.replicas;
+                    $scope.horiz.spec.targetCPUUtilizationPercentage = parseInt($scope.horiz.spec.targetCPUUtilizationPercentage) || 80;
                     horizontalpodautoscalers.create({namespace: $rootScope.namespace}, $scope.horiz, function (data) {
 
                     })
@@ -1858,12 +1856,12 @@ angular.module('console.service.create', [
                             {
                                 "name": "registry-dockercfg-" + $rootScope.user.metadata.name
                             }
-                        ]
+                        ];
                         angular.forEach($scope.serviceas.imagePullSecrets, function (v, k) {
                             if (v.name == imgps[0].name) {
                                 flog = false;
                             }
-                        })
+                        });
                         if (flog) {
                             clonedc.spec.template.spec.imagePullSecrets = imgps.concat($scope.serviceas.imagePullSecrets);
                         } else {
@@ -1882,7 +1880,7 @@ angular.module('console.service.create', [
                             "password": newnameandps.split(':')[1],
                             "username": newnameandps.split(':')[0]
                         }
-                    }
+                    };
                     registryobjs = JSON.stringify(registryobjs)
                     var isdockercfg = $base64.encode(registryobjs);
                 } else {
@@ -1919,8 +1917,9 @@ angular.module('console.service.create', [
                             closeButton: true
                         });
                         $state.go('console.deploymentconfig_detail', {
-                        namespace:$rootScope.namespace,
-                            name: dc.metadata.name, from: 'create'});
+                            namespace: $rootScope.namespace,
+                            name: dc.metadata.name, from: 'create'
+                        });
                     }, function (res) {
                         //todo 错误处理
                         $log.info("create dc fail", res);
@@ -1933,7 +1932,7 @@ angular.module('console.service.create', [
                             $scope.grid.createdcerr = true;
                         }
                     });
-                }
+                };
                 //console.log('$scope.grid.imagePullSecrets-----', $scope.grid.imagePullSecrets)
                 if ($scope.grid.imagePullSecrets) {
                     var secretsobj = {
@@ -1946,7 +1945,7 @@ angular.module('console.service.create', [
                             ".dockercfg": isdockercfg
                         },
                         "type": "kubernetes.io/dockercfg"
-                    }
+                    };
                     secretskey.create({
                         namespace: $rootScope.namespace,
                         region: $rootScope.region
