@@ -588,113 +588,102 @@ angular.module('console.backing_service', [
             };
             // 我的后端服务键盘搜索
             $scope.mykeysearch = function (event) {
-                var mykeysearchStatus = true;
-                if (mykeysearchStatus) {
+                for (var s = 0; s < $scope.myservice.length; s++) {
+                    $scope.myservice[s].showTab = true;
+                }
+                $scope.isComplete = {name: $scope.grid.mytxt};
+                var sarr = [];
+                if ($scope.grid.mytxt) {
                     for (var s = 0; s < $scope.myservice.length; s++) {
-                        $scope.myservice[s].showTab = true;
-                    }
-                    $scope.isComplete = {name: $scope.grid.mytxt};
-                    var sarr = [];
-                    if ($scope.grid.mytxt) {
-                        for (var s = 0; s < $scope.myservice.length; s++) {
-                            sarr = $filter("myfilter")($scope.myservice[s].item, $scope.isComplete);
-                            if (sarr.length === 0) {
-                                $scope.myservice[s].showTab = false;
-                            }
+                        sarr = $filter("myfilter")($scope.myservice[s].item, $scope.isComplete);
+                        if (sarr.length === 0) {
+                            $scope.myservice[s].showTab = false;
                         }
-                    } else {
-                        for (var s = 0; s < $scope.myservice.length; s++) {
-                            sarr = $filter("myfilter")($scope.myservice[s].item, $scope.isComplete);
-                            // console.log(sarr.length)
-                            if (sarr.length === 0) {
-                                $scope.myservice[s].showTab = false;
-                            } else {
-                                $scope.myservice[s].showTab = true;
-                            }
+                    }
+                } else {
+                    for (var s = 0; s < $scope.myservice.length; s++) {
+                        sarr = $filter("myfilter")($scope.myservice[s].item, $scope.isComplete);
+                        // console.log(sarr.length)
+                        if (sarr.length === 0) {
+                            $scope.myservice[s].showTab = false;
+                        } else {
+                            $scope.myservice[s].showTab = true;
                         }
                     }
                 }
             };
             //服务分类键盘搜索
             $scope.marsearch = function (event) {
-                var marsearchStatus = true;
-                if (marsearchStatus) {
-                    $scope.market = $scope.fiftermarket ? angular.copy($scope.fiftermarket) : angular.copy($scope.copymarket)
-                    if ($scope.grid.txt) {
-                        var iarr = [];
-                        var str = $scope.grid.txt;
-                        str = str.toLocaleLowerCase();
+                $scope.market = $scope.fiftermarket ? angular.copy($scope.fiftermarket) : angular.copy($scope.copymarket)
+                if ($scope.grid.txt) {
+                    var iarr = [];
+                    var str = $scope.grid.txt;
+                    str = str.toLocaleLowerCase();
 
-                        angular.forEach($scope.market, function (items, i) {
+                    angular.forEach($scope.market, function (items, i) {
 
-                            angular.forEach(items.item, function (item, k) {
-                                var nstr = item.metadata.name;
-                                nstr = nstr.toLocaleLowerCase();
-                                if (nstr.indexOf(str) !== -1) {
-                                    iarr.push(item)
-                                }
-                            });
-                            //console.log(repo.instance_data, $scope.grid.txt);
+                        angular.forEach(items.item, function (item, k) {
+                            var nstr = item.metadata.name;
+                            nstr = nstr.toLocaleLowerCase();
+                            if (nstr.indexOf(str) !== -1) {
+                                iarr.push(item)
+                            }
                         });
-                        fiftermarket(iarr);
-                        $scope.searchmarket = angular.copy($scope.market)
-                    } else {
-                        //console.log('$scope.inscopy', $scope.inscopy);
-                        $scope.searchmarket = angular.copy($scope.copymarket);
-                        $scope.market = $scope.fiftermarket ? angular.copy($scope.fiftermarket) : angular.copy($scope.copymarket)
-                    }
+                        //console.log(repo.instance_data, $scope.grid.txt);
+                    });
+                    fiftermarket(iarr);
+                    $scope.searchmarket = angular.copy($scope.market)
+                } else {
+                    //console.log('$scope.inscopy', $scope.inscopy);
+                    $scope.searchmarket = angular.copy($scope.copymarket);
+                    $scope.market = $scope.fiftermarket ? angular.copy($scope.fiftermarket) : angular.copy($scope.copymarket)
                 }
             };
             $scope.inekeysearch = function (event) {
                 //console.log(event);
-                var inekeysearchStatus = true;
-                if (inekeysearchStatus) {
-                    if ($scope.grid.myinetxt) {
-                        console.log($scope.grid.myinetxt);
-                        var repoarr = [];
-                        var str = $scope.grid.myinetxt;
-                        str = str.toLocaleLowerCase();
-                        angular.forEach($scope.insservicecopy, function (repo, i) {
-                            //console.log(repo.repoName, $scope.grid.classtxt);
-                            var nstr = repo.metadata.name;
-                            nstr = nstr.toLocaleLowerCase();
-                            if (nstr.indexOf(str) !== -1) {
-                                repoarr.push(repo);
-                            }
-                        });
-                        $scope.insservice = repoarr;
+                if ($scope.grid.myinetxt) {
+                    console.log($scope.grid.myinetxt);
+                    var repoarr = [];
+                    var str = $scope.grid.myinetxt;
+                    str = str.toLocaleLowerCase();
+                    angular.forEach($scope.insservicecopy, function (repo, i) {
+                        //console.log(repo.repoName, $scope.grid.classtxt);
+                        var nstr = repo.metadata.name;
+                        nstr = nstr.toLocaleLowerCase();
+                        if (nstr.indexOf(str) !== -1) {
+                            repoarr.push(repo);
+                        }
+                    });
+                    $scope.insservice = repoarr;
 
-                    } else {
-                        $scope.insservice = angular.copy($scope.insservicecopy)
-                    }
+                } else {
+                    $scope.insservice = angular.copy($scope.insservicecopy)
                 }
             };
 
             //我的后端服务搜索
             $scope.mysearch = function (event) {
-                var mysearchStatus = true;
-                if (mysearchStatus) {
-                    if ($scope.grid.mytxt) {
-                        var iarr = [];
-                        var str = $scope.grid.mytxt;
-                        str = str.toLocaleLowerCase();
-                        angular.forEach($scope.myservice, function (items, i) {
-                            angular.forEach(items.item, function (item, k) {
-                                var nstr = item.metadata.name;
-                                nstr = nstr.toLocaleLowerCase();
-                                if (nstr.indexOf(str) !== -1) {
-                                    iarr.push(item)
-                                }
-                            });
-                            //console.log(repo.instance_data, $scope.grid.txt);
+                if ($scope.grid.mytxt) {
+                    var iarr = [];
+                    var str = $scope.grid.mytxt;
+                    str = str.toLocaleLowerCase();
+                    angular.forEach($scope.myservice, function (items, i) {
+                        angular.forEach(items.item, function (item, k) {
+                            var nstr = item.metadata.name;
+                            nstr = nstr.toLocaleLowerCase();
+                            if (nstr.indexOf(str) !== -1) {
+                                iarr.push(item)
+                            }
                         });
-                        fiftermyservice(iarr);
-                        $scope.searchmyservice = angular.copy($scope.myservice)
-                    } else {
-                        $scope.searchmyservice = angular.copy($scope.copymyservice);
-                        $scope.myservice = $scope.fiftermyservice ? angular.copy($scope.fiftermyservice) : angular.copy($scope.copymyservice)
-                    }
+                        //console.log(repo.instance_data, $scope.grid.txt);
+                    });
+                    fiftermyservice(iarr);
+                    $scope.searchmyservice = angular.copy($scope.myservice)
+                } else {
+                    $scope.searchmyservice = angular.copy($scope.copymyservice);
+                    $scope.myservice = $scope.fiftermyservice ? angular.copy($scope.fiftermyservice) : angular.copy($scope.copymyservice)
                 }
+
             };
             $scope.$watch('grid.mydivtxt', function (n, o) {
                 if (n == o) {

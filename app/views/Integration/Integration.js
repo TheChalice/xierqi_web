@@ -240,9 +240,9 @@ angular.module('console.backing_service', [
                         $scope.cation = lins;
                         // 第一栏分类
                         var fiftobj = {};
-                        var fiftmanobj = {}
+                        var fiftmanobj = {};
                         for (var q = 0; q < data.items.length; q++) {
-                            fiftobj[data.items[q].metadata.name] = data.items[q].metadata.annotations.Class
+                            fiftobj[data.items[q].metadata.name] = data.items[q].metadata.annotations.Class;
                             fiftmanobj[data.items[q].metadata.name] = data.items[q].providerDisplayName
                         }
                         // console.log('fiftobj',fiftobj)
@@ -443,61 +443,55 @@ angular.module('console.backing_service', [
 
             $scope.keysearch = function (event, search) {
                 console.log(event, search);
-                var keySearchStatus = true;
-                if (keySearchStatus) {
-                    if ($scope.grid.txt) {
-                        var iarr = [];
-                        //console.log($scope.ins);
-                        var str = $scope.grid.txt;
-                        str = str.toLocaleLowerCase();
+                if ($scope.grid.txt) {
+                    var iarr = [];
+                    //console.log($scope.ins);
+                    var str = $scope.grid.txt;
+                    str = str.toLocaleLowerCase();
 
-                        angular.forEach($scope.inscopy, function (repo, i) {
-                            iarr.push({class: repo.class, items: []});
-                            angular.forEach(repo.items, function (item, k) {
-                                var nstr = item.display_name;
-                                console.log(repo);
-                                nstr = nstr.toLocaleLowerCase();
+                    angular.forEach($scope.inscopy, function (repo, i) {
+                        iarr.push({class: repo.class, items: []});
+                        angular.forEach(repo.items, function (item, k) {
+                            var nstr = item.display_name;
+                            console.log(repo);
+                            nstr = nstr.toLocaleLowerCase();
 
-                                if (nstr.indexOf(str) !== -1) {
-                                    iarr[i].items.push(item);
-                                }
-                            });
-                            //console.log(repo.instance_data, $scope.grid.txt);
-
+                            if (nstr.indexOf(str) !== -1) {
+                                iarr[i].items.push(item);
+                            }
                         });
-                        $scope.ins = iarr;
+                        //console.log(repo.instance_data, $scope.grid.txt);
 
-                    } else {
-                        //console.log('$scope.inscopy', $scope.inscopy);
+                    });
+                    $scope.ins = iarr;
 
-                        $scope.ins = angular.copy($scope.inscopy)
-                    }
+                } else {
+                    //console.log('$scope.inscopy', $scope.inscopy);
+
+                    $scope.ins = angular.copy($scope.inscopy)
                 }
             };
 
             $scope.keyclasssearch = function (event) {
-                var keyClassSearchStatus = true;
-                if (keyClassSearchStatus) {
-                    if ($scope.grid.classtxt) {
-                        //console.log($scope.repos);
-                        var repoarr = [];
-                        var str = $scope.grid.classtxt;
-                        str = str.toLocaleLowerCase();
+                if ($scope.grid.classtxt) {
+                    //console.log($scope.repos);
+                    var repoarr = [];
+                    var str = $scope.grid.classtxt;
+                    str = str.toLocaleLowerCase();
 
-                        angular.forEach($scope.reposcopy, function (repo, i) {
-                            //console.log(repo.repoName, $scope.grid.classtxt);
-                            var nstr = repo.display_name;
+                    angular.forEach($scope.reposcopy, function (repo, i) {
+                        //console.log(repo.repoName, $scope.grid.classtxt);
+                        var nstr = repo.display_name;
 
-                            nstr = nstr.toLocaleLowerCase();
-                            if (nstr.indexOf(str) !== -1) {
-                                repoarr.push(repo);
-                            }
-                        });
-                        $scope.repos = repoarr;
+                        nstr = nstr.toLocaleLowerCase();
+                        if (nstr.indexOf(str) !== -1) {
+                            repoarr.push(repo);
+                        }
+                    });
+                    $scope.repos = repoarr;
 
-                    } else {
-                        $scope.repos = angular.copy($scope.reposcopys || $scope.reposcopy)
-                    }
+                } else {
+                    $scope.repos = angular.copy($scope.reposcopys || $scope.reposcopy)
                 }
             };
             //我的后端服务搜索
