@@ -48,8 +48,8 @@ angular.module('home.index_backing_service', [
             }
         };
     })
-    .controller('index_backing_serviceCtrl', ['$state', '$scope', '$log', 'newBackingService', 'BackingServiceInstance', '$rootScope', '$filter', '$state',
-        function ($state, $scope, $log, newBackingService, BackingServiceInstance, $rootScope, $filter, $state) {
+    .controller('index_backing_serviceCtrl', ['$state', '$scope', '$log', 'newBackingService', 'BackingServiceInstance', '$rootScope', '$filter', 
+        function ($state, $scope, $log, newBackingService, BackingServiceInstance, $rootScope, $filter) {
             $("#idx-bs").css("minHeight", $(window).height());
             console.log('$state', $state.params.region);
             $scope.myregion = $state.params.region || 'cn-north-1';
