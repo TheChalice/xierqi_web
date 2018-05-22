@@ -47,8 +47,8 @@ require.config({
         ui_ace: '../bower_components/angular-ui-ace/ui-ace',
         stateEvents: '../bower_components/angular-ui-router/release/stateEvents',
         toastr: '../bower_components/angular-toastr/dist/angular-toastr.tpls',
-        angularupload: '../bower_components/angular-file-upload/dist/angular-file-upload.min',
-        standalone: '../bower_components/ng-flow/dist/ng-flow-standalone.min',
+        uploadShim: '../bower_components/ng-file-upload-shim/ng-file-upload-shim.min',
+        ngUpload: '../bower_components/ng-file-upload/ng-file-upload.min',
     },
     shim: {
         'angular': {
@@ -123,11 +123,11 @@ require.config({
         'toastr': {
             deps: ['angular', 'bootstrap']
         },
-        'angularupload': {
-            deps: ['angular', 'bootstrap']
-        },
-        'standalone': {
+        'uploadShim': {
             deps: ['angular']
+        },
+        'ngUpload': {
+            deps: ['angular','uploadShim']
         },
 
     },

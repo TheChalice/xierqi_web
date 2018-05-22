@@ -36,7 +36,9 @@
         toastr: '../bower_components/angular-toastr/dist/angular-toastr.tpls',
         jsyaml: '../bower_components/js-yaml/dist/js-yaml',
         ace: '../bower_components/ace-builds/src-min-noconflict/ace',
-        ui_ace: '../bower_components/angular-ui-ace/ui-ace'
+        ui_ace: '../bower_components/angular-ui-ace/ui-ace',
+        uploadShim: '../bower_components/ng-file-upload-shim/ng-file-upload-shim.min',
+        ngUpload: '../bower_components/ng-file-upload/ng-file-upload.min'
     },
     shim: {
         'angular': {
@@ -112,6 +114,12 @@
         },
         'ui_ace': {
             deps: ['angular', 'ace','jquery']
-        }
+        },
+        'uploadShim': {
+            deps: ['angular']
+        },
+        'ngUpload': {
+            deps: ['angular','uploadShim']
+        },
     }
 }
