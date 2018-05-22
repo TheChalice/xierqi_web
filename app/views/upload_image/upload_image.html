@@ -1,13 +1,25 @@
+
+
+
+<uib-tabset class="tab-default tab-upload-image" active="check">
+<uib-tab index="1">
+    <uib-tab-heading>
+        <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
+        上传镜像
+    </uib-tab-heading>
+
+   <div class="upload_container"> 
+    <p class="upload_tit">可以将tar包上传镜像仓库</p>
 <!--Upload on form submit or button click-->
 <form ng-app="fileUpload" name="form">
     <!--Single Image with validations-->
     <!--<div class="button" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'"-->
     <!--ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100"-->
     <!--ngf-resize="{width: 100, height: 100}">Select</div>-->
-    <input type="text" class="" ng-model="file.name" readonly="" ng-disabled="disabled">
+    <input type="text" class="upload_input" ng-model="file.name" readonly="" ng-disabled="disabled">
     <a class="btn btn-orange" ngf-select ng-model="file" name="file"
          ngf-max-total-size="10GB"
-         ngf-max-size="100MB">Select
+         ngf-max-size="100MB">选择tar文件
     </a>
     <!--Multiple files-->
     <!--<div class="button" ngf-select ng-model="files" ngf-multiple="true">Select</div>-->
@@ -64,3 +76,9 @@
     </div>
 
 </form>
+</div>
+  
+</uib-tab>
+</uib-tabset>
+
+
