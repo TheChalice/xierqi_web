@@ -1859,7 +1859,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                     if (config.headers && token) {
                         //console.log('window.location.pathname', window.location);
                         config.headers["Authorization"] = "Bearer " + token;
-                        config.headers["Sso"] = window.location.href;
+                        //config.headers["Sso"] = window.location.href;
                     }
 
                     if (/^\/hawkular/.test(config.url)) {
