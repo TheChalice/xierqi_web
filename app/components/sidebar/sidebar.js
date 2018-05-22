@@ -5,13 +5,12 @@ angular.module("console.sidebar", [
         files: ['components/sidebar/sidebar.css']
     }
 ])
-
     .directive('cSidebar', [function () {
         return {
             restrict: 'EA',
             replace: true,
             templateUrl: 'components/sidebar/sidebar.html',
-            controller: ['$state', '$scope','$rootScope', function($state, $scope,$rootScope){
+            controller: ['$state', '$scope', '$rootScope', function ($state, $scope, $rootScope) {
                 // const app = [
                 //     { name: 'Deployments', url: 'console.deployments',stateUrl:'' ,children: [] },
                 //     { name: 'Stateful Sets', url: 'console.stateful-sets',stateUrl:'' , children: [] },
@@ -20,31 +19,31 @@ angular.module("console.sidebar", [
                 //     { name: 'Routes', url: 'console.routes',stateUrl:'' , children: [] }
                 // ];
                 $scope.state = $state;
-                $scope.goUrl = function(url){
-                       if(url){
-                           if (url.split('@')) {
-                               var urlarr = url.split('@');
-                               console.log('urlarr', urlarr);
-                           }
-                           $state.go(urlarr[0],({namespace:urlarr[1]}));
-                       }else{
-                           $scope.activeStyle = false;
-                           $(".zx_set_btn").removeClass("zx_set_btn_rotate");
-                           $("#sidebar-container").removeClass("sider_zx");
-                           $("#sidebar-right-fixed").removeClass("sidebar-fixed");
-                           angular.forEach($rootScope.dataForTheTree, function (data,i) {
-                               //console.log('data', data);
-                               if (data.name == '容器应用') {
-                                   $rootScope.dataForTheTree[i].children = $rootScope.app
-                               }
-                               if (data.name == '资源管理'){
-                                   $rootScope.dataForTheTree[i].children = $rootScope.resources
-                               }
-                           })
-                           //$rootScope.dataForTheTree[4].children = $rootScope.app
-                           //$rootScope.dataForTheTree[5].children = $rootScope.resources
-                       }
-                }
+                $scope.goUrl = function (url) {
+                    if (url) {
+                        var urlarr = url.split('@');
+                        console.log('urlarr', urlarr);
+                        if (urlarr && urlarr.length) {
+                            $state.go(urlarr[0], ({namespace: urlarr[1]}));
+                        }
+                    } else {
+                        $scope.activeStyle = false;
+                        $(".zx_set_btn").removeClass("zx_set_btn_rotate");
+                        $("#sidebar-container").removeClass("sider_zx");
+                        $("#sidebar-right-fixed").removeClass("sidebar-fixed");
+                        angular.forEach($rootScope.dataForTheTree, function (data, i) {
+                            //console.log('data', data);
+                            if (data.name == '容器应用') {
+                                $rootScope.dataForTheTree[i].children = $rootScope.app
+                            }
+                            if (data.name == '资源管理') {
+                                $rootScope.dataForTheTree[i].children = $rootScope.resources
+                            }
+                        });
+                        //$rootScope.dataForTheTree[4].children = $rootScope.app
+                        //$rootScope.dataForTheTree[5].children = $rootScope.resources
+                    }
+                };
                 $scope.activeStyle = false;
                 $scope.treeOptions = {
                     nodeChildren: "children",
@@ -59,42 +58,42 @@ angular.module("console.sidebar", [
                         label: "a6",
                         labelSelected: "a8"
                     }
-                }
+                };
                 var width = 0;
-                width = $(window).width()-168;
-                $scope.sidebaerWidth = function(){
+                width = $(window).width() - 168;
+                $scope.sidebaerWidth = function () {
                     $(".zx_set_btn").toggleClass("zx_set_btn_rotate");
                     $("#sidebar-container").toggleClass("sider_zx");
                     $("#sidebar-right-fixed").toggleClass("sidebar-fixed");
                     $(".sb-arrow").toggleClass("rotate");
-                    if($(".zx_set_btn").hasClass('zx_set_btn_rotate')){
+                    if ($(".zx_set_btn").hasClass('zx_set_btn_rotate')) {
                         $scope.activeStyle = true;
-                        angular.forEach($rootScope.dataForTheTree, function (data,i) {
+                        angular.forEach($rootScope.dataForTheTree, function (data, i) {
                             //console.log('data', data);
                             if (data.name == '容器应用') {
                                 $rootScope.dataForTheTree[i].children = []
                             }
-                            if (data.name == '资源管理'){
+                            if (data.name == '资源管理') {
                                 $rootScope.dataForTheTree[i].children = []
                             }
                         })
 
-                    }else{
+                    } else {
                         $scope.activeStyle = false;
-                        angular.forEach($rootScope.dataForTheTree, function (data,i) {
+                        angular.forEach($rootScope.dataForTheTree, function (data, i) {
                             //console.log('data', data);
                             if (data.name == '容器应用') {
                                 $rootScope.dataForTheTree[i].children = $rootScope.app
                             }
-                            if (data.name == '资源管理'){
+                            if (data.name == '资源管理') {
                                 $rootScope.dataForTheTree[i].children = $rootScope.resources
                             }
-                        })
+                        });
                         //$rootScope.dataForTheTree[4].children = $rootScope.app
                         //$rootScope.dataForTheTree[5].children = $rootScope.resources
 
                     }
-                }
+                };
 
                 // $rootScope.dataForTheTree =
                 //     [
@@ -104,8 +103,6 @@ angular.module("console.sidebar", [
                 //         {name:'服务部署',img:'icon25 icon25-deployment',url:null,stateUrl:'' ,children:app},
                 //         {name:'资源管理',img:'icon25 icon25-resource',url:'console.resource_management',stateUrl:'' ,children:[]}
                 //     ];
-
-
 
             }]
         }
