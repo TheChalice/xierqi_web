@@ -2,13 +2,13 @@
  * Created by jxy on 16/9/6.
  */
 angular.module('home.index_backing_service', [
-        {
-            files: [
-                'views/backing_service/backing_service.css',
-                'components/bscard/bscard.js'
-            ]
-        }
-    ])
+    {
+        files: [
+            'views/backing_service/backing_service.css',
+            'components/bscard/bscard.js'
+        ]
+    }
+])
     .filter('myfilter', function () {
         // 分类过滤器
         return function (items, condition) {
@@ -48,9 +48,9 @@ angular.module('home.index_backing_service', [
             }
         };
     })
-    .controller('index_backing_serviceCtrl', ['$state','$scope', '$log','newBackingService','BackingServiceInstance','$rootScope','$filter','$state',
-        function ($state,$scope,$log,newBackingService,BackingServiceInstance,$rootScope,$filter,$state) {
-            $("#idx-bs").css("minHeight",$(window).height());
+    .controller('index_backing_serviceCtrl', ['$state', '$scope', '$log', 'newBackingService', 'BackingServiceInstance', '$rootScope', '$filter', '$state',
+        function ($state, $scope, $log, newBackingService, BackingServiceInstance, $rootScope, $filter, $state) {
+            $("#idx-bs").css("minHeight", $(window).height());
             console.log('$state', $state.params.region);
             $scope.myregion = $state.params.region || 'cn-north-1';
             $scope.grid = {
@@ -193,7 +193,8 @@ angular.module('home.index_backing_service', [
                 var reg = null;
                 if ($scope.grid.txt) {
                     var txt = $scope.grid.txt.replace(/\//g, '\\/');
-                    reg = eval('/' + txt + '/ig');
+                    // reg = eval('/' + txt + '/ig');
+                    var reg = new RegExp(txt);
                 }
                 angular.forEach($scope.items, function (item) {
                     if (tp == 'serviceCat') {
@@ -236,7 +237,7 @@ angular.module('home.index_backing_service', [
                 for (var i = 0; i < $scope.cation.length; i++) {
                     $scope.market[i].showTab = true;
                     //$scope.myservice[i].showTab = true;
-                    $scope.isComplete = {providerDisplayName: $scope.providers[key]};
+                    $scope.isComplete = { providerDisplayName: $scope.providers[key] };
                     //把渲染数组做二次筛选;
                     var arr = $filter("myfilter")($scope.market[i].item, $scope.isComplete);
                     if (arr.length == 0) {
@@ -258,10 +259,10 @@ angular.module('home.index_backing_service', [
                         //$scope.myservice[k].showTab = true;
                     }
                     //for (var d = 0; d < $scope.cation.length; d++) {
-                        //var arr1 = $filter("myfilter")($scope.myservice[d].item, $scope.isComplete);
-                        //if (arr1.length == 0) {
-                            //$scope.myservice[d].showTab = false
-                        //}
+                    //var arr1 = $filter("myfilter")($scope.myservice[d].item, $scope.isComplete);
+                    //if (arr1.length == 0) {
+                    //$scope.myservice[d].showTab = false
+                    //}
                     //}
                 }
                 $scope.grid[tp] = key;
@@ -269,7 +270,7 @@ angular.module('home.index_backing_service', [
             }
             //服务分类搜索
             $scope.search = function () {
-                $scope.isComplete = {name: $scope.grid.txt};
+                $scope.isComplete = { name: $scope.grid.txt };
                 for (var s = 0; s < $scope.market.length; s++) {
                     $scope.market[s].showTab = true;
                 }
@@ -294,7 +295,7 @@ angular.module('home.index_backing_service', [
                     for (var s = 0; s < $scope.market.length; s++) {
                         $scope.market[s].showTab = true;
                     }
-                    $scope.isComplete = {name: $scope.grid.txt};
+                    $scope.isComplete = { name: $scope.grid.txt };
                     var sarr = [];
                     if ($scope.grid.txt) {
                         for (var s = 0; s < $scope.market.length; s++) {
@@ -312,11 +313,11 @@ angular.module('home.index_backing_service', [
                     }
                 }
             }
-            $scope.apply_instance = function(name){
-                if(!$rootScope.user){
-                    $state.go('login',{type : 'bkservice',name : name});
-                }else{
-                    $state.go('console.apply_instance',{name:name});
+            $scope.apply_instance = function (name) {
+                if (!$rootScope.user) {
+                    $state.go('login', { type: 'bkservice', name: name });
+                } else {
+                    $state.go('console.apply_instance', { name: name });
                 }
             }
         }]);

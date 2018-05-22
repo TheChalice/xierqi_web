@@ -1,14 +1,14 @@
 'use strict';
 angular.module('console.image', [
-        {
-            files: [
-                'components/searchbar/searchbar.js',
-                'components/card/card.js',
-                'components/imagecard/imagecard.js',
-                'views/image/image.css'
-            ]
-        }
-    ])
+    {
+        files: [
+            'components/searchbar/searchbar.js',
+            'components/card/card.js',
+            'components/imagecard/imagecard.js',
+            'views/image/image.css'
+        ]
+    }
+])
     .filter('imagefilter', function () {
         // 分类过滤器
         return function (items, condition) {
@@ -29,40 +29,39 @@ angular.module('console.image', [
 
         };
     })
-    .controller('ImageCtrl', ['registryptag','registryp','pubregistrytag','pubregistry','regpro','platformone','ImageStream', '$filter', '$state', '$q', '$http', 'platform', '$rootScope', '$scope', '$log', 'ImageStreamTag', 'BuildConfig', 'Build', 'GLOBAL', 'Sort',
-        function (registryptag,registryp,pubregistrytag,pubregistry,regpro,platformone,ImageStream, $filter, $state, $q, $http, platform, $rootScope, $scope, $log, ImageStreamTag, BuildConfig, Build, GLOBAL, Sort) {
+    .controller('ImageCtrl', ['registryptag', 'registryp', 'pubregistrytag', 'pubregistry', 'regpro', 'platformone', 'ImageStream', '$filter', '$state', '$q', '$http', 'platform', '$rootScope', '$scope', '$log', 'ImageStreamTag', 'BuildConfig', 'Build', 'GLOBAL', 'Sort',
+        function (registryptag, registryp, pubregistrytag, pubregistry, regpro, platformone, ImageStream, $filter, $state, $q, $http, platform, $rootScope, $scope, $log, ImageStreamTag, BuildConfig, Build, GLOBAL, Sort) {
             // 数组去重
-
             $scope.primage = [];
-            $scope.proname=''
-            $scope.changename= function (reg) {
-                $scope.proname= reg.name;
-                $scope.primage=[];
-                platform.query({id:reg.project_id}, function (images) {
-                    angular.forEach(images, function (image,i) {
+            $scope.proname = ''
+            $scope.changename = function (reg) {
+                $scope.proname = reg.name;
+                $scope.primage = [];
+                platform.query({ id: reg.project_id }, function (images) {
+                    angular.forEach(images, function (image, i) {
                         console.log('image', image);
                         $scope.primage.push({
-                            name:image.name,
-                            tags:[],
-                            image:image.name,
-                            metadata:{
-                                creationTimestamp:image.creation_time
+                            name: image.name,
+                            tags: [],
+                            image: image.name,
+                            metadata: {
+                                creationTimestamp: image.creation_time
                             },
-                            creation_time:image.creation_time})
-
+                            creation_time: image.creation_time
+                        })
                     })
-                    $scope.primage=Sort.sort($scope.primage, -1)
+                    $scope.primage = Sort.sort($scope.primage, -1)
                     $scope.grid.ckTotal = $scope.primage.length;
                     ckRefresh(1);
                 })
             }
             registryp.query(function (date) {
                 console.log('regdate', date);
-                angular.forEach(date, function (time,i) {
-                    date.metadata={creationTimestamp:time.creation_time}
+                angular.forEach(date, function (time, i) {
+                    date.metadata = { creationTimestamp: time.creation_time }
                 })
 
-                $scope.regdate=Sort.sort(date, -1);
+                $scope.regdate = Sort.sort(date, -1);
             }, function (err) {
 
             })
@@ -97,7 +96,7 @@ angular.module('console.image', [
                 page: 1,
                 repertoryspage: 1,
                 imagecenterpage: 1,
-                ckPage:1,
+                ckPage: 1,
                 size: 8,
                 copytest: {},
                 search: false
@@ -116,17 +115,11 @@ angular.module('console.image', [
                     $scope.newprimage = $scope.primage.slice(skip, skip + $scope.grid.size);
                     $scope.grid.ckTotal = $scope.primage.length;
                 }
-
-
             };
-
-
             //})
             $scope.$on('$destroy', function () {
                 end.resolve();
             });
-
-
             // 存储commit id 和 分支,angular修改数组内元素属性不能触发刷新
             $scope.gitStore = {};
             // 监视分页的页数控制换页
@@ -137,7 +130,6 @@ angular.module('console.image', [
                     } else {
                         ckRefresh(newVal);
                     }
-
                 }
             });
             $scope.$watch('grid.page', function (newVal, oldVal) {
@@ -187,7 +179,6 @@ angular.module('console.image', [
                 }
 
             };
-
             // regimage控制换页方法
             var repertorysrefresh = function (page, type) {
                 $(document.body).animate({
@@ -203,11 +194,11 @@ angular.module('console.image', [
                     angular.forEach($scope.repertoryspoj, function (image) {
                         //    angular.forEach(images, function (image, k) {
                         //
-                        platformone.get({id: image.name, tag: 'latest'}, function (lasttag) {
+                        platformone.get({ id: image.name, tag: 'latest' }, function (lasttag) {
                             //console.log('docdata', docdata);
-                            $scope.repertorys.push({name: image, lasttag: lasttag, canbuid: true});
+                            $scope.repertorys.push({ name: image, lasttag: lasttag, canbuid: true });
                         }, function (err) {
-                            $scope.repertorys.push({name: image, lasttag: null, canbuid: false});
+                            $scope.repertorys.push({ name: image, lasttag: null, canbuid: false });
                         })
 
                     })
@@ -219,11 +210,11 @@ angular.module('console.image', [
                     angular.forEach($scope.repertoryspoj, function (image) {
                         //    angular.forEach(images, function (image, k) {
                         //
-                        platformone.get({id: image.name, tag: 'latest'}, function (lasttag) {
+                        platformone.get({ id: image.name, tag: 'latest' }, function (lasttag) {
                             //console.log('docdata', docdata);
-                            $scope.repertorys.push({name: image, lasttag: lasttag, canbuid: true});
+                            $scope.repertorys.push({ name: image, lasttag: lasttag, canbuid: true });
                         }, function (err) {
-                            $scope.repertorys.push({name: image, lasttag: null, canbuid: false});
+                            $scope.repertorys.push({ name: image, lasttag: null, canbuid: false });
                         })
 
                     })
@@ -245,7 +236,7 @@ angular.module('console.image', [
                     $scope.imagecenter = $scope.grid.cenimagecopy.slice(skip, skip + $scope.grid.size);
                     $scope.grid.imagecentertotal = $scope.grid.cenimagecopy.length;
                     angular.forEach($scope.imagecenter, function (image, k) {
-                        platformone.get({id: image.name, tag: 'latest'}, function (docdata) {
+                        platformone.get({ id: image.name, tag: 'latest' }, function (docdata) {
                             //console.log('docdata', docdata);
                             image.lasttag = docdata;
                         }, function (err) {
@@ -260,7 +251,7 @@ angular.module('console.image', [
                     $scope.imagecenter = $scope.typeimagecenter.slice(skip, skip + $scope.grid.size);
                     $scope.grid.imagecentertotal = $scope.typeimagecenter.length;
                     angular.forEach($scope.imagecenter, function (image, k) {
-                        platformone.get({id: image.name, tag: 'latest'}, function (docdata) {
+                        platformone.get({ id: image.name, tag: 'latest' }, function (docdata) {
                             //console.log('docdata', docdata);
                             image.lasttag = docdata;
                         }, function (err) {
@@ -273,19 +264,15 @@ angular.module('console.image', [
                     $scope.imagecenter = $scope.imagecentercopy.slice(skip, skip + $scope.grid.size);
                     $scope.grid.imagecentertotal = $scope.imagecentercopy.length;
                     angular.forEach($scope.imagecenter, function (image, k) {
-                        platformone.get({id: image.name, tag: 'latest'}, function (docdata) {
+                        platformone.get({ id: image.name, tag: 'latest' }, function (docdata) {
                             //console.log('docdata', docdata);
                             image.lasttag = docdata;
                         }, function (err) {
                             image.canbuid = false;
                         })
-
-
                     })
 
                 }
-
-
                 //console.log('1212121212121212122',$scope.repertorys);
             };
             // 在searchbar组件中调用
@@ -295,7 +282,7 @@ angular.module('console.image', [
                 $scope.search(txt);
             }
             // 私有镜像平台键盘搜索
-            $scope.text1='您还没有构建镜像，构建完成后，可以在这里查看构建镜像！';
+            $scope.text1 = '您还没有构建镜像，构建完成后，可以在这里查看构建镜像！';
             $scope.search = function (key, txt) {
                 if (!txt) {
                     $scope.grid.search = false;
@@ -304,18 +291,19 @@ angular.module('console.image', [
                 }
                 var imagearr = [];
                 txt = txt.replace(/\//g, '\\/');
-                var reg = eval('/' + txt + '/');
-                if($scope.testcopy){
+                var reg = new RegExp(txt);
+                // var reg = eval('/' + txt + '/');
+                if ($scope.testcopy) {
                     for (var i = 0; i < $scope.testcopy.length; i++) {
                         if (reg.test($scope.testcopy[i].metadata.name)) {
                             imagearr.push($scope.testcopy[i]);
                         }
                     }
                 }
-                if(imagearr.length===0){
-                    $scope.text1='没有查询到相关数据';
-                }else{
-                    $scope.text1='您还没有构建镜像，构建完成后，可以在这里查看构建镜像';
+                if (imagearr.length === 0) {
+                    $scope.text1 = '没有查询到相关数据';
+                } else {
+                    $scope.text1 = '您还没有构建镜像，构建完成后，可以在这里查看构建镜像';
                 }
 
                 $scope.testlist = imagearr;
@@ -331,8 +319,9 @@ angular.module('console.image', [
                 }
                 var imagearr = [];
                 txt = txt.replace(/\//g, '\\/');
-                var reg = eval('/' + txt + '/');
-                if($scope.primage){
+                var reg = new RegExp(txt);
+                // var reg = eval('/' + txt + '/');
+                if ($scope.primage) {
                     for (var i = 0; i < $scope.primage.length; i++) {
                         if (reg.test($scope.primage[i].name)) {
                             imagearr.push($scope.primage[i]);
@@ -340,7 +329,7 @@ angular.module('console.image', [
                     }
                 }
                 $scope.thisprimage = imagearr;
-                ckRefresh(1,'search');
+                ckRefresh(1, 'search');
 
             };
 
@@ -348,54 +337,10 @@ angular.module('console.image', [
                 //console.log('ok');
             })
             //共有镜像搜索
-            $scope.text2='您还没有构建镜像，构建完成后，可以在这里查看构建镜像';
-            $scope.searchreg = function (key, txt, event) {
-                if (event) {
-                    if (true) {
-                        if (!txt) {
-                            $scope.grid.search = false;
-                            repertorysrefresh(1);
-                            return;
-                        }
-                        var imagearr = [];
-                        txt = txt.replace(/\//g, '\\/');
-                        var reg = eval('/' + txt + '/');
-                        for (var i = 0; i < $scope.repertoryscopy.length; i++) {
-                            if (reg.test($scope.repertoryscopy[i])) {
-                                imagearr.push($scope.repertoryscopy[i]);
-                            }
-                        }
-                        if(imagearr.length===0){
-                            $scope.text2='没有查询到相关数据';
-                        }else{
-                            $scope.text2='您还没有构建镜像，构建完成后，可以在这里查看构建镜像';
-                        }
-                        $scope.repertoryspoj = imagearr;
-                        $scope.grid.regimagecopy = angular.copy($scope.repertoryspoj);
-                        repertorysrefresh(1, 'search');
-                    }
-                } else {
-                    if (!txt) {
-                        $scope.grid.search = false;
-                        repertorysrefresh(1);
-                        return;
-                    }
-                    var imagearr = [];
-                    txt = txt.replace(/\//g, '\\/');
-                    var reg = eval('/' + txt + '/');
-                    for (var i = 0; i < $scope.repertoryscopy.length; i++) {
-                        if (reg.test($scope.repertoryscopy[i])) {
-                            imagearr.push($scope.repertoryscopy[i]);
-                        }
-                    }
-                    $scope.repertoryspoj = imagearr;
-                    $scope.grid.regimagecopy = angular.copy($scope.repertoryspoj);
-                    repertorysrefresh(1, 'search');
-                }
-            }
+            $scope.text2 = '您还没有构建镜像，构建完成后，可以在这里查看构建镜像';
 
             //镜像中心搜索
-            $scope.text3='您还没有构建镜像，构建完成后，可以在这里查看构建镜像';
+            $scope.text3 = '您还没有构建镜像，构建完成后，可以在这里查看构建镜像';
             $scope.imagecenterreg = function (key, txt, event) {
                 $scope.cententsearch = 'search';
                 if (event) {
@@ -408,7 +353,8 @@ angular.module('console.image', [
                         }
                         var imagearr = [];
                         txt = txt.replace(/\//g, '\\/');
-                        var reg = eval('/' + txt + '/');
+                        // var reg = eval('/' + txt + '/');
+                        var reg = new RegExp(txt);
                         //console.log($scope.typeimagecenter,$scope.cententtype);
                         if ($scope.cententtype == 'type') {
                             for (var i = 0; i < $scope.typeimagecenter.length; i++) {
@@ -427,10 +373,10 @@ angular.module('console.image', [
                                 }
                             }
                         }
-                        if(imagearr.length===0){
-                            $scope.text3='没有查询到相关数据';
-                        }else{
-                            $scope.text3='您还没有构建镜像，构建完成后，可以在这里查看构建镜像';
+                        if (imagearr.length === 0) {
+                            $scope.text3 = '没有查询到相关数据';
+                        } else {
+                            $scope.text3 = '您还没有构建镜像，构建完成后，可以在这里查看构建镜像';
                         }
                         //console.log(imagearr);
                         $scope.imagecenter = imagearr;
@@ -446,7 +392,8 @@ angular.module('console.image', [
                     }
                     var imagearr = [];
                     txt = txt.replace(/\//g, '\\/');
-                    var reg = eval('/' + txt + '/');
+                    // var reg = eval('/' + txt + '/');
+                    var reg = new RegExp(txt);
                     if ($scope.cententtype == 'type') {
                         for (var i = 0; i < $scope.typeimagecenter.length; i++) {
                             if (reg.test($scope.typeimagecenter[i].name)) {
@@ -467,16 +414,16 @@ angular.module('console.image', [
             }
 
             // 我的镜像
-            ImageStream.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (datalist) {
+            ImageStream.get({ namespace: $rootScope.namespace, region: $rootScope.region }, function (datalist) {
                 //$scope.images = res;
-                console.log('is',datalist.items);
+                console.log('is', datalist.items);
 
-                datalist.items=Sort.sort(datalist.items, -1)
+                datalist.items = Sort.sort(datalist.items, -1)
                 var connt = 0
                 if (datalist.items.length === 0) {
                     $scope.testlist = [];
                 }
-                var arr=[]
+                var arr = []
                 angular.forEach(datalist.items, function (item, i) {
                     if (item.status.tags) {
                         arr.push(item);
@@ -485,7 +432,7 @@ angular.module('console.image', [
                 if (arr.length === 0) {
                     $scope.testlist = [];
                 }
-                datalist.items=angular.copy(arr);
+                datalist.items = angular.copy(arr);
                 angular.forEach(datalist.items, function (item, i) {
 
                     //$scope.testlist = [];
@@ -533,7 +480,7 @@ angular.module('console.image', [
 
                     if (datalist.items.length - 1 === i) {
                         if (connt === 0) {
-                            $scope.testlist=[];
+                            $scope.testlist = [];
                         }
                     }
                     //console.log('$scope.testlist',$scope.testlist);
@@ -679,7 +626,7 @@ angular.module('console.image', [
             //}
 
             //镜像中心
-            $scope.serviceper = [{name: 'DataFoundry', class: 'df'}, {name: 'DockerHub', class: 'doc'}]
+            $scope.serviceper = [{ name: 'DataFoundry', class: 'df' }, { name: 'DockerHub', class: 'doc' }]
 
             //platform.query({id:1}, function (docdata) {
             //    angular.forEach(docdata, function (docitem, i) {
@@ -750,7 +697,7 @@ angular.module('console.image', [
                 $scope.cententtype = 'type';
 
                 if (key == 'doc') {
-                    $scope.isComplete = {class: 'doc'};
+                    $scope.isComplete = { class: 'doc' };
 
                     if ($scope.cententsearch == 'search') {
                         $scope.imagecenter = $filter("imagefilter")($scope.grid.cenimagecopy, $scope.isComplete);
@@ -767,7 +714,7 @@ angular.module('console.image', [
                     $scope.grid.imagecenterpage = 1
                     imagecenterrefresh(1, 'tag');
                 } else {
-                    $scope.isComplete = {class: 'df'};
+                    $scope.isComplete = { class: 'df' };
                     //console.log($scope.imagecenter);
                     if ($scope.cententsearch == 'search') {
                         $scope.imagecenter = $filter("imagefilter")($scope.grid.cenimagecopy, $scope.isComplete);
