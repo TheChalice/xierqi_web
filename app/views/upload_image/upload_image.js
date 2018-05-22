@@ -1,5 +1,9 @@
 'use strict';
-angular.module('home.uploadimage', [])
+angular.module('home.uploadimage', [ {
+            files: [
+                    'views/upload_image/upload_image.css'
+            ]
+    }])
     .controller('uploadimageCtrl', ['GLOBAL','sessiontoken','Cookie','$rootScope','User','Project','$log','$state','creatproject','$scope','Upload',
         function (GLOBAL,sessiontoken,Cookie,$rootScope,User,Project,$log,$state,creatproject,$scope,Upload) {
                 $scope.submit = function() {
