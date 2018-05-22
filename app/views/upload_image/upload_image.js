@@ -42,4 +42,29 @@ angular.module('home.uploadimage', [])
                                 //Upload.upload({..., data: {file: files}, ...})...;
                         }
                 }
+                //选项卡切换
+                $scope.images = {}//需要真实数据，进行中
+                $scope.checkoutreg = function (con, status) {
+                        if (con.display === status) {
+                        } else {
+                                con.display = !con.display
+                        }
+                }
+                //tag内容切换
+                $scope.name = "John Doe"; //需要真实数据，进行中
+                $scope.isOK = true;
+                $scope.isselect = false;
+                $scope.save = function () {
+                        if (!$scope.deadlineMinutesEnable) {
+                                $scope.deadlineMinutesEnable = true;
+                                $scope.isOK = false;
+                                $scope.isselect = true;
+                                return;
+                        } else {
+                                $scope.deadlineMinutesEnable = false;
+                                $scope.isOK = true;
+                                $scope.isselect = false;
+                        }
+                }
         }]);
+

@@ -1,1 +1,71 @@
-Upload on form submit or button click<form ng-app="fileUpload" name="form">    Single Image with validations    <!--<div class="button" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'"-->         <!--ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100"-->         <!--ngf-resize="{width: 100, height: 100}">Select</div>-->    <div class="button" ngf-select ng-model="file" name="file"         ngf-max-total-size="10GB"         ngf-max-size="100MB">Select</div>    Multiple files    <div class="button" ngf-select ng-model="files" ngf-multiple="true">Select</div>    Drop files: <div ngf-drop ng-model="files" class="drop-box">Drop</div>    <button type="submit" ng-click="submit()">submit</button></form><!--Upload right away after file selection:--><!--<div class="button" ngf-select="upload($file)">Upload on file select</div>--><!--<div class="button" ngf-select="uploadFiles($files)" multiple="multiple">Upload on file select</div>--><!--Drop File:--><!--<div ngf-drop="uploadFiles($files)" class="drop-box"-->     <!--ngf-drag-over-class="'dragover'" ngf-multiple="true"-->     <!--ngf-pattern="'image/*,application/pdf'">Drop Images or PDFs files here</div>--><!--<div ngf-no-file-drop>File Drag/Drop is not supported for this browser</div>--><!--Image thumbnail: <img ngf-thumbnail="file || '/thumb.jpg'">--><!--Audio preview: <audio controls ngf-src="file"></audio>--><!--Video preview: <video controls ngf-src="file"></video>-->
+Upload on form submit or button click
+<form ng-app="fileUpload" name="form">
+    Single Image with validations
+    <!--<div class="button" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'"-->
+    <!--ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100"-->
+    <!--ngf-resize="{width: 100, height: 100}">Select</div>-->
+    <div class="button" ngf-select ng-model="file" name="file"
+         ngf-max-total-size="10GB"
+         ngf-max-size="100MB">Select</div>
+    Multiple files
+    <div class="button" ngf-select ng-model="files" ngf-multiple="true">Select</div>
+    Drop files: <div ngf-drop ng-model="files" class="drop-box">Drop</div>
+    <button type="submit" ng-click="submit()">submit</button>
+    <!--<div class="form-line">-->
+    <!--<label>请选择私钥文件：</label><span class="small-tip">私钥文件只支持.key格式，文件大小1M以内</span>-->
+    <!--<div class="choose-file-area">-->
+    <!--<input class="file-name" type="text" readonly="readonly" ng-model="fileItem1.name"/>-->
+    <!--<a href="javascript:;" class="choose-key">-->
+    <!--<input type="file" name="key" nv-file-select uploader="uploader1" ng-click="clearItems1()"/>浏览-->
+    <!--</a>-->
+    <!--</div>-->
+    <!--</div>-->
+    <button type="submit" ng-click="UploadFile()">提交</button>
+
+    <div class="upload_main">
+        <div class="upload_tp">
+            <label ng-class="{'active': !images.display}" ng-click="checkoutreg(images,false)">
+                <i class="faa faa-check"></i>
+                替换至已有imagestream
+            </label>
+
+            <label ng-class="{'active': images.display}" ng-click="checkoutreg(images,true)">
+                <i class="faa faa-check"></i>
+                上传镜像仓库
+            </label>
+        </div>
+        <div ng-show="!images.display" class="up_data up_one">
+            <div class="image_detail">
+                <label>名称</label>
+                <select class="select_down">
+                    <option value="TCP">TCP</option>
+                    <option value='UDP'>UDP</option>
+                </select>
+            </div>
+            <div class="image_detail">
+                <label>tag</label>
+                <select class="select_down" ng-show="!isselect">
+                    <option value="TCP">TCP</option>
+                    <option value='UDP'>UDP</option>
+                </select>
+                <input type="text" ng-model="name" ng-disabled="!deadlineMinutesEnable" name="cdm" ng-show="!isOK">
+                <a href="javascript:void(0);" ng-click="form.cdm.$valid && save()">
+                    <span class="fa fa-orange" ng-class="{'fa-pencil': !deadlineMinutesEnable, 'fa-check-circle': deadlineMinutesEnable}"></span>
+                </a>
+            </div>
+        </div>
+        <div ng-show="images.display" class="up_data up_two">
+            <div class="image_detail">
+                <label>名称</label>
+                <input type="text" placeholder="单行输入">
+            </div>
+            <div class="image_detail">
+                <label>tag</label>
+                <input type="text" placeholder="单行输入">
+            </div>
+        </div>
+    </div>
+    <a href="javascript:;" class="btn btn-block btn-orange upload_btn">
+        <span style="color: white;">上传</span>
+    </a>
+</form>

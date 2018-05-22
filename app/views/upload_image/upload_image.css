@@ -1,0 +1,10 @@
+.upload_main{margin-top:30px;}
+.upload_main .upload_tp label{cursor: pointer;font-size:13px;font-weight:normal;}
+.upload_main .upload_tp label:nth-child(1){margin-right:20px;}
+.upload_main .upload_tp .faa-check{vertical-align: text-top;}
+.upload_main .up_data{margin-top:20px;}
+.upload_main .up_data .image_detail{float:left;margin-right:20px;width:230px;}
+.upload_main .up_data .image_detail label{font-size:12px;color:#333;font-weight:normal;vertical-align: middle;}
+.upload_main .up_data .image_detail input{padding:6px 12px;font-size:12px;color:#5a6378;border:1px solid #c9c9c9;width:80%;}
+.upload_btn{clear:both;overflow:hidden;margin-top:120px;}
+.upload_main .select_down{height:31px;width:80%;}
