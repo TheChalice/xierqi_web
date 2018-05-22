@@ -425,7 +425,7 @@ angular.module('console.backing_service', [
                 var reg = null;
                 if ($scope.grid.txt) {
                     var txt = $scope.grid.txt.replace(/\//g, '\\/');
-                    reg = new RegExp('/' + txt + '/ig');
+                    reg = new RegExp(txt, 'ig');
                 }
                 angular.forEach($scope.items, function (item) {
                     if (tp == 'serviceCat') {

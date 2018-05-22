@@ -453,7 +453,7 @@ angular.module('console.backing_service', [
                     //
                     //console.log($scope.repoclass[n.selectclass], $scope.repolabel[n.selectsclabel]);
                     //console.log(n.selectclass,n.selectsclabel);
-                    var arr = []
+                    var arr = [];
                     var classr = $scope.cation[n.serviceCat];
                     var labelr = $scope.providers[n.vendor];
                     $scope.myservice = $scope.searchmyservice ? angular.copy($scope.searchmyservice) : angular.copy($scope.copymyservice)
@@ -703,7 +703,7 @@ angular.module('console.backing_service', [
                 if (n) {
                     var arr = [];
                     var txt = n.replace(/\//g, '\\/');
-                    var reg = new RegExp('/' + txt + '/');
+                    var reg = new RegExp(txt);
                     angular.forEach($scope.diyservice, function (item, i) {
                         if (reg.test(item.metadata.name)) {
                             arr.push(item)

@@ -1020,7 +1020,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                 version_x: null,
                                 version_y: null
                             };
-                            $scope.cansever = false
+                            $scope.cansever = false;
                             $scope.$watch('grid', function (n, o) {
                                 if (n == o) {
                                     return
@@ -1083,7 +1083,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                             });
 
                             $scope.images = images;
-                            $scope.images.items = Sort.sort($scope.images.items, -1)
+                            $scope.images.items = Sort.sort($scope.images.items, -1);
                             console.log('images', images);
                             $scope.selectCat = function (idx) {
                                 $scope.imageTags = {};
@@ -1495,7 +1495,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                             } else {
                                 $scope.items = [];
                                 txt = txt.replace(/\//g, '\\/');
-                                var reg = new RegExp('/' + txt + '/');
+                                var reg = new RegExp(txt);
                                 angular.forEach($scope.data.items, function (item) {
                                     if (reg.test(item.metadata.name)) {
                                         $scope.items.push(item);
@@ -1747,6 +1747,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                         });
 
                     }
+
                     denglu()
                 };
             }
