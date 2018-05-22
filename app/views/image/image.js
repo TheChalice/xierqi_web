@@ -338,52 +338,6 @@ angular.module('console.image', [
             })
             //共有镜像搜索
             $scope.text2 = '您还没有构建镜像，构建完成后，可以在这里查看构建镜像';
-            $scope.searchreg = function (key, txt, event) {
-                if (event) {
-                    if (true) {
-                        if (!txt) {
-                            $scope.grid.search = false;
-                            repertorysrefresh(1);
-                            return;
-                        }
-                        var imagearr = [];
-                        txt = txt.replace(/\//g, '\\/');
-                        // var reg = eval('/' + txt + '/');
-                        var reg = new RegExp(txt);
-                        for (var i = 0; i < $scope.repertoryscopy.length; i++) {
-                            if (reg.test($scope.repertoryscopy[i])) {
-                                imagearr.push($scope.repertoryscopy[i]);
-                            }
-                        }
-                        if (imagearr.length === 0) {
-                            $scope.text2 = '没有查询到相关数据';
-                        } else {
-                            $scope.text2 = '您还没有构建镜像，构建完成后，可以在这里查看构建镜像';
-                        }
-                        $scope.repertoryspoj = imagearr;
-                        $scope.grid.regimagecopy = angular.copy($scope.repertoryspoj);
-                        repertorysrefresh(1, 'search');
-                    }
-                } else {
-                    if (!txt) {
-                        $scope.grid.search = false;
-                        repertorysrefresh(1);
-                        return;
-                    }
-                    var imagearr = [];
-                    txt = txt.replace(/\//g, '\\/');
-                    // var reg = eval('/' + txt + '/');
-                    var reg = new RegExp(txt);
-                    for (var i = 0; i < $scope.repertoryscopy.length; i++) {
-                        if (reg.test($scope.repertoryscopy[i])) {
-                            imagearr.push($scope.repertoryscopy[i]);
-                        }
-                    }
-                    $scope.repertoryspoj = imagearr;
-                    $scope.grid.regimagecopy = angular.copy($scope.repertoryspoj);
-                    repertorysrefresh(1, 'search');
-                }
-            }
 
             //镜像中心搜索
             $scope.text3 = '您还没有构建镜像，构建完成后，可以在这里查看构建镜像';
