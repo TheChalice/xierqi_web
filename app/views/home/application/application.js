@@ -91,7 +91,8 @@ angular.module('home.application', [
                     ]
                 }
                 var txt = n.replace(/\//g, '\\/');
-                var reg = eval('/' + txt + '/i');
+                // var reg = eval('/' + txt + '/i');
+                var reg = new RegExp(txt);
                 angular.forEach($scope.saas.category, function (items,i) {
                     angular.forEach(items.obj, function (item,k) {
                         if (reg.test(item.name)) {
@@ -237,7 +238,8 @@ angular.module('home.application', [
                     }
                     var imagearr = [];
                     txt = txt.replace(/\//g, '\\/');
-                    var reg = eval('/' + txt + '/');
+                    // var reg = eval('/' + txt + '/');
+                    var reg = new RegExp(txt);
                     //console.log($scope.typeimagecenter,$scope.cententtype);
                     if ($scope.cententtype == 'type') {
                         for (var i = 0; i < $scope.typeimagecenter.length; i++) {
@@ -270,7 +272,8 @@ angular.module('home.application', [
                 }
                 var imagearr = [];
                 txt = txt.replace(/\//g, '\\/');
-                var reg = eval('/' + txt + '/');
+                // var reg = eval('/' + txt + '/');
+                var reg = new RegExp(txt);
                 if ($scope.cententtype == 'type') {
                     for (var i = 0; i < $scope.typeimagecenter.length; i++) {
                         if (reg.test($scope.typeimagecenter[i].name)) {
