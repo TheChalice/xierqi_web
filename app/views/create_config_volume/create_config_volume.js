@@ -14,13 +14,13 @@ angular.module('console.create_config_configMap', [
         "configitems": [],
         "configarr": []
 
-    }
+    };
     $scope.grid = {
         configpost: false,
         keychongfu: false,
         keybuhefa: false,
         keynull: false
-    }
+    };
     //排序
     var by = function (name) {
         return function (o, p) {
@@ -39,7 +39,7 @@ angular.module('console.create_config_configMap', [
                 throw ("error");
             }
         }
-    }
+    };
 
 
     function readSingleFile(e) {
@@ -55,7 +55,7 @@ angular.module('console.create_config_configMap', [
         var reader = new FileReader();
         reader.onload = function (e) {
             var content = e.target.result;
-            $scope.volume.configarr.push({key: thisfilename, value: content,showLog:false})
+            $scope.volume.configarr.push({key: thisfilename, value: content, showLog: false})
 
             $scope.$apply();
         };
@@ -63,9 +63,9 @@ angular.module('console.create_config_configMap', [
 
     };
 
-    $scope.getLog= function (idx) {
-        $scope.volume.configarr[idx].showLog=!$scope.volume.configarr[idx].showLog
-    }
+    $scope.getLog = function (idx) {
+        $scope.volume.configarr[idx].showLog = !$scope.volume.configarr[idx].showLog
+    };
 
     $scope.deletekv = function (idx) {
         $scope.volume.configarr.splice(idx, 1);
@@ -124,11 +124,11 @@ angular.module('console.create_config_configMap', [
 
     $scope.rmovekv = function (idx) {
         $scope.volume.configitems.splice(idx, 1);
-    }
+    };
     //添加文件
     $scope.add = function () {
         document.getElementById('file-input').addEventListener('change', readSingleFile, false);
-    }
+    };
 
 
     $scope.delvolume = function (v, idx) {
@@ -136,27 +136,25 @@ angular.module('console.create_config_configMap', [
         delete $scope.volume.data[v];
         $scope.configarr.splice(idx, 1);
 
-    }
+    };
 
     /////手动配置
     configmaps.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (res) {
 
-        $scope.cfmnamearr=res.items;
+        $scope.cfmnamearr = res.items;
 
 
-
-
-    })
+    });
     $scope.addConfig = function () {
         $scope.volume.configitems.push({key: '', value: ''});
 
-    }
+    };
 
     $scope.namerr = {
         nil: false,
         rexed: false,
         repeated: false
-    }
+    };
     $scope.nameblur = function () {
         //console.log($scope.buildConfig.metadata.name);
         if (!$scope.volume.metadata.name) {
@@ -164,14 +162,14 @@ angular.module('console.create_config_configMap', [
         } else {
             $scope.namerr.nil = false
         }
-    }
+    };
     $scope.namefocus = function () {
         $scope.namerr.nil = false
-    }
+    };
 
 
-    var rex =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
-    
+    var rex = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
+
     $scope.$watch('volume.metadata.name', function (n, o) {
         if (n === o) {
             return;
@@ -179,7 +177,7 @@ angular.module('console.create_config_configMap', [
         if (n && n.length > 0) {
             if (rex.test(n)) {
                 $scope.namerr.rexed = false;
-                $scope.namerr.repeated=false;
+                $scope.namerr.repeated = false;
                 if ($scope.cfmnamearr) {
                     //console.log($scope.buildConfiglist);
                     angular.forEach($scope.cfmnamearr, function (bsiname, i) {
@@ -199,36 +197,36 @@ angular.module('console.create_config_configMap', [
         } else {
             $scope.namerr.rexed = false;
         }
-    })
+    });
 
     $scope.cearteconfig = function () {
-        if (!$scope.namerr.nil && !$scope.namerr.rexed && !$scope.namerr.repeated&&!$scope.timeouted) {
-                // alert("000");
-        }else {
+        if (!$scope.namerr.nil && !$scope.namerr.rexed && !$scope.namerr.repeated && !$scope.timeouted) {
+            // alert("000");
+        } else {
             return
         }
-        $scope.loaded=true;
+        $scope.loaded = true;
         var arr = $scope.volume.configitems.concat($scope.volume.configarr);
         angular.forEach(arr, function (item, i) {
             $scope.volume.data[item.key] = item.value;
-        })
+        });
 
 
         delete $scope.volume.configitems;
         delete $scope.volume.configarr;
-        configmaps.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.volume, function (res) {
+        configmaps.create({namespace: $rootScope.namespace, region: $rootScope.region}, $scope.volume, function (res) {
             //console.log('createconfig----', res);
-            $scope.loaded=false;
+            $scope.loaded = false;
             toastr.success('创建成功', {
                 closeButton: true
             });
-            $state.go('console.resource_configMap', {namespace:$rootScope.namespace});
+            $state.go('console.resource_configMap', {namespace: $rootScope.namespace});
             //$state.go('console.build_detail', {name: name, from: 'create'})
         }, function (res) {
             toastr.error('创建失败，请重试', {
                 closeButton: true
             });
-            $state.go('console.create_config_configMap',{namespace:$rootScope.namespace});
+            $state.go('console.create_config_configMap', {namespace: $rootScope.namespace});
         })
     }
-}])
+}]);

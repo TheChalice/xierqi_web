@@ -45,18 +45,19 @@
                            style="line-height: 40px; margin-top: -20px;">
                             <i class="fa fa-plus-circle fa-lg"></i>
                             <span class="font12">创建键值&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
+                                <small ng-if="grid.keybuhefa" class="err-tip"><i class="fa fa-info-circle"></i>&nbsp;key值不合法</small>
+                                <small ng-if="grid.keychongfu" class="err-tip"><i class="fa fa-info-circle"></i>&nbsp;key值重复</small>
                                 <!--<small ng-if="grid.keynull" class="err-tip"><i class="fa fa-info-circle"></i>&nbsp;key值或value值为空</small>-->
                             </span>
                         </a>
                     </div>
-                    <div class="col-md-8" style="line-height: 40px;font-size: 12px;">
-                        <!-- 沟通后 这个判断先去掉 -->
-                        <!-- <small ng-if="grid.keybuhefa" class="err-tip"><i class="fa fa-info-circle"></i>&nbsp;key值不合法</small> -->
+                    <!--<div class="col-md-8" style="line-height: 40px;font-size: 12px;">-->
+                        <!--&lt;!&ndash; 沟通后 这个判断先去掉 &ndash;&gt;-->
+                        <!--&lt;!&ndash; <small ng-if="grid.keybuhefa" class="err-tip"><i class="fa fa-info-circle"></i>&nbsp;key值不合法</small> &ndash;&gt;-->
 
-                        <small ng-if="grid.keychongfu" class="err-tip"><i class="fa fa-info-circle"></i>&nbsp;key值重复
-                        </small>
-                    </div>
+                        <!--<small ng-if="grid.keychongfu" class="err-tip"><i class="fa fa-info-circle"></i>&nbsp;key值重复-->
+                        <!--</small>-->
+                    <!--</div>-->
 
                     <div class="timeline col-md-12" style="margin-top: 20px;">
                         <ul style="border: none;">
