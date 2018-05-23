@@ -20,7 +20,8 @@
                             </div>
                             <div class="media-body">
                                 <h4 class="media-heading">创建时间</h4>
-                                <small class="small_col">{{BuildConfig.metadata.creationTimestamp | dateRelative}}</small>
+                                <small class="small_col">{{BuildConfig.metadata.creationTimestamp | dateRelative}}
+                                </small>
                             </div>
                         </div>
                     </div>
@@ -41,7 +42,8 @@
                                 <div class="row">
                                     <div class="col-sm-4">
                                         版本：
-                                        <a class="ver_tit" ui-sref="console.pipelinetag_detail({namespace:namespace,name:item.status.config.name,tag:item.metadata.annotations['openshift.io/build.number']})">
+                                        <a class="ver_tit"
+                                           ui-sref="console.pipelinetag_detail({namespace:namespace,name:item.status.config.name,tag:item.metadata.annotations['openshift.io/build.number']})">
                                             #{{item.metadata.annotations['openshift.io/build.number']}}</a>
                                     </div>
                                     <div class="col-sm-6">
@@ -50,7 +52,8 @@
                                     <div class="col-sm-2 text-right">
                                         <!-- <a ng-if="item.status.phase == 'Pending' || item.status.phase == 'Running' || item.status.phase == 'New'" ng-click="stop($index)"
                                             class="icon25 icon25-stop" uib-tooltip="终止" href="javascript:;"></a> -->
-                                        <a class="icon25 icon25-collapse" uib-tooltip="查看状态" ng-click="getLog($index,item)" href="javascript:;"></a>
+                                        <a class="icon25 icon25-collapse" uib-tooltip="查看状态"
+                                           ng-click="getLog($index,item)" href="javascript:;"></a>
                                     </div>
                                 </div>
                             </div>
@@ -58,8 +61,9 @@
 
                                 <div class="pipline_log">
 
-                                    <div class="pipl_block load"  ng-repeat="stage in item.stages">
-                                        <div class="pip_b_l"  ng-class="{'SUCCESS_set':stage.status=='SUCCESS','FAILED_set':stage.status=='FAILED','PRO_set':stage.status=='IN_PROGRESS'}">
+                                    <div class="pipl_block load" ng-repeat="stage in item.stages">
+                                        <div class="pip_b_l"
+                                             ng-class="{'SUCCESS_set':stage.status=='SUCCESS','FAILED_set':stage.status=='FAILED','PRO_set':stage.status=='IN_PROGRESS'}">
                                             <span class="file_name">{{stage.name}}</span>
                                             <div class="pipl_block_set load_{{stage.status}}">
                                                 <div class="fa_set">
@@ -91,10 +95,10 @@
                 </uib-tab-heading>
                 <div class="resource-details">
                     <p class="tit_details">详细信息</p>
-                    <div class="dl_list">
+                    <dl class="dl_list">
                         <dt class="pz_l">Build Strategy:</dt>
                         <dd>{{BuildConfig.spec.strategy.type}}</dd>
-                    </div>
+                    </dl>
 
                     <div class="dl_list">
                         <dt class="pz_l">Run Policy:</dt>
@@ -116,7 +120,8 @@
                                     advanced: {
                                       highlightActiveLine: false
                                     }
-                                  }" ng-model="BuildConfig.spec.strategy.jenkinsPipelineStrategy.jenkinsfile" class="ace-bordered ace-inline ace-read-only"></div>
+                                  }" ng-model="BuildConfig.spec.strategy.jenkinsPipelineStrategy.jenkinsfile"
+                                 class="ace-bordered ace-inline ace-read-only"></div>
                     </div>
                     </dd>
                 </div>
@@ -131,7 +136,8 @@
                                 <span class="pip_tit">
                                     {{BuildConfig.metadata.name | webhookURL : trigger.type : trigger.generic.secret : projectname}}
                                 </span>
-                                <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
+                                <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}"
+                                   ng-click="gcopy($event)"></i>
                             </div>
 
                         </div>
@@ -142,7 +148,8 @@
                                 <span class="pip_tit">
                                     {{BuildConfig.metadata.name | webhookURL : trigger.type : trigger.github.secret : projectname}}
                                 </span>
-                                <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
+                                <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}"
+                                   ng-click="gcopy($event)"></i>
                             </div>
                         </div>
                     </div>
@@ -154,7 +161,8 @@
                         <span class="pip_tit">
                             oc start-build {{BuildConfig.metadata.name}} -n {{projectname}}
                         </span>
-                        <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
+                        <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}"
+                           ng-click="gcopy($event)"></i>
                     </div>
 
                 </div>
