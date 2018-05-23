@@ -538,7 +538,7 @@ define([
                                     name: $stateParams.name
                                 }).$promise
                             }
-                        ],
+                        ]
                     }
                 })//ok
                 //pods详情
@@ -880,9 +880,6 @@ define([
                 })//ok
 
 
-
-
-
                 //resource management
 
 
@@ -1009,11 +1006,9 @@ define([
                 })
 
 
-                //新建routes
+            //新建routes
 
-                //新建deployment
-
-
+            //新建deployment
 
 
             //过期route
