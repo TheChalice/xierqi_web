@@ -43,17 +43,22 @@ angular.module('home.uploadimage', [ {
                                 console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
                         });
                 };
-                // for multiple files:
-                $scope.uploadFiles = function (files) {
-                        if (files && files.length) {
-
-                                //for (var i = 0; i < files.length; i++) {
-                                //        Upload.upload({..., data: {file: files[i]}, ...})...;
-                                //}
-                                //// or send them all together for HTML5 browsers:
-                                //Upload.upload({..., data: {file: files}, ...})...;
-                        }
+                $scope.changename= function (item) {
+                        $scope.grid.name=item.metadata.name
+                        $scope.myistag = item.status.tags
+                        $scope.grid.tag=item.status.tags[0].tag
                 }
+                //// for multiple files:
+                //$scope.uploadFiles = function (files) {
+                //        if (files && files.length) {
+                //
+                //                //for (var i = 0; i < files.length; i++) {
+                //                //        Upload.upload({..., data: {file: files[i]}, ...})...;
+                //                //}
+                //                //// or send them all together for HTML5 browsers:
+                //                //Upload.upload({..., data: {file: files}, ...})...;
+                //        }
+                //}
                 //选项卡切换
                 $scope.images = {}//需要真实数据，进行中
                 $scope.checkoutreg = function (con, status) {
@@ -64,9 +69,16 @@ angular.module('home.uploadimage', [ {
                 }
                 ImageStream.get({ namespace: $rootScope.namespace}, function (datalist) {
                         console.log('is', datalist.items);
-                        $scope.myis = datalist.items
-                        $scope.grid.name=datalist.items[0].metadata.name
-                        $scope.grid.tag=datalist.items[0].status.tags[0].tag
+                        $scope.myis=[]
+                        angular.forEach(datalist.items, function (item,i) {
+                            if (item.status.tags && item.status.tags.length) {
+                                    $scope.myis.push(item)
+                            }
+
+                        })
+
+                        $scope.grid.name=$scope.myis[0].metadata.name
+                        $scope.grid.tag=$scope.myis[0].status.tags[0].tag
 
                 })
                         //$scope.images = res;

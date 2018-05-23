@@ -9,7 +9,7 @@
     </uib-tab-heading>
 
    <div class="upload_container"> 
-    <p class="upload_tit">可以将tar包上传镜像仓库</p>
+    <p class="upload_tit">将镜像tar文件上传至云镜像仓库</p>
 <!--Upload on form submit or button click-->
 <ng-form name="form">
     <!--Single Image with validations-->
@@ -57,10 +57,18 @@
                 </div>
                 <div class="image_detail">
                     <label>tag</label>
-                    <select class="select_down" ng-show="!isselect">
-                        <option value="TCP">TCP</option>
-                        <option value='UDP'>UDP</option>
-                    </select>
+                    <div class="dropdown dropdown-select" style="width: 200px;">
+                        <button class="btn dropdown-toggle" data-toggle="dropdown">
+                            <span>{{grid.tag}}</span>
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu onbehalf-list" style="max-height: 200px; overflow-y:scroll">
+                            <li ng-repeat="tag in myistag">
+                                <a href="javascript:;" ng-click='changename(tag)'>{{tag.tag}}</a>
+                            </li>
+                        </ul>
+
+                    </div>
                     <input type="text" ng-model="name" ng-disabled="!deadlineMinutesEnable" name="cdm" ng-show="!isOK">
                     <a href="javascript:void(0);" ng-click="form.cdm.$valid && save()">
                     <span class="fa fa-orange"
@@ -70,12 +78,12 @@
             </div>
             <div ng-show="images.display" class="up_data up_two">
                 <div class="image_detail">
-                    <label>名称</label>
-                    <input type="text" placeholder="单行输入">
+                    <label></label>
+                    <input type="text" ng-model="grid.name" placeholder="镜像名称">
                 </div>
                 <div class="image_detail">
-                    <label>tag</label>
-                    <input type="text" placeholder="单行输入">
+                    <label>:</label>
+                    <input type="text" ng-model="grid.tag" placeholder="latest">
                 </div>
             </div>
         </div>
