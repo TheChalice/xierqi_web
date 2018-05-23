@@ -6,19 +6,24 @@ angular.module('home.uploadimage', [ {
     }])
     .controller('uploadimageCtrl', ['GLOBAL','sessiontoken','Cookie','$rootScope','User','Project','$log','$state','creatproject','$scope','Upload',
         function (GLOBAL,sessiontoken,Cookie,$rootScope,User,Project,$log,$state,creatproject,$scope,Upload) {
-                $scope.submit = function() {
-                        if ($scope.form.file.$valid && $scope.file) {
 
-                                $scope.upload($scope.file);
+                $scope.submit = function(file) {
+                        //console.log('$scope.file',$scope.file);
+                        //console.log('$scope.file',$scope.form);
+                        if (file) {
+                                $scope.upload(file);
                         }
                 };
 
                 // upload on file select or drop
                 $scope.upload = function (file) {
-                        console.log('files', file);
+                        //console.log('files', file);
+                        var tokens = Cookie.get('df_access_token');
+                        var tokenarr = tokens.split(',')
                         Upload.upload({
-                                url: 'http://localhost:8080/uploadimage/jiangtong/aaa/bbb/jiangtong/88888888',
-                                data: {file: file, 'username': $scope.username},
+                                url: 'http://localhost:8080/uploadimage/jiangtong/aaa/bbb',
+                                data: {file: file, 'total': file.size},
+                                headers: {'Authorization': "Bearer "+tokenarr[0]},
                                 resumeSizeUrl: 'http://localhost:8080/uploadimage/jiangtong/info',
                                 resumeSizeResponseReader: function(data) {
                                         console.log('data', data);
