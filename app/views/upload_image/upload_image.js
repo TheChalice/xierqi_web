@@ -59,14 +59,19 @@ angular.module('home.uploadimage', [ {
                 //                //Upload.upload({..., data: {file: files}, ...})...;
                 //        }
                 //}
+
+                $scope.isForget = false;
+
                 //选项卡切换
                 $scope.images = {}//需要真实数据，进行中
-                $scope.checkoutreg = function (con, status) {
-                        if (con.display === status) {
-                        } else {
-                                con.display = !con.display
-                        }
-                }
+                // $scope.checkoutreg = function (con, status) {
+                //         console.log(con,status)
+                //         if (con.display === status) {
+                //                 con.display = !con.display
+                //         } else {
+                                
+                //         }
+                // }
                 ImageStream.get({ namespace: $rootScope.namespace}, function (datalist) {
                         console.log('is', datalist.items);
                         $scope.myis=[]
