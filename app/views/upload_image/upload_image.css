@@ -15,5 +15,5 @@
 }
 .tab-upload-image .tab-content{border:none;padding:30px;}
 .upload_container .upload_tit{font-size:14px;color:#333;}
-.upload_image_main{display: -webkit-box;display:box;display:flex;display:-webkit-flex;display:flexbox;display:-webkit-flexbox;}
+.upload_image_main{display: -webkit-box;display:box;display:flex;display:-webkit-flex;display:flexbox;display:-webkit-flexbox;width:100%;}
 .upload_container .upload_input{width:100%;height:31px;vertical-align: middle;padding-left:10px;padding-right:10px;margin-right:10px;}
