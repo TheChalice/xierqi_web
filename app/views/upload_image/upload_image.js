@@ -18,6 +18,9 @@ angular.module('home.uploadimage', [ {
                         }
                 };
 
+                Upload.uploadchange= function (file) {
+                        console.log('file', file);
+                }
                 // upload on file select or drop
                 $scope.upload = function (file) {
                         //console.log('files', file);
@@ -48,6 +51,15 @@ angular.module('home.uploadimage', [ {
                         $scope.myistag = item.status.tags
                         $scope.grid.tag=item.status.tags[0].tag
                 }
+                $scope.beforeChange= function ($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event) {
+                        console.log('befo',$files,$file,$newFiles, $duplicateFiles, $invalidFiles, $event);
+                }
+                $scope.standardFileChange = function($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event) {
+                        console.log('change',$files,$file,$newFiles, $duplicateFiles, $invalidFiles, $event);
+                        //if ($newFiles[0]) {
+                        //        $scope.standardFile = $newFiles[0];
+                        //}
+                };
                 //// for multiple files:
                 //$scope.uploadFiles = function (files) {
                 //        if (files && files.length) {
