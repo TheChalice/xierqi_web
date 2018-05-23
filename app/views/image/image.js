@@ -416,7 +416,7 @@ angular.module('console.image', [
             // 我的镜像
             ImageStream.get({ namespace: $rootScope.namespace, region: $rootScope.region }, function (datalist) {
                 //$scope.images = res;
-                console.log('is', datalist.items);
+                //console.log('is', datalist.items);
 
                 datalist.items = Sort.sort(datalist.items, -1)
                 var connt = 0

@@ -4,9 +4,12 @@ angular.module('home.uploadimage', [ {
                     'views/upload_image/upload_image.css'
             ]
     }])
-    .controller('uploadimageCtrl', ['GLOBAL','sessiontoken','Cookie','$rootScope','User','Project','$log','$state','creatproject','$scope','Upload',
-        function (GLOBAL,sessiontoken,Cookie,$rootScope,User,Project,$log,$state,creatproject,$scope,Upload) {
-
+    .controller('uploadimageCtrl', ['GLOBAL','sessiontoken','Cookie','$rootScope','User','Project','$log','$state','ImageStream','$scope','Upload',
+        function (GLOBAL,sessiontoken,Cookie,$rootScope,User,Project,$log,$state,ImageStream,$scope,Upload) {
+                $scope.grid ={
+                        tag:null,
+                        name:null
+                }
                 $scope.submit = function(file) {
                         //console.log('$scope.file',$scope.file);
                         //console.log('$scope.file',$scope.form);
@@ -59,8 +62,18 @@ angular.module('home.uploadimage', [ {
                                 con.display = !con.display
                         }
                 }
-                //tag内容切换
-                $scope.name = "John Doe"; //需要真实数据，进行中
+                ImageStream.get({ namespace: $rootScope.namespace}, function (datalist) {
+                        console.log('is', datalist.items);
+                        $scope.myis = datalist.items
+                        $scope.grid.name=datalist.items[0].metadata.name
+                        $scope.grid.tag=datalist.items[0].status.tags[0].tag
+
+                })
+                        //$scope.images = res;
+                        //console.log('is', datalist.items);
+
+                        //tag内容切换
+                //$scope.name = "John Doe"; //需要真实数据，进行中
                 $scope.isOK = true;
                 $scope.isselect = false;
                 $scope.save = function () {
