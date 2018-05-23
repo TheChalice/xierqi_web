@@ -236,7 +236,7 @@ define([
         }])
         .factory('statefulsets', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
             var statefulsets = $resource(GLOBAL.host_newk8s1 + '/namespaces/:namespace/statefulsets', {
-                namespace: '@namespace',
+                namespace: '@namespace'
             }, {
                 create: {method: 'POST'},
                 get: {method: 'GET'},
@@ -244,6 +244,18 @@ define([
             });
             //暂未使用
             return statefulsets;
+        }])
+        .factory('statefulsetsdele', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var statefulsetsdele = $resource(GLOBAL.host_newk8s1 + '/namespaces/:namespace/statefulsets/:name', {
+                namespace: '@namespace',
+                name: '@name'
+            }, {
+                create: {method: 'POST'},
+                get: {method: 'GET'},
+                delete: {method: "DELETE"}
+            });
+            //暂未使用
+            return statefulsetsdele;
         }])
         .factory('ImageStreamTag', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
             var ImageStreamTag = $resource(GLOBAL.host + '/namespaces/:namespace/imagestreamtags/:name?region=:region', {
