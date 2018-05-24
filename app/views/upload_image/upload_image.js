@@ -14,12 +14,16 @@ angular.module('home.uploadimage', [ {
                         display:false
                 }
                 $scope.submit = function(file) {
+                        console.log('file', file);
                         $scope.grid.clickbtn=true
                         if (file) {
 
                                 $scope.upload(file,$scope.grid.name,$scope.grid.tag);
                         }
                 };
+                $scope.changeupload= function ($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event) {
+                        console.log('change', $files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event);
+                }
                 $scope.changenewimage = function () {
                         $scope.grid.display =!$scope.grid.display
                     if (!$scope.grid.display) {

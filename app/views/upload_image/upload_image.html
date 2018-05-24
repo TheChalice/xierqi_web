@@ -23,6 +23,7 @@
        ngf-pattern="'.tar'"
        ngf-accept="'.tar'"
        ng-model="file"
+       ngf-change="changeupload($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event)"
        ngf-model-options="{updateOn: 'change drop dropUrl paste', allowInvalid: false, debounce: 0}"
        name="file"
          ngf-max-total-size="10GB">选择tar文件
