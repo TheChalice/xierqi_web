@@ -32,7 +32,8 @@ define([
     'stateEvents',
     'toastr',
     'uploadShim',
-    'ngUpload'
+    'ngUpload',
+    'md5file'
 ], function(angular) {
 
     // 声明应用及其依赖
