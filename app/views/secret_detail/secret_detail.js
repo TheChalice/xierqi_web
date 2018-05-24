@@ -7,9 +7,8 @@ angular.module('console.secret_secret', [
     .controller('secretDetailCtrl', ['Confirm','Toast','by', '$state', '$http', '$scope', '$rootScope', 'listSecret', 'modifySecret', 'deleteSecret', '$stateParams', 'toastr',
         function (Confirm,Toast,by, $state, $http, $scope, $rootScope, listSecret, modifySecret, deleteSecret, $stateParams, toastr) {
             $scope.grid = {
-                status: false,
-
-            }
+                status: false
+            };
             var Base64 = {
                 _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
                 encode: function (e) {
@@ -80,8 +79,8 @@ angular.module('console.secret_secret', [
                 _utf8_decode: function (e) {
                     var t = "";
                     var n = 0;
-                    var c2 = 0
-                    var c1=0
+                    var c2 = 0;
+                    var c1=0;
                     var r =0;
                     while (n < e.length) {
                         r = e.charCodeAt(n);
@@ -101,7 +100,7 @@ angular.module('console.secret_secret', [
                     }
                     return t
                 }
-            }
+            };
             //list the detail of current secret
             listSecret.get({namespace: $rootScope.namespace, name: $stateParams.name,region:$rootScope.region}, function (res) {
                 $scope.item = res;
@@ -115,7 +114,9 @@ angular.module('console.secret_secret', [
                     $scope.item.secretarr.push({key: i, value:Base64.decode(res),showLog:false});
                 });
                 //console.log($scope.item.secretarr);
-            })
+            },function (err) {
+                $state.go('console.resource_secret', {namespace:$rootScope.namespace})
+            });
 
             function readSingleFile(e) {
                 var thisfilename = this.value;
@@ -139,11 +140,11 @@ angular.module('console.secret_secret', [
             };
             $scope.getLog= function (idx) {
                 $scope.item.secretarr[idx].showLog=!$scope.item.secretarr[idx].showLog;
-            }
+            };
             $scope.addSecret = function () {
                 $scope.item.newarr.push({key: '', value: ''});
                 //$scope.item.newarr.push({key: '', value: ''});
-            }
+            };
 
             $scope.$watch('item', function (n, o) {
                 if (n == o) {
@@ -182,7 +183,7 @@ angular.module('console.secret_secret', [
                                         kong = true;
                                     }
                                 }
-                            })
+                            });
 
                             if (!kong) {
                                 $scope.grid.status = true
@@ -201,7 +202,7 @@ angular.module('console.secret_secret', [
             $scope.getLog= function (idx) {
                 console.log($scope.item.secretarr[idx].showLog);
                 $scope.item.secretarr[idx].showLog=!$scope.item.secretarr[idx].showLog
-            }
+            };
 
             $scope.add= function () {
                 document.getElementById('file-input').addEventListener('change', readSingleFile, false);
@@ -218,7 +219,7 @@ angular.module('console.secret_secret', [
                 //    //    $scope.grid.status = false;
                 //    //}
                 //})
-            }
+            };
             $scope.updateSecret = function () {
                 //console.log('---',$scope.secretarr);
                 //for(var i = 0; i < $scope.secretarr.length; i++ ){
@@ -262,7 +263,7 @@ angular.module('console.secret_secret', [
                     });
                     $state.go('console.resource_secret', {namespace:$rootScope.namespace})
                 })
-            }
+            };
             $scope.delete = function () {
 
                 Confirm.open("删除密钥卷", "您确定要删除密钥卷吗？", "", "stop").then(function(){
