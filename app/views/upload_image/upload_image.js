@@ -4,45 +4,61 @@ angular.module('home.uploadimage', [ {
                     'views/upload_image/upload_image.css'
             ]
     }])
-    .controller('uploadimageCtrl', ['GLOBAL','sessiontoken','Cookie','$rootScope','User','Project','$log','$state','ImageStream','$scope','Upload',
-        function (GLOBAL,sessiontoken,Cookie,$rootScope,User,Project,$log,$state,ImageStream,$scope,Upload) {
+    .controller('uploadimageCtrl', ['GLOBAL','sessiontoken','Cookie','$rootScope','User','Project','$log','$state','ImageStream','$scope','Upload','toastr',
+        function (GLOBAL,sessiontoken,Cookie,$rootScope,User,Project,$log,$state,ImageStream,$scope,Upload,toastr) {
                 $scope.grid ={
                         tag:null,
-                        name:null
+                        name:null,
+                        progress:null,
+                        clickbtn:false,
+                        display:false
                 }
                 $scope.submit = function(file) {
-                        //console.log('$scope.file',$scope.file);
-                        //console.log('$scope.file',$scope.form);
+                        $scope.grid.clickbtn=true
                         if (file) {
-                                $scope.upload(file);
+
+                                $scope.upload(file,$scope.grid.name,$scope.grid.tag);
                         }
                 };
-
-                Upload.uploadchange= function (file) {
-                        console.log('file', file);
+                $scope.changenewimage = function () {
+                        $scope.grid.display =!$scope.grid.display
+                    if (!$scope.grid.display) {
+                            $scope.grid.name=$scope.myis[0].metadata.name
+                            $scope.grid.tag=$scope.myis[0].status.tags[0].tag
+                    }else {
+                            $scope.grid.name=null
+                            $scope.grid.tag=null
+                    }
                 }
                 // upload on file select or drop
-                $scope.upload = function (file) {
+                $scope.upload = function (file,image,tag) {
                         //console.log('files', file);
                         var tokens = Cookie.get('df_access_token');
                         var tokenarr = tokens.split(',')
                         Upload.upload({
-                                url: 'http://localhost:8080/uploadimage/jiangtong/aaa/bbb',
+                                url: 'http://localhost:8080/uploadimage/'+$rootScope.namespace+'/'+image+'/'+tag,
                                 data: {file: file, 'total': file.size},
                                 headers: {'Authorization': "Bearer "+tokenarr[0]},
                                 resumeSizeUrl: 'http://localhost:8080/uploadimage/jiangtong/info',
                                 resumeSizeResponseReader: function(data) {
-                                        console.log('data', data);
+                                        //console.log('data', data);
+
                                         return data.size;
                                 },
                                 resumeChunkSize:99000,
 
                         }).then(function (resp) {
+                                $scope.grid.clickbtn=false
+                                toastr.success('上传成功', {
+                                        closeButton: true
+                                });
+                                $state.go("console.image", { namespace: $rootScope.namespace });
                                 console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
                         }, function (resp) {
                                 console.log('Error status: ' + resp.status);
                         }, function (evt) {
                                 var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                                $scope.grid.progress=progressPercentage;
                                 console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
                         });
                 };
@@ -66,16 +82,6 @@ angular.module('home.uploadimage', [ {
 
                 $scope.isForget = false;
 
-                //选项卡切换
-                $scope.images = {}//需要真实数据，进行中
-                // $scope.checkoutreg = function (con, status) {
-                //         console.log(con,status)
-                //         if (con.display === status) {
-                //                 con.display = !con.display
-                //         } else {
-                                
-                //         }
-                // }
                 ImageStream.get({ namespace: $rootScope.namespace}, function (datalist) {
                         console.log('is', datalist.items);
                         $scope.myis=[]
@@ -88,6 +94,7 @@ angular.module('home.uploadimage', [ {
 
                         $scope.grid.name=$scope.myis[0].metadata.name
                         $scope.grid.tag=$scope.myis[0].status.tags[0].tag
+                        $scope.myistag=$scope.myis[0].status.tags
 
                 })
                         //$scope.images = res;

@@ -35,11 +35,11 @@
     <div ng-show="file.name">
         <div class="upload_main">
             <div class="upload_tp">
-                <label class="login_forget"  ng-class="{'active': images.display}" ng-click="images.display=!images.display">
-                    <i class="faa faa-check"></i>上传镜像仓库
+                <label class="login_forget"  ng-class="{'active': grid.display}" ng-click="changenewimage()">
+                    <i class="faa faa-check"></i>新建镜像
                 </label>
             </div>
-            <div ng-show="!images.display" class="up_data up_one">
+            <div ng-show="!grid.display" class="up_data up_one">
                 <div class="image_detail">
                     <label>名称</label>
                     <div class="dropdown dropdown-select" style="width: 215px;">
@@ -69,14 +69,15 @@
                         </ul>
 
                     </div>
-                    <input type="text" style="width:84%;" ng-model="name" ng-disabled="!deadlineMinutesEnable" name="cdm" ng-show="!isOK">
-                    <a href="javascript:void(0);" ng-click="form.cdm.$valid && save()">
+
+                    <input type="text" style="width:84%;" ng-model="grid.tag" ng-disabled="!deadlineMinutesEnable"  ng-show="!isOK">
+                    <a href="javascript:void(0);" ng-click="save()">
                     <span class="fa fa-orange"
                           ng-class="{'fa-pencil': !deadlineMinutesEnable, 'fa-check-circle': deadlineMinutesEnable}"></span>
                     </a>
                 </div>
             </div>
-            <div ng-show="images.display" class="up_data up_two">
+            <div ng-show="grid.display" class="up_data up_two">
                 <div class="image_detail">
                     <input type="text" ng-model="grid.name" placeholder="镜像名称">
                 </div>
@@ -86,7 +87,13 @@
                 </div>
             </div>
         </div>
-        <a  ng-click="submit(file)" class="btn btn-block btn-orange upload_btn">
+        <div ng-show="grid.clickbtn">上传进度{{grid.progress}}%</div>
+        <!--<div ng-show="grid.clickbtn">上传进度{{grid.progress}}%</div>-->
+        <a ng-show="!grid.clickbtn" ng-click="submit(file)" class="btn btn-block btn-orange upload_btn">
+            <span style="color: white;" >上传</span>
+        </a>
+
+        <a ng-show="grid.clickbtn" style="background-color: #ccc" class="btn btn-block btn-orange upload_btn">
             <span style="color: white;" >上传</span>
         </a>
     </div>
