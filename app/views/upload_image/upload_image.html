@@ -42,7 +42,7 @@
             <div ng-show="!images.display" class="up_data up_one">
                 <div class="image_detail">
                     <label>名称</label>
-                    <div class="dropdown dropdown-select" style="width: 200px;">
+                    <div class="dropdown dropdown-select" style="width: 215px;">
                         <button class="btn dropdown-toggle" data-toggle="dropdown">
                             <span>{{grid.name}}</span>
                             <span class="caret"></span>
@@ -57,7 +57,7 @@
                 </div>
                 <div class="image_detail" >
                     <label>tag</label>
-                    <div class="dropdown dropdown-select" style="width: 200px;" ng-show="!isselect">
+                    <div class="dropdown dropdown-select" style="width: 210px;" ng-show="!isselect">
                         <button class="btn dropdown-toggle" data-toggle="dropdown">
                             <span>{{grid.tag}}</span>
                             <span class="caret"></span>
@@ -69,7 +69,7 @@
                         </ul>
 
                     </div>
-                    <input type="text" ng-model="name" ng-disabled="!deadlineMinutesEnable" name="cdm" ng-show="!isOK">
+                    <input type="text" style="width:84%;" ng-model="name" ng-disabled="!deadlineMinutesEnable" name="cdm" ng-show="!isOK">
                     <a href="javascript:void(0);" ng-click="form.cdm.$valid && save()">
                     <span class="fa fa-orange"
                           ng-class="{'fa-pencil': !deadlineMinutesEnable, 'fa-check-circle': deadlineMinutesEnable}"></span>
@@ -78,11 +78,10 @@
             </div>
             <div ng-show="images.display" class="up_data up_two">
                 <div class="image_detail">
-                    <label></label>
                     <input type="text" ng-model="grid.name" placeholder="镜像名称">
                 </div>
+                <p class="two_fh">:</p>
                 <div class="image_detail">
-                    <label>:</label>
                     <input type="text" ng-model="grid.tag" placeholder="latest">
                 </div>
             </div>
