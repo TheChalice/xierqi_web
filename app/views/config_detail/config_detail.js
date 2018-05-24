@@ -12,14 +12,16 @@ angular.module('console.config_detail', [
                 status: false
             };
             listConfig.get({namespace: $rootScope.namespace, name:$stateParams.name,region:$rootScope.region}, function(res){
-                //console.log(res);
+                console.log(res);
                 $scope.volume = res;
                 $scope.volume.configitems=[];
                 $scope.volume.configarr=[];
-                $scope.change=false
+                $scope.change=false;
                 angular.forEach($scope.volume.data, function (item,i) {
                     $scope.volume.configarr.push({key:i,value:item,showLog:false,isEdit:false});
                 })
+            },function (err) {
+                $state.go('console.resource_configMap', {namespace:$rootScope.namespace});
             });
             function readSingleFile(e) {
                 var thisfilename = this.value;
