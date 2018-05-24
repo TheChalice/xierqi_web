@@ -1,11 +1,12 @@
 'use strict';
-angular.module('home.uploadimage', [ {
+angular.module('home.uploadimage', [{
             files: [
                     'views/upload_image/upload_image.css'
             ]
     }])
     .controller('uploadimageCtrl', ['GLOBAL','sessiontoken','Cookie','$rootScope','User','Project','$log','$state','ImageStream','$scope','Upload','toastr',
         function (GLOBAL,sessiontoken,Cookie,$rootScope,User,Project,$log,$state,ImageStream,$scope,Upload,toastr) {
+
                 $scope.grid ={
                         tag:null,
                         name:null,
@@ -22,7 +23,12 @@ angular.module('home.uploadimage', [ {
                         }
                 };
                 $scope.changeupload= function ($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event) {
-                        console.log('change', $files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event);
+                        //console.log('change', $files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event);
+                        var file = $event.target.files[0];
+                        browserMD5File(file, function (err, md5) {
+                                console.log('md5',md5); // 97027eb624f85892c69c4bcec8ab0f11
+                        });
+
                 }
                 $scope.changenewimage = function () {
                         $scope.grid.display =!$scope.grid.display
