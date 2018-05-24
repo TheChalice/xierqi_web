@@ -87,15 +87,17 @@
                 </div>
             </div>
         </div>
-        <div ng-show="grid.clickbtn">上传进度{{grid.progress}}%</div>
+        <div class="upload_down">
+        <div ng-show="grid.clickbtn" class="upload_progress">上传进度{{grid.progress}}%</div>
         <!--<div ng-show="grid.clickbtn">上传进度{{grid.progress}}%</div>-->
         <a ng-show="!grid.clickbtn" ng-click="submit(file)" class="btn btn-block btn-orange upload_btn">
             <span style="color: white;" >上传</span>
         </a>
 
-        <a ng-show="grid.clickbtn" style="background-color: #ccc" class="btn btn-block btn-orange upload_btn">
+        <a ng-show="grid.clickbtn" style="background-color: #ccc;" class="btn btn-block btn-orange upload_btn">
             <span style="color: white;" >上传</span>
         </a>
+    </div>
     </div>
 
 </ng-form>

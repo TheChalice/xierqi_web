@@ -9,7 +9,10 @@
 .upload_main .up_data .image_detail input{padding:6px 12px;font-size:12px;color:#5a6378;border:1px solid #c9c9c9;width:100%;height:32px;}
 
 
-.upload_btn{clear:both;overflow:hidden;margin-top:120px;}
+.tab-upload-image .upload_down{clear:both;margin-top:120px;position:relative;}
+.tab-upload-image .upload_progress{position:absolute;bottom:40px;}
+
+
 .upload_main .select_down{height:31px;width:80%;}
 .tab-upload-image li.active .nav-link,
 .tab-upload-image li.active .nav-link:focus,
