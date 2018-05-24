@@ -1,110 +1,122 @@
-
-
-
 <uib-tabset class="tab-default tab-upload-image" active="check">
-<uib-tab index="1">
-    <uib-tab-heading>
-        <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
-        上传镜像
-    </uib-tab-heading>
+    <uib-tab index="1">
+        <uib-tab-heading>
+            <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
+            上传镜像
+        </uib-tab-heading>
 
-   <div class="upload_container"> 
-    <p class="upload_tit">将镜像tar文件上传至云镜像仓库</p>
-<!--Upload on form submit or button click-->
-<ng-form name="form">
-    <!--Single Image with validations-->
-    <!--<div class="button" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'"-->
-    <!--ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100"-->
-    <!--ngf-resize="{width: 100, height: 100}">Select</div>-->
-    <div class="upload_image_main">
-    <input type="text" class="upload_input" ng-model="file.name" readonly="" ng-disabled="disabled">
-    <a class="btn btn-orange" ngf-select
-       ngf-reset-model-on-click="false"
-       ngf-pattern="'.tar'"
-       ngf-accept="'.tar'"
-       ng-model="file"
-       ngf-change="changeupload($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event)"
-       ngf-model-options="{updateOn: 'change drop dropUrl paste', allowInvalid: false, debounce: 0}"
-       name="file"
-         ngf-max-total-size="10GB">选择tar文件
-    </a>
-</div>
-    <!--Multiple files-->
-    <!--<div class="button" ngf-select ng-model="files" ngf-multiple="true">Select</div>-->
-    <!--Drop files: <div ngf-drop ng-model="files" class="drop-box">Drop</div>-->
-    <!--<button type="submit" ng-click="submit()">submit</button>-->
-    <div ng-show="file.name">
-        <div class="upload_main">
-            <div class="upload_tp">
-                <label class="login_forget"  ng-class="{'active': grid.display}" ng-click="changenewimage()">
-                    <i class="faa faa-check"></i>新建镜像
-                </label>
-            </div>
-            <div ng-show="!grid.display" class="up_data up_one">
-                <div class="image_detail">
-                    <label>名称</label>
-                    <div class="dropdown dropdown-select" style="width: 215px;">
-                        <button class="btn dropdown-toggle" data-toggle="dropdown">
-                            <span>{{grid.name}}</span>
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu onbehalf-list" style="max-height: 200px; overflow-y:scroll">
-                            <li ng-repeat="reg in myis">
-                                <a href="javascript:;" ng-click='changename(reg)'>{{reg.metadata.name}}</a>
-                            </li>
-                        </ul>
-
-                    </div>
-                </div>
-                <div class="image_detail" >
-                    <label>tag</label>
-                    <div class="dropdown dropdown-select" style="width: 210px;" ng-show="!isselect">
-                        <button class="btn dropdown-toggle" data-toggle="dropdown">
-                            <span>{{grid.tag}}</span>
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu onbehalf-list" style="max-height: 200px; overflow-y:scroll">
-                            <li ng-repeat="tag in myistag">
-                                <a href="javascript:;" ng-click='changename(tag)'>{{tag.tag}}</a>
-                            </li>
-                        </ul>
-
-                    </div>
-
-                    <input type="text" style="width:84%;" ng-model="grid.tag" ng-disabled="!deadlineMinutesEnable"  ng-show="!isOK">
-                    <a href="javascript:void(0);" ng-click="save()">
-                    <span class="fa fa-orange"
-                          ng-class="{'fa-pencil': !deadlineMinutesEnable, 'fa-check-circle': deadlineMinutesEnable}"></span>
+        <div class="upload_container">
+            <p class="upload_tit">将镜像tar文件上传至云镜像仓库</p>
+            <!--Upload on form submit or button click-->
+            <ng-form name="form">
+                <!--Single Image with validations-->
+                <!--<div class="button" ngf-select ng-model="file" name="file" ngf-pattern="'image/*'"-->
+                <!--ngf-accept="'image/*'" ngf-max-size="20MB" ngf-min-height="100"-->
+                <!--ngf-resize="{width: 100, height: 100}">Select</div>-->
+                <div class="upload_image_main">
+                    <input type="text" class="upload_input" ng-model="file.name" readonly="" ng-disabled="disabled">
+                    <a class="btn btn-orange" ngf-select
+                       ngf-reset-model-on-click="false"
+                       ngf-pattern="'.tar'"
+                       ngf-accept="'.tar'"
+                       ng-model="file"
+                       ngf-change="changeupload($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event)"
+                       ngf-model-options="{updateOn: 'change drop dropUrl paste', allowInvalid: false, debounce: 0}"
+                       name="file"
+                       ngf-max-total-size="10GB">选择tar文件
                     </a>
                 </div>
-            </div>
-            <div ng-show="grid.display" class="up_data up_two">
-                <div class="image_detail">
-                    <input type="text" ng-model="grid.name" placeholder="镜像名称">
+                <!--Multiple files-->
+                <!--<div class="button" ngf-select ng-model="files" ngf-multiple="true">Select</div>-->
+                <!--Drop files: <div ngf-drop ng-model="files" class="drop-box">Drop</div>-->
+                <!--<button type="submit" ng-click="submit()">submit</button>-->
+                <div ng-show="file.name">
+                    <div class="upload_main">
+                        <div class="upload_tp">
+                            <label class="login_forget" ng-class="{'active': grid.display}" ng-click="changenewimage()">
+                                <i class="faa faa-check"></i>&nbsp;&nbsp;&nbsp;新建镜像
+                            </label>
+                        </div>
+                        <div ng-show="!grid.display" class="up_data up_one">
+                            <div class="image_detail">
+                                <label>名称</label>
+                                <div class="dropdown dropdown-select" style="width: 215px;">
+                                    <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                        <span>{{grid.name}}</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu onbehalf-list"
+                                        style="max-height: 200px; overflow-y:scroll">
+                                        <li ng-repeat="reg in myis">
+                                            <a href="javascript:;" ng-click='changename(reg)'>{{reg.metadata.name}}</a>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                            <div class="image_detail">
+                                <label>tag</label>
+                                <div class="dropdown dropdown-select" style="width: 210px;" ng-show="!isselect">
+                                    <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                        <span>{{grid.tag}}</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu onbehalf-list"
+                                        style="max-height: 200px; overflow-y:scroll">
+                                        <li ng-repeat="tag in myistag">
+                                            <a href="javascript:;" ng-click='changetag(tag)'>{{tag.tag}}</a>
+                                        </li>
+                                    </ul>
+
+                                </div>
+
+                                <input type="text" style="width:84%;" ng-model="grid.tag"
+                                       ng-disabled="!deadlineMinutesEnable" placeholder="latest" ng-show="!isOK">
+                                <a href="javascript:void(0);" ng-click="save()">
+                    <span class="fa fa-orange"
+                          ng-class="{'fa-pencil': !deadlineMinutesEnable, 'fa-check-circle': deadlineMinutesEnable}"></span>
+                                </a>
+                            </div>
+                        </div>
+                        <div ng-show="grid.display" class="up_data up_two">
+                            <div class="image_detail">
+                                <input type="text" ng-model="grid.name" placeholder="镜像名称">
+                            </div>
+                            <p class="two_fh">:</p>
+                            <div class="image_detail">
+                                <input type="text" ng-model="grid.tag" placeholder="latest">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="upload_down">
+                        <div ng-show="grid.clickbtn==='dontclick'" class="upload_progress">上传进度{{grid.progress||0}}%
+                        </div>
+                        <!--<div ng-show="grid.clickbtn">上传进度{{grid.progress}}%</div>-->
+                        <a ng-show="grid.clickbtn==='canclick'" ng-click="submit(file)"
+                           class="btn btn-block btn-orange upload_btn">
+                            <span style="color: white;">上传</span>
+                        </a>
+                        <a ng-show="grid.clickbtn==='inhand'" style="background-color: #ccc;"
+                           class="btn btn-block btn-orange upload_btn">
+                            <span style="color: white;">处理中</span>
+                        </a>
+
+                        <a ng-show="grid.clickbtn==='dontclick'" style="background-color: #ccc;"
+                           class="btn btn-block btn-orange upload_btn">
+                            <span style="color: white;">上传</span>
+                        </a>
+
+                    </div>
+                    <small ng-show="grid.clickbtn==='inhand'" class="fa fa-info-circle err-tip">镜像处理中，请勿刷新或跳转页面
+                    </small>
+                    <small ng-show="grid.clickbtn==='dontclick'" class="fa fa-info-circle err-tip">镜像上传中，请勿刷新或跳转页面
+                    </small>
                 </div>
-                <p class="two_fh">:</p>
-                <div class="image_detail">
-                    <input type="text" ng-model="grid.tag" placeholder="latest">
-                </div>
-            </div>
+
+            </ng-form>
         </div>
-        <div class="upload_down">
-        <div ng-show="grid.clickbtn" class="upload_progress">上传进度{{grid.progress}}%</div>
-        <!--<div ng-show="grid.clickbtn">上传进度{{grid.progress}}%</div>-->
-        <a ng-show="!grid.clickbtn" ng-click="submit(file)" class="btn btn-block btn-orange upload_btn">
-            <span style="color: white;" >上传</span>
-        </a>
 
-        <a ng-show="grid.clickbtn" style="background-color: #ccc;" class="btn btn-block btn-orange upload_btn">
-            <span style="color: white;" >上传</span>
-        </a>
-    </div>
-    </div>
-
-</ng-form>
-</div>
-  
-</uib-tab>
+    </uib-tab>
 </uib-tabset>
 
 
