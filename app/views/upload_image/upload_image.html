@@ -35,14 +35,8 @@
     <div ng-show="file.name">
         <div class="upload_main">
             <div class="upload_tp">
-                <label ng-class="{'active': !images.display}" ng-click="checkoutreg(images,false)">
-                    <i class="faa faa-check"></i>
-                    替换至已有imagestream
-                </label>
-
-                <label ng-class="{'active': images.display}" ng-click="checkoutreg(images,true)">
-                    <i class="faa faa-check"></i>
-                    上传镜像仓库
+                <label class="login_forget"  ng-class="{'active': images.display}" ng-click="images.display=!images.display">
+                    <i class="faa faa-check"></i>上传镜像仓库
                 </label>
             </div>
             <div ng-show="!images.display" class="up_data up_one">
@@ -61,9 +55,9 @@
 
                     </div>
                 </div>
-                <div class="image_detail">
+                <div class="image_detail" >
                     <label>tag</label>
-                    <div class="dropdown dropdown-select" style="width: 200px;">
+                    <div class="dropdown dropdown-select" style="width: 200px;" ng-show="!isselect">
                         <button class="btn dropdown-toggle" data-toggle="dropdown">
                             <span>{{grid.tag}}</span>
                             <span class="caret"></span>
