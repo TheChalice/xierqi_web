@@ -12,18 +12,26 @@ angular.module('home.uploadimage', [{
                 file: null,
                 name: null,
                 progress: null,
+                imagenamenull:false,
                 clickbtn: 'canclick',
                 display: false
             }
             $scope.submit = function (file) {
                 //console.log('file', file);
+                $scope.grid.imagenamenull = false
+                if (!$scope.grid.name) {
+                    $scope.grid.imagenamenull = true
+                    return
+                }
+                if (!$scope.grid.tag) {
+                    $scope.grid.tag = 'latest'
+                }
+
                 $scope.grid.clickbtn = 'inhand'
                 browserMD5File($scope.grid.file, function (err, md5) {
                     $scope.grid.clickbtn = 'dontclick'
                     //console.log('md5',md5); // 97027eb624f85892c69c4bcec8ab0f11
-                    if (!$scope.grid.tag) {
-                        $scope.grid.tag = 'latest'
-                    }
+
                     $scope.upload(file, $scope.grid.name, $scope.grid.tag, md5);
                 });
                 //if (file) {

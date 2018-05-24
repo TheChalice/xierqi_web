@@ -1,4 +1,4 @@
-<uib-tabset class="tab-default tab-upload-image" active="check">
+<uib-tabset id="uploadimage" class="tab-default tab-upload-image" active="check">
     <uib-tab index="1">
         <uib-tab-heading>
             <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
@@ -80,7 +80,7 @@
                         </div>
                         <div ng-show="grid.display" class="up_data up_two">
                             <div class="image_detail">
-                                <input type="text" ng-model="grid.name" placeholder="镜像名称">
+                                <input ng-class="{'err':grid.imagenamenull}" type="text" ng-model="grid.name" placeholder="镜像名称">
                             </div>
                             <p class="two_fh">:</p>
                             <div class="image_detail">
@@ -88,9 +88,12 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="upload_down">
                         <div ng-show="grid.clickbtn==='dontclick'" class="upload_progress">上传进度{{grid.progress||0}}%
                         </div>
+                        <small ng-show="grid.imagenamenull" class="fa fa-info-circle err-tip">镜像名称不能为空
+                        </small>
                         <!--<div ng-show="grid.clickbtn">上传进度{{grid.progress}}%</div>-->
                         <a ng-show="grid.clickbtn==='canclick'" ng-click="submit(file)"
                            class="btn btn-block btn-orange upload_btn">
