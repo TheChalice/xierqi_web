@@ -49,7 +49,6 @@ require.config({
         toastr: '../bower_components/angular-toastr/dist/angular-toastr.tpls',
         uploadShim: '../bower_components/ng-file-upload-shim/ng-file-upload-shim.min',
         ngUpload: '../bower_components/ng-file-upload/ng-file-upload.min',
-        md5file: '../bower_components/browser-md5-file/dist/browser-md5-file.min',
 
     },
     shim: {
@@ -130,10 +129,7 @@ require.config({
         },
         'ngUpload': {
             deps: ['angular','uploadShim']
-        },
-         'md5file': {
-            deps: ['angular']
-        },
+        }
 
 
     },
