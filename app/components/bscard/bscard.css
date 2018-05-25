@@ -45,7 +45,7 @@
     /*margin: 30px auto;*/
     /*background-origin:content;*/
     /*background-position:50%50%;*/
-    /*background-size:cover;*/  /* 20160921 jia Í¼Æ¬Ä£ºýÎÊÌâ */
+    /*background-size:cover;*/  /* 20160921 jia Í¼Æ¬Ä£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
     background-repeat:no-repeat;
     background-position: center;
     background-color: #fff;
@@ -55,6 +55,8 @@
     background: #fff;
     border-top: 1px solid #e9e9e9;
     padding: 15px 0;
+    text-align: center;
+    overflow: hidden;
     text-align: center;
 }
 .providername  {
