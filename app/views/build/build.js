@@ -87,7 +87,7 @@ angular.module('console.build', [
                     }
                 })
 
-                $scope.grid.total = data.items.length;
+                $scope.grid.total = $scope.data.length;
                 //console.log('$scope.data', $scope.data);
                 refresh(1);
                 loadBuilds($scope.data);
