@@ -82,7 +82,7 @@ angular.module('console.build', [
                 //$scope.copydata = angular.copy(data.items);
                 $scope.data = [];
                 angular.forEach(data.items, function (item,i) {
-                    if (item.spec.strategy.type!=="JenkinsPipeline") {
+                    if (item.spec.strategy.type!=="JenkinsPipeline"&&item.spec.source.type!=="Binary") {
                         $scope.data.push(item)
                     }
                 })
