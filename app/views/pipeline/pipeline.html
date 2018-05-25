@@ -63,9 +63,10 @@
                 <td class="text-center threec OperatingContent" style="">
                     <div class="row Operating"
                          style=''>
-                        <div class="col-md-1 col-lg-1 col-sm-1">
-
-                        </div>
+                        <a class="icon25 icon25-image col-lg-4 col-md-4 col-sm-4"
+                           ng-show="bc.build.status.phase === 'Complete'"
+                           ui-sref="console.image_detail({namespace:namespace,bc: bc.metadata.name, name: bc.metadata.name})"
+                           uib-tooltip="查看镜像"></a>
                         <a class="icon25 icon25-start col-lg-4 col-md-4 col-sm-4"
                            style="padding-left: 20px;" href="javascript:;"
                            ng-click="startBuild($index)"
