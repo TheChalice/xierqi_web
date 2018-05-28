@@ -28,11 +28,11 @@ angular.module('console.quick_deploy', [
                     repeated: false,
                     pattern: false
                 },
-                env :{
+                env : {
                     null:false,
                     repeated: false,
                 },
-                label:{
+                label: {
                     null:false,
                     repeated: false, 
                 }
@@ -431,7 +431,16 @@ angular.module('console.quick_deploy', [
                             $scope.postobj.spec.images[0].from.name = $scope.postobj.spec.images[0].from.name.replace(/^\s+|\s+$/g, "");
                             imagestreamimports.create({namespace: $rootScope.namespace}, $scope.postobj, function (images) {
                                 $scope.finding = false;
-                                console.log('images', images);
+                                var allsize = 0
+                                console.log('images', images.status.images[0].image.dockerImageLayers);
+                                if (images.status.images[0].image.dockerImageLayers && images.status.images[0].image.dockerImageLayers.length) {
+                                    angular.forEach(images.status.images[0].image.dockerImageLayers, function (size, i) {
+
+                                        allsize=allsize+size.size;
+                                    })
+                                }
+                                $scope.imagesize = Math.round(parseInt(allsize)/1024/1024* 100) / 100
+                                console.log('size',$scope.imagesize);
                                 if (images.status.images && images.status.images[0] && images.status.images[0].status) {
                                     if (images.status.images[0].status.code && images.status.images[0].status.code === 401) {
                                         $scope.err.url.role = true;
@@ -462,7 +471,7 @@ angular.module('console.quick_deploy', [
 
                                 if (images.status.images[0] && images.status.images[0].image.dockerImageMetadata) {
                                     imagetimemessage(images.status.images[0].image.dockerImageMetadata.Created)
-                                    console.log('images.status.images[0].image.dockerImageMetadata.Config.ExposedPorts', images.status.images[0].image.dockerImageMetadata);
+                                    //console.log('images.status.images[0].image.dockerImageMetadata.Config.ExposedPorts', images.status.images[0].image.dockerImageMetadata);
                                     if (images.status.images[0].image.dockerImageMetadata.Config.ExposedPorts) {
                                         imageportmessage(images.status.images[0].image.dockerImageMetadata.Config.ExposedPorts)
                                     }
@@ -487,7 +496,17 @@ angular.module('console.quick_deploy', [
                             namespace: $rootScope.namespace,
                             name: $scope.checked.image + '@' + tag.image
                         }, function (tag) {
-                            console.log('tag', tag);
+
+                            var allsize = 0;
+                            console.log(tag.image.dockerImageLayers.length);
+                            if (tag.image.dockerImageLayers&&tag.image.dockerImageLayers.length) {
+                                angular.forEach(tag.image.dockerImageLayers, function (size, i) {
+                                    console.log('size.size', size.size);
+                                    allsize=allsize+size.size;
+                                })
+                            }
+                            $scope.imagesize = Math.round(parseInt(allsize)/1024/1024* 100) / 100
+                            console.log('size',$scope.imagesize);
                             imagetimemessage(tag.image.metadata.creationTimestamp)
                             if (tag.image.dockerImageMetadata.Config.ExposedPorts) {
                                 imageportmessage(tag.image.dockerImageMetadata.Config.ExposedPorts)
@@ -498,7 +517,7 @@ angular.module('console.quick_deploy', [
                             //tag.image.
                             angular.forEach($scope.istag.items, function (istag, i) {
                                 if (istag.image.metadata.name === tag.image.metadata.name) {
-                                    console.log(istag.image.dockerImageReference);
+                                    //console.log(istag.image.dockerImageReference);
                                     $scope.imagetext = istag.image.dockerImageReference;
                                 }
                             })
