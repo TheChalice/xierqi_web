@@ -35,7 +35,7 @@
                     <th class='col-lg-2 col-md-2 col-sm-2'>最近构建时间</th>
                     <!--<th class='col-lg-2 col-md-2 col-sm-3'>最近构建时长</th>-->
                     <!--<th class='col-lg-1 col-md-1 col-sm-2' style='word-break:keep-all;white-space:nowrap;'>构建类型</th>-->
-                    <th class="col-lg-3 col-md-3 col-sm-3 table_headOperating" style=''>操作</th>
+                    <th class="col-lg-3 col-md-3 col-sm-3 table_headOperating" style='text-align: center;'>操作</th>
                 </div>
 
             </tr>
@@ -63,14 +63,20 @@
                 <td class="text-center threec OperatingContent" style="">
                     <div class="row Operating"
                          style=''>
-                        <a class="icon25 icon25-image col-lg-4 col-md-4 col-sm-4"
-                           ng-show="bc.build.status.phase === 'Complete'"
-                           ui-sref="console.image_detail({namespace:namespace,bc: bc.metadata.name, name: bc.metadata.name})"
-                           uib-tooltip="查看镜像"></a>
-                        <a class="icon25 icon25-start col-lg-4 col-md-4 col-sm-4"
-                           style="padding-left: 20px;" href="javascript:;"
-                           ng-click="startBuild($index)"
-                           uib-tooltip="构建"></a>
+                        <div style="text-align: center; " class="col-lg-6 col-md-6 col-sm-6">
+                            <a class="icon25 icon25-image"
+                               ng-show="bc.build.status.phase === 'Complete'"
+                               ui-sref="console.image_detail({namespace:namespace,bc: bc.metadata.name, name: bc.metadata.name})"
+                               uib-tooltip="查看镜像"></a>
+                        </div>
+                        <div style="text-align: center; " class="col-lg-6 col-md-6 col-sm-6">
+                            <a class="icon25 icon25-start"
+                               style="padding-left: 20px;" href="javascript:;"
+                               ng-click="startBuild($index)"
+                               uib-tooltip="构建"></a>
+                        </div>
+
+
 
                     </div>
                 </td>

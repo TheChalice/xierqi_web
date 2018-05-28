@@ -266,7 +266,7 @@ angular.module('console.secret_secret', [
             };
             $scope.delete = function () {
 
-                Confirm.open("删除密钥卷", "您确定要删除密钥卷吗？", "", "stop").then(function(){
+                Confirm.open("删除密钥卷", "您确定要删除密钥卷吗？", "如果密钥卷已经挂载在容器中，删除此密钥卷，容器启动将异常", "stop").then(function(){
 
                     deleteSecret.delete({namespace: $rootScope.namespace,region:$rootScope.region,name:$scope.item.metadata.name}, function () {
                         toastr.success('删除成功', {
