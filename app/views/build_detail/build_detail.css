@@ -150,18 +150,6 @@
 /*new code end*/
 
 
-/* module  公共样式*/
-.module-heading{color:#5a6378;height:auto;overflow:hidden;margin-bottom:16px;}
-.module_block_l{float:left;margin-left:10px;}
-.module_block_l .img-block{width:68px;height:68px;border:1px solid #CCD5E0;border-radius:2px;background:#EFF2F7;float:left;}
-.module_block_l .img-detail{float:left;margin-left:20px;}
-.module_block_l .img-detail .img-tit{font-size:14px;color:#202D3C;font-weight:bold;}
-.module_block_l .img-detail .img-time{font-size:12px;margin-top:6px;margin-bottom:0px;color: #A2B0C4;}
-.module_block_l .img-detail .img-time .module_time{color:#1F2D3D;}
-.module_block_l .img-detail .img-new{font-size:12px;color:#1F2D3D;margin-top:6px;}
-.module_block_l .img-detail .img-new span{color:#A2B0C4;float:left;}
-
-/* module  公共样式*/
 
 #build-detail .detail_tit{font-size:12px;color:#A2B0C4;}
 #build-detail .build_name{color:#000;font-weight:normal;}
