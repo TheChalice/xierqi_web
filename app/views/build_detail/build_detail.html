@@ -67,7 +67,9 @@
 
                                     <div class="col-sm-2">
                                             <span class="detail_tit">构建时长：</span>
-                                            <span class="build_name">{{item.status.duration | duration}}</span>
+                                            <label class="build_name" uib-tooltip="{{item.status.duration | duration}}">
+                                                    {{item.status.duration | duration}}
+                                                </label>
                                         </div>
 
                                     <div class="col-sm-3">
