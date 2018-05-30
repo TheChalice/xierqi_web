@@ -98,17 +98,17 @@ a {
     -webkit-transition:all 1s;
     -moz-transition:all 1s;
     transition:all 1s;
-    border:1px solid #47B2FB;
+    border:1px solid #CCD5E0;
     -webkit-border-radius:4px;
     -moz-border-radius:4px;
     border-radius:4px;
-    color:#47B2FB;font-size:12px;
+    color:#CCD5E0;font-size:12px;
 }
 
 .btn-gray:hover {
     background-color: #fff;
-    border:1px solid #98D4FD;
-    color:#82CAFB;
+    border:1px solid #CCD5E0;
+    color:#CCD5E0;
 
 }
 
@@ -185,13 +185,14 @@ a {
 /*面板默认*/
 .panel-default {
     overflow: hidden;
-    border: 1px solid #c9c9c9;
+    border:none;
     border-radius: 2px;
     color: #5a6378;
+    box-shadow:none;
 }
 
 .panel-default .panel-heading {
-    background: #e6e9f2;
+    background: #fff;
     border-radius: 0;
     border-bottom: none;
     line-height: 34px;
@@ -384,13 +385,13 @@ a {
 .tab-default li .nav-link {
     border: none;
     color: #475669;
-    font-size:16px;padding:10px 23px;
+    font-size:12px;padding:10px 23px;
 }
 
 .tab-default li .nav-link:hover {
     background: transparent;
     color: #5b73eb;
-    font-size:16px;
+    font-size:12px;
     /*中信项目 jiasx*/
     color:#333;
 }
@@ -410,7 +411,7 @@ a {
     border: 1px solid #c9c9c9;
     border-top: none;
     border-radius: 0 0 2px 2px;
-    padding: 30px 50px;
+    padding: 30px 0px 30px 10px;
 }
 
 .tab-sm {
@@ -641,10 +642,11 @@ a {
 /* timeline */
 .dot {
     display: inline-block;
-    width: 8px;
-    height: 8px;
+    width: 12px;
+    height: 12px;
     border-radius: 4px;
-    background: #47B2FB;
+    border:2px solid #47B2FB;border-radius:50%;
+    background: #fff;margin-left:-2px;
     /*中信项目 jiasx*/
     /*background:#5c72e9;*/
 }
