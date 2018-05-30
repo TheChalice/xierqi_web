@@ -1570,21 +1570,42 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
             };
 
         }])
-        .service('postapi', ['$rootScope', 'Route', 'DeploymentConfig', 'Service', 'BuildConfig', 'ImageStream',
-            function ($rootScope, Route, DeploymentConfig, Service, BuildConfig, ImageStream) {
+        .service('postapi', ['$rootScope', 'Route', 'DeploymentConfig', 'Service', 'BuildConfig', 'ImageStream','toastr',
+            function ($rootScope, Route, DeploymentConfig, Service, BuildConfig, ImageStream,toastr) {
                 this.apis = function (sendobj) {
-                    //console.log('sendobj', sendobj.kind);
+                    //console.log('sendobj', sendobj);
                     if (sendobj.kind === 'Route') {
                         Route.create({namespace: $rootScope.namespace}, sendobj, function (res) {
+
+                        }, function (err) {
+                            toastr.error('创建Route失败', {
+                                timeOut: 2000,
+                                closeButton: true
+                            });
                         })
                     } else if (sendobj.kind === 'DeploymentConfig') {
                         DeploymentConfig.create({namespace: $rootScope.namespace}, sendobj, function (res) {
+                        }, function (err) {
+                            toastr.error('创建DeploymentConfig失败', {
+                                timeOut: 2000,
+                                closeButton: true
+                            });
                         })
                     } else if (sendobj.kind === 'Service') {
                         Service.create({namespace: $rootScope.namespace}, sendobj, function (res) {
+                        }, function (err) {
+                            toastr.error('创建Service失败', {
+                                timeOut: 2000,
+                                closeButton: true
+                            });
                         })
                     } else if (sendobj.kind === 'BuildConfig') {
                         BuildConfig.create({namespace: $rootScope.namespace}, sendobj, function (res) {
+                        }, function (err) {
+                            toastr.error('创建BuildConfig失败', {
+                                timeOut: 2000,
+                                closeButton: true
+                            });
                         })
                     } else if (sendobj.kind === 'ImageStream') {
                         ImageStream.create({namespace: $rootScope.namespace}, sendobj, function (res) {
