@@ -2,8 +2,8 @@
 
 
     <div class="table-responsive table_topMargin" style="">
-        <div style="margin-right:0;margin-left:-15px;margin-bottom: 20px;height: 34px;">
-            <div class="col-sm-4 col-xs-4 serv_jia_btn new_deploycol" style="" role="group" aria-label="">
+        <div style="margin-right:0;margin-bottom: 20px;height: 34px;">
+            <div class="serv_jia_btn new_deploycol" style="" role="group" aria-label="">
                 <div class="btn-group" role="group">
                     <a id="creatbtn" class="btn btn-green" ui-sref="console.create_pipeline({namespace:namespace})">
                         <i class="fa fa-plus fa-lg"></i>
@@ -27,6 +27,7 @@
             <!--&lt;!&ndash;</span>&ndash;&gt;-->
             <!--</div>-->
         </div>
+        <div class="pipeline_table">
         <table class="table table-hover table-default table-buju" style="">
             <tr>
                 <div class="row row_set"><!-- 20160921 jia 服务分类模块问题 -->
@@ -86,6 +87,7 @@
                         class="blank_tit">{{text}}</span></p></td>
             </tr>
         </table>
+        </div>
         <div class="text-center" ng-if="grid.total > 10">
             <uib-pagination class="pagination"
                             ng-model="grid.page"

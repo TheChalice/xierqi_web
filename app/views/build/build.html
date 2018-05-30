@@ -1,4 +1,4 @@
-<div id="build" style="">
+<div id="build_list" style="">
 
     <div class="loader" ng-show="!items">
         <div class="loader-inner ball-clip-rotate-multiple">
@@ -8,31 +8,25 @@
     </div>
     <div  ng-show="items">
         <div class="nav_top_li" style="">
-            <div class="col-sm-4 col-xs-4 builder_jia_btn">
+                <div class="input-group col-sm-4 searchbar">
+                        <input type="text"
+                               class="form-control"
+                               placeholder="搜索构建名称"
+                               ng-model="grid.txt"
+                               ng-keyup=buildsearch(grid.txt)>
+                        <!--ng-model="txt" ng-focus="showTip=true;" -->
+                            <span class="input-group-btn">
+                                <a class="btn" ng-click="buildsearch('search')"></a>
+                            </span>
+                    </div>
+            <div class="builder_create_btn">
                 <a class="btn btn-green btn-green_li" ui-sref="console.build_create({namespace:namespace})" style="">
                     <i class="fa fa-plus fa-lg"></i>
                     <span class="hidden-xs">新建构建</span>
                 </a>
-
-
-
-                <!--<a class="btn build-jia" ng-click="reload()">-->
-                    <!--<i class="fa fa-refresh fa-lg"></i>&lt;!&ndash; 20160921 jia 代码构建 loading处理按钮向下问题&ndash;&gt;-->
-                <!--</a>-->
             </div>
-            <!--<div class="col-sm-8 col-xs-8" style="padding-left: 0; ">-->
-            <!--<div class="pull-right" style="width:100%;">-->
-            <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
-                <input type="text"
-                       class="form-control"
-                       placeholder="搜索构建名称"
-                       ng-model="grid.txt"
-                       ng-keyup=buildsearch(grid.txt)>
-                <!--ng-model="txt" ng-focus="showTip=true;" -->
-                    <span class="input-group-btn">
-                        <a class="btn" ng-click="buildsearch('search')"></a>
-                    </span>
-            </div>
+           
+           
             <!--</div>-->
             <!--</div>-->
         </div>

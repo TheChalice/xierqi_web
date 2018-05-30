@@ -1,33 +1,29 @@
 <div id="pipeline-detail" class="pipeline-detail" style="">
     <div>
-        <div class="panel panel-default panel_marginBottom" style="">
-            <div class="panel-heading">
-                <span class="panel-title">
-                    <span class="icon25 icon25-panel"></span>&nbsp;&nbsp; {{BuildConfig.metadata.name}}
-                </span>
-                <a class="btn btn-gray pull-right btn_a" style="" ng-click="deletes()">
+        <!-- module common 公共-->
+        <div class="module-heading">
+                <div class="module_block_l">
+                    <div class="img-block"></div>
+                    <div class="img-detail">
+                        <p class="img-tit">{{BuildConfig.metadata.name}}</p>
+                        <p class="img-time">
+                            <span classs="module_tit">创建时间：</span>
+                            <span class="module_time" uib-tooltip="{{BuildConfig.metadata.creationTimestamp | dateRelative}}">{{BuildConfig.metadata.creationTimestamp | dateRelative}}</span>
+                        </p>
+                        
+                    </div>
+                    
+
+                </div>
+                <div class="module_block_r">
+                     <a class="btn btn-gray pull-right btn_a" style="" ng-click="deletes()">
                     <i class="fa fa-trash-o fa-lg"></i>
                 </a>
                 <a class="btn btn-green pull-right" style="margin-left: 15px;" ng-click="saveBuild()">保存</a>
                 <a class="btn btn-green pull-right" ng-click="startBuild()">部署</a>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="media media-sm">
-                            <div class="media-left">
-                                <img class="media-object" src="views/build_detail/img/images_104.png">
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">创建时间</h4>
-                                <small class="small_col">{{BuildConfig.metadata.creationTimestamp | dateRelative}}
-                                </small>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
-        </div>
+            <!-- module common 公共-->
 
         <uib-tabset class="tab-default tab-jia-default" active="active">
             <uib-tab index="1">

@@ -3,7 +3,7 @@
     border: 1px solid #CCD5E0;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
-    border-radius: 4px;
+    border-radius: 4px;float:left!important;
 }
 
 .searchbar:hover{border:1px solid #47B2FB}

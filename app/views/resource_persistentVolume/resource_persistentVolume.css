@@ -16,12 +16,20 @@
 #resource_management .uib-tab-heading_width{
     width:180px;
 }
+
+#resource_management .resource_btn{float:right;}
 #resource_management .tool_nav{
-    margin-left:-15px;
-    margin-top:20px;
+    padding-top: 10px;
+            padding-bottom: 10px;
+            box-shadow: 0 1px 0 0 rgba(224, 230, 237, 0.50);
+            clear: both;
+            height: 56px;
+            padding-left: 20px;
+            padding-right: 20px;margin:0;
+   
 }
 #resource_management .btn-green_res{
-    margin-right: 20px;
+    /* margin-right: 20px; */
 }
 #resource_management .btn-skyblue_res{
     height: 34px;
@@ -35,7 +43,7 @@
     height: 34px;
 }
 #resource_management .table_mar_top{
-    margin-top: 30px;
+    margin-top: 20px;margin-left:20px;margin-right:20px;
 }
 #resource_management .table_hover{
     table-layout:fixed;
