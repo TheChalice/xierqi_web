@@ -1,7 +1,12 @@
 /*new code*/
 #build{
-    background:#fff;
-    padding:20px 40px 40px;
+    
+    padding:0px 0px 10px;
+}
+.serv_jia_btn{
+    padding-top:10px;padding-bottom:10px;padding-left:20px;padding-right:20px;
+    box-shadow: 0 1px 0 0 rgba(224,230,237,0.50);
+    clear:both;overflow:hidden;
 }
 #build .nav_top_li{
     margin-right: 0;
@@ -11,10 +16,11 @@
     margin-right:20px;
 }
 #build .table_topMargin{
-    margin-top: 20px;
+    overflow:hidden;
+    /* margin-top: 20px; */
 }
 #build .table-buju{
-    table-layout:fixed;
+    table-layout:fixed;margin-top:20px;
 }
 #build .table_headOperating{
     text-align:left;text-indent:8px;
@@ -74,6 +80,7 @@
 #build .row_set {
     white-space:nowrap;
 }
+.pipeline_table{margin-left:20px;margin-right:20px;}
 #build @media (max-width: 1201px) {
     .threec a {
         display: inline-block;

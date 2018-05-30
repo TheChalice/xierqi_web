@@ -16,8 +16,9 @@
 .pagination-sm>li>span {
     margin-left: 5px;
     border: none;
-    background: #f7f7f7;
-    color: black;
+    color:#A2B0C4;
+    background: #EFF2F7;
+border: 1px solid #E0E6ED;
 }
 
 .pagination>li>a:hover {
@@ -25,11 +26,15 @@
 }
 
 .pagination>.disabled>a {
-    background: #f7f7f7;
+    background: #EFF2F7;
+border: 1px solid #E0E6ED;
+color:#A2B0C4;
 }
 
 .pagination>.disabled>a:hover {
-    background: #f7f7f7;
+    background: #EFF2F7;
+border: 1px solid #E0E6ED;
+    
 }
 
 
