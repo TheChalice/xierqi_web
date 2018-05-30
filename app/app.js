@@ -3079,7 +3079,7 @@ define([
                         $('#sidebar-right-fixed').css("marginLeft", 0)
                     } else {
                         $rootScope.showsidebar = true;
-                        $('#sidebar-right-fixed').css("marginLeft", 188)
+                        $('#sidebar-right-fixed').css("marginLeft", 180)
                     }
 
                     //跳转购买套餐
