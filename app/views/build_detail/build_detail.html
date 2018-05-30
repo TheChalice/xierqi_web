@@ -58,27 +58,28 @@
                                         <span class="build_name">{{item.status.phase | phaseFilter}}</span>
                                     </div>
 
-                                    <!-- <div class="col-sm-2">
+                                    <div class="col-sm-3">
                                         <span class="detail_tit">构建时间：</span>
                                         <label class="build_name" uib-tooltip="{{item.metadata.creationTimestamp | timescon}}">
                                             {{item.metadata.creationTimestamp | timescon}}
                                         </label>
-                                    </div> -->
-                                    <div class="col-sm-5 tell tell_position" style=''>
-                                        <div class="till till_position" style=''>
-                                            {{data.metadata.name}}:{{item.spec.revision.git.commit | limitTo: 7}}</div>
-                                        <div class="tell_white_space" style=''>
-                                            <i class="fa fa-flag-o"></i>&nbsp;
-                                            
-                                            <span ng-if="item.spec.revision.git.ref">
-                                            {{data.metadata.name}}:{{item.spec.revision.git.commit | limitTo: 7}}</span>
-                                        </div>
                                     </div>
-                                    <!-- <div class="col-sm-2">
-                                        <span class="detail_tit">构建时长：</span>
-                                        <span class="build_name">{{item.status.duration | duration}}</span>
-                                    </div> -->
-                                    <div class="col-sm-3 text-right">
+
+                                    <div class="col-sm-2">
+                                            <span class="detail_tit">构建时长：</span>
+                                            <span class="build_name">{{item.status.duration | duration}}</span>
+                                        </div>
+
+                                    <div class="col-sm-3">
+                                            <span class="detail_tit">版本：</span>
+                                            <label class="build_name" uib-tooltip="{{data.metadata.name}}:{{item.spec.revision.git.commit | limitTo: 7}}">
+                                                    {{data.metadata.name}}:{{item.spec.revision.git.commit | limitTo: 7}}
+                                            </label>
+                                        </div>
+                                   
+
+                                    
+                                    <div class="col-sm-2 text-right">
                                         <a ng-if="item.status.phase == 'Complete'" ui-sref="console.image_detail({namespace:namespace,bc: item.metadata.labels.buildconfig, name: item.spec.output.to.name})"
                                             class="icon25 icon25-forward" uib-tooltip="查看镜像"></a>
                                         <a ng-if="item.status.phase !== 'Pending' && item.status.phase !== 'Running' && item.status.phase !== 'New'" ng-click="delete($index)"
