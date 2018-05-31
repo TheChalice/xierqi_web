@@ -31,8 +31,9 @@
         <!--<div class="col-md-12 load7" ng-if="!eventsws.items.length&&hasevent" style="padding: 0;overflow: hidden;">-->
             <!--<div class="loader">加载中...</div>-->
         <!--</div>-->
-        <div class="col-md-12" style="line-height:32px;height:32px;padding: 0;overflow: hidden;">
-              <!--<div style="text-align: center;">部署事件暂时为空</div>-->
+        jia:{{eventsws.items}}
+        <div class="col-md-12" ng-if="eventsws.items.length===0" style="line-height:32px;height:32px;padding: 0;overflow: hidden;">
+              <div style="text-align: center;">暂无数据</div>
 
         </div>
     </div>
