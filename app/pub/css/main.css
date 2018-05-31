@@ -378,6 +378,19 @@ a {
     border-radius: 2px 2px 0 0;
 }
 .form-control:hover{border:1px solid #47B2FB;}
+.form-control-ipt{
+    border: 1px solid #ccd5e0;
+    border-radius: 4px;
+    box-shadow: none;
+    color: #5a6378;
+    font-size: 12px;
+}
+.form-control-ipt:focus {
+    box-shadow: none;
+    /*border: 1px solid #c9c9c9;*/
+    border-radius: 2px 2px 0 0;
+}
+.form-control-ipt:hover{border:none;}
 /*tab默认样式*/
 .tab-default .nav-tabs {
     border-bottom: 1px solid #c9c9c9;
