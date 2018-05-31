@@ -1,18 +1,19 @@
 'use strict';
 angular.module('console.build_create_new', [
-        {
-            files: [
-                'views/build_create/build_create.css'
-            ]
-        }
-    ])
-    .controller('BuildCreateCtrl', ['repositorysecret', 'repositorybranches', 'repositorygit', 'authorize', 'createdeploy', 'randomWord', '$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch', 'labOwner', 'psgitlab', 'laborgs', 'labBranch', 'ImageStream', 'BuildConfig', 'Alert', '$http', 'Cookie', '$base64', 'secretskey','toastr',
-        function (repositorysecret, repositorybranches, repositorygit, authorize, createdeploy, randomWord, $rootScope, $scope, $state, $log, Owner, Org, Branch, labOwner, psgitlab, laborgs, labBranch, ImageStream, BuildConfig, Alert, $http, Cookie, $base64, secretskey,toastr) {
+    {
+        files: [
+            'views/build_create/build_create.css'
+        ]
+    }
+])
+    .controller('BuildCreateCtrl', ['repositorysecret', 'repositorybranches', 'repositorygit', 'authorize', 'createdeploy', 'randomWord', '$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch', 'labOwner', 'psgitlab', 'laborgs', 'labBranch', 'ImageStream', 'BuildConfig', 'Alert', '$http', 'Cookie', '$base64', 'secretskey', 'toastr',
+        function (repositorysecret, repositorybranches, repositorygit, authorize, createdeploy, randomWord, $rootScope, $scope, $state, $log, Owner, Org, Branch, labOwner, psgitlab, laborgs, labBranch, ImageStream, BuildConfig, Alert, $http, Cookie, $base64, secretskey, toastr) {
             $scope.grid = {
                 org: null,
                 repo: null,
-                branch: null
-            }
+                branch: null,
+                freehostname: 1
+            };
             $scope.gitstatus = 'gitlab';
             var r = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
             $scope.buildConfig = {
@@ -21,7 +22,7 @@ angular.module('console.build_create_new', [
                     annotations: {
                         'datafoundry.io/create-by': $rootScope.user.metadata.name,
                         repo: ''
-                    },
+                    }
                 },
                 spec: {
                     triggers: [
@@ -61,29 +62,29 @@ angular.module('console.build_create_new', [
                     completionDeadlineSeconds: 1800
                 }
             };
-            $scope.namerr={
-                nil:false,
-                rexed:false,
-                repeated:false,
-                urlerr:false
-            }
+            $scope.namerr = {
+                nil: false,
+                rexed: false,
+                repeated: false,
+                urlerr: false
+            };
             $scope.gitdata = {
                 orgs: [],
                 repos: [],
                 branchs: []
-            }
+            };
             $scope.gitload = {
                 github: [],
                 gitlab: []
-            }
+            };
             $scope.needbind = {
                 github: false,
                 gitlab: false
-            }
+            };
             $scope.sername = {
                 name: null,
                 pwd: null
-            }
+            };
             function clearselec() {
                 for (var k in $scope.gitdata) {
                     $scope.gitdata[k] = []
@@ -94,10 +95,10 @@ angular.module('console.build_create_new', [
             }
 
             function loadgitdata(git, cache) {
-                clearselec()
+                clearselec();
                 var sendobj = {
                     source: git
-                }
+                };
                 if (cache) {
                     sendobj.cache = 'true'
                 }
@@ -113,8 +114,8 @@ angular.module('console.build_create_new', [
                 });
             }
 
-            loadgitdata('github', 'cache')
-            loadgitdata('gitlab', 'cache')
+            loadgitdata('github', 'cache');
+            loadgitdata('gitlab', 'cache');
             $scope.bindhub = function (click) {
                 authorize.get({source: click, redirect_url: encodeURIComponent(window.location.href)}, function (res) {
                 }, function (err) {
@@ -125,7 +126,7 @@ angular.module('console.build_create_new', [
             };
             $scope.loadOwner = function (git) {
                 loadgitdata(git)
-            }
+            };
 
             $scope.$watch('buildcheck', function (n, o) {
                 if (n === o) {
@@ -142,14 +143,14 @@ angular.module('console.build_create_new', [
                         $scope.gitdata.orgs = angular.copy($scope.gitload.github)
                     }
                 }
-            })
+            });
             $scope.selectorg = function (idx, orgs) {
                 $scope.grid.org = idx;
                 $scope.grid.repo = null;
                 $scope.gitdata.branchs = [];
                 $scope.gitdata.repos = angular.copy(orgs.repos)
                 //console.log('$scope.gitdata.repos', $scope.gitdata.repos);
-            }
+            };
             $scope.selectrepo = function (idx, repo) {
                 $scope.grid.repo = idx;
                 $scope.grid.branch = null;
@@ -165,10 +166,10 @@ angular.module('console.build_create_new', [
                     })
 
                 }
-            }
+            };
             $scope.selectbranch = function (idx) {
                 $scope.grid.branch = idx;
-            }
+            };
             function createsecret(name, pwd) {
                 $scope.secret = {
                     "kind": "Secret",
@@ -178,29 +179,28 @@ angular.module('console.build_create_new', [
                     },
                     "data": {},
                     "type": "Opaque"
-                }
+                };
                 if (name) {
                     $scope.secret.data.username = $base64.encode(name);
                 }
                 if (pwd) {
                     $scope.secret.data.username = $base64.encode(pwd);
                 }
-
             }
 
             $scope.create = function () {
                 //console.log(r.test($scope.buildConfig.metadata.name));
-                $scope.namerr={
-                    nil:false,
-                    rexed:false,
-                    repeated:false,
-                    urlerr:false
-                }
+                $scope.namerr = {
+                    nil: false,
+                    rexed: false,
+                    repeated: false,
+                    urlerr: false
+                };
                 if (!$scope.buildConfig.metadata.name) {
-                    $scope.namerr.nil=true
+                    $scope.namerr.nil = true
                     return
-                }else if(!r.test($scope.buildConfig.metadata.name)){
-                    $scope.namerr.rexed=true
+                } else if (!r.test($scope.buildConfig.metadata.name)) {
+                    $scope.namerr.rexed = true
                     return
                 }
 
@@ -214,7 +214,7 @@ angular.module('console.build_create_new', [
                 };
                 ImageStream.create({namespace: $rootScope.namespace}, imageStream, function (res) {
                     console.log('res', res);
-                })
+                });
                 if ($scope.buildcheck !== 3) {
                     //$scope.buildConfig.metadata.annotations.user=$scope.buildConfig.metadata.name
                     $scope.buildConfig.spec.source.git.ref = $scope.gitdata.branchs[$scope.grid.branch].name;
@@ -225,19 +225,18 @@ angular.module('console.build_create_new', [
                         $scope.buildConfig.metadata.annotations.user = $scope.gitload.gitlab[$scope.grid.org].namespace;
                         $scope.buildConfig.metadata.annotations.repo = $scope.gitload.gitlab[$scope.grid.org].repos[$scope.grid.repo].name;
                         $scope.buildConfig.metadata.annotations.id = $scope.gitload.gitlab[$scope.grid.org].repos[$scope.grid.repo].id.toString();
-                    }else {
+                    } else {
                         //console.log('$scope.gitdata.orgs[$scope.grid.org].name', );
                         $scope.buildConfig.spec.source.git.uri = $scope.gitload.github[$scope.grid.org].repos[$scope.grid.repo].clone_url;
                         $scope.buildConfig.metadata.annotations.user = $scope.gitload.github[$scope.grid.org].namespace;
                         $scope.buildConfig.metadata.annotations.repo = $scope.gitload.github[$scope.grid.org].repos[$scope.grid.repo].name;
                     }
-                    var name=''
+                    var name = '';
                     if ($scope.gitdata.branchs[$scope.grid.branch].name) {
-                         name = $scope.gitdata.branchs[$scope.grid.branch].name.replace('/','-');
+                        name = $scope.gitdata.branchs[$scope.grid.branch].name.replace('/', '-');
                     }
 
                     $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ":" + name;
-
 
 
                     //console.log('$scope.gitdata.orgs[$scope.grid.org].repos[$scope.grid.repo]', $scope.gitdata.orgs[$scope.grid.org].repos[$scope.grid.repo].private);
@@ -246,7 +245,7 @@ angular.module('console.build_create_new', [
                         repositorysecret.get({source: $scope.gitstatus, ns: $rootScope.namespace}, function (resecret) {
                             $scope.buildConfig.spec.source.sourceSecret = {
                                 name: resecret.secret
-                            }
+                            };
                             createBC()
                         })
                     } else {
@@ -255,12 +254,12 @@ angular.module('console.build_create_new', [
 
                 } else {
                     if (!$scope.buildConfig.spec.source.git.uri) {
-                        $scope.namerr.urlerr=true
+                        $scope.namerr.urlerr = true
                         return
                     }
                     $scope.buildConfig.spec.source.sourceSecret = {
                         name: ""
-                    }
+                    };
                     $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ':latest';
                     $scope.buildConfig.spec.triggers = [];
                     if (!$scope.sername.name && !$scope.sername.pwd) {
@@ -276,9 +275,9 @@ angular.module('console.build_create_new', [
                             //alert(1);
                             $scope.buildConfig.spec.source.sourceSecret.name = $scope.secret.metadata.name;
                             createBC();
-                           
+
                         }, function (res) {
-                               
+
                             if (res.status == 409) {
                                 $scope.buildConfig.spec.source.sourceSecret.name = $scope.secret.metadata.name;
                                 createBC();
@@ -290,7 +289,7 @@ angular.module('console.build_create_new', [
                 }
 
 
-            }
+            };
             var createBC = function () {
                 if ($scope.buildConfig.spec.source && $scope.buildConfig.spec.source.contextDir == '') {
                     delete $scope.buildConfig.spec.source.contextDir;
@@ -314,15 +313,15 @@ angular.module('console.build_create_new', [
                     toastr.error('操作失败,请重试', {
                         timeOut: 2000,
                         closeButton: true
-                    }); 
+                    });
                     $scope.creating = false;
                     if (res.data.code == 409) {
-                        $scope.namerr.repeated=true
+                        $scope.namerr.repeated = true
                     } else {
                         // Alert.open('错误', res.data.message, true);
                     }
                 });
-            }
+            };
             var createBuild = function (name) {
                 var buildRequest = {
                     metadata: {
@@ -339,7 +338,7 @@ angular.module('console.build_create_new', [
                     region: $rootScope.region
                 }, buildRequest, function () {
                     $log.info("build instantiate success");
-                    $state.go('console.build_detail', {namespace:$rootScope.namespace,name: name, from: 'create/new'})
+                    $state.go('console.build_detail', {namespace: $rootScope.namespace, name: name, from: 'create/new'})
                 }, function (res) {
                     //console.log("uildConfig.instantiate.create",res);
                     //todo 错误处理
