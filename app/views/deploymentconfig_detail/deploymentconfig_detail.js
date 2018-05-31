@@ -11,10 +11,19 @@ angular.module('console.deploymentconfig_detail', [
             ]
         }
     ])
-    .controller('DeploymentConfigDetailCtrl', ['Toast', 'Confirm', 'delTip', '$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag', '$state', 'toastr',
-        function (Toast, Confirm, delTip, $log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag, $state, toastr) {
+    .controller('DeploymentConfigDetailCtrl', ['Toast', 'Confirm', 'delTip', '$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag', '$state', 'toastr','BuildConfig',
+        function (Toast, Confirm, delTip, $log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag, $state, toastr,BuildConfig) {
             $scope.dc = angular.copy(mydc)
             //console.log('mydc', mydc);
+
+            // BuildConfig.get({
+            //     namespace: $rootScope.namespace,
+            //     name: $stateParams.name,
+            //     region: $rootScope.region
+            // }, function (data) {
+            //     $scope.data = data;
+            // })
+
             $scope.mytag = angular.copy(mytag)
             $scope.err = {
                 vol: {
