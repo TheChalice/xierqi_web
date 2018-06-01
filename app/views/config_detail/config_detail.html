@@ -6,7 +6,7 @@
         </div>
     </div>
     <div ng-show="volume">
-        <div class="panel panel-default" style="margin-bottom: 50px">
+        <!-- <div class="panel panel-default" style="margin-bottom: 50px">
             <div class="panel-heading">
             <span class="panel-title">
                 <span class="icon25 configicon"></span>&nbsp;&nbsp;{{volume.metadata.name}}
@@ -14,7 +14,7 @@
                 <a class="btn btn-gray pull-right"
                    style=" padding: 6px 12px; margin-left: 15px;font-size:14px;"
                    ng-click="delete()">
-                   <!-- <i class="fa fa-trash-o fa-lg"></i> -->
+                   
                    删除
                 </a>
             </div>
@@ -36,8 +36,40 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <uib-tabset class="tab-default" active="active">
+        </div> -->
+
+
+         <!-- module common 公共-->
+         <div class="module-heading">
+                <div class="module_block_l">
+                    <div class="img-block"></div>
+                    <div class="img-detail">
+                        <p class="img-tit">{{volume.metadata.name}}</p>
+                        <p class="img-time">
+                            <span classs="module_tit">创建时间：</span>
+                            <span class="module_time" uib-tooltip="{{volume.metadata.creationTimestamp | timescon}}">
+                                    {{volume.metadata.creationTimestamp | timescon}}</span>
+                        </p>
+                       
+                    </div>
+                   
+
+                </div>
+                <div class="module_block_r">
+                        <a class="btn btn-gray pull-right"
+                        style=" padding: 6px 12px; margin-left: 15px;font-size:14px;"
+                        ng-click="delete()">
+                        <!-- <i class="fa fa-trash-o fa-lg"></i> -->
+                        删除
+                     </a>
+                </div>
+            </div>
+            <!-- module common 公共-->
+
+
+
+
+        <uib-tabset class="tab-default tab-jia-default" active="active">
             <uib-tab index="1">
                 <uib-tab-heading>
                     <!-- <i class="icon20 icon20-paper"></i>  -->

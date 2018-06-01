@@ -6,13 +6,13 @@
         </div>
     </div>
     <div ng-show="persistents">
-        <div class="panel panel-default" style="margin-bottom: 50px">
+        <!-- <div class="panel panel-default" style="margin-bottom: 50px">
             <div class="panel-heading">
-            <span class="panel-title">
-                <span class="icon25 configicon"></span>&nbsp;&nbsp;{{name}}
-            </span>
+                <span class="panel-title">
+                    <span class="icon25 configicon"></span>&nbsp;&nbsp;{{name}}
+                </span>
                 <a class="btn btn-gray pull-right" style=" padding: 6px 12px; margin-left: 15px;font-size:14px;" ng-click="delete()">
-                    <!-- <i class="fa fa-trash-o fa-lg"></i> -->
+                   
                     删除
                 </a>
             </div>
@@ -35,9 +35,7 @@
 
                     <div class="col-sm-3">
                         <div class="media media-sm">
-                            <!--<div class="media-left">-->
-                            <!--<img class="media-object" src="views/build_detail/img/images_104.png">-->
-                            <!--</div>-->
+                           
                             <div class="media-body">
 
                                 <h4 class="media-heading">存储卷大小</h4>
@@ -48,9 +46,7 @@
 
                     <div class="col-sm-3">
                         <div class="media media-sm">
-                            <!--<div class="media-left">-->
-                            <!--<img class="media-object" src="views/build_detail/img/images_104.png">-->
-                            <!--</div>-->
+                         
                             <div class="media-body">
 
                                 <h4 class="media-heading">存储卷状态</h4>
@@ -61,9 +57,7 @@
 
                     <div class="col-sm-3">
                         <div class="media media-sm">
-                            <!--<div class="media-left">-->
-                            <!--<img class="media-object" src="views/build_detail/img/images_104.png">-->
-                            <!--</div>-->
+                           
                             <div class="media-body">
 
                                 <h4 class="media-heading">挂载服务数量</h4>
@@ -73,8 +67,50 @@
                     </div>
                 </div>
             </div>
+        </div> -->
+
+
+        <!-- module common 公共-->
+        <div class="module-heading">
+            <div class="module_block_l">
+                <div class="img-block"></div>
+                <div class="img-detail">
+                    <p class="img-tit">{{name}}
+
+                    </p>
+                    <p class="img-time">
+                        <span classs="module_tit">创建时间：</span>
+                        <span class="module_time" uib-tooltip="{{persistents.metadata.creationTimestamp | timescon}}">
+                            {{persistents.metadata.creationTimestamp | timescon}}</span>
+                    </p>
+                    <p class="img-new">
+                        <div class="module_b_l">
+                            <span class="module_tit">存储卷大小：</span>
+                            <span class="module_time">{{persistents.spec.resources.requests.storage}}</span>
+                        </div>
+
+                        <div class="module_b_l">
+                            <span class="module_tit">存储卷状态：</span>
+                            <span class="module_time">{{guazai}}</span>
+                        </div>
+
+                    </p>
+                </div>
+            </div>
+
+
+            <div class="module_block_r">
+                <a class="btn btn-gray pull-right" style=" padding: 6px 12px; margin-left: 15px;font-size:14px;" ng-click="delete()">
+                    <!-- <i class="fa fa-trash-o fa-lg"></i> -->
+                    删除
+                </a>
+            </div>
         </div>
-        <uib-tabset class="tab-default" active="active">
+        <!-- module common 公共-->
+
+
+
+        <uib-tabset class="tab-default tab-jia-default" active="active">
             <uib-tab index="1">
                 <uib-tab-heading>
                     <!-- <i class="icon20 icon20-paper"></i>  -->
@@ -86,16 +122,17 @@
                     </div>
                     <div class="panel-body" style="padding:0">
                         <ul style="padding: 0;margin: 0;">
-                            <li ng-repeat="item in persistents.arr"
-                                class="listitems"
-                                style="list-style: none;height: 60px;line-height: 60px;">
-                                <a class="listitem"
-                                   ui-sref="console.service_detail({name:item})">
+                            <li ng-repeat="item in persistents.arr" class="listitems" style="list-style: none;height: 60px;line-height: 60px;">
+                                <a class="listitem" ui-sref="console.service_detail({name:item})">
                                     {{item}}
                                 </a>
                             </li>
-                            <div style="text-align: center;background:#f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;"
-                                 ng-if="persistents.arr.length===0"><p class="blank_block"><span class="blank_tit">无挂载服务</span></p></div>
+                            <div
+                                ng-if="persistents.arr.length===0">
+                                <p class="blank_block">
+                                    <span class="blank_tit">无挂载服务</span>
+                                </p>
+                            </div>
                         </ul>
                     </div>
                 </div>
@@ -106,32 +143,37 @@
 
 </div>
 <style>
-    #listitem{
+    #listitem {
         border-bottom: 1px solid #c9c9c9;
     }
+
     .listitems {
         padding-left: 20px;
         border-bottom: 1px solid #E6E9F2;
     }
+
     .listitems:hover {
         background-color: #f7f8fb;
     }
-    .listitem{color:#47B2FB;}
-    .listitem:hover{
+
+    .listitem {
+        color: #47B2FB;
+    }
+
+    .listitem:hover {
         color: #98D4FD;
     }
-    .listitem:visited{
+
+    .listitem:visited {
         color: #168DDE;
     }
 
 
     #config-detail .tab-default li.active .nav-link,
-    #config-detail .tab-default li.active .nav-link:focus, 
-    #config-detail .tab-default li.active .nav-link:hover{
-        border:none;
-        border-bottom:2px solid #47B2FB;
-        color:#47B2FB;
+    #config-detail .tab-default li.active .nav-link:focus,
+    #config-detail .tab-default li.active .nav-link:hover {
+        border: none;
+        border-bottom: 2px solid #47B2FB;
+        color: #47B2FB;
     }
-
-    
 </style>

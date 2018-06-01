@@ -17,7 +17,8 @@
 /*a:focus, a:hover{color:#e5993a;}*/
 body {
     padding-top:55px;/* jia 20161128 头部高度调整 padding-top:70px;*/
-    font-family: -apple-system, BlinkMacSystemFont, Neue Haas Grotesk Text Pro, Arial Nova, Segoe UI, Helvetica Neue, \.PingFang SC, PingFang SC, Microsoft YaHei, Microsoft JhengHei, Source Han Sans SC, Noto Sans CJK SC, Source Han Sans CN, Noto Sans SC, Source Han Sans TC, Noto Sans CJK TC, Hiragino Sans GB, sans-serif
+    font-family: -apple-system, BlinkMacSystemFont, Neue Haas Grotesk Text Pro, Arial Nova, Segoe UI, Helvetica Neue, \.PingFang SC, PingFang SC, Microsoft YaHei, Microsoft JhengHei, Source Han Sans SC, Noto Sans CJK SC, Source Han Sans CN, Noto Sans SC, Source Han Sans TC, Noto Sans CJK TC, Hiragino Sans GB, sans-serif;
+    background:#F9FAFC;
 }
 
 @media (max-width: 1200px) {
@@ -157,17 +158,18 @@ a {
     border-top: none;
     border-radius: 2px;
     border-collapse: separate;
-    margin-bottom: 0;
+    margin-bottom: 0;background:#fff;
 }
 
 .table-default > tbody > tr > th,
 .table-default > tbody > tr > td {
     padding-left: 20px;
-    padding-top: 12px;
-    padding-bottom: 12px;
+    padding-top: 8px;
+    padding-bottom: 4px;
     color: #5a6378;font-size:12px;
     text-align:left;  /*列表数据 jiasx 20161209 */
 }
+.table-hover>tbody>tr:hover{background:#E0E6ED;}
 
 .table-default.sub-table > tbody > tr > th,
 .table-default.sub-table > tbody > tr > td {
@@ -379,7 +381,7 @@ a {
 .form-control:hover{border:1px solid #47B2FB;}
 /*tab默认样式*/
 .tab-default .nav-tabs {
-    border-bottom: 1px solid #c9c9c9;
+    border-bottom: 1px solid #E5E9F2;
 }
 
 .tab-default li .nav-link {
@@ -649,18 +651,29 @@ a {
     background: #fff;margin-left:-2px;
     /*中信项目 jiasx*/
     /*background:#5c72e9;*/
+    position: absolute;
+    top:32px;z-index:3;
+}
+.timeline ul li:nth-child(1) .dot_blank{
+    width: 26px;
+    height: 26px;
+    background:#fff;
+    display:block;
+    position: absolute;
+    top: 10px;
+    left: -10px;
 }
 
 .timeline ul {
     list-style: none;
-    border-left: 2px solid #c9c9c9;padding-left:40px;
+    border-left: 2px solid #E5E9F2;padding-left:40px;
 }
 
 .timeline ul > li {
     position: relative;
     left: -45px;
     top: -10px;
-    margin: 0 -45px 50px 0;
+    margin: 0 -45px 10px 0;
 }
 
 .timeline ul > li > label {
@@ -668,8 +681,8 @@ a {
 }
 
 .timeline ul > li > div.container-fluid {
-    padding: 10px 15px;
-    border: 1px solid #c9c9c9;
+    padding: 6px 15px 2px;
+    border: 1px solid #E0E6ED;
     border-radius: 2px;
     margin-left: 30px;
     color: #5a6378;
@@ -1830,4 +1843,27 @@ td  a:hover, a:focus{
 .tab-jia-default .tab-content {
     border: 0;
     padding: 20px 0px;
+}
+
+.blank_block{
+    padding: 6px 15px 6px;
+    border: 1px solid #E0E6ED;
+    border-radius: 2px;
+    margin-left: 30px;
+    color: #5a6378;
+    font-size: 12px;
+    line-height: 25px;margin:0;background:#F9FAFC;
+}
+
+.blank_block .blank_tit{font-size:12px;color:#475669;}
+.border_background{position:relative;}
+.border_background .dot{position:absolute;border:2px solid #CCD5E0;left: -45px;top: 16px;z-index:3;}
+
+.border_background .dot_blank{
+    position:absolute;
+    width: 26px;
+    height: 40px;
+    background:#fff;
+    left: -54px;
+    top: 0px;
 }
