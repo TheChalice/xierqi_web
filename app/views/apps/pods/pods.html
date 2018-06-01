@@ -1,4 +1,4 @@
-<div id="pods" style="background:#fff;">
+<div id="pods">
     <style>
         #creat:focus {
             color: #ffffff;
@@ -15,7 +15,7 @@
             clear: both;
             overflow: hidden;
             padding-left: 20px;
-            padding-right: 20px;
+            padding-right: 20px;background:#fff;
         }
 
         .clear {
@@ -47,11 +47,11 @@
         <div class="table-responsive" style="margin-top: 20px;margin-left:20px;margin-right:20px;">
             <table class="table table-hover table-default">
                 <tr>
-                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">名称</th>
-                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">状态</th>
-                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">就绪</th>
-                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">重启</th>
-                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">时长</th>
+                    <th>名称</th>
+                    <th>状态</th>
+                    <th>就绪</th>
+                    <th>重启</th>
+                    <th>时长</th>
                 </tr>
                 <tr ng-repeat="pod in podItem">
                     <td data-title="Name" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">

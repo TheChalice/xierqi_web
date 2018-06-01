@@ -1,13 +1,32 @@
-<div id="stateful-sets-detail">
-    <a class="btn btn-gray pull-right" style="height:34px; width:36px;padding:6px;" ng-click="delete(statefuldetail.metadata.name)">
-        <i class="fa fa-trash-o fa-lg"></i>
-    </a>
+<div id="stateful-sets-detail" class="df_frame">
+
+     <!-- module common 公共-->
+     <div class="module-heading">
+            <div class="module_block_l">
+                <div class="img-block"></div>
+                <div class="img-detail">
+                    <p class="img-tit">{{stateful.metadata.name}}</p>
+                    <p class="img-time">
+                        <span classs="module_tit">创建时间：</span>
+                        <span class="module_time" uib-tooltip="{{stateful.metadata.creationTimestamp | timescon}}">{{stateful.metadata.creationTimestamp | timescon}}</span>
+                    </p>
+                </div>
+            </div>
+            <div class="module_block_r">
+                    <a class="btn btn-gray pull-right" style="height:34px; width:36px;padding:6px;" ng-click="delete(statefuldetail.metadata.name)">
+                            <i class="fa fa-trash-o fa-lg"></i>
+                        </a>
+            </div>
+        </div>
+        <!-- module common 公共-->
+    
     <uib-tabset class="tab-default tab-image-jia-defautl" active="check">
         <uib-tab index="1">
             <uib-tab-heading>
                 <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
                 详情
             </uib-tab-heading>
+                <h4 class="df_tit">概况</h4>
                 <div class="row matgin-bt">
                     <div class="col-md-2 width150 color666">状态:</div>
                     <div class="col-md-10 color"> <status-icon status="statefulSet | deploymentStatus"></status-icon>{{statefuldetail | deploymentStatus}}</div>
@@ -51,7 +70,7 @@
                 <div class="col-md-10">GET&nbsp;{{statefuldetail.spec.template.spec.containers[0].livenessProbe.httpGet.path}} on {{statefuldetail.spec.template.spec.containers[0].livenessProbe.httpGet.port}} ({{statefuldetail.spec.template.spec.containers[0].readinessProbe.httpGet.scheme}})<small>
                     {{statefuldetail.spec.template.spec.containers[0].livenessProbe.initialDelaySeconds}}s delay, {{statefuldetail.spec.template.spec.containers[0].livenessProbe.timeoutSeconds}}s timeout</small></div>
             </div>
-            <div ng-if="statefuldetail.spec.volumeClaimTemplates" style="padding:10px 0;color:#333;font-weight: bold;">volumeClaimTemplates</div>
+            <div ng-if="statefuldetail.spec.volumeClaimTemplates" class="df_tit">volumeClaimTemplates</div>
             <div ng-repeat="template in statefuldetail.spec.volumeClaimTemplates">
                 <div class="row matgin-bt">
                     <div class="col-md-2 width150 color666">存储卷名称:</div>
@@ -66,7 +85,7 @@
                     <div class="col-md-10">{{template.spec.resources.requests.storage}}</div>
                 </div>
             </div>
-            <div ng-if="statefuldetail.spec.template.spec.volumes" style="padding:10px 0;color:#333;font-weight: bold;">卷</div>
+            <div ng-if="statefuldetail.spec.template.spec.volumes" class="df_tit">卷</div>
             <div ng-if="statefuldetail.spec.template.spec.volumes"  ng-repeat="volume in statefuldetail.spec.template.spec.volumes">
                 <div class="row matgin-bt">
                     <div class="col-md-2 width150 color666">名称:</div>
@@ -116,7 +135,7 @@
                 </div>
 
             </div>
-            <div style="padding:10px 0;color:#333;font-weight: bold;">Pods</div>
+            <div class="df_tit">Pods</div>
             <div class="table-responsive">
                 <table class="table table-hover table-default">
                     <tr>

@@ -1,4 +1,4 @@
-<div id="services" style="background:#fff;">
+<div id="services">
     <style>
         #creat:focus {
             color: #ffffff;
@@ -11,7 +11,7 @@
         .services_block{
             padding-top:10px;padding-bottom:10px;
     box-shadow: 0 1px 0 0 rgba(224,230,237,0.50);
-    clear:both;height:56px;padding-left:20px;padding-right:20px;
+    clear:both;height:56px;padding-left:20px;padding-right:20px;background:#fff;
         }
 
     </style>
@@ -42,12 +42,11 @@
         <div  class="table-responsive" style="margin-top: 20px;margin-left:20px;margin-right:20px;">
             <table class="table table-hover table-default">
                 <tr>
-                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">名称</th>
-                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">内部 IP</th>
-                    <!--<th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">外部 IP</th>-->
-                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">端口</th>
-                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">选择器</th>
-                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">时长</th>
+                    <th>名称</th>
+                    <th>内部 IP</th>
+                    <th>端口</th>
+                    <th>选择器</th>
+                    <th>时长</th>
                 </tr>
                 <tr ng-repeat="service in serveItem">
                     <td data-title="Name" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;vertical-align: middle;">
