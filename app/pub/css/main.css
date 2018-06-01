@@ -1660,6 +1660,7 @@ td  a:hover, a:focus{
     background-color: #47B2FB;
 }
 
+
 @font-face {
     font-family: PatternFlyIcons-webfont;
     src: url(./font/PatternFlyIcons-webfont.eot);
@@ -1738,7 +1739,7 @@ td  a:hover, a:focus{
 
 .input-group-btn {
     position: relative;
-    font-size: 0;
+    font-size: 12px;
     white-space: nowrap
 }
 
@@ -1882,3 +1883,59 @@ td  a:hover, a:focus{
     left: -54px;
     top: 0px;
 }
+
+
+/* uex-icon svg 公共图标引用 开始 重要*/
+@font-face {
+    font-family: 'uex-icon';
+    src:  url('./font/uex-icon.eot?uryy2b');
+    src:  url('./font/uex-icon.eot?uryy2b#iefix') format('embedded-opentype'),
+      url('./font/uex-icon.ttf?uryy2b') format('truetype'),
+      url('./font/uex-icon.woff?uryy2b') format('woff'),
+      url('./font/uex-icon.svg?uryy2b#uex-icon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  [class^="uex-icon-"], [class*=" uex-icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'uex-icon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+/* 代码构建列表 */
+/* 成功 */
+  .uex-icon-Complete:before {
+    content: "\e914";
+  }
+/* 终止 */
+  .uex-icon-Cancelled:before {
+    content: "\e916";
+  }
+/* 失败/错误 */
+  .uex-icon-Failed, .uex-icon-Error {
+    content: "\e915";
+  }
+/* 运行中/在等待 */
+ .uex-icon-Running, .uex-icon-Pending {
+    content:"\e954"
+ }
+
+ .uex-icon-search:before {
+    content: "\e91d";
+  }
+
+  .df_search{position:absolute;z-index:999;top:50%;right:10px;font-size:14px;margin-top:-7px;color: #A2B0C4;}
+  .searchbar:hover .df_search{color:#47B2FB;}
+
+
+
+  /* uex-icon svg 公共图标引用 结束 重要*/

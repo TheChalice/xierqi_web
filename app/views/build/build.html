@@ -16,7 +16,8 @@
                                ng-keyup=buildsearch(grid.txt)>
                         <!--ng-model="txt" ng-focus="showTip=true;" -->
                             <span class="input-group-btn">
-                                <a class="btn" ng-click="buildsearch('search')"></a>
+                                <span class="df_search uex-icon-search" ng-click="buildsearch('search')">
+                                </span>
                             </span>
                     </div>
             <div class="builder_create_btn">
@@ -52,8 +53,9 @@
                            tooltip-placement="top">{{bc.metadata.name}}</a>
                     </td>
                     <td>
-                    <span class="icon12 icon12-{{bc.build.status.phase}}"
-                          ng-class="{'fa-spin': bc.build.status.phase == 'Running' || bc.build.status.phase == 'Pending','icon12-Cancelled': bc.build.status.phase == 'Cancelled'}"></span>
+                    
+                    <span class="icon12 uex-icon-{{bc.build.status.phase}}"
+                          ng-class="{'fa-spin': bc.build.status.phase == 'Running' || bc.build.status.phase == 'Pending','uex-icon-Cancelled': bc.build.status.phase == 'Cancelled'}"></span>
 
                         {{bc.build.status.phase | phaseFilter}}
                     </td>
