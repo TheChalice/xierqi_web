@@ -37,10 +37,11 @@
 
 
             <div class="input-group col-sm-4 searchbar">
-                <input type="text" class="form-control" placeholder="搜索容器状态名称" ng-keyup=search() ng-model="grid.txt">
+                <input type="text" class="form-control" placeholder="搜索容器状态名称" ng-keyup=search() ng-model="grid.txt"> 
                 <span class="input-group-btn">
-                    <a class="btn" ng-click="search()"></a>
-                </span>
+                        <span class="df_search uex-icon-search" ng-click="search('search')">
+                        </span>
+                    </span>
             </div>
         </div>
         <div class="clear"></div>
