@@ -12,8 +12,9 @@ angular.module('console.build_create_new', [
                 org: null,
                 repo: null,
                 branch: null,
-                freehostname: 1
+                CodeBase: 1
             };
+            $scope.grid.CodeBase=1;
             $scope.gitstatus = 'gitlab';
             var r = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
             $scope.buildConfig = {
@@ -129,17 +130,18 @@ angular.module('console.build_create_new', [
             };
 
             $scope.$watch('buildcheck', function (n, o) {
+                console.log('---', n, o);
                 if (n === o) {
                     return
                 }
                 if (n) {
-                    console.log(n);
-                    clearselec()
+                    console.log('=====', n);
+                    clearselec();
                     if (n === 1) {
-                        $scope.gitstatus = 'gitlab'
+                        $scope.gitstatus = 'gitlab';
                         $scope.gitdata.orgs = angular.copy($scope.gitload.gitlab)
                     } else if (n === 2) {
-                        $scope.gitstatus = 'github'
+                        $scope.gitstatus = 'github';
                         $scope.gitdata.orgs = angular.copy($scope.gitload.github)
                     }
                 }
@@ -161,7 +163,7 @@ angular.module('console.build_create_new', [
                         sendobj.id = repo.id;
                     }
                     repositorybranches.query(sendobj, function (branchres) {
-                        repo.branchs = branchres
+                        repo.branchs = branchres;
                         $scope.gitdata.branchs = angular.copy(repo.branchs)
                     })
 
@@ -213,7 +215,7 @@ angular.module('console.build_create_new', [
                     }
                 };
                 ImageStream.create({namespace: $rootScope.namespace}, imageStream, function (res) {
-                    console.log('res', res);
+                    console.log('res121', res);
                 });
                 if ($scope.buildcheck !== 3) {
                     //$scope.buildConfig.metadata.annotations.user=$scope.buildConfig.metadata.name
@@ -254,7 +256,7 @@ angular.module('console.build_create_new', [
 
                 } else {
                     if (!$scope.buildConfig.spec.source.git.uri) {
-                        $scope.namerr.urlerr = true
+                        $scope.namerr.urlerr = true;
                         return
                     }
                     $scope.buildConfig.spec.source.sourceSecret = {
