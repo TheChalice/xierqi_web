@@ -33,7 +33,8 @@
                 <div class="timeline">
                     <ul>
                         <li ng-repeat="item in databuild.items">
-                            <span class="dot"></span>
+                            <span class="dot"></span>&nbsp;&nbsp;
+                            <span class="dot_blank"></span>
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-sm-4">
@@ -76,6 +77,8 @@
                             </div>
                         </li>
                         <div class="border_background" style="" ng-if="databuild.items.length===0" class="ng-scope">
+                                <span class="dot"></span>
+                                <span class="dot_blank"></span>
                             <p class="blank_block">
                                 <span class="blank_tit">您还没有构建记录</span>
                             </p>
