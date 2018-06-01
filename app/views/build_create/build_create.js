@@ -14,9 +14,10 @@ angular.module('console.build_create_new', [
                 branch: null,
                 CodeBase: 1
             };
-            $scope.grid.CodeBase=1;
+            // $scope.grid.CodeBase=1;
             $scope.gitstatus = 'gitlab';
-            var r = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
+            var r = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            // var r = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
             $scope.buildConfig = {
                 metadata: {
                     name: "",
@@ -46,7 +47,7 @@ angular.module('console.build_create_new', [
                             uri: '',
                             ref: ''
                         },
-                        contextDir: '/',
+                        contextDir: '/'
                         //sourceSecret: {
                         //    name: ''
                         //}
@@ -130,12 +131,12 @@ angular.module('console.build_create_new', [
             };
 
             $scope.$watch('buildcheck', function (n, o) {
-                console.log('---', n, o);
+                // console.log('---', n, o);
                 if (n === o) {
                     return
                 }
                 if (n) {
-                    console.log('=====', n);
+                    // console.log('=====', n);
                     clearselec();
                     if (n === 1) {
                         $scope.gitstatus = 'gitlab';
@@ -190,26 +191,48 @@ angular.module('console.build_create_new', [
                 }
             }
 
+            // function checkPrivateUrl(str) {
+            //     $scope.codeBaseAdress = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            //     if ($scope.codeBaseAdress.test(str)) {
+            //         $scope.privateErr.urlerr = false;
+            //     } else {
+            //         $scope.privateErr.urlerr = true;
+            //         return;
+            //     }
+            // }
+
             $scope.create = function () {
-                //console.log(r.test($scope.buildConfig.metadata.name));
+                // console.log('-=-==---', r.test($scope.buildConfig.metadata.name));
                 $scope.namerr = {
                     nil: false,
                     rexed: false,
                     repeated: false,
                     urlerr: false
                 };
-                if (!$scope.buildConfig.metadata.name) {
-                    $scope.namerr.nil = true
-                    return
-                } else if (!r.test($scope.buildConfig.metadata.name)) {
-                    $scope.namerr.rexed = true
-                    return
+                $scope.privateErr = {
+                    urlerr: false,
+                    usernameerr: false,
+                    pwderr: false
+                };
+                if(r.test($scope.buildConfig.spec.source.git.uri)==false){
+                    $scope.privateErr.urlerr = true;
                 }
-
+                // if (!$scope.buildConfig.metadata.name) {
+                //     $scope.namerr.nil = true;
+                //     return
+                // } else if (!r.test($scope.buildConfig.metadata.name)) {
+                //     $scope.namerr.rexed = true;
+                //     return
+                // }
+                if (!$scope.sername.name && !$scope.sername.pwd) {
+                    $scope.privateErr.usernameerr = true;
+                    $scope.privateErr.pwderr = true;
+                    return;
+                }
                 var imageStream = {
                     metadata: {
                         annotations: {
-                            'datafoundry.io/create-by': $rootScope.user.metadata.name,
+                            'datafoundry.io/create-by': $rootScope.user.metadata.name
                         },
                         name: $scope.buildConfig.metadata.name
                     }
