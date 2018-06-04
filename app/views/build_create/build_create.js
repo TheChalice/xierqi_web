@@ -16,7 +16,9 @@ angular.module('console.build_create_new', [
             };
             // $scope.grid.CodeBase=1;
             $scope.gitstatus = 'gitlab';
-            var r = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            var r = /[a-zA-z]+:\/\/[^\s]*/;//url
+            var nameRegExp=/^[A-Za-z]+$/;//由26个英文字母组成的字符串
+            var pwdRegExp=/^[a-zA-Z]\w{5,17}$/;//密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)
             // var r = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
             $scope.buildConfig = {
                 metadata: {
@@ -151,7 +153,7 @@ angular.module('console.build_create_new', [
                 $scope.grid.org = idx;
                 $scope.grid.repo = null;
                 $scope.gitdata.branchs = [];
-                $scope.gitdata.repos = angular.copy(orgs.repos)
+                $scope.gitdata.repos = angular.copy(orgs.repos);
                 //console.log('$scope.gitdata.repos', $scope.gitdata.repos);
             };
             $scope.selectrepo = function (idx, repo) {
@@ -190,17 +192,6 @@ angular.module('console.build_create_new', [
                     $scope.secret.data.username = $base64.encode(pwd);
                 }
             }
-
-            // function checkPrivateUrl(str) {
-            //     $scope.codeBaseAdress = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-            //     if ($scope.codeBaseAdress.test(str)) {
-            //         $scope.privateErr.urlerr = false;
-            //     } else {
-            //         $scope.privateErr.urlerr = true;
-            //         return;
-            //     }
-            // }
-
             $scope.create = function () {
                 // console.log('-=-==---', r.test($scope.buildConfig.metadata.name));
                 $scope.namerr = {
@@ -214,8 +205,17 @@ angular.module('console.build_create_new', [
                     usernameerr: false,
                     pwderr: false
                 };
-                if(r.test($scope.buildConfig.spec.source.git.uri)==false){
+                if(r.test($scope.buildConfig.spec.source.git.uri)===false){
                     $scope.privateErr.urlerr = true;
+                    return;
+                }
+                if(nameRegExp.test($scope.sername.name)===false){
+                    $scope.privateErr.urlerr = true;
+                    return;
+                }
+                if(pwdRegExp.test($scope.sername.pwd)===false){
+                    $scope.privateErr.pwderr = true;
+                    return;
                 }
                 // if (!$scope.buildConfig.metadata.name) {
                 //     $scope.namerr.nil = true;
@@ -224,11 +224,7 @@ angular.module('console.build_create_new', [
                 //     $scope.namerr.rexed = true;
                 //     return
                 // }
-                if (!$scope.sername.name && !$scope.sername.pwd) {
-                    $scope.privateErr.usernameerr = true;
-                    $scope.privateErr.pwderr = true;
-                    return;
-                }
+
                 var imageStream = {
                     metadata: {
                         annotations: {
