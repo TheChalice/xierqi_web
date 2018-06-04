@@ -31,20 +31,19 @@
                         </div>
                     </div>
                     <div class="col-sm-6">
-                        <div class="media media-sm">
-                            <div class="media-left">
-                                <i class="faa faa-pod"></i>
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">pod个数(正常/期望)</h4>
-                                <small>
-                                    <span ng-repeat="pod in podsForService">
-                                        <a class="href-orange"
-                                           ui-sref="console.pods_detail({namespace:namespace,name: pod.metadata.name})">{{pod.metadata.name}}</a>
-                                    </span>
-                                </small>
-                            </div>
-                        </div>
+                        <!--<div class="media media-sm">-->
+                            <!--<div class="media-left">-->
+                                <!--<i class="faa faa-pod"></i>-->
+                            <!--</div>-->
+                            <!--<div class="media-body">-->
+                                <!--<h4 class="media-heading">pod个数</h4>-->
+                                <!--<small>-->
+                                    <!--<span>-->
+                                       <!--{{podsForService}}-->
+                                    <!--</span>-->
+                                <!--</small>-->
+                            <!--</div>-->
+                        <!--</div>-->
                     </div>
                 </div>
             </div>
@@ -126,7 +125,9 @@
                             </div>
                             <h4 style="color:#666;">容器组</h4>
                             <div>
-                                <pods-table pods="podsForService" active-pods="podsWithEndpoints"
+                                <pods-table pods="podsForService"
+                                            namespace="namespace"
+                                            active-pods="podsWithEndpoints"
                                             custom-name-header="'容器组'"
                                             pod-failure-reasons="podFailureReasons"></pods-table>
                             </div>
