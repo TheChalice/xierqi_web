@@ -158,6 +158,7 @@ angular.module('console.pipeline.detail', [
                 //        name: name
                 //    }
                 //};
+                Build.delete({})
                 BuildConfig.get({namespace: $rootScope.namespace,
                     name: $scope.BuildConfig.metadata.name}, function (getbc) {
                     if ($scope.BuildConfig.spec.strategy.jenkinsPipelineStrategy&&$scope.BuildConfig.spec.strategy.jenkinsPipelineStrategy.jenkinsfile) {
