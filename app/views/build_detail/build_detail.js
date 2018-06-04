@@ -144,7 +144,7 @@ angular.module('console.build.detail', [
                         removeBuilds($scope.data.metadata.name);
                         var host = $scope.data.spec.source.git.uri;
                         if (!$scope.grid.checked) {
-                            console.log('getSourceHost(host)', getSourceHost(host));
+                            // console.log('getSourceHost(host)', getSourceHost(host));
                             if (getSourceHost(host) === 'github.com') {
 
                                 WebhookHubDel.del({
@@ -312,7 +312,7 @@ angular.module('console.build.detail', [
 
             var checkWebStatus = function () {
                 var host = $scope.data.spec.source.git.uri;
-                console.log('getSourceHost(host)', getSourceHost(host));
+                // console.log('getSourceHost(host)', getSourceHost(host));
                 if (getSourceHost(host) === 'github.com') {
                     WebhookGitget.get({
                         ns: $rootScope.namespace,
@@ -365,7 +365,7 @@ angular.module('console.build.detail', [
                 var triggers = $scope.data.spec.triggers;
                 //console.log('triggers', triggers);
                 $scope.grid.pedding = true
-                console.log('checked', $scope.grid.checked);
+                // console.log('checked', $scope.grid.checked);
                 if (!$scope.grid.checked) {
                     var config = getConfig(triggers, 'github');
                     if (getSourceHost(host) === 'github.com') {
@@ -652,7 +652,7 @@ angular.module('console.build.detail', [
                 } else if (data.type == "MODIFIED") {
                     angular.forEach($scope.databuild.items, function (build,i) {
                         if (build.metadata.name === data.object.metadata.name) {
-                            console.log('build.metadata.name', build.metadata.name);
+                            // console.log('build.metadata.name', build.metadata.name);
                             build.metadata.creationTimestamp=data.object.metadata.creationTimestamp
                             build.status.phase=data.object.status.phase
                             build.status.duration=data.object.status.duration
@@ -697,7 +697,7 @@ angular.module('console.build.detail', [
                     name: o.metadata.name,
                     region: $rootScope.region
                 }, function (res) {
-                    console.log('res', res);
+                    // console.log('res', res);
                 }, function (res) {
                     //console.log("res", res);
                     var html = ansi_ups.ansi_to_html(res.data.message);

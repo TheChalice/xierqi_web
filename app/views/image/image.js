@@ -56,7 +56,7 @@ angular.module('console.image', [
                 })
             }
             registryp.query(function (date) {
-                console.log('regdate', date);
+                // console.log('regdate', date);
                 angular.forEach(date, function (time, i) {
                     date.metadata = { creationTimestamp: time.creation_time }
                 })
