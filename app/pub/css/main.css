@@ -366,10 +366,11 @@ a {
 
 /*输入框*/
 .form-control {
-    border: 1px solid #c9c9c9;
-    border-radius: 2px;
+    border: 1px solid #ccd5e0;
+    border-radius: 4px;
     box-shadow: none;
     color: #5a6378;
+    font-size: 12px;
 }
 
 
@@ -379,6 +380,19 @@ a {
     border-radius: 2px 2px 0 0;
 }
 .form-control:hover{border:1px solid #47B2FB;}
+.form-control-ipt{
+    border: 1px solid #ccd5e0;
+    border-radius: 4px;
+    box-shadow: none;
+    color: #5a6378;
+    font-size: 12px;
+}
+.form-control-ipt:focus {
+    box-shadow: none;
+    /*border: 1px solid #c9c9c9;*/
+    border-radius: 2px 2px 0 0;
+}
+.form-control-ipt:hover{border:none;}
 /*tab默认样式*/
 .tab-default .nav-tabs {
     border-bottom: 1px solid #E5E9F2;
@@ -740,24 +754,25 @@ a {
     width: 100%;
     text-align: left;
     background: #fff;
-    border: 1px solid #c9c9c9;
-    border-radius: 2px;
+    border: 1px solid #ccd5e0;
+    border-radius: 4px;
     color: #5a6378;
     font-size: 12px;
-    padding-top: 8px;
-    padding-bottom: 7px;
+    height: 26px;
+    /*padding-top: 8px;*/
+    /*padding-bottom: 7px;*/
     position: relative;
 }
 
 .dropdown-select > .btn .caret {
     right: 10px;
     position: absolute;
-    top: 15px;
+    top: 13px;
 }
 
 .dropdown-select > ul {
     width: 100%;
-    border-radius: 2px;
+    border-radius: 4px;
 }
 
 .faa {
@@ -1639,7 +1654,7 @@ td  a:hover, a:focus{
     font-size: 100px;
     text-align: right;
     filter: alpha(opacity=0);
-    opacity: 0;
+    opacity: 1;
     cursor: inherit;
     display: block;
     background-color: #47B2FB;
