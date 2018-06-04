@@ -1906,11 +1906,11 @@ td  a:hover, a:focus{
     content: "\e916";
   }
 /* 失败/错误 */
-  .uex-icon-Failed, .uex-icon-Error {
+  .uex-icon-Failed:before, .uex-icon-Error:before {
     content: "\e915";
   }
 /* 运行中/在等待 */
- .uex-icon-Running, .uex-icon-Pending {
+ .uex-icon-Running:before, .uex-icon-Pending:before {
     content:"\e954"
  }
 
