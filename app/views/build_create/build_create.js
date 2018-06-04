@@ -290,6 +290,10 @@ angular.module('console.build_create_new', [
                             $scope.privateErr.usernameerr = true;
                             return;
                         }
+                        if(!$scope.sername.name){
+                            $scope.privateErr.usernameerr = true;
+                            return;
+                        }
                         if (pwdRegExp.test($scope.sername.pwd) === false) {
                             $scope.privateErr.pwderr = true;
                             return;
