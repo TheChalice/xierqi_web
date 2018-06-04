@@ -1,6 +1,6 @@
-<div class="image-detail">
+<div class="image-detail df_frame">
     <div>
-        <div class="panel panel-default" style="margin-bottom: 50px">
+        <!-- <div class="panel panel-default" style="margin-bottom: 50px">
             <div class="panel-heading">
             <span class="panel-title">
                 <span class="icon25 icon25-panel-repository">
@@ -15,9 +15,33 @@
                    ng-disabled=true>暂无最新版本</a>
             </div>
 
-        </div>
+        </div> -->
+         <!-- module common 公共-->
+         <div class="module-heading">
+                <div class="module_block_l">
+                    <div class="img-block"></div>
+                    <div class="img-detail">
+                        <p class="img-tit">{{imagename}}</p>
+                       
+                    </div>
+                   
+
+                </div>
+                <div class="module_block_r">
+                        <a class="btn pull-right btn-green"
+                        ng-if="tags.length>0"
+                        ng-disabled=false
+                        ui-sref="console.service_create({namespace:namespace,image:imagename+':'+tags[0].name})">部署最新版本</a>
+                     <a class="btn pull-right btn-orange"
+                        ng-if="!tags.length"
+                        ng-disabled=true>暂无最新版本</a>
+                </div>
+            </div>
+            <!-- module common 公共-->
+
+
         <div>
-            <uib-tabset class="tab-default">
+            <uib-tabset class="tab-default tab-jia-default">
                 <uib-tab index="1" ng-if="false">
                     <uib-tab-heading>
                         <!-- <i class="fa fa-file-o fa-lg"></i>&nbsp;&nbsp; -->
@@ -33,16 +57,26 @@
                     <div class="timeline">
                         <ul>
                             <li ng-repeat="item in tags">
-                                <label uib-tooltip="">
+                                    <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span class="dot_blank"></span>
+                                <!-- <label uib-tooltip="">
                                     <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
                                     {{item.created | dateRelative}}
-                                </label>
+                                </label> -->
                                 <div class="container-fluid">
                                     <div class="row">
-                                        <div class="col-sm-8" >
+
+                                            <div class="col-sm-4">
+                                                    <span class="detail_tit">构建时间：</span>
+                                                    <label class="build_name" uib-tooltip="{{item.created | timescon}}">
+                                                            {{item.created | timescon}}
+                                                    </label>
+                                                </div>
+                                        <div class="col-sm-4" >
                                             <div>
-                                                <i class="fa fa-flag-o"></i>&nbsp;
+                                                <!-- <i class="fa fa-flag-o"></i>&nbsp; -->
                                                 <!--<span ng-if="item.spec.revision.git.ref">-->
+                                                <span class="detail_tit">版本：</span>
                                                 <span>{{imagename}}:{{item.name}}</span>
                                             </div>
                                         </div>

@@ -44,9 +44,9 @@ angular.module('console.build', [
                     var iarr = [];
                     var str = $scope.grid.txt;
                     str = str.toLocaleLowerCase();
-                    console.log('$scope.copydata', $scope.copydata);
+                    // console.log('$scope.copydata', $scope.copydata);
                     angular.forEach($scope.copydata, function (item, i) {
-                        console.log(item.build);
+                        // console.log(item.build);
                         var nstr = item.metadata.name;
                         nstr = nstr.toLocaleLowerCase();
                             if (nstr.indexOf(str) !== -1) {
@@ -58,7 +58,7 @@ angular.module('console.build', [
                     if(iarr.length===0){
                         $scope.isQuery=true;
                         $scope.text='没有查询到相关数据';
-                        console.log($scope.items.length);
+                        // console.log($scope.items.length);
                     }
                     else{
                         $scope.text='您还没有任何代码构建数据，现在就创建一个吧';
@@ -78,7 +78,7 @@ angular.module('console.build', [
             BuildConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function(data){
                 $log.info('buildConfigs', data);
                 data.items = Sort.sort(data.items, -1); //排序
-                console.log('data.items', data.items);
+                // console.log('data.items', data.items);
                 //$scope.copydata = angular.copy(data.items);
                 $scope.data = [];
                 angular.forEach(data.items, function (item,i) {
@@ -195,7 +195,7 @@ angular.module('console.build', [
                 //todo 构建类型
             });
             $scope.copydata = angular.copy($scope.data);
-            console.log($scope.copydata);
+            // console.log($scope.copydata);
 
         };
 

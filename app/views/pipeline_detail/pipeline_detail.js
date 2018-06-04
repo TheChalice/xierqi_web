@@ -35,7 +35,7 @@ angular.module('console.pipeline.detail', [
                         return b.metadata.resourceVersion - a.metadata.resourceVersion
                     }
                     $scope.databuild.items=$scope.databuild.items.sort(sortresv)
-                    console.log($scope.databuild);
+                    // console.log($scope.databuild);
                     //console.log($scope.databuild);
                     //fillHistory(data.items);
                     angular.forEach($scope.databuild.items, function (item,i) {
