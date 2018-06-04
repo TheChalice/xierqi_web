@@ -316,14 +316,19 @@
                 <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
                 环境变量
             </uib-tab-heading>
-            <div class="row matgin-bt" ng-repeat="env in statefuldetail.spec.template.spec.containers[0].env">
-                <div class="col-md-6">
-                    <input class="col-md-11 input-key" type="text" ng-disabled="true" ng-model="env.name"  style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:not-allowed">
+            <div>
+                <div class="row matgin-bt" ng-repeat="env in statefuldetail.spec.template.spec.containers[0].env">
+                    <div class="col-md-6">
+                        <input class="col-md-11 input-key" type="text" ng-disabled="true" ng-model="env.name"  style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:not-allowed">
+                    </div>
+                    <div class="col-md-6">
+                        <input class="col-md-11 input-key" ng-disabled="true"  type="text" ng-model="env.value"  style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:not-allowed">
+                    </div>
+
                 </div>
-                <div class="col-md-6">
-                    <input class="col-md-11 input-key" ng-disabled="true"  type="text" ng-model="env.value"  style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:not-allowed">
-                </div>
-             </div>
+                <em ng-if="!statefuldetail.spec.template.spec.containers[0].env.length">此容器没有设置环境变量.</em>
+            </div>
+
         </uib-tab>
         <uib-tab index="3">
             <uib-tab-heading>
