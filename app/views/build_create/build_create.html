@@ -4,7 +4,7 @@
             <div>
                 <div class="panel panel-default build-jia-default" style="margin-bottom: 0;">
                     <div class="panel-heading panel-jia-heading ">
-                        <span class="panel-title panel-jia-title">新建构建</span>
+                        <span class="panel-title panel-jia-title df_tit">构建设置</span>
                     </div>
                     <div class="panel-body panel-block-jia-body">
                         <div class="form-group form-jia-line build-creat-top">
@@ -70,111 +70,113 @@
                                     </uib-tab>
 
                                     <uib-tab index="3" heading="Git仓库" style="font-size: 12px;">
-                                        <from>
-                                            <p style="margin-left: -15px;font-size: 12px;">
-                                                <label>
-                                                    <input type="radio" name="CodeBase" value=1
-                                                           ng-model="grid.CodeBase" ng-checked=1 required>
-                                                </label>
-                                                <span>公有代码库</span>
-                                                <label>
-                                                    <input type="radio" name="CodeBase" value=2
-                                                           ng-model="grid.CodeBase">
-                                                </label>
-                                                <span>私有代码库</span>
-                                            </p>
-                                            <div ng-show="grid.CodeBase==1">
-                                                <div class="form-group">
-                                                    <label for="address"
-                                                           class="control-label require tab-reg-label label-font">仓库地址</label>
-                                                    <div>
-                                                        <input type="text"
-                                                               class="form-control tab-reg-input form-control-input-line"
-                                                               ng-model="buildConfig.spec.source.git.uri">
-                                                        <small ng-show="privateErr.urlerr" class="fa fa-info-circle err-tip">
-                                                            请输入正确仓库地址
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="ref" class="control-label tab-reg-label label-font">分支/Tag/Commit</label>
-                                                    <div>
-                                                        <input type="text" placeholder=""
-                                                               class="form-control tab-reg-input form-control-input-line"
-                                                               ng-model="buildConfig.spec.source.git.ref">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group tab-reg-div">
-                                                    <label for="dockeraddress"
-                                                           class="control-label tab-reg-label label-font">Dockerfile路径</label>
-                                                    <div class="">
-                                                        <input type="text" placeholder=""
-                                                               class="form-control tab-reg-input form-control-input-line"
-                                                               ng-model="buildConfig.spec.source.contextDir">
-                                                    </div>
-                                                </div>
-                                                <span style="color: red;">公有代码库公有代码库公有代码库</span>
-                                            </div>
-                                            <div ng-show="grid.CodeBase==2">
-                                                <div class="form-group">
-                                                    <label for="address"
-                                                           class="control-label tab-reg-label require label-font">仓库地址</label>
-                                                    <div>
-                                                        <input type="text"
-                                                               class="form-control tab-reg-input form-control-input-line"
-                                                               id="address"
-                                                               ng-model="buildConfig.spec.source.git.uri" required>
-                                                        <small ng-show="privateErr.urlerr" class="fa fa-info-circle err-tip">
-                                                            请输入正确仓库地址
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group tab-reg-div">
-                                                    <label for="susername" class="control-label require tab-reg-label label-font">用户名</label>
-                                                    <div class="">
-                                                        <input type="text"
-                                                               class="form-control tab-reg-input form-control-input-line"
-                                                               id="susername"
-                                                               ng-model="sername.name">
-                                                        <small ng-show="privateErr.usernameerr" class="fa fa-info-circle err-tip">
-                                                            请输入正确用户名
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group tab-reg-div">
-                                                    <label for="spwd"
-                                                           class="control-label text-left require tab-reg-label label-font">口令</label>
-                                                    <div class="">
-                                                        <input type="password"
-                                                               class="form-control tab-reg-input form-control-input-line"
-                                                               id="spwd"
-                                                               ng-model="sername.pwd">
-                                                        <small ng-show="privateErr.pwderr" class="fa fa-info-circle err-tip">
-                                                            请输入正确口令
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="ref" class="control-label tab-reg-label label-font">分支/Tag/Commit</label>
-                                                    <div>
-                                                        <input type="text" placeholder=""
-                                                               class="form-control tab-reg-input form-control-input-line"
-                                                               id="ref"
-                                                               ng-model="buildConfig.spec.source.git.ref">
-                                                    </div>
-                                                </div>
-                                                <div class="form-group tab-reg-div">
-                                                    <label for="dockeraddress"
-                                                           class="control-label tab-reg-label label-font">Dockerfile路径</label>
-                                                    <div class="">
-                                                        <input type="text" placeholder=""
-                                                               class="form-control tab-reg-input form-control-input-line"
-                                                               id="dockeraddress"
-                                                               ng-model="buildConfig.spec.source.contextDir">
-                                                    </div>
+                                        <p style="margin-left: -15px;font-size: 12px;">
+                                            <label>
+                                                <input type="radio" name="CodeBase" value=1
+                                                       ng-model="selectCodeBase.status">
+                                            </label>
+                                            <span>公有代码库</span>
+                                            <label>
+                                                <input type="radio" name="CodeBase" value=2
+                                                       ng-model="selectCodeBase.status">
+                                            </label>
+                                            <span>私有代码库</span>
+                                        </p>
+                                        <div ng-if="selectCodeBase.status==1">
+                                            <div class="form-group">
+                                                <label for="address"
+                                                       class="control-label require tab-reg-label label-font">仓库地址</label>
+                                                <div>
+                                                    <input type="text"
+                                                           class="form-control tab-reg-input form-control-input-line"
+                                                           ng-model="buildConfig.spec.source.git.publicurl">
+                                                    <small ng-show="publicErr.urlerror"
+                                                           class="fa fa-info-circle err-tip">
+                                                        请输入正确仓库地址
+                                                    </small>
                                                 </div>
                                             </div>
-                                        </from>
+                                            <div class="form-group">
+                                                <label for="ref" class="control-label tab-reg-label label-font">分支/Tag/Commit</label>
+                                                <div>
+                                                    <input type="text" placeholder=""
+                                                           class="form-control tab-reg-input form-control-input-line"
+                                                           ng-model="buildConfig.spec.source.git.publicref">
+                                                </div>
+                                            </div>
+                                            <div class="form-group tab-reg-div">
+                                                <label for="dockeraddress"
+                                                       class="control-label tab-reg-label label-font">Dockerfile路径</label>
+                                                <div class="">
+                                                    <input type="text" placeholder=""
+                                                           class="form-control tab-reg-input form-control-input-line"
+                                                           ng-model="buildConfig.spec.source.publiccontextDir">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div ng-if="selectCodeBase.status==2">
+                                            <div class="form-group">
+                                                <label for="address"
+                                                       class="control-label tab-reg-label require label-font">仓库地址</label>
+                                                <div>
+                                                    <input type="text"
+                                                           class="form-control tab-reg-input form-control-input-line"
+                                                           id="address"
+                                                           ng-model="buildConfig.spec.source.git.uri">
+                                                    <small ng-show="privateErr.urlerr"
+                                                           class="fa fa-info-circle err-tip">
+                                                        请输入正确仓库地址
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="form-group tab-reg-div">
+                                                <label for="susername"
+                                                       class="control-label require tab-reg-label label-font">用户名</label>
+                                                <div class="">
+                                                    <input type="text"
+                                                           class="form-control tab-reg-input form-control-input-line"
+                                                           id="susername"
+                                                           ng-model="sername.name">
+                                                    <small ng-show="privateErr.usernameerr"
+                                                           class="fa fa-info-circle err-tip">
+                                                        请输入正确用户名,由26个英文字母组成的字符串
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="form-group tab-reg-div">
+                                                <label for="spwd"
+                                                       class="control-label text-left require tab-reg-label label-font">口令</label>
+                                                <div class="">
+                                                    <input type="password"
+                                                           class="form-control tab-reg-input form-control-input-line"
+                                                           id="spwd"
+                                                           ng-model="sername.pwd">
+                                                    <small ng-show="privateErr.pwderr"
+                                                           class="fa fa-info-circle err-tip">
+                                                        请输入正确口令，以字母开头，长度在6~18之间，只能包含字母、数字和下划线
+                                                    </small>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="ref" class="control-label tab-reg-label label-font">分支/Tag/Commit</label>
+                                                <div>
+                                                    <input type="text" placeholder=""
+                                                           class="form-control tab-reg-input form-control-input-line"
+                                                           id="ref"
+                                                           ng-model="buildConfig.spec.source.git.ref">
+                                                </div>
+                                            </div>
+                                            <div class="form-group tab-reg-div">
+                                                <label for="dockeraddress"
+                                                       class="control-label tab-reg-label label-font">Dockerfile路径</label>
+                                                <div class="">
+                                                    <input type="text" placeholder=""
+                                                           class="form-control tab-reg-input form-control-input-line"
+                                                           id="dockeraddress"
+                                                           ng-model="buildConfig.spec.source.contextDir">
+                                                </div>
+                                            </div>
+                                        </div>
                                     </uib-tab>
                                 </uib-tabset>
                                 <div class="is-box creat-box" ng-hide=buildcheck==3>
@@ -182,6 +184,9 @@
                                         <div class="panel-heading">
                                             <img src="views/build_create/img/user.png">
                                             用户/组织
+                                            <!--<small ng-show="!org.namespace" class="fa fa-info-circle err-tip">-->
+                                            <!--请选择用户组织-->
+                                            <!--</small>-->
                                         </div>
                                         <div class="panel-body">
                                             <ul>
