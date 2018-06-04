@@ -784,6 +784,23 @@ define(['angular', 'moment'], function(angular, moment) {
                 }
             };
         }])
+        .filter('piplineStatusFilter', [function() {
+            return function(phase) {
+                if (phase == "New" || phase == "Pending" || phase == "Running") {
+                    return "正在部署"
+                } else if (phase == "Complete") {
+                    return "流程完成"
+                } else if (phase == "Failed") {
+                    return "流程失败"
+                } else if (phase == "Error") {
+                    return "流程错误"
+                } else if (phase == "Cancelled") {
+                    return "终止"
+                } else {
+                    return phase || "-"
+                }
+            };
+        }])
         .filter('isDebugPod', ["annotationFilter", function(annotationFilter) {
             return function(pod) {
                 return !!annotationFilter(pod, 'debug.openshift.io/source-resource');

@@ -64,17 +64,18 @@
                     <div class="row Operating"
                          style=''>
                         <div style="text-align: center; " class="col-lg-6 col-md-6 col-sm-6">
-                            <a class="icon25 icon25-image"
-                               ng-show="bc.build.status.phase === 'Complete'"
-                               ui-sref="console.image_detail({namespace:namespace,bc: bc.metadata.name, name: bc.metadata.name})"
-                               uib-tooltip="查看镜像"></a>
-                        </div>
-                        <div style="text-align: center; " class="col-lg-6 col-md-6 col-sm-6">
                             <a class="icon25 icon25-start"
                                style="padding-left: 20px;" href="javascript:;"
                                ng-click="startBuild($index)"
                                uib-tooltip="构建"></a>
                         </div>
+                        <div style="text-align: center; " class="col-lg-6 col-md-6 col-sm-6">
+                            <a class="icon25 icon25-image"
+                               ng-show="bc.build.status.phase === 'Complete'"
+                               ui-sref="console.image_detail({namespace:namespace,bc: bc.metadata.name, name: bc.metadata.name})"
+                               uib-tooltip="查看镜像"></a>
+                        </div>
+
 
 
 

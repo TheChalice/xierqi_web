@@ -47,7 +47,7 @@
                                             #{{item.metadata.annotations['openshift.io/build.number']}}</a>
                                     </div>
                                     <div class="col-sm-6">
-                                        <span>状态：{{item.status.phase | rcStatusFilter}}</span>
+                                        <span>状态：{{item.status.phase | piplineStatusFilter}}</span>
                                     </div>
                                     <div class="col-sm-2 text-right">
                                         <!-- <a ng-if="item.status.phase == 'Pending' || item.status.phase == 'Running' || item.status.phase == 'New'" ng-click="stop($index)"
