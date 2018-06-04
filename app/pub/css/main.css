@@ -17,7 +17,8 @@
 /*a:focus, a:hover{color:#e5993a;}*/
 body {
     padding-top:55px;/* jia 20161128 头部高度调整 padding-top:70px;*/
-    font-family: -apple-system, BlinkMacSystemFont, Neue Haas Grotesk Text Pro, Arial Nova, Segoe UI, Helvetica Neue, \.PingFang SC, PingFang SC, Microsoft YaHei, Microsoft JhengHei, Source Han Sans SC, Noto Sans CJK SC, Source Han Sans CN, Noto Sans SC, Source Han Sans TC, Noto Sans CJK TC, Hiragino Sans GB, sans-serif
+    font-family: -apple-system, BlinkMacSystemFont, Neue Haas Grotesk Text Pro, Arial Nova, Segoe UI, Helvetica Neue, \.PingFang SC, PingFang SC, Microsoft YaHei, Microsoft JhengHei, Source Han Sans SC, Noto Sans CJK SC, Source Han Sans CN, Noto Sans SC, Source Han Sans TC, Noto Sans CJK TC, Hiragino Sans GB, sans-serif;
+    background:#F9FAFC;
 }
 
 @media (max-width: 1200px) {
@@ -98,17 +99,17 @@ a {
     -webkit-transition:all 1s;
     -moz-transition:all 1s;
     transition:all 1s;
-    border:1px solid #47B2FB;
+    border:1px solid #CCD5E0;
     -webkit-border-radius:4px;
     -moz-border-radius:4px;
     border-radius:4px;
-    color:#47B2FB;font-size:12px;
+    color:#CCD5E0;font-size:12px;
 }
 
 .btn-gray:hover {
     background-color: #fff;
-    border:1px solid #98D4FD;
-    color:#82CAFB;
+    border:1px solid #CCD5E0;
+    color:#CCD5E0;
 
 }
 
@@ -153,21 +154,22 @@ a {
 /*表格*/
 .table-default {
     overflow: hidden;
-    border: 1px solid #c9c9c9;
+    border: 1px solid #CCD5E0;
     border-top: none;
     border-radius: 2px;
     border-collapse: separate;
-    margin-bottom: 0;
+    margin-bottom: 0;background:#fff;
 }
 
 .table-default > tbody > tr > th,
 .table-default > tbody > tr > td {
     padding-left: 20px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    color: #5a6378;
+    padding-top: 8px;
+    padding-bottom: 4px;
+    color: #5a6378;font-size:12px;
     text-align:left;  /*列表数据 jiasx 20161209 */
 }
+.table-hover>tbody>tr:hover{background:#E0E6ED;}
 
 .table-default.sub-table > tbody > tr > th,
 .table-default.sub-table > tbody > tr > td {
@@ -177,21 +179,22 @@ a {
 
 .table-default > tbody > tr > th {
     padding-left: 20px;
-    background: #e6e9f2;
+    background: #E5E9F2;
     color: #393f4f;
-    border-top: 1px solid #c9c9c9;
+    border-top: 1px solid #CCD5E0;font-weight:normal;
 }
 
 /*面板默认*/
 .panel-default {
     overflow: hidden;
-    border: 1px solid #c9c9c9;
+    border:none;
     border-radius: 2px;
     color: #5a6378;
+    box-shadow:none;
 }
 
 .panel-default .panel-heading {
-    background: #e6e9f2;
+    background: #fff;
     border-radius: 0;
     border-bottom: none;
     line-height: 34px;
@@ -363,10 +366,11 @@ a {
 
 /*输入框*/
 .form-control {
-    border: 1px solid #c9c9c9;
-    border-radius: 2px;
+    border: 1px solid #ccd5e0;
+    border-radius: 4px;
     box-shadow: none;
     color: #5a6378;
+    font-size: 12px;
 }
 
 
@@ -376,21 +380,34 @@ a {
     border-radius: 2px 2px 0 0;
 }
 .form-control:hover{border:1px solid #47B2FB;}
+.form-control-ipt{
+    border: 1px solid #ccd5e0;
+    border-radius: 4px;
+    box-shadow: none;
+    color: #5a6378;
+    font-size: 12px;
+}
+.form-control-ipt:focus {
+    box-shadow: none;
+    /*border: 1px solid #c9c9c9;*/
+    border-radius: 2px 2px 0 0;
+}
+.form-control-ipt:hover{border:none;}
 /*tab默认样式*/
 .tab-default .nav-tabs {
-    border-bottom: 1px solid #c9c9c9;
+    border-bottom: 1px solid #E5E9F2;
 }
 
 .tab-default li .nav-link {
     border: none;
     color: #475669;
-    font-size:16px;padding:10px 23px;
+    font-size:12px;padding:10px 23px;
 }
 
 .tab-default li .nav-link:hover {
     background: transparent;
     color: #5b73eb;
-    font-size:16px;
+    font-size:12px;
     /*中信项目 jiasx*/
     color:#333;
 }
@@ -410,7 +427,7 @@ a {
     border: 1px solid #c9c9c9;
     border-top: none;
     border-radius: 0 0 2px 2px;
-    padding: 30px 50px;
+    padding: 30px 0px 30px 10px;
 }
 
 .tab-sm {
@@ -420,7 +437,7 @@ a {
 
 /*a标签默认样式*/
 .href-orange {
-    color: #47B2FB;
+    color: #47B2FB;font-size:12px;
     text-decoration: none;
 }
 
@@ -585,8 +602,8 @@ a {
 .pagination > .active > a:hover,
 .pagination > .active > span,
 .pagination > .active > span:focus {
-    background-color: #47B2FB;
-    border-color: #47B2FB;color:#fff;
+    background-color: #fff;
+    border:1px solid #47B2FB;color:#47B2FB;
 }
 .pagination > .active > span:hover{
     background-color: #fff;
@@ -641,24 +658,36 @@ a {
 /* timeline */
 .dot {
     display: inline-block;
-    width: 8px;
-    height: 8px;
+    width: 12px;
+    height: 12px;
     border-radius: 4px;
-    background: #47B2FB;
+    border:2px solid #47B2FB;border-radius:50%;
+    background: #fff;margin-left:-2px;
     /*中信项目 jiasx*/
     /*background:#5c72e9;*/
+    position: absolute;
+    top:32px;z-index:3;
+}
+.timeline ul li:nth-child(1) .dot_blank{
+    width: 26px;
+    height: 26px;
+    background:#fff;
+    display:block;
+    position: absolute;
+    top: 10px;
+    left: -10px;
 }
 
 .timeline ul {
     list-style: none;
-    border-left: 2px solid #c9c9c9;padding-left:40px;
+    border-left: 2px solid #E5E9F2;padding-left:40px;
 }
 
 .timeline ul > li {
     position: relative;
     left: -45px;
     top: -10px;
-    margin: 0 -45px 50px 0;
+    margin: 0 -45px 10px 0;
 }
 
 .timeline ul > li > label {
@@ -666,8 +695,8 @@ a {
 }
 
 .timeline ul > li > div.container-fluid {
-    padding: 10px 15px;
-    border: 1px solid #c9c9c9;
+    padding: 6px 15px 2px;
+    border: 1px solid #E0E6ED;
     border-radius: 2px;
     margin-left: 30px;
     color: #5a6378;
@@ -725,24 +754,25 @@ a {
     width: 100%;
     text-align: left;
     background: #fff;
-    border: 1px solid #c9c9c9;
-    border-radius: 2px;
+    border: 1px solid #ccd5e0;
+    border-radius: 4px;
     color: #5a6378;
     font-size: 12px;
-    padding-top: 8px;
-    padding-bottom: 7px;
+    height: 26px;
+    /*padding-top: 8px;*/
+    /*padding-bottom: 7px;*/
     position: relative;
 }
 
 .dropdown-select > .btn .caret {
     right: 10px;
     position: absolute;
-    top: 15px;
+    top: 13px;
 }
 
 .dropdown-select > ul {
     width: 100%;
-    border-radius: 2px;
+    border-radius: 4px;
 }
 
 .faa {
@@ -1624,11 +1654,12 @@ td  a:hover, a:focus{
     font-size: 100px;
     text-align: right;
     filter: alpha(opacity=0);
-    opacity: 0;
+    opacity: 1;
     cursor: inherit;
     display: block;
     background-color: #47B2FB;
 }
+
 
 @font-face {
     font-family: PatternFlyIcons-webfont;
@@ -1708,7 +1739,7 @@ td  a:hover, a:focus{
 
 .input-group-btn {
     position: relative;
-    font-size: 0;
+    font-size: 12px;
     white-space: nowrap
 }
 
@@ -1789,3 +1820,122 @@ td  a:hover, a:focus{
 .highlight-drag-and-drop-zone p {
     color: #0099d3
 }
+
+
+/* module  公共样式*/
+.module-heading{color:#5a6378;height:auto;overflow:hidden;margin-bottom:16px;}
+.module_block_l{float:left;margin-left:10px;}
+.module_block_l .img-block{width:68px;height:68px;border:1px solid #CCD5E0;border-radius:2px;background:#EFF2F7;float:left;}
+.module_block_l .img-detail{float:left;margin-left:20px;}
+.module_block_l .img-detail p{margin:0px;}
+.module_block_l .img-detail .img-tit{font-size:14px;color:#202D3C;font-weight:bold;}
+.module_block_l .img-detail .img-time{font-size:12px;margin-top:6px;margin-bottom:0px;color: #A2B0C4;}
+.module_block_l .img-detail .img-time .module_time{color:#1F2D3D;}
+.module_block_l .img-detail .img-new{font-size:12px;color:#1F2D3D;margin-top:6px;}
+.module_block_l .img-detail .img-new span{color:#A2B0C4;float:left;}
+.module_block_l .module_run{font-size:12px;color: #47B2FB;font-weight:normal;margin-left:10px;}
+
+.module_block_l .module_tit{font-size:12px;color:#A2B0C4;}
+.module_block_l .module_b_l{width:300px;float:left;}
+
+
+
+/* module  公共样式*/
+
+/* 公共框架 */
+.df_frame{background:#fff;margin:20px 20px 40px;padding:20px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12), 0 0 4px 0 rgba(0, 0, 0, 0.04);
+    -webkit-box-shadow:0 2px 2px 0 rgba(0, 0, 0, 0.12), 0 0 4px 0 rgba(0, 0, 0, 0.04);
+    }
+/* 公共标题 */
+.df_tit{font-size:14px;color:#333;font-weight:bold;margin:0px;margin-bottom:10px;border-left:3px solid #47B2FB;padding-left:10px;}
+
+
+.tab-jia-default li.active .nav-link, .tab-jia-default li.active .nav-link:focus, .tab-jia-default li.active .nav-link:hover{
+    border: 0;
+    border-bottom: 2px solid #47B2FB;
+    color: #47B2FB;
+}
+.tab-jia-default .tab-content {
+    border: 0;
+    padding: 20px 0px;
+}
+
+.blank_block{
+    padding: 6px 15px 6px;
+    border: 1px solid #E0E6ED;
+    border-radius: 2px;
+    margin-left: 30px;
+    color: #5a6378;
+    font-size: 12px;
+    line-height: 25px;margin:0;background:#F9FAFC;
+}
+
+.blank_block .blank_tit{font-size:12px;color:#475669;}
+.border_background{position:relative;}
+.border_background .dot{position:absolute;border:2px solid #CCD5E0;left: -45px;top: 16px;z-index:3;}
+
+.border_background .dot_blank{
+    position:absolute;
+    width: 26px;
+    height: 40px;
+    background:#fff;
+    left: -54px;
+    top: 0px;
+}
+
+
+/* uex-icon svg 公共图标引用 开始 重要*/
+@font-face {
+    font-family: 'uex-icon';
+    src:  url('./font/uex-icon.eot?uryy2b');
+    src:  url('./font/uex-icon.eot?uryy2b#iefix') format('embedded-opentype'),
+      url('./font/uex-icon.ttf?uryy2b') format('truetype'),
+      url('./font/uex-icon.woff?uryy2b') format('woff'),
+      url('./font/uex-icon.svg?uryy2b#uex-icon') format('svg');
+    font-weight: normal;
+    font-style: normal;
+  }
+
+  [class^="uex-icon-"], [class*=" uex-icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'uex-icon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+/* 代码构建列表 */
+/* 成功 */
+  .uex-icon-Complete:before {
+    content: "\e914";
+  }
+/* 终止 */
+  .uex-icon-Cancelled:before {
+    content: "\e916";
+  }
+/* 失败/错误 */
+  .uex-icon-Failed, .uex-icon-Error {
+    content: "\e915";
+  }
+/* 运行中/在等待 */
+ .uex-icon-Running, .uex-icon-Pending {
+    content:"\e954"
+ }
+
+ .uex-icon-search:before {
+    content: "\e91d";
+  }
+
+  .df_search{position:absolute;z-index:999;top:50%;right:10px;font-size:14px;margin-top:-7px;color: #A2B0C4;}
+  .searchbar:hover .df_search{color:#47B2FB;}
+
+
+
+  /* uex-icon svg 公共图标引用 结束 重要*/

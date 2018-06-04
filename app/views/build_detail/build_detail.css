@@ -53,12 +53,8 @@
 .tab-jia-default .tab-content{border: 0;}
 .tab-jia-default li .nav-link:hover{color:#333;}
 /*new code*/
-
-#build-detail{
-    background:#fff;padding:20px 40px 40px;
-}
 #build-detail .panel_marginBottom{
-    margin-bottom: 50px;
+    margin-bottom: 0px;
 }
 #build-detail .btn_a{
     padding: 6px 12px;
@@ -82,9 +78,7 @@
     background-color: black;
     color: white;
 }
-#build-detail .href-orange_a{
-    width:60%;
-}
+
 #build-detail .tell_position{
     position: relative;
 }
@@ -141,4 +135,11 @@
 #build-detail .tell:hover>.till{
     display: block;
 }
+#build-detail .href-orange_a{float:left;}
 /*new code end*/
+
+
+
+#build-detail .detail_tit{font-size:12px;color:#A2B0C4;}
+#build-detail .build_name{color:#000;font-weight:normal;}
+

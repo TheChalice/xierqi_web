@@ -2,8 +2,8 @@
 
 
     <div class="table-responsive table_topMargin" style="">
-        <div style="margin-right:0;margin-left:-15px;margin-bottom: 20px;height: 34px;">
-            <div class="col-sm-4 col-xs-4 serv_jia_btn new_deploycol" style="" role="group" aria-label="">
+        <div style="margin-right:0;margin-bottom: 20px;height: 34px;">
+            <div class="serv_jia_btn new_deploycol" style="" role="group" aria-label="">
                 <div class="btn-group" role="group">
                     <a id="creatbtn" class="btn btn-green" ui-sref="console.create_pipeline({namespace:namespace})">
                         <i class="fa fa-plus fa-lg"></i>
@@ -27,15 +27,16 @@
             <!--&lt;!&ndash;</span>&ndash;&gt;-->
             <!--</div>-->
         </div>
+        <div class="pipeline_table">
         <table class="table table-hover table-default table-buju" style="">
             <tr>
                 <div class="row row_set"><!-- 20160921 jia 服务分类模块问题 -->
-                    <th class='col-lg-2 col-md-2 col-sm-1'>构建名称</th>
+                    <th class='col-lg-2 col-md-2 col-sm-2'>构建名称</th>
                     <th class='col-lg-2 col-md-2 col-sm-2'>版本</th>
                     <th class='col-lg-2 col-md-2 col-sm-2'>最近构建时间</th>
                     <!--<th class='col-lg-2 col-md-2 col-sm-3'>最近构建时长</th>-->
                     <!--<th class='col-lg-1 col-md-1 col-sm-2' style='word-break:keep-all;white-space:nowrap;'>构建类型</th>-->
-                    <th class="col-lg-3 col-md-3 col-sm-3 table_headOperating" style='text-align: center;'>操作</th>
+                    <th class="col-lg-6 col-md-6 col-sm-6 table_headOperating" style='text-align: center;'>操作</th>
                 </div>
 
             </tr>
@@ -86,6 +87,7 @@
                         class="blank_tit">{{text}}</span></p></td>
             </tr>
         </table>
+        </div>
         <div class="text-center" ng-if="grid.total > 10">
             <uib-pagination class="pagination"
                             ng-model="grid.page"

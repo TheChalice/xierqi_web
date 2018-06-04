@@ -1,4 +1,4 @@
-<div id="pods" style="background:#fff;padding:20px 40px 40px;">
+<div id="pods">
     <style>
         #creat:focus {
             color: #ffffff;
@@ -9,8 +9,18 @@
         }
 
         #pods .header {
-            margin-right: 0;
-            margin-left: -15px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            box-shadow: 0 1px 0 0 rgba(224, 230, 237, 0.50);
+            clear: both;
+            overflow: hidden;
+            padding-left: 20px;
+            padding-right: 20px;background:#fff;
+        }
+
+        .clear {
+            clear: both;
+            overflow: hidden;
         }
     </style>
     <div class="loader" ng-if="!items">
@@ -22,35 +32,34 @@
     </div>
     <div ng-if="items">
         <div class="header" style="">
-            <div class="col-sm-4 col-xs-4 serv_jia_btn new_deploycol" style="" role="group" aria-label="">
-            </div>
-            <div class="col-sm-4">
-            </div>
+            <!-- <div class="serv_jia_btn new_deploycol" style="" role="group" aria-label="">
+            </div> -->
+
 
             <div class="input-group col-sm-4 searchbar">
-                <input type="text" class="form-control" placeholder="搜索容器状态名称" ng-keyup=search() ng-model="grid.txt">
+                <input type="text" class="form-control" placeholder="搜索容器状态名称" ng-keyup=search() ng-model="grid.txt"> 
                 <span class="input-group-btn">
-                        <a class="btn" ng-click="search()"></a>
+                        <span class="df_search uex-icon-search" ng-click="search('search')">
+                        </span>
                     </span>
             </div>
         </div>
-        <div class="table-responsive" style="margin-top: 20px;">
+        <div class="clear"></div>
+        <div class="table-responsive" style="margin-top: 20px;margin-left:20px;margin-right:20px;">
             <table class="table table-hover table-default">
                 <tr>
-                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">名称</th>
-                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">状态</th>
-                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">就绪</th>
-                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">重启</th>
-                    <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">时长</th>
+                    <th>名称</th>
+                    <th>状态</th>
+                    <th>就绪</th>
+                    <th>重启</th>
+                    <th>时长</th>
                 </tr>
                 <tr ng-repeat="pod in podItem">
-                    <td data-title="Name"
-                        style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
+                    <td data-title="Name" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
                         <!-- <a class="href-orange" ui-sref="console.service_detail({name: pod.metadata.name})">
                             {{pod.metadata.name}}
                         </a> -->
-                        <a class="href-orange"
-                           ui-sref="console.pods_detail({namespace:namespace,name: pod.metadata.name})">
+                        <a class="href-orange" ui-sref="console.pods_detail({namespace:namespace,name: pod.metadata.name})">
                             {{pod.metadata.name}}
                         </a>
                     </td>
@@ -63,20 +72,21 @@
                         {{pod | numContainersReady}}/{{pod.spec.containers.length}}
                     </td>
                     <td data-title="Restarts">{{pod | numContainerRestarts}}</td>
-                    <td data-title="Age"><span>{{pod.metadata.creationTimestamp  | dateRelative}}</span></td>
+                    <td data-title="Age">
+                        <span>{{pod.metadata.creationTimestamp | dateRelative}}</span>
+                    </td>
                 </tr>
                 <tr>
-                    <td colspan="7" style="text-align: center;background: #fff;position:relative"
-                        ng-if="items.length===0">
-                        <p class="blank_block"><span class="blank_tit"> {{text}}</span></p>
+                    <td colspan="7" style="text-align: center;background: #fff;position:relative" ng-if="items.length===0">
+                        <p class="blank_block">
+                            <span class="blank_tit"> {{text}}</span>
+                        </p>
                     </td>
                 </tr>
             </table>
             <div class="text-center" ng-if="grid.total > 10" class="table_mar_top" style="">
-                <uib-pagination class="pagination pagination-sm" ng-model="grid.page" total-items="grid.total"
-                                items-per-page="grid.size" boundary-links="false" max-size="12" rotate="true"
-                                previous-text="<"
-                                next-text=">">
+                <uib-pagination class="pagination pagination-sm" ng-model="grid.page" total-items="grid.total" items-per-page="grid.size"
+                    boundary-links="false" max-size="12" rotate="true" previous-text="<" next-text=">">
                 </uib-pagination>
 
             </div>

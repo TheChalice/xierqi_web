@@ -1,4 +1,4 @@
-<div id="build-detail" class="build-detail" style="">
+<div id="build-detail" class="build-detail df_frame" style="">
     <div class="loader" ng-show="!databuild">
         <div class="loader-inner ball-clip-rotate-multiple">
             <div></div>
@@ -7,60 +7,35 @@
     </div>
     <div ng-show="databuild">
         <div class="panel panel-default panel_marginBottom" style="">
-            <div class="panel-heading">
-            <span class="panel-title">
-                <span class="icon25 icon25-panel"></span>&nbsp;&nbsp;{{data.metadata.name}}
-            </span>
-                <a class="btn btn-gray pull-right btn_a" style="" ng-click="deletes()">
-                    <!-- <i class="fa fa-trash-o fa-lg"></i> -->删除
-                </a>
-                <a class="btn btn-green pull-right" ng-click="startBuild()">构建</a>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="media media-sm">
-                            <div class="media-left">
-                                <img class="media-object" src="views/build_detail/img/images_104.png">
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">创建时间</h4>
-                                <small class="small_col" style="" uib-tooltip="{{data.metadata.creationTimestamp | timescon}}">{{data.metadata.creationTimestamp | dateRelative}}</small>
-                            </div>
-                        </div>
+            <!-- module common 公共-->
+            <div class="module-heading">
+                <div class="module_block_l">
+                    <div class="img-block"></div>
+                    <div class="img-detail">
+                        <p class="img-tit">{{data.metadata.name}}</p>
+                        <p class="img-time">
+                            <span classs="module_tit">创建时间：</span>
+                            <span class="module_time" uib-tooltip="{{data.metadata.creationTimestamp | timescon}}">{{data.metadata.creationTimestamp | timescon}}</span>
+                        </p>
+                        <p class="img-new">
+                            <span class="module_tit">代码URL：</span>
+                            <a class="href-orange text-overflow href-orange_a" href="{{data.spec.source.git.uri}}" target="_blank" style="">{{data.spec.source.git.uri}}</a>
+                        </p>
                     </div>
-                    <div class="col-sm-4">
-                        <div class="media media-sm">
-                            <div class="media-left">
-                                <img class="media-object" src="views/build_detail/img/images_106.png">
-                            </div>
-                            <div class="media-body media-body_tell" style="">
-                                <h4 class="media-heading">代码URL</h4>
-                                <div class="till" style=''>
+                    <div class="media media-sm" ng-if="imageEnable">
+                        <span class="module_tit">镜像</span>
+                        <a class="href-orange" ui-sref="console.image_detail({name: data.spec.output.to.name, bc: data.metadata.name})">{{data.spec.output.to.name}}</a>
+                    </div>
 
-                                    {{data.spec.source.git.uri}}
-                                </div>
-                                <small>
-                                    <a class="href-orange text-overflow href-orange_a" href="{{data.spec.source.git.uri}}" target="_blank" style="">{{data.spec.source.git.uri}}</a>
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="media media-sm" ng-if="imageEnable">
-                            <div class="media-left">
-                                <img class="media-object" src="views/build_detail/img/images_108.png">
-                            </div>
-                            <div class="media-body">
-                                <h4 class="media-heading">镜像</h4>
-                                <small>
-                                    <a class="href-orange" style="" ui-sref="console.image_detail({name: data.spec.output.to.name, bc: data.metadata.name})">{{data.spec.output.to.name}}</a>
-                                </small>
-                            </div>
-                        </div>
-                    </div>
+                </div>
+                <div class="module_block_r">
+                    <a class="btn btn-gray pull-right btn_a" style="" ng-click="deletes()">
+                        <i class="fa fa-trash-o fa-lg"></i>
+                    </a>
+                    <a class="btn btn-green pull-right" ng-click="startBuild()"> 继续构建</a>
                 </div>
             </div>
+            <!-- module common 公共-->
         </div>
 
         <uib-tabset class="tab-default tab-jia-default" active="active">
@@ -72,43 +47,49 @@
                 <div class="timeline">
                     <ul>
                         <li ng-repeat="item in databuild.items">
-                            <label uib-tooltip="{{item.metadata.creationTimestamp | timescon}}">
-                                <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                                {{item.metadata.creationTimestamp | dateRelative}}
-                            </label>
+
+                            <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="dot_blank"></span>
                             <div class="container-fluid">
                                 <div class="row">
                                     <div class="col-sm-2">
-
-                                    <span class="icon12 icon12-{{item.status.phase}}"
-                                          ng-class="{'fa-spin': item.status.phase == 'Running' || item.status.phase == 'Pending'}"></span>
+                                        <span class="detail_tit">构建状态：</span>
+                                        <span class="icon12 icon12-{{item.status.phase}}" ng-class="{'fa-spin': item.status.phase == 'Running' || item.status.phase == 'Pending'}"></span>
                                         <!--switch to Chinese-->
-                                        {{item.status.phase | phaseFilter}}
+                                        <span class="build_name">{{item.status.phase | phaseFilter}}</span>
                                     </div>
 
-                                    <div class="col-sm-3 tell tell_position" style=''>
-                                        <div class="till till_position" style=''>
-                                            {{data.metadata.name}}:{{item.spec.revision.git.commit | limitTo: 7}}</div>
-                                        <div class="tell_white_space" style=''>
-                                            <i class="fa fa-flag-o"></i>&nbsp;
-                                            <!--<span ng-if="item.spec.revision.git.ref">-->
-                                            <span>{{data.metadata.name}}:{{item.spec.revision.git.commit | limitTo: 7}}</span>
+                                    <div class="col-sm-3">
+                                        <span class="detail_tit">构建时间：</span>
+                                        <label class="build_name" uib-tooltip="{{item.metadata.creationTimestamp | timescon}}">
+                                            {{item.metadata.creationTimestamp | timescon}}
+                                        </label>
+                                    </div>
+
+                                    <div class="col-sm-2">
+                                            <span class="detail_tit">构建时长：</span>
+                                            <label class="build_name" uib-tooltip="{{item.status.duration | duration}}">
+                                                    {{item.status.duration | duration}}
+                                                </label>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <span>构建时长:{{item.status.duration | duration}}</span>
-                                    </div>
-                                    <div class="col-sm-3 text-right">
-                                        <a ng-if="item.status.phase == 'Complete'"
-                                           ui-sref="console.image_detail({namespace:namespace,bc: item.metadata.labels.buildconfig, name: item.spec.output.to.name})"
-                                           class="icon25 icon25-forward" uib-tooltip="查看镜像"></a>
-                                        <a ng-if="item.status.phase !== 'Pending' && item.status.phase !== 'Running' && item.status.phase !== 'New'"
-                                           ng-click="delete($index)" class="icon25 icon25-delete" uib-tooltip="删除"
-                                           href="javascript:;"></a>
-                                        <a ng-if="item.status.phase == 'Pending' || item.status.phase == 'Running' || item.status.phase == 'New'"
-                                           ng-click="stop($index)" class="icon25 icon25-stop" uib-tooltip="终止" href="javascript:;"></a>
-                                        <a class="icon25 icon25-collapse" uib-tooltip="查看内容" ng-click="getLog($index,item)"
-                                           href="javascript:;"></a>
+
+                                    <div class="col-sm-3">
+                                            <span class="detail_tit">版本：</span>
+                                            <label class="build_name" uib-tooltip="{{data.metadata.name}}:{{item.spec.revision.git.commit | limitTo: 7}}">
+                                                    {{data.metadata.name}}:{{item.spec.revision.git.commit | limitTo: 7}}
+                                            </label>
+                                        </div>
+                                   
+
+                                    
+                                    <div class="col-sm-2 text-right">
+                                        <a ng-if="item.status.phase == 'Complete'" ui-sref="console.image_detail({namespace:namespace,bc: item.metadata.labels.buildconfig, name: item.spec.output.to.name})"
+                                            class="icon25 icon25-forward" uib-tooltip="查看镜像"></a>
+                                        <a ng-if="item.status.phase !== 'Pending' && item.status.phase !== 'Running' && item.status.phase !== 'New'" ng-click="delete($index)"
+                                            class="icon25 icon25-delete" uib-tooltip="删除" href="javascript:;"></a>
+                                        <a ng-if="item.status.phase == 'Pending' || item.status.phase == 'Running' || item.status.phase == 'New'" ng-click="stop($index)"
+                                            class="icon25 icon25-stop" uib-tooltip="终止" href="javascript:;"></a>
+                                        <a class="icon25 icon25-collapse" uib-tooltip="查看内容" ng-click="getLog($index,item)" href="javascript:;"></a>
                                     </div>
                                 </div>
                             </div>
@@ -120,7 +101,13 @@
 
 
                         </li>
-                        <div class="border_background" style="" ng-if="databuild.items.length===0" class="ng-scope"><p class="blank_block">  <span class="blank_tit">您还没有构建记录</span></p></div>
+                        <div class="border_background" style="" ng-if="databuild.items.length===0" class="ng-scope">
+                                <span class="dot"></span>
+                                <span class="dot_blank"></span>
+                            <p class="blank_block">
+                                <span class="blank_tit">您还没有构建记录</span>
+                            </p>
+                        </div>
                     </ul>
                 </div>
                 <!--<c-timeline name="bcName" type="build"></c-timeline>-->
@@ -151,11 +138,11 @@
                         <label class="col-sm-3 text-left text-left_color" style="">自动构建</label>
                         <div class="col-sm-2">
                             <span class="my-checkbox">
-                            <span class="checkbox-check">
-                                <span class="check-btn"></span>
-                            </span>
+                                <span class="checkbox-check">
+                                    <span class="check-btn"></span>
+                                </span>
 
-                        </span>
+                            </span>
                             <!--ng-class="{'aciive': grid.checked, 'inactive': gird.uncheked}"-->
                         </div>
 
@@ -175,12 +162,14 @@
                     <div class="form-group form-group_paddingTop" style="">
                         <label class="col-sm-3 text-left">构建超时时长</label>
                         <div class="col-sm-9">
-                            <input class="input_sty" ng-model="grid.completionDeadlineMinutes" name="cdm" min="1" max="60" ng-disabled="!deadlineMinutesEnable" style="" type="number" class="form-control">
+                            <input class="input_sty" ng-model="grid.completionDeadlineMinutes" name="cdm" min="1" max="60" ng-disabled="!deadlineMinutesEnable"
+                                style="" type="number" class="form-control">
                             <span class="form_group_span" style="">&nbsp;mins&nbsp;</span>
                             <a href="javascript:;" class="form_group_a" style="" ng-click="frm.cdm.$valid && save()">
                                 <span class="fa fa-orange" ng-class="{'fa-pencil': !deadlineMinutesEnable, 'fa-check-circle': deadlineMinutesEnable}"></span>
                             </a>
-                            <span class="font12">&nbsp;&nbsp;构建超时时长请不要超过60Mins</span><br>
+                            <span class="font12">&nbsp;&nbsp;构建超时时长请不要超过60Mins</span>
+                            <br>
                             <small ng-if="frm.cdm.$invalid" class="fa fa-exclamation-circle fa_small" style="">&nbsp;您设置的时长超过了限制，请重新设置</small>
                         </div>
                     </div>
@@ -189,4 +178,3 @@
         </uib-tabset>
     </div>
 </div>
-
