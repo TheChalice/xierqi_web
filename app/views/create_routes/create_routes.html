@@ -30,15 +30,12 @@
     /*bottom:-4px;left:50%;margin-left:-5px;border-width:5px 5px 0;border-top-color:#000;}*/
     /*jia 20161118 add end 新建存储卷 */
 </style>
-<div id="create_routes" class="df_frame">
+<div id="create_routes">
     <h4 ng-if="!routeName">新建路由</h4>
     <h4 ng-if="routeName">修改路由</h4>
     <form>
         <div class="form-group" ng-if="!routeName">
-            <label for="route-name" style="font-weight: normal;margin-right: 15px;">名称</label>
-            <small ng-show="!grid.repRouteName" class="fa fa-info-circle err-tip">Route名称重复
-        </small>
-            <small ng-show="!grid.nameCheck" class="fa fa-info-circle err-tip">Route名不合法
+            <label for="route-name" style="font-weight: normal;margin-right: 15px;">名称</label><small ng-show="!grid.repRouteName" class="fa fa-info-circle err-tip">Route名称重复
         </small>
             <input  class="form-control" id="route-name" ng-model="routeDetail.metadata.name" placeholder="my-route" ng-keyup="checkName(routeDetail.metadata.name,'name')">
         </div>
