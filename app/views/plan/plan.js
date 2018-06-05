@@ -8,8 +8,8 @@ angular.module('console.plan', [
             ]
         }
     ])
-    .controller('planCtrl', ['balance','amounts', 'by', 'checkout', '$state', 'Tip', '$scope', '$rootScope', 'account', 'Tip', 'market',
-        function (balance,amounts, by, checkout, $state, Tip, $scope, $rootScope, account, Tip, market) {
+    .controller('planCtrl', ['balance','amounts', 'by', 'checkout', '$state', '$scope', '$rootScope', 'account', 'Tip', 'market',
+        function (balance,amounts, by, checkout, $state, $scope, $rootScope, account, Tip, market) {
             //console.log('$rootScope.projects', $rootScope.projects);
 
             balance.get({namespace:$rootScope.namespace,region:$rootScope.region}, function (data) {

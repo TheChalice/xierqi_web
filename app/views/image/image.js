@@ -344,7 +344,7 @@ angular.module('console.image', [
             $scope.imagecenterreg = function (key, txt, event) {
                 $scope.cententsearch = 'search';
                 if (event) {
-                    if (true) {
+
                         if (!txt) {
                             $scope.cententsearch = false;
                             $scope.grid.search = false;
@@ -382,7 +382,7 @@ angular.module('console.image', [
                         $scope.imagecenter = imagearr;
                         $scope.grid.cenimagecopy = angular.copy($scope.imagecenter);
                         imagecenterrefresh(1, 'search');
-                    }
+
                 } else {
                     if (!txt) {
                         $scope.cententsearch = false;
