@@ -7,7 +7,7 @@ angular.module('console.stateful-sets', [{
 }])
     .controller('Stateful-setsCtrl', ['statefulsets', '$scope', 'Ws', '$rootScope', '$log', 'Sort',
         function (statefulsets, $scope, Ws, $rootScope, $log, Sort) {
-            $scope.text = "无";
+            $scope.text = "当前列表暂时没有数据";
             var getStatefulsets = function () {
                 statefulsets.get({namespace: $scope.namespace}, function (res) {
                     $scope.items = res.items;
@@ -114,11 +114,14 @@ angular.module('console.stateful-sets', [{
                         iarr.push(item)
                     }
                 });
-                if (iarr.length === 0) {
-                    $scope.text3 = '没有查询到相关数据';
+                $scope.isQuery=false;
+                if(iarr.length===0){
+                    $scope.isQuery=true;
+                    $scope.text='没有查询到符合条件的数据';
+                    // console.log($scope.items.length);
                 }
-                else {
-                    $scope.text3 = '您还没有创建密钥卷';
+                else{
+                    $scope.text='您还没有任何创建密钥卷数据，现在就创建一个吧';
                 }
                 $scope.items = angular.copy(iarr);
                 refresh(1);
