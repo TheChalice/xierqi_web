@@ -5,15 +5,15 @@
             <div></div>
         </div>
     </div>
-    <!--<div class="nav_top_li" style="height: 40px;">-->
-        <!--<div class="col-sm-4 col-xs-4 builder_jia_btn" style="padding-left: 0;">-->
-            <!--<a class="btn btn-green btn-green_li" ui-sref="console.uploadimage({namespace:namespace})" style="">-->
-                <!--<i class="fa fa-plus fa-lg"></i>-->
-                <!--<span class="hidden-xs">上传镜像</span>-->
-            <!--</a>-->
-        <!--</div>-->
+    <div class="nav_top_li" style="height: 40px;">
+        <div class="col-sm-4 col-xs-4 builder_jia_btn" style="padding-left: 0;">
+            <a class="btn btn-green btn-green_li" ui-sref="console.uploadimage({namespace:namespace})" style="">
+                <i class="fa fa-plus fa-lg"></i>
+                <span class="hidden-xs">上传镜像</span>
+            </a>
+        </div>
 
-    <!--</div>-->
+    </div>
     <div ng-if="testlist">
         <uib-tabset class="tab-default tab-image-jia-defautl" active="check">
             <uib-tab index="1">
@@ -31,13 +31,43 @@
                         </span>
                     </div>
                 </div>
-                <div class="row image_jia_btn">
-                    <div class="col-md-3 col-sm-4 col-xs-6" ng-repeat="item in testlist">
-                        <c-card></c-card>
-                    </div>
+                <div class="row image_jia_btn" style="margin:0;">
+                    <table class="table table-hover table-default table-buju" style="">
+                        <tr>
+                            <div class="row row_set"><!-- 20160921 jia 服务分类模块问题 -->
+                                <th class='col-lg-2 col-md-2 col-sm-1'>镜像名称</th>
+                                <th class='col-lg-2 col-md-2 col-sm-2'>更新时间</th>
+                                <th class='col-lg-2 col-md-2 col-sm-2'>版本</th>
+                            </div>
 
-                    <div style="margin: 0 15px;text-align: center;background:#f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;"
-                         ng-if="testlist.length===0"><p class="blank_block">  <span class="blank_tit"> {{text1}}</span></p></div>
+                        </tr>
+                        <tr ng-repeat="item in testlist">
+                            <td class='buildname'
+                                style="">
+                                <a class="href-orange"
+                                   ui-sref="console.image_detail({namespace:namespace,name:item.metadata.name,bc:item.metadata.name})"
+                                   uib-tooltip="{{item.metadata.name}}"
+                                   tooltip-placement="top">{{item.metadata.name}}</a>
+                            </td>
+
+                            <td><span uib-tooltip="{{item.metadata.creationTimestamp | timescon}}">{{item.metadata.creationTimestamp | dateRelative}}</span>
+                            </td>
+                            <td>{{item.status.tags[0].tag}}</td>
+                            <!--<td>-->
+                            <!--<i ng-if="true" class="fa fa-hand-pointer-o">&nbsp;手动</i>-->
+                            <!--<i ng-if="false" class="fa fa-television">&nbsp;自动</i>-->
+                            <!--</td>-->
+                        </tr>
+                        <tr>
+                            <td colspan="5" class="td_colspan_li" style="text-align: center;" ng-if="testlist.length===0"><p class="blank_block">  <span class="blank_tit"> {{text1}}</span></p></td>
+                        </tr>
+                    </table>
+                    <!--<div class="col-md-3 col-sm-4 col-xs-6" ng-repeat="item in testlist">-->
+                        <!--<c-card></c-card>-->
+                    <!--</div>-->
+
+                    <!--<div style="margin: 0 15px;text-align: center;background:#f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;"-->
+                         <!--ng-if="testlist.length===0"><p class="blank_block">  <span class="blank_tit"> {{text1}}</span></p></div>-->
 
                 </div>
                 <div class="text-center" style="text-align:center;" ng-if="grid.total > 8">
@@ -64,8 +94,8 @@
                 <div class="row image_jia_btn" style="margin-bottom: 25px;margin-left: 0;margin-right: 0;">
                     <div class="row image_jia_btn" style="margin-bottom: 25px;margin-left: 0;margin-right: 0;">
                         <div style="margin-left: 0;padding-left: 0;" class="col-sm-4">
-                            <div class="dropdown dropdown-select" style="width: 200px;">
-                                <button class="btn dropdown-toggle" data-toggle="dropdown">
+                            <div class="dropdown dropdown-select" style="width: 100%;">
+                                <button class="btn dropdown-toggle" data-toggle="dropdown" style="width: 100%;height: 36px;">
                                     <span>{{proname||'选择仓库'}}</span>
                                     <span class="caret"></span>
                                 </button>
@@ -78,46 +108,77 @@
                             </div>
                         </div>
 
-                        <!--<div class="input-group col-sm-4 searchbar">-->
-                            <!--<input type="text" class="form-control" ng-model="cktxt"-->
-                                   <!--ng-focus="showTip=true;" placeholder="搜索镜像" ng-keyup="cksearch('all', cktxt)">-->
-                            <!--<span class="input-group-btn">-->
-                        <!--<a class="btn" ng-click="cksearch('all', cktxt)"></a>-->
-                    <!--</span>-->
-                        <!--</div>-->
-                    </div>
-                </div>
-                <div class="row image_jia_btn">
-                    <div class="col-md-3 col-sm-4 col-xs-6" ng-repeat="item in newprimage">
-                        <div class="thumbnail">
-                            <div class="thumb-content">
-                                <div class="thumb-slide">
-                                    <div class="thumb-op">
-                                        <p><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{item.creation_time | dateRelative}}</p>
-                                        <p class="thumb-btn">
-                                            <a class="btn btn-green"
-                                               href="javascript:;"
-                                               ui-sref="console.primage_detail({namespace:namespace,name:item.name})">查看详情</a>
-
-
-                                        </p>
-                                    </div>
-                                    <img src="components/card/img/image.png" alt="image">
-                                </div>
-                            </div>
-                            <div class="caption">
-                                <a class="href-orange"
-                                   style='white-space:nowrap;overflow: hidden;text-overflow: ellipsis'
-                                   uib-tooltip="{{item.name}}" tooltip-placement="top"
-                                   ui-sref="console.primage_detail({namespace:namespace,name:item.name})">{{item.name}}</a>
-                            </div>
+                        <div class="input-group col-sm-4 searchbar">
+                            <input type="text" class="form-control" ng-model="cktxt"
+                                   ng-focus="showTip=true;" placeholder="搜索镜像" ng-keyup="cksearch('all', cktxt)">
+                            <span class="input-group-btn">
+                        <a class="btn" ng-click="cksearch('all', cktxt)"></a>
+                    </span>
                         </div>
                     </div>
-                    <div style="margin: 0 15px;text-align: center;background:#f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;"
-                         ng-if="newprimage.length===0"><p class="blank_block">
-                        <span class="blank_tit"> 没有查询到相关数据</span>
-                    </p>
-                    </div>
+                </div>
+                <div class="row image_jia_btn" style="margin:0;">
+                    <table class="table table-hover table-default table-buju" style="">
+                        <tr>
+                            <div class="row row_set"><!-- 20160921 jia 服务分类模块问题 -->
+                                <th class='col-lg-2 col-md-2 col-sm-1'>镜像名称</th>
+                                <th class='col-lg-2 col-md-2 col-sm-2'>更新时间</th>
+                                <th class='col-lg-2 col-md-2 col-sm-2'>创建时间</th>
+                            </div>
+
+                        </tr>
+
+                        <tr ng-if="proname" ng-repeat="item in newprimage">
+                            <td class='buildname'
+                                style="">
+                                <a class="href-orange"
+                                   ui-sref="console.primage_detail({namespace:namespace,name:item.name})"
+                                   uib-tooltip="{{item.name}}"
+                                   tooltip-placement="top">{{item.name}}</a>
+                            </td>
+
+                            <td><span uib-tooltip="{{item.update_time | timescon}}">{{item.update_time | dateRelative}}</span></td>
+                            <td><span uib-tooltip="{{item.creation_time | timescon}}">{{item.creation_time | dateRelative}}</span></td>
+                            <!--<td>-->
+                            <!--<i ng-if="true" class="fa fa-hand-pointer-o">&nbsp;手动</i>-->
+                            <!--<i ng-if="false" class="fa fa-television">&nbsp;自动</i>-->
+                            <!--</td>-->
+                        </tr>
+                        <tr ng-if="!proname"> <td colspan="5" class="td_colspan_li">您还没有选择仓库</td></tr>
+                        <tr>
+                            <td colspan="5" class="td_colspan_li" style="text-align: center;" ng-if="newprimage.length===0"><p class="blank_block">  <span class="blank_tit"> 没有查询到相关数据</span></p></td>
+                        </tr>
+                    </table>
+                    <!--<div class="col-md-3 col-sm-4 col-xs-6" ng-repeat="item in newprimage">-->
+                        <!--<div class="thumbnail">-->
+                            <!--<div class="thumb-content">-->
+                                <!--<div class="thumb-slide">-->
+                                    <!--<div class="thumb-op">-->
+                                        <!--<p><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{item.creation_time | dateRelative}}</p>-->
+                                        <!--<p class="thumb-btn">-->
+                                            <!--<a class="btn btn-green"-->
+                                               <!--href="javascript:;"-->
+                                               <!--ui-sref="console.primage_detail({namespace:namespace,name:item.name})">查看详情</a>-->
+
+
+                                        <!--</p>-->
+                                    <!--</div>-->
+                                    <!--<img src="components/card/img/image.png" alt="image">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="caption">-->
+                                <!--<a class="href-orange"-->
+                                   <!--style='white-space:nowrap;overflow: hidden;text-overflow: ellipsis'-->
+                                   <!--uib-tooltip="{{item.name}}" tooltip-placement="top"-->
+                                   <!--ui-sref="console.primage_detail({namespace:namespace,name:item.name})">{{item.name}}</a>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div style="margin: 0 15px;text-align: center;background:#f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;"-->
+                         <!--ng-if="newprimage.length===0"><p class="blank_block">-->
+                        <!--<span class="blank_tit"> 没有查询到相关数据</span>-->
+                    <!--</p>-->
+                    <!--</div>-->
 
                     <!--<div style="margin: 0 15px;text-align: center;background:#f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;"-->
                          <!--ng-if="testlist.length===0"><p class="blank_block">  <span class="blank_tit"> {{text1}}</span></p></div>-->

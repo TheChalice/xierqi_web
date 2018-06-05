@@ -3102,25 +3102,28 @@ define([
                 ];
 
                 $rootScope.dataForTheTree = [
-                    { name: '仪表盘', img: 'icon25 icon25-dashboard', url: 'console.dashboard@'+namespace, stateUrl: null, children: [] },
+                    // { name: '仪表盘', img: 'icon25 icon25-dashboard', url: 'console.dashboard@'+namespace, stateUrl: null, children: [] },
                     { name: '代码构建', img: 'icon25 icon25-build', url: 'console.build@'+namespace, stateUrl: null, children: [] },
                     { name: '镜像仓库', img: 'icon25 icon25-repository', url: 'console.image@'+namespace, stateUrl: null, children: [] },
-                    { name: '流水线', img: 'icon25 icon25-pipeline', url: 'console.pipeline@'+namespace, stateUrl: null, children: [] },
+                    // { name: '流水线', img: 'icon25 icon25-pipeline', url: 'console.pipeline@'+namespace, stateUrl: null, children: [] },
                     { name: '容器应用', img: 'icon25 icon25-deployment', url: null, stateUrl: null, children: $rootScope.app },
                     //{ name: '后端服务', img: 'icon25 icon25-service', url: 'console.backing_service@'+namespace, stateUrl: null, children: [] },
                     { name: '资源管理', img: 'icon25 icon25-resource', url: null, stateUrl: null, children: $rootScope.resources }
                 ];
                 if (toState && toState.name) {
                     $rootScope.console.state = toState.name;
-                    if (toState.name.indexOf('dashboard') !== -1) {
-                        $rootScope.dataForTheTree[0].stateUrl = toState.name
-                    } else if (toState.name.indexOf('build') !== -1) {
-                        $rootScope.dataForTheTree[1].stateUrl = toState.name;
+                    // if (toState.name.indexOf('dashboard') !== -1) {
+                    //     $rootScope.dataForTheTree[0].stateUrl = toState.name
+                    // } else 
+                    if (toState.name.indexOf('build') !== -1) {
+                        $rootScope.dataForTheTree[0].stateUrl = toState.name;
                     } else if (toState.name.indexOf('image') !== -1) {
-                        $rootScope.dataForTheTree[2].stateUrl = toState.name;
-                    } else if (toState.name.indexOf('pipeline') !== -1) {
-                        $rootScope.dataForTheTree[3].stateUrl = toState.name;
-                    } else if (toState.name.indexOf('deployment') !== -1 || toState.name.indexOf('quick_deploy') !== -1 || toState.name.indexOf('service_create') !== -1) {
+                        $rootScope.dataForTheTree[1].stateUrl = toState.name;
+                    } 
+                    // else if (toState.name.indexOf('pipeline') !== -1) {
+                    //     $rootScope.dataForTheTree[3].stateUrl = toState.name;
+                    // } 
+                    else if (toState.name.indexOf('deployment') !== -1 || toState.name.indexOf('quick_deploy') !== -1 || toState.name.indexOf('service_create') !== -1) {
                         $rootScope.app[0].stateUrl = toState.name;
                     } else if (toState.name.indexOf('stateful-sets') !== -1) {
                         $rootScope.app[4].stateUrl = toState.name;

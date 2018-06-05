@@ -433,6 +433,16 @@ define([
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load(['views/service_create/service_create.js'])
+                        }],
+                        myimage: ['ImageStream', 'Cookie', '$stateParams',
+                            function (ImageStream, Cookie, $stateParams) {
+                                return ImageStream.get({namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ],
+                        mytag: ['$stateParams', 'ImageStreamTag', 'Cookie', '$rootScope', function ($stateParams, ImageStreamTag, Cookie, $rootScope) {
+                            return ImageStreamTag.get({
+                                namespace: Cookie.get('namespace')
+                            }).$promise;
                         }]
                     }
                 })//ok

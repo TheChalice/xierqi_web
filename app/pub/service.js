@@ -671,6 +671,23 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                 }).result;
             }
         }])
+        .service('ChangeImages', ['$uibModal', function ($uibModal) {
+            this.open = function () {
+                return $uibModal.open({
+                    templateUrl: 'pub/tpl/changeImage.html',
+                    size: 'default',
+                    controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+
+                        $scope.ok = function () {
+                            $uibModalInstance.close();
+                        };
+                        $scope.cancel = function () {
+                            $uibModalInstance.dismiss();
+                        };
+                    }]
+                }).result;
+            };
+        }])
         .service('ChooseSecret', ['$uibModal', function ($uibModal) {
             this.open = function (olength, secretsobj) {
                 return $uibModal.open({

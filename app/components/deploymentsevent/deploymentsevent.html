@@ -1,6 +1,6 @@
 <div class="service-ctrl">
 
-    <div class="row rongqi" style="padding: 0;list-style: none;margin:0; margin-bottom: 30px;border: 1px solid #e6e9f2;border-bottom: none;">
+    <div class="row rongqi" style="padding: 0;list-style: none;margin:0; margin-bottom: 30px;border: 1px solid #e6e9f2;">
         <div class="col-md-12" style="background-color: #e6e9f2; height: 40px;padding-top: 10px;">
 
             <div class="col-md-1">时间</div>
@@ -21,13 +21,50 @@
         <!--<div class="col-md-12 load7" ng-if="!eventsws.items.length&&hasevent" style="padding: 0;overflow: hidden;">-->
         <!--<div class="loader">加载中...</div>-->
         <!--</div>-->
-        <div class="col-md-12" ng-if="eventsws.items.length===0" style="line-height:32px;height:32px;padding: 0;overflow: hidden;">
-            <div style="text-align: center;">暂无数据</div>
-
+        <div class="df_blank">
+            <div class="col-md-12 td_colspan_li" style="text-align: center;" ng-if="eventsws.items.length===0">
+                <p class="blank_block">
+                    <span class="blank_tit">当前列表暂时没有数据</span>
+                </p>
+            </div>
         </div>
+
     </div>
 
     <style>
+        .service-ctrl .df_blank .td_colspan_li{
+            height: 120px;
+            position: relative;
+        }
+
+        .blank_block {
+            padding: 6px 15px 6px;
+            border-radius: 2px;
+            margin-left: 30px;
+            color: #5a6378;
+            font-size: 12px;
+            line-height: 25px;
+            margin: 0;
+            position: absolute;
+            width: 80%;
+            left: 50%;
+            margin-left: -40%;
+            top: 50%;
+            margin-top: -19px;
+        }
+
+        .blank_block .blank_tit {
+            font-size: 12px;
+            color: #475669;
+        }
+
+        .df_table .blank_tit {
+            font-size: 12px;
+            color: #A2B0C4;
+            margin-left: 0px;
+            vertical-align: middle;
+        }
+
         .load7 .loader:before,
         .load7 .loader:after,
         .load7 .loader {
@@ -40,6 +77,7 @@
             -webkit-animation: load 1.8s infinite ease-in-out;
             animation: load 1.8s infinite ease-in-out;
         }
+
         .load7 .loader {
             margin: 8em auto;
             font-size: 10px;
@@ -48,20 +86,24 @@
             -webkit-animation-delay: 0.16s;
             animation-delay: 0.16s;
         }
+
         .load7 .loader:before {
             left: -3.5em;
         }
+
         .load7 .loader:after {
             left: 3.5em;
             -webkit-animation-delay: 0.32s;
             animation-delay: 0.32s;
         }
+
         .load7 .loader:before,
         .loader:after {
             content: '';
             position: absolute;
             top: 0;
         }
+
         @-webkit-keyframes load {
             0%,
             80%,
@@ -72,6 +114,7 @@
                 box-shadow: 0 2.5em 0 0 #f8b551;
             }
         }
+
         @keyframes load {
             0%,
             80%,
@@ -86,26 +129,31 @@
         .biaotou {
             text-align: center;
         }
+
         .event .paddingeve {
             padding: 1% 0;
         }
+
         .event .paddingeventz {
             padding: 3% 0;
         }
+
         .event .paddingevent {
             padding: 5% 0;
         }
 
-        .rongqi >div {
+        .rongqi>div {
             /*text-align: center;*/
             border-bottom: 1px solid #e6e9f2;
         }
-        .table-default.sub-table > tbody > tr {
+
+        .table-default.sub-table>tbody>tr {
             display: table-row;
             vertical-align: inherit;
             vertical-align: middle;
         }
-        .table-default.sub-table > tbody > tr > td {
+
+        .table-default.sub-table>tbody>tr>td {
             padding: 12px 10px;
         }
     </style>

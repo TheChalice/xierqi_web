@@ -5,14 +5,14 @@ angular.module('console.services', [{
         'views/apps/apps.css'
     ]
 }])
-    .controller('ServicesCtrl', ['$scope', 'Service', 'Ws', '$rootScope', '$log','Sort',
-        function ($scope, Service, Ws, $rootScope, $log,Sort) {
-            $scope.text = "无";
+    .controller('ServicesCtrl', ['$scope', 'Service', 'Ws', '$rootScope', '$log', 'Sort',
+        function ($scope, Service, Ws, $rootScope, $log, Sort) {
+            $scope.text = "当前列表暂时没有数据";
             //$scope.text = "No services have been added to project " + $scope.namespace + ".";
             var getServicesSets = function () {
-                Service.get({namespace: $scope.namespace}, function (res) {
+                Service.get({ namespace: $scope.namespace }, function (res) {
                     $scope.items = res.items;
-                    $scope.items= Sort.sort($scope.items, -1)
+                    $scope.items = Sort.sort($scope.items, -1)
                     $scope.copyServe = angular.copy($scope.items);
                     watchServices(res.metadata.resourceVersion);
                     $scope.grid.total = $scope.items.length;
@@ -114,11 +114,14 @@ angular.module('console.services', [{
                         iarr.push(item)
                     }
                 });
+                $scope.isQuery = false;
                 if (iarr.length === 0) {
-                    $scope.text3 = '没有查询到相关数据';
+                    $scope.isQuery = true;
+                    $scope.text = '没有查询到符合条件的数据';
+                    // console.log($scope.items.length);
                 }
                 else {
-                    $scope.text3 = '您还没有创建密钥卷';
+                    $scope.text = '您还没有任何创建密钥卷数据';
                 }
                 $scope.items = angular.copy(iarr);
                 refresh(1);

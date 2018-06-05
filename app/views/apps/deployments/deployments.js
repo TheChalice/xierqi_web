@@ -7,7 +7,7 @@ angular.module('console.deployments', [{
     }])
     .controller('DeploymentsCtrl', ['Sort','$log','$rootScope', '$scope', 'replicas', 'mydcs', '$filter', 'mydeployment', 'ReplicaSet','Ws',
         function(Sort,$log,$rootScope, $scope, replicas, mydcs, $filter, mydeployment, ReplicaSet,Ws) {
-            $scope.text = "无";
+            $scope.text = "当前列表暂时没有数据";
             //$scope.text = "No deployments have been added to project " + $scope.namespace + ".";
             $scope.grid = {
                 page: 1,
@@ -47,7 +47,7 @@ angular.module('console.deployments', [{
 
             $scope.items = addrc($scope.dc.items);
             $scope.mydeploylist = addrs($scope.deployment.items);
-            console.log('$scope.replicas', $scope.mydeploylist);
+            // console.log('$scope.replicas', $scope.mydeploylist);
             $scope.deploymentOne = angular.copy($scope.items);
             $scope.grid.total = $scope.items.length;
             $scope.grid.page = 1;
@@ -109,7 +109,7 @@ angular.module('console.deployments', [{
                 }else if (data.type == 'ADDED') {
                     items.unshift(data.object)
                 } else if (data.type == "MODIFIED") {
-                    console.log('items', items);
+                    // console.log('items', items);
                     angular.forEach(items, function (item, i) {
                         if (item.metadata.name == data.object.metadata.name) {
                             items[i] = data.object;
@@ -147,6 +147,15 @@ angular.module('console.deployments', [{
                         iarr.push(item)
                     }
                 })
+                $scope.isQuery=false;
+                    if(iarr.length===0){
+                        $scope.isQuery=true;
+                        $scope.text='没有查询到符合条件的数据';
+                        // console.log($scope.items.length);
+                    }
+                    else{
+                        $scope.text='您还没有任何部署镜像数据，现在就创建一个吧';
+                    }
                 return iarr;
             }
             $scope.search = function(event) {
@@ -208,7 +217,7 @@ angular.module('console.deployments', [{
                             }
                         })
                     })
-                    console.log('dc', dc);
+                    // console.log('dc', dc);
                     return angular.copy(dc);
 
                 }

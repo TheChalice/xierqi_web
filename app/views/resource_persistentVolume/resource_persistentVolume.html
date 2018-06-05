@@ -25,7 +25,7 @@
             </div>
         </div>
         <div class="table-responsive table_mar_top" style="">
-            <table class="table-hover table-default table_hover" style="">
+            <table class="table-hover table-default table_hover df_table" style="">
                 <tr class="tr_border" style="">
                     <div class="row">
                         <th class='col-lg-2 col-md-2 col-sm-1'>存储卷名称</th>
@@ -49,15 +49,11 @@
                     <td class="td_borderBottom" style="">{{item.arr.length}}</td>
 
                 </tr>
-                <tr>
-
-                    <td colspan="5" class="td_borderBottom text_middlle td_background" style="" ng-if="persistents.length===0">
-                        <p class="blank_block">
-                            <span class="blank_tit"> {{text}}</span>
-                        </p>
-                    </td>
-
-                </tr>
+                <tr class="df_blank">
+                        <td colspan="5" class="td_colspan_li" style="text-align: center;" ng-if="persistents.length===0">
+                            <p class="blank_block">  <span class="blank_tit">{{text}}</span></p>
+                        </td>
+                    </tr>
             </table>
         </div>
     </div>
