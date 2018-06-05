@@ -152,13 +152,14 @@ angular.module('console.build_create_new', [
                 }
             });
             $scope.selectorg = function (idx, orgs) {
+                // console.log('$scope.selectorg', idx, orgs);
                 $scope.grid.org = idx;
                 $scope.grid.repo = null;
                 $scope.gitdata.branchs = [];
                 $scope.gitdata.repos = angular.copy(orgs.repos);
-                //console.log('$scope.gitdata.repos', $scope.gitdata.repos);
             };
             $scope.selectrepo = function (idx, repo) {
+                // console.log('$scope.selectrepo', idx, repo);
                 $scope.grid.repo = idx;
                 $scope.grid.branch = null;
                 $scope.gitdata.branchs = [];
@@ -175,6 +176,7 @@ angular.module('console.build_create_new', [
                 }
             };
             $scope.selectbranch = function (idx) {
+                // console.log('$scope.selectbranch', idx);
                 $scope.grid.branch = idx;
             };
             function createsecret(name, pwd) {
@@ -210,6 +212,11 @@ angular.module('console.build_create_new', [
                 $scope.publicErr = {
                     urlerror: false
                 };
+                $scope.gitStatus = {
+                    organization: false,
+                    project: false,
+                    codeBranch: false
+                };
                 //校验构建名称
                 if (!$scope.buildConfig.metadata.name) {
                     $scope.namerr.nil = true;
@@ -218,7 +225,6 @@ angular.module('console.build_create_new', [
                     $scope.namerr.rexed = true;
                     return
                 }
-
                 var imageStream = {
                     metadata: {
                         annotations: {
@@ -228,11 +234,25 @@ angular.module('console.build_create_new', [
                     }
                 };
                 ImageStream.create({namespace: $rootScope.namespace}, imageStream, function (res) {
-                    console.log('res121', res);
+                    // console.log('res', res);
                 });
                 if ($scope.buildcheck !== 3) {
                     //$scope.buildConfig.metadata.annotations.user=$scope.buildConfig.metadata.name
-                    // console.log('$scope.buildcheck !== 3', $scope.gitdata.branchs[$scope.grid.branch].name);
+                    // console.log('$scope.grid.orgs', $scope.grid.orgs);
+                    if ($scope.grid.orgs == '') {
+                        $scope.gitStatus.organization = true;
+                        return;
+                    }
+                    // console.log('$scope.grid.repo', $scope.grid.repo);
+                    if ($scope.grid.repo == null) {
+                        $scope.gitStatus.project = true;
+                        return;
+                    }
+                    // console.log('$scope.grid.branch', $scope.grid.branch);
+                    if (!$scope.grid.branch) {
+                        $scope.gitStatus.codeBranch = true;
+                        return;
+                    }
                     $scope.buildConfig.spec.source.git.ref = $scope.gitdata.branchs[$scope.grid.branch].name;
                     if ($scope.gitstatus === 'gitlab') {
 
@@ -290,7 +310,7 @@ angular.module('console.build_create_new', [
                             $scope.privateErr.usernameerr = true;
                             return;
                         }
-                        if(!$scope.sername.name){
+                        if (!$scope.sername.name) {
                             $scope.privateErr.usernameerr = true;
                             return;
                         }
