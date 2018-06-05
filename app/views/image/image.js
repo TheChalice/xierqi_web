@@ -47,7 +47,9 @@ angular.module('console.image', [
                             metadata: {
                                 creationTimestamp: image.creation_time
                             },
-                            creation_time: image.creation_time
+                            creation_time: image.creation_time,
+                            update_time: image.update_time
+
                         })
                     })
                     $scope.primage = Sort.sort($scope.primage, -1)
