@@ -272,6 +272,7 @@ input::-webkit-input-placeholder{
 .col-md-2_padding {
     padding: 0px;
 }
+.build-detail .build_name{font-weight: normal;color:#000;}
 
 
 

@@ -59,7 +59,7 @@
 
                         {{bc.build.status.phase | phaseFilter}}
                     </td>
-                    <td><span uib-tooltip="{{bc.metadata.creationTimestamp | timescon}}">{{bc.metadata.creationTimestamp | dateRelative}}</span>
+                    <td><span>{{bc.metadata.creationTimestamp | timescon}}</span>
                     </td>
                     <td>{{bc.build.status.duration | duration}}</td>
                     <!--<td>-->
