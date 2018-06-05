@@ -80,7 +80,7 @@
                     </p>
                     <p class="img-time">
                         <span classs="module_tit">创建时间：</span>
-                        <span class="module_time" uib-tooltip="{{persistents.metadata.creationTimestamp | timescon}}">
+                        <span class="module_time">
                             {{persistents.metadata.creationTimestamp | timescon}}</span>
                     </p>
                     <p class="img-new">
@@ -127,10 +127,10 @@
                                     {{item}}
                                 </a>
                             </li>
-                            <div
+                            <div class="constantly_main"
                                 ng-if="persistents.arr.length===0">
                                 <p class="blank_block">
-                                    <span class="blank_tit">无挂载服务</span>
+                                    <span class="blank_tit">当前列表暂时没有挂载服务</span>
                                 </p>
                             </div>
                         </ul>
@@ -143,6 +143,7 @@
 
 </div>
 <style>
+    .constantly_main{height:120px;position:relative;text-align:center;}
     #listitem {
         border-bottom: 1px solid #c9c9c9;
     }

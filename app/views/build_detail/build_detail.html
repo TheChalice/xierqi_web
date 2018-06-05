@@ -15,7 +15,7 @@
                         <p class="img-tit">{{data.metadata.name}}</p>
                         <p class="img-time">
                             <span classs="module_tit">创建时间：</span>
-                            <span class="module_time" uib-tooltip="{{data.metadata.creationTimestamp | timescon}}">{{data.metadata.creationTimestamp | timescon}}</span>
+                            <span class="module_time">{{data.metadata.creationTimestamp | timescon}}</span>
                         </p>
                         <p class="img-new">
                             <span class="module_tit">代码URL：</span>
@@ -61,14 +61,14 @@
 
                                     <div class="col-sm-3">
                                         <span class="detail_tit">构建时间：</span>
-                                        <label class="build_name" uib-tooltip="{{item.metadata.creationTimestamp | timescon}}">
+                                        <label class="build_name">
                                             {{item.metadata.creationTimestamp | timescon}}
                                         </label>
                                     </div>
 
                                     <div class="col-sm-2">
                                         <span class="detail_tit">构建时长：</span>
-                                        <label class="build_name" uib-tooltip="{{item.status.duration | duration}}">
+                                        <label class="build_name">
                                             {{item.status.duration | duration}}
                                         </label>
                                     </div>
@@ -118,9 +118,6 @@
                     配置信息
                 </uib-tab-heading>
                 <form class="form-horizontal" name="frm">
-
-
-
                     <div>
                         <div>
                             <div>
@@ -138,7 +135,7 @@
                                 <div class="pip_block">
                                     <p class="pit_left">GitHub 网络URL:</p>
                                     <span class="pip_tit">
-                                            {{data.spec.triggers.github.secret}}
+                                        {{data.spec.triggers.github.secret}}
                                     </span>
                                     <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
                                 </div>
