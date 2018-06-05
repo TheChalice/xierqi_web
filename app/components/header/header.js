@@ -508,6 +508,8 @@ angular.module("console.header", [{
                     return "流水线"
                 case "console.create_pipeline":
                     return "流水线"
+                case "console.rc":
+                    return "部署镜像"
             }
         };
 
