@@ -1,11 +1,11 @@
 'use strict';
 angular.module('console.build_create_new', [
-    {
-        files: [
-            'views/build_create/build_create.css'
-        ]
-    }
-])
+        {
+            files: [
+                'views/build_create/build_create.css'
+            ]
+        }
+    ])
     .controller('BuildCreateCtrl', ['repositorysecret', 'repositorybranches', 'repositorygit', 'authorize', 'createdeploy', 'randomWord', '$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch', 'labOwner', 'psgitlab', 'laborgs', 'labBranch', 'ImageStream', 'BuildConfig', 'Alert', '$http', 'Cookie', '$base64', 'secretskey', 'toastr',
         function (repositorysecret, repositorybranches, repositorygit, authorize, createdeploy, randomWord, $rootScope, $scope, $state, $log, Owner, Org, Branch, labOwner, psgitlab, laborgs, labBranch, ImageStream, BuildConfig, Alert, $http, Cookie, $base64, secretskey, toastr) {
             $scope.grid = {
@@ -120,6 +120,9 @@ angular.module('console.build_create_new', [
                 });
             }
 
+            $scope.$watch('grid', function (n, o) {
+                console.log('grif', n);
+            }, true)
             loadgitdata('github', 'cache');
             loadgitdata('gitlab', 'cache');
             $scope.bindhub = function (click) {
@@ -140,6 +143,11 @@ angular.module('console.build_create_new', [
                     return
                 }
                 if (n) {
+                    $scope.gitStatus = {
+                        organization: false,
+                        project: false,
+                        codeBranch: false
+                    };
                     // console.log('=====', n);
                     clearselec();
                     if (n === 1) {
@@ -238,8 +246,8 @@ angular.module('console.build_create_new', [
                 });
                 if ($scope.buildcheck !== 3) {
                     //$scope.buildConfig.metadata.annotations.user=$scope.buildConfig.metadata.name
-                    // console.log('$scope.grid.orgs', $scope.grid.orgs);
-                    if ($scope.grid.orgs == '') {
+                    //console.log('$scope.grid.org', $scope.grid);
+                    if ($scope.grid.org == null) {
                         $scope.gitStatus.organization = true;
                         return;
                     }
@@ -249,7 +257,7 @@ angular.module('console.build_create_new', [
                         return;
                     }
                     // console.log('$scope.grid.branch', $scope.grid.branch);
-                    if (!$scope.grid.branch) {
+                    if ($scope.grid.branch==null) {
                         $scope.gitStatus.codeBranch = true;
                         return;
                     }
