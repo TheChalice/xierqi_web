@@ -1922,8 +1922,16 @@ td  a:hover, a:focus{
  .uex-icon-search:before {
     content: "\e91d";
   }
+ /*代码构建 绑定、刷新*/
+ .uex-icon-protocol-deafult:before{
+    content: "\e970";
+}
+ .uex-icon-refresh:before{
+     content: '\e954';
+ }
 
-  .df_search{position:absolute;z-index:999;top:50%;right:10px;font-size:14px;margin-top:-7px;color: #A2B0C4;}
+
+.df_search{position:absolute;z-index:999;top:50%;right:10px;font-size:14px;margin-top:-7px;color: #A2B0C4;}
   .searchbar:hover .df_search{color:#47B2FB;}
 
 

@@ -1,5 +1,5 @@
 'use strict';
-angular.module('console.build_create_new', [
+angular.module('console.build_create', [
         {
             files: [
                 'views/build_create/build_create.css'
