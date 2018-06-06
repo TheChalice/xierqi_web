@@ -28,3 +28,5 @@
     text-align: center;
     display: block;
 }
+.image-detail .detail_tit{font-size:12px;color:#A2B0C4;}
+.image-detail .build_name{color:#000;font-weight:normal;}

@@ -267,7 +267,7 @@ angular.module('console.pipeline', [
                     //todo 构建类型
                 });
                 $scope.copydata = angular.copy($scope.data);
-                console.log($scope.copydata);
+                // console.log($scope.copydata);
 
             };
 

@@ -57,7 +57,7 @@
         </div>
         <div class="clear"></div>
         <div class="table-responsive" style="margin-top: 20px;margin-left:20px;margin-right:20px;">
-            <table class="table table-hover table-default">
+            <table class="table table-hover table-default df_table">
                 <tr>
                     <th>名称</th>
                     <th>域名</th>
@@ -118,11 +118,12 @@
                         <span ng-if="!route.spec.tls.termination">&nbsp;</span>
                     </td>
                 </tr>
-                <tr>
-                    <td colspan="7" style="text-align: center;background: #fff;position:relative" ng-if="items.length===0">
-                        <p class="blank_block"> <span class="blank_tit"> {{text}}</span></p>
-                    </td>
-                </tr>
+                <tr class="df_blank">
+                        <td colspan="5" class="td_colspan_li" style="text-align: center;" ng-if="items.length===0">
+                            <p class="blank_block">  <span class="blank_tit">{{text}}</span></p>
+                        </td>
+                    </tr>
+
             </table>
             <div class="text-center" ng-if="grid.total > 10" class="table_mar_top" style="">
                 <uib-pagination class="pagination pagination-sm" ng-model="grid.page" total-items="grid.total"

@@ -11,15 +11,17 @@ angular.module('console.build_create_new', [
             $scope.grid = {
                 org: null,
                 repo: null,
-                branch: null,
-                CodeBase: 1
+                branch: null
+            };
+            $scope.selectCodeBase = {
+                status: 1
             };
             // $scope.grid.CodeBase=1;
             $scope.gitstatus = 'gitlab';
-            var r = /[a-zA-z]+:\/\/[^\s]*/;//url
-            var nameRegExp=/^[A-Za-z]+$/;//由26个英文字母组成的字符串
-            var pwdRegExp=/^[a-zA-Z]\w{5,17}$/;//密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)
-            // var r = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
+            var urlRegExp = /[a-zA-z]+:\/\/[^\s]*/;//url
+            var nameRegExp = /^[A-Za-z]+$/;//由26个英文字母组成的字符串
+            var pwdRegExp = /^[a-zA-Z]\w{5,17}$/;//密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)
+            var r = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
             $scope.buildConfig = {
                 metadata: {
                     name: "",
@@ -150,13 +152,14 @@ angular.module('console.build_create_new', [
                 }
             });
             $scope.selectorg = function (idx, orgs) {
+                // console.log('$scope.selectorg', idx, orgs);
                 $scope.grid.org = idx;
                 $scope.grid.repo = null;
                 $scope.gitdata.branchs = [];
                 $scope.gitdata.repos = angular.copy(orgs.repos);
-                //console.log('$scope.gitdata.repos', $scope.gitdata.repos);
             };
             $scope.selectrepo = function (idx, repo) {
+                // console.log('$scope.selectrepo', idx, repo);
                 $scope.grid.repo = idx;
                 $scope.grid.branch = null;
                 $scope.gitdata.branchs = [];
@@ -173,6 +176,7 @@ angular.module('console.build_create_new', [
                 }
             };
             $scope.selectbranch = function (idx) {
+                // console.log('$scope.selectbranch', idx);
                 $scope.grid.branch = idx;
             };
             function createsecret(name, pwd) {
@@ -192,8 +196,8 @@ angular.module('console.build_create_new', [
                     $scope.secret.data.username = $base64.encode(pwd);
                 }
             }
+
             $scope.create = function () {
-                // console.log('-=-==---', r.test($scope.buildConfig.metadata.name));
                 $scope.namerr = {
                     nil: false,
                     rexed: false,
@@ -205,26 +209,22 @@ angular.module('console.build_create_new', [
                     usernameerr: false,
                     pwderr: false
                 };
-                if(r.test($scope.buildConfig.spec.source.git.uri)===false){
-                    $scope.privateErr.urlerr = true;
-                    return;
+                $scope.publicErr = {
+                    urlerror: false
+                };
+                $scope.gitStatus = {
+                    organization: false,
+                    project: false,
+                    codeBranch: false
+                };
+                //校验构建名称
+                if (!$scope.buildConfig.metadata.name) {
+                    $scope.namerr.nil = true;
+                    return
+                } else if (!r.test($scope.buildConfig.metadata.name)) {
+                    $scope.namerr.rexed = true;
+                    return
                 }
-                if(nameRegExp.test($scope.sername.name)===false){
-                    $scope.privateErr.urlerr = true;
-                    return;
-                }
-                if(pwdRegExp.test($scope.sername.pwd)===false){
-                    $scope.privateErr.pwderr = true;
-                    return;
-                }
-                // if (!$scope.buildConfig.metadata.name) {
-                //     $scope.namerr.nil = true;
-                //     return
-                // } else if (!r.test($scope.buildConfig.metadata.name)) {
-                //     $scope.namerr.rexed = true;
-                //     return
-                // }
-
                 var imageStream = {
                     metadata: {
                         annotations: {
@@ -234,10 +234,25 @@ angular.module('console.build_create_new', [
                     }
                 };
                 ImageStream.create({namespace: $rootScope.namespace}, imageStream, function (res) {
-                    console.log('res121', res);
+                    // console.log('res', res);
                 });
                 if ($scope.buildcheck !== 3) {
                     //$scope.buildConfig.metadata.annotations.user=$scope.buildConfig.metadata.name
+                    // console.log('$scope.grid.orgs', $scope.grid.orgs);
+                    if ($scope.grid.orgs == '') {
+                        $scope.gitStatus.organization = true;
+                        return;
+                    }
+                    // console.log('$scope.grid.repo', $scope.grid.repo);
+                    if ($scope.grid.repo == null) {
+                        $scope.gitStatus.project = true;
+                        return;
+                    }
+                    // console.log('$scope.grid.branch', $scope.grid.branch);
+                    if (!$scope.grid.branch) {
+                        $scope.gitStatus.codeBranch = true;
+                        return;
+                    }
                     $scope.buildConfig.spec.source.git.ref = $scope.gitdata.branchs[$scope.grid.branch].name;
                     if ($scope.gitstatus === 'gitlab') {
 
@@ -258,11 +273,8 @@ angular.module('console.build_create_new', [
                     }
 
                     $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ":" + name;
-
-
                     //console.log('$scope.gitdata.orgs[$scope.grid.org].repos[$scope.grid.repo]', $scope.gitdata.orgs[$scope.grid.org].repos[$scope.grid.repo].private);
                     if ($scope.gitdata.orgs[$scope.grid.org].repos[$scope.grid.repo].private) {
-                        //alert(1)
                         repositorysecret.get({source: $scope.gitstatus, ns: $rootScope.namespace}, function (resecret) {
                             $scope.buildConfig.spec.source.sourceSecret = {
                                 name: resecret.secret
@@ -274,42 +286,71 @@ angular.module('console.build_create_new', [
                     }
 
                 } else {
-                    if (!$scope.buildConfig.spec.source.git.uri) {
-                        $scope.namerr.urlerr = true;
-                        return
-                    }
-                    $scope.buildConfig.spec.source.sourceSecret = {
-                        name: ""
-                    };
-                    $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ':latest';
-                    $scope.buildConfig.spec.triggers = [];
-                    if (!$scope.sername.name && !$scope.sername.pwd) {
-                        delete $scope.buildConfig.spec.source.sourceSecret;
-                    } else {
-                        createsecret($scope.sername.name, $scope.sername.pwd)
-                    }
-                    if ($scope.secret) {
-                        secretskey.create({
-                            namespace: $rootScope.namespace,
-                            region: $rootScope.region
-                        }, $scope.secret, function (item) {
-                            //alert(1);
-                            $scope.buildConfig.spec.source.sourceSecret.name = $scope.secret.metadata.name;
-                            createBC();
-
-                        }, function (res) {
-
-                            if (res.status == 409) {
-                                $scope.buildConfig.spec.source.sourceSecret.name = $scope.secret.metadata.name;
-                                createBC();
-                            }
-                        })
-                    } else {
-                        createBC();
+                    // if (!$scope.buildConfig.spec.source.git.uri) {
+                    //     $scope.namerr.urlerr = true;
+                    //     return
+                    // }
+                    if ($scope.selectCodeBase.status == 1) {
+                        // console.log('$scope.selectCodeBase.status==1');
+                        //校验公有代码库仓库地址、用户名、口令
+                        if (urlRegExp.test($scope.buildConfig.spec.source.git.publicurl) === false) {
+                            $scope.publicErr.urlerror = true;
+                            return;
+                        }
+                        $scope.buildConfig.spec.source.git.uri = $scope.buildConfig.spec.source.git.publicurl;
+                        createBuildModel();
+                    } else if ($scope.selectCodeBase.status == 2) {
+                        // console.log('$scope.selectCodeBase.status==2');
+                        //校验私有代码库仓库地址、用户名、口令
+                        if (urlRegExp.test($scope.buildConfig.spec.source.git.uri) === false) {
+                            $scope.privateErr.urlerr = true;
+                            return;
+                        }
+                        if (nameRegExp.test($scope.sername.name) === false) {
+                            $scope.privateErr.usernameerr = true;
+                            return;
+                        }
+                        if (!$scope.sername.name) {
+                            $scope.privateErr.usernameerr = true;
+                            return;
+                        }
+                        if (pwdRegExp.test($scope.sername.pwd) === false) {
+                            $scope.privateErr.pwderr = true;
+                            return;
+                        }
+                        createBuildModel();
                     }
                 }
+            };
+            var createBuildModel = function () {
+                $scope.buildConfig.spec.source.sourceSecret = {
+                    name: ""
+                };
+                $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ':latest';
+                $scope.buildConfig.spec.triggers = [];
+                if (!$scope.sername.name && !$scope.sername.pwd) {
+                    delete $scope.buildConfig.spec.source.sourceSecret;
+                } else {
+                    createsecret($scope.sername.name, $scope.sername.pwd)
+                }
+                if ($scope.secret) {
+                    secretskey.create({
+                        namespace: $rootScope.namespace,
+                        region: $rootScope.region
+                    }, $scope.secret, function (item) {
+                        //alert(1);
+                        $scope.buildConfig.spec.source.sourceSecret.name = $scope.secret.metadata.name;
+                        createBC();
 
-
+                    }, function (res) {
+                        if (res.status == 409) {
+                            $scope.buildConfig.spec.source.sourceSecret.name = $scope.secret.metadata.name;
+                            createBC();
+                        }
+                    })
+                } else {
+                    createBC();
+                }
             };
             var createBC = function () {
                 if ($scope.buildConfig.spec.source && $scope.buildConfig.spec.source.contextDir == '') {
@@ -324,6 +365,7 @@ angular.module('console.build_create_new', [
                     region: $rootScope.region
                 }, $scope.buildConfig, function (res) {
                     $log.info("buildConfig", res);
+                    // console.log("buildConfig", res);
                     toastr.success('操作成功', {
                         timeOut: 2000,
                         closeButton: true
@@ -344,6 +386,7 @@ angular.module('console.build_create_new', [
                 });
             };
             var createBuild = function (name) {
+                // console.log('createBuild-------',name);
                 var buildRequest = {
                     metadata: {
                         annotations: {

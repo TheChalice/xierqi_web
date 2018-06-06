@@ -3,12 +3,6 @@
 #resource_management .blank_block {
     margin-bottom:0;
 }
-#resource_management .blank_tit {
-    font-size:14px;
-    color:#5a6378;
-    margin-left:10px;
-    vertical-align:middle;
-}
 #resource_management .resource_management{
     background:#fff;
     padding:20px 40px 40px;
@@ -48,7 +42,6 @@
 #resource_management .table_hover{
     table-layout:fixed;
     width: 100%;
-    border-bottom: none;
 }
 #resource_management .tr_border{
     border-bottom: 1px solid #CCCCCC;

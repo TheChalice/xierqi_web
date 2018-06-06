@@ -15,7 +15,7 @@
                         <p class="img-tit">{{data.metadata.name}}</p>
                         <p class="img-time">
                             <span classs="module_tit">创建时间：</span>
-                            <span class="module_time" uib-tooltip="{{data.metadata.creationTimestamp | timescon}}">{{data.metadata.creationTimestamp | timescon}}</span>
+                            <span class="module_time">{{data.metadata.creationTimestamp | timescon}}</span>
                         </p>
                         <p class="img-new">
                             <span class="module_tit">代码URL：</span>
@@ -61,27 +61,27 @@
 
                                     <div class="col-sm-3">
                                         <span class="detail_tit">构建时间：</span>
-                                        <label class="build_name" uib-tooltip="{{item.metadata.creationTimestamp | timescon}}">
+                                        <label class="build_name">
                                             {{item.metadata.creationTimestamp | timescon}}
                                         </label>
                                     </div>
 
                                     <div class="col-sm-2">
-                                            <span class="detail_tit">构建时长：</span>
-                                            <label class="build_name" uib-tooltip="{{item.status.duration | duration}}">
-                                                    {{item.status.duration | duration}}
-                                                </label>
-                                        </div>
+                                        <span class="detail_tit">构建时长：</span>
+                                        <label class="build_name">
+                                            {{item.status.duration | duration}}
+                                        </label>
+                                    </div>
 
                                     <div class="col-sm-3">
-                                            <span class="detail_tit">版本：</span>
-                                            <label class="build_name" uib-tooltip="{{data.metadata.name}}:{{item.spec.revision.git.commit | limitTo: 7}}">
-                                                    {{data.metadata.name}}:{{item.spec.revision.git.commit | limitTo: 7}}
-                                            </label>
-                                        </div>
-                                   
+                                        <span class="detail_tit">版本：</span>
+                                        <label class="build_name" uib-tooltip="{{data.metadata.name}}:{{item.spec.revision.git.commit | limitTo: 7}}">
+                                            {{data.metadata.name}}:{{item.spec.revision.git.commit | limitTo: 7}}
+                                        </label>
+                                    </div>
 
-                                    
+
+
                                     <div class="col-sm-2 text-right">
                                         <a ng-if="item.status.phase == 'Complete'" ui-sref="console.image_detail({namespace:namespace,bc: item.metadata.labels.buildconfig, name: item.spec.output.to.name})"
                                             class="icon25 icon25-forward" uib-tooltip="查看镜像"></a>
@@ -101,9 +101,9 @@
 
 
                         </li>
-                        <div class="border_background" style="" ng-if="databuild.items.length===0" class="ng-scope">
-                                <span class="dot"></span>
-                                <span class="dot_blank"></span>
+                        <div style="" class="ng-scope" ng-if="databuild.items.length===0">
+                            <span class="dot"></span>
+                            <span class="dot_blank"></span>
                             <p class="blank_block">
                                 <span class="blank_tit">您还没有构建记录</span>
                             </p>
@@ -118,7 +118,33 @@
                     配置信息
                 </uib-tab-heading>
                 <form class="form-horizontal" name="frm">
-                    <div class="form-group" ng-show="showwebhook&&!grid.pedding">
+                    <div>
+                        <div>
+                            <div>
+                                <div class="pip_block">
+                                    <p class="pit_left">Generic 网络URL:</p>
+                                    <span class="pip_tit">
+                                        {{data.spec.triggers.generic.secret}}
+                                    </span>
+                                    <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
+                                </div>
+
+                            </div>
+
+                            <div>
+                                <div class="pip_block">
+                                    <p class="pit_left">GitHub 网络URL:</p>
+                                    <span class="pip_tit">
+                                        {{data.spec.triggers.github.secret}}
+                                    </span>
+                                    <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group" ng-hide="showwebhook&&!grid.pedding">
                         <!--<label class="col-sm-2 text-left" id="autobuild">自动构建触发条件</label>-->
                         <label class="col-sm-3 text-left">自动构建</label>
                         <div class="col-sm-2">
@@ -159,7 +185,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group form-group_paddingTop" style="">
+                    <div class="form-group form-group_paddingTop" style="display:none;">
                         <label class="col-sm-3 text-left">构建超时时长</label>
                         <div class="col-sm-9">
                             <input class="input_sty" ng-model="grid.completionDeadlineMinutes" name="cdm" min="1" max="60" ng-disabled="!deadlineMinutesEnable"
