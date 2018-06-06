@@ -81,10 +81,7 @@
                         <span class="module_time">{{dc.metadata.creationTimestamp | timescon}}</span>
                     </p>
                     <p class="img-new">
-                        <div class="module_b_l">
-                            <span class="module_tit">路由URL：</span>
-                            <a class="href-orange text-overflow href-orange_a" href="{{data.spec.source.git.uri}}" target="_blank" style="">{{dc.route.spec.host}}</a>
-                        </div>
+                       
 
                         <div class="module_b_l">
                             <span class="module_tit">Pod数（正常数/期望数）：
@@ -92,7 +89,6 @@
                                     <span>{{dc.status.replicas}}</span>/{{dc.spec.replicas}}
                                 </small>
                             </span>
-                            <a class="href-orange text-overflow href-orange_a" href="{{data.spec.source.git.uri}}" target="_blank" style="">{{data.spec.source.git.uri}}</a>
                         </div>
 
                     </p>
