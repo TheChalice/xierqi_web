@@ -246,7 +246,7 @@ angular.module('console.build_create_new', [
                 });
                 if ($scope.buildcheck !== 3) {
                     //$scope.buildConfig.metadata.annotations.user=$scope.buildConfig.metadata.name
-                    console.log('$scope.grid.org', $scope.grid);
+                    //console.log('$scope.grid.org', $scope.grid);
                     if ($scope.grid.org == null) {
                         $scope.gitStatus.organization = true;
                         return;

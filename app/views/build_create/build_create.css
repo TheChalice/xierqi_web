@@ -43,12 +43,14 @@
     color: #98D4FD
 }
 
-#newbuildcreat .tab-jia-default li.active .nav-link, .tab-jia-default li.active .nav-link:focus, .tab-jia-default li.active .nav-link:hover {
+#newbuildcreat .nav-link,
+#newbuildcreat .nav-link:hover {
     color:#47B2FB;
     /*padding: 5px 21px;*/
     font-size: 12px;
     height:24px;
 }
+
 #newbuildcreat .tab-default .nav-tabs{
     border: none;
     /*width:240px;*/
