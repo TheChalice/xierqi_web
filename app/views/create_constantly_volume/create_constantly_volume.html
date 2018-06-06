@@ -39,14 +39,14 @@
     </style>
     <form class="form-horizontal" name="frm">
         <div class="panel panel-default">
-            <div class="panel-heading">
-                <span style="font-size: 16px; color: #5a6378">新建存储卷</span>
+            <div class="panel-heading" style="padding: 0;line-height: 0">
+                <span class="df_tit" style="font-size: 12px; color: #1F2D3D;line-height: 16px">存储卷设置</span>
             </div>
-            <div class="panel-body">
+            <div class="panel-body" style="padding: 0 15px;">
 
-                <div class="form-group">
-                    <label class="col-sm-2 control-label text-left" style="margin-top: 10px; color: #5a6378; font-size:14px; text-align: left; font-weight: normal;">存储卷名称</label>
-                    <div class="col-sm-10" style="padding-right: 40px; ">
+                <div class="form-group" style="margin-bottom: 0;margin-top: 15px;">
+                    <label class="col-sm-2 control-label text-left" style="color: #475669; font-size:12px; line-height: 14px; text-align: left; font-weight: normal;">存储卷名称</label>
+                    <div class="col-sm-10" style="padding-right: 40px;">
                         <input type="text"
                                ng-blur="nameblur()"
                                onkeypress="if((event.keyCode > 31 && event.keyCode < 44) || (event.keyCode > 46 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97))event.returnValue = false;"
@@ -55,7 +55,7 @@
                                class="form-control"
                                ng-model="volume.name"
                                placeholder="名称只能包括小写字母"
-                               style="margin-top: 10px">
+                               style="width: 358px;height: 26px;color: #A2B0C4;">
                         <small ng-if="namerr.nil" class="fa fa-info-circle err-tip">请输入正确构建名称
                         </small>
                         <small ng-if="namerr.rexed" class="fa fa-info-circle err-tip">请输入4~30位名称,名称只能包含小写英文、数字以及“-”(不能以数字开头)
@@ -64,14 +64,13 @@
                         </small>
                     </div>
                 </div>
-                <hr>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label text-left" style="margin-top: 10px; color: #5a6378; font-size:14px; text-align: left; font-weight: normal;">存储卷容量</label>
+                <div class="form-group" style="margin-top: 55px">
+                    <label class="col-sm-2 control-label text-left" style="margin-top:25px;color: #475669; font-size:12px; line-height: 14px; text-align: left; font-weight: normal;">存储卷容量</label>
                     <div class="col-sm-10" style="padding-right: 40px; ">
 
                         <!--<p class="enduring_tit">您选择 <span class="price_one">{{slider.value}}</span> GB；每月花费 <san class="price_one">{{slider.value}}</san> 元</p>-->
-                        <p class="enduring_tit">您选择 <span class="price_one">{{slider.value}}</span> GB</p>
-                        <div class="volume_modal" style="width: 80%;margin: 0 auto">
+                        <!--<p class="enduring_tit">您选择 <span class="price_one">{{slider.value}}</span> GB</p>-->
+                        <div class="volume_modal" style="width: 80%;">
                             <rzslider rz-slider-model="slider.value" rz-slider-options="slider.options" ng-model="volume.size"></rzslider>
                         </div>
                         <small ng-if="grid.num" class="fa fa-info-circle err-tip" style="margin-top: 20px;">
@@ -83,6 +82,7 @@
 
             </div>
         </div>
-        <a href="javascript:;" ng-click="creat()" class="btn btn-block create btn-orange" style="margin-top: 35px; color: white;">创建存储卷</a>
+        <div style="height: 1px;border: 1px solid #E0E6ED;"></div>
+        <a href="javascript:;" ng-click="creat()" class="btn create btn-orange" style="margin-top: 20px; color: white;">创建存储卷</a>
     </form>
 </div>
