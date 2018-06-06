@@ -38,111 +38,7 @@
                                     </small>
                                 </div>
                             </div>
-                            <div class="row" style="margin:0;">
-                                <div class="col-md-2" style="padding-top: 8px;">
-                                    <h3 class="require" style="font-weight:normal;">镜像地址</h3>
-                                </div>
-                                <div class="col-md-10 create_deploy_nanji">
-                                    <uib-tabset class="tab-default" active="check">
-                                        <uib-tab index="1">
-                                            <uib-tab-heading>
-                                                <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
-                                                镜像地址
-                                            </uib-tab-heading>
-                                            <div class="row" style="margin-bottom: 15px;">
-                                                <div class="col-md-10" style="padding: 0px; ">
-                                                    <small ng-show="err.url.null" class="fa fa-info-circle err-tip">请输入正确的镜像地址</small>
-                                                    <small ng-show="err.url.notfind" class="fa fa-info-circle err-tip">找不到镜像</small>
-                                                    <small ng-show="err.url.role" class="fa fa-info-circle err-tip">没有访问权限</small>
-                                                    <input autocomplete="off" type="text"
-                                                           name="serviceName"
-                                                           ng-model="postobj.spec.images[0].from.name"
-                                                           class="form-control"
-                                                           style="display: inline-block;width: 80%;"
-                                                           type="text" name="name"
-                                                           ng-keyup="myKeyup($event)"
-                                                           placeholder="例如：nginx">
-                                                    <span class="input-group-btn" style="position: relative;">
-                                                        <a class="btn" style="margin-top:3px;margin-left:5px;" ng-click="find()"></a>
-                                                    </span>
-                                                    <div style="height: 24px;margin-top: 5px;">
-                                                        <p  style="">
-                                                            <label ng-class="{'active':institution.configregistry}"
-                                                                   ng-click="institution.configregistry=!institution.configregistry"
-                                                                   style="cursor: pointer;">
-                                                                <i class="faa faa-check"></i>
-
-                                                            </label>
-                                                            <span>
-                                                            remote registry is insecure
-                                                        </span>
-                                                        </p>
-
-                                                    </div>
-
-
-                                                </div>
-
-
-
-                                            </div>
-                                        </uib-tab>
-                                        <uib-tab index="2">
-                                            <uib-tab-heading>
-                                                <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
-                                                构建镜像
-                                            </uib-tab-heading>
-                                            <div class="input-group divradio">
-                                                <div>
-                                                    <div style="min-width: 156px;height: 32px;margin-right: 58px;display: inline-block;">image stream</div>
-                                                    <div style="min-width: 156px;height: 32px;margin-right: 58px;display: inline-block;">标签</div>
-                                                </div>
-                                                <div>
-                                                    <div class="dropdown dropdown-select" style="min-width: 156px;height: 32px;margin-right: 58px;">
-                                                        <button  class="btn dropdown-toggle" data-toggle="dropdown" style="height: 34px;">
-                                                            <span>{{checked.image}}</span>
-                                                            <span class="caret"></span>
-                                                        </button>
-                                                        <ul class="dropdown-menu"
-                                                            style="max-height: 156px; min-width: 156px;margin-top: -1px;overflow-y: auto">
-                                                            <li ng-repeat="image in imageslist" style="height: 34px;font-size: 12px;">
-                                                                <a href="javascript:;" style="" ng-click="checkedimage(image)">{{image.metadata.name}}</a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="dropdown dropdown-select" style="min-width: 156px;height: 32px;">
-                                                        <button  class="btn dropdown-toggle" data-toggle="dropdown" style="height: 34px;"
-                                                        >
-                                                            <span>{{checked.tag}}</span>
-                                                            <span class="caret"></span>
-                                                        </button>
-                                                        <ul class="dropdown-menu"
-                                                            style="max-height: 156px; min-width: 156px;margin-top: -1px;overflow-y: auto">
-                                                            <li ng-repeat="tag in tagslist">
-                                                                <a href="javascript:;" ng-click="checkedtag(tag)">{{tag.name}}</a>
-
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-
-
-                                            </div>
-                                        </uib-tab>
-                                    </uib-tabset>
-                                    <div class="row" >
-                                        <div class="col-md-10" style="height: 60px;border: 1px solid #CCD5E0;border-radius: 4px;">
-                                            <div class="col-md-2"></div>
-                                            <div class="col-md-10">
-                                                <p>nodejs-mongodb-example</p>
-                                                <div class="col-md-6" style="padding:0px;">创建时间：{{creattime|timescon}}</div>
-                                                <div class="col-md-6">导出端口：{{strport}}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
+                            <change-image imageslist="imageslist" tagslist="tagslist"></change-image>
                         </div>
                     </div>
                 </div>
@@ -182,106 +78,8 @@
                                 </div>
                             </div>
                             <div class="row"  ng-if="outerIndex != 0">
-                                <div class="col-sm-2">镜像地址：</div>
-                                <div class="col-md-10 create_deploy_nanji">
-                                    <uib-tabset class="tab-default" active="check">
-                                        <uib-tab index="1">
-                                            <uib-tab-heading>
-                                                <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
-                                                镜像地址
-                                            </uib-tab-heading>
-                                            <div class="row" style="margin-bottom: 15px;">
-                                                <div class="col-md-10" style="padding:0px;">
-                                                    <small ng-show="err.url.null" class="fa fa-info-circle err-tip">请输入正确的镜像地址</small>
-                                                    <small ng-show="err.url.notfind" class="fa fa-info-circle err-tip">找不到镜像</small>
-                                                    <small ng-show="err.url.role" class="fa fa-info-circle err-tip">没有访问权限</small>
-                                                    <input autocomplete="off" type="text"
-                                                           name="serviceName"
-                                                           ng-model="postobj.spec.images[0].from.name"
-                                                           class="form-control"
-                                                           style="display: inline-block;width: 80%;"
-                                                           type="text" name="name"
-                                                           ng-keyup="myKeyup($event)"
-                                                           placeholder="例如：nginx">
-                                                    <span class="input-group-btn" style="position: relative;">
-                                                        <a class="btn" style="margin-top:3px;margin-left:5px;" ng-click="find()"></a>
-                                                    </span>
-                                                    <div style="height: 24px;margin-top: 5px;">
-                                                        <p  style="">
-                                                            <label ng-class="{'active':institution.configregistry}"
-                                                                   ng-click="institution.configregistry=!institution.configregistry"
-                                                                   style="cursor: pointer;">
-                                                                <i class="faa faa-check"></i>
+                                <change-image></change-image>
 
-                                                            </label>
-                                                            <span>
-                                                            remote registry is insecure
-                                                        </span>
-                                                        </p>
-
-                                                    </div>
-
-
-                                                </div>
-
-
-
-                                            </div>
-                                        </uib-tab>
-                                        <uib-tab index="2">
-                                            <uib-tab-heading>
-                                                <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
-                                                构建镜像
-                                            </uib-tab-heading>
-                                            <div class="input-group divradio">
-                                                <div>
-                                                    <div style="min-width: 156px;height: 32px;margin-right: 58px;display: inline-block;">image stream</div>
-                                                    <div style="min-width: 156px;height: 32px;margin-right: 58px;display: inline-block;">标签</div>
-                                                </div>
-                                                <div>
-                                                    <div class="dropdown dropdown-select" style="min-width: 156px;height: 32px;margin-right: 58px;">
-                                                        <button  class="btn dropdown-toggle" data-toggle="dropdown" style="height: 34px;">
-                                                            <span>{{checked.image}}</span>
-                                                            <span class="caret"></span>
-                                                        </button>
-                                                        <ul class="dropdown-menu"
-                                                            style="max-height: 156px; min-width: 156px;margin-top: -1px;overflow-y: auto">
-                                                            <li ng-repeat="image in imageslist" style="height: 34px;font-size: 12px;">
-                                                                <a href="javascript:;" style="" ng-click="checkedimage(image)">{{image.metadata.name}}</a>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                    <div class="dropdown dropdown-select" style="min-width: 156px;height: 32px;">
-                                                        <button  class="btn dropdown-toggle" data-toggle="dropdown" style="height: 34px;"
-                                                        >
-                                                            <span>{{checked.tag}}</span>
-                                                            <span class="caret"></span>
-                                                        </button>
-                                                        <ul class="dropdown-menu"
-                                                            style="max-height: 156px; min-width: 156px;margin-top: -1px;overflow-y: auto">
-                                                            <li ng-repeat="tag in tagslist">
-                                                                <a href="javascript:;" ng-click="checkedtag(tag)">{{tag.name}}</a>
-
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-
-
-                                            </div>
-                                        </uib-tab>
-                                    </uib-tabset>
-                                    <div class="row" >
-                                        <div class="col-md-10" style="height: 60px;border: 1px solid #CCD5E0;border-radius: 4px;">
-                                            <div class="col-md-2"></div>
-                                            <div class="col-md-10">
-                                                <p>nodejs-mongodb-example</p>
-                                                <div class="col-md-6" style="padding:0px;">创建时间：{{creattime|timescon}}</div>
-                                                <div class="col-md-6">导出端口：{{strport}}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                             <div class="row" style="margin-top:15px;">
                                 <div class="col-sm-2">容器名称：</div>
@@ -304,96 +102,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-2">挂载卷：</div>
-                                <div class="col-sm-10 child-no-padding">
-                                    <c-checkbox checked="quota.rubustCheck"></c-checkbox>
-                                    <div style="width: 100%;overflow: hidden;">
-                                        <p>密钥卷</p>
-                                        <div class="col-sm-5">
-                                            <div class="dropdown dropdown-select" style="width: 100%;">
-                                                <button  class="btn dropdown-toggle" data-toggle="dropdown" style="height: 34px;">
-                                                    <span>{{checked.image}}</span>
-                                                    <span class="caret"></span>
-                                                </button>
-                                                <ul class="dropdown-menu"
-                                                    style="max-height: 156px; min-width: 156px;margin-top: -1px;overflow-y: auto">
-                                                    <li ng-repeat="image in imageslist" style="height: 34px;font-size: 12px;">
-                                                        <a href="javascript:;" style="" ng-click="checkedimage(image)">{{image.metadata.name}}</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-1"></div>
-                                        <div class="col-sm-5">
-                                            <input type="text" class="form-control" placeholder="">
-                                        </div>
-                                        <div class="col-sm-1" style="text-align: right">
-                                            <a class="fa fa-times-circle fa-lg del-margin" style="text-decoration: none;color: #9fa7b7;" href="javascript:;"></a>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <a href="javascript:;" style="line-height: 40px; margin-bottom: 10px" class="href-add" ng-click="">
-                                            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;<span style="font-size: 12px">增加密钥卷</span>
-                                        </a>
-                                    </div>
-                                    <div style="width: 100%;overflow: hidden;">
-                                        <p>配置卷</p>
-                                        <div class="col-sm-5">
-                                            <div class="dropdown dropdown-select" style="width: 100%;">
-                                                <button  class="btn dropdown-toggle" data-toggle="dropdown" style="height: 34px;">
-                                                    <span>{{checked.image}}</span>
-                                                    <span class="caret"></span>
-                                                </button>
-                                                <ul class="dropdown-menu"
-                                                    style="max-height: 156px; min-width: 156px;margin-top: -1px;overflow-y: auto">
-                                                    <li ng-repeat="image in imageslist" style="height: 34px;font-size: 12px;">
-                                                        <a href="javascript:;" style="" ng-click="checkedimage(image)">{{image.metadata.name}}</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-1"></div>
-                                        <div class="col-sm-5">
-                                            <input type="text" class="form-control" placeholder="">
-                                        </div>
-                                        <div class="col-sm-1" style="text-align: right">
-                                            <a class="fa fa-times-circle fa-lg del-margin" style="text-decoration: none;color: #9fa7b7;" href="javascript:;"></a>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <a href="javascript:;" style="line-height: 40px; margin-bottom: 10px" class="href-add" ng-click="">
-                                            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;<span style="font-size: 12px">增加配置卷</span>
-                                        </a>
-                                    </div>
-                                    <div style="width: 100%;overflow: hidden;">
-                                        <p>存储卷</p>
-                                        <div class="col-sm-5">
-                                            <div class="dropdown dropdown-select" style="width: 100%;">
-                                                <button  class="btn dropdown-toggle" data-toggle="dropdown" style="height: 34px;">
-                                                    <span>{{checked.image}}</span>
-                                                    <span class="caret"></span>
-                                                </button>
-                                                <ul class="dropdown-menu"
-                                                    style="max-height: 156px; min-width: 156px;margin-top: -1px;overflow-y: auto">
-                                                    <li ng-repeat="image in imageslist" style="height: 34px;font-size: 12px;">
-                                                        <a href="javascript:;" style="" ng-click="checkedimage(image)">{{image.metadata.name}}</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-1"></div>
-                                        <div class="col-sm-5">
-                                            <input type="text" class="form-control" placeholder="">
-                                        </div>
-                                        <div class="col-sm-1" style="text-align: right">
-                                            <a class="fa fa-times-circle fa-lg del-margin" style="text-decoration: none;color: #9fa7b7;" href="javascript:;"></a>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <a href="javascript:;" style="line-height: 40px; margin-bottom: 10px" class="href-add" ng-click="">
-                                            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;<span style="font-size: 12px">增加储存卷</span>
-                                        </a>
-                                    </div>
-                                </div>
+                                <add-secrets></add-secrets>
                             </div>
                             <div class="row">
                                 <div class="col-sm-2">环境变量：</div>
@@ -413,132 +122,31 @@
                                 </div>
                             </div>
                             <div  class="row">
-                                <div class="col-sm-2">配额限制</div>
+                            <div class="col-sm-2">配额限制</div>
+                                <set-quota></set-quota>
+                        </div>
+                            <div  class="row">
+                                <div class="col-sm-2">健康检查</div>
+                                <container-check></container-check>
+
+                            </div>
+                            <div  class="row">
+                                <div class="col-sm-2">就绪检查</div>
+                                <container-check></container-check>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-2">ENTRYPOINT</div>
                                 <div class="col-sm-10">
-                                    <c-checkbox checked="quota.rubustCheck"></c-checkbox>
-                                    <div>
-                                        <div class="col-md-12" style="padding: 0;margin-top: 10px;">CPU</div>
-                                        <div class="col-md-12" style="padding: 0;">
-                                            <div class="col-md-3"style="padding: 0;">
-                                                <input class="form-control"
-                                                       placeholder="最小值"
-                                                       onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)"
-                                                       ng-model="quota.cpu.request.cpuquota"
-                                                       style="margin-top: 10px; width: 100%;"
-                                                       type="text"
-                                                       name="num">
-                                            </div>
-                                            <div class="col-md-1"style="padding: 0;">
-                                                <div class="dropdown">
-                                                    <button class="btnout btn btn-default dropdown-toggle select" style="margin-top: 10px;" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                        {{quota.cpu.request.cpuunit}}
-                                                        <span class="caret"></span>
-                                                    </button>
-                                                    <ul class="dropdown-menu" style="min-width:auto;" aria-labelledby="dropdownMenu1">
-                                                        <li><a ng-click="quota.cpu.request.cpuunit='cores'">cores</a></li>
-                                                        <li><a ng-click="quota.cpu.request.cpuunit='millcores'">millcores</a></li>
-                                                    </ul>
-                                                </div>
-
-                                            </div>
-                                            <div class="col-md-2" style="padding: 0;text-align: center;line-height: 54px;">
-                                                <span  ng-show="grid.quota">可用CPU:{{grid.cpunum}}个</span>
-                                            </div>
-                                            <div class="col-md-3"style="padding: 0;">
-                                                <input class="form-control"
-                                                       ng-class="{'input-error':quotaerr.cpuminbig}"
-                                                       placeholder="最大值"
-                                                       onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)"
-                                                       ng-model="quota.cpu.limit.cpuquota"
-                                                       style="margin-top: 10px; width: 100%;"
-                                                       type="text"
-                                                       name="num">
-                                            </div>
-                                            <div class="col-md-1"style="padding: 0;">
-                                                <div class="dropdown">
-                                                    <button class="btnout btn btn-default dropdown-toggle select"
-                                                            style="margin-top: 10px;" type="button" data-toggle="dropdown"
-                                                            aria-haspopup="true" aria-expanded="true">
-                                                        {{quota.cpu.limit.cpuunit}}
-                                                        <span class="caret"></span>
-                                                    </button>
-                                                    <ul class="dropdown-menu" style="min-width:auto;" aria-labelledby="dropdownMenu1">
-                                                        <li><a ng-click="quota.cpu.limit.cpuunit='cores'">cores</a></li>
-                                                        <li><a ng-click="quota.cpu.limit.cpuunit='millcores'">millcores</a></li>
-                                                    </ul>
-                                                </div>
-
-                                            </div>
-                                            <div class="col-md-2" style="padding: 0;text-align: center;line-height: 54px;">
-
-                                                <span  ng-show="grid.quota">可用CPU:{{grid.cpunum}}个</span>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-12" style="padding: 0;margin-top: 10px;">MEMORRY</div>
-                                        <div class="col-md-12" style="padding: 0;">
-                                            <div class="col-md-3"style="padding: 0;">
-                                                <input class="form-control"
-                                                       placeholder="最小值"
-                                                       onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)"
-                                                       ng-model="quota.memory.request.memoryquota"
-                                                       style="margin-top: 10px; width: 100%;"
-                                                       type="text"
-                                                       name="num">
-                                            </div>
-                                            <div class="col-md-1"style="padding: 0;">
-                                                <div class="dropdown">
-                                                    <button class="btnout btn btn-default dropdown-toggle select" style="margin-top: 10px;" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                        {{quota.memory.request.memoryunit}}
-                                                        <span class="caret"></span>
-                                                    </button>
-                                                    <ul class="dropdown-menu" style="min-width:auto;" aria-labelledby="dropdownMenu1">
-                                                        <li ng-show="quota.memory.request.memoryunit=='GB'">
-                                                            <a ng-click="quota.memory.request.memoryunit='MB'">MB</a>
-                                                        </li>
-                                                        <li ng-show="quota.memory.request.memoryunit=='MB'">
-                                                            <a ng-click="quota.memory.request.memoryunit='GB'">GB</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-
-                                            </div>
-                                            <div class="col-md-2" style="padding: 0;text-align: center;line-height: 54px;">
-
-                                                <span  ng-show="grid.quota">可用CPU:{{grid.cpunum}}个</span>
-                                            </div>
-                                            <div class="col-md-3"style="padding: 0;">
-                                                <input class="form-control"
-                                                       ng-class="{'input-error':quotaerr.memoryminbig}"
-                                                       placeholder="最大值"
-                                                       onkeyup="(this.v=function(){this.value=this.value.replace(/[^0-9.]+/,'');}).call(this)"
-                                                       ng-model="quota.memory.limit.memoryquota"
-                                                       style="margin-top: 10px; width: 100%;"
-                                                       type="text"
-                                                       name="num">
-                                            </div>
-                                            <div class="col-md-1"style="padding: 0;">
-                                                <div class="dropdown">
-                                                    <button class="btnout btn btn-default dropdown-toggle select" style="margin-top: 10px;" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                                        {{quota.memory.limit.memoryunit}}
-                                                        <span class="caret"></span>
-                                                    </button>
-                                                    <ul class="dropdown-menu" style="min-width:auto;" aria-labelledby="dropdownMenu1">
-                                                        <li ng-show="quota.memory.limit.memoryunit=='GB'"><a ng-click="quota.memory.limit.memoryunit='MB'">MB</a></li>
-                                                        <li ng-show="quota.memory.limit.memoryunit=='MB'"><a ng-click="quota.memory.limit.memoryunit='GB'">GB</a></li>
-                                                    </ul>
-                                                </div>
-
-                                            </div>
-                                            <div class="col-md-2" style="padding: 0;text-align: center;line-height: 54px;">
-
-                                                <span  ng-show="grid.quota">可用CPU:{{grid.cpunum}}个</span>
-                                            </div>
-
-                                        </div>
-                                     </div>
-                                 </div>
-                             </div>
+                                    <input class="form-control" type="text" placeholder="">
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:15px;">
+                                <div class="col-sm-2">CMD</div>
+                                <div class="col-sm-10">
+                                    <input class="form-control" type="text" placeholder="">
+                                </div>
+                            </div>
 
                         </div>
                     </div>
@@ -592,51 +200,7 @@
                 </div>
                 <div  class="row">
                     <div class="col-sm-2">端口设置</div>
-                    <div class="col-sm-10">
-                        <div class="row">
-                            <div class="col-sm-3">协议</div>
-                            <div class="col-sm-3">容器端口</div>
-                            <div class="col-sm-3">服务端口</div>
-                            <div class="col-sm-3"></div>
-                        </div>
-                        <div class="row" style="margin-top: 15px;" ng-repeat="port in portsArr">
-                            <div class="col-sm-3">
-                                <!--<input type="text" readonly class="input-small" ng-model="port.protocol">-->
-                                <select class="input-small" style="height:23px;" ng-model='port.protocol'>
-                                    <option value='TCP'>TCP</option>
-                                    <!--<option value='UDP'>UDP</option>-->
-                                </select>
-                            </div>
-                            <div class="col-sm-3">
-                                <input type="text" maxlength="5" style="height:23px;" class="input-small"
-                                       onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
-                                       onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
-                                       ng-class="{'input-error':port.conflict}"
-                                       placeholder="例如：80"
-                                       ng-model="port.containerPort">
-                            </div>
-                            <div class="col-sm-3">
-                                <input type="text" maxlength="5" style="height:23px;"
-                                       onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
-                                       onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
-                                       ng-model="port.hostPort"
-                                       placeholder="例如：80"
-                                       class="input-small"
-                                       ng-class="{'input-error':port.serviceConflict}">
-                            </div>
-                            <div class="col-sm-3">
-                                <a href="javascript:;" style='color: #9fa7b7;'
-                                   ng-click="delprot($index)" class="fa fa-lg fa-times-circle"
-                                ></a>
-                            </div>
-                        </div>
-                        <div>
-                            <a href="javascript:;" style="line-height: 40px; margin-bottom: 10px" class="href-add"
-                               ng-click="addprot()">
-                                <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;<span style="font-size: 12px">添加端口</span>
-                            </a>
-                        </div>
-                    </div>
+                    <set-ports></set-ports>
                 </div>
             </div>
             <div class="col-md-6" style="padding-right: 40px;">

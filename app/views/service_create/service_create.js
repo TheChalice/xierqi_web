@@ -366,4 +366,66 @@ angular.module('console.service.create', [
 
                 $scope.portsArr.splice(idx, 1);
             };
-        }]);
+        }])
+    .directive('addSecrets', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'views/service_create/tpl/addSecrets.html',
+            scope: {
+
+            },
+            controller: ['$scope', function ($scope) {
+
+            }],
+        };
+    })
+    .directive('changeImage', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'views/service_create/tpl/changeImage.html',
+            scope: {
+                imageslist: '=',
+                tagslist: '=',
+            },
+            controller: ['$scope', function ($scope) {
+
+            }],
+        };
+    })
+    .directive('containerCheck', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'views/service_create/tpl/containerChecked.html',
+            scope: {
+
+            },
+            controller: ['$scope', function ($scope) {
+
+            }],
+        };
+    })
+    .directive('setPorts', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'views/service_create/tpl/setPorts.html',
+            scope: {
+
+            },
+            controller: ['$scope', function ($scope) {
+
+            }],
+        };
+    })
+    .directive('setQuota', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'views/service_create/tpl/setQuota.html',
+            scope: {
+
+            },
+            controller: ['$scope', function ($scope) {
+
+            }],
+        };
+    })
+
