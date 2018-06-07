@@ -43,6 +43,9 @@
 #newbuildcreat .view-jia-tit:hover {
     color: #98D4FD
 }
+#newbuildcreat .greycolor {
+    color: grey;
+}
 
 #newbuildcreat .nav-link,
 #newbuildcreat .nav-link:hover {

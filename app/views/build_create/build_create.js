@@ -1,13 +1,13 @@
 'use strict';
 angular.module('console.build_create', [
-    {
-        files: [
-            'views/build_create/build_create.css'
-        ]
-    }
-])
-    .controller('BuildCreateCtrl', ['repositorysecret', 'repositorybranches', 'repositorygit', 'authorize', 'createdeploy', 'randomWord', '$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch', 'labOwner', 'psgitlab', 'laborgs', 'labBranch', 'ImageStream', 'BuildConfig', 'Build', 'Alert', '$http', 'Cookie', '$base64', 'secretskey', 'toastr',
-        function (repositorysecret, repositorybranches, repositorygit, authorize, createdeploy, randomWord, $rootScope, $scope, $state, $log, Owner, Org, Branch, labOwner, psgitlab, laborgs, labBranch, ImageStream, BuildConfig, Build, Alert, $http, Cookie, $base64, secretskey, toastr) {
+        {
+            files: [
+                'views/build_create/build_create.css'
+            ]
+        }
+    ])
+    .controller('BuildCreateCtrl', ['repositorysecret', 'repositorybranches', 'repositorygit', 'authorize', 'createdeploy', 'randomWord', '$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch', 'labOwner', 'psgitlab', 'laborgs', 'labBranch', 'ImageStream', 'BuildConfig', 'Alert', '$http', 'Cookie', '$base64', 'secretskey', 'toastr',
+        function (repositorysecret, repositorybranches, repositorygit, authorize, createdeploy, randomWord, $rootScope, $scope, $state, $log, Owner, Org, Branch, labOwner, psgitlab, laborgs, labBranch, ImageStream, BuildConfig, Alert, $http, Cookie, $base64, secretskey, toastr) {
             $scope.grid = {
                 org: null,
                 repo: null,
@@ -111,6 +111,7 @@ angular.module('console.build_create', [
                     $scope.gitload[git] = res;
                     if (git === 'gitlab') {
                         $scope.gitdata.orgs = res;
+                        $scope.showbox = true
                     } else {
                         $scope.gitdata.orgs = res;
                     }
@@ -133,12 +134,12 @@ angular.module('console.build_create', [
                 })
             };
             $scope.loadOwner = function (git) {
-                // console.log('0000',git);
                 loadgitdata(git)
             };
-
+            var one=true
             $scope.$watch('buildcheck', function (n, o) {
                 // console.log('---', n, o);
+                $scope.showbox=false;
                 if (n === o) {
                     return
                 }
@@ -148,14 +149,27 @@ angular.module('console.build_create', [
                         project: false,
                         codeBranch: false
                     };
-                    // console.log('=====', n);
+
                     clearselec();
                     if (n === 1) {
                         $scope.gitstatus = 'gitlab';
-                        $scope.gitdata.orgs = angular.copy($scope.gitload.gitlab);
+                        $scope.gitdata.orgs = angular.copy($scope.gitload.gitlab)
+                        //console.log('$scope.needbind.gitlab', $scope.needbind.gitlab);
+                        if (one) {
+                            one=false
+                        }else {
+                            if (!$scope.needbind.gitlab) {
+                                $scope.showbox = true
+                            }
+                        }
+
+
                     } else if (n === 2) {
                         $scope.gitstatus = 'github';
                         $scope.gitdata.orgs = angular.copy($scope.gitload.github)
+                        if (!$scope.needbind.github) {
+                            $scope.showbox = true
+                        }
                     }
                 }
             });
@@ -225,7 +239,6 @@ angular.module('console.build_create', [
                     project: false,
                     codeBranch: false
                 };
-
                 //校验构建名称
                 BuildConfig.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
                     // console.log('data.items11111111', data.items);
