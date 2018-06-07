@@ -3071,7 +3071,6 @@ define([
 
                     //})
 
-
                     if (toState.name === 'console.plan' || toState.name === 'console.pay' || toState.name === 'console.noplan') {
                         //$rootScope.projects=false;
                         //alert(1)
@@ -3095,6 +3094,10 @@ define([
                     { name: '域名管理', url: 'console.routes@'+namespace, stateUrl: null, children: [] },
                     { name: '有状态集', url: 'console.stateful-sets@'+namespace, stateUrl: null, children: [] },
                 ];
+                $rootScope.imageChild = [
+                    { name: '仓库镜像', url: 'console.repository-image@'+namespace, stateUrl: null, children: [] },
+                    { name: '构建镜像', url: 'console.private-image@'+namespace, stateUrl: null, children: [] },
+                ];
                 $rootScope.resources = [
                     { name: '存储卷', url: 'console.resource_persistentVolume@'+namespace, stateUrl: null, children: [] },
                     { name: '配置卷', url: 'console.resource_configMap@'+namespace, stateUrl: null, children: [] },
@@ -3104,22 +3107,26 @@ define([
                 $rootScope.dataForTheTree = [
                     // { name: '仪表盘', img: 'icon25 icon25-dashboard', url: 'console.dashboard@'+namespace, stateUrl: null, children: [] },
                     { name: '代码构建', img: 'icon25 icon25-build', url: 'console.build@'+namespace, stateUrl: null, children: [] },
-                    { name: '镜像仓库', img: 'icon25 icon25-repository', url: 'console.image@'+namespace, stateUrl: null, children: [] },
+                    { name: '镜像仓库', img: 'icon25 icon25-repository', url: null, stateUrl: null, children: $rootScope.imageChild },
                     // { name: '流水线', img: 'icon25 icon25-pipeline', url: 'console.pipeline@'+namespace, stateUrl: null, children: [] },
                     { name: '容器应用', img: 'icon25 icon25-deployment', url: null, stateUrl: null, children: $rootScope.app },
                     //{ name: '后端服务', img: 'icon25 icon25-service', url: 'console.backing_service@'+namespace, stateUrl: null, children: [] },
                     { name: '资源管理', img: 'icon25 icon25-resource', url: null, stateUrl: null, children: $rootScope.resources }
                 ];
                 if (toState && toState.name) {
+                    console.log('toState----', toState);
                     $rootScope.console.state = toState.name;
                     // if (toState.name.indexOf('dashboard') !== -1) {
                     //     $rootScope.dataForTheTree[0].stateUrl = toState.name
                     // } else 
                     if (toState.name.indexOf('build') !== -1) {
                         $rootScope.dataForTheTree[0].stateUrl = toState.name;
-                    } else if (toState.name.indexOf('image') !== -1) {
-                        $rootScope.dataForTheTree[1].stateUrl = toState.name;
-                    } 
+                    } else if (toState.name.indexOf('repository-image') !== -1 || toState.name.indexOf('primage_detail') !== -1) {
+                        $rootScope.imageChild[0].stateUrl = toState.name;
+                    }
+                    else if (toState.name.indexOf('private-image') !== -1 || toState.name.indexOf('image_detail') !== -1) {
+                        $rootScope.imageChild[1].stateUrl = toState.name;
+                    }
                     // else if (toState.name.indexOf('pipeline') !== -1) {
                     //     $rootScope.dataForTheTree[3].stateUrl = toState.name;
                     // } 

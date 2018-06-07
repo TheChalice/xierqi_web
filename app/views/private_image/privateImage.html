@@ -1,0 +1,132 @@
+<div id="image" class="df_frame">
+    <div class="row image_jia_btn" style="margin-bottom: 25px;margin-left: 0;margin-right: 0;">
+        <div class="input-group col-sm-6 searchbar">
+            <input type="text" class="form-control" ng-model="txt"
+                   ng-focus="showTip=true;" placeholder="搜索镜像" ng-keyup="search('all', txt)">
+            <span class="input-group-btn">
+                            <span class="df_search uex-icon-search" ng-click="search('all', txt)">
+                            </span>
+                        </span>
+        </div>
+        <div class="col-sm-6 builder_jia_btn" style="text-align: right;padding-right: 0px;">
+            <a class="btn btn-green btn-green_li" ui-sref="console.uploadimage({namespace:namespace})" style="">
+                <i class="fa fa-plus fa-lg"></i>
+                <span class="hidden-xs">上传镜像</span>
+            </a>
+        </div>
+    </div>
+    <div class="row image_jia_btn" style="margin:0;">
+        <table class="table table-hover table-default table-buju df_table" style="">
+            <tr>
+                <div class="row row_set"><!-- 20160921 jia 服务分类模块问题 -->
+                    <th class='col-lg-2 col-md-2 col-sm-1'>镜像名称</th>
+                    <th class='col-lg-2 col-md-2 col-sm-2'>更新时间</th>
+                    <th class='col-lg-2 col-md-2 col-sm-2'>版本</th>
+                </div>
+
+            </tr>
+            <tr ng-repeat="item in testlist">
+                <td class='buildname'
+                    style="">
+                    <a class="href-orange"
+                       ui-sref="console.image_detail({namespace:namespace,name:item.metadata.name,bc:item.metadata.name})"
+                       uib-tooltip="{{item.metadata.name}}"
+                       tooltip-placement="top">{{item.metadata.name}}</a>
+                </td>
+
+                <td><span uib-tooltip="{{item.metadata.creationTimestamp | timescon}}">{{item.metadata.creationTimestamp | dateRelative}}</span>
+                </td>
+                <td>{{item.status.tags[0].tag}}</td>
+                <!--<td>-->
+                <!--<i ng-if="true" class="fa fa-hand-pointer-o">&nbsp;手动</i>-->
+                <!--<i ng-if="false" class="fa fa-television">&nbsp;自动</i>-->
+                <!--</td>-->
+            </tr>
+            <tr class="df_blank">
+                <td colspan="5" class="td_colspan_li" style="text-align: center;" ng-if="testlist.length===0"><p class="blank_block">  <span class="blank_tit"> {{text1}}</span></p></td>
+            </tr>
+        </table>
+        <!--<div class="col-md-3 col-sm-4 col-xs-6" ng-repeat="item in testlist">-->
+        <!--<c-card></c-card>-->
+        <!--</div>-->
+
+        <!--<div style="margin: 0 15px;text-align: center;background:#f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;"-->
+        <!--ng-if="testlist.length===0"><p class="blank_block">  <span class="blank_tit"> {{text1}}</span></p></div>-->
+
+    </div>
+    <div class="text-center" style="text-align:center;" ng-if="grid.total > 8">
+        <uib-pagination
+                ng-model="grid.page"
+                ng-show='fyshow'
+                total-items="grid.total"
+                items-per-page="grid.size"
+                class="pagination-sm"
+                boundary-links="false"
+                max-size="12"
+                rotate="true"
+                previous-text="<"
+                next-text=">"
+        >
+        </uib-pagination>
+    </div>
+
+</div>
+<style>
+    .fenlei label {
+        font-size: 12px;
+        font-weight: normal;
+    }
+    .fenlei .sc {
+        background-color: #E6E9F2;
+        color: white;
+    }
+    .fenlei .btn {
+        font-size: 12px;
+        font-weight:normal;
+        background-color: #EAEBEF;
+        color:#0f0f0f;
+        padding-left:25px;padding-right:25px;border-radius:0;
+    }
+    /*.fl :first-child{*/
+        /*margin-left: 30px;*/
+        /*margin-right: 30px;*/
+    /*}*/
+    .fenlei .btn.active {
+        border-color: #f6a540;
+        box-shadow: inset 0 0px 0px rgba(0,0,0,.125);
+        font-weight: bold;
+        background: url(views/backing_service/img/images_48.png) no-repeat #fff;
+        color: black;
+    }
+    .list-group-item {
+        height: 40px;
+        line-height: 40px;
+        border: none;
+        border-radius: 0;
+        margin: 0;
+        padding: 0;
+        display: block;
+        border-bottom: 1px solid #d4d4d4;
+    }
+
+    .list-group-item a {
+        font-size: 12px;
+        color:#47B2FB;
+        font-weight: bold;
+    }
+
+    .list-group-item a:hover {
+        color: #5b73eb;
+    }
+    #sousuo {
+        position: absolute;
+        right: 16px;
+    }
+    /*.fw:last-child .btn {*/
+         /*width: 112px;*/
+    /*!*}*!*/
+    .list-group-item:last-child {
+        border-bottom-right-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+</style>
