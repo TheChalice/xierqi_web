@@ -386,7 +386,10 @@
     cursor: pointer;
     font-size: 12px;
 }
-
+.view_tit_set_color{
+    color: #98D4FD;
+    font-size: 12px;
+}
 .view_tit_set:hover {
     color: #98D4FD;
 }
