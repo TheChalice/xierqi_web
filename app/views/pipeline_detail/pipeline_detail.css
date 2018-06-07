@@ -101,14 +101,6 @@
 #pipeline .sa_color{
     color:#e4e4e4;
 }
-#pipeline .border_background{
-    border:1px solid #e5e5e5;
-    padding-top:10px;
-    padding-bottom:10px;
-    background:#f7f8fc;
-    text-align: center;
-    position:relative;
-}
 #pipeline .text-left_color{
     color: darkgray;
 }
