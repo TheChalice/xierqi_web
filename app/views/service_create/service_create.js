@@ -1,27 +1,35 @@
 'use strict';
 angular.module('console.service.create', [
-    {
-        files: [
-            'components/searchbar/searchbar.js',
-            'components/checkbox/checkbox.js',
-            'views/service_create/service_create.css'
-        ]
-    }
-])
-    .controller('ServiceCreateCtrl', ['ChangeImages','imagestreamimports','ImageStreamImage','mytag','myimage','horizontalpodautoscalers', 'GLOBAL', 'resourcequotas', '$http', 'by', 'diploma', 'Confirm', 'Toast', '$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service', 'ChooseSecret', '$base64', 'secretskey', 'serviceaccounts', 'toastr',
-        function (ChangeImages,imagestreamimports,ImageStreamImage,mytag,myimage,horizontalpodautoscalers, GLOBAL, resourcequotas, $http, by, diploma, Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service, ChooseSecret, $base64, secretskey, serviceaccounts, toastr) {
-            $scope.advancedConfig = false;
-            $scope.jump = function(){
-                $scope.advancedConfig = true;
-            }
-            $scope.checked = {
-                namespace: '',
-                image: '',
-                tag: ''
-            }
+        {
+            files: [
+                'components/searchbar/searchbar.js',
+                'components/checkbox/checkbox.js',
+                'views/service_create/service_create.css'
+            ]
+        }
+    ])
+    .controller('ServiceCreateCtrl', ['mytag', 'ImageStreamImage', 'myimage', 'imagestreamimports', 'GLOBAL', 'resourcequotas', '$http', 'by', 'diploma', 'Confirm', 'Toast', '$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service',
+        function (mytag, ImageStreamImage, myimage, imagestreamimports, GLOBAL, resourcequotas, $http, by, diploma, Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service) {
             $scope.institution = {
+                display: 1,
                 configregistry: false
             }
+            $scope.advancedConfig = false
+            $scope.jump = function () {
+                if (!$scope.dc.metadata.name) {
+                    $scope.err.name.null = true;
+                    return
+                }
+                //console.log(invrepname());
+                if (!invrepname()) {
+                    $scope.err.name.repeated = true;
+                    return
+                }
+                $scope.advancedConfig = true
+            }
+            DeploymentConfig.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
+                $scope.servelist = data;
+            })
             $scope.err = {
                 url: {
                     null: false,
@@ -33,347 +41,462 @@ angular.module('console.service.create', [
                     repeated: false,
                     pattern: false
                 },
-                env : {
-                    null:false,
+                env: {
+                    null: false,
                     repeated: false,
                 },
                 label: {
-                    null:false,
+                    null: false,
                     repeated: false,
                 }
 
             }
-            /////////有时间把每个注释加上，不然一脸懵逼。
-            $scope.grid = {
-                ports: [],
-                port: 0,
-                cname: '系统域名',
-                host: '',
-                noroute: false,
-                quotamemory: null,
-                quotacpu: null,
-                zsfile: {},
-                syfile: {},
-                cafile: {},
-                mcafile: {},
-                namerepeat: false,
-                rexnameerr: false,
-                tlsshow: false,
-                tlsset: 'None',
-                httpset: 'Allow',
-                suffix: '.' + $rootScope.namespace + GLOBAL.service_url,
-                imageChange: false,
-                configChange: true,
-                checkedsecond: false,
-                auto: true,
-                conflict: false,
-                serviceConflict: false,
-                servicepot: false,
-                servicepoterr: false,
-                createdcerr: false,
-                isserviceName: false,
-                isimageChange: true,
-                servicenameerr: false,
-                imagePullSecrets: false,
-                volumerr: false,
-                quota: true,
-            };
-            /////////有时间把每个注释加上，不然一脸懵逼。
-            $scope.quota = {
-                rubustCheck: false,
-                doquota: false,
-                //memunit: 'GB',
-                //cpuunit: 'millcores',
-                //cpu: null,
-                //memory: null,
-                cpu: {
-                    request: {
-                        cpuunit: 'millcores',
-                        cpuquota: null
+
+            $scope.istag = angular.copy(mytag)
+
+            $scope.imageslist = [];
+
+            $scope.tagslist = [];
+
+            angular.forEach(myimage.items, function (image) {
+                //console.log('image.status.tags', image.status.tags);
+                if (image.status.tags) {
+                    $scope.imageslist.push(image)
+                }
+            })
+
+            $scope.checked = {
+                namespace: '',
+                image: '',
+                tag: ''
+            }
+
+            $scope.postobj = {
+                "kind": "ImageStreamImport",
+                "apiVersion": "v1",
+                "metadata": {"name": "newapp", "namespace": $rootScope.namespace},
+                "spec": {
+                    "import": false,
+                    "images": [
+                        {
+                            "from": {
+                                "kind": "DockerImage",
+                                "name": ""
+                            }
+
+                        }
+                    ]
+
+
+                },
+                "status": {}
+            }
+
+            $scope.service = {
+                "kind": "Service",
+                "apiVersion": "v1",
+                "metadata": {
+                    "name": "",
+                    "labels": {
+                        "app": ""
                     },
-                    limit: {
-                        cpuunit: 'millcores',
-                        cpuquota: null
+                    annotations: {
+                        "dadafoundry.io/create-by": $rootScope.user.metadata.name
                     }
                 },
-                memory: {
-                    request: {
-                        memoryunit: 'MB',
-                        memoryquota: null
+                "spec": {
+                    "ports": [],
+                    "selector": {
+                        "app": "",
+                        "deploymentconfig": ""
                     },
-                    limit: {
-                        memoryunit: 'MB',
-                        memoryquota: null
-                    }
+                    //"portalIP": "172.30.189.230",
+                    //"clusterIP": "172.30.189.230",
+                    "type": "ClusterIP",
+                    "sessionAffinity": "None"
                 }
             };
-            $scope.istag = angular.copy(mytag)
-            $scope.imageslist = [];
-                $scope.tagslist = [];
-                angular.forEach(myimage.items, function (image) {
-                    //console.log('image.status.tags', image.status.tags);
-                    if (image.status.tags) {
-                        $scope.imageslist.push(image)
+
+            $scope.showall = false;
+
+            $scope.hasport = false;
+
+            $scope.dc = {
+                "kind": "DeploymentConfig",
+                "apiVersion": "v1",
+                "metadata": {
+                    "name": '',
+                    "labels": [{name: "app", value: ''}],
+                    "annotations": {
+                        "openshift.io/generated-by": "OpenShiftWebConsole",
+                        "dadafoundry.io/create-by": $rootScope.user.metadata.name
                     }
-                });
-                $scope.checkedimage = function (image) {
-                    $scope.checked.image = image.metadata.name;
-                    $scope.checked.tag = '';
-                    $scope.tagslist = [];
-                    if (image.status.tags) {
-                        angular.forEach(image.status.tags, function (tag, i) {
-                            tag.items[0].name = tag.tag
-                            tag.items[0].imagecopy = angular.copy(image)
-                            $scope.tagslist.push(tag.items[0])
-                        })
+                },
+                "spec": {
+                    "strategy": {"resources": {}},
+                    "triggers": [{
+                        "type": "ConfigChange"
                     }
-                }
-                function imagetimemessage(imagestime) {
-                    $scope.creattime = imagestime;
-                }
-
-                function imageportmessage(port) {
-                    var port = port;
-                    console.log('port', port);
-                    $scope.port = []
-                    $scope.strport = '';
-                    for (var k in port) {
-                        $scope.port.push({protocol: k.split('/')[1].toUpperCase(), containerPort: k.split('/')[0]})
-                        $scope.strport += k.split('/')[0] + '/' + k.split('/')[1].toUpperCase() + ',';
-                    }
-                    $scope.strport = $scope.strport.replace(/\,$/, "")
-                    $scope.hasport = true;
-                    $scope.dc.spec.template.spec.containers[0].ports = angular.copy($scope.port)
-                }
-                $scope.checkedtag = function (tag) {
-                    //console.log('tag', tag);
-                    $scope.checked.tag = tag.name;
-                    $scope.detail = {}
-                    //imagemessage(tag.imagecopy)
-                    ImageStreamImage.get({
-                        namespace: $rootScope.namespace,
-                        name: $scope.checked.image + '@' + tag.image
-                    }, function (tag) {
-
-                        var allsize = 0;
-                        if (tag.image.dockerImageLayers&&tag.image.dockerImageLayers.length) {
-                            angular.forEach(tag.image.dockerImageLayers, function (size, i) {
-                                console.log('size.size', size.size);
-                                allsize=allsize+size.size;
-                            })
-                        }
-                        $scope.imagesize = Math.round(parseInt(allsize)/1024/1024* 100) / 100
-                        console.log('size',$scope.imagesize);
-                        imagetimemessage(tag.image.metadata.creationTimestamp)
-                        if (tag.image.dockerImageMetadata.Config.ExposedPorts) {
-                            imageportmessage(tag.image.dockerImageMetadata.Config.ExposedPorts)
-                        }
-
-                        $scope.curl = $scope.checked.image;
-                        $scope.fuwuname = $scope.checked.image;
-                        //tag.image.
-                        angular.forEach($scope.istag.items, function (istag, i) {
-                            if (istag.image.metadata.name === tag.image.metadata.name) {
-                                //console.log(istag.image.dockerImageReference);
-                                $scope.imagetext = istag.image.dockerImageReference;
-                            }
-                        })
-                        $scope.showall = true;
-
-                        //$scope.dc.metadata.labels[0].value =$scope.fuwuname ;
-
-                    })
-                }
-                $scope.postobj = {
-                    "kind": "ImageStreamImport",
-                    "apiVersion": "v1",
-                    "metadata": {"name": "newapp", "namespace": $rootScope.namespace},
-                    "spec": {
-                        "import": false,
-                        "images": [
-                            {
-                                "from": {
-                                    "kind": "DockerImage",
-                                    "name": ""
-                                }
-
-                            }
-                        ]
-
-
+                    ],
+                    "replicas": 1,
+                    "test": false,
+                    "selector": {
+                        "deploymentconfig": '',
+                        "app": ''
                     },
-                    "status": {}
-                }
-                $scope.dc = {
-                    "kind": "DeploymentConfig",
-                    "apiVersion": "v1",
-                    "metadata": {
-                        "name": '',
-                        "labels": [{name: "app", value: ''}],
-                        "annotations": {
-                            "openshift.io/generated-by": "OpenShiftWebConsole",
-                            "dadafoundry.io/create-by": $rootScope.user.metadata.name
-                        }
-                    },
-                    "spec": {
-                        "strategy": {"resources": {}},
-                        "triggers": [{
-                            "type": "ConfigChange"
-                        }
-                        ],
-                        "replicas": 1,
-                        "test": false,
-                        "selector": {
-                            "deploymentconfig": '',
-                            "app": ''
+                    "template": {
+                        "metadata": {
+                            "labels": {"deploymentconfig": '', "app": ''},
+                            "annotations": {"openshift.io/generated-by": "OpenShiftWebConsole"}
                         },
-                        "template": {
-                            "metadata": {
-                                "labels": {"deploymentconfig": '', "app": ''},
-                                "annotations": {"openshift.io/generated-by": "OpenShiftWebConsole"}
-                            },
-                            "spec": {
-                                "volumes": [],
-                                "containers": [{
-                                    "name": '',
-                                    "image": '',
-                                    'env': [{name: '', value: ''}]
-                                    //"ports": [{"containerPort": 8080, "protocol": "TCP"}]
+                        "spec": {
+                            "volumes": [],
+                            "containers": [{
+                                "name": '',
+                                "image": '',
+                                'env': [{name: '', value: ''}],
+                                volments: {
+                                    //secret: [{secretName: '', mountPath: ''}],
+                                    //configMap: [{name: '', mountPath: ''}],
+                                    //persistentVolumeClaim: [{claimName: '', mountPath: ''}]
                                 },
+                                "ports": [
                                     {
-                                        "name": '',
-                                        "image": '',
-                                        'env': [{name: '', value: ''}]
-                                        //"ports": [{"containerPort": 8080, "protocol": "TCP"}]
+                                        "containerPort": 80,
+                                        "protocol": "TCP"
                                     }
                                 ],
-                                "resources": {}
-                            }
+                                "resources": {
+                                    "limits": {
+                                        "cpu": "20m",
+                                        "memory": "20Mi"
+                                    },
+                                    "requests": {
+                                        "cpu": "10m",
+                                        "memory": "10Mi"
+                                    }
+                                },
+                                open: {
+                                    resources: false,
+                                    volment: false,
+                                    livenessProbe: false,
+                                    readinessProbe: false
+
+                                },
+                                "livenessProbe": {
+                                    "httpGet": {
+                                        "path": "/Liveness",
+                                        "port": 80,
+                                        "scheme": "HTTP"
+                                    },
+                                    "initialDelaySeconds": 1,
+                                    "timeoutSeconds": 1,
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "failureThreshold": 3
+                                },
+                                "readinessProbe": {
+                                    "httpGet": {
+                                        "path": "/Readiness",
+                                        "port": 80,
+                                        "scheme": "HTTP"
+                                    },
+                                    "initialDelaySeconds": 1,
+                                    "timeoutSeconds": 1,
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "failureThreshold": 3
+                                },
+                                "command": [
+                                    "tail"
+                                ],
+                                "args": [
+                                    "-f",
+                                    "/dev/null"
+                                ],
+
+
+                            }],
+                            "resources": {}
                         }
-                    },
-                    "status": {}
-                }
-                $scope.find = function () {
-                    $scope.err.url.null = false;
-                    $scope.err.url.role = false;
-                    $scope.err.url.notfind = false;
-                        if ($scope.postobj.spec.images[0].from.name === '') {
-                            $scope.err.url.null = true
-                            return;
-                        }
-                        $scope.finding = true;
-                        if ($scope.institution.configregistry) {
-                            $scope.postobj.spec.images[0].importPolicy = {
-                                insecure: true
-                            };
-                        }
-                        $scope.postobj.spec.images[0].from.name = $scope.postobj.spec.images[0].from.name.replace(/^\s+|\s+$/g, "");
-                        imagestreamimports.create({namespace: $rootScope.namespace}, $scope.postobj, function (images) {
-                            $scope.finding = false;
-                            var allsize = 0;
-                            if (images.status.images[0].image.dockerImageLayers && images.status.images[0].image.dockerImageLayers.length) {
-                                angular.forEach(images.status.images[0].image.dockerImageLayers, function (size, i) {
-
-                                    allsize=allsize+size.size;
-                                });
-                            }
-                            $scope.imagesize = Math.round(parseInt(allsize)/1024/1024* 100) / 100
-                            if (images.status.images && images.status.images[0] && images.status.images[0].status) {
-                                if (images.status.images[0].status.code && images.status.images[0].status.code === 401) {
-                                    $scope.err.url.role = true;
-                                    return;
-                                }
-                                if (images.status.images[0].status.code && images.status.images[0].status.code === 404) {
-                                    $scope.err.url.notfind = true;
-                                    return;
-                                }
-                                if (images.status.images[0].status.code && images.status.images[0].status.code === 500) {
-                                    $scope.err.url.role = true;
-                                    return;
-                                }
-                            }
-                            $scope.images = images;
-                            $scope.curl = $scope.postobj.spec.images[0].from.name;
-                            var name = $scope.postobj.spec.images[0].from.name.split('/')[$scope.postobj.spec.images[0].from.name.split('/').length - 1]
-                            $scope.fuwuname = name.split(':').length > 1 ? name.split(':')[0] : name;
-                            $scope.tag = name.split(':').length > 1 ? name.split(':')[1] : 'latest';
-                            $scope.imagetext = $scope.postobj.spec.images[0].from.name;
-                            if (images.status.images[0] && images.status.images[0].image.dockerImageMetadata) {
-                                imagetimemessage(images.status.images[0].image.dockerImageMetadata.Created)
-                                if (images.status.images[0].image.dockerImageMetadata.Config.ExposedPorts) {
-                                    imageportmessage(images.status.images[0].image.dockerImageMetadata.Config.ExposedPorts)
-                                }
-                            } else {
-
-                            }
-                            $scope.showall = true;
-
-                            $scope.dc.metadata.labels[0].value =$scope.fuwuname ;
-                        }, function (err) {
-                            $scope.finding = false;
-                        })
-
-                };
-                $scope.invalid = {};
-                $scope.addContainer = function () {
-                    //console.log("addContainer");
-                    $scope.dc.spec.template.spec.containers.push(angular.copy($scope.containerTpl));
-
-                    $scope.invalid.containerLength = false;
-                };
-                //// 选择镜像节流阀
-                $scope.chooesimage = false;
-                ///////更改镜像
-                $scope.selectImage = function (idx) {
-                    ChangeImages.open();
-
-                 };
-            //  获取dc列表,用于在创建dc时验证dc名称是否重复
-            $scope.serviceNameArr = [];
-
-            var loadDcList = function () {
-                DeploymentConfig.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
-                    for (var i = 0; i < data.items.length; i++) {
-                        $scope.serviceNameArr.push(data.items[i].metadata.name);
                     }
-                    $scope.serviceNameArr.sort();
-                    $scope.grid.namerepeat = true;
-                    //console.log('serviceNameArr',$scope.serviceNameArr);
+                },
+                "status": {}
+            }
 
-                }, function (res) {
-                    $log.info('loadDcList', res);
-                    //todo ������
-                });
-            };
 
-            loadDcList();
-            //////初始化端口数组
-            $scope.portsArr = [];
-            //////添加端口
-            $scope.addprot = function () {
-                $scope.portsArr.unshift({
-                    containerPort: "",
-                    protocol: "TCP",
-                    hostPort: ""
-                })
-            };
-            ////删除端口
-            $scope.delprot = function (idx) {
-                //console.log($scope.portsArr);
-                if ($scope.portsArr[0] && $scope.portsArr[0].hostPort) {
-                    $scope.grid.port = $scope.portsArr[0].hostPort;
+            $scope.$watch('fuwuname', function (n, o) {
+                if (n == o) {
+                    return
+                }
+                if (n === '') {
+                    //$scope.namerr.nil = true
+                    return
+                }
+                if (n) {
+                    $scope.err.name.pattern = false;
+
+                    $scope.err.name.null = false;
+
+                    $scope.err.name.repeated = false;
+                    //dcname(n)
+                }
+            })
+            $scope.$watch('institution.display', function (n, o) {
+                if (n == o) {
+                    return
+                }
+                if (n) {
+                    console.log(n);
+                    $scope.showall = false
+                    $scope.checked = {
+                        namespace: '',
+                        image: '',
+                        tag: ''
+                    }
+                    $scope.postobj.spec.images[0].from.name = ''
+                }
+            })
+
+            function dcname(n, image) {
+                $scope.dc.metadata.name = n;
+                if ($scope.dc.metadata.labels && $scope.dc.metadata.labels[0]) {
+                    $scope.dc.metadata.labels[0].value = n;
                 }
 
-                $scope.portsArr.splice(idx, 1);
+                $scope.dc.spec.selector.deploymentconfig = n;
+                $scope.dc.spec.selector.app = n;
+                $scope.dc.spec.template.metadata.labels.deploymentconfig = n;
+                $scope.dc.spec.template.metadata.labels.app = n;
+                $scope.dc.spec.template.spec.containers[0].name = n;
+                if (image) {
+                    $scope.dc.spec.template.spec.containers[0].image = image;
+                }
+            }
+
+            var prepareService = function (service, dc) {
+                service.metadata.name = $scope.fuwuname;
+                service.metadata.labels.app = $scope.fuwuname;
+                service.spec.selector.app = $scope.fuwuname;
+                service.spec.selector.deploymentconfig = $scope.fuwuname;
             };
+
+            function creatdc() {
+
+                dcname($scope.fuwuname, $scope.imagetext)
+                prepareLabel($scope.dc)
+                prepareEnv($scope.dc)
+                DeploymentConfig.get({
+                    namespace: $rootScope.namespace,
+                    region: $rootScope.region,
+                    name: $scope.fuwuname
+                }, function (data) {
+                    //$scope.namerr.repeated = true;
+                }, function (err) {
+                    if (err.status === 404) {
+                        DeploymentConfig.create({
+                            namespace: $rootScope.namespace,
+                            region: $rootScope.region
+                        }, $scope.dc, function (res) {
+                            $state.go('console.deploymentconfig_detail', {
+                                namespace: $rootScope.namespace,
+                                name: $scope.dc.metadata.name,
+                                from: 'create'
+                            });
+                        }, function (res) {
+                            //todo 错误处理
+                            $log.info("create dc fail", res);
+                            if (res.status == 409) {
+                                //$scope.grid.createdcerr = true;
+                            }
+                        });
+                    }
+                })
+
+            }
+
+            var createService = function (dc) {
+                prepareService($scope.service, dc);
+                var ps = [];
+                console.log('$scope.port', $scope.port);
+                angular.forEach($scope.port, function (port, i) {
+                    var val = port.protocol.toUpperCase()
+                    ps.push({
+                        name: port.containerPort + '-' + port.protocol.toLowerCase(),
+                        port: parseInt(port.containerPort),
+                        protocol: val,
+                        targetPort: parseInt(port.containerPort)
+                    })
+                })
+                if (ps.length > 0) {
+                    $scope.service.spec.ports = ps;
+                } else {
+                    $scope.service.spec.ports = null;
+                }
+                Service.get({
+                    namespace: $rootScope.namespace,
+                    region: $rootScope.region,
+                    name: $scope.fuwuname
+                }, function (serve) {
+                    //console.log('serve', serve);
+                    $scope.err.name.repeated = true;
+                }, function (err) {
+                    //console.log('err', err.status);
+                    if (err.status === 404) {
+                        Service.create({
+                            namespace: $rootScope.namespace,
+                            region: $rootScope.region
+                        }, $scope.service, function (res) {
+                            $log.info("create service success", res);
+                            //$scope.service = res;
+                            creatdc()
+                        }, function (res) {
+                            $log.info("create service fail", res);
+                            //$state.go('console.service_detail', {name: dc.metadata.name});
+                        });
+                    }
+                })
+
+            };
+
+            function prepareLabel(dc) {
+                console.log('dc.metadata.labels', dc.metadata.labels);
+                dc.metadata.labels[0].value = $scope.fuwuname;
+                var labels = angular.copy(dc.metadata.labels)
+
+                $scope.dc.metadata.labels = {}
+                angular.forEach(labels, function (label, i) {
+                    if (label.name !== '' && label.value !== "") {
+                        $scope.dc.metadata.labels[label.name] = label.value;
+                    }
+                })
+            }
+
+            function prepareEnv(dc) {
+                var envs = angular.copy(dc.spec.template.spec.containers[0].env);
+                $scope.dc.spec.template.spec.containers[0].env = [];
+                angular.forEach(envs, function (env, i) {
+                    if (env.name !== '' && env.value !== '') {
+                        $scope.dc.spec.template.spec.containers[0].env.push({name: env.name, value: env.value})
+                    }
+                })
+                if ($scope.dc.spec.template.spec.containers[0].env.length > 0) {
+                } else {
+                    delete $scope.dc.spec.template.spec.containers[0].env
+                }
+
+            }
+
+            function invrepname() {
+                var norep = true
+                angular.forEach($scope.servelist.items, function (dc, i) {
+                    //console.log(dc.metadata.name, $scope.fuwuname);
+                    if (dc.metadata.name === $scope.dc.metadata.name) {
+                        norep = false
+
+                    }
+                })
+                if (norep) {
+                    return true
+                } else {
+                    return false
+                }
+
+            }
+
+            function invEnv() {
+                var envs = angular.copy($scope.dc.spec.template.spec.containers[0].env)
+                angular.forEach(envs, function (env) {
+
+                })
+            }
+
+            $scope.createDc = function () {
+                //console.log($scope.frm.serviceName.$error.pattern);
+                if ($scope.frm.serviceName.$error.pattern) {
+                    $scope.err.name.pattern = true;
+                    return
+                }
+                //console.log($scope.fuwuname);
+                if (!$scope.fuwuname) {
+                    $scope.err.name.null = true;
+                    return
+                }
+                //console.log(invrepname());
+                if (!invrepname()) {
+                    $scope.err.name.repeated = true;
+                    return
+                }
+                invEnv()
+
+
+                if ($scope.hasport) {
+                    createService($scope.dc)
+                } else {
+                    creatdc()
+                }
+
+            }
         }])
     .directive('addSecrets', function () {
         return {
             restrict: 'E',
             templateUrl: 'views/service_create/tpl/addSecrets.html',
-            scope: {
+            scope: false,
+            controller: ['$scope', 'Secret', 'configmaps', 'persistent', '$rootScope',
+                function ($scope, Secret, configmaps, persistent, $rootScope) {
+                    Secret.get({namespace: $rootScope.namespace}, function (secrts) {
+                        //console.log('secrts', secrts);
+                        $scope.SecretList = angular.copy(secrts.items)
+                    })
+                    configmaps.get({namespace: $rootScope.namespace}, function (configs) {
+                        //console.log('configs', configs);
+                        $scope.ConfigMapList = angular.copy(configs.items)
+                    })
+                    persistent.get({namespace: $rootScope.namespace}, function (persistents) {
+                        //console.log('persistents', persistents);
+                        $scope.PersistentVolumeClaimList = angular.copy(persistents.items)
+                    })
+                    $scope.addconvol = function (outerIndex, obj, key) {
 
-            },
+                        if ($scope.dc.spec.template.spec.containers[outerIndex].volments) {
+                            var canadd = true
+                            angular.forEach($scope.dc.spec.template.spec.containers[outerIndex].volments[obj], function (vol, i) {
+                                if (vol[key] && vol.mountPath) {
+
+                                } else {
+                                    canadd = false
+                                }
+                            })
+                            if (!canadd) {
+                                return
+                            }
+
+
+                        } else {
+                            $scope.dc.spec.template.spec.containers[outerIndex].volments = {}
+                        }
+                        if (!$scope.dc.spec.template.spec.containers[outerIndex].volments[obj]) {
+                            $scope.dc.spec.template.spec.containers[outerIndex].volments[obj] = []
+                        }
+                        var volobj = {
+                            mountPath: ''
+                        }
+                        volobj[key] = ''
+                        $scope.dc.spec.template.spec.containers[outerIndex].volments[obj].push(volobj)
+
+                    }
+                    $scope.delconvol = function (outerIndex, innerIndex, obj) {
+                        $scope.dc.spec.template.spec.containers[outerIndex].volments[obj].splice(innerIndex, 1);
+                    }
+                }],
+        };
+    })
+    .directive('dcContainers', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'views/service_create/tpl/dcContainers.html',
+            scope: false,
             controller: ['$scope', function ($scope) {
 
             }],
@@ -383,22 +506,177 @@ angular.module('console.service.create', [
         return {
             restrict: 'E',
             templateUrl: 'views/service_create/tpl/changeImage.html',
-            scope: {
-                imageslist: '=',
-                tagslist: '=',
-            },
-            controller: ['$scope', function ($scope) {
+            scope: false,
+            controller: ['ImageStreamImage', '$scope', 'imagestreamimports', '$rootScope',
+                function (ImageStreamImage, $scope, imagestreamimports, $rootScope) {
+                    $scope.checkedimage = function (image) {
+                        $scope.checked.image = image.metadata.name;
+                        $scope.checked.tag = '';
+                        $scope.tagslist = [];
+                        if (image.status.tags) {
+                            angular.forEach(image.status.tags, function (tag, i) {
+                                tag.items[0].name = tag.tag
+                                tag.items[0].imagecopy = angular.copy(image)
+                                $scope.tagslist.push(tag.items[0])
+                            })
+                        }
+                    }
+                    $scope.myKeyup = function (e) {
+                        var keycode = window.event ? e.keyCode : e.which;
+                        if (keycode == 13) {
+                            $scope.find();
+                        }
+                    }
 
-            }],
+                    function imagetimemessage(imagestime) {
+                        $scope.creattime = imagestime
+                    }
+
+                    function imageportmessage(port) {
+                        var port = port;
+                        //console.log('port', port);
+                        $scope.port = []
+                        $scope.strport = '';
+
+                        for (var k in port) {
+                            $scope.port.push({protocol: k.split('/')[1].toUpperCase(), containerPort: k.split('/')[0]})
+                            $scope.strport += k.split('/')[0] + '/' + k.split('/')[1].toUpperCase() + ',';
+                        }
+                        $scope.strport = $scope.strport.replace(/\,$/, "")
+                        $scope.hasport = true;
+                        $scope.dc.spec.template.spec.containers[0].ports = angular.copy($scope.port)
+                    }
+
+                    $scope.find = function () {
+                        if ($scope.institution.display == 2) {
+                            return
+                        }
+                        $scope.err.url.null = false;
+                        $scope.err.url.role = false;
+                        $scope.err.url.notfind = false;
+                        if (!$scope.finding) {
+                            if ($scope.postobj.spec.images[0].from.name === '') {
+                                $scope.err.url.null = true
+                                return
+                            }
+                            $scope.finding = true;
+                            if ($scope.institution.configregistry) {
+                                $scope.postobj.spec.images[0].importPolicy = {
+                                    insecure: true
+                                }
+                            }
+                            $scope.postobj.spec.images[0].from.name = $scope.postobj.spec.images[0].from.name.replace(/^\s+|\s+$/g, "");
+                            imagestreamimports.create({namespace: $rootScope.namespace}, $scope.postobj, function (images) {
+                                $scope.finding = false;
+                                var allsize = 0
+                                console.log('images', images.status.images[0].image.dockerImageLayers);
+                                if (images.status.images[0].image.dockerImageLayers && images.status.images[0].image.dockerImageLayers.length) {
+                                    angular.forEach(images.status.images[0].image.dockerImageLayers, function (size, i) {
+
+                                        allsize = allsize + size.size;
+                                    })
+                                }
+                                $scope.imagesize = Math.round(parseInt(allsize) / 1024 / 1024 * 100) / 100
+                                console.log('size', $scope.imagesize);
+                                if (images.status.images && images.status.images[0] && images.status.images[0].status) {
+                                    if (images.status.images[0].status.code && images.status.images[0].status.code === 401) {
+                                        $scope.err.url.role = true;
+                                        return
+                                    }
+                                    if (images.status.images[0].status.code && images.status.images[0].status.code === 404) {
+                                        //$scope.namerr.url = true;
+                                        $scope.err.url.notfind = true;
+                                        return
+                                    }
+                                    if (images.status.images[0].status.code && images.status.images[0].status.code === 500) {
+                                        //$scope.namerr.url = true;
+                                        $scope.err.url.role = true;
+                                        return
+                                    }
+                                }
+                                //$scope.namerr.canbuild = false;
+                                $scope.images = images;
+                                $scope.curl = $scope.postobj.spec.images[0].from.name;
+                                var name = $scope.postobj.spec.images[0].from.name.split('/')[$scope.postobj.spec.images[0].from.name.split('/').length - 1]
+                                $scope.fuwuname = name.split(':').length > 1 ? name.split(':')[0] : name;
+                                $scope.tag = name.split(':').length > 1 ? name.split(':')[1] : 'latest';
+                                $scope.imagetext = $scope.postobj.spec.images[0].from.name;
+
+                                //var imagetag = 'dadafoundry.io/image-' + $scope.postobj.spec.images[0].from.name;
+                                //
+                                //$scope.dc.metadata.annotations[imagetag] = $scope.fuwuname + ":" + $scope.tag;
+
+                                if (images.status.images[0] && images.status.images[0].image.dockerImageMetadata) {
+                                    imagetimemessage(images.status.images[0].image.dockerImageMetadata.Created)
+                                    //console.log('images.status.images[0].image.dockerImageMetadata.Config.ExposedPorts', images.status.images[0].image.dockerImageMetadata);
+                                    if (images.status.images[0].image.dockerImageMetadata.Config.ExposedPorts) {
+                                        imageportmessage(images.status.images[0].image.dockerImageMetadata.Config.ExposedPorts)
+                                    }
+                                } else {
+                                    //$scope.namerr.url = true;
+                                }
+                                $scope.showall = true;
+
+                                $scope.dc.metadata.labels[0].value = $scope.fuwuname;
+                            }, function (err) {
+                                //$scope.namerr.url = true;
+                                $scope.finding = false;
+                            })
+                        }
+                    }
+                    $scope.checkedtag = function (tag) {
+                        //console.log('tag', tag);
+                        $scope.checked.tag = tag.name;
+                        $scope.detail = {}
+                        //imagemessage(tag.imagecopy)
+                        ImageStreamImage.get({
+                            namespace: $rootScope.namespace,
+                            name: $scope.checked.image + '@' + tag.image
+                        }, function (tag) {
+
+                            var allsize = 0;
+                            console.log(tag.image.dockerImageLayers.length);
+                            if (tag.image.dockerImageLayers && tag.image.dockerImageLayers.length) {
+                                angular.forEach(tag.image.dockerImageLayers, function (size, i) {
+                                    //console.log('size.size', size.size);
+                                    allsize = allsize + size.size;
+                                })
+                            }
+                            $scope.imagesize = Math.round(parseInt(allsize) / 1024 / 1024 * 100) / 100
+                            //console.log('size',$scope.imagesize);
+                            imagetimemessage(tag.image.metadata.creationTimestamp)
+                            if (tag.image.dockerImageMetadata.Config.ExposedPorts) {
+                                imageportmessage(tag.image.dockerImageMetadata.Config.ExposedPorts)
+                            }
+
+                            $scope.curl = $scope.checked.image;
+                            //if (!$scope.dc.metadata.name) {
+                            //    $scope.dc.metadata.name=$scope.checked.image;
+                            //}
+                            $scope.dc.spec.template.spec.containers[0].name = $scope.checked.image
+                            $scope.fuwuname = $scope.checked.image;
+
+                            //tag.image.
+                            angular.forEach($scope.istag.items, function (istag, i) {
+                                if (istag.image.metadata.name === tag.image.metadata.name) {
+                                    //console.log(istag.image.dockerImageReference);
+                                    $scope.imagetext = istag.image.dockerImageReference;
+                                }
+                            })
+                            $scope.showall = true;
+
+                            //$scope.dc.metadata.labels[0].value =$scope.fuwuname ;
+
+                        })
+                    }
+                }],
         };
     })
     .directive('containerCheck', function () {
         return {
             restrict: 'E',
             templateUrl: 'views/service_create/tpl/containerChecked.html',
-            scope: {
-
-            },
+            scope: {},
             controller: ['$scope', function ($scope) {
 
             }],
@@ -408,9 +686,7 @@ angular.module('console.service.create', [
         return {
             restrict: 'E',
             templateUrl: 'views/service_create/tpl/setPorts.html',
-            scope: {
-
-            },
+            scope: {},
             controller: ['$scope', function ($scope) {
 
             }],
@@ -420,9 +696,7 @@ angular.module('console.service.create', [
         return {
             restrict: 'E',
             templateUrl: 'views/service_create/tpl/setQuota.html',
-            scope: {
-
-            },
+            scope: {},
             controller: ['$scope', function ($scope) {
 
             }],
