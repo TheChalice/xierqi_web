@@ -1862,7 +1862,13 @@ td  a:hover, a:focus{
 }
 
 
-.border_background{position:relative;}
+.border_background{position:relative;height:40px;
+    border:1px solid #e5e5e5;
+    padding-top:10px;
+    padding-bottom:10px;
+    background:#f7f8fc;
+    text-align: center;
+    position:relative;}
 .border_background .dot{position:absolute;border:2px solid #CCD5E0;left: -45px;top: 16px;z-index:3;}
 
 .border_background .dot_blank{

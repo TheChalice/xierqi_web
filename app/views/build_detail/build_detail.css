@@ -94,14 +94,6 @@
 #build-detail .sa_color{
     color:#e4e4e4;
 }
-#build-detail .border_background{
-    border:1px solid #e5e5e5;
-    padding-top:10px;
-    padding-bottom:10px;
-    background:#f7f8fc;
-    text-align: center;
-    position:relative;
-}
 #build-detail .text-left_color{
     color: darkgray;
 }
