@@ -510,6 +510,10 @@ angular.module("console.header", [{
                     return "流水线"
                 case "console.rc":
                     return "部署镜像"
+                case "console.quick_deploy":
+                    return "部署镜像"
+                case "console.uploadimage":
+                    return "镜像仓库";
             }
         };
 
@@ -625,7 +629,8 @@ angular.module("console.header", [{
                     return "配置卷";
                 case "console.resource_secret":
                     return "密钥卷";
-
+                case "console.uploadimage":
+                    return "上传镜像";
             }
         };
 

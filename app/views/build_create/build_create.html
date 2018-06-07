@@ -45,12 +45,14 @@
                                     <p class="tab-lab-text" style="margin-top: 5px">是可靠的自托管的Git项目仓库，
                                         可通过Web界面进行访问公开的或者私人项目。</p>
                                     <p style="height: 16px;margin-top: 15px"><a class="view_tit_set"
+                                                                                style="margin-right: 32px;"
                                                                                 ng-show="needbind.gitlab"
-                                                                                ng-click="bindhub('gitlab')">绑定Gitlab</a>
+                                                                                ng-click="bindhub('gitlab')"><i
+                                            class="uex-icon-protocol-deafult"></i>绑定Gitlab</a>
                                         <a class="view_tit_set" ng-class="{'running':labrunning}"
                                            uib-tooltip="同步代码源"
                                            ng-click="loadOwner('gitlab')">
-                                            <i class="fa fa-green fa-lg fa-refresh"></i>
+                                            <i class="uex-icon-refresh"></i>
                                             同步代码源
                                         </a>
                                     </p>
@@ -66,13 +68,16 @@
                                     <p class="tab-lab-text">Github于2008年上线目前，除了Git代码仓库托管以及基本的Web管理界面以外</p>
                                     <p class="tab-lab-text" style="margin-top: 5px">还提供了订阅、讨论组 、文本渲染 、在线文件编辑器
                                         、协作图谱（报表）、代码片段分享（Gist）等功能。</p>
-                                    <p style="height: 16px;margin-top: 15px"><a class="view_tit_set"
-                                                                                ng-show="needbind.github"
-                                                                                ng-click="bindhub('github')">绑定Github</a>
+                                    <p style="height: 16px;margin-top: 15px">
+                                        <a class="view_tit_set" style="margin-right: 32px;"
+                                           ng-show="needbind.github"
+                                           ng-click="bindhub('github')">
+                                            <i class="uex-icon-protocol-deafult"></i>绑定Github
+                                        </a>
                                         <a class="view_tit_set"
                                            uib-tooltip="同步代码源"
                                            ng-click="loadOwner('github')">
-                                            <i class="fa fa-green fa-lg fa-refresh"></i>
+                                            <i class="uex-icon-refresh"></i>
                                             同步代码源
                                         </a>
                                     </p>
