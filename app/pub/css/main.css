@@ -1911,35 +1911,51 @@ td  a:hover, a:focus{
 /* 成功 */
   .uex-icon-Complete:before {
     content: "\e914";
+    color:#A2B0C4;
   }
 /* 终止 */
   .uex-icon-Cancelled:before {
     content: "\e916";
+    color:#A2B0C4;
   }
 /* 失败/错误 */
   .uex-icon-Failed:before, .uex-icon-Error:before {
     content: "\e915";
+    color:#A2B0C4;
   }
 /* 运行中/在等待 */
  .uex-icon-Running:before, .uex-icon-Pending:before {
-    content:"\e954"
+    content:"\e954";
+    color:#A2B0C4;
  }
 
  .uex-icon-search:before {
     content: "\e91d";
+    color:#A2B0C4;
   }
  /*代码构建 绑定、刷新*/
  .uex-icon-protocol-deafult:before{
     content: "\e970";
+    color:#A2B0C4;
 }
  .uex-icon-refresh:before{
      content: '\e954';
+     color:#A2B0C4;
  }
 
+ .uex-icon-to-back:before{
+    content: '\e9fd';
+    color:#A2B0C4;
+ }
+ .uex-icon-to-front:before{
+    content: '\e9ff';
+    color:#A2B0C4;
+ }
 
 .df_search{position:absolute;z-index:999;top:50%;right:10px;font-size:14px;margin-top:-7px;color: #A2B0C4;}
   .searchbar:hover .df_search{color:#47B2FB;}
 
+  .sort_btn{padding-left:2px;width: 30px;font-size: 14px;display: inline-block;height: 20px;cursor: pointer;}
 
 
   /* uex-icon svg 公共图标引用 结束 重要*/
