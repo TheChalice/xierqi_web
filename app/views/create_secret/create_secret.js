@@ -109,8 +109,11 @@ angular.module('console.create_secret', [
             return t
         }
     };
-
-    $scope.add = function () {
+    //添加配置文件
+    $scope.AddConfigurationFile = function () {
+        $scope.secrets.secretsarr.push({key: '', value: ''});
+    };
+    $scope.addFile = function () {
         document.getElementById('file-input').addEventListener('change', readSingleFile, false);
     };
 
@@ -134,26 +137,14 @@ angular.module('console.create_secret', [
         reader.readAsText(file);
     }
 
-    $scope.getLog= function (idx) {
-        $scope.secrets.configarr[idx].showLog=!$scope.secrets.configarr[idx].showLog
-    };
-
     $scope.deletekv = function (idx) {
-        $scope.secrets.configarr.splice(idx, 1);
+        $scope.secrets.secretsarr.splice(idx, 1);
     };
-
-
-    //$scope.secretsarr = [];
     $scope.addSecret = function () {
         $scope.secrets.secretsarr.push({key: '', value: ''});
         //console.log($scope.secretsarr);
     };
-    $scope.rmsecret = function (idx) {
-        $scope.secrets.secretsarr.splice(idx, 1);
-        //if($scope.secretsarr.length<=0){
-        //    $scope.grid.secreteno = false;
-        //}
-    };
+
     var by = function (name) {
         return function (o, p) {
             var a, b;
