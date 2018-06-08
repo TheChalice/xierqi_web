@@ -11,7 +11,7 @@ angular.module('console.create_secret', [
         keychongfu: false,
         keybuhefa: false,
         keynull: false
-    }
+    };
     $scope.secrets = {
         "kind": "Secret",
         "apiVersion": "v1",
@@ -22,7 +22,7 @@ angular.module('console.create_secret', [
         "secretsarr": [],
         "type": "Opaque",
         "configarr": []
-    }
+    };
     var Base64 = {
         _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=", encode: function (e) {
             var t = "";
@@ -108,11 +108,11 @@ angular.module('console.create_secret', [
             }
             return t
         }
-    }
+    };
 
     $scope.add = function () {
         document.getElementById('file-input').addEventListener('change', readSingleFile, false);
-    }
+    };
 
     function readSingleFile(e) {
         var thisfilename = this.value;
@@ -132,11 +132,11 @@ angular.module('console.create_secret', [
             $scope.$apply();
         };
         reader.readAsText(file);
-    };
+    }
 
     $scope.getLog= function (idx) {
         $scope.secrets.configarr[idx].showLog=!$scope.secrets.configarr[idx].showLog
-    }
+    };
 
     $scope.deletekv = function (idx) {
         $scope.secrets.configarr.splice(idx, 1);
@@ -147,13 +147,13 @@ angular.module('console.create_secret', [
     $scope.addSecret = function () {
         $scope.secrets.secretsarr.push({key: '', value: ''});
         //console.log($scope.secretsarr);
-    }
+    };
     $scope.rmsecret = function (idx) {
         $scope.secrets.secretsarr.splice(idx, 1);
         //if($scope.secretsarr.length<=0){
         //    $scope.grid.secreteno = false;
         //}
-    }
+    };
     var by = function (name) {
         return function (o, p) {
             var a, b;
@@ -171,12 +171,11 @@ angular.module('console.create_secret', [
                 throw ("error");
             }
         }
-    }
+    };
     $scope.$watch('secrets', function (n, o) {
         if (n == o) {
             return
-        }
-        ;
+        };
         //console.log(n);
         $scope.grid.keychongfu = false;
         $scope.grid.keynull = false;
@@ -232,7 +231,7 @@ angular.module('console.create_secret', [
         }
 
         //console.log($scope.grid.secretnames)
-    }
+    };
     $scope.checkedkv = function () {
         var r = /^[a-zA-Z][a-zA-Z0-9_]{1,20}$/; // key值的验证;
         for (var i = 0; i < $scope.secretsarr.length; i++) {
@@ -242,12 +241,12 @@ angular.module('console.create_secret', [
                 $scope.grid.secreteno = false;
             }
         }
-    }
+    };
     $scope.namerr = {
         nil: false,
         rexed: false,
         repeated: false
-    }
+    };
     $scope.nameblur = function () {
         //console.log($scope.buildConfig.metadata.name);
         if (!$scope.secrets.metadata.name) {
@@ -255,15 +254,15 @@ angular.module('console.create_secret', [
         } else {
             $scope.namerr.nil = false
         }
-    }
+    };
     $scope.namefocus = function () {
         $scope.namerr.nil = false
-    }
+    };
     secretskey.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (res) {
         //console.log('-------loadsecrets', res);
         $scope.secremnamearr=res.items;
 
-    })
+    });
 
 
     var rex =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
@@ -295,7 +294,7 @@ angular.module('console.create_secret', [
         } else {
             $scope.namerr.rexed = false;
         }
-    })
+    });
 
     $scope.postsecret = function () {
         if (!$scope.namerr.nil && !$scope.namerr.rexed && !$scope.namerr.repeated) {
@@ -310,7 +309,7 @@ angular.module('console.create_secret', [
 
         angular.forEach(arr, function (item, i) {
             $scope.secrets.data[item.key] = Base64.encode(item.value);
-        })
+        });
 
         // angular.forEach($scope.secrets.secretsarr, function (item, i) {
         //     console.log(item.key, item.value);
@@ -337,4 +336,4 @@ angular.module('console.create_secret', [
         })
 
     }
-}])
+}]);
