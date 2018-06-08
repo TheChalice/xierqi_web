@@ -60,10 +60,10 @@ angular.module('home.uploadimage', [{
                 var tokens = Cookie.get('df_access_token');
                 var tokenarr = tokens.split(',')
                 Upload.upload({
-                    url: 'http://localhost:8080/uploadimage/' + $rootScope.namespace + '/' + image + '/' + tag,
+                    url: 'http://127.0.0.1:8080/uploadimage/' + $rootScope.namespace + '/' + image + '/' + tag,
                     data: {file: file, 'total': file.size},
                     headers: {'Authorization': "Bearer " + tokenarr[0]},
-                    resumeSizeUrl: 'http://localhost:8080/uploadimage/' + $rootScope.namespace + '/info?secret=' + md5 + '&total=' + file.size,
+                    resumeSizeUrl: 'http://127.0.0.1:8080/uploadimage/' + $rootScope.namespace + '/info?secret=' + md5 + '&total=' + file.size,
                     resumeSizeResponseReader: function (data) {
                         //console.log('data', data);
 
