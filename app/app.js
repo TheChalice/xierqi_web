@@ -64,6 +64,7 @@ define([
     DataFoundry.constant('GLOBAL', {
             size: 10,
             host: '/oapi/v1',
+            uploadimage: '/uploadimage',
             host_k8s: '/api/v1',
             broker_apigroup: '/apis/prd.asiainfo.com/v1',
             broker_ws_apigroup: '/ws/apis/prd.asiainfo.com/v1',
@@ -3118,7 +3119,7 @@ define([
                     $rootScope.console.state = toState.name;
                     // if (toState.name.indexOf('dashboard') !== -1) {
                     //     $rootScope.dataForTheTree[0].stateUrl = toState.name
-                    // } else 
+                    // } else
                     if (toState.name.indexOf('build') !== -1) {
                         $rootScope.dataForTheTree[0].stateUrl = toState.name;
                     } else if (toState.name.indexOf('private-image') !== -1 || toState.name.indexOf('image_detail') !== -1) {

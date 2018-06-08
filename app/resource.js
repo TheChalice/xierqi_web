@@ -1010,4 +1010,10 @@ define([
             }, {});
             return statefuldetail;
         }])
+        .factory('uploadimageapi', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var uploadimage = $resource(GLOBAL.uploadimage + '/:namespace/complete', {
+                namespaces: '@username'
+            }, {});
+            return uploadimage;
+        }])
 });
