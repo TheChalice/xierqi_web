@@ -53,8 +53,8 @@
 .subtitle{padding-bottom: 10px;padding-top:30px;margin:0px;font-size:14px;font-weight:bold;color: #333;}
 
 
-.fa-refresh:before{content:"\f021";}
-.pficon-image:before{content:"\e61f";}
+/* .fa-refresh:before{content:"\f021";}
+.pficon-image:before{content:"\e61f";} */
 
 #rs .tit_f{font-size:14px;color:#000;font-weight:normal;margin:0px;margin-bottom:10px;}
 
