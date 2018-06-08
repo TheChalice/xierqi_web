@@ -4,8 +4,8 @@ angular.module('home.uploadimage', [{
             'views/upload_image/upload_image.css'
         ]
     }])
-    .controller('uploadimageCtrl', ['GLOBAL', 'sessiontoken', 'Cookie', '$rootScope', 'User', 'Project', '$log', '$state', 'ImageStream', '$scope', 'Upload', 'toastr',
-        function (GLOBAL, sessiontoken, Cookie, $rootScope, User, Project, $log, $state, ImageStream, $scope, Upload, toastr) {
+    .controller('uploadimageCtrl', ['$location','GLOBAL', 'sessiontoken', 'Cookie', '$rootScope', 'User', 'Project', '$log', '$state', 'ImageStream', '$scope', 'Upload', 'toastr','uploadimageapi','$interval',
+        function ($location,GLOBAL, sessiontoken, Cookie, $rootScope, User, Project, $log, $state, ImageStream, $scope, Upload, toastr,uploadimageapi,$interval) {
 
             $scope.grid = {
                 tag: null,
@@ -38,6 +38,8 @@ angular.module('home.uploadimage', [{
                 //
                 //}
             };
+            console.log('$location', $location.$$port);
+            $scope.port = $location.$$port?':'+$location.$$port:''
             $scope.changeupload = function ($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event) {
                 //console.log('change', $files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event);
                 $scope.grid.file = $event.target.files[0];
@@ -54,16 +56,17 @@ angular.module('home.uploadimage', [{
                     $scope.grid.tag = null
                 }
             }
+
             // upload on file select or drop
             $scope.upload = function (file, image, tag, md5) {
                 //console.log('files', file);
                 var tokens = Cookie.get('df_access_token');
                 var tokenarr = tokens.split(',')
                 Upload.upload({
-                    url: 'http://localhost:8080/uploadimage/' + $rootScope.namespace + '/' + image + '/' + tag,
+                    url: 'http://'+$location.$$host+$scope.port+'/uploadimage/' + $rootScope.namespace + '/' + image + '/' + tag,
                     data: {file: file, 'total': file.size},
                     headers: {'Authorization': "Bearer " + tokenarr[0]},
-                    resumeSizeUrl: 'http://localhost:8080/uploadimage/' + $rootScope.namespace + '/info?secret=' + md5 + '&total=' + file.size,
+                    resumeSizeUrl: 'http://'+$location.$$host+$scope.port+'/uploadimage/' + $rootScope.namespace + '/info?secret=' + md5 + '&total=' + file.size,
                     resumeSizeResponseReader: function (data) {
                         //console.log('data', data);
 
@@ -73,10 +76,23 @@ angular.module('home.uploadimage', [{
 
                 }).then(function (resp) {
                     $scope.grid.clickbtn = 'canclick'
-                    toastr.success('上传成功', {
-                        closeButton: true
-                    });
-                    $state.go("console.image", {namespace: $rootScope.namespace});
+                    $scope.timer = $interval( function(){
+                        uploadimageapi.get({namespace:$rootScope.namespace}, function (data) {
+                            console.log('data', data.msg);
+                            if (data.msg === "image push complete") {
+                                toastr.success('上传成功', {
+                                    closeButton: true
+                                });
+
+                                $state.go("console.private-image", {namespace: $rootScope.namespace});
+                            }
+
+                        }, function (err) {
+                            console.log('err', err);
+                        })
+                    }, 5000);
+
+
                     console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
                 }, function (resp) {
                     console.log('Error status: ' + resp.status);
@@ -95,7 +111,9 @@ angular.module('home.uploadimage', [{
 
                 $scope.grid.tag = tag.tag
             }
-
+            $scope.$on('$destroy', function(){
+                $interval.cancel($scope.timer);
+            });
             //// for multiple files:
             //$scope.uploadFiles = function (files) {
             //        if (files && files.length) {

@@ -16,7 +16,6 @@ angular.module('console.build_create', [
             $scope.selectCodeBase = {
                 status: 1
             };
-            // $scope.grid.CodeBase=1;
             $scope.gitstatus = 'gitlab';
             var urlRegExp = /[a-zA-z]+:\/\/[^\s]*/;//url
             var nameRegExp = /^[A-Za-z]+$/;//由26个英文字母组成的字符串
@@ -112,6 +111,7 @@ angular.module('console.build_create', [
                     $scope.gitload[git] = res;
                     if (git === 'gitlab') {
                         $scope.gitdata.orgs = res;
+                        $scope.showbox = true
                     } else {
                         $scope.gitdata.orgs = res;
                     }
@@ -122,7 +122,7 @@ angular.module('console.build_create', [
 
             $scope.$watch('grid', function (n, o) {
                 console.log('grif', n);
-            }, true)
+            }, true);
             loadgitdata('github', 'cache');
             loadgitdata('gitlab', 'cache');
             $scope.bindhub = function (click) {
@@ -136,9 +136,10 @@ angular.module('console.build_create', [
             $scope.loadOwner = function (git) {
                 loadgitdata(git)
             };
-
+            var one=true
             $scope.$watch('buildcheck', function (n, o) {
                 // console.log('---', n, o);
+                $scope.showbox=false;
                 if (n === o) {
                     return
                 }
@@ -148,14 +149,27 @@ angular.module('console.build_create', [
                         project: false,
                         codeBranch: false
                     };
-                    // console.log('=====', n);
+
                     clearselec();
                     if (n === 1) {
                         $scope.gitstatus = 'gitlab';
                         $scope.gitdata.orgs = angular.copy($scope.gitload.gitlab)
+                        //console.log('$scope.needbind.gitlab', $scope.needbind.gitlab);
+                        if (one) {
+                            one=false
+                        }else {
+                            if (!$scope.needbind.gitlab) {
+                                $scope.showbox = true
+                            }
+                        }
+
+
                     } else if (n === 2) {
                         $scope.gitstatus = 'github';
                         $scope.gitdata.orgs = angular.copy($scope.gitload.github)
+                        if (!$scope.needbind.github) {
+                            $scope.showbox = true
+                        }
                     }
                 }
             });
@@ -184,9 +198,9 @@ angular.module('console.build_create', [
                 }
             };
             $scope.selectbranch = function (idx) {
-                // console.log('$scope.selectbranch', idx);
                 $scope.grid.branch = idx;
             };
+
             function createsecret(name, pwd) {
                 $scope.secret = {
                     "kind": "Secret",
@@ -226,6 +240,26 @@ angular.module('console.build_create', [
                     codeBranch: false
                 };
                 //校验构建名称
+                BuildConfig.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
+                    // console.log('data.items11111111', data.items);
+                    $scope.data = [];
+                    angular.forEach(data.items, function (item, i) {
+                        if (item.spec.strategy.type !== "JenkinsPipeline" && item.spec.source.type !== "Binary") {
+                            $scope.data.push(item)
+                        }
+                    });
+                    // console.log('data.items--$scope.data-----', $scope.data);
+                    $scope.buildList = $scope.data;
+                    for (var i = 0; i < $scope.buildList.length; i++) {
+                        if($scope.buildConfig.metadata.name === $scope.buildList[i].metadata.name){
+                            $scope.namerr.repeated = true;
+                            return
+                        }
+                    }
+                }, function (res) {
+                    //todo 错误处理
+                });
+
                 if (!$scope.buildConfig.metadata.name) {
                     $scope.namerr.nil = true;
                     return
@@ -257,7 +291,7 @@ angular.module('console.build_create', [
                         return;
                     }
                     // console.log('$scope.grid.branch', $scope.grid.branch);
-                    if ($scope.grid.branch==null) {
+                    if ($scope.grid.branch == null) {
                         $scope.gitStatus.codeBranch = true;
                         return;
                     }

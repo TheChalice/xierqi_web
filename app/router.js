@@ -215,29 +215,55 @@ define([
                             return $ocLazyLoad.load('views/build_detail/build_detail.js')
                         }]
                     }
-                })//ok
-                //image
-                .state('console.image', {
-                    url: '/:namespace/image',
-                    templateUrl: 'views/image/image.html',
-                    controller: 'ImageCtrl',
+                })
+                .state('console.repository-image', {
+                    url: '/:namespace/repository-image',
+                    templateUrl: 'views/repository_image/repositoryImage.html',
+                    controller: 'RepositoryImageCtrl',
                     params: {
                         index: null
                     },
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
-                            return $ocLazyLoad.load(['views/image/image.js', 'views/image/image.css'])
+                            return $ocLazyLoad.load(['views/repository_image/repositoryImage.js', 'views/repository_image/repositoryImage.css'])
                         }],
-                        //primage: ['pubregistry', 'regions', 'Cookie', '$rootScope', 'User', function(pubregistry, regions, Cookie, $rootScope, User) {
-                        //
-                        //    pubregistry.get(function(data) {
-                        //        return data
-                        //    }, function(err) {
-                        //        return err
-                        //    });
-                        //}]
                     }
-                })//ok
+                })
+                .state('console.private-image', {
+                    url: '/:namespace/private-image',
+                    templateUrl: 'views/private_image/privateImage.html',
+                    controller: 'PrivateImageCtrl',
+                    params: {
+                        index: null
+                    },
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load(['views/private_image/privateImage.js', 'views/private_image/privateImage.css'])
+                        }],
+                    }
+                })
+                //image
+                // .state('console.image', {
+                //     url: '/:namespace/image',
+                //     templateUrl: 'views/image/image.html',
+                //     controller: 'ImageCtrl',
+                //     params: {
+                //         index: null
+                //     },
+                //     resolve: {
+                //         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                //             return $ocLazyLoad.load(['views/image/image.js', 'views/image/image.css'])
+                //         }],
+                //         //primage: ['pubregistry', 'regions', 'Cookie', '$rootScope', 'User', function(pubregistry, regions, Cookie, $rootScope, User) {
+                //         //
+                //         //    pubregistry.get(function(data) {
+                //         //        return data
+                //         //    }, function(err) {
+                //         //        return err
+                //         //    });
+                //         //}]
+                //     }
+                // })//ok
                 .state('console.image_detail', {
                     url: '/:namespace/image/myimage/:bc/:name',
                     templateUrl: 'views/image_detail/image_detail.html',
