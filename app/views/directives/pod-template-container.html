@@ -2,26 +2,26 @@
     <div class="component-label pod_list_mt" style="text-transform: uppercase;">
         <span class='pd_tem_l' ng-bind-template="{{labelPrefix||'Container'}}:">
 
-        </span> <span class='pd_tem_r' style='text-transform: uppercase'>{{container.name}}</span>
+        </span>
+        <span class='pd_tem_r' style='text-transform: uppercase'>{{container.name}}</span>
     </div>
 
     <div row ng-if="container.image" class="pod-template-image icon-row">
-        <div class="icon-wrap" style="margin-right:4px;">
+        <!-- <div class="icon-wrap" style="margin-right:4px;">
             <span class="pficon pficon-image" aria-hidden="true"></span>
-        </div>
+        </div> -->
         <div flex class="word-break pod_list_mt">
-            <span class="pod-template-key">
-                镜像:
+            <span class="pod-template-key">镜像:
                 <!--Image:-->
             </span>
             <span ng-if="!imagesByDockerReference[container.image]">{{container.image | imageStreamName}}</span>
             <span ng-if="imagesByDockerReference[container.image]">
-            <a ng-href="{{imagesByDockerReference[container.image].imageStreamName | navigateResourceURL : 'ImageStream' : imagesByDockerReference[container.image].imageStreamNamespace}}">{{container.image | imageStreamName}}</a>
-            <span class="hash" title="{{imagesByDockerReference[container.image].metadata.name}}">{{imagesByDockerReference[container.image].metadata.name | stripSHAPrefix | limitTo: 7}}</span>
-            <span ng-if="imagesByDockerReference[container.image].dockerImageMetadata.Size" class="small text-muted nowrap">
-              {{imagesByDockerReference[container.image].dockerImageMetadata.Size | humanizeSize}}
+                <a ng-href="{{imagesByDockerReference[container.image].imageStreamName | navigateResourceURL : 'ImageStream' : imagesByDockerReference[container.image].imageStreamNamespace}}">{{container.image | imageStreamName}}</a>
+                <span class="hash" title="{{imagesByDockerReference[container.image].metadata.name}}">{{imagesByDockerReference[container.image].metadata.name | stripSHAPrefix | limitTo: 7}}</span>
+                <span ng-if="imagesByDockerReference[container.image].dockerImageMetadata.Size" class="small text-muted nowrap">
+                    {{imagesByDockerReference[container.image].dockerImageMetadata.Size | humanizeSize}}
+                </span>
             </span>
-          </span>
         </div>
     </div>
 
@@ -33,8 +33,8 @@
             <div flex class="word-break pod_list_mt">
                 <span class="pod-template-key">Build:</span>
                 <span ng-if="build | configURLForResource">
-              <a ng-href="{{build | configURLForResource}}">{{build | buildConfigForBuild}}</a>,
-            </span>
+                    <a ng-href="{{build | configURLForResource}}">{{build | buildConfigForBuild}}</a>,
+                </span>
                 <a ng-href="{{build | navigateResourceURL}}">
                     <span ng-if="(build | annotation : 'buildNumber')">#{{build | annotation : 'buildNumber'}}</span>
                     <span ng-if="!(build | annotation : 'buildNumber')">{{build.metadata.name}}</span>
@@ -48,40 +48,45 @@
             <div flex class="word-break pod_list_mt">
                 <span class="pod-template-key">Source:</span>
                 <span ng-switch="build.spec.source.type">
-              <span ng-switch-when="Git">
-                <span ng-if="build.spec.revision.git.commit">
-                  {{build.spec.revision.git.message}}
-                  <osc-git-link
-                          class="hash"
-                          uri="build.spec.source.git.uri"
-                          ref="build.spec.revision.git.commit">{{build.spec.revision.git.commit | limitTo:7}}</osc-git-link>
-                  <span ng-if="detailed && build.spec.revision.git.author">
-                    authored by {{build.spec.revision.git.author.name}}
-                  </span>
+                    <span ng-switch-when="Git">
+                        <span ng-if="build.spec.revision.git.commit">
+                            {{build.spec.revision.git.message}}
+                            <osc-git-link class="hash" uri="build.spec.source.git.uri" ref="build.spec.revision.git.commit">{{build.spec.revision.git.commit | limitTo:7}}</osc-git-link>
+                            <span ng-if="detailed && build.spec.revision.git.author">
+                                authored by {{build.spec.revision.git.author.name}}
+                            </span>
+                        </span>
+                        <span ng-if="!build.spec.revision.git.commit">
+                            <osc-git-link uri="build.spec.source.git.uri">{{build.spec.source.git.uri}}</osc-git-link>
+                        </span>
+                    </span>
+                    <span ng-switch-default>
+                        {{build.spec.source.type || 'Unknown'}}
+                    </span>
                 </span>
-                <span ng-if="!build.spec.revision.git.commit">
-                  <osc-git-link uri="build.spec.source.git.uri">{{build.spec.source.git.uri}}</osc-git-link>
-                </span>
-              </span>
-              <span ng-switch-default>
-                {{build.spec.source.type || 'Unknown'}}
-              </span>
-            </span>
             </div>
         </div>
     </div>
 
     <div row ng-if="detailed && (container.command.length || container.args.length)" class="icon-row">
         <div class="icon-wrap" style="margin-right:5px;">
-            <span aria-hidden="true" class="fa fa-terminal"></span>
+            <!-- <span aria-hidden="true" class="fa fa-terminal"></span> -->
         </div>
         <div flex class="word-break pod_list_mt">
-          <span class="pod-template-key" style="width:138px;">
-            命令:
-          </span>
+            <span class="pod-template-key" style="width:138px;">
+                命令:
+            </span>
             <span>
-            <code class="command" style="padding:2px 0;">
-                    <span ng-repeat="podtname in container.args || container.command">{{podtname}}&nbsp;</span>
+                <code class="command" style="padding:2px 0;">
+                    <!-- {{container}} -->
+                    <span ng-if="!container.command">&lt;image-entrypoint&gt;</span>
+                    <span ng-repeat="podtnamecom in container.command">
+                            {{podtnamecom}}&nbsp;
+                    </span>
+                    <span ng-repeat="podtname in container.args">{{podtname}}&nbsp;</span>
+                        <!-- <dt ng-if-start="volume.gitRepo.revision">Revision:</dt>
+            <dd ng-if-end>{{volume.gitRepo.revision}}</dd> -->
+                    
               <!-- <truncate-long-text
                       content="container | entrypoint : imagesByDockerReference[container.image]"
                       limit="80"
@@ -90,7 +95,7 @@
                       use-word-boundary="false">
               </truncate-long-text> -->
             </code>
-          </span>
+            </span>
         </div>
     </div>
 
@@ -101,19 +106,27 @@
         <div flex class="word-break pod_list_mt">
             <span class="pod-template-key" style='width:156px;text-indent:18px;'>端口:</span>
             <span ng-repeat="port in container.ports | orderBy: 'containerPort' | limitToOrAll : detailed ? undefined : 1">
-        <span class="nowrap">{{port.containerPort}}/{{port.protocol}}</span><span ng-if="port.name"><span class="nowrap"> ({{port.name}})</span></span><span ng-if="port.hostPort"><span class="nowrap"><span class="port-icon"> &#8594;</span> {{port.hostPort}}</span></span><span ng-if="!$last">, </span>
-      </span>
+                <span class="nowrap">{{port.containerPort}}/{{port.protocol}}</span>
+                <span ng-if="port.name">
+                    <span class="nowrap"> ({{port.name}})</span>
+                </span>
+                <span ng-if="port.hostPort">
+                    <span class="nowrap">
+                        <span class="port-icon"> &#8594;</span> {{port.hostPort}}</span>
+                </span>
+                <span ng-if="!$last">, </span>
+            </span>
             <span ng-if="!detailed && container.ports.length >= 2">
-        and {{container.ports.length - 1}}
-        <span ng-if="container.ports.length > 2">others</span>
-        <span ng-if="container.ports.length === 2">other</span>
-      </span>
+                and {{container.ports.length - 1}}
+                <span ng-if="container.ports.length > 2">others</span>
+                <span ng-if="container.ports.length === 2">other</span>
+            </span>
         </div>
     </div>
 
     <div row ng-if="detailed" ng-repeat="mount in container.volumeMounts" class="icon-row">
         <div class="icon-wrap">
-            <span aria-hidden="true" class="fa fa-database"></span>
+            <!-- <span aria-hidden="true" class="fa fa-database"></span> -->
         </div>
         <div flex class="word-break pod_list_mt">
             <span class="pod-template-key" style="width:138px;">
@@ -121,9 +134,11 @@
                 <!--Mount:-->
             </span>
             <span>
-            {{mount.name}}<span ng-if="mount.subPath">, subpath {{mount.subPath}}</span>&#8201;&#8594;&#8201;<span>{{mount.mountPath}}</span>
-            <!--<small class="text-muted">{{mount | volumeMountMode : podTemplate.spec.volumes}}</small>-->
-          </span>
+                {{mount.name}}
+                <span ng-if="mount.subPath">, subpath {{mount.subPath}}</span>&#8201;&#8594;&#8201;
+                <span>{{mount.mountPath}}</span>
+                <!--<small class="text-muted">{{mount | volumeMountMode : podTemplate.spec.volumes}}</small>-->
+            </span>
         </div>
     </div>
 
@@ -135,11 +150,11 @@
             <span class="pod-template-key">CPU:</span>
             <span ng-if="container.resources.requests.cpu && container.resources.limits.cpu">{{container.resources.requests.cpu}} to {{container.resources.limits.cpu}}</span>
             <span ng-if="!container.resources.requests.cpu">
-            {{container.resources.limits.cpu}} limit
-          </span>
+                {{container.resources.limits.cpu}} limit
+            </span>
             <span ng-if="!container.resources.limits.cpu">
-            {{container.resources.requests.cpu }} requested
-          </span>
+                {{container.resources.requests.cpu }} requested
+            </span>
         </div>
     </div>
 
@@ -150,14 +165,14 @@
         <div flex class="pod_list_mt">
             <span class="pod-template-key">内存:</span>
             <span ng-if="container.resources.requests.memory && container.resources.limits.memory">
-            {{container.resources.requests.memory}} to {{container.resources.limits.memory}}
-          </span>
+                {{container.resources.requests.memory}} to {{container.resources.limits.memory}}
+            </span>
             <span ng-if="!container.resources.requests.memory">
-            {{container.resources.limits.memory }} limit
-          </span>
+                {{container.resources.limits.memory }} limit
+            </span>
             <span ng-if="!container.resources.limits.memory">
-            {{container.resources.requests.memory }} requested
-          </span>
+                {{container.resources.requests.memory }} requested
+            </span>
         </div>
     </div>
 

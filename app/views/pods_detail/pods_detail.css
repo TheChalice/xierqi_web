@@ -84,8 +84,8 @@ kubernetes-container-terminal .terminal-actions {position: absolute;}
 
 
 
-.fa-refresh:before{content:"\f021";}
-.pficon-image:before{content:"\e61f";}
+/* .fa-refresh:before{content:"\f021";}
+.pficon-image:before{content:"\e61f";} */
 
 
 

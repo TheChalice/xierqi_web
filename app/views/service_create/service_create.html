@@ -15,7 +15,7 @@
                     <div class="service-config">
                         <div class="panel panel-default panel-jia-create">
                             <div class="panel-heading panel-title" style="font-weight: bold;font-size: 16px;background:none;font-weight:normal;">
-                                基础配置3333
+                                基础配置
                             </div>
                             <div class="row">
                                 <div class="col-md-2" style="padding-top: 8px;">
@@ -30,15 +30,17 @@
                                            onkeypress="if((event.keyCode > 31 && event.keyCode < 44) || (event.keyCode > 46 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97))event.returnValue = false;"
                                            ng-focus="namefocus()" type="text" name="name" class="form-control"
                                            placeholder="例如：datafoundry">
-                                    <small ng-if="namerr.nil" class="fa fa-info-circle err-tip">请输入正确构建名称
+                                    <small ng-if="err.name.null"  class="fa fa-info-circle err-tip err">
+                                        请输入正确构建名称
                                     </small>
-                                    <small ng-if="namerr.rexed" class="fa fa-info-circle err-tip">请输入4~30位名称,名称只能包含英文、数字以及“-”(不能以数字开头)
+                                    <small ng-if="err.name.pattern" class="fa fa-info-circle err-tip err">
+                                        请输入4~30位名称,名称只能包含小写英文、数字以及“-”
                                     </small>
-                                    <small ng-if="namerr.repeated" class="fa fa-info-circle err-tip">输入的名称已重复
+                                    <small ng-if="err.name.repeated" class="fa fa-info-circle err-tip err">输入的名称已重复
                                     </small>
                                 </div>
                             </div>
-                            <change-image imageslist="imageslist" tagslist="tagslist"></change-image>
+                            <change-image></change-image>
                         </div>
                     </div>
                 </div>
@@ -50,106 +52,9 @@
                         <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;<span style="font-size: 12px">创建容器</span>
                     </a>
                     <br>
-                    <small ng-show="invalid.containerLength" class="fa fa-info-circle err-tip">您至少需要设置一个容器</small>
-                    <div ng-repeat="container in dc.spec.template.spec.containers" ng-init="outerIndex = $index"
-                         style="border:1px solid #c9c9c9;border-radius:2px;margin-bottom: 15px; margin-top: 10px"; class="containerval">
-                        <div class="container-fluid container-bar" style="border: none;background: #f7f8fb;">
-                            <div class="row" style="height: 30px;line-height: 30px;">
-                                <div class="col-sm-6" style="padding-left:0px;">
-                                    容器
-                                </div>
-                                <div class="col-sm-6 text-right">
-                                    <a class="fa fa-times-circle fa-lg" ng-click="rmContainer($index)"
-                                       style="text-decoration: none;color: #9fa7b7;" href="javascript:;"></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="container-box" style="margin-bottom: 0;margin-top:15px;">
-                            <div class="row" ng-if="outerIndex == 0">
-                                <div class="col-sm-2">镜像：</div>
-                                <div  class="col-sm-10" style="padding-top:5px;padding-bottom:5px;">
-                                    <div class="col-md-12" style="border: 1px solid #CCD5E0;border-radius: 4px;">
-                                        <p>nodejs-mongodb-example <span ng-click="selectImage(outerIndex)" style="float: right;color: #47B2FB;cursor:pointer;">更改镜像</span></p>
-                                        <div>
-                                            <span>创建时间{{creattime|dateRelative}}</span>
-                                            <span>导出端口{{strport}}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row"  ng-if="outerIndex != 0">
-                                <change-image></change-image>
+                    <!--<small ng-show="invalid.containerLength" class="fa fa-info-circle err-tip">您至少需要设置一个容器</small>-->
+                    <dc-containers> </dc-containers>
 
-                            </div>
-                            <div class="row" style="margin-top:15px;">
-                                <div class="col-sm-2">容器名称：</div>
-                                <div class="col-sm-10"><input class="form-control" type="text" placeholder=""></div>
-                            </div>
-                            <div class="row" style="margin-top:15px;">
-                                <div class="col-sm-2">部署执行：</div>
-                                <div class="col-sm-10">
-                                    <p  style="">
-                                        <label ng-class="{'active':institution.configregistry}"
-                                               ng-click="institution.configregistry=!institution.configregistry"
-                                               style="cursor: pointer;">
-                                            <i class="faa faa-check"></i>
-                                        </label>
-                                        <span>
-                                          镜像变化触发自动部署
-                                     </span>
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-2">挂载卷：</div>
-                                <add-secrets></add-secrets>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-2">环境变量：</div>
-                                <div class="col-sm-10 child-no-padding">
-
-                                    <div class="col-sm-5"><input class="form-control" type="text" placeholder=""></div>
-                                    <div class="col-sm-1"></div>
-                                    <div class="col-sm-5"><input class="form-control" type="text" placeholder=""></div>
-                                    <div class="col-sm-1" style="text-align: right">
-                                        <a class="fa fa-times-circle fa-lg del-margin" style="text-decoration: none;color: #9fa7b7;" href="javascript:;"></a>
-                                    </div>
-                                    <div class="col-sm-12">
-                                        <a href="javascript:;" style="line-height: 40px; margin-bottom: 10px" class="href-add" ng-click="">
-                                            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;<span style="font-size: 12px">增加环境变量</span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div  class="row">
-                            <div class="col-sm-2">配额限制</div>
-                                <set-quota></set-quota>
-                        </div>
-                            <div  class="row">
-                                <div class="col-sm-2">健康检查</div>
-                                <container-check></container-check>
-
-                            </div>
-                            <div  class="row">
-                                <div class="col-sm-2">就绪检查</div>
-                                <container-check></container-check>
-
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-2">ENTRYPOINT</div>
-                                <div class="col-sm-10">
-                                    <input class="form-control" type="text" placeholder="">
-                                </div>
-                            </div>
-                            <div class="row" style="margin-top:15px;">
-                                <div class="col-sm-2">CMD</div>
-                                <div class="col-sm-10">
-                                    <input class="form-control" type="text" placeholder="">
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
                 </div>
                 <div  class="row">
                     <div class="col-sm-2">弹性伸缩</div>
@@ -203,11 +108,11 @@
                     <set-ports></set-ports>
                 </div>
             </div>
-            <div class="col-md-6" style="padding-right: 40px;">
+            <div class="col-md-6" ng-show="!advancedConfig" style="padding-right: 40px;">
 
                     <a href="javascript:;" class="btn btn-block btn-orange" ng-click="jump()">
                     <span style="color: white;">进入高级配置</span>
-                    <span style="color: white;">返回基础配置</span>
+                    <!--<span style="color: white;">返回基础配置</span>-->
                 </a>
             </div>
             <!--<div class="col-md-6" style="padding-left: 40px;">-->
