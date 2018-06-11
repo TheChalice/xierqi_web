@@ -326,6 +326,7 @@ article .peie {
 }
 .blank_tit{font-size:14px;color:#5a6378;margin-left:10px;vertical-align:middle;}
 .blank_block{margin-bottom:0;}
+/* 
 .pagination > li > a,.pagination-sm > li > span{
     margin-left:5px;
     border:none;
@@ -341,4 +342,4 @@ article .peie {
 }
 .pagination > .disabled > a:hover{
     background:#f7f7f7;
-}
+} */

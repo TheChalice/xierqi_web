@@ -70,12 +70,13 @@
 .icon29 {
     background: url(/app/pub/img/images_29.png);
 }
+/* 
 .pagination > li > a,.pagination-sm > li > span{
-    margin-left:5px;
+    margin-left:0px;
     border:none;
     background:#f7f7f7;
     color:black;
-    padding:6px 12px;
+    padding:2px 8px;
 }
 .pagination > li > a:hover{
     color:black;
@@ -86,4 +87,4 @@
 }
 .pagination > .disabled > a:hover{
     background:#f7f7f7;
-}
+} */

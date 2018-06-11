@@ -3115,7 +3115,7 @@ define([
                     { name: '资源管理', img: 'icon25 icon25-resource', url: null, stateUrl: null, children: $rootScope.resources }
                 ];
                 if (toState && toState.name) {
-                    console.log('toState----', toState);
+                    // console.log('toState----', toState);
                     $rootScope.console.state = toState.name;
                     // if (toState.name.indexOf('dashboard') !== -1) {
                     //     $rootScope.dataForTheTree[0].stateUrl = toState.name
