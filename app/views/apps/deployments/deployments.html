@@ -107,8 +107,8 @@
                         </div>
                     </td>
                     <td data-title="创建时间">
-                        <span ng-if="deployments.status.latestVersion>0" uib-tooltip="{{deployments.metadata.creationTimestamp  | timescon}}">
-                            {{deployments.metadata.creationTimestamp | dateRelative}}
+                        <span ng-if="deployments.status.latestVersion>0">
+                            {{deployments.metadata.creationTimestamp | timescon}}
                         </span>
                     </td>
                     <td data-title="触发器">

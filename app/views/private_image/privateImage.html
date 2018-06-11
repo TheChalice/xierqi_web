@@ -34,7 +34,7 @@
                        tooltip-placement="top">{{item.metadata.name}}</a>
                 </td>
 
-                <td><span uib-tooltip="{{item.metadata.creationTimestamp | timescon}}">{{item.metadata.creationTimestamp | dateRelative}}</span>
+                <td><span>{{item.metadata.creationTimestamp | timescon}}</span>
                 </td>
                 <td>{{item.status.tags[0].tag}}</td>
                 <!--<td>-->

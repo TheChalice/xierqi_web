@@ -60,7 +60,7 @@
                         <span ng-if="dc.spec.replicas != 1">s</span>
                     </td>
                     <td data-title="Created">
-                        <span uib-tooltip="{{dc.metadata.creationTimestamp  | timescon}}">{{dc.metadata.creationTimestamp | dateRelative}}</span>
+                        <span>{{dc.metadata.creationTimestamp | timescon}}</span>
                     </td>
                 </tr>
                 <tr class="df_blank">

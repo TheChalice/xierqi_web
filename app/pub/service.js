@@ -1719,7 +1719,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                     $rootScope.loginyanzheng = false;
                                     //获取套餐
                                     $rootScope.loding = false;
-                                    $state.go("console.dashboard", {namespace: $rootScope.namespace});
+                                    $state.go("console.build", {namespace: $rootScope.namespace});
                                     //跳转dashboard
                                     //$state.go("console.dashboard", { namespace: $rootScope.namespace });
                                 });
