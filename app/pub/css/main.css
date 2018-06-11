@@ -78,9 +78,6 @@ a {
     background-color: #47B2FB;
     /*background-color: #5c72e9;!*16 12-14 by zn for zhongxin *!*/
     color:#fff;
-    -webkit-transition:all 1s;
-    -moz-transition:all 1s;
-    transition:all 1s;
 }
 
 .btn-green:hover {
@@ -96,9 +93,6 @@ a {
 .btn-green.focus{color:#fff;}
 .btn-gray {
     background-color: #fff;
-    -webkit-transition:all 1s;
-    -moz-transition:all 1s;
-    transition:all 1s;
     border:1px solid #CCD5E0;
     -webkit-border-radius:4px;
     -moz-border-radius:4px;
@@ -603,31 +597,17 @@ a {
 .pagination > .active > span,
 .pagination > .active > span:focus {
     background-color: #fff;
-    border:1px solid #47B2FB;color:#47B2FB;
+    border:1px solid #47B2FB;color:#47B2FB;padding:2px 8px;margin-left:0;
+    background:#fff;
 }
 .pagination > .active > span:hover{
     background-color: #fff;
     border-color: #47B2FB;color:#47B2FB;
 }
-
-.pagination-sm > li > a,.pagination-sm > li > span{
-    margin-left:5px;
-    border:none;
-    background:#f7f7f7;
-    color:black;
-}
-.pagination-sm > li > a:hover{
-    color:black;
-}
-
-.pagination-sm > .disabled > a{
-    background:#f7f7f7;
-}
-.pagination-sm > .disabled > a:hover{
-    background:#f7f7f7;
-}
-
-
+.pagination>li>a, .pagination>li>span{padding:2px 8px;color:#475669;}
+.pagination>.disabled>a{padding:2px 8px;background:#EFF2F7;color:#A2B0C4;}
+.pagination>.disabled>a:hover{padding:2px 8px;background:#EFF2F7;color:#A2B0C4;}
+.pagination>li>a:hover{color:#47B2FB;background:#fff;}
 /*service_create advantage_config.html tabandimage*/
 .tabandimage {
     position: relative;
@@ -703,6 +683,8 @@ a {
     font-size: 12px;
     line-height: 25px;
 }
+.timeline ul > li > div.container-fluid:hover{background:#E0E6ED;}
+
 
 .well.well-log {
     border: none;
@@ -1824,7 +1806,7 @@ td  a:hover, a:focus{
 
 /* module  公共样式*/
 .module-heading{color:#5a6378;height:auto;overflow:hidden;margin-bottom:16px;}
-.module_block_l{float:left;margin-left:10px;}
+.module_block_l{float:left;}
 .module_block_l .img-block{width:68px;height:68px;border:1px solid #CCD5E0;border-radius:2px;background:#EFF2F7;float:left;}
 .module_block_l .img-detail{float:left;margin-left:20px;}
 .module_block_l .img-detail p{margin:0px;}
@@ -1911,35 +1893,51 @@ td  a:hover, a:focus{
 /* 成功 */
   .uex-icon-Complete:before {
     content: "\e914";
+    color:#A2B0C4;
   }
 /* 终止 */
   .uex-icon-Cancelled:before {
     content: "\e916";
+    color:#A2B0C4;
   }
 /* 失败/错误 */
   .uex-icon-Failed:before, .uex-icon-Error:before {
     content: "\e915";
+    color:#A2B0C4;
   }
 /* 运行中/在等待 */
  .uex-icon-Running:before, .uex-icon-Pending:before {
-    content:"\e954"
+    content:"\e954";
+    color:#A2B0C4;
  }
 
  .uex-icon-search:before {
     content: "\e91d";
+    color:#A2B0C4;
   }
  /*代码构建 绑定、刷新*/
  .uex-icon-protocol-deafult:before{
     content: "\e970";
+    color:#A2B0C4;
 }
  .uex-icon-refresh:before{
      content: '\e954';
+     color:#A2B0C4;
  }
 
+ .uex-icon-to-back:before{
+    content: '\e9fd';
+    color:#A2B0C4;
+ }
+ .uex-icon-to-front:before{
+    content: '\e9ff';
+    color:#A2B0C4;
+ }
 
 .df_search{position:absolute;z-index:999;top:50%;right:10px;font-size:14px;margin-top:-7px;color: #A2B0C4;}
   .searchbar:hover .df_search{color:#47B2FB;}
 
+  .sort_btn{padding-left:2px;width: 30px;font-size: 14px;display: inline-block;height: 20px;cursor: pointer;}
 
 
   /* uex-icon svg 公共图标引用 结束 重要*/

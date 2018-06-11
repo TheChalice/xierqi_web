@@ -20,7 +20,7 @@
         <div class="row tool_nav" style="">
 
             <div class="search_padding_left" style="">
-                <div class="input-group col-sm-4 searchbar">
+                <div class="input-group col-sm-3 searchbar">
                     <input type="text" class="form-control input_placeholder" ng-model="grid.txt" ng-keyup="search($event)" placeholder="搜索配置卷名称"
                         style="">
                     <span class="input-group-btn">
@@ -57,7 +57,7 @@
                             tooltip-placement="top" style="color:#47B2FB">{{items.metadata.name}}</a>
                     </td>
                     <td class="td_borderBottom" style="">
-                        <span uib-tooltip="{{items.metadata.creationTimestamp  | timescon}}">{{items.metadata.creationTimestamp | dateRelative}} </span>
+                        <span>{{items.metadata.creationTimestamp | timescon}} </span>
                     </td>
                 </tr>
                 <tr class="df_blank">
@@ -70,7 +70,7 @@
     </div>
 
     <div class="text-center" ng-if="grid.total > 10" class="table_mar_top" style="">
-        <uib-pagination class="pagination pagination-sm" ng-model="grid.page" total-items="grid.total" items-per-page="grid.size"
+        <uib-pagination class="pagination" ng-model="grid.page" total-items="grid.total" items-per-page="grid.size"
             boundary-links="false" max-size="12" rotate="true" previous-text="<" next-text=">">
         </uib-pagination>
 

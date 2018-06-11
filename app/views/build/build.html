@@ -8,7 +8,7 @@
     </div>
     <div  ng-show="items">
         <div class="nav_top_li" style="">
-                <div class="input-group col-sm-4 searchbar">
+                <div class="input-group col-sm-3 searchbar">
                         <input type="text"
                                class="form-control"
                                placeholder="搜索构建名称"
@@ -37,7 +37,12 @@
                     <div class="row row_set"><!-- 20160921 jia 服务分类模块问题 -->
                         <th class='col-lg-2 col-md-2 col-sm-1'>构建名称</th>
                         <th class='col-lg-2 col-md-2 col-sm-2'>最近构建状态</th>
-                        <th class='col-lg-2 col-md-2 col-sm-2'>创建时间</th>
+                        <th class='col-lg-2 col-md-2 col-sm-2'>创建时间 
+                            <!-- <span class="sort_btn" ng-click="sortDetail()">
+                            <i class="uex-icon-to-back" ng-if="uex_back"></i>
+                            <i class="uex-icon-to-front" ng-if="uex_front"></i>
+                        </span> -->
+                    </th>
                         <th class='col-lg-2 col-md-2 col-sm-3'>最近构建时长</th>
                         <!--<th class='col-lg-1 col-md-1 col-sm-2' style='word-break:keep-all;white-space:nowrap;'>构建类型</th>-->
                         <th class="col-lg-3 col-md-3 col-sm-3 table_headOperating" style=''>操作</th>
@@ -93,7 +98,7 @@
                 </tr>
             </table>
             <div class="text-center" ng-if="grid.total > 10">
-                <uib-pagination class="pagination pagination-sm"
+                <uib-pagination class="pagination"
                                 ng-model="grid.page"
                                 total-items="grid.total"
                                 items-per-page="grid.size"
