@@ -20,8 +20,7 @@ angular.module('console.create_secret', [
         },
         "data": {},
         "secretsarr": [],
-        "type": "Opaque",
-        "configarr": []
+        "type": "Opaque"
     };
     var Base64 = {
         _keyStr: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=", encode: function (e) {
@@ -89,7 +88,10 @@ angular.module('console.create_secret', [
         }, _utf8_decode: function (e) {
             var t = "";
             var n = 0;
-            var r = c1 = c2 = 0;
+            var r = 0;
+            var c1 = 0;
+            var c2 = 0;
+            var c3 = 0;
             while (n < e.length) {
                 r = e.charCodeAt(n);
                 if (r < 128) {
@@ -111,12 +113,16 @@ angular.module('console.create_secret', [
     };
     //添加配置文件
     $scope.AddConfigurationFile = function () {
-        $scope.secrets.secretsarr.push({key: '', value: ''});
+        $scope.secrets.secretsarr.push({key: '', value: '',isClearCode:false});
     };
-    $scope.addFile = function () {
+    $scope.clearCode = function (index) {
+        $scope.check = index;
+        $scope.secrets.secretsarr[$scope.check].value = '';
+    };
+    $scope.addFile = function (i) {
+        $scope.check = i;
         document.getElementById('file-input').addEventListener('change', readSingleFile, false);
     };
-
     function readSingleFile(e) {
         var thisfilename = this.value;
         if (thisfilename.indexOf('\\')) {
@@ -130,7 +136,8 @@ angular.module('console.create_secret', [
         var reader = new FileReader();
         reader.onload = function (e) {
             var content = e.target.result;
-            $scope.secrets.configarr.push({key: thisfilename, value: content,showLog:false})
+            $scope.secrets.secretsarr[$scope.check].value = content;
+            $scope.secrets.secretsarr[$scope.check].isClearCode = true;
 
             $scope.$apply();
         };
@@ -139,10 +146,6 @@ angular.module('console.create_secret', [
 
     $scope.deletekv = function (idx) {
         $scope.secrets.secretsarr.splice(idx, 1);
-    };
-    $scope.addSecret = function () {
-        $scope.secrets.secretsarr.push({key: '', value: ''});
-        //console.log($scope.secretsarr);
     };
 
     var by = function (name) {
@@ -174,7 +177,7 @@ angular.module('console.create_secret', [
 
         if (n.metadata.name && n.secretsarr) {
             // var arr = angular.copy(n.secretsarr);
-            var arr = n.secretsarr.concat(n.configarr);
+            var arr = n.secretsarr;
             arr.sort(by("key"));
             if (arr && arr.length > 0) {
                 var kong = false;
@@ -198,7 +201,6 @@ angular.module('console.create_secret', [
                         }
                     }
                 });
-
                 if (!kong) {
                     $scope.grid.secreteno = true
                 } else {
@@ -214,14 +216,12 @@ angular.module('console.create_secret', [
     }, true);
 
     $scope.checknames = function () {
-        var r =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
+        var r = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
         if (!r.test($scope.secrets.metadata.name)) {
             $scope.grid.secretnames = false;
         } else {
             $scope.grid.secretnames = true;
         }
-
-        //console.log($scope.grid.secretnames)
     };
     $scope.checkedkv = function () {
         var r = /^[a-zA-Z][a-zA-Z0-9_]{1,20}$/; // key值的验证;
@@ -250,14 +250,10 @@ angular.module('console.create_secret', [
         $scope.namerr.nil = false
     };
     secretskey.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (res) {
-        //console.log('-------loadsecrets', res);
-        $scope.secremnamearr=res.items;
-
+        $scope.secremnamearr = res.items;
     });
 
-
-    var rex =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
-
+    var rex = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
     $scope.$watch('secrets.metadata.name', function (n, o) {
         if (n === o) {
             return;
@@ -265,13 +261,13 @@ angular.module('console.create_secret', [
         if (n && n.length > 0) {
             if (rex.test(n)) {
                 $scope.namerr.rexed = false;
-                $scope.namerr.repeated=false;
+                $scope.namerr.repeated = false;
                 if ($scope.secremnamearr) {
                     //console.log($scope.buildConfiglist);
                     angular.forEach($scope.secremnamearr, function (bsiname, i) {
-                        console.log(bsiname);
+                        // console.log(bsiname);
                         if (bsiname.metadata.name === n) {
-                            console.log(bsiname,n);
+                            // console.log(bsiname, n);
                             $scope.namerr.repeated = true;
 
                         }
@@ -286,37 +282,28 @@ angular.module('console.create_secret', [
             $scope.namerr.rexed = false;
         }
     });
-
     $scope.postsecret = function () {
         if (!$scope.namerr.nil && !$scope.namerr.rexed && !$scope.namerr.repeated) {
 
-        }else {
+        } else {
             return
         }
-        //console.log($scope.secretsarr)
         $scope.loaded = true;
-        var arr = $scope.secrets.secretsarr.concat($scope.secrets.configarr);
-        console.log("0089",arr);
-
+        var arr = $scope.secrets.secretsarr;
+        // console.log("0089----", arr);
         angular.forEach(arr, function (item, i) {
             $scope.secrets.data[item.key] = Base64.encode(item.value);
         });
 
-        // angular.forEach($scope.secrets.secretsarr, function (item, i) {
-        //     console.log(item.key, item.value);
-        //     $scope.secrets.data[item.key] = Base64.encode(item.value);
-        // })
-
         delete $scope.secrets.secretsarr;
-        delete $scope.secrets.configarr;
-        secretskey.create({namespace: $rootScope.namespace,region:$rootScope.region}, $scope.secrets, function (res) {
+        secretskey.create({namespace: $rootScope.namespace, region: $rootScope.region}, $scope.secrets, function (res) {
+            // console.log('=====res===',res);
             $scope.grid.nameerr = false;
-            //console.log('createconfig----',res);
             $scope.loaded = false;
             toastr.success('创建成功', {
                 closeButton: true
             });
-            $state.go('console.resource_secret', {namespace:$rootScope.namespace});
+            $state.go('console.resource_secret', {namespace: $rootScope.namespace});
         }, function (res) {
             toastr.error('创建失败，请重试', {
                 closeButton: true
@@ -325,6 +312,5 @@ angular.module('console.create_secret', [
                 $scope.grid.nameerr = true;
             }
         })
-
     }
 }]);
