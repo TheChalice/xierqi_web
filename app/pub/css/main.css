@@ -78,9 +78,6 @@ a {
     background-color: #47B2FB;
     /*background-color: #5c72e9;!*16 12-14 by zn for zhongxin *!*/
     color:#fff;
-    -webkit-transition:all 1s;
-    -moz-transition:all 1s;
-    transition:all 1s;
 }
 
 .btn-green:hover {
@@ -96,9 +93,6 @@ a {
 .btn-green.focus{color:#fff;}
 .btn-gray {
     background-color: #fff;
-    -webkit-transition:all 1s;
-    -moz-transition:all 1s;
-    transition:all 1s;
     border:1px solid #CCD5E0;
     -webkit-border-radius:4px;
     -moz-border-radius:4px;
@@ -610,7 +604,7 @@ a {
     background-color: #fff;
     border-color: #47B2FB;color:#47B2FB;
 }
-.pagination>li>a, .pagination>li>span{padding:2px 8px;color:#333;}
+.pagination>li>a, .pagination>li>span{padding:2px 8px;color:#475669;}
 .pagination>.disabled>a{padding:2px 8px;background:#EFF2F7;color:#A2B0C4;}
 .pagination>.disabled>a:hover{padding:2px 8px;background:#EFF2F7;color:#A2B0C4;}
 .pagination>li>a:hover{color:#47B2FB;background:#fff;}
@@ -689,6 +683,8 @@ a {
     font-size: 12px;
     line-height: 25px;
 }
+.timeline ul > li > div.container-fluid:hover{background:#E0E6ED;}
+
 
 .well.well-log {
     border: none;
@@ -1810,7 +1806,7 @@ td  a:hover, a:focus{
 
 /* module  公共样式*/
 .module-heading{color:#5a6378;height:auto;overflow:hidden;margin-bottom:16px;}
-.module_block_l{float:left;margin-left:10px;}
+.module_block_l{float:left;}
 .module_block_l .img-block{width:68px;height:68px;border:1px solid #CCD5E0;border-radius:2px;background:#EFF2F7;float:left;}
 .module_block_l .img-detail{float:left;margin-left:20px;}
 .module_block_l .img-detail p{margin:0px;}
