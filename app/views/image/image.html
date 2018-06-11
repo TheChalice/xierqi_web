@@ -70,13 +70,13 @@
                          <!--ng-if="testlist.length===0"><p class="blank_block">  <span class="blank_tit"> {{text1}}</span></p></div>-->
 
                 </div>
-                <div class="text-center" style="text-align:center;" ng-if="grid.total > 8">
+                <div class="text-center" style="text-align:center;" ng-if="grid.total > 10">
                     <uib-pagination
                             ng-model="grid.page"
                             ng-show='fyshow'
                             total-items="grid.total"
                             items-per-page="grid.size"
-                            class="pagination-sm"
+                            class="pagination"
                             boundary-links="false"
                             max-size="12"
                             rotate="true"
@@ -236,7 +236,7 @@
                             ng-model="grid.imagecenterpage"
                             total-items="grid.imagecentertotal"
                             items-per-page="grid.size"
-                            class="pagination-sm"
+                            class="pagination pagination-sm"
                             boundary-links="false"
                             boundary-link-numbers="true"
                             max-size="3"
@@ -272,7 +272,7 @@
                             ng-show='fyshow'
                             total-items="grid.total"
                             items-per-page="grid.size"
-                            class="pagination-sm"
+                            class="pagination"
                             boundary-links="false"
                             force-ellipses="'3'"
                             max-size="12"
