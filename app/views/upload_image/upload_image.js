@@ -4,8 +4,8 @@ angular.module('home.uploadimage', [{
             'views/upload_image/upload_image.css'
         ]
     }])
-    .controller('uploadimageCtrl', ['GLOBAL', 'sessiontoken', 'Cookie', '$rootScope', 'User', 'Project', '$log', '$state', 'ImageStream', '$scope', 'Upload', 'toastr',
-        function (GLOBAL, sessiontoken, Cookie, $rootScope, User, Project, $log, $state, ImageStream, $scope, Upload, toastr) {
+    .controller('uploadimageCtrl', ['progressBox','GLOBAL', 'sessiontoken', 'Cookie', '$rootScope', 'User', 'Project', '$log', '$state', 'ImageStream', '$scope', 'Upload', 'toastr',
+        function (progressBox,GLOBAL, sessiontoken, Cookie, $rootScope, User, Project, $log, $state, ImageStream, $scope, Upload, toastr) {
 
             $scope.grid = {
                 tag: null,
@@ -29,7 +29,9 @@ angular.module('home.uploadimage', [{
 
                 $scope.grid.clickbtn = 'inhand'
                 browserMD5File($scope.grid.file, function (err, md5) {
-                    $scope.grid.clickbtn = 'dontclick'
+                    $scope.grid.clickbtn = 'dontclick';
+                    $('#myModalBtn').click();
+                    // progressBox.open($scope.grid.progress);
                     //console.log('md5',md5); // 97027eb624f85892c69c4bcec8ab0f11
 
                     $scope.upload(file, $scope.grid.name, $scope.grid.tag, md5);
@@ -41,17 +43,19 @@ angular.module('home.uploadimage', [{
             $scope.changeupload = function ($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event) {
                 //console.log('change', $files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event);
                 $scope.grid.file = $event.target.files[0];
+                console.log(' $scope.grid.file', $scope.grid.file);
 
 
             }
-            $scope.changenewimage = function () {
-                $scope.grid.display = !$scope.grid.display
-                if (!$scope.grid.display) {
-                    $scope.grid.name = $scope.myis[0].metadata.name
-                    $scope.grid.tag = $scope.myis[0].status.tags[0].tag
-                } else {
-                    $scope.grid.name = null
-                    $scope.grid.tag = null
+            $scope.changenewimage = function (idx) {
+                if($scope.myis){
+                    if (idx == 1) {
+                        $scope.grid.name = $scope.myis[0].metadata.name
+                        $scope.grid.tag = $scope.myis[0].status.tags[0].tag
+                    } else {
+                        $scope.grid.name = null
+                        $scope.grid.tag = null
+                    }
                 }
             }
             // upload on file select or drop

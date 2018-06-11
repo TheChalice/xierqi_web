@@ -616,6 +616,17 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                 }).result;
             };
         }])
+        .service('progressBox', ['$uibModal', function ($uibModal) {
+            this.open = function (progress) {
+                return $uibModal.open({
+                    templateUrl: 'pub/tpl/progressBox.html',
+                    size: 'default',
+                    controller: ['$scope', '$uibModalInstance', '$sce', function ($scope, $uibModalInstance, $sce) {
+                        $scope.progress = progress;
+                    }]
+                }).result;
+            };
+        }])
         .service('diploma', ['$uibModal', function ($uibModal) {
             this.open = function (obj) {
                 return $uibModal.open({
