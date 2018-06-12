@@ -122,7 +122,7 @@
                                 <div class="pip_block">
                                     <p class="pit_left">Generic 网络URL:</p>
                                     <span class="pip_tit">
-                                        {{data.spec.triggers.generic.secret}}
+                                       https://lab.lo.dataos.io/oapi/v1/namespaces/{{buildnamespaces}}/buildconfigs/{{data.metadata.name}}/webhooks/{{data.spec.triggers[1].generic?data.spec.triggers[1].generic.secret:data.spec.triggers[0].generic.secret}}/generic
                                     </span>
                                     <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
                                 </div>
@@ -132,8 +132,9 @@
                             <div>
                                 <div class="pip_block">
                                     <p class="pit_left">GitHub 网络URL:</p>
-                                    <span class="pip_tit">
-                                        {{data.spec.triggers.github.secret}}
+                                    <span class="pip_tit">{{data.spec.triggers.github.secret}}
+                                        https://lab.lo.dataos.io/oapi/v1/namespaces/{{buildnamespaces}}/buildconfigs/{{data.metadata.name}}/webhooks/{{data.spec.triggers[0].github?data.spec.triggers[0].github.secret:data.spec.triggers[1].github.secret}}/github
+
                                     </span>
                                     <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
                                 </div>

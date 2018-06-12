@@ -8,14 +8,17 @@ angular.module('console.build.detail', [
         ]
     }
 ])
-    .controller('BuildDetailCtrl', ['$sce', 'ansi_ups', 'ImageStreamTag', 'deleteSecret', 'Ws', 'Sort', 'GLOBAL', '$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'UUID', 'WebhookLab', 'WebhookHub', 'WebhookLabDel', 'WebhookHubDel', 'ImageStream', 'WebhookLabget', 'WebhookGitget', 'toastr','$base64'
-        , function ($sce, ansi_ups, ImageStreamTag, deleteSecret, Ws, Sort, GLOBAL, $rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, UUID, WebhookLab, WebhookHub, WebhookLabDel, WebhookHubDel, ImageStream, WebhookLabget, WebhookGitget, toastr,$base64) {
+    .controller('BuildDetailCtrl', ['$sce', 'ansi_ups', 'ImageStreamTag', 'deleteSecret', 'Ws', 'Sort', 'GLOBAL', '$rootScope', '$scope', '$log', '$state', '$stateParams', '$location', 'BuildConfig', 'Build', 'Confirm', 'UUID', 'WebhookLab', 'WebhookHub', 'WebhookLabDel', 'WebhookHubDel', 'ImageStream', 'WebhookLabget', 'WebhookGitget', 'toastr','$base64','Cookie'
+        , function ($sce, ansi_ups, ImageStreamTag, deleteSecret, Ws, Sort, GLOBAL, $rootScope, $scope, $log, $state, $stateParams, $location, BuildConfig, Build, Confirm, UUID, WebhookLab, WebhookHub, WebhookLabDel, WebhookHubDel, ImageStream, WebhookLabget, WebhookGitget, toastr,$base64,Cookie) {
             $scope.grid = {};
 
             //console.log('路由',$state);
             $scope.grid.checked = false;
-            $scope.grid.pedding = false
+            $scope.grid.pedding = false;
 
+            //$scope.buildnamespaces=cookie
+            $scope.buildnamespaces=Cookie.get('namespace')
+            console.log('$scope.buildnamespaces', $scope.buildnamespaces);
             $scope.bcName = $stateParams.name;
             $scope.websocklink=[]
             $scope.$on('image-enable', function (e, enable) {
@@ -28,7 +31,7 @@ angular.module('console.build.detail', [
                     name: $stateParams.name,
                     region: $rootScope.region
                 }, function (data) {
-                    $log.info('data', data);
+                    $log.info('data', data.spec.triggers[1].generic.secret);
                     //$log.info('labsecrect is',data.spec.source.sourceSecret.name);
                     $scope.data = data;
                     var host = $scope.data.spec.source.git.uri;

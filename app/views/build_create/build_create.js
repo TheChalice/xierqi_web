@@ -21,6 +21,7 @@ angular.module('console.build_create', [
             var nameRegExp = /^[A-Za-z]+$/;//由26个英文字母组成的字符串
             var pwdRegExp =  /^[A-Za-z0-9]{6,20}$/;//密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)
             var r = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
+
             $scope.buildConfig = {
                 metadata: {
                     name: "",
@@ -369,7 +370,7 @@ angular.module('console.build_create', [
                     name: ""
                 };
                 $scope.buildConfig.spec.output.to.name = $scope.buildConfig.metadata.name + ':latest';
-                $scope.buildConfig.spec.triggers = [];
+                //$scope.buildConfig.spec.triggers = [];
                 if (!$scope.sername.name && !$scope.sername.pwd) {
                     delete $scope.buildConfig.spec.source.sourceSecret;
                 } else {
