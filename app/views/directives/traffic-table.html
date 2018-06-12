@@ -1,17 +1,17 @@
 <!-- Table combining routes and ports for a service -->
-<table class="table table-bordered table-mobile">
-    <thead>
+<table class="table table-mobile table-default" style="margin-bottom:20px;">
+    <tbody>
         <tr>
-            <th style="border-bottom-width:1px;background:#E5E9F2;border:none;">{{customNameHeader || '路由'}}<span ng-if="showNodePorts"> / Node Port</span></th>
-            <th style="border-bottom-width:1px;background:#E5E9F2;border:none;" role="presentation"></th>
-            <th style="border-bottom-width:1px;background:#E5E9F2;border:none;">服务端口</th>
-            <th style="border-bottom-width:1px;background:#E5E9F2;border:none;" role="presentation"></th>
-            <th style="border-bottom-width:1px;background:#E5E9F2;border:none;">目标端口</th>
-            <th style="border-bottom-width:1px;background:#E5E9F2;border:none;">主机名</th>
-            <th style="border-bottom-width:1px;background:#E5E9F2;border:none;">TLS</th>
+            <th class="col-lg-2 col-md-2 col-sm-1">{{customNameHeader || '路由'}}<span ng-if="showNodePorts"> / Node Port</span></th>
+            <th class="col-lg-1 col-md-2 col-sm-1" role="presentation"></th>
+            <th class="col-lg-2 col-md-2 col-sm-1">服务端口</th>
+            <th class="col-lg-1 col-md-2 col-sm-1" role="presentation"></th>
+            <th class="col-lg-2 col-md-2 col-sm-1">目标端口</th>
+            <th class="col-lg-2 col-md-2 col-sm-1">主机名</th>
+            <th class="col-lg-2 col-md-2 col-sm-1">TLS</th>
 
         </tr>
-    </thead>
+    </tbody>
     <tbody ng-if="!portsByRoute">
         <!-- <tbody ng-if="(portsByRoute | hashSize) == 0"> -->
         <tr>
