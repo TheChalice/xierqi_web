@@ -21,7 +21,7 @@
     font-weight:normal;
 }
 .text-left {
-    font-weight: normal;
+    font-weight: normal;font-size:12px;
 }
 
 .till{
@@ -136,11 +136,11 @@
 #build-detail .build_name{color:#000;font-weight:normal;}
 
 #build-detail .pip_block{overflow:hidden;margin-bottom:14px;}
-#build-detail .pit_left{float:left;width:160px;}
+#build-detail .pit_left{float:left;width:160px;margin:0px;font-size:12px;line-height:26px;}
 #build-detail .pip_btn{cursor:pointer;width:26px;height:26px;display:block;border:1px solid #CCD5E0;border-left:0;float:left;line-height:26px;text-align:center;}
 #build-detail .set_tit{width:40px;height:40px;border:1px solid #000;}
 #build-detail .set_tit:before{content:"\f0ea"}
 
 #build-detail .trig_tp{margin-top:16px;}
 #build-detail .pip_tit{width:50%;display:block;float:left;height:26px;line-height:26px;border:1px solid #CCD5E0;overflow:hidden;
-    padding-left:10px;padding-right:4px;white-space:nowrap;}
+    padding-left:10px;padding-right:4px;white-space:nowrap;font-size:12px;}
