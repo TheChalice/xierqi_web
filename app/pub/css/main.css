@@ -97,7 +97,7 @@ a {
     -webkit-border-radius:4px;
     -moz-border-radius:4px;
     border-radius:4px;
-    color:#CCD5E0;font-size:12px;
+    color:#CCD5E0;font-size:12px;margin-left:10px;
 }
 
 .btn-gray:hover {
@@ -478,9 +478,9 @@ a {
 }
 
 .modal-default .modal-content .modal-header {
-    background-color: #e6e9f2;
+    background-color: #fff;
     border: none;
-    border-radius: 2px 2px 0 0;
+    border-radius: 2px 2px 0 0;padding-top:10px;padding-bottom:10px;border-bottom:1px solid #E0E6ED;
 }
 
 .modal-default .modal-content .modal-body {
@@ -488,7 +488,7 @@ a {
 }
 
 .modal-default .modal-content .modal-body .modal-msg {
-    font-size: 16px;
+    font-size: 12px;color:#000;
 }
 
 .modal-default .modal-content .modal-body .modal-tip {
@@ -504,13 +504,14 @@ a {
 .modal-default .modal-content .modal-footer {
     border-top: none;
     text-align: center;
-    padding-top: 0;
+    padding-top: 0;padding-right:10px;
 }
 
 .modal-default .modal-content .modal-footer .btn {
-    padding-left: 30px;
+    /* padding-left: 30px;
     padding-right: 30px;
-    margin: 0 30px;
+    margin: 0 30px; */
+    float:right;width:62px;height:32px;
 }
 
 .modal-default .modal-close {
@@ -522,7 +523,7 @@ a {
 }
 
 .modal-default .modal-title {
-    color: #5a6378;
+    color: #1F2D3D;font-size:12px;
 }
 
 .modal-default.modal-lg {
@@ -916,13 +917,13 @@ a {
 .service-config > hr {
     margin: 0 0 30px 0;
 }
-
+/* 
 .service-config h3 {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: bold;
     margin: 0 0 20px 0;
     color:black;
-}
+} */
 
 .service-config h4 {
     font-size: 12px;
@@ -1830,7 +1831,7 @@ td  a:hover, a:focus{
     -webkit-box-shadow:0 2px 2px 0 rgba(0, 0, 0, 0.12), 0 0 4px 0 rgba(0, 0, 0, 0.04);
     }
 /* 公共标题 */
-.df_tit{font-size:14px;color:#333;font-weight:bold;margin:0px;margin-bottom:10px;border-left:3px solid #47B2FB;padding-left:10px;}
+.df_tit{font-size:12px;color:#1F2D3D;font-weight:bold;margin:0px;margin-bottom:10px;border-left:3px solid #47B2FB;padding-left:10px;}
 
 
 .tab-jia-default li.active .nav-link, .tab-jia-default li.active .nav-link:focus, .tab-jia-default li.active .nav-link:hover{

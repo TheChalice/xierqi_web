@@ -1,9 +1,10 @@
-<div class="service-config">
+
+<div class="service-config" id="service_config">
     <!--配置信息-->
     <div class="tittle">
-        <span>部署详情</span>
+        <h3 class="df_tit">部署详情</h3>
     </div>
-    <div class="row condigmaarginbottom">
+    <div class="row condigmaarginbottom" style="margin-left:0px;font-size:12px;">
         <div class="col-md-12 bushu_marginBottom">
             <div class="col-md-2 col-md-2_padding">选择器:</div>
             <div class="col-md-10">app = {{dc.metadata.name}} <br/> deploymentconfig = {{dc.metadata.name}}</div>
@@ -37,35 +38,45 @@
     <div class="row condigmaarginbottom">
         <div class="col-md-12">
             <div class="col-md-2 col-md-2_padding tittle">
-                <span>弹性伸缩</span>
+                <h3 class="df_tit">弹性伸缩设置</h3>
             </div>
-            <div class="col-md-10">
+            <!-- <div class="col-md-10">
+                <checkbox-small checked="quota.rubustCheck"></checkbox-small>
+            </div> -->
+        
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-1 col-md-2_padding tittle">
+                <span class="config_tit">执行</span>
+            </div>
+            <div class="col-md-11">
                 <checkbox-small checked="quota.rubustCheck"></checkbox-small>
             </div>
-            <!--<h3>弹性伸缩 </h3>-->
-
+        
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="podlist" style="margin-left:15px;">Pod 数
+        <div class="config_main">
+                <div class="col-md-1"></div>
+            <div class="col-md-11">
+                <div class="podlist" style="margin-left:15px;"><p class="tit_num">Pod数量</p>
                     <input class="podnum" ng-model="dc.spec.replicas" name="cdm"
-                           type="text" placeholder=""
+                           type="text" placeholder="数字必须为正整数"
                            style="">
                 </div>
+                <!-- placeholder="{{dc.spec.replicas}}" -->
                 <div class="podlist" ng-show="quota.rubustCheck">
-                    Pod最大数
+                    <p class="tit_num">Pod最大数量</p>
                     <input class="podnum" ng-model="horiz.spec.maxReplicas"
                            value="{{dc.spec.replicas}}" type="text"
-                           placeholder="{{dc.spec.replicas}}"
+                           placeholder="数字必须为正整数"
                            style="">
 
                 </div>
                 <div class="podlist" ng-show="quota.rubustCheck">
-                    CPU阀值
+                        <p class="tit_num">CPU阀值</p>
                     <input class="podnum" ng-model="horiz.spec.targetCPUUtilizationPercentage"
                            ng-keyup="mustnum($event,horiz.spec.targetCPUUtilizationPercentage,100)"
                            type="text"
-                           placeholder="80"
+                           placeholder="数字必须为正整数"
                            style=""> <span class="baifen">%</span>
 
                 </div>
@@ -78,21 +89,31 @@
     <div class="row condigmaarginbottom">
         <div class="col-sm-12">
             <div class="tittle">
-                <span>自动部署</span>
+                <h3 class="df_tit">自动部署</h3>
             </div>
-            <label ng-class="{'active': grid.configChange}" ng-click="grid.configChange=!grid.configChange"
-                   style="cursor: pointer;">
-                <i class="faa faa-check"></i>
-                &nbsp;&nbsp;配置变化触发自动部署
-            </label>
+            
             <!--<i class="faa faa-check"></i>-->
             <!--&nbsp;&nbsp;配置变化触发自动部署-->
         </div>
+        
+        <div class="col-md-12">
+                <div class="col-md-1 col-md-2_padding tittle">
+                    <span class="config_tit">部署执行</span>
+                </div>
+                <div class="col-md-11">
+                        <label class="config_label" ng-class="{'active': grid.configChange}" ng-click="grid.configChange=!grid.configChange"
+                        style="cursor: pointer;">
+                     <i class="faa faa-check"></i>
+                     &nbsp;&nbsp;配置变化触发自动部署
+                 </label>
+                </div>
+            
+            </div>
     </div>
 
     <div class="continerboxs" style="width: 70%;">
         <div class="tittle">
-            <span>镜像信息</span>
+            <h3 class="df_tit">镜像信息</h3>
         </div>
         <div style="min-width: 750px;" class="container-fluid container-bar" ng-repeat="container in dc.spec.template.spec.containers"
              ng-init="outerIndex = $index">
@@ -171,7 +192,7 @@
                     <div class="col-md-12 mt10" style="padding-left: 0;">
                         <div>
                             <br/>
-                            <label style="font-size: 14px; font-weight: normal;">类型&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                            <label style="font-size: 12px; font-weight: normal;">类型&nbsp;&nbsp;&nbsp;&nbsp;</label>
                             <br/>
                             <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
                                 <div class="dropdown dropdown-select open" style="width: 627px;">
@@ -201,7 +222,7 @@
                         <div class="col-md-12 mt10" style="padding-left: 0;">
                             <div>
                                 <br/>
-                                <label style="font-size: 14px; font-weight: normal;padding-left: 0;">路径&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <label style="font-size: 12px; font-weight: normal;padding-left: 0;">路径&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                 <br/>
                                 <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
                                     <input type="text" name="candopath"
@@ -216,7 +237,7 @@
                         <div class="col-md-12 mt10" style="padding-left: 0;">
                             <div>
                                 <br/>
-                                <label style="font-size: 14px; font-weight: normal;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <label style="font-size: 12px; font-weight: normal;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                 <br/>
                                 <div class="col-md-11" style="padding-left: 0;">
                                     <input type="text" name="candopath"
@@ -236,7 +257,7 @@
                         <div class="col-md-11 mt10" style="padding-left: 0;padding-right: 30px;">
                             <div>
                                 <br/>
-                                <label style="font-size: 14px; font-weight: normal;">命令&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <label style="font-size: 12px; font-weight: normal;">命令&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                 <br/>
                                 <div class="row"
                                      ng-repeat="com in container.readinessProbe.exec.command track by $index"
@@ -263,7 +284,7 @@
                         <div class="col-md-12 mt10" style="padding-left: 0;">
                             <div>
                                 <br/>
-                                <label style="font-size: 14px; font-weight: normal;padding-left: 0;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                <label style="font-size: 12px; font-weight: normal;padding-left: 0;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                 <br/>
                                 <div class="col-md-11" style="padding-left: 0;">
                                     <input type="text" name="candopath"
@@ -476,7 +497,7 @@
                 <span class="usetest" style="margin-right: 18px;">
                     环境变量
                 </span>
-                <span style="font-size: 14px;font-weight: 300; cursor: pointer; color:#47B2FB;margin-left: 10px;"
+                <span style="font-size: 12px;font-weight: 300; cursor: pointer; color:#47B2FB;margin-left: 10px;"
                       ng-click="container.annotate.isShowEnv=!container.annotate.isShowEnv">
                     <i style="font-style: normal;" ng-show="!container.annotate.isShowEnv">展开</i>
                     <i style="font-style: normal;" ng-show="container.annotate.isShowEnv">收起</i>
@@ -512,31 +533,9 @@
                         <div class="" ng-click="addContainerEnv(outerIndex)"
                              style="cursor: pointer;margin-top: 10px; font-size: 14px;">
                             <i class="fa fa-plus-circle fa-lg" style="cursor:pointer;"></i>
-                            &nbsp;<span style="color: #47B2FB">增加环境变量</span>
+                            &nbsp;<span style="color: #47B2FB;font-size:12px;">增加环境变量</span>
                         </div>
-                        <style>
-                            .hhh .sss:last-child {
-                                border-bottom: none;
-                            }
-
-                            .sss {
-
-                                height: 40px;
-                                line-height: 40px;
-                                padding-right: 0;
-                                padding-left: 0px;
-                                padding-bottom: 0px;
-                                border-bottom: 1px solid #e6e9f2;
-                            }
-
-                            .rongqi li {
-                                text-align: center;
-                            }
-
-                            .col_md_5_margin {
-                                margin-right: -90px;
-                            }
-                        </style>
+                        
                     </div>
 
                 </div>
@@ -545,10 +544,38 @@
         <div class="row col-md-12">
             <span style="cursor: pointer;" ng-click="addcon()"><i class="fa fa-plus-circle fa-lg"
                                                                   style="cursor:pointer;"></i>
-            &nbsp;&nbsp;<span style="color: #47B2FB">添加容器</span></span>
+            &nbsp;&nbsp;<span style="color: #47B2FB;font-size:12px;">添加容器</span></span>
 
         </div>
     </div>
 </div>
+<style>
+    .hhh .sss:last-child {
+        border-bottom: none;
+    }
 
+    .sss {
+
+        height: 40px;
+        line-height: 40px;
+        padding-right: 0;
+        padding-left: 0px;
+        padding-bottom: 0px;
+        border-bottom: 1px solid #e6e9f2;
+    }
+
+    .rongqi li {
+        text-align: center;
+    }
+
+    .col_md_5_margin {
+        margin-right: -90px;
+    }
+    #service_config .bushu_marginBottom{margin-bottom:6px;color: #475669;}
+    #service_config .config_tit{font-size:12px;color: #475669;font-weight:normal;}
+    #service_config .tit_num{margin-bottom:8px;font-size:12px;color:#475669}
+    #service_config .podnum{margin-left:0px;}
+    #service_config .config_label{font-size:12px;color:#475669;font-weight:normal;}
+    #service_config .dropdown-toggle{height:30px;}
+</style>
 

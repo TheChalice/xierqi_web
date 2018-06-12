@@ -143,9 +143,9 @@
     </div>
 
     <div row ng-if="detailed && (container.resources.requests.cpu || container.resources.limits.cpu)" class="icon-row">
-        <div class="icon-wrap" style="margin-right:2px;">
+        <!-- <div class="icon-wrap" style="margin-right:2px;">
             <i class="fa fa-area-chart" aria-hidden="true"></i>
-        </div>
+        </div> -->
         <div flex class="pod_list_mt">
             <span class="pod-template-key">CPU:</span>
             <span ng-if="container.resources.requests.cpu && container.resources.limits.cpu">{{container.resources.requests.cpu}} to {{container.resources.limits.cpu}}</span>
@@ -159,9 +159,9 @@
     </div>
 
     <div row ng-if="detailed && (container.resources.requests.memory || container.resources.limits.memory)" class="icon-row">
-        <div class="icon-wrap" style="margin-right:2px;">
+        <!-- <div class="icon-wrap" style="margin-right:2px;">
             <i class="fa fa-area-chart" aria-hidden="true"></i>
-        </div>
+        </div> -->
         <div flex class="pod_list_mt">
             <span class="pod-template-key">内存:</span>
             <span ng-if="container.resources.requests.memory && container.resources.limits.memory">
@@ -177,9 +177,9 @@
     </div>
 
     <div row ng-if="detailed && container.readinessProbe" class="icon-row">
-        <div class="icon-wrap" style="margin-right:4px;">
+        <!-- <div class="icon-wrap" style="margin-right:4px;">
             <i class="fa fa-medkit" aria-hidden="true"></i>
-        </div>
+        </div> -->
         <div flex class="pod_list_mt">
             <span class="pod-template-key">健康检查:</span>
             <probe probe="container.readinessProbe"></probe>
@@ -187,9 +187,9 @@
     </div>
 
     <div row ng-if="detailed && container.livenessProbe" class="icon-row">
-        <div class="icon-wrap" style="margin-right:4px;">
+        <!-- <div class="icon-wrap" style="margin-right:4px;">
             <i class="fa fa-medkit" aria-hidden="true"></i>
-        </div>
+        </div> -->
         <div flex class="pod_list_mt">
             <span class="pod-template-key">保活检查:</span>
             <probe probe="container.livenessProbe"></probe>

@@ -145,10 +145,10 @@ input::-webkit-input-placeholder{
 }
 
 .service-config .podnum {
-    width: 68px;
+    width: 168px;
     height: 30px;
     padding: 6px 12px;
-    margin-left: 10px;
+    margin-left: 10px;border-radius:4px;border:1px solid #CCD5E0;font-size:12px;
 }
 
 .service-config .baifen {
@@ -161,7 +161,7 @@ input::-webkit-input-placeholder{
 .service-config .usetest {
     display: inline-block;
     margin-top: -2px;
-    font-size: 14px;
+    font-size: 12px;
     margin-right: 15px;
 }
 

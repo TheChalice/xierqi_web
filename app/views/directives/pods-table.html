@@ -1,19 +1,19 @@
-<table class="table table-bordered table-mobile table-layout-fixed">
-    <colgroup>
+<table class="table table-mobile table-layout-fixed table-default">
+    <!-- <colgroup>
         <col class="col-sm-4">
         <col class="col-sm-3">
-    </colgroup>
-    <thead>
+    </colgroup> -->
+    <tbody>
         <tr>
-            <th style="border-bottom-width:1px;background:#E5E9F2;border:none;">{{customNameHeader || 'Name'}}</th>
-            <th style="border-bottom-width:1px;background:#E5E9F2;border:none;">状态</th>
-            <th style="border-bottom-width:1px;background:#E5E9F2;border:none;">就绪</th>
-            <th style="border-bottom-width:1px;background:#E5E9F2;border:none;">重启</th>
-            <th style="border-bottom-width:1px;background:#E5E9F2;border:none;">时长</th>
-            <th style="border-bottom-width:1px;background:#E5E9F2;border:none;" ng-if="activePods">接受流量</th>
+            <th class="col-lg-2 col-md-2 col-sm-1">{{customNameHeader || 'Name'}}</th>
+            <th class="col-lg-2 col-md-2 col-sm-1">状态</th>
+            <th class="col-lg-2 col-md-2 col-sm-1">就绪</th>
+            <th class="col-lg-2 col-md-2 col-sm-1">重启</th>
+            <th class="col-lg-2 col-md-2 col-sm-1">时长</th>
+            <th class="col-lg-2 col-md-2 col-sm-1" ng-if="activePods">接受流量</th>
 
         </tr>
-    </thead>
+    </tbody>
     <tbody ng-if="!sortedPods.length">
         <tr>
             <td colspan="{{activePods ? 6 : 5}}"><em>{{emptyMessage || 'No pods to show'}}</em></td>
@@ -23,7 +23,7 @@
         <tr ng-repeat="pod in sortedPods track by (pod | uid)" class="animate-repeat">
             <td data-title="{{customNameHeader || 'Name'}}">
                 <!-- <a href="{{pod | navigateResourceURL}}">{{pod.metadata.name}}</a> -->
-                <a class="href-orange" ui-sref="console.pods_detail({namespace:namespace,name: pod.metadata.name})">
+                <a class="href-orange" ui-sref="console.pods_detail({namespace:routenamespace,name: pod.metadata.name})">
                         {{pod.metadata.name}}
                     </a>
                 <!-- <a href="">{{pod.metadata.name}}</a> -->

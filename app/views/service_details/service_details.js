@@ -12,7 +12,7 @@ angular.module('console.services', [
     .controller('ServicesDetailCtrl', ['$scope', 'serviceDetails', 'Service', 'routes', 'pods', 'endpoints', 'Cookie',
         function($scope, serviceDetails, Service, routes, pods, endpoints, Cookie) {
             $scope.text = "无";
-
+            $scope.routenamespace = Cookie.get('namespace')
             if (serviceDetails) {
                 $scope.service = serviceDetails;
                 $scope.routesForService = {};
