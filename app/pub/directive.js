@@ -43,6 +43,7 @@ define(['angular'], function (angular) {
                     services: '=',
                     portsByRoute: '=',
                     showNodePorts: '=?',
+                    routenamespace:'=',
                     // Alternative header text to display in the 'Name' column.
                     customNameHeader: '=?'
                 },
@@ -60,6 +61,7 @@ define(['angular'], function (angular) {
                     emptyMessage: '=?',
                     // Alternative header text to display in the 'Name' column.
                     customNameHeader: '=?',
+                    routenamespace:'=',
                     // Optional map of explanations or warnings for each phase of a pod
                     podFailureReasons: '=?'
                 },

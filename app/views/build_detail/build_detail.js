@@ -24,7 +24,8 @@ angular.module('console.build.detail', [
             $scope.$on('image-enable', function (e, enable) {
                 $scope.imageEnable = enable;
             });
-            $scope.showwebhook = false
+            $scope.showwebhook = false;
+            $scope.httpurl = GLOBAL.host_webhooks
             var loadBuildConfig = function () {
                 BuildConfig.get({
                     namespace: $rootScope.namespace,
