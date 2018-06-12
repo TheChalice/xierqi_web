@@ -301,7 +301,7 @@ article .peie {
 .user_search:hover{ background:#0B9EFB;}
 .user_list{padding-left:0px;padding-right:0;margin-top:10px;}
 
-
+/* 
 .pagination > li > a,.pagination-sm > li > span{
     margin-left:5px;
     border:none;
@@ -317,4 +317,4 @@ article .peie {
 }
 .pagination > .disabled > a:hover{
     background:#f7f7f7;
-}
+} */

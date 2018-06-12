@@ -31,7 +31,7 @@
     <div>
         <div class="deploy_block">
 
-            <div class="input-group col-sm-4 searchbar">
+            <div class="input-group col-sm-3 searchbar">
                 <input type="text" class="form-control" placeholder="搜索服务名称" ng-keyup=search($event) ng-model="grid.txt">
                 <!--ng-model="txt" ng-focus="showTip=true;" -->
                 <span class="input-group-btn">
@@ -107,8 +107,8 @@
                         </div>
                     </td>
                     <td data-title="创建时间">
-                        <span ng-if="deployments.status.latestVersion>0" uib-tooltip="{{deployments.metadata.creationTimestamp  | timescon}}">
-                            {{deployments.metadata.creationTimestamp | dateRelative}}
+                        <span ng-if="deployments.status.latestVersion>0">
+                            {{deployments.metadata.creationTimestamp | timescon}}
                         </span>
                     </td>
                     <td data-title="触发器">
@@ -139,7 +139,7 @@
                     </tr>
             </table>
             <div class="text-center" ng-if="grid.total > 10" class="table_mar_top" style="">
-                <uib-pagination class="pagination pagination-sm" ng-model="grid.page" total-items="grid.total" items-per-page="grid.size"
+                <uib-pagination class="pagination" ng-model="grid.page" total-items="grid.total" items-per-page="grid.size"
                     boundary-links="false" max-size="12" rotate="true" previous-text="<" next-text=">">
                 </uib-pagination>
 
@@ -194,7 +194,7 @@
             </table>
 
             <div class="text-center" ng-if="gridTwo.total > 10" class="table_mar_top" style="">
-                <uib-pagination class="pagination pagination-sm" ng-model="gridTwo.page" total-items="gridTwo.total" items-per-page="gridTwo.size"
+                <uib-pagination class="pagination" ng-model="gridTwo.page" total-items="gridTwo.total" items-per-page="gridTwo.size"
                     boundary-links="false" max-size="12" rotate="true" previous-text="<" next-text=">">
                 </uib-pagination>
 

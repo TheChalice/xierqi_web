@@ -3,7 +3,7 @@
     <!--<h2>EVENT信息</h2>-->
     <!--<hr>-->
     <div class="row rongqi" style="padding: 0;list-style: none;margin:0; margin-bottom: 30px;border: 1px solid #e6e9f2;border-bottom: none;">
-        <div class="col-md-12" style="background-color: #e6e9f2; height: 40px;padding-top: 10px;">
+        <div class="col-md-12" style="background-color: #e6e9f2; height: 40px;padding-top: 10px;font-size:12px;color:#475669;">
 
             <div class="col-md-1">Time</div>
             <div class="col-md-1">Reason</div>
@@ -18,7 +18,7 @@
 
 
         </div>
-        <div class="col-md-12 event" ng-repeat="event in eventsws.items  | orderBy : 'mysort'" style="padding-top: 10px;padding-left: 0px;padding-right: 0px;padding-bottom:10px;">
+        <div class="col-md-12 event" ng-repeat="event in eventsws.items  | orderBy : 'mysort'" style="padding-top: 10px;padding-left: 0px;padding-right: 0px;padding-bottom:10px;font-size:12px;color:#475669;">
            <!-- <div class="col-md-1 paddingeve" style="text-align: center;" ng-class="{'paddingevent':event.message.length>170,'paddingeventz':event.message.length>65&&event.message.length<=170}" uib-tooltip="{{event.metadata.creationTimestamp | duration3}}"><span style="">{{event.metadata.creationTimestamp | timescon2}}</span></div>
             <div class="col-md-2 paddingeve" style="text-align: center;" ng-class="{'paddingevent':event.message.length>170,'paddingeventz':event.message.length>65&&event.message.length<=170}"><span uib-tooltip="{{event.involvedObject.name}}">{{event.involvedObject.name}}</span></div>
             <div class="col-md-2 paddingeve" style="text-align: center;" ng-class="{'paddingevent':event.message.length>170,'paddingeventz':event.message.length>65&&event.message.length<=170}"><span style="word-wrap: break-word;text-align: center;">{{event.involvedObject.kind}}</span></div>

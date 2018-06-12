@@ -3096,8 +3096,8 @@ define([
                     { name: '有状态集', url: 'console.stateful-sets@'+namespace, stateUrl: null, children: [] },
                 ];
                 $rootScope.imageChild = [
-                    { name: '仓库镜像', url: 'console.repository-image@'+namespace, stateUrl: null, children: [] },
                     { name: '构建镜像', url: 'console.private-image@'+namespace, stateUrl: null, children: [] },
+                    { name: '仓库镜像', url: 'console.repository-image@'+namespace, stateUrl: null, children: [] },
                 ];
                 $rootScope.resources = [
                     { name: '存储卷', url: 'console.resource_persistentVolume@'+namespace, stateUrl: null, children: [] },
@@ -3115,17 +3115,17 @@ define([
                     { name: '资源管理', img: 'icon25 icon25-resource', url: null, stateUrl: null, children: $rootScope.resources }
                 ];
                 if (toState && toState.name) {
-                    console.log('toState----', toState);
+                    // console.log('toState----', toState);
                     $rootScope.console.state = toState.name;
                     // if (toState.name.indexOf('dashboard') !== -1) {
                     //     $rootScope.dataForTheTree[0].stateUrl = toState.name
                     // } else
                     if (toState.name.indexOf('build') !== -1) {
                         $rootScope.dataForTheTree[0].stateUrl = toState.name;
-                    } else if (toState.name.indexOf('repository-image') !== -1 || toState.name.indexOf('primage_detail') !== -1) {
+                    } else if (toState.name.indexOf('private-image') !== -1 || toState.name.indexOf('image_detail') !== -1) {
                         $rootScope.imageChild[0].stateUrl = toState.name;
                     }
-                    else if (toState.name.indexOf('private-image') !== -1 || toState.name.indexOf('image_detail') !== -1) {
+                    else if (toState.name.indexOf('repository-image') !== -1 || toState.name.indexOf('primage_detail') !== -1) {
                         $rootScope.imageChild[1].stateUrl = toState.name;
                     }
                     // else if (toState.name.indexOf('pipeline') !== -1) {

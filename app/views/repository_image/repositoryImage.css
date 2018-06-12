@@ -106,7 +106,7 @@
 .tab-image-jia-defautl .thumbnail .thumb-content{background:#F9FAFC;}
 .tab-image-jia-defautl .thumbnail{border:1px solid #e6e6e6;}
 .tab-image-jia-defautl .thumbnail .caption{border-top:1px solid #e6e6e6;}
-
+/* 
 .pagination > li > a,.pagination-sm > li > span{
     margin-left:5px;
     border:none;
@@ -122,4 +122,4 @@
 }
 .pagination > .disabled > a:hover{
     background:#f7f7f7;
-}
+} */

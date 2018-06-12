@@ -34,7 +34,7 @@
     <div ng-if="items">
         <div class="header" style="">
 
-            <div class="input-group col-sm-4 searchbar">
+            <div class="input-group col-sm-3 searchbar">
                 <input type="text" class="form-control" placeholder="搜索有状态集名称" ng-keyup=search($event) ng-model="grid.txt">
                 <span class="input-group-btn">
                     <span class="df_search uex-icon-search" ng-click="search('search')">
@@ -60,7 +60,7 @@
                         <span ng-if="dc.spec.replicas != 1">s</span>
                     </td>
                     <td data-title="Created">
-                        <span uib-tooltip="{{dc.metadata.creationTimestamp  | timescon}}">{{dc.metadata.creationTimestamp | dateRelative}}</span>
+                        <span>{{dc.metadata.creationTimestamp | timescon}}</span>
                     </td>
                 </tr>
                 <tr class="df_blank">
@@ -70,7 +70,7 @@
                     </tr>
             </table>
             <div class="text-center" ng-if="grid.total > 10" class="table_mar_top" style="">
-                <uib-pagination class="pagination pagination-sm" ng-model="grid.page" total-items="grid.total" items-per-page="grid.size"
+                <uib-pagination class="pagination" ng-model="grid.page" total-items="grid.total" items-per-page="grid.size"
                     boundary-links="false" max-size="12" rotate="true" previous-text="<" next-text=">">
                 </uib-pagination>
 

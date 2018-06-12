@@ -22,7 +22,7 @@
                     构建镜像
                 </uib-tab-heading>
                 <div class="row image_jia_btn" style="margin-bottom: 25px;margin-left: 0;margin-right: 0;">
-                    <div class="input-group col-sm-4 searchbar">
+                    <div class="input-group col-sm-3 searchbar">
                         <input type="text" class="form-control" ng-model="txt"
                                ng-focus="showTip=true;" placeholder="搜索镜像" ng-keyup="search('all', txt)">
                     <span class="input-group-btn">
@@ -70,13 +70,13 @@
                          <!--ng-if="testlist.length===0"><p class="blank_block">  <span class="blank_tit"> {{text1}}</span></p></div>-->
 
                 </div>
-                <div class="text-center" style="text-align:center;" ng-if="grid.total > 8">
+                <div class="text-center" style="text-align:center;" ng-if="grid.total > 10">
                     <uib-pagination
                             ng-model="grid.page"
                             ng-show='fyshow'
                             total-items="grid.total"
                             items-per-page="grid.size"
-                            class="pagination-sm"
+                            class="pagination"
                             boundary-links="false"
                             max-size="12"
                             rotate="true"
@@ -108,7 +108,7 @@
                             </div>
                         </div>
 
-                        <div class="input-group col-sm-4 searchbar">
+                        <div class="input-group col-sm-3 searchbar">
                             <input type="text" class="form-control" ng-model="cktxt"
                                    ng-focus="showTip=true;" placeholder="搜索镜像" ng-keyup="cksearch('all', cktxt)">
                             <span class="input-group-btn">
@@ -236,7 +236,7 @@
                             ng-model="grid.imagecenterpage"
                             total-items="grid.imagecentertotal"
                             items-per-page="grid.size"
-                            class="pagination-sm"
+                            class="pagination pagination-sm"
                             boundary-links="false"
                             boundary-link-numbers="true"
                             max-size="3"
@@ -272,7 +272,7 @@
                             ng-show='fyshow'
                             total-items="grid.total"
                             items-per-page="grid.size"
-                            class="pagination-sm"
+                            class="pagination"
                             boundary-links="false"
                             force-ellipses="'3'"
                             max-size="12"

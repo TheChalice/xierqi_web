@@ -1,4 +1,4 @@
-<div id="image" class="df_frame">
+<div id="image" class="df_frame repository_frame">
 
     <div class="row image_jia_btn" style="margin-bottom: 25px;margin-left: 0;margin-right: 0;">
         <div class="row image_jia_btn" style="margin-bottom: 25px;margin-left: 0;margin-right: 0;">
@@ -17,7 +17,7 @@
                 </div>
             </div>
 
-            <div class="input-group col-sm-4 searchbar">
+            <div class="input-group col-sm-3 searchbar">
                 <input type="text" class="form-control" ng-model="cktxt"
                        ng-focus="showTip=true;" placeholder="搜索镜像" ng-keyup="cksearch('all', cktxt)">
                 <span class="input-group-btn">
@@ -47,8 +47,8 @@
                        tooltip-placement="top">{{item.name}}</a>
                 </td>
 
-                <td><span uib-tooltip="{{item.update_time | timescon}}">{{item.update_time | dateRelative}}</span></td>
-                <td><span uib-tooltip="{{item.creation_time | timescon}}">{{item.creation_time | dateRelative}}</span></td>
+                <td><span>{{item.update_time | timescon}}</span></td>
+                <td><span>{{item.creation_time | timescon}}</span></td>
                 <!--<td>-->
                 <!--<i ng-if="true" class="fa fa-hand-pointer-o">&nbsp;手动</i>-->
                 <!--<i ng-if="false" class="fa fa-television">&nbsp;自动</i>-->
@@ -135,4 +135,5 @@
         border-bottom-right-radius: 0;
         border-bottom-left-radius: 0;
     }
+    .repository_frame .dropdown-menu > li > a{height:36px;line-height:36px;}
 </style>
