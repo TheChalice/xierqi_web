@@ -116,13 +116,14 @@
                     配置信息
                 </uib-tab-heading>
                 <form class="form-horizontal" name="frm">
-                    <div>
+                    <div ng-show="!showwebhook">
+
                         <div>
                             <div>
                                 <div class="pip_block">
-                                    <p class="pit_left">Generic 网络URL:</p>
+                                    <p class="pit_left">Generic Webhook URL:</p>
                                     <span class="pip_tit">
-                                        {{data.spec.triggers.generic.secret}}
+                                       {{httpurl}}/oapi/v1/namespaces/{{buildnamespaces}}/buildconfigs/{{data.metadata.name}}/webhooks/{{data.spec.triggers[1].generic?data.spec.triggers[1].generic.secret:data.spec.triggers[0].generic.secret}}/generic
                                     </span>
                                     <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
                                 </div>
@@ -131,9 +132,9 @@
 
                             <div>
                                 <div class="pip_block">
-                                    <p class="pit_left">GitHub 网络URL:</p>
+                                    <p class="pit_left">GitHub Webhook URL:</p>
                                     <span class="pip_tit">
-                                        {{data.spec.triggers.github.secret}}
+                                        {{httpurl}}/oapi/v1/namespaces/{{buildnamespaces}}/buildconfigs/{{data.metadata.name}}/webhooks/{{data.spec.triggers[0].github?data.spec.triggers[0].github.secret:data.spec.triggers[1].github.secret}}/github
                                     </span>
                                     <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
                                 </div>
@@ -142,7 +143,7 @@
                     </div>
 
 
-                    <div class="form-group" ng-hide="showwebhook&&!grid.pedding">
+                    <div class="form-group" ng-show="showwebhook">
                         <!--<label class="col-sm-2 text-left" id="autobuild">自动构建触发条件</label>-->
                         <label class="col-sm-3 text-left">自动构建</label>
                         <div class="col-sm-2">
@@ -157,20 +158,20 @@
                         </div>
 
                     </div>
-                    <div class="form-group" ng-show="!showwebhook||grid.pedding">
-                        <!--<label class="col-sm-2 text-left" id="autobuild">自动构建触发条件</label>-->
-                        <label class="col-sm-3 text-left text-left_color" style="">自动构建</label>
-                        <div class="col-sm-2">
-                            <span class="my-checkbox">
-                                <span class="checkbox-check">
-                                    <span class="check-btn"></span>
-                                </span>
+                    <!--<div class="form-group" ng-show="!showwebhook||grid.pedding">-->
+                        <!--&lt;!&ndash;<label class="col-sm-2 text-left" id="autobuild">自动构建触发条件</label>&ndash;&gt;-->
+                        <!--<label class="col-sm-3 text-left text-left_color" style="">自动构建</label>-->
+                        <!--<div class="col-sm-2">-->
+                            <!--<span class="my-checkbox">-->
+                                <!--<span class="checkbox-check">-->
+                                    <!--<span class="check-btn"></span>-->
+                                <!--</span>-->
 
-                            </span>
-                            <!--ng-class="{'aciive': grid.checked, 'inactive': gird.uncheked}"-->
-                        </div>
+                            <!--</span>-->
+                            <!--&lt;!&ndash;ng-class="{'aciive': grid.checked, 'inactive': gird.uncheked}"&ndash;&gt;-->
+                        <!--</div>-->
 
-                    </div>
+                    <!--</div>-->
 
                     <div class="form-group form-group_padding" style="" ng-if="false">
                         <label class="col-sm-3 text-left">是否持续集成</label>
