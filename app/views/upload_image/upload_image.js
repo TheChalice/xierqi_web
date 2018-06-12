@@ -6,14 +6,15 @@ angular.module('home.uploadimage', [{
     }])
     .controller('uploadimageCtrl', ['progressBox','GLOBAL', 'sessiontoken', 'Cookie', '$rootScope', 'User', 'Project', '$log', '$state', 'ImageStream', '$scope', 'Upload', 'toastr',
         function (progressBox,GLOBAL, sessiontoken, Cookie, $rootScope, User, Project, $log, $state, ImageStream, $scope, Upload, toastr) {
-
+           var host = window.location.host;
+           console.log('host',host)
             $scope.grid = {
                 tag: null,
                 file: null,
                 name: null,
                 progress: null,
                 imagenamenull:false,
-                clickbtn: 'canclick',
+                clickbtn: 'dontclick',
                 display: false
             }
             $scope.submit = function (file) {
@@ -43,6 +44,7 @@ angular.module('home.uploadimage', [{
             $scope.changeupload = function ($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event) {
                 //console.log('change', $files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event);
                 $scope.grid.file = $event.target.files[0];
+                $scope.grid.clickbtn='canclick';
                 console.log(' $scope.grid.file', $scope.grid.file);
 
 
@@ -64,10 +66,10 @@ angular.module('home.uploadimage', [{
                 var tokens = Cookie.get('df_access_token');
                 var tokenarr = tokens.split(',')
                 Upload.upload({
-                    url: 'http://127.0.0.1:8080/uploadimage/' + $rootScope.namespace + '/' + image + '/' + tag,
+                    url: host+'/uploadimage/' + $rootScope.namespace + '/' + image + '/' + tag,
                     data: {file: file, 'total': file.size},
                     headers: {'Authorization': "Bearer " + tokenarr[0]},
-                    resumeSizeUrl: 'http://127.0.0.1:8080/uploadimage/' + $rootScope.namespace + '/info?secret=' + md5 + '&total=' + file.size,
+                    resumeSizeUrl: host+'/uploadimage/' + $rootScope.namespace + '/info?secret=' + md5 + '&total=' + file.size,
                     resumeSizeResponseReader: function (data) {
                         //console.log('data', data);
 
@@ -87,6 +89,9 @@ angular.module('home.uploadimage', [{
                 }, function (evt) {
                     var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                     $scope.grid.progress = progressPercentage;
+                    if($scope.grid.progress == 100){
+                        $('#close-this').click();
+                    }
                     console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
                 });
             };

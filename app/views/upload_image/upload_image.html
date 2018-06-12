@@ -1,11 +1,14 @@
  <div style="font-size: 12px;padding:20px">
+     <h3 class="df_tit">
+         镜像上传
+     </h3>
         <div class="row" style="margin:0;">
-            <div class="col-md-2" style="padding-top: 8px;">
+            <div class="col-md-2 require" style="padding-top: 8px;">
                 tar文件上传
             </div>
             <div class="col-md-10">
                 <input type="text" class="upload_input" ng-model="file.name" readonly="" ng-disabled="disabled" style="width: 215px;height: 26px;line-height: 26px;border-radius: 4px;">
-                <a class="btn btn-orange" ngf-select
+                <a class="btn" style="border: 1px solid #47B2FB; color: #47B2FB;font-size: 12px;padding:3px 12px;" ngf-select
                    ngf-reset-model-on-click="false"
                    ngf-pattern="'.tar'"
                    ngf-accept="'.tar'"
@@ -19,7 +22,7 @@
 
         </div>
         <div class="row" style="margin:15px 0px 20px;border-bottom: 1px solid #E0E6ED;">
-            <div class="col-md-2" style="padding-top: 8px;">
+            <div class="col-md-2 require" style="padding-top: 8px;">
                 镜像地址
             </div>
             <div class="col-md-10 create_deploy_nanji">
@@ -82,14 +85,14 @@
                         </uib-tab-heading>
                         <div class="input-group divradio">
                             <div>
-                                <div style="min-width: 156px;height: 32px;margin-right: 58px;display: inline-block;">镜像名称</div>
-                                <div style="min-width: 156px;height: 32px;margin-right: 58px;display: inline-block;">Tag</div>
+                                <div style="min-width: 156px;height: 32px;display: inline-block;">镜像名称</div>
+                                <div style="min-width: 156px;height: 32px;display: inline-block;">Tag</div>
                             </div>
                             <div>
-                                <div style="min-width: 156px;height: 32px;margin-right: 58px;display: inline-block;">
+                                <div style="min-width: 156px;height: 26px;display: inline-block;">
                                     <input ng-class="{'err':grid.imagenamenull}" type="text" ng-model="grid.name" placeholder="镜像名称" style="width: 215px;height: 26px;line-height: 26px;border-radius: 4px;">
                                 </div>
-                                <div style="min-width: 156px;height: 32px;margin-right: 58px;display: inline-block;">
+                                <div style="min-width: 156px;height: 26px;display: inline-block;">
                                     <input type="text" ng-model="grid.tag" placeholder="latest" style="width: 215px;height: 26px;line-height: 26px;border-radius: 4px;">
                                 </div>
 
@@ -107,8 +110,8 @@
          <div class="modal fade" id="myModal"  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
              <div class="modal-dialog">
                  <div class="modal-content" style="height: 251px;padding:20px;">
-                     <div style="margin-top:88px;">
-                         上传进度{{grid.progress||0}}%
+                     <div style="margin-top:88px;text-align: center;" >
+                         <p>上传进度{{grid.progress||0}}%</p>
                          <div class="progress" style="height: 2px;">
 
                              <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:{{grid.progress || 0}}%;background: #47B2FB;height: 2px;">
@@ -116,6 +119,9 @@
                              </div>
                          </div>
                          <p style="color: #A2B0C4;">请勿跳转或刷新页面</p>
+                         <button type="button" class="btn btn-default" data-dismiss="modal" ng-show="false" id="close-this">
+
+                         </button>
                      </div>
                  </div><!-- /.modal-content -->
              </div><!-- /.modal -->
@@ -128,23 +134,23 @@
              </small>
              <!--<div ng-show="grid.clickbtn">上传进度{{grid.progress}}%</div>-->
              <a ng-show="grid.clickbtn==='canclick'" ng-click="submit(file)"
-                class="btn btn-block btn-orange upload_btn">
-                 <span style="color: white;">上传</span>
+                class="btn">
+                 <span style="color: white;">上传镜像</span>
              </a>
-             <a ng-show="grid.clickbtn==='inhand'" style="background-color: #ccc;"
-                class="btn btn-block btn-orange upload_btn">
-                 <span style="color: white;">处理中</span>
+             <a ng-show="grid.clickbtn==='inhand'" style="background-color: #ccc;cursor: no-drop;"
+                class="btn">
+                 <span style="color: white;">处理中...</span>
              </a>
 
-             <a ng-show="grid.clickbtn==='dontclick'" style="background-color: #ccc;"
-                class="btn btn-block btn-orange upload_btn">
-                 <span style="color: white;">上传</span>
+             <a ng-show="grid.clickbtn==='dontclick'" style="background-color: #ccc;cursor: no-drop;"
+                class="btn">
+                 <span style="color: white;">上传镜像</span>
              </a>
 
          </div>
          <small ng-show="grid.clickbtn==='inhand'" class="fa fa-info-circle err-tip">镜像处理中，请勿刷新或跳转页面
          </small>
-         <small ng-show="grid.clickbtn==='dontclick'" class="fa fa-info-circle err-tip">镜像上传中，请勿刷新或跳转页面
-         </small>
+         <!--<small ng-show="grid.clickbtn==='dontclick'" class="fa fa-info-circle err-tip">镜像上传中，请勿刷新或跳转页面-->
+         <!--</small>-->
 
 </div>
