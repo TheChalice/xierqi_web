@@ -916,13 +916,13 @@ a {
 .service-config > hr {
     margin: 0 0 30px 0;
 }
-
+/* 
 .service-config h3 {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: bold;
     margin: 0 0 20px 0;
     color:black;
-}
+} */
 
 .service-config h4 {
     font-size: 12px;
@@ -1830,7 +1830,7 @@ td  a:hover, a:focus{
     -webkit-box-shadow:0 2px 2px 0 rgba(0, 0, 0, 0.12), 0 0 4px 0 rgba(0, 0, 0, 0.04);
     }
 /* 公共标题 */
-.df_tit{font-size:14px;color:#333;font-weight:bold;margin:0px;margin-bottom:10px;border-left:3px solid #47B2FB;padding-left:10px;}
+.df_tit{font-size:12px;color:#1F2D3D;font-weight:bold;margin:0px;margin-bottom:10px;border-left:3px solid #47B2FB;padding-left:10px;}
 
 
 .tab-jia-default li.active .nav-link, .tab-jia-default li.active .nav-link:focus, .tab-jia-default li.active .nav-link:hover{
