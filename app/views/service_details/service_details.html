@@ -119,19 +119,19 @@
                             <h4 style="color:#666;">流量</h4>
                             <!--<h4 style="color:#666;">Traffic</h4>-->
                             <div>
-                                <traffic-table ports-by-route="portsByRoute" routes="routesForService"
+                                <traffic-table routenamespace="routenamespace" ports-by-route="portsByRoute" routes="routesForService"
                                                services="services" show-node-ports="showNodePorts"
                                                custom-name-header="'路由'"></traffic-table>
                             </div>
                             <h4 style="color:#666;">容器组</h4>
                             <div>
-                                <pods-table pods="podsForService"
-                                            namespace="namespace"
-                                            active-pods="podsWithEndpoints"
+                                <pods-table routenamespace="routenamespace" pods="podsForService" active-pods="podsWithEndpoints"
                                             custom-name-header="'容器组'"
                                             pod-failure-reasons="podFailureReasons"></pods-table>
+
                             </div>
                         </div>
+
                         <!-- </uib-tab>
                             <uib-tab active="selectedTab.events" ng-if="'events' | canI : 'watch'">
                                 <uib-tab-heading>Events</uib-tab-heading>
