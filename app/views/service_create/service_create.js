@@ -183,6 +183,12 @@ angular.module('console.service.create', [
                                     readinessProbe: false
 
                                 },
+                                resourcesunit:{
+                                    mincpu:'millicores',
+                                    maxcpu:'millicores',
+                                    minmem:'MB',
+                                    maxmem:'MB'
+                                },
                                 "livenessProbe": {
                                     "httpGet": {
                                         "path": "/Liveness",
@@ -698,7 +704,7 @@ angular.module('console.service.create', [
         return {
             restrict: 'E',
             templateUrl: 'views/service_create/tpl/setQuota.html',
-            scope: {},
+            scope: false,
             controller: ['$scope', function ($scope) {
 
             }],
