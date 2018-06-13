@@ -36,22 +36,7 @@ angular.module('console.service.create', [
             //    $scope.portsArr.splice(ind, 1);
             //  }
             //};
-            $scope.addprot = function () {
-                $scope.portsArr.unshift({
-                    containerPort: "",
-                    protocol: "TCP",
-                    hostPort: ""
-                })
-            };
 
-            $scope.delprot = function (idx) {
-                //console.log($scope.portsArr);
-                if ($scope.portsArr[0] && $scope.portsArr[0].hostPort) {
-                    $scope.grid.port = $scope.portsArr[0].hostPort;
-                }
-
-                $scope.portsArr.splice(idx, 1);
-            };
 
             $scope.dc = {
                 kind: "DeploymentConfig",
