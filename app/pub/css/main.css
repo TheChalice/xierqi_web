@@ -599,13 +599,13 @@ a {
 .pagination > .active > span:focus {
     background-color: #fff;
     border:1px solid #47B2FB;color:#47B2FB;padding:2px 8px;margin-left:0;
-    background:#fff;
+    background:#fff;font-size:12px;
 }
 .pagination > .active > span:hover{
     background-color: #fff;
     border-color: #47B2FB;color:#47B2FB;
 }
-.pagination>li>a, .pagination>li>span{padding:2px 8px;color:#475669;}
+.pagination>li>a, .pagination>li>span{padding:2px 8px;color:#475669;font-size:12px;}
 .pagination>.disabled>a{padding:2px 8px;background:#EFF2F7;color:#A2B0C4;}
 .pagination>.disabled>a:hover{padding:2px 8px;background:#EFF2F7;color:#A2B0C4;}
 .pagination>li>a:hover{color:#47B2FB;background:#fff;}
