@@ -15,6 +15,7 @@ angular.module('console.service.create', [
                 configregistry: false
             }
             $scope.advancedConfig = false
+
             $scope.jump = function () {
                 if (!$scope.dc.metadata.name) {
                     $scope.err.name.null = true;
@@ -180,8 +181,11 @@ angular.module('console.service.create', [
                                     resources: false,
                                     volment: false,
                                     livenessProbe: false,
-                                    readinessProbe: false
-
+                                    readinessProbe: false,
+                                    livenesscheck:'HTTP',
+                                    livenesshttpscheck:false,
+                                    readinesscheck:'HTTP',
+                                    readinesshttpscheck:false
                                 },
                                 resourcesunit:{
                                     mincpu:'millicores',
@@ -190,10 +194,22 @@ angular.module('console.service.create', [
                                     maxmem:'MB'
                                 },
                                 "livenessProbe": {
+                                    annotations:{
+                                        path:'',
+                                        port:'',
+                                        command:'',
+
+                                    },
                                     "httpGet": {
                                         "path": "/Liveness",
                                         "port": 80,
-                                        "scheme": "HTTP"
+                                        "scheme": "HTTP" //HTTPS
+                                    },
+                                    exec:{
+                                        command:["ls", "-l", "/"]
+                                    },
+                                    tcpSocket:{
+                                        port:80
                                     },
                                     "initialDelaySeconds": 1,
                                     "timeoutSeconds": 1,
@@ -202,10 +218,22 @@ angular.module('console.service.create', [
                                     "failureThreshold": 3
                                 },
                                 "readinessProbe": {
+                                    annotations:{
+                                        path:'',
+                                        port:'',
+                                        command:'',
+
+                                    },
                                     "httpGet": {
-                                        "path": "/Readiness",
+                                        "path": "/Liveness",
                                         "port": 80,
-                                        "scheme": "HTTP"
+                                        "scheme": "HTTP" //HTTPS
+                                    },
+                                    exec:{
+                                        command:["ls", "-l", "/"]
+                                    },
+                                    tcpSocket:{
+                                        port:80
                                     },
                                     "initialDelaySeconds": 1,
                                     "timeoutSeconds": 1,
@@ -680,10 +708,20 @@ angular.module('console.service.create', [
                 }],
         };
     })
-    .directive('containerCheck', function () {
+    .directive('containerLivenessCheck', function () {
         return {
             restrict: 'E',
-            templateUrl: 'views/service_create/tpl/containerChecked.html',
+            templateUrl: 'views/service_create/tpl/containerLivenessCheck.html',
+            scope: false,
+            controller: ['$scope', function ($scope) {
+
+            }],
+        };
+    })
+    .directive('containerReadinessCheck', function () {
+        return {
+            restrict: 'E',
+            templateUrl: 'views/service_create/tpl/containerReadinessCheck.html',
             scope: false,
             controller: ['$scope', function ($scope) {
 
