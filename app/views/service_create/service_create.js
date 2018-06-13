@@ -15,7 +15,7 @@ angular.module('console.service.create', [
                 configregistry: false
             }
             $scope.advancedConfig = false
-
+            $scope.portsArr=[];
             $scope.jump = function () {
                 if (!$scope.dc.metadata.name) {
                     $scope.err.name.null = true;
@@ -134,6 +134,7 @@ angular.module('console.service.create', [
                     }
                 },
                 "spec": {
+                    ConfigChange:false,
                     "strategy": {"resources": {}},
                     "triggers": [{
                         "type": "ConfigChange"
@@ -161,6 +162,7 @@ angular.module('console.service.create', [
                                     //configMap: [{name: '', mountPath: ''}],
                                     //persistentVolumeClaim: [{claimName: '', mountPath: ''}]
                                 },
+                                ImageChange:false,
                                 "ports": [
                                     {
                                         "containerPort": 80,
@@ -575,7 +577,17 @@ angular.module('console.service.create', [
                         $scope.strport = '';
 
                         for (var k in port) {
-                            $scope.port.push({protocol: k.split('/')[1].toUpperCase(), containerPort: k.split('/')[0]})
+                            var pot= parseInt(k.split('/')[0])
+                            $scope.port.push({protocol: k.split('/')[1].toUpperCase(), containerPort:pot })
+                            var rep = false
+                            angular.forEach($scope.portsArr,function(item,i){
+                                if (item.containerPort && item.containerPort == pot) {
+                                    rep=true
+                                }
+                            })
+                            if (!rep) {
+                                $scope.portsArr.push({protocol: k.split('/')[1].toUpperCase(), containerPort: pot,hostPort:pot})
+                            }
                             $scope.strport += k.split('/')[0] + '/' + k.split('/')[1].toUpperCase() + ',';
                         }
                         $scope.strport = $scope.strport.replace(/\,$/, "")
@@ -732,9 +744,19 @@ angular.module('console.service.create', [
         return {
             restrict: 'E',
             templateUrl: 'views/service_create/tpl/setPorts.html',
-            scope: {},
+            scope: false,
             controller: ['$scope', function ($scope) {
+                $scope.addprot = function () {
+                    $scope.portsArr.unshift({
+                        containerPort: "",
+                        protocol: "TCP",
+                        hostPort: ""
+                    })
+                };
 
+                $scope.delprot = function (idx) {
+                    $scope.portsArr.splice(idx, 1);
+                };
             }],
         };
     })

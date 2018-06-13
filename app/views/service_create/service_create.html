@@ -92,13 +92,13 @@
                     <div class="col-sm-2">自动部署</div>
                     <div class="col-sm-10">
                         <p  style="">
-                            <label ng-class="{'active':institution.configregistry}"
-                                   ng-click="institution.configregistry=!institution.configregistry"
+                            <label ng-class="{'active':dc.spec.ConfigChange}"
+                                   ng-click="dc.spec.ConfigChange=!dc.spec.ConfigChange"
                                    style="cursor: pointer;">
                                 <i class="faa faa-check"></i>
                             </label>
                             <span>
-                             镜像变化触发自动部署
+                             配置变化触发自动部署
                         </span>
                         </p>
                     </div>
