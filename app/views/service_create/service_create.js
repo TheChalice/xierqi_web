@@ -498,7 +498,9 @@ angular.module('console.service.create', [
             templateUrl: 'views/service_create/tpl/dcContainers.html',
             scope: false,
             controller: ['$scope', function ($scope) {
-
+            $scope.addenv= function (con) {
+                con.env.push({name: '', value: ''})
+            }
             }],
         };
     })
@@ -676,7 +678,7 @@ angular.module('console.service.create', [
         return {
             restrict: 'E',
             templateUrl: 'views/service_create/tpl/containerChecked.html',
-            scope: {},
+            scope: false,
             controller: ['$scope', function ($scope) {
 
             }],
