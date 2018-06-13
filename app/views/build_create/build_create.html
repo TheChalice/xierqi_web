@@ -52,7 +52,7 @@
                                            ng-click="needbind.gitlab&&bindhub('gitlab')">
                                             <span style="padding-bottom: 1px;font-size: 12px;margin-right: 6px;">
                                                 <i class="uex-icon-protocol-deafult"></i>
-                                            </span>绑定&nbsp;Gitlab</a>
+                                            </span>绑定&nbsp;Gitlab&nbsp;&nbsp;</a>
                                         <a class="view_tit_set" ng-class="{'running':labrunning }"
                                            uib-tooltip="同步代码源"
                                            ng-click="loadOwner('gitlab')">
@@ -133,7 +133,7 @@
                                             <div class="">
                                                 <input type="text" placeholder="/"
                                                        class="form-control tab-reg-input form-control-input-line"
-                                                       ng-model="buildConfig.spec.source.publiccontextDir">
+                                                       ng-model="buildConfig.spec.source.contextDir">
                                             </div>
                                         </div>
                                     </div>
@@ -194,7 +194,7 @@
                                             <label for="dockeraddress"
                                                    class="control-label tab-reg-label label-font">Dockerfile路径</label>
                                             <div class="">
-                                                <input type="text" placeholder=""
+                                                <input type="text" placeholder="/"
                                                        class="form-control tab-reg-input form-control-input-line"
                                                        id="dockeraddress"
                                                        ng-model="buildConfig.spec.source.contextDir">

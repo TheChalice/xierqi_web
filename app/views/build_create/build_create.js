@@ -1,11 +1,11 @@
 'use strict';
 angular.module('console.build_create', [
-        {
-            files: [
-                'views/build_create/build_create.css'
-            ]
-        }
-    ])
+    {
+        files: [
+            'views/build_create/build_create.css'
+        ]
+    }
+])
     .controller('BuildCreateCtrl', ['repositorysecret', 'repositorybranches', 'repositorygit', 'authorize', 'createdeploy', 'randomWord', '$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch', 'labOwner', 'psgitlab', 'laborgs', 'labBranch', 'ImageStream', 'BuildConfig', 'Alert', '$http', 'Cookie', '$base64', 'secretskey', 'toastr',
         function (repositorysecret, repositorybranches, repositorygit, authorize, createdeploy, randomWord, $rootScope, $scope, $state, $log, Owner, Org, Branch, labOwner, psgitlab, laborgs, labBranch, ImageStream, BuildConfig, Alert, $http, Cookie, $base64, secretskey, toastr) {
             $scope.grid = {
@@ -19,7 +19,7 @@ angular.module('console.build_create', [
             $scope.gitstatus = 'gitlab';
             var urlRegExp = /[a-zA-z]+:\/\/[^\s]*/;//url
             var nameRegExp = /^[A-Za-z]+$/;//由26个英文字母组成的字符串
-            var pwdRegExp =  /^[A-Za-z0-9]{6,20}$/;//密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)
+            var pwdRegExp = /^[A-Za-z0-9]{6,20}$/;//密码(以字母开头，长度在6~18之间，只能包含字母、数字和下划线)
             var r = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
 
             $scope.buildConfig = {
@@ -137,10 +137,10 @@ angular.module('console.build_create', [
             $scope.loadOwner = function (git) {
                 loadgitdata(git)
             };
-            var one=true
+            var one = true;
             $scope.$watch('buildcheck', function (n, o) {
                 // console.log('---', n, o);
-                $scope.showbox=false;
+                $scope.showbox = false;
                 if (n === o) {
                     return
                 }
@@ -150,15 +150,14 @@ angular.module('console.build_create', [
                         project: false,
                         codeBranch: false
                     };
-
                     clearselec();
                     if (n === 1) {
                         $scope.gitstatus = 'gitlab';
-                        $scope.gitdata.orgs = angular.copy($scope.gitload.gitlab)
+                        $scope.gitdata.orgs = angular.copy($scope.gitload.gitlab);
                         //console.log('$scope.needbind.gitlab', $scope.needbind.gitlab);
                         if (one) {
-                            one=false
-                        }else {
+                            one = false
+                        } else {
                             if (!$scope.needbind.gitlab) {
                                 $scope.showbox = true
                             }
@@ -167,7 +166,7 @@ angular.module('console.build_create', [
 
                     } else if (n === 2) {
                         $scope.gitstatus = 'github';
-                        $scope.gitdata.orgs = angular.copy($scope.gitload.github)
+                        $scope.gitdata.orgs = angular.copy($scope.gitload.github);
                         if (!$scope.needbind.github) {
                             $scope.showbox = true
                         }
@@ -252,7 +251,7 @@ angular.module('console.build_create', [
                     // console.log('data.items--$scope.data-----', $scope.data);
                     $scope.buildList = $scope.data;
                     for (var i = 0; i < $scope.buildList.length; i++) {
-                        if($scope.buildConfig.metadata.name === $scope.buildList[i].metadata.name){
+                        if ($scope.buildConfig.metadata.name === $scope.buildList[i].metadata.name) {
                             $scope.namerr.repeated = true;
                             return
                         }
