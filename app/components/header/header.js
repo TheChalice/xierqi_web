@@ -9,8 +9,49 @@ angular.module("console.header", [{
             restrict: 'EA',
             replace: true,
             templateUrl: 'components/header/header.html',
-            controller: ['GLOBAL', '$timeout', '$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
-                function (GLOBAL, $timeout, $log, Project, account, regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
+            controller: ['allTenants','GLOBAL', '$timeout', '$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
+                function (allTenants,GLOBAL, $timeout, $log, Project, account, regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
+                    allTenants.query({name: "admin"}, function(data){
+                        createTree(data);
+                        console.log('createTree(data)',$scope.tenantsTree);
+
+                    }, function(res) {
+                        //todo 错误处理
+                    });
+                    function createTree(trees) {
+                        $scope.tenantsTree = [];
+                        $scope.treemap = {};
+                        angular.forEach(trees, function(item) {
+                            $scope.treemap[item.id] = item;
+                            $scope.treemap[item.id].children = [];
+                        });
+                        angular.forEach(trees, function(item) {
+                            if (item.parentId) {
+                                if ($scope.treemap[item.parentId]) {
+                                    $scope.treemap[item.parentId].children.push(item);
+                                } else {
+                                    delete $scope.treemap[item.id].parentId;
+                                    $scope.tenantsTree.push($scope.treemap[item.id]);
+                                }
+                            } else {
+                                $scope.tenantsTree.push($scope.treemap[item.id]);
+                            }
+                        });
+                        let cinf = function(father) {
+                            angular.forEach(father.children, function(child) {
+                                cinf(child);
+                                angular.forEach(child.bsis, function(bsi) {
+                                    father.bsis.push(bsi);
+                                });
+                            });
+                        };
+                        angular.forEach($scope.tenantsTree, function(tree) {
+                            cinf(tree);
+                        });
+                        $scope.selected = $scope.tenantsTree[0];
+
+                    }
+
                     ///////分区
                     if (navigator.userAgent.indexOf("Firefox") > 0) {
                         $('#testjt').unbind('DOMMouseScroll');

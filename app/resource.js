@@ -1010,4 +1010,10 @@ define([
             }, {});
             return statefuldetail;
         }])
+        .factory('allTenants', ['$resource', 'GLOBAL', function ($resource, GLOBAL) { //数据集成 公开数据集详情预览
+            var allTenants = $resource(GLOBAL.ocmanager + '/user/name/:name/all/tenants', {
+                namespaces: '@name',
+            }, {});
+            return allTenants;
+        }])
 });

@@ -7,7 +7,6 @@ angular.module('home.uploadimage', [{
     .controller('uploadimageCtrl', ['progressBox','GLOBAL', 'sessiontoken', 'Cookie', '$rootScope', 'User', 'Project', '$log', '$state', 'ImageStream', '$scope', 'Upload', 'toastr',
         function (progressBox,GLOBAL, sessiontoken, Cookie, $rootScope, User, Project, $log, $state, ImageStream, $scope, Upload, toastr) {
            var host = window.location.host;
-           console.log('host',host)
             $scope.grid = {
                 tag: null,
                 file: null,

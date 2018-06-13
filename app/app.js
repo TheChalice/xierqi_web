@@ -65,6 +65,7 @@ define([
             size: 10,
             host: '/oapi/v1',
             host_k8s: '/api/v1',
+            ocmanager:'/ocmanager/v2/api',
             broker_apigroup: '/apis/prd.asiainfo.com/v1',
             broker_ws_apigroup: '/ws/apis/prd.asiainfo.com/v1',
             host_ws_apis: '/ws/apis/apps/v1beta1',
