@@ -23,7 +23,7 @@
         <tr ng-repeat-start="(routeName,ports) in portsByRoute" style="display: none;"></tr>
         <tr ng-repeat="port in ports" ng-if="routeName !== ''">
             <td style="border-right:none;" data-title="{{customNameHeader || 'Route'}}{{ showNodePorts ? ' / Node Port' : '' }}">
-                <a href="" class="href-orange" ui-sref="console.route_detail({name: routes[routeName].metadata.name})">{{routes[routeName].metadata.name}}</a>
+                <a href="" class="href-orange" ui-sref="console.route_detail({name: routes[routeName].metadata.name,namespace:routenamespace})">{{routes[routeName].metadata.name}}</a>
                 <!-- <a href="{{routes[routeName] | navigateResourceURL}}">{{routes[routeName].metadata.name}}</a> -->
                 <route-warnings ng-if="routes[routeName].spec.to.kind !== 'Service' || services" route="routes[routeName]" services="services">
                 </route-warnings>
