@@ -490,9 +490,9 @@ angular.module("console.header", [{
                         //console.log('$state.current.name', $state.current.name);
                         if ($state.current.name === 'console.dashboard') {
                             //$state.reload();
-                            $state.go("console.dashboard", { namespace: $rootScope.namespace })
+                            $state.go("console.build", { namespace: $rootScope.namespace })
                         } else {
-                            $state.go("console.dashboard", { namespace: $rootScope.namespace });
+                            $state.go("console.build", { namespace: $rootScope.namespace });
                         }
                         //$state.go("console.dashboard", { namespace: $rootScope.namespace });
                         //}

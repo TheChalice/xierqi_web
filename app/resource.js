@@ -1010,6 +1010,12 @@ define([
             }, {});
             return statefuldetail;
         }])
+        .factory('uploadimageapi', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var uploadimage = $resource(GLOBAL.uploadimage + '/:namespace/complete', {
+                namespaces: '@username'
+            }, {});
+            return uploadimage;
+        }])
         .factory('allTenants', ['$resource', 'GLOBAL', function ($resource, GLOBAL) { //数据集成 公开数据集详情预览
             var allTenants = $resource(GLOBAL.ocmanager + '/user/name/:name/all/tenants', {
                 namespaces: '@name',

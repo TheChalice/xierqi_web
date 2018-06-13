@@ -336,11 +336,11 @@
                 环境变量
             </uib-tab-heading>
             <div class="row matgin-bt" ng-repeat="env in statefuldetail.spec.template.spec.containers[0].env">
-                <div class="col-md-6">
-                    <input class="col-md-11 input-key" type="text" ng-disabled="true" ng-model="env.name"  style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:text">
+                <div class="col-md-6" style="padding-left:0px;padding-right:0px;">
+                    <input class="col-md-11 input-key" type="text" ng-disabled="true" ng-model="env.name"  style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:text;font-size:12px;">
                 </div>
-                <div class="col-md-6">
-                    <input class="col-md-11 input-key" ng-disabled="true"  type="text" ng-model="env.value"  style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:text">
+                <div class="col-md-6" style="padding-left:0px;padding-right:0px;">
+                    <input class="col-md-11 input-key" ng-disabled="true"  type="text" ng-model="env.value"  style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:text;font-size:12px;">
                 </div>
              </div>
         </uib-tab>

@@ -64,6 +64,7 @@ define([
     DataFoundry.constant('GLOBAL', {
             size: 10,
             host: '/oapi/v1',
+            uploadimage: '/uploadimage',
             host_k8s: '/api/v1',
             ocmanager:'/ocmanager/v2/api',
             broker_apigroup: '/apis/prd.asiainfo.com/v1',
@@ -86,7 +87,7 @@ define([
             host_wss_k8s: '/ws/api/v1',
             login_uri: '/login',
             signin_uri: '/signin',
-            //host_webhooks: 'https://lab.new.dataos.io',
+            //host_webhooks: 'https://lab.lo.dataos.io',
             host_webhooks: '<WEBHOOK_PREFIX>',
 
             sso_switch: '<SSO_SWITCH>',
@@ -3115,11 +3116,11 @@ define([
                     { name: '资源管理', img: 'icon25 icon25-resource', url: null, stateUrl: null, children: $rootScope.resources }
                 ];
                 if (toState && toState.name) {
-                    console.log('toState----', toState);
+                    // console.log('toState----', toState);
                     $rootScope.console.state = toState.name;
                     // if (toState.name.indexOf('dashboard') !== -1) {
                     //     $rootScope.dataForTheTree[0].stateUrl = toState.name
-                    // } else 
+                    // } else
                     if (toState.name.indexOf('build') !== -1) {
                         $rootScope.dataForTheTree[0].stateUrl = toState.name;
                     } else if (toState.name.indexOf('private-image') !== -1 || toState.name.indexOf('image_detail') !== -1) {

@@ -82,6 +82,7 @@ angular.module('console.secret_secret', [
                     var c2 = 0;
                     var c1=0;
                     var r =0;
+                    var c3 =0;
                     while (n < e.length) {
                         r = e.charCodeAt(n);
                         if (r < 128) {
@@ -110,8 +111,7 @@ angular.module('console.secret_secret', [
                 //$scope.item.change = false;
                 $scope.change = false;
                 angular.forEach(res.data, function (res, i) {
-
-                    $scope.item.secretarr.push({key: i, value:Base64.decode(res),showLog:false});
+                    $scope.item.secretarr.push({key: i, value:Base64.decode(res)});
                 });
                 //console.log($scope.item.secretarr);
             },function (err) {
@@ -132,18 +132,16 @@ angular.module('console.secret_secret', [
                 var reader = new FileReader();
                 reader.onload = function (e) {
                     var content = e.target.result;
-                    $scope.item.secretarr.push({key: thisfilename, value: content,showLog:false})
-                    //console.log($scope.volume.configarr);
+                    // $scope.item.newarr.push({key: thisfilename, value: content,showLog:false});
+                    $scope.item.newarr[$scope.check].value = content;
+                    $scope.item.newarr[$scope.check].isClearCode = true;
                     $scope.$apply();
                 };
                 reader.readAsText(file);
             };
-            $scope.getLog= function (idx) {
-                $scope.item.secretarr[idx].showLog=!$scope.item.secretarr[idx].showLog;
-            };
-            $scope.addSecret = function () {
-                $scope.item.newarr.push({key: '', value: ''});
-                //$scope.item.newarr.push({key: '', value: ''});
+
+            $scope.AddConfigurationFile = function () {
+                $scope.item.newarr.push({key: '', value: '',isClearCode:false});
             };
 
             $scope.$watch('item', function (n, o) {
@@ -194,51 +192,29 @@ angular.module('console.secret_secret', [
                             $scope.grid.status = false
                         }
                     }
-
-
                 }
-
             }, true);
-            $scope.getLog= function (idx) {
-                console.log($scope.item.secretarr[idx].showLog);
-                $scope.item.secretarr[idx].showLog=!$scope.item.secretarr[idx].showLog
-            };
 
-            $scope.add= function () {
+            $scope.addFile= function (i) {
+                $scope.check = i;
                 document.getElementById('file-input').addEventListener('change', readSingleFile, false);
             };
 
-            $scope.deletekv = function (idx) {
+            $scope.deleteOriginkv = function (idx) {
                 $scope.item.secretarr.splice(idx, 1);
             };
-            $scope.rmsecret = function (idx) {
+            $scope.deletekv = function (idx) {
                 $scope.item.newarr.splice(idx, 1);
-                //deleteSecret.delete({namespace: $rootScope.namespace, name:$stateParams.name},function(){
-                //    $scope.secretarr.splice(idx,1);
-                //    //if($scope.secretarr.length <= 0){
-                //    //    $scope.grid.status = false;
-                //    //}
-                //})
+            };
+            $scope.clearOriginCode = function (item) {
+                $scope.check = item;
+                $scope.item.secretarr[$scope.check].value = '';
+            };
+            $scope.clearCode = function (index) {
+                $scope.check = index;
+                $scope.item.newarr[$scope.check].value = '';
             };
             $scope.updateSecret = function () {
-                //console.log('---',$scope.secretarr);
-                //for(var i = 0; i < $scope.secretarr.length; i++ ){
-                //    for( var j= i+1; j < $scope.secretarr.length; j++ ){
-                //        if($scope.secretarr[i].k == $scope.secretarr[j].k){
-                //            console.log('key值重了!!!');
-                //            $scope.grid.status = false;
-                //            return;
-                //        }
-                //    }
-                //    if(!$scope.secretarr[i].k || !$scope.secretarr[i].v){
-                //        console.log('err!!!!!!!!!!!!');
-                //        $scope.grid.status = false;
-                //        return;
-                //    }
-                //    var k = $scope.secretarr[i].k;
-                //    var v = $scope.secretarr[i].v;
-                //    $scope.item.data[k] = Base64.encode(v);
-                //}
                 $scope.item.data={};
                 if ($scope.item.secretarr) {
                     var arr = $scope.item.secretarr.concat($scope.item.newarr);

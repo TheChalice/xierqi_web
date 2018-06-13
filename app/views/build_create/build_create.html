@@ -44,13 +44,15 @@
                                     </p>
                                     <p class="tab-lab-text" style="margin-top: 5px">是可靠的自托管的Git项目仓库，
                                         可通过Web界面进行访问公开的或者私人项目。</p>
-                                    <p style="height: 16px;margin-top: 15px">
+                                    <p style="height: 16px;margin-top: 14px">
                                         <!--ng-show="needbind.gitlab"-->
                                         <a class="view_tit_set"
                                            ng-class="{'greycolor':!needbind.gitlab}"
                                            style="margin-right: 32px;"
-                                           ng-click="needbind.gitlab&&bindhub('gitlab')"><i
-                                            class="uex-icon-protocol-deafult"></i>绑定Gitlab</a>
+                                           ng-click="needbind.gitlab&&bindhub('gitlab')">
+                                            <span style="padding-bottom: 1px;font-size: 12px;margin-right: 6px;">
+                                                <i class="uex-icon-protocol-deafult"></i>
+                                            </span>绑定&nbsp;Gitlab</a>
                                         <a class="view_tit_set" ng-class="{'running':labrunning }"
                                            uib-tooltip="同步代码源"
                                            ng-click="loadOwner('gitlab')">
@@ -70,12 +72,14 @@
                                     <p class="tab-lab-text">Github于2008年上线目前，除了Git代码仓库托管以及基本的Web管理界面以外</p>
                                     <p class="tab-lab-text" style="margin-top: 5px">还提供了订阅、讨论组 、文本渲染 、在线文件编辑器
                                         、协作图谱（报表）、代码片段分享（Gist）等功能。</p>
-                                    <p style="height: 16px;margin-top: 15px">
+                                    <p style="height: 16px;margin-top: 14px">
                                         <a class="view_tit_set"
                                            style="margin-right: 32px;"
                                            ng-class="{'greycolor':!needbind.github}"
                                            ng-click="needbind.github&&bindhub('github')">
-                                            <i class="uex-icon-protocol-deafult"></i>绑定Github
+                                            <span style="padding-bottom: 1px;font-size: 12px;margin-right: 6px;">
+                                                <i class="uex-icon-protocol-deafult"></i>
+                                            </span>绑定&nbsp;Github</a>
                                         </a>
                                         <a class="view_tit_set"
                                            uib-tooltip="同步代码源"
@@ -87,18 +91,18 @@
                                 </div>
                             </uib-tab>
                             <uib-tab index="3" heading="Git仓库" style="font-size: 12px;">
-                                <div style="margin-left: 30px">
+                                <div style="margin-left: 16px">
                                     <p style="font-size: 12px;margin-left: -15px">
                                         <label>
                                             <input type="radio" name="CodeBase" value=1
                                                    ng-model="selectCodeBase.status">
                                         </label>
-                                        <span>公有代码库</span>
-                                        <label>
+                                        <span style="padding-left: 5px;">公有代码库</span>
+                                        <label style="margin-left: 22px;">
                                             <input type="radio" name="CodeBase" value=2
                                                    ng-model="selectCodeBase.status">
                                         </label>
-                                        <span>私有代码库</span>
+                                        <span style="padding-left: 5px;">私有代码库</span>
                                     </p>
                                     <div ng-if="selectCodeBase.status==1">
                                         <div class="form-group">
@@ -127,7 +131,7 @@
                                             <label for="dockeraddress"
                                                    class="control-label tab-reg-label label-font">Dockerfile路径</label>
                                             <div class="">
-                                                <input type="text" placeholder=""
+                                                <input type="text" placeholder="/"
                                                        class="form-control tab-reg-input form-control-input-line"
                                                        ng-model="buildConfig.spec.source.publiccontextDir">
                                             </div>

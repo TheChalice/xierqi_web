@@ -1,17 +1,17 @@
 <!-- Table combining routes and ports for a service -->
-<table class="table table-bordered table-mobile">
-    <thead>
+<table class="table table-mobile table-default" style="margin-bottom:20px;">
+    <tbody>
         <tr>
-            <th style="border-bottom-width:1px;background:#E5E9F2;border:none;">{{customNameHeader || '路由'}}<span ng-if="showNodePorts"> / Node Port</span></th>
-            <th style="border-bottom-width:1px;background:#E5E9F2;border:none;" role="presentation"></th>
-            <th style="border-bottom-width:1px;background:#E5E9F2;border:none;">服务端口</th>
-            <th style="border-bottom-width:1px;background:#E5E9F2;border:none;" role="presentation"></th>
-            <th style="border-bottom-width:1px;background:#E5E9F2;border:none;">目标端口</th>
-            <th style="border-bottom-width:1px;background:#E5E9F2;border:none;">主机名</th>
-            <th style="border-bottom-width:1px;background:#E5E9F2;border:none;">TLS</th>
+            <th class="col-lg-2 col-md-2 col-sm-1">{{customNameHeader || '路由'}}<span ng-if="showNodePorts"> / Node Port</span></th>
+            <th class="col-lg-1 col-md-2 col-sm-1" role="presentation"></th>
+            <th class="col-lg-2 col-md-2 col-sm-1">服务端口</th>
+            <th class="col-lg-1 col-md-2 col-sm-1" role="presentation"></th>
+            <th class="col-lg-2 col-md-2 col-sm-1">目标端口</th>
+            <th class="col-lg-2 col-md-2 col-sm-1">主机名</th>
+            <th class="col-lg-2 col-md-2 col-sm-1">TLS</th>
 
         </tr>
-    </thead>
+    </tbody>
     <tbody ng-if="!portsByRoute">
         <!-- <tbody ng-if="(portsByRoute | hashSize) == 0"> -->
         <tr>
@@ -23,7 +23,7 @@
         <tr ng-repeat-start="(routeName,ports) in portsByRoute" style="display: none;"></tr>
         <tr ng-repeat="port in ports" ng-if="routeName !== ''">
             <td style="border-right:none;" data-title="{{customNameHeader || 'Route'}}{{ showNodePorts ? ' / Node Port' : '' }}">
-                <a href="" class="href-orange" ui-sref="console.route_detail({name: routes[routeName].metadata.name})">{{routes[routeName].metadata.name}}</a>
+                <a href="" class="href-orange" ui-sref="console.route_detail({name: routes[routeName].metadata.name,namespace:routenamespace})">{{routes[routeName].metadata.name}}</a>
                 <!-- <a href="{{routes[routeName] | navigateResourceURL}}">{{routes[routeName].metadata.name}}</a> -->
                 <route-warnings ng-if="routes[routeName].spec.to.kind !== 'Service' || services" route="routes[routeName]" services="services">
                 </route-warnings>
