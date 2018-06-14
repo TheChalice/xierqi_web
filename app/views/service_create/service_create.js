@@ -52,7 +52,7 @@ angular.module('console.service.create', [
                 }
 
             }
-
+            var cont = 0
             $scope.istag = angular.copy(mytag)
 
             $scope.imageslist = [];
@@ -226,7 +226,7 @@ angular.module('console.service.create', [
                                         command: '',
 
                                     },
-                                    "httpGet": {
+                                    httpGet: {
                                         "path": "/Liveness",
                                         "port": 80,
                                         "scheme": "HTTP" //HTTPS
@@ -243,6 +243,8 @@ angular.module('console.service.create', [
                                     "successThreshold": 1,
                                     "failureThreshold": 3
                                 },
+                                entrypoint:'',
+                                cmd:'',
                                 "command": [
                                     "tail"
                                 ],
@@ -260,8 +262,7 @@ angular.module('console.service.create', [
                 "status": {}
             }
 
-
-            $scope.$watch('fuwuname', function (n, o) {
+            $scope.$watch('dc.metadata.name', function (n, o) {
                 if (n == o) {
                     return
                 }
@@ -319,7 +320,7 @@ angular.module('console.service.create', [
 
             function creatdc() {
 
-                dcname($scope.fuwuname, $scope.imagetext)
+                dcname($scope.dc.metadata.name, $scope.imagetext)
                 prepareLabel($scope.dc)
                 prepareEnv($scope.dc)
                 DeploymentConfig.get({
@@ -439,22 +440,241 @@ angular.module('console.service.create', [
                 }
 
             }
-
+            function unit(num,unit) {
+                if (unit === 'millicores') {
+                    return num+'m'
+                }else if(unit === 'cores'){
+                    return num+'cores'
+                }else if(unit === 'MB'){
+                    return num+'m'
+                }else if(unit === 'GB'){
+                    return num+'g'
+                }
+            }
             function invEnv() {
                 var envs = angular.copy($scope.dc.spec.template.spec.containers[0].env)
                 angular.forEach(envs, function (env) {
 
                 })
             }
+           function creatimageconfig(con) {
+                console.log('con', con);
+                var tpl =  {
+                    "type": "ImageChange",
+                    "imageChangeParams": {
+                        "automatic": true,
+                        "containerNames": [
+                            con.name          //todo 高级配置,手动填充
+                        ],
+                        "from": {
+                            "kind": "ImageStreamTag",
+                            "name": con.annotate.image + ":" + con.annotate.tag  //ruby-hello-world:latest
+                        }
+                    }
+                }
 
+                $scope.dc.spec.triggers.push(tpl)
+            }
+           function volerr(vol) {
+                var volerr = false;
+                var cunt = 0;
+                var copyarr = []
+                $scope.err = {
+                    vol: {
+                        secret: false,
+                        configMap: false,
+                        persistentVolumeClaim: false,
+                        mountPath: false
+                    }
+                }
+                angular.forEach(vol, function (item, i) {
+                    angular.forEach(item, function (ovolment, k) {
+                        ovolment.id = cunt;
+                        ovolment.index = k;
+                        ovolment.type = i
+                        cunt = cunt + 1;
+                        copyarr.push(ovolment)
+                    })
+                })
+                console.log('vol', vol);
+                angular.forEach(vol, function (item, i) {
+
+                    angular.forEach(item, function (ovolment, k) {
+                        //console.log('item', volment.mountPath);
+                        ovolment.mountPatherr = false;
+                        ovolment.nameerr = false;
+                        angular.forEach(copyarr, function (ivolment, j) {
+                            //console.log(ovolment.id, ivolment.id);
+                            if (ovolment.id !== ivolment.id) {
+                                if (ovolment.mountPath === ivolment.mountPath) {
+                                    volerr = true;
+                                    console.log(ivolment, vol[i]);
+                                    vol[ivolment.type][ivolment.index].mountPatherr = true;
+                                    ovolment.mountPatherr = true;
+                                    $scope.err.vol.mountPath = true;
+                                }
+                            }
+                        })
+                        if (ovolment.name || ovolment.secretName || ovolment.claimName) {
+
+                        } else {
+                            volerr = true
+                            ovolment.nameerr = true;
+                            $scope.err.vol[i] = true
+                        }
+
+                        if (!ovolment.mountPath) {
+                            ovolment.mountPatherr = true;
+                            volerr = true
+                            $scope.err.vol.mountPath = true
+                        }
+                    })
+
+                })
+                if (volerr) {
+                    return true
+                } else {
+                    return false
+                }
+            }
+           function creatvol(con, vol) {
+
+                angular.forEach(vol, function (item, i) {
+                    if (item.length > 0) {
+                        //console.log(item, i);
+                        angular.forEach(item, function (volment, k) {
+                            if (volment.secretName || volment.name || volment.claimName) {
+                                if (volment.mountPath) {
+                                    var vol = angular.copy(volment)
+                                    //console.log(volment);
+                                    con.volumeMounts.push({name: 'volumes' + cont, mountPath: vol.mountPath})
+                                    delete vol.mountPath
+                                    var volobj = {name: 'volumes' + cont}
+                                    volobj[i] = vol
+                                    $scope.dc.spec.template.spec.volumes.push(volobj);
+                                    cont = cont + 1;
+                                }
+                            }
+                        })
+                    }
+                })
+
+            }
             $scope.createDc = function () {
                 //console.log($scope.frm.serviceName.$error.pattern);
-                if ($scope.frm.serviceName.$error.pattern) {
-                    $scope.err.name.pattern = true;
+                $scope.dc.spec.template.spec.volumes = [];
+                var cancreat = true
+                angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
+                    //console.log(con.dosetcon.doset);
+                    if (con.open.readinessProbe) {
+                        if (con.open.readinesscheck === 'HTTP') {
+                            delete con.readinessProbe.exec
+                            delete con.readinessProbe.tcpSocket
+                            if (con.open.readinesshttpscheck) {
+                                con.readinessProbe.httpGet.scheme = 'HTTPS';
+                            }
+                            con.readinessProbe.httpGet.path = con.readinessProbe.annotations.path;
+                            con.readinessProbe.httpGet.port = parseInt(con.readinessProbe.annotations.port)
+                        }else if (con.open.readinesscheck === 'TCP') {
+                            delete con.readinessProbe.httpGet
+                            delete con.readinessProbe.exec
+                            if (con.readinessProbe.tcpSocket) {
+                                con.readinessProbe.tcpSocket.port = parseInt(con.readinessProbe.annotations.port)
+                            }
+                        }else if (con.open.readinesscheck === '命令') {
+                            //console.log('con.readinessProbe.exec.command', con.readinessProbe.exec.command);
+                            angular.forEach(con.readinessProbe.annotations.command, function (item, k) {
+                                con.readinessProbe.exec.command[k] = item.key
+                            })
+                            delete con.readinessProbe.httpGet
+                            delete con.readinessProbe.tcpSocket
+                        }
+                        con.readinessProbe.initialDelaySeconds = parseInt(con.readinessProbe.initialDelaySeconds)
+                        con.readinessProbe.timeoutSeconds = parseInt(con.readinessProbe.timeoutSeconds)
+                    }
+                    if (con.open.livenessProbe) {
+                        if (con.open.livenesscheck === 'HTTP') {
+                            delete con.livenessProbe.exec
+                            delete con.livenessProbe.tcpSocket
+                            if (con.open.livenesshttpscheck) {
+                                con.livenessProbe.httpGet.scheme = 'HTTPS';
+                            }
+                            con.livenessProbe.httpGet.path = con.livenessProbe.annotations.path;
+                            con.livenessProbe.httpGet.port = parseInt(con.livenessProbe.annotations.port)
+                        }else if (con.open.livenesscheck === 'TCP') {
+                            delete con.livenessProbe.httpGet
+                            delete con.livenessProbe.exec
+                            if (con.livenessProbe.tcpSocket) {
+                                con.livenessProbe.tcpSocket.port = parseInt(con.livenessProbe.annotations.port)
+                            }
+                        }else if (con.open.livenesscheck === '命令') {
+                            angular.forEach(con.livenessProbe.annotations.command, function (item, k) {
+                                con.livenessProbe.exec.command[k] = item.key
+                            })
+                            delete con.livenessProbe.httpGet
+                            delete con.livenessProbe.tcpSocket
+                        }
+                        con.livenessProbe.initialDelaySeconds = parseInt(con.livenessProbe.initialDelaySeconds)
+                        con.livenessProbe.timeoutSeconds = parseInt(con.livenessProbe.timeoutSeconds)
+                    }
+                    if (con.entrypoint) {
+                        con.command=con.entrypoint.split(' ')
+
+                    }
+                    if (con.cmd) {
+                        con.args=con.cmd.split(' ')
+
+                    }
+                    if (con.imageChange) {
+                        creatimageconfig(con)
+                    }
+                    if (con.volment) {
+                        con.volumeMounts = []
+                        if (volerr(con.volments)) {
+                            cancreat = false
+                        }
+                        creatvol(con, con.volments)
+                        //if (volrepeat(con.volumeMounts)) {
+                        //    Toast.open('卷路径重复');
+                        //    cancreat=false
+                        //}
+                        //
+                    } else {
+                        delete con.volumeMounts
+                        delete con.volments
+                    }
+
+                    if (con.resources) {
+                       con.resources.limits.cpu=unit(con.resources.limits.cpu,con.resourcesunit.mincpu)
+                       con.resources.limits.memory=unit(con.resources.limits.memory,con.resourcesunit.minmem)
+                       con.resources.requests.cpu=unit(con.resources.requests.cpu,con.resourcesunit.maxcpu)
+                       con.resources.requests.memory=unit(con.resources.requests.memory,con.resourcesunit.maxmem)
+                    }
+                    if (!con.display) {
+                        con.image = con.annotate.regimage
+                    }
+                    //addemptyDir
+                    if (con.emptyDir.length > 0) {
+                        if (!con.volumeMounts) {
+                            con.volumeMounts = []
+                        }
+                        if (!$scope.dc.spec.template.spec.volumes) {
+                            $scope.dc.spec.template.spec.volumes = []
+                        }
+                        angular.forEach(con.emptyDir, function (vol, i) {
+                            con.volumeMounts.push(vol.volumeMounts)
+                        })
+                        angular.forEach(con.emptyDir, function (vol, i) {
+                            $scope.dc.spec.template.spec.volumes.push(vol.volumes)
+                        })
+                    }
+
+                })
+                if (!cancreat) {
                     return
                 }
                 //console.log($scope.fuwuname);
-                if (!$scope.fuwuname) {
+                if (!$scope.dc.metadata.name) {
                     $scope.err.name.null = true;
                     return
                 }
@@ -533,15 +753,15 @@ angular.module('console.service.create', [
             restrict: 'E',
             templateUrl: 'views/service_create/tpl/dcContainers.html',
             scope: false,
-            controller: ['$scope','ChangeImages',
-                function ($scope,ChangeImages) {
-                $scope.selectImage = function (idx) {
-                    ChangeImages.open()
-                }
-                $scope.addenv = function (con) {
-                    con.env.push({name: '', value: ''})
-                }
-            }],
+            controller: ['$scope', 'ChangeImages',
+                function ($scope, ChangeImages) {
+                    $scope.selectImage = function (idx) {
+                        ChangeImages.open()
+                    }
+                    $scope.addenv = function (con) {
+                        con.env.push({name: '', value: ''})
+                    }
+                }],
         };
     })
     .directive('changeImage', function () {
