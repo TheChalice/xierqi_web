@@ -1,4 +1,3 @@
-
 <div class="service-config" id="service_config">
     <!--配置信息-->
     <div class="tittle">
@@ -7,7 +6,8 @@
     <div class="row condigmaarginbottom" style="margin-left:0px;font-size:12px;">
         <div class="col-md-12 bushu_marginBottom">
             <div class="col-md-2 col-md-2_padding">选择器:</div>
-            <div class="col-md-10">app = {{dc.metadata.name}} <br/> deploymentconfig = {{dc.metadata.name}}</div>
+            <div class="col-md-10">app = {{dc.metadata.name}}
+                <br/> deploymentconfig = {{dc.metadata.name}}</div>
         </div>
         <div class="col-md-12 bushu_marginBottom">
             <div class="col-md-2 col-md-2_padding">策略:</div>
@@ -26,12 +26,12 @@
             <div class="col-md-10">{{dc.spec.strategy.rollingParams.intervalSeconds}} sec</div>
         </div>
         <!--<div class="col-md-12 bushu_marginBottom">-->
-            <!--<div class="col-md-2 col-md-2_padding">Max Unavailable:</div>-->
-            <!--<div class="col-md-10">{{dc.spec.strategy.rollingParams.maxUnavailable}}</div>-->
+        <!--<div class="col-md-2 col-md-2_padding">Max Unavailable:</div>-->
+        <!--<div class="col-md-10">{{dc.spec.strategy.rollingParams.maxUnavailable}}</div>-->
         <!--</div>-->
         <!--<div class="col-md-12">-->
-            <!--<div class="col-md-2 col-md-2_padding">Max Surge:</div>-->
-            <!--<div class="col-md-10">{{dc.spec.strategy.rollingParams.maxSurge}}</div>-->
+        <!--<div class="col-md-2 col-md-2_padding">Max Surge:</div>-->
+        <!--<div class="col-md-10">{{dc.spec.strategy.rollingParams.maxSurge}}</div>-->
         <!--</div>-->
     </div>
 
@@ -43,7 +43,7 @@
             <!-- <div class="col-md-10">
                 <checkbox-small checked="quota.rubustCheck"></checkbox-small>
             </div> -->
-        
+
         </div>
         <div class="col-md-12">
             <div class="col-md-1 col-md-2_padding tittle">
@@ -52,32 +52,26 @@
             <div class="col-md-11">
                 <checkbox-small checked="quota.rubustCheck"></checkbox-small>
             </div>
-        
+
         </div>
         <div class="config_main">
-                <div class="col-md-1"></div>
+            <div class="col-md-1"></div>
             <div class="col-md-11">
-                <div class="podlist" style="margin-left:15px;"><p class="tit_num">Pod数量</p>
-                    <input class="podnum" ng-model="dc.spec.replicas" name="cdm"
-                           type="text" placeholder="数字必须为正整数"
-                           style="">
+                <div class="podlist" style="margin-left:15px;">
+                    <p class="tit_num">Pod数量</p>
+                    <input class="podnum" ng-model="dc.spec.replicas" name="cdm" type="text" placeholder="数字必须为正整数" style="">
                 </div>
                 <!-- placeholder="{{dc.spec.replicas}}" -->
                 <div class="podlist" ng-show="quota.rubustCheck">
                     <p class="tit_num">Pod最大数量</p>
-                    <input class="podnum" ng-model="horiz.spec.maxReplicas"
-                           value="{{dc.spec.replicas}}" type="text"
-                           placeholder="数字必须为正整数"
-                           style="">
+                    <input class="podnum" ng-model="horiz.spec.maxReplicas" value="{{dc.spec.replicas}}" type="text" placeholder="数字必须为正整数" style="">
 
                 </div>
                 <div class="podlist" ng-show="quota.rubustCheck">
-                        <p class="tit_num">CPU阀值</p>
-                    <input class="podnum" ng-model="horiz.spec.targetCPUUtilizationPercentage"
-                           ng-keyup="mustnum($event,horiz.spec.targetCPUUtilizationPercentage,100)"
-                           type="text"
-                           placeholder="数字必须为正整数"
-                           style=""> <span class="baifen">%</span>
+                    <p class="tit_num">CPU阀值</p>
+                    <input class="podnum" ng-model="horiz.spec.targetCPUUtilizationPercentage" ng-keyup="mustnum($event,horiz.spec.targetCPUUtilizationPercentage,100)"
+                        type="text" placeholder="数字必须为正整数" style="">
+                    <span class="baifen">%</span>
 
                 </div>
             </div>
@@ -91,460 +85,453 @@
             <div class="tittle">
                 <h3 class="df_tit">自动部署</h3>
             </div>
-            
+
             <!--<i class="faa faa-check"></i>-->
             <!--&nbsp;&nbsp;配置变化触发自动部署-->
         </div>
-        
+
         <div class="col-md-12">
-                <div class="col-md-1 col-md-2_padding tittle">
-                    <span class="config_tit">部署执行</span>
-                </div>
-                <div class="col-md-11">
-                        <label class="config_label" ng-class="{'active': grid.configChange}" ng-click="grid.configChange=!grid.configChange"
-                        style="cursor: pointer;">
-                     <i class="faa faa-check"></i>
-                     &nbsp;&nbsp;配置变化触发自动部署
-                 </label>
-                </div>
-            
+            <div class="col-md-1 col-md-2_padding tittle">
+                <span class="config_tit">部署执行</span>
             </div>
+            <div class="col-md-11">
+                <label class="config_label" ng-class="{'active': grid.configChange}" ng-click="grid.configChange=!grid.configChange" style="cursor: pointer;">
+                    <i class="faa faa-check"></i>
+                    &nbsp;&nbsp;配置变化触发自动部署
+                </label>
+            </div>
+
+        </div>
     </div>
 
-    <div class="continerboxs" style="width: 70%;">
+    <div class="continerboxs">
         <div class="tittle">
             <h3 class="df_tit">镜像信息</h3>
         </div>
         <div style="min-width: 750px;" class="container-fluid container-bar" ng-repeat="container in dc.spec.template.spec.containers"
-             ng-init="outerIndex = $index">
-            <div style="margin-bottom: 10px; width: 100%;">
-                <div style="display: inline-block;" class="text-left">
-                    <label ng-class="{'active': container.display}" ng-click="checkoutreg(container,true)"
-                           style="cursor: pointer;">
-                        <i class="faa faa-check"></i>
-                        &nbsp;&nbsp;私有
-                    </label>
-                    <label ng-class="{'active': !container.display}" ng-click="checkoutreg(container,false)"
-                           style="cursor: pointer;margin-left:8px;">
-                        <i class="faa faa-check"></i>
-                        &nbsp;&nbsp;公有
-                    </label>
+            ng-init="outerIndex = $index">
+            <!-- 镜像信息头部 -->
+            <div class="df_jx_block">
+                <div class="df_jx_l">
+                    <span>镜像信息 {{$index+1}}</span>
                 </div>
-                <div style="display: inline-block; float: right;" ng-show="dc.spec.template.spec.containers.length>1">
+                <div class="df_jx_r">
+                    <span class="df_jx_set" ng-show="dc.spec.template.spec.containers.length>1" ng-click="rmContainer($index)">
+                        <i class="uex-icon-cross"></i>
+                    </span>
+                    <span class="df_jx_set">
+                        <i class="uex-icon-arrow-up"></i>
+                    </span>
+                    <span class="df_jx_set" ng-if="uex-arrow-down">
+                        <i class="uex-icon-arrow-down"></i>
+                    </span>
+                </div>
+            </div>
+
+            <!-- 镜像信息头部 -->
+            <div class="df_config_main">
+                <div class="df_block_set">
+                    <div class="df_block_left">选择镜像</div>
+                    <div class="df_block_right">
+                        <div>
+                            <div style="display: inline-block;" class="text-left">
+                                <label ng-class="{'active': container.display}" ng-click="checkoutreg(container,true)" style="cursor: pointer;">
+                                    <i class="faa faa-check"></i>
+                                    &nbsp;&nbsp;私有
+                                </label>
+                                <label ng-class="{'active': !container.display}" ng-click="checkoutreg(container,false)" style="cursor: pointer;margin-left:8px;">
+                                    <i class="faa faa-check"></i>
+                                    &nbsp;&nbsp;公有
+                                </label>
+                            </div>
+                            <!-- <div style="display: inline-block; float: right;" ng-show="dc.spec.template.spec.containers.length>1">
                     <a class="fa fa-lg fa-times-circle" style="color: #9fa7b7;" ng-click="rmContainer($index)"
                        href="javascript:;"></a>
+                </div> -->
+                        </div>
+                        <div ng-show="container.display">
+                            <div class="dropdown dropdown-select" style="min-width:170px;height: 26px;">
+                                <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                    <span>{{container.annotate.image}}</span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" style="max-height: 250px;overflow-y:auto;min-width:170px;;border-color: #c9c9c9">
+                                    <li ng-repeat="(i,item) in container.annotate.images" style="font-size: 12px;" ng-click="selectimage(i,item,container)">
+                                        <span class="dropdown-menu-span" style="overflow-y: auto;">{{i}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <span class="biaodian">
+                                :
+                            </span>
+                            <div class="dropdown dropdown-select" style="min-width:170px;height: 26px;">
+                                <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                    <span>{{container.annotate.tag}}</span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" style="max-height: 150px;overflow-y:auto;min-width:170px;border-color: #c9c9c9">
+                                    <li ng-repeat="tag in container.annotate.tags" style="font-size: 12px;" ng-click="selecttag($index,container)">
+                                        <span class="dropdown-menu-span" style="overflow: inherit;">{{tag.tag}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div ng-show="!container.display">
+                                <input style="width:360px;height:26px;margin-top:8px;" type="text" name="serviceName" ng-model="container.annotate.regimage" class="form-control input-block foucsinput"
+                                    name="name" class="form-control">
+                            </div>
+                            <div style="margin-top: 10px;" ng-show="container.display">
+                                <label ng-class="{'active': container.imageChange}" ng-click="container.imageChange=!container.imageChange" style="cursor: pointer;">
+                                    <i class="faa faa-check"></i>
+                                    &nbsp;&nbsp;镜像变化触发自动部署
+                                </label>
+                            </div>
                 </div>
-            </div>
-            <div ng-show="container.display">
-                <div class="dropdown dropdown-select" style="min-width:300px;height: 34px;">
-                    <button class="btn dropdown-toggle" data-toggle="dropdown">
-                        <span>{{container.annotate.image}}</span>
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu"
-                        style="max-height: 250px;overflow-y:auto;min-width:300px;;border-color: #c9c9c9">
-                        <li ng-repeat="(i,item) in container.annotate.images" style="font-size: 12px;"
-                            ng-click="selectimage(i,item,container)">
-                            <span class="dropdown-menu-span" style="overflow-y: auto;">{{i}}</span>
-                        </li>
-                    </ul>
+               
+              
                 </div>
-                <span class="biaodian">
-                    :
-                </span>
-                <div class="dropdown dropdown-select" style="min-width:300px;height: 34px;">
-                    <button class="btn dropdown-toggle" data-toggle="dropdown">
-                        <span>{{container.annotate.tag}}</span>
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu"
-                        style="max-height: 150px;overflow-y:auto;min-width:300px;border-color: #c9c9c9">
-                        <li ng-repeat="tag in container.annotate.tags" style="font-size: 12px;"
-                            ng-click="selecttag($index,container)">
-                            <span class="dropdown-menu-span" style="overflow: inherit;">{{tag.tag}}</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div ng-show="!container.display">
-                <input style="width: 627px;" type="text" name="serviceName" ng-model="container.annotate.regimage"
-                       class="form-control input-block foucsinput"
-                       name="name" class="form-control">
-            </div>
-            <div style="margin-top: 30px;" ng-show="container.display">
-                <label ng-class="{'active': container.imageChange}" ng-click="container.imageChange=!container.imageChange"
-                       style="cursor: pointer;">
-                    <i class="faa faa-check"></i>
-                    &nbsp;&nbsp;镜像变化触发自动部署
-                </label>
-            </div>
+                <div class="clear"></div>
+                <div style="margin-top: 5px">
+                    <div class="df_block_set">
+                        <div class="df_block_left">
+                                可用性探测
+                        </div>
+                    <!-- <span class="usetest"></span> -->
+                    <div class="df_block_right">
+                    <span class="my-checkbox" style="margin-bottom:4px;">
+                        <span class="checkbox-check usetest" ng-class="{active: container.doset}" ng-click="survey(outerIndex)">
+                            <span class="check-btn"></span>
+                        </span>
+                    </span>
 
-            <div style="margin-top: 30px">
-                <span class="usetest">可用性探测</span>
-                <span class="my-checkbox">
-                <span class="checkbox-check usetest" ng-class="{active: container.doset}"
-                      ng-click="survey(outerIndex)">
-                                            <span class="check-btn"></span>
-                                        </span>
-                </span>
+                    <div ng-if="container.doset" class="row">
+                        <div class="mt10" style="padding-left: 0; float:left;">
+                            <div>
+                               
+                                <!-- <label style="font-size: 12px; font-weight: normal;">类型&nbsp;&nbsp;&nbsp;&nbsp;</label> -->
+                                <p class="df_config_tit">类型</p>
+                                <div class="" style="padding-top: 5px;padding-left:0px;">
+                                    <div class="dropdown dropdown-select open" style="width:167px;">
+                                        <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                            <span>{{container.dosetcon}}</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="javascript:;" ng-click="container.dosetcon = 'HTTP'">{{'HTTP'}}</a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;" ng-click="container.dosetcon = '命令'">{{'命令'}}</a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:;" ng-click="container.dosetcon = 'TCP'">{{'TCP'}}</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                              
 
-                <div ng-if="container.doset" class="row">
-                    <div class="col-md-12 mt10" style="padding-left: 0;">
+                            </div>
+                        </div>
+                        <div class="dohttp" ng-if="container.dosetcon === 'HTTP'" style="float:left;">
+                            <div class=" mt10" style="padding-left: 0;float:left;">
+                                <div style="float:left;">
+                                    
+                                    <p class="df_config_tit">路径</p>
+                                    <!-- <label style="font-size: 12px; font-weight: normal;padding-left: 0;">路径&nbsp;&nbsp;&nbsp;&nbsp;</label> -->
+                                    
+                                    <div class="" style="padding-top: 5px;padding-left:0px;">
+                                        <input type="text" name="candopath" class="form-control" style="font-size: 12px;width:167px;height:26px;" ng-model="container.readinessProbe.httpGet.path"
+                                            required placeholder="/" />
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                            <div class=" mt10" style="padding-left: 0;float:left;">
+                                <div>
+                            
+                                    <p class="df_config_tit">端口</p>
+                                    <!-- <label style="font-size: 12px; font-weight: normal;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label> -->
+                                    <div class="" style="padding-left: 0;padding-top:5px;">
+                                        <input type="text" name="candopath" class="form-control" style="font-size: 12px;width:167px;height:26px;" ng-model="container.readinessProbe.httpGet.port"
+                                            min="0" max="65535" ng-pattern="/^\d+$/" required placeholder="" />
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dohttp" ng-show="container.dosetcon === '命令'" style="float:left;">
+                            <div class=" mt10" style="padding-left: 0;padding-right: 30px;">
+                                <div>
+                                    
+                                    <p class="df_config_tit">命令</p>
+                                    <!-- <label style="font-size: 12px; font-weight: normal;">命令&nbsp;&nbsp;&nbsp;&nbsp;</label> -->
+                                   
+                                    <div class="row" style="margin-left:0px;" ng-repeat="com in container.readinessProbe.exec.command track by $index" ng-init="innerindex=$index">
+                                        <div class="" style="padding-top: 5px;">
+                                            <input type="text" name="candoname" class="form-control" style="font-size: 12px;width:167px;height:26px;" ng-model=com.key required
+                                                placeholder="" />
+
+                                        </div>
+                                        <!--<div class="col-md-1" style="height: 39px;line-height: 39px;padding:0px;">-->
+                                        <!--<i class="fa fa-lg" style="cursor: pointer"-->
+                                        <!--ng-click="innerindex==0?addexec(outindex,innerindex,$event):deleexec(outindex,innerindex)"-->
+                                        <!--ng-class="{'fa-times-circle':!$first, 'fa-plus-circle':$first}"></i>-->
+                                        <!--</div>-->
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dohttp" ng-if="container.dosetcon === 'TCP'" style="float:left;">
+                            <div class=" mt10" style="padding-left: 0;">
+                                <div>
+                                        <p class="df_config_tit">端口</p>
+                                    <!-- <label style="font-size: 12px; font-weight: normal;padding-left: 0;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label> -->
+                                    
+                                    <div style="padding-left:0px;padding-top: 5px;">
+                                        <input type="text" name="candopath" class="form-control" style="font-size: 12px;width:167px;height:26px;" ng-model="container.readinessProbe.tcpSocket.port"
+                                            min="0" max="65535" ng-pattern="/^\d+$/" required placeholder="" />
+                                    </div>
+
+
+                                
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    </div>
+                </div>
+                <!-- 123123 -->
+                <div class="clear"></div>
+                <div style="margin-top: 5px">
+                    <div class="df_block_set">
+                        <div class="df_block_left">挂载卷</div>
+                        <div class="df_block_right">
+                    <span class="my-checkbox">
+                        <span class="checkbox-check usetest" ng-class="{active: container.volment}" ng-click="addvol(outerIndex)">
+                            <span class="check-btn"></span>
+                        </span>
+                    </span>
+                    <span ng-show="err.vol.mountPath">
+                        <small class="fa fa-info-circle err-tip">请输入正确的挂载路径</small>
+                    </span>
+                    <div ng-show="container.volment" style="margin-top:10px;">
                         <div>
-                            <br/>
-                            <label style="font-size: 12px; font-weight: normal;">类型&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                            <br/>
-                            <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
-                                <div class="dropdown dropdown-select open" style="width: 627px;">
-                                    <button class="btn dropdown-toggle" data-toggle="dropdown">
-                                        <span>{{container.dosetcon}}</span>
+                            <span>密钥卷</span>
+                        </div>
+                        <div class="service-ctrl" style="">
+                            <div ng-if="container.volments.secret.length > 0" style="margin-bottom: 10px;" ng-repeat="secret in container.volments.secret"
+                                ng-init="innerIndex = $index">
+
+                                <div class="dropdown dropdown-select" style="min-width:167px;height: 26px;">
+                                    <button ng-class="{'err':secret.nameerr}" class="btn dropdown-toggle" data-toggle="dropdown" style="height: 26px;">
+                                        <span style="color: #999999" ng-show="!secret.secretName">请选择卷名称</span>
+                                        <span style="color: #333333" ng-show="secret.secretName">{{secret.secretName}}</span>
                                         <span class="caret"></span>
                                     </button>
-                                    <ul class="dropdown-menu">
-                                        <li>
-                                            <a href="javascript:;" ng-click="container.dosetcon = 'HTTP'">{{'HTTP'}}</a>
+                                    <ul class="dropdown-menu" style="max-height: 250px;overflow-y:auto;min-width:167px;;border-color: #c9c9c9">
+                                        <li ng-repeat="Sec in SecretList" style="font-size: 12px;" ng-click="secret.secretName=Sec.metadata.name">
+                                            <span class="dropdown-menu-span" style="overflow-y: auto;">{{Sec.metadata.name}}</span>
                                         </li>
-                                        <li>
-                                            <a href="javascript:;" ng-click="container.dosetcon = '命令'">{{'命令'}}</a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:;" ng-click="container.dosetcon = 'TCP'">{{'TCP'}}</a>
+                                    </ul>
+
+                                </div>
+
+                                <div class="envlist" style="width: 20px;">
+
+                                </div>
+                                <div class="envlist">
+                                    <!--<span style="margin-right:12px;padding-right:0;">值</span>-->
+                                    <input ng-class="{'err':secret.mountPatherr}" type="text" ng-model="secret.mountPath" placeholder="请填写挂载路径" style="width: 167px;;height: 26px;padding:6px 12px;border-radius:4px;">
+
+                                </div>
+                                <div class="envlist" style="width: 13px;">
+
+                                </div>
+                                <div class="envlist" style="padding-left:0;">
+                                    <a href="javascript:;" style='color: #9fa7b7;' ng-click="delconvol(outerIndex,$index,'secret')" class="fa fa-lg fa-times-circle">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="" ng-click="addconvol(outerIndex,'secret','secretName')" style="cursor: pointer;margin-top: 3px; font-size: 14px;margin-bottom: 15px;">
+                                <i class="fa fa-plus-circle fa-lg" style="cursor:pointer;"></i>
+                                &nbsp;
+                                <span style="color: #47B2FB;font-size:12px;">增加密钥卷</span>
+                            </div>
+                        </div>
+                        <div>
+                            <span>配置卷</span>
+                        </div>
+                        <div class="service-ctrl" style="">
+                            <div ng-if="container.volments.configMap.length > 0" style="margin-bottom: 10px;" ng-repeat="config in container.volments.configMap"
+                                ng-init="innerIndex = $index">
+
+                                <div class="dropdown dropdown-select" style="min-width:167px;height: 26px;">
+                                    <button ng-class="{'err':config.nameerr}" class="btn dropdown-toggle" data-toggle="dropdown" style="height: 26px;">
+
+                                        <span style="color: #999999" ng-show="!config.name">请选择卷名称</span>
+                                        <span style="color: #333333" ng-show="config.name">{{config.name}}</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" style="max-height: 250px;overflow-y:auto;min-width:167px;;border-color: #c9c9c9">
+                                        <li ng-repeat="con in ConfigMapList" style="font-size: 12px;" ng-click="config.name=con.metadata.name">
+                                            <span class="dropdown-menu-span" style="overflow-y: auto;">{{con.metadata.name}}</span>
                                         </li>
                                     </ul>
                                 </div>
-                            </div>
-                            <br>
 
+                                <div class="envlist" style="width: 20px;">
 
-                        </div>
-                    </div>
-                    <div class="dohttp" ng-if="container.dosetcon === 'HTTP'">
-                        <div class="col-md-12 mt10" style="padding-left: 0;">
-                            <div>
-                                <br/>
-                                <label style="font-size: 12px; font-weight: normal;padding-left: 0;">路径&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                <br/>
-                                <div class="col-md-11" style="padding-top: 5px;padding-left:0px;">
-                                    <input type="text" name="candopath"
-                                           class="form-control" style="width: 627px;font-size: 12px;"
-                                           ng-model="container.readinessProbe.httpGet.path"
-                                           required
-                                           placeholder="/"/>
                                 </div>
-                                <br>
-                            </div>
-                        </div>
-                        <div class="col-md-12 mt10" style="padding-left: 0;">
-                            <div>
-                                <br/>
-                                <label style="font-size: 12px; font-weight: normal;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                <br/>
-                                <div class="col-md-11" style="padding-left: 0;">
-                                    <input type="text" name="candopath"
-                                           class="form-control" style="width: 627px;font-size: 12px;"
-                                           ng-model="container.readinessProbe.httpGet.port"
-                                           min="0"
-                                           max="65535"
-                                           ng-pattern="/^\d+$/"
-                                           required
-                                           placeholder=""/>
+                                <div class="envlist">
+                                    <!--<span style="margin-right:12px;padding-right:0;">值</span>-->
+                                    <input ng-class="{'err':config.mountPatherr}" type="text" ng-model="config.mountPath" placeholder="请填写挂载路径" style="width: 167px;;height: 26px;padding:6px 12px;border-radius:4px;">
                                 </div>
-                                <br>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="dohttp" ng-show="container.dosetcon === '命令'">
-                        <div class="col-md-11 mt10" style="padding-left: 0;padding-right: 30px;">
-                            <div>
-                                <br/>
-                                <label style="font-size: 12px; font-weight: normal;">命令&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                <br/>
-                                <div class="row"
-                                     ng-repeat="com in container.readinessProbe.exec.command track by $index"
-                                     ng-init="innerindex=$index">
-                                    <div class="col-md-12" style="padding-top: 5px;">
-                                        <input type="text" name="candoname"
-                                               class="form-control" style="width: 627px;font-size: 12px;"
-                                               ng-model=com.key
-                                               required
-                                               placeholder=""/>
+                                <div class="envlist" style="width: 13px;">
 
-                                    </div>
-                                    <!--<div class="col-md-1" style="height: 39px;line-height: 39px;padding:0px;">-->
-                                    <!--<i class="fa fa-lg" style="cursor: pointer"-->
-                                    <!--ng-click="innerindex==0?addexec(outindex,innerindex,$event):deleexec(outindex,innerindex)"-->
-                                    <!--ng-class="{'fa-times-circle':!$first, 'fa-plus-circle':$first}"></i>-->
-                                    <!--</div>-->
                                 </div>
-                                <br>
+                                <div class="envlist" style="padding-left:0;">
+                                    <a href="javascript:;" style='color: #9fa7b7;' ng-click="delconvol(outerIndex,$index,'configMap')" class="fa fa-lg fa-times-circle">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="" ng-click="addconvol(outerIndex,'configMap','name')" style="cursor: pointer;margin-top: 3px; font-size: 14px;margin-bottom: 15px;">
+                                <i class="fa fa-plus-circle fa-lg" style="cursor:pointer;"></i>
+                                &nbsp;
+                                <span style="color: #47B2FB;font-size:12px;">增加配置卷</span>
                             </div>
                         </div>
-                    </div>
-                    <div class="dohttp" ng-if="container.dosetcon === 'TCP'">
-                        <div class="col-md-12 mt10" style="padding-left: 0;">
-                            <div>
-                                <br/>
-                                <label style="font-size: 12px; font-weight: normal;padding-left: 0;">端口&nbsp;&nbsp;&nbsp;&nbsp;</label>
-                                <br/>
-                                <div class="col-md-11" style="padding-left: 0;">
-                                    <input type="text" name="candopath"
-                                           class="form-control" style="width: 627px;font-size: 12px;"
-                                           ng-model="container.readinessProbe.tcpSocket.port"
-                                           min="0"
-                                           max="65535"
-                                           ng-pattern="/^\d+$/"
-                                           required
-                                           placeholder=""/>
+                        <div>
+                            <span>存储卷</span>
+                        </div>
+                        <div class="service-ctrl" style="">
+                            <div ng-if="container.volments.persistentVolumeClaim.length > 0" style="margin-bottom: 10px;" ng-repeat="persistentVolume in container.volments.persistentVolumeClaim"
+                                ng-init="innerIndex = $index">
+
+                                <div class="dropdown dropdown-select" style="min-width:167px;height: 26px;">
+                                    <button ng-class="{'err':persistentVolume.nameerr}" class="btn dropdown-toggle" data-toggle="dropdown" style="height: 26px;">
+                                        <span style="color: #999999" ng-show="!persistentVolume.claimName">请选择卷名称</span>
+                                        <span style="color: #333333" ng-show="persistentVolume.claimName">{{persistentVolume.claimName}}</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" style="max-height: 250px;overflow-y:auto;min-width:167px;;border-color: #c9c9c9">
+                                        <li ng-repeat="Persistent in PersistentVolumeClaimList" style="font-size: 12px;" ng-click="persistentVolume.claimName=Persistent.metadata.name">
+                                            <span class="dropdown-menu-span" style="overflow-y: auto;">{{Persistent.metadata.name}}</span>
+                                        </li>
+                                    </ul>
                                 </div>
 
+                                <div class="envlist" style="width: 20px;">
 
-                                <br>
+                                </div>
+                                <div class="envlist">
+                                    <!--<span style="margin-right:12px;padding-right:0;">值</span>-->
+                                    <input ng-class="{'err':persistentVolume.mountPatherr}" type="text" ng-model="persistentVolume.mountPath" placeholder="请填写挂载路径"
+                                        style="width:167px;;height:26px;padding:6px 12px;border-radius:4px;">
+                                </div>
+                                <div class="envlist" style="width: 13px;">
 
+                                </div>
+                                <div class="envlist" style="padding-left:0;">
+                                    <a href="javascript:;" style='color: #9fa7b7;' ng-click="delconvol(outerIndex,$index,'persistentVolumeClaim')" class="fa fa-lg fa-times-circle">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="" ng-click="addconvol(outerIndex,'persistentVolumeClaim','claimName')" style="cursor: pointer;margin-top: 3px; font-size: 14px;margin-bottom: 15px;">
+                                <i class="fa fa-plus-circle fa-lg" style="cursor:pointer;"></i>
+                                &nbsp;
+                                <span style="color: #47B2FB;font-size:12px;">增加存储卷</span>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-
-            </div>
-            <div style="margin-top: 30px">
-                <span class="usetest">挂载卷</span>
-                <span class="my-checkbox">
-                    <span class="checkbox-check usetest" ng-class="{active: container.volment}"
-                          ng-click="addvol(outerIndex)">
-                                            <span class="check-btn"></span>
-                                        </span>
-                </span>
-                <span ng-show="err.vol.mountPath"><small class="fa fa-info-circle err-tip">请输入正确的挂载路径</small></span>
-                <div ng-show="container.volment" style="margin-top:10px;">
-                    <div><span>密钥卷</span></div>
-                    <div class="service-ctrl" style="">
-                        <div ng-if="container.volments.secret.length > 0" style="margin-bottom: 10px;"
-                             ng-repeat="secret in container.volments.secret"
-                             ng-init="innerIndex = $index">
-
-                            <div class="dropdown dropdown-select" style="min-width:300px;height: 32px;">
-                                <button ng-class="{'err':secret.nameerr}" class="btn dropdown-toggle" data-toggle="dropdown" style="height: 32px;">
-                                    <span style="color: #999999" ng-show="!secret.secretName">请选择卷名称</span>
-                                    <span style="color: #333333" ng-show="secret.secretName">{{secret.secretName}}</span>
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu"
-                                    style="max-height: 250px;overflow-y:auto;min-width:300px;;border-color: #c9c9c9">
-                                    <li ng-repeat="Sec in SecretList" style="font-size: 12px;"
-                                        ng-click="secret.secretName=Sec.metadata.name">
-                                        <span class="dropdown-menu-span"
-                                              style="overflow-y: auto;">{{Sec.metadata.name}}</span>
-                                    </li>
-                                </ul>
-
-                            </div>
-
-                            <div class="envlist" style="width: 20px;">
-
-                            </div>
-                            <div class="envlist">
-                                <!--<span style="margin-right:12px;padding-right:0;">值</span>-->
-                                <input ng-class="{'err':secret.mountPatherr}" type="text" ng-model="secret.mountPath" placeholder="请填写挂载路径"
-                                       style="width: 300px;;height: 32px;padding:6px 12px;">
-
-                            </div>
-                            <div class="envlist" style="width: 13px;">
-
-                            </div>
-                            <div class="envlist" style="padding-left:0;">
-                                <a href="javascript:;" style='color: #9fa7b7;'
-                                   ng-click="delconvol(outerIndex,$index,'secret')"
-                                   class="fa fa-lg fa-times-circle">
-                                </a>
-                            </div>
+                        <div ng-if="container.emptyDir.length>0">
+                            <span>emptyDir</span>
                         </div>
-                        <div class="" ng-click="addconvol(outerIndex,'secret','secretName')"
-                             style="cursor: pointer;margin-top: 3px; font-size: 14px;margin-bottom: 15px;">
-                            <i class="fa fa-plus-circle fa-lg" style="cursor:pointer;"></i>
-                            &nbsp;<span style="color: #47B2FB;">增加密钥卷</span>
-                        </div>
-                    </div>
-                    <div><span>配置卷</span></div>
-                    <div class="service-ctrl" style="">
-                        <div ng-if="container.volments.configMap.length > 0" style="margin-bottom: 10px;"
-                             ng-repeat="config in container.volments.configMap"
-                             ng-init="innerIndex = $index">
+                        <div class="service-ctrl" style="">
+                            <div style="margin-bottom: 10px;" ng-repeat="empty in container.emptyDir" ng-init="innerIndex = $index">
 
-                            <div class="dropdown dropdown-select" style="min-width:300px;height: 32px;">
-                                <button  ng-class="{'err':config.nameerr}" class="btn dropdown-toggle" data-toggle="dropdown" style="height: 32px;">
+                                <div class="dropdown dropdown-select" style="min-width:167px;height: 26px;">
+                                    <button class="btn dropdown-toggle" style="height: 26px;background-color:#EFF2F7;">
+                                        {{empty.name}}
+                                    </button>
+                                </div>
 
-                                    <span style="color: #999999" ng-show="!config.name">请选择卷名称</span>
-                                    <span style="color: #333333" ng-show="config.name">{{config.name}}</span>
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu"
-                                    style="max-height: 250px;overflow-y:auto;min-width:300px;;border-color: #c9c9c9">
-                                    <li ng-repeat="con in ConfigMapList" style="font-size: 12px;"
-                                        ng-click="config.name=con.metadata.name">
-                                        <span class="dropdown-menu-span"
-                                              style="overflow-y: auto;">{{con.metadata.name}}</span>
-                                    </li>
-                                </ul>
-                            </div>
+                                <div class="envlist" style="width: 20px;">
 
-                            <div class="envlist" style="width: 20px;">
+                                </div>
+                                <div class="envlist">
+                                    <!--<span style="margin-right:12px;padding-right:0;">值</span>-->
+                                    <input type="text" ng-model="empty.mountPath" placeholder="挂载路径" ng-disabled="true" style="width: 167px;;height: 26px;padding:6px 12px;border-radius:4px;background-color:#EFF2F7;">
+                                </div>
+                                <div class="envlist" style="width: 13px;">
 
-                            </div>
-                            <div class="envlist">
-                                <!--<span style="margin-right:12px;padding-right:0;">值</span>-->
-                                <input  ng-class="{'err':config.mountPatherr}" type="text" ng-model="config.mountPath" placeholder="请填写挂载路径"
-                                       style="width: 300px;;height: 32px;padding:6px 12px;">
-                            </div>
-                            <div class="envlist" style="width: 13px;">
+                                </div>
+                                <div class="envlist" style="padding-left:0;">
+                                    <a href="javascript:;" style='color: #9fa7b7;' ng-click="delempty(outerIndex,$index)" class="fa fa-lg fa-times-circle">
+                                    </a>
+                                </div>
 
-                            </div>
-                            <div class="envlist" style="padding-left:0;">
-                                <a href="javascript:;" style='color: #9fa7b7;'
-                                   ng-click="delconvol(outerIndex,$index,'configMap')"
-                                   class="fa fa-lg fa-times-circle">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="" ng-click="addconvol(outerIndex,'configMap','name')"
-                             style="cursor: pointer;margin-top: 3px; font-size: 14px;margin-bottom: 15px;">
-                            <i class="fa fa-plus-circle fa-lg" style="cursor:pointer;"></i>
-                            &nbsp;<span style="color: #47B2FB;">增加配置卷</span>
-                        </div>
-                    </div>
-                    <div><span>存储卷</span></div>
-                    <div class="service-ctrl" style="">
-                        <div ng-if="container.volments.persistentVolumeClaim.length > 0" style="margin-bottom: 10px;"
-                             ng-repeat="persistentVolume in container.volments.persistentVolumeClaim"
-                             ng-init="innerIndex = $index">
-
-                            <div class="dropdown dropdown-select" style="min-width:300px;height: 32px;">
-                                <button  ng-class="{'err':persistentVolume.nameerr}" class="btn dropdown-toggle" data-toggle="dropdown" style="height: 32px;">
-                                    <span style="color: #999999" ng-show="!persistentVolume.claimName">请选择卷名称</span>
-                                    <span style="color: #333333" ng-show="persistentVolume.claimName">{{persistentVolume.claimName}}</span>
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu"
-                                    style="max-height: 250px;overflow-y:auto;min-width:300px;;border-color: #c9c9c9">
-                                    <li ng-repeat="Persistent in PersistentVolumeClaimList" style="font-size: 12px;"
-                                        ng-click="persistentVolume.claimName=Persistent.metadata.name">
-                                        <span class="dropdown-menu-span"
-                                              style="overflow-y: auto;">{{Persistent.metadata.name}}</span>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div class="envlist" style="width: 20px;">
-
-                            </div>
-                            <div class="envlist">
-                                <!--<span style="margin-right:12px;padding-right:0;">值</span>-->
-                                <input ng-class="{'err':persistentVolume.mountPatherr}" type="text" ng-model="persistentVolume.mountPath" placeholder="请填写挂载路径"
-                                       style="width: 300px;;height: 32px;padding:6px 12px;">
-                            </div>
-                            <div class="envlist" style="width: 13px;">
-
-                            </div>
-                            <div class="envlist" style="padding-left:0;">
-                                <a href="javascript:;" style='color: #9fa7b7;'
-                                   ng-click="delconvol(outerIndex,$index,'persistentVolumeClaim')"
-                                   class="fa fa-lg fa-times-circle">
-                                </a>
-                            </div>
-                        </div>
-                        <div class="" ng-click="addconvol(outerIndex,'persistentVolumeClaim','claimName')"
-                             style="cursor: pointer;margin-top: 3px; font-size: 14px;margin-bottom: 15px;">
-                            <i class="fa fa-plus-circle fa-lg" style="cursor:pointer;"></i>
-                            &nbsp;<span style="color: #47B2FB;">增加存储卷</span>
-                        </div>
-                    </div>
-                    <div ng-if="container.emptyDir.length>0"><span>emptyDir</span></div>
-                    <div class="service-ctrl" style="">
-                        <div style="margin-bottom: 10px;"
-                             ng-repeat="empty in container.emptyDir"
-                             ng-init="innerIndex = $index">
-
-                            <div class="dropdown dropdown-select" style="min-width:300px;height: 32px;">
-                                <button class="btn dropdown-toggle"  style="height: 32px;background-color:#EFF2F7;">
-                                    {{empty.name}}
-                                </button>
-                            </div>
-
-                            <div class="envlist" style="width: 20px;">
-
-                            </div>
-                            <div class="envlist">
-                                <!--<span style="margin-right:12px;padding-right:0;">值</span>-->
-                                <input  type="text" ng-model="empty.mountPath" placeholder="挂载路径" ng-disabled="true"
-                                       style="width: 300px;;height: 32px;padding:6px 12px;background-color:#EFF2F7;">
-                            </div>
-                            <div class="envlist" style="width: 13px;">
-
-                            </div>
-                            <div class="envlist" style="padding-left:0;">
-                                <a href="javascript:;" style='color: #9fa7b7;'
-                                   ng-click="delempty(outerIndex,$index)"
-                                   class="fa fa-lg fa-times-circle">
-                                </a>
                             </div>
 
                         </div>
-
                     </div>
                 </div>
             </div>
-            <div style="margin-top: 30px">
-                <span class="usetest" style="margin-right: 18px;">
-                    环境变量
-                </span>
-                <span style="font-size: 12px;font-weight: 300; cursor: pointer; color:#47B2FB;margin-left: 10px;"
-                      ng-click="container.annotate.isShowEnv=!container.annotate.isShowEnv">
-                    <i style="font-style: normal;" ng-show="!container.annotate.isShowEnv">展开</i>
-                    <i style="font-style: normal;" ng-show="container.annotate.isShowEnv">收起</i>
-                </span>
-                <div ng-show="container.annotate.isShowEnv" style="margin-top:10px;">
-                    <div class="service-ctrl" style="">
-                        <div ng-if="container.env.length > 0" style="margin-bottom: 10px;"
-                             ng-repeat="env in container.env"
-                             ng-init="innerIndex = $index">
-                            <div class="envlist">
-                                <!--<span style="margin-right:12px;">键</span>-->
-                                <input type="text" ng-model="env.name" placeholder="键"
-                                       style="width: 300px;;height: 32px;padding:6px 12px;">
-                            </div>
-                            <div class="envlist" style="width: 20px;">
+            </div>
+              
+                <div class="clear"></div>
+                <div style="margin-top: 5px;margin-bottom:10px;">
+                    <div class="df_block_set">
+                    <div class="df_block_left">环境变量</div>
+                    <div class="df_block_right" style="margin-bottom:20px;">
+                    <span style="font-size: 12px; cursor: pointer; color:#47B2FB;margin-left: 10px;" ng-click="container.annotate.isShowEnv=!container.annotate.isShowEnv">
+                        <i style="font-style: normal;" ng-show="!container.annotate.isShowEnv">展开</i>
+                        <i style="font-style: normal;" ng-show="container.annotate.isShowEnv">收起</i>
+                    </span>
+                    <div ng-show="container.annotate.isShowEnv" style="margin-top:10px;">
+                        <div class="service-ctrl" style="">
+                            <div ng-if="container.env.length > 0" style="margin-bottom: 10px;" ng-repeat="env in container.env" ng-init="innerIndex = $index">
+                                <div class="envlist">
+                                    <!--<span style="margin-right:12px;">键</span>-->
+                                    <input type="text" ng-model="env.name" placeholder="键" style="width: 167px;;height: 26px;padding:6px 12px;border-radius:4px;">
+                                </div>
+                                <div class="envlist" style="width: 20px;">
 
-                            </div>
-                            <div class="envlist">
-                                <!--<span style="margin-right:12px;padding-right:0;">值</span>-->
-                                <input type="text" ng-model="env.value" placeholder="值"
-                                       style="width: 300px;;height: 32px;padding:6px 12px;">
-                            </div>
-                            <div class="envlist" style="width: 13px;">
+                                </div>
+                                <div class="envlist">
+                                    <!--<span style="margin-right:12px;padding-right:0;">值</span>-->
+                                    <input type="text" ng-model="env.value" placeholder="值" style="width: 167px;;height: 26px;padding:6px 12px;border-radius:4px;">
+                                </div>
+                                <div class="envlist" style="width: 13px;">
 
+                                </div>
+                                <div class="envlist" style="padding-left:0;">
+                                    <a href="javascript:;" style='color: #9fa7b7;' ng-click="delcontainerEnv(outerIndex,$index)" class="fa fa-lg fa-times-circle">
+                                    </a>
+                                </div>
                             </div>
-                            <div class="envlist" style="padding-left:0;">
-                                <a href="javascript:;" style='color: #9fa7b7;'
-                                   ng-click="delcontainerEnv(outerIndex,$index)"
-                                   class="fa fa-lg fa-times-circle">
-                                </a>
+                            <div class="" ng-click="addContainerEnv(outerIndex)" style="cursor: pointer;margin-top: 10px; font-size: 14px;">
+                                <i class="fa fa-plus-circle fa-lg" style="cursor:pointer;"></i>
+                                &nbsp;
+                                <span style="color: #47B2FB;font-size:12px;">增加环境变量</span>
                             </div>
+
                         </div>
-                        <div class="" ng-click="addContainerEnv(outerIndex)"
-                             style="cursor: pointer;margin-top: 10px; font-size: 14px;">
-                            <i class="fa fa-plus-circle fa-lg" style="cursor:pointer;"></i>
-                            &nbsp;<span style="color: #47B2FB;font-size:12px;">增加环境变量</span>
-                        </div>
-                        
                     </div>
-
+                    </div>
                 </div>
+            </div>
+                <div class="clear"></div>
             </div>
         </div>
         <div class="row col-md-12">
-            <span style="cursor: pointer;" ng-click="addcon()"><i class="fa fa-plus-circle fa-lg"
-                                                                  style="cursor:pointer;"></i>
-            &nbsp;&nbsp;<span style="color: #47B2FB;font-size:12px;">添加容器</span></span>
+            <span style="cursor: pointer;" ng-click="addcon()">
+                <i class="fa fa-plus-circle fa-lg" style="cursor:pointer;"></i>
+                &nbsp;&nbsp;
+                <span style="color: #47B2FB;font-size:12px;">添加容器</span>
+            </span>
 
         </div>
     </div>
@@ -571,11 +558,37 @@
     .col_md_5_margin {
         margin-right: -90px;
     }
-    #service_config .bushu_marginBottom{margin-bottom:6px;color: #475669;}
-    #service_config .config_tit{font-size:12px;color: #475669;font-weight:normal;}
-    #service_config .tit_num{margin-bottom:8px;font-size:12px;color:#475669}
-    #service_config .podnum{margin-left:0px;}
-    #service_config .config_label{font-size:12px;color:#475669;font-weight:normal;}
-    #service_config .dropdown-toggle{height:30px;}
-</style>
 
+    #service_config .bushu_marginBottom {
+        margin-bottom: 6px;
+        color: #475669;
+    }
+
+    #service_config .config_tit {
+        font-size: 12px;
+        color: #475669;
+        font-weight: normal;
+    }
+
+    #service_config .tit_num {
+        margin-bottom: 8px;
+        font-size: 12px;
+        color: #475669
+    }
+
+    #service_config .podnum {
+        margin-left: 0px;
+    }
+
+    #service_config .config_label {
+        font-size: 12px;
+        color: #475669;
+        font-weight: normal;
+    }
+
+    #service_config .dropdown-toggle {
+        height: 26px;padding-top:3px;
+    }
+    #service_config .dropdown-select > .btn .caret{top:12px;}
+    #service_config input:hover{border:1px solid #47B2FB}
+</style>
