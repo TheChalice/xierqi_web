@@ -11,6 +11,49 @@
                 <uib-tab index="1">
                     <uib-tab-heading>
                         <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
+                        构建镜像
+                    </uib-tab-heading>
+                    <div class="input-group divradio">
+                        <div class="row">
+                            <div class="col-md-6" style="height: 32px;">image stream</div>
+                            <div class="col-md-6" style="height: 32px;">标签</div>
+                        </div>
+                        <div>
+                            <div class="dropdown dropdown-select" style="min-width: 156px;height: 32px;margin-right: 58px;">
+                                <button  class="btn dropdown-toggle" data-toggle="dropdown" style="height: 34px;">
+                                    <span>{{checked.image}}</span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu"
+                                    style="max-height: 156px; min-width: 156px;margin-top: -1px;overflow-y: auto">
+                                    <li ng-repeat="image in imageslist" style="height: 34px;font-size: 12px;">
+                                        <a href="javascript:;" style="" ng-click="checkedimage(image)">{{image.metadata.name}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="dropdown dropdown-select" style="min-width: 156px;height: 32px;">
+                                <button  class="btn dropdown-toggle" data-toggle="dropdown" style="height: 34px;"
+                                >
+                                    <span>{{checked.tag}}</span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu"
+                                    style="max-height: 156px; min-width: 156px;margin-top: -1px;overflow-y: auto">
+                                    <li ng-repeat="tag in tagslist">
+                                        <a href="javascript:;" ng-click="checkedtag(tag)">{{tag.name}}</a>
+
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </uib-tab>
+                <uib-tab index="2">
+                    <uib-tab-heading>
+                        <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
                         镜像地址
                     </uib-tab-heading>
                     <div class="row" style="margin-bottom: 15px;">
@@ -47,48 +90,6 @@
 
                         </div>
 
-
-
-                    </div>
-                </uib-tab>
-                <uib-tab index="2">
-                    <uib-tab-heading>
-                        <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
-                        构建镜像
-                    </uib-tab-heading>
-                    <div class="input-group divradio">
-                        <div class="row">
-                            <div class="col-md-6" style="height: 32px;">image stream</div>
-                            <div class="col-md-6" style="height: 32px;">标签</div>
-                        </div>
-                        <div>
-                            <div class="dropdown dropdown-select" style="min-width: 156px;height: 32px;margin-right: 58px;">
-                                <button  class="btn dropdown-toggle" data-toggle="dropdown" style="height: 34px;">
-                                    <span>{{checked.image}}</span>
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu"
-                                    style="max-height: 156px; min-width: 156px;margin-top: -1px;overflow-y: auto">
-                                    <li ng-repeat="image in imageslist" style="height: 34px;font-size: 12px;">
-                                        <a href="javascript:;" style="" ng-click="checkedimage(image)">{{image.metadata.name}}</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="dropdown dropdown-select" style="min-width: 156px;height: 32px;">
-                                <button  class="btn dropdown-toggle" data-toggle="dropdown" style="height: 34px;"
-                                >
-                                    <span>{{checked.tag}}</span>
-                                    <span class="caret"></span>
-                                </button>
-                                <ul class="dropdown-menu"
-                                    style="max-height: 156px; min-width: 156px;margin-top: -1px;overflow-y: auto">
-                                    <li ng-repeat="tag in tagslist">
-                                        <a href="javascript:;" ng-click="checkedtag(tag)">{{tag.name}}</a>
-
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
 
 
                     </div>

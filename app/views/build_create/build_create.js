@@ -1,11 +1,11 @@
 'use strict';
 angular.module('console.build_create', [
-    {
-        files: [
-            'views/build_create/build_create.css'
-        ]
-    }
-])
+        {
+            files: [
+                'views/build_create/build_create.css'
+            ]
+        }
+    ])
     .controller('BuildCreateCtrl', ['repositorysecret', 'repositorybranches', 'repositorygit', 'authorize', 'createdeploy', 'randomWord', '$rootScope', '$scope', '$state', '$log', 'Owner', 'Org', 'Branch', 'labOwner', 'psgitlab', 'laborgs', 'labBranch', 'ImageStream', 'BuildConfig', 'Alert', '$http', 'Cookie', '$base64', 'secretskey', 'toastr',
         function (repositorysecret, repositorybranches, repositorygit, authorize, createdeploy, randomWord, $rootScope, $scope, $state, $log, Owner, Org, Branch, labOwner, psgitlab, laborgs, labBranch, ImageStream, BuildConfig, Alert, $http, Cookie, $base64, secretskey, toastr) {
             $scope.grid = {
@@ -104,6 +104,7 @@ angular.module('console.build_create', [
                 clearselec();
                 var sendobj = {
                     source: git
+
                 };
                 if (cache) {
                     sendobj.cache = 'true'
@@ -173,6 +174,16 @@ angular.module('console.build_create', [
                     }
                 }
             });
+            $scope.$watch('selectCodeBase.status', function (n, o) {
+                if (n === o) {
+                    return
+                }
+                if (n) {
+                    $scope.buildConfig.spec.source.git.uri='';
+                    $scope.buildConfig.spec.source.git.ref='';
+                    $scope.buildConfig.spec.source.contextDir='';
+                }
+            })
             $scope.selectorg = function (idx, orgs) {
                 // console.log('$scope.selectorg', idx, orgs);
                 $scope.grid.org = idx;
@@ -331,23 +342,16 @@ angular.module('console.build_create', [
                     // if (!$scope.buildConfig.spec.source.git.uri) {
                     //     $scope.namerr.urlerr = true;
                     //     return
+
                     // }
-                    if ($scope.selectCodeBase.status == 1) {
-                        // console.log('$scope.selectCodeBase.status==1');
-                        //校验公有代码库仓库地址、用户名、口令
-                        if (urlRegExp.test($scope.buildConfig.spec.source.git.publicurl) === false) {
-                            $scope.publicErr.urlerror = true;
-                            return;
-                        }
-                        $scope.buildConfig.spec.source.git.uri = $scope.buildConfig.spec.source.git.publicurl;
-                        createBuildModel();
-                    } else if ($scope.selectCodeBase.status == 2) {
+                    if (urlRegExp.test($scope.buildConfig.spec.source.git.uri) === false) {
+                        $scope.privateErr.urlerr = true;
+                        return;
+                    }
+                    if ($scope.selectCodeBase.status == 2) {
                         // console.log('$scope.selectCodeBase.status==2');
                         //校验私有代码库仓库地址、用户名、口令
-                        if (urlRegExp.test($scope.buildConfig.spec.source.git.uri) === false) {
-                            $scope.privateErr.urlerr = true;
-                            return;
-                        }
+
                         if (nameRegExp.test($scope.sername.name) === false) {
                             $scope.privateErr.usernameerr = true;
                             return;
@@ -360,8 +364,9 @@ angular.module('console.build_create', [
                             $scope.privateErr.pwderr = true;
                             return;
                         }
-                        createBuildModel();
+
                     }
+                    createBuildModel();
                 }
             };
             var createBuildModel = function () {
