@@ -65,8 +65,8 @@
             </div>
         </div>
     </div>
-
-    <h3 class="subtitle">Template</h3>
+    <div class="h15"></div>
+    <h3 class="df_tit">Template</h3>
     <pod-template
             pod-template="replicaSet.spec.template"
             images-by-docker-reference="imagesByDockerReference"
@@ -74,8 +74,8 @@
             detailed="true"
             add-health-check-url="{{((!deploymentConfig || isActive)) ? healthCheckURL : ''}}">
     </pod-template>
-
-    <h4 class="subtitle">Volumes</h4>
+    <div class="h15"></div>
+    <h3 class="df_tit">Volumes</h3>
     <div ng-if="replicaSet.spec.template.spec.volumes" ng-repeat="volume in replicaSet.spec.template.spec.volumes">
         <!--<div class="row matgin-txt">-->
             <!--<div class="col-md-2">volumeName:</div>-->
@@ -132,16 +132,16 @@
     <div ng-if="!replicaSet.spec.template.spec.volumes" class="row matgin-txt">
         <div class="col-md-10">none</div>
     </div>
-
-    <h4 class="subtitle">Pods</h4>
-    <div class="table-responsive" style="margin-top: 20px;">
+    <div class="h15"></div>
+    <h3 class="df_tit">Pods</h3>
+    <div class="table-responsive">
         <table class="table table-hover table-default">
             <tr>
-                <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Name</th>
-                <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Status</th>
-                <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Containers Ready</th>
-                <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Containers Restart</th>
-                <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Age</th>
+                <th class="col-lg-2 col-md-2 col-sm-1">Name</th>
+                <th class="col-lg-2 col-md-2 col-sm-1">Status</th>
+                <th class="col-lg-2 col-md-2 col-sm-1">Containers Ready</th>
+                <th class="col-lg-2 col-md-2 col-sm-1">Containers Restart</th>
+                <th class="col-lg-2 col-md-2 col-sm-1">Age</th>
             </tr>
             <tr ng-repeat="pod in replicaPods">
                 <td data-title="Name" class="poda"

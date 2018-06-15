@@ -1,5 +1,5 @@
 <div class="pod-template">
-    <div class="component-label pod_list_mt" style="text-transform: uppercase;">
+    <div class="component-label pod_list_mt" style="text-transform: uppercase;font-size:12px;">
         <span class='pd_tem_l' ng-bind-template="{{labelPrefix||'Container'}}:">
 
         </span>
@@ -11,11 +11,11 @@
             <span class="pficon pficon-image" aria-hidden="true"></span>
         </div> -->
         <div flex class="word-break pod_list_mt">
-            <span class="pod-template-key">镜像:
+            <span class="pod-template-key" style="width:160px;float:left;font-size:12px;color:#475669">镜像:
                 <!--Image:-->
             </span>
-            <span ng-if="!imagesByDockerReference[container.image]">{{container.image | imageStreamName}}</span>
-            <span ng-if="imagesByDockerReference[container.image]">
+            <span ng-if="!imagesByDockerReference[container.image]" style="font-size:12px;color:#475669">{{container.image | imageStreamName}}</span>
+            <span ng-if="imagesByDockerReference[container.image]" style="font-size:12px;color:#475669">
                 <a ng-href="{{imagesByDockerReference[container.image].imageStreamName | navigateResourceURL : 'ImageStream' : imagesByDockerReference[container.image].imageStreamNamespace}}">{{container.image | imageStreamName}}</a>
                 <span class="hash" title="{{imagesByDockerReference[container.image].metadata.name}}">{{imagesByDockerReference[container.image].metadata.name | stripSHAPrefix | limitTo: 7}}</span>
                 <span ng-if="imagesByDockerReference[container.image].dockerImageMetadata.Size" class="small text-muted nowrap">
@@ -73,7 +73,7 @@
             <!-- <span aria-hidden="true" class="fa fa-terminal"></span> -->
         </div>
         <div flex class="word-break pod_list_mt">
-            <span class="pod-template-key" style="width:160px;">
+            <span class="pod-template-key" style="width:160px;float:left;color:#475669">
                 命令:
             </span>
             <span>
@@ -104,9 +104,9 @@
             <span data-icon="" aria-hidden="true" style="font-size:16px;line-height:normal"></span>
         </div>
         <div flex class="word-break pod_list_mt">
-            <span class="pod-template-key" style='width:160px;'>端口:</span>
+            <span class="pod-template-key" style='width:160px;float:left;font-size:12px;color:#475669'>端口:</span>
             <span ng-repeat="port in container.ports | orderBy: 'containerPort' | limitToOrAll : detailed ? undefined : 1">
-                <span class="nowrap">{{port.containerPort}}/{{port.protocol}}</span>
+                <span class="nowrap" style="font-size:12px;color:#475669;">{{port.containerPort}}/{{port.protocol}}</span>
                 <span ng-if="port.name">
                     <span class="nowrap"> ({{port.name}})</span>
                 </span>
@@ -129,7 +129,7 @@
             <!-- <span aria-hidden="true" class="fa fa-database"></span> -->
         </div>
         <div flex class="word-break pod_list_mt">
-            <span class="pod-template-key" style="width:160px;">
+            <span class="pod-template-key" style="width:160px;float:left;color:#475669;font-size:12px;">
                 挂载:
                 <!--Mount:-->
             </span>
@@ -181,8 +181,8 @@
             <i class="fa fa-medkit" aria-hidden="true"></i>
         </div> -->
         <div flex class="pod_list_mt">
-            <span class="pod-template-key">健康检查:</span>
-            <probe probe="container.readinessProbe"></probe>
+            <span class="pod-template-key" style="width:160px;float:left;color:#475669;font-size:12px;">健康检查:</span>
+            <probe style="font-size:12px;" probe="container.readinessProbe"></probe>
         </div>
     </div>
 
@@ -191,8 +191,8 @@
             <i class="fa fa-medkit" aria-hidden="true"></i>
         </div> -->
         <div flex class="pod_list_mt">
-            <span class="pod-template-key">保活检查:</span>
-            <probe probe="container.livenessProbe"></probe>
+            <span class="pod-template-key" style="width:160px;float:left;color:#475669;font-size:12px;">保活检查:</span>
+            <probe style="font-size:12px;" probe="container.livenessProbe"></probe>
         </div>
     </div>
 
