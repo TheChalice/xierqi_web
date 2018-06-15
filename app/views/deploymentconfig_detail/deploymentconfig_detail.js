@@ -216,9 +216,9 @@ angular.module('console.deploymentconfig_detail', [
                         closeButton: true
                     });
                     $scope.active = 1;
-                    angular.forEach(res, function (item, i) {
-                        item.spec.template.spec.containers[i].retract = true;
-                    })
+                    // angular.forEach(res, function (item, i) {  ////111
+                    //     item.spec.template.spec.containers[i].retract = true;
+                    // })
                     $scope.dc = angular.copy(res);
                     console.log('$scope.dc', $scope.dc);
                     $scope.loaddirs.loadcon()
@@ -286,6 +286,7 @@ angular.module('console.deploymentconfig_detail', [
             //
             //}
             $scope.updateDc = function () {
+                
                 $scope.dc.spec.template.spec.volumes = []
                 var cancreat = true
                 angular.forEach($scope.dc.spec.triggers, function (tri, i) {
@@ -296,6 +297,9 @@ angular.module('console.deploymentconfig_detail', [
 
                 })
                 angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
+                    delete con.retract;   //清除自定义key值retract
+                    // console.log("jiwer--",con)
+                    // $scope.dc.spec.template.spec.containers[con].retract
                     //console.log(con.dosetcon.doset);
                     if (con.doset) {
                         if (con.readinessProbe.httpGet) {
@@ -532,6 +536,7 @@ angular.module('console.deploymentconfig_detail', [
                         tmp.name = 'container' + $scope.dc.spec.template.spec.containers.length;
                         $scope.checkoutreg(tmp, true);
                         $scope.dc.spec.template.spec.containers.push(tmp);
+                        
                     
 
                     };
@@ -539,16 +544,20 @@ angular.module('console.deploymentconfig_detail', [
                         $scope.dc.spec.template.spec.containers.splice(idx, 1);
                     };
 
-                    $scope.uex_down = true;
-                    $scope.uex_up = false;
+                    $scope.uex_down = false;
+                    $scope.uex_up = true;
                     // $scope.dc.spec.template.spec.containers[0].retract = false;
                     console.log("jiad---", $scope.dc.spec.template.spec.containers[0])
                     $scope.pickdown = function (idx) {
                         if($scope.dc.spec.template.spec.containers[idx].retract){
                             $scope.dc.spec.template.spec.containers[idx].retract = false;
+                            $scope.uex_down = true;
+                            $scope.uex_up = false;
                            
                         }else{
                             $scope.dc.spec.template.spec.containers[idx].retract = true;
+                            $scope.uex_down = false;
+                            $scope.uex_up = true;
                         }
                         
             
