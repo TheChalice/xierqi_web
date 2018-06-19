@@ -13,17 +13,22 @@
 
 #resource_management .resource_btn{float:right;}
 #resource_management .tool_nav{
-    padding-top: 10px;
+    padding-top: 6px;
             padding-bottom: 10px;
             box-shadow: 0 1px 0 0 rgba(224, 230, 237, 0.50);
             clear: both;
-            height: 56px;
+            height: 42px;
             padding-left: 20px;
             padding-right: 20px;margin:0;background:#fff;
    
 }
 #resource_management .btn-green_res{
     /* margin-right: 20px; */
+    font-size: 12px;
+    padding: 4px 10px;
+    margin: 0px;
+    height: 26px;
+    margin-top: 4px;
 }
 #resource_management .btn-skyblue_res{
     height: 34px;
@@ -34,7 +39,7 @@
     padding-left: 0;
 }
 #resource_management .input_placeholder{
-    height: 34px;
+    /* height: 34px; */
 }
 #resource_management .table_mar_top{
     margin-top: 20px;margin-left:20px;margin-right:20px;

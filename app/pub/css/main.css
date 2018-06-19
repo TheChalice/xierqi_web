@@ -49,6 +49,7 @@ a {
     color: #fff;
 
 }
+.fa-lg{font-size:12px;vertical-align: middle;}
 
 .btn:hover {
     color: #fff;
@@ -74,6 +75,8 @@ a {
 
     /*background-color: #3c29d6;!*16 12-14 by zn for zhongxin *!*/
 /*}*/
+.pricvate_top .btn-green_li{font-size:12px;height:26px;line-height:26px;padding:0px 10px;margin:0px;margin-top:4px;}
+
 .btn-green {
     background-color: #47B2FB;
     /*background-color: #5c72e9;!*16 12-14 by zn for zhongxin *!*/
@@ -364,7 +367,7 @@ a {
     border-radius: 4px;
     box-shadow: none;
     color: #5a6378;
-    font-size: 12px;
+    font-size: 12px;height:26px;
 }
 
 
@@ -988,7 +991,7 @@ a {
 
 /*search bar样式*/
 .searchbar {
-    height: 36px;
+    height: 26px;
     border: 1px solid #c9c9c9;
     border-radius: 2px;
 }
@@ -1005,7 +1008,7 @@ a {
     background: url(../img/search.png) no-repeat 0 0px!important;
     box-shadow: none;display:block;width:15px;height:15px!important;
 }
-.input-group-btn{padding:8px 0px;}
+/* .input-group-btn{padding:8px 0px;} */
 
 .searchbar:hover .btn {
     background: url(../img/search-focus.png) no-repeat!important;
@@ -1988,3 +1991,10 @@ td  a:hover, a:focus{
 .df_block_right{float:left;}
 .clear{clear:both;overflow:hidden;}
 .df_config_tit{font-size:12px;color: #475669;margin:0;}
+
+.new_deploycol #creatbtn{font-size:12px;height:26px;line-height:26px;padding: 0px 10px;margin: 0px;margin-top: 4px;}
+.nav_top_li{
+    padding-top:6px;padding-bottom:10px;
+    box-shadow: 0 1px 0 0 rgba(224,230,237,0.50);
+    clear:both;padding-left:20px;padding-right:20px;background:#fff;height:42px;
+}
