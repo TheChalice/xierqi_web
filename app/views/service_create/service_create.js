@@ -134,12 +134,9 @@ angular.module('console.service.create', [
                     }
                 },
                 "spec": {
-                    ConfigChange: false,
+                    ConfigChange: true,
                     "strategy": {"resources": {}},
-                    "triggers": [{
-                        "type": "ConfigChange"
-                    }
-                    ],
+                    "triggers": [],
                     "replicas": 1,
                     "test": false,
                     "selector": {
@@ -243,8 +240,8 @@ angular.module('console.service.create', [
                                     "successThreshold": 1,
                                     "failureThreshold": 3
                                 },
-                                entrypoint:'',
-                                cmd:'',
+                                entrypoint: '',
+                                cmd: '',
                                 "command": [
                                     "tail"
                                 ],
@@ -279,6 +276,7 @@ angular.module('console.service.create', [
                     //dcname(n)
                 }
             })
+
             $scope.$watch('institution.display', function (n, o) {
                 if (n == o) {
                     return
@@ -312,10 +310,10 @@ angular.module('console.service.create', [
             }
 
             var prepareService = function (service, dc) {
-                service.metadata.name = $scope.fuwuname;
-                service.metadata.labels.app = $scope.fuwuname;
-                service.spec.selector.app = $scope.fuwuname;
-                service.spec.selector.deploymentconfig = $scope.fuwuname;
+                service.metadata.name = $scope.dc.metadata.name;
+                service.metadata.labels.app = $scope.dc.metadata.name;
+                service.spec.selector.app = $scope.dc.metadata.name;
+                service.spec.selector.deploymentconfig = $scope.dc.metadata.name;
             };
 
             function creatdc() {
@@ -355,8 +353,8 @@ angular.module('console.service.create', [
             var createService = function (dc) {
                 prepareService($scope.service, dc);
                 var ps = [];
-                console.log('$scope.port', $scope.port);
-                angular.forEach($scope.port, function (port, i) {
+                //console.log('$scope.port', $scope.port);
+                angular.forEach($scope.portsArr, function (port, i) {
                     var val = port.protocol.toUpperCase()
                     ps.push({
                         name: port.containerPort + '-' + port.protocol.toLowerCase(),
@@ -373,7 +371,7 @@ angular.module('console.service.create', [
                 Service.get({
                     namespace: $rootScope.namespace,
                     region: $rootScope.region,
-                    name: $scope.fuwuname
+                    name: dc.metadata.name
                 }, function (serve) {
                     //console.log('serve', serve);
                     $scope.err.name.repeated = true;
@@ -440,26 +438,29 @@ angular.module('console.service.create', [
                 }
 
             }
-            function unit(num,unit) {
+
+            function unit(num, unit) {
                 if (unit === 'millicores') {
-                    return num+'m'
-                }else if(unit === 'cores'){
-                    return num+'cores'
-                }else if(unit === 'MB'){
-                    return num+'m'
-                }else if(unit === 'GB'){
-                    return num+'g'
+                    return num + 'm'
+                } else if (unit === 'cores') {
+                    return num + 'cores'
+                } else if (unit === 'MB') {
+                    return num + 'm'
+                } else if (unit === 'GB') {
+                    return num + 'g'
                 }
             }
+
             function invEnv() {
                 var envs = angular.copy($scope.dc.spec.template.spec.containers[0].env)
                 angular.forEach(envs, function (env) {
 
                 })
             }
-           function creatimageconfig(con) {
+
+            function creatimageconfig(con) {
                 console.log('con', con);
-                var tpl =  {
+                var tpl = {
                     "type": "ImageChange",
                     "imageChangeParams": {
                         "automatic": true,
@@ -475,7 +476,8 @@ angular.module('console.service.create', [
 
                 $scope.dc.spec.triggers.push(tpl)
             }
-           function volerr(vol) {
+
+            function volerr(vol) {
                 var volerr = false;
                 var cunt = 0;
                 var copyarr = []
@@ -537,7 +539,8 @@ angular.module('console.service.create', [
                     return false
                 }
             }
-           function creatvol(con, vol) {
+
+            function creatvol(con, vol) {
 
                 angular.forEach(vol, function (item, i) {
                     if (item.length > 0) {
@@ -560,6 +563,7 @@ angular.module('console.service.create', [
                 })
 
             }
+
             $scope.createDc = function () {
                 //console.log($scope.frm.serviceName.$error.pattern);
                 $scope.dc.spec.template.spec.volumes = [];
@@ -575,13 +579,13 @@ angular.module('console.service.create', [
                             }
                             con.readinessProbe.httpGet.path = con.readinessProbe.annotations.path;
                             con.readinessProbe.httpGet.port = parseInt(con.readinessProbe.annotations.port)
-                        }else if (con.open.readinesscheck === 'TCP') {
+                        } else if (con.open.readinesscheck === 'TCP') {
                             delete con.readinessProbe.httpGet
                             delete con.readinessProbe.exec
                             if (con.readinessProbe.tcpSocket) {
                                 con.readinessProbe.tcpSocket.port = parseInt(con.readinessProbe.annotations.port)
                             }
-                        }else if (con.open.readinesscheck === '命令') {
+                        } else if (con.open.readinesscheck === '命令') {
                             //console.log('con.readinessProbe.exec.command', con.readinessProbe.exec.command);
                             angular.forEach(con.readinessProbe.annotations.command, function (item, k) {
                                 con.readinessProbe.exec.command[k] = item.key
@@ -591,6 +595,8 @@ angular.module('console.service.create', [
                         }
                         con.readinessProbe.initialDelaySeconds = parseInt(con.readinessProbe.initialDelaySeconds)
                         con.readinessProbe.timeoutSeconds = parseInt(con.readinessProbe.timeoutSeconds)
+                    }else {
+                        delete con.readinessProbe
                     }
                     if (con.open.livenessProbe) {
                         if (con.open.livenesscheck === 'HTTP') {
@@ -601,13 +607,13 @@ angular.module('console.service.create', [
                             }
                             con.livenessProbe.httpGet.path = con.livenessProbe.annotations.path;
                             con.livenessProbe.httpGet.port = parseInt(con.livenessProbe.annotations.port)
-                        }else if (con.open.livenesscheck === 'TCP') {
+                        } else if (con.open.livenesscheck === 'TCP') {
                             delete con.livenessProbe.httpGet
                             delete con.livenessProbe.exec
                             if (con.livenessProbe.tcpSocket) {
                                 con.livenessProbe.tcpSocket.port = parseInt(con.livenessProbe.annotations.port)
                             }
-                        }else if (con.open.livenesscheck === '命令') {
+                        } else if (con.open.livenesscheck === '命令') {
                             angular.forEach(con.livenessProbe.annotations.command, function (item, k) {
                                 con.livenessProbe.exec.command[k] = item.key
                             })
@@ -616,24 +622,29 @@ angular.module('console.service.create', [
                         }
                         con.livenessProbe.initialDelaySeconds = parseInt(con.livenessProbe.initialDelaySeconds)
                         con.livenessProbe.timeoutSeconds = parseInt(con.livenessProbe.timeoutSeconds)
+                    }else {
+                        delete con.livenessProbe
                     }
                     if (con.entrypoint) {
-                        con.command=con.entrypoint.split(' ')
+                        con.command = con.entrypoint.split(' ')
 
                     }
                     if (con.cmd) {
-                        con.args=con.cmd.split(' ')
+                        con.args = con.cmd.split(' ')
 
                     }
                     if (con.imageChange) {
                         creatimageconfig(con)
                     }
-                    if (con.volment) {
+                    //console.log('con.volment', con.volment);
+                    if (con.open.volment) {
                         con.volumeMounts = []
                         if (volerr(con.volments)) {
                             cancreat = false
                         }
+                        console.log('con.volment', con.volments);
                         creatvol(con, con.volments)
+
                         //if (volrepeat(con.volumeMounts)) {
                         //    Toast.open('卷路径重复');
                         //    cancreat=false
@@ -644,35 +655,19 @@ angular.module('console.service.create', [
                         delete con.volments
                     }
 
-                    if (con.resources) {
-                       con.resources.limits.cpu=unit(con.resources.limits.cpu,con.resourcesunit.mincpu)
-                       con.resources.limits.memory=unit(con.resources.limits.memory,con.resourcesunit.minmem)
-                       con.resources.requests.cpu=unit(con.resources.requests.cpu,con.resourcesunit.maxcpu)
-                       con.resources.requests.memory=unit(con.resources.requests.memory,con.resourcesunit.maxmem)
+                    if (con.open.resources) {
+                        con.resources.limits.cpu = unit(con.resources.limits.cpu, con.resourcesunit.mincpu)
+                        con.resources.limits.memory = unit(con.resources.limits.memory, con.resourcesunit.minmem)
+                        con.resources.requests.cpu = unit(con.resources.requests.cpu, con.resourcesunit.maxcpu)
+                        con.resources.requests.memory = unit(con.resources.requests.memory, con.resourcesunit.maxmem)
                     }
-                    if (!con.display) {
-                        con.image = con.annotate.regimage
-                    }
-                    //addemptyDir
-                    if (con.emptyDir.length > 0) {
-                        if (!con.volumeMounts) {
-                            con.volumeMounts = []
-                        }
-                        if (!$scope.dc.spec.template.spec.volumes) {
-                            $scope.dc.spec.template.spec.volumes = []
-                        }
-                        angular.forEach(con.emptyDir, function (vol, i) {
-                            con.volumeMounts.push(vol.volumeMounts)
-                        })
-                        angular.forEach(con.emptyDir, function (vol, i) {
-                            $scope.dc.spec.template.spec.volumes.push(vol.volumes)
-                        })
-                    }
+
 
                 })
                 if (!cancreat) {
                     return
                 }
+
                 //console.log($scope.fuwuname);
                 if (!$scope.dc.metadata.name) {
                     $scope.err.name.null = true;
@@ -684,9 +679,11 @@ angular.module('console.service.create', [
                     return
                 }
                 invEnv()
+                if ($scope.dc.spec.ConfigChange) {
+                    $scope.dc.spec.triggers.push({"type": "ConfigChange"})
+                }
 
-
-                if ($scope.hasport) {
+                if ($scope.portsArr.length&&$scope.portsArr.length>0) {
                     createService($scope.dc)
                 } else {
                     creatdc()
@@ -761,6 +758,9 @@ angular.module('console.service.create', [
                     $scope.addenv = function (con) {
                         con.env.push({name: '', value: ''})
                     }
+                    $scope.delenv = function (con,idx) {
+                        con.env.splice(idx, 1);
+                    }
                 }],
         };
     })
@@ -783,6 +783,7 @@ angular.module('console.service.create', [
                             })
                         }
                     }
+
                     $scope.myKeyup = function (e) {
                         var keycode = window.event ? e.keyCode : e.which;
                         if (keycode == 13) {
@@ -845,7 +846,7 @@ angular.module('console.service.create', [
                             imagestreamimports.create({namespace: $rootScope.namespace}, $scope.postobj, function (images) {
                                 $scope.finding = false;
                                 var allsize = 0
-                                console.log('images', images.status.images[0].image.dockerImageLayers);
+                                //console.log('images', images.status.images[0].image.dockerImageLayers);
                                 if (images.status.images[0].image.dockerImageLayers && images.status.images[0].image.dockerImageLayers.length) {
                                     angular.forEach(images.status.images[0].image.dockerImageLayers, function (size, i) {
 
@@ -853,7 +854,7 @@ angular.module('console.service.create', [
                                     })
                                 }
                                 $scope.imagesize = Math.round(parseInt(allsize) / 1024 / 1024 * 100) / 100
-                                console.log('size', $scope.imagesize);
+                                //console.log('size', $scope.imagesize);
                                 if (images.status.images && images.status.images[0] && images.status.images[0].status) {
                                     if (images.status.images[0].status.code && images.status.images[0].status.code === 401) {
                                         $scope.err.url.role = true;
@@ -875,8 +876,10 @@ angular.module('console.service.create', [
                                 $scope.curl = $scope.postobj.spec.images[0].from.name;
                                 var name = $scope.postobj.spec.images[0].from.name.split('/')[$scope.postobj.spec.images[0].from.name.split('/').length - 1]
                                 $scope.fuwuname = name.split(':').length > 1 ? name.split(':')[0] : name;
+                                $scope.dc.spec.template.spec.containers[0].name = $scope.fuwuname
                                 $scope.tag = name.split(':').length > 1 ? name.split(':')[1] : 'latest';
                                 $scope.imagetext = $scope.postobj.spec.images[0].from.name;
+                                //$scope.dc.spec.template.spec.containers[0].ports
 
                                 //var imagetag = 'dadafoundry.io/image-' + $scope.postobj.spec.images[0].from.name;
                                 //
@@ -900,6 +903,7 @@ angular.module('console.service.create', [
                             })
                         }
                     }
+
                     $scope.checkedtag = function (tag) {
                         //console.log('tag', tag);
                         $scope.checked.tag = tag.name;
@@ -929,6 +933,10 @@ angular.module('console.service.create', [
                             //if (!$scope.dc.metadata.name) {
                             //    $scope.dc.metadata.name=$scope.checked.image;
                             //}
+                            $scope.dc.spec.template.spec.containers[0].annotate.image=$scope.checked.image
+                            $scope.dc.spec.template.spec.containers[0].annotate.tag=$scope.checked.tag
+                            $scope.dc.spec.template.spec.containers[0].annotate.ismy=true
+
                             $scope.dc.spec.template.spec.containers[0].name = $scope.checked.image
                             $scope.fuwuname = $scope.checked.image;
 
@@ -941,7 +949,7 @@ angular.module('console.service.create', [
                             })
                             $scope.showall = true;
 
-                            //$scope.dc.metadata.labels[0].value =$scope.fuwuname ;
+                            $scope.dc.metadata.labels[0].value =$scope.fuwuname ;
 
                         })
                     }
