@@ -599,13 +599,13 @@ a {
 .pagination > .active > span:focus {
     background-color: #fff;
     border:1px solid #47B2FB;color:#47B2FB;padding:2px 8px;margin-left:0;
-    background:#fff;
+    background:#fff;font-size:12px;
 }
 .pagination > .active > span:hover{
     background-color: #fff;
     border-color: #47B2FB;color:#47B2FB;
 }
-.pagination>li>a, .pagination>li>span{padding:2px 8px;color:#475669;}
+.pagination>li>a, .pagination>li>span{padding:2px 8px;color:#475669;font-size:12px;}
 .pagination>.disabled>a{padding:2px 8px;background:#EFF2F7;color:#A2B0C4;}
 .pagination>.disabled>a:hover{padding:2px 8px;background:#EFF2F7;color:#A2B0C4;}
 .pagination>li>a:hover{color:#47B2FB;background:#fff;}
@@ -847,7 +847,7 @@ a {
 .faa-check {
     background-position: -16px -220px;
     width: 14px;
-    height: 14px;
+    height: 14px;vertical-align: sub;
 }
 
 .active > .faa-check {
@@ -933,9 +933,9 @@ a {
 }
 
 .service-config .container-bar {
-    padding: 10px 15px;
-    border: 1px solid #c9c9c9;
-    border-radius: 2px;
+    padding: 0;
+    border:0;
+   
     color: #5a6378;
     font-size: 12px;
     line-height: 25px;
@@ -1934,6 +1934,24 @@ td  a:hover, a:focus{
     content: '\e9ff';
     color:#A2B0C4;
  }
+ /* 关闭 */
+ .uex-icon-cross:before{
+    content:'\e911';
+    color: #A2B0C4;
+    font-size:14px;
+ }
+  /* 剪头向下 */
+ .uex-icon-arrow-down:before{
+     content:"\e902";
+     font-size: 12px;
+     color: #A2B0C4;
+ }
+ /* 剪头向上 */
+ .uex-icon-arrow-up:before{
+    content:"\e903";
+    font-size: 12px;
+    color: #A2B0C4;
+}
 
 .df_search{position:absolute;z-index:999;top:50%;right:10px;font-size:14px;margin-top:-7px;color: #A2B0C4;}
   .searchbar:hover .df_search{color:#47B2FB;}
@@ -1956,3 +1974,17 @@ td  a:hover, a:focus{
 }
 .blank_block .blank_tit{font-size:12px;color:#475669;}
 .df_table .blank_tit{font-size:12px;color:#A2B0C4;margin-left:0px;vertical-align:middle;}
+
+/* 镜像信息头部 */
+.df_jx_block{height:30px;background: #EFF2F7;border: 1px solid #E0E6ED;border-radius: 2px 2px 0 0;line-height:30px;clear:both;overflow:hidden;}
+.df_jx_block .df_jx_l{float:left;}
+.df_jx_block .df_jx_l span{padding-left:12px;font-size:12px;color: #475669;}
+.df_jx_block .df_jx_r{float:right;}
+.df_config_main{border:1px solid #E0E6ED;border-radius: 2px;border-top:0px;}
+.df_jx_set{width:56px;border-left:1px solid #E0E6ED;display:block;float:left;text-align:center;cursor:pointer;}
+/* 内容区域 */
+.df_config_main .df_block_set{padding:12px;clear:both;}
+.df_block_left{float:left;width:120px;}
+.df_block_right{float:left;}
+.clear{clear:both;overflow:hidden;}
+.df_config_tit{font-size:12px;color: #475669;margin:0;}
