@@ -102,7 +102,7 @@ angular.module('console.deploymentconfig_detail', [
                 horiz.spec.maxReplicas = parseInt($scope.horiz.spec.maxReplicas) || $scope.dc.spec.replicas;
                 horiz.spec.targetCPUUtilizationPercentage = parseInt($scope.horiz.spec.targetCPUUtilizationPercentage) || 80;
                 horizontalpodautoscalers.put({ namespace: $rootScope.namespace, name: name }, horiz, function (data) {
-                    console.log('data', data);
+                    // console.log('data', data);
                 })
             }
             var delhor = function () {
@@ -154,7 +154,7 @@ angular.module('console.deploymentconfig_detail', [
                         copyarr.push(ovolment)
                     })
                 })
-                console.log('vol', vol);
+                // console.log('vol', vol);
                 angular.forEach(vol, function (item, i) {
 
                     angular.forEach(item, function (ovolment, k) {
@@ -166,7 +166,7 @@ angular.module('console.deploymentconfig_detail', [
                             if (ovolment.id !== ivolment.id) {
                                 if (ovolment.mountPath === ivolment.mountPath) {
                                     volerr = true;
-                                    console.log(ivolment, vol[i]);
+                                    // console.log(ivolment, vol[i]);
                                     vol[ivolment.type][ivolment.index].mountPatherr = true;
                                     ovolment.mountPatherr = true;
                                     $scope.err.vol.mountPath = true;
@@ -210,7 +210,7 @@ angular.module('console.deploymentconfig_detail', [
                     //     item.spec.template.spec.containers[i].retract = true;
                     // })
                     $scope.dc = angular.copy(res);
-                    console.log('$scope.dc', $scope.dc);
+                    // console.log('$scope.dc', $scope.dc);
                     $scope.loaddirs.loadcon()
                 }, function (res) {
 
@@ -240,7 +240,7 @@ angular.module('console.deploymentconfig_detail', [
 
             }
             var creatimageconfig = function (con) {
-                console.log('con', con);
+                // console.log('con', con);
                 var tpl = {
                     "type": "ImageChange",
                     "imageChangeParams": {
@@ -280,7 +280,7 @@ angular.module('console.deploymentconfig_detail', [
                 $scope.dc.spec.template.spec.volumes = []
                 var cancreat = true
                 angular.forEach($scope.dc.spec.triggers, function (tri, i) {
-                    console.log(tri);
+                    // console.log(tri);
                     if (tri.type !== "ConfigChange") {
                         $scope.dc.spec.triggers.splice(i, 1)
                     }
@@ -378,7 +378,7 @@ angular.module('console.deploymentconfig_detail', [
                             namespace: $rootScope.namespace,
                             name: $stateParams.name
                         }, function (data) {
-                            console.log('sdata', data);
+                            // console.log('sdata', data);
                             puthor(data, $stateParams.name)
 
                         }, function (err) {
@@ -407,7 +407,7 @@ angular.module('console.deploymentconfig_detail', [
                         timeOut: 2000,
                         closeButton: true
                     });
-                    console.log(obj);
+                    // console.log(obj);
                 })
             }
             $scope.deleteDc = function (val) {
@@ -506,7 +506,7 @@ angular.module('console.deploymentconfig_detail', [
                         //
 
                         if (patrn.test(num)) {
-                            console.log('t', e.currentTarget.value);
+                            // console.log('t', e.currentTarget.value);
                         } else {
                             //console.log('f',num);
                             e.currentTarget.value = null
@@ -526,10 +526,6 @@ angular.module('console.deploymentconfig_detail', [
                         tmp.name = 'container' + $scope.dc.spec.template.spec.containers.length;
                         $scope.checkoutreg(tmp, true);
                         $scope.dc.spec.template.spec.containers.push(tmp);
-                        console.log("jia--",$scope.dc.spec.template.spec.containers)
-                        
-                    
-
                     };
                     $scope.rmContainer = function (idx) {
                         $scope.dc.spec.template.spec.containers.splice(idx, 1);
@@ -759,7 +755,7 @@ angular.module('console.deploymentconfig_detail', [
                                 //console.log($scope.dc.spec.template.spec.volumes);
                                 //console.log(con.volumeMounts);
                             }
-                            console.log(con.emptyDir);
+                            // console.log(con.emptyDir);
                             //console.log('con.volumeMounts', $scope.dc.spec.template.spec.volumes);
                             if (con.volumeMounts && con.volumeMounts.length > 0) {
                                 //other
@@ -780,7 +776,7 @@ angular.module('console.deploymentconfig_detail', [
                                                 angular.forEach(vol, function (item, j) {
                                                     if (j !== 'name') {
                                                         item['mountPath'] = convol.mountPath
-                                                        console.log(con.volments, j);
+                                                        // console.log(con.volments, j);
                                                         con.volments[j].push(item);
                                                     }
                                                 })
