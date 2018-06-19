@@ -81,29 +81,29 @@ angular.module('console.create_constantly_persistentVolume', [
                 return;
             }
             if (n && n.length > 0) {
-                var kong = false;
+                $scope.grid.configpost = false;
                 if (rex.test(n)) {
                     $scope.namerr.rexed = false;
+                    $scope.grid.configpost = true;
                     $scope.namerr.repeated = false;
                     if ($scope.persmnamearr) {
                         angular.forEach($scope.persmnamearr, function (bsiname, i) {
                             if (bsiname.metadata.name === n) {
                                 $scope.namerr.repeated = true;
-                                kong = true;
+                                $scope.grid.configpost = false;
                             }
                         })
                     }
-
-                }
-                if (!kong) {
-                    $scope.grid.configpost = true
                 } else {
-                    $scope.grid.configpost = false
+                    $scope.namerr.rexed = true;
+                    $scope.grid.configpost = false;
                 }
             } else {
+                $scope.namerr.nil = true;
+                $scope.namerr.rexed = false;
+                $scope.namerr.repeated = false;
                 $scope.grid.configpost = false
             }
-
         }, true);
         $scope.empty = function () {
             if ($scope.volume.name === '') {
