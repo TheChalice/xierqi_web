@@ -543,70 +543,20 @@ angular.module('console.deploymentconfig_detail', [
                     $scope.rmContainer = function (idx) {
                         $scope.dc.spec.template.spec.containers.splice(idx, 1);
                     };
-
+                    //展开收缩
                     $scope.uex_down = false;
                     $scope.uex_up = true;
-                    // $scope.dc.spec.template.spec.containers[0].retract = false;
-                    console.log("jiad---", $scope.dc.spec.template.spec.containers[0])
                     $scope.pickdown = function (idx) {
                         if($scope.dc.spec.template.spec.containers[idx].retract){
                             $scope.dc.spec.template.spec.containers[idx].retract = false;
                             $scope.uex_down = true;
                             $scope.uex_up = false;
-                           
                         }else{
                             $scope.dc.spec.template.spec.containers[idx].retract = true;
                             $scope.uex_down = false;
                             $scope.uex_up = true;
                         }
-                        
-            
                     }
-
-                    // $scope.pickdown = function (e) {
-                    //     // $scope.dc.spec.template.spec.containers[e].retract = false
-                    //     // alert(1)
-                    //     angular.forEach($scope.dc.spec.template.spec.containers, function (o, c) {
-                    //         console.log(o, c)
-                    //         c == e ? o.retract = false : o.retract = true
-                    //     })
-                    //     $scope.uex_down = true;
-                    //     $scope.uex_up = false;
-
-
-
-                    // }
-
-
-                    // $scope.pickdown=function(e){
-                    //     if($scope.dc.spec.template.spec.containers[e].retract=true){
-                    //     $scope.dc.spec.template.spec.containers[e].retract=false;
-                    //     $scope.uex_down=false;
-                    //     $scope.uex_up=true;
-                    //     }
-                    //     if($scope.dc.spec.template.spec.containers[e].retract=false){
-                    //         alert(4)
-                    //         $scope.dc.spec.template.spec.containers[e].retract=false;
-                    //         $scope.uex_down=false;
-                    //         $scope.uex_up=true;
-
-
-                    //         }
-                    // }
-
-                    // $scope.pickup=function(e){
-
-                    //     if($scope.dc.spec.template.spec.containers[e].retract=false){
-
-                    //     $scope.dc.spec.template.spec.containers[e].retract=true;
-                    //     $scope.uex_down=false;
-                    //     $scope.uex_up=true;
-                    //     }
-                    // }
-
-
-
-
 
                     $scope.$watch('dc.spec.template.spec.containers', function (n, o) {
                         if (n == o) {
