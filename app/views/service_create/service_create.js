@@ -159,7 +159,7 @@ angular.module('console.service.create', [
                                     //configMap: [{name: '', mountPath: ''}],
                                     //persistentVolumeClaim: [{claimName: '', mountPath: ''}]
                                 },
-                                ImageChange: false,
+                                imageChange: false,
                                 "ports": [
                                     {
                                         "containerPort": 80,
@@ -303,7 +303,7 @@ angular.module('console.service.create', [
                 $scope.dc.spec.selector.app = n;
                 $scope.dc.spec.template.metadata.labels.deploymentconfig = n;
                 $scope.dc.spec.template.metadata.labels.app = n;
-                $scope.dc.spec.template.spec.containers[0].name = n;
+                //$scope.dc.spec.template.spec.containers[0].name = n;
                 if (image) {
                     $scope.dc.spec.template.spec.containers[0].image = image;
                 }
@@ -628,11 +628,15 @@ angular.module('console.service.create', [
                     if (con.entrypoint) {
                         con.command = con.entrypoint.split(' ')
 
+                    }else {
+                        delete con.command
                     }
                     if (con.cmd) {
                         con.args = con.cmd.split(' ')
-
+                    }else {
+                        delete con.args
                     }
+                    console.log('con.imageChange', con.imageChange);
                     if (con.imageChange) {
                         creatimageconfig(con)
                     }
@@ -642,7 +646,7 @@ angular.module('console.service.create', [
                         if (volerr(con.volments)) {
                             cancreat = false
                         }
-                        console.log('con.volment', con.volments);
+                        //console.log('con.volment', con.volments);
                         creatvol(con, con.volments)
 
                         //if (volrepeat(con.volumeMounts)) {
@@ -660,6 +664,8 @@ angular.module('console.service.create', [
                         con.resources.limits.memory = unit(con.resources.limits.memory, con.resourcesunit.minmem)
                         con.resources.requests.cpu = unit(con.resources.requests.cpu, con.resourcesunit.maxcpu)
                         con.resources.requests.memory = unit(con.resources.requests.memory, con.resourcesunit.maxmem)
+                    }else {
+                        delete con.resources
                     }
 
 
@@ -933,8 +939,10 @@ angular.module('console.service.create', [
                             //if (!$scope.dc.metadata.name) {
                             //    $scope.dc.metadata.name=$scope.checked.image;
                             //}
-                            $scope.dc.spec.template.spec.containers[0].annotate.image=$scope.checked.image
-                            $scope.dc.spec.template.spec.containers[0].annotate.tag=$scope.checked.tag
+                            $scope.dc.spec.template.spec.containers[0].annotate={
+                                image:$scope.checked.image,
+                                tag:$scope.checked.tag
+                            }
                             $scope.dc.spec.template.spec.containers[0].annotate.ismy=true
 
                             $scope.dc.spec.template.spec.containers[0].name = $scope.checked.image
