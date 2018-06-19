@@ -1820,9 +1820,10 @@ td  a:hover, a:focus{
 .module_block_l .img-detail .img-new{font-size:12px;color:#1F2D3D;margin-top:6px;}
 .module_block_l .img-detail .img-new span{color:#A2B0C4;float:left;}
 .module_block_l .module_run{font-size:12px;color: #47B2FB;font-weight:normal;margin-left:10px;}
-
+.module_block_l .img-detail .img-new .module_time{color: #1F2D3D;}
 .module_block_l .module_tit{font-size:12px;color:#A2B0C4;}
 .module_block_l .module_b_l{width:300px;float:left;}
+.module_block_l .module_tit small{color: #1F2D3D;}
 
 
 
@@ -1992,7 +1993,7 @@ td  a:hover, a:focus{
 .clear{clear:both;overflow:hidden;}
 .df_config_tit{font-size:12px;color: #475669;margin:0;}
 
-.new_deploycol #creatbtn{font-size:12px;height:26px;line-height:26px;padding: 0px 10px;margin: 0px;margin-top: 4px;}
+.new_deploycol #creatbtn{font-size:12px;height:26px;line-height:26px;padding: 0px 10px;margin: 0px;}
 .nav_top_li{
     padding-top:6px;padding-bottom:10px;
     box-shadow: 0 1px 0 0 rgba(224,230,237,0.50);
