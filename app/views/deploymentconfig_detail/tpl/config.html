@@ -119,17 +119,16 @@
                     <span class="df_jx_set" ng-show="dc.spec.template.spec.containers.length>1" ng-click="rmContainer($index)">
                         <i class="uex-icon-cross"></i>
                     </span>
-                    <span class="df_jx_set">
-                        <i class="uex-icon-arrow-up"></i>
-                    </span>
-                    <span class="df_jx_set" ng-if="uex-arrow-down">
-                        <i class="uex-icon-arrow-down"></i>
+
+                    <span class="df_jx_set"  ng-click="pickdown($index)" >
+                        <i class="uex-icon-arrow-up" ng-if="container.retract"></i>
+                        <i class="uex-icon-arrow-down" ng-if="!container.retract"></i>
                     </span>
                 </div>
             </div>
 
             <!-- 镜像信息头部 -->
-            <div class="df_config_main">
+            <div class="df_config_main" ng-show="container.retract">
                 <div class="df_block_set">
                     <div class="df_block_left">选择镜像</div>
                     <div class="df_block_right">
