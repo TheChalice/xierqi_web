@@ -1,14 +1,15 @@
 #rc .rcDetail{margin-bottom: 30px;font-size: 24px}
-#rc .pd_name{font-size:24px;color:#333;}
-#rc .pd_dt{font-size:14px;color:#9c9c9c;}
-#rc .tab-default li .nav-link{font-size:14px;color:#333;}
-#rc .tab-default li .nav-link:hover{font-size:14px;}
+#rc .pd_name{font-size:14px;color:#333;font-weight:bold;}
+#rc .pd_dt{font-size:12px;color:#9c9c9c;}
+#rc .tab-default li .nav-link{font-size:12px;color:#333;}
+#rc .tab-default li .nav-link:hover{font-size:12px;}
 #rc .tab-default li.active .nav-link,
 #rc .tab-default li.active .nav-link:focus,
 #rc .tab-default li.active .nav-link:hover{border:0px;border-bottom:2px solid #47B2FB;
-    color:#47B2FB;font-size:14px;}
+    color:#47B2FB;font-size:12px;}
 #rc .tab-default .nav-tabs{border-bottom:1px solid #E0E6ED;}
 #rc .tab-default .tab-content{border:0px;padding:30px 0px;}
+#rc .h15{height:15px;clear:both;overflow:hidden;}
 
 /* detail 模块 */
 #rc h2{font-size:14px;color:#000;font-weight:bold;margin:0px;margin-bottom:20px;}
@@ -23,13 +24,13 @@
 #rc .h_tit_sm{font-size:14px;color:#666;}
 #rc .redy_tit{font-size:14px;color:#9c9c9c;}
 #rc .matgin-bt{font-size:14px;color: #666;}
-#rc .matgin-txt{font-size:14px;color: #333;}
-#rc .jumpUrl{color: #47B2FB;}
+#rc .matgin-txt{font-weight:normal;color:#475669;font-size:12px;}
+#rc .jumpUrl{color: #47B2FB;font-size:12px;}
 #rc .jumpUrl:hover{cursor: pointer;color: #98D4FD;}
 #rc .tit{font-size:14px;color:#000;font-weight:bold;margin:0px;margin-bottom:10px;}
 #rc .icon-wrap{float:left;margin-right:6px;}
 #rc .poda > a:focus {color:#47B2FB;}
-#rc .subtitle{padding-bottom: 10px;padding-top:30px;margin:0px;font-size:14px;font-weight:bold;color: #333;}
+#rc .subtitle{padding-bottom: 10px;padding-top:14px;margin:0px;font-size:14px;font-weight:bold;color: #333;}
 @font-face {
     font-family: "PatternFlyIcons-webfont";
     /*src: url("PatternFlyIcons-webfont.eot");*/
@@ -56,12 +57,13 @@
 
 /* .fa-refresh:before{content:"\f021";}
 .pficon-image:before{content:"\e61f";} */
-#rc .tit_f{font-size:14px;color:#000;font-weight:normal;margin:0px;margin-bottom:10px;}
-
+#rc .tit_f{font-size:12px;color:#475669;font-weight:normal;margin:0px;margin-bottom:10px;}
+#rc .pd_tem_l{float:left;width:160px;font-size:12px;color:#475669;}
+#rc .pd_tem_r{color:#475669;font-size:12px;}
 
 /* Environment 模块 */
-#Environment h2{font-size:14px;color:#000;font-weight:bold;margin:0px;margin-bottom:20px;}
-.subtit{font-size:14px;color: #333;}
+#Environment h2{font-size:12px;color:#333;font-weight:bold;margin:0px;margin-bottom:20px;}
+#Environment .subtit{font-size:12px;color:#333;font-weight:bold;margin:0px;margin-bottom:20px;}
 #Environment .form-control{width:100%;height:24px;padding:2px 6px;background-color:#fff;border:1px solid #bbb;border-radius:1px;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075);box-shadow:inset 0 1px 1px rgba(0,0,0,.075);-webkit-transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;-o-transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s}
 #Environment .form-control:-ms-input-placeholder{color:#999;font-style:italic}
 #Environment .form-control::-webkit-input-placeholder{color:#999;font-style:italic}
@@ -70,7 +72,7 @@
 #Environment .envi_main{display:table;position:relative;table-layout:fixed;width:100%;margin-bottom:20px;}
 #Environment .form_block{width:50%;float:left;padding-right:5px;color: #666;font-size: 14px;}
 #Environment .form-control[disabled], #Environment .form-control[readonly]{background-color:#f5f5f5;color:#8b8d8f;cursor:not-allowed}
-#Environment .tit{padding-left: 0;color:#999;opacity:1;font-size: 14px;}
+#Environment .tit{padding-left: 0;color:#333;opacity:1;font-size: 12px;font-weight:normal;}
 
 /* Metrics  模块*/
 /*#Metrics h2{font-size:14px;color:#000;font-weight:bold;margin:0px;margin-bottom:20px;}*/
