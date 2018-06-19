@@ -197,7 +197,8 @@ angular.module('console.secret_secret', [
 
             $scope.addFile= function (i) {
                 $scope.check = i;
-                document.getElementById('file-input').addEventListener('change', readSingleFile, false);
+                // document.getElementById('file-input').addEventListener('change', readSingleFile, false);
+                document.getElementsByClassName('upLoadFile')[$scope.check].addEventListener('change', readSingleFile, false);
             };
 
             $scope.deleteOriginkv = function (idx) {
@@ -211,8 +212,7 @@ angular.module('console.secret_secret', [
                 $scope.item.secretarr[$scope.check].value = '';
             };
             $scope.clearCode = function (index) {
-                $scope.check = index;
-                $scope.item.newarr[$scope.check].value = '';
+                $scope.item.newarr[index].value = '';
             };
             $scope.updateSecret = function () {
                 $scope.item.data={};

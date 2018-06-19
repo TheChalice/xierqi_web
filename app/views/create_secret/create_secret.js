@@ -118,12 +118,13 @@ angular.module('console.create_secret', [
         $scope.secrets.secretsarr.push({key: '', value: '',isClearCode:false});
     };
     $scope.clearCode = function (index) {
-        $scope.check = index;
-        $scope.secrets.secretsarr[$scope.check].value = '';
+        $scope.secrets.secretsarr[index].value = '';
+        $scope.secrets.secretsarr[index].isClearCode = false;
     };
     $scope.addFile = function (i) {
         $scope.check = i;
-        document.getElementById('file-input').addEventListener('change', readSingleFile, false);
+        // document.getElementById('file-input').addEventListener('change', readSingleFile, false);
+        document.getElementsByClassName('upLoadFile')[$scope.check].addEventListener('change', readSingleFile, false);
     };
     function readSingleFile(e) {
         var thisfilename = this.value;
