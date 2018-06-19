@@ -17,7 +17,8 @@ angular.module('console.create_config_configMap', [
         configpost: false,
         keychongfu: false,
         keybuhefa: false,
-        keynull: false
+        keynull: false,
+        lableKey:false
     };
     //排序
     var by = function (name) {
@@ -74,7 +75,7 @@ angular.module('console.create_config_configMap', [
         if (n.metadata.name && n.configitems) {
 
             var arr = n.configitems;
-            arr.sort(by("key"));
+            // arr.sort(by("key"));
 
             if (arr && arr.length > 0) {
                 var kong = false;
@@ -116,17 +117,20 @@ angular.module('console.create_config_configMap', [
 
     //添加配置文件
     $scope.AddConfigurationFile = function () {
+        $scope.grid.lableKey = true;
         $scope.volume.configitems.push({key: '', value: '', isClearCode: false});
     };
     // clear code
     $scope.clearCode = function (index) {
-        $scope.check = index;
-        $scope.volume.configitems[$scope.check].value = '';
+        $scope.volume.configitems[index].value = '';
+        $scope.volume.configitems[index].isClearCode = false;
     };
     // add file
     $scope.addFile = function (i) {
         $scope.check = i;
-        document.getElementById('file-input').addEventListener('change', readSingleFile, false);
+        // console.log('addFile',i,$scope.check);
+        // document.getElementById('file-input').addEventListener('change', readSingleFile, false);
+        document.getElementsByClassName('upLoadFile')[$scope.check].addEventListener('change', readSingleFile, false);
     };
 
     /////手动配置

@@ -15,7 +15,7 @@ angular.module('console.service.create', [
                 configregistry: false
             }
             $scope.advancedConfig = false
-            $scope.portsArr=[];
+            $scope.portsArr = [];
             $scope.jump = function () {
                 if (!$scope.dc.metadata.name) {
                     $scope.err.name.null = true;
@@ -134,7 +134,7 @@ angular.module('console.service.create', [
                     }
                 },
                 "spec": {
-                    ConfigChange:false,
+                    ConfigChange: false,
                     "strategy": {"resources": {}},
                     "triggers": [{
                         "type": "ConfigChange"
@@ -162,7 +162,7 @@ angular.module('console.service.create', [
                                     //configMap: [{name: '', mountPath: ''}],
                                     //persistentVolumeClaim: [{claimName: '', mountPath: ''}]
                                 },
-                                ImageChange:false,
+                                ImageChange: false,
                                 "ports": [
                                     {
                                         "containerPort": 80,
@@ -184,22 +184,22 @@ angular.module('console.service.create', [
                                     volment: false,
                                     livenessProbe: false,
                                     readinessProbe: false,
-                                    livenesscheck:'HTTP',
-                                    livenesshttpscheck:false,
-                                    readinesscheck:'HTTP',
-                                    readinesshttpscheck:false
+                                    livenesscheck: 'HTTP',
+                                    livenesshttpscheck: false,
+                                    readinesscheck: 'HTTP',
+                                    readinesshttpscheck: false
                                 },
-                                resourcesunit:{
-                                    mincpu:'millicores',
-                                    maxcpu:'millicores',
-                                    minmem:'MB',
-                                    maxmem:'MB'
+                                resourcesunit: {
+                                    mincpu: 'millicores',
+                                    maxcpu: 'millicores',
+                                    minmem: 'MB',
+                                    maxmem: 'MB'
                                 },
                                 "livenessProbe": {
-                                    annotations:{
-                                        path:'',
-                                        port:'',
-                                        command:'',
+                                    annotations: {
+                                        path: '',
+                                        port: '',
+                                        command: '',
 
                                     },
                                     "httpGet": {
@@ -207,11 +207,11 @@ angular.module('console.service.create', [
                                         "port": 80,
                                         "scheme": "HTTP" //HTTPS
                                     },
-                                    exec:{
-                                        command:["ls", "-l", "/"]
+                                    exec: {
+                                        command: ["ls", "-l", "/"]
                                     },
-                                    tcpSocket:{
-                                        port:80
+                                    tcpSocket: {
+                                        port: 80
                                     },
                                     "initialDelaySeconds": 1,
                                     "timeoutSeconds": 1,
@@ -220,10 +220,10 @@ angular.module('console.service.create', [
                                     "failureThreshold": 3
                                 },
                                 "readinessProbe": {
-                                    annotations:{
-                                        path:'',
-                                        port:'',
-                                        command:'',
+                                    annotations: {
+                                        path: '',
+                                        port: '',
+                                        command: '',
 
                                     },
                                     "httpGet": {
@@ -231,11 +231,11 @@ angular.module('console.service.create', [
                                         "port": 80,
                                         "scheme": "HTTP" //HTTPS
                                     },
-                                    exec:{
-                                        command:["ls", "-l", "/"]
+                                    exec: {
+                                        command: ["ls", "-l", "/"]
                                     },
-                                    tcpSocket:{
-                                        port:80
+                                    tcpSocket: {
+                                        port: 80
                                     },
                                     "initialDelaySeconds": 1,
                                     "timeoutSeconds": 1,
@@ -533,10 +533,14 @@ angular.module('console.service.create', [
             restrict: 'E',
             templateUrl: 'views/service_create/tpl/dcContainers.html',
             scope: false,
-            controller: ['$scope', function ($scope) {
-            $scope.addenv= function (con) {
-                con.env.push({name: '', value: ''})
-            }
+            controller: ['$scope','ChangeImages',
+                function ($scope,ChangeImages) {
+                $scope.selectImage = function (idx) {
+                    ChangeImages.open()
+                }
+                $scope.addenv = function (con) {
+                    con.env.push({name: '', value: ''})
+                }
             }],
         };
     })
@@ -545,8 +549,8 @@ angular.module('console.service.create', [
             restrict: 'E',
             templateUrl: 'views/service_create/tpl/changeImage.html',
             scope: false,
-            controller: ['ImageStreamImage', '$scope', 'imagestreamimports', '$rootScope',
-                function (ImageStreamImage, $scope, imagestreamimports, $rootScope) {
+            controller: ['ImageStreamImage', '$scope', 'imagestreamimports', '$rootScope', 'ChangeImages',
+                function (ImageStreamImage, $scope, imagestreamimports, $rootScope, ChangeImages) {
                     $scope.checkedimage = function (image) {
                         $scope.checked.image = image.metadata.name;
                         $scope.checked.tag = '';
@@ -577,16 +581,20 @@ angular.module('console.service.create', [
                         $scope.strport = '';
 
                         for (var k in port) {
-                            var pot= parseInt(k.split('/')[0])
-                            $scope.port.push({protocol: k.split('/')[1].toUpperCase(), containerPort:pot })
+                            var pot = parseInt(k.split('/')[0])
+                            $scope.port.push({protocol: k.split('/')[1].toUpperCase(), containerPort: pot})
                             var rep = false
-                            angular.forEach($scope.portsArr,function(item,i){
+                            angular.forEach($scope.portsArr, function (item, i) {
                                 if (item.containerPort && item.containerPort == pot) {
-                                    rep=true
+                                    rep = true
                                 }
                             })
                             if (!rep) {
-                                $scope.portsArr.push({protocol: k.split('/')[1].toUpperCase(), containerPort: pot,hostPort:pot})
+                                $scope.portsArr.push({
+                                    protocol: k.split('/')[1].toUpperCase(),
+                                    containerPort: pot,
+                                    hostPort: pot
+                                })
                             }
                             $scope.strport += k.split('/')[0] + '/' + k.split('/')[1].toUpperCase() + ',';
                         }

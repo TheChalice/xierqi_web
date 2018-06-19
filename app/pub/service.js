@@ -687,7 +687,8 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                 return $uibModal.open({
                     templateUrl: 'pub/tpl/changeImage.html',
                     size: 'default',
-                    controller: ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+                    controller: ['$scope', '$uibModalInstance',
+                        function ($scope, $uibModalInstance) {
 
                         $scope.ok = function () {
                             $uibModalInstance.close();

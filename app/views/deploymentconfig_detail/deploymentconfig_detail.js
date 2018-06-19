@@ -1,29 +1,22 @@
 'use strict';
 angular.module('console.deploymentconfig_detail', [
-        'kubernetesUI',
-        {
-            files: [
-                'views/deploymentconfig_detail/deploymentconfig_detail.css',
-                'components/datepick/datepick.js',
-                'components/checkbox/checkbox.js',
-                'components/checkbox/checkbox_small.js',
-                'components/deploymentsevent/deploymentsevent.js',
-            ]
-        }
-    ])
-    .controller('DeploymentConfigDetailCtrl', ['Toast', 'Confirm', 'delTip', '$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag', '$state', 'toastr','BuildConfig',
-        function (Toast, Confirm, delTip, $log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag, $state, toastr,BuildConfig) {
-            $scope.dc = angular.copy(mydc)
-            //console.log('mydc', mydc);
-
-            // BuildConfig.get({
-            //     namespace: $rootScope.namespace,
-            //     name: $stateParams.name,
-            //     region: $rootScope.region
-            // }, function (data) {
-            //     $scope.data = data;
-            // })
-
+    'kubernetesUI',
+    {
+        files: [
+            'views/deploymentconfig_detail/deploymentconfig_detail.css',
+            'components/datepick/datepick.js',
+            'components/checkbox/checkbox.js',
+            'components/checkbox/checkbox_small.js',
+            'components/deploymentsevent/deploymentsevent.js',
+        ]
+    }
+])
+    .controller('DeploymentConfigDetailCtrl', ['Toast', 'Confirm', 'delTip', '$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag', '$state', 'toastr', 
+        function (Toast, Confirm, delTip, $log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag, $state, toastr) {
+            $scope.dc = angular.copy(mydc);
+            for(var i = 0 ; i < $scope.dc.spec.template.spec.containers.length ; i++){
+                $scope.dc.spec.template.spec.containers[i].retract = true;
+            }
             $scope.mytag = angular.copy(mytag)
             $scope.err = {
                 vol: {
@@ -47,7 +40,7 @@ angular.module('console.deploymentconfig_detail', [
                 "kind": "HorizontalPodAutoscaler",
                 "metadata": {
                     "name": $scope.dc.metadata.name,
-                    "labels": {"app": $scope.dc.metadata.name}
+                    "labels": { "app": $scope.dc.metadata.name }
                 },
                 "spec": {
                     "scaleTargetRef": {
@@ -100,7 +93,7 @@ angular.module('console.deploymentconfig_detail', [
             var creathor = function () {
                 $scope.horiz.spec.maxReplicas = parseInt($scope.horiz.spec.maxReplicas) || $scope.dc.spec.replicas;
                 $scope.horiz.spec.targetCPUUtilizationPercentage = parseInt($scope.horiz.spec.targetCPUUtilizationPercentage) || 80;
-                horizontalpodautoscalers.create({namespace: $rootScope.namespace}, $scope.horiz, function (data) {
+                horizontalpodautoscalers.create({ namespace: $rootScope.namespace }, $scope.horiz, function (data) {
 
 
                 })
@@ -108,8 +101,8 @@ angular.module('console.deploymentconfig_detail', [
             var puthor = function (horiz, name) {
                 horiz.spec.maxReplicas = parseInt($scope.horiz.spec.maxReplicas) || $scope.dc.spec.replicas;
                 horiz.spec.targetCPUUtilizationPercentage = parseInt($scope.horiz.spec.targetCPUUtilizationPercentage) || 80;
-                horizontalpodautoscalers.put({namespace: $rootScope.namespace, name: name}, horiz, function (data) {
-                    console.log('data', data);
+                horizontalpodautoscalers.put({ namespace: $rootScope.namespace, name: name }, horiz, function (data) {
+                    // console.log('data', data);
                 })
             }
             var delhor = function () {
@@ -161,7 +154,7 @@ angular.module('console.deploymentconfig_detail', [
                         copyarr.push(ovolment)
                     })
                 })
-                console.log('vol', vol);
+                // console.log('vol', vol);
                 angular.forEach(vol, function (item, i) {
 
                     angular.forEach(item, function (ovolment, k) {
@@ -173,7 +166,7 @@ angular.module('console.deploymentconfig_detail', [
                             if (ovolment.id !== ivolment.id) {
                                 if (ovolment.mountPath === ivolment.mountPath) {
                                     volerr = true;
-                                    console.log(ivolment, vol[i]);
+                                    // console.log(ivolment, vol[i]);
                                     vol[ivolment.type][ivolment.index].mountPatherr = true;
                                     ovolment.mountPatherr = true;
                                     $scope.err.vol.mountPath = true;
@@ -212,9 +205,12 @@ angular.module('console.deploymentconfig_detail', [
                         timeOut: 2000,
                         closeButton: true
                     });
-                    $scope.active=1
+                    $scope.active = 1;
+                    // angular.forEach(res, function (item, i) {  ////111
+                    //     item.spec.template.spec.containers[i].retract = true;
+                    // })
                     $scope.dc = angular.copy(res);
-                    console.log('$scope.dc', $scope.dc);
+                    // console.log('$scope.dc', $scope.dc);
                     $scope.loaddirs.loadcon()
                 }, function (res) {
 
@@ -230,9 +226,9 @@ angular.module('console.deploymentconfig_detail', [
                                 if (volment.mountPath) {
                                     var vol = angular.copy(volment)
                                     //console.log(volment);
-                                    con.volumeMounts.push({name: 'volumes' + cont, mountPath: vol.mountPath})
+                                    con.volumeMounts.push({ name: 'volumes' + cont, mountPath: vol.mountPath })
                                     delete vol.mountPath
-                                    var volobj = {name: 'volumes' + cont}
+                                    var volobj = { name: 'volumes' + cont }
                                     volobj[i] = vol
                                     $scope.dc.spec.template.spec.volumes.push(volobj);
                                     cont = cont + 1;
@@ -244,8 +240,8 @@ angular.module('console.deploymentconfig_detail', [
 
             }
             var creatimageconfig = function (con) {
-                console.log('con', con);
-                var tpl =  {
+                // console.log('con', con);
+                var tpl = {
                     "type": "ImageChange",
                     "imageChangeParams": {
                         "automatic": true,
@@ -280,16 +276,20 @@ angular.module('console.deploymentconfig_detail', [
             //
             //}
             $scope.updateDc = function () {
+                
                 $scope.dc.spec.template.spec.volumes = []
                 var cancreat = true
-                angular.forEach($scope.dc.spec.triggers, function (tri,i) {
-                    console.log(tri);
+                angular.forEach($scope.dc.spec.triggers, function (tri, i) {
+                    // console.log(tri);
                     if (tri.type !== "ConfigChange") {
-                       $scope.dc.spec.triggers.splice(i,1)
+                        $scope.dc.spec.triggers.splice(i, 1)
                     }
 
                 })
                 angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
+                    delete con.retract;   //清除自定义key值retract
+                    // console.log("jiwer--",con)
+                    // $scope.dc.spec.template.spec.containers[con].retract
                     //console.log(con.dosetcon.doset);
                     if (con.doset) {
                         if (con.readinessProbe.httpGet) {
@@ -337,22 +337,22 @@ angular.module('console.deploymentconfig_detail', [
                         delete con.volments
                     }
 
-                    
+
                     if (!con.display) {
-                        con.image=con.annotate.regimage
+                        con.image = con.annotate.regimage
                     }
                     //addemptyDir
-                    if (con.emptyDir.length>0) {
+                    if (con.emptyDir.length > 0) {
                         if (!con.volumeMounts) {
-                            con.volumeMounts=[]
+                            con.volumeMounts = []
                         }
                         if (!$scope.dc.spec.template.spec.volumes) {
-                            $scope.dc.spec.template.spec.volumes=[]
+                            $scope.dc.spec.template.spec.volumes = []
                         }
-                        angular.forEach(con.emptyDir, function (vol,i) {
+                        angular.forEach(con.emptyDir, function (vol, i) {
                             con.volumeMounts.push(vol.volumeMounts)
                         })
-                        angular.forEach(con.emptyDir, function (vol,i) {
+                        angular.forEach(con.emptyDir, function (vol, i) {
                             $scope.dc.spec.template.spec.volumes.push(vol.volumes)
                         })
                     }
@@ -378,7 +378,7 @@ angular.module('console.deploymentconfig_detail', [
                             namespace: $rootScope.namespace,
                             name: $stateParams.name
                         }, function (data) {
-                            console.log('sdata', data);
+                            // console.log('sdata', data);
                             puthor(data, $stateParams.name)
 
                         }, function (err) {
@@ -407,7 +407,7 @@ angular.module('console.deploymentconfig_detail', [
                         timeOut: 2000,
                         closeButton: true
                     });
-                    console.log(obj);
+                    // console.log(obj);
                 })
             }
             $scope.deleteDc = function (val) {
@@ -420,7 +420,7 @@ angular.module('console.deploymentconfig_detail', [
                             timeOut: 2000,
                             closeButton: true
                         });
-                        $state.go('console.deployments',{namespace:$rootScope.namespace});
+                        $state.go('console.deployments', { namespace: $rootScope.namespace });
                     }, function () {
                         Confirm.open("删除Deployment", "删除" + val + "失败", null, null, true);
                         toastr.error('删除失败,请重试', {
@@ -443,27 +443,27 @@ angular.module('console.deploymentconfig_detail', [
             controller: ['persistent', 'configmaps', 'Secret', '$scope', 'horizontalpodautoscalers', '$rootScope', 'GLOBAL', 'ImageStreamTag', 'ImageStream',
                 function (persistent, configmaps, Secret, $scope, horizontalpodautoscalers, $rootScope, GLOBAL, ImageStreamTag, ImageStream) {
                     var gethor = function (name) {
-                        horizontalpodautoscalers.get({namespace: $rootScope.namespace, name: name}, function (hor) {
+                        horizontalpodautoscalers.get({ namespace: $rootScope.namespace, name: name }, function (hor) {
                             $scope.quota.rubustCheck = true;
                             $scope.horiz = hor;
                         })
                     }
-                    Secret.get({namespace: $rootScope.namespace}, function (secrts) {
+                    Secret.get({ namespace: $rootScope.namespace }, function (secrts) {
                         //console.log('secrts', secrts);
                         $scope.SecretList = angular.copy(secrts.items)
                     })
-                    configmaps.get({namespace: $rootScope.namespace}, function (configs) {
+                    configmaps.get({ namespace: $rootScope.namespace }, function (configs) {
                         //console.log('configs', configs);
                         $scope.ConfigMapList = angular.copy(configs.items)
                     })
-                    persistent.get({namespace: $rootScope.namespace}, function (persistents) {
+                    persistent.get({ namespace: $rootScope.namespace }, function (persistents) {
                         //console.log('persistents', persistents);
                         $scope.PersistentVolumeClaimList = angular.copy(persistents.items)
                     })
                     $scope.survey = function (idx) {
                         if ($scope.dc.spec.template.spec.containers[idx].doset) {
                             $scope.dc.spec.template.spec.containers[idx].doset = false;
-                            delete  $scope.dc.spec.template.spec.containers[idx].readinessProbe;
+                            delete $scope.dc.spec.template.spec.containers[idx].readinessProbe;
                         } else {
                             $scope.dc.spec.template.spec.containers[idx].doset = true;
                             $scope.dc.spec.template.spec.containers[idx].dosetcon = "HTTP";
@@ -484,13 +484,13 @@ angular.module('console.deploymentconfig_detail', [
                     $scope.addvol = function (idx) {
                         if ($scope.dc.spec.template.spec.containers[idx].volment) {
                             $scope.dc.spec.template.spec.containers[idx].volment = false;
-                            delete  $scope.dc.spec.template.spec.containers[idx].volments;
+                            delete $scope.dc.spec.template.spec.containers[idx].volments;
                         } else {
                             $scope.dc.spec.template.spec.containers[idx].volment = true;
                             $scope.dc.spec.template.spec.containers[idx].volments = {
-                                secret: [{secretName: '', mountPath: ''}],
-                                configMap: [{name: '', mountPath: ''}],
-                                persistentVolumeClaim: [{claimName: '', mountPath: ''}]
+                                secret: [{ secretName: '', mountPath: '' }],
+                                configMap: [{ name: '', mountPath: '' }],
+                                persistentVolumeClaim: [{ claimName: '', mountPath: '' }]
                             }
                         }
                     }
@@ -506,7 +506,7 @@ angular.module('console.deploymentconfig_detail', [
                         //
 
                         if (patrn.test(num)) {
-                            console.log('t', e.currentTarget.value);
+                            // console.log('t', e.currentTarget.value);
                         } else {
                             //console.log('f',num);
                             e.currentTarget.value = null
@@ -521,17 +521,30 @@ angular.module('console.deploymentconfig_detail', [
                         tmp.doset = false;
                         tmp.volment = false;
                         tmp.display = true;
+                        tmp.retract = true;
                         delete tmp.readinessProbe
                         tmp.name = 'container' + $scope.dc.spec.template.spec.containers.length;
-                        $scope.checkoutreg(tmp, true)
-                        $scope.dc.spec.template.spec.containers.push(tmp)
-
-
+                        $scope.checkoutreg(tmp, true);
+                        $scope.dc.spec.template.spec.containers.push(tmp);
                     };
                     $scope.rmContainer = function (idx) {
                         $scope.dc.spec.template.spec.containers.splice(idx, 1);
-
                     };
+                    //展开收缩
+                    $scope.uex_down = false;
+                    $scope.uex_up = true;
+                    $scope.pickdown = function (idx) {
+                        if($scope.dc.spec.template.spec.containers[idx].retract){
+                            $scope.dc.spec.template.spec.containers[idx].retract = false;
+                            $scope.uex_down = true;
+                            $scope.uex_up = false;
+                        }else{
+                            $scope.dc.spec.template.spec.containers[idx].retract = true;
+                            $scope.uex_down = false;
+                            $scope.uex_up = true;
+                        }
+                    }
+
                     $scope.$watch('dc.spec.template.spec.containers', function (n, o) {
                         if (n == o) {
                             return;
@@ -556,7 +569,7 @@ angular.module('console.deploymentconfig_detail', [
                                         $scope.dc.spec.template.spec.containers[i].readinessProbe = {
                                             "exec": {
                                                 "command": [
-                                                    {key: ''}
+                                                    { key: '' }
                                                 ]
                                             },
                                             "initialDelaySeconds": "",
@@ -598,7 +611,7 @@ angular.module('console.deploymentconfig_detail', [
                         } else {
                             $scope.dc.spec.template.spec.containers[outerIndex].env = []
                         }
-                        $scope.dc.spec.template.spec.containers[outerIndex].env.push({name: '', value: ''});
+                        $scope.dc.spec.template.spec.containers[outerIndex].env.push({ name: '', value: '' });
                     }
 
                     $scope.addconvol = function (outerIndex, obj, key) {
@@ -647,12 +660,12 @@ angular.module('console.deploymentconfig_detail', [
                         con.image = con.annotate.tags[idx].dockerImageReference;
                         //con.image=
                     }
-                    function cleararr(arr){
+                    function cleararr(arr) {
                         var newarr = []
-                        angular.forEach(arr, function (item,i) {
+                        angular.forEach(arr, function (item, i) {
                             if (item == null) {
 
-                            }else {
+                            } else {
                                 newarr.push(item)
                             }
                         })
@@ -705,7 +718,7 @@ angular.module('console.deploymentconfig_detail', [
                                     //console.log(con.readinessProbe.exec);
                                     var copyexec = angular.copy(con.readinessProbe.exec.command)
                                     angular.forEach(copyexec, function (exec, k) {
-                                        con.readinessProbe.exec.command[k] = {key: exec};
+                                        con.readinessProbe.exec.command[k] = { key: exec };
                                     })
                                     con.dosetcon = '命令'
 
@@ -714,37 +727,37 @@ angular.module('console.deploymentconfig_detail', [
                             //emptyDir
                             //console.log($scope.dc.spec.template.spec.volumes);
                             //console.log(con.volumeMounts);
-                            con.emptyDir=[];
+                            con.emptyDir = [];
 
-                            angular.forEach($scope.dc.spec.template.spec.volumes, function (vol,i) {
-                                angular.forEach(vol, function (value,key) {
+                            angular.forEach($scope.dc.spec.template.spec.volumes, function (vol, i) {
+                                angular.forEach(vol, function (value, key) {
                                     if (key === 'emptyDir') {
-                                        con.emptyDir.push({name:vol.name,volumes:vol})
-                                        $scope.dc.spec.template.spec.volumes.splice(i,1,null)
+                                        con.emptyDir.push({ name: vol.name, volumes: vol })
+                                        $scope.dc.spec.template.spec.volumes.splice(i, 1, null)
                                     }
                                 })
                             })
 
                             //$scope.dc.spec.template.spec.volumes=angular.copy(newvol.vol)
                             if (con.emptyDir.length > 0) {
-                                angular.forEach(con.volumeMounts, function (vol,i) {
-                                    angular.forEach(con.emptyDir, function (emp,k) {
+                                angular.forEach(con.volumeMounts, function (vol, i) {
+                                    angular.forEach(con.emptyDir, function (emp, k) {
                                         if (vol.name === emp.name) {
-                                            con.emptyDir[k].mountPath=vol.mountPath
-                                            con.emptyDir[k].volumeMounts=vol
-                                            con.volumeMounts.splice(i,1,null)
+                                            con.emptyDir[k].mountPath = vol.mountPath
+                                            con.emptyDir[k].volumeMounts = vol
+                                            con.volumeMounts.splice(i, 1, null)
                                         }
                                     })
                                 })
-                                $scope.dc.spec.template.spec.volumes=cleararr($scope.dc.spec.template.spec.volumes);
-                                con.volumeMounts=cleararr(con.volumeMounts);
+                                $scope.dc.spec.template.spec.volumes = cleararr($scope.dc.spec.template.spec.volumes);
+                                con.volumeMounts = cleararr(con.volumeMounts);
 
                                 //console.log($scope.dc.spec.template.spec.volumes);
                                 //console.log(con.volumeMounts);
                             }
-                            console.log(con.emptyDir);
+                            // console.log(con.emptyDir);
                             //console.log('con.volumeMounts', $scope.dc.spec.template.spec.volumes);
-                            if (con.volumeMounts&&con.volumeMounts.length>0) {
+                            if (con.volumeMounts && con.volumeMounts.length > 0) {
                                 //other
                                 con.volment = true;
                                 //console.log($scope.dc.spec.template.spec.volumes);
@@ -763,7 +776,7 @@ angular.module('console.deploymentconfig_detail', [
                                                 angular.forEach(vol, function (item, j) {
                                                     if (j !== 'name') {
                                                         item['mountPath'] = convol.mountPath
-                                                        console.log(con.volments,j);
+                                                        // console.log(con.volments, j);
                                                         con.volments[j].push(item);
                                                     }
                                                 })
@@ -781,11 +794,11 @@ angular.module('console.deploymentconfig_detail', [
                         angular.forEach($scope.dc.spec.triggers, function (trigger) {
                             if (trigger.type == 'ConfigChange') {
                                 $scope.grid.configChange = true;
-                            }else if(trigger.type == 'ImageChange'){
+                            } else if (trigger.type == 'ImageChange') {
                                 //console.log('trigger', trigger);
-                                angular.forEach($scope.dc.spec.template.spec.containers, function (con,k) {
-                                    if (trigger.imageChangeParams.containerNames[0]===con.name) {
-                                        con.imageChange=true
+                                angular.forEach($scope.dc.spec.template.spec.containers, function (con, k) {
+                                    if (trigger.imageChangeParams.containerNames[0] === con.name) {
+                                        con.imageChange = true
                                     }
                                 })
                             }

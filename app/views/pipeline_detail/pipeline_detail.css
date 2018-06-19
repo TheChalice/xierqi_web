@@ -250,11 +250,11 @@ height:auto;overflow:hidden;}
 .pz_l{float:left;width:160px;font-weight:normal}
 .pip_block{overflow:hidden;margin-bottom:14px;}
 .pit_left{float:left;width:160px;}
-
-.pip_btn{cursor:pointer;width:26px;height:26px;display:block;border:1px solid #CCD5E0;border-left:0;float:left;line-height:26px;text-align:center;}
+.pip_btn{cursor:pointer;width:26px;height:26px;display:block;border:1px solid #CCD5E0;margin-left:10px;float:left;line-height:26px;text-align:center;}
+.pip_btn:hover{color:#47B2FB;border:1px solid #47B2FB;}
 .set_tit{width:40px;height:40px;border:1px solid #000;}
 .set_tit:before{content:"\f0ea"}
 .trig_tp{margin-top:16px;}
-.pip_tit{width:50%;display:block;float:left;height:26px;line-height:26px;border:1px solid #CCD5E0;overflow:hidden;
-    padding-left:10px;padding-right:4px;white-space:nowrap;}
+.pip_tit{width: 320px;display:block;float:left;height:26px;line-height:26px;border:1px solid #CCD5E0;overflow:hidden;
+    padding-left:10px;padding-right:4px;white-space:nowrap;font-size:12px;color: #A2B0C4;border-radius: 4px;}
 /*new code end*/
