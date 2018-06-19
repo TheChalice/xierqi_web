@@ -75,7 +75,6 @@ angular.module('console.create_constantly_persistentVolume', [
         });
 
         var rex = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
-
         $scope.$watch('volume.name', function (n, o) {
             if (n === o) {
                 return;
@@ -84,14 +83,18 @@ angular.module('console.create_constantly_persistentVolume', [
                 $scope.grid.configpost = false;
                 if (rex.test(n)) {
                     $scope.namerr.rexed = false;
-                    $scope.grid.configpost = true;
                     $scope.namerr.repeated = false;
+                    $scope.grid.configpost = true;
                     if ($scope.persmnamearr) {
+                        //console.log($scope.buildConfiglist);
                         angular.forEach($scope.persmnamearr, function (bsiname, i) {
+                            // console.log(bsiname);
                             if (bsiname.metadata.name === n) {
+                                // console.log(bsiname,n);
                                 $scope.namerr.repeated = true;
                                 $scope.grid.configpost = false;
                             }
+                            //console.log($scope.namerr.repeated);
                         })
                     }
                 } else {
@@ -99,12 +102,9 @@ angular.module('console.create_constantly_persistentVolume', [
                     $scope.grid.configpost = false;
                 }
             } else {
-                $scope.namerr.nil = true;
                 $scope.namerr.rexed = false;
-                $scope.namerr.repeated = false;
-                $scope.grid.configpost = false
             }
-        }, true);
+        });
         $scope.empty = function () {
             if ($scope.volume.name === '') {
                 $scope.err.blank = false;
