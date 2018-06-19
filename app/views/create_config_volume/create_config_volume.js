@@ -122,13 +122,15 @@ angular.module('console.create_config_configMap', [
     };
     // clear code
     $scope.clearCode = function (index) {
-        $scope.check = index;
-        $scope.volume.configitems[$scope.check].value = '';
+        $scope.volume.configitems[index].value = '';
+        $scope.volume.configitems[index].isClearCode = false;
     };
     // add file
     $scope.addFile = function (i) {
         $scope.check = i;
-        document.getElementById('file-input').addEventListener('change', readSingleFile, false);
+        // console.log('addFile',i,$scope.check);
+        // document.getElementById('file-input').addEventListener('change', readSingleFile, false);
+        document.getElementsByClassName('upLoadFile')[$scope.check].addEventListener('change', readSingleFile, false);
     };
 
     /////手动配置

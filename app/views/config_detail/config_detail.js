@@ -117,8 +117,9 @@ angular.module('console.config_detail', [
             //添加文件
            $scope.addFile = function (i) {
                 $scope.check = i;
-                document.getElementById('file-input').addEventListener('change', readSingleFile, false);
-            };
+                // document.getElementById('file-input').addEventListener('change', readSingleFile, false);
+               document.getElementsByClassName('upLoadFile')[$scope.check].addEventListener('change', readSingleFile, false);
+           };
             //删除原有数据
             $scope.deleteOriginkv = function (idx) {
                 $scope.volume.configarr.splice(idx, 1);
@@ -129,8 +130,7 @@ angular.module('console.config_detail', [
             };
             //清空新加数据
             $scope.clearCode = function (index) {
-                $scope.check = index;
-                $scope.volume.configitems[$scope.check].value = '';
+                $scope.volume.configitems[index].value = '';
             };
             //清空原有代码
             $scope.clearOriginCode = function (item) {
