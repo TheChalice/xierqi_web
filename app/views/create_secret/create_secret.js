@@ -10,7 +10,8 @@ angular.module('console.create_secret', [
         nameerr: false,
         keychongfu: false,
         keybuhefa: false,
-        keynull: false
+        keynull: false,
+        lableKey: false
     };
     $scope.secrets = {
         "kind": "Secret",
@@ -113,6 +114,7 @@ angular.module('console.create_secret', [
     };
     //添加配置文件
     $scope.AddConfigurationFile = function () {
+        $scope.grid.lableKey = true;
         $scope.secrets.secretsarr.push({key: '', value: '',isClearCode:false});
     };
     $scope.clearCode = function (index) {
@@ -178,7 +180,7 @@ angular.module('console.create_secret', [
         if (n.metadata.name && n.secretsarr) {
             // var arr = angular.copy(n.secretsarr);
             var arr = n.secretsarr;
-            arr.sort(by("key"));
+            // arr.sort(by("key"));
             if (arr && arr.length > 0) {
                 var kong = false;
                 var r = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
