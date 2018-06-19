@@ -14,28 +14,6 @@ angular.module('console.service.create', [
                 display: 1,
                 configregistry: false
             }
-
-            $scope.advancedConfig = false
-
-            $scope.portsArr = [];
-
-            $scope.jump = function () {
-                if (!$scope.dc.metadata.name) {
-                    $scope.err.name.null = true;
-                    return
-                }
-                //console.log(invrepname());
-                if (!invrepname()) {
-                    $scope.err.name.repeated = true;
-                    return
-                }
-                $scope.advancedConfig = true
-            }
-
-            DeploymentConfig.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
-                $scope.servelist = data;
-            })
-
             $scope.err = {
                 url: {
                     null: false,
@@ -57,6 +35,28 @@ angular.module('console.service.create', [
                 }
 
             }
+            $scope.advancedConfig = false
+
+            $scope.portsArr = [];
+
+            $scope.jump = function () {
+                if (!$scope.dc.metadata.name) {
+                    $scope.err.name.null = true;
+                    return
+                }
+                //console.log(invrepname());
+                if (!invrepname()) {
+                    $scope.err.name.repeated = true;
+                    return
+                }
+                $scope.advancedConfig = true
+            }
+
+            DeploymentConfig.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
+                $scope.servelist = data;
+            })
+
+
 
             var cont = 0
 
@@ -299,6 +299,7 @@ angular.module('console.service.create', [
                     $scope.postobj.spec.images[0].from.name = ''
                 }
             })
+
             $scope.tocheckedtag= function (tag,idx,checked,istags) {
                 //var con =
                 console.log('tag,idx,checked,istags', tag, idx, checked, istags);
@@ -339,15 +340,80 @@ angular.module('console.service.create', [
 
                 $scope.dc.spec.template.spec.containers[idx].name = checked.image
                 //$scope.fuwuname = checked.image;
-
+                //$scope.dc.spec.template.spec.containers[idx].image=
                 //tag.image.
                 angular.forEach(istags.items, function (istag, i) {
                     if (istag.image.metadata.name === tag.image.metadata.name) {
-                        //console.log(istag.image.dockerImageReference);
+                        console.log(istag.image.dockerImageReference);
                         $scope.dc.spec.template.spec.containers[idx].image = istag.image.dockerImageReference;
                     }
                 })
 
+            }
+
+            $scope.ourimage = function (images,idx,postobj) {
+                if (images.status.images && images.status.images[0] && images.status.images[0].status) {
+                    if (images.status.images[0].status.code && images.status.images[0].status.code === 401) {
+                        $scope.err.url.role = true;
+                        return
+                    }
+                    if (images.status.images[0].status.code && images.status.images[0].status.code === 404) {
+                        //$scope.namerr.url = true;
+                        $scope.err.url.notfind = true;
+                        return
+                    }
+                    if (images.status.images[0].status.code && images.status.images[0].status.code === 500) {
+                        //$scope.namerr.url = true;
+                        $scope.err.url.role = true;
+                        return
+                    }
+                }
+                //$scope.namerr.canbuild = false;
+                $scope.images = images;
+                $scope.curl = postobj.spec.images[0].from.name;
+                var name = postobj.spec.images[0].from.name.split('/')[postobj.spec.images[0].from.name.split('/').length - 1]
+                $scope.fuwuname = name.split(':').length > 1 ? name.split(':')[0] : name;
+                $scope.dc.spec.template.spec.containers[idx].name = $scope.fuwuname
+                $scope.tag = name.split(':').length > 1 ? name.split(':')[1] : 'latest';
+                $scope.dc.spec.template.spec.containers[idx].image = postobj.spec.images[0].from.name;
+                //$scope.dc.spec.template.spec.containers[0].ports
+
+                if (images.status.images[0] && images.status.images[0].image.dockerImageMetadata) {
+                    //imagetimemessage(images.status.images[0].image.dockerImageMetadata.Created)
+                    $scope.dc.spec.template.spec.containers[idx].creattime = images.status.images[0].image.dockerImageMetadata.Created
+                    //console.log('images.status.images[0].image.dockerImageMetadata.Config.ExposedPorts', images.status.images[0].image.dockerImageMetadata);
+                    if (images.status.images[0].image.dockerImageMetadata.Config.ExposedPorts) {
+
+                        //imageportmessage(images.status.images[0].image.dockerImageMetadata.Config.ExposedPorts)
+                        var posts = []
+                        //$scope.port = []
+                        $scope.dc.spec.template.spec.containers[idx].strport = '';
+
+                        for (var k in images.status.images[0].image.dockerImageMetadata.Config.ExposedPorts) {
+                            var pot = parseInt(k.split('/')[0])
+                            posts.push({protocol: k.split('/')[1].toUpperCase(), containerPort: pot})
+                            var rep = false
+                            angular.forEach($scope.portsArr, function (item, i) {
+                                if (item.containerPort && item.containerPort == pot) {
+                                    rep = true
+                                }
+                            })
+                            if (!rep) {
+                                $scope.portsArr.push({
+                                    protocol: k.split('/')[1].toUpperCase(),
+                                    containerPort: pot,
+                                    hostPort: pot
+                                })
+                            }
+                            $scope.dc.spec.template.spec.containers[idx].strport += k.split('/')[0] + '/' + k.split('/')[1].toUpperCase() + ',';
+                        }
+                        $scope.dc.spec.template.spec.containers[idx].strport = $scope.dc.spec.template.spec.containers[idx].strport.replace(/\,$/, "")
+                        $scope.dc.spec.template.spec.containers[idx].ports = angular.copy(posts)
+
+                    }
+                } else {
+                    //$scope.namerr.url = true;
+                }
             }
             function dcname(n, image) {
                 $scope.dc.metadata.name = n;
@@ -819,8 +885,9 @@ angular.module('console.service.create', [
                         ChangeImages.open($scope.imageslist,$scope.istag).then(function (res) {
                             //console.log('tag,checked,istag,ismy', tag, checked, istag, ismy);
                             if (res.ismy==='mytag') {
-
                                 $scope.tocheckedtag(res.mytag,idx,res,res.istag)
+                            }else {
+                                $scope.ourimage(res.images,idx,res.postobj)
                             }
 
                         })
@@ -861,37 +928,8 @@ angular.module('console.service.create', [
                         }
                     }
 
-                    function imagetimemessage(imagestime) {
-                        $scope.creattime = imagestime
-                    }
 
-                    function imageportmessage(port) {
-                        var port = port;
-                        //console.log('port', port);
-                        $scope.port = []
-                        $scope.strport = '';
 
-                        for (var k in port) {
-                            var pot = parseInt(k.split('/')[0])
-                            $scope.port.push({protocol: k.split('/')[1].toUpperCase(), containerPort: pot})
-                            var rep = false
-                            angular.forEach($scope.portsArr, function (item, i) {
-                                if (item.containerPort && item.containerPort == pot) {
-                                    rep = true
-                                }
-                            })
-                            if (!rep) {
-                                $scope.portsArr.push({
-                                    protocol: k.split('/')[1].toUpperCase(),
-                                    containerPort: pot,
-                                    hostPort: pot
-                                })
-                            }
-                            $scope.strport += k.split('/')[0] + '/' + k.split('/')[1].toUpperCase() + ',';
-                        }
-                        $scope.strport = $scope.strport.replace(/\,$/, "")
-                        $scope.dc.spec.template.spec.containers[0].ports = angular.copy($scope.port)
-                    }
 
                     $scope.find = function () {
                         if ($scope.institution.display == 2) {
@@ -906,6 +944,7 @@ angular.module('console.service.create', [
                                 return
                             }
                             $scope.finding = true;
+
                             if ($scope.institution.configregistry) {
                                 $scope.postobj.spec.images[0].importPolicy = {
                                     insecure: true
@@ -914,58 +953,11 @@ angular.module('console.service.create', [
                             $scope.postobj.spec.images[0].from.name = $scope.postobj.spec.images[0].from.name.replace(/^\s+|\s+$/g, "");
                             imagestreamimports.create({namespace: $rootScope.namespace}, $scope.postobj, function (images) {
                                 $scope.finding = false;
-                                var allsize = 0
-                                //console.log('images', images.status.images[0].image.dockerImageLayers);
-                                if (images.status.images[0].image.dockerImageLayers && images.status.images[0].image.dockerImageLayers.length) {
-                                    angular.forEach(images.status.images[0].image.dockerImageLayers, function (size, i) {
+                                $scope.ourimage(images,$scope.postobj)
 
-                                        allsize = allsize + size.size;
-                                    })
-                                }
-                                $scope.imagesize = Math.round(parseInt(allsize) / 1024 / 1024 * 100) / 100
-                                //console.log('size', $scope.imagesize);
-                                if (images.status.images && images.status.images[0] && images.status.images[0].status) {
-                                    if (images.status.images[0].status.code && images.status.images[0].status.code === 401) {
-                                        $scope.err.url.role = true;
-                                        return
-                                    }
-                                    if (images.status.images[0].status.code && images.status.images[0].status.code === 404) {
-                                        //$scope.namerr.url = true;
-                                        $scope.err.url.notfind = true;
-                                        return
-                                    }
-                                    if (images.status.images[0].status.code && images.status.images[0].status.code === 500) {
-                                        //$scope.namerr.url = true;
-                                        $scope.err.url.role = true;
-                                        return
-                                    }
-                                }
-                                //$scope.namerr.canbuild = false;
-                                $scope.images = images;
-                                $scope.curl = $scope.postobj.spec.images[0].from.name;
-                                var name = $scope.postobj.spec.images[0].from.name.split('/')[$scope.postobj.spec.images[0].from.name.split('/').length - 1]
-                                $scope.fuwuname = name.split(':').length > 1 ? name.split(':')[0] : name;
-                                $scope.dc.spec.template.spec.containers[0].name = $scope.fuwuname
-                                $scope.tag = name.split(':').length > 1 ? name.split(':')[1] : 'latest';
-                                $scope.dc.spec.template.spec.containers[0].image = $scope.postobj.spec.images[0].from.name;
-                                //$scope.dc.spec.template.spec.containers[0].ports
+                                //$scope.showall = true;
 
-                                //var imagetag = 'dadafoundry.io/image-' + $scope.postobj.spec.images[0].from.name;
-                                //
-                                //$scope.dc.metadata.annotations[imagetag] = $scope.fuwuname + ":" + $scope.tag;
-
-                                if (images.status.images[0] && images.status.images[0].image.dockerImageMetadata) {
-                                    imagetimemessage(images.status.images[0].image.dockerImageMetadata.Created)
-                                    //console.log('images.status.images[0].image.dockerImageMetadata.Config.ExposedPorts', images.status.images[0].image.dockerImageMetadata);
-                                    if (images.status.images[0].image.dockerImageMetadata.Config.ExposedPorts) {
-                                        imageportmessage(images.status.images[0].image.dockerImageMetadata.Config.ExposedPorts)
-                                    }
-                                } else {
-                                    //$scope.namerr.url = true;
-                                }
-                                $scope.showall = true;
-
-                                $scope.dc.metadata.labels[0].value = $scope.fuwuname;
+                                //$scope.dc.metadata.labels[0].value = $scope.fuwuname;
                             }, function (err) {
                                 //$scope.namerr.url = true;
                                 $scope.finding = false;

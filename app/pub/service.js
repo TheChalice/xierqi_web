@@ -681,7 +681,31 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                             $scope.imageslist = imageslist;
                             $scope.istag = angular.copy(tags)
                             $scope.tagslist = [];
+                            $scope.institution = {
+                                display: 1,
+                                configregistry: false
+                            }
+                            $scope.err = {
+                                url: {
+                                    null: false,
+                                    notfind: false,
+                                    role: false
+                                },
+                                name: {
+                                    null: false,
+                                    repeated: false,
+                                    pattern: false
+                                },
+                                env: {
+                                    null: false,
+                                    repeated: false,
+                                },
+                                label: {
+                                    null: false,
+                                    repeated: false,
+                                }
 
+                            }
                             $scope.checked = {
                                 namespace: '',
                                 image: '',
@@ -788,15 +812,9 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                     $scope.postobj.spec.images[0].from.name = $scope.postobj.spec.images[0].from.name.replace(/^\s+|\s+$/g, "");
                                     imagestreamimports.create({namespace: $rootScope.namespace}, $scope.postobj, function (images) {
                                         $scope.finding = false;
-                                        var allsize = 0
-                                        //console.log('images', images.status.images[0].image.dockerImageLayers);
-                                        if (images.status.images[0].image.dockerImageLayers && images.status.images[0].image.dockerImageLayers.length) {
-                                            angular.forEach(images.status.images[0].image.dockerImageLayers, function (size, i) {
-
-                                                allsize = allsize + size.size;
-                                            })
-                                        }
-                                        $scope.imagesize = Math.round(parseInt(allsize) / 1024 / 1024 * 100) / 100
+                                        $scope.checked.postobj=$scope.postobj
+                                        $scope.checked.images=images
+                                        $scope.checked.ismy='ourtag'
                                         //console.log('size', $scope.imagesize);
                                         if (images.status.images && images.status.images[0] && images.status.images[0].status) {
                                             if (images.status.images[0].status.code && images.status.images[0].status.code === 401) {
@@ -819,7 +837,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                         $scope.curl = $scope.postobj.spec.images[0].from.name;
                                         var name = $scope.postobj.spec.images[0].from.name.split('/')[$scope.postobj.spec.images[0].from.name.split('/').length - 1]
                                         $scope.fuwuname = name.split(':').length > 1 ? name.split(':')[0] : name;
-                                        $scope.dc.spec.template.spec.containers[0].name = $scope.fuwuname
+                                        //$scope.dc.spec.template.spec.containers[0].name = $scope.fuwuname
                                         $scope.tag = name.split(':').length > 1 ? name.split(':')[1] : 'latest';
                                         $scope.imagetext = $scope.postobj.spec.images[0].from.name;
                                         //$scope.dc.spec.template.spec.containers[0].ports
@@ -839,7 +857,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                         }
                                         $scope.showall = true;
 
-                                        $scope.dc.metadata.labels[0].value = $scope.fuwuname;
+                                        //$scope.dc.metadata.labels[0].value = $scope.fuwuname;
                                     }, function (err) {
                                         //$scope.namerr.url = true;
                                         $scope.finding = false;
@@ -862,7 +880,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
 
                                     $scope.mytag = tag
                                     var allsize = 0;
-                                    console.log(tag.image.dockerImageLayers.length);
+                                    //console.log(tag.image.dockerImageLayers.length);
                                     if (tag.image.dockerImageLayers && tag.image.dockerImageLayers.length) {
                                         angular.forEach(tag.image.dockerImageLayers, function (size, i) {
                                             //console.log('size.size', size.size);
@@ -908,7 +926,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                 if ($scope.check === 1) {
                                     $uibModalInstance.close($scope.checked);
                                 } else {
-                                    $uibModalInstance.close();
+                                    $uibModalInstance.close($scope.checked);
                                 }
 
                             };
