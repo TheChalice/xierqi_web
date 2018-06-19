@@ -57,7 +57,113 @@ angular.module('console.service.create', [
             })
 
 
+            $scope.addContainer = function () {
+                $scope.dc.spec.template.spec.containers.push({
+                    "name": '',
+                    "image": '',
+                    'env': [{name: '', value: ''}],
+                    volments: {
+                        //secret: [{secretName: '', mountPath: ''}],
+                        //configMap: [{name: '', mountPath: ''}],
+                        //persistentVolumeClaim: [{claimName: '', mountPath: ''}]
+                    },
+                    imageChange: false,
+                    "ports": [
+                        {
+                            "containerPort": 80,
+                            "protocol": "TCP"
+                        }
+                    ],
+                    "resources": {
+                        "limits": {
+                            "cpu": "",
+                            "memory": ""
+                        },
+                        "requests": {
+                            "cpu": "",
+                            "memory": ""
+                        }
+                    },
+                    open: {
+                        resources: false,
+                        volment: false,
+                        livenessProbe: false,
+                        readinessProbe: false,
+                        livenesscheck: 'HTTP',
+                        livenesshttpscheck: false,
+                        readinesscheck: 'HTTP',
+                        readinesshttpscheck: false
+                    },
+                    resourcesunit: {
+                        mincpu: 'millicores',
+                        maxcpu: 'millicores',
+                        minmem: 'MB',
+                        maxmem: 'MB'
+                    },
+                    "livenessProbe": {
+                        annotations: {
+                            path: '',
+                            port: '',
+                            command: '',
 
+                        },
+                        "httpGet": {
+                            "path": "/Liveness",
+                            "port": 80,
+                            "scheme": "HTTP" //HTTPS
+                        },
+                        exec: {
+                            command: ["ls", "-l", "/"]
+                        },
+                        tcpSocket: {
+                            port: 80
+                        },
+                        "initialDelaySeconds": 1,
+                        "timeoutSeconds": 1,
+                        "periodSeconds": 10,
+                        "successThreshold": 1,
+                        "failureThreshold": 3
+                    },
+                    "readinessProbe": {
+                        annotations: {
+                            path: '',
+                            port: '',
+                            command: '',
+
+                        },
+                        httpGet: {
+                            "path": "/Liveness",
+                            "port": 80,
+                            "scheme": "HTTP" //HTTPS
+                        },
+                        exec: {
+                            command: ["ls", "-l", "/"]
+                        },
+                        tcpSocket: {
+                            port: 80
+                        },
+                        "initialDelaySeconds": 1,
+                        "timeoutSeconds": 1,
+                        "periodSeconds": 10,
+                        "successThreshold": 1,
+                        "failureThreshold": 3
+                    },
+                    entrypoint: '',
+                    cmd: '',
+                    "command": [
+                        "tail"
+                    ],
+                    "args": [
+                        "-f",
+                        "/dev/null"
+                    ],
+
+
+                })
+            }
+            $scope.rmContainer = function (idx) {
+                $scope.dc.spec.template.spec.containers.splice(idx, 1)
+            }
             var cont = 0
 
             $scope.istag = angular.copy(mytag)
@@ -175,12 +281,12 @@ angular.module('console.service.create', [
                                 ],
                                 "resources": {
                                     "limits": {
-                                        "cpu": "20m",
-                                        "memory": "20Mi"
+                                        "cpu": "",
+                                        "memory": ""
                                     },
                                     "requests": {
-                                        "cpu": "10m",
-                                        "memory": "10Mi"
+                                        "cpu": "",
+                                        "memory": ""
                                     }
                                 },
                                 open: {
