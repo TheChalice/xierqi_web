@@ -636,7 +636,7 @@ angular.module('console.service.create', [
                     }else {
                         delete con.args
                     }
-                    console.log('con.imageChange', con.imageChange);
+                    //console.log('con.imageChange', con.imageChange);
                     if (con.imageChange) {
                         creatimageconfig(con)
                     }
