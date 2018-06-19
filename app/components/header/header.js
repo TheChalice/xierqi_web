@@ -11,6 +11,7 @@ angular.module("console.header", [{
             templateUrl: 'components/header/header.html',
             controller: ['allTenants','GLOBAL', '$timeout', '$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
                 function (allTenants,GLOBAL, $timeout, $log, Project, account, regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
+                //////获取租户数据
                     allTenants.query({name: "admin"}, function(data){
                         createTree(data);
                         console.log('createTree(data)',$scope.tenantsTree);
@@ -18,6 +19,31 @@ angular.module("console.header", [{
                     }, function(res) {
                         //todo 错误处理
                     });
+                    /////点击其他地方隐藏。。。比较落后
+                    document.addEventListener("click",function(){
+                        if($scope.tenantsBox){
+                            $scope.tenantsBox = false;
+                            $scope.$apply();
+                        }
+                    });
+                    document.getElementById("tenants-box").addEventListener("click",function(event){
+                        event=event||window.event;
+                        event.stopPropagation();
+                    });
+                    $scope.tenantsBox = false;
+                    $scope.tenantsIsShow = function(){
+                        if($scope.tenantsBox){
+                            $scope.tenantsBox = false;
+                        }else{
+                            $scope.tenantsBox = true;
+                        }
+                    }
+                    $scope.curTenantName = $rootScope.namespace;///////默认为单点登录账号；
+                    ////////////树点击事件
+                    $scope.showSelected = function(node){
+                        $scope.curTenantName = node;
+                    }
+                    /////////获取租户数据后组合成符合树符合的多维数组
                     function createTree(trees) {
                         $scope.tenantsTree = [];
                         $scope.treemap = {};
@@ -490,9 +516,9 @@ angular.module("console.header", [{
                         //console.log('$state.current.name', $state.current.name);
                         if ($state.current.name === 'console.dashboard') {
                             //$state.reload();
-                            $state.go("console.build", { namespace: $rootScope.namespace })
+                            $state.go("console.dashboard", { namespace: $rootScope.namespace })
                         } else {
-                            $state.go("console.build", { namespace: $rootScope.namespace });
+                            $state.go("console.dashboard", { namespace: $rootScope.namespace });
                         }
                         //$state.go("console.dashboard", { namespace: $rootScope.namespace });
                         //}
