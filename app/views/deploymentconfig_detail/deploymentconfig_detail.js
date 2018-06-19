@@ -11,22 +11,12 @@ angular.module('console.deploymentconfig_detail', [
         ]
     }
 ])
-    .controller('DeploymentConfigDetailCtrl', ['Toast', 'Confirm', 'delTip', '$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag', '$state', 'toastr', 'BuildConfig',
-        function (Toast, Confirm, delTip, $log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag, $state, toastr, BuildConfig) {
+    .controller('DeploymentConfigDetailCtrl', ['Toast', 'Confirm', 'delTip', '$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag', '$state', 'toastr', 
+        function (Toast, Confirm, delTip, $log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag, $state, toastr) {
             $scope.dc = angular.copy(mydc);
             for(var i = 0 ; i < $scope.dc.spec.template.spec.containers.length ; i++){
                 $scope.dc.spec.template.spec.containers[i].retract = true;
             }
-            
-
-            // BuildConfig.get({
-            //     namespace: $rootScope.namespace,
-            //     name: $stateParams.name,
-            //     region: $rootScope.region
-            // }, function (data) {
-            //     $scope.data = data;
-            // })
-
             $scope.mytag = angular.copy(mytag)
             $scope.err = {
                 vol: {
@@ -536,6 +526,7 @@ angular.module('console.deploymentconfig_detail', [
                         tmp.name = 'container' + $scope.dc.spec.template.spec.containers.length;
                         $scope.checkoutreg(tmp, true);
                         $scope.dc.spec.template.spec.containers.push(tmp);
+                        console.log("jia--",$scope.dc.spec.template.spec.containers)
                         
                     
 
