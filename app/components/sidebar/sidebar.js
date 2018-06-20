@@ -31,6 +31,8 @@ angular.module("console.sidebar", [
                         $(".zx_set_btn").removeClass("zx_set_btn_rotate");
                         $("#sidebar-container").removeClass("sider_zx");
                         $("#sidebar-right-fixed").removeClass("sidebar-fixed");
+                        $(".nav_top_li").removeClass("nav_top_toggle");
+                        $(".bread_set").removeClass("bread_set_toggle")
                         angular.forEach($rootScope.dataForTheTree, function (data, i) {
                             //console.log('data', data);
                             if (data.name == '容器应用') {
@@ -68,7 +70,10 @@ angular.module("console.sidebar", [
                     $(".zx_set_btn").toggleClass("zx_set_btn_rotate");
                     $("#sidebar-container").toggleClass("sider_zx");
                     $("#sidebar-right-fixed").toggleClass("sidebar-fixed");
+                    $(".nav_top_li").toggleClass("nav_top_toggle");
+                    $(".bread_set").toggleClass("bread_set_toggle")
                     $(".sb-arrow").toggleClass("rotate");
+
                     if ($(".zx_set_btn").hasClass('zx_set_btn_rotate')) {
                         $scope.activeStyle = true;
                         angular.forEach($rootScope.dataForTheTree, function (data, i) {
