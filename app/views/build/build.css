@@ -4,13 +4,7 @@
     padding:0px 0px 10px;
 }
 .builder_create_btn{padding:0px;float:right;margin-top:3px;}
-#build_list .nav_top_li{
-    padding-top:6px;padding-bottom:10px;
-    box-shadow: 0 1px 0 0 rgba(224,230,237,0.50);
-    clear:both;overflow:hidden;padding-left:20px;padding-right:20px;background:#fff;height:42px;
-    /* margin-right: 0;
-    margin-left:-15px; */
-}
+
 #build_list .btn-green_li{
     /* margin-right:20px; */padding:4px 10px;font-size:12px;height:26px;
 }
