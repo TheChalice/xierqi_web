@@ -32,7 +32,7 @@ angular.module('console.build.detail', [
                     name: $stateParams.name,
                     region: $rootScope.region
                 }, function (data) {
-                    $log.info('data', data.spec.triggers[1].generic.secret);
+                    //$log.info('data', data.spec.triggers[1].generic.secret);
                     //$log.info('labsecrect is',data.spec.source.sourceSecret.name);
                     $scope.data = data;
                     var host = $scope.data.spec.source.git.uri;
