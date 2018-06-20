@@ -4,16 +4,16 @@ angular.module('home.uploadimage', [{
             'views/upload_image/upload_image.css'
         ]
     }])
-    .controller('uploadimageCtrl', ['$location','GLOBAL', 'sessiontoken', 'Cookie', '$rootScope', 'User', 'Project', '$log', '$state', 'ImageStream', '$scope', 'Upload', 'toastr','uploadimageapi','$interval',
-        function ($location,GLOBAL, sessiontoken, Cookie, $rootScope, User, Project, $log, $state, ImageStream, $scope, Upload, toastr,uploadimageapi,$interval) {
-
+    .controller('uploadimageCtrl', ['progressBox','GLOBAL', 'sessiontoken', 'Cookie', '$rootScope', 'User', 'Project', '$log', '$state', 'ImageStream', '$scope', 'Upload', 'toastr',
+        function (progressBox,GLOBAL, sessiontoken, Cookie, $rootScope, User, Project, $log, $state, ImageStream, $scope, Upload, toastr) {
+           var host = window.location.host;
             $scope.grid = {
                 tag: null,
                 file: null,
                 name: null,
                 progress: null,
                 imagenamenull:false,
-                clickbtn: 'canclick',
+                clickbtn: 'dontclick',
                 display: false
             }
             $scope.submit = function (file) {
@@ -29,7 +29,9 @@ angular.module('home.uploadimage', [{
 
                 $scope.grid.clickbtn = 'inhand'
                 browserMD5File($scope.grid.file, function (err, md5) {
-                    $scope.grid.clickbtn = 'dontclick'
+                    $scope.grid.clickbtn = 'dontclick';
+                    $('#myModalBtn').click();
+                    // progressBox.open($scope.grid.progress);
                     //console.log('md5',md5); // 97027eb624f85892c69c4bcec8ab0f11
 
                     $scope.upload(file, $scope.grid.name, $scope.grid.tag, md5);
@@ -38,35 +40,35 @@ angular.module('home.uploadimage', [{
                 //
                 //}
             };
-            console.log('$location', $location.$$port);
-            $scope.port = $location.$$port?':'+$location.$$port:''
             $scope.changeupload = function ($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event) {
                 //console.log('change', $files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event);
                 $scope.grid.file = $event.target.files[0];
+                $scope.grid.clickbtn='canclick';
+                console.log(' $scope.grid.file', $scope.grid.file);
 
 
             }
-            $scope.changenewimage = function () {
-                $scope.grid.display = !$scope.grid.display
-                if (!$scope.grid.display) {
-                    $scope.grid.name = $scope.myis[0].metadata.name
-                    $scope.grid.tag = $scope.myis[0].status.tags[0].tag
-                } else {
-                    $scope.grid.name = null
-                    $scope.grid.tag = null
+            $scope.changenewimage = function (idx) {
+                if($scope.myis){
+                    if (idx == 1) {
+                        $scope.grid.name = $scope.myis[0].metadata.name
+                        $scope.grid.tag = $scope.myis[0].status.tags[0].tag
+                    } else {
+                        $scope.grid.name = null
+                        $scope.grid.tag = null
+                    }
                 }
             }
-
             // upload on file select or drop
             $scope.upload = function (file, image, tag, md5) {
                 //console.log('files', file);
                 var tokens = Cookie.get('df_access_token');
                 var tokenarr = tokens.split(',')
                 Upload.upload({
-                    url: 'http://'+$location.$$host+$scope.port+'/uploadimage/' + $rootScope.namespace + '/' + image + '/' + tag,
+                    url: host+'/uploadimage/' + $rootScope.namespace + '/' + image + '/' + tag,
                     data: {file: file, 'total': file.size},
                     headers: {'Authorization': "Bearer " + tokenarr[0]},
-                    resumeSizeUrl: 'http://'+$location.$$host+$scope.port+'/uploadimage/' + $rootScope.namespace + '/info?secret=' + md5 + '&total=' + file.size,
+                    resumeSizeUrl: host+'/uploadimage/' + $rootScope.namespace + '/info?secret=' + md5 + '&total=' + file.size,
                     resumeSizeResponseReader: function (data) {
                         //console.log('data', data);
 
@@ -99,6 +101,9 @@ angular.module('home.uploadimage', [{
                 }, function (evt) {
                     var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
                     $scope.grid.progress = progressPercentage;
+                    if($scope.grid.progress == 100){
+                        $('#close-this').click();
+                    }
                     console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
                 });
             };

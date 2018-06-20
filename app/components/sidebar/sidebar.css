@@ -28,74 +28,74 @@
     display: inline-block;
     color: white;
 }
-.icon25-dashboard {
+#sidebar .icon25-dashboard {
     background-image: url(img/dashboard.png);
 }
-[treecontrol].tree-light li div.tree-label a:hover{color:#1F2D3D}
+#sidebar [treecontrol].tree-light li div.tree-label a:hover{color:#1F2D3D}
 
 
-.tree-label:hover .icon25-dashboard{background-image:url(img/dashboard-hover.png);}
-.tree-label .select.icon25-dashboard {
+#sidebar .tree-label:hover .icon25-dashboard{background-image:url(img/dashboard-hover.png);}
+#sidebar .tree-label .select.icon25-dashboard {
     background-image: url(img/dashboard-active.png);
 }
 
-.icon25-build {
+#sidebar .icon25-build {
     background-image: url(img/build.png);
 }
-.tree-label:hover .icon25-build{background-image:url(img/build-hover.png);}
-.tree-label .select.icon25-build {
+#sidebar .tree-label:hover .icon25-build{background-image:url(img/build-hover.png);}
+#sidebar .tree-label .select.icon25-build {
     background-image: url(img/build-active.png);
 }
 
-.icon25-repository {
+#sidebar .icon25-repository {
     background-image: url(img/repository.png);
 }
-.tree-label:hover .icon25-repository{background-image:url(img/repository-hover.png);}
-.tree-label .select.icon25-repository {
+#sidebar .tree-label:hover .icon25-repository{background-image:url(img/repository-hover.png);}
+#sidebar .tree-label .select.icon25-repository {
     background-image: url(img/repository-active.png);
 }
-.icon25-pipeline {
+#sidebar .icon25-pipeline {
     background-image: url(img/pipeline.png);
 }
-.tree-label:hover .icon25-pipeline{background-image:url(img/pipeline.png);}
-.tree-label .select.icon25-pipeline {
+#sidebar .tree-label:hover .icon25-pipeline{background-image:url(img/pipeline.png);}
+#sidebar .tree-label .select.icon25-pipeline {
     background-image: url(img/pipeline-hover.png);
 }
 
-.icon25-deployment {
+#sidebar .icon25-deployment {
     background-image: url(img/deployment.png);
 }
-.tree-label:hover .icon25-deployment{background-image:url(img/deployment-hover.png);}
-.tree-label .select.icon25-deployment {
+#sidebar .tree-label:hover .icon25-deployment{background-image:url(img/deployment-hover.png);}
+#sidebar.tree-label .select.icon25-deployment {
     background-image: url(img/deployment-active.png);
 }
 
-.icon25-service {
+#sidebar.icon25-service {
     background-image: url(img/service.png);
 }
-.tree-label:hover .icon25-service{background-image:url(img/service-hover.png);}
-.tree-label .select.icon25-service {
+#sidebar .tree-label:hover .icon25-service{background-image:url(img/service-hover.png);}
+#sidebar .tree-label .select.icon25-service {
     background-image: url(img/service-active.png);
 }
-.icon25-Integration {
+#sidebar .icon25-Integration {
     background-image: url(img/Integration.png);
 }
-.tree-label:hover .icon25-Integration{background-image:url(img/Integration-hover.png);}
-.tree-label .select.icon25-Integration {
+#sidebar .tree-label:hover .icon25-Integration{background-image:url(img/Integration-hover.png);}
+#sidebar .tree-label .select.icon25-Integration {
     background-image: url(img/Integration_active.png);
 }
 
-.icon25-make {
+#sidebar .icon25-make {
     background-image: url(img/make.png);
 }
 #sidebar ul > li > a:hover .icon25-make {
     background-image: url(img/make-active.png);
 }
 
-.icon25-resource {
+#sidebar .icon25-resource {
     background-image: url(img/resource.png);
 }
-.tree-label:hover .icon25-resource{background-image:url(img/resource-hover.png);}
+#sidebar .tree-label:hover .icon25-resource{background-image:url(img/resource-hover.png);}
 #sidebar ul > li > a:hover .icon25-resource {
     background-image: url(img/resource-active.png);
 }
@@ -136,7 +136,7 @@
 .rotate1{
 
 }
-[treecontrol].tree-light li.tree-collapsed i.tree-branch-head{
+#sidebar [treecontrol].tree-light li.tree-collapsed i.tree-branch-head{
     /*display: none;*/
     position: absolute;
     top: 18px;
@@ -157,7 +157,7 @@
     -o-transition: -o-transform 0.2s;
     -ms-transition: -ms-transform 0.2s;
 }
-[treecontrol].tree-light li.tree-expanded i.tree-branch-head{
+#sidebar [treecontrol].tree-light li.tree-expanded i.tree-branch-head{
     /*display: none;*/
     position: absolute;
     top: 22px;
@@ -180,30 +180,30 @@
 
 
 }
-[treecontrol].tree-light li.tree-leaf i.tree-leaf-head{
+#sidebar [treecontrol].tree-light li.tree-leaf i.tree-leaf-head{
     padding:0;
 }
-[treecontrol].tree-light li div.tree-label{
+#sidebar [treecontrol].tree-light li div.tree-label{
     height: 50px;
     line-height:50px;
     display: block;
     padding: 0;
     overflow: hidden;
 }
-[treecontrol].tree-light li a{
+#sidebar [treecontrol].tree-light li a{
     font-size: 14px;
     color: #666;
     padding-left: 75px;
 }
-[treecontrol].tree-light li a.node-name{
+#sidebar [treecontrol].tree-light li a.node-name{
     width: 100%;height: 50px;display: block
 }
 
 
-[treecontrol].tree-light li,[treecontrol].tree-light li li{
+#sidebar [treecontrol].tree-light li,[treecontrol].tree-light li li{
     padding-left:0px;
 }
-[treecontrol].tree-light li li a{
+#sidebar [treecontrol].tree-light li li a{
     padding-left: 75px;
 }
 .sbtn-bg{
@@ -211,11 +211,11 @@
     left: 25px;
     top:11px;
 }
-[treecontrol].tree-light li div.tree-label:hover{
+#sidebar [treecontrol].tree-light li div.tree-label:hover{
     
 }
 
-[treecontrol].tree-light li div.tree-selected {
+#sidebar [treecontrol].tree-light li div.tree-selected {
     /*background: #dcdfe8;*/
     font-weight: normal;
 
@@ -223,7 +223,7 @@
 /*[treecontrol].tree-light li div.tree-selected a{*/
     /*color:#f6a540;*/
 /*}*/
-[treecontrol] ul{
+#sidebar [treecontrol] ul{
     overflow: visible;
 }
 .zx_set_btn{background:#E5E9F2 url(img/zx_set.png) no-repeat center;width:14px;height:14px;background-size:14px 14px;display:block;padding:21px 90px;-webkit-transition:all 0.3s linear ;-moz-transition:all 0.3s linear;transition:all 0.3s linear;
