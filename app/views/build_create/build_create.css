@@ -276,6 +276,9 @@
     height: 26px;
     font-size: 12px;
 }
+#newbuildcreat .build-ipt-name.active {
+   border-radius: 4px;
+}
 
 #newbuildcreat .creat-tab-lablel {
     color: #5a6378;

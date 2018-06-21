@@ -11,49 +11,6 @@
                 <uib-tab index="1">
                     <uib-tab-heading>
                         <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
-                        镜像地址
-                    </uib-tab-heading>
-                    <div class="row" style="margin-bottom: 15px;">
-                        <div class="col-md-12" style="padding: 0px;text-align: left ">
-                            <small ng-show="err.url.null" class="fa fa-info-circle err-tip">请输入正确的镜像地址</small>
-                            <small ng-show="err.url.notfind" class="fa fa-info-circle err-tip">找不到镜像</small>
-                            <small ng-show="err.url.role" class="fa fa-info-circle err-tip">没有访问权限</small>
-                            <input autocomplete="off" type="text"
-                                   name="serviceName"
-                                   ng-model="postobj.spec.images[0].from.name"
-                                   class="form-control"
-                                   style="display: inline-block;width: 80%;"
-                                   type="text" name="name"
-                                   ng-keyup="myKeyup($event)"
-                                   placeholder="例如：nginx">
-                            <span class="input-group-btn" style="position: relative;">
-                                                        <a class="btn" style="margin-top:3px;margin-left:5px;" ng-click="find()"></a>
-                                                    </span>
-                            <div style="height: 24px;margin-top: 5px;">
-                                <p  style="">
-                                    <label ng-class="{'active':institution.configregistry}"
-                                           ng-click="institution.configregistry=!institution.configregistry"
-                                           style="cursor: pointer;">
-                                        <i class="faa faa-check"></i>
-
-                                    </label>
-                                    <span>
-                                                            remote registry is insecure
-                                                        </span>
-                                </p>
-
-                            </div>
-
-
-                        </div>
-
-
-
-                    </div>
-                </uib-tab>
-                <uib-tab index="2">
-                    <uib-tab-heading>
-                        <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
                         构建镜像
                     </uib-tab-heading>
                     <div class="input-group divradio">
@@ -92,13 +49,57 @@
 
 
                     </div>
+
+                </uib-tab>
+                <uib-tab index="2">
+                    <uib-tab-heading>
+                        <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
+                        镜像地址
+                    </uib-tab-heading>
+                    <div class="row" style="margin-bottom: 15px;">
+                        <div class="col-md-12" style="padding: 0px;text-align: left ">
+                            <small ng-show="err.url.null" class="fa fa-info-circle err-tip">请输入正确的镜像地址</small>
+                            <small ng-show="err.url.notfind" class="fa fa-info-circle err-tip">找不到镜像</small>
+                            <small ng-show="err.url.role" class="fa fa-info-circle err-tip">没有访问权限</small>
+                            <input autocomplete="off" type="text"
+                                   name="serviceName"
+                                   ng-model="postobj.spec.images[0].from.name"
+                                   class="form-control"#sidebar
+                                   style="display: inline-block;width: 80%;"
+                                   type="text" name="name"
+                                   ng-keyup="myKeyup($event)"
+                                   placeholder="例如：nginx">
+                            <span class="input-group-btn" style="position: relative;">
+                                                        <a class="btn" style="margin-top:3px;margin-left:5px;" ng-click="find()"></a>
+                                                    </span>
+                            <div style="height: 24px;margin-top: 5px;">
+                                <p  style="">
+                                    <label ng-class="{'active':institution.configregistry}"
+                                           ng-click="institution.configregistry=!institution.configregistry"
+                                           style="cursor: pointer;">
+                                        <i class="faa faa-check"></i>
+
+                                    </label>
+                                    <span>
+                                                            remote registry is insecure
+                                                        </span>
+                                </p>
+
+                            </div>
+
+
+                        </div>
+
+
+
+                    </div>
                 </uib-tab>
             </uib-tabset>
             <div class="row" >
                 <div class="col-md-12" style="height: 60px;border: 1px solid #CCD5E0;border-radius: 4px;">
                     <div class="col-md-2"></div>
                     <div class="col-md-10">
-                        <p>nodejs-mongodb-example</p>
+                        <p>{{fuwuname}}</p>
                         <div class="col-md-6" style="padding:0px;">创建时间：{{creattime|timescon}}</div>
                         <div class="col-md-6">导出端口：{{strport}}</div>
                     </div>

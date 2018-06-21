@@ -86,12 +86,12 @@
                     <p class="img-new">
                         <div class="module_b_l">
                             <span class="module_tit">存储卷大小：</span>
-                            <span class="module_time">{{persistents.spec.resources.requests.storage}}</span>
+                            <span class="module_time" style="font-size: 12px;">{{persistents.spec.resources.requests.storage}}</span>
                         </div>
 
                         <div class="module_b_l">
                             <span class="module_tit">存储卷状态：</span>
-                            <span class="module_time">{{guazai}}</span>
+                            <span class="module_time" style="font-size: 12px;">{{guazai}}</span>
                         </div>
 
                     </p>
@@ -123,7 +123,7 @@
                     <div class="panel-body" style="padding:0">
                         <ul style="padding: 0;margin: 0;">
                             <li ng-repeat="item in persistents.arr" class="listitems" style="list-style: none;height: 60px;line-height: 60px;">
-                                <a class="listitem" ui-sref="console.service_detail({name:item})">
+                                <a class="listitem" ui-sref="console.service_details({name:item})">
                                     {{item}}
                                 </a>
                             </li>

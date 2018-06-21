@@ -263,3 +263,45 @@
     overflow-y:scroll;
 }
 
+.tenants-box{
+    float: right;
+}
+.tenants-box:hover{
+    background: #242A39;
+}
+.tenants-box li{
+    line-height:30px;
+    color: #A2B0C4 ;
+}
+.tenants-box treecontrol.tree-dark li .tree-selected{
+    font-weight: normal;
+    color: #47B2FB;
+}
+.tenants-box span:hover{
+    color:#fff;
+}
+.tenants-box .tenants-up .h_caret{-webkit-transform:rotate(180deg);-moz-transform:rotate(180deg);transform:rotate(180deg);}
+.tenants-box .tree-dark li.tree-expanded i.tree-branch-head{;
+    background-image:url("img/tenants-tree-img.png");
+    position: absolute;
+    top:12px;
+    left:10px;
+    background-size: contain;!important;
+    -webkit-transform:rotate(0deg);-moz-transform:rotate(0deg);transform:rotate(0deg);
+    padding:8px;-webkit-transition:all 0.3s;-moz-transition:all 0.3s;transition:all 0.3s
+}
+.tenants-box .tree-dark li.tree-collapsed i.tree-branch-head{
+
+    position: absolute;
+    top:8px;
+    left:10px;
+    background-image:url("img/tenants-tree-img.png");
+    background-size: contain;!important;
+    -webkit-transform:rotate(-90deg);-moz-transform:rotate(-90deg);transform:rotate(-90deg);
+    padding:8px;-webkit-transition:all 0.3s;-moz-transition:all 0.3s;transition:all 0.3s
+
+
+}
+.tenants-box .tree-label {
+    margin-left:15px;
+}

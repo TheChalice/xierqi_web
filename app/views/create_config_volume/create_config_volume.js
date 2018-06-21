@@ -11,15 +11,14 @@ angular.module('console.create_config_configMap', [
             "name": ""
         },
         "data": {},
-        "configitems": [],
-        "configarr": []
-
+        "configitems": []
     };
     $scope.grid = {
         configpost: false,
         keychongfu: false,
         keybuhefa: false,
-        keynull: false
+        keynull: false,
+        lableKey:false
     };
     //排序
     var by = function (name) {
@@ -40,8 +39,7 @@ angular.module('console.create_config_configMap', [
             }
         }
     };
-
-
+    //readFile
     function readSingleFile(e) {
         var thisfilename = this.value;
         if (thisfilename.indexOf('\\')) {
@@ -55,22 +53,17 @@ angular.module('console.create_config_configMap', [
         var reader = new FileReader();
         reader.onload = function (e) {
             var content = e.target.result;
-            $scope.volume.configarr.push({key: thisfilename, value: content, showLog: false})
-
+            $scope.volume.configitems[$scope.check].value = content;
+            $scope.volume.configitems[$scope.check].isClearCode = true;
             $scope.$apply();
         };
         reader.readAsText(file);
 
     };
-
-    $scope.getLog = function (idx) {
-        $scope.volume.configarr[idx].showLog = !$scope.volume.configarr[idx].showLog
-    };
-
+    //delete key value
     $scope.deletekv = function (idx) {
-        $scope.volume.configarr.splice(idx, 1);
+        $scope.volume.configitems.splice(idx, 1);
     };
-
     $scope.$watch('volume', function (n, o) {
         if (n == o) {
             return
@@ -81,8 +74,8 @@ angular.module('console.create_config_configMap', [
         $scope.grid.keybuhefa = false;
         if (n.metadata.name && n.configitems) {
 
-            var arr = n.configitems.concat(n.configarr);
-            arr.sort(by("key"));
+            var arr = n.configitems;
+            // arr.sort(by("key"));
 
             if (arr && arr.length > 0) {
                 var kong = false;
@@ -122,34 +115,28 @@ angular.module('console.create_config_configMap', [
         }
     }, true);
 
-    $scope.rmovekv = function (idx) {
-        $scope.volume.configitems.splice(idx, 1);
+    //添加配置文件
+    $scope.AddConfigurationFile = function () {
+        $scope.grid.lableKey = true;
+        $scope.volume.configitems.push({key: '', value: '', isClearCode: false});
     };
-    //添加文件
-    $scope.add = function () {
-        document.getElementById('file-input').addEventListener('change', readSingleFile, false);
+    // clear code
+    $scope.clearCode = function (index) {
+        $scope.volume.configitems[index].value = '';
+        $scope.volume.configitems[index].isClearCode = false;
     };
-
-
-    $scope.delvolume = function (v, idx) {
-        $scope.volume.data.length--
-        delete $scope.volume.data[v];
-        $scope.configarr.splice(idx, 1);
-
+    // add file
+    $scope.addFile = function (i) {
+        $scope.check = i;
+        // console.log('addFile',i,$scope.check);
+        // document.getElementById('file-input').addEventListener('change', readSingleFile, false);
+        document.getElementsByClassName('upLoadFile')[$scope.check].addEventListener('change', readSingleFile, false);
     };
 
     /////手动配置
     configmaps.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (res) {
-
         $scope.cfmnamearr = res.items;
-
-
     });
-    $scope.addConfig = function () {
-        $scope.volume.configitems.push({key: '', value: ''});
-
-    };
-
     $scope.namerr = {
         nil: false,
         rexed: false,
@@ -167,9 +154,7 @@ angular.module('console.create_config_configMap', [
         $scope.namerr.nil = false
     };
 
-
     var rex = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
-
     $scope.$watch('volume.metadata.name', function (n, o) {
         if (n === o) {
             return;
@@ -201,19 +186,16 @@ angular.module('console.create_config_configMap', [
 
     $scope.cearteconfig = function () {
         if (!$scope.namerr.nil && !$scope.namerr.rexed && !$scope.namerr.repeated && !$scope.timeouted) {
-            // alert("000");
         } else {
             return
         }
         $scope.loaded = true;
-        var arr = $scope.volume.configitems.concat($scope.volume.configarr);
+        var arr = $scope.volume.configitems;
         angular.forEach(arr, function (item, i) {
             $scope.volume.data[item.key] = item.value;
         });
 
-
         delete $scope.volume.configitems;
-        delete $scope.volume.configarr;
         configmaps.create({namespace: $rootScope.namespace, region: $rootScope.region}, $scope.volume, function (res) {
             //console.log('createconfig----', res);
             $scope.loaded = false;

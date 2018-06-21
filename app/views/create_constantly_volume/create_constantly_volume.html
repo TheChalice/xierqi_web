@@ -9,30 +9,85 @@
 </div>
 <div class="df_frame">
     <style>
-        /*.create:hover{*/
-            /*background-color: #5b73eb;*/
-        /*}*/
-        /*.create:active{*/
-            /*background-color: #F8B551;*/
-        /*}*/
         #arrow:hover {
-            background:url('views/create_constantly_volume/img/images_45.png');
+            /*background: url('views/create_constantly_volume/img/images_45.png');*/
         }
 
         /*jia 20161118 add begin 新建存储卷 */
-        .enduring_tit{text-align:center;font-size:16px;margin-top:40px;margin-bottom:30px;}
-        .price_one{font-size:20px;color:#47B2FB;}
-        .rzslider .rz-bar{height:10px;}
-        .rzslider .rz-bar.rz-selection{background:#98D4FD;}
-        .rzslider .rz-bar{background:#e6e9f2;}
-        .rzslider .rz-pointer:after,.rzslider .rz-pointer:hover:after,.rzslider .rz-pointer:active:after,.rzslider .rz-pointer .rz-active{background:none!important;}
-        .rzslider .rz-pointer{background:url('views/create_constantly_volume/img/vol_nor.png') no-repeat;width:21px;height:21px;margin-top:8px;
-            border-radius:0;-webkit-border-radius:0;-moz-border-radius:0;-webkit-transition: all 0.03s;-moz-transition: all 0.03s;transition: all 0.03s;}
-        .rzslider .rz-pointer:hover,.rzslider .rz-pointer:active{background:url('views/create_constantly_volume/img/vol_hover.png') no-repeat;}
-        .rzslider .rz-ticks .rz-tick{background:none;}
-        .rzslider .rz-ticks .rz-tick.rz-selected{background:none;}
-        .rzslider .rz-bubble{background:#000;border-radius:4px;padding:3px 8px;max-width:200px;color:#fff;font-size:12px;bottom:18px;
-            -webkit-transition: all 0.2s;-moz-transition: all 0.2s;transition: all 0.2s;}
+        .enduring_tit {
+            text-align: center;
+            font-size: 16px;
+            margin-top: 40px;
+            margin-bottom: 30px;
+        }
+
+        .price_one {
+            font-size: 20px;
+            color: #47B2FB;
+        }
+
+        .rzslider {
+            width: 320px;
+        }
+
+        .rzslider .rz-bar {
+            height: 2px;
+        }
+
+        .rzslider .rz-bar.rz-selection {
+            background: #98D4FD;
+        }
+
+        .rzslider .rz-bar {
+            /*background: #e6e9f2;*/
+            background: #E5E9F2;
+        }
+
+        .rzslider .rz-pointer:after, .rzslider .rz-pointer:hover:after, .rzslider .rz-pointer:active:after, .rzslider .rz-pointer .rz-active {
+            background: none !important;
+        }
+
+        .rzslider .rz-pointer {
+            /*background: url('views/create_constantly_volume/img/vol_nor.png') no-repeat;*/
+            background: #47B2FB;
+            width: 10px;
+            height: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            /*border-radius: 0;*/
+            /*-webkit-border-radius: 0;*/
+            /*-moz-border-radius: 0;*/
+            -webkit-transition: all 0.03s;
+            -moz-transition: all 0.03s;
+            transition: all 0.03s;
+        }
+
+        .rzslider .rz-pointer:hover, .rzslider .rz-pointer:active {
+            /*background: url('views/create_constantly_volume/img/vol_hover.png') no-repeat;*/
+            background: #47B2FB;
+        }
+
+        .rzslider .rz-ticks .rz-tick {
+            background: none;
+        }
+
+        .rzslider .rz-ticks .rz-tick.rz-selected {
+            background: none;
+        }
+
+        .rzslider .rz-bubble {
+            background: #000;
+            border-radius: 4px;
+            padding: 3px 8px;
+            max-width: 200px;
+            color: #fff;
+            font-size: 12px;
+            bottom: 18px;
+            -webkit-transition: all 0.2s;
+            -moz-transition: all 0.2s;
+            transition: all 0.2s;
+        }
+
         /*.rzslider .rz-bubble:after{content:"";position:absolute;width:0;height:0;border-color:transparent;border-style:solid;*/
         /*bottom:-4px;left:50%;margin-left:-5px;border-width:5px 5px 0;border-top-color:#000;}*/
         /*jia 20161118 add end 新建存储卷 */
@@ -45,7 +100,8 @@
             <div class="panel-body" style="padding: 0 15px;">
 
                 <div class="form-group" style="margin-bottom: 0;margin-top: 15px;">
-                    <label class="col-sm-2 control-label text-left" style="color: #475669; font-size:12px; line-height: 14px; text-align: left; font-weight: normal;">存储卷名称</label>
+                    <label class="col-sm-2 control-label text-left require"
+                           style="color: #475669; font-size:12px; line-height: 14px; text-align: left; font-weight: normal;">存储卷名称</label>
                     <div class="col-sm-10" style="padding-right: 40px;">
                         <input type="text"
                                ng-blur="nameblur()"
@@ -58,31 +114,33 @@
                                style="width: 358px;height: 26px;color: #A2B0C4;">
                         <small ng-if="namerr.nil" class="fa fa-info-circle err-tip">请输入正确构建名称
                         </small>
-                        <small ng-if="namerr.rexed" class="fa fa-info-circle err-tip">请输入4~30位名称,名称只能包含小写英文、数字以及“-”(不能以数字开头)
+                        <small ng-if="namerr.rexed" class="fa fa-info-circle err-tip">
+                            请输入4~30位名称,名称只能包含小写英文、数字以及“-”(不能以数字开头)
                         </small>
                         <small ng-if="namerr.repeated" class="fa fa-info-circle err-tip">输入的名称已重复
                         </small>
                     </div>
                 </div>
-                <div class="form-group" style="margin-top: 55px">
-                    <label class="col-sm-2 control-label text-left" style="margin-top:25px;color: #475669; font-size:12px; line-height: 14px; text-align: left; font-weight: normal;">存储卷容量</label>
+                <div class="form-group" style="margin-top: 27px">
+                    <label class="col-sm-2 control-label text-left"
+                           style="margin-top:25px;color: #475669;; font-size:12px; line-height: 14px; text-align: left; font-weight: normal;">存储卷容量</label>
                     <div class="col-sm-10" style="padding-right: 40px; ">
-
-                        <!--<p class="enduring_tit">您选择 <span class="price_one">{{slider.value}}</span> GB；每月花费 <san class="price_one">{{slider.value}}</san> 元</p>-->
-                        <!--<p class="enduring_tit">您选择 <span class="price_one">{{slider.value}}</span> GB</p>-->
                         <div class="volume_modal" style="width: 80%;">
-                            <rzslider rz-slider-model="slider.value" rz-slider-options="slider.options" ng-model="volume.size"></rzslider>
+                            <rzslider rz-slider-model="slider.value" rz-slider-options="slider.options"
+                                      ng-model="volume.size"></rzslider>
                         </div>
                         <small ng-if="grid.num" class="fa fa-info-circle err-tip" style="margin-top: 20px;">
                             选择数值应在1-5之间(1的倍数)
                         </small>
-                        <!--<img src="views/create_constantly_volume/img/images_43.png" id="arrow" ng-click="updateplan()">-->
                     </div>
                 </div>
 
             </div>
         </div>
-        <div style="height: 1px;border: 1px solid #E0E6ED;"></div>
-        <a href="javascript:;" ng-click="creat()" class="btn create btn-orange" style="margin-top: 20px; color: white;">创建存储卷</a>
+        <div style="border: 1px solid #E0E6ED;"></div>
+        <a href="javascript:;" ng-if="grid.configpost" ng-click="creat()"
+           class="btn create btn-orange btn-resources" style="margin-top: 20px; color: white;">创建存储卷</a>
+        <a href="javascript:;" ng-if="!grid.configpost" disabled="disabled"  class="btn create btn-orange btn-resources"
+           style="margin-top: 20px; color: white;">创建存储卷</a>
     </form>
 </div>

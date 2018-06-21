@@ -28,3 +28,42 @@
 
 .upload_main .dropdown-select > .btn{height:32px;}
 .upload_main .dropdown-menu > li > a{height:32px;line-height:32px;}
+.create_deploy_nanji .tab-default .tab-content{
+    border:none;
+}
+.create_deploy_nanji .tab-default .nav-tabs{
+    border:none;
+}
+.create_deploy_nanji .tab-default li.active .nav-link{
+    border: 1px solid #47B2FB;
+    border-radius: 4px 4px 0px 0px;
+    color: #47B2FB;
+}
+.create_deploy_nanji .nav-tabs>li a{
+    border: 1px solid #CCD5E0;
+    margin:0px;
+}
+.row{
+    margin:0px;
+}
+.create_deploy_nanji .tab-default .tab-content{
+    padding-left:0px;
+}
+.create_deploy_nanji .input-group-btn{
+    position: absolute;right: -50px;top:-0px;z-index: 1;border: 1px solid #CCD5E0;border-radius: 4px;width: 32px;height: 24px;display:inline-block;text-align: center;padding:0;
+}
+.child-no-padding div{
+    padding-left:0;
+    padding-right:0;
+}
+.del-margin{
+    margin-top:10px;
+}
+.create_deploy_nanji .tab-default li .nav-link {
+    font-size: 12px;
+    padding: 0px;
+    line-height: 24px;
+    width: 80px;
+    text-align: center;
+
+}

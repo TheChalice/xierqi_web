@@ -3,13 +3,13 @@
 }
 /*去掉type=number的上下箭头*/
 /*input::-webkit-inner-spin-button {*/
-    /*-webkit-appearance: none;*/
+/*-webkit-appearance: none;*/
 /*}*/
 /*input::-webkit-outer-spin-button {*/
-    /*-webkit-appearance: none;*/
+/*-webkit-appearance: none;*/
 /*}*/
 /*input[type=number] {*/
-    /*-moz-appearance:textfield;*/
+/*-moz-appearance:textfield;*/
 /*}*/
 
 /*这就是省略号喽*/
@@ -49,6 +49,17 @@ a {
     color: #fff;
 
 }
+.btn-resources {
+    width: 80px;
+    height: 26px;
+    color: #fff;
+    text-align: center;
+    line-height: 14px;
+    border: none;
+    border-radius: 4px;
+    font-size: 12px;
+    padding: 6px 10px;
+}
 .fa-lg{font-size:12px;vertical-align: middle;}
 
 .btn:hover {
@@ -62,18 +73,18 @@ a {
 }
 
 /*.btn-green {*/
-    /*!*background-color: #55c45f;*!*/
-    /*background-color: #5c72e9;!*16 12-14 by zn for zhongxin *!*/
-    /*color:#fff;*/
-    /*-webkit-transition:all 1s;*/
-    /*-moz-transition:all 1s;*/
-    /*transition:all 1s;*/
+/*!*background-color: #55c45f;*!*/
+/*background-color: #5c72e9;!*16 12-14 by zn for zhongxin *!*/
+/*color:#fff;*/
+/*-webkit-transition:all 1s;*/
+/*-moz-transition:all 1s;*/
+/*transition:all 1s;*/
 /*}*/
 
 /*.btn-green:hover {*/
-    /*!*background-color: #469450;*!color:#fff;*/
+/*!*background-color: #469450;*!color:#fff;*/
 
-    /*background-color: #3c29d6;!*16 12-14 by zn for zhongxin *!*/
+/*background-color: #3c29d6;!*16 12-14 by zn for zhongxin *!*/
 /*}*/
 .pricvate_top .btn-green_li{font-size:12px;height:26px;line-height:26px;padding:0px 10px;margin:0px;margin-top:4px;}
 
@@ -834,7 +845,7 @@ a {
     background-image:url(../img/tg03.png);
     width: 60px;
     height: 60px;
-     background-size:contain;
+    background-size:contain;
 }
 
 .faa-image-mark {
@@ -887,7 +898,7 @@ a {
     content: '*';
     margin: 0 5px 0 3px;
     color: #ec6941;
-    vertical-align: sub;
+    /*vertical-align: sub;*/
 }
 
 /*font12*/
@@ -920,7 +931,7 @@ a {
 .service-config > hr {
     margin: 0 0 30px 0;
 }
-/* 
+/*
 .service-config h3 {
     font-size: 12px;
     font-weight: bold;
@@ -938,7 +949,7 @@ a {
 .service-config .container-bar {
     padding: 0;
     border:0;
-   
+
     color: #5a6378;
     font-size: 12px;
     line-height: 25px;
@@ -1720,7 +1731,7 @@ td  a:hover, a:focus{
 }
 .input-group-addon:last-child {
     border-left: 0
-    
+
 }
 
 .input-group-btn {
@@ -1833,7 +1844,7 @@ td  a:hover, a:focus{
 .df_frame{background:#fff;margin:62px 20px 0px;padding:20px;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12), 0 0 4px 0 rgba(0, 0, 0, 0.04);
     -webkit-box-shadow:0 2px 2px 0 rgba(0, 0, 0, 0.12), 0 0 4px 0 rgba(0, 0, 0, 0.04);
-    }
+}
 /* 公共标题 */
 .df_tit{font-size:12px;color:#1F2D3D;font-weight:bold;margin:0px;margin-bottom:10px;border-left:3px solid #47B2FB;padding-left:10px;}
 
@@ -1873,14 +1884,14 @@ td  a:hover, a:focus{
     font-family: 'uex-icon';
     src:  url('./font/uex-icon.eot?uryy2b');
     src:  url('./font/uex-icon.eot?uryy2b#iefix') format('embedded-opentype'),
-      url('./font/uex-icon.ttf?uryy2b') format('truetype'),
-      url('./font/uex-icon.woff?uryy2b') format('woff'),
-      url('./font/uex-icon.svg?uryy2b#uex-icon') format('svg');
+    url('./font/uex-icon.ttf?uryy2b') format('truetype'),
+    url('./font/uex-icon.woff?uryy2b') format('woff'),
+    url('./font/uex-icon.svg?uryy2b#uex-icon') format('svg');
     font-weight: normal;
     font-style: normal;
-  }
+}
 
-  [class^="uex-icon-"], [class*=" uex-icon-"] {
+[class^="uex-icon-"], [class*=" uex-icon-"] {
     /* use !important to prevent issues with browser extensions that change fonts */
     font-family: 'uex-icon' !important;
     speak: none;
@@ -1892,83 +1903,90 @@ td  a:hover, a:focus{
     /* Better Font Rendering =========== */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
+}
 
 /* 代码构建列表 */
 /* 成功 */
-  .uex-icon-Complete:before {
+.uex-icon-Complete:before {
     content: "\e914";
     color:#A2B0C4;
-  }
+}
 /* 终止 */
-  .uex-icon-Cancelled:before {
+.uex-icon-Cancelled:before {
     content: "\e916";
     color:#A2B0C4;
-  }
+}
 /* 失败/错误 */
-  .uex-icon-Failed:before, .uex-icon-Error:before {
+.uex-icon-Failed:before, .uex-icon-Error:before {
     content: "\e915";
     color:#A2B0C4;
-  }
+}
 /* 运行中/在等待 */
- .uex-icon-Running:before, .uex-icon-Pending:before {
+.uex-icon-Running:before, .uex-icon-Pending:before {
     content:"\e954";
     color:#A2B0C4;
- }
+}
 
- .uex-icon-search:before {
+.uex-icon-search:before {
     content: "\e91d";
     color:#A2B0C4;
-  }
- /*代码构建 绑定、刷新*/
- .uex-icon-protocol-deafult:before{
+}
+/*代码构建 绑定、刷新*/
+.uex-icon-protocol-deafult:before{
     content: "\e970";
     color:#A2B0C4;
 }
- .uex-icon-refresh:before{
-     content: '\e954';
-     color:#A2B0C4;
- }
+.uex-icon-refresh:before{
+    content: '\e954';
+    color:#A2B0C4;
+}
 
- .uex-icon-to-back:before{
+.uex-icon-to-back:before{
     content: '\e9fd';
     color:#A2B0C4;
- }
- .uex-icon-to-front:before{
+}
+.uex-icon-to-front:before{
     content: '\e9ff';
     color:#A2B0C4;
- }
- /* 关闭 */
- .uex-icon-cross:before{
+}
+/* 关闭 */
+.uex-icon-cross:before{
     content:'\e911';
     color: #A2B0C4;
     font-size:14px;
- }
-  /* 剪头向下 */
- .uex-icon-arrow-down:before{
-     content:"\e902";
-     font-size: 12px;
-     color: #A2B0C4;
- }
- /* 剪头向上 */
- .uex-icon-arrow-up:before{
+}
+/* 剪头向下 */
+.uex-icon-arrow-down:before{
+    content:"\e902";
+    font-size: 12px;
+    color: #A2B0C4;
+}
+/* 剪头向上 */
+.uex-icon-arrow-up:before{
     content:"\e903";
     font-size: 12px;
     color: #A2B0C4;
 }
-
+/*删除*/
+.uex-icon-delete:before {
+    content: '\e925';
+}
+/*添加 + */
+.uex-icon-add:before {
+    content: '\e913';
+}
 .df_search{position:absolute;z-index:999;top:50%;right:10px;font-size:14px;margin-top:-7px;color: #A2B0C4;}
-  .searchbar:hover .df_search{color:#47B2FB;}
+.searchbar:hover .df_search{color:#47B2FB;}
 
-  .sort_btn{padding-left:2px;width: 30px;font-size: 14px;display: inline-block;height: 20px;cursor: pointer;}
+.sort_btn{padding-left:2px;width: 30px;font-size: 14px;display: inline-block;height: 20px;cursor: pointer;}
 
 
-  /* uex-icon svg 公共图标引用 结束 重要*/
+/* uex-icon svg 公共图标引用 结束 重要*/
 
 /* 数据为空 */
-  .df_table .df_blank td{height:120px;position:relative;}
-  .df_table .df_blank:hover{background:none;}
-  .blank_block{
+.df_table .df_blank td{height:120px;position:relative;}
+.df_table .df_blank:hover{background:none;}
+.blank_block{
     padding: 6px 15px 6px;
     border-radius: 2px;
     margin-left: 30px;
