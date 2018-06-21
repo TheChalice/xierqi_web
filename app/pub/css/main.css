@@ -3,13 +3,13 @@
 }
 /*去掉type=number的上下箭头*/
 /*input::-webkit-inner-spin-button {*/
-/*-webkit-appearance: none;*/
+    /*-webkit-appearance: none;*/
 /*}*/
 /*input::-webkit-outer-spin-button {*/
-/*-webkit-appearance: none;*/
+    /*-webkit-appearance: none;*/
 /*}*/
 /*input[type=number] {*/
-/*-moz-appearance:textfield;*/
+    /*-moz-appearance:textfield;*/
 /*}*/
 
 /*这就是省略号喽*/
@@ -2028,6 +2028,49 @@ td  a:hover, a:focus{
 }
 .nav_top_toggle{left:74px;}
 .df_top_set{margin-top:62px!important;}
+<<<<<<< HEAD
 
 .df_build{font-size:12px;width:68px;height:26px;line-height:26px;padding:0px;}
 .df_del{width:32px;height:26px;padding:0px;line-height: 26px;}
+=======
+#toast-container .toast.toast-chenggong {
+    background-image: url("../img/chenggong.png");
+}
+#toast-container .toast.toast-shibai {
+    background-image: url("../img/shibai.png");
+}
+
+#toast-container .toast{
+    margin-top: 70px;
+    margin-right: 20px;
+    padding: 5px 15px 5px 70px;
+    width: 240px;
+    height: 60px;
+}
+
+#toast-container .toast {
+    background-color: #fff;
+    opacity: 1;
+    border: 1px solid #E0E6ED;
+    border-radius: 2px;
+    box-shadow: 1px 1px 2px 0;
+}
+#toast-container .toast-message {
+    font-family: MicrosoftYaHei;
+    font-size: 12px;
+    color: #475669;
+    letter-spacing: 0;
+    line-height: 50px;
+}
+#toast-container button.toast-close-button {
+    padding: 0;
+    line-height: 50px;
+    cursor: pointer;
+    border: 0;
+    -webkit-appearance: none;
+    font-family: uex-icon;
+    font-size: 12px;
+    color: #A2B0C4;
+    letter-spacing: 0;
+}
+>>>>>>> nanji/1.0
