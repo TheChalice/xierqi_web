@@ -1,5 +1,7 @@
 <!-- detail -->
-<div id="rc">
+<div id="rc" >
+        <h3 class="df_tit">rc详情</h3>
+    <div class="df_left_set">
     <div class="row matgin-txt">
         <div class="col-md-2">Status:</div>
         <div class="col-md-10">
@@ -30,6 +32,7 @@
                 </div>
             </span>
         </div>
+    
     </div>
     <div class="row matgin-txt">
         <div class="col-md-2">Deployment Config:</div>
@@ -65,9 +68,10 @@
             </div>
         </div>
     </div>
+    </div>
     <div class="h15"></div>
     <h3 class="df_tit">Template</h3>
-    <pod-template
+    <pod-template style="line-height:20px;"
             pod-template="replicaSet.spec.template"
             images-by-docker-reference="imagesByDockerReference"
             builds="builds"
@@ -76,12 +80,12 @@
     </pod-template>
     <div class="h15"></div>
     <h3 class="df_tit">Volumes</h3>
-    <div ng-if="replicaSet.spec.template.spec.volumes" ng-repeat="volume in replicaSet.spec.template.spec.volumes">
+    <div ng-if="replicaSet.spec.template.spec.volumes" ng-repeat="volume in replicaSet.spec.template.spec.volumes" >
         <!--<div class="row matgin-txt">-->
             <!--<div class="col-md-2">volumeName:</div>-->
             <!--<div class="col-md-10">{{volume.name}}</div>-->
         <!--</div>-->
-        <div ng-if="volume.secret">
+        <div ng-if="volume.secret" class="df_left_set">
             <div class="row matgin-txt">
                 <div class="col-md-2">类型:</div>
                 <div class="col-md-10">secret<span class="small text-muted">(populated by a secret when the pod is created)</span>
@@ -96,7 +100,7 @@
                 <div class="col-md-10">{{item.key}}&#8201;&#8594;&#8201;{{item.path}}</div>
             </div>
         </div>
-        <div ng-if="volume.configMap">
+        <div ng-if="volume.configMap" class="df_left_set">
             <div class="row matgin-txt">
                 <div class="col-md-2">类型:</div>
                 <div class="col-md-10">config map<span class="small text-muted">((populated by a config map)</span>
@@ -111,7 +115,7 @@
                 <div class="col-md-10">{{item.key}}&#8201;&#8594;&#8201;{{item.path}}</div>
             </div>
         </div>
-        <div ng-if="volume.persistentVolumeClaim">
+        <div ng-if="volume.persistentVolumeClaim" class="df_left_set">
             <div class="row matgin-txt">
                 <div class="col-md-2">类型:</div>
                 <div class="col-md-10">persistent volume claim<span class="small text-muted">(reference to a persistent volume claim)</span>
@@ -129,7 +133,7 @@
         </div>
 
     </div>
-    <div ng-if="!replicaSet.spec.template.spec.volumes" class="row matgin-txt">
+    <div ng-if="!replicaSet.spec.template.spec.volumes" class="row matgin-txt df_left_set">
         <div class="col-md-10">none</div>
     </div>
     <div class="h15"></div>

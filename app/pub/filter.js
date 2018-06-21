@@ -601,7 +601,7 @@ define(['angular', 'moment'], function(angular, moment) {
                     case 'reencrypt':
                         return 'Re-encrypt';
                     default:
-                        return termination;
+                        return termination || "-";
                 }
             };
         })
