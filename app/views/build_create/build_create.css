@@ -99,8 +99,8 @@
 }
 
 #newbuildcreat .tab-default li.active .nav-link {
-    border: 1px solid #47B2FB;
-    border-radius: 4px 4px 0px 0px;
+    /*border: 1px solid #47B2FB;*/
+    /*border-radius: 4px 4px 0px 0px;*/
     color: #47B2FB;
 }
 
@@ -417,5 +417,18 @@
     line-height: 26px;
 }
 
+#newbuildcreat .tab-default .GitLab .nav-link {
+    border-radius: 4px 0px 0px 4px ;
+    /*border: 1px solid #47B2FB;*/
+    border-right:none;
+}
+#newbuildcreat .tab-default .GitHub .nav-link {
+    border-radius: 0px 0px 0px 0px ;
+
+}
+#newbuildcreat .tab-default .Git .nav-link {
+    border-radius: 0px 4px 4px 0px ;
+    border-left:none;
+}
 
 
