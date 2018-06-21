@@ -1,9 +1,25 @@
 <div id="rs" class="df_frame">
-    <p>
+    <!-- <p>
         <span class="pd_name">{{replicaSet.metadata.name}}</span>
         &nbsp;&nbsp;
         <span class="pd_dt">created&nbsp;{{replicaSet.metadata.creationTimestamp | dateRelative}}</span>
-    </p>
+    </p> -->
+     <!-- module common 公共-->
+     <div class="module-heading">
+        <div class="module_block_l">
+            <div class="img-block"></div>
+            <div class="img-detail">
+                <p class="img-tit">{{replicaSet.metadata.name}}</p>
+                <p class="img-time">
+                    <span classs="module_tit">创建时间：</span><span class="module_time">{{replicaSet.metadata.creationTimestamp | timescon}}</span>
+                </p> 
+            </div>
+        </div>
+        <div class="module_block_r">
+           
+        </div>
+    </div>
+    <!-- module common 公共-->
     <uib-tabset class="tab-default tab-image-jia-defautl" active="check">
         <uib-tab index="1">
             <uib-tab-heading>
