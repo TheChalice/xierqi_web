@@ -18,7 +18,7 @@ angular.module('console.create_config_configMap', [
         keychongfu: false,
         keybuhefa: false,
         keynull: false,
-        lableKey:false
+        lableKey: false
     };
     //排序
     var by = function (name) {
@@ -180,8 +180,35 @@ angular.module('console.create_config_configMap', [
                 }
             }
         }
-        $scope.loaded = true;
+
+        $scope.grid.keychongfu = false;
+        $scope.grid.keynull = false;
+        $scope.grid.keybuhefa = false;
         var arr = $scope.volume.configitems;
+        if (arr.length < 0) {
+            return
+        }
+        if (arr && arr.length > 0) {
+            var r = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
+            angular.forEach(arr, function (item, i) {
+                if (!item.key || !item.value) {
+                    $scope.grid.keynull = true;
+                    return;
+                } else {
+                    if (arr[i] && arr[i + 1]) {
+                        if (arr[i].key == arr[i + 1].key) {
+                            $scope.grid.keychongfu = true;
+                            return;
+                        }
+                    }
+                    if (!r.test(arr[i].key)) {
+                        $scope.grid.keybuhefa = true;
+                        return;
+                    }
+                }
+            });
+        }
+        $scope.loaded = true;
         angular.forEach(arr, function (item, i) {
             $scope.volume.data[item.key] = item.value;
         });
