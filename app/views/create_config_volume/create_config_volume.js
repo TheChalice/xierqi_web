@@ -64,56 +64,56 @@ angular.module('console.create_config_configMap', [
     $scope.deletekv = function (idx) {
         $scope.volume.configitems.splice(idx, 1);
     };
-    $scope.$watch('volume', function (n, o) {
-        if (n == o) {
-            return
-        }
-        //console.log(n);
-        $scope.grid.keychongfu = false;
-        $scope.grid.keynull = false;
-        $scope.grid.keybuhefa = false;
-        if (n.metadata.name && n.configitems) {
-
-            var arr = n.configitems;
-            // arr.sort(by("key"));
-
-            if (arr && arr.length > 0) {
-                var kong = false;
-                // var r =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
-                var r = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
-                angular.forEach(arr, function (item, i) {
-
-                    if (!item.key || !item.value) {
-                        $scope.grid.keynull = true;
-                        kong = true;
-                    } else {
-                        if (arr[i] && arr[i + 1]) {
-                            if (arr[i].key == arr[i + 1].key) {
-                                $scope.grid.keychongfu = true;
-                                kong = true;
-                            }
-                        }
-                        if (!r.test(arr[i].key)) {
-                            $scope.grid.keybuhefa = true;
-                            kong = true;
-                        }
-                    }
-                });
-                if (!kong) {
-                    // alert("111")
-                    $scope.grid.configpost = true
-                } else {
-                    // alert("222")
-                    $scope.grid.configpost = false
-                }
-            } else {
-                // alert("333");
-                $scope.grid.configpost = false
-            }
-        } else {
-            $scope.grid.configpost = false
-        }
-    }, true);
+    // $scope.$watch('volume', function (n, o) {
+    //     if (n == o) {
+    //         return
+    //     }
+    //     //console.log(n);
+    //     $scope.grid.keychongfu = false;
+    //     $scope.grid.keynull = false;
+    //     $scope.grid.keybuhefa = false;
+    //     if (n.metadata.name && n.configitems) {
+    //
+    //         var arr = n.configitems;
+    //         // arr.sort(by("key"));
+    //
+    //         if (arr && arr.length > 0) {
+    //             var kong = false;
+    //             // var r =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
+    //             var r = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
+    //             angular.forEach(arr, function (item, i) {
+    //
+    //                 if (!item.key || !item.value) {
+    //                     $scope.grid.keynull = true;
+    //                     kong = true;
+    //                 } else {
+    //                     if (arr[i] && arr[i + 1]) {
+    //                         if (arr[i].key == arr[i + 1].key) {
+    //                             $scope.grid.keychongfu = true;
+    //                             kong = true;
+    //                         }
+    //                     }
+    //                     if (!r.test(arr[i].key)) {
+    //                         $scope.grid.keybuhefa = true;
+    //                         kong = true;
+    //                     }
+    //                 }
+    //             });
+    //             if (!kong) {
+    //                 // alert("111")
+    //                 $scope.grid.configpost = true
+    //             } else {
+    //                 // alert("222")
+    //                 $scope.grid.configpost = false
+    //             }
+    //         } else {
+    //             // alert("333");
+    //             $scope.grid.configpost = false
+    //         }
+    //     } else {
+    //         $scope.grid.configpost = false
+    //     }
+    // }, true);
 
     //添加配置文件
     $scope.AddConfigurationFile = function () {
@@ -142,52 +142,43 @@ angular.module('console.create_config_configMap', [
         rexed: false,
         repeated: false
     };
-    $scope.nameblur = function () {
-        //console.log($scope.buildConfig.metadata.name);
-        if (!$scope.volume.metadata.name) {
-            $scope.namerr.nil = true
-        } else {
-            $scope.namerr.nil = false
-        }
-    };
+    // $scope.nameblur = function () {
+    //     if (!$scope.volume.metadata.name) {
+    //         $scope.namerr.nil = true
+    //     } else {
+    //         $scope.namerr.nil = false
+    //     }
+    // };
     $scope.namefocus = function () {
         $scope.namerr.nil = false
     };
 
-    var rex = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
     $scope.$watch('volume.metadata.name', function (n, o) {
         if (n === o) {
             return;
         }
-        if (n && n.length > 0) {
-            if (rex.test(n)) {
-                $scope.namerr.rexed = false;
-                $scope.namerr.repeated = false;
-                if ($scope.cfmnamearr) {
-                    //console.log($scope.buildConfiglist);
-                    angular.forEach($scope.cfmnamearr, function (bsiname, i) {
-                        // console.log(bsiname);
-                        if (bsiname.metadata.name === n) {
-                            // console.log(bsiname,n);
-                            $scope.namerr.repeated = true;
-
-                        }
-                        //console.log($scope.namerr.repeated);
-                    })
-                }
-
-            } else {
-                $scope.namerr.rexed = true;
-            }
-        } else {
-            $scope.namerr.rexed = false;
-        }
+        $scope.namerr = {
+            nil: false,
+            rexed: false,
+            repeated: false
+        };
     });
 
     $scope.cearteconfig = function () {
-        if (!$scope.namerr.nil && !$scope.namerr.rexed && !$scope.namerr.repeated && !$scope.timeouted) {
-        } else {
+        var rex = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
+        if ($scope.volume.metadata.name === '') {
+            $scope.namerr.nil = true;
             return
+        } else if (!rex.test($scope.volume.metadata.name)) {
+            $scope.namerr.rexed = true;
+            return
+        } else {
+            for (var i = 0; i < $scope.cfmnamearr.length; i++) {
+                if ($scope.volume.metadata.name === $scope.cfmnamearr[i].metadata.name) {
+                    $scope.namerr.repeated = true;
+                    return
+                }
+            }
         }
         $scope.loaded = true;
         var arr = $scope.volume.configitems;

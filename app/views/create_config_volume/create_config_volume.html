@@ -6,7 +6,7 @@
         </div>
     </div>
 </div>
-<div class="df_frame">
+<div class="df_frame" confull-height>
     <form class="form-horizontal" name="frm">
         <div class="panel panel-default">
             <div class="panel-heading" style="padding: 0;line-height: 0;">
@@ -85,12 +85,18 @@
                 </div>
             </div>
         </div>
-        <div style="width: 100%;height: 1px;border: solid 1px #e0e6ed"></div>
-        <a href="javascript:;" ng-if="!frm.$invalid&&grid.configpost" class="btn create btn-orange btn-resources"
-           style="margin-top: 20px;color: white;font-size: 12px;" ng-click="cearteconfig()">创建配置卷</a>
-        <a href="javascript:;" ng-if="!grid.configpost" disabled="disabled" class="btn create btn-resources"
-           style="background-color: #ccc; margin-top: 20px; color: white;font-size: 12px;">创建配置卷</a>
+        <!--<div style="width: 100%;height: 1px;border: solid 1px #e0e6ed"></div>-->
+        <!--<a href="javascript:;" ng-if="!frm.$invalid&&grid.configpost" class="btn create btn-orange btn-resources"-->
+           <!--style="margin-top: 20px;color: white;font-size: 12px;" ng-click="cearteconfig()">创建配置卷</a>-->
+        <!--<a href="javascript:;" ng-if="!grid.configpost" disabled="disabled" class="btn create btn-resources"-->
+           <!--style="background-color: #ccc; margin-top: 20px; color: white;font-size: 12px;">创建配置卷</a>-->
     </form>
+    <div class="creatfooter" style="">
+        <a class="btn btn-resources"
+           ng-class="{'btn-orange':true}"
+           ng-click="cearteconfig()"
+           style="margin-right:52px;width:auto;border-radius:4px;">创建配置卷</a>
+    </div>
 </div>
 <style>
     #file-input {
@@ -103,111 +109,6 @@
         height: 24px
     }
 
-    /*---add new style----*/
-    /*.create_secret_tit {*/
-        /*font-size: 12px;*/
-        /*color: #1F2D3D;*/
-        /*line-height: 16px;*/
-    /*}*/
-
-    /*.create_secret_name {*/
-        /*color: #5a6378;*/
-        /*font-size: 12px;*/
-        /*text-align: left;*/
-        /*font-weight: normal;*/
-    /*}*/
-
-    /*.create_secret_name_ipt {*/
-        /*width: 358px;*/
-        /*height: 26px;*/
-        /*color: #A2B0C4;*/
-    /*}*/
-
-    /*.create_secret_file {*/
-        /*margin-top: 10px;*/
-        /*color: #5a6378;*/
-        /*font-size: 12px;*/
-        /*text-align: left;*/
-        /*font-weight: normal;*/
-    /*}*/
-
-    /*.create_secret_content {*/
-        /*padding: 0;*/
-        /*width: 889px;*/
-        /*height: 230px;*/
-        /*border: solid 1px #e0e6ed;*/
-        /*border-radius: 2px;*/
-    /*}*/
-
-    /*.create_secret_key {*/
-        /*width: 100%;*/
-        /*margin: 0;*/
-        /*font-size: 12px;*/
-    /*}*/
-
-    /*.create_secret_delete {*/
-        /*cursor: pointer;*/
-        /*font-size: 12px;*/
-        /*float: right;*/
-        /*color: #47B2FB;*/
-    /*}*/
-
-    /*.create_secret_add {*/
-        /*cursor: pointer;*/
-        /*font-size: 12px;*/
-        /*color: #47B2FB;*/
-    /*}*/
-
-    /*.create_secret_content_p {*/
-        /*width: 100%;*/
-        /*margin: 10px 0 0;*/
-        /*font-size: 12px;*/
-    /*}*/
-
-    /*.create_secret_content_addfile {*/
-        /*position: relative;*/
-    /*}*/
-
-    /*.upload_addfile {*/
-        /*position: absolute;*/
-        /*left: 2%;*/
-        /*top: 0;*/
-        /*cursor: pointer;*/
-        /*opacity: 0;*/
-        /*z-index: 10;*/
-    /*}*/
-
-    /*.create_secret_content_ipt {*/
-        /*width: 358px;*/
-        /*height: 26px;*/
-        /*border-radius: 4px;*/
-        /*font-size: 12px;*/
-        /*color: #A2B0C4;*/
-        /*padding-left: 10px;*/
-    /*}*/
-    /*.create_secret_content_ipt:hover{*/
-        /*border: 1px solid #47B2FB;*/
-    /*}*/
-    /*.testt {*/
-        /*padding: 10px;*/
-        /*font-size: 12px;*/
-        /*line-height: 20px;*/
-        /*background: none;*/
-        /*color: #A2B0C4;*/
-        /*height: 300px;*/
-        /*word-break: break-all;*/
-        /*word-wrap: break-word;*/
-        /*white-space: pre-wrap;*/
-        /*display: block;*/
-        /*max-height: 100px;*/
-        /*width: 100%;*/
-        /*max-width: 100%;*/
-        /*border: solid 1px #e0e6ed;*/
-        /*resize: none;*/
-    /*}*/
-
-
-    /**/
     .create_secret_tit {
         font-size: 12px;
         color: #1F2D3D;

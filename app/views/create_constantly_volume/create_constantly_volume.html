@@ -7,7 +7,7 @@
         </div>
     </div>
 </div>
-<div class="df_frame">
+<div class="df_frame" confull-height>
     <style>
         #arrow:hover {
             /*background: url('views/create_constantly_volume/img/images_45.png');*/
@@ -137,10 +137,11 @@
 
             </div>
         </div>
-        <div style="border: 1px solid #E0E6ED;"></div>
-        <a href="javascript:;" ng-if="grid.configpost" ng-click="creat()"
-           class="btn create btn-orange btn-resources" style="margin-top: 20px; color: white;">创建存储卷</a>
-        <a href="javascript:;" ng-if="!grid.configpost" disabled="disabled"  class="btn create btn-orange btn-resources"
-           style="margin-top: 20px; color: white;">创建存储卷</a>
     </form>
+    <div class="creatfooter" style="">
+        <a class="btn btn-resources"
+           ng-class="{'btn-orange':true}"
+           ng-click="create()"
+           style="margin-right:52px;width:auto;border-radius:4px;">创建存储卷</a>
+    </div>
 </div>
