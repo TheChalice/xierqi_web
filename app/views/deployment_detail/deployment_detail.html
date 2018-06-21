@@ -6,7 +6,10 @@
                 <i class="faa faa-cmd"></i>&nbsp;&nbsp;{{dc.metadata.name}}&nbsp;&nbsp;
                 <span ng-if="dc.state == 'normal'" style="color: #47B2FB;">运行中</span>
             </span>
-            <a class="btn btn-gray pull-right" style="padding: 5px 10px; margin-left: 15px; height:34px; width:36px" ng-click="deleteDc(dc.metadata.name)"><i class="fa fa-trash-o fa-lg"></i></a>
+            <a class="btn btn-gray pull-right" style="padding: 5px 10px; margin-left: 15px; height:34px; width:36px" ng-click="deleteDc(dc.metadata.name)">
+                <!-- <i class="fa fa-trash-o fa-lg"></i> -->
+                <span class="df_close"><i class="uex-icon-delete"></i></span>
+            </a>
             <!--<a class="btn btn-block"-->
             <!--ng-disabled=dianbl-->
             <!--ng-class="{'btn-orange':dianl, 'btn-disabled': dianbl}"-->

@@ -3,7 +3,7 @@
    
     padding:0px 0px 10px;
 }
-.builder_create_btn{padding:0px;float:right;margin-top:3px;}
+.builder_create_btn{padding:0px;float:right;margin-top:1px;}
 
 #build_list .btn-green_li{
     /* margin-right:20px; */padding:4px 10px;font-size:12px;height:26px;
@@ -49,7 +49,7 @@
 }
 /*new code end*/
 #build_list .icon25 {
-    margin: 0 8px;
+    margin: 0 8px;margin-top:-2px;
 }
 #build_list .icon25-source {
     background-image: url(img/source.png);

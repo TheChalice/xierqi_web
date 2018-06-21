@@ -17,7 +17,8 @@
                 </div>
                 <div class="module_block_r">
                      <a class="btn btn-gray pull-right btn_a" style="" ng-click="deletes()">
-                    <i class="fa fa-trash-o fa-lg"></i>
+                    <!-- <i class="fa fa-trash-o fa-lg"></i> -->
+                    <span class="df_close"><i class="uex-icon-delete"></i></span>
                 </a>
                 <a class="btn btn-green pull-right" style="margin-left: 15px;" ng-click="saveBuild()">保存</a>
                 <a class="btn btn-green pull-right" ng-click="startBuild()">部署</a>
@@ -135,7 +136,7 @@
                                 <span class="pip_tit">
                                     {{BuildConfig.metadata.name | webhookURL : trigger.type : trigger.generic.secret : projectname}}
                                 </span>
-                                <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}"
+                                <i class="pip_btn uex-icon-copy" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}"
                                    ng-click="gcopy($event)"></i>
                             </div>
 
@@ -147,7 +148,7 @@
                                 <span class="pip_tit">
                                     {{BuildConfig.metadata.name | webhookURL : trigger.type : trigger.github.secret : projectname}}
                                 </span>
-                                <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}"
+                                <i class="pip_btn uex-icon-copy" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}"
                                    ng-click="gcopy($event)"></i>
                             </div>
                         </div>
@@ -160,7 +161,7 @@
                         <span class="pip_tit">
                             oc start-build {{BuildConfig.metadata.name}} -n {{projectname}}
                         </span>
-                        <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}"
+                        <i class="pip_btn uex-icon-copy" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}"
                            ng-click="gcopy($event)"></i>
                     </div>
 

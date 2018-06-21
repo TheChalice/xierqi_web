@@ -1,10 +1,17 @@
 <div>
    <div ng-show="CpuConfig">
+       <div class="public_border">
       <highchart config="MemConfig"></highchart>
+    </div>
+    <div class="public_border">
       <highchart config="CpuConfig" style="margin-top:30px;"></highchart>
+      </div>
+      <div class="public_border">
       <highchart  config="TxConfig" style="margin-top:30px;"></highchart>
+    </div>
+    <div class="public_border">
       <highchart  config="RxConfig" style="margin-top:30px;"></highchart>
-   </div>
+    </div>
    <div ng-show="!CpuConfig">
       <p style="font-size:12px;color:#475669;">暂无数据</p>
    </div>

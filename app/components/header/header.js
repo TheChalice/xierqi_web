@@ -9,49 +9,49 @@ angular.module("console.header", [{
             restrict: 'EA',
             replace: true,
             templateUrl: 'components/header/header.html',
-            controller: ['allTenants','GLOBAL', '$timeout', '$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
-                function (allTenants,GLOBAL, $timeout, $log, Project, account, regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
-                //////获取租户数据
-                    allTenants.query({name: "admin"}, function(data){
+            controller: ['allTenants', 'GLOBAL', '$timeout', '$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
+                function (allTenants, GLOBAL, $timeout, $log, Project, account, regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
+                    //////获取租户数据
+                    allTenants.query({ name: "admin" }, function (data) {
                         createTree(data);
-                        console.log('createTree(data)',$scope.tenantsTree);
+                        console.log('createTree(data)', $scope.tenantsTree);
 
-                    }, function(res) {
+                    }, function (res) {
                         //todo 错误处理
                     });
                     /////点击其他地方隐藏。。。比较落后
-                    document.addEventListener("click",function(){
-                        if($scope.tenantsBox){
+                    document.addEventListener("click", function () {
+                        if ($scope.tenantsBox) {
                             $scope.tenantsBox = false;
                             $scope.$apply();
                         }
                     });
-                    document.getElementById("tenants-box").addEventListener("click",function(event){
-                        event=event||window.event;
+                    document.getElementById("tenants-box").addEventListener("click", function (event) {
+                        event = event || window.event;
                         event.stopPropagation();
                     });
                     $scope.tenantsBox = false;
-                    $scope.tenantsIsShow = function(){
-                        if($scope.tenantsBox){
+                    $scope.tenantsIsShow = function () {
+                        if ($scope.tenantsBox) {
                             $scope.tenantsBox = false;
-                        }else{
+                        } else {
                             $scope.tenantsBox = true;
                         }
                     }
                     $scope.curTenantName = $rootScope.namespace;///////默认为单点登录账号；
                     ////////////树点击事件
-                    $scope.showSelected = function(node){
+                    $scope.showSelected = function (node) {
                         $scope.curTenantName = node;
                     }
                     /////////获取租户数据后组合成符合树符合的多维数组
                     function createTree(trees) {
                         $scope.tenantsTree = [];
                         $scope.treemap = {};
-                        angular.forEach(trees, function(item) {
+                        angular.forEach(trees, function (item) {
                             $scope.treemap[item.id] = item;
                             $scope.treemap[item.id].children = [];
                         });
-                        angular.forEach(trees, function(item) {
+                        angular.forEach(trees, function (item) {
                             if (item.parentId) {
                                 if ($scope.treemap[item.parentId]) {
                                     $scope.treemap[item.parentId].children.push(item);
@@ -63,15 +63,15 @@ angular.module("console.header", [{
                                 $scope.tenantsTree.push($scope.treemap[item.id]);
                             }
                         });
-                        let cinf = function(father) {
-                            angular.forEach(father.children, function(child) {
+                        let cinf = function (father) {
+                            angular.forEach(father.children, function (child) {
                                 cinf(child);
-                                angular.forEach(child.bsis, function(bsi) {
+                                angular.forEach(child.bsis, function (bsi) {
                                     father.bsis.push(bsi);
                                 });
                             });
                         };
-                        angular.forEach($scope.tenantsTree, function(tree) {
+                        angular.forEach($scope.tenantsTree, function (tree) {
                             cinf(tree);
                         });
                         $scope.selected = $scope.tenantsTree[0];
@@ -454,7 +454,7 @@ angular.module("console.header", [{
 
                     $scope.hasBack = function () {
 
-                        if ($state.current.name == "console.private-image"  || $state.current.name == "console.repository-image" || $state.current.name == "console.resource_secret" || $state.current.name == "console.resource_configMap" || $state.current.name == "console.resource_persistentVolume" || $state.current.name == "console.stateful-sets" || $state.current.name == "console.routes" || $state.current.name == "console.services" || $state.current.name == "console.pods" || $state.current.name == "console.deployments" || $state.current.name == "console.noplan" || $state.current.name == "console.Integration" || $state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name == "console.notification" || $state.current.name == "console.resource_management" || $state.current.name == "console.pipeline") {
+                        if ($state.current.name == "console.private-image" || $state.current.name == "console.repository-image" || $state.current.name == "console.resource_secret" || $state.current.name == "console.resource_configMap" || $state.current.name == "console.resource_persistentVolume" || $state.current.name == "console.stateful-sets" || $state.current.name == "console.routes" || $state.current.name == "console.services" || $state.current.name == "console.pods" || $state.current.name == "console.deployments" || $state.current.name == "console.noplan" || $state.current.name == "console.Integration" || $state.current.name == "console.build" || $state.current.name == "console.image" || $state.current.name == "console.service" || $state.current.name == "console.backing_service" || $state.current.name == "console.dashboard" || $state.current.name == "console.user" || $state.current.name == "console.notification" || $state.current.name == "console.resource_management" || $state.current.name == "console.pipeline") {
 
                             return false
                         }
@@ -577,6 +577,8 @@ angular.module("console.header", [{
                     return "流水线"
                 case "console.rc":
                     return "部署镜像"
+                case "console.rs":
+                    return "部署镜像"
                 case "console.quick_deploy":
                     return "部署镜像"
                 case "console.uploadimage":
@@ -618,6 +620,8 @@ angular.module("console.header", [{
                     return "导入yaml";
                 case "console.rc":
                     return "rc详情";
+                case "console.rs":
+                    return "rs详情";
                 case "console.primage_detail":
                     return "镜像详情";
                 case "console.service_detail":
