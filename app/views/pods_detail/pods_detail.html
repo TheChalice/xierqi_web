@@ -1,13 +1,25 @@
 <!-- pods详情页 -->
 <div id="pods_detail" class="df_frame">
-    <p>
-        <span class="pd_name">{{pod.metadata.name}}</span>
-        &nbsp;&nbsp;
-        <span class="pd_dt">创建于&nbsp;{{pod.metadata.creationTimestamp | dateRelative}}</span>
-        <a class="btn btn-gray pull-right" style="height:34px; width:36px;padding:6px;" ng-click="delete(pod.metadata.name)">
-            <i class="fa fa-trash-o fa-lg"></i>
-        </a>
-    </p>
+    <!-- module common 公共-->
+    <div class="module-heading">
+        <div class="module_block_l">
+            <div class="img-block"></div>
+            <div class="img-detail">
+                <p class="img-tit">{{pod.metadata.name}}</p>
+                <p class="img-time">
+                    <span classs="module_tit">创建时间：</span>
+                    <span class="module_time">{{pod.metadata.creationTimestamp | timescon}}</span>
+                </p>
+            </div>
+
+        </div>
+        <div class="module_block_r">
+            <a class="btn btn-gray pull-right" style="height:34px; width:36px;padding:6px;" ng-click="delete(pod.metadata.name)">
+                <i class="fa fa-trash-o fa-lg"></i>
+            </a>
+        </div>
+    </div>
+    <!-- module common 公共-->
     <uib-tabset class="tab-default tab-pods">
             <uib-tab index="1">
                 <uib-tab-heading>

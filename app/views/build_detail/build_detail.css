@@ -48,7 +48,7 @@
 
 .tab-jia-default li.active .nav-link, .tab-jia-default li.active .nav-link:focus, .tab-jia-default li.active .nav-link:hover{
     border:0;
-    border-bottom:2px solid #47B2FB;color:#47B2FB;
+    border-bottom:3px solid #47B2FB;color:#47B2FB;
 }
 .tab-jia-default .tab-content{border: 0;}
 .tab-jia-default li .nav-link:hover{color:#333;}
@@ -56,12 +56,12 @@
 #build-detail .panel_marginBottom{
     margin-bottom: 0px;
 }
-#build-detail .btn_a{
+/* .btn_a{
     padding: 6px 12px;
     margin-left: 15px;
     height:34px;
     font-size:14px;
-}
+} */
 #build-detail .small_col{
     color: #5a6378;
 }

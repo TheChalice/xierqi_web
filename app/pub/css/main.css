@@ -367,7 +367,7 @@ a {
     border-radius: 4px;
     box-shadow: none;
     color: #5a6378;
-    font-size: 12px;height:26px;
+    font-size: 12px;height:24px;
 }
 
 
@@ -398,7 +398,7 @@ a {
 .tab-default li .nav-link {
     border: none;
     color: #475669;
-    font-size:12px;padding:10px 23px;
+    font-size:12px;padding:10px 16px;
 }
 
 .tab-default li .nav-link:hover {
@@ -692,9 +692,9 @@ a {
 
 .well.well-log {
     border: none;
-    border-radius: 2px;
+    border-radius: 4px;
     margin: 15px 0 0 30px;
-    background: #000;
+    background: #fff;border:1px solid #CCD5E0;height:200px;padding:10px;box-shadow:none;
 }
 .testt:hover{border:1px solid #47B2FB}
 
@@ -703,10 +703,10 @@ a {
     background: none;
     border: none;
     color: #3e8f3e;
-    height: 300px;
+    height: 200px;
     word-break: break-all;
     word-wrap: break-word;
-    white-space: pre-wrap;
+    white-space: pre-wrap;height:166px;padding:0px;margin:0px;
 }
 
 .icon25-collapse {
@@ -1811,7 +1811,7 @@ td  a:hover, a:focus{
 /* module  公共样式*/
 .module-heading{color:#5a6378;height:auto;overflow:hidden;margin-bottom:16px;}
 .module_block_l{float:left;}
-.module_block_l .img-block{width:68px;height:68px;border:1px solid #CCD5E0;border-radius:2px;background:#EFF2F7;float:left;}
+.module_block_l .img-block{width:68px;height:68px;border:1px solid #CCD5E0;border-radius:4px;background:#EFF2F7;float:left;}
 .module_block_l .img-detail{float:left;margin-left:20px;}
 .module_block_l .img-detail p{margin:0px;}
 .module_block_l .img-detail .img-tit{font-size:14px;color:#202D3C;font-weight:bold;}
@@ -1840,7 +1840,7 @@ td  a:hover, a:focus{
 
 .tab-jia-default li.active .nav-link, .tab-jia-default li.active .nav-link:focus, .tab-jia-default li.active .nav-link:hover{
     border: 0;
-    border-bottom: 2px solid #47B2FB;
+    border-bottom: 3px solid #47B2FB;
     color: #47B2FB;
 }
 .tab-jia-default .tab-content {
@@ -1888,7 +1888,7 @@ td  a:hover, a:focus{
     font-weight: normal;
     font-variant: normal;
     text-transform: none;
-    line-height: 1;
+    line-height: 0.9;
     /* Better Font Rendering =========== */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -2003,3 +2003,6 @@ td  a:hover, a:focus{
 }
 .nav_top_toggle{left:74px;}
 .df_top_set{margin-top:62px!important;}
+
+.df_build{font-size:12px;width:68px;height:26px;line-height:26px;padding:0px;}
+.df_del{width:32px;height:26px;padding:0px;line-height: 26px;}

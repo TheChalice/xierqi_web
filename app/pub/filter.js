@@ -134,10 +134,10 @@ define(['angular', 'moment'], function(angular, moment) {
                 add(days, "日");
                 add(hours, "时");
                 add(minutes, "分");
-                add(seconds, "秒");
+                add(seconds, " 秒");
 
                 if (humanizedDuration.length === 0) {
-                    humanizedDuration.push("0秒");
+                    humanizedDuration.push("0 秒");
                 }
 
                 if (humanizedDuration.length > 2) {
