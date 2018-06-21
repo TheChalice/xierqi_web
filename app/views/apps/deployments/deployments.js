@@ -19,6 +19,17 @@ angular.module('console.deployments', [{
                 size: 10,
                 txt: ''
             };
+             $scope.gridThree = {
+                page: 1,
+                size: 10,
+                txt: ''
+            };
+            $scope.gridFour = {
+                page: 1,
+                size: 10,
+                txt: ''
+            };
+
             $scope.$watch('grid.page', function(newVal, oldVal) {
                 if (newVal != oldVal) {
                     refresh(newVal);
@@ -42,9 +53,39 @@ angular.module('console.deployments', [{
             //console.log('$scope.deployment.items', $scope.deployment.items);
 
             $scope.replicasets = angular.copy(ReplicaSet);
+            $scope.otherreplicas=[];
+            $scope.otherreplicasets=[];
 
+            angular.forEach($scope.dc.items, function (item,i) {
+                angular.forEach($scope.replicas.items, function (rc,j) {
+                    //console.log('item', item.metadata.name);
+                    if (rc.spec.selector.deploymentconfig === item.metadata.name) {
+                        rc.hasdc = true
+                    }
+                })
+            })
 
+            angular.forEach($scope.replicas.items, function (rc,j) {
+                if (!rc.hasdc) {
+                    $scope.otherreplicas.push(rc);
+                }
+            })
 
+            angular.forEach($scope.replicasets.items, function (rs,j) {
+                console.log('rs', rs);
+                if ($scope.deployment.length<1) {
+                    angular.forEach($scope.deployment.items, function (item,i) {
+
+                        //if (rc.spec.selector.deploymentconfig === item.metadata.name) {
+                        //    rc.hasdc = true
+                        //}
+                    })
+                }else{
+                    $scope.otherreplicasets.push(rs)
+                }
+
+            })
+            console.log($scope.otherreplicasets);
             $scope.items = addrc($scope.dc.items);
             $scope.mydeploylist = addrs($scope.deployment.items);
             // console.log('$scope.replicas', $scope.mydeploylist);
@@ -60,6 +101,15 @@ angular.module('console.deployments', [{
             $scope.gridTwo.total = $scope.mydeploylist.length;
             $scope.gridTwo.page = 1;
             refreshTwo(1);
+            //console.log('$scope.otherreplicas', $scope.otherreplicas);
+            $scope.otherreplicascopy=angular.copy($scope.otherreplicas);
+            $scope.gridThree.total = $scope.otherreplicas.length;
+            $scope.gridThree.page = 1;
+            gridThree(1)
+            $scope.otherreplicasetscopy=angular.copy($scope.otherreplicasets);
+            $scope.gridFour.total = $scope.otherreplicas.length;
+            $scope.gridFour.page = 1;
+            gridFour(1)
             Wsapi($scope.mydeploylist,mydeployment.metadata.resourceVersion,'extensions','deployments', function (items) {
                 $scope.mydeploylist = addrs(items);
                 //$scope.grid.total = $scope.items.length;
@@ -132,10 +182,29 @@ angular.module('console.deployments', [{
                     refreshTwo(newVal);
                 }
             });
+            $scope.$watch('gridThree.page', function(newVal, oldVal) {
+                if (newVal != oldVal) {
+                    gridThree(newVal);
+                }
+            });
+            $scope.$watch('gridFour.page', function(newVal, oldVal) {
+                if (newVal != oldVal) {
+                    gridFour(newVal);
+                }
+            });
             function refreshTwo(page) {
                 var skip = (page - 1) * $scope.gridTwo.size;
                 $scope.deploymentTwoItem = $scope.mydeploylist.slice(skip, skip + $scope.gridTwo.size) || [];
             };
+            function gridThree(page) {
+                var skip = (page - 1) * $scope.gridThree.size;
+                $scope.otherreplicasItem = $scope.otherreplicas.slice(skip, skip + $scope.gridThree.size) || [];
+            };
+            function gridFour(page) {
+                var skip = (page - 1) * $scope.gridFour.size;
+                $scope.otherreplicasetsItem = $scope.otherreplicasets.slice(skip, skip + $scope.gridFour.size) || [];
+            };
+
             function checkArr(arr) {
                 var iarr = [];
                 var str = $scope.grid.txt;
@@ -158,26 +227,43 @@ angular.module('console.deployments', [{
                     }
                 return iarr;
             }
+
             $scope.search = function(event) {
                 $scope.grid.page = 1;
                 $scope.gridTwo.page = 1;
+                $scope.gridThree.page = 1;
+                $scope.gridFour.page = 1;
                 if (!$scope.grid.txt) {
                     $scope.items = angular.copy($scope.deploymentOne);
                     $scope.mydeploylist = angular.copy($scope.deploymentTwo);
+                    $scope.otherreplicas = angular.copy($scope.otherreplicascopy);
+                    $scope.otherreplicasets = angular.copy($scope.otherreplicasetscopy);
                     refresh(1);
                     refreshTwo(1);
+                    gridThree(1);
+                    gridFour(1);
                     $scope.grid.total = $scope.items.length;
                     $scope.gridTwo.total = $scope.mydeploylist.length;
+                    $scope.gridThree.total = $scope.otherreplicas.length;
+                    $scope.gridFour.total = $scope.otherreplicasets.length;
                     return;
                 }
                 $scope.items = [];
                 $scope.mydeploylist = [];
+                $scope.otherreplicas=[];
+                $scope.otherreplicasets=[];
                 $scope.items = angular.copy(checkArr($scope.deploymentOne));
                 $scope.mydeploylist = angular.copy(checkArr($scope.deploymentTwo));
+                $scope.otherreplicas = angular.copy(checkArr($scope.otherreplicascopy));
+                $scope.otherreplicasets = angular.copy(checkArr($scope.otherreplicasetscopy));
                 refresh(1);
                 refreshTwo(1);
+                gridThree(1);
+                gridFour(1);
                 $scope.grid.total = $scope.items.length;
                 $scope.gridTwo.total = $scope.mydeploylist.length;
+                $scope.gridThree.total = $scope.otherreplicas.length;
+                $scope.gridFour.total = $scope.otherreplicasets.length;
 
             };
 
