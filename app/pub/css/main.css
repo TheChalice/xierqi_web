@@ -525,7 +525,7 @@ a {
     /* padding-left: 30px;
     padding-right: 30px;
     margin: 0 30px; */
-    float:right;width:62px;height:32px;
+    float:right;width:68px;height:26px;line-height:26px;padding:0px;
 }
 
 .modal-default .modal-close {
@@ -713,8 +713,9 @@ a {
     font-size: 12px;
     background: none;
     border: none;
-    color: #3e8f3e;
-    height: 200px;
+    color: #475669!important;
+    height: 180px!important;
+    overflow:auto;
     word-break: break-all;
     word-wrap: break-word;
     white-space: pre-wrap;height:166px;padding:0px;margin:0px;
@@ -1954,7 +1955,7 @@ td  a:hover, a:focus{
     content:'\e922';
     color: #475669;
 }
-#build-detail .pip_btn:hover .uex-icon-copy:before{color:#47B2FB;}
+#build-detail .uex-icon-copy:hover:before{color:#47B2FB;}
 /* 关闭 */
 .uex-icon-cross:before{
     content:'\e911';
@@ -2071,3 +2072,7 @@ td  a:hover, a:focus{
     color: #A2B0C4;
     letter-spacing: 0;
 }
+.df_left_set{margin-left:12px!important;}
+.public_border{border:1px solid #CCD5E0;padding:10px;margin-bottom:20px;}
+.df_deplay_h:hover{background:#E0E6ED;}
+.df_normal_set{font-style: normal;}

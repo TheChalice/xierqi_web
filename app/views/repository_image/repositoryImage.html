@@ -18,7 +18,9 @@
             <div class="input-group col-sm-3 searchbar">
                 <input type="text" class="form-control" ng-model="cktxt" ng-focus="showTip=true;" placeholder="搜索镜像" ng-keyup="cksearch('all', cktxt)">
                 <span class="input-group-btn">
-                    <a class="btn" ng-click="cksearch('all', cktxt)"></a>
+                    <!-- <a class="btn" ng-click="cksearch('all', cktxt)"></a> -->
+                    <span class="df_search uex-icon-search" ng-click="search('all', txt)">
+                    </span>
                 </span>
             </div>
             
