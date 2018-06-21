@@ -705,7 +705,7 @@ a {
     border: none;
     border-radius: 4px;
     margin: 15px 0 0 30px;
-    background: #fff;border:1px solid #CCD5E0;height:200px;padding:10px;box-shadow:none;
+    background: #fff;border:1px solid #E0E6ED;height:200px;padding:10px;box-shadow:none;
 }
 .testt:hover{border:1px solid #47B2FB}
 
@@ -1011,7 +1011,7 @@ a {
     border: none;
     box-shadow: none;
     color: #A2B0C4;
-    z-index:999;
+    z-index:999;border-radius:4px;
 }
 
 .searchbar .btn {
@@ -1899,7 +1899,8 @@ td  a:hover, a:focus{
     font-weight: normal;
     font-variant: normal;
     text-transform: none;
-    line-height: 0.9;
+    /* line-height: 0.9; */
+    vertical-align: top;
     /* Better Font Rendering =========== */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -1949,6 +1950,11 @@ td  a:hover, a:focus{
     content: '\e9ff';
     color:#A2B0C4;
 }
+.uex-icon-copy:before{
+    content:'\e922';
+    color: #475669;
+}
+#build-detail .pip_btn:hover .uex-icon-copy:before{color:#47B2FB;}
 /* 关闭 */
 .uex-icon-cross:before{
     content:'\e911';
@@ -1967,6 +1973,7 @@ td  a:hover, a:focus{
     font-size: 12px;
     color: #A2B0C4;
 }
+.df_close{color: #475669;font-size:12px;}
 /*删除*/
 .uex-icon-delete:before {
     content: '\e925';
@@ -1975,7 +1982,7 @@ td  a:hover, a:focus{
 .uex-icon-add:before {
     content: '\e913';
 }
-.df_search{position:absolute;z-index:999;top:50%;right:10px;font-size:14px;margin-top:-7px;color: #A2B0C4;}
+.df_search{position:absolute;z-index:999;top:50%;right:10px;font-size:12px;margin-top:-5px;color: #A2B0C4;}
 .searchbar:hover .df_search{color:#47B2FB;}
 
 .sort_btn{padding-left:2px;width: 30px;font-size: 14px;display: inline-block;height: 20px;cursor: pointer;}
