@@ -97,12 +97,11 @@
 
 
             <div class="module_block_r">
-                <a class="btn btn-gray pull-right" style=" padding: 6px 12px; margin-left: 15px; height:34px;font-size:14px;" ng-click="deleteDc(dc.metadata.name)">
-                    <!-- <i class="fa fa-trash-o fa-lg"></i> -->
-                    删除
+                <a class="btn btn-gray pull-right df_del" ng-click="deleteDc(dc.metadata.name)">
+                        <span class="df_close"><i class="uex-icon-delete"></i></span>
                 </a>
-                <a class="btn pull-right btn-green" ng-click="deployDc()">更新部署</a>
-                <a class="btn pull-right btn-orange" style="margin-right: 20px;font-size: 14px;" ng-click="updateDc()">保存修改</a>
+                <a class="btn pull-right btn-green df_build" ng-click="deployDc()">更新部署</a>
+                
             </div>
         </div>
         <!-- module common 公共-->
