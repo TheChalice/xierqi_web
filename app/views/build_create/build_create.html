@@ -56,7 +56,9 @@
                                         <a class="view_tit_set" ng-class="{'running':labrunning }"
                                            uib-tooltip="同步代码源"
                                            ng-click="loadOwner('gitlab')">
-                                            <i class="uex-icon-refresh"></i>
+                                            <span style="padding-bottom: 1px;font-size: 12px;margin-right: 6px;">
+                                                <i class="uex-icon-refresh"></i>
+                                            </span>
                                             同步代码源
                                         </a>
                                     </p>
@@ -84,7 +86,9 @@
                                         <a class="view_tit_set"
                                            uib-tooltip="同步代码源"
                                            ng-click="loadOwner('github')">
-                                            <i class="uex-icon-refresh"></i>
+                                            <span style="padding-bottom: 1px;font-size: 12px;margin-right: 6px;">
+                                                <i class="uex-icon-refresh"></i>
+                                            </span>
                                             同步代码源
                                         </a>
                                     </p>
@@ -292,7 +296,7 @@
                 </div>
             </div>
             <div style="height: 1px;border: 1px solid #E0E6ED;;margin-bottom: 20px"></div>
-            <a class="btn"
+            <a class="btn btn-resources"
                ng-class="{'btn-orange':true}"
                ng-click="create()"
                style="margin-right:52px;width:auto;border-radius:4px;">开始构建</a>
