@@ -1,4 +1,4 @@
-<div id="rs">
+<div id="rs" class="df_frame">
     <p>
         <span class="pd_name">{{replicaSet.metadata.name}}</span>
         &nbsp;&nbsp;
@@ -114,14 +114,14 @@
                 <div class="table-responsive" style="margin-top: 20px;">
                     <table class="table table-hover table-default">
                         <tr>
-                            <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Name</th>
-                            <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Status</th>
-                            <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Containers Ready
+                            <th class="col-lg-3 col-md-2 col-sm-1">Name</th>
+                            <th class="col-lg-2 col-md-2 col-sm-1">Status</th>
+                            <th class="col-lg-3 col-md-2 col-sm-1">Containers Ready
                             </th>
-                            <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Containers
+                            <th class="col-lg-2 col-md-2 col-sm-1">Containers
                                 Restart
                             </th>
-                            <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">Age</th>
+                            <th class="col-lg-2 col-md-2 col-sm-1">Age</th>
                         </tr>
                         <tr ng-repeat="pod in replicaPods">
                             <td data-title="Name" class="poda"
