@@ -95,14 +95,14 @@ angular.module('console.build.detail', [
                     createWebhook();
                     //deleteWebhook();
                     toastr.success('操作成功', {
-                        timeOut: 20000000,
+                        timeOut: 2000,
                         closeButton: true
                     });
 
                 }, function (res) {
                     //todo 错误处理
                     toastr.error('删除失败,请重试', {
-                        timeOut: 20000000,
+                        timeOut: 2000,
                         closeButton: true
                     });
                 });
@@ -734,7 +734,7 @@ angular.module('console.build.detail', [
                     Build.remove({ namespace: $rootScope.namespace, name: name }, function () {
                         $log.info("deleted");
                         toastr.success('操作成功', {
-                            timeOut: 200000000,
+                            timeOut: 2000,
                             closeButton: true
                         });
                         for (var i = 0; i < $scope.databuild.items.length; i++) {

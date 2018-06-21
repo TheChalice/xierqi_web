@@ -121,7 +121,7 @@ define([
                 allowHtml: false,
                 closeButton: false,
                 closeHtml: '<button>&times;</button>',
-                extendedTimeOut: 100000,
+                extendedTimeOut: 1000,
                 iconClasses: {
                     error: 'toast-shibai',
                     info: 'toast-info',
@@ -138,7 +138,7 @@ define([
                 //    toast: 'directives/toast/toast.html',
                 //    progressbar: 'directives/progressbar/progressbar.html'
                 //},
-                timeOut: 100000,
+                timeOut: 1000,
                 titleClass: 'toast-title',
                 toastClass: 'toast'
             });
