@@ -263,6 +263,6 @@
 .build-detail .dropdown-menu > li {
     height: 32px;
 }
-
+.build-detail .build_name{font-weight:normal;color:#000;}
 
 
