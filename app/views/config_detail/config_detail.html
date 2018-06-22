@@ -30,7 +30,7 @@
         <!-- module common 公共-->
         <uib-tabset class="tab-default tab-jia-default" active="active">
             <uib-tab index="1">
-                <uib-tab-heading style="width: 300px; margin-left: 20px; margin-right: 20px">
+                <uib-tab-heading>
                     配置卷信息
                 </uib-tab-heading>
                 <div style="border: solid 1px #E0E6ED;margin-bottom: 10px;" ng-repeat="item in volume.configarr">
@@ -56,7 +56,7 @@
                         </div>
                     </div>
                 </div>
-                <div style="border: solid 1px #E0E6ED;margin-top: 10px;" ng-repeat="item in volume.configitems">
+                <div style="border: solid 1px #E0E6ED;margin-top: 10px;margin-bottom: 10px;" ng-repeat="item in volume.configitems">
                     <div class="row" style="margin: 0;">
                         <div style="padding: 15px;border-radius: 2px;">
                             <p class="create_secret_key">
@@ -74,7 +74,7 @@
                             <p class="create_secret_content_p create_secret_content_addfile">
                                 <span>值</span>
                                 <span class="create_secret_add" ng-click="addFile($index)">
-                                    <i class="uex-icon-add"></i>
+                                    <i class="uex-icon-add" style="margin-right: 5px;"></i>
                                     添加文件
                                     <input type="file" id="file-input" class="upload_addfile upLoadFile" value="选择"/>
                                 </span>
@@ -89,7 +89,9 @@
                 </div>
                 <div class="row" style="margin-left: 0;">
                     <div class="col-sm-12" style="padding-left: 0;" ng-click="AddConfigurationFile()">
-                        <span class="uex-icon-add" style="cursor:pointer;font-size: 12px;color: #47B2FB;">添加配置文件</span>
+                        <!--<span class="uex-icon-add" style="cursor:pointer;font-size: 12px;color: #47B2FB;">添加配置文件</span>-->
+                        <span style="cursor:pointer;font-size: 12px;color: #47B2FB;">
+                            <i class="uex-icon-add" style="margin-right: 5px;"></i>添加配置文件</span>
                     </div>
                 </div>
             </uib-tab>
@@ -103,7 +105,7 @@
     </div>
 </div>
 <style>
-    #config_d #file-input {
+    #config-detail #file-input {
         position: absolute;
         right: 0;
         top: 0;
@@ -125,14 +127,15 @@
         border: 1px solid #47B2FB;
     }
 
-    #config_d .tab-default li.active .nav-link,
-    #config_d .tab-default li.active .nav-link:focus,
-    #config_d .tab-default li.active .nav-link:hover {
-        border: 1px solid #c9c9c9;
-        border-bottom: none;
-        border-radius: 2px 2px 0 0;
-    }
-    #config-detail #file-input {
+    /*#config-detail .tab-default li.active .nav-link,*/
+    /*#config-detail .tab-default li.active .nav-link:focus,*/
+    /*#config-detail .tab-default li.active .nav-link:hover {*/
+        /*border: 1px solid #c9c9c9;*/
+        /*border-bottom: none;*/
+        /*border-radius: 2px 2px 0 0;*/
+    /*}*/
+
+    #file-input {
         position: absolute;
         right: 0;
         top: 0;
@@ -143,43 +146,49 @@
         cursor: pointer;
     }
 
-    #config-detail .tab-default li.active .nav-link, #config-detail .tab-default li.active .nav-link:focus, #config-detail .tab-default li.active .nav-link:hover {
+    #config-detail .tab-default li.active .nav-link,
+    #config-detail .tab-default li.active .nav-link:focus,
+    #config-detail .tab-default li.active .nav-link:hover {
+        height: 34px;
+        width: 78px;
+        padding: 10px 6px;
         border: none;
-        border-bottom: 2px solid #47B2FB;
+        border-bottom: 3px solid #47B2FB;
         color: #47B2FB;
     }
 
     /*------*/
-    .create_secret_key {
+    #config-detail .create_secret_key {
         width: 100%;
         margin: 0;
         font-size: 12px;
     }
 
-    .create_secret_delete {
+    #config-detail .create_secret_delete {
         cursor: pointer;
         font-size: 12px;
         float: right;
         color: #47B2FB;
     }
 
-    .create_secret_add {
+    #config-detail .create_secret_add {
         cursor: pointer;
         font-size: 12px;
         color: #47B2FB;
     }
 
-    .create_secret_content_p {
+    #config-detail .create_secret_content_p {
         width: 100%;
-        margin: 10px 0 0;
+        margin: 5px 0 0;
         font-size: 12px;
     }
 
-    .create_secret_content_addfile {
+    #config-detail .create_secret_content_addfile {
         position: relative;
+        margin-top: 20px;
     }
 
-    .upload_addfile {
+    #config-detail .upload_addfile {
         position: absolute;
         left: 2%;
         top: 0;
@@ -188,7 +197,7 @@
         z-index: 10;
     }
 
-    .create_secret_content_ipt {
+    #config-detail .create_secret_content_ipt {
         width: 358px;
         height: 26px;
         border-radius: 4px;
@@ -196,10 +205,10 @@
         color: #A2B0C4;
         padding-left: 10px;
     }
-    .create_secret_content_ipt:hover{
+    #config-detail .create_secret_content_ipt:hover{
         border: 1px solid #47B2FB;
     }
-    .testt {
+    #config-detail .testt {
         padding: 10px;
         font-size: 12px;
         line-height: 20px;

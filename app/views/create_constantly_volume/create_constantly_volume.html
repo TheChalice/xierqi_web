@@ -7,7 +7,7 @@
         </div>
     </div>
 </div>
-<div class="df_frame">
+<div class="df_frame" confull-height>
     <style>
         #arrow:hover {
             /*background: url('views/create_constantly_volume/img/images_45.png');*/
@@ -98,10 +98,9 @@
                 <span class="df_tit" style="font-size: 12px; color: #1F2D3D;line-height: 16px">存储卷设置</span>
             </div>
             <div class="panel-body" style="padding: 0 15px;">
-
                 <div class="form-group" style="margin-bottom: 0;margin-top: 15px;">
-                    <label class="col-sm-2 control-label text-left require"
-                           style="color: #475669; font-size:12px; line-height: 14px; text-align: left; font-weight: normal;">存储卷名称</label>
+                    <div class="col-sm-2 control-label text-left require"
+                           style="width: 120px;color: #475669; font-size:12px; line-height: 14px; text-align: left; font-weight: normal;">存储卷名称</div>
                     <div class="col-sm-10" style="padding-right: 40px;">
                         <input type="text"
                                ng-blur="nameblur()"
@@ -122,8 +121,8 @@
                     </div>
                 </div>
                 <div class="form-group" style="margin-top: 27px">
-                    <label class="col-sm-2 control-label text-left"
-                           style="margin-top:25px;color: #475669;; font-size:12px; line-height: 14px; text-align: left; font-weight: normal;">存储卷容量</label>
+                    <div class="col-sm-2 control-label text-left"
+                           style="width: 120px;margin-top:25px;color: #475669;; font-size:12px; line-height: 14px; text-align: left; font-weight: normal;">存储卷容量</div>
                     <div class="col-sm-10" style="padding-right: 40px; ">
                         <div class="volume_modal" style="width: 80%;">
                             <rzslider rz-slider-model="slider.value" rz-slider-options="slider.options"
@@ -137,10 +136,11 @@
 
             </div>
         </div>
-        <div style="border: 1px solid #E0E6ED;"></div>
-        <a href="javascript:;" ng-if="grid.configpost" ng-click="creat()"
-           class="btn create btn-orange btn-resources" style="margin-top: 20px; color: white;">创建存储卷</a>
-        <a href="javascript:;" ng-if="!grid.configpost" disabled="disabled"  class="btn create btn-orange btn-resources"
-           style="margin-top: 20px; color: white;">创建存储卷</a>
     </form>
+    <div class="creatfooter" style="">
+        <a class="btn btn-resources"
+           ng-class="{'btn-orange':true}"
+           ng-click="create()"
+           style="margin-right:52px;width:auto;border-radius:4px;">创建存储卷</a>
+    </div>
 </div>
