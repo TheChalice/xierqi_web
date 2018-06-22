@@ -75,7 +75,7 @@
                                                 <input type="file" id="file-input" class="upload_addfile upLoadFile"
                                                        value="选择"/>
                                             </span>
-                                            <span class="create_secret_delete" ng-show="item.isClearCode"
+                                            <span class="create_secret_delete" ng-if="item.value"
                                                   ng-click="clearCode($index)">清空代码</span>
                                         </p>
                                         <p class="create_secret_content_p">
