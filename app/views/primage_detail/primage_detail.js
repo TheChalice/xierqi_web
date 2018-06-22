@@ -8,30 +8,63 @@ angular.module('console.image_detail', [
             ]
         }
     ])
-    .controller('prImageDetailCtrl', ['registryptag','Confirm','ModalPullImage', '$state', 'ImageStream', '$http', 'platformone', 'platformlist', '$location', '$rootScope', '$scope', '$log', 'ImageStreamTag', '$stateParams','Sort',
-        function (registryptag,Confirm,ModalPullImage, $state, ImageStream, $http, platformone, platformlist, $location, $rootScope, $scope, $log, ImageStreamTag, $stateParams,Sort) {
+    .controller('prImageDetailCtrl', ['registryptag', 'Confirm', 'ModalPullImage', '$state', 'ImageStream', '$http', 'platformone', 'platformlist', '$location', '$rootScope', '$scope', '$log', 'ImageStreamTag', '$stateParams', 'Sort','imagestreamimports','GLOBAL',
+        function (registryptag, Confirm, ModalPullImage, $state, ImageStream, $http, platformone, platformlist, $location, $rootScope, $scope, $log, ImageStreamTag, $stateParams, Sort,imagestreamimports,GLOBAL) {
             //var namespace=$stateParams.name.split('/')[0];
             //var name=$stateParams.name.split('/')[1];
+            $scope.imagename = $stateParams.name
+            $scope.postobj = {
+                "kind": "ImageStreamImport",
+                "apiVersion": "v1",
+                "metadata": {"name": "newapp", "namespace": $rootScope.namespace},
+                "spec": {
+                    "import": false,
+                    "images": [
+                        {
+                            "from": {
+                                "kind": "DockerImage",
+                                "name": ""
+                            }
 
-            registryptag.query({reponame:$stateParams.name}, function (tags) {
+                        }
+                    ]
+
+
+                },
+                "status": {}
+            }
+            $scope.postobj.spec.images[0].importPolicy = {
+                insecure: true
+            }
+
+
+            registryptag.query({reponame: $stateParams.name}, function (tags) {
                 //console.log('tag', tags);
 
+                $scope.tags = Sort.sort(tags, -1);
+                angular.forEach($scope.tags, function (tag, i) {
+                    $scope.postobj.spec.images[0].from.name = GLOBAL.common_url+'/'+$scope.imagename+':'+tag.name;
+                    $scope.tags[i].postobj =$scope.postobj
+                        //console.log('$scope.postobj.spec.images[0].from.name', .spec.images[0].from.name);
+                    imagestreamimports.create({namespace: $rootScope.namespace}, $scope.postobj, function (images) {
+                        tags[i].metadata = {
+                            creationTimestamp: tag.created
+                        }
+                        $scope.tags[i].images = images;
 
-                $scope.imagename = $stateParams.name
-                angular.forEach(tags, function (tag,i) {
-                    tag.metadata={
-                        creationTimestamp:tag.created
-                    }
+                        //console.log('tag', tag);
+                    })
+
                 })
-                $scope.tags = Sort.sort(tags, -1); //排序
+                 //排序
                 //$scope.tags=tags;
 
-                //console.log('$scope.primage', $scope.primage);
+                console.log('$scope.tags', $scope.tags);
             })
             $scope.pull = function (name) {
                 var s = $scope.imagename;
                 //console.log(name);
-                var str =s + ':' + name
+                var str = s + ':' + name
                 ModalPullImage.open(str)
                     .then(function (res) {
 

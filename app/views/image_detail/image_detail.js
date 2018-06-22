@@ -8,8 +8,8 @@ angular.module('console.image_detail', [
             ]
         }
     ])
-    .controller('ImageDetailCtrl', ['Confirm','ModalPullImage', '$state', 'ImageStream', '$http', 'platformone', 'platformlist', '$location', '$rootScope', '$scope', '$log', 'ImageStreamTag', '$stateParams',
-        function (Confirm,ModalPullImage, $state, ImageStream, $http, platformone, platformlist, $location, $rootScope, $scope, $log, ImageStreamTag, $stateParams) {
+    .controller('ImageDetailCtrl', ['Confirm','ModalPullImage', '$state', 'ImageStream', '$http', 'platformone', 'platformlist', '$location', '$rootScope', '$scope', '$log', 'ImageStreamTag', 'ImageStreamImage',
+        function (Confirm,ModalPullImage, $state, ImageStream, $http, platformone, platformlist, $location, $rootScope, $scope, $log, ImageStreamTag, ImageStreamImage) {
 
 
             $scope.name = $state.params.bc
@@ -25,27 +25,31 @@ angular.module('console.image_detail', [
                     //});
                 }
                 angular.forEach(data.status.tags, function (tag,i) {
-                    //{{name}}:{{date.status.tags[0].tag}}
+                    //{{name}}:{{date.status.tags[0].items[0].image}}
                     //console.log(tag.tag);
                     data.status.tags[i].port=[]
-                    ImageStreamTag.get({
-                        namespace: $rootScope.namespace,
-                        name: $scope.name + ':' + tag.tag,
-                        region:$rootScope.region
-                    }, function (newdata) {
+                    if (data.status.tags[0].items[0].image) {
+                        ImageStreamImage.get({
+                            namespace: $rootScope.namespace,
+                            name: $scope.name + '@' + data.status.tags[0].items[0].image,
+                            region:$rootScope.region
+                        }, function (newdata) {
+                            console.log('newdata', newdata);
+                            //for( var k in newdata.image.dockerImageMetadata.Config.ExposedPorts){
+                            //    //console.log(k);
+                            //    data.status.tags[i].port.push(k)
+                            //
+                            //}
+                            data.status.tags[i].message = newdata
+                            //if (i === data.status.tags.length - 1) {
+                            //    //console.log('date',data);
+                            //    $scope.date = data;
+                            //}
 
-                        for( var k in newdata.image.dockerImageMetadata.Config.ExposedPorts){
-                            //console.log(k);
-                            data.status.tags[i].port.push(k)
 
-                        }
-                        if (i === data.status.tags.length - 1) {
-                            console.log(data);
-                            $scope.date = data;
-                        }
+                        })
+                    }
 
-
-                    })
                 })
 
                 $scope.date = data;
