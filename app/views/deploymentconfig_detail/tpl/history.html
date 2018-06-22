@@ -14,9 +14,10 @@
                 <div class="row">
                         <div class="col-sm-3">
                                 <span class="detail_tit">构建状态：</span>
-                            <span class="icon12 icon12-{{item.metadata.annotations['openshift.io/deployment.phase']}}" ng-class="{'fa-spin': item.metadata.annotations['openshift.io/deployment.phase'] == 'Running' || item.metadata.annotations['openshift.io/deployment.phase'] == 'Pending'}">
+                            <!-- <span class="icon12 uex-icon-{{item.metadata.annotations['openshift.io/deployment.phase']}}" ng-class="{'fa-spin': item.metadata.annotations['openshift.io/deployment.phase'] == 'Running' || item.metadata.annotations['openshift.io/deployment.phase'] == 'Pending'}">
     
-                            </span>
+                            </span> -->
+                            <span class="icon12 uex-icon-Pending" ng-class="{'fa-spin': item.metadata.annotations['openshift.io/deployment.phase'] == 'Running' || item.metadata.annotations['openshift.io/deployment.phase'] == 'Pending'}"></span>
                             <!--switch to Chinese-->
                             {{item.metadata.annotations['openshift.io/deployment.phase'] | rcStatusFilter}}
                         </div>
