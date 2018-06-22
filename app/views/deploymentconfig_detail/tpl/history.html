@@ -17,7 +17,7 @@
                             <!-- <span class="icon12 uex-icon-{{item.metadata.annotations['openshift.io/deployment.phase']}}" ng-class="{'fa-spin': item.metadata.annotations['openshift.io/deployment.phase'] == 'Running' || item.metadata.annotations['openshift.io/deployment.phase'] == 'Pending'}">
     
                             </span> -->
-                            <span class="icon12 uex-icon-Pending" ng-class="{'fa-spin': item.metadata.annotations['openshift.io/deployment.phase'] == 'Running' || item.metadata.annotations['openshift.io/deployment.phase'] == 'Pending'}"></span>
+                            <span class="icon12 uex-icon-{{item.metadata.annotations['openshift.io/deployment.phase']}}" ng-class="{'fa-spin': item.metadata.annotations['openshift.io/deployment.phase'] == 'Running' || item.metadata.annotations['openshift.io/deployment.phase'] == 'Pending'}"></span>
                             <!--switch to Chinese-->
                             {{item.metadata.annotations['openshift.io/deployment.phase'] | rcStatusFilter}}
                         </div>
