@@ -4,9 +4,11 @@
         <a ng-click="cancel()" class="close"><span aria-hidden="true">&times;</span></a>
     </h5>
 </div>
-<div class="modal-body change-image">
+<div class="modal-body change-image change-image-modal" style="font-size:12px;">
     <div class="row">
+
         <div class="col-md-12 create_deploy_nanji">
+            <p style="margin-bottom: 5px; text-align: left">镜像地址</p>
             <uib-tabset class="tab-default" active="check">
                 <uib-tab index="1">
                     <uib-tab-heading>
@@ -15,24 +17,24 @@
                     </uib-tab-heading>
                     <div class="input-group divradio">
                         <div class="row">
-                            <div class="col-md-6" style="height: 32px;">image stream</div>
-                            <div class="col-md-6" style="height: 32px;">标签</div>
+                            <div class="col-md-6"  style="text-align: left; padding-left: 0px; margin-bottom:5px;display: inline-block;">image stream</div>
+                            <div class="col-md-6"  style="text-align: left;margin-bottom:5px;display: inline-block;">标签</div>
                         </div>
                         <div>
-                            <div class="dropdown dropdown-select" style="min-width: 156px;height: 32px;margin-right: 58px;">
-                                <button  class="btn dropdown-toggle" data-toggle="dropdown" style="height: 34px;">
+                            <div class="dropdown dropdown-select" style="min-width: 156px;height: 26px;margin-right: 20px;">
+                                <button  class="btn dropdown-toggle" data-toggle="dropdown" style="height: 26px;">
                                     <span>{{checked.image}}</span>
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu"
                                     style="max-height: 156px; min-width: 156px;margin-top: -1px;overflow-y: auto">
-                                    <li ng-repeat="image in imageslist" style="height: 34px;font-size: 12px;">
-                                        <a href="javascript:;" style="" ng-click="checkedimage(image)">{{image.metadata.name}}</a>
+                                    <li ng-repeat="image in imageslist" style="height: 26px;font-size: 12px;">
+                                        <a href="javascript:;" style="line-height: 26px;height: 26px;font-size: 12px;" ng-click="checkedimage(image)">{{image.metadata.name}}</a>
                                     </li>
                                 </ul>
                             </div>
-                            <div class="dropdown dropdown-select" style="min-width: 156px;height: 32px;">
-                                <button  class="btn dropdown-toggle" data-toggle="dropdown" style="height: 34px;"
+                            <div class="dropdown dropdown-select" style="min-width: 156px;height: 26px;">
+                                <button  class="btn dropdown-toggle" data-toggle="dropdown" style="height: 26px;"
                                 >
                                     <span>{{checked.tag}}</span>
                                     <span class="caret"></span>
@@ -40,7 +42,7 @@
                                 <ul class="dropdown-menu"
                                     style="max-height: 156px; min-width: 156px;margin-top: -1px;overflow-y: auto">
                                     <li ng-repeat="tag in tagslist">
-                                        <a href="javascript:;" ng-click="checkedtag(tag)">{{tag.name}}</a>
+                                        <a href="javascript:;" style="line-height: 26px;height: 26px;font-size: 12px;" ng-click="checkedtag(tag)">{{tag.name}}</a>
 
                                     </li>
                                 </ul>
@@ -56,7 +58,7 @@
                         <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
                         镜像地址
                     </uib-tab-heading>
-                    <div class="row" style="margin-bottom: 15px;">
+                    <div class="row" style="">
                         <div class="col-md-12" style="padding: 0px;text-align: left ">
                             <small ng-show="err.url.null" class="fa fa-info-circle err-tip">请输入正确的镜像地址</small>
                             <small ng-show="err.url.notfind" class="fa fa-info-circle err-tip">找不到镜像</small>
@@ -65,15 +67,15 @@
                                    name="serviceName"
                                    ng-model="postobj.spec.images[0].from.name"
                                    class="form-control"#sidebar
-                                   style="display: inline-block;width: 80%;"
+                                   style="display: inline-block;width: 87%;"
                                    type="text" name="name"
                                    ng-keyup="myKeyup($event)"
                                    placeholder="例如：nginx">
-                            <span class="input-group-btn" style="position: relative;">
-                                                        <a class="btn" style="margin-top:3px;margin-left:5px;" ng-click="find()"></a>
+                            <span class="input-group-btn" style="position: relative;border-radius: 4px;">
+                                                        <a class="btn" style="margin-top:3px;margin-left:7px;background-size: contain;" ng-click="find()"></a>
                                                     </span>
                             <div style="height: 24px;margin-top: 5px;">
-                                <p  style="">
+                                <p  style="margin:0px;">
                                     <label ng-class="{'active':institution.configregistry}"
                                            ng-click="institution.configregistry=!institution.configregistry"
                                            style="cursor: pointer;">
@@ -95,12 +97,13 @@
                     </div>
                 </uib-tab>
             </uib-tabset>
+            <p style="margin-bottom: 5px; text-align: left">镜像</p>
             <div class="row" >
                 <div class="col-md-12" style="height: 60px;border: 1px solid #CCD5E0;border-radius: 4px;">
                     <div class="col-md-2"></div>
                     <div class="col-md-10">
-                        <p>{{fuwuname}}</p>
-                        <div class="col-md-6" style="padding:0px;">创建时间：{{creattime|timescon}}</div>
+                        <p style="margin-top:10px; text-align: left">{{fuwuname}}</p>
+                        <div class="col-md-6" style="padding:0px;">创建时间：{{creattime|timescon3}}</div>
                         <div class="col-md-6">导出端口：{{strport}}</div>
                     </div>
                 </div>
@@ -109,11 +112,14 @@
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-orange" ng-click="ok()">确认</button>
+    <button style="margin-right: 18px;" class="btn btn-orange" ng-click="ok()">确认</button>
 </div>
 
 <style>
     .change-image .tab-default .tab-content{
         padding-right:0px;
+    }
+    .change-image-modal .tab-default .tab-content{
+        padding: 15px 0px 15px;
     }
 </style>

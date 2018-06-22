@@ -40,7 +40,7 @@ angular.module("console.header", [{
                     }
                     $scope.curTenantName = $rootScope.namespace;///////默认为单点登录账号；
                     ////////////树点击事件
-                    $scope.showSelected = function(node){
+                    $scope.SelectedNode = function(node){
                         $scope.curTenantName = node;
                     }
                     /////////获取租户数据后组合成符合树符合的多维数组
