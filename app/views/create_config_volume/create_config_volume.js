@@ -62,64 +62,11 @@ angular.module('console.create_config_configMap', [
         reader.readAsText(file);
 
     };
-    $scope.volume.configarr = [{key: '', value: '', isClearCode: false}];
     //delete key value
-
-    $scope.deleteOriginkv = function (idx) {
-        $scope.volume.configarr.splice(idx, 1);
-    };$scope.deletekv = function (idx) {
+    $scope.deletekv = function (idx) {
         $scope.volume.configitems.splice(idx, 1);
     };
-    // $scope.$watch('volume', function (n, o) {
-    //     if (n == o) {
-    //         return
-    //     }
-    //     //console.log(n);
-    //     $scope.grid.keychongfu = false;
-    //     $scope.grid.keynull = false;
-    //     $scope.grid.keybuhefa = false;
-    //     if (n.metadata.name && n.configitems) {
-    //
-    //         var arr = n.configitems;
-    //         // arr.sort(by("key"));
-    //
-    //         if (arr && arr.length > 0) {
-    //             var kong = false;
-    //             // var r =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
-    //             var r = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
-    //             angular.forEach(arr, function (item, i) {
-    //
-    //                 if (!item.key || !item.value) {
-    //                     $scope.grid.keynull = true;
-    //                     kong = true;
-    //                 } else {
-    //                     if (arr[i] && arr[i + 1]) {
-    //                         if (arr[i].key == arr[i + 1].key) {
-    //                             $scope.grid.keychongfu = true;
-    //                             kong = true;
-    //                         }
-    //                     }
-    //                     if (!r.test(arr[i].key)) {
-    //                         $scope.grid.keybuhefa = true;
-    //                         kong = true;
-    //                     }
-    //                 }
-    //             });
-    //             if (!kong) {
-    //                 // alert("111")
-    //                 $scope.grid.configpost = true
-    //             } else {
-    //                 // alert("222")
-    //                 $scope.grid.configpost = false
-    //             }
-    //         } else {
-    //             // alert("333");
-    //             $scope.grid.configpost = false
-    //         }
-    //     } else {
-    //         $scope.grid.configpost = false
-    //     }
-    // }, true);
+
 
     //添加配置文件
     $scope.AddConfigurationFile = function () {
@@ -127,10 +74,6 @@ angular.module('console.create_config_configMap', [
         $scope.volume.configitems.push({key: '', value: '', isClearCode: false});
     };
     // clear code
-    $scope.clearOriginCode = function (index) {
-        $scope.volume.configarr[index].value = '';
-        $scope.volume.configarr[index].isClearCode = false;
-    };
     $scope.clearCode = function (index) {
         $scope.volume.configitems[index].value = '';
         $scope.volume.configitems[index].isClearCode = false;
@@ -185,7 +128,7 @@ angular.module('console.create_config_configMap', [
                 if (name === item.metadata.name) {
                     iserpeat = true
                 }
-            })
+            });
             if (iserpeat) {
                 return 'repeated'
             }
@@ -200,10 +143,10 @@ angular.module('console.create_config_configMap', [
             if (item.key === '') {
                 cancreat = false;
                 item.err.key.nil = true
-            }else if(!rex.test(item.key)){
+            } else if (!rex.test(item.key)) {
                 cancreat = false;
                 item.err.key.rexed = true
-            }else {
+            } else {
                 angular.forEach(arr, function (initem, k) {
                     if (i !== k) {
                         if (item.key === initem.key) {
@@ -215,34 +158,20 @@ angular.module('console.create_config_configMap', [
                     }
                 })
             }
-
-
-        })
+        });
         if (cancreat) {
             return 'cancreat'
-        }else {
+        } else {
             return 'dontcreat'
         }
-
-
     }
 
     $scope.cearteconfig = function () {
-
         if (nameerr($scope.volume.metadata.name, $scope.cfmnamearr) !== 'allmight') {
             //console.log('nameerr($scope.volume.metadata.name, $scope.cfmnamearr)', nameerr($scope.volume.metadata.name, $scope.cfmnamearr));
             $scope.namerr[nameerr($scope.volume.metadata.name, $scope.cfmnamearr)] = true;
             return
         }
-        //console.log($scope.volume);
-
-        //$scope.grid = {
-        //    keychongfu: false,
-        //    keynull: false,
-        //    keybuhefa: false,
-        //    addConfigFile: false
-        //};
-
 
         angular.forEach($scope.volume.configitems, function (item, i) {
             $scope.volume.configitems[i].err = {
