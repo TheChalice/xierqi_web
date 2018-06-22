@@ -176,7 +176,7 @@ angular.module('console.create_config_configMap', [
                 }
             }
 
-        })
+        });
         if (keyerr($scope.volume.configitems) !== 'cancreat') {
 
             return
@@ -184,30 +184,6 @@ angular.module('console.create_config_configMap', [
 
         var arr = $scope.volume.configitems;
 
-        if (!arr) {
-            $scope.grid.addConfigFile = true;
-            return
-        }
-        //if (arr && arr.length > 0) {
-        //    var r = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
-        //    angular.forEach(arr, function (item, i) {
-        //        if (!item.key || !item.value) {
-        //            $scope.grid.keynull = true;
-        //            return;
-        //        } else {
-        //            if (arr[i] && arr[i + 1]) {
-        //                if (arr[i].key == arr[i + 1].key) {
-        //                    $scope.grid.keychongfu = true;
-        //                    return;
-        //                }
-        //            }
-        //            if (!r.test(arr[i].key)) {
-        //                $scope.grid.keybuhefa = true;
-        //                return;
-        //            }
-        //        }
-        //    });
-        //}
         $scope.loaded = true;
         angular.forEach(arr, function (item, i) {
             $scope.volume.data[item.key] = item.value;

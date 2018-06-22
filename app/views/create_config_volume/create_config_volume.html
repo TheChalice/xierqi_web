@@ -46,18 +46,6 @@
                                     <div style="padding: 15px;border-radius: 2px;">
                                         <p class="create_secret_key">
                                             <span>键</span>
-                                            <small ng-if="item.err.key.nil" class="err-tip">
-                                                <i
-                                                        class="fa fa-info-circle"></i>&nbsp;key值为空
-                                            </small>
-                                            <small ng-if="item.err.key.rexed" class="err-tip">
-                                                <i
-                                                        class="fa fa-info-circle"></i>&nbsp;key值不合法
-                                            </small>
-                                            <small ng-if="item.err.key.repeated" class="err-tip">
-                                                <i
-                                                        class="fa fa-info-circle"></i>&nbsp;key值重复
-                                            </small>
                                             <span ng-click="deletekv($index)" class="create_secret_delete">
                                     <i class="uex-icon-delete"></i></span>
                                         </p>
@@ -67,6 +55,18 @@
                                                    type="text" placeholder="请输入键"
                                                    ng-model="item.key">
                                         </p>
+                                        <small ng-if="item.err.key.nil" class="err-tip">
+                                            <i
+                                                    class="fa fa-info-circle"></i>&nbsp;key值为空
+                                        </small>
+                                        <small ng-if="item.err.key.rexed" class="err-tip">
+                                            <i
+                                                    class="fa fa-info-circle"></i>&nbsp;key值不合法
+                                        </small>
+                                        <small ng-if="item.err.key.repeated" class="err-tip">
+                                            <i
+                                                    class="fa fa-info-circle"></i>&nbsp;key值重复
+                                        </small>
                                         <p class="create_secret_content_p create_secret_content_addfile">
                                             <span>值</span>
                                             <span class="create_secret_add" ng-click="addFile($index)">
