@@ -1,4 +1,4 @@
-<div id="rs" class="df_frame">
+<div id="rs" class="df_frame" confull-height>
     <!-- <p>
         <span class="pd_name">{{replicaSet.metadata.name}}</span>
         &nbsp;&nbsp;
@@ -26,8 +26,10 @@
                 Details
             </uib-tab-heading>
             <div>
+                    <h3 class="df_tit">rs详情</h3>
+                    <div class="df_left_set">
                 <div class="row matgin-txt">
-                    <div class="col-md-2">Deployment:</div>
+                    <div class="col-md-2 df_w_set">Deployment:</div>
                     <div class="col-md-10">
                         <span class="jumpUrl"
                               ui-sref="console.deployment_detail({name:replicaSet.metadata.labels.app})">
@@ -37,12 +39,12 @@
                     </div>
                 </div>
                 <div class="row matgin-txt">
-                    <div class="col-md-2">Selectors:</div>
+                    <div class="col-md-2 df_w_set">Selectors:</div>
                     <div class="col-md-10"><span ng-repeat="(name , value) in replicaSet.spec.selector.matchLabels">{{name}}={{value}}&nbsp;&nbsp;<br/></span>
                     </div>
                 </div>
                 <div class="row matgin-txt">
-                    <div class="col-md-2">Replicas:</div>
+                    <div class="col-md-2 df_w_set">Replicas:</div>
                     <div class="col-md-10">
                         <div>
                             <span ng-show="isShow">{{replicaSet.spec.replicas}} current / {{replicaSet.status.replicas}} desired &nbsp;&nbsp;
@@ -58,8 +60,9 @@
                         </div>
                     </div>
                 </div>
-
-                <h3 class="subtitle">Template</h3>
+                </div>
+               <div class="h15"></div>
+                <h3 class="df_tit">Template</h3>
                 <pod-template
                         pod-template="replicaSet.spec.template"
                         images-by-docker-reference="imagesByDockerReference"
@@ -67,66 +70,67 @@
                         detailed="true"
                         add-health-check-url="{{((!deploymentConfig || isActive)) ? healthCheckURL : ''}}">
                 </pod-template>
-
-                <h4 class="subtitle">Volumes</h4>
-                <div ng-if="replicaSet.spec.template.spec.volumes"
+                <div class="h15"></div>
+                <h3 class="df_tit">Volumes</h3>
+                <div ng-if="replicaSet.spec.template.spec.volumes" class="df_left_set"
                      ng-repeat="volume in replicaSet.spec.template.spec.volumes">
                     <div class="row matgin-txt">
-                        <div class="col-md-2">volumeName:</div>
+                        <div class="col-md-2 df_w_set">volumeName:</div>
                         <div class="col-md-10">{{volume.name}}</div>
                     </div>
                     <div ng-if="volume.secret">
                         <div class="row matgin-txt">
-                            <div class="col-md-2">Type:</div>
+                            <div class="col-md-2 df_w_set">Type:</div>
                             <div class="col-md-10">secret<span class="small text-muted">(populated by a secret when the pod is created)</span>
                             </div>
                         </div>
                         <div class="row matgin-txt">
-                            <div class="col-md-2">Secret:</div>
+                            <div class="col-md-2 df_w_set">Secret:</div>
                             <div class="col-md-10">{{volume.secret.secretName}}</div>
                         </div>
                         <div class="row matgin-txt" ng-repeat="item in volume.secret.items">
-                            <div class="col-md-2">Key to File:</div>
+                            <div class="col-md-2 df_w_set">Key to File:</div>
                             <div class="col-md-10">{{item.key}}&#8201;&#8594;&#8201;{{item.path}}</div>
                         </div>
                     </div>
                     <div ng-if="volume.configMap">
                         <div class="row matgin-txt">
-                            <div class="col-md-2">Type:</div>
+                            <div class="col-md-2 df_w_set">Type:</div>
                             <div class="col-md-10">config map<span
                                     class="small text-muted">((populated by a config map)</span></div>
                         </div>
                         <div class="row matgin-txt">
-                            <div class="col-md-2">Secret:</div>
+                            <div class="col-md-2 df_w_set">Secret:</div>
                             <div class="col-md-10">{{volume.configMap.name}}</div>
                         </div>
                         <div class="row matgin-txt" ng-repeat="item in volume.configMap.items">
-                            <div class="col-md-2">Key to File:</div>
+                            <div class="col-md-2 df_w_set">Key to File:</div>
                             <div class="col-md-10">{{item.key}}&#8201;&#8594;&#8201;{{item.path}}</div>
                         </div>
                     </div>
                     <div ng-if="volume.persistentVolumeClaim">
                         <div class="row matgin-txt">
-                            <div class="col-md-2">Type:</div>
+                            <div class="col-md-2 df_w_set">Type:</div>
                             <div class="col-md-10">persistent volume claim<span class="small text-muted">(reference to a persistent volume claim)</span>
                             </div>
                         </div>
                         <div class="row matgin-txt">
-                            <div class="col-md-2">Claim name:</div>
+                            <div class="col-md-2 df_w_set">Claim name:</div>
                             <div class="col-md-10">{{volume.persistentVolumeClaim.claimName}}</div>
                         </div>
                         <div class="row matgin-txt">
-                            <div class="col-md-2">Mode:</div>
+                            <div class="col-md-2 df_w_set">Mode:</div>
                             <div class="col-md-10" ng-if="volume.persistentVolumeClaim.readOnly">read-only</div>
                             <div class="col-md-10" ng-if="!volume.persistentVolumeClaim.readOnly">read-write</div>
                         </div>
                     </div>
 
                 </div>
-                <div ng-if="!replicaSet.spec.template.spec.volumes" class="row matgin-txt">
+                <div ng-if="!replicaSet.spec.template.spec.volumes" class="row matgin-txt df_left_set">
                     <div class="col-md-10">none</div>
                 </div>
-                <h4 class="subtitle">Pods</h4>
+                <div class="h15"></div>
+                <h3 class="df_tit">Pods</h3>
                 <div class="table-responsive" style="margin-top: 20px;">
                     <table class="table table-hover table-default">
                         <tr>
@@ -188,15 +192,15 @@
                     <div ng-if="envOrigin.name">
                         <h3 class="df_tit">容器 {{envOrigin.name}} 的环境变量</h3>
                         <div ng-if="envOrigin.env">
-                            <div class="form_block">Name</div>
-                            <div class="form_block">Value</div>
+                            <!-- <div class="form_block">Name--</div>
+                            <div class="form_block">Value</div> -->
                             <div class="envi_main" ng-repeat="env in envOrigin.env">
                                 <div class="form_block">
-                                    <input type="text" class="form-control" readonly="readonly" value={{env.name}}>
+                                    <input class="col-md-11 input-key ng-pristine ng-untouched ng-valid ng-not-empty" value={{env.name}} type="text" ng-disabled="true" style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:text;height:32px;line-height:32px;padding:6px 12px;font-size:12px;" disabled="disabled">
                                 </div>
 
                                 <div class="form_block">
-                                    <input type="text" class="form-control" readonly="readonly" value={{env.value}}>
+                                    <input class="col-md-11 input-key ng-pristine ng-untouched ng-valid ng-not-empty" value={{env.value}} type="text" ng-disabled="true" style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:text;height:32px;line-height:32px;padding:6px 12px;font-size:12px;" disabled="disabled">
                                 </div>
                             </div>
                         </div>

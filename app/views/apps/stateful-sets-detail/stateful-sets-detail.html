@@ -1,4 +1,4 @@
-<div id="stateful-sets-detail" class="df_frame">
+<div id="stateful-sets-detail" class="df_frame" confull-height>
 
      <!-- module common 公共-->
      <div class="module-heading">
@@ -42,7 +42,7 @@
             </div>
             <div class="row matgin-bt">
                 <div class="col-md-2 width150 color666">命令:</div>
-                <div class="col-md-10"><code class="command"><span ng-repeat="command in statefuldetail.spec.template.spec.containers[0].command">{{command}}&nbsp;&nbsp;</span></code></div>
+                <div class="col-md-10"><code class="command" style="background:none;"><span ng-repeat="command in statefuldetail.spec.template.spec.containers[0].command">{{command}}&nbsp;&nbsp;</span></code></div>
             </div>
             <div class="row matgin-bt" ng-repeat="mount in statefuldetail.spec.template.spec.containers[0].volumeMounts">
                 <div class="col-md-2 width150 color666">挂载:</div>
@@ -86,13 +86,14 @@
                     <div class="col-md-10">{{template.spec.resources.requests.storage}}</div>
                 </div>
             </div>
+            <div class="h15"></div>
             <div ng-if="statefuldetail.spec.template.spec.volumes" class="df_tit">卷</div>
             <div ng-if="statefuldetail.spec.template.spec.volumes"  ng-repeat="volume in statefuldetail.spec.template.spec.volumes">
                 <div class="row matgin-bt">
                     <div class="col-md-2 width150 color666">名称:</div>
                     <div class="col-md-10">{{volume.name}}</div>
                 </div>
-                <div ng-if="volume.secret" style="padding-top:10px;">
+                <div ng-if="volume.secret">
                     <div class="row matgin-bt" >
                         <div class="col-md-2 width150 color666">类型:</div>
                         <div class="col-md-10">密钥卷<span class="small text-muted">(secret)</span></div>
@@ -106,7 +107,7 @@
                         <div class="col-md-10">{{item.key}}&#8201;&#8594;&#8201;{{item.path}}</div>
                     </div>
                 </div>
-                <div ng-if="volume.configMap" style="padding-top: 10px;">
+                <div ng-if="volume.configMap">
                     <div class="row matgin-bt" >
                         <div class="col-md-2 width150 color666">类型:</div>
                         <div class="col-md-10">配置卷<span class="small text-muted">(configmap)</span></div>
@@ -120,7 +121,7 @@
                         <div class="col-md-10">{{item.key}}&#8201;&#8594;&#8201;{{item.path}}</div>
                     </div>
                 </div>
-                <div ng-if="volume.persistentVolumeClaim" style="padding-top: 10px;">
+                <div ng-if="volume.persistentVolumeClaim">
                     <div class="row matgin-bt" >
                         <div class="col-md-2 width150 color666">类型:</div>
                         <div class="col-md-10">存储卷<span class="small text-muted">(persistent volume claim)</span></div>
@@ -136,6 +137,7 @@
                 </div>
 
             </div>
+            <div class="h15"></div>
             <div class="df_tit">Pods</div>
             <div class="table-responsive">
                 <table class="table table-hover table-default">

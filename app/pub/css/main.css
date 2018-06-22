@@ -146,7 +146,7 @@ a {
 }
 
 .btn-Iknow:hover {
-    background-color: #e5993a;
+    background-color: #47B2FB;
 }
 .btn-resources {
     width: 80px!important;
@@ -237,8 +237,8 @@ a {
 }
 
 .icon12 {
-    width: 12px;
-    height: 12px;
+    /* width: 12px;
+    height: 12px; */
 }
 
 .icon25-panel {
@@ -1929,7 +1929,7 @@ td  a:hover, a:focus{
     content:"\e954";
     color:#A2B0C4;
 }
-
+/* 搜索 */
 .uex-icon-search:before {
     content: "\e91d";
     color:#A2B0C4;
@@ -2086,3 +2086,6 @@ td  a:hover, a:focus{
 .public_border:hover{border:1px solid #47B2FB;}
 .df_deplay_h:hover{background:#E0E6ED;}
 .df_normal_set{font-style: normal;}
+.h15{height:15px;clear:both;overflow:hidden;}
+.df_w_set{width:160px!important;}
+.detail_tit{color:#A2B0C4;}

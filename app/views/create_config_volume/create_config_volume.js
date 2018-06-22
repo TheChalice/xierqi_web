@@ -17,8 +17,7 @@ angular.module('console.create_config_configMap', [
         configpost: false,
         keychongfu: false,
         keybuhefa: false,
-        keynull: false,
-        lableKey: false
+        keynull: false
     };
     //排序
     var by = function (name) {
@@ -60,13 +59,13 @@ angular.module('console.create_config_configMap', [
         reader.readAsText(file);
 
     };
+
     //delete key value
     $scope.deletekv = function (idx) {
         $scope.volume.configitems.splice(idx, 1);
     };
     //添加配置文件
     $scope.AddConfigurationFile = function () {
-        $scope.grid.lableKey = true;
         $scope.volume.configitems.push({key: '', value: '', isClearCode: false});
     };
     // clear code
@@ -91,17 +90,6 @@ angular.module('console.create_config_configMap', [
         rexed: false,
         repeated: false
     };
-    // $scope.nameblur = function () {
-    //     if (!$scope.volume.metadata.name) {
-    //         $scope.namerr.nil = true
-    //     } else {
-    //         $scope.namerr.nil = false
-    //     }
-    // };
-    $scope.namefocus = function () {
-        $scope.namerr.nil = false
-    };
-
     $scope.$watch('volume.metadata.name', function (n, o) {
         if (n === o) {
             return;

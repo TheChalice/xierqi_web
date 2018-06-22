@@ -6,70 +6,6 @@
         </div>
     </div>
     <div ng-show="persistents">
-        <!-- <div class="panel panel-default" style="margin-bottom: 50px">
-            <div class="panel-heading">
-                <span class="panel-title">
-                    <span class="icon25 configicon"></span>&nbsp;&nbsp;{{name}}
-                </span>
-                <a class="btn btn-gray pull-right" style=" padding: 6px 12px; margin-left: 15px;font-size:14px;" ng-click="delete()">
-                   
-                    删除
-                </a>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <div class="media media-sm">
-                            <div class="media-left">
-                                <img class="media-object" src="views/build_detail/img/images_104.png">
-                            </div>
-                            <div class="media-body">
-
-                                <h4 class="media-heading">更新时间</h4>
-                                <small uib-tooltip="{{persistents.metadata.creationTimestamp | timescon}}">
-                                    {{persistents.metadata.creationTimestamp | dateRelative}}
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                        <div class="media media-sm">
-                           
-                            <div class="media-body">
-
-                                <h4 class="media-heading">存储卷大小</h4>
-                                <small style="color: #5a6378;">{{persistents.spec.resources.requests.storage}}</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                        <div class="media media-sm">
-                         
-                            <div class="media-body">
-
-                                <h4 class="media-heading">存储卷状态</h4>
-                                <small style="color: #5a6378;">{{guazai}}</small>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-3">
-                        <div class="media media-sm">
-                           
-                            <div class="media-body">
-
-                                <h4 class="media-heading">挂载服务数量</h4>
-                                <small style="color: #5a6378;">{{persistents.arr.length}}</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-
-
         <!-- module common 公共-->
         <div class="module-heading">
             <div class="module_block_l">
@@ -100,46 +36,48 @@
 
             <div class="module_block_r">
                 <a class="btn btn-gray pull-right" style=" padding: 6px 12px; margin-left: 15px;font-size:14px;" ng-click="delete()">
-                    <!-- <i class="fa fa-trash-o fa-lg"></i> -->
-                    删除
+                    <i class="uex-icon-delete"></i>
                 </a>
             </div>
         </div>
         <!-- module common 公共-->
-
-
-
         <uib-tabset class="tab-default tab-jia-default" active="active">
             <uib-tab index="1">
                 <uib-tab-heading>
-                    <!-- <i class="icon20 icon20-paper"></i>  -->
                     挂载信息
                 </uib-tab-heading>
-                <div class="panel-default">
-                    <div class="panel-heading">
-                        <p>挂载的服务列表</p>
-                    </div>
-                    <div class="panel-body" style="padding:0">
-                        <ul style="padding: 0;margin: 0;">
-                            <li ng-repeat="item in persistents.arr" class="listitems" style="list-style: none;height: 60px;line-height: 60px;">
-                                <a class="listitem" ui-sref="console.service_details({name:item})">
+                <div class="table-responsive">
+                    <table class="table table-hover table-default">
+                        <tr>
+                            <th class="col-lg-3 col-md-2 col-sm-1">名称</th>
+                            <th class="col-lg-2 col-md-2 col-sm-1"></th>
+                            <th class="col-lg-3 col-md-2 col-sm-1"></th>
+                            <th class="col-lg-2 col-md-2 col-sm-1"></th>
+                            <th class="col-lg-2 col-md-2 col-sm-1"></th>
+                        </tr>
+                        <tr ng-repeat="item in persistents.arr">
+                            <td class="poda" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
+                                <a class="href-orange" ui-sref="console.deploymentconfig_detail({namespace:namespace,name:item})">
                                     {{item}}
                                 </a>
-                            </li>
-                            <div class="constantly_main"
-                                ng-if="persistents.arr.length===0">
-                                <p class="blank_block">
-                                    <span class="blank_tit">当前列表暂时没有挂载服务</span>
-                                </p>
-                            </div>
-                        </ul>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                    <div class="ng-scope border_background" ng-if="persistents.arr.length===0">
+                        <span class="dot"></span>
+                        <span class="dot_blank"></span>
+                        <p class="blank_block">
+                            <span class="blank_tit">当前列表暂时没有挂载服务</span>
+                        </p>
                     </div>
                 </div>
             </uib-tab>
         </uib-tabset>
     </div>
-
-
 </div>
 <style>
     .constantly_main{height:120px;position:relative;text-align:center;}

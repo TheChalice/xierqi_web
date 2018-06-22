@@ -33,29 +33,6 @@
                 <uib-tab-heading>
                     配置卷信息
                 </uib-tab-heading>
-                <div style="border: solid 1px #E0E6ED;margin-bottom: 10px;" ng-repeat="item in volume.configarr">
-                    <div class="row" style="margin: 0;">
-                        <div style="padding: 15px;border-radius: 2px;">
-                            <p class="create_secret_key">
-                                <span>键</span>
-                                <span ng-click="deleteOriginkv($index)" class="create_secret_delete">
-                                    <i class="uex-icon-delete"></i>
-                                </span>
-                            </p>
-                            <p class="create_secret_content_p">
-                                <input class="create_secret_content_ipt" type="text" placeholder="请输入键"
-                                       ng-model="item.key">
-                            </p>
-                            <p class="create_secret_content_p create_secret_content_addfile">
-                                <span>值</span>
-                                <span class="create_secret_delete" ng-click="clearOriginCode($index)">清空代码</span>
-                            </p>
-                            <p class="create_secret_content_p">
-                                <textarea ng-model="item.value" class="testt"></textarea>
-                            </p>
-                        </div>
-                    </div>
-                </div>
                 <div style="border: solid 1px #E0E6ED;margin-top: 10px;margin-bottom: 10px;" ng-repeat="item in volume.configitems">
                     <div class="row" style="margin: 0;">
                         <div style="padding: 15px;border-radius: 2px;">
@@ -90,7 +67,7 @@
                                     添加文件
                                     <input type="file" id="file-input" class="upload_addfile upLoadFile" value="选择"/>
                                 </span>
-                                <span class="create_secret_delete" ng-show="item.isClearCode"
+                                <span class="create_secret_delete" ng-if="item.value"
                                       ng-click="clearCode($index)">清空代码</span>
                             </p>
                             <p class="create_secret_content_p">
@@ -101,7 +78,6 @@
                 </div>
                 <div class="row" style="margin-left: 0;">
                     <div class="col-sm-12" style="padding-left: 0;" ng-click="AddConfigurationFile()">
-                        <!--<span class="uex-icon-add" style="cursor:pointer;font-size: 12px;color: #47B2FB;">添加配置文件</span>-->
                         <span style="cursor:pointer;font-size: 12px;color: #47B2FB;">
                             <i class="uex-icon-add" style="margin-right: 5px;"></i>添加配置文件</span>
                     </div>
@@ -113,10 +89,6 @@
                style="background-color: #47B2FB;margin: 0 auto; color: white; "
                ng-click="cearteconfig()">保存修改</a>
         </div>
-        <!--<div style="width: 100%;height: 1px;border: solid 1px #e0e6ed"></div>-->
-
-        <!--<a href="javascript:;" ng-if="!grid.configpost" disabled="disabled" class="btn create btn-resources"-->
-           <!--style="background-color: #ccc; margin: 0 auto; margin-top: 20px; color: white; ">保存修改</a>-->
     </div>
 </div>
 <style>
@@ -189,6 +161,7 @@
     }
 
     #config-detail .create_secret_add {
+        padding-left: 20px;
         cursor: pointer;
         font-size: 12px;
         color: #47B2FB;

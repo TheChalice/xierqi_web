@@ -33,7 +33,7 @@
                         </small>
                     </div>
                 </div>
-                <div class="row" ng-if="grid.lableKey" style="position: relative;margin-top: 28px;">
+                <div class="row" ng-if="volume.configitems.length" style="position: relative;margin-top: 28px;">
                     <div class="require"
                          style="width: 120px;font-size: 12px;position: absolute;top: 0;left:15px;z-index: 100;">
                         配置卷文件
@@ -75,7 +75,7 @@
                                                 <input type="file" id="file-input" class="upload_addfile upLoadFile"
                                                        value="选择"/>
                                             </span>
-                                            <span class="create_secret_delete" ng-show="item.isClearCode"
+                                            <span class="create_secret_delete" ng-if="item.value"
                                                   ng-click="clearCode($index)">清空代码</span>
                                         </p>
                                         <p class="create_secret_content_p">
