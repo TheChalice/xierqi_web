@@ -579,6 +579,8 @@ angular.module("console.header", [{
                     return "部署镜像"
                 case "console.rs":
                     return "部署镜像"
+                case "console.deployment_detail":
+                    return "部署镜像";
                 case "console.quick_deploy":
                     return "部署镜像"
                 case "console.uploadimage":
