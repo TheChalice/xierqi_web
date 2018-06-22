@@ -540,14 +540,18 @@ angular.module('console.service.create', [
 
             //console.log($stateParams);
             if ($stateParams.imagetype === 'myimage') {
+                $scope.checkimage=1
                 $scope.checked = {
                     namespace: $rootScope.namespace,
                     image: $stateParams.imagename,
                     tag: $stateParams.imagetag
                 }
                 $scope.tocheckedtag($stateParams.message,0,$scope.checked,$scope.istag)
-            }else {
-
+            }else if($stateParams.imagetype === 'ourimage'){
+                $scope.checkimage=2
+                console.log($stateParams);
+                $scope.postobj=$stateParams.postobj;
+                $scope.ourimage($stateParams.image,0,$stateParams.postobj)
             }
 
             function dcname(n, image) {
