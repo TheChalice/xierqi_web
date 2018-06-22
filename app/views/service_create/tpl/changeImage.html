@@ -17,7 +17,7 @@
                     </div>
                     <div>
                         <div class="dropdown dropdown-select" style="min-width: 167px;height: 26px;margin-right: 36px;">
-                            <button  class="btn dropdown-toggle" data-toggle="dropdown" style="height: 26px;">
+                            <button  class="btn dropdown-toggle" data-toggle="dropdown" style="height: 26px;padding: 0px 12px;">
                                 <span>{{checked.image}}</span>
                                 <span class="caret"></span>
                             </button>
@@ -29,7 +29,7 @@
                             </ul>
                         </div>
                         <div class="dropdown dropdown-select" style="min-width: 167px;height: 26px;">
-                            <button  class="btn dropdown-toggle" data-toggle="dropdown" style="height: 26px;"
+                            <button  class="btn dropdown-toggle" data-toggle="dropdown" style="height: 26px;padding: 0px 12px;"
                             >
                                 <span>{{checked.tag}}</span>
                                 <span class="caret"></span>
@@ -55,11 +55,7 @@
                 </uib-tab-heading>
                 <div class="row" style="">
                     <div class="col-md-10" style="padding: 0px; ">
-                        <p>
-                            <small ng-show="err.url.null" class="fa fa-info-circle err-tip">请输入正确的镜像地址</small>
-                            <small ng-show="err.url.notfind" class="fa fa-info-circle err-tip">找不到镜像</small>
-                            <small ng-show="err.url.role" class="fa fa-info-circle err-tip">没有访问权限</small>
-                        </p>
+
                         <input autocomplete="off" type="text"
                                name="serviceName"
                                ng-model="postobj.spec.images[0].from.name"
@@ -71,6 +67,11 @@
                         <span class="input-group-btn" style="position: relative;border-radius: 4px;">
                                                         <a class="btn" style="margin-top:3px;margin-left:7px;background-size: contain;" ng-click="find()"></a>
                                                     </span>
+                        <p style="margin: 0px;padding-top: 10px;">
+                            <small ng-show="err.url.null" class="fa fa-info-circle err-tip">请输入正确的镜像地址</small>
+                            <small ng-show="err.url.notfind" class="fa fa-info-circle err-tip">找不到镜像</small>
+                            <small ng-show="err.url.role" class="fa fa-info-circle err-tip">没有访问权限</small>
+                        </p>
                         <div style="height: 24px;margin-top: 5px;">
                             <p  style="margin:0px;">
                                 <label ng-class="{'active':institution.configregistry}"
@@ -89,19 +90,19 @@
 
                     </div>
 
-
-
                 </div>
             </uib-tab>
         </uib-tabset>
         <div class="row" >
-            <div class="" style="height: 60px;border: 1px solid #CCD5E0;border-radius: 4px;width: 375px;">
-                <div class="col-md-2"></div>
-                <div class="col-md-10" >
-                     <p style="margin:0px;height: 24px;line-height: 24px;">{{dc.spec.template.spec.containers[0].name}}</p>
+            <div class="" style="height: 60px;border: 1px solid #CCD5E0;border-radius: 4px;width: 375px;" ng-show="dc.spec.template.spec.containers[0].name && dc.spec.template.spec.containers[0].creattime">
+                <div class="col-md-2" style="height: 60px;text-align: center;padding: 0px;">
+                    <span style="display: inline-block;width: 30px;height: 38px;border: 1px solid #ccc;margin-top:10px;border-radius: 4px;"></span>
+                </div>
+                <div class="col-md-10" style="padding-left: 0px;">
+                     <p style="margin:0px;height: 24px;line-height: 24px;font-weight: bold;margin-top:5px;">{{dc.spec.template.spec.containers[0].name}}</p>
                      <div class="row">
                          <div class="col-md-6" style="padding:0px;"><span class="service-label-color">创建时间：</span>{{dc.spec.template.spec.containers[0].creattime|timescon3}}</div>
-                         <div class="col-md-6" style="padding:0px;"><span class="service-label-color">导出端口：</span>{{dc.spec.template.spec.containers[0].strport}}</div>
+                         <div class="col-md-6" style="padding:0px;"><span class="service-label-color">导出端口：</span>{{dc.spec.template.spec.containers[0].strport || "-"}}</div>
                      </div>
                 </div>
             </div>

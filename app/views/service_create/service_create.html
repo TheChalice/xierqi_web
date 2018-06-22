@@ -1,6 +1,6 @@
-<div class="service-create" style="margin-top:50px">
+<div class="service-create" style="margin-top:50px;padding:20px" >
     <form name="frm">
-        <div class="row ">
+        <div class="row panel">
             <div class="col-md-12">
                 <div class="info">
                 </div>
@@ -13,7 +13,7 @@
             <div ng-show="!advancedConfig" class="col-md-12" style="padding:20px">
                 <div >
                     <div class="service-config">
-                        <div class="panel panel-jia-create" style="padding:20px">
+                        <div class="" style="">
                             <!--<div class="panel-heading panel-title" style="font-weight: bold;font-size: 16px;background:none;font-weight:normal;">-->
                                 <!--基础配置-->
                             <!--</div>-->
@@ -47,10 +47,10 @@
                     </div>
                 </div>
             </div>
-            <div ng-show="advancedConfig" class="col-md-12" style="padding:20px">
-                <div class="panel panel-jia-create" style="padding:20px">
-                    <h3 class="df_tit" style="padding-left:10px">配置：nodejs-mongodb-example</h3>
-                    <div class="col-md-12 continerboxs">
+            <div ng-show="advancedConfig" class="col-md-12" style="padding: 0px">
+                <div class="" style="padding:20px 10px 20px 20px">
+                    <h3 class="df_tit" style="padding-left:10px">配置</h3>
+                    <div class="col-md-12 continerboxs" style="padding-right:0px;">
 
                         <dc-containers> </dc-containers>
                         <a href="javascript:;" style="line-height: 40px; margin-bottom: 10px" class="href-add"
@@ -146,16 +146,19 @@
                 </div>
 
             </div>
-            <div class="col-md-6"  style="padding-right: 40px;padding-bottom: 20px;">
+            <div class="row"  style=" width: 100%; float: left; padding-left: 20px;">
+                    <div style="border-top: 1px solid #E0E6ED; overflow: hidden; height: 70px;padding:20px 20px 20px 0px;">
+                        <a href="javascript:;" class="btn btn-block btn-orange"  ng-show="!advancedConfig" style="margin-right:20px;color: white;width: 110px;height: 26px;display:inline-block;padding:0px;line-height: 26px;" ng-click="jump()">
+                            进入高级配置
+                        </a>
+                        <a href="javascript:;" ng-click="createDc()"
+                           class="btn btn-block btn-orange"
+                           style="color: white;width: 80px;height: 26px;display:inline-block;margin-top:0px;padding:0px;line-height: 26px;">
+                            创建服务
+                        </a>
+                    </div>
 
-                    <a href="javascript:;" class="btn btn-block btn-orange"  ng-show="!advancedConfig" style="color: white;width: 110px;height: 26px;display:inline-block;padding:0px;line-height: 26px;" ng-click="jump()">
-                   进入高级配置
-                    </a>
-                <a href="javascript:;" ng-click="createDc()"
-                   class="btn btn-block btn-orange"
-                   style="color: white;width: 80px;height: 26px;display:inline-block;margin-top:0px;margin-left:20px;padding:0px;line-height: 26px;">
-                    创建服务
-                </a>
+
             </div>
             <!--<div class="col-md-6" style="padding-left: 40px;">-->
                 <!--<a href="javascript:;" ng-click="frm.$valid && createDc()"-->
@@ -165,9 +168,9 @@
                     <!--创建服务-->
                 <!--</a>-->
             <!--</div>-->
-            <div class="col-md-6" style="padding-left: 40px;">
+            <!--<div class="col-md-6" style="padding-left: 40px;">-->
 
-            </div>
+            <!--</div>-->
         </div>
     </form>
 </div>
