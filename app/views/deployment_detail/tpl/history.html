@@ -1,33 +1,45 @@
-
 <!--<div class="bounce3"></div>-->
 <!--<img ng-show='lding' class="spinner" src="pub/img/loading.gif" alt="">-->
 <!--</div>-->
 <div class="timeline">
     <ul>
         <li ng-repeat="item in replicaset">
-            <label>
+            <!-- <label>
                 <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
                 {{item.metadata.creationTimestamp | dateRelative}}
-            </label>
+            </label> -->
+            <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="dot_blank"></span>
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-sm-3 " >
+                    <div class="col-sm-3">
+                        <span class="detail_tit">构建时间：</span>
+                        <label class="build_name">
+                            {{item.metadata.creationTimestamp | timescon}}
+                        </label>
+                    </div>
+
+                    <div class="col-sm-3 ">
+                        <span class="detail_tit">版本：</span>
                         <a class="dList href-orange" style="cursor: pointer;" ui-sref="console.rs({namespace:namespace,name:item.metadata.name})">
                             #{{item.metadata.annotations['deployment.kubernetes.io/revision']}}
                         </a>
                     </div>
-                    <div class="col-sm-3" >
-                        <span>
+                    <div class="col-sm-3">
+                        <span class="detail_tit">名称：</span>
+                        <label class="build_name">
                             {{item.metadata.name}}
-                        </span>
+                        </label>
+
                         <!--switch to Chinese-->
 
                     </div>
-                    <div class="col-sm-3">
 
-                    </div>
                     <div class="col-sm-3">
-                        <span >{{item.spec.replicas}}&nbsp;&nbsp;&nbsp;&nbsp;replicas</span>
+                        <span class="detail_tit">副本：</span>
+                        <label class="build_name">
+                            {{item.spec.replicas}}&nbsp;&nbsp;replicas
+                        </label>
 
                     </div>
                 </div>
@@ -45,4 +57,3 @@
         </li>
     </ul>
 </div>
-
