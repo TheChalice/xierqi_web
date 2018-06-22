@@ -61,14 +61,26 @@
                         <div style="padding: 15px;border-radius: 2px;">
                             <p class="create_secret_key">
                                 <span>键</span>
-                                <small ng-if="grid.keybuhefa" class="err-tip"><i class="fa fa-info-circle"></i>&nbsp;key值不合法</small>
-                                <small ng-if="grid.keychongfu" class="err-tip"><i class="fa fa-info-circle"></i>&nbsp;key值重复</small>
+                                <small ng-if="item.err.key.nil" class="err-tip">
+                                    <i
+                                            class="fa fa-info-circle"></i>&nbsp;key值为空
+                                </small>
+                                <small ng-if="item.err.key.rexed" class="err-tip">
+                                    <i
+                                            class="fa fa-info-circle"></i>&nbsp;key值不合法
+                                </small>
+                                <small ng-if="item.err.key.repeated" class="err-tip">
+                                    <i
+                                            class="fa fa-info-circle"></i>&nbsp;key值重复
+                                </small>
                                 <span ng-click="deletekv($index)" class="create_secret_delete">
                                     <i class="uex-icon-delete"></i>
                                 </span>
                             </p>
                             <p class="create_secret_content_p">
-                                <input class="create_secret_content_ipt" type="text" placeholder="请输入键"
+                                <input class="create_secret_content_ipt"
+                                       ng-class="{'err':item.err.key.repeated||item.err.key.rexed||item.err.key.nil}"
+                                       type="text" placeholder="请输入键"
                                        ng-model="item.key">
                             </p>
                             <p class="create_secret_content_p create_secret_content_addfile">
@@ -96,12 +108,15 @@
                 </div>
             </uib-tab>
         </uib-tabset>
-        <div style="width: 100%;height: 1px;border: solid 1px #e0e6ed"></div>
-        <a href="javascript:;" ng-if="grid.configpost" class="btn create btn-resources"
-           style="background-color: #47B2FB;margin: 0 auto; margin-top: 20px; color: white; "
-           ng-click="cearteconfig()">保存修改</a>
-        <a href="javascript:;" ng-if="!grid.configpost" disabled="disabled" class="btn create btn-resources"
-           style="background-color: #ccc; margin: 0 auto; margin-top: 20px; color: white; ">保存修改</a>
+        <div class="creatfooter" style="">
+            <a href="javascript:;" class="btn create btn-resources"
+               style="background-color: #47B2FB;margin: 0 auto; color: white; "
+               ng-click="cearteconfig()">保存修改</a>
+        </div>
+        <!--<div style="width: 100%;height: 1px;border: solid 1px #e0e6ed"></div>-->
+
+        <!--<a href="javascript:;" ng-if="!grid.configpost" disabled="disabled" class="btn create btn-resources"-->
+           <!--style="background-color: #ccc; margin: 0 auto; margin-top: 20px; color: white; ">保存修改</a>-->
     </div>
 </div>
 <style>
@@ -114,7 +129,9 @@
         width: 110px;
         height: 24px
     }
-
+    #config-detail .err {
+        border: 1px solid red;
+    }
     .diantiao:hover {
         background-color: #f7f8fb;
     }

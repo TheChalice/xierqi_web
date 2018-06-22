@@ -17,10 +17,10 @@ angular.module('console.config_detail', [
                 console.log(res);
                 $scope.volume = res;
                 $scope.volume.configitems = [];
-                $scope.volume.configarr = [];
+                //$scope.volume.configitems = [];
                 $scope.change = false;
                 angular.forEach($scope.volume.data, function (item, i) {
-                    $scope.volume.configarr.push({key: i, value: item, showLog: false, isEdit: false});
+                    $scope.volume.configitems.push({key: i, value: item, showLog: false, isEdit: false});
                 })
             }, function (err) {
                 $state.go('console.resource_configMap', {namespace: $rootScope.namespace});
@@ -48,53 +48,53 @@ angular.module('console.config_detail', [
                 reader.readAsText(file);
             };
 
-            $scope.$watch('volume', function (n, o) {
-                if (n == o) {
-                    return
-                }
-                //console.log(n);
-                $scope.grid.keychongfu = false;
-                $scope.grid.keynull = false;
-                $scope.grid.keybuhefa = false;
-                if (!$scope.change) {
-                    $scope.change = true;
-                    return
-                } else {
-                    if (n.configarr) {
-                        var arr = n.configarr.concat(n.configitems);
-                        arr.sort(by.open("key"));
-                        //console.log(arr);
-                        if (arr && arr.length > 0) {
-                            var kong = false;
-                            var r = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
-                            angular.forEach(arr, function (item, i) {
-                                if (!item.key || !item.value) {
-                                    $scope.grid.keynull = true;
-                                    kong = true;
-                                } else {
-                                    if (arr[i] && arr[i + 1]) {
-                                        if (arr[i].key == arr[i + 1].key) {
-                                            $scope.grid.keychongfu = true;
-                                            kong = true;
-                                        }
-                                    }
-                                    if (!r.test(arr[i].key)) {
-                                        $scope.grid.keybuhefa = true;
-                                        kong = true;
-                                    }
-                                }
-                            });
-                            if (!kong) {
-                                $scope.grid.configpost = true
-                            } else {
-                                $scope.grid.configpost = false
-                            }
-                        } else {
-                            $scope.grid.configpost = false
-                        }
-                    }
-                }
-            }, true);
+            //$scope.$watch('volume', function (n, o) {
+            //    if (n == o) {
+            //        return
+            //    }
+            //    //console.log(n);
+            //    $scope.grid.keychongfu = false;
+            //    $scope.grid.keynull = false;
+            //    $scope.grid.keybuhefa = false;
+            //    if (!$scope.change) {
+            //        $scope.change = true;
+            //        return
+            //    } else {
+            //        if (n.configarr) {
+            //            var arr = n.configarr.concat(n.configitems);
+            //            arr.sort(by.open("key"));
+            //            //console.log(arr);
+            //            if (arr && arr.length > 0) {
+            //                var kong = false;
+            //                var r = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
+            //                angular.forEach(arr, function (item, i) {
+            //                    if (!item.key || !item.value) {
+            //                        $scope.grid.keynull = true;
+            //                        kong = true;
+            //                    } else {
+            //                        if (arr[i] && arr[i + 1]) {
+            //                            if (arr[i].key == arr[i + 1].key) {
+            //                                $scope.grid.keychongfu = true;
+            //                                kong = true;
+            //                            }
+            //                        }
+            //                        if (!r.test(arr[i].key)) {
+            //                            $scope.grid.keybuhefa = true;
+            //                            kong = true;
+            //                        }
+            //                    }
+            //                });
+            //                if (!kong) {
+            //                    $scope.grid.configpost = true
+            //                } else {
+            //                    $scope.grid.configpost = false
+            //                }
+            //            } else {
+            //                $scope.grid.configpost = false
+            //            }
+            //        }
+            //    }
+            //}, true);
             $scope.cdEnter = function (idx) {
                 $('div[class~="diantiao"]')[idx].style.backgroundColor = '#f7f8fb';
             };
@@ -143,17 +143,59 @@ angular.module('console.config_detail', [
             };
             //保存修改--- 请求后台接口
             $scope.isCreate = true;
+            function keyerr(arr) {
+                console.log('arr,', arr);
+                var rex = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
+                var cancreat = true
+                angular.forEach(arr, function (item, i) {
+                    if (item.key === '') {
+                        cancreat = false;
+                        item.err.key.nil = true
+                    } else if (!rex.test(item.key)) {
+                        cancreat = false;
+                        item.err.key.rexed = true
+                    } else {
+                        angular.forEach(arr, function (initem, k) {
+                            if (i !== k) {
+                                if (item.key === initem.key) {
+                                    cancreat = false;
+                                    item.err.key.repeated = true;
+                                    initem.err.key.repeated = true;
+                                }
+                            }
+                        })
+                    }
+                });
+                if (cancreat) {
+                    return 'cancreat'
+                } else {
+                    return 'dontcreat'
+                }
+            }
             $scope.cearteconfig = function () {
 
-
-
-                $scope.isCreate = false;
-                var arr = $scope.volume.configitems.concat($scope.volume.configarr);
+                //$scope.isCreate = false;
+                //var arr = $scope.volume.configitems.concat($scope.volume.configarr);
                 $scope.volume.data = {};
 
+                angular.forEach($scope.volume.configitems, function (item, i) {
+                    $scope.volume.configitems[i].err = {
+                        key: {
+                            nil: false,
+                            rexed: false,
+                            repeated: false
+                        }
+                    }
+
+                })
+                console.log('keyerr($scope.volume.configitems)', keyerr($scope.volume.configitems));
+                if (keyerr($scope.volume.configitems) !== 'cancreat') {
+
+                    return
+                }
 
 
-                angular.forEach(arr, function (item, i) {
+                angular.forEach($scope.volume.configitems, function (item, i) {
                     $scope.volume.data[item.key] = item.value;
                 });
                 delete $scope.volume.configarr;
