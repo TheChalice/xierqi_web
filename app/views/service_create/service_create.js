@@ -55,10 +55,18 @@ angular.module('console.service.create', [
             DeploymentConfig.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
                 $scope.servelist = data;
             })
-
+            ///////containers展开收缩
+            $scope.pickdown = function (idx) {
+                if($scope.dc.spec.template.spec.containers[idx].retract){
+                    $scope.dc.spec.template.spec.containers[idx].retract = false;
+                }else{
+                    $scope.dc.spec.template.spec.containers[idx].retract = true;
+                }
+            }
 
             $scope.addContainer = function () {
                 $scope.dc.spec.template.spec.containers.push({
+                    retract:true,
                     "name": '',
                     "image": '',
                     'env': [{name: '', value: ''}],
@@ -264,6 +272,7 @@ angular.module('console.service.create', [
                         "spec": {
                             "volumes": [],
                             "containers": [{
+                                retract:true,
                                 "name": '',
                                 "image": '',
                                 'env': [{name: '', value: ''}],
@@ -1059,7 +1068,7 @@ angular.module('console.service.create', [
                             $scope.postobj.spec.images[0].from.name = $scope.postobj.spec.images[0].from.name.replace(/^\s+|\s+$/g, "");
                             imagestreamimports.create({namespace: $rootScope.namespace}, $scope.postobj, function (images) {
                                 $scope.finding = false;
-                                $scope.ourimage(images,$scope.postobj)
+                                $scope.ourimage(images,0,$scope.postobj)
 
                                 //$scope.showall = true;
 
