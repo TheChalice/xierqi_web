@@ -17,8 +17,7 @@ angular.module('console.create_config_configMap', [
         configpost: false,
         keychongfu: false,
         keybuhefa: false,
-        keynull: false,
-        lableKey: false
+        keynull: false
     };
     //排序
     var by = function (name) {
@@ -67,7 +66,6 @@ angular.module('console.create_config_configMap', [
     };
     //添加配置文件
     $scope.AddConfigurationFile = function () {
-        $scope.grid.lableKey = true;
         $scope.volume.configitems.push({key: '', value: '', isClearCode: false});
     };
     // clear code
