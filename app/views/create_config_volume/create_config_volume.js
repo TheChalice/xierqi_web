@@ -55,8 +55,6 @@ angular.module('console.create_config_configMap', [
             var content = e.target.result;
             $scope.volume.configitems[$scope.check].value = content;
             $scope.volume.configitems[$scope.check].isClearCode = true;
-            $scope.volume.configarr[$scope.check].value = content;
-            $scope.volume.configarr[$scope.check].isClearCode = true;
             $scope.$apply();
         };
         reader.readAsText(file);
@@ -66,8 +64,6 @@ angular.module('console.create_config_configMap', [
     $scope.deletekv = function (idx) {
         $scope.volume.configitems.splice(idx, 1);
     };
-
-
     //添加配置文件
     $scope.AddConfigurationFile = function () {
         $scope.grid.lableKey = true;
@@ -153,7 +149,6 @@ angular.module('console.create_config_configMap', [
                             cancreat = false;
                             item.err.key.repeated = true;
                             initem.err.key.repeated = true;
-
                         }
                     }
                 })
@@ -165,7 +160,6 @@ angular.module('console.create_config_configMap', [
             return 'dontcreat'
         }
     }
-
     $scope.cearteconfig = function () {
         if (nameerr($scope.volume.metadata.name, $scope.cfmnamearr) !== 'allmight') {
             //console.log('nameerr($scope.volume.metadata.name, $scope.cfmnamearr)', nameerr($scope.volume.metadata.name, $scope.cfmnamearr));
