@@ -144,9 +144,15 @@ angular.module('console.config_detail', [
             //保存修改--- 请求后台接口
             $scope.isCreate = true;
             $scope.cearteconfig = function () {
+
+
+
                 $scope.isCreate = false;
                 var arr = $scope.volume.configitems.concat($scope.volume.configarr);
                 $scope.volume.data = {};
+
+
+
                 angular.forEach(arr, function (item, i) {
                     $scope.volume.data[item.key] = item.value;
                 });
