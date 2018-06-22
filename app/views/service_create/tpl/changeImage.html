@@ -1,5 +1,5 @@
-<div class="row" style="margin:0;margin-top:16px;">
-    <div class="col-md-2" style="padding-top: 8px;">
+<div class="row chang-image-box" style="margin:0;margin-top:20px;">
+    <div class="col-md-2" style="padding-top: 8px;width: 120px;">
         <h3 class="require" style="font-weight:normal;font-size:12px;margin:0px;">镜像地址</h3>
     </div>
     <div class="col-md-10 create_deploy_nanji">
@@ -12,30 +12,30 @@
                 </uib-tab-heading>
                 <div class="input-group divradio">
                     <div>
-                        <div style="min-width: 156px;height: 32px;margin-right: 58px;display: inline-block;">image stream</div>
-                        <div style="min-width: 156px;height: 32px;margin-right: 58px;display: inline-block;">标签</div>
+                        <div style="min-width: 156px;margin-bottom:5px;margin-right: 47px;display: inline-block;">image stream</div>
+                        <div style="min-width: 156px;margin-bottom:5px;display: inline-block;">标签</div>
                     </div>
                     <div>
-                        <div class="dropdown dropdown-select" style="min-width: 156px;height: 32px;margin-right: 58px;">
-                            <button  class="btn dropdown-toggle" data-toggle="dropdown" style="height: 34px;">
+                        <div class="dropdown dropdown-select" style="min-width: 167px;height: 26px;margin-right: 36px;">
+                            <button  class="btn dropdown-toggle" data-toggle="dropdown" style="height: 26px;">
                                 <span>{{checked.image}}</span>
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu"
-                                style="max-height: 156px; min-width: 156px;margin-top: -1px;overflow-y: auto">
-                                <li ng-repeat="image in imageslist" style="height: 34px;font-size: 12px;">
+                                style="max-height: 100px; min-width: 167px;margin-top: -1px;overflow-y: auto">
+                                <li ng-repeat="image in imageslist" style="height: 26px;font-size: 12px;">
                                     <a href="javascript:;" style="" ng-click="checkedimage(image)">{{image.metadata.name}}</a>
                                 </li>
                             </ul>
                         </div>
-                        <div class="dropdown dropdown-select" style="min-width: 156px;height: 32px;">
-                            <button  class="btn dropdown-toggle" data-toggle="dropdown" style="height: 34px;"
+                        <div class="dropdown dropdown-select" style="min-width: 167px;height: 26px;">
+                            <button  class="btn dropdown-toggle" data-toggle="dropdown" style="height: 26px;"
                             >
                                 <span>{{checked.tag}}</span>
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu"
-                                style="max-height: 156px; min-width: 156px;margin-top: -1px;overflow-y: auto">
+                                style="max-height: 100px; min-width: 167px;margin-top: -1px;overflow-y: auto">
                                 <li ng-repeat="tag in tagslist">
                                     <a href="javascript:;" ng-click="checkedtag(tag)">{{tag.name}}</a>
 
@@ -53,24 +53,26 @@
                     <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
                     镜像地址
                 </uib-tab-heading>
-                <div class="row" style="margin-bottom: 15px;">
+                <div class="row" style="">
                     <div class="col-md-10" style="padding: 0px; ">
-                        <small ng-show="err.url.null" class="fa fa-info-circle err-tip">请输入正确的镜像地址</small>
-                        <small ng-show="err.url.notfind" class="fa fa-info-circle err-tip">找不到镜像</small>
-                        <small ng-show="err.url.role" class="fa fa-info-circle err-tip">没有访问权限</small>
+                        <p>
+                            <small ng-show="err.url.null" class="fa fa-info-circle err-tip">请输入正确的镜像地址</small>
+                            <small ng-show="err.url.notfind" class="fa fa-info-circle err-tip">找不到镜像</small>
+                            <small ng-show="err.url.role" class="fa fa-info-circle err-tip">没有访问权限</small>
+                        </p>
                         <input autocomplete="off" type="text"
                                name="serviceName"
                                ng-model="postobj.spec.images[0].from.name"
                                class="form-control"
-                               style="display: inline-block;width: 80%;"
+                               style="display: inline-block;width:320px ; height: 26px;"
                                type="text" name="name"
                                ng-keyup="myKeyup($event)"
                                placeholder="例如：nginx">
-                        <span class="input-group-btn" style="position: relative;">
-                                                        <a class="btn" style="margin-top:3px;margin-left:5px;" ng-click="find()"></a>
+                        <span class="input-group-btn" style="position: relative;border-radius: 4px;">
+                                                        <a class="btn" style="margin-top:3px;margin-left:7px;background-size: contain;" ng-click="find()"></a>
                                                     </span>
                         <div style="height: 24px;margin-top: 5px;">
-                            <p  style="">
+                            <p  style="margin:0px;">
                                 <label ng-class="{'active':institution.configregistry}"
                                        ng-click="institution.configregistry=!institution.configregistry"
                                        style="cursor: pointer;">
@@ -93,12 +95,14 @@
             </uib-tab>
         </uib-tabset>
         <div class="row" >
-            <div class="col-md-10" style="height: 60px;border: 1px solid #CCD5E0;border-radius: 4px;">
+            <div class="" style="height: 60px;border: 1px solid #CCD5E0;border-radius: 4px;width: 375px;">
                 <div class="col-md-2"></div>
-                <div class="col-md-10">
-                    <p>{{dc.spec.template.spec.containers[0].name}}</p>
-                    <div class="col-md-6" style="padding:0px;">创建时间：{{dc.spec.template.spec.containers[0].creattime|timescon}}</div>
-                    <div class="col-md-6">导出端口：{{dc.spec.template.spec.containers[0].strport}}</div>
+                <div class="col-md-10" >
+                     <p style="margin:0px;height: 24px;line-height: 24px;">{{dc.spec.template.spec.containers[0].name}}</p>
+                     <div class="row">
+                         <div class="col-md-6" style="padding:0px;"><span class="service-label-color">创建时间：</span>{{dc.spec.template.spec.containers[0].creattime|timescon3}}</div>
+                         <div class="col-md-6" style="padding:0px;"><span class="service-label-color">导出端口：</span>{{dc.spec.template.spec.containers[0].strport}}</div>
+                     </div>
                 </div>
             </div>
         </div>

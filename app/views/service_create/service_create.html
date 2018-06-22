@@ -1,24 +1,25 @@
 <div class="service-create" style="margin-top:50px">
     <form name="frm">
-        <div class="row">
+        <div class="row ">
             <div class="col-md-12">
                 <div class="info">
                 </div>
             </div>
-            <div class="col-md-12" style="padding-bottom: 5px;">
-                <a class="tab-cube" ng-class="{'active': !grid.checked}" ng-click="jump(false)">基础配置</a>
-                <span style="margin: 0 20px;"> > </span>
-                <a class="tab-cube" ng-class="{'active': grid.checked}" ng-click="frm.$valid && jump(true)">高级配置</a>
-            </div>
-            <div ng-show="!advancedConfig" class="col-md-12">
+            <!--<div class="col-md-12" style="padding-bottom: 5px;">-->
+                <!--<a class="tab-cube" ng-class="{'active': !grid.checked}" ng-click="jump(false)">基础配置</a>-->
+                <!--<span style="margin: 0 20px;"> > </span>-->
+                <!--<a class="tab-cube" ng-class="{'active': grid.checked}" ng-click="frm.$valid && jump(true)">高级配置</a>-->
+            <!--</div>-->
+            <div ng-show="!advancedConfig" class="col-md-12" style="padding:20px">
                 <div >
                     <div class="service-config">
-                        <div class="panel panel-default panel-jia-create">
-                            <div class="panel-heading panel-title" style="font-weight: bold;font-size: 16px;background:none;font-weight:normal;">
-                                基础配置
-                            </div>
+                        <div class="panel panel-jia-create" style="padding:20px">
+                            <!--<div class="panel-heading panel-title" style="font-weight: bold;font-size: 16px;background:none;font-weight:normal;">-->
+                                <!--基础配置-->
+                            <!--</div>-->
+                            <h3 class="df_tit" style="padding-left:10px">部署详情</h3>
                             <div class="row">
-                                <div class="col-md-2" style="padding-top: 8px;">
+                                <div class="col-md-2" style="padding-top: 8px;width: 120px;">
                                     <h3 class="require" style="font-weight:normal;font-size:12px;margin:0px;">服务名称</h3>
                                 </div>
                                 <div class="col-md-10">
@@ -29,6 +30,7 @@
                                            ng-blur="nameblur()"
                                            onkeypress="if((event.keyCode > 31 && event.keyCode < 44) || (event.keyCode > 46 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97))event.returnValue = false;"
                                            ng-focus="namefocus()" type="text" name="name" class="form-control"
+                                           style="width: 320px;height: 26px;"
                                            placeholder="例如：datafoundry">
                                     <small ng-if="err.name.null"  class="fa fa-info-circle err-tip err">
                                         请输入正确构建名称
@@ -45,74 +47,114 @@
                     </div>
                 </div>
             </div>
-            <div ng-show="advancedConfig">
-                <div class="col-md-12 continerboxs">
-                    <a href="javascript:;" style="line-height: 40px; margin-bottom: 10px" class="href-add"
-                       ng-click="addContainer()">
-                        <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;<span style="font-size: 12px">创建容器</span>
-                    </a>
-                    <br>
-                    <!--<small ng-show="invalid.containerLength" class="fa fa-info-circle err-tip">您至少需要设置一个容器</small>-->
-                    <dc-containers> </dc-containers>
+            <div ng-show="advancedConfig" class="col-md-12" style="padding:20px">
+                <div class="panel panel-jia-create" style="padding:20px">
+                    <h3 class="df_tit" style="padding-left:10px">配置：nodejs-mongodb-example</h3>
+                    <div class="col-md-12 continerboxs">
 
-                </div>
-                <div  class="row">
-                    <div class="col-sm-2">弹性伸缩</div>
-                    <div class="col-sm-10">
-                        <c-checkbox checked="quota.rubustCheck"></c-checkbox>
-                        <div style="margin-top:15px;">
-                        <span style="font-size: 12px;">POD数量
-                         <input ng-model="dc.spec.replicas" name="cdm" min="1" max="10"
-                                style="width: 80px;display: inline-block;"
-                                ng-keyup="mustnum($event,dc.spec.replicas,10)"
-                                type="text" class="form-control">
-                        </span>
-                            <span ng-show="quota.rubustCheck">
-                            <span style="font-size: 12px">POD最大数量
+                        <dc-containers> </dc-containers>
+                        <a href="javascript:;" style="line-height: 40px; margin-bottom: 10px" class="href-add"
+                           ng-click="addContainer()">
+                            <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;<span style="font-size: 12px">创建容器</span>
+                        </a>
+
+                    </div>
+                    <h3 class="df_tit" style="padding-left:10px;width: 100%;float: left;margin-bottom: 20px;">访问服务</h3>
+                    <div  class="row">
+                        <div class="col-sm-2" style="width: 105px;">弹性伸缩</div>
+                        <div class="col-sm-10">
+                            <div class="col-sm-12" style="padding-right: 0px;">
+                                <c-checkbox checked="quota.rubustCheck"></c-checkbox>
+                            </div>
+
+                            <div class="col-sm-3" style="width: 170px;">
+                                <p style="margin:10px 0px 5px;">POD数量</p>
+                                <input ng-model="dc.spec.replicas" name="cdm" min="1" max="10"
+                                       style=""
+                                       ng-keyup="mustnum($event,dc.spec.replicas,10)"
+                                       type="text" class="form-control">
+                            </div>
+                            <div class="col-sm-3"  style="width: 170px;" ng-show="quota.rubustCheck">
+                                <p style="margin:10px 0px 5px;">POD最大数量</p>
                                 <input ng-model="horiz.spec.maxReplicas"
                                        ng-keyup="mustnum($event,horiz.spec.maxReplicas,10)"
                                        ng-class="{'input-error':horiz.spec.maxReplicas-0<dc.spec.replicas-0}"
-                                       style="width: 80px;display: inline-block;"
+                                       style=""
                                        type="text" class="form-control" placeholder="{{dc.spec.replicas}}">
-                            </span>
-                            <span  style="font-size: 12px">CPU阀值
-                                <!--<div class="input-group">-->
-                                    <input ng-model="horiz.spec.targetCPUUtilizationPercentage"
-                                           ng-keyup="mustnum($event,horiz.spec.targetCPUUtilizationPercentage,100)"
-                                           style="width: 80px;display: inline-block;"
-                                           type="text" class="form-control" placeholder="80">
-                                    <span>%</span>
-                            </span>
 
-                        </span>
+                            </div>
+                            <div class="col-sm-3"   style="width: 170px;"ng-show="quota.rubustCheck">
+                                <p style="margin:10px 0px 5px;">CPU阀值</p>
+                                <input ng-model="horiz.spec.targetCPUUtilizationPercentage"
+                                       ng-keyup="mustnum($event,horiz.spec.targetCPUUtilizationPercentage,100)"
+                                       style="width: 100%;display: inline-block"
+                                       type="text" class="form-control" placeholder="80">
+
+                            </div>
+                            <div class="col-sm-3" style="width: 170px;padding-left:0px;" ng-show="quota.rubustCheck">
+                                <p style="margin:5px 0px;">&nbsp;</p>
+                                <div style="line-height: 26px;">%</div>
+                            </div>
+                            <!--<div style="margin-top:15px;">-->
+                            <!--<span style="font-size: 12px;">POD数量-->
+                            <!--<input ng-model="dc.spec.replicas" name="cdm" min="1" max="10"-->
+                            <!--style="width: 80px;display: inline-block;"-->
+                            <!--ng-keyup="mustnum($event,dc.spec.replicas,10)"-->
+                            <!--type="text" class="form-control">-->
+                            <!--</span>-->
+                            <!--<span ng-show="quota.rubustCheck">-->
+                            <!--<span style="font-size: 12px">POD最大数量-->
+                            <!--<input ng-model="horiz.spec.maxReplicas"-->
+                            <!--ng-keyup="mustnum($event,horiz.spec.maxReplicas,10)"-->
+                            <!--ng-class="{'input-error':horiz.spec.maxReplicas-0<dc.spec.replicas-0}"-->
+                            <!--style="width: 80px;display: inline-block;"-->
+                            <!--type="text" class="form-control" placeholder="{{dc.spec.replicas}}">-->
+                            <!--</span>-->
+                            <!--<span  style="font-size: 12px">CPU阀值-->
+                            <!--&lt;!&ndash;<div class="input-group">&ndash;&gt;-->
+                            <!--<input ng-model="horiz.spec.targetCPUUtilizationPercentage"-->
+                            <!--ng-keyup="mustnum($event,horiz.spec.targetCPUUtilizationPercentage,100)"-->
+                            <!--style="width: 80px;display: inline-block;"-->
+                            <!--type="text" class="form-control" placeholder="80">-->
+                            <!--<span>%</span>-->
+                            <!--</span>-->
+
+                            <!--</span>-->
+                            <!--</div>-->
                         </div>
                     </div>
-                </div>
-                <div  class="row" style="margin-top:15px;">
-                    <div class="col-sm-2">自动部署</div>
-                    <div class="col-sm-10">
-                        <p  style="">
-                            <label ng-class="{'active':dc.spec.ConfigChange}"
-                                   ng-click="dc.spec.ConfigChange=!dc.spec.ConfigChange"
-                                   style="cursor: pointer;">
-                                <i class="faa faa-check"></i>
-                            </label>
-                            <span>
+                    <div  class="row" style="margin-top:20px;">
+                        <div class="col-sm-2" style="width: 105px;">自动部署</div>
+                        <div class="col-sm-10">
+                            <p  style="padding-left: 15px;">
+                                <label ng-class="{'active':dc.spec.ConfigChange}"
+                                       ng-click="dc.spec.ConfigChange=!dc.spec.ConfigChange"
+                                       style="cursor: pointer;">
+                                    <i class="faa faa-check"></i>
+                                </label>
+                                <span>
                              配置变化触发自动部署
                         </span>
-                        </p>
+                            </p>
+                        </div>
+                    </div>
+                    <h3 class="df_tit" style="padding-left:10px;width: 100%;float: left;margin-bottom: 20px;">端口映射</h3>
+                    <div  class="row">
+                        <div class="col-sm-2" style="width: 105px;">端口设置</div>
+                        <set-ports></set-ports>
                     </div>
                 </div>
-                <div  class="row">
-                    <div class="col-sm-2">端口设置</div>
-                    <set-ports></set-ports>
-                </div>
-            </div>
-            <div class="col-md-6" ng-show="!advancedConfig" style="padding-right: 40px;">
 
-                    <a href="javascript:;" class="btn btn-block btn-orange" ng-click="jump()">
-                    <span style="color: white;">进入高级配置</span>
-                    <!--<span style="color: white;">返回基础配置</span>-->
+            </div>
+            <div class="col-md-6"  style="padding-right: 40px;padding-bottom: 20px;">
+
+                    <a href="javascript:;" class="btn btn-block btn-orange"  ng-show="!advancedConfig" style="color: white;width: 110px;height: 26px;display:inline-block;padding:0px;line-height: 26px;" ng-click="jump()">
+                   进入高级配置
+                    </a>
+                <a href="javascript:;" ng-click="createDc()"
+                   class="btn btn-block btn-orange"
+                   style="color: white;width: 80px;height: 26px;display:inline-block;margin-top:0px;margin-left:20px;padding:0px;line-height: 26px;">
+                    创建服务
                 </a>
             </div>
             <!--<div class="col-md-6" style="padding-left: 40px;">-->
@@ -124,11 +166,7 @@
                 <!--</a>-->
             <!--</div>-->
             <div class="col-md-6" style="padding-left: 40px;">
-                <a href="javascript:;" ng-click="createDc()"
-                   class="btn btn-block btn-orange"
-                    style="color: white">
-                    创建服务
-                </a>
+
             </div>
         </div>
     </form>
