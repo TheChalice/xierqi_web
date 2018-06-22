@@ -48,7 +48,7 @@
   <div ng-repeat="containerStatus in pod.status.containerStatuses track by containerStatus.name" >
     <h4 class="df_tit">容器 {{containerStatus.name}}</h4>
   
-    <dl class="dl-horizontal left">
+    <dl class="dl-horizontal left df_left_set" >
       <dt>
         状态:
         <!--State:-->

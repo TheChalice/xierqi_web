@@ -4,13 +4,13 @@
   namespace
  -->
 <div ng-repeat="volume in volumes">
-    <h4 class='tit_f'>
+    <h4 class='tit_f df_left_set'>
         {{volume.name}}
         <span ng-if="canRemove" class="header-actions">
             <a href="" ng-click="removeFn({volume: volume})">Remove</a>
         </span>
     </h4>
-    <dl class="dl-horizontal left">
+    <dl class="dl-horizontal left df_left_set">
         <div ng-if="volume.secret">
             <dt>类型:</dt>
             <dd>

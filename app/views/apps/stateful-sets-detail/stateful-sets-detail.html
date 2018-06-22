@@ -14,7 +14,8 @@
             </div>
             <div class="module_block_r">
                     <a class="btn btn-gray pull-right" style="height:34px; width:36px;padding:6px;" ng-click="delete(statefuldetail.metadata.name)">
-                            <i class="fa fa-trash-o fa-lg"></i>
+                            <!-- <i class="fa fa-trash-o fa-lg"></i> -->
+                            <span class="df_close"><i class="uex-icon-delete"></i></span>
                         </a>
             </div>
         </div>
@@ -139,11 +140,11 @@
             <div class="table-responsive">
                 <table class="table table-hover table-default">
                     <tr>
-                        <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">名称</th>
-                        <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">状态</th>
-                        <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">就绪</th>
-                        <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">重启</th>
-                        <th style="vertical-align: middle;padding-top:13px;padding-bottom:13px;">时长</th>
+                        <th class="col-lg-3 col-md-2 col-sm-1">名称</th>
+                        <th class="col-lg-2 col-md-2 col-sm-1">状态</th>
+                        <th class="col-lg-3 col-md-2 col-sm-1">就绪</th>
+                        <th class="col-lg-2 col-md-2 col-sm-1">重启</th>
+                        <th class="col-lg-2 col-md-2 col-sm-1">时长</th>
                     </tr>
                     <tr ng-repeat="pod in statefulPods">
                         <td data-title="Name" class="poda" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">

@@ -114,10 +114,11 @@
 
             </div>
             <div class="module_block_r">
-                <a class="btn btn-gray pull-right" style=" padding: 5px 10px; font-size:14px; " ng-click="delete(route.metadata.name)">
-                    删除
+                <a class="btn btn-gray pull-right df_del" ng-click="delete(route.metadata.name)">
+                    <!-- 删除 -->
+                    <span class="df_close"><i class="uex-icon-delete"></i></span>
                 </a>
-                <a class="btn pull-right btn-orange" style="margin-right: 20px;" ui-sref="console.create_routes({namespace:namespace,name:route.metadata.name})">修改</a>
+                <a class="btn pull-right btn-orange df_build" ui-sref="console.create_routes({namespace:namespace,name:route.metadata.name})">修改</a>
             </div>
         </div>
         <!-- module common 公共-->
@@ -138,16 +139,16 @@
     <div class="middle-content">
         <div>
             <div class="row" ng-if="route">
-                <div class="col-sm-12">
+                <div class="col-sm-12" style="padding-left:15px;">
                     <h4 class="df_tit">Details</h4>
-                    <dl class="dl-horizontal left" style="margin-bottom: 0;">
+                    <dl class="dl-horizontal left df_left_set" style="margin-bottom: 0;">
                         <dt style="text-align:left" ng-if-start="route.spec.wildcardPolicy && route.spec.wildcardPolicy !== 'None' && route.spec.wildcardPolicy !== 'Subdomain'">Wildcard Policy:</dt>
                         <dd ng-if-end>{{route.spec.wildcardPolicy}}</dd>
                         <dt>路径:</dt>
                         <dd>
                             <span ng-if="route.spec.path">{{route.spec.path}}</span>
                             <span ng-if="!route.spec.path">
-                                <em>none</em>
+                                <em class="df_normal_set">none</em>
                             </span>
                         </dd>
                         <dt>服务:</dt>
@@ -169,7 +170,7 @@
                         </div>
                     </dl>
     
-                    <div ng-if="route.spec.alternateBackends.length" class="row">
+                    <div ng-if="route.spec.alternateBackends.length" class="row df_left_set">
                         <div class="col-sm-12 mar-bottom-lg">
                             <h4 class="df_tit">Traffic</h4>
                             <div class="help-block route_block">
@@ -210,9 +211,9 @@
                             </table>
                         </div>
                     </div>
-                    <div style="margin-bottom: 10px;">
+                    <div style="margin-bottom: 10px;" >
                         <h4 class="df_tit">TLS 设置</h4>
-                        <dl class="dl-horizontal left" ng-if="route.spec.tls">
+                        <dl class="dl-horizontal left df_left_set" ng-if="route.spec.tls">
                             <dt>类型:</dt>
                             <dd>{{route.spec.tls.termination | humanizeTLSTermination}}</dd>
                             <dt>非安全流量:</dt>
@@ -266,7 +267,7 @@
                                 <pre class="clipped">{{route.spec.tls.destinationCACertificate}}</pre>
                             </div>
                         </dl>
-                        <p ng-if="!route.spec.tls" class="route_block">
+                        <p ng-if="!route.spec.tls" class="route_block df_left_set">
                             TLS is not enabled.
                         </p>
                     </div>

@@ -4,7 +4,7 @@
 #pods_detail .tab-default li .nav-link:hover{font-size:12px;color:#333;}
 #pods_detail .tab-default li.active a,
 #pods_detail .tab-default li.active a:focus,
-#pods_detail .tab-default li.active a:hover{border:0px;border-bottom:2px solid #47B2FB;
+#pods_detail .tab-default li.active a:hover{border:0px;border-bottom:3px solid #47B2FB;
 color:#47B2FB;font-size:12px;}
 
 #dt_set{color:#47B2FB;}
@@ -26,7 +26,7 @@ color:#47B2FB;font-size:12px;}
 #pods_detail .pod-template-key{width:160px;display:inline-block;font-size:12px;color:#475669;}
 #pods_detail code span{display:inline-block;}
 
-#pods_detail .pod_list_mt{margin-bottom:0px;overflow:hidden;font-size:12px;color:#475669;}
+#pods_detail .pod_list_mt{margin-bottom:0px;overflow:hidden;font-size:12px;color:#475669;line-height:20px;}
 
 .pod_term .btn{color:#333;}
 #pods_detail .sec_href{color:#F8A632;}
@@ -34,7 +34,7 @@ color:#47B2FB;font-size:12px;}
 
 /* detail 模块 */
 #detail .tit_f{font-size:12px;color:#475669;font-weight:normal;margin:0px;margin-bottom:10px;}
-#detail .dl-horizontal dt{text-align:left;font-weight:normal;color:#475669;font-size:12px;}
+#detail .dl-horizontal dt{text-align:left;font-weight:normal;color:#475669;font-size:12px;line-height:20px;}
 #detail .icon-wrap{float:left;margin-right:6px;}
 #detail .tit_vol{margin-top:16px;}
 
