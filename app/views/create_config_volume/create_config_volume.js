@@ -163,54 +163,118 @@ angular.module('console.create_config_configMap', [
             repeated: false
         };
     });
-
-    $scope.cearteconfig = function () {
+    function nameerr(name, arr) {
         var rex = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
-        if ($scope.volume.metadata.name === '') {
-            $scope.namerr.nil = true;
-            return
-        } else if (!rex.test($scope.volume.metadata.name)) {
-            $scope.namerr.rexed = true;
-            return
+        if (name === '') {
+            return 'nil'
+        } else if (!rex.test(name)) {
+            return 'rexed'
         } else {
-            for (var i = 0; i < $scope.cfmnamearr.length; i++) {
-                if ($scope.volume.metadata.name === $scope.cfmnamearr[i].metadata.name) {
-                    $scope.namerr.repeated = true;
-                    return
+            var iserpeat = false;
+            angular.forEach(arr, function (item, i) {
+                if (name === item.metadata.name) {
+                    iserpeat = true
                 }
+            })
+            if (iserpeat) {
+                return 'repeated'
             }
         }
-        $scope.grid = {
-            keychongfu: false,
-            keynull: false,
-            keybuhefa: false,
-            addConfigFile: false
-        };
+        return 'allmight'
+    }
+
+    function keyerr(arr) {
+        var rex = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
+        var cancreat = true
+        angular.forEach(arr, function (item, i) {
+            if (item.key === '') {
+                cancreat = false;
+                item.err.key.nil = true
+            }else if(!rex.test(item.key)){
+                cancreat = false;
+                item.err.key.rexed = true
+            }else {
+                angular.forEach(arr, function (initem, k) {
+                    if (i !== k) {
+                        if (item.key === initem.key) {
+                            cancreat = false;
+                            item.err.key.repeated = true;
+                            initem.err.key.repeated = true;
+
+                        }
+                    }
+                })
+            }
+
+
+        })
+        if (cancreat) {
+            return 'cancreat'
+        }else {
+            return 'dontcreat'
+        }
+
+
+    }
+
+    $scope.cearteconfig = function () {
+
+        if (nameerr($scope.volume.metadata.name, $scope.cfmnamearr) !== 'allmight') {
+            //console.log('nameerr($scope.volume.metadata.name, $scope.cfmnamearr)', nameerr($scope.volume.metadata.name, $scope.cfmnamearr));
+            $scope.namerr[nameerr($scope.volume.metadata.name, $scope.cfmnamearr)] = true;
+            return
+        }
+        //console.log($scope.volume);
+
+        //$scope.grid = {
+        //    keychongfu: false,
+        //    keynull: false,
+        //    keybuhefa: false,
+        //    addConfigFile: false
+        //};
+
+
+        angular.forEach($scope.volume.configitems, function (item, i) {
+            $scope.volume.configitems[i].err = {
+                key: {
+                    nil: false,
+                    rexed: false,
+                    repeated: false
+                }
+            }
+
+        })
+        if (keyerr($scope.volume.configitems) !== 'cancreat') {
+
+            return
+        }
+
         var arr = $scope.volume.configitems;
+
         if (!arr) {
             $scope.grid.addConfigFile = true;
             return
         }
-        if (arr && arr.length > 0) {
-            var r = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
-            angular.forEach(arr, function (item, i) {
-                if (!item.key || !item.value) {
-                    $scope.grid.keynull = true;
-                    return;
-                } else {
-                    if (arr[i] && arr[i + 1]) {
-                        if (arr[i].key == arr[i + 1].key) {
-                            $scope.grid.keychongfu = true;
-                            return;
-                        }
-                    }
-                    if (!r.test(arr[i].key)) {
-                        $scope.grid.keybuhefa = true;
-                        return;
-                    }
-                }
-            });
-        }
+        //if (arr && arr.length > 0) {
+        //    var r = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
+        //    angular.forEach(arr, function (item, i) {
+        //        if (!item.key || !item.value) {
+        //            $scope.grid.keynull = true;
+        //            return;
+        //        } else {
+        //            if (arr[i] && arr[i + 1]) {
+        //                if (arr[i].key == arr[i + 1].key) {
+        //                    $scope.grid.keychongfu = true;
+        //                    return;
+        //                }
+        //            }
+        //            if (!r.test(arr[i].key)) {
+        //                $scope.grid.keybuhefa = true;
+        //                return;
+        //            }
+        //        }
+        //    });
+        //}
         $scope.loaded = true;
         angular.forEach(arr, function (item, i) {
             $scope.volume.data[item.key] = item.value;
