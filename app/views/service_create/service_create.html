@@ -53,13 +53,13 @@
                     <div class="col-md-12 continerboxs" style="padding-right:0px;">
 
                         <dc-containers> </dc-containers>
-                        <a href="javascript:;" style="line-height: 40px; margin-bottom: 10px" class="href-add"
+                        <a href="javascript:;" style="" class="href-add"
                            ng-click="addContainer()">
                             <i class="fa fa-plus-circle fa-lg"></i>&nbsp;&nbsp;<span style="font-size: 12px">创建容器</span>
                         </a>
 
                     </div>
-                    <h3 class="df_tit" style="padding-left:10px;width: 100%;float: left;margin-bottom: 20px;">访问服务</h3>
+                    <h3 class="df_tit" style="padding-left:10px;width: 100%;float: left;margin: 20px 0px;">访问服务</h3>
                     <div  class="row">
                         <div class="col-sm-2" style="width: 105px;">弹性伸缩</div>
                         <div class="col-sm-10">
@@ -123,10 +123,10 @@
                             <!--</div>-->
                         </div>
                     </div>
-                    <div  class="row" style="margin-top:20px;">
+                    <div  class="row" style="margin:20px 0px;">
                         <div class="col-sm-2" style="width: 105px;">自动部署</div>
                         <div class="col-sm-10">
-                            <p  style="padding-left: 15px;">
+                            <p  style="padding-left: 15px;margin-bottom: 0px;">
                                 <label ng-class="{'active':dc.spec.ConfigChange}"
                                        ng-click="dc.spec.ConfigChange=!dc.spec.ConfigChange"
                                        style="cursor: pointer;">
@@ -148,13 +148,14 @@
             </div>
             <div class="row"  style=" width: 100%; float: left; padding-left: 20px;">
                     <div style="border-top: 1px solid #E0E6ED; overflow: hidden; height: 70px;padding:20px 20px 20px 0px;">
-                        <a href="javascript:;" class="btn btn-block btn-orange"  ng-show="!advancedConfig" style="margin-right:20px;color: white;width: 110px;height: 26px;display:inline-block;padding:0px;line-height: 26px;" ng-click="jump()">
-                            进入高级配置
-                        </a>
+
                         <a href="javascript:;" ng-click="createDc()"
                            class="btn btn-block btn-orange"
-                           style="color: white;width: 80px;height: 26px;display:inline-block;margin-top:0px;padding:0px;line-height: 26px;">
+                           style="color: white;width: 80px;height: 26px;display:inline-block;margin-top:0px;padding:0px;line-height: 26px;margin-right:20px;">
                             创建服务
+                        </a>
+                        <a href="javascript:;" class="btn btn-block btn-orange"  ng-show="!advancedConfig" style="color: #47B2FB;width: 80px;height: 26px;display:inline-block;padding:0px;line-height: 26px;margin-top:0px;background: #fff;border: 1px solid #47B2FB;" ng-click="jump()">
+                            高级设置
                         </a>
                     </div>
 
