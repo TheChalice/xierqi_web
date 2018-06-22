@@ -180,12 +180,15 @@ angular.module('console.create_config_configMap', [
                 }
             }
         }
-
-        $scope.grid.keychongfu = false;
-        $scope.grid.keynull = false;
-        $scope.grid.keybuhefa = false;
+        $scope.grid = {
+            keychongfu: false,
+            keynull: false,
+            keybuhefa: false,
+            addConfigFile: false
+        };
         var arr = $scope.volume.configitems;
-        if (arr.length < 0) {
+        if (!arr) {
+            $scope.grid.addConfigFile = true;
             return
         }
         if (arr && arr.length > 0) {
