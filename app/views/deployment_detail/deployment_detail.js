@@ -14,6 +14,10 @@ angular.module('console.deployment_detail', [
     .controller('DeploymentDetailCtrl', ['Deployments','Confirm','delTip','$log', 'Dcinstantiate', 'Ws', '$scope', 'DeploymentConfig', '$rootScope', 'horizontalpodautoscalers', '$stateParams', 'Event', 'mydc', 'mytag','myreplicaSet',
         function (Deployments,Confirm,delTip,$log, Dcinstantiate, Ws, $scope, DeploymentConfig, $rootScope, horizontalpodautoscalers, $stateParams, Event, mydc, mytag,myreplicaSet) {
             $scope.dc = angular.copy(mydc)
+            for(var i = 0 ; i < $scope.dc.spec.template.spec.containers.length ; i++){
+                $scope.dc.spec.template.spec.containers[i].retract = true;
+                console.log()
+            }
             console.log('dp', mydc);
             $scope.replicaset=[];
             //console.log('myreplicaSet.items', myreplicaSet.items);
@@ -183,9 +187,9 @@ angular.module('console.deployment_detail', [
                 $scope.dc.spec.template.spec.volumes = []
                 var cancreat= true
                 angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
+                    delete con.retract;   //清除自定义key值retract
                     //console.log(con.dosetcon.doset);
                     if (con.doset) {
-
                         if (con.readinessProbe.httpGet) {
                             con.readinessProbe.httpGet.port = parseInt(con.readinessProbe.httpGet.port)
 
@@ -195,9 +199,9 @@ angular.module('console.deployment_detail', [
                         }
                         //console.log('con', con);
                         if (con.readinessProbe && con.dosetcon === '命令' && con.readinessProbe.exec) {
-                            console.log('con.readinessProbe.exec.command', con.readinessProbe.exec.command);
+                            // console.log('con.readinessProbe.exec.command', con.readinessProbe.exec.command);
                             angular.forEach(con.readinessProbe.exec.command, function (item, k) {
-                                console.log(item.key);
+                                // console.log(item.key);
                                 con.readinessProbe.exec.command[k] = item.key
 
                             })
@@ -255,7 +259,7 @@ angular.module('console.deployment_detail', [
                     namespace: $rootScope.namespace,
                     name: $stateParams.name
                 }, sendobj, function (obj) {
-                    console.log(obj);
+                    // console.log(obj);
                 })
             }
             $scope.deleteDc = function (val) {
@@ -335,6 +339,8 @@ angular.module('console.deployment_detail', [
                         }
                     }
 
+
+
                     $scope.addcon = function () {
                         var tmp = angular.copy($scope.dc.spec.template.spec.containers[$scope.dc.spec.template.spec.containers.length - 1]);
                         //console.log(tmp);
@@ -342,6 +348,7 @@ angular.module('console.deployment_detail', [
                         tmp.doset = false;
                         tmp.volment = false;
                         tmp.display = true;
+                        tmp.retract = true;
                         delete tmp.readinessProbe
                         tmp.name = 'container' + $scope.dc.spec.template.spec.containers.length;
                         $scope.checkoutreg(tmp, true)
@@ -353,6 +360,21 @@ angular.module('console.deployment_detail', [
                         $scope.dc.spec.template.spec.containers.splice(idx, 1);
 
                     };
+
+                    //展开收缩
+                    $scope.uex_down = false;
+                    $scope.uex_up = true;
+                    $scope.pickdown = function (idx) {
+                        if($scope.dc.spec.template.spec.containers[idx].retract){
+                            $scope.dc.spec.template.spec.containers[idx].retract = false;
+                            $scope.uex_down = true;
+                            $scope.uex_up = false;
+                        }else{
+                            $scope.dc.spec.template.spec.containers[idx].retract = true;
+                            $scope.uex_down = false;
+                            $scope.uex_up = true;
+                        }
+                    }
                     $scope.$watch('dc.spec.template.spec.containers', function (n, o) {
                         if (n == o) {
                             return;
