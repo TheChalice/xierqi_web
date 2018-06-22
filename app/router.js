@@ -454,7 +454,10 @@ define([
                     controller: 'ServiceCreateCtrl',
                     params: {
                         image: null,
-                        ports: null
+                        message: null,
+                        imagename:null,
+                        imagetag:null,
+                        imagetype:null
                     },
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {

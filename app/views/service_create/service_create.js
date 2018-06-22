@@ -10,10 +10,12 @@ angular.module('console.service.create', [
     ])
     .controller('ServiceCreateCtrl', ['mytag', 'ImageStreamImage', 'myimage', 'imagestreamimports', 'GLOBAL', 'resourcequotas', '$http', 'by', 'diploma', 'Confirm', 'Toast', '$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service',
         function (mytag, ImageStreamImage, myimage, imagestreamimports, GLOBAL, resourcequotas, $http, by, diploma, Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service) {
+
             $scope.institution = {
                 display: 1,
                 configregistry: false
             }
+
             $scope.err = {
                 url: {
                     null: false,
@@ -179,6 +181,7 @@ angular.module('console.service.create', [
             $scope.imageslist = [];
 
             $scope.tagslist = [];
+
 
             angular.forEach(myimage.items, function (image) {
                 //console.log('image.status.tags', image.status.tags);
@@ -417,7 +420,7 @@ angular.module('console.service.create', [
 
             $scope.tocheckedtag= function (tag,idx,checked,istags) {
                 //var con =
-                console.log('tag,idx,checked,istags', tag, idx, checked, istags);
+                //console.log('tag,idx,checked,istags', tag, idx, checked, istags);
                 $scope.dc.spec.template.spec.containers[idx].creattime=tag.image.metadata.creationTimestamp
                 if (tag.image.dockerImageMetadata.Config.ExposedPorts) {
 
@@ -530,6 +533,19 @@ angular.module('console.service.create', [
                     //$scope.namerr.url = true;
                 }
             }
+
+            //console.log($stateParams);
+            if ($stateParams.imagetype === 'myimage') {
+                $scope.checked = {
+                    namespace: $rootScope.namespace,
+                    image: $stateParams.imagename,
+                    tag: $stateParams.imagetag
+                }
+                $scope.tocheckedtag($stateParams.message,0,$scope.checked,$scope.istag)
+            }else {
+
+            }
+
             function dcname(n, image) {
                 $scope.dc.metadata.name = n;
                 if ($scope.dc.metadata.labels && $scope.dc.metadata.labels[0]) {
