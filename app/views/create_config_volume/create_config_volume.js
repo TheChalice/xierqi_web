@@ -55,65 +55,21 @@ angular.module('console.create_config_configMap', [
             var content = e.target.result;
             $scope.volume.configitems[$scope.check].value = content;
             $scope.volume.configitems[$scope.check].isClearCode = true;
+            $scope.volume.configarr[$scope.check].value = content;
+            $scope.volume.configarr[$scope.check].isClearCode = true;
             $scope.$apply();
         };
         reader.readAsText(file);
 
     };
+    $scope.volume.configarr = [{key: '', value: '', isClearCode: false}];
     //delete key value
-    $scope.deletekv = function (idx) {
+
+    $scope.deleteOriginkv = function (idx) {
+        $scope.volume.configarr.splice(idx, 1);
+    };$scope.deletekv = function (idx) {
         $scope.volume.configitems.splice(idx, 1);
     };
-    // $scope.$watch('volume', function (n, o) {
-    //     if (n == o) {
-    //         return
-    //     }
-    //     //console.log(n);
-    //     $scope.grid.keychongfu = false;
-    //     $scope.grid.keynull = false;
-    //     $scope.grid.keybuhefa = false;
-    //     if (n.metadata.name && n.configitems) {
-    //
-    //         var arr = n.configitems;
-    //         // arr.sort(by("key"));
-    //
-    //         if (arr && arr.length > 0) {
-    //             var kong = false;
-    //             // var r =/^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
-    //             var r = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
-    //             angular.forEach(arr, function (item, i) {
-    //
-    //                 if (!item.key || !item.value) {
-    //                     $scope.grid.keynull = true;
-    //                     kong = true;
-    //                 } else {
-    //                     if (arr[i] && arr[i + 1]) {
-    //                         if (arr[i].key == arr[i + 1].key) {
-    //                             $scope.grid.keychongfu = true;
-    //                             kong = true;
-    //                         }
-    //                     }
-    //                     if (!r.test(arr[i].key)) {
-    //                         $scope.grid.keybuhefa = true;
-    //                         kong = true;
-    //                     }
-    //                 }
-    //             });
-    //             if (!kong) {
-    //                 // alert("111")
-    //                 $scope.grid.configpost = true
-    //             } else {
-    //                 // alert("222")
-    //                 $scope.grid.configpost = false
-    //             }
-    //         } else {
-    //             // alert("333");
-    //             $scope.grid.configpost = false
-    //         }
-    //     } else {
-    //         $scope.grid.configpost = false
-    //     }
-    // }, true);
 
     //添加配置文件
     $scope.AddConfigurationFile = function () {
@@ -121,6 +77,10 @@ angular.module('console.create_config_configMap', [
         $scope.volume.configitems.push({key: '', value: '', isClearCode: false});
     };
     // clear code
+    $scope.clearOriginCode = function (index) {
+        $scope.volume.configarr[index].value = '';
+        $scope.volume.configarr[index].isClearCode = false;
+    };
     $scope.clearCode = function (index) {
         $scope.volume.configitems[index].value = '';
         $scope.volume.configitems[index].isClearCode = false;
@@ -186,7 +146,8 @@ angular.module('console.create_config_configMap', [
             keybuhefa: false,
             addConfigFile: false
         };
-        var arr = $scope.volume.configitems;
+        var arr = $scope.volume.configitems.concat($scope.volume.configarr);
+        $scope.volume.data = {};
         if (!arr) {
             $scope.grid.addConfigFile = true;
             return

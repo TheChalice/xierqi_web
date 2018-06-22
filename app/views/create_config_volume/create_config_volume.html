@@ -14,7 +14,9 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-sm-2 require text-left create_secret_name" style="width: 120px;">配置卷名称</div>
+                    <div class="col-sm-2 text-left require create_secret_name" style="width: 120px;">
+                        配置卷名称
+                    </div>
                     <div class="col-sm-10" style="padding: 0;">
                         <input ng-model="volume.metadata.name"
                                type="text" name="username"
@@ -32,47 +34,118 @@
                         </small>
                     </div>
                 </div>
-                <div class="row" ng-if="grid.lableKey" style="position: relative;margin-top: 28px;">
-                    <div style="font-size: 12px;position: absolute;top: 0;left: 15px;z-index: 100;">
-                        配置卷文件
+                <!--<div class="row" ng-if="grid.lableKey" style="position: relative;margin-top: 28px;">-->
+                    <!--<div class="require" style="font-size: 12px;position: absolute;top: 0;left: 15px;z-index: 100;">-->
+                        <!--配置卷文件-->
+                    <!--</div>-->
+                    <!--<div ng-repeat="item in volume.configitems">-->
+                        <!--<div class="col-sm-2 col-md-2" style="width: 120px;"></div>-->
+                        <!--<div class="col-sm-10 col-md-10">-->
+                            <!--<div class="row">-->
+                                <!--<div class="col-sm-2 col-md-2" style="width: 120px;"></div>-->
+                                <!--<div class="col-sm-12 col-md-12 create_secret_content">-->
+                                    <!--<div style="padding: 15px;border-radius: 2px;">-->
+                                        <!--<p class="create_secret_key">-->
+                                            <!--<span>键</span>-->
+                                            <!--<small ng-if="grid.keybuhefa" class="err-tip"><i-->
+                                                    <!--class="fa fa-info-circle"></i>&nbsp;key值不合法-->
+                                            <!--</small>-->
+                                            <!--<small ng-if="grid.keychongfu" class="err-tip"><i-->
+                                                    <!--class="fa fa-info-circle"></i>&nbsp;key值重复-->
+                                            <!--</small>-->
+                                            <!--<span ng-click="deletekv($index)" class="create_secret_delete">-->
+                                    <!--<i class="uex-icon-delete"></i></span>-->
+                                        <!--</p>-->
+                                        <!--<p class="create_secret_content_p">-->
+                                            <!--<input class="create_secret_content_ipt" type="text" placeholder="请输入键"-->
+                                                   <!--ng-model="item.key">-->
+                                        <!--</p>-->
+                                        <!--<p class="create_secret_content_p create_secret_content_addfile">-->
+                                            <!--<span>值</span>-->
+                                            <!--<span class="create_secret_add" ng-click="addFile($index)">-->
+                                                <!--<i class="uex-icon-add"></i>-->
+                                                <!--添加文件-->
+                                                <!--<input type="file" id="file-input" class="upload_addfile upLoadFile" value="选择"/>-->
+                                            <!--</span>-->
+                                            <!--<span class="create_secret_delete" ng-show="item.isClearCode"-->
+                                                  <!--ng-click="clearCode($index)">清空代码</span>-->
+                                        <!--</p>-->
+                                        <!--<p class="create_secret_content_p">-->
+                                            <!--<textarea ng-model="item.value" class="testt"></textarea>-->
+                                        <!--</p>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <div class="row" style="margin-top: 28px;">
+                    <div class="col-sm-2 text-left create_secret_name">配置卷文件
+                    <i class="require"></i>
                     </div>
-                    <div ng-repeat="item in volume.configitems">
-                        <div class="col-sm-2 col-md-2" style="width: 120px;"></div>
-                        <div class="col-sm-10 col-md-10">
-                            <div class="row">
-                                <!--<div class="col-sm-2 col-md-2 create_secret_file"></div>-->
-                                <div class="col-sm-12 col-md-12 create_secret_content">
-                                    <div style="padding: 15px;border-radius: 2px;">
-                                        <p class="create_secret_key">
-                                            <span>键</span>
-                                            <small ng-if="grid.keybuhefa" class="err-tip"><i
-                                                    class="fa fa-info-circle"></i>&nbsp;key值不合法
-                                            </small>
-                                            <small ng-if="grid.keychongfu" class="err-tip"><i
-                                                    class="fa fa-info-circle"></i>&nbsp;key值重复
-                                            </small>
-                                            <span ng-click="deletekv($index)" class="create_secret_delete">
+                    <div class="col-sm-10" style="padding-left: 0;">
+                        <div class="col-sm-12 col-md-12 create_secret_content" ng-repeat="item in volume.configarr">
+                            <div style="padding: 15px;border-radius: 2px;">
+                                <p class="create_secret_key">
+                                    <span>键</span>
+                                    <small ng-if="grid.keybuhefa" class="err-tip"><i
+                                            class="fa fa-info-circle"></i>&nbsp;key值不合法
+                                    </small>
+                                    <small ng-if="grid.keychongfu" class="err-tip"><i
+                                            class="fa fa-info-circle"></i>&nbsp;key值重复
+                                    </small>
+                                    <span ng-click="deleteOriginkv($index)" class="create_secret_delete">
                                     <i class="uex-icon-delete"></i></span>
-                                        </p>
-                                        <p class="create_secret_content_p">
-                                            <input class="create_secret_content_ipt" type="text" placeholder="请输入键"
-                                                   ng-model="item.key">
-                                        </p>
-                                        <p class="create_secret_content_p create_secret_content_addfile">
-                                            <span>值</span>
-                                            <span class="create_secret_add" ng-click="addFile($index)">
-                                                <i class="uex-icon-add"></i>
-                                                添加文件
-                                                <input type="file" id="file-input" class="upload_addfile upLoadFile" value="选择"/>
-                                            </span>
-                                            <span class="create_secret_delete" ng-show="item.isClearCode"
-                                                  ng-click="clearCode($index)">清空代码</span>
-                                        </p>
-                                        <p class="create_secret_content_p">
-                                            <textarea ng-model="item.value" class="testt"></textarea>
-                                        </p>
-                                    </div>
-                                </div>
+                                </p>
+                                <p class="create_secret_content_p">
+                                    <input class="create_secret_content_ipt" type="text" placeholder="请输入键"
+                                           ng-model="item.key">
+                                </p>
+                                <p class="create_secret_content_p create_secret_content_addfile">
+                                    <span>值</span>
+                                    <span class="create_secret_add" ng-click="addFile($index)">
+                                        <i class="uex-icon-add"></i>
+                                        添加文件
+                                        <input type="file" id="file-input" class="upload_addfile upLoadFile" value="选择"/>
+                                    </span>
+                                    <span class="create_secret_delete" ng-show="item.isClearCode"
+                                          ng-click="clearOriginCode($index)">清空代码</span>
+                                </p>
+                                <p class="create_secret_content_p">
+                                    <textarea ng-model="item.value" class="testt"></textarea>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12 create_secret_content_add" ng-repeat="item in volume.configitems">
+                            <div style="padding: 15px;border-radius: 2px;">
+                                <p class="create_secret_key">
+                                    <span>键</span>
+                                    <small ng-if="grid.keybuhefa" class="err-tip"><i
+                                            class="fa fa-info-circle"></i>&nbsp;key值不合法
+                                    </small>
+                                    <small ng-if="grid.keychongfu" class="err-tip"><i
+                                            class="fa fa-info-circle"></i>&nbsp;key值重复
+                                    </small>
+                                    <span ng-click="deletekv($index)" class="create_secret_delete">
+                                    <i class="uex-icon-delete"></i></span>
+                                </p>
+                                <p class="create_secret_content_p">
+                                    <input class="create_secret_content_ipt" type="text" placeholder="请输入键"
+                                           ng-model="item.key">
+                                </p>
+                                <p class="create_secret_content_p create_secret_content_addfile">
+                                    <span>值</span>
+                                    <span class="create_secret_add" ng-click="addFile($index)">
+                                        <i class="uex-icon-add"></i>
+                                        添加文件
+                                        <input type="file" class="upload_addfile upLoadFile" value="选择"/>
+                                    </span>
+                                    <span class="create_secret_delete" ng-show="item.isClearCode"
+                                          ng-click="clearCode($index)">清空代码</span>
+                                </p>
+                                <p class="create_secret_content_p">
+                                    <textarea ng-model="item.value" class="testt"></textarea>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -125,8 +198,8 @@
         font-size: 12px;
         text-align: left;
         font-weight: normal;
+        width: 120px;
     }
-
     .create_secret_name_ipt {
         width: 358px;
         height: 26px;
@@ -136,7 +209,14 @@
     .create_secret_name_ipt:hover {
         border: 1px solid #47B2FB;
     }
-
+    .create_secret_content_add {
+        margin-top: 20px;
+        padding: 0;
+        width: 889px;
+        height: 230px;
+        border: solid 1px #e0e6ed;
+        border-radius: 2px;
+    }
     .create_secret_file {
         margin-top: 10px;
         color: #5a6378;
