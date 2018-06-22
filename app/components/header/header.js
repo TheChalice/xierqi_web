@@ -47,7 +47,7 @@ angular.module("console.header", [{
                     function createTree(trees) {
                         $scope.tenantsTree = [];
                         $scope.treemap = {};
-                        angular.forEach(trees, function(item) {
+                        angular.forEach(trees, function (item) {
                             $scope.treemap[item.id] = item;
                             $scope.treemap[item.id].children = [];
                         });
@@ -516,9 +516,9 @@ angular.module("console.header", [{
                         //console.log('$state.current.name', $state.current.name);
                         if ($state.current.name === 'console.dashboard') {
                             //$state.reload();
-                            $state.go("console.dashboard", { namespace: $rootScope.namespace })
+                            $state.go("console.build", { namespace: $rootScope.namespace })
                         } else {
-                            $state.go("console.dashboard", { namespace: $rootScope.namespace });
+                            $state.go("console.build", { namespace: $rootScope.namespace });
                         }
                         //$state.go("console.dashboard", { namespace: $rootScope.namespace });
                         //}
@@ -577,6 +577,10 @@ angular.module("console.header", [{
                     return "流水线"
                 case "console.rc":
                     return "部署镜像"
+                case "console.rs":
+                    return "部署镜像"
+                case "console.deployment_detail":
+                    return "部署镜像";
                 case "console.quick_deploy":
                     return "部署镜像"
                 case "console.uploadimage":
@@ -618,6 +622,8 @@ angular.module("console.header", [{
                     return "导入yaml";
                 case "console.rc":
                     return "rc详情";
+                case "console.rs":
+                    return "rs详情";
                 case "console.primage_detail":
                     return "镜像详情";
                 case "console.service_detail":

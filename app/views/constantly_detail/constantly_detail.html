@@ -86,18 +86,17 @@
                     <p class="img-new">
                         <div class="module_b_l">
                             <span class="module_tit">存储卷大小：</span>
-                            <span class="module_time">{{persistents.spec.resources.requests.storage}}</span>
+                            <span class="module_time" style="font-size: 12px;">{{persistents.spec.resources.requests.storage}}</span>
                         </div>
 
                         <div class="module_b_l">
                             <span class="module_tit">存储卷状态：</span>
-                            <span class="module_time">{{guazai}}</span>
+                            <span class="module_time" style="font-size: 12px;">{{guazai}}</span>
                         </div>
 
                     </p>
                 </div>
             </div>
-
 
             <div class="module_block_r">
                 <a class="btn btn-gray pull-right" style=" padding: 6px 12px; margin-left: 15px;font-size:14px;" ng-click="delete()">
@@ -173,8 +172,11 @@
     #config-detail .tab-default li.active .nav-link,
     #config-detail .tab-default li.active .nav-link:focus,
     #config-detail .tab-default li.active .nav-link:hover {
+        height: 34px;
+        width: 78px;
+        padding: 10px 7px;
         border: none;
-        border-bottom: 2px solid #47B2FB;
+        border-bottom: 3px solid #47B2FB;
         color: #47B2FB;
     }
 </style>

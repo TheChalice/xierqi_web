@@ -1,4 +1,4 @@
-<div id="build-detail" class="build-detail df_frame" style="">
+<div id="build-detail" class="build-detail df_frame" confull-height style="">
     <div class="loader" ng-show="!databuild">
         <div class="loader-inner ball-clip-rotate-multiple">
             <div></div>
@@ -14,12 +14,10 @@
                     <div class="img-detail">
                         <p class="img-tit">{{data.metadata.name}}</p>
                         <p class="img-time">
-                            <span classs="module_tit">创建时间：</span>
-                            <span class="module_time">{{data.metadata.creationTimestamp | timescon}}</span>
+                            <span classs="module_tit">创建时间：</span><span class="module_time">{{data.metadata.creationTimestamp | timescon}}</span>
                         </p>
                         <p class="img-new">
-                            <span class="module_tit">代码URL：</span>
-                            <a class="href-orange text-overflow href-orange_a" href="{{data.spec.source.git.uri}}" target="_blank" style="">{{data.spec.source.git.uri}}</a>
+                            <span class="module_tit">代码URL：</span><a class="href-orange text-overflow href-orange_a" href="{{data.spec.source.git.uri}}" target="_blank" style="">{{data.spec.source.git.uri}}</a>
                         </p>
                     </div>
                     <div class="media media-sm" ng-if="imageEnable">
@@ -29,10 +27,11 @@
 
                 </div>
                 <div class="module_block_r">
-                    <a class="btn btn-gray pull-right btn_a" style="" ng-click="deletes()">
-                        <i class="fa fa-trash-o fa-lg"></i>
+                    <a class="btn btn-gray pull-right btn_a df_del" style="" ng-click="deletes()">
+                        <!-- <i class="fa fa-trash-o fa-lg"></i> -->
+                        <span class="df_close"><i class="uex-icon-delete"></i></span>
                     </a>
-                    <a class="btn btn-green pull-right" ng-click="startBuild()"> 继续构建</a>
+                    <a class="btn btn-green pull-right df_build" ng-click="startBuild()"> 继续构建</a>
                 </div>
             </div>
             <!-- module common 公共-->
@@ -54,7 +53,7 @@
                                 <div class="row">
                                     <div class="col-sm-2">
                                         <span class="detail_tit">构建状态：</span>
-                                        <span class="icon12 icon12-{{item.status.phase}}" ng-class="{'fa-spin': item.status.phase == 'Running' || item.status.phase == 'Pending'}"></span>
+                                        <span class="icon12 uex-icon-{{item.status.phase}}" ng-class="{'fa-spin': item.status.phase == 'Running' || item.status.phase == 'Pending'}"></span>
                                         <!--switch to Chinese-->
                                         <span class="build_name">{{item.status.phase | phaseFilter}}</span>
                                     </div>
@@ -125,7 +124,7 @@
                                     <span class="pip_tit">
                                        {{httpurl}}/oapi/v1/namespaces/{{buildnamespaces}}/buildconfigs/{{data.metadata.name}}/webhooks/{{data.spec.triggers[1].generic?data.spec.triggers[1].generic.secret:data.spec.triggers[0].generic.secret}}/generic
                                     </span>
-                                    <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
+                                    <i class="pip_btn uex-icon-copy" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
                                 </div>
 
                             </div>
@@ -136,7 +135,7 @@
                                     <span class="pip_tit">
                                         {{httpurl}}/oapi/v1/namespaces/{{buildnamespaces}}/buildconfigs/{{data.metadata.name}}/webhooks/{{data.spec.triggers[0].github?data.spec.triggers[0].github.secret:data.spec.triggers[1].github.secret}}/github
                                     </span>
-                                    <i class="pip_btn fa fa-clipboard" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
+                                    <i class="pip_btn uex-icon-copy" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
                                 </div>
                             </div>
                         </div>

@@ -6,7 +6,7 @@
         </div>
     </div>
 </div>
-<div class="df_frame">
+<div class="df_frame" id="create_secret" confull-height>
     <form class="form-horizontal" name="frm">
         <div class="panel panel-default">
             <div class="panel-heading" style="padding: 0;line-height: 0;">
@@ -14,9 +14,10 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <label class="col-sm-2 require text-left create_secret_name">配置卷名称</label>
+                    <div class="col-sm-2 require text-left create_secret_name" style="width: 120px;">配置卷名称</div>
                     <div class="col-sm-10" style="padding: 0;">
                         <input ng-model="volume.metadata.name"
+                               ng-class="{'err':namerr.nil||namerr.rexed||namerr.repeated}"
                                type="text" name="username"
                                ng-blur="nameblur()"
                                onkeypress="if((event.keyCode > 31 && event.keyCode < 44) || (event.keyCode > 46 && event.keyCode < 48) || (event.keyCode > 57 && event.keyCode < 65) || (event.keyCode > 90 && event.keyCode < 97))event.returnValue = false;"
@@ -32,77 +33,77 @@
                         </small>
                     </div>
                 </div>
-                <div style="position: relative" ng-if="grid.lableKey">
-                    <div class="require" style="position: absolute;left: 0;top: 0;font-size: 12px;">
+                <div class="row" ng-if="grid.lableKey" style="position: relative;margin-top: 28px;">
+                    <div class="require"
+                         style="width: 120px;font-size: 12px;position: absolute;top: 0;left:15px;z-index: 100;">
                         配置卷文件
                     </div>
-                    <div style="margin-top: 28px;" ng-repeat="item in volume.configitems">
-                        <div class="row">
-                            <label class="col-sm-2 create_secret_file"></label>
-                            <div class="col-sm-10 create_secret_content">
-                                <div style="padding: 15px;">
-                                    <p class="create_secret_key">
-                                        <span>键</span>
-                                        <small ng-if="grid.keybuhefa" class="err-tip"><i class="fa fa-info-circle"></i>&nbsp;key值不合法</small>
-                                        <small ng-if="grid.keychongfu" class="err-tip"><i class="fa fa-info-circle"></i>&nbsp;key值重复</small>
-                                        <span ng-click="deletekv($index)" class="create_secret_delete">
-                                    <i class="uex-icon-delete"></i>
-                                </span>
-                                    </p>
-                                    <p class="create_secret_content_p">
-                                        <input class="create_secret_content_ipt" type="text" placeholder="请输入键"
-                                               ng-model="item.key">
-                                    </p>
-                                    <p class="create_secret_content_p create_secret_content_addfile">
-                                        <span>值</span>
-                                        <span class="create_secret_add" ng-click="addFile($index)">
-                                    <i class="uex-icon-add"></i>
-                                    添加文件
-                                    <input type="file" id="file-input" class="upload_addfile upLoadFile" value="选择"/>
-                                </span>
-                                        <span class="create_secret_delete" ng-show="item.isClearCode"
-                                              ng-click="clearCode($index)">清空代码</span>
-                                    </p>
-                                    <p class="create_secret_content_p">
-                                        <textarea ng-model="item.value" class="testt"></textarea>
-                                    </p>
+                    <div class="row" ng-repeat="item in volume.configitems" style="margin-bottom: 15px;">
+                        <div class="col-sm-2 col-md-2" style="width: 120px;"></div>
+                        <div class="col-sm-10 col-md-10">
+                                <!--<div class="col-sm-2 col-md-2 create_secret_file"></div>-->
+                                <div class="col-sm-12 col-md-12 create_secret_content">
+                                    <div style="padding: 15px;border-radius: 2px;">
+                                        <p class="create_secret_key">
+                                            <span>键</span>
+                                            <span ng-click="deletekv($index)" class="create_secret_delete">
+                                    <i class="uex-icon-delete"></i></span>
+                                        </p>
+                                        <p class="create_secret_content_p">
+                                            <input class="form-control create_secret_content_ipt"
+                                                   ng-class="{'err':item.err.key.repeated||item.err.key.rexed||item.err.key.nil}"
+                                                   type="text" placeholder="请输入键"
+                                                   ng-model="item.key">
+                                        </p>
+                                        <small ng-if="item.err.key.nil" class="err-tip">
+                                            <i
+                                                    class="fa fa-info-circle"></i>&nbsp;key值为空
+                                        </small>
+                                        <small ng-if="item.err.key.rexed" class="err-tip">
+                                            <i
+                                                    class="fa fa-info-circle"></i>&nbsp;key值不合法
+                                        </small>
+                                        <small ng-if="item.err.key.repeated" class="err-tip">
+                                            <i
+                                                    class="fa fa-info-circle"></i>&nbsp;key值重复
+                                        </small>
+                                        <p class="create_secret_content_p create_secret_content_addfile">
+                                            <span>值</span>
+                                            <span class="create_secret_add" ng-click="addFile($index)">
+                                                <i class="uex-icon-add"></i>
+                                                添加文件
+                                                <input type="file" id="file-input" class="upload_addfile upLoadFile"
+                                                       value="选择"/>
+                                            </span>
+                                            <span class="create_secret_delete" ng-show="item.isClearCode"
+                                                  ng-click="clearCode($index)">清空代码</span>
+                                        </p>
+                                        <p class="create_secret_content_p">
+                                            <textarea ng-model="item.value" class="testt"></textarea>
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-2"></div>
+                    <div class="col-sm-2" style="width: 120px"></div>
                     <div class="col-sm-10" style="padding-left: 0;" ng-click="AddConfigurationFile()">
-                        <span class="uex-icon-add" style="cursor:pointer;font-size: 12px;color: #47B2FB;">添加配置文件</span>
+                        <span style="cursor:pointer;font-size: 12px;color: #47B2FB;">
+                            <i class="uex-icon-add" style="margin-right: 5px;"></i>添加配置文件
+                        </span>
                     </div>
                 </div>
             </div>
         </div>
-        <div style="width: 100%;height: 1px;border: solid 1px #e0e6ed"></div>
-        <a href="javascript:;" ng-if="!frm.$invalid&&grid.configpost" class="btn create btn-orange"
-           style="margin-top: 20px;color: white;font-size: 12px;" ng-click="cearteconfig()">创建配置卷</a>
-        <a href="javascript:;" ng-if="!grid.configpost" disabled="disabled" class="btn create"
-           style="background-color: #ccc; margin-top: 20px; color: white;font-size: 12px;">创建配置卷</a>
+
     </form>
+    <div class="creatfooter" style="">
+        <a href="javascript:;" class="btn create btn-orange btn-resources"
+           style="color: white;font-size: 12px;" ng-click="cearteconfig()">创建配置卷</a>
+    </div>
 </div>
 <style>
-    .testt {
-        font-size: 12px;
-        line-height: 20px;
-        background: none;
-        border: none;
-        color: #333333;
-        height: 300px;
-        word-break: break-all;
-        word-wrap: break-word;
-        white-space: pre-wrap;
-        display: block;
-        max-height: 300px;
-        width: 100%;
-        max-width: 100%;
-    }
-
     #file-input {
         position: absolute;
         right: 0;
@@ -113,7 +114,13 @@
         height: 24px
     }
 
-    /*---add new style----*/
+    #create_secret .err {
+        border: 1px solid red;
+    }
+    /*.create_secret_content_p .err {*/
+        /*border: 1px solid red;*/
+    /*}*/
+
     .create_secret_tit {
         font-size: 12px;
         color: #1F2D3D;
@@ -131,6 +138,10 @@
         width: 358px;
         height: 26px;
         color: #A2B0C4;
+    }
+
+    .create_secret_name_ipt:hover {
+        border: 1px solid #47B2FB;
     }
 
     .create_secret_file {
@@ -166,16 +177,19 @@
         cursor: pointer;
         font-size: 12px;
         color: #47B2FB;
+        margin-top: 5px;
+        padding-left: 20px;
     }
 
     .create_secret_content_p {
         width: 100%;
-        margin: 10px 0 0;
+        margin: 5px 0 0;
         font-size: 12px;
     }
 
     .create_secret_content_addfile {
         position: relative;
+        margin-top: 15px;
     }
 
     .upload_addfile {
@@ -190,24 +204,23 @@
     .create_secret_content_ipt {
         width: 358px;
         height: 26px;
-        border-radius: 2px;
+        border-radius: 4px;
         font-size: 12px;
         color: #A2B0C4;
+        padding-left: 10px;
+        margin-top: 5px;
     }
 
-    .uex-icon-delete:before {
-        content: '\e925';
-    }
-
-    .uex-icon-add:before {
-        content: '\e913';
+    .create_secret_content_ipt:hover {
+        border: 1px solid #47B2FB;
     }
 
     .testt {
+        padding: 10px;
         font-size: 12px;
         line-height: 20px;
         background: none;
-        color: #333333;
+        color: #A2B0C4;
         height: 300px;
         word-break: break-all;
         word-wrap: break-word;
@@ -217,5 +230,6 @@
         width: 100%;
         max-width: 100%;
         border: solid 1px #e0e6ed;
+        resize: none;
     }
 </style>

@@ -1,30 +1,21 @@
-<div class="build-detail" class="df_frame">
+<div class="build-detail df_frame" confull-height>
 <div>
-    <div class="panel panel-default" style="margin-bottom: 50px">
+    <!-- <div class="panel panel-default" style="margin-bottom: 50px">
         <div class="panel-heading">
             <span class="panel-title">
                 <i class="faa faa-cmd"></i>&nbsp;&nbsp;{{dc.metadata.name}}&nbsp;&nbsp;
                 <span ng-if="dc.state == 'normal'" style="color: #47B2FB;">运行中</span>
             </span>
-            <a class="btn btn-gray pull-right" style="padding: 5px 10px; margin-left: 15px; height:34px; width:36px" ng-click="deleteDc(dc.metadata.name)"><i class="fa fa-trash-o fa-lg"></i></a>
-            <!--<a class="btn btn-block"-->
-            <!--ng-disabled=dianbl-->
-            <!--ng-class="{'btn-orange':dianl, 'btn-disabled': dianbl}"-->
-            <!--ng-click="frm.$valid && create()">开始构建</a>-->
+            <a class="btn btn-gray pull-right" style="padding: 5px 10px; margin-left: 15px; height:34px; width:36px" ng-click="deleteDc(dc.metadata.name)">
+                
+                <span class="df_close"><i class="uex-icon-delete"></i></span>
+            </a>
+           
             <a class="btn pull-right btn-green"
                ng-click="deployDc()">更新部署</a>
             <a class="btn pull-right btn-orange" style="margin-right: 20px;"
                ng-click="updateDc()">保存修改</a>
-            <!--<a class="btn pull-right"-->
-            <!--ng-show="dc.state != 'normal'"-->
-            <!--ng-class="{'btn-green':startBtn.dianl, 'btn-orange': startBtn.dianlz}"-->
-            <!--ng-disabled=startBtn.dianlz-->
-            <!--ng-click="startDc()">{{startBtn.name}}</a>-->
-            <!--<a class="btn pull-right"-->
-            <!--ng-show="dc.state == 'normal'"-->
-            <!--ng-class="{'btn-green':stopBtn.dianl, 'btn-orange': stopBtn.dianlz}"-->
-            <!--ng-disabled=stopBtn.dianlz-->
-            <!--ng-click="stopDc()">{{stopBtn.name}}</a>-->
+           
         </div>
         <div class="panel-body">
             <div class="row">
@@ -34,24 +25,13 @@
                             <i class="faa faa-clock"></i>
                         </div>
                         <div class="media-body">
-                            <h4 class="media-heading">创建时间</h4>
+                            <h4 class="media-heading">创建时间--</h4>
                             <small style="color: #5a6378;"  uib-tooltip="{{dc.metadata.creationTimestamp | timescon}}">{{dc.metadata.creationTimestamp | dateRelative}}</small>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <!--<div class="media media-sm">-->
-                        <!--<div class="media-left">-->
-                            <!--<i class="faa faa-code"></i>-->
-                        <!--</div>-->
-                        <!--<div class="media-body">-->
-                            <!--&lt;!&ndash;<h4 class="media-heading">路由URL</h4>&ndash;&gt;-->
-                            <!--&lt;!&ndash;<small>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<a class="href-orange text-overflow" ng-if="dc.state == 'normal'" href="http://{{dc.route.spec.host}}" target="_blank">{{dc.route.spec.host}}</a>&ndash;&gt;-->
-                                <!--&lt;!&ndash;<a class="href-orange text-overflow" style="color: #5B6177;cursor: no-drop;" ng-if="dc.state !== 'normal'" target="_blank">{{dc.route.spec.host}}</a>&ndash;&gt;-->
-                            <!--&lt;!&ndash;</small>&ndash;&gt;-->
-                        <!--</div>-->
-                    <!--</div>-->
+                   
                 </div>
                 <div class="col-sm-4">
                     <div class="media media-sm">
@@ -66,7 +46,45 @@
                 </div>
             </div>
         </div>
+    </div> -->
+
+    <!-- module common 公共-->
+    <div class="module-heading">
+        <div class="module_block_l">
+            <div class="img-block"></div>
+            <div class="img-detail">
+                <p class="img-tit">{{dc.metadata.name}}
+                    <span class="module_run" ng-if="dc.state == 'normal'">运行中</span>
+                </p>
+                <p class="img-time">
+                    <span classs="module_tit">创建时间：</span>
+                    <span class="module_time">{{dc.metadata.creationTimestamp | timescon}}</span>
+                </p>
+                <p class="img-new">
+                   
+
+                    <div class="module_b_l">
+                        <span class="module_tit">Pod数（正常数/期望数）：
+                            <small>
+                                <span>{{dc.status.replicas}}</span>/{{dc.spec.replicas}}
+                            </small>
+                        </span>
+                    </div>
+
+                </p>
+            </div>
+        </div>
+
+
+        <div class="module_block_r">
+            <a class="btn btn-gray pull-right df_del" ng-click="deleteDc(dc.metadata.name)">
+                    <span class="df_close"><i class="uex-icon-delete"></i></span>
+            </a>
+            <a class="btn pull-right btn-green df_build" ng-click="deployDc()">更新部署</a>
+            
+        </div>
     </div>
+    <!-- module common 公共-->
 
     <uib-tabset class="tab-default tab-jia-default" active="active">
         <uib-tab index="1">
