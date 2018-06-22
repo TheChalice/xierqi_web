@@ -55,11 +55,7 @@
                 </uib-tab-heading>
                 <div class="row" style="">
                     <div class="col-md-10" style="padding: 0px; ">
-                        <p style="margin: 0px;padding-top: 10px;">
-                            <small ng-show="err.url.null" class="fa fa-info-circle err-tip">请输入正确的镜像地址</small>
-                            <small ng-show="err.url.notfind" class="fa fa-info-circle err-tip">找不到镜像</small>
-                            <small ng-show="err.url.role" class="fa fa-info-circle err-tip">没有访问权限</small>
-                        </p>
+
                         <input autocomplete="off" type="text"
                                name="serviceName"
                                ng-model="postobj.spec.images[0].from.name"
@@ -71,6 +67,11 @@
                         <span class="input-group-btn" style="position: relative;border-radius: 4px;">
                                                         <a class="btn" style="margin-top:3px;margin-left:7px;background-size: contain;" ng-click="find()"></a>
                                                     </span>
+                        <p style="margin: 0px;padding-top: 10px;">
+                            <small ng-show="err.url.null" class="fa fa-info-circle err-tip">请输入正确的镜像地址</small>
+                            <small ng-show="err.url.notfind" class="fa fa-info-circle err-tip">找不到镜像</small>
+                            <small ng-show="err.url.role" class="fa fa-info-circle err-tip">没有访问权限</small>
+                        </p>
                         <div style="height: 24px;margin-top: 5px;">
                             <p  style="margin:0px;">
                                 <label ng-class="{'active':institution.configregistry}"
@@ -88,8 +89,6 @@
 
 
                     </div>
-
-
 
                 </div>
             </uib-tab>
