@@ -11,7 +11,7 @@
             <span class="pficon pficon-image" aria-hidden="true"></span>
         </div> -->
         <div flex class="word-break pod_list_mt">
-            <span class="pod-template-key" style="width:160px;float:left;font-size:12px;color:#475669">镜像:
+            <span class="pod-template-key" style="width:200px;float:left;font-size:12px;color:#475669">镜像:
                 <!--Image:-->
             </span>
             <span ng-if="!imagesByDockerReference[container.image]" style="font-size:12px;color:#475669">{{container.image | imageStreamName}}</span>
@@ -72,8 +72,8 @@
         <div class="icon-wrap" style="margin-right:5px;">
             <!-- <span aria-hidden="true" class="fa fa-terminal"></span> -->
         </div>
-        <div flex class="word-break pod_list_mt">
-            <span class="pod-template-key" style="width:160px;float:left;color:#475669">
+        <div flex class="word-break pod_list_mt" style="clear:both;overflow:hidden;">
+            <span class="pod-template-key" style="width:200px;float:left;color:#475669">
                 命令:
             </span>
             <span style="width:60%;float:left;">
@@ -104,7 +104,7 @@
             <span data-icon="" aria-hidden="true" style="font-size:16px;line-height:normal"></span>
         </div>
         <div flex class="word-break pod_list_mt">
-            <span class="pod-template-key" style='width:160px;float:left;font-size:12px;color:#475669'>端口:</span>
+            <span class="pod-template-key" style='width:200px;float:left;font-size:12px;color:#475669'>端口:</span>
             <span ng-repeat="port in container.ports | orderBy: 'containerPort' | limitToOrAll : detailed ? undefined : 1">
                 <span class="nowrap" style="font-size:12px;color:#475669;">{{port.containerPort}}/{{port.protocol}}</span>
                 <span ng-if="port.name">
@@ -129,7 +129,7 @@
             <!-- <span aria-hidden="true" class="fa fa-database"></span> -->
         </div>
         <div flex class="word-break pod_list_mt">
-            <span class="pod-template-key" style="width:160px;float:left;color:#475669;font-size:12px;">
+            <span class="pod-template-key" style="width:200px;float:left;color:#475669;font-size:12px;">
                 挂载:
                 <!--Mount:-->
             </span>

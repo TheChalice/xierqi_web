@@ -1,4 +1,4 @@
-<div id="rs" class="df_frame">
+<div id="rs" class="df_frame" confull-height>
     <!-- <p>
         <span class="pd_name">{{replicaSet.metadata.name}}</span>
         &nbsp;&nbsp;
@@ -26,6 +26,8 @@
                 Details
             </uib-tab-heading>
             <div>
+                    <h3 class="df_tit">rs详情</h3>
+                    <div class="df_left_set">
                 <div class="row matgin-txt">
                     <div class="col-md-2">Deployment:</div>
                     <div class="col-md-10">
@@ -58,8 +60,9 @@
                         </div>
                     </div>
                 </div>
-
-                <h3 class="subtitle">Template</h3>
+                </div>
+               <div class="h15"></div>
+                <h3 class="df_tit">Template</h3>
                 <pod-template
                         pod-template="replicaSet.spec.template"
                         images-by-docker-reference="imagesByDockerReference"
@@ -67,9 +70,9 @@
                         detailed="true"
                         add-health-check-url="{{((!deploymentConfig || isActive)) ? healthCheckURL : ''}}">
                 </pod-template>
-
-                <h4 class="subtitle">Volumes</h4>
-                <div ng-if="replicaSet.spec.template.spec.volumes"
+                <div class="h15"></div>
+                <h3 class="df_tit">Volumes</h3>
+                <div ng-if="replicaSet.spec.template.spec.volumes" class="df_left_set"
                      ng-repeat="volume in replicaSet.spec.template.spec.volumes">
                     <div class="row matgin-txt">
                         <div class="col-md-2">volumeName:</div>
@@ -123,10 +126,11 @@
                     </div>
 
                 </div>
-                <div ng-if="!replicaSet.spec.template.spec.volumes" class="row matgin-txt">
+                <div ng-if="!replicaSet.spec.template.spec.volumes" class="row matgin-txt df_left_set">
                     <div class="col-md-10">none</div>
                 </div>
-                <h4 class="subtitle">Pods</h4>
+                <div class="h15"></div>
+                <h3 class="df_tit">Pods</h3>
                 <div class="table-responsive" style="margin-top: 20px;">
                     <table class="table table-hover table-default">
                         <tr>
@@ -188,15 +192,15 @@
                     <div ng-if="envOrigin.name">
                         <h3 class="df_tit">容器 {{envOrigin.name}} 的环境变量</h3>
                         <div ng-if="envOrigin.env">
-                            <div class="form_block">Name</div>
-                            <div class="form_block">Value</div>
+                            <!-- <div class="form_block">Name--</div>
+                            <div class="form_block">Value</div> -->
                             <div class="envi_main" ng-repeat="env in envOrigin.env">
                                 <div class="form_block">
-                                    <input type="text" class="form-control" readonly="readonly" value={{env.name}}>
+                                    <input class="col-md-11 input-key ng-pristine ng-untouched ng-valid ng-not-empty" value={{env.name}} type="text" ng-disabled="true" style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:text;height:32px;line-height:32px;padding:6px 12px;font-size:12px;" disabled="disabled">
                                 </div>
 
                                 <div class="form_block">
-                                    <input type="text" class="form-control" readonly="readonly" value={{env.value}}>
+                                    <input class="col-md-11 input-key ng-pristine ng-untouched ng-valid ng-not-empty" value={{env.value}} type="text" ng-disabled="true" style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:text;height:32px;line-height:32px;padding:6px 12px;font-size:12px;" disabled="disabled">
                                 </div>
                             </div>
                         </div>
