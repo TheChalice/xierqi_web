@@ -133,67 +133,67 @@ angular.module('console.secret_secret', [
                 reader.onload = function (e) {
                     var content = e.target.result;
                     // $scope.item.newarr.push({key: thisfilename, value: content,showLog:false});
-                    $scope.item.newarr[$scope.check].value = content;
-                    $scope.item.newarr[$scope.check].isClearCode = true;
+                    $scope.item.secretarr[$scope.check].value = content;
+                    $scope.item.secretarr[$scope.check].isClearCode = true;
                     $scope.$apply();
                 };
                 reader.readAsText(file);
             };
 
             $scope.AddConfigurationFile = function () {
-                $scope.item.newarr.push({key: '', value: '',isClearCode:false});
+                $scope.item.secretarr.push({key: '', value: '',isClearCode:false});
             };
 
-            $scope.$watch('item', function (n, o) {
-                if (n == o) {
-                    //$scope.gird.status = false;
-                    return
-                }
-                var kong = false;
-
-                var r = /^[a-z0-9.]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
-
-                if (!$scope.change) {
-                    $scope.change = true;
-                    return
-                } else {
-                    $scope.grid.keychongfu = false;
-                    $scope.grid.keynull = false;
-                    $scope.grid.keybuhefa = false;
-                    if (n.secretarr||n.newarr) {
-                        if (n.secretarr.length>0||n.newarr.length>0) {
-                            var arr = n.secretarr.concat(n.newarr);
-                            //var arr = angular.copy(n.secretarr);
-                            //console.log(arr);
-                            arr.sort(by.open("key"));
-                            angular.forEach(arr, function (item, i) {
-                                if (!item.key || !item.value) {
-                                    kong = true
-                                }else {
-                                    if (arr[i] && arr[i + 1]) {
-                                        if (arr[i].key == arr[i + 1].key) {
-                                            $scope.grid.keychongfu = true;
-                                            kong = true;
-                                        }
-                                    }
-                                    if (!r.test(arr[i].key)) {
-                                        $scope.grid.keybuhefa = true;
-                                        kong = true;
-                                    }
-                                }
-                            });
-
-                            if (!kong) {
-                                $scope.grid.status = true
-                            } else {
-                                $scope.grid.status = false
-                            }
-                        }else {
-                            $scope.grid.status = false
-                        }
-                    }
-                }
-            }, true);
+            //$scope.$watch('item', function (n, o) {
+            //    if (n == o) {
+            //        //$scope.gird.status = false;
+            //        return
+            //    }
+            //    var kong = false;
+            //
+            //    var r = /^[a-z0-9.]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
+            //
+            //    if (!$scope.change) {
+            //        $scope.change = true;
+            //        return
+            //    } else {
+            //        $scope.grid.keychongfu = false;
+            //        $scope.grid.keynull = false;
+            //        $scope.grid.keybuhefa = false;
+            //        if (n.secretarr||n.newarr) {
+            //            if (n.secretarr.length>0||n.newarr.length>0) {
+            //                var arr = n.secretarr.concat(n.newarr);
+            //                //var arr = angular.copy(n.secretarr);
+            //                //console.log(arr);
+            //                arr.sort(by.open("key"));
+            //                angular.forEach(arr, function (item, i) {
+            //                    if (!item.key || !item.value) {
+            //                        kong = true
+            //                    }else {
+            //                        if (arr[i] && arr[i + 1]) {
+            //                            if (arr[i].key == arr[i + 1].key) {
+            //                                $scope.grid.keychongfu = true;
+            //                                kong = true;
+            //                            }
+            //                        }
+            //                        if (!r.test(arr[i].key)) {
+            //                            $scope.grid.keybuhefa = true;
+            //                            kong = true;
+            //                        }
+            //                    }
+            //                });
+            //
+            //                if (!kong) {
+            //                    $scope.grid.status = true
+            //                } else {
+            //                    $scope.grid.status = false
+            //                }
+            //            }else {
+            //                $scope.grid.status = false
+            //            }
+            //        }
+            //    }
+            //}, true);
 
             $scope.addFile= function (i) {
                 $scope.check = i;
@@ -214,15 +214,60 @@ angular.module('console.secret_secret', [
             $scope.clearCode = function (index) {
                 $scope.item.newarr[index].value = '';
             };
+            function keyerr(arr) {
+                console.log('arr,', arr);
+                var rex = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
+                var cancreat = true
+                angular.forEach(arr, function (item, i) {
+                    if (item.key === '') {
+                        cancreat = false;
+                        item.err.key.nil = true
+                    } else if (!rex.test(item.key)) {
+                        cancreat = false;
+                        item.err.key.rexed = true
+                    } else {
+                        angular.forEach(arr, function (initem, k) {
+                            if (i !== k) {
+                                if (item.key === initem.key) {
+                                    cancreat = false;
+                                    item.err.key.repeated = true;
+                                    initem.err.key.repeated = true;
+                                }
+                            }
+                        })
+                    }
+                });
+                if (cancreat) {
+                    return 'cancreat'
+                } else {
+                    return 'dontcreat'
+                }
+            }
             $scope.updateSecret = function () {
                 $scope.item.data={};
-                if ($scope.item.secretarr) {
-                    var arr = $scope.item.secretarr.concat($scope.item.newarr);
-                }else {
-                    var arr = $scope.item.newarr.concat($scope.item.secretarr);
-                }
+                //if ($scope.item.secretarr) {
+                //    var arr = $scope.item.secretarr.concat($scope.item.newarr);
+                //}else {
+                //    var arr = $scope.item.newarr.concat($scope.item.secretarr);
+                //}
                 //var arr = $scope.item.secretarr.concat($scope.item.newarr);
-                angular.forEach(arr, function (item,i) {
+                angular.forEach($scope.item.secretarr, function (item, i) {
+                    $scope.item.secretarr[i].err = {
+                        key: {
+                            nil: false,
+                            rexed: false,
+                            repeated: false
+                        }
+                    }
+
+                })
+                //console.log('keyerr($scope.volume.configitems)', keyerr($scope.item.secretarr));
+                if (keyerr($scope.item.secretarr) !== 'cancreat') {
+
+                    return
+                }
+
+                angular.forEach($scope.item.secretarr, function (item,i) {
                     $scope.item.data[item.key] = Base64.encode(item.value);
                 });
                 delete $scope.item.secretarr;
