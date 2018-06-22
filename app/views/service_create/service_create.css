@@ -115,7 +115,7 @@
 .quota-dropdown{
     width: 80px;
     line-height:8px;
-    height: 26px;
+    height: 24px;
     font-size:12px;
     color: #475669;
     background: #F9FAFC;
@@ -153,4 +153,8 @@
 }
 .chang-image-box .dropdown-select > .btn .caret{
     top: 11px;
+}
+.containerval .dropdown-select > .btn{
+    height: 24px;
+    padding: 3px 12px;
 }
