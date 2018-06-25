@@ -183,7 +183,7 @@ angular.module('console.build_create', [
                     $scope.buildConfig.spec.source.git.ref='';
                     $scope.buildConfig.spec.source.contextDir='';
                 }
-            })
+            });
             $scope.selectorg = function (idx, orgs) {
                 // console.log('$scope.selectorg', idx, orgs);
                 $scope.grid.org = idx;
@@ -250,6 +250,17 @@ angular.module('console.build_create', [
                     project: false,
                     codeBranch: false
                 };
+                $scope.$watch('buildConfig.metadata.name', function (n, o) {
+                    if (n === o) {
+                        return;
+                    }
+                    $scope.namerr = {
+                        nil: false,
+                        rexed: false,
+                        repeated: false,
+                        urlerr: false
+                    };
+                });
                 //校验构建名称
                 BuildConfig.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
                     // console.log('data.items11111111', data.items);
@@ -278,6 +289,7 @@ angular.module('console.build_create', [
                     $scope.namerr.rexed = true;
                     return
                 }
+
                 var imageStream = {
                     metadata: {
                         annotations: {

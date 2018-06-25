@@ -39,7 +39,11 @@ angular.module('console.service.create', [
             }
             $scope.advancedConfig = false
 
-            $scope.portsArr = [];
+            $scope.portsArr = [{
+                containerPort: "",
+                protocol: "TCP",
+                hostPort: ""
+            }];
 
             $scope.jump = function () {
                 if (!$scope.dc.metadata.name) {
