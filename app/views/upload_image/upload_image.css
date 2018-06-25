@@ -72,4 +72,7 @@
 }
 .chang-image-box .dropdown-select > .btn .caret{
     top: 11px;
-}
+}.btn:active{
+     -webkit-box-shadow:none;
+     box-shadow:none;
+ }
