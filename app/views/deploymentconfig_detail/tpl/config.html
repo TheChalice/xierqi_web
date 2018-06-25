@@ -1,30 +1,30 @@
 <div class="service-config" id="service_config">
     <!--配置信息-->
-    <a class="btn pull-right btn-orange df_build" style="margin-right: 20px;" ng-click="updateDc()">保存修改</a>
+    <a class="btn pull-right df_build_btn"  ng-click="updateDc()">保存修改</a>
     <div class="tittle">
         <h3 class="df_tit">部署详情</h3>
     </div>
     <div class="row condigmaarginbottom" style="margin-left:0px;font-size:12px;">
         <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">选择器:</div>
-            <div class="col-md-10">app = {{dc.metadata.name}}
+            <div class="col-md-2 col-md-2_padding df_jl_set">选择器:</div>
+            <div class="col-md-10 df_jl_pd">app = {{dc.metadata.name}}
                 <br/> deploymentconfig = {{dc.metadata.name}}</div>
         </div>
         <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">策略:</div>
-            <div class="col-md-10">{{dc.spec.strategy.type}}</div>
+            <div class="col-md-2 col-md-2_padding df_jl_set">策略:</div>
+            <div class="col-md-10 df_jl_pd">{{dc.spec.strategy.type}}</div>
         </div>
         <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">超时:</div>
-            <div class="col-md-10">{{dc.spec.strategy.rollingParams.timeoutSeconds}} sec</div>
+            <div class="col-md-2 col-md-2_padding df_jl_set">超时:</div>
+            <div class="col-md-10 df_jl_pd">{{dc.spec.strategy.rollingParams.timeoutSeconds}} sec</div>
         </div>
         <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">更新周期:</div>
-            <div class="col-md-10">{{dc.spec.strategy.rollingParams.updatePeriodSeconds}} sec</div>
+            <div class="col-md-2 col-md-2_padding df_jl_set">更新周期:</div>
+            <div class="col-md-10 df_jl_pd">{{dc.spec.strategy.rollingParams.updatePeriodSeconds}} sec</div>
         </div>
         <div class="col-md-12 bushu_marginBottom">
-            <div class="col-md-2 col-md-2_padding">间隔:</div>
-            <div class="col-md-10">{{dc.spec.strategy.rollingParams.intervalSeconds}} sec</div>
+            <div class="col-md-2 col-md-2_padding df_jl_set">间隔:</div>
+            <div class="col-md-10 df_jl_pd">{{dc.spec.strategy.rollingParams.intervalSeconds}} sec</div>
         </div>
         <!--<div class="col-md-12 bushu_marginBottom">-->
         <!--<div class="col-md-2 col-md-2_padding">Max Unavailable:</div>-->
@@ -47,10 +47,10 @@
 
         </div>
         <div class="col-md-12">
-            <div class="col-md-1 col-md-2_padding tittle">
+            <div class="col-md-2 col-md-2_padding tittle" style="width:120px;">
                 <span class="config_tit">执行</span>
             </div>
-            <div class="col-md-11">
+            <div class="col-md-10">
                 <checkbox-small checked="quota.rubustCheck"></checkbox-small>
             </div>
 
@@ -58,7 +58,7 @@
         <div class="config_main">
             <div class="col-md-1"></div>
             <div class="col-md-11">
-                <div class="podlist" style="margin-left:15px;">
+                <div class="podlist" style="margin-left:35px;">
                     <p class="tit_num">Pod数量</p>
                     <input class="podnum" ng-model="dc.spec.replicas" name="cdm" type="text" placeholder="数字必须为正整数" style="">
                 </div>
@@ -92,13 +92,13 @@
         </div>
 
         <div class="col-md-12">
-            <div class="col-md-1 col-md-2_padding tittle">
+            <div class="col-md-2 col-md-2_padding tittle" style="width:120px;">
                 <span class="config_tit">部署执行</span>
             </div>
-            <div class="col-md-11">
+            <div class="col-md-10">
                 <label class="config_label" ng-class="{'active': grid.configChange}" ng-click="grid.configChange=!grid.configChange" style="cursor: pointer;">
                     <i class="faa faa-check"></i>
-                    &nbsp;&nbsp;配置变化触发自动部署
+                    配置变化触发自动部署
                 </label>
             </div>
 
@@ -136,11 +136,11 @@
                         <div>
                             <div style="display: inline-block;" class="text-left">
                                 <label ng-class="{'active': container.display}" ng-click="checkoutreg(container,true)" style="cursor: pointer;">
-                                    <i class="faa faa-check"></i>
+                                    <i class="faa faa-check sel-check"></i>
                                     &nbsp;&nbsp;私有
                                 </label>
                                 <label ng-class="{'active': !container.display}" ng-click="checkoutreg(container,false)" style="cursor: pointer;margin-left:8px;">
-                                    <i class="faa faa-check"></i>
+                                    <i class="faa faa-check sel-check"></i>
                                     &nbsp;&nbsp;公有
                                 </label>
                             </div>
@@ -326,7 +326,7 @@
                             <div ng-if="container.volments.secret.length > 0" style="margin-bottom: 10px;" ng-repeat="secret in container.volments.secret"
                                 ng-init="innerIndex = $index">
 
-                                <div class="dropdown dropdown-select" style="min-width:167px;height: 26px;">
+                                <div class="dropdown dropdown-select" style="min-width:360px;height: 26px;">
                                     <button ng-class="{'err':secret.nameerr}" class="btn dropdown-toggle" data-toggle="dropdown" style="height: 26px;">
                                         <span style="color: #999999" ng-show="!secret.secretName">请选择卷名称</span>
                                         <span style="color: #333333" ng-show="secret.secretName">{{secret.secretName}}</span>
@@ -369,7 +369,7 @@
                             <div ng-if="container.volments.configMap.length > 0" style="margin-bottom: 10px;" ng-repeat="config in container.volments.configMap"
                                 ng-init="innerIndex = $index">
 
-                                <div class="dropdown dropdown-select" style="min-width:167px;height: 26px;">
+                                <div class="dropdown dropdown-select" style="min-width:360px;height: 26px;">
                                     <button ng-class="{'err':config.nameerr}" class="btn dropdown-toggle" data-toggle="dropdown" style="height: 26px;">
 
                                         <span style="color: #999999" ng-show="!config.name">请选择卷名称</span>
@@ -411,7 +411,7 @@
                             <div ng-if="container.volments.persistentVolumeClaim.length > 0" style="margin-bottom: 10px;" ng-repeat="persistentVolume in container.volments.persistentVolumeClaim"
                                 ng-init="innerIndex = $index">
 
-                                <div class="dropdown dropdown-select" style="min-width:167px;height: 26px;">
+                                <div class="dropdown dropdown-select" style="min-width:360px;height: 26px;">
                                     <button ng-class="{'err':persistentVolume.nameerr}" class="btn dropdown-toggle" data-toggle="dropdown" style="height: 26px;">
                                         <span style="color: #999999" ng-show="!persistentVolume.claimName">请选择卷名称</span>
                                         <span style="color: #333333" ng-show="persistentVolume.claimName">{{persistentVolume.claimName}}</span>
