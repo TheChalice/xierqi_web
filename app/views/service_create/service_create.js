@@ -8,14 +8,30 @@ angular.module('console.service.create', [
             ]
         }
     ])
-    .controller('ServiceCreateCtrl', ['mytag', 'ImageStreamImage', 'myimage', 'imagestreamimports', 'GLOBAL', 'resourcequotas', '$http', 'by', 'diploma', 'Confirm', 'Toast', '$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service',
-        function (mytag, ImageStreamImage, myimage, imagestreamimports, GLOBAL, resourcequotas, $http, by, diploma, Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service) {
+    .controller('ServiceCreateCtrl', ['mytag', 'ImageStreamImage', 'myimage', 'imagestreamimports', 'GLOBAL', 'resourcequotas', '$http', 'by', 'diploma', 'Confirm', 'Toast', '$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service', 'horizontalpodautoscalers',
+        function (mytag, ImageStreamImage, myimage, imagestreamimports, GLOBAL, resourcequotas, $http, by, diploma, Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service, horizontalpodautoscalers) {
 
             $scope.institution = {
                 display: 1,
-                configregistry: false
+                configregistry: false,
+                rubustCheck: false
             }
-
+            $scope.horiz = {
+                "apiVersion": "autoscaling/v1",
+                "kind": "HorizontalPodAutoscaler",
+                "metadata": {"name": null, "labels": {"app": null}},
+                "spec": {
+                    "scaleTargetRef": {
+                        "kind": "DeploymentConfig",
+                        "name": null,
+                        "apiVersion": "extensions/v1beta1",
+                        "subresource": "scale"
+                    },
+                    "minReplicas": null,
+                    "maxReplicas": null,
+                    "targetCPUUtilizationPercentage": null
+                }
+            };
             $scope.err = {
                 url: {
                     null: false,
@@ -34,16 +50,21 @@ angular.module('console.service.create', [
                 label: {
                     null: false,
                     repeated: false,
+                },
+                horiz: {
+                    openerr: false,
+                    maxerr: false
+                },
+                port: {
+                    repeat: false,
+                    null: false
                 }
 
             }
+            //$scope.
             $scope.advancedConfig = false
 
-            $scope.portsArr = [{
-                containerPort: "",
-                protocol: "TCP",
-                hostPort: ""
-            }];
+            $scope.portsArr = [];
 
             $scope.jump = function () {
                 if (!$scope.dc.metadata.name) {
@@ -63,19 +84,19 @@ angular.module('console.service.create', [
             })
             ///////containers展开收缩
             $scope.pickdown = function (idx) {
-                if($scope.dc.spec.template.spec.containers[idx].retract){
+                if ($scope.dc.spec.template.spec.containers[idx].retract) {
                     $scope.dc.spec.template.spec.containers[idx].retract = false;
-                }else{
+                } else {
                     $scope.dc.spec.template.spec.containers[idx].retract = true;
                 }
             }
 
             $scope.addContainer = function () {
                 $scope.dc.spec.template.spec.containers.push({
-                    retract:true,
+                    retract: true,
                     "name": '',
                     "image": '',
-                    'env': [{name: '', value: ''}],
+                    'env': [],
                     volments: {
                         //secret: [{secretName: '', mountPath: ''}],
                         //configMap: [{name: '', mountPath: ''}],
@@ -186,7 +207,26 @@ angular.module('console.service.create', [
 
             $scope.tagslist = [];
 
+            $scope.mustnum = function (e, num, quate) {
 
+                if (quate === 10) {
+                    var patrn = /^([1-9]||10)$/ig;
+                } else if (quate === 100) {
+                    var patrn = /^(\d|[1-9]\d|100)$/;
+                } else {
+                    var patrn = /^\d+$/;
+                }
+                //
+
+                if (patrn.test(num)) {
+                    console.log('t', e.currentTarget.value);
+                } else {
+                    //console.log('f',num);
+                    e.currentTarget.value = null
+                }
+
+
+            };
             angular.forEach(myimage.items, function (image) {
                 //console.log('image.status.tags', image.status.tags);
                 if (image.status.tags) {
@@ -279,10 +319,10 @@ angular.module('console.service.create', [
                         "spec": {
                             "volumes": [],
                             "containers": [{
-                                retract:true,
+                                retract: true,
                                 "name": '',
                                 "image": '',
-                                'env': [{name: '', value: ''}],
+                                'env': [],
                                 volments: {
                                     //secret: [{secretName: '', mountPath: ''}],
                                     //configMap: [{name: '', mountPath: ''}],
@@ -422,14 +462,11 @@ angular.module('console.service.create', [
                 }
             })
 
-            $scope.tocheckedtag= function (tag,idx,checked,istags) {
-                //var con =
-                //console.log('tag,idx,checked,istags', tag, idx, checked, istags);
-                $scope.dc.spec.template.spec.containers[idx].creattime=tag.image.metadata.creationTimestamp
+            $scope.tocheckedtag = function (tag, idx, checked, istags) {
+                $scope.dc.spec.template.spec.containers[idx].creattime = tag.image.metadata.creationTimestamp
                 if (tag.image.dockerImageMetadata.Config.ExposedPorts) {
 
                     var posts = []
-                    //$scope.port = []
                     $scope.dc.spec.template.spec.containers[idx].strport = '';
 
                     for (var k in tag.image.dockerImageMetadata.Config.ExposedPorts) {
@@ -443,6 +480,10 @@ angular.module('console.service.create', [
                         })
                         if (!rep) {
                             $scope.portsArr.push({
+                                err:{
+                                    containerPort:false,
+                                    hostPort:false
+                                },
                                 protocol: k.split('/')[1].toUpperCase(),
                                 containerPort: pot,
                                 hostPort: pot
@@ -454,11 +495,11 @@ angular.module('console.service.create', [
                     $scope.dc.spec.template.spec.containers[idx].ports = angular.copy(posts)
                 }
 
-                $scope.dc.spec.template.spec.containers[idx].annotate= {
-                    image:checked.image,
-                    tag:checked.tag
+                $scope.dc.spec.template.spec.containers[idx].annotate = {
+                    image: checked.image,
+                    tag: checked.tag
                 }
-                $scope.dc.spec.template.spec.containers[idx].annotate.ismy=true
+                $scope.dc.spec.template.spec.containers[idx].annotate.ismy = true
 
                 $scope.dc.spec.template.spec.containers[idx].name = checked.image
                 //$scope.fuwuname = checked.image;
@@ -466,14 +507,14 @@ angular.module('console.service.create', [
                 //tag.image.
                 angular.forEach(istags.items, function (istag, i) {
                     if (istag.image.metadata.name === tag.image.metadata.name) {
-                        console.log(istag.image.dockerImageReference);
+                        //console.log(istag.image.dockerImageReference);
                         $scope.dc.spec.template.spec.containers[idx].image = istag.image.dockerImageReference;
                     }
                 })
 
             }
 
-            $scope.ourimage = function (images,idx,postobj) {
+            $scope.ourimage = function (images, idx, postobj) {
                 if (images.status.images && images.status.images[0] && images.status.images[0].status) {
                     if (images.status.images[0].status.code && images.status.images[0].status.code === 401) {
                         $scope.err.url.role = true;
@@ -522,6 +563,10 @@ angular.module('console.service.create', [
                             })
                             if (!rep) {
                                 $scope.portsArr.push({
+                                    err:{
+                                        containerPort:false,
+                                        hostPort:false
+                                    },
                                     protocol: k.split('/')[1].toUpperCase(),
                                     containerPort: pot,
                                     hostPort: pot
@@ -540,18 +585,18 @@ angular.module('console.service.create', [
 
             //console.log($stateParams);
             if ($stateParams.imagetype === 'myimage') {
-                $scope.checkimage=1
+                $scope.checkimage = 1
                 $scope.checked = {
                     namespace: $rootScope.namespace,
                     image: $stateParams.imagename,
                     tag: $stateParams.imagetag
                 }
-                $scope.tocheckedtag($stateParams.message,0,$scope.checked,$scope.istag)
-            }else if($stateParams.imagetype === 'ourimage'){
-                $scope.checkimage=2
-                console.log($stateParams);
-                $scope.postobj=$stateParams.postobj;
-                $scope.ourimage($stateParams.image,0,$stateParams.postobj)
+                $scope.tocheckedtag($stateParams.message, 0, $scope.checked, $scope.istag)
+            } else if ($stateParams.imagetype === 'ourimage') {
+                $scope.checkimage = 2
+                //console.log($stateParams);
+                $scope.postobj = $stateParams.postobj;
+                $scope.ourimage($stateParams.image, 0, $stateParams.postobj)
             }
 
             function dcname(n, image) {
@@ -657,7 +702,10 @@ angular.module('console.service.create', [
 
             function prepareLabel(dc) {
                 console.log('dc.metadata.labels', dc.metadata.labels);
-                dc.metadata.labels[0].value = $scope.fuwuname;
+                if (dc.metadata.labels && dc.metadata.labels.length) {
+                    dc.metadata.labels[0].value = dc.metadata.name;
+                }
+
                 var labels = angular.copy(dc.metadata.labels)
 
                 $scope.dc.metadata.labels = {}
@@ -680,6 +728,15 @@ angular.module('console.service.create', [
                 } else {
                     delete $scope.dc.spec.template.spec.containers[0].env
                 }
+
+            }
+
+            function preparehoriz(dc) {
+                var name = dc.metadata.name;
+                $scope.horiz.metadata.name = name;
+                $scope.horiz.metadata.labels.app = name;
+                $scope.horiz.spec.scaleTargetRef.name = name;
+                $scope.horiz.spec.minReplicas = dc.spec.replicas;
 
             }
 
@@ -759,7 +816,7 @@ angular.module('console.service.create', [
                         copyarr.push(ovolment)
                     })
                 })
-                console.log('vol', vol);
+                //console.log('vol', vol);
                 angular.forEach(vol, function (item, i) {
 
                     angular.forEach(item, function (ovolment, k) {
@@ -771,8 +828,12 @@ angular.module('console.service.create', [
                             if (ovolment.id !== ivolment.id) {
                                 if (ovolment.mountPath === ivolment.mountPath) {
                                     volerr = true;
+
                                     console.log(ivolment, vol[i]);
                                     vol[ivolment.type][ivolment.index].mountPatherr = true;
+                                    console.log('vol[ivolment.type][ivolment.index]', vol[ivolment.type][ivolment.index]);
+                                    console.log('vol[ivolment.type]', vol[ivolment.type]);
+
                                     ovolment.mountPatherr = true;
                                     $scope.err.vol.mountPath = true;
                                 }
@@ -825,8 +886,75 @@ angular.module('console.service.create', [
 
             }
 
+            $scope.creathoriz = function () {
+                $scope.err.horiz.openerr = false;
+                var cancreat = false;
+                angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
+                    if (con.open.resources) {
+                        cancreat = true
+                    }
+                })
+                if (cancreat) {
+                    $scope.institution.rubustCheck = !$scope.institution.rubustCheck
+                } else {
+                    $scope.err.horiz.openerr = true
+                }
+
+            }
+            function creathoriz() {
+                horizontalpodautoscalers.create({namespace: $rootScope.namespace}, $scope.horiz, function (data) {
+
+                })
+            }
+
             $scope.createDc = function () {
                 //console.log($scope.frm.serviceName.$error.pattern);
+                $scope.err.horiz.maxerr = false;
+                $scope.err.port.null = false;
+                $scope.err.port.repeat = false;
+                var portcan = true;
+                if ($scope.portsArr.length) {
+
+                    angular.forEach($scope.portsArr, function (item,i) {
+                        item.containerPort=parseInt(item.containerPort);
+                        item.hostPort=parseInt(item.hostPort);
+                        angular.forEach($scope.portsArr, function (initem,k) {
+                            if (i !== k) {
+                                if (item.containerPort === initem.containerPort) {
+                                    portcan = false;
+                                    item.err.containerPort=true
+                                    initem.err.containerPort=true
+                                }
+                            }
+                            if (i !== k) {
+                                if (item.hostPort === initem.hostPort) {
+                                    portcan = false;
+                                    item.err.hostPort = true
+                                    initem.err.hostPort = true
+                                }
+                            }
+
+                        })
+                    })
+                }
+                if (!portcan) {
+                    return
+                }
+
+                if ($scope.institution.rubustCheck) {
+                    if ($scope.horiz.spec.maxReplicas < $scope.dc.spec.replicas) {
+                        $scope.err.horiz.maxerr = true;
+                        return
+                    }
+                    if ($scope.horiz.spec.maxReplicas === '') {
+                        $scope.horiz.spec.maxReplicas = $scope.dc.spec.replicas
+                    }
+                    if ($scope.horiz.spec.targetCPUUtilizationPercentage === '') {
+                        $scope.horiz.spec.targetCPUUtilizationPercentage = 80;
+                    }
+                    preparehoriz($scope.dc);
+                }
+
                 $scope.dc.spec.template.spec.volumes = [];
                 var cancreat = true
                 angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
@@ -856,9 +984,10 @@ angular.module('console.service.create', [
                         }
                         con.readinessProbe.initialDelaySeconds = parseInt(con.readinessProbe.initialDelaySeconds)
                         con.readinessProbe.timeoutSeconds = parseInt(con.readinessProbe.timeoutSeconds)
-                    }else {
+                    } else {
                         delete con.readinessProbe
                     }
+
                     if (con.open.livenessProbe) {
                         if (con.open.livenesscheck === 'HTTP') {
                             delete con.livenessProbe.exec
@@ -883,18 +1012,20 @@ angular.module('console.service.create', [
                         }
                         con.livenessProbe.initialDelaySeconds = parseInt(con.livenessProbe.initialDelaySeconds)
                         con.livenessProbe.timeoutSeconds = parseInt(con.livenessProbe.timeoutSeconds)
-                    }else {
+                    } else {
                         delete con.livenessProbe
                     }
+
                     if (con.entrypoint) {
                         con.command = con.entrypoint.split(' ')
 
-                    }else {
+                    } else {
                         delete con.command
                     }
+
                     if (con.cmd) {
                         con.args = con.cmd.split(' ')
-                    }else {
+                    } else {
                         delete con.args
                     }
                     //console.log('con.imageChange', con.imageChange);
@@ -925,7 +1056,7 @@ angular.module('console.service.create', [
                         con.resources.limits.memory = unit(con.resources.limits.memory, con.resourcesunit.minmem)
                         con.resources.requests.cpu = unit(con.resources.requests.cpu, con.resourcesunit.maxcpu)
                         con.resources.requests.memory = unit(con.resources.requests.memory, con.resourcesunit.maxmem)
-                    }else {
+                    } else {
                         delete con.resources
                     }
 
@@ -940,17 +1071,23 @@ angular.module('console.service.create', [
                     $scope.err.name.null = true;
                     return
                 }
+
                 //console.log(invrepname());
                 if (!invrepname()) {
                     $scope.err.name.repeated = true;
                     return
                 }
+
                 invEnv()
+
                 if ($scope.dc.spec.ConfigChange) {
                     $scope.dc.spec.triggers.push({"type": "ConfigChange"})
                 }
 
-                if ($scope.portsArr.length&&$scope.portsArr.length>0) {
+                if ($scope.institution.rubustCheck) {
+                    creathoriz()
+                }
+                if ($scope.portsArr.length && $scope.portsArr.length > 0) {
                     createService($scope.dc)
                 } else {
                     creatdc()
@@ -1021,12 +1158,12 @@ angular.module('console.service.create', [
                 function ($scope, ChangeImages) {
                     $scope.selectImage = function (idx) {
                         console.log('outerIndex', idx);
-                        ChangeImages.open($scope.imageslist,$scope.istag).then(function (res) {
+                        ChangeImages.open($scope.imageslist, $scope.istag).then(function (res) {
                             //console.log('tag,checked,istag,ismy', tag, checked, istag, ismy);
-                            if (res.ismy==='mytag') {
-                                $scope.tocheckedtag(res.mytag,idx,res,res.istag)
-                            }else {
-                                $scope.ourimage(res.images,idx,res.postobj)
+                            if (res.ismy === 'mytag') {
+                                $scope.tocheckedtag(res.mytag, idx, res, res.istag)
+                            } else {
+                                $scope.ourimage(res.images, idx, res.postobj)
                             }
 
                         })
@@ -1034,7 +1171,7 @@ angular.module('console.service.create', [
                     $scope.addenv = function (con) {
                         con.env.push({name: '', value: ''})
                     }
-                    $scope.delenv = function (con,idx) {
+                    $scope.delenv = function (con, idx) {
                         con.env.splice(idx, 1);
                     }
                 }],
@@ -1068,8 +1205,6 @@ angular.module('console.service.create', [
                     }
 
 
-
-
                     $scope.find = function () {
                         if ($scope.institution.display == 2) {
                             return
@@ -1092,7 +1227,7 @@ angular.module('console.service.create', [
                             $scope.postobj.spec.images[0].from.name = $scope.postobj.spec.images[0].from.name.replace(/^\s+|\s+$/g, "");
                             imagestreamimports.create({namespace: $rootScope.namespace}, $scope.postobj, function (images) {
                                 $scope.finding = false;
-                                $scope.ourimage(images,0,$scope.postobj)
+                                $scope.ourimage(images, 0, $scope.postobj)
 
                                 //$scope.showall = true;
 
@@ -1113,7 +1248,7 @@ angular.module('console.service.create', [
                             namespace: $rootScope.namespace,
                             name: $scope.checked.image + '@' + tag.image
                         }, function (tag) {
-                            $scope.tocheckedtag(tag,0,$scope.checked,$scope.istag)
+                            $scope.tocheckedtag(tag, 0, $scope.checked, $scope.istag)
 
 
                         })
@@ -1149,6 +1284,10 @@ angular.module('console.service.create', [
             controller: ['$scope', function ($scope) {
                 $scope.addprot = function () {
                     $scope.portsArr.unshift({
+                        err:{
+                            containerPort:false,
+                            hostPort:false
+                        },
                         containerPort: "",
                         protocol: "TCP",
                         hostPort: ""
