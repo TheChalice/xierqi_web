@@ -10,10 +10,12 @@ angular.module('console.service.create', [
     ])
     .controller('ServiceCreateCtrl', ['mytag', 'ImageStreamImage', 'myimage', 'imagestreamimports', 'GLOBAL', 'resourcequotas', '$http', 'by', 'diploma', 'Confirm', 'Toast', '$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service',
         function (mytag, ImageStreamImage, myimage, imagestreamimports, GLOBAL, resourcequotas, $http, by, diploma, Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service) {
+
             $scope.institution = {
                 display: 1,
                 configregistry: false
             }
+
             $scope.err = {
                 url: {
                     null: false,
@@ -37,7 +39,11 @@ angular.module('console.service.create', [
             }
             $scope.advancedConfig = false
 
-            $scope.portsArr = [];
+            $scope.portsArr = [{
+                containerPort: "",
+                protocol: "TCP",
+                hostPort: ""
+            }];
 
             $scope.jump = function () {
                 if (!$scope.dc.metadata.name) {
@@ -55,10 +61,18 @@ angular.module('console.service.create', [
             DeploymentConfig.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
                 $scope.servelist = data;
             })
-
+            ///////containers展开收缩
+            $scope.pickdown = function (idx) {
+                if($scope.dc.spec.template.spec.containers[idx].retract){
+                    $scope.dc.spec.template.spec.containers[idx].retract = false;
+                }else{
+                    $scope.dc.spec.template.spec.containers[idx].retract = true;
+                }
+            }
 
             $scope.addContainer = function () {
                 $scope.dc.spec.template.spec.containers.push({
+                    retract:true,
                     "name": '',
                     "image": '',
                     'env': [{name: '', value: ''}],
@@ -172,6 +186,7 @@ angular.module('console.service.create', [
 
             $scope.tagslist = [];
 
+
             angular.forEach(myimage.items, function (image) {
                 //console.log('image.status.tags', image.status.tags);
                 if (image.status.tags) {
@@ -264,6 +279,7 @@ angular.module('console.service.create', [
                         "spec": {
                             "volumes": [],
                             "containers": [{
+                                retract:true,
                                 "name": '',
                                 "image": '',
                                 'env': [{name: '', value: ''}],
@@ -408,7 +424,7 @@ angular.module('console.service.create', [
 
             $scope.tocheckedtag= function (tag,idx,checked,istags) {
                 //var con =
-                console.log('tag,idx,checked,istags', tag, idx, checked, istags);
+                //console.log('tag,idx,checked,istags', tag, idx, checked, istags);
                 $scope.dc.spec.template.spec.containers[idx].creattime=tag.image.metadata.creationTimestamp
                 if (tag.image.dockerImageMetadata.Config.ExposedPorts) {
 
@@ -521,6 +537,23 @@ angular.module('console.service.create', [
                     //$scope.namerr.url = true;
                 }
             }
+
+            //console.log($stateParams);
+            if ($stateParams.imagetype === 'myimage') {
+                $scope.checkimage=1
+                $scope.checked = {
+                    namespace: $rootScope.namespace,
+                    image: $stateParams.imagename,
+                    tag: $stateParams.imagetag
+                }
+                $scope.tocheckedtag($stateParams.message,0,$scope.checked,$scope.istag)
+            }else if($stateParams.imagetype === 'ourimage'){
+                $scope.checkimage=2
+                console.log($stateParams);
+                $scope.postobj=$stateParams.postobj;
+                $scope.ourimage($stateParams.image,0,$stateParams.postobj)
+            }
+
             function dcname(n, image) {
                 $scope.dc.metadata.name = n;
                 if ($scope.dc.metadata.labels && $scope.dc.metadata.labels[0]) {
@@ -1059,7 +1092,7 @@ angular.module('console.service.create', [
                             $scope.postobj.spec.images[0].from.name = $scope.postobj.spec.images[0].from.name.replace(/^\s+|\s+$/g, "");
                             imagestreamimports.create({namespace: $rootScope.namespace}, $scope.postobj, function (images) {
                                 $scope.finding = false;
-                                $scope.ourimage(images,$scope.postobj)
+                                $scope.ourimage(images,0,$scope.postobj)
 
                                 //$scope.showall = true;
 

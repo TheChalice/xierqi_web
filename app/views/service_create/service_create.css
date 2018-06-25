@@ -29,7 +29,7 @@
     overflow: hidden;
     line-height: 30px;
     text-overflow: ellipsis;
-    height:42px;line-height:42px!important;
+    height:26px;line-height:26px!important;
 }
 .btn_file{
     color: #5a6378;margin-right:0px;text-shadow:0 0 0 #fff;border: none;border-left: 1px solid #c9c9c9;background: #e6e9f2;padding: 5px 12px;
@@ -70,7 +70,7 @@
     padding-left:0px;
 }
 .create_deploy_nanji .input-group-btn{
-    position: absolute;right: -50px;top:-0px;z-index: 1;border: 1px solid #CCD5E0;border-radius: 4px;width: 32px;height: 24px;display:inline-block;text-align: center;padding:0;
+    position: absolute;right: -12px;top:-2px;z-index: 1;border: 1px solid #CCD5E0;border-radius: 4px;width: 32px;height: 26px;display:inline-block;text-align: center;padding:0;
 }
 .child-no-padding div{
     padding-left:0;
@@ -89,4 +89,72 @@
 }
 .service-create{
     font-size: 12px;
+}
+.chang-image-box .tab-default .tab-content{
+    padding: 10px 0px;
+}
+.service-label-color{
+    color: #A2B0C4;
+}
+.containerval .df_jx_set {
+    width: 56px;
+    margin-left:15px;
+    display: block;
+    float: left;
+    text-align: center;
+    cursor: pointer;
+}
+.containerval .service-input-style {
+    width: 320px;
+    height: 26px;
+}
+.service-small-input{
+    width: 167px;
+    height: 26px;
+}
+.quota-dropdown{
+    width: 80px;
+    line-height:8px;
+    height: 24px;
+    font-size:12px;
+    color: #475669;
+    background: #F9FAFC;
+    text-shadow: none;
+    border:none;
+}
+.quota-dropdown:active,.quota-dropdown:hover{
+    background: #F9FAFC !important;
+    color: #475669 !important;
+    border:none !important;
+
+}
+.quota-input{
+    width: 87px;
+    padding:12px;
+    float: left;
+    border:none;
+    border-radius: 0px;
+    border-right:1px solid #ccd5e0;
+}
+.quota-input:hover,.quota-input:focus{
+    border:none;
+    border-radius: 0px;
+    border-right:1px solid #ccd5e0;
+}
+
+.containerval .btn-default{
+    background: #F9FAFC !important;
+}
+.quota-box-wrop{
+    width: 169px; border: 1px solid #ccd5e0;border-radius: 4px; ;
+}
+.containerval .dropdown-select > .btn .caret{
+    top: 11px;
+}
+.chang-image-box .dropdown-select > .btn .caret{
+    top: 11px;
+}
+.containerval .dropdown-select > .btn{
+    height: 24px;
+    padding: 3px 12px;
 }

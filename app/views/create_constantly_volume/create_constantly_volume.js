@@ -57,13 +57,13 @@ angular.module('console.create_constantly_persistentVolume', [
             rexed: false,
             repeated: false
         };
-        $scope.nameblur = function () {
-            if (!$scope.volume.name) {
-                $scope.namerr.nil = true
-            } else {
-                $scope.namerr.nil = false
-            }
-        };
+        // $scope.nameblur = function () {
+        //     if (!$scope.volume.name) {
+        //         $scope.namerr.nil = true
+        //     } else {
+        //         $scope.namerr.nil = false
+        //     }
+        // };
         $scope.namefocus = function () {
             $scope.namerr.nil = false
         };
@@ -74,71 +74,79 @@ angular.module('console.create_constantly_persistentVolume', [
             $scope.persmnamearr = res.items;
         });
 
-        var rex = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
+        // var rex = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
+        // $scope.$watch('volume.name', function (n, o) {
+        //     if (n === o) {
+        //         return;
+        //     }
+        //     if (n && n.length > 0) {
+        //         $scope.grid.configpost = false;
+        //         if (rex.test(n)) {
+        //             $scope.namerr.rexed = false;
+        //             $scope.namerr.repeated = false;
+        //             $scope.grid.configpost = true;
+        //             if ($scope.persmnamearr) {
+        //                 //console.log($scope.buildConfiglist);
+        //                 angular.forEach($scope.persmnamearr, function (bsiname, i) {
+        //                     // console.log(bsiname);
+        //                     if (bsiname.metadata.name === n) {
+        //                         // console.log(bsiname,n);
+        //                         $scope.namerr.repeated = true;
+        //                         $scope.grid.configpost = false;
+        //                     }
+        //                     //console.log($scope.namerr.repeated);
+        //                 })
+        //             }
+        //         } else {
+        //             $scope.namerr.rexed = true;
+        //             $scope.grid.configpost = false;
+        //         }
+        //     } else {
+        //         $scope.namerr.rexed = false;
+        //     }
+        // });
+        // $scope.empty = function () {
+        //     if ($scope.volume.name === '') {
+        //         $scope.err.blank = false;
+        //         return
+        //     }
+        // };
+        // $scope.isEmpty = function () {
+        //     if ($scope.volume.name === '') {
+        //         //alert(1)
+        //         $scope.err.blank = true;
+        //         return
+        //     } else {
+        //         $scope.err.blank = false;
+        //     }
+        //
+        // };
         $scope.$watch('volume.name', function (n, o) {
             if (n === o) {
                 return;
             }
-            if (n && n.length > 0) {
-                $scope.grid.configpost = false;
-                if (rex.test(n)) {
-                    $scope.namerr.rexed = false;
-                    $scope.namerr.repeated = false;
-                    $scope.grid.configpost = true;
-                    if ($scope.persmnamearr) {
-                        //console.log($scope.buildConfiglist);
-                        angular.forEach($scope.persmnamearr, function (bsiname, i) {
-                            // console.log(bsiname);
-                            if (bsiname.metadata.name === n) {
-                                // console.log(bsiname,n);
-                                $scope.namerr.repeated = true;
-                                $scope.grid.configpost = false;
-                            }
-                            //console.log($scope.namerr.repeated);
-                        })
-                    }
-                } else {
-                    $scope.namerr.rexed = true;
-                    $scope.grid.configpost = false;
-                }
-            } else {
-                $scope.namerr.rexed = false;
-            }
+            $scope.namerr = {
+                nil: false,
+                rexed: false,
+                repeated: false
+            };
         });
-        $scope.empty = function () {
+        $scope.create = function () {
+            var rex = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
             if ($scope.volume.name === '') {
-                $scope.err.blank = false;
+                $scope.namerr.nil = true;
                 return
-            }
-        };
-        $scope.isEmpty = function () {
-            if ($scope.volume.name === '') {
-                //alert(1)
-                $scope.err.blank = true;
+            } else if (!rex.test($scope.volume.name)) {
+                $scope.namerr.rexed = true;
                 return
             } else {
-                $scope.err.blank = false;
+                for (var i = 0; i < $scope.persmnamearr.length; i++) {
+                    if ($scope.volume.name === $scope.persmnamearr[i].metadata.name) {
+                        $scope.namerr.repeated = true;
+                        return
+                    }
+                }
             }
-
-        };
-        $scope.creat = function () {
-            if (!$scope.namerr.nil && !$scope.namerr.rexed && !$scope.namerr.repeated && !$scope.timeouted) {
-
-            } else {
-                return
-            }
-            var r = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
-
-            if ($scope.volume.name === '') {
-                //alert(1)
-                $scope.err.blank = true;
-                return
-            } else if (!r.test($scope.volume.name)) {
-                //alert(2)
-                $scope.err.valid = true;
-                return
-            }
-
             if ($scope.slider.value === 0) {
                 $scope.grid.num = true;
                 return

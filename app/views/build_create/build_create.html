@@ -6,7 +6,7 @@
             </div>
             <div class="panel-body panel-block-jia-body">
                 <div class="form-jia-line build-creat-top">
-                    <label class="col-sm-2 control-label text-left creat-name-lablel require">构建名称</label>
+                    <label class="col-sm-2 control-label text-left creat-name-lablel require" style="width: 120px;">构建名称</label>
                     <div class="col-sm-10 pr40">
                         <input ng-model="buildConfig.metadata.name"
                                ng-blur="nameblur()"
@@ -30,11 +30,11 @@
             </div>
             <div class="panel-body panel-block-jia-body">
                 <div class="form-jia-line build-creat-center">
-                    <label class="col-sm-2 control-label creat-tab-lablel">URL类型</label>
+                    <label class="col-sm-2 control-label creat-tab-lablel" style="width: 120px;">URL类型</label>
                     <div class="col-sm-10 bc creat-tab" id="bc">
                         <uib-tabset class="tab-default tab-jia-default" active="buildcheck">
                             <!--gitlab-->
-                            <uib-tab index="1" heading="GitLab">
+                            <uib-tab index="1" heading="GitLab" classes="GitLab">
                                 <div class="tabinfo tab-lab">
                                     <img class="tab-lab-img">
                                     <!--<img class="tab-lab-img" src="views/build_create/img/images02_178.png">-->
@@ -66,7 +66,7 @@
                                 </div>
                             </uib-tab>
                             <!--github-->
-                            <uib-tab index="2" heading="GitHub">
+                            <uib-tab index="2" heading="GitHub"  classes="GitHub">
                                 <!--<uib-tab index="2" heading="GitHub" ng-click="checkdTab(2)">-->
                                 <div class="tabinfo tab-lab">
                                     <img class="tab-lab-img"
@@ -94,7 +94,7 @@
                                     </p>
                                 </div>
                             </uib-tab>
-                            <uib-tab index="3" heading="Git仓库" style="font-size: 12px;">
+                            <uib-tab index="3" heading="Git仓库" classes="Git" style="font-size: 12px;">
                                 <div style="margin-left: 16px">
                                     <p style="font-size: 12px;margin-left: -15px">
                                         <label>

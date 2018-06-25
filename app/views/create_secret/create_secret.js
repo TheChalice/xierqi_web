@@ -10,8 +10,7 @@ angular.module('console.create_secret', [
         nameerr: false,
         keychongfu: false,
         keybuhefa: false,
-        keynull: false,
-        lableKey: false
+        keynull: false
     };
     $scope.secrets = {
         "kind": "Secret",
@@ -114,12 +113,10 @@ angular.module('console.create_secret', [
     };
     //添加配置文件
     $scope.AddConfigurationFile = function () {
-        $scope.grid.lableKey = true;
-        $scope.secrets.secretsarr.push({key: '', value: '',isClearCode:false});
+        $scope.secrets.secretsarr.push({key: '', value: ''});
     };
     $scope.clearCode = function (index) {
         $scope.secrets.secretsarr[index].value = '';
-        $scope.secrets.secretsarr[index].isClearCode = false;
     };
     $scope.addFile = function (i) {
         $scope.check = i;
@@ -140,8 +137,6 @@ angular.module('console.create_secret', [
         reader.onload = function (e) {
             var content = e.target.result;
             $scope.secrets.secretsarr[$scope.check].value = content;
-            $scope.secrets.secretsarr[$scope.check].isClearCode = true;
-
             $scope.$apply();
         };
         reader.readAsText(file);
@@ -178,44 +173,7 @@ angular.module('console.create_secret', [
         $scope.grid.keynull = false;
         $scope.grid.keybuhefa = false;
 
-        if (n.metadata.name && n.secretsarr) {
-            // var arr = angular.copy(n.secretsarr);
-            var arr = n.secretsarr;
-            // arr.sort(by("key"));
-            if (arr && arr.length > 0) {
-                var kong = false;
-                var r = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
-                angular.forEach(arr, function (item, i) {
 
-                    if (!item.key || !item.value) {
-                        $scope.grid.keynull = true;
-                        kong = true;
-                    } else {
-                        if (arr[i] && arr[i + 1]) {
-                            if (arr[i].key == arr[i + 1].key) {
-                                $scope.grid.keychongfu = true;
-                                kong = true;
-                            }
-                        }
-                        if (!r.test(arr[i].key)) {
-                            //console.log(arr[i].key);
-                            $scope.grid.keybuhefa = true;
-                            kong = true;
-                        }
-                    }
-                });
-                if (!kong) {
-                    $scope.grid.secreteno = true
-                } else {
-
-                    $scope.grid.secreteno = false
-                }
-            } else {
-                $scope.grid.secreteno = false
-            }
-        } else {
-            $scope.grid.secreteno = false
-        }
     }, true);
 
     $scope.checknames = function () {
@@ -241,54 +199,107 @@ angular.module('console.create_secret', [
         rexed: false,
         repeated: false
     };
-    $scope.nameblur = function () {
-        //console.log($scope.buildConfig.metadata.name);
-        if (!$scope.secrets.metadata.name) {
-            $scope.namerr.nil = true
-        } else {
-            $scope.namerr.nil = false
-        }
-    };
-    $scope.namefocus = function () {
-        $scope.namerr.nil = false
-    };
     secretskey.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (res) {
         $scope.secremnamearr = res.items;
     });
 
-    var rex = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
+    //var rex = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
     $scope.$watch('secrets.metadata.name', function (n, o) {
         if (n === o) {
             return;
         }
-        if (n && n.length > 0) {
-            if (rex.test(n)) {
-                $scope.namerr.rexed = false;
-                $scope.namerr.repeated = false;
-                if ($scope.secremnamearr) {
-                    //console.log($scope.buildConfiglist);
-                    angular.forEach($scope.secremnamearr, function (bsiname, i) {
-                        // console.log(bsiname);
-                        if (bsiname.metadata.name === n) {
-                            // console.log(bsiname, n);
-                            $scope.namerr.repeated = true;
+        $scope.namerr = {
+            nil: false,
+            rexed: false,
+            repeated: false
+        };
+    });
+    function nameerr(name, arr) {
+
+        var rex = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
+        if (name === '') {
+            return 'nil'
+        } else if (!rex.test(name)) {
+            return 'rexed'
+        } else {
+            var iserpeat = false;
+            angular.forEach(arr, function (item, i) {
+                if (name === item.metadata.name) {
+                    iserpeat = true
+                }
+            });
+            if (iserpeat) {
+                return 'repeated'
+            }
+        }
+        return 'allmight'
+    }
+
+    function keyerr(arr) {
+        var rex = /^\.?[a-z0-9]([-a-z0-9]*[a-z0-9])?(\.[a-z0-9]([-a-z0-9]*[a-z0-9])?)*$/;
+        var cancreat = true
+        angular.forEach(arr, function (item, i) {
+            if (item.key === '') {
+                cancreat = false;
+                item.err.key.nil = true
+            }else if(!rex.test(item.key)){
+                cancreat = false;
+                item.err.key.rexed = true
+            }else {
+                angular.forEach(arr, function (initem, k) {
+                    if (i !== k) {
+                        if (item.key === initem.key) {
+                            cancreat = false;
+                            item.err.key.repeated = true;
+                            initem.err.key.repeated = true;
 
                         }
-                        //console.log($scope.namerr.repeated);
-                    })
-                }
-
-            } else {
-                $scope.namerr.rexed = true;
+                    }
+                })
             }
-        } else {
-            $scope.namerr.rexed = false;
-        }
-    });
-    $scope.postsecret = function () {
-        if (!$scope.namerr.nil && !$scope.namerr.rexed && !$scope.namerr.repeated) {
 
-        } else {
+
+        })
+        if (cancreat) {
+            return 'cancreat'
+        }else {
+            return 'dontcreat'
+        }
+
+
+    }
+
+    $scope.postsecret = function () {
+        //if (!$scope.namerr.nil && !$scope.namerr.rexed && !$scope.namerr.repeated) {
+        //
+        //} else {
+        //    return
+        //}
+        $scope.namerr = {
+            nil: false,
+            rexed: false,
+            repeated: false
+        };
+        console.log('nameerr($scope.secrets.metadata.name, $scope.secremnamearr)',nameerr($scope.secrets.metadata.name, $scope.secremnamearr));
+        if (nameerr($scope.secrets.metadata.name, $scope.secremnamearr) !== 'allmight') {
+            //console.log('nameerr($scope.volume.metadata.name, $scope.cfmnamearr)', nameerr($scope.secrets.metadata.name, $scope.secremnamearr));
+            $scope.namerr[nameerr($scope.secrets.metadata.name, $scope.secremnamearr)] = true;
+            return
+        }
+
+        angular.forEach($scope.secrets.secretsarr, function (item, i) {
+            $scope.secrets.secretsarr[i].err = {
+                key: {
+                    nil: false,
+                    rexed: false,
+                    repeated: false
+                }
+            }
+
+        });
+
+        if (keyerr($scope.secrets.secretsarr) !== 'cancreat') {
+
             return
         }
         $scope.loaded = true;
@@ -299,6 +310,7 @@ angular.module('console.create_secret', [
         });
 
         delete $scope.secrets.secretsarr;
+
         secretskey.create({namespace: $rootScope.namespace, region: $rootScope.region}, $scope.secrets, function (res) {
             // console.log('=====res===',res);
             $scope.grid.nameerr = false;

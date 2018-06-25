@@ -67,3 +67,9 @@
     text-align: center;
 
 }
+.chang-image-box .tab-default .tab-content {
+    padding: 10px 0px;
+}
+.chang-image-box .dropdown-select > .btn .caret{
+    top: 11px;
+}
