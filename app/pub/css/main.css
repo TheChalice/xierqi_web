@@ -1981,7 +1981,10 @@ td  a:hover, a:focus{
 /*删除*/
 .uex-icon-delete:before {
     content: '\e925';
+    color:#475669;
 }
+.df_del:hover{border:1px solid #98D4FD;}
+.df_del:hover .uex-icon-delete:before{color:#82CAFB;}
 /*添加 + */
 .uex-icon-add:before {
     content: '\e913';
@@ -2035,7 +2038,7 @@ td  a:hover, a:focus{
 .df_build{font-size:12px;width:68px;height:26px;line-height:26px;padding:0px;}
 .df_build_btn{font-size:12px;width:68px;height:26px;line-height:26px;padding:0px;background:#fff;border:1px solid #47B2FB;color:#47B2FB;}
 .df_build_btn:hover{color:#47B2FB;}
-.df_del{width:32px;height:26px;padding:0px;line-height: 26px;}
+.df_del{width:32px;height:26px;padding:0px;line-height: 26px;border:1px solid #CCD5E0;}
 .creatfooter {
     border-top: 1px solid #E0E6ED;
     position: absolute;
