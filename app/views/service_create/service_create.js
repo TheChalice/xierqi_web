@@ -480,6 +480,10 @@ angular.module('console.service.create', [
                         })
                         if (!rep) {
                             $scope.portsArr.push({
+                                err:{
+                                    containerPort:false,
+                                    hostPort:false
+                                },
                                 protocol: k.split('/')[1].toUpperCase(),
                                 containerPort: pot,
                                 hostPort: pot
@@ -559,6 +563,10 @@ angular.module('console.service.create', [
                             })
                             if (!rep) {
                                 $scope.portsArr.push({
+                                    err:{
+                                        containerPort:false,
+                                        hostPort:false
+                                    },
                                     protocol: k.split('/')[1].toUpperCase(),
                                     containerPort: pot,
                                     hostPort: pot
@@ -898,6 +906,38 @@ angular.module('console.service.create', [
             $scope.createDc = function () {
                 //console.log($scope.frm.serviceName.$error.pattern);
                 $scope.err.horiz.maxerr = false;
+                $scope.err.port.null = false;
+                $scope.err.port.repeat = false;
+
+                var portcan = true;
+                if ($scope.portsArr.length) {
+
+                    angular.forEach($scope.portsArr, function (item,i) {
+                        item.containerPort=parseInt(item.containerPort);
+                        item.hostPort=parseInt(item.hostPort);
+                        angular.forEach($scope.portsArr, function (initem,k) {
+                            if (i !== k) {
+                                if (item.containerPort === initem.containerPort) {
+                                    portcan = false;
+                                    item.err.containerPort=true
+                                    initem.err.containerPort=true
+                                }
+                            }
+                            if (i !== k) {
+                                if (item.hostPort === initem.hostPort) {
+                                    portcan = false;
+                                    item.err.hostPort = true
+                                    initem.err.hostPort = true
+                                }
+                            }
+
+                        })
+                    })
+                }
+                if (!portcan) {
+                    return
+                }
+
                 if ($scope.institution.rubustCheck) {
                     if ($scope.horiz.spec.maxReplicas < $scope.dc.spec.replicas) {
                         $scope.err.horiz.maxerr = true;
@@ -1241,6 +1281,10 @@ angular.module('console.service.create', [
             controller: ['$scope', function ($scope) {
                 $scope.addprot = function () {
                     $scope.portsArr.unshift({
+                        err:{
+                            containerPort:false,
+                            hostPort:false
+                        },
                         containerPort: "",
                         protocol: "TCP",
                         hostPort: ""
