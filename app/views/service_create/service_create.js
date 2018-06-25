@@ -39,11 +39,7 @@ angular.module('console.service.create', [
             }
             $scope.advancedConfig = false
 
-            $scope.portsArr = [{
-                containerPort: "",
-                protocol: "TCP",
-                hostPort: ""
-            }];
+            $scope.portsArr = [];
 
             $scope.jump = function () {
                 if (!$scope.dc.metadata.name) {
@@ -75,7 +71,7 @@ angular.module('console.service.create', [
                     retract:true,
                     "name": '',
                     "image": '',
-                    'env': [{name: '', value: ''}],
+                    'env': [],
                     volments: {
                         //secret: [{secretName: '', mountPath: ''}],
                         //configMap: [{name: '', mountPath: ''}],
@@ -282,7 +278,7 @@ angular.module('console.service.create', [
                                 retract:true,
                                 "name": '',
                                 "image": '',
-                                'env': [{name: '', value: ''}],
+                                'env': [],
                                 volments: {
                                     //secret: [{secretName: '', mountPath: ''}],
                                     //configMap: [{name: '', mountPath: ''}],
@@ -423,13 +419,10 @@ angular.module('console.service.create', [
             })
 
             $scope.tocheckedtag= function (tag,idx,checked,istags) {
-                //var con =
-                //console.log('tag,idx,checked,istags', tag, idx, checked, istags);
                 $scope.dc.spec.template.spec.containers[idx].creattime=tag.image.metadata.creationTimestamp
                 if (tag.image.dockerImageMetadata.Config.ExposedPorts) {
 
                     var posts = []
-                    //$scope.port = []
                     $scope.dc.spec.template.spec.containers[idx].strport = '';
 
                     for (var k in tag.image.dockerImageMetadata.Config.ExposedPorts) {
@@ -466,7 +459,7 @@ angular.module('console.service.create', [
                 //tag.image.
                 angular.forEach(istags.items, function (istag, i) {
                     if (istag.image.metadata.name === tag.image.metadata.name) {
-                        console.log(istag.image.dockerImageReference);
+                        //console.log(istag.image.dockerImageReference);
                         $scope.dc.spec.template.spec.containers[idx].image = istag.image.dockerImageReference;
                     }
                 })
@@ -549,7 +542,7 @@ angular.module('console.service.create', [
                 $scope.tocheckedtag($stateParams.message,0,$scope.checked,$scope.istag)
             }else if($stateParams.imagetype === 'ourimage'){
                 $scope.checkimage=2
-                console.log($stateParams);
+                //console.log($stateParams);
                 $scope.postobj=$stateParams.postobj;
                 $scope.ourimage($stateParams.image,0,$stateParams.postobj)
             }
@@ -657,7 +650,10 @@ angular.module('console.service.create', [
 
             function prepareLabel(dc) {
                 console.log('dc.metadata.labels', dc.metadata.labels);
-                dc.metadata.labels[0].value = $scope.fuwuname;
+                if (dc.metadata.labels&&dc.metadata.labels.length) {
+                    dc.metadata.labels[0].value = dc.metadata.name;
+                }
+
                 var labels = angular.copy(dc.metadata.labels)
 
                 $scope.dc.metadata.labels = {}
@@ -859,6 +855,7 @@ angular.module('console.service.create', [
                     }else {
                         delete con.readinessProbe
                     }
+
                     if (con.open.livenessProbe) {
                         if (con.open.livenesscheck === 'HTTP') {
                             delete con.livenessProbe.exec
@@ -886,12 +883,14 @@ angular.module('console.service.create', [
                     }else {
                         delete con.livenessProbe
                     }
+
                     if (con.entrypoint) {
                         con.command = con.entrypoint.split(' ')
 
                     }else {
                         delete con.command
                     }
+
                     if (con.cmd) {
                         con.args = con.cmd.split(' ')
                     }else {

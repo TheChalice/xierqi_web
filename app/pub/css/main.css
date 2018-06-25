@@ -1611,8 +1611,9 @@ a {
 /*输入框获取焦点*/
 /*input:focus{border-color: #c9c9c9!important;}*/
 /*20161214 jiasx add*/
-input{
-    color:#333;
+input {
+    /*＃475669*/
+    color :#475669 !important;
     border-radius:2px;
     border:1px solid #DBDBDB ;
 }
