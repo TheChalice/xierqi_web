@@ -816,7 +816,7 @@ angular.module('console.service.create', [
                         copyarr.push(ovolment)
                     })
                 })
-                console.log('vol', vol);
+                //console.log('vol', vol);
                 angular.forEach(vol, function (item, i) {
 
                     angular.forEach(item, function (ovolment, k) {
@@ -828,8 +828,12 @@ angular.module('console.service.create', [
                             if (ovolment.id !== ivolment.id) {
                                 if (ovolment.mountPath === ivolment.mountPath) {
                                     volerr = true;
+
                                     console.log(ivolment, vol[i]);
                                     vol[ivolment.type][ivolment.index].mountPatherr = true;
+                                    console.log('vol[ivolment.type][ivolment.index]', vol[ivolment.type][ivolment.index]);
+                                    console.log('vol[ivolment.type]', vol[ivolment.type]);
+
                                     ovolment.mountPatherr = true;
                                     $scope.err.vol.mountPath = true;
                                 }
@@ -908,7 +912,6 @@ angular.module('console.service.create', [
                 $scope.err.horiz.maxerr = false;
                 $scope.err.port.null = false;
                 $scope.err.port.repeat = false;
-
                 var portcan = true;
                 if ($scope.portsArr.length) {
 
