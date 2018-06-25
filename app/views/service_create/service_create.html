@@ -87,6 +87,7 @@
                             <div class="col-sm-3" style="width: 170px;" ng-show="institution.rubustCheck">
                                 <p style="margin:10px 0px 5px;">POD最大数量</p>
                                 <input ng-model="horiz.spec.maxReplicas"
+                                       ng-class="{'input-error':err.horiz.maxerr}"
                                        ng-keyup="mustnum($event,horiz.spec.maxReplicas,10)"
                                        type="text" class="form-control" placeholder="{{dc.spec.replicas}}">
 

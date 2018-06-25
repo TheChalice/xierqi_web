@@ -8,15 +8,30 @@ angular.module('console.service.create', [
             ]
         }
     ])
-    .controller('ServiceCreateCtrl', ['mytag', 'ImageStreamImage', 'myimage', 'imagestreamimports', 'GLOBAL', 'resourcequotas', '$http', 'by', 'diploma', 'Confirm', 'Toast', '$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service',
-        function (mytag, ImageStreamImage, myimage, imagestreamimports, GLOBAL, resourcequotas, $http, by, diploma, Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service) {
+    .controller('ServiceCreateCtrl', ['mytag', 'ImageStreamImage', 'myimage', 'imagestreamimports', 'GLOBAL', 'resourcequotas', '$http', 'by', 'diploma', 'Confirm', 'Toast', '$rootScope', '$state', '$scope', '$log', '$stateParams', 'ImageStream', 'DeploymentConfig', 'ImageSelect', 'BackingServiceInstance', 'BackingServiceInstanceBd', 'ReplicationController', 'Route', 'Secret', 'Service', 'horizontalpodautoscalers',
+        function (mytag, ImageStreamImage, myimage, imagestreamimports, GLOBAL, resourcequotas, $http, by, diploma, Confirm, Toast, $rootScope, $state, $scope, $log, $stateParams, ImageStream, DeploymentConfig, ImageSelect, BackingServiceInstance, BackingServiceInstanceBd, ReplicationController, Route, Secret, Service, horizontalpodautoscalers) {
 
             $scope.institution = {
                 display: 1,
                 configregistry: false,
-                rubustCheck:false
+                rubustCheck: false
             }
-
+            $scope.horiz = {
+                "apiVersion": "autoscaling/v1",
+                "kind": "HorizontalPodAutoscaler",
+                "metadata": {"name": null, "labels": {"app": null}},
+                "spec": {
+                    "scaleTargetRef": {
+                        "kind": "DeploymentConfig",
+                        "name": null,
+                        "apiVersion": "extensions/v1beta1",
+                        "subresource": "scale"
+                    },
+                    "minReplicas": null,
+                    "maxReplicas": null,
+                    "targetCPUUtilizationPercentage": null
+                }
+            };
             $scope.err = {
                 url: {
                     null: false,
@@ -37,7 +52,12 @@ angular.module('console.service.create', [
                     repeated: false,
                 },
                 horiz: {
-                    openerr: false
+                    openerr: false,
+                    maxerr: false
+                },
+                port: {
+                    repeat: false,
+                    null: false
                 }
 
             }
@@ -703,6 +723,15 @@ angular.module('console.service.create', [
 
             }
 
+            function preparehoriz(dc) {
+                var name = dc.metadata.name;
+                $scope.horiz.metadata.name = name;
+                $scope.horiz.metadata.labels.app = name;
+                $scope.horiz.spec.scaleTargetRef.name = name;
+                $scope.horiz.spec.minReplicas = dc.spec.replicas;
+
+            }
+
             function invrepname() {
                 var norep = true
                 angular.forEach($scope.servelist.items, function (dc, i) {
@@ -845,7 +874,7 @@ angular.module('console.service.create', [
 
             }
 
-            $scope.creathoriz = function (open) {
+            $scope.creathoriz = function () {
                 $scope.err.horiz.openerr = false;
                 var cancreat = false;
                 angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
@@ -860,8 +889,29 @@ angular.module('console.service.create', [
                 }
 
             }
+            function creathoriz() {
+                horizontalpodautoscalers.create({namespace: $rootScope.namespace}, $scope.horiz, function (data) {
+
+                })
+            }
+
             $scope.createDc = function () {
                 //console.log($scope.frm.serviceName.$error.pattern);
+                $scope.err.horiz.maxerr = false;
+                if ($scope.institution.rubustCheck) {
+                    if ($scope.horiz.spec.maxReplicas < $scope.dc.spec.replicas) {
+                        $scope.err.horiz.maxerr = true;
+                        return
+                    }
+                    if ($scope.horiz.spec.maxReplicas === '') {
+                        $scope.horiz.spec.maxReplicas = $scope.dc.spec.replicas
+                    }
+                    if ($scope.horiz.spec.targetCPUUtilizationPercentage === '') {
+                        $scope.horiz.spec.targetCPUUtilizationPercentage = 80;
+                    }
+                    preparehoriz($scope.dc);
+                }
+
                 $scope.dc.spec.template.spec.volumes = [];
                 var cancreat = true
                 angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
@@ -978,16 +1028,22 @@ angular.module('console.service.create', [
                     $scope.err.name.null = true;
                     return
                 }
+
                 //console.log(invrepname());
                 if (!invrepname()) {
                     $scope.err.name.repeated = true;
                     return
                 }
+
                 invEnv()
+
                 if ($scope.dc.spec.ConfigChange) {
                     $scope.dc.spec.triggers.push({"type": "ConfigChange"})
                 }
 
+                if ($scope.institution.rubustCheck) {
+                    creathoriz()
+                }
                 if ($scope.portsArr.length && $scope.portsArr.length > 0) {
                     createService($scope.dc)
                 } else {
