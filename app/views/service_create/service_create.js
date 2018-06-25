@@ -13,7 +13,8 @@ angular.module('console.service.create', [
 
             $scope.institution = {
                 display: 1,
-                configregistry: false
+                configregistry: false,
+                rubustCheck:false
             }
 
             $scope.err = {
@@ -34,9 +35,13 @@ angular.module('console.service.create', [
                 label: {
                     null: false,
                     repeated: false,
+                },
+                horiz: {
+                    openerr: false
                 }
 
             }
+            //$scope.
             $scope.advancedConfig = false
 
             $scope.portsArr = [];
@@ -59,16 +64,16 @@ angular.module('console.service.create', [
             })
             ///////containers展开收缩
             $scope.pickdown = function (idx) {
-                if($scope.dc.spec.template.spec.containers[idx].retract){
+                if ($scope.dc.spec.template.spec.containers[idx].retract) {
                     $scope.dc.spec.template.spec.containers[idx].retract = false;
-                }else{
+                } else {
                     $scope.dc.spec.template.spec.containers[idx].retract = true;
                 }
             }
 
             $scope.addContainer = function () {
                 $scope.dc.spec.template.spec.containers.push({
-                    retract:true,
+                    retract: true,
                     "name": '',
                     "image": '',
                     'env': [],
@@ -182,7 +187,26 @@ angular.module('console.service.create', [
 
             $scope.tagslist = [];
 
+            $scope.mustnum = function (e, num, quate) {
 
+                if (quate === 10) {
+                    var patrn = /^([1-9]||10)$/ig;
+                } else if (quate === 100) {
+                    var patrn = /^(\d|[1-9]\d|100)$/;
+                } else {
+                    var patrn = /^\d+$/;
+                }
+                //
+
+                if (patrn.test(num)) {
+                    console.log('t', e.currentTarget.value);
+                } else {
+                    //console.log('f',num);
+                    e.currentTarget.value = null
+                }
+
+
+            };
             angular.forEach(myimage.items, function (image) {
                 //console.log('image.status.tags', image.status.tags);
                 if (image.status.tags) {
@@ -275,7 +299,7 @@ angular.module('console.service.create', [
                         "spec": {
                             "volumes": [],
                             "containers": [{
-                                retract:true,
+                                retract: true,
                                 "name": '',
                                 "image": '',
                                 'env': [],
@@ -418,8 +442,8 @@ angular.module('console.service.create', [
                 }
             })
 
-            $scope.tocheckedtag= function (tag,idx,checked,istags) {
-                $scope.dc.spec.template.spec.containers[idx].creattime=tag.image.metadata.creationTimestamp
+            $scope.tocheckedtag = function (tag, idx, checked, istags) {
+                $scope.dc.spec.template.spec.containers[idx].creattime = tag.image.metadata.creationTimestamp
                 if (tag.image.dockerImageMetadata.Config.ExposedPorts) {
 
                     var posts = []
@@ -447,11 +471,11 @@ angular.module('console.service.create', [
                     $scope.dc.spec.template.spec.containers[idx].ports = angular.copy(posts)
                 }
 
-                $scope.dc.spec.template.spec.containers[idx].annotate= {
-                    image:checked.image,
-                    tag:checked.tag
+                $scope.dc.spec.template.spec.containers[idx].annotate = {
+                    image: checked.image,
+                    tag: checked.tag
                 }
-                $scope.dc.spec.template.spec.containers[idx].annotate.ismy=true
+                $scope.dc.spec.template.spec.containers[idx].annotate.ismy = true
 
                 $scope.dc.spec.template.spec.containers[idx].name = checked.image
                 //$scope.fuwuname = checked.image;
@@ -466,7 +490,7 @@ angular.module('console.service.create', [
 
             }
 
-            $scope.ourimage = function (images,idx,postobj) {
+            $scope.ourimage = function (images, idx, postobj) {
                 if (images.status.images && images.status.images[0] && images.status.images[0].status) {
                     if (images.status.images[0].status.code && images.status.images[0].status.code === 401) {
                         $scope.err.url.role = true;
@@ -533,18 +557,18 @@ angular.module('console.service.create', [
 
             //console.log($stateParams);
             if ($stateParams.imagetype === 'myimage') {
-                $scope.checkimage=1
+                $scope.checkimage = 1
                 $scope.checked = {
                     namespace: $rootScope.namespace,
                     image: $stateParams.imagename,
                     tag: $stateParams.imagetag
                 }
-                $scope.tocheckedtag($stateParams.message,0,$scope.checked,$scope.istag)
-            }else if($stateParams.imagetype === 'ourimage'){
-                $scope.checkimage=2
+                $scope.tocheckedtag($stateParams.message, 0, $scope.checked, $scope.istag)
+            } else if ($stateParams.imagetype === 'ourimage') {
+                $scope.checkimage = 2
                 //console.log($stateParams);
-                $scope.postobj=$stateParams.postobj;
-                $scope.ourimage($stateParams.image,0,$stateParams.postobj)
+                $scope.postobj = $stateParams.postobj;
+                $scope.ourimage($stateParams.image, 0, $stateParams.postobj)
             }
 
             function dcname(n, image) {
@@ -650,7 +674,7 @@ angular.module('console.service.create', [
 
             function prepareLabel(dc) {
                 console.log('dc.metadata.labels', dc.metadata.labels);
-                if (dc.metadata.labels&&dc.metadata.labels.length) {
+                if (dc.metadata.labels && dc.metadata.labels.length) {
                     dc.metadata.labels[0].value = dc.metadata.name;
                 }
 
@@ -821,6 +845,21 @@ angular.module('console.service.create', [
 
             }
 
+            $scope.creathoriz = function (open) {
+                $scope.err.horiz.openerr = false;
+                var cancreat = false;
+                angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
+                    if (con.open.resources) {
+                        cancreat = true
+                    }
+                })
+                if (cancreat) {
+                    $scope.institution.rubustCheck = !$scope.institution.rubustCheck
+                } else {
+                    $scope.err.horiz.openerr = true
+                }
+
+            }
             $scope.createDc = function () {
                 //console.log($scope.frm.serviceName.$error.pattern);
                 $scope.dc.spec.template.spec.volumes = [];
@@ -852,7 +891,7 @@ angular.module('console.service.create', [
                         }
                         con.readinessProbe.initialDelaySeconds = parseInt(con.readinessProbe.initialDelaySeconds)
                         con.readinessProbe.timeoutSeconds = parseInt(con.readinessProbe.timeoutSeconds)
-                    }else {
+                    } else {
                         delete con.readinessProbe
                     }
 
@@ -880,20 +919,20 @@ angular.module('console.service.create', [
                         }
                         con.livenessProbe.initialDelaySeconds = parseInt(con.livenessProbe.initialDelaySeconds)
                         con.livenessProbe.timeoutSeconds = parseInt(con.livenessProbe.timeoutSeconds)
-                    }else {
+                    } else {
                         delete con.livenessProbe
                     }
 
                     if (con.entrypoint) {
                         con.command = con.entrypoint.split(' ')
 
-                    }else {
+                    } else {
                         delete con.command
                     }
 
                     if (con.cmd) {
                         con.args = con.cmd.split(' ')
-                    }else {
+                    } else {
                         delete con.args
                     }
                     //console.log('con.imageChange', con.imageChange);
@@ -924,7 +963,7 @@ angular.module('console.service.create', [
                         con.resources.limits.memory = unit(con.resources.limits.memory, con.resourcesunit.minmem)
                         con.resources.requests.cpu = unit(con.resources.requests.cpu, con.resourcesunit.maxcpu)
                         con.resources.requests.memory = unit(con.resources.requests.memory, con.resourcesunit.maxmem)
-                    }else {
+                    } else {
                         delete con.resources
                     }
 
@@ -949,7 +988,7 @@ angular.module('console.service.create', [
                     $scope.dc.spec.triggers.push({"type": "ConfigChange"})
                 }
 
-                if ($scope.portsArr.length&&$scope.portsArr.length>0) {
+                if ($scope.portsArr.length && $scope.portsArr.length > 0) {
                     createService($scope.dc)
                 } else {
                     creatdc()
@@ -1020,12 +1059,12 @@ angular.module('console.service.create', [
                 function ($scope, ChangeImages) {
                     $scope.selectImage = function (idx) {
                         console.log('outerIndex', idx);
-                        ChangeImages.open($scope.imageslist,$scope.istag).then(function (res) {
+                        ChangeImages.open($scope.imageslist, $scope.istag).then(function (res) {
                             //console.log('tag,checked,istag,ismy', tag, checked, istag, ismy);
-                            if (res.ismy==='mytag') {
-                                $scope.tocheckedtag(res.mytag,idx,res,res.istag)
-                            }else {
-                                $scope.ourimage(res.images,idx,res.postobj)
+                            if (res.ismy === 'mytag') {
+                                $scope.tocheckedtag(res.mytag, idx, res, res.istag)
+                            } else {
+                                $scope.ourimage(res.images, idx, res.postobj)
                             }
 
                         })
@@ -1033,7 +1072,7 @@ angular.module('console.service.create', [
                     $scope.addenv = function (con) {
                         con.env.push({name: '', value: ''})
                     }
-                    $scope.delenv = function (con,idx) {
+                    $scope.delenv = function (con, idx) {
                         con.env.splice(idx, 1);
                     }
                 }],
@@ -1067,8 +1106,6 @@ angular.module('console.service.create', [
                     }
 
 
-
-
                     $scope.find = function () {
                         if ($scope.institution.display == 2) {
                             return
@@ -1091,7 +1128,7 @@ angular.module('console.service.create', [
                             $scope.postobj.spec.images[0].from.name = $scope.postobj.spec.images[0].from.name.replace(/^\s+|\s+$/g, "");
                             imagestreamimports.create({namespace: $rootScope.namespace}, $scope.postobj, function (images) {
                                 $scope.finding = false;
-                                $scope.ourimage(images,0,$scope.postobj)
+                                $scope.ourimage(images, 0, $scope.postobj)
 
                                 //$scope.showall = true;
 
@@ -1112,7 +1149,7 @@ angular.module('console.service.create', [
                             namespace: $rootScope.namespace,
                             name: $scope.checked.image + '@' + tag.image
                         }, function (tag) {
-                            $scope.tocheckedtag(tag,0,$scope.checked,$scope.istag)
+                            $scope.tocheckedtag(tag, 0, $scope.checked, $scope.istag)
 
 
                         })
