@@ -545,7 +545,7 @@ angular.module('console.service.create', [
                 $scope.tocheckedtag($stateParams.message,0,$scope.checked,$scope.istag)
             }else if($stateParams.imagetype === 'ourimage'){
                 $scope.checkimage=2
-                console.log($stateParams);
+                //console.log($stateParams);
                 $scope.postobj=$stateParams.postobj;
                 $scope.ourimage($stateParams.image,0,$stateParams.postobj)
             }
