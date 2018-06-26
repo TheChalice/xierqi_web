@@ -51,12 +51,13 @@
 #build_list .icon25 {
     margin: 0 8px;margin-top:-2px;
 }
-#build_list .icon25-source {
+/* #build_list .icon25-source {
     background-image: url(img/source.png);
 }
 #build_list .icon25-source:hover {
     background-image: url(img/source-hover.png);
-}
+} */
+/* 
 #build_list .icon25-image {
     background-image: url(img/image.png);
 }
@@ -69,7 +70,7 @@
 }
 #build_list .icon25-stop:hover {
     background-image: url(img/stop-hover.png);
-}
+} */
 #build_list .row_set {
     white-space:nowrap;
 }
