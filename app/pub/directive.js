@@ -20,6 +20,16 @@ define(['angular'], function (angular) {
                 });
             }
         }])
+        .directive('addClassesTop', [function () {
+            return function (scope, element, attr) {
+                if ($("#sidebar-container").hasClass("sider_zx")) {
+                    element.addClass("nav_top_toggle");
+                }else {
+                    element.removeClass("nav_top_toggle");
+                }
+
+            }
+        }])
         .directive('onFinishRender', function ($timeout) {
             return {
                 restrict: 'A',

@@ -3212,6 +3212,13 @@ define([
 
                         $rootScope.transfering = false;
                     }
+                    //console.log($("#sidebar-container").hasClass('sider_zx'));
+                    //if ($("#sidebar-container").hasClass("sider_zx")) {
+                    //    alert(1)
+                    //    $(".nav_top_li").addClass("nav_top_toggle");
+                    //}else {
+                    //    $(".nav_top_li").removeClass("nav_top_toggle");
+                    //}
 
                 });
             }

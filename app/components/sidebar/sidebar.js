@@ -19,23 +19,29 @@ angular.module("console.sidebar", [
                 //     { name: 'Routes', url: 'console.routes',stateUrl:'' , children: [] }
                 // ];
                 $scope.state = $state;
+                //$(".nav_top_li").addClass("nav_top_toggle");
                 $scope.goUrl = function (url) {
                     if (url) {
-                        // alert(1);
-                        $(".nav_top_li").addClass("nav_top_toggle");
+                         //alert(1);
+                        //$(".nav_top_li").addClass("nav_top_toggle");
                         $(".bread_set").addClass("bread_set_toggle")
                         var urlarr = url.split('@');
                         // console.log('urlarr', urlarr);
+                        //console.log(($("#sidebar-container").hasClass('sider_zx')))
+                        //if ($("#sidebar-container").hasClass('sider_zx')) {
+                        //
+                        //    $(".nav_top_li").addClass("nav_top_toggle");
+                        //}
                         if (urlarr && urlarr.length) {
                             $state.go(urlarr[0], ({namespace: urlarr[1]}));
                         }
                     } else {
                         $scope.activeStyle = false;
-                        // alert(2);
+                         //alert(2);
                         $(".zx_set_btn").removeClass("zx_set_btn_rotate");
                         $("#sidebar-container").removeClass("sider_zx");
                         $("#sidebar-right-fixed").removeClass("sidebar-fixed");
-                        $(".nav_top_li").removeClass("nav_top_toggle");
+                        //$(".nav_top_li").removeClass("nav_top_toggle");
                         $(".bread_set").removeClass("bread_set_toggle")
                         angular.forEach($rootScope.dataForTheTree, function (data, i) {
                             //console.log('data', data);
@@ -80,13 +86,18 @@ angular.module("console.sidebar", [
                 var width = 0;
                 width = $(window).width() - 168;
                 $scope.sidebaerWidth = function () {
+                    //alert(3)
                     $(".zx_set_btn").toggleClass("zx_set_btn_rotate");
                     $("#sidebar-container").toggleClass("sider_zx");
                     $("#sidebar-right-fixed").toggleClass("sidebar-fixed");
-                    $(".nav_top_li").toggleClass("nav_top_toggle");
+
                     $(".bread_set").toggleClass("bread_set_toggle")
                     $(".sb-arrow").toggleClass("rotate");
-
+                    if ($("#sidebar-container").hasClass("sider_zx")) {
+                        $(".nav_top_li").addClass("nav_top_toggle");
+                    }else {
+                        $(".nav_top_li").removeClass("nav_top_toggle");
+                    }
                     if ($(".zx_set_btn").hasClass('zx_set_btn_rotate')) {
                         $scope.activeStyle = true;
                         // alert(3);
