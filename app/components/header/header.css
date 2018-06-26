@@ -288,17 +288,17 @@
     left:10px;
     background-size: contain;!important;
     -webkit-transform:rotate(0deg);-moz-transform:rotate(0deg);transform:rotate(0deg);
-    padding:8px;-webkit-transition:all 0.3s;-moz-transition:all 0.3s;transition:all 0.3s
+    padding:6px;-webkit-transition:all 0.3s;-moz-transition:all 0.3s;transition:all 0.3s
 }
 .tenants-box .tree-dark li.tree-collapsed i.tree-branch-head{
 
     position: absolute;
-    top:8px;
+    top:9px;
     left:10px;
     background-image:url("img/tenants-tree-img.png");
     background-size: contain;!important;
     -webkit-transform:rotate(-90deg);-moz-transform:rotate(-90deg);transform:rotate(-90deg);
-    padding:8px;-webkit-transition:all 0.3s;-moz-transition:all 0.3s;transition:all 0.3s
+    padding:6px;-webkit-transition:all 0.3s;-moz-transition:all 0.3s;transition:all 0.3s
 
 
 }

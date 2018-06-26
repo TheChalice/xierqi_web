@@ -65,7 +65,9 @@ angular.module('console.service.create', [
             $scope.advancedConfig = false
 
             $scope.portsArr = [];
-
+            $scope.goBack = function(){
+                $scope.advancedConfig = false;
+            }
             $scope.jump = function () {
                 if (!$scope.dc.metadata.name) {
                     $scope.err.name.null = true;
@@ -913,6 +915,15 @@ angular.module('console.service.create', [
                 $scope.err.port.null = false;
                 $scope.err.port.repeat = false;
                 var portcan = true;
+                if($scope.advancedConfig){
+                    var copydc = angular.copy($scope.dc);
+                    var containerObj = [{
+                        name:copydc.spec.template.spec.containers[0].name,
+                        image:copydc.spec.template.spec.containers[0].image,
+                        ports:copydc.spec.template.spec.containers[0].ports
+                    }]
+                    $scope.dc.spec.template.spec.containers = containerObj;
+                }
                 if ($scope.portsArr.length) {
 
                     angular.forEach($scope.portsArr, function (item,i) {
@@ -1227,6 +1238,7 @@ angular.module('console.service.create', [
                             $scope.postobj.spec.images[0].from.name = $scope.postobj.spec.images[0].from.name.replace(/^\s+|\s+$/g, "");
                             imagestreamimports.create({namespace: $rootScope.namespace}, $scope.postobj, function (images) {
                                 $scope.finding = false;
+
                                 $scope.ourimage(images, 0, $scope.postobj)
 
                                 //$scope.showall = true;
@@ -1248,6 +1260,7 @@ angular.module('console.service.create', [
                             namespace: $rootScope.namespace,
                             name: $scope.checked.image + '@' + tag.image
                         }, function (tag) {
+
                             $scope.tocheckedtag(tag, 0, $scope.checked, $scope.istag)
 
 
