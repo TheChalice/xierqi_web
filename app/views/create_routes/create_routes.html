@@ -102,7 +102,7 @@
     /*bottom:-4px;left:50%;margin-left:-5px;border-width:5px 5px 0;border-top-color:#000;}*/
     /*jia 20161118 add end 新建存储卷 */
 </style>
-<div id="create_routes">
+<div id="create_routes" confull-height>
     <h4 ng-if="!routeName">新建路由</h4>
     <h4 ng-if="routeName">修改路由</h4>
     <form>
@@ -347,7 +347,7 @@
                 </div>
             </div>
         </div>
-        <div class="row route-font" style="margin-top: 10px;">
+        <div class="row route-font" style="margin-top: 15px;">
             <div class="col-sm-1" style="width: 120px;">加密流量</div>
             <div class="col-sm-11 route-width-one">
                 <span class="my-checkbox">
@@ -469,20 +469,28 @@
             </div>
         </div>
     </form>
-    <div>
-        <a href="javascript:;"
-           ng-if="grid.serviceCheck && grid.labelCheck && grid.nameCheck && grid.pashCheck && grid.toWeightCheck && grid.doubleSave && grid.repRouteName"
-           class="btn btn-block create btn-orange route-create-btn" ng-click="createRoutes()">
-            <span ng-if="routeName">修改</span>
-            <span ng-if="!routeName">创建</span>
+    <div class="creatfooter">
+        <a href="javascript:;" ng-if="!routeName" style="background: #47B2FB;"
+           class="btn btn-resources" ng-click="createRoutes()">
+            创建
         </a>
-        <a href="javascript:;"
-           ng-if="!grid.serviceCheck || !grid.labelCheck || !grid.nameCheck || !grid.pashCheck || !grid.toWeightCheck || !grid.repRouteName"
-           disabled="disabled" class="btn btn-block create route-create-btn"
-           style="background-color: #ccc;">
-            <span ng-if="routeName">修改</span>
-            <span ng-if="!routeName">创建</span>
+        <a href="javascript:;" ng-if="routeName" style="background: #47B2FB;"
+           class="btn btn-resources" ng-click="createRoutes()">
+            修改
         </a>
+        <!--<a href="javascript:;i"-->
+           <!--ng-if="grid.serviceCheck && grid.labelCheck && grid.nameCheck && grid.pashCheck && grid.toWeightCheck && grid.doubleSave && grid.repRouteName"-->
+           <!--class="btn btn-block create btn-orange route-create-btn" ng-click="createRoutes()">-->
+            <!--<span ng-if="routeName">修改</span>-->
+            <!--<span ng-if="!routeName">创建</span>-->
+        <!--</a>-->
+        <!--<a href="javascript:;"-->
+           <!--ng-if="!grid.serviceCheck || !grid.labelCheck || !grid.nameCheck || !grid.pashCheck || !grid.toWeightCheck || !grid.repRouteName"-->
+           <!--disabled="disabled" class="btn btn-block create route-create-btn"-->
+           <!--style="background-color: #ccc;">-->
+            <!--<span ng-if="routeName">修改</span>-->
+            <!--<span ng-if="!routeName">创建</span>-->
+        <!--</a>-->
     </div>
 
 </div>
