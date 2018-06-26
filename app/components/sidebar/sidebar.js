@@ -22,7 +22,7 @@ angular.module("console.sidebar", [
                 //$(".nav_top_li").addClass("nav_top_toggle");
                 $scope.goUrl = function (url) {
                     if (url) {
-                         //alert(1);
+                        //  alert(1);
                         //$(".nav_top_li").addClass("nav_top_toggle");
                         $(".bread_set").addClass("bread_set_toggle")
                         var urlarr = url.split('@');
@@ -37,11 +37,11 @@ angular.module("console.sidebar", [
                         }
                     } else {
                         $scope.activeStyle = false;
-                         //alert(2);
+                        //  alert(2);
                         $(".zx_set_btn").removeClass("zx_set_btn_rotate");
                         $("#sidebar-container").removeClass("sider_zx");
                         $("#sidebar-right-fixed").removeClass("sidebar-fixed");
-                        //$(".nav_top_li").removeClass("nav_top_toggle");
+                        $(".nav_top_li").removeClass("nav_top_toggle");
                         $(".bread_set").removeClass("bread_set_toggle")
                         angular.forEach($rootScope.dataForTheTree, function (data, i) {
                             //console.log('data', data);

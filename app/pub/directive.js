@@ -30,6 +30,16 @@ define(['angular'], function (angular) {
 
             }
         }])
+        .directive('addClassesMap', [function () {
+            return function (scope, element, attr) {
+                if ($("#sidebar-right-fixed").hasClass("sidebar-fixed")) {
+                    element.addClass("bread_set_toggle");
+                }else {
+                    element.removeClass("bread_set_toggle");
+                }
+
+            }
+        }])
         .directive('onFinishRender', function ($timeout) {
             return {
                 restrict: 'A',

@@ -13,9 +13,9 @@
         </div>
 
         
-        <div id="sidebar-right-fixed" class="service-pad" style="margin-left:180px;" full-height>
-                <div class="bread_set" ng-if="hasBack()">
-                        <span class="bread_tit" ng-click="back()">{{console.state | stateNameFilter}}</span>
+        <div id="sidebar-right-fixed" class="service-pad"  style="margin-left:180px;" full-height>
+                <div class="bread_set" ng-if="hasBack()" add-classes-map>
+                        <span class="bread_tit" add-classes-map ng-click="back()">{{console.state | stateNameFilter}}</span>
                         <span class="bread_line">/</span>
                         <span class="bread_tit_back">{{console.state | stateTitleFilter}}</span>
                         <!-- {{console.state}} -->
