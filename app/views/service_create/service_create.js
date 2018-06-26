@@ -1262,7 +1262,9 @@ angular.module('console.service.create', [
             templateUrl: 'views/service_create/tpl/containerLivenessCheck.html',
             scope: false,
             controller: ['$scope', function ($scope) {
-
+                   $scope.changeContainerPort = function(idx,port){
+                       $scope.dc.spec.template.spec.containers[idx].livenessProbe.annotations.port = port;
+                   }
             }],
         };
     })
@@ -1272,7 +1274,9 @@ angular.module('console.service.create', [
             templateUrl: 'views/service_create/tpl/containerReadinessCheck.html',
             scope: false,
             controller: ['$scope', function ($scope) {
-
+                  $scope.changeAnnotationsPort = function(idx,port){
+                      $scope.dc.spec.template.spec.containers[idx].readinessProbe.annotations.port = port;
+                  }
             }],
         };
     })
@@ -1293,6 +1297,10 @@ angular.module('console.service.create', [
                         hostPort: ""
                     })
                 };
+                $scope.portInitList = ['TCP'];
+                $scope.changePort = function(idx,port){
+                    $scope.portsArr[idx].protocol = port;
+                }
 
                 $scope.delprot = function (idx) {
                     $scope.portsArr.splice(idx, 1);
