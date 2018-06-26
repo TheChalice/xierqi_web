@@ -36,8 +36,8 @@
                 <tr>
                     <div class="row row_set"><!-- 20160921 jia 服务分类模块问题 -->
                         <th class='col-lg-2 col-md-2 col-sm-1'>构建名称</th>
-                        <th class='col-lg-2 col-md-2 col-sm-2'>最近构建状态</th>
-                        <th class='col-lg-2 col-md-2 col-sm-2'>创建时间 
+                        <th class='col-lg-3 col-md-2 col-sm-2'>最近构建状态</th>
+                        <th class='col-lg-3 col-md-2 col-sm-2'>创建时间 
                             <!-- <span class="sort_btn" ng-click="sortDetail()">
                             <i class="uex-icon-to-back" ng-if="uex_back"></i>
                             <i class="uex-icon-to-front" ng-if="uex_front"></i>
@@ -45,7 +45,7 @@
                     </th>
                         <th class='col-lg-2 col-md-2 col-sm-3'>最近构建时长</th>
                         <!--<th class='col-lg-1 col-md-1 col-sm-2' style='word-break:keep-all;white-space:nowrap;'>构建类型</th>-->
-                        <th class="col-lg-3 col-md-3 col-sm-3 table_headOperating" style=''>操作</th>
+                        <th class="col-lg-2 col-md-3 col-sm-3 table_headOperating" style=''>操作</th>
                     </div>
 
                 </tr>
@@ -74,20 +74,24 @@
                     <td class="text-center threec OperatingContent" style="">
                         <div class="row Operating"
                              style=''>
-                            <a class="icon25 icon25-source col-lg-4 col-md-4 col-sm-4" href="{{bc.spec.source.git.uri}}"
-                               uib-tooltip="查看代码源" target="_blank"></a>
-                            <a class="icon25 icon25-image col-lg-4 col-md-4 col-sm-4"
+                            <a class="icon25 icon25-source col-lg-4 col-md-4 col-sm-4 uex-icon-binary-forecast build_df_set" href="{{bc.spec.source.git.uri}}"
+                               uib-tooltip="查看代码源" target="_blank"></a>&nbsp;&nbsp;
+                            <a class="icon25 icon25-image col-lg-4 col-md-4 col-sm-4 uex-icon-view-mapping build_df_set"
                                ng-if="bc.spec.output && bc.spec.output.to && bc.spec.output.to.name"
                                ng-show="bc.build.status.phase !== 'Failed'"
                                ui-sref="console.image_detail({namespace:namespace,bc: bc.metadata.name, name: bc.spec.output.to.name})"
-                               uib-tooltip="查看镜像"></a>
-                            <a class="icon25 icon25-start col-lg-4 col-md-4 col-sm-4" href="javascript:;"
+                               uib-tooltip="查看镜像"></a>&nbsp;&nbsp;
+                            <a class="icon25 icon25-start col-lg-4 col-md-4 col-sm-4 uex-icon-start-all build_df_set" href="javascript:;"
                                ng-click="startBuild($index)" ng-show="bc.build.status.phase != 'Running'"
-                               uib-tooltip="构建"></a>
-                            <a class="icon25 icon25-stop  col-lg-4 col-md-4 col-sm-4" href="javascript:;"
+                               uib-tooltip="构建"></a>&nbsp;&nbsp;
+                            <a class="icon25 icon25-stop  col-lg-4 col-md-4 col-sm-4 uex-icon-stop-all build_df_set" href="javascript:;"
                                ng-click="stop($index,bc)"
                                ng-show="bc.build.status.phase == 'Pendding' || bc.build.status.phase == 'Running' || bc.build.status.phase == 'New'"
                                uib-tooltip="停止"></a>
+
+                               <!-- <a class="icon25 icon25-stop  col-lg-4 col-md-4 col-sm-4 uex-icon-stop-all build_df_set" href="javascript:;"
+                             
+                               uib-tooltip="停止"></a> -->
                         </div>
                     </td>
                 </tr>

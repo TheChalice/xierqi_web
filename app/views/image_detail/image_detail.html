@@ -128,9 +128,9 @@
 
                                         </div>
                                         <div class="col-sm-4 text-right">
-                                            <a class="icon25 icon25-download" uib-tooltip="拉取" href="javascript:;" ng-click="pull(item.tag)"></a>
-                                            <a class="icon25 icon25-start" uib-tooltip="部署" ui-sref="console.service_create({imagetype:'myimage',namespace:namespace,imagename:name,imagetag:item.tag,image:item.items[0].dockerImageReference,message:item.message})"></a>
-                                            <a class="icon25 icon25-delete" uib-tooltip="删除" href="javascript:;" ng-click="delete($index)"></a>
+                                            <a class="icon25 uex-icon-copy" uib-tooltip="拉取" href="javascript:;" ng-click="pull(item.tag)"></a>
+                                            <a class="icon25 uex-icon-start-all" uib-tooltip="部署" ui-sref="console.service_create({imagetype:'myimage',namespace:namespace,imagename:name,imagetag:item.tag,image:item.items[0].dockerImageReference,message:item.message})"></a>
+                                            <a class="icon25 uex-icon-delete" uib-tooltip="删除" href="javascript:;" ng-click="delete($index)"></a>
                                             <!--<a class="icon25 icon25-start" uib-tooltip="部署" ui-sref="console.service_create()"></a>-->
                                         </div>
                                     </div>
