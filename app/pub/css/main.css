@@ -101,13 +101,13 @@ a {
     -webkit-border-radius:4px;
     -moz-border-radius:4px;
     border-radius:4px;
-    color:#CCD5E0;font-size:12px;margin-left:10px;
+    color:#475669;font-size:12px;margin-left:10px;
 }
 
 .btn-gray:hover {
     background-color: #fff;
     border:1px solid #CCD5E0;
-    color:#CCD5E0;
+    color:#475669;
 
 }
 
@@ -2033,6 +2033,11 @@ td  a:hover, a:focus{
     content: '\e925';
     color:#57B5F2;font-size:14px;
 }
+.config-detail .uex-icon-delete:before {
+    content: '\e925';
+    color:#57B5F2;font-size:14px;
+}
+
 .df_search{position:absolute;z-index:999;top:50%;right:10px;font-size:12px;margin-top:-7px;color: #A2B0C4;}
 .searchbar:hover .df_search{color:#47B2FB;}
 
@@ -2133,7 +2138,7 @@ td  a:hover, a:focus{
     letter-spacing: 0;
 }
 .df_left_set{margin-left:12px!important;font-size:12px!important;font-style: normal!important;font-weight:normal!important;}
-.public_border{border:1px solid #CCD5E0;padding:10px;margin-bottom:20px;}
+.public_border{border:1px solid #CCD5E0;padding:10px;margin-bottom:20px;border-radius:4px;}
 .public_border:hover{border:1px solid #47B2FB;}
 .df_deplay_h:hover{background:#E0E6ED;}
 .df_normal_set{font-style: normal;}
@@ -2142,3 +2147,7 @@ td  a:hover, a:focus{
 .detail_tit{color:#A2B0C4;}
 .df_jl_set{width:120px;}
 .df_jl_pd{padding:0px;}
+.df_frame .uex-icon-delete:before {
+    content: '\e925';
+    color:#57B5F2;font-size:14px;
+}
