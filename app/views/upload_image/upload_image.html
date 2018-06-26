@@ -6,7 +6,7 @@
                  tar文件上传
              </div>
              <div class="col-md-10">
-                 <input type="text" class="upload_input" ng-model="file.name" readonly="" ng-disabled="disabled" style="width: 272px;height: 26px;line-height: 26px;border-radius: 4px;background: #ececec;cursor: no-drop;">
+                 <input type="text" class="upload_input" ng-model="file.name" readonly="" ng-disabled="disabled" style="width: 272px;height: 26px;line-height: 26px;border-radius: 4px;background: #ececec;cursor: no-drop;padding: 0px 12px;">
                  <a class="btn" style="border: 1px solid #47B2FB; color: #47B2FB;font-size: 12px;padding:3px 12px;margin-left: 5px;" ngf-select
                     ngf-reset-model-on-click="false"
                     ngf-pattern="'.tar'"
@@ -45,7 +45,7 @@
                                      <ul class="dropdown-menu onbehalf-list"
                                          style="max-height: 200px; overflow-y:scroll">
                                          <li ng-repeat="reg in myis">
-                                             <a href="javascript:;" ng-click='changename(reg)'>{{reg.metadata.name}}</a>
+                                             <a href="javascript:;" style="height: 26px;line-height: 26px;" ng-click='changename(reg)'>{{reg.metadata.name}}</a>
                                          </li>
                                      </ul>
 
@@ -58,7 +58,7 @@
                                      <ul class="dropdown-menu onbehalf-list"
                                          style="max-height: 200px; overflow-y:scroll">
                                          <li ng-repeat="tag in myistag">
-                                             <a href="javascript:;" ng-click='changetag(tag)'>{{tag.tag}}</a>
+                                             <a href="javascript:;" style="height: 26px;line-height: 26px;"  ng-click='changetag(tag)'>{{tag.tag}}</a>
                                          </li>
                                      </ul>
 
@@ -107,9 +107,9 @@
 
          </div>
          <div class="modal fade" id="myModal"  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
-             <div class="modal-dialog">
+             <div class="modal-dialog" style="margin-top:110px;">
                  <div class="modal-content" style="height: 251px;padding:20px;">
-                     <div style="margin-top:88px;text-align: center;" >
+                     <div style="margin-top:77px;text-align: center;" >
                          <p>上传进度{{grid.progress||0}}%</p>
                          <div class="progress" style="height: 2px;">
 
@@ -144,8 +144,8 @@
             class="btn">
              <span style="color: white;">上传镜像</span>
          </a>
-         <small ng-show="grid.clickbtn==='inhand'" class="fa fa-info-circle err-tip">镜像处理中，请勿刷新或跳转页面
-         </small>
+         <!--<small ng-show="grid.clickbtn==='inhand'" class="fa fa-info-circle err-tip">镜像处理中，请勿刷新或跳转页面-->
+         <!--</small>-->
      </div>
 
          <!--<small ng-show="grid.clickbtn==='dontclick'" class="fa fa-info-circle err-tip">镜像上传中，请勿刷新或跳转页面-->
