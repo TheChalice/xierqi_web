@@ -161,8 +161,8 @@
 }
 
 .service-config .container-bar {
-    padding: 20px 20px;
-    border: 1px solid #c9c9c9;
+    /* padding: 20px 20px; */
+    /* border: 1px solid #c9c9c9; */
     border-radius: 2px;
     color: #5a6378;
     font-size: 12px;

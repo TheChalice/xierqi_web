@@ -21,6 +21,9 @@ angular.module("console.sidebar", [
                 $scope.state = $state;
                 $scope.goUrl = function (url) {
                     if (url) {
+                        // alert(1);
+                        $(".nav_top_li").addClass("nav_top_toggle");
+                        $(".bread_set").addClass("bread_set_toggle")
                         var urlarr = url.split('@');
                         // console.log('urlarr', urlarr);
                         if (urlarr && urlarr.length) {
@@ -28,6 +31,7 @@ angular.module("console.sidebar", [
                         }
                     } else {
                         $scope.activeStyle = false;
+                        // alert(2);
                         $(".zx_set_btn").removeClass("zx_set_btn_rotate");
                         $("#sidebar-container").removeClass("sider_zx");
                         $("#sidebar-right-fixed").removeClass("sidebar-fixed");
@@ -48,7 +52,16 @@ angular.module("console.sidebar", [
                         //$rootScope.dataForTheTree[4].children = $rootScope.app
                         //$rootScope.dataForTheTree[5].children = $rootScope.resources
                     }
+                   
+                   
                 };
+                // var slider=$("#sidebar-container").width();
+                // if(slider==180){
+                //     alert(1);
+                // }
+                // if(slider==74){
+                //     alert(2);
+                // }
                 $scope.activeStyle = false;
                 $scope.treeOptions = {
                     nodeChildren: "children",
@@ -76,6 +89,7 @@ angular.module("console.sidebar", [
 
                     if ($(".zx_set_btn").hasClass('zx_set_btn_rotate')) {
                         $scope.activeStyle = true;
+                        // alert(3);
                         angular.forEach($rootScope.dataForTheTree, function (data, i) {
                             //console.log('data', data);
                             if (data.name == '容器应用') {
@@ -91,6 +105,7 @@ angular.module("console.sidebar", [
 
                     } else {
                         $scope.activeStyle = false;
+                        // alert(4);
                         angular.forEach($rootScope.dataForTheTree, function (data, i) {
                             //console.log('data', data);
                             if (data.name == '容器应用') {
