@@ -184,8 +184,8 @@
     padding:0;
 }
 #sidebar [treecontrol].tree-light li div.tree-label{
-    height: 50px;
-    line-height:50px;
+    height: 40px;
+    line-height:40px;
     display: block;
     padding: 0;
     overflow: hidden;
