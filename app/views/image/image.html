@@ -9,7 +9,7 @@
         <div class="col-sm-4 col-xs-4 builder_jia_btn" style="padding-left: 0;">
             <a class="btn btn-green btn-green_li" ui-sref="console.uploadimage({namespace:namespace})" style="">
                 <i class="fa fa-plus fa-lg"></i>
-                <span class="hidden-xs">上传镜像</span>
+                <span class="hidden-xs">镜像上传</span>
             </a>
         </div>
 
@@ -24,7 +24,7 @@
                 <div class="row image_jia_btn" style="margin-bottom: 25px;margin-left: 0;margin-right: 0;">
                     <div class="input-group col-sm-3 searchbar">
                         <input type="text" class="form-control" ng-model="txt"
-                               ng-focus="showTip=true;" placeholder="搜索镜像" ng-keyup="search('all', txt)">
+                               ng-focus="showTip=true;" placeholder="搜索镜像名称" ng-keyup="search('all', txt)">
                     <span class="input-group-btn">
                             <span class="df_search uex-icon-search" ng-click="search('all', txt)">
                             </span>
@@ -110,7 +110,7 @@
 
                         <div class="input-group col-sm-3 searchbar">
                             <input type="text" class="form-control" ng-model="cktxt"
-                                   ng-focus="showTip=true;" placeholder="搜索镜像" ng-keyup="cksearch('all', cktxt)">
+                                   ng-focus="showTip=true;" placeholder="搜索镜像名称" ng-keyup="cksearch('all', cktxt)">
                             <span class="input-group-btn">
                         <!-- <a class="btn" ng-click="cksearch('all', cktxt)"></a> -->
                         <span class="df_search uex-icon-search" ng-click="search('all', txt)">
@@ -221,7 +221,7 @@
                     </div>
                     <div class="input-group col-sm-4 col-sm-offset-8 searchbar" id="sousuo">
                         <input type="text" class="form-control" ng-model="ctxt"
-                               ng-focus="showTip=true;" placeholder="搜索镜像" ng-keyup="imagecenterreg('all', ctxt,$event)">
+                               ng-focus="showTip=true;" placeholder="搜索镜像名称" ng-keyup="imagecenterreg('all', ctxt,$event)">
                     <span class="input-group-btn">
                         <a class="btn" ng-click="imagecenterreg('all', ctxt)"></a>
                     </span>
@@ -257,7 +257,7 @@
                 <div class="row" style="margin-bottom: 30px;">
                     <div class="input-group col-sm-4 col-sm-offset-8 searchbar">
                         <input type="text" class="form-control" ng-model="txt"
-                               ng-focus="showTip=true;" placeholder="搜索镜像" ng-keyup="search('all', txt)">
+                               ng-focus="showTip=true;" placeholder="搜索镜像名称" ng-keyup="search('all', txt)">
                     <span class="input-group-btn">
                         <a class="btn" ng-click="search('all', txt)"></a>
                     </span>

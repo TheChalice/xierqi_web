@@ -685,9 +685,9 @@ angular.module("console.header", [{
                 case "console.route_detail":
                     return "域名路由详情";
                 case "console.deploymentconfig_detail":
-                    return "镜像部署详情";
+                    return "服务部署详情";
                 case "console.deployment_detail":
-                    return "镜像部署详情";
+                    return "服务部署详情";
                 case "console.pods":
                     return "容器组";
                 case "console.pods_detail":
@@ -703,7 +703,7 @@ angular.module("console.header", [{
                 case "console.resource_secret":
                     return "密钥卷";
                 case "console.uploadimage":
-                    return "上传镜像";
+                    return "镜像上传";
             }
         };
 
