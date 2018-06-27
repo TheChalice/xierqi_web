@@ -139,7 +139,7 @@
 #sidebar [treecontrol].tree-light li.tree-collapsed i.tree-branch-head{
     /*display: none;*/
     position: absolute;
-    top: 18px;
+    top: 12px;
     right: 12px;
     padding: 8px;
     background-image:url("img/slide_bg.png");
@@ -160,7 +160,7 @@
 #sidebar [treecontrol].tree-light li.tree-expanded i.tree-branch-head{
     /*display: none;*/
     position: absolute;
-    top: 22px;
+    top: 17px;
     right: 12px;
     padding: 8px;
     background-image:url("img/slide_bg.png");
