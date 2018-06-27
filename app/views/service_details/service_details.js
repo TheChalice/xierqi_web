@@ -30,6 +30,9 @@ angular.module('console.services', [
                         var podForService = _.filter([pod.metadata.labels], _.matches($scope.service.spec.selector)) || [];
                         if (podForService.length !== 0) {
                             $scope.podsForService[pod.metadata.name] = pod;
+                            // console.log("12312",$scope.podsForService)
+                            var podsnum=Object.keys($scope.podsForService);
+                            $scope.podsnum=podsnum.length
                         }
                     }  )
 
