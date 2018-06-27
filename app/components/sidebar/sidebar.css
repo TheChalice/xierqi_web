@@ -139,14 +139,14 @@
 #sidebar [treecontrol].tree-light li.tree-collapsed i.tree-branch-head{
     /*display: none;*/
     position: absolute;
-    top: 18px;
+    top: 12px;
     right: 12px;
     padding: 8px;
     background-image:url("img/slide_bg.png");
-    background-size: contain;!important;
+    background-size: contain!important;
     background-repeat: no-repeat;
     transform-origin:center center;
-    transform: rotate(0deg); //返回原点
+    transform: rotate(0deg); 
     -webkit-transform: rotate(0deg);
     -moz-transform: rotate(0deg);
     -ms-transform: rotate(0deg);
