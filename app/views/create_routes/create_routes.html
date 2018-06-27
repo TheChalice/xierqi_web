@@ -187,7 +187,7 @@
         <div class="route-row route-font">
             <div class="row"
                  ng-if="!routeDetail.spec.alternateBackends || routeDetail.spec.alternateBackends.length<=1">
-                <div class="col-sm-1 require" style="width: 120px;">指向服务</div>
+                <div class="col-sm-1 require" style="width: 120px;">指向服务111</div>
                 <div class="col-sm-11 route-width-one">
                     <div class="dropdown dropdown-select" style="display: block;">
                         <button class="btn dropdown-toggle" data-toggle="dropdown">
@@ -205,7 +205,7 @@
             </div>
             <div ng-if="routeDetail.spec.alternateBackends.length>1">
                 <div class="row">
-                    <div class="col-sm-1" style="width: 120px;">指向服务</div>
+                    <div class="col-sm-1" style="width: 120px;">指向服务222</div>
                     <div class="col-sm-5 route-width-one">
                         <div class="dropdown dropdown-select" style="display: block;">
                             <button class="btn dropdown-toggle" data-toggle="dropdown">
@@ -220,7 +220,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="col-sm-1" style="width: 120px;">权重</div>
+                    <div class="col-sm-1" style="width: 55px;">权重</div>
                     <div class="col-sm-5 route-width-one">
                         <input class="form-control route-line-height" type="number"
                                ng-model="routeDetail.spec.to.weight"
@@ -258,15 +258,14 @@
             </div>
         </div>
         <div class="row route-font">
-            <div class="col-sm-1" style="width: 120px;"></div>
-            <div class="col-sm-11">
+            <!--<div class="col-sm-1" style="width: 120px;"></div>-->
+            <!--<div class="col-sm-11">-->
                 <div ng-if="alternateType">
                     <div ng-if="routeDetail.spec.alternateBackends.length===1">
-                        <div class="row">
-
+                        <div class="row" style="margin-left: 0">
                             <div class="col-sm-1" style="width: 120px;"></div>
                             <div class="col-sm-11 route-width-one">
-                                <span>指向服务</span>
+                                <span>指向服务333</span>
                                 <div class="dropdown dropdown-select" style="display: block;">
                                     <button class="btn dropdown-toggle" data-toggle="dropdown">
                                         <span>{{routeDetail.spec.alternateBackends[0].name}}</span>
@@ -285,12 +284,12 @@
                     </div>
                     <div ng-show="routeDetail.spec.alternateBackends.length>1"
                          ng-repeat="serveList in routeDetail.spec.alternateBackends" ng-init="outerIndex = $index">
-                        <div class="row" style="padding-left: 15px;">
-                            <div class="row" style="padding-left: 120px;">
-                                <div class="col-sm-1 route-width-one route-font">指向服务</div>
+                        <div class="row">
+                            <div class="row" style="padding-left: 150px;">
+                                <div class="col-sm-1 route-width-one route-font">指向服务444</div>
                                 <div class="col-sm-1 route-width-one route-font">权重</div>
                             </div>
-                            <div class="row" style="padding-left: 120px;">
+                            <div class="row" style="padding-left: 150px;">
                                 <div class="col-sm-5 route-width-one">
                                     <div class="dropdown dropdown-select" style="display: block;">
                                         <button class="btn dropdown-toggle" data-toggle="dropdown">
@@ -318,7 +317,7 @@
                             </div>
                         </div>
                     </div>
-                    <div style="font-size: 12px;margin:10px 0;padding-left: 120px;">
+                    <div style="font-size: 12px;margin:10px 0;padding-left: 135px;">
                         <span href="javascript:;" ng-click="addService()" style="cursor: pointer">
                             <i class="uex-icon-add" style="color: #47B2FB"></i>
                             <span style="color: #47B2FB;">添加</span>
@@ -326,7 +325,7 @@
                     </div>
                 </div>
                 <div class="form-group" ng-if="routeDetail.spec.alternateBackends.length===1" style="margin-bottom: 0;">
-                    <div class="row">
+                    <div class="row" style="margin-left: 0">
                         <div class="col-sm-1" style="width: 120px;"></div>
                         <div class="col-sm-11 route-width-third-one">
                             <div class="row weight-slider-values"
@@ -345,7 +344,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            <!--</div>-->
         </div>
         <div class="row route-font" style="margin-top: 15px;">
             <div class="col-sm-1" style="width: 120px;">加密流量</div>
