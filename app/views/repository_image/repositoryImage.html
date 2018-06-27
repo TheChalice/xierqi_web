@@ -16,7 +16,7 @@
                         </div>
                     </div>
             <div class="input-group col-sm-3 searchbar">
-                <input type="text" class="form-control" ng-model="cktxt" ng-focus="showTip=true;" placeholder="搜索镜像" ng-keyup="cksearch('all', cktxt)">
+                <input type="text" class="form-control" ng-model="cktxt" ng-focus="showTip=true;" placeholder="搜索镜像名称" ng-keyup="cksearch('all', cktxt)">
                 <span class="input-group-btn">
                     <!-- <a class="btn" ng-click="cksearch('all', cktxt)"></a> -->
                     <span class="df_search uex-icon-search" ng-click="search('all', txt)">
@@ -38,7 +38,12 @@
                 <div class="row row_set">
                     <!-- 20160921 jia 服务分类模块问题 -->
                     <th class='col-lg-2 col-md-2 col-sm-1'>镜像名称</th>
-                    <th class='col-lg-2 col-md-2 col-sm-2'>更新时间</th>
+                    <th class='col-lg-2 col-md-2 col-sm-2'>更新时间
+                            <span class="sort_btn">
+                                    <i class="uex-icon-to-back" ></i>
+                                    <i class="uex-icon-to-front" ng-if="uex_front"></i>
+                                </span>
+                    </th>
                     <th class='col-lg-2 col-md-2 col-sm-2'>创建时间</th>
                 </div>
 
@@ -78,9 +83,9 @@
         </table>
 
     </div>
-    <div class="text-center" style="text-align:center;" ng-if="grid.ckTotal > 8">
+    <div class="text-center" style="text-align:center;" ng-if="grid.ckTotal > 10">
         <uib-pagination ng-model="grid.ckPage" total-items="grid.ckTotal" items-per-page="grid.size" class="pagination-sm" boundary-links="false"
-            max-size="8" rotate="true" previous-text="<" next-text=">">
+            max-size="10" rotate="true" previous-text="<" next-text=">">
         </uib-pagination>
     </div>
 

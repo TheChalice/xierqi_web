@@ -57,7 +57,7 @@
                                 <td class="td_borderBottom td_overflow" style="">
                                     <a class="listitem" uib-tooltip="{{item.metadata.name}}" tooltip-placement="top" ui-sref="console.constantly_detail({name:item.metadata.name})">{{item.metadata.name}}</a>
                                 </td>
-                                <td class="td_borderBottom"style=""> <span class="icon12 icon12-{{item.status.phase}}"
+                                <td class="td_borderBottom"style=""> <span class="icon12 uex-icon-{{item.status.phase}}"
                                                                                      ng-class="{'fa-spin':item.status.phase == 'Pending','fa-unspin':item.status.phase == 'Bound'}"></span>
                                     {{item.status.phase | bandFilter}}
                                 </td>

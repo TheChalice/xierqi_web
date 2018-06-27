@@ -30,7 +30,11 @@
                     <div class="row">
                         <th class='col-lg-2 col-md-2 col-sm-1'>存储卷名称</th>
                         <th class='col-lg-2 col-md-2 col-sm-1'>存储卷状态</th>
-                        <th class='col-lg-2 col-md-2 col-sm-2'>创建时间</th>
+                        <th class='col-lg-2 col-md-2 col-sm-2'>创建时间
+                                <span class="sort_btn">
+                                        <i class="uex-icon-to-back"></i>
+                                    </span>
+                        </th>
                         <th class='col-lg-2 col-md-2 col-sm-2'>存储卷大小</th>
                         <th class='col-lg-3 col-md-3 col-sm-2'>挂载服务数量</th>
                     </div>
@@ -40,7 +44,7 @@
                         <a class="listitem" uib-tooltip="{{item.metadata.name}}" tooltip-placement="top" ui-sref="console.constantly_persistentVolume({namespace:namespace,name:item.metadata.name})">{{item.metadata.name}}</a>
                     </td>
                     <td class="td_borderBottom" style="">
-                        <span class="icon12 icon12-{{item.status.phase}}" ng-class="{'fa-spin':item.status.phase == 'Pending','fa-unspin':item.status.phase == 'Bound'}"></span>
+                        <span class="icon12 uex-icon-{{item.status.phase}}" ng-class="{'fa-spin':item.status.phase == 'Pending','fa-unspin':item.status.phase == 'Bound'}"></span>
                         {{item.status.phase | bandFilter}}
                     </td>
                     <td class="td_borderBottom" style="">{{item.metadata.creationTimestamp | timescon}}
