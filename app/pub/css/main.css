@@ -1982,7 +1982,7 @@ td  a:hover, a:focus{
     color: #A2B0C4;
 }
 .df_close{color: #475669;font-size:12px;}
-.build_df_set{padding-right:px!important;margin:0px!important;}
+.build_df_set{margin:0px!important;}
 /*删除*/
 .uex-icon-delete:before {
     content: '\e925';
