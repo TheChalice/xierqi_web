@@ -274,7 +274,7 @@ define([
                         }]
                     }
                 })//ok
-                .state('console.primage_detail', {
+                .state('console.primage', {
                     url: '/:namespace/image/primage/:name',
                     templateUrl: 'views/primage_detail/primage_detail.html',
                     controller: 'prImageDetailCtrl',

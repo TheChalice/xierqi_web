@@ -53,6 +53,7 @@ angular.module('console.image_detail', [
                 })
 
                 $scope.date = data;
+                $scope.itemsCurIdx = $scope.date.status.tags[0].items.length-1;
                 console.log($scope.date);
             })
 
