@@ -24,7 +24,7 @@ angular.module("console.sidebar", [
                     if (url) {
                         //  alert(1);
                         //$(".nav_top_li").addClass("nav_top_toggle");
-                        $(".bread_set").addClass("bread_set_toggle")
+                        // $(".bread_set").addClass("bread_set_toggle")
                         var urlarr = url.split('@');
                         // console.log('urlarr', urlarr);
                         //console.log(($("#sidebar-container").hasClass('sider_zx')))
