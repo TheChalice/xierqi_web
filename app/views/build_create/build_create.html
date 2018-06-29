@@ -98,22 +98,18 @@
                                     </p>
                                     <div ng-if="selectCodeBase.status==1">
                                         <div class="form-group">
-                                            <label for="address" class="control-label require tab-reg-label label-font">仓库地址</label>
-                                            <div>
-<<<<<<< HEAD
-                                                <input type="text" class="form-control tab-reg-input form-control-input-line" ng-model="buildConfig.spec.source.git.uri">
-                                                <small ng-show="publicErr.urlerror" class="fa fa-info-circle err-tip">
-=======
-                                                <input type="text"
-                                                       class="form-control tab-reg-input form-control-input-line"
-                                                       ng-model="buildConfig.spec.source.git.uri">
-                                                <small ng-show="privateErr.urlerr"
-                                                       class="fa fa-info-circle err-tip">
->>>>>>> nanji/1.0
-                                                    请输入正确仓库地址
-                                                </small>
+                                                <label for="address"
+                                                       class="control-label require tab-reg-label label-font">仓库地址</label>
+                                                <div>
+                                                    <input type="text"
+                                                           class="form-control tab-reg-input form-control-input-line"
+                                                           ng-model="buildConfig.spec.source.git.uri">
+                                                    <small ng-show="privateErr.urlerr"
+                                                           class="fa fa-info-circle err-tip">
+                                                        请输入正确仓库地址
+                                                    </small>
+                                                </div>
                                             </div>
-                                        </div>
                                         <div class="form-group">
                                             <label for="ref" class="control-label tab-reg-label label-font">分支/Tag/Commit</label>
                                             <div>
