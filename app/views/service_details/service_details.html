@@ -61,10 +61,12 @@
                         <p class="img-new">
                             <span class="module_tit">容器个数：</span>
                             <small>
-                                    <span ng-repeat="pod in podsForService">
+                                <span>{{podsnum}}</span>
+                                <span ng-if="!podsnum">-</span>
+                                    <!-- <span ng-repeat="pod in podsForService">
                                         <a class="href-orange"
-                                           ui-sref="console.pods_detail({namespace:namespace,name: pod.metadata.name})">{{pod.metadata.name}}</a>
-                                    </span>
+                                           ui-sref="console.pods_detail({namespace:namespace,name: pod.metadata.name})">{{sortedPods.length}}&nbsp;</a>
+                                    </span> -->
                                 </small>
                         </p>
                     </div>

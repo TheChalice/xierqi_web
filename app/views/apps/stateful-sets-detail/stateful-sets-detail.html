@@ -345,6 +345,10 @@
                 <div class="col-md-6" style="padding-left:0px;padding-right:0px;">
                     <input class="col-md-11 input-key" ng-disabled="true"  type="text" ng-model="env.value"  style="background:none;border:1px solid #c9c9c9;color: #7d7d7d;cursor:text;font-size:12px;">
                 </div>
+                <div ng-if="!statefuldetail.spec.template.spec.containers[0].env" class="envi_main">
+                        <div class="tit df_left_set">此容器没有设置环境变量.
+                        </div>
+                    </div>
              </div>
         </uib-tab>
         <uib-tab index="3">
@@ -358,12 +362,11 @@
 
             </public-metrics>
         </uib-tab>
-        <uib-tab index="4">
+        <!-- <uib-tab index="4">
             <uib-tab-heading>
-                <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
                 事件
             </uib-tab-heading>
             <deployments-event dcname="dcName" dcfit="DeploymentConfig"></deployments-event>
-        </uib-tab>
+        </uib-tab> -->
     </uib-tabset>
 </div>

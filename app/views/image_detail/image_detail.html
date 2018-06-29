@@ -64,7 +64,7 @@
                     <p class="img-tit">{{name}}</p>
                     <p class="img-time">
                         <span classs="module_tit">创建时间：</span>
-                        <span class="module_time">{{date.status.tags[0].items[0].created | timescon}}</span>
+                        <span class="module_time">{{date.status.tags[0].items[itemsCurIdx].created | timescon}}</span>
                     </p>
                     <p class="img-new">
                         <span class="module_tit">最新版本：</span>
@@ -109,9 +109,9 @@
                                     <div class="row">
 
                                         <div class="col-sm-4">
-                                            <span class="detail_tit">构建时间：</span>
+                                            <span class="detail_tit">更新时间：</span>
                                             <label class="build_name">
-                                                {{item.items[0].created | timescon}}
+                                                {{item.items[0].created | dateRelative}}
                                             </label>
                                         </div>
 

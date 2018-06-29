@@ -3180,7 +3180,7 @@ define([
                         } else if (toState.name.indexOf('private-image') !== -1 || toState.name.indexOf('image_detail') !== -1) {
                             $rootScope.imageChild[0].stateUrl = toState.name;
                         }
-                        else if (toState.name.indexOf('repository-image') !== -1 || toState.name.indexOf('primage_detail') !== -1) {
+                        else if (toState.name.indexOf('repository-image') !== -1 || toState.name.indexOf('primage') !== -1) {
                             $rootScope.imageChild[1].stateUrl = toState.name;
                         }
                         // else if (toState.name.indexOf('pipeline') !== -1) {

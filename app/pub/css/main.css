@@ -313,33 +313,59 @@ a {
     background-image: url(../img/flag.png);
 }
 
-.icon12-Complete {
+/* .icon12-Complete {
     background-image: url(../img/complete.png);
-}
+} */
 
-.icon12-Failed, .icon12-Error {
+
+
+/* .icon12-Failed, .icon12-Error {
     background-image: url(../img/fail.png);
-}
+} */
 
-.icon12-Running, .icon12-Pending {
+/* .icon12-Running, .icon12-Pending {
     background-image: url(../img/pending.png);
-}
+} */
 
-.icon12-Cancelled {
+/* .icon12-Cancelled {
     background-image: url(../img/stop.png);
-}
+} */
 
-.icon12-band {
+/* .icon12-band {
     background-image: url(../img/complete.png);
+} */
+
+/* 成功 */
+.uex-icon-band:before {
+    content: "\e914";
+    color:#A2B0C4;
 }
 
+/* 成功 */
+.uex-icon-New:before {
+    content: "\e914";
+    color:#A2B0C4;
+}
+/* 终止 */
+.uex-icon-Cancelled:before {
+    content: "\e916";
+    color:#A2B0C4;
+}
+/* 失败/错误  未挂载 */
+.uex-icon-Bound:before {
+    content: "\e915";
+    color:#A2B0C4;
+}
+.fa-unspin{-webkit-animation: unset!important;-moz-animation: unset!important;animation: unset!important;}
+
+/* 
 .icon12-Bound {
     background-image: url(../img/refresh.png);
 }
 
 .icon12-New {
     background-image: url(../img/refresh.png);
-}
+} */
 
 .star-13 {
     display: inline-block;
@@ -1952,7 +1978,7 @@ td  a:hover, a:focus{
 
 .uex-icon-to-back:before{
     content: '\e9fd';
-    color:#A2B0C4;
+    color:#000;
 }
 .uex-icon-to-front:before{
     content: '\e9ff';
@@ -2041,7 +2067,7 @@ td  a:hover, a:focus{
 .df_search{position:absolute;z-index:999;top:50%;right:10px;font-size:12px;margin-top:-7px;color: #A2B0C4;}
 .searchbar:hover .df_search{color:#47B2FB;}
 
-.sort_btn{padding-left:2px;width: 30px;font-size: 14px;display: inline-block;height: 20px;cursor: pointer;}
+.sort_btn{padding-left:2px;width: 30px;font-size: 14px;display: inline-block;height: 20px;}
 
 
 /* uex-icon svg 公共图标引用 结束 重要*/

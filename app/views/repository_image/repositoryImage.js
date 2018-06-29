@@ -97,7 +97,7 @@ angular.module('console.repository-image', [
                 repertoryspage: 1,
                 imagecenterpage: 1,
                 ckPage: 1,
-                size: 8,
+                size: 10,
                 copytest: {},
                 search: false
             };
