@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('console.image_detail', [
+angular.module('console.primage', [
         {
             files: [
                 'components/searchbar/searchbar.js',
@@ -58,7 +58,7 @@ angular.module('console.image_detail', [
                 })
                  //排序
                 //$scope.tags=tags;
-
+                $scope.tagsCurIdx = $scope.tags.length-1;
                 console.log('$scope.tags', $scope.tags);
             })
             $scope.pull = function (name) {

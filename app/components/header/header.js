@@ -545,8 +545,8 @@ angular.module("console.header", [{
                     return "镜像仓库"
                 case "console.service_create":
                     return "部署镜像"
-                case "console.primage_detail":
-                    return "镜像仓库"
+                case "console.primage":
+                    return "仓库镜像"
                 case "console.deploymentconfig_detail":
                     return "部署镜像"
                 case "console.pods_detail":
@@ -624,7 +624,7 @@ angular.module("console.header", [{
                     return "rc详情";
                 case "console.rs":
                     return "rs详情";
-                case "console.primage_detail":
+                case "console.primage":
                     return "镜像详情";
                 case "console.service_detail":
                     return "服务详情";
