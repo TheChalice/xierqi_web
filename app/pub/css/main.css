@@ -2108,7 +2108,9 @@ td  a:hover, a:focus{
     position: fixed;left:180px;right:0px;top:55px;z-index:999;
     -webkit-transition:all 0.3s linear ;-moz-transition:all 0.3s linear;transition:all 0.3s linear;
 }
-.nav_top_toggle{left:74px;}
+.nav_top_toggle{left:74px;
+    -webkit-transition:all 0.3s linear ;-moz-transition:all 0.3s linear;transition:all 0.3s linear;
+}
 .df_top_set{margin-top:62px!important;}
 .df_build{font-size:12px;width:68px;height:26px;line-height:26px;padding:0px;}
 .df_build_btn{font-size:12px;width:68px;height:26px;line-height:26px;padding:0px;background:#fff;border:1px solid #47B2FB;color:#47B2FB;}
@@ -2177,3 +2179,6 @@ td  a:hover, a:focus{
     content: '\e925';
     color:#57B5F2;font-size:14px;
 }
+/* svg图标 */
+.img-block{position:relative}
+.svg_img{position:absolute;top:50%;left:50%;margin-top:-24px;margin-left:-24px;fill:#475669;width:48px;height:48px;} 

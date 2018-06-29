@@ -155,7 +155,7 @@
                     </td>
                     <td data-title="Created">
                         <span uib-tooltip="{{deployment.metadata.creationTimestamp  | timescon}}">
-                            {{deployment.metadata.creationTimestamp | dateRelative}}
+                            {{deployment.metadata.creationTimestamp | timescon}}
                         </span>
                     </td>
                     <td data-title="Strategy">
@@ -213,7 +213,7 @@
                     </td>
                     <td data-title="Created">
                         <span uib-tooltip="{{replicas.metadata.creationTimestamp  | timescon}}">
-                            {{replicas.metadata.creationTimestamp | dateRelative}}
+                            {{replicas.metadata.creationTimestamp | timescon}}
                         </span>
                     </td>
                     <!--<td data-title="Strategy">-->
@@ -271,7 +271,7 @@
                     </td>
                     <td data-title="Created">
                         <span uib-tooltip="{{replicaset.metadata.creationTimestamp  | timescon}}">
-                            {{replicaset.metadata.creationTimestamp | dateRelative}}
+                            {{replicaset.metadata.creationTimestamp | timescon}}
                         </span>
                     </td>
                     <!--<td data-title="Strategy">-->
