@@ -9,6 +9,7 @@ angular.module('home.uploadimage', [{
            var host = window.location.host;
             $scope.grid = {
                 tag: null,
+                isFile:false,
                 file: null,
                 name: null,
                 progress: null,
@@ -16,6 +17,13 @@ angular.module('home.uploadimage', [{
                 clickbtn: 'dontclick',
                 display: false
             }
+            $scope.$watch('grid', function (n, o) {
+                if ($scope.grid.name && $scope.grid.tag && $scope.grid.isFile) {
+                    $scope.grid.clickbtn='canclick';
+                }else{
+                    $scope.grid.clickbtn = 'dontclick';
+                }
+            },true)
             $scope.submit = function (file) {
                 //console.log('file', file);
                 $scope.grid.imagenamenull = false
@@ -36,19 +44,21 @@ angular.module('home.uploadimage', [{
 
                     $scope.upload(file, $scope.grid.name, $scope.grid.tag, md5);
                 });
-                //if (file) {
-                //
-                //}
             };
             $scope.changeupload = function ($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event) {
-                //console.log('change', $files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event);
-                $scope.grid.file = $event.target.files[0];
-                $scope.grid.clickbtn='canclick';
-                console.log(' $scope.grid.file', $scope.grid.file);
+                if($event.target.files[0]){
+                    $scope.grid.file = $event.target.files[0];
+                    $scope.grid.clickbtn='canclick';
+                    $scope.grid.isFile = true;
+                }else{
+                    $scope.grid.isFile = false;
+                }
+
 
 
             }
             $scope.changenewimage = function (idx) {
+
                 if($scope.myis){
                     if (idx == 1) {
                         $scope.grid.name = $scope.myis[0].metadata.name

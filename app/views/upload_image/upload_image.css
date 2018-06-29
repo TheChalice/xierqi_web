@@ -35,7 +35,7 @@
     border:none;
 }
 .create_deploy_nanji .tab-default li.active .nav-link{
-    border: 1px solid #47B2FB;
+    border: 1px solid #47B2FB !important;
     border-radius: 4px 4px 0px 0px;
     color: #47B2FB;
 }
