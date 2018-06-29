@@ -65,7 +65,7 @@ angular.module('console.service.create', [
             $scope.advancedConfig = false
 
             $scope.portsArr = [];
-            $scope.goBack = function(){
+            $scope.goBack = function () {
                 $scope.advancedConfig = false;
             }
             $scope.jump = function () {
@@ -482,9 +482,11 @@ angular.module('console.service.create', [
                         })
                         if (!rep) {
                             $scope.portsArr.push({
-                                err:{
-                                    containerPort:false,
-                                    hostPort:false
+                                err: {
+                                    containerPort: false,
+                                    hostPort: false,
+                                    containerPortnan: false,
+                                    hostPortnan: false
                                 },
                                 protocol: k.split('/')[1].toUpperCase(),
                                 containerPort: pot,
@@ -565,9 +567,11 @@ angular.module('console.service.create', [
                             })
                             if (!rep) {
                                 $scope.portsArr.push({
-                                    err:{
-                                        containerPort:false,
-                                        hostPort:false
+                                    err: {
+                                        containerPort: false,
+                                        hostPort: false,
+                                        containerPortnan: false,
+                                        hostPortnan: false
                                     },
                                     protocol: k.split('/')[1].toUpperCase(),
                                     containerPort: pot,
@@ -915,26 +919,38 @@ angular.module('console.service.create', [
                 $scope.err.port.null = false;
                 $scope.err.port.repeat = false;
                 var portcan = true;
-                if($scope.advancedConfig){
+                if ($scope.advancedConfig) {
                     var copydc = angular.copy($scope.dc);
                     var containerObj = [{
-                        name:copydc.spec.template.spec.containers[0].name,
-                        image:copydc.spec.template.spec.containers[0].image,
-                        ports:copydc.spec.template.spec.containers[0].ports
+                        name: copydc.spec.template.spec.containers[0].name,
+                        image: copydc.spec.template.spec.containers[0].image,
+                        ports: copydc.spec.template.spec.containers[0].ports
                     }]
                     $scope.dc.spec.template.spec.containers = containerObj;
                 }
                 if ($scope.portsArr.length) {
 
-                    angular.forEach($scope.portsArr, function (item,i) {
-                        item.containerPort=parseInt(item.containerPort);
-                        item.hostPort=parseInt(item.hostPort);
-                        angular.forEach($scope.portsArr, function (initem,k) {
+                    angular.forEach($scope.portsArr, function (item, i) {
+                        item.containerPort = parseInt(item.containerPort);
+                        item.hostPort = parseInt(item.hostPort);
+                        item.err.containerPortnan = false;
+                        item.err.hostPortnan = false;
+                        if (item.containerPort) {
+                            if (item.containerPort < 0 || item.containerPort > 65535) {
+                                item.err.containerPortnan = true;
+                            }
+                        }
+                        if (item.hostPort) {
+                            if (item.hostPort < 0 || item.hostPort > 65535) {
+                                item.err.hostPortnan = true;
+                            }
+                        }
+                        angular.forEach($scope.portsArr, function (initem, k) {
                             if (i !== k) {
                                 if (item.containerPort === initem.containerPort) {
                                     portcan = false;
-                                    item.err.containerPort=true
-                                    initem.err.containerPort=true
+                                    item.err.containerPort = true
+                                    initem.err.containerPort = true
                                 }
                             }
                             if (i !== k) {
@@ -1275,9 +1291,9 @@ angular.module('console.service.create', [
             templateUrl: 'views/service_create/tpl/containerLivenessCheck.html',
             scope: false,
             controller: ['$scope', function ($scope) {
-                   $scope.changeContainerPort = function(idx,port){
-                       $scope.dc.spec.template.spec.containers[idx].livenessProbe.annotations.port = port;
-                   }
+                $scope.changeContainerPort = function (idx, port) {
+                    $scope.dc.spec.template.spec.containers[idx].livenessProbe.annotations.port = port;
+                }
             }],
         };
     })
@@ -1287,9 +1303,9 @@ angular.module('console.service.create', [
             templateUrl: 'views/service_create/tpl/containerReadinessCheck.html',
             scope: false,
             controller: ['$scope', function ($scope) {
-                  $scope.changeAnnotationsPort = function(idx,port){
-                      $scope.dc.spec.template.spec.containers[idx].readinessProbe.annotations.port = port;
-                  }
+                $scope.changeAnnotationsPort = function (idx, port) {
+                    $scope.dc.spec.template.spec.containers[idx].readinessProbe.annotations.port = port;
+                }
             }],
         };
     })
@@ -1301,9 +1317,11 @@ angular.module('console.service.create', [
             controller: ['$scope', function ($scope) {
                 $scope.addprot = function () {
                     $scope.portsArr.unshift({
-                        err:{
-                            containerPort:false,
-                            hostPort:false
+                        err: {
+                            containerPort: false,
+                            hostPort: false,
+                            containerPortnan: false,
+                            hostPortnan: false
                         },
                         containerPort: "",
                         protocol: "TCP",
@@ -1311,7 +1329,7 @@ angular.module('console.service.create', [
                     })
                 };
                 $scope.portInitList = ['TCP'];
-                $scope.changePort = function(idx,port){
+                $scope.changePort = function (idx, port) {
                     $scope.portsArr[idx].protocol = port;
                 }
 
