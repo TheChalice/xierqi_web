@@ -143,7 +143,6 @@ define([
                 toastClass: 'toast'
             });
         }])
-
         .run(['$rootScope', 'account', '$state', 'Cookie',
             function ($rootScope, account, $state, Cookie) {
                 var masterPublicHostname = 'http://127.0.0.1:8080';
