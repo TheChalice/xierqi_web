@@ -59,7 +59,7 @@
                             <!--</td>-->
                         </tr>
                         <tr>
-                            <td colspan="5" class="td_colspan_li" style="text-align: center;" ng-if="testlist.length===0"><p class="blank_block">  <span class="blank_tit"> {{text1}}</span></p></td>
+                            <td colspan="5" class="td_colspan_li" style="text-align: center;" ng-if="testlist.length===0"><p class="blank_block"> <span class="blank_pic"></span> <span class="blank_tit"> {{text1}}</span></p></td>
                         </tr>
                     </table>
                     <!--<div class="col-md-3 col-sm-4 col-xs-6" ng-repeat="item in testlist">-->
@@ -148,7 +148,7 @@
                         </tr>
                         <tr ng-if="!proname"> <td colspan="5" class="td_colspan_li">您还没有选择仓库</td></tr>
                         <tr>
-                            <td colspan="5" class="td_colspan_li" style="text-align: center;" ng-if="newprimage.length===0"><p class="blank_block">  <span class="blank_tit"> 没有查询到相关数据</span></p></td>
+                            <td colspan="5" class="td_colspan_li" style="text-align: center;" ng-if="newprimage.length===0"><p class="blank_block"> <span class="blank_pic"></span> <span class="blank_tit"> 没有查询到相关数据</span></p></td>
                         </tr>
                     </table>
                     <!--<div class="col-md-3 col-sm-4 col-xs-6" ng-repeat="item in newprimage">-->
@@ -232,7 +232,7 @@
                         <imagecard></imagecard>
                     </div>
                 </div>
-                <div style="text-align: center;background:#f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;" ng-if="imagecenter.length===0"><p class="blank_block">  <span class="blank_tit"> {{text3}}</span></p></div>
+                <div style="text-align: center;background:#f7f8fb;position:relative;border:1px solid #ccc;padding-top:15px;padding-bottom:15px;" ng-if="imagecenter.length===0"><p class="blank_block"> <span class="blank_pic"></span> <span class="blank_tit"> {{text3}}</span></p></div>
                 <div class="text-center" style="text-align:center;" ng-if="grid.imagecentertotal > 8">
                     <uib-pagination
                             ng-model="grid.imagecenterpage"
