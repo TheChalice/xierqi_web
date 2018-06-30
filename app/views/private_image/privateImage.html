@@ -51,7 +51,16 @@
                 <!--</td>-->
             </tr>
             <tr class="df_blank">
-                <td colspan="5" class="td_colspan_li" style="text-align: center;" ng-if="testlist.length===0"><p class="blank_block"> <span class="blank_pic"></span> <span class="blank_tit"> {{text1}}</span></p></td>
+                <td colspan="5" class="td_colspan_li" style="text-align: center;" ng-if="testlist.length===0">
+                    <div class="blank_block"> <span class="blank_pic"></span> <span class="blank_tit"> {{text}}</span>
+                        <div class="blank_create_tit" ng-if="begin_blank"> 
+                                <span class="blank_des">，点击</span>
+                                <a class="df_go_create" ui-sref="console.uploadimage({namespace:namespace})">
+                                    <span class="hidden-xs">去上传</span>
+                            </a>
+                        </div>
+                    </div>
+                </td>
             </tr>
         </table>
         <!--<div class="col-md-3 col-sm-4 col-xs-6" ng-repeat="item in testlist">-->
