@@ -60,7 +60,9 @@ angular.module('console.resource_management', [
             $scope.newreload = function () {
                 $scope.loadconfigmaps();
             };
-            $scope.text = '当前列表暂时没有数据';
+            
+            $scope.text = '您还没有配置卷';
+            $scope.begin_blank=true;
             $scope.search = function (event) {
                 if (!$scope.grid.txt) {
                     $scope.configdata = angular.copy($scope.copyconfigdata);
@@ -87,6 +89,7 @@ angular.module('console.resource_management', [
                 $scope.isQuery = false;
                 if (iarr.length === 0) {
                     $scope.isQuery = true;
+                    $scope.begin_blank=false;
                     $scope.text = '没有查询到符合条件的数据';
                     // console.log($scope.items.length);
                 }

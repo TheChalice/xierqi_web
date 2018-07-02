@@ -179,6 +179,7 @@ angular.module('console.build_create', [
                     return
                 }
                 if (n) {
+                    $scope.privateErr.urlerr = false;
                     $scope.buildConfig.spec.source.git.uri='';
                     $scope.buildConfig.spec.source.git.ref='';
                     $scope.buildConfig.spec.source.contextDir='';

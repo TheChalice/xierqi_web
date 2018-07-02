@@ -102,7 +102,8 @@ angular.module('console.private-image', [
                 $scope.search(txt);
             }
             // 私有镜像平台键盘搜索
-            $scope.text1 = '您还没有构建镜像，构建完成后，可以在这里查看构建镜像！';
+            $scope.text = '您还没有构建镜像';
+            $scope.begin_blank=true;
             $scope.search = function (key, txt) {
                 if (!txt) {
                     $scope.grid.search = false;
@@ -121,9 +122,10 @@ angular.module('console.private-image', [
                     }
                 }
                 if (imagearr.length === 0) {
-                    $scope.text1 = '没有查询到相关数据';
+                    $scope.begin_blank=false;
+                    $scope.text = '没有查询到符合条件的数据';
                 } else {
-                    $scope.text1 = '您还没有构建镜像，构建完成后，可以在这里查看构建镜像';
+                    $scope.text = '您还没有构建镜像，构建完成后，可以在这里查看构建镜像';
                 }
 
                 $scope.testlist = imagearr;

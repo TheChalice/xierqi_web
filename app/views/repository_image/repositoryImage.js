@@ -35,9 +35,10 @@ angular.module('console.repository-image', [
             $scope.changename = function (reg) {
                 $scope.proname = reg.name;
                 $scope.primage = [];
+                $scope.cktxt="";
                 platform.query({ id: reg.project_id }, function (images) {
                     angular.forEach(images, function (image, i) {
-                        console.log('image', image);
+                        // console.log('image', image);
                         $scope.primage.push({
                             name: image.name,
                             tags: [],
