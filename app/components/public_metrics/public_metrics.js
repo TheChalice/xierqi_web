@@ -37,6 +37,7 @@ angular.module("console.pubmetrics", [])
                                 enabled: false
                             },
                             tooltip: {
+                                xDateFormat :  '%H:%M:%S',
                                 backgroundColor: '#666',
                                 borderWidth: 0,
                                 shadow: false,
