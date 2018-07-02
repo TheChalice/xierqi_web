@@ -986,62 +986,92 @@ angular.module('console.service.create', [
                 var cancreat = true
                 angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
                     //console.log(con.dosetcon.doset);
-                    if (con.open.readinessProbe) {
-                        if (con.open.readinesscheck === 'HTTP') {
-                            delete con.readinessProbe.exec
-                            delete con.readinessProbe.tcpSocket
-                            if (con.open.readinesshttpscheck) {
-                                con.readinessProbe.httpGet.scheme = 'HTTPS';
+                    if (con.open) {
+                        if (con.open.readinessProbe) {
+                            if (con.open.readinesscheck === 'HTTP') {
+                                delete con.readinessProbe.exec
+                                delete con.readinessProbe.tcpSocket
+                                if (con.open.readinesshttpscheck) {
+                                    con.readinessProbe.httpGet.scheme = 'HTTPS';
+                                }
+                                con.readinessProbe.httpGet.path = con.readinessProbe.annotations.path;
+                                con.readinessProbe.httpGet.port = parseInt(con.readinessProbe.annotations.port)
+                            } else if (con.open.readinesscheck === 'TCP') {
+                                delete con.readinessProbe.httpGet
+                                delete con.readinessProbe.exec
+                                if (con.readinessProbe.tcpSocket) {
+                                    con.readinessProbe.tcpSocket.port = parseInt(con.readinessProbe.annotations.port)
+                                }
+                            } else if (con.open.readinesscheck === '命令') {
+                                //console.log('con.readinessProbe.exec.command', con.readinessProbe.exec.command);
+                                angular.forEach(con.readinessProbe.annotations.command, function (item, k) {
+                                    con.readinessProbe.exec.command[k] = item.key
+                                })
+                                delete con.readinessProbe.httpGet
+                                delete con.readinessProbe.tcpSocket
                             }
-                            con.readinessProbe.httpGet.path = con.readinessProbe.annotations.path;
-                            con.readinessProbe.httpGet.port = parseInt(con.readinessProbe.annotations.port)
-                        } else if (con.open.readinesscheck === 'TCP') {
-                            delete con.readinessProbe.httpGet
-                            delete con.readinessProbe.exec
-                            if (con.readinessProbe.tcpSocket) {
-                                con.readinessProbe.tcpSocket.port = parseInt(con.readinessProbe.annotations.port)
-                            }
-                        } else if (con.open.readinesscheck === '命令') {
-                            //console.log('con.readinessProbe.exec.command', con.readinessProbe.exec.command);
-                            angular.forEach(con.readinessProbe.annotations.command, function (item, k) {
-                                con.readinessProbe.exec.command[k] = item.key
-                            })
-                            delete con.readinessProbe.httpGet
-                            delete con.readinessProbe.tcpSocket
+                            con.readinessProbe.initialDelaySeconds = parseInt(con.readinessProbe.initialDelaySeconds)
+                            con.readinessProbe.timeoutSeconds = parseInt(con.readinessProbe.timeoutSeconds)
+                        } else {
+                            delete con.readinessProbe
                         }
-                        con.readinessProbe.initialDelaySeconds = parseInt(con.readinessProbe.initialDelaySeconds)
-                        con.readinessProbe.timeoutSeconds = parseInt(con.readinessProbe.timeoutSeconds)
-                    } else {
-                        delete con.readinessProbe
+
+                        if (con.open.livenessProbe) {
+                            if (con.open.livenesscheck === 'HTTP') {
+                                delete con.livenessProbe.exec
+                                delete con.livenessProbe.tcpSocket
+                                if (con.open.livenesshttpscheck) {
+                                    con.livenessProbe.httpGet.scheme = 'HTTPS';
+                                }
+                                con.livenessProbe.httpGet.path = con.livenessProbe.annotations.path;
+                                con.livenessProbe.httpGet.port = parseInt(con.livenessProbe.annotations.port)
+                            } else if (con.open.livenesscheck === 'TCP') {
+                                delete con.livenessProbe.httpGet
+                                delete con.livenessProbe.exec
+                                if (con.livenessProbe.tcpSocket) {
+                                    con.livenessProbe.tcpSocket.port = parseInt(con.livenessProbe.annotations.port)
+                                }
+                            } else if (con.open.livenesscheck === '命令') {
+                                angular.forEach(con.livenessProbe.annotations.command, function (item, k) {
+                                    con.livenessProbe.exec.command[k] = item.key
+                                })
+                                delete con.livenessProbe.httpGet
+                                delete con.livenessProbe.tcpSocket
+                            }
+                            con.livenessProbe.initialDelaySeconds = parseInt(con.livenessProbe.initialDelaySeconds)
+                            con.livenessProbe.timeoutSeconds = parseInt(con.livenessProbe.timeoutSeconds)
+                        } else {
+                            delete con.livenessProbe
+                        }
+
+                        if (con.open.volment) {
+                            con.volumeMounts = []
+                            if (volerr(con.volments)) {
+                                cancreat = false
+                            }
+                            //console.log('con.volment', con.volments);
+                            creatvol(con, con.volments)
+
+                            //if (volrepeat(con.volumeMounts)) {
+                            //    Toast.open('卷路径重复');
+                            //    cancreat=false
+                            //}
+                            //
+                        } else {
+                            delete con.volumeMounts
+                            delete con.volments
+                        }
+
+                        if (con.open.resources) {
+                            con.resources.limits.cpu = unit(con.resources.limits.cpu, con.resourcesunit.mincpu)
+                            con.resources.limits.memory = unit(con.resources.limits.memory, con.resourcesunit.minmem)
+                            con.resources.requests.cpu = unit(con.resources.requests.cpu, con.resourcesunit.maxcpu)
+                            con.resources.requests.memory = unit(con.resources.requests.memory, con.resourcesunit.maxmem)
+                        } else {
+                            delete con.resources
+                        }
                     }
 
-                    if (con.open.livenessProbe) {
-                        if (con.open.livenesscheck === 'HTTP') {
-                            delete con.livenessProbe.exec
-                            delete con.livenessProbe.tcpSocket
-                            if (con.open.livenesshttpscheck) {
-                                con.livenessProbe.httpGet.scheme = 'HTTPS';
-                            }
-                            con.livenessProbe.httpGet.path = con.livenessProbe.annotations.path;
-                            con.livenessProbe.httpGet.port = parseInt(con.livenessProbe.annotations.port)
-                        } else if (con.open.livenesscheck === 'TCP') {
-                            delete con.livenessProbe.httpGet
-                            delete con.livenessProbe.exec
-                            if (con.livenessProbe.tcpSocket) {
-                                con.livenessProbe.tcpSocket.port = parseInt(con.livenessProbe.annotations.port)
-                            }
-                        } else if (con.open.livenesscheck === '命令') {
-                            angular.forEach(con.livenessProbe.annotations.command, function (item, k) {
-                                con.livenessProbe.exec.command[k] = item.key
-                            })
-                            delete con.livenessProbe.httpGet
-                            delete con.livenessProbe.tcpSocket
-                        }
-                        con.livenessProbe.initialDelaySeconds = parseInt(con.livenessProbe.initialDelaySeconds)
-                        con.livenessProbe.timeoutSeconds = parseInt(con.livenessProbe.timeoutSeconds)
-                    } else {
-                        delete con.livenessProbe
-                    }
 
                     if (con.entrypoint) {
                         con.command = con.entrypoint.split(' ')
@@ -1060,32 +1090,7 @@ angular.module('console.service.create', [
                         creatimageconfig(con)
                     }
                     //console.log('con.volment', con.volment);
-                    if (con.open.volment) {
-                        con.volumeMounts = []
-                        if (volerr(con.volments)) {
-                            cancreat = false
-                        }
-                        //console.log('con.volment', con.volments);
-                        creatvol(con, con.volments)
 
-                        //if (volrepeat(con.volumeMounts)) {
-                        //    Toast.open('卷路径重复');
-                        //    cancreat=false
-                        //}
-                        //
-                    } else {
-                        delete con.volumeMounts
-                        delete con.volments
-                    }
-
-                    if (con.open.resources) {
-                        con.resources.limits.cpu = unit(con.resources.limits.cpu, con.resourcesunit.mincpu)
-                        con.resources.limits.memory = unit(con.resources.limits.memory, con.resourcesunit.minmem)
-                        con.resources.requests.cpu = unit(con.resources.requests.cpu, con.resourcesunit.maxcpu)
-                        con.resources.requests.memory = unit(con.resources.requests.memory, con.resourcesunit.maxmem)
-                    } else {
-                        delete con.resources
-                    }
 
 
                 })
