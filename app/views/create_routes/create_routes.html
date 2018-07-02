@@ -328,7 +328,7 @@
                 </span>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" style="margin-bottom: 15px;">
                     <div class="col-sm-11" style="padding-left: 135px;">
                         <div ng-if="securityType">
                             <div style="margin-top:10px;font-size: 12px;">
@@ -382,19 +382,19 @@
 
                                 <!--TLS certificates for edge and re-encrypt termination. If not specified, the router's default certificate is used.-->
                             </div>
-                            <div ng-repeat="(k,v) in CertificateObjs">
+                            <div ng-repeat="(k,v) in CertificateObjs" style="margin-bottom: 15px;">
 
                                 <div style="margin-top:15px;margin-bottom: 10px;font-size: 12px;">
                                     {{v.typeTitle}}
                                 </div>
 
                                 <div class="row route-width-eight" style="margin-left: 0;">
-                    <span ng-if="!v.typeObjs.chooseFile" class="add-file-btn" ng-click="addCertificate(k)">选择文件
-                        <input type="file"
-                               class="file-input file-ipt-btn"
-                               id="{{k}}"
-                               value="选择"/>
-                    </span>
+                                    <span ng-if="!v.typeObjs.chooseFile" class="add-file-btn" ng-click="addCertificate(k)">选择文件
+                                    <input type="file"
+                                        class="file-input file-ipt-btn"
+                                        id="{{k}}"
+                                        value="选择"/>
+                                    </span>
                                     <div class="col-sm-12 file-name" ng-if="v.typeObjs.chooseFile" style="margin: 0;">
                                         <input type="text" class="file-name-ipt" ng-model="v.typeObjs.key"
                                                aria-describedby="basic-addon2" style="border: none;"
@@ -411,7 +411,7 @@
                         </div>
                     </div>
                 </div>
-                <div ng-if="!routeName" style="margin-top: 10px;margin-bottom: 15px;">
+                <div ng-if="!routeName" style="margin-bottom: 15px;">
                     <div class="row">
                         <div class="col-sm-1 route-font" style="width: 120px;">标签</div>
                         <div class="col-sm-8">
