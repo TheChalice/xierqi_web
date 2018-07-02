@@ -56,7 +56,8 @@ angular.module('console.resource_management', [
                 $scope.secretitems = $scope.secretdata.slice(skip, skip + $scope.secrets.size)||[];
                 //$scope.secrets.total = $scope.secretitems.length;
             };
-            $scope.text=' 当前列表暂时没有数据';
+            $scope.text=' 您还没有密钥卷';
+            $scope.begin_blank=true;
             $scope.scretssearch = function (event) {
                 if (true) {
                     if (!$scope.secrets.txt) {
@@ -82,6 +83,7 @@ angular.module('console.resource_management', [
                     $scope.isQuery=false;
                     if(iarr.length===0){
                         $scope.isQuery=true;
+                        $scope.begin_blank=false;
                         $scope.text='没有查询到符合条件的数据';
                         // console.log($scope.items.length);
                     }

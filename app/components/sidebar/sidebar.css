@@ -31,43 +31,72 @@
 #sidebar .icon25-dashboard {
     background-image: url(img/dashboard.png);
 }
-#sidebar [treecontrol].tree-light li div.tree-label a:hover{color:#1F2D3D}
+/* #sidebar [treecontrol].tree-light li div.tree-label a:hover{color:#1F2D3D} */
 
 
 #sidebar .tree-label:hover .icon25-dashboard{background-image:url(img/dashboard-hover.png);}
 #sidebar .tree-label .select.icon25-dashboard {
     background-image: url(img/dashboard-active.png);
 }
-
+/* 代码构建 */
 #sidebar .icon25-build {
-    background-image: url(img/build.png);
+    /* background-image: url(img/build.png); */
+    background-image: url(img/gj_icon.svg);
+    width:12px;height:12px;
 }
-#sidebar .tree-label:hover .icon25-build{background-image:url(img/build-hover.png);}
+#sidebar .tree-label:hover .icon25-build{
+    /* background-image:url(img/build-hover.png); */
+    background-image: url(img/gj_icon.svg);
+    width:12px;height:12px;
+}
 #sidebar .tree-label .select.icon25-build {
-    background-image: url(img/build-active.png);
+    /* background-image: url(img/build-active.png); */
+    background-image: url(img/gj_icon.svg);
+    width:12px;height:12px;
+
+
+}
+/* 镜像仓库 */
+#sidebar .icon25-repository {
+    /* background-image: url(img/repository.png); */
+    background-image: url(img/jx_icon.svg);
+    width:12px;height:12px;
+}
+#sidebar .tree-label:hover .icon25-repository{
+    /* background-image:url(img/repository-hover.png); */
+    background-image: url(img/jx_icon.svg);
+    width:12px;height:12px;
+}
+#sidebar .tree-label .select.icon25-repository {
+    /* background-image: url(img/repository-active.png); */
+    background-image: url(img/jx_icon.svg);
+    width:12px;height:12px;
 }
 
-#sidebar .icon25-repository {
-    background-image: url(img/repository.png);
-}
-#sidebar .tree-label:hover .icon25-repository{background-image:url(img/repository-hover.png);}
-#sidebar .tree-label .select.icon25-repository {
-    background-image: url(img/repository-active.png);
-}
 #sidebar .icon25-pipeline {
     background-image: url(img/pipeline.png);
 }
-#sidebar .tree-label:hover .icon25-pipeline{background-image:url(img/pipeline.png);}
+#sidebar .tree-label:hover .icon25-pipeline{
+    background-image:url(img/pipeline.png);
+}
 #sidebar .tree-label .select.icon25-pipeline {
     background-image: url(img/pipeline-hover.png);
 }
 
 #sidebar .icon25-deployment {
-    background-image: url(img/deployment.png);
+    /* background-image: url(img/deployment.png); */
+    background-image: url(img/rq_cion.svg);
+    width:12px;height:12px;
 }
-#sidebar .tree-label:hover .icon25-deployment{background-image:url(img/deployment-hover.png);}
+#sidebar .tree-label:hover .icon25-deployment{
+    /* background-image:url(img/deployment-hover.png); */
+    background-image: url(img/rq_cion.svg);
+    width:12px;height:12px;
+}
 #sidebar.tree-label .select.icon25-deployment {
-    background-image: url(img/deployment-active.png);
+    /* background-image: url(img/deployment-active.png); */
+    background-image: url(img/rq_cion.svg);
+    width:12px;height:12px;
 }
 
 #sidebar.icon25-service {
@@ -93,11 +122,20 @@
 }
 
 #sidebar .icon25-resource {
-    background-image: url(img/resource.png);
+    /* background-image: url(img/resource.png); */
+    background-image: url(img/sc_icon.svg);
+    width:12px;height:12px;
+
 }
-#sidebar .tree-label:hover .icon25-resource{background-image:url(img/resource-hover.png);}
+#sidebar .tree-label:hover .icon25-resource{
+    /* background-image:url(img/resource-hover.png); */
+    background-image: url(img/sc_icon.svg);
+    width:12px;height:12px;
+}
 #sidebar ul > li > a:hover .icon25-resource {
-    background-image: url(img/resource-active.png);
+    /* background-image: url(img/resource-active.png); */
+    background-image: url(img/sc_icon.svg);
+    width:12px;height:12px;
 }
 .icon25 {
     color: #5a6378;
@@ -208,8 +246,8 @@
 }
 .sbtn-bg{
     position: absolute;
-    left: 25px;
-    top:11px;
+    left: 46px;
+    top:12px;
 }
 #sidebar [treecontrol].tree-light li div.tree-label:hover{
     

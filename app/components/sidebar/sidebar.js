@@ -24,7 +24,7 @@ angular.module("console.sidebar", [
                     if (url) {
                         //  alert(1);
                         //$(".nav_top_li").addClass("nav_top_toggle");
-                        // $(".bread_set").addClass("bread_set_toggle")
+                        //$(".bread_set").addClass("bread_set_toggle")
                         var urlarr = url.split('@');
                         // console.log('urlarr', urlarr);
                         //console.log(($("#sidebar-container").hasClass('sider_zx')))
@@ -41,8 +41,8 @@ angular.module("console.sidebar", [
                         $(".zx_set_btn").removeClass("zx_set_btn_rotate");
                         $("#sidebar-container").removeClass("sider_zx");
                         $("#sidebar-right-fixed").removeClass("sidebar-fixed");
-                        $(".nav_top_li").removeClass("nav_top_toggle");
-                        $(".bread_set").removeClass("bread_set_toggle")
+                        //$(".nav_top_li").removeClass("nav_top_toggle");
+                        //$(".bread_set").removeClass("bread_set_toggle")
                         angular.forEach($rootScope.dataForTheTree, function (data, i) {
                             //console.log('data', data);
                             if (data.name == '容器应用') {
@@ -95,8 +95,11 @@ angular.module("console.sidebar", [
                     $(".sb-arrow").toggleClass("rotate");
                     if ($("#sidebar-container").hasClass("sider_zx")) {
                         $(".nav_top_li").addClass("nav_top_toggle");
+                        $(".bread_set").addClass("bread_set_toggle")
+
                     }else {
                         $(".nav_top_li").removeClass("nav_top_toggle");
+                        $(".bread_set").removeClass("bread_set_toggle")
                     }
                     if ($(".zx_set_btn").hasClass('zx_set_btn_rotate')) {
                         $scope.activeStyle = true;

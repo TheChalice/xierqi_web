@@ -159,7 +159,8 @@ angular.module('console.resource_management', [
 
                 }
             }
-            $scope.text='当前列表暂时没有数据';
+            $scope.text='您还没有存储卷';
+            $scope.begin_blank=true;
             $scope.rmsearch = function (event) {
                 if (!$scope.grid.rmtxt) {
                     $scope.persistentdata = angular.copy($scope.cpoypersistents)
@@ -182,6 +183,7 @@ angular.module('console.resource_management', [
                 })
                 if(iarr.length===0){
                     $scope.isQuery=true;
+                    $scope.begin_blank=false;
                     $scope.text='没有查询到符合条件的数据';
                 }
                 else{

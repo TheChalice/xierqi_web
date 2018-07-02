@@ -7,7 +7,8 @@ angular.module('console.routes', [{
     }])
     .controller('RoutesCtrl', ['$scope', 'routes','Route','Sort',
         function($scope, routes,Route,Sort) {
-            $scope.text = "当前列表暂时没有数据";
+            $scope.text = "您还没有域名管理";
+            $scope.begin_blank=true;
             //$scope.text = "No routes have been added to project " + $scope.namespace + ".";
             $scope.grid = {
                 page: 1,
@@ -49,6 +50,7 @@ angular.module('console.routes', [{
                     $scope.isQuery=false;
                     if(iarr.length===0){
                         $scope.isQuery=true;
+                        $scope.begin_blank=false;
                         $scope.text='没有查询到符合条件的数据';
                         // console.log($scope.items.length);
                     }

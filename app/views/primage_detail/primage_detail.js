@@ -40,16 +40,19 @@ angular.module('console.primage', [
 
             registryptag.query({reponame: $stateParams.name}, function (tags) {
                 //console.log('tag', tags);
-
+                angular.forEach(tags, function (tag, i) {
+                    tags[i].metadata = {
+                        creationTimestamp: tag.created
+                    }
+                })
                 $scope.tags = Sort.sort(tags, -1);
                 angular.forEach($scope.tags, function (tag, i) {
                     $scope.postobj.spec.images[0].from.name = GLOBAL.common_url+'/'+$scope.imagename+':'+tag.name;
                     $scope.tags[i].postobj =$scope.postobj
+
                         //console.log('$scope.postobj.spec.images[0].from.name', .spec.images[0].from.name);
                     imagestreamimports.create({namespace: $rootScope.namespace}, $scope.postobj, function (images) {
-                        tags[i].metadata = {
-                            creationTimestamp: tag.created
-                        }
+
                         $scope.tags[i].images = images;
 
                         //console.log('tag', tag);
@@ -57,9 +60,11 @@ angular.module('console.primage', [
 
                 })
                  //排序
-                //$scope.tags=tags;
-                $scope.tagsCurIdx = $scope.tags.length-1;
                 console.log('$scope.tags', $scope.tags);
+                //$scope.tags=tags;
+
+                $scope.tagsCurIdx = $scope.tags.length-1;
+
             })
             $scope.pull = function (name) {
                 var s = $scope.imagename;

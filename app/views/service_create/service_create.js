@@ -65,7 +65,7 @@ angular.module('console.service.create', [
             $scope.advancedConfig = false
 
             $scope.portsArr = [];
-            $scope.goBack = function(){
+            $scope.goBack = function () {
                 $scope.advancedConfig = false;
             }
             $scope.jump = function () {
@@ -485,9 +485,11 @@ angular.module('console.service.create', [
                         })
                         if (!rep) {
                             $scope.portsArr.push({
-                                err:{
-                                    containerPort:false,
-                                    hostPort:false
+                                err: {
+                                    containerPort: false,
+                                    hostPort: false,
+                                    containerPortnan: false,
+                                    hostPortnan: false
                                 },
                                 protocol: k.split('/')[1].toUpperCase(),
                                 containerPort: pot,
@@ -568,9 +570,11 @@ angular.module('console.service.create', [
                             })
                             if (!rep) {
                                 $scope.portsArr.push({
-                                    err:{
-                                        containerPort:false,
-                                        hostPort:false
+                                    err: {
+                                        containerPort: false,
+                                        hostPort: false,
+                                        containerPortnan: false,
+                                        hostPortnan: false
                                     },
                                     protocol: k.split('/')[1].toUpperCase(),
                                     containerPort: pot,
@@ -918,26 +922,38 @@ angular.module('console.service.create', [
                 $scope.err.port.null = false;
                 $scope.err.port.repeat = false;
                 var portcan = true;
-                if($scope.advancedConfig){
+                if ($scope.advancedConfig) {
                     var copydc = angular.copy($scope.dc);
                     var containerObj = [{
-                        name:copydc.spec.template.spec.containers[0].name,
-                        image:copydc.spec.template.spec.containers[0].image,
-                        ports:copydc.spec.template.spec.containers[0].ports
+                        name: copydc.spec.template.spec.containers[0].name,
+                        image: copydc.spec.template.spec.containers[0].image,
+                        ports: copydc.spec.template.spec.containers[0].ports
                     }]
                     $scope.dc.spec.template.spec.containers = containerObj;
                 }
                 if ($scope.portsArr.length) {
 
-                    angular.forEach($scope.portsArr, function (item,i) {
-                        item.containerPort=parseInt(item.containerPort);
-                        item.hostPort=parseInt(item.hostPort);
-                        angular.forEach($scope.portsArr, function (initem,k) {
+                    angular.forEach($scope.portsArr, function (item, i) {
+                        item.containerPort = parseInt(item.containerPort);
+                        item.hostPort = parseInt(item.hostPort);
+                        item.err.containerPortnan = false;
+                        item.err.hostPortnan = false;
+                        if (item.containerPort) {
+                            if (item.containerPort < 0 || item.containerPort > 65535) {
+                                item.err.containerPortnan = true;
+                            }
+                        }
+                        if (item.hostPort) {
+                            if (item.hostPort < 0 || item.hostPort > 65535) {
+                                item.err.hostPortnan = true;
+                            }
+                        }
+                        angular.forEach($scope.portsArr, function (initem, k) {
                             if (i !== k) {
                                 if (item.containerPort === initem.containerPort) {
                                     portcan = false;
-                                    item.err.containerPort=true
-                                    initem.err.containerPort=true
+                                    item.err.containerPort = true
+                                    initem.err.containerPort = true
                                 }
                             }
                             if (i !== k) {
@@ -973,62 +989,92 @@ angular.module('console.service.create', [
                 var cancreat = true
                 angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
                     //console.log(con.dosetcon.doset);
-                    if (con.open.readinessProbe) {
-                        if (con.open.readinesscheck === 'HTTP') {
-                            delete con.readinessProbe.exec
-                            delete con.readinessProbe.tcpSocket
-                            if (con.open.readinesshttpscheck) {
-                                con.readinessProbe.httpGet.scheme = 'HTTPS';
+                    if (con.open) {
+                        if (con.open.readinessProbe) {
+                            if (con.open.readinesscheck === 'HTTP') {
+                                delete con.readinessProbe.exec
+                                delete con.readinessProbe.tcpSocket
+                                if (con.open.readinesshttpscheck) {
+                                    con.readinessProbe.httpGet.scheme = 'HTTPS';
+                                }
+                                con.readinessProbe.httpGet.path = con.readinessProbe.annotations.path;
+                                con.readinessProbe.httpGet.port = parseInt(con.readinessProbe.annotations.port)
+                            } else if (con.open.readinesscheck === 'TCP') {
+                                delete con.readinessProbe.httpGet
+                                delete con.readinessProbe.exec
+                                if (con.readinessProbe.tcpSocket) {
+                                    con.readinessProbe.tcpSocket.port = parseInt(con.readinessProbe.annotations.port)
+                                }
+                            } else if (con.open.readinesscheck === '命令') {
+                                //console.log('con.readinessProbe.exec.command', con.readinessProbe.exec.command);
+                                angular.forEach(con.readinessProbe.annotations.command, function (item, k) {
+                                    con.readinessProbe.exec.command[k] = item.key
+                                })
+                                delete con.readinessProbe.httpGet
+                                delete con.readinessProbe.tcpSocket
                             }
-                            con.readinessProbe.httpGet.path = con.readinessProbe.annotations.path;
-                            con.readinessProbe.httpGet.port = parseInt(con.readinessProbe.annotations.port)
-                        } else if (con.open.readinesscheck === 'TCP') {
-                            delete con.readinessProbe.httpGet
-                            delete con.readinessProbe.exec
-                            if (con.readinessProbe.tcpSocket) {
-                                con.readinessProbe.tcpSocket.port = parseInt(con.readinessProbe.annotations.port)
-                            }
-                        } else if (con.open.readinesscheck === '命令') {
-                            //console.log('con.readinessProbe.exec.command', con.readinessProbe.exec.command);
-                            angular.forEach(con.readinessProbe.annotations.command, function (item, k) {
-                                con.readinessProbe.exec.command[k] = item.key
-                            })
-                            delete con.readinessProbe.httpGet
-                            delete con.readinessProbe.tcpSocket
+                            con.readinessProbe.initialDelaySeconds = parseInt(con.readinessProbe.initialDelaySeconds)
+                            con.readinessProbe.timeoutSeconds = parseInt(con.readinessProbe.timeoutSeconds)
+                        } else {
+                            delete con.readinessProbe
                         }
-                        con.readinessProbe.initialDelaySeconds = parseInt(con.readinessProbe.initialDelaySeconds)
-                        con.readinessProbe.timeoutSeconds = parseInt(con.readinessProbe.timeoutSeconds)
-                    } else {
-                        delete con.readinessProbe
+
+                        if (con.open.livenessProbe) {
+                            if (con.open.livenesscheck === 'HTTP') {
+                                delete con.livenessProbe.exec
+                                delete con.livenessProbe.tcpSocket
+                                if (con.open.livenesshttpscheck) {
+                                    con.livenessProbe.httpGet.scheme = 'HTTPS';
+                                }
+                                con.livenessProbe.httpGet.path = con.livenessProbe.annotations.path;
+                                con.livenessProbe.httpGet.port = parseInt(con.livenessProbe.annotations.port)
+                            } else if (con.open.livenesscheck === 'TCP') {
+                                delete con.livenessProbe.httpGet
+                                delete con.livenessProbe.exec
+                                if (con.livenessProbe.tcpSocket) {
+                                    con.livenessProbe.tcpSocket.port = parseInt(con.livenessProbe.annotations.port)
+                                }
+                            } else if (con.open.livenesscheck === '命令') {
+                                angular.forEach(con.livenessProbe.annotations.command, function (item, k) {
+                                    con.livenessProbe.exec.command[k] = item.key
+                                })
+                                delete con.livenessProbe.httpGet
+                                delete con.livenessProbe.tcpSocket
+                            }
+                            con.livenessProbe.initialDelaySeconds = parseInt(con.livenessProbe.initialDelaySeconds)
+                            con.livenessProbe.timeoutSeconds = parseInt(con.livenessProbe.timeoutSeconds)
+                        } else {
+                            delete con.livenessProbe
+                        }
+
+                        if (con.open.volment) {
+                            con.volumeMounts = []
+                            if (volerr(con.volments)) {
+                                cancreat = false
+                            }
+                            //console.log('con.volment', con.volments);
+                            creatvol(con, con.volments)
+
+                            //if (volrepeat(con.volumeMounts)) {
+                            //    Toast.open('卷路径重复');
+                            //    cancreat=false
+                            //}
+                            //
+                        } else {
+                            delete con.volumeMounts
+                            delete con.volments
+                        }
+
+                        if (con.open.resources) {
+                            con.resources.limits.cpu = unit(con.resources.limits.cpu, con.resourcesunit.mincpu)
+                            con.resources.limits.memory = unit(con.resources.limits.memory, con.resourcesunit.minmem)
+                            con.resources.requests.cpu = unit(con.resources.requests.cpu, con.resourcesunit.maxcpu)
+                            con.resources.requests.memory = unit(con.resources.requests.memory, con.resourcesunit.maxmem)
+                        } else {
+                            delete con.resources
+                        }
                     }
 
-                    if (con.open.livenessProbe) {
-                        if (con.open.livenesscheck === 'HTTP') {
-                            delete con.livenessProbe.exec
-                            delete con.livenessProbe.tcpSocket
-                            if (con.open.livenesshttpscheck) {
-                                con.livenessProbe.httpGet.scheme = 'HTTPS';
-                            }
-                            con.livenessProbe.httpGet.path = con.livenessProbe.annotations.path;
-                            con.livenessProbe.httpGet.port = parseInt(con.livenessProbe.annotations.port)
-                        } else if (con.open.livenesscheck === 'TCP') {
-                            delete con.livenessProbe.httpGet
-                            delete con.livenessProbe.exec
-                            if (con.livenessProbe.tcpSocket) {
-                                con.livenessProbe.tcpSocket.port = parseInt(con.livenessProbe.annotations.port)
-                            }
-                        } else if (con.open.livenesscheck === '命令') {
-                            angular.forEach(con.livenessProbe.annotations.command, function (item, k) {
-                                con.livenessProbe.exec.command[k] = item.key
-                            })
-                            delete con.livenessProbe.httpGet
-                            delete con.livenessProbe.tcpSocket
-                        }
-                        con.livenessProbe.initialDelaySeconds = parseInt(con.livenessProbe.initialDelaySeconds)
-                        con.livenessProbe.timeoutSeconds = parseInt(con.livenessProbe.timeoutSeconds)
-                    } else {
-                        delete con.livenessProbe
-                    }
 
                     if (con.entrypoint) {
                         con.command = con.entrypoint.split(' ')
@@ -1047,32 +1093,7 @@ angular.module('console.service.create', [
                         creatimageconfig(con)
                     }
                     //console.log('con.volment', con.volment);
-                    if (con.open.volment) {
-                        con.volumeMounts = []
-                        if (volerr(con.volments)) {
-                            cancreat = false
-                        }
-                        //console.log('con.volment', con.volments);
-                        creatvol(con, con.volments)
 
-                        //if (volrepeat(con.volumeMounts)) {
-                        //    Toast.open('卷路径重复');
-                        //    cancreat=false
-                        //}
-                        //
-                    } else {
-                        delete con.volumeMounts
-                        delete con.volments
-                    }
-
-                    if (con.open.resources) {
-                        con.resources.limits.cpu = unit(con.resources.limits.cpu, con.resourcesunit.mincpu)
-                        con.resources.limits.memory = unit(con.resources.limits.memory, con.resourcesunit.minmem)
-                        con.resources.requests.cpu = unit(con.resources.requests.cpu, con.resourcesunit.maxcpu)
-                        con.resources.requests.memory = unit(con.resources.requests.memory, con.resourcesunit.maxmem)
-                    } else {
-                        delete con.resources
-                    }
 
 
                 })
@@ -1285,9 +1306,9 @@ angular.module('console.service.create', [
             templateUrl: 'views/service_create/tpl/containerLivenessCheck.html',
             scope: false,
             controller: ['$scope', function ($scope) {
-                   $scope.changeContainerPort = function(idx,port){
-                       $scope.dc.spec.template.spec.containers[idx].livenessProbe.annotations.port = port;
-                   }
+                $scope.changeContainerPort = function (idx, port) {
+                    $scope.dc.spec.template.spec.containers[idx].livenessProbe.annotations.port = port;
+                }
             }],
         };
     })
@@ -1297,9 +1318,9 @@ angular.module('console.service.create', [
             templateUrl: 'views/service_create/tpl/containerReadinessCheck.html',
             scope: false,
             controller: ['$scope', function ($scope) {
-                  $scope.changeAnnotationsPort = function(idx,port){
-                      $scope.dc.spec.template.spec.containers[idx].readinessProbe.annotations.port = port;
-                  }
+                $scope.changeAnnotationsPort = function (idx, port) {
+                    $scope.dc.spec.template.spec.containers[idx].readinessProbe.annotations.port = port;
+                }
             }],
         };
     })
@@ -1311,9 +1332,11 @@ angular.module('console.service.create', [
             controller: ['$scope', function ($scope) {
                 $scope.addprot = function () {
                     $scope.portsArr.unshift({
-                        err:{
-                            containerPort:false,
-                            hostPort:false
+                        err: {
+                            containerPort: false,
+                            hostPort: false,
+                            containerPortnan: false,
+                            hostPortnan: false
                         },
                         containerPort: "",
                         protocol: "TCP",
@@ -1321,7 +1344,7 @@ angular.module('console.service.create', [
                     })
                 };
                 $scope.portInitList = ['TCP'];
-                $scope.changePort = function(idx,port){
+                $scope.changePort = function (idx, port) {
                     $scope.portsArr[idx].protocol = port;
                 }
 

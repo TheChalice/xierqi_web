@@ -38,7 +38,7 @@
         <div class="col-md-2">Deployment Config:</div>
         <div class="col-md-10">
             <span class="jumpUrl"
-                  ui-sref="console.deploymentconfig_detail({name:replicaSet.spec.selector.deploymentconfig})">
+                  ui-sref="console.deploymentconfig_detail({namespace:namespace,name:replicaSet.spec.selector.deploymentconfig})">
                          {{replicaSet.spec.selector.deploymentconfig}}
             </span>
         </div>
@@ -171,7 +171,7 @@
             </tr>
             <tr>
                 <td colspan="7" style="text-align: center;background: #fff;position:relative" ng-if="items.length===0">
-                    <p class="blank_block"><span class="blank_tit"> {{text}}</span></p>
+                    <p class="blank_block"><span class="blank_pic"></span><span class="blank_tit"> {{text}}</span></p>
                 </td>
             </tr>
         </table>
