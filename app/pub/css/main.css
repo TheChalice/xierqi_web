@@ -2081,7 +2081,7 @@ td  a:hover, a:focus{
     margin-left: 30px;
     color: #5a6378;
     font-size: 12px;
-    line-height: 25px;margin:0;position:absolute;width:40%;left:50%;margin-left:-20%;height:120px;
+    line-height: 25px;width:40%;height:120px;margin:0 auto;
 }
 .blank_block .blank_tit{font-size:12px;color:#475669;}
 .df_table .blank_tit{font-size:12px;color:#A2B0C4;margin-left:0px;float:left;margin-top:40px;}
