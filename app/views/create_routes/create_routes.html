@@ -103,366 +103,343 @@
     /*jia 20161118 add end 新建存储卷 */
 </style>
 <div id="create_routes" class="df_frame" confull-height>
-    <h4 ng-if="!routeName">新建路由</h4>
-    <h4 ng-if="routeName">修改路由</h4>
     <form>
-        <div class="row">
-            <div class="col-sm-1 require route-font" style="width: 120px;">路由名称</div>
-            <div class="col-sm-11 route-width-third">
-                <small ng-show="!grid.repRouteName" class="fa fa-info-circle err-tip">Route名称重复</small>
-                <small ng-show="!grid.nameCheck" class="fa fa-info-circle err-tip">Route名不合法</small>
-                <input class="form-control route-line-height" id="route-name" ng-model="routeDetail.metadata.name"
-                       placeholder="请输入路由名称" ng-keyup="checkName(routeDetail.metadata.name,'name')">
+        <div class="panel panel-default">
+            <div class="panel-heading" style="padding: 0;line-height: 16px;">
+                <span class="df_tit" ng-if="!routeName">新建路由</span>
+                <span class="df_tit" ng-if="routeName">修改路由</span>
             </div>
-        </div>
-        <div class="row route-row">
-            <div class="col-sm-1 require route-font" style="width: 120px;">域名</div>
-            <div class="col-sm-7 route-width-one" ng-show="!routeName">
-                <div class="dropdown dropdown-select" style="display: block;">
-                    <button class="btn dropdown-toggle" data-toggle="dropdown">
-                        <span>{{HostNameListName}}</span>
-                        <span class="uex-icon-caret-bottom"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li ng-model="grid.freehostname" ng-repeat="hostName in HostNameList">
-                            <a href="javascript:;" style="padding-left:12px;" ng-click="checkOutHostName(hostName)">{{hostName}}</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-sm-4 ">
-                <div  ng-show="grid.freehostname==1"  class="route-width-five">
-                    <div class="rout-hostName">
-                        <input class="form-control route-line-height rout-hostName-ipt" ng-model="routeDetail.spec.host"
-                               ng-disabled="routeName" placeholder="www.example.com"
-                               ng-keyup="checkName(routeDetail.spec.host,'host')">
-                        <div class="disabled-bg creat-bg">{{GlbUrl}}</div>
-                    </div>
-                </div>
-                <div  ng-show="grid.freehostname==2" style="width: 318px;">
-                    <div class="rout-hostName">
-                        <input style="float:right;border: none" class="form-control route-line-height form-control-ipt"
-                               ng-model="routeDetail.spec.host" ng-disabled="routeName" placeholder="域名前缀"
-                               ng-keyup="checkName(routeDetail.spec.host,'host')">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!--<div class="form-group">-->
-            <!--<label style="font-weight: normal;">域名</label>-->
-            <!--<div ng-show="!routeName">-->
-                <!--<label>-->
-                    <!--<input type="radio" name="changetype" value="1"-->
-                           <!--ng-model="grid.freehostname">-->
-                <!--</label>-->
-                <!--<span>-->
-                <!--平台子域名-->
-                 <!--</span>-->
-                <!--&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-->
-                <!--<label>-->
-                    <!--<input type="radio" name="changetype" value="2"-->
-                           <!--ng-model="grid.freehostname">-->
-                <!--</label>-->
-                <!--<span>-->
-                <!--自定义域名-->
-                 <!--</span>-->
-            <!--</div>-->
-            <!--{{routeDetail.spec.host}}/{{grid.freehostname}}-->
-            <!--<div ng-show="grid.freehostname==1" style="width: 100%;overflow: hidden;border: 1px solid #c9c9c9;  border-radius: 2px;">-->
-                <!--<input style="width: 80%;float:left;border: none"  class="form-control" ng-model="routeDetail.spec.host" ng-disabled="routeName" placeholder="www.example.com" ng-keyup="checkName(routeDetail.spec.host,'host')">-->
-                <!--<div style="width: 20%;float:left;color: #5a6378;line-height: 34px;padding-left: 30px;" class="disabled-bg">{{GlbUrl}}</div>-->
-            <!--</div>-->
-            <!--<div ng-show="grid.freehostname==2" style="width: 100%;overflow: hidden;border: 1px solid #c9c9c9;  border-radius: 2px;">-->
-                <!--<input style="width: 100%;float:left;border: none"  class="form-control" ng-model="routeDetail.spec.host" ng-disabled="routeName" placeholder="www.example.com" ng-keyup="checkName(routeDetail.spec.host,'host')">-->
-            <!--</div>-->
-
-        <!--</div>-->
-        <div class="row route-row">
-            <div class="col-sm-1 route-font" style="width: 120px;">路径</div>
-            <div class="col-sm-11 route-width-third">
-                <input class="form-control route-line-height" ng-model="routeDetail.spec.path" placeholder="/"
-                       ng-keyup="checkPath(routeDetail.spec.path)">
-            </div>
-        </div>
-        <div class="route-row route-font">
-            <div class="row"
-                 ng-if="!routeDetail.spec.alternateBackends || routeDetail.spec.alternateBackends.length<=1">
-                <div class="col-sm-1 require" style="width: 120px;">指向服务111</div>
-                <div class="col-sm-11 route-width-one">
-                    <div class="dropdown dropdown-select" style="display: block;">
-                        <button class="btn dropdown-toggle" data-toggle="dropdown">
-                            <span>{{routeDetail.spec.to.name}}</span>
-                            <span class="uex-icon-caret-bottom"></span>
-                        </button>
-                        <ul class="dropdown-menu" style="max-height: 156px;margin-top: -1px;overflow-y: auto">
-                            <li ng-repeat="list in serviceList">
-                                <a href="javascript:;" style="padding-left:12px;"
-                                   ng-click="checkoutSl(list.metadata.name,true)">{{list.metadata.name}}</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div ng-if="routeDetail.spec.alternateBackends.length>1">
+            <div class="panel-body">
                 <div class="row">
-                    <div class="col-sm-1" style="width: 120px;">指向服务222</div>
-                    <div class="col-sm-5 route-width-one">
+                    <div class="col-sm-1 require route-font" style="width: 120px;">路由名称</div>
+                    <div class="col-sm-11 route-width-third">
+                        <small ng-show="!grid.repRouteName" class="fa fa-info-circle err-tip">Route名称重复</small>
+                        <small ng-show="!grid.nameCheck" class="fa fa-info-circle err-tip">Route名不合法</small>
+                        <input class="form-control route-line-height" id="route-name" ng-model="routeDetail.metadata.name"
+                               placeholder="请输入路由名称" ng-keyup="checkName(routeDetail.metadata.name,'name')">
+                    </div>
+                </div>
+                <div class="row route-row">
+                    <div class="col-sm-1 require route-font" style="width: 120px;">域名</div>
+                    <div class="col-sm-7 route-width-one" ng-show="!routeName">
                         <div class="dropdown dropdown-select" style="display: block;">
                             <button class="btn dropdown-toggle" data-toggle="dropdown">
-                                <span>{{routeDetail.spec.to.name}}</span>
+                                <span>{{HostNameListName}}</span>
                                 <span class="uex-icon-caret-bottom"></span>
                             </button>
-                            <ul class="dropdown-menu" style="max-height: 156px;margin-top: -1px;overflow-y: auto">
-                                <li ng-repeat="list in serviceList">
-                                    <a href="javascript:;" style="padding-left:12px;"
-                                       ng-click="checkoutSl(list.metadata.name,true)">{{list.metadata.name}}</a>
+                            <ul class="dropdown-menu">
+                                <li ng-model="grid.freehostname" ng-repeat="hostName in HostNameList">
+                                    <a href="javascript:;" style="padding-left:12px;" ng-click="checkOutHostName(hostName)">{{hostName}}</a>
                                 </li>
                             </ul>
                         </div>
                     </div>
-                    <div class="col-sm-1" style="width: 55px;">权重</div>
-                    <div class="col-sm-5 route-width-one">
-                        <input class="form-control route-line-height" type="number"
-                               ng-model="routeDetail.spec.to.weight"
-                               ng-keyup="checkToWeight(routeDetail.spec.to.weight)">
+                    <div class="col-sm-4 ">
+                        <div ng-show="grid.freehostname==1" class="route-width-five">
+                            <div class="rout-hostName">
+                                <input class="form-control route-line-height rout-hostName-ipt" ng-model="routeDetail.spec.host"
+                                       ng-disabled="routeName" placeholder="www.example.com"
+                                       ng-keyup="checkName(routeDetail.spec.host,'host')">
+                                <div class="disabled-bg creat-bg">{{GlbUrl}}</div>
+                            </div>
+                        </div>
+                        <div ng-show="grid.freehostname==2" style="width: 318px;">
+                            <div class="rout-hostName">
+                                <input style="float:right;border: none" class="form-control route-line-height form-control-ipt"
+                                       ng-model="routeDetail.spec.host" ng-disabled="routeName" placeholder="域名前缀"
+                                       ng-keyup="checkName(routeDetail.spec.host,'host')">
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-            </div>
-        </div>
-        <div class="row route-row route-font" ng-if="portOptions.length>0">
-            <div class="col-sm-1" style="width: 120px;">端口</div>
-            <div class="col-sm-11 route-width-one">
-                <div class="dropdown dropdown-select" style="display: block;">
-                    <button class="btn dropdown-toggle" data-toggle="dropdown">
-                        <span>{{routeDetail.spec.port.label}}</span>
-                        <span class="uex-icon-caret-bottom"></span>
-                    </button>
-                    <ul class="dropdown-menu" style="max-height: 156px;margin-top: -1px;overflow-y: auto;">
-                        <li ng-repeat="list in portOptions">
-                            <a href="javascript:;" style="padding-left:12px;font-size: 12px;"
-                               ng-click="checkPort(list)">{{list.label}}</a>
-                        </li>
-                    </ul>
+                <div class="row route-row">
+                    <div class="col-sm-1 route-font" style="width: 120px;">路径</div>
+                    <div class="col-sm-11 route-width-third">
+                        <input class="form-control route-line-height" ng-model="routeDetail.spec.path" placeholder="/"
+                               ng-keyup="checkPath(routeDetail.spec.path)">
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="row route-row route-font">
-            <div class="col-sm-1" style="width: 120px;">流量分发</div>
-            <div class="col-sm-11 route-width-one">
+                <div class="route-row route-font">
+                    <div class="row"
+                         ng-if="!routeDetail.spec.alternateBackends || routeDetail.spec.alternateBackends.length<=1">
+                        <div class="col-sm-1 require" style="width: 120px;">指向服务</div>
+                        <div class="col-sm-11 route-width-one">
+                            <div class="dropdown dropdown-select" style="display: block;">
+                                <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                    <span>{{routeDetail.spec.to.name}}</span>
+                                    <span class="uex-icon-caret-bottom"></span>
+                                </button>
+                                <ul class="dropdown-menu" style="max-height: 156px;margin-top: -1px;overflow-y: auto">
+                                    <li ng-repeat="list in serviceList">
+                                        <a href="javascript:;" style="padding-left:12px;"
+                                           ng-click="checkoutSl(list.metadata.name,true)">{{list.metadata.name}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="routeDetail.spec.alternateBackends.length>1">
+                        <div class="row">
+                            <div class="col-sm-1" style="width: 120px;">指向服务</div>
+                            <div class="col-sm-5 route-width-one">
+                                <div class="dropdown dropdown-select" style="display: block;">
+                                    <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                        <span>{{routeDetail.spec.to.name}}</span>
+                                        <span class="uex-icon-caret-bottom"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" style="max-height: 156px;margin-top: -1px;overflow-y: auto">
+                                        <li ng-repeat="list in serviceList">
+                                            <a href="javascript:;" style="padding-left:12px;"
+                                               ng-click="checkoutSl(list.metadata.name,true)">{{list.metadata.name}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-sm-1" style="width: 55px;">权重</div>
+                            <div class="col-sm-5 route-width-one">
+                                <input class="form-control route-line-height" type="number"
+                                       ng-model="routeDetail.spec.to.weight"
+                                       ng-keyup="checkToWeight(routeDetail.spec.to.weight)">
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row route-row route-font" ng-if="portOptions.length>0">
+                    <div class="col-sm-1" style="width: 120px;">端口</div>
+                    <div class="col-sm-11 route-width-one">
+                        <div class="dropdown dropdown-select" style="display: block;">
+                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                <span>{{routeDetail.spec.port.label}}</span>
+                                <span class="uex-icon-caret-bottom"></span>
+                            </button>
+                            <ul class="dropdown-menu" style="max-height: 156px;margin-top: -1px;overflow-y: auto;">
+                                <li ng-repeat="list in portOptions">
+                                    <a href="javascript:;" style="padding-left:12px;font-size: 12px;"
+                                       ng-click="checkPort(list)">{{list.label}}</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row route-row route-font">
+                    <div class="col-sm-1" style="width: 120px;">流量分发</div>
+                    <div class="col-sm-11 route-width-one">
                 <span class="my-checkbox">
                     <span class="checkbox-check" ng-class="{active: alternateType}" ng-click="changeAlternate()">
                         <span class="check-btn"></span>
                 </span>
                 </span>
-            </div>
-        </div>
-        <div class="row route-font">
-            <!--<div class="col-sm-1" style="width: 120px;"></div>-->
-            <!--<div class="col-sm-11">-->
-                <div ng-if="alternateType">
-                    <div ng-if="routeDetail.spec.alternateBackends.length===1">
-                        <div class="row" style="margin-left: 0">
-                            <div class="col-sm-1" style="width: 120px;"></div>
-                            <div class="col-sm-11 route-width-one">
-                                <span>指向服务333</span>
-                                <div class="dropdown dropdown-select" style="display: block;">
-                                    <button class="btn dropdown-toggle" data-toggle="dropdown">
-                                        <span>{{routeDetail.spec.alternateBackends[0].name}}</span>
-                                        <span class="uex-icon-caret-bottom"></span>
-                                    </button>
-                                    <ul class="dropdown-menu"
-                                        style="max-height: 156px;margin-top: -1px;overflow-y: auto">
-                                        <li ng-repeat="list in serviceList">
-                                            <a href="javascript:;" style="padding-left:12px;"
-                                               ng-click="checkSl(0,list.metadata.name)">{{list.metadata.name}}</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
                     </div>
-                    <div ng-show="routeDetail.spec.alternateBackends.length>1"
-                         ng-repeat="serveList in routeDetail.spec.alternateBackends" ng-init="outerIndex = $index">
-                        <div class="row">
-                            <div class="row" style="padding-left: 150px;">
-                                <div class="col-sm-1 route-width-one route-font">指向服务444</div>
-                                <div class="col-sm-1 route-width-one route-font">权重</div>
-                            </div>
-                            <div class="row" style="padding-left: 150px;">
-                                <div class="col-sm-5 route-width-one">
+                </div>
+                <div class="row route-font">
+                    <div ng-if="alternateType">
+                        <div ng-if="routeDetail.spec.alternateBackends.length===1">
+                            <div class="row" style="margin-left: 0">
+                                <div class="col-sm-1" style="width: 120px;"></div>
+                                <div class="col-sm-11 route-width-one">
+                                    <span>指向服务</span>
                                     <div class="dropdown dropdown-select" style="display: block;">
                                         <button class="btn dropdown-toggle" data-toggle="dropdown">
-                                            <span>{{serveList.name}}</span>
+                                            <span>{{routeDetail.spec.alternateBackends[0].name}}</span>
                                             <span class="uex-icon-caret-bottom"></span>
                                         </button>
                                         <ul class="dropdown-menu"
                                             style="max-height: 156px;margin-top: -1px;overflow-y: auto">
                                             <li ng-repeat="list in serviceList">
                                                 <a href="javascript:;" style="padding-left:12px;"
-                                                   ng-click="checkSl(outerIndex,list.metadata.name)">{{list.metadata.name}}</a>
+                                                   ng-click="checkSl(0,list.metadata.name)">{{list.metadata.name}}</a>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="col-sm-5 route-width-one">
-                                    <input class="form-control route-line-height" type="number"
-                                           ng-model="serveList.weight">
+                            </div>
+                        </div>
+                        <div ng-show="routeDetail.spec.alternateBackends.length>1"
+                             ng-repeat="serveList in routeDetail.spec.alternateBackends" ng-init="outerIndex = $index">
+                            <div class="row">
+                                <div class="row" style="padding-left: 150px;">
+                                    <div class="col-sm-1 route-width-one route-font">指向服务</div>
+                                    <div class="col-sm-1 route-width-one route-font">权重</div>
                                 </div>
-                                <div class="col-sm-1" style="width: 120px;">
-                                    <a class="uex-icon-cross" ng-click="removeService($index)"
-                                       style="text-decoration: none;text-align: center; color: #9fa7b7;"
-                                       href="javascript:;"></a>
+                                <div class="row" style="padding-left: 150px;">
+                                    <div class="col-sm-5 route-width-one">
+                                        <div class="dropdown dropdown-select" style="display: block;">
+                                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                                <span>{{serveList.name}}</span>
+                                                <span class="uex-icon-caret-bottom"></span>
+                                            </button>
+                                            <ul class="dropdown-menu"
+                                                style="max-height: 156px;margin-top: -1px;overflow-y: auto">
+                                                <li ng-repeat="list in serviceList">
+                                                    <a href="javascript:;" style="padding-left:12px;"
+                                                       ng-click="checkSl(outerIndex,list.metadata.name)">{{list.metadata.name}}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-5 route-width-one">
+                                        <input class="form-control route-line-height" type="number"
+                                               ng-model="serveList.weight">
+                                    </div>
+                                    <div class="col-sm-1" style="width: 120px;">
+                                        <a class="uex-icon-cross" ng-click="removeService($index)"
+                                           style="text-decoration: none;text-align: center; color: #9fa7b7;"
+                                           href="javascript:;"></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div style="font-size: 12px;margin:10px 0;padding-left: 135px;">
+                        <div style="font-size: 12px;margin:10px 0;padding-left: 135px;">
                         <span href="javascript:;" ng-click="addService()" style="cursor: pointer">
                             <i class="uex-icon-add" style="color: #47B2FB"></i>
                             <span style="color: #47B2FB;">添加</span>
                         </span>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group" ng-if="routeDetail.spec.alternateBackends.length===1" style="margin-bottom: 0;">
-                    <div class="row" style="margin-left: 0">
-                        <div class="col-sm-1" style="width: 120px;"></div>
-                        <div class="col-sm-11 route-width-third-one">
-                            <div class="row weight-slider-values"
-                                 style="font-size: 12px;line-height: 14px;">
-                                <div class="col-sm-6">
-                                    <span>{{routeDetail.spec.to.name}}</span>&nbsp;&nbsp;
-                                    <span>{{slider.value}}%</span>
+                    <div class="form-group" ng-if="routeDetail.spec.alternateBackends.length===1" style="margin-bottom: 0;">
+                        <div class="row" style="margin-left: 0">
+                            <div class="col-sm-1" style="width: 120px;"></div>
+                            <div class="col-sm-11 route-width-third-one">
+                                <div class="row weight-slider-values"
+                                     style="font-size: 12px;line-height: 14px;">
+                                    <div class="col-sm-6">
+                                        <span>{{routeDetail.spec.to.name}}</span>&nbsp;&nbsp;
+                                        <span>{{slider.value}}%</span>
+                                    </div>
+                                    <div class="col-sm-6" style="text-align:right">
+                                        <span>{{100-slider.value}}%</span>&nbsp;&nbsp;
+                                        <span>{{routeDetail.spec.alternateBackends[0].name}}</span>
+                                    </div>
                                 </div>
-                                <div class="col-sm-6" style="text-align:right">
-                                    <span>{{100-slider.value}}%</span>&nbsp;&nbsp;
-                                    <span>{{routeDetail.spec.alternateBackends[0].name}}</span>
-                                </div>
+                                <rzslider rz-slider-model="slider.value"
+                                          rz-slider-options="slider.options"></rzslider>
                             </div>
-                            <rzslider rz-slider-model="slider.value"
-                                      rz-slider-options="slider.options"></rzslider>
                         </div>
                     </div>
                 </div>
-            <!--</div>-->
-        </div>
-        <div class="row route-font" style="margin-top: 15px;">
-            <div class="col-sm-1" style="width: 120px;">加密流量</div>
-            <div class="col-sm-11 route-width-one">
+                <div class="row route-font" style="margin-top: 15px;">
+                    <div class="col-sm-1" style="width: 120px;">加密流量</div>
+                    <div class="col-sm-11 route-width-one">
                 <span class="my-checkbox">
                     <span class="checkbox-check" ng-class="{active: securityType}" ng-click="changeSecurity()">
                     <span class="check-btn"></span>
                 </span>
                 </span>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-11" style="padding-left: 135px;">
-                <div ng-if="securityType">
-                    <div style="margin-top:10px;font-size: 12px;">
-                        TLS
                     </div>
-                    <div style="margin:10px 0px;font-size: 12px;width: 170px;">
-                        <div class="dropdown dropdown-select" style="display: block;">
-                            <button class="btn dropdown-toggle" data-toggle="dropdown" style="height: 26px;">
-                                <span ng-show="tlsListValue==='edge'">{{tlsListValue}}（推荐）</span>
-                                <span ng-show="tlsListValue!=='edge'">{{tlsListValue}}</span>
-                                <span class="uex-icon-caret-bottom"></span>
-                            </button>
-                            <ul class="dropdown-menu" style="max-height: 156px;margin-top: -1px;overflow-y: auto">
-                                <li ng-repeat="list in tlsList">
-                                    <a ng-show="list!=='edge'" href="javascript:;" style="padding-left:12px;font-size: 12px;"
-                                       ng-click="changetls(list)">{{list}}</a>
-                                    <a ng-show="list==='edge'" href="javascript:;" style="padding-left:12px;font-size: 12px;"
-                                       ng-click="changetls(list)">{{list}}（推荐）</a>
+                </div>
+                <div class="row">
+                    <div class="col-sm-11" style="padding-left: 135px;">
+                        <div ng-if="securityType">
+                            <div style="margin-top:10px;font-size: 12px;">
+                                TLS
+                            </div>
+                            <div style="margin:10px 0px;font-size: 12px;width: 170px;">
+                                <div class="dropdown dropdown-select" style="display: block;">
+                                    <button class="btn dropdown-toggle" data-toggle="dropdown" style="height: 26px;">
+                                        <span ng-show="tlsListValue==='edge'">{{tlsListValue}}（推荐）</span>
+                                        <span ng-show="tlsListValue!=='edge'">{{tlsListValue}}</span>
+                                        <span class="uex-icon-caret-bottom"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" style="max-height: 156px;margin-top: -1px;overflow-y: auto">
+                                        <li ng-repeat="list in tlsList">
+                                            <a ng-show="list!=='edge'" href="javascript:;"
+                                               style="padding-left:12px;font-size: 12px;"
+                                               ng-click="changetls(list)">{{list}}</a>
+                                            <a ng-show="list==='edge'" href="javascript:;"
+                                               style="padding-left:12px;font-size: 12px;"
+                                               ng-click="changetls(list)">{{list}}（推荐）</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div style="font-size: 12px;">
+                                非安全流量
+                            </div>
+                            <div style="margin:10px 0px;font-size: 12px;width: 170px;">
+                                <div class="dropdown dropdown-select" style="display: block;">
+                                    <button class="btn dropdown-toggle" data-toggle="dropdown"
+                                            style="height: 26px;font-size: 12px;">
+                                        <span ng-show="insecureListvalue!=='Redirect'||tlsListValue!=='edge'">{{insecureListvalue}}</span>
+                                        <span ng-show="insecureListvalue==='Redirect'&&tlsListValue==='edge'">{{insecureListvalue}}（推荐）</span>
+                                        <span class="uex-icon-caret-bottom"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" style="max-height: 156px;margin-top: -1px;overflow-y: auto">
+                                        <li ng-repeat="list in insecureList">
+                                            <a ng-show="list!=='Redirect'||tlsListValue!=='edge'" href="javascript:;"
+                                               style="padding-left:12px;font-size: 12px;" ng-click="changeinsecure(list)">{{list}}</a>
+                                            <a ng-show="tlsListValue==='edge'&&list==='Redirect'" href="javascript:;"
+                                               style="padding-left:12px;font-size: 12px;" ng-click="changeinsecure(list)">{{list}}（推荐）</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div style="font-size: 12px;">
+                                域名证书
+                            </div>
+                            <div style="margin-top:10px;font-size: 12px;">
+                                配置域名证书。如果不指定则使用平台自签名证书。
 
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div style="font-size: 12px;">
-                        非安全流量
-                    </div>
-                    <div style="margin:10px 0px;font-size: 12px;width: 170px;">
-                        <div class="dropdown dropdown-select" style="display: block;">
-                            <button class="btn dropdown-toggle" data-toggle="dropdown" style="height: 26px;font-size: 12px;">
-                                <span ng-show="insecureListvalue!=='Redirect'||tlsListValue!=='edge'">{{insecureListvalue}}</span>
-                                <span ng-show="insecureListvalue==='Redirect'&&tlsListValue==='edge'">{{insecureListvalue}}（推荐）</span>
-                                <span class="uex-icon-caret-bottom"></span>
-                            </button>
-                            <ul class="dropdown-menu" style="max-height: 156px;margin-top: -1px;overflow-y: auto">
-                                <li ng-repeat="list in insecureList">
-                                    <a ng-show="list!=='Redirect'||tlsListValue!=='edge'" href="javascript:;"
-                                       style="padding-left:12px;font-size: 12px;" ng-click="changeinsecure(list)">{{list}}</a>
-                                    <a ng-show="tlsListValue==='edge'&&list==='Redirect'" href="javascript:;"
-                                       style="padding-left:12px;font-size: 12px;" ng-click="changeinsecure(list)">{{list}}（推荐）</a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div style="font-size: 12px;">
-                        域名证书
-                    </div>
-                    <div style="margin-top:10px;font-size: 12px;">
-                        配置域名证书。如果不指定则使用平台自签名证书。
+                                <!--TLS certificates for edge and re-encrypt termination. If not specified, the router's default certificate is used.-->
+                            </div>
+                            <div ng-repeat="(k,v) in CertificateObjs">
 
-                        <!--TLS certificates for edge and re-encrypt termination. If not specified, the router's default certificate is used.-->
-                    </div>
-                    <div ng-repeat="(k,v) in CertificateObjs">
+                                <div style="margin-top:15px;margin-bottom: 10px;font-size: 12px;">
+                                    {{v.typeTitle}}
+                                </div>
 
-                        <div style="margin-top:15px;margin-bottom: 10px;font-size: 12px;">
-                            {{v.typeTitle}}
-                        </div>
-
-                        <div class="row route-width-eight" style="margin-left: 0;">
+                                <div class="row route-width-eight" style="margin-left: 0;">
                     <span ng-if="!v.typeObjs.chooseFile" class="add-file-btn" ng-click="addCertificate(k)">选择文件
                         <input type="file"
                                class="file-input file-ipt-btn"
                                id="{{k}}"
                                value="选择"/>
                     </span>
-                            <div class="col-sm-12 file-name" ng-if="v.typeObjs.chooseFile" style="margin: 0;">
-                                <input type="text" class="file-name-ipt" ng-model="v.typeObjs.key"
-                                       aria-describedby="basic-addon2" style="border: none;"
-                                       readonly>
-                                <span class="file-btn-view" ng-click="viewFileFun(k)">
+                                    <div class="col-sm-12 file-name" ng-if="v.typeObjs.chooseFile" style="margin: 0;">
+                                        <input type="text" class="file-name-ipt" ng-model="v.typeObjs.key"
+                                               aria-describedby="basic-addon2" style="border: none;"
+                                               readonly>
+                                        <span class="file-btn-view" ng-click="viewFileFun(k)">
                                     <i class="uex-icon-view"></i>
                                 </span>
+                                    </div>
+                                </div>
+                                <div ng-if="v.typeObjs.viewFile">
+                                    <textarea ng-model="v.typeObjs.value" class="testt" readonly></textarea>
+                                </div>
                             </div>
-                        </div>
-                        <div ng-if="v.typeObjs.viewFile">
-                            <textarea ng-model="v.typeObjs.value" class="testt" readonly></textarea>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div ng-if="!routeName" style="margin-top: 15px;">
-            <div class="row">
-                <div class="col-sm-1 route-font" style="width: 120px;">标签</div>
-                <div class="col-sm-8">
-                    <div class="row" ng-if="grid.showNameValue">
-                        <div class="col-sm-1 route-width-one route-font">名称</div>
-                        <div class="col-sm-1 route-width-one route-font">值</div>
-                    </div>
-                    <div class="row" style="margin-left: 0;margin-bottom: 10px" ng-repeat="item in labelList">
-                        <div class="col-sm-5 route-width-one" style="width: 170px;padding-left: 0;">
-                            <input class="form-control route-line-height" placeholder="Name" style="width: 170px;"
-                                ng-model="item.name"></div>
-                        <!--<div class="col-sm-1"></div>-->
-                        <div class="col-sm-5 route-width-one">
-                            <input class="form-control route-line-height" style="width: 170px;margin-left: 15px" placeholder="Value"
-                                   ng-model="item.value"></div>
-                        <div class="col-sm-1" style="margin-left: 15px;width: 120px;"><a class="uex-icon-cross"
-                                                                           ng-click="rmLabel($index)"
-                                                                           style="text-decoration: none;text-align: center;line-height: 26px; color: #9fa7b7;"
-                                                                           href="javascript:;"></a></div>
-                    </div>
-                    <div style="font-size: 12px;line-height: 24px;">
-                        <span href="javascript:;" ng-click="addLabel()" style="cursor: pointer">
-                            <i class="uex-icon-add" style="color: #47B2FB;"></i>
-                            <span style="color: #47B2FB;">添加标签</span>
-                        </span>
+                <div ng-if="!routeName" style="margin-top: 10px;margin-bottom: 15px;">
+                    <div class="row">
+                        <div class="col-sm-1 route-font" style="width: 120px;">标签</div>
+                        <div class="col-sm-8">
+                            <div class="row" ng-if="grid.showNameValue">
+                                <div class="col-sm-1 route-width-one route-font">名称</div>
+                                <div class="col-sm-1 route-width-one route-font">值</div>
+                            </div>
+                            <div class="row" style="margin-left: 0;margin-bottom: 10px" ng-repeat="item in labelList">
+                                <div class="col-sm-5 route-width-one" style="width: 170px;padding-left: 0;">
+                                    <input class="form-control route-line-height" placeholder="Name" style="width: 170px;"
+                                           ng-model="item.name"></div>
+                                <!--<div class="col-sm-1"></div>-->
+                                <div class="col-sm-5 route-width-one">
+                                    <input class="form-control route-line-height" style="width: 170px;margin-left: 15px"
+                                           placeholder="Value"
+                                           ng-model="item.value"></div>
+                                <div class="col-sm-1" style="margin-left: 15px;width: 120px;"><a class="uex-icon-cross"
+                                                                                                 ng-click="rmLabel($index)"
+                                                                                                 style="text-decoration: none;text-align: center;line-height: 26px; color: #9fa7b7;"
+                                                                                                 href="javascript:;"></a></div>
+                            </div>
+                            <div style="font-size: 12px;line-height: 24px;">
+                                <span href="javascript:;" ng-click="addLabel()" style="cursor: pointer">
+                                    <i class="uex-icon-add" style="color: #47B2FB;"></i>
+                                     <span style="color: #47B2FB;">添加Labels</span>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -478,17 +455,17 @@
             修改
         </a>
         <!--<a href="javascript:;i"-->
-           <!--ng-if="grid.serviceCheck && grid.labelCheck && grid.nameCheck && grid.pashCheck && grid.toWeightCheck && grid.doubleSave && grid.repRouteName"-->
-           <!--class="btn btn-block create btn-orange route-create-btn" ng-click="createRoutes()">-->
-            <!--<span ng-if="routeName">修改</span>-->
-            <!--<span ng-if="!routeName">创建</span>-->
+        <!--ng-if="grid.serviceCheck && grid.labelCheck && grid.nameCheck && grid.pashCheck && grid.toWeightCheck && grid.doubleSave && grid.repRouteName"-->
+        <!--class="btn btn-block create btn-orange route-create-btn" ng-click="createRoutes()">-->
+        <!--<span ng-if="routeName">修改</span>-->
+        <!--<span ng-if="!routeName">创建</span>-->
         <!--</a>-->
         <!--<a href="javascript:;"-->
-           <!--ng-if="!grid.serviceCheck || !grid.labelCheck || !grid.nameCheck || !grid.pashCheck || !grid.toWeightCheck || !grid.repRouteName"-->
-           <!--disabled="disabled" class="btn btn-block create route-create-btn"-->
-           <!--style="background-color: #ccc;">-->
-            <!--<span ng-if="routeName">修改</span>-->
-            <!--<span ng-if="!routeName">创建</span>-->
+        <!--ng-if="!grid.serviceCheck || !grid.labelCheck || !grid.nameCheck || !grid.pashCheck || !grid.toWeightCheck || !grid.repRouteName"-->
+        <!--disabled="disabled" class="btn btn-block create route-create-btn"-->
+        <!--style="background-color: #ccc;">-->
+        <!--<span ng-if="routeName">修改</span>-->
+        <!--<span ng-if="!routeName">创建</span>-->
         <!--</a>-->
     </div>
 
