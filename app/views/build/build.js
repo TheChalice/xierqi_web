@@ -31,7 +31,8 @@ angular.module('console.build', [
                 var skip = (page - 1) * $scope.grid.size;
                 $scope.items = $scope.data.slice(skip, skip + $scope.grid.size);
             };
-            $scope.text = '当前列表暂时没有数据';
+            $scope.text = '您还没有代码构建';
+            $scope.begin_blank=true;
             $scope.buildsearch = function (event) {
                 //if (event.keyCode === 13 || event === 'search') {
                 //console.log($scope.grid.txt);
@@ -57,6 +58,7 @@ angular.module('console.build', [
                     $scope.isQuery = false;
                     if (iarr.length === 0) {
                         $scope.isQuery = true;
+                        $scope.begin_blank=false;
                         $scope.text = '没有查询到符合条件的数据';
                         // console.log($scope.items.length);
                     }
