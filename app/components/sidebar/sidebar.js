@@ -21,9 +21,12 @@ angular.module("console.sidebar", [
                 $scope.state = $state;
                 $scope.goUrl = function (url) {
                     if (url) {
-                        // alert(1);
-                        $(".nav_top_li").addClass("nav_top_toggle");
+                         //alert(1);
+
                         $(".bread_set").addClass("bread_set_toggle")
+                        if (!$("#sidebar-container").hasClass('sider_zx')) {
+                            $(".nav_top_li").addClass("nav_top_toggle");
+                        }
                         var urlarr = url.split('@');
                         // console.log('urlarr', urlarr);
                         if (urlarr && urlarr.length) {
@@ -32,6 +35,9 @@ angular.module("console.sidebar", [
                     } else {
                         $scope.activeStyle = false;
                         // alert(2);
+                        //if ($("#sidebar-container").hasClass('sider_zx')) {
+                        //
+                        //}
                         $(".zx_set_btn").removeClass("zx_set_btn_rotate");
                         $("#sidebar-container").removeClass("sider_zx");
                         $("#sidebar-right-fixed").removeClass("sidebar-fixed");
@@ -52,8 +58,8 @@ angular.module("console.sidebar", [
                         //$rootScope.dataForTheTree[4].children = $rootScope.app
                         //$rootScope.dataForTheTree[5].children = $rootScope.resources
                     }
-                   
-                   
+
+
                 };
                 // var slider=$("#sidebar-container").width();
                 // if(slider==180){
@@ -83,11 +89,12 @@ angular.module("console.sidebar", [
                     $(".zx_set_btn").toggleClass("zx_set_btn_rotate");
                     $("#sidebar-container").toggleClass("sider_zx");
                     $("#sidebar-right-fixed").toggleClass("sidebar-fixed");
-                    $(".nav_top_li").toggleClass("nav_top_toggle");
+                    //$(".nav_top_li").toggleClass("nav_top_toggle");
                     $(".bread_set").toggleClass("bread_set_toggle")
                     $(".sb-arrow").toggleClass("rotate");
 
                     if ($(".zx_set_btn").hasClass('zx_set_btn_rotate')) {
+                        $(".nav_top_li").addClass("nav_top_toggle");
                         $scope.activeStyle = true;
                         // alert(3);
                         angular.forEach($rootScope.dataForTheTree, function (data, i) {
@@ -104,6 +111,7 @@ angular.module("console.sidebar", [
                         })
 
                     } else {
+                        $(".nav_top_li").removeClass("nav_top_toggle");
                         $scope.activeStyle = false;
                         // alert(4);
                         angular.forEach($rootScope.dataForTheTree, function (data, i) {
