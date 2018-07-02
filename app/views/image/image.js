@@ -39,7 +39,7 @@ angular.module('console.image', [
                 $scope.primage = [];
                 platform.query({ id: reg.project_id }, function (images) {
                     angular.forEach(images, function (image, i) {
-                        console.log('image', image);
+                        // console.log('image', image);
                         $scope.primage.push({
                             name: image.name,
                             tags: [],
