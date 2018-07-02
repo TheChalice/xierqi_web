@@ -78,6 +78,9 @@ angular.module('console.service.create', [
                     $scope.err.name.repeated = true;
                     return
                 }
+                if(!$scope.dc.spec.template.spec.containers[0].image){
+                    return
+                }
                 $scope.advancedConfig = true
             }
 
@@ -1226,6 +1229,13 @@ angular.module('console.service.create', [
                                 tag.items[0].imagecopy = angular.copy(image)
                                 $scope.tagslist.push(tag.items[0])
                             })
+                        }
+                    }
+                    $scope.imageTopC = function(idx){
+                        $scope.dc.spec.template.spec.containers[0] = {};
+                        if(idx == 2){
+                            $scope.checked.image = "";
+                            $scope.checked.tag = "";
                         }
                     }
 
