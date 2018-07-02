@@ -1894,7 +1894,7 @@ td  a:hover, a:focus{
 }
 
 
-.border_background{position:relative;height:40px;
+.border_background{position:relative;height:40px;border-radius:2px;
     border:1px solid #e5e5e5;
     padding-top:10px;
     padding-bottom:10px;
@@ -2081,7 +2081,7 @@ td  a:hover, a:focus{
     margin-left: 30px;
     color: #5a6378;
     font-size: 12px;
-    line-height: 25px;margin:0;position:absolute;width:40%;left:50%;margin-left:-20%;top:50%;margin-top:-60px;height:120px;
+    line-height: 25px;margin:0;position:absolute;width:40%;left:50%;margin-left:-20%;height:120px;
 }
 .blank_block .blank_tit{font-size:12px;color:#475669;}
 .df_table .blank_tit{font-size:12px;color:#A2B0C4;margin-left:0px;float:left;margin-top:40px;}
@@ -2188,3 +2188,5 @@ td  a:hover, a:focus{
 .df_go_create{width:60px;height:26px;line-height:26px;background:#A2B0C4;display:block;float:left;border-radius: 4px;color:#fff;}
 .df_go_create:hover{color:#fff;}
 .blank_create_tit{float:left;display:block;margin-top:40px;}
+.blank_name{text-align:left;}
+.blank_name .blank_tit{font-size:12px;color:#475669;}
