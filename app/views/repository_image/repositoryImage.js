@@ -33,6 +33,7 @@ angular.module('console.repository-image', [
             $scope.primage = [];
             $scope.proname = ''
             $scope.changename = function (reg) {
+                $scope.project_id = reg.project_id;
                 $scope.proname = reg.name;
                 $scope.primage = [];
                 $scope.cktxt="";

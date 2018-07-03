@@ -8,11 +8,23 @@ angular.module('console.primage', [
             ]
         }
     ])
-    .controller('prImageDetailCtrl', ['registryptag', 'Confirm', 'ModalPullImage', '$state', 'ImageStream', '$http', 'platformone', 'platformlist', '$location', '$rootScope', '$scope', '$log', 'ImageStreamTag', '$stateParams', 'Sort','imagestreamimports','GLOBAL',
-        function (registryptag, Confirm, ModalPullImage, $state, ImageStream, $http, platformone, platformlist, $location, $rootScope, $scope, $log, ImageStreamTag, $stateParams, Sort,imagestreamimports,GLOBAL) {
+    .controller('prImageDetailCtrl', ['platform','registryptag', 'Confirm', 'ModalPullImage', '$state', 'ImageStream', '$http', 'platformone', 'platformlist', '$location', '$rootScope', '$scope', '$log', 'ImageStreamTag', '$stateParams', 'Sort','imagestreamimports','GLOBAL',
+        function (platform,registryptag, Confirm, ModalPullImage, $state, ImageStream, $http, platformone, platformlist, $location, $rootScope, $scope, $log, ImageStreamTag, $stateParams, Sort,imagestreamimports,GLOBAL) {
             //var namespace=$stateParams.name.split('/')[0];
             //var name=$stateParams.name.split('/')[1];
-            $scope.imagename = $stateParams.name
+            $scope.imagename = $stateParams.name;
+            $scope.project_id = $stateParams.id;
+            $scope.curImgCon = null;
+            platform.query({ id: $scope.project_id }, function (images) {
+                angular.forEach(images, function (image, i) {
+
+                    if($scope.imagename == image.name){
+                        $scope.curImgCon = image;
+                    }
+                })
+                console.log('$scope.curImgCon', $scope.curImgCon);
+            })
+            console.log('$scope.project_id', $scope.project_id);
             $scope.postobj = {
                 "kind": "ImageStreamImport",
                 "apiVersion": "v1",
