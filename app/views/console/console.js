@@ -33,7 +33,7 @@ angular.module('console', [
             } else {
                 $rootScope.user = user;
             }
-            $log.info('Console', $state.current.name);
+            //$log.info('Console', $state.current.name);
             var namespace = Cookie.get('namespace');
             var region = Cookie.get('region');
             if (region) {
