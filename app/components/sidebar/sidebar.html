@@ -21,10 +21,17 @@
          options="treeOptions"
          on-selection="showSelected(node)"
          selected-node="node1" >
+        
         <a  ng-if="!activeStyle" ng-class="{'select':state.includes(node.stateUrl)}" ng-click="goUrl(node.url)">{{node.name}}</a>
         <a ng-if="activeStyle" ng-click="goUrl(node.url)" class="{{node.img}}" uib-tooltip="{{node.name}} " tooltip-placement="right">
+        
+            <!-- <div style="position:absolute;top:0px;right:0px;">{{node.name}}
+                <ul>
+                    <li></li>
+                </ul>
+            </div> -->
         </a>
-
+        <!-- <div uib-tooltip="{{node.name}} " tooltip-placement="right" style="position:absolute;top:0px;right:0px;">123</div> -->
         <span ng-class="{'select':state.includes(node.stateUrl)}"  ng-if="!activeStyle"  class="sbtn-bg {{node.img}}"></span>
     </div>
     <!--<ul class="nav nav-pills nav-stacked nav-jia-pills">-->

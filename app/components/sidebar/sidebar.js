@@ -44,7 +44,7 @@ angular.module("console.sidebar", [
                         //$(".nav_top_li").removeClass("nav_top_toggle");
                         //$(".bread_set").removeClass("bread_set_toggle")
                         angular.forEach($rootScope.dataForTheTree, function (data, i) {
-                            //console.log('data', data);
+                            // console.log('data---', data);
                             if (data.name == '容器应用') {
                                 $rootScope.dataForTheTree[i].children = $rootScope.app
                             }
