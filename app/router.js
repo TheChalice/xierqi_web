@@ -117,6 +117,22 @@ define([
                         }]
                     }
                 })
+                .state('overview', {
+                    url: '/overview',
+                    templateUrl: 'views/overview/overview.html',
+                    controller: 'overviewCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/overview/overview.js')
+                        }],
+                        user: ['regions', 'Cookie', '$rootScope', 'User', function (regions, Cookie, $rootScope, User) {
+                            return User.get({name: '~', region: Cookie.get('region')}).$promise;
+                        }],
+                        pro: ['$stateParams', 'Project', 'Cookie', '$rootScope', function ($stateParams, Project, Cookie, $rootScope) {
+                            return Project.get().$promise;
+                        }]
+                    }
+                })
                 .state('blank', {
                     url: '/signin',
                     templateUrl: 'views/blank/blank.html',
