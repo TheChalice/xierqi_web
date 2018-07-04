@@ -73,7 +73,7 @@ angular.module('console.service.create', [
                     $scope.err.name.null = true;
                     return
                 }
-                console.log('$scope.dc.spec.template.spec.containers',$scope.dc.spec.template.spec.containers[0].image);
+                //console.log('$scope.dc.spec.template.spec.containers',$scope.dc.spec.template.spec.containers[0].image);
                 if (!$scope.dc.spec.template.spec.containers[0].image) {
                     return
                 }
