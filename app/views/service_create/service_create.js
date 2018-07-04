@@ -73,6 +73,11 @@ angular.module('console.service.create', [
                     $scope.err.name.null = true;
                     return
                 }
+                //console.log('$scope.dc.spec.template.spec.containers',$scope.dc.spec.template.spec.containers[0].image);
+                if (!$scope.dc.spec.template.spec.containers[0].image) {
+                    return
+                }
+
                 //console.log(invrepname());
                 if (!invrepname()) {
                     $scope.err.name.repeated = true;
@@ -922,7 +927,7 @@ angular.module('console.service.create', [
                 $scope.err.port.null = false;
                 $scope.err.port.repeat = false;
                 var portcan = true;
-                if ($scope.advancedConfig) {
+                if (!$scope.advancedConfig) {
                     var copydc = angular.copy($scope.dc);
                     var containerObj = [{
                         name: copydc.spec.template.spec.containers[0].name,
@@ -988,7 +993,7 @@ angular.module('console.service.create', [
                 $scope.dc.spec.template.spec.volumes = [];
                 var cancreat = true
                 angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
-                    //console.log(con.dosetcon.doset);
+                    console.log('con.open',con);
                     if (con.open) {
                         if (con.open.readinessProbe) {
                             if (con.open.readinesscheck === 'HTTP') {
@@ -1052,7 +1057,7 @@ angular.module('console.service.create', [
                             if (volerr(con.volments)) {
                                 cancreat = false
                             }
-                            //console.log('con.volment', con.volments);
+                            console.log('con.volment', con.volments);
                             creatvol(con, con.volments)
 
                             //if (volrepeat(con.volumeMounts)) {
