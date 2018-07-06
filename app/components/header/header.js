@@ -63,7 +63,7 @@ angular.module("console.header", [{
                                 $scope.tenantsTree.push($scope.treemap[item.id]);
                             }
                         });
-                        let cinf = function(father) {
+                        var cinf = function(father) {
                             angular.forEach(father.children, function(child) {
                                 cinf(child);
                                 angular.forEach(child.bsis, function(bsi) {

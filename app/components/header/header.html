@@ -2,7 +2,14 @@
     <a id="header-brand" ng-click="backindex()">
         <img src="components/header/img/logo_sm_df.png" alt="logo" class="header_logo">
     </a>
-
+    <div id="header-name-list">
+        <a class="header-name-list-span" ui-sref="overview" ng-class="{'overSelect':!isActive}">
+            概览
+        </a>
+        <a  class="header-name-list-span" ui-sref="console.build({namespace:namespace})" ng-class="{'overSelect':isActive}">
+            应用控制台
+        </a>
+    </div>
     <!-- <div id="header-title" class="hidden-xs" style="margin-left: 1px">
         <div class="bread_set" ng-if="hasBack()">
             <span style="float: left;cursor: pointer; margin-right: 10px;" ng-click="back()">
