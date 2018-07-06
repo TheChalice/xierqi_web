@@ -55,7 +55,7 @@
     </style>
     <a href="javascript:void(0);" class="zx_set_btn" ng-click="sidebaerWidth()"></a>
     <div ng-show="activeStyle">
-        <div class="node-wrop-box {{node.img}}" ng-repeat="node in dataForTheTree" ng-mouseenter="test11($event)" ng-mouseleave="test22($event)" style="width: 100%;height: 40px;">
+        <div class="node-wrop-box {{node.img}}" ng-repeat="node in dataForTheTree" ng-mouseenter="mouHoverOne($event)" ng-mouseleave="mouHoverTwo($event)" style="width: 100%;height: 40px;">
 
             <ul style="">
                 <li style=" border-bottom: 1px solid #e8e9ec;" ng-class="{'url-isnull':node.url}" ng-click="nodeUrlGo(node.url)">{{node.name}}</li>
