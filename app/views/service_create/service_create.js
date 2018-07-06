@@ -73,7 +73,7 @@ angular.module('console.service.create', [
                     $scope.err.name.null = true;
                     return
                 }
-                //console.log('$scope.dc.spec.template.spec.containers',$scope.dc.spec.template.spec.containers[0].image);
+                //console.log('$scope.dc.spec.template.spec.containers',$scope.dc.spec.template.spec.containers[0]);
                 if (!$scope.dc.spec.template.spec.containers[0].image) {
                     return
                 }
@@ -81,9 +81,6 @@ angular.module('console.service.create', [
                 //console.log(invrepname());
                 if (!invrepname()) {
                     $scope.err.name.repeated = true;
-                    return
-                }
-                if(!$scope.dc.spec.template.spec.containers[0].image){
                     return
                 }
                 $scope.advancedConfig = true
@@ -237,6 +234,7 @@ angular.module('console.service.create', [
 
 
             };
+
             angular.forEach(myimage.items, function (image) {
                 //console.log('image.status.tags', image.status.tags);
                 if (image.status.tags) {
@@ -473,6 +471,7 @@ angular.module('console.service.create', [
             })
 
             $scope.tocheckedtag = function (tag, idx, checked, istags) {
+                console.log('$scope.dc.spec.template.spec.containers[idx]', $scope.dc.spec.template.spec.containers[idx]);
                 $scope.dc.spec.template.spec.containers[idx].creattime = tag.image.metadata.creationTimestamp
                 if (tag.image.dockerImageMetadata.Config.ExposedPorts) {
 
@@ -1236,12 +1235,18 @@ angular.module('console.service.create', [
                             })
                         }
                     }
+                    var first = true;
                     $scope.imageTopC = function(idx){
-                        $scope.dc.spec.template.spec.containers[0] = {};
-                        if(idx == 2){
-                            $scope.checked.image = "";
-                            $scope.checked.tag = "";
+                        if (!first) {
+                            $scope.dc.spec.template.spec.containers[0].image = '';
+                            if(idx == 2){
+                                $scope.checked.image = "";
+                                $scope.checked.tag = "";
+                            }
+                        }else {
+                            first = false;
                         }
+
                     }
 
                     $scope.myKeyup = function (e) {
