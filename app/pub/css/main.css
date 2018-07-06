@@ -1651,6 +1651,7 @@ input {
 .dropdown>.btn {
     -webkit-box-shadow: none;
     box-shadow: none;
+    font-family: MicrosoftYaHei,inherit;
 }
 .fa-info-circle:before {
     margin-right: 3px;

@@ -18,10 +18,10 @@ angular.module("console.sidebar", [
                 //     { name: 'Services', url: 'console.services', stateUrl:'' ,children: [] },
                 //     { name: 'Routes', url: 'console.routes',stateUrl:'' , children: [] }
                 // ];
-                $scope.test11 = function(that){
+                $scope.mouHoverOne = function(that){
                     $(that.currentTarget).children('ul').show();
                 }
-                $scope.test22 = function(that){
+                $scope.mouHoverTwo = function(that){
                     $(that.currentTarget).children('ul').hide();
                 }
                 $scope.nodeUrlGo = function(url){
