@@ -16,7 +16,8 @@ angular.module('home.blank', [])
             console.log('GLOBAL.sso_switch', GLOBAL.sso_switch);
             if (GLOBAL.sso_switch === 'true') {
                 var oldurl = '';
-                console.log('$stateParams.oldurl', $stateParams.oldurl);
+
+                console.log('$stateParams.oldurl', $stateParams);
                 if ($stateParams.oldurl) {
                     oldurl = $stateParams.oldurl
                 }else {
