@@ -3028,6 +3028,12 @@ define([
 
 
                 });
+                $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams) {
+                    $rootScope.transfering = true;
+                    console.log('toState.nameerr', toState.name);
+
+
+                });
 
                 $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
                     //更新header标题
