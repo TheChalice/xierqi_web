@@ -48,7 +48,7 @@ angular.module('console', [
                     console.log('$rootScope.user', $rootScope.user.metadata.name);
                 } else {
 
-                    $rootScope.user = myuser;
+                    $rootScope.user = user;
                 }
                 var namespace = Cookie.get('namespace');
                 var region = Cookie.get('region');
