@@ -28,6 +28,7 @@ angular.module('console', [
             //    }
             //})
             //}
+            console.log('user', user);
             if ($rootScope.user) {
                 console.log('$rootScope.user', $rootScope.user.metadata.name);
             } else {
