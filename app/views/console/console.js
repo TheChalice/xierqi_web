@@ -9,12 +9,18 @@ angular.module('console', [
             ]
         }
     ])
-    .controller('ConsoleCtrl', ['creatproject','$timeout', 'sessiontoken', 'regions', 'account', '$http', '$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', 'user', 'Project', 'Cookie', '$state',
-        function (creatproject,$timeout, sessiontoken, regions, account, $http, $rootScope, $scope, $log, AUTH_EVENTS, User, user, Project, Cookie, $state) {
+    .controller('ConsoleCtrl', ['creatproject','$timeout', 'sessiontoken', 'regions', 'account', '$http', '$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', 'user', 'Project', 'Cookie', '$state','GLOBAL','$stateParams','$location',
+        function (creatproject,$timeout, sessiontoken, regions, account, $http, $rootScope, $scope, $log, AUTH_EVENTS, User, user, Project, Cookie, $state,GLOBAL,$stateParams,$location) {
 
-            //console.log('user', user);
-            if (user) {
+            //console.log('$state', $state);
 
+            console.log('$stateParams', $stateParams);
+            console.log('$location', $location);
+
+            if (GLOBAL.sso_switch === 'true') {
+
+
+            }else {
                 if ($rootScope.user) {
                     console.log('$rootScope.user', $rootScope.user.metadata.name);
                 } else {
