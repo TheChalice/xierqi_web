@@ -18,6 +18,7 @@ angular.module("console.sidebar", [
                 //     { name: 'Services', url: 'console.services', stateUrl:'' ,children: [] },
                 //     { name: 'Routes', url: 'console.routes',stateUrl:'' , children: [] }
                 // ];
+                $('#sidebar-container').css('overflow-y','auto');
                 $scope.mouHoverOne = function(that){
                     $(that.currentTarget).children('ul').show();
                 }
@@ -115,6 +116,7 @@ angular.module("console.sidebar", [
                     }
                     if ($(".zx_set_btn").hasClass('zx_set_btn_rotate')) {
                         $scope.activeStyle = true;
+                        $('#sidebar-container').css('overflow-y','visible')
                         // alert(3);
                         // angular.forEach($rootScope.dataForTheTree, function (data, i) {
                         //     //console.log('data', data);
@@ -132,6 +134,7 @@ angular.module("console.sidebar", [
                     } else {
                         $scope.activeStyle = false;
                         // alert(4);
+                        $('#sidebar-container').css('overflow-y','auto')
                         angular.forEach($rootScope.dataForTheTree, function (data, i) {
                             //console.log('data', data);
                             if (data.name == '容器应用') {
