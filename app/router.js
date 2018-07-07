@@ -174,30 +174,11 @@ define([
                         }],
                         user: ['regions', 'Cookie', '$rootScope', 'User', 'sessiontoken',
                             function (regions, Cookie, $rootScope, User, sessiontoken) {
-                                //console.log("Cookie.get('df_access_token')", Cookie.get('df_access_token'));
-                                //function gettoken(){
-                                //    if (Cookie.get('df_access_token')) {
-                                //        //abb()
-                                //
-                                //    }
-                                //}
-
-                                //return
-                                //    User.get({name: '~', region: Cookie.get('region')}, function (aaa) {
-                                //        //Cookie.set('region111', 'cn-north-1', 24 * 3600 * 1000)
-                                //        //console.log('aaa', aaa);
-                                //        abb()
-                                //
-                                //    })
-                                //function abb(){
-                                //    return  User.get({name: '~', region: Cookie.get('region')}).$promise;
-                                //}
-
-
                                 if (Cookie.get('df_access_token')) {
                                     //abb()
                                     return User.get({name: '~', region: Cookie.get('region')}).$promise;
                                 } else {
+                                    return sessiontoken.get().$promise;
                                     sessiontoken.get(function (data) {
                                         Cookie.set('df_access_token', data.access_token + ',' + data.access_token, 23 * 3600 * 1000);
                                         //Cookie.set('df_access_token', user.access_token + ',' + user.access_token, 23 * 3600 * 1000);
