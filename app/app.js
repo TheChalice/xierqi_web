@@ -3031,8 +3031,18 @@ define([
                 $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams) {
                     $rootScope.transfering = true;
                     console.log('toState.nameerr', toState.name);
+                    if (!Cookie.get('newState')) {
+                        Cookie.set('newState', toState.name, 10 * 365 * 24 * 3600 * 1000)
+                        $rootScope.newState = toState.name
+                    }
 
+                    console.log("Cookie.get('newState')err", Cookie.get('newState'))
 
+                    if (Cookie.get('newState') !== toState.name) {
+                        Cookie.set('newState', toState.name, 10 * 365 * 24 * 3600 * 1000)
+                        $rootScope.newState = toState.name
+                    }
+                    console.log("Cookie.get('newState')err", Cookie.get('newState'))
                 });
 
                 $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
