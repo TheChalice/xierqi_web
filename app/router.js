@@ -137,6 +137,9 @@ define([
                     url: '/signin',
                     templateUrl: 'views/blank/blank.html',
                     controller: 'blankCtrl',
+                    params: {
+                        oldurl: null
+                    },
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/blank/blank.js')

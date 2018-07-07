@@ -3030,7 +3030,13 @@ define([
 
                 $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
                     //更新header标题
-
+                    if (!Cookie.get('newState')) {
+                        Cookie.set('newState', toState.name, 10 * 365 * 24 * 3600 * 1000)
+                    }
+                    if (Cookie.get('newState') !== toState.name) {
+                        Cookie.set('newState', toState.name, 10 * 365 * 24 * 3600 * 1000)
+                    }
+                    //Cookie.get('newState')!==
                     if (navigator.userAgent.indexOf("Firefox") > 0) {
                         // console.log('dasd');
                         $(document).unbind('DOMMouseScroll');

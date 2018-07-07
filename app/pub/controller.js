@@ -24,7 +24,7 @@ define(['angular'], function (angular) {
                 $rootScope.region = '';
                 $rootScope.user = '';
                 $rootScope.namespace = "";
-                $state.go('login');
+                $state.go('blank',{oldurl:Cookie.get('newState')});
             });
             $rootScope.$on(AUTH_EVENTS.loginSuccess, function () {
                 $log.info(AUTH_EVENTS.loginSuccess);
@@ -44,7 +44,7 @@ define(['angular'], function (angular) {
                 $rootScope.region = '';
                 $rootScope.user = '';
                 $rootScope.namespace = "";
-                $state.go('login');
+                $state.go('blank',{oldurl:Cookie.get('newState')});
             });
         }]);
 });

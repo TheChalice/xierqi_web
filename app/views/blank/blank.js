@@ -1,7 +1,7 @@
 'use strict';
 angular.module('home.blank', [])
-    .controller('blankCtrl', ['GLOBAL','sessiontoken','Cookie','$rootScope','User','Project','$log','$state','creatproject',
-        function (GLOBAL,sessiontoken,Cookie,$rootScope,User,Project,$log,$state,creatproject) {
+    .controller('blankCtrl', ['GLOBAL','sessiontoken','Cookie','$rootScope','User','Project','$log','$state','creatproject','$stateParams',
+        function (GLOBAL,sessiontoken,Cookie,$rootScope,User,Project,$log,$state,creatproject,$stateParams) {
             console.log('GLOBAL.sso_switch', GLOBAL.sso_switch);
             function loadProject(name, callback) {
                 // $log.info("load project");
@@ -15,12 +15,21 @@ angular.module('home.blank', [])
             };
             console.log('GLOBAL.sso_switch', GLOBAL.sso_switch);
             if (GLOBAL.sso_switch === 'true') {
+                var oldurl = '';
+                console.log('$stateParams.oldurl', $stateParams.oldurl);
+                if ($stateParams.oldurl) {
+                    oldurl = $stateParams.oldurl
+                }else {
+                    oldurl='console.build'
+                }
+
 
                 sessiontoken.get(function (data) {
                     //console.log('data.access_token', data.access_token+','+data.access_token);
                     Cookie.set('df_access_token', data.access_token+','+data.access_token, 23 * 3600 * 1000);
                     Cookie.set('region', 'cn-north-1', 24 * 3600 * 1000);
                     $rootScope.region = Cookie.get('region');
+
                     User.get({name: '~'}, function (res) {
                         $rootScope.user = res;
                         $rootScope.namespace=$rootScope.user.metadata.name
@@ -36,11 +45,11 @@ angular.module('home.blank', [])
                             localStorage.setItem("code", 1);
                             $rootScope.projects = prodata.items;
                             if (hasname) {
-                                $state.go("console.build", {namespace: $rootScope.namespace})
+                                $state.go(oldurl, {namespace: $rootScope.namespace})
                             }else if(prodata.items.length>0){
                                 $rootScope.namespace=prodata.items[0].metadata.name
                                 Cookie.set('namespace', $rootScope.namespace, 10 * 365 * 24 * 3600 * 1000);
-                                $state.go("console.build", {namespace: $rootScope.namespace})
+                                $state.go(oldurl, {namespace: $rootScope.namespace})
                             }else {
                                 creatproject.create({'metadata': {
                                     name:$rootScope.user.metadata.name
@@ -63,7 +72,7 @@ angular.module('home.blank', [])
                                             }
                                         }
 
-                                        $state.go("console.build", {namespace: $rootScope.namespace})
+                                        $state.go(oldurl, {namespace: $rootScope.namespace})
 
                                     })
                                 })
