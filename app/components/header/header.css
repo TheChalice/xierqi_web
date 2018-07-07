@@ -187,7 +187,7 @@
     background-position: center;
 }
 /*20161128 jia ͷ���޸� begin*/
-#header #header-brand{padding-left:15px;padding-right:15px;}
+#header #header-brand{padding-left:15px;padding-right:15px;border-right: 1px solid #2A303C;}
 
 #header #header-brand:hover{background-color:#303643;}
 #header #header-brand .header_logo{width:150px;height:18px;padding:0;margin-top:18px;}
