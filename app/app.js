@@ -3030,6 +3030,7 @@ define([
 
                 $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
                     //更新header标题
+
                     if (navigator.userAgent.indexOf("Firefox") > 0) {
                         // console.log('dasd');
                         $(document).unbind('DOMMouseScroll');
@@ -3051,7 +3052,7 @@ define([
                     }
                     if (toState.name !== 'login') {
                         //console.log('namespace',$rootScope.namespace);
-                        //console.log('$state.params.namespace', $state.params.namespace);
+                        console.log('$state', $state);
                         if ($state.params.namespace) {
                             $rootScope.namespace = $state.params.namespace
                             Cookie.set('namespace', $rootScope.namespace, 10 * 365 * 24 * 3600 * 1000);
