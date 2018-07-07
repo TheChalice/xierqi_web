@@ -181,10 +181,7 @@ define([
                                     return sessiontoken.get().$promise;
                                 }
 
-                            }],
-                        pro: ['$stateParams', 'Project', 'Cookie', '$rootScope', function ($stateParams, Project, Cookie, $rootScope) {
-                            return Project.get().$promise;
-                        }]
+                            }]
                     },
                     abstract: true
 
