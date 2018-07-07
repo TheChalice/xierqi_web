@@ -12,37 +12,8 @@ angular.module('console', [
     .controller('ConsoleCtrl', ['creatproject','$timeout', 'sessiontoken', 'regions', 'account', '$http', '$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', 'user', 'Project', 'Cookie', '$state',
         function (creatproject,$timeout, sessiontoken, regions, account, $http, $rootScope, $scope, $log, AUTH_EVENTS, User, user, Project, Cookie, $state) {
 
-            console.log('user', user.access_token);
-            if (user.access_token) {
-                Cookie.set('df_access_token', user.access_token+','+user.access_token, 23 * 3600 * 1000);
-                Cookie.set('region', 'cn-north-1', 24 * 3600 * 1000);
-                User.get({name: '~', region: Cookie.get('region')}, function (myuser) {
-                    if ($rootScope.user) {
-                        console.log('$rootScope.user', $rootScope.user.metadata.name);
-                    } else {
-
-                        $rootScope.user = myuser;
-                    }
-                    var namespace = Cookie.get('namespace');
-                    var region = Cookie.get('region');
-                    if (region) {
-                        $rootScope.region = region;
-                    } else {
-                        console.log('noregion');
-                        $rootScope.region = 'cn-north-1';
-                        Cookie.set('region', $rootScope.region, 10 * 365 * 24 * 3600 * 1000);
-                    }
-
-                    if (namespace) {
-                        $rootScope.namespace = namespace;
-                    } else {
-                        //console.log('nonamespace');
-                        $rootScope.namespace = $rootScope.user.metadata.name;
-                        Cookie.set('namespace', $rootScope.namespace, 10 * 365 * 24 * 3600 * 1000);
-                    }
-                })
-
-            }else {
+            //console.log('user', user);
+            if (user) {
 
                 if ($rootScope.user) {
                     console.log('$rootScope.user', $rootScope.user.metadata.name);

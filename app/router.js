@@ -174,13 +174,69 @@ define([
                         }],
                         user: ['regions', 'Cookie', '$rootScope', 'User', 'sessiontoken',
                             function (regions, Cookie, $rootScope, User, sessiontoken) {
-                                console.log("Cookie.get('df_access_token')", Cookie.get('df_access_token'));
+                                //console.log("Cookie.get('df_access_token')", Cookie.get('df_access_token'));
+                                //function gettoken(){
+                                //    if (Cookie.get('df_access_token')) {
+                                //        //abb()
+                                //
+                                //    }
+                                //}
+
+                                //return
+                                //    User.get({name: '~', region: Cookie.get('region')}, function (aaa) {
+                                //        //Cookie.set('region111', 'cn-north-1', 24 * 3600 * 1000)
+                                //        //console.log('aaa', aaa);
+                                //        abb()
+                                //
+                                //    })
+                                //function abb(){
+                                //    return  User.get({name: '~', region: Cookie.get('region')}).$promise;
+                                //}
+
+
                                 if (Cookie.get('df_access_token')) {
+                                    //abb()
                                     return User.get({name: '~', region: Cookie.get('region')}).$promise;
                                 } else {
-                                    return sessiontoken.get().$promise;
-                                }
+                                    sessiontoken.get(function (data) {
+                                        Cookie.set('df_access_token', data.access_token + ',' + data.access_token, 23 * 3600 * 1000);
+                                        //Cookie.set('df_access_token', user.access_token + ',' + user.access_token, 23 * 3600 * 1000);
+                                        Cookie.set('region', 'cn-north-1', 24 * 3600 * 1000);
+                                        User.get({name: '~', region: Cookie.get('region')}, function (user) {
+                                            if ($rootScope.user) {
+                                                //console.log('$rootScope.user', $rootScope.user.metadata.name);
+                                            } else {
 
+                                                $rootScope.user = user;
+                                            }
+                                            var namespace = Cookie.get('namespace');
+                                            var region = Cookie.get('region');
+                                            if (region) {
+                                                $rootScope.region = region;
+                                            } else {
+                                                console.log('noregion');
+                                                $rootScope.region = 'cn-north-1';
+                                                Cookie.set('region', $rootScope.region, 10 * 365 * 24 * 3600 * 1000);
+                                            }
+
+                                            if (namespace) {
+                                                $rootScope.namespace = namespace;
+                                            } else {
+                                                //console.log('nonamespace');
+                                                $rootScope.namespace = $rootScope.user.metadata.name;
+                                                Cookie.set('namespace', $rootScope.namespace, 10 * 365 * 24 * 3600 * 1000);
+                                            }
+                                        })
+                                    })
+                                    //return sessiontoken.get().$promise;
+                                }
+                                //function abb(){
+
+                                //}
+                                //User.get({name: '~', region: Cookie.get('region')}, function (user1) {
+                                //
+                                //
+                                //})
                             }]
                     },
                     abstract: true
