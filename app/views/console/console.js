@@ -18,9 +18,15 @@ angular.module('console', [
             console.log('$location', $location);
 
             if (GLOBAL.sso_switch === 'true') {
-                Cookie.set('df_access_token', user.access_token + ',' + user.access_token, 23 * 3600 * 1000);
+                if (!Cookie.get('df_access_token')) {
+                    Cookie.set('df_access_token', user.access_token + ',' + user.access_token, 23 * 3600 * 1000);
+                }
+                if (!Cookie.get('region')) {
+                    Cookie.set('region', 'cn-north-1', 24 * 3600 * 1000);
+                }
+
                 //Cookie.set('df_access_token', user.access_token + ',' + user.access_token, 23 * 3600 * 1000);
-                Cookie.set('region', 'cn-north-1', 24 * 3600 * 1000);
+
                 if ($stateParams.namespace) {
                     if ($rootScope.user) {
                         console.log('$rootScope.user', $rootScope.user.metadata.name);
