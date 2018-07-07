@@ -9,19 +9,26 @@ angular.module('console', [
             ]
         }
     ])
-    .controller('ConsoleCtrl', ['creatproject','$timeout', 'sessiontoken', 'regions', 'account', '$http', '$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', 'user', 'Project', 'Cookie', '$state',
-        function (creatproject,$timeout, sessiontoken, regions, account, $http, $rootScope, $scope, $log, AUTH_EVENTS, User, user, Project, Cookie, $state) {
+    .controller('ConsoleCtrl', ['creatproject','$timeout', 'sessiontoken', 'regions', 'account', '$http', '$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', 'user', 'Project', 'Cookie', '$state','GLOBAL','$stateParams','$location',
+        function (creatproject,$timeout, sessiontoken, regions, account, $http, $rootScope, $scope, $log, AUTH_EVENTS, User, user, Project, Cookie, $state,GLOBAL,$stateParams,$location) {
 
-            console.log('user', user.access_token);
-            if (user.access_token) {
-                Cookie.set('df_access_token', user.access_token+','+user.access_token, 23 * 3600 * 1000);
+            //console.log('$state', $state);
+
+            console.log('$stateParams', $stateParams);
+            console.log('$location', $location);
+
+            if (GLOBAL.sso_switch === 'true') {
+                Cookie.set('df_access_token', user.access_token + ',' + user.access_token, 23 * 3600 * 1000);
+                //Cookie.set('df_access_token', user.access_token + ',' + user.access_token, 23 * 3600 * 1000);
                 Cookie.set('region', 'cn-north-1', 24 * 3600 * 1000);
-                User.get({name: '~', region: Cookie.get('region')}, function (myuser) {
+                if ($stateParams.namespace) {
                     if ($rootScope.user) {
                         console.log('$rootScope.user', $rootScope.user.metadata.name);
                     } else {
 
-                        $rootScope.user = myuser;
+                        $rootScope.user = {metadata:{
+                            name:$stateParams.namespace
+                        }};
                     }
                     var namespace = Cookie.get('namespace');
                     var region = Cookie.get('region');
@@ -40,10 +47,9 @@ angular.module('console', [
                         $rootScope.namespace = $rootScope.user.metadata.name;
                         Cookie.set('namespace', $rootScope.namespace, 10 * 365 * 24 * 3600 * 1000);
                     }
-                })
+                }
 
             }else {
-
                 if ($rootScope.user) {
                     console.log('$rootScope.user', $rootScope.user.metadata.name);
                 } else {
