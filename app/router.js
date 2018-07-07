@@ -172,12 +172,16 @@ define([
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/console/console.js')
                         }],
-                        user: ['regions', 'Cookie', '$rootScope', 'User', function (regions, Cookie, $rootScope, User) {
-                            return User.get({name: '~', region: Cookie.get('region')}).$promise;
-                        }],
-                        pro: ['$stateParams', 'Project', 'Cookie', '$rootScope', function ($stateParams, Project, Cookie, $rootScope) {
-                            return Project.get().$promise;
-                        }]
+                        user: ['regions', 'Cookie', '$rootScope', 'User', 'sessiontoken',
+                            function (regions, Cookie, $rootScope, User, sessiontoken) {
+                                console.log("Cookie.get('df_access_token')", Cookie.get('df_access_token'));
+                                if (Cookie.get('df_access_token')) {
+                                    return User.get({name: '~', region: Cookie.get('region')}).$promise;
+                                } else {
+                                    return sessiontoken.get().$promise;
+                                }
+
+                            }]
                     },
                     abstract: true
 
@@ -471,10 +475,10 @@ define([
                     params: {
                         image: null,
                         message: null,
-                        imagename:null,
-                        imagetag:null,
-                        imagetype:null,
-                        postobj:null
+                        imagename: null,
+                        imagetag: null,
+                        imagetype: null,
+                        postobj: null
                     },
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
