@@ -11,14 +11,16 @@ angular.module("console.header", [{
             templateUrl: 'components/header/header.html',
             controller: ['allTenants','GLOBAL', '$timeout', '$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
                 function (allTenants,GLOBAL, $timeout, $log, Project, account, regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
-                var thisHeight = document.body.clientHeight;
+                var clientHeight = document.body.clientHeight;
+                var windowHeight = window.innerHeight;
                 $scope.colonyNavEnter = function(){
                         $('.menu-list').addClass('visible');
-                        $('.visible').height(thisHeight-50);
+                        // $('.visible').css('height','auto');
+                        $('.visible').css('max_height',windowHeight-180);
                         $('.colony-nav').css( 'background',' #252b39');
                     }
                     $scope.colonyNavLeave = function(){
-                        $('.visible').height(0);
+                        // $('.visible').height(0);
                         $('.menu-list').removeClass('visible');
                         $('.colony-nav').css( 'background','#303643');
                     }
