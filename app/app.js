@@ -3024,6 +3024,7 @@ define([
                 };
                 $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
                     $rootScope.transfering = true;
+                    console.log('toState.name', toState.name);
 
 
                 });
@@ -3032,10 +3033,18 @@ define([
                     //更新header标题
                     if (!Cookie.get('newState')) {
                         Cookie.set('newState', toState.name, 10 * 365 * 24 * 3600 * 1000)
+                        $rootScope.newState = toState.name
                     }
+
+                    console.log("Cookie.get('newState')app", Cookie.get('newState'));
+                    console.log("$rootScope.newState", $rootScope.newState);
+
                     if (Cookie.get('newState') !== toState.name) {
                         Cookie.set('newState', toState.name, 10 * 365 * 24 * 3600 * 1000)
+                        $rootScope.newState = toState.name
                     }
+                    //console.log("Cookie.get('newState')app", Cookie.get('newState'));
+                    //$rootScope.newState = toState.name
                     //Cookie.get('newState')!==
                     if (navigator.userAgent.indexOf("Firefox") > 0) {
                         // console.log('dasd');
