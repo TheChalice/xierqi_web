@@ -187,10 +187,10 @@
     background-position: center;
 }
 /*20161128 jia ͷ���޸� begin*/
-#header #header-brand{padding-left:15px;padding-right:15px;border-right: 1px solid #2A303C;}
+#header #header-brand{padding-left:15px;padding-right:15px;border-right: 1px solid #2A303C;width:180px;}
 
 #header #header-brand:hover{background-color:#303643;}
-#header #header-brand .header_logo{width:150px;height:18px;padding:0;margin-top:18px;}
+#header #header-brand .header_logo{height:28px;padding:0;margin-top:12px;margin-left:20px;}
 .data_bg{-webkit-transition:  background 300ms;-ms-transition:  background 300ms;-o-transition:  background 300ms;-moz-transition:  background 300ms;transition:  background 300ms;}
 
 .df_news{padding-left:14px;padding-right:14px;border-left:1px solid #f6a540;display:block;float:left;padding-top:18px;padding-bottom:16px;}
