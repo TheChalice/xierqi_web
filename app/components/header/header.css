@@ -6,14 +6,14 @@
     /*box-shadow:-5px 3px 5px #f1f1f1;*/
 }
 
-#header #header-name-list {
+#header .header-name-list {
     display: inline-block;
     width: 220px;
     list-style: none;
     height: 55px;
 }
 
-#header-name-list .header-name-list-span {
+.header-name-list .header-name-list-span {
     text-align: center;
     width: 110px;
     float: left;
@@ -22,12 +22,12 @@
     font-size: 14px;
     color: #FFFFFF;
 }
-#header-name-list .header-name-list-span:hover,
-#header-name-list .header-name-list-span:focus {
+.header-name-list .header-name-list-span:hover,
+.header-name-list .header-name-list-span:focus {
     background-color: #1f2d3d;
     cursor: pointer;
 }
-#header-name-list .overSelect {
+.header-name-list .overSelect {
     background-color: #1f2d3d;
 }
 #header #header-brand {
