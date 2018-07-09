@@ -16,7 +16,7 @@
 .in_nowrap{white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;}
 /*a:focus, a:hover{color:#e5993a;}*/
 body {
-    padding-top:55px;/* jia 20161128 头部高度调整 padding-top:70px;*/
+    padding-top:50px;/* jia 20161128 头部高度调整 padding-top:70px;*/
     font-family: -apple-system, BlinkMacSystemFont, Neue Haas Grotesk Text Pro, Arial Nova, Segoe UI, Helvetica Neue, \.PingFang SC, PingFang SC, Microsoft YaHei, Microsoft JhengHei, Source Han Sans SC, Noto Sans CJK SC, Source Han Sans CN, Noto Sans SC, Source Han Sans TC, Noto Sans CJK TC, Hiragino Sans GB, sans-serif;
     background:#F9FAFC;
 }
@@ -752,7 +752,7 @@ a {
     overflow:auto;
     word-break: break-all;
     word-wrap: break-word;
-    white-space: pre-wrap;height:166px;padding:0px;margin:0px;
+    white-space: pre-wrap;height:166px;padding:0px;margin:0px;cursor:auto;
 }
 
 .icon25-collapse {
@@ -1659,6 +1659,7 @@ input {
 .dropdown>.btn {
     -webkit-box-shadow: none;
     box-shadow: none;
+    font-family: MicrosoftYaHei,inherit;
 }
 .fa-info-circle:before {
     margin-right: 3px;
@@ -1969,11 +1970,13 @@ td  a:hover, a:focus{
     content:"\e954";
     color:#A2B0C4;
 }
+
 /* 搜索 */
 .uex-icon-search:before {
     content: "\e91d";
     color:#A2B0C4;
 }
+.fa-hourglass-2:before, .fa-hourglass-half:before{position:relative;top:-3px;}
 /*代码构建 绑定、刷新*/
 .uex-icon-protocol-deafult:before{
     content: "\e970";
@@ -2110,9 +2113,9 @@ td  a:hover, a:focus{
 
 .new_deploycol #creatbtn{font-size:12px;height:26px;line-height:26px;padding: 0px 10px;margin: 0px;}
 .nav_top_li{
-    padding-top:6px;padding-bottom:10px;
+    padding-top:2px;
     box-shadow: 0 1px 0 0 rgba(224,230,237,0.50);
-    clear:both;padding-left:20px;padding-right:20px;background:#fff;height:42px;
+    clear:both;padding-left:20px;padding-right:20px;background:#fff;height:38px;
     position: fixed;left:180px;right:0px;top:55px;z-index:999;
     -webkit-transition:all 0.3s linear ;-moz-transition:all 0.3s linear;transition:all 0.3s linear;
 }

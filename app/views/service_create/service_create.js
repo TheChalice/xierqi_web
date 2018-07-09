@@ -73,12 +73,14 @@ angular.module('console.service.create', [
                     $scope.err.name.null = true;
                     return
                 }
+                //console.log('$scope.dc.spec.template.spec.containers',$scope.dc.spec.template.spec.containers[0]);
+                if (!$scope.dc.spec.template.spec.containers[0].image) {
+                    return
+                }
+
                 //console.log(invrepname());
                 if (!invrepname()) {
                     $scope.err.name.repeated = true;
-                    return
-                }
-                if(!$scope.dc.spec.template.spec.containers[0].image){
                     return
                 }
                 $scope.advancedConfig = true
@@ -232,6 +234,7 @@ angular.module('console.service.create', [
 
 
             };
+
             angular.forEach(myimage.items, function (image) {
                 //console.log('image.status.tags', image.status.tags);
                 if (image.status.tags) {
@@ -468,6 +471,7 @@ angular.module('console.service.create', [
             })
 
             $scope.tocheckedtag = function (tag, idx, checked, istags) {
+                console.log('$scope.dc.spec.template.spec.containers[idx]', $scope.dc.spec.template.spec.containers[idx]);
                 $scope.dc.spec.template.spec.containers[idx].creattime = tag.image.metadata.creationTimestamp
                 if (tag.image.dockerImageMetadata.Config.ExposedPorts) {
 
@@ -922,7 +926,7 @@ angular.module('console.service.create', [
                 $scope.err.port.null = false;
                 $scope.err.port.repeat = false;
                 var portcan = true;
-                if ($scope.advancedConfig) {
+                if (!$scope.advancedConfig) {
                     var copydc = angular.copy($scope.dc);
                     var containerObj = [{
                         name: copydc.spec.template.spec.containers[0].name,
@@ -988,7 +992,7 @@ angular.module('console.service.create', [
                 $scope.dc.spec.template.spec.volumes = [];
                 var cancreat = true
                 angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
-                    //console.log(con.dosetcon.doset);
+                    console.log('con.open',con);
                     if (con.open) {
                         if (con.open.readinessProbe) {
                             if (con.open.readinesscheck === 'HTTP') {
@@ -1052,7 +1056,7 @@ angular.module('console.service.create', [
                             if (volerr(con.volments)) {
                                 cancreat = false
                             }
-                            //console.log('con.volment', con.volments);
+                            console.log('con.volment', con.volments);
                             creatvol(con, con.volments)
 
                             //if (volrepeat(con.volumeMounts)) {
@@ -1231,12 +1235,18 @@ angular.module('console.service.create', [
                             })
                         }
                     }
+                    var first = true;
                     $scope.imageTopC = function(idx){
-                        $scope.dc.spec.template.spec.containers[0] = {};
-                        if(idx == 2){
-                            $scope.checked.image = "";
-                            $scope.checked.tag = "";
+                        if (!first) {
+                            $scope.dc.spec.template.spec.containers[0].image = '';
+                            if(idx == 2){
+                                $scope.checked.image = "";
+                                $scope.checked.tag = "";
+                            }
+                        }else {
+                            first = false;
                         }
+
                     }
 
                     $scope.myKeyup = function (e) {

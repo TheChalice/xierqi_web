@@ -1,5 +1,43 @@
 <div id="sidebar">
     <style>
+        #sidebar ul li{
+            list-style: none;
+        }
+        .node-wrop-box{
+            height: 40px ;
+            line-height:40px;
+            margin: 5px 0px;
+            background-position:center;
+            display: block;
+            width: 100%;
+            position: relative;
+        }
+        .node-wrop-box:hover{
+            box-shadow: 1px 1px 5px #d3d3d3;
+        }
+        .node-wrop-box ul{
+            position: absolute;
+            top:0px;
+            right:-170px;
+            width: 170px;
+            box-shadow: 1px 1px 5px #d3d3d3;
+            display: none;
+            margin:0px;
+            padding:0px;
+        }
+        .node-wrop-box ul li:hover{
+            color: #1f2d3d;
+        }
+        .node-wrop-box li.url-isnull{
+            cursor: pointer;
+        }
+        .node-wrop-box li{
+            height: 41px;
+            line-height: 40px;
+            background: #F5F6F9;
+            text-align: center;
+            color: #475669;
+        }
         #sidebar .tree-light li a {
             display: inline-block;
             width: 100%;
@@ -16,24 +54,37 @@
 
     </style>
     <a href="javascript:void(0);" class="zx_set_btn" ng-click="sidebaerWidth()"></a>
-    <div treecontrol class="tree-light"
-         tree-model="dataForTheTree"
-         options="treeOptions"
-         on-selection="showSelected(node)"
-         selected-node="node1" >
-        
-        <a  ng-if="!activeStyle" ng-class="{'select':state.includes(node.stateUrl)}" ng-click="goUrl(node.url)">{{node.name}}</a>
-        <a ng-if="activeStyle" ng-click="goUrl(node.url)" class="{{node.img}}" uib-tooltip="{{node.name}} " tooltip-placement="right">
-        
+    <div ng-show="activeStyle">
+        <div class="node-wrop-box {{node.img}}" ng-repeat="node in dataForTheTree" ng-mouseenter="mouHoverOne($event)" ng-mouseleave="mouHoverTwo($event)" style="width: 100%;height: 40px;">
+
+            <ul style="">
+                <li style=" border-bottom: 1px solid #e8e9ec;" ng-class="{'url-isnull':node.url}" ng-click="nodeUrlGo(node.url)">{{node.name}}</li>
+                <li ng-repeat="child in node.children" ng-click="nodeUrlGo(child.url)" style="cursor: pointer">{{child.name}}</li>
+            </ul>
+        </div>
+
+    </div>
+    <div  class="sidebar-wrop">
+        <div ng-show="!activeStyle" treecontrol class="tree-light"
+             tree-model="dataForTheTree"
+             options="treeOptions"
+             on-selection="showSelected(node)"
+             selected-node="node1" >
+
+            <a ng-class="{'select':state.includes(node.stateUrl)}" ng-click="goUrl(node.url)">{{node.name}}</a>
+            <!--<a ng-if="activeStyle" ng-click="goUrl(node.url)" class="{{node.img}}" uib-tooltip="{{node.name}} " tooltip-placement="right">-->
+            <!--22222-->
             <!-- <div style="position:absolute;top:0px;right:0px;">{{node.name}}
                 <ul>
                     <li></li>
                 </ul>
             </div> -->
-        </a>
-        <!-- <div uib-tooltip="{{node.name}} " tooltip-placement="right" style="position:absolute;top:0px;right:0px;">123</div> -->
-        <span ng-class="{'select':state.includes(node.stateUrl)}"  ng-if="!activeStyle"  class="sbtn-bg {{node.img}}"></span>
+            <!--</a>-->
+            <!-- <div uib-tooltip="{{node.name}} " tooltip-placement="right" style="position:absolute;top:0px;right:0px;">123</div> -->
+            <span ng-class="{'select':state.includes(node.stateUrl)}"  ng-if="!activeStyle"  class="sbtn-bg {{node.img}}"></span>
+        </div>
     </div>
+
     <!--<ul class="nav nav-pills nav-stacked nav-jia-pills">-->
 
         <!--&lt;!&ndash;<li class="side_change">&ndash;&gt;-->

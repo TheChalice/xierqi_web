@@ -18,6 +18,19 @@ angular.module("console.sidebar", [
                 //     { name: 'Services', url: 'console.services', stateUrl:'' ,children: [] },
                 //     { name: 'Routes', url: 'console.routes',stateUrl:'' , children: [] }
                 // ];
+                $('#sidebar-container').css('overflow-y','auto');
+                $scope.mouHoverOne = function(that){
+                    $(that.currentTarget).children('ul').show();
+                }
+                $scope.mouHoverTwo = function(that){
+                    $(that.currentTarget).children('ul').hide();
+                }
+                $scope.nodeUrlGo = function(url){
+                    if (url) {
+                        var urlarr = url.split('@');
+                        $state.go(urlarr[0], ({namespace: urlarr[1]}));
+                    }
+                }
                 $scope.state = $state;
                 //$(".nav_top_li").addClass("nav_top_toggle");
                 $scope.goUrl = function (url) {
@@ -103,23 +116,25 @@ angular.module("console.sidebar", [
                     }
                     if ($(".zx_set_btn").hasClass('zx_set_btn_rotate')) {
                         $scope.activeStyle = true;
+                        $('#sidebar-container').css('overflow-y','visible')
                         // alert(3);
-                        angular.forEach($rootScope.dataForTheTree, function (data, i) {
-                            //console.log('data', data);
-                            if (data.name == '容器应用') {
-                                $rootScope.dataForTheTree[i].children = []
-                            }
-                            if (data.name == '资源管理') {
-                                $rootScope.dataForTheTree[i].children = []
-                            }
-                            if (data.name == '镜像仓库') {
-                                $rootScope.dataForTheTree[i].children = []
-                            }
-                        })
+                        // angular.forEach($rootScope.dataForTheTree, function (data, i) {
+                        //     //console.log('data', data);
+                        //     if (data.name == '容器应用') {
+                        //         $rootScope.dataForTheTree[i].children = []
+                        //     }
+                        //     if (data.name == '资源管理') {
+                        //         $rootScope.dataForTheTree[i].children = []
+                        //     }
+                        //     if (data.name == '镜像仓库') {
+                        //         $rootScope.dataForTheTree[i].children = []
+                        //     }
+                        // })
 
                     } else {
                         $scope.activeStyle = false;
                         // alert(4);
+                        $('#sidebar-container').css('overflow-y','auto')
                         angular.forEach($rootScope.dataForTheTree, function (data, i) {
                             //console.log('data', data);
                             if (data.name == '容器应用') {

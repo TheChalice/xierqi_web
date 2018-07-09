@@ -11,6 +11,15 @@ angular.module("console.header", [{
             templateUrl: 'components/header/header.html',
             controller: ['allTenants','GLOBAL', '$timeout', '$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
                 function (allTenants,GLOBAL, $timeout, $log, Project, account, regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
+                $scope.colonyNavEnter = function(){
+                        $('.menu-list').addClass('visible');
+                        $('.colony-nav').css( 'background',' #252b39');
+                    }
+                    $scope.colonyNavLeave = function(){
+                        // $('.visible').height(0);
+                        $('.menu-list').removeClass('visible');
+                        $('.colony-nav').css( 'background','#303643');
+                    }
                 //////获取租户数据
                     allTenants.query({name: "admin"}, function(data){
                         createTree(data);

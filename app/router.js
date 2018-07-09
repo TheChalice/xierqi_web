@@ -142,6 +142,9 @@ define([
                     url: '/signin',
                     templateUrl: 'views/blank/blank.html',
                     controller: 'blankCtrl',
+                    params: {
+                        oldurl: null
+                    },
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/blank/blank.js')
@@ -177,12 +180,53 @@ define([
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
                             return $ocLazyLoad.load('views/console/console.js')
                         }],
-                        user: ['regions', 'Cookie', '$rootScope', 'User', function (regions, Cookie, $rootScope, User) {
-                            return User.get({name: '~', region: Cookie.get('region')}).$promise;
-                        }],
-                        pro: ['$stateParams', 'Project', 'Cookie', '$rootScope', function ($stateParams, Project, Cookie, $rootScope) {
-                            return Project.get().$promise;
-                        }]
+                        user: ['regions', 'Cookie', '$rootScope', 'User', 'sessiontoken',
+                            function (regions, Cookie, $rootScope, User, sessiontoken) {
+                                if (Cookie.get('df_access_token')) {
+                                    //abb()
+                                    return User.get({name: '~', region: Cookie.get('region')}).$promise;
+                                } else {
+                                    return sessiontoken.get().$promise;
+                                    sessiontoken.get(function (data) {
+                                        Cookie.set('df_access_token', data.access_token + ',' + data.access_token, 23 * 3600 * 1000);
+                                        //Cookie.set('df_access_token', user.access_token + ',' + user.access_token, 23 * 3600 * 1000);
+                                        Cookie.set('region', 'cn-north-1', 24 * 3600 * 1000);
+                                        User.get({name: '~', region: Cookie.get('region')}, function (user) {
+                                            if ($rootScope.user) {
+                                                //console.log('$rootScope.user', $rootScope.user.metadata.name);
+                                            } else {
+
+                                                $rootScope.user = user;
+                                            }
+                                            var namespace = Cookie.get('namespace');
+                                            var region = Cookie.get('region');
+                                            if (region) {
+                                                $rootScope.region = region;
+                                            } else {
+                                                console.log('noregion');
+                                                $rootScope.region = 'cn-north-1';
+                                                Cookie.set('region', $rootScope.region, 10 * 365 * 24 * 3600 * 1000);
+                                            }
+
+                                            if (namespace) {
+                                                $rootScope.namespace = namespace;
+                                            } else {
+                                                //console.log('nonamespace');
+                                                $rootScope.namespace = $rootScope.user.metadata.name;
+                                                Cookie.set('namespace', $rootScope.namespace, 10 * 365 * 24 * 3600 * 1000);
+                                            }
+                                        })
+                                    })
+                                    //return sessiontoken.get().$promise;
+                                }
+                                //function abb(){
+
+                                //}
+                                //User.get({name: '~', region: Cookie.get('region')}, function (user1) {
+                                //
+                                //
+                                //})
+                            }]
                     },
                     abstract: true
 
@@ -296,7 +340,7 @@ define([
                     }
                 })//ok
                 .state('console.primage', {
-                    url: '/:namespace/image/primage/:name',
+                    url: '/:namespace/image/primage/:name/:id',
                     templateUrl: 'views/primage_detail/primage_detail.html',
                     controller: 'prImageDetailCtrl',
                     resolve: {
@@ -476,10 +520,10 @@ define([
                     params: {
                         image: null,
                         message: null,
-                        imagename:null,
-                        imagetag:null,
-                        imagetype:null,
-                        postobj:null
+                        imagename: null,
+                        imagetag: null,
+                        imagetype: null,
+                        postobj: null
                     },
                     resolve: {
                         dep: ['$ocLazyLoad', function ($ocLazyLoad) {
