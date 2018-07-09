@@ -23,11 +23,11 @@
                             <td data-title="名称" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
                                 <span>{{deployments.metadata.name}}</span>
                             </td>
-                            <td data-title="版本">
+                            <td data-title="版本" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">
                                 <span ng-if="deployments.status.latestVersion >0">{{deployments.status.latestVersion}}</span>
                                 <span ng-if="deployments.status.latestVersion ==0">No deployments</span>
                             </td>
-                            <td data-title="状态">
+                            <td data-title="状态" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">
                                 <div row class="status" ng-if="deployments.status.latestVersion>0">
                                     <status-icon status="deployments.rc | deploymentStatus" disable-animation></status-icon>
                                     <span flex>
@@ -40,12 +40,12 @@
                             </span>
                                 </div>
                             </td>
-                            <td data-title="创建时间">
+                            <td data-title="创建时间" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">
                         <span ng-if="deployments.status.latestVersion>0">
                             {{deployments.metadata.creationTimestamp | timescon}}
                         </span>
                             </td>
-                            <td data-title="触发器">
+                            <td data-title="触发器" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">
                                 <span ng-if="!deployments.status.details.causes.length && deployments.status.latestVersion>0">未知</span>
                                 <span ng-if="deployments.status.details.causes.length && deployments.status.latestVersion>0">
                             <span ng-repeat="cause in deployments.status.details.causes">
