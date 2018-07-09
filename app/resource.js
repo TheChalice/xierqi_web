@@ -1018,8 +1018,27 @@ define([
         }])
         .factory('allTenants', ['$resource', 'GLOBAL', function ($resource, GLOBAL) { //数据集成 公开数据集详情预览
             var allTenants = $resource(GLOBAL.ocmanager + '/user/name/:name/all/tenants', {
-                namespaces: '@name',
+                namespaces: '@name'
             }, {});
             return allTenants;
+        }])
+        .factory('ServiceTenant', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var ServiceTenant = $resource(GLOBAL.ocmanager + '/instance/service/tenant/:tenantId', {
+                tenantId: '@tenantId'
+            }, {});
+            return ServiceTenant;
+        }])
+        .factory('ServiceTenantInfor', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var ServiceTenantInfor = $resource(GLOBAL.ocmanager + '/tenant/:tenantId/service/instance/:instanceName/access/info', {
+                tenantId: '@tenantId',
+                instanceName:'@instanceName'
+            }, {});
+            return ServiceTenantInfor;
+        }])
+        .factory('ToolTenant', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var ToolTenant = $resource(GLOBAL.ocmanager + '/instance/tool/tenant/:tenantId', {
+                tenantId: '@tenantId'
+            }, {});
+            return ToolTenant;
         }])
 });

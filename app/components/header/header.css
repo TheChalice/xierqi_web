@@ -1,8 +1,34 @@
-#header {/*jia 20170306*/
-    height:50px;
-    background:#303643;
-    width:100%;min-width:1200px;
+#header { /*jia 20170306*/
+    height: 55px;
+    background: #303643;
+    width: 100%;
+    min-width: 1200px;
     /*box-shadow:-5px 3px 5px #f1f1f1;*/
+}
+
+#header .header-name-list {
+    display: inline-block;
+    width: 220px;
+    list-style: none;
+    height: 55px;
+}
+
+.header-name-list .header-name-list-span {
+    text-align: center;
+    width: 110px;
+    float: left;
+    line-height: 55px;
+    font-family: MicrosoftYaHei;
+    font-size: 14px;
+    color: #FFFFFF;
+}
+.header-name-list .header-name-list-span:hover,
+.header-name-list .header-name-list-span:focus {
+    background-color: #1f2d3d;
+    cursor: pointer;
+}
+.header-name-list .overSelect {
+    background-color: #1f2d3d;
 }
 #header #header-brand {
     padding-left: 27px;
@@ -32,9 +58,14 @@
     padding: 20px 15px 10px 40px;
     font-size: 16px;
 }
-#header #header-title span:nth-child(2){color:#A2B0C4}
-#header #header-title span:nth-child(2):hover{color:#fff}
 
+#header #header-title span:nth-child(2) {
+    color: #A2B0C4
+}
+
+#header #header-title span:nth-child(2):hover {
+    color: #fff
+}
 
 #header #header-menu {
     height: 100%;
@@ -198,6 +229,13 @@
 .header_area:hover{background:#f6a540;}
 .header_per:hover{background:#242A39;}
 
+.data_bg {
+    -webkit-transition: background 300ms;
+    -ms-transition: background 300ms;
+    -o-transition: background 300ms;
+    -moz-transition: background 300ms;
+    transition: background 300ms;
+}
 
 .df_h_com{width:20px;height:20px;display:inline-block;vertical-align:text-bottom;background-size:contain;margin-right:6px;float:left;}
 .df_h_news{background-image: url(img/news.png);}
