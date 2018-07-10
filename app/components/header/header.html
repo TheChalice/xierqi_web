@@ -1,249 +1,445 @@
 <div id="header" class="navbar-fixed-top">
-    <a id="header-brand" ng-click="backindex()">
-        <img src="components/header/img/logo_sm_df.png" alt="logo" class="header_logo">
-    </a>
-    <style>
-
-        .colony-nav{
-            width: 100px;
-            height: 50px;
-            margin:0px;
-            padding:0px;
-            display: inline-block;
-            color: #fff;
-            line-height:50px;
-            position: relative;
-            text-align:center;
-            border-left: 1px solid #3A4252;
-            cursor: pointer;
-        }
-        #colony-nav-wrop{
-            list-style: none;
-            position: absolute;
-            width:100%;
-            height: 300px;
-            background: #000;
-            top: 54px;
-            color: #fff;
-            margin: 0px;
-            padding:0px;
-        }
-        #colony-nav-wrop li{
-            width: 100px;
-            overflow: hidden;
-            float: left;
-            margin: 0px;
-            padding:0px;
-        }
-        .uex-icon-menu-row:before {
-            content: "\e946";
-        }
-    </style>
-     <div class="colony-nav" ng-mouseenter="colonyNavEnter()" ng-mouseleave="colonyNavLeave()">
-         <span class="uex-icon-menu-row"></span><span style="padding-left: 3px;font-size:14px;">能力视图</span>
-     </div>
-
-
-    <!--<ul id="colony-nav-wrop">-->
-    <!--<li>-->
-    <!--<h3 class="df_tit" style="color: #fff">运营管控</h3>-->
-    <!--<div></div>-->
-    <!--</li>-->
-    <!--</ul>-->
-    <!-- <div id="header-title" class="hidden-xs" style="margin-left: 1px">
-        <div class="bread_set" ng-if="hasBack()">
-            <span style="float: left;cursor: pointer; margin-right: 10px;" ng-click="back()">
-                {{console.state | stateNameFilter}}
-            </span>
-            <span style='float: left;'>{{console.state | stateTitleFilter}}</span>{{console.state}}
+    <div style="width: 100%; position: relative">
+        <div class="menu-list" ng-mouseenter="colonyNavEnter()" ng-mouseleave="colonyNavLeave()">
+            <div class="menu-list-content">
+                <div class="menu-list-column has-column-label" ng-repeat="colonylist in colonyList">
+                    <div class="menu-list-column-title" ng-if="colonylist.title">{{colonylist.title}}</div>
+                    <div class="menu-list-item" ng-repeat="child in colonylist.children">
+                        <div class="menu-list-item-title">{{child.subtitle}}</div>
+                        <ul>
+                            <li class="menu-list-item-child" ng-repeat="subchild in child.subChild" ng-click="colonyUrlGo(subchild.url)">{{subchild .urlName}}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="lay"></div>
+            </div>
         </div>
-        <span style='float: left;'>{{console.state | stateTitleFilter}}</span>
-    </div> -->
+        <a id="header-brand" ng-click="backindex()">
+            <img src="components/header/img/logo_sm_df.png" alt="logo" class="header_logo">
+        </a>
+        <style>
 
-    <div id="header-menu">
-        <!--消息图标-->
-        <!--<a class="icon25 icon25-msg" ui-sref="console.notification" uib-tooltip="消息" tooltip-placement="bottom" ng-click="checkInbox()" style="margin-right:20px;">-->
-        <!--<div ng-show="isshow">-->
-        <!--<div class="header-dot"></div>-->
-        <!--</div>-->
-        <!--</a>-->
-        <!--<a href="javascript:void(0);" ui-sref="console.notification" class="df_news data_bg">-->
-        <!--<i class="df_h_com df_h_news"></i><span class="df_news_tit">消息</span>-->
-        <!--</a>-->
+            .colony-nav{
+                width: 100px;
+                height: 50px;
+                margin:0px;
+                padding:0px;
+                display: inline-block;
+                color: #fff;
+                line-height:50px;
+                position: relative;
+                text-align:center;
+                border-left: 1px solid #3A4252;
+                cursor: pointer;
+            }
+            #colony-nav-wrop{
+                list-style: none;
+                position: absolute;
+                width:100%;
+                height: 300px;
+                background: #000;
+                top: 54px;
+                color: #fff;
+                margin: 0px;
+                padding:0px;
+            }
+            #colony-nav-wrop li{
+                width: 100px;
+                overflow: hidden;
+                float: left;
+                margin: 0px;
+                padding:0px;
+            }
+            .uex-icon-menu-row:before {
+                content: "\e946";
+            }
+        </style>
+        <style>
+            .menu-list {
+                width: 100%;
+                height: 0px;
+                max-height: calc(100% - 50px);
+                overflow: auto;
+                background: #252b39;
+                position: fixed;
+                top: 50px;
+                left: 0px;
+                z-index: 3000;
+                box-shadow: 0 2px 6px 0 rgba(0,0,0,.3);
+                box-sizing: border-box;
+                transition: all 500ms cubic-bezier(0,0,.2,1);
+                -webkit-transition: all 500ms cubic-bezier(0,0,.2,1);
+                -moz-transition: all 500ms cubic-bezier(0,0,.2,1);
+                -o-transition: all 500ms cubic-bezier(0,0,.2,1);
+            }
+            .menu-list.visible {
+                height: 800px;
+                transition: all 200ms cubic-bezier(0,0,.2,1);
+                -webkit-transition: all 200ms cubic-bezier(0,0,.2,1);
+                -moz-transition: all 200ms cubic-bezier(0,0,.2,1);
+                -o-transition: all 200ms cubic-bezier(0,0,.2,1);
+            }
+            .menu-list.visible::-webkit-scrollbar {display:none}
+            .menu-list span.uex-icon-cross {
+                background: #fff;
+                width: 14px;
+                height: 14px;
+                border-radius: 14px;
+                color: #20a0ff;
+                line-height: 16px;
+                text-align: center;
+                display: inline-block;
+                position: absolute;
+                right: 0px;
+                top: 10px;
+                cursor: pointer;
+                opacity: 0;
+            }
+            .menu-list * {
+                box-sizing: content-box;
+            }
+            .menu-list-content {
+                height: 0px;
+                overflow: hidden;
+                padding: 20px;
+                padding-top: 0px;
+                padding-bottom: 0px;
+                position: relative;
+                box-sizing: border-box;
+                transition: all 200ms cubic-bezier(0,0,.2,1);
+                -webkit-transition: all 200ms cubic-bezier(0,0,.2,1);
+                -moz-transition: all 200ms cubic-bezier(0,0,.2,1);
+                -o-transition: all 200ms cubic-bezier(0,0,.2,1);
+            }
+            .menu-list.visible .menu-list-content {
+                height: 800px;
+                padding-top: 20px;
+                padding-bottom: 20px;
+                transition: all 800ms cubic-bezier(0,0,.2,1);
+                -webkit-transition: all 800ms cubic-bezier(0,0,.2,1);
+                -moz-transition: all 800ms cubic-bezier(0,0,.2,1);
+                -o-transition: all 800ms cubic-bezier(0,0,.2,1);
+            }
+
+            .menu-list .lay {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                bottom: 0px;
+                left: 0px;
+                opacity: 1;
+                transition: all 200ms cubic-bezier(0,0,.2,1);
+                -webkit-transition: all 200ms cubic-bezier(0,0,.2,1);
+                -moz-transition: all 200ms cubic-bezier(0,0,.2,1);
+                -o-transition: all 200ms cubic-bezier(0,0,.2,1);
+                background: -webkit-linear-gradient(top,rgba(37,43,57,0) 0%,rgba(37,43,57,1) 100%);
+                background: -moz-linear-gradient(top,rgba(37,43,57,0) 0%,rgba(37,43,57,1) 100%);
+                background: -o-linear-gradient(top,rgba(37,43,57,0) 0%,rgba(37,43,57,1) 100%);
+                background: linear-gradient(top,rgba(37,43,57,0) 0%,rgba(37,43,57,1) 100%);
+            }
+            .menu-list.visible .lay {
+                width: 100%;
+                height: 100%;
+                position: absolute;
+                left: 0px;
+                bottom: -800px;
+                opacity: 0;
+                transition: all 800ms cubic-bezier(0,0,.2,1), opacity 800ms cubic-bezier(0,0,.2,1) 800ms, bottom 10ms cubic-bezier(0,0,.2,1) 1200ms;
+                -webkit-transition: all 800ms cubic-bezier(0,0,.2,1), opacity 800ms cubic-bezier(0,0,.2,1) 800ms, bottom 10ms cubic-bezier(0,0,.2,1) 1200ms;
+                -moz-transition: all 800ms cubic-bezier(0,0,.2,1), opacity 800ms cubic-bezier(0,0,.2,1) 800ms, bottom 10ms cubic-bezier(0,0,.2,1) 1200ms;
+                -o-transition: all 800ms cubic-bezier(0,0,.2,1), opacity 800ms cubic-bezier(0,0,.2,1) 800ms, bottom 10ms cubic-bezier(0,0,.2,1) 1200ms;
+                background: -webkit-linear-gradient(top,rgba(37,43,57,0) 0%,rgba(37,43,57,1) 100%);
+                background: -moz-linear-gradient(top,rgba(37,43,57,0) 0%,rgba(37,43,57,1) 100%);
+                background: -o-linear-gradient(top,rgba(37,43,57,0) 0%,rgba(37,43,57,1) 100%);
+                background: linear-gradient(top,rgba(37,43,57,0) 0%,rgba(37,43,57,1) 100%);
+            }
+            .menu-list .menu-list-item-child:hover {
+                color: #20a0ff;
+            }
+            .menu-list.visible span.uex-icon-cross {
+                opacity: 1;
+            }
+            .menu-list ul, li {
+                padding: 0px;
+                margin: 0px;
+                list-style-type: none;
+                cursor: pointer;
+            }
+            .menu-list li.visible {
+                color: #20a0ff;
+            }
+            .menu-list .menu-list-item-title,
+            .menu-list .menu-list-item-child {
+                font-size: 12px;
+            }
+            .menu-list .menu-list-item-title {
+                color: #CCD5E0;
+                margin: 15px 0px;
+            }
+            .menu-list-column .menu-list-item:first-child .menu-list-item-title {
+                margin-top: 0px;
+            }
+            .menu-list .menu-list-item-child {
+
+            }
+            .menu-list .menu-list-item-child {
+                color: #A2B0C4 ;
+                margin-bottom: 9px;
+            }
+            .menu-list.visible .menu-list-item-child {
+                opacity: 1;
+            }
+            .menu-list .menu-list-item-child:last-child {
+                margin-bottom: 0px;
+            }
+            .menu-list .menu-list-column {
+                width: 100px;
+                display: inline-block;
+                vertical-align: top;
+                padding: 0px 10px;
+                padding-right: 100px;
+                transform: translateY(-100px);
+                transition: all 200ms cubic-bezier(0,0,.2,1);
+                -webkit-transition: all 200ms cubic-bezier(0,0,.2,1);
+                -moz-transition: all 200ms cubic-bezier(0,0,.2,1);
+                -o-transition: all 200ms cubic-bezier(0,0,.2,1);
+            }
+            .menu-list.visible .menu-list-column {
+                transform: translateY(0px);
+                transition: all 200ms cubic-bezier(0,0,.2,1);
+                -webkit-transition: all 200ms cubic-bezier(0,0,.2,1);
+                -moz-transition: all 200ms cubic-bezier(0,0,.2,1);
+                -o-transition: all 200ms cubic-bezier(0,0,.2,1);
+            }
+            .menu-list .menu-list-column-title:before {
+                content: "";
+                position: absolute;
+                width: 6px;
+                height: 13px;
+                background: #168DDE;
+                left: -14px;
+                top: 4px;
+            }
+            .menu-list .menu-list-column-title {
+                color: #fff;
+                font-size: 14px;
+                position: relative;
+            }
+            .menu-list .menu-list-item {
+                border-bottom: 1px dashed #475669;
+                padding-bottom: 15px;
+            }
+            .menu-list .menu-list-item:last-child {
+                border-bottom: 0px;
+            }
+        </style>
+        <div class="colony-nav" ng-mouseenter="colonyNavEnter()" ng-mouseleave="colonyNavLeave()">
+            <span class="uex-icon-menu-row"></span><span style="padding-left: 3px;font-size:14px;">能力视图</span>
+        </div>
 
 
-        <!--<div class="header_area data_bg">-->
-        <!--<div class="dropdown"  id="dpdtop" style="">-->
-        <!--<a class="dropdown-toggle header_toggle area_block" data-toggle="dropdown"  href="#" class="">-->
-        <!--<i class="df_h_com df_h_area"></i>-->
-        <!--{{curregion}}-->
-        <!--<b class="h_caret"></b>-->
-        <!--</a>-->
-
-        <!--<ul class="dropdown-menu dropdownbw">-->
-        <!--<li ng-repeat="region in regions" ng-click="checkregion(region.region_describe,region.identification)" ><i class="df_h_com df_area_active"></i>{{region.region_describe}}</li>-->
-        <!--&lt;!&ndash;<li ng-repeat="relist in regionlist" ng-click="checkregion(relist.regionname)">{{relist.regionname}}</li>&ndash;&gt;-->
+        <!--<ul id="colony-nav-wrop">-->
+        <!--<li>-->
+        <!--<h3 class="df_tit" style="color: #fff">运营管控</h3>-->
+        <!--<div></div>-->
+        <!--</li>-->
         <!--</ul>-->
-        <!--&lt;!&ndash;</span><span style="background: #fff;padding:10px 13px; color: #5a6378;">&ndash;&gt;-->
-        <!--&lt;!&ndash;{{curregion}}&ndash;&gt;-->
-        <!--&lt;!&ndash;</span>&ndash;&gt;-->
-        <!--</div>-->
-        <!--</div>-->
+        <!-- <div id="header-title" class="hidden-xs" style="margin-left: 1px">
+            <div class="bread_set" ng-if="hasBack()">
+                <span style="float: left;cursor: pointer; margin-right: 10px;" ng-click="back()">
+                    {{console.state | stateNameFilter}}
+                </span>
+                <span style='float: left;'>{{console.state | stateTitleFilter}}</span>{{console.state}}
+            </div>
+            <span style='float: left;'>{{console.state | stateTitleFilter}}</span>
+        </div> -->
 
-        <!--<div class="header_area data_bg">-->
-        <!--<div class="dropdown" uib-dropdown>-->
-        <!--<a class="dropdown-toggle header_toggle area_block" uib-dropdown-toggle  href="#" class="">-->
-        <!--<i class="df_h_com df_h_area"></i>-->
-        <!--{{curregion}}-->
-        <!--<b class="h_caret"></b>-->
-        <!--</a>-->
-
-        <!--<ul class="dropdown-menu dropdownbw" uib-dropdown-menu-->
-        <!--aria-labelledby="user-menu" style="border-top:0;">-->
-        <!--<li ng-repeat="region in regions" ng-click="checkregion(region.region_describe,region.identification)" ><i class="df_h_com df_area_active"></i>{{region.region_describe}}</li>-->
-        <!--&lt;!&ndash;<li ng-repeat="relist in regionlist" ng-click="checkregion(relist.regionname)">{{relist.regionname}}</li>&ndash;&gt;-->
-        <!--</ul>-->
-        <!--&lt;!&ndash;</span><span style="background: #fff;padding:10px 13px; color: #5a6378;">&ndash;&gt;-->
-        <!--&lt;!&ndash;{{curregion}}&ndash;&gt;-->
-        <!--&lt;!&ndash;</span>&ndash;&gt;-->
-        <!--</div>-->
-        <!--</div>-->
+        <div id="header-menu">
+            <!--消息图标-->
+            <!--<a class="icon25 icon25-msg" ui-sref="console.notification" uib-tooltip="消息" tooltip-placement="bottom" ng-click="checkInbox()" style="margin-right:20px;">-->
+            <!--<div ng-show="isshow">-->
+            <!--<div class="header-dot"></div>-->
+            <!--</div>-->
+            <!--</a>-->
+            <!--<a href="javascript:void(0);" ui-sref="console.notification" class="df_news data_bg">-->
+            <!--<i class="df_h_com df_h_news"></i><span class="df_news_tit">消息</span>-->
+            <!--</a>-->
 
 
-        <!--<a class="icon25 icon25-guide" href="javascript:;" uib-tooltip="指南" tooltip-placement="bottom"-->
-        <!--</a>-->
+            <!--<div class="header_area data_bg">-->
+            <!--<div class="dropdown"  id="dpdtop" style="">-->
+            <!--<a class="dropdown-toggle header_toggle area_block" data-toggle="dropdown"  href="#" class="">-->
+            <!--<i class="df_h_com df_h_area"></i>-->
+            <!--{{curregion}}-->
+            <!--<b class="h_caret"></b>-->
+            <!--</a>-->
 
-        <div class="header_per data_bg">
-            <div uib-dropdown on-toggle="toggled(open)">
-                <a href="javascript:;" id="user-menu" class="per_block" uib-dropdown-toggle>
-                    <i class="df_h_com" ng-class="{'df_h_per':!orgimage,'df_o_per':orgimage}"></i>
-                    <!--<img src="components/header/img/user-icon-default1.png" alt="icon" class="hidden-xs" style="width: 37px;height: 37px;padding: 3px;background-color: #e6e9f2;margin-top: -4px;margin-left:20px;border-radius: 2px;"><span>{{user.metadata.name}} | {{checked||namespace}}&nbsp;&nbsp;</span>-->
-                    <span class="header_per_tit" title="{{projectname}}">{{projectname}}</span>
-                    <!--<i class="fa fa-chevron-circle-down" style="color: #e6e9f2;"></i>-->
-                    <b class="h_caret"></b>
-                </a>
-                <ul id="testjt" class="projectname" uib-dropdown-menu aria-labelledby="user-menu"
-                    style="max-height: 338px;border-top:0;border-right:0;overflow:auto;top:53px;right:0px;background: #f7fafc;border-radius:0;">
-                    <!--personal account-->
-                    <li ng-if="projects" class='personal'>
-                        <a href="javascript:;" ng-click='gotomy()' ui-sref='console.user({namespace:namespace})'>
-                            <!--<label>{{user.metadata.name}}</label>-->
-                            <i class="df_h_com df_person_active"></i>
-                            <span>用户中心</span>
-                        </a>
-                    </li>
+            <!--<ul class="dropdown-menu dropdownbw">-->
+            <!--<li ng-repeat="region in regions" ng-click="checkregion(region.region_describe,region.identification)" ><i class="df_h_com df_area_active"></i>{{region.region_describe}}</li>-->
+            <!--&lt;!&ndash;<li ng-repeat="relist in regionlist" ng-click="checkregion(relist.regionname)">{{relist.regionname}}</li>&ndash;&gt;-->
+            <!--</ul>-->
+            <!--&lt;!&ndash;</span><span style="background: #fff;padding:10px 13px; color: #5a6378;">&ndash;&gt;-->
+            <!--&lt;!&ndash;{{curregion}}&ndash;&gt;-->
+            <!--&lt;!&ndash;</span>&ndash;&gt;-->
+            <!--</div>-->
+            <!--</div>-->
 
-                    <!--<li>-->
-                    <!--&lt;!&ndash;<a href="javascript:;" ng-click="createOrg()"><i class="df_h_com df_q_active"></i>创建项目</a>&ndash;&gt;-->
-                    <!--</li>-->
-                    <!--<li ng-if="region === 'cn-north-2'" style="background-color:#dfe4ef; cursor: no-drop">-->
+            <!--<div class="header_area data_bg">-->
+            <!--<div class="dropdown" uib-dropdown>-->
+            <!--<a class="dropdown-toggle header_toggle area_block" uib-dropdown-toggle  href="#" class="">-->
+            <!--<i class="df_h_com df_h_area"></i>-->
+            <!--{{curregion}}-->
+            <!--<b class="h_caret"></b>-->
+            <!--</a>-->
 
-                    <!--<a style="cursor: default;color: azure " href="javascript:;"><i class="df_h_com df_q_active"></i>创建组织</a>-->
-                    <!--</li>-->
+            <!--<ul class="dropdown-menu dropdownbw" uib-dropdown-menu-->
+            <!--aria-labelledby="user-menu" style="border-top:0;">-->
+            <!--<li ng-repeat="region in regions" ng-click="checkregion(region.region_describe,region.identification)" ><i class="df_h_com df_area_active"></i>{{region.region_describe}}</li>-->
+            <!--&lt;!&ndash;<li ng-repeat="relist in regionlist" ng-click="checkregion(relist.regionname)">{{relist.regionname}}</li>&ndash;&gt;-->
+            <!--</ul>-->
+            <!--&lt;!&ndash;</span><span style="background: #fff;padding:10px 13px; color: #5a6378;">&ndash;&gt;-->
+            <!--&lt;!&ndash;{{curregion}}&ndash;&gt;-->
+            <!--&lt;!&ndash;</span>&ndash;&gt;-->
+            <!--</div>-->
+            <!--</div>-->
 
-                    <!--组织账户-->
-                    <!--<li class='personal' ng-repeat='org in userorgs'>-->
-                    <!--<a href="javascript:;" ng-click='goto($index)'><label>{{org.name}}</label>-->
-                    <!--<br/>-->
-                    <!--<span>切换到组织账户</span>-->
+
+            <!--<a class="icon25 icon25-guide" href="javascript:;" uib-tooltip="指南" tooltip-placement="bottom"-->
+            <!--</a>-->
+
+            <div class="header_per data_bg">
+                <div uib-dropdown on-toggle="toggled(open)">
+                    <a href="javascript:;" id="user-menu" class="per_block" uib-dropdown-toggle>
+                        <i class="df_h_com" ng-class="{'df_h_per':!orgimage,'df_o_per':orgimage}"></i>
+                        <!--<img src="components/header/img/user-icon-default1.png" alt="icon" class="hidden-xs" style="width: 37px;height: 37px;padding: 3px;background-color: #e6e9f2;margin-top: -4px;margin-left:20px;border-radius: 2px;"><span>{{user.metadata.name}} | {{checked||namespace}}&nbsp;&nbsp;</span>-->
+                        <span class="header_per_tit" title="{{projectname}}">{{projectname}}</span>
+                        <!--<i class="fa fa-chevron-circle-down" style="color: #e6e9f2;"></i>-->
+                        <b class="h_caret"></b>
+                    </a>
+                    <ul id="testjt" class="projectname" uib-dropdown-menu aria-labelledby="user-menu"
+                        style="max-height: 338px;border-top:0;border-right:0;overflow:auto;top:53px;right:0px;background: #f7fafc;border-radius:0;">
+                        <!--personal account-->
+                        <li ng-if="projects" class='personal'>
+                            <a href="javascript:;" ng-click='gotomy()' ui-sref='console.user({namespace:namespace})'>
+                                <!--<label>{{user.metadata.name}}</label>-->
+                                <i class="df_h_com df_person_active"></i>
+                                <span>用户中心</span>
+                            </a>
+                        </li>
+
+                        <!--<li>-->
+                        <!--&lt;!&ndash;<a href="javascript:;" ng-click="createOrg()"><i class="df_h_com df_q_active"></i>创建项目</a>&ndash;&gt;-->
+                        <!--</li>-->
+                        <!--<li ng-if="region === 'cn-north-2'" style="background-color:#dfe4ef; cursor: no-drop">-->
+
+                        <!--<a style="cursor: default;color: azure " href="javascript:;"><i class="df_h_com df_q_active"></i>创建组织</a>-->
+                        <!--</li>-->
+
+                        <!--组织账户-->
+                        <!--<li class='personal' ng-repeat='org in userorgs'>-->
+                        <!--<a href="javascript:;" ng-click='goto($index)'><label>{{org.name}}</label>-->
+                        <!--<br/>-->
+                        <!--<span>切换到组织账户</span>-->
+                        <!--</a>-->
+                        <!--</li>-->
+
+                        <!--<li ng-repeat="project in projects | orderBy: 'metadata.name'">-->
+                        <li ng-repeat="project in projects">
+                            <a href="javascript:;" ng-click="setNamespace(project.metadata.name)">
+                                <i class="df_h_com df_qed_active"></i>
+                                <span class="df_set_name"
+                                      title="{{project.metadata.annotations['openshift.io/display-name'] || project.metadata.name}}">
+                                {{project.metadata.annotations['openshift.io/display-name'] || project.metadata.name}}
+                            </span>
+                            </a>
+                        </li>
+
+                        <!--<li role="separator" class="divider"></li>-->
+                        <li ng-show="!nolohout" style="border-bottom: none;">
+                            <a href="javascript:;" ng-click="logout()">
+                                <i class="df_h_com df_quit"></i>退出登录</a>
+                        </li>
+                    </ul>
+                    <!--<ul ng-if="isorg" class="projectname" uib-dropdown-menu-->
+                    <!--aria-labelledby="user-menu" style="max-height: 320px;overflow:auto;min-height:166px;top:52px;right:0px;background: #f7fafc;">-->
+                    <!--&lt;!&ndash;personal account&ndash;&gt;-->
+                    <!--<li ng-if="projects" class='personal'>-->
+                    <!--<a href="javascript:;" ng-click='gotomy()' ui-sref='console.user'>-->
+                    <!--&lt;!&ndash;<label>{{user.metadata.name}}</label>&ndash;&gt;-->
+                    <!--<i class="df_h_com df_person_active"></i>-->
+                    <!--<span>个人账户</span>-->
                     <!--</a>-->
                     <!--</li>-->
 
-                    <!--<li ng-repeat="project in projects | orderBy: 'metadata.name'">-->
-                    <li ng-repeat="project in projects">
-                        <a href="javascript:;" ng-click="setNamespace(project.metadata.name)">
-                            <i class="df_h_com df_qed_active"></i>
-                            <span class="df_set_name"
-                                  title="{{project.metadata.annotations['openshift.io/display-name'] || project.metadata.name}}">
-                                {{project.metadata.annotations['openshift.io/display-name'] || project.metadata.name}}
-                            </span>
-                        </a>
-                    </li>
+                    <!--&lt;!&ndash;组织账户&ndash;&gt;-->
+                    <!--&lt;!&ndash;<li class='personal' ng-repeat='org in userorgs'>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<a href="javascript:;" ng-click='goto($index)' ui-sref='console.org({useorg:org.id})'><label>{{org.name}}</label>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<br/>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span ng-if="org.id == neworgid">查看组织账户</span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<span ng-if="org.id != neworgid">切换组织账户</span>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</a>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</li>&ndash;&gt;-->
+                    <!--&lt;!&ndash;切换project仅限go神使用,要问go神是谁?&ndash;&gt;-->
+                    <!--<li ng-if="region==='cn-north-1'">-->
+                    <!--<a href="javascript:;" ng-click="createOrg()"><i class="df_h_com df_q_active"></i>创建组织</a>-->
+                    <!--</li>-->
+                    <!--<li ng-if="region === 'cn-north-2'" style="background-color:#dfe4ef;">-->
+                    <!--<a href="javascript:;"><i class="df_h_com df_q_active"></i>创建组织</a>-->
+                    <!--</li>-->
+                    <!--<li ng-repeat="project in projects">-->
+                    <!--<a href="javascript:;" ng-click="setNamespace(project.metadata.name,project.metadata.annotations['openshift.io/display-name'])"><i class="df_h_com df_qed_active"></i><span title="{{project.metadata.annotations['openshift.io/display-name'] || project.metadata.name}}">{{project.metadata.annotations['openshift.io/display-name'] || project.metadata.name}}</span></a>-->
+                    <!--</li>-->
 
-                    <!--<li role="separator" class="divider"></li>-->
-                    <li ng-show="!nolohout" style="border-bottom: none;">
-                        <a href="javascript:;" ng-click="logout()">
-                            <i class="df_h_com df_quit"></i>退出登录</a>
-                    </li>
-                </ul>
-                <!--<ul ng-if="isorg" class="projectname" uib-dropdown-menu-->
-                <!--aria-labelledby="user-menu" style="max-height: 320px;overflow:auto;min-height:166px;top:52px;right:0px;background: #f7fafc;">-->
-                <!--&lt;!&ndash;personal account&ndash;&gt;-->
-                <!--<li ng-if="projects" class='personal'>-->
-                <!--<a href="javascript:;" ng-click='gotomy()' ui-sref='console.user'>-->
-                <!--&lt;!&ndash;<label>{{user.metadata.name}}</label>&ndash;&gt;-->
-                <!--<i class="df_h_com df_person_active"></i>-->
-                <!--<span>个人账户</span>-->
-                <!--</a>-->
-                <!--</li>-->
-
-                <!--&lt;!&ndash;组织账户&ndash;&gt;-->
-                <!--&lt;!&ndash;<li class='personal' ng-repeat='org in userorgs'>&ndash;&gt;-->
-                <!--&lt;!&ndash;<a href="javascript:;" ng-click='goto($index)' ui-sref='console.org({useorg:org.id})'><label>{{org.name}}</label>&ndash;&gt;-->
-                <!--&lt;!&ndash;<br/>&ndash;&gt;-->
-                <!--&lt;!&ndash;<span ng-if="org.id == neworgid">查看组织账户</span>&ndash;&gt;-->
-                <!--&lt;!&ndash;<span ng-if="org.id != neworgid">切换组织账户</span>&ndash;&gt;-->
-                <!--&lt;!&ndash;</a>&ndash;&gt;-->
-                <!--&lt;!&ndash;</li>&ndash;&gt;-->
-                <!--&lt;!&ndash;切换project仅限go神使用,要问go神是谁?&ndash;&gt;-->
-                <!--<li ng-if="region==='cn-north-1'">-->
-                <!--<a href="javascript:;" ng-click="createOrg()"><i class="df_h_com df_q_active"></i>创建组织</a>-->
-                <!--</li>-->
-                <!--<li ng-if="region === 'cn-north-2'" style="background-color:#dfe4ef;">-->
-                <!--<a href="javascript:;"><i class="df_h_com df_q_active"></i>创建组织</a>-->
-                <!--</li>-->
-                <!--<li ng-repeat="project in projects">-->
-                <!--<a href="javascript:;" ng-click="setNamespace(project.metadata.name,project.metadata.annotations['openshift.io/display-name'])"><i class="df_h_com df_qed_active"></i><span title="{{project.metadata.annotations['openshift.io/display-name'] || project.metadata.name}}">{{project.metadata.annotations['openshift.io/display-name'] || project.metadata.name}}</span></a>-->
-                <!--</li>-->
-
-                <!---->
-                <!--&lt;!&ndash;<li role="separator" class="divider"></li>&ndash;&gt;-->
-                <!--<li style="border-bottom: none;">-->
-                <!--<a href="javascript:;" ng-click="logout()"><i class="df_h_com df_quit"></i>退出登录</a>-->
-                <!--</li>-->
-                <!--</ul>-->
+                    <!---->
+                    <!--&lt;!&ndash;<li role="separator" class="divider"></li>&ndash;&gt;-->
+                    <!--<li style="border-bottom: none;">-->
+                    <!--<a href="javascript:;" ng-click="logout()"><i class="df_h_com df_quit"></i>退出登录</a>-->
+                    <!--</li>-->
+                    <!--</ul>-->
+                </div>
             </div>
         </div>
+
+        <div id="tenants-box" class="tenants-box" style="display: inline-block;width: 460px;height: 55px;">
+            <div class="header-name-list">
+                <a class="header-name-list-span" ui-sref="overview" ng-class="{'overSelect':!isActive}">
+                    概览
+                </a>
+                <a class="header-name-list-span" ui-sref="console.build({namespace:namespace})"
+                   ng-class="{'overSelect':isActive}">
+                    应用控制台
+                </a>
+            </div>
+            <div ng-class="{'tenants-up':tenantsBox}" style="padding:18px 0px 12px;float: right;">
+                <a href="javascript:;" ng-click="tenantsIsShow()">
+                    <span class="header_per_tit" style="width: 200px; text-align: center"><span style="color:#A2B0C4 ;">当前租户：</span>{{curTenantName}}</span>
+                    <b class="h_caret"></b>
+                </a>
+            </div>
+
+            <div style="background-color: #1F2D3D;" ng-show="tenantsBox">
+                <treecontrol class="tree-dark" tree-model="tenantsTree" on-selection="SelectedNode(node.name)">
+                    {{node.name}}
+                </treecontrol>
+            </div>
+
+
+        </div>
+        <!--<div style="float: right;">-->
+        <!--<div uib-dropdown on-toggle="toggled(open)">-->
+        <!--<a href="javascript:;" id="user-menu" class="per_block" uib-dropdown-toggle>-->
+        <!--<i class="df_h_com" ng-class="{'df_h_per':!orgimage,'df_o_per':orgimage}"></i>-->
+        <!--<span class="header_per_tit" title="新建部署"> 功能菜单</span>-->
+        <!--<b class="h_caret"></b>-->
+        <!--</a>-->
+        <!--<ul id="testjt" class="projectname" uib-dropdown-menu aria-labelledby="user-menu" style="max-height: 338px;border-top:0;border-right:0;overflow:auto;top:53px;right:0px;background: #f7fafc;border-radius:0;">-->
+        <!--&lt;!&ndash;<li class="quick_bs" ui-sref="console.quick_deploy({namespace:namespace})"><a>快速部署</a></li>&ndash;&gt;-->
+        <!--<li class="quick_bs" style="cursor: pointer;" ui-sref="console.import_from_file({namespace:namespace})">-->
+        <!--<a>导入 YAML / JSON</a>-->
+        <!--</li>-->
+        <!--</ul>-->
+        <!--</div>-->
+        <!--</div>-->
     </div>
 
-    <div id="tenants-box" class="tenants-box" style="display: inline-block;width: 460px;height: 55px;">
-        <div class="header-name-list">
-            <a class="header-name-list-span" ui-sref="overview" ng-class="{'overSelect':!isActive}">
-                概览
-            </a>
-            <a class="header-name-list-span" ui-sref="console.build({namespace:namespace})"
-               ng-class="{'overSelect':isActive}">
-                应用控制台
-            </a>
-        </div>
-        <div ng-class="{'tenants-up':tenantsBox}" style="padding:18px 0px 12px;float: right;">
-            <a href="javascript:;" ng-click="tenantsIsShow()">
-                <span class="header_per_tit" style="width: 200px; text-align: center"><span style="color:#A2B0C4 ;">当前租户：</span>{{curTenantName}}</span>
-                <b class="h_caret"></b>
-            </a>
-        </div>
-
-        <div style="background-color: #1F2D3D;" ng-show="tenantsBox">
-            <treecontrol class="tree-dark" tree-model="tenantsTree" on-selection="SelectedNode(node.name)">
-                {{node.name}}
-            </treecontrol>
-        </div>
-
-
-    </div>
-    <!--<div style="float: right;">-->
-    <!--<div uib-dropdown on-toggle="toggled(open)">-->
-    <!--<a href="javascript:;" id="user-menu" class="per_block" uib-dropdown-toggle>-->
-    <!--<i class="df_h_com" ng-class="{'df_h_per':!orgimage,'df_o_per':orgimage}"></i>-->
-    <!--<span class="header_per_tit" title="新建部署"> 功能菜单</span>-->
-    <!--<b class="h_caret"></b>-->
-    <!--</a>-->
-    <!--<ul id="testjt" class="projectname" uib-dropdown-menu aria-labelledby="user-menu" style="max-height: 338px;border-top:0;border-right:0;overflow:auto;top:53px;right:0px;background: #f7fafc;border-radius:0;">-->
-    <!--&lt;!&ndash;<li class="quick_bs" ui-sref="console.quick_deploy({namespace:namespace})"><a>快速部署</a></li>&ndash;&gt;-->
-    <!--<li class="quick_bs" style="cursor: pointer;" ui-sref="console.import_from_file({namespace:namespace})">-->
-    <!--<a>导入 YAML / JSON</a>-->
-    <!--</li>-->
-    <!--</ul>-->
-    <!--</div>-->
-    <!--</div>-->
 </div>
