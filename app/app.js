@@ -3024,41 +3024,42 @@ define([
                 };
                 $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
                     $rootScope.transfering = true;
-                    console.log('toState.name', toState.name);
+                    //console.log('toState.name', toState.name);
 
 
                 });
+
                 $rootScope.$on('$stateChangeError', function (event, toState, toParams, fromState, fromParams) {
                     $rootScope.transfering = true;
-                    console.log('toState.nameerr', toState.name);
+                    //console.log('toState.nameerr', toState.name);
                     if (!Cookie.get('newState')) {
                         Cookie.set('newState', toState.name, 10 * 365 * 24 * 3600 * 1000)
                         $rootScope.newState = toState.name
                     }
 
-                    console.log("Cookie.get('newState')err", Cookie.get('newState'))
+                    //console.log("Cookie.get('newState')err", Cookie.get('newState'))
 
                     if (Cookie.get('newState') !== toState.name) {
                         Cookie.set('newState', toState.name, 10 * 365 * 24 * 3600 * 1000)
                         $rootScope.newState = toState.name
                     }
-                    console.log("Cookie.get('newState')err", Cookie.get('newState'))
+                    //console.log("Cookie.get('newState')err", Cookie.get('newState'))
                 });
 
                 $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
                     //更新header标题
-                    if (!Cookie.get('newState')) {
-                        Cookie.set('newState', toState.name, 10 * 365 * 24 * 3600 * 1000)
-                        $rootScope.newState = toState.name
-                    }
-
-                    console.log("Cookie.get('newState')app", Cookie.get('newState'));
-                    console.log("$rootScope.newState", $rootScope.newState);
-
-                    if (Cookie.get('newState') !== toState.name) {
-                        Cookie.set('newState', toState.name, 10 * 365 * 24 * 3600 * 1000)
-                        $rootScope.newState = toState.name
-                    }
+                    //if (!Cookie.get('newState')) {
+                    //    Cookie.set('newState', toState.name, 10 * 365 * 24 * 3600 * 1000)
+                    //    $rootScope.newState = toState.name
+                    //}
+                    //
+                    //console.log("Cookie.get('newState')app", Cookie.get('newState'));
+                    //console.log("$rootScope.newState", $rootScope.newState);
+                    //
+                    //if (Cookie.get('newState') !== toState.name) {
+                    //    Cookie.set('newState', toState.name, 10 * 365 * 24 * 3600 * 1000)
+                    //    $rootScope.newState = toState.name
+                    //}
                     //console.log("Cookie.get('newState')app", Cookie.get('newState'));
                     //$rootScope.newState = toState.name
                     //Cookie.get('newState')!==
