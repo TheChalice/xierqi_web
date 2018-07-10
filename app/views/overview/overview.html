@@ -4,7 +4,7 @@
             <div class="overview-content-li">
                 <p>
                     <span class="df_tit overview-content-title">应用</span>
-                    <span class="overview-content-title-more">查看更多></span>
+                    <span class="overview-content-title-more" ui-sref="console.deployments({namespace:namespace})">查看更多></span>
                 </p>
                 <div style="margin-top: 20px;">
                     <table class="table table-hover table-default overview-table">
@@ -68,7 +68,7 @@
             <div class="overview-content-li" style="margin-left: 26px;">
                 <p>
                     <span class="df_tit overview-content-title">资源</span>
-                    <span class="overview-content-title-more">查看更多></span>
+                    <span class="overview-content-title-more" ui-sref="console.deployments({namespace:namespace})">查看更多></span>
                 </p>
                 <div style="margin-top: 20px;">
                     <table class="table table-hover table-default overview-table">
@@ -105,7 +105,7 @@
             </div>
             <div class="overview-content-li" style="margin-top: 32px;"><p>
                 <span class="df_tit overview-content-title">工具</span>
-                <span class="overview-content-title-more">查看更多></span>
+                <span class="overview-content-title-more" ui-sref="console.deployments({namespace:namespace})">查看更多></span>
             </p>
                 <div style="margin-top: 20px;">
                         <table class="table table-hover table-default overview-table">
@@ -134,14 +134,14 @@
                                     </div>
                                 </td>
                                 <td data-title="访问">
-                                    <div style="color: #47B2FB;cursor: pointer;">访问</div>
+                                    <div style="color: #47B2FB;cursor: pointer;" ng-click="accessInfor($index)">访问</div>
                                 </td>
                             </tr>
                         </table>
                 </div>
             <!--<div class="overview-content-li" style="margin-left: 26px;margin-top: 32px"><p>-->
                 <!--<span class="df_tit overview-content-title">主机</span>-->
-                <!--<span class="overview-content-title-more">查看更多></span>-->
+                <!--<span class="overview-content-title-more" ui-sref="console.deployments({namespace:namespace})">查看更多></span>-->
             <!--</p>-->
                 <!--<div style="margin-top: 20px;">-->
                     <!--<table class="table table-hover table-default overview-table">-->

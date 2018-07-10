@@ -30,7 +30,9 @@
     color: #47B2FB;
     letter-spacing: 0;
 }
-
+#overview .overview-content-title-more:hover{
+    cursor: pointer;
+}
 
 #overview .navbar-toggle {
     width: 100%;
