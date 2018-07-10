@@ -94,5 +94,6 @@ angular.module('console', [
                 $('#sidebar-right-fixed').css("marginLeft", 180)
             }
 
+
         }]);
 

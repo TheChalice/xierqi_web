@@ -4,9 +4,19 @@ angular.module('home.uploadimage', [{
             'views/upload_image/upload_image.css'
         ]
     }])
-    .controller('uploadimageCtrl', ['progressBox','GLOBAL', 'sessiontoken', 'Cookie', '$rootScope', 'User', 'Project', '$log', '$state', 'ImageStream', '$scope', 'Upload', 'toastr',
-        function (progressBox,GLOBAL, sessiontoken, Cookie, $rootScope, User, Project, $log, $state, ImageStream, $scope, Upload, toastr) {
-           var host = window.location.host;
+    .controller('uploadimageCtrl', ['$location','progressBox','GLOBAL', 'sessiontoken', 'Cookie', '$rootScope', 'User', 'Project', '$log', '$state', 'ImageStream', '$scope', 'Upload', 'toastr','$interval','uploadimageapi',
+        function ($location,progressBox,GLOBAL, sessiontoken, Cookie, $rootScope, User, Project, $log, $state, ImageStream, $scope, Upload, toastr,$interval,uploadimageapi) {
+           var host = '';
+            console.log('host', $location);
+
+            if ($location.$$port) {
+                host = $location.$$protocol+'://'+$location.$$host+":"+$location.$$port
+            }else {
+                host = $location.$$protocol+'://'+$location.$$host
+            }
+
+
+
             $scope.grid = {
                 tag: null,
                 isFile:false,
@@ -36,7 +46,7 @@ angular.module('home.uploadimage', [{
                 }
 
                 $scope.grid.clickbtn = 'inhand'
-                browserMD5File($scope.grid.file, function (err, md5) {
+                browserMD5File(file, function (err, md5) {
                     $scope.grid.clickbtn = 'dontclick';
                     $('#myModalBtn').click();
                     // progressBox.open($scope.grid.progress);
@@ -45,30 +55,30 @@ angular.module('home.uploadimage', [{
                     $scope.upload(file, $scope.grid.name, $scope.grid.tag, md5);
                 });
             };
-            $scope.changeupload = function ($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event) {
-                if($event.target.files[0]){
-                    $scope.grid.file = $event.target.files[0];
-                    $scope.grid.clickbtn='canclick';
-                    $scope.grid.isFile = true;
-                }else{
-                    $scope.grid.isFile = false;
-                }
-
-
-
-            }
-            $scope.changenewimage = function (idx) {
-
-                if($scope.myis){
-                    if (idx == 1) {
-                        $scope.grid.name = $scope.myis[0].metadata.name
-                        $scope.grid.tag = $scope.myis[0].status.tags[0].tag
-                    } else {
-                        $scope.grid.name = null
-                        $scope.grid.tag = null
-                    }
-                }
-            }
+            //$scope.changeupload = function ($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event) {
+            //    if($event.target.files[0]){
+            //        $scope.grid.file = $event.target.files[0];
+            //        $scope.grid.clickbtn='canclick';
+            //        $scope.grid.isFile = true;
+            //    }else{
+            //        $scope.grid.isFile = false;
+            //    }
+            //
+            //
+            //
+            //}
+            //$scope.changenewimage = function (idx) {
+            //
+            //    if($scope.myis){
+            //        if (idx == 1) {
+            //            $scope.grid.name = $scope.myis[0].metadata.name
+            //            $scope.grid.tag = $scope.myis[0].status.tags[0].tag
+            //        } else {
+            //            $scope.grid.name = null
+            //            $scope.grid.tag = null
+            //        }
+            //    }
+            //}
             // upload on file select or drop
             $scope.upload = function (file, image, tag, md5) {
                 //console.log('files', file);
@@ -87,7 +97,7 @@ angular.module('home.uploadimage', [{
                     resumeChunkSize: 1000000,
 
                 }).then(function (resp) {
-                    $scope.grid.clickbtn = 'canclick'
+                    //$scope.grid.clickbtn = 'canclick'
                     $scope.timer = $interval( function(){
                         uploadimageapi.get({namespace:$rootScope.namespace}, function (data) {
                             console.log('data', data.msg);

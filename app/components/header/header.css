@@ -1,5 +1,5 @@
 #header { /*jia 20170306*/
-    height: 55px;
+    height: 50px;
     background: #303643;
     width: 100%;
     min-width: 1200px;
@@ -10,14 +10,14 @@
     display: inline-block;
     width: 220px;
     list-style: none;
-    height: 55px;
+    height: 50px;
 }
 
 .header-name-list .header-name-list-span {
     text-align: center;
     width: 110px;
     float: left;
-    line-height: 55px;
+    line-height: 50px;
     font-family: MicrosoftYaHei;
     font-size: 14px;
     color: #FFFFFF;
@@ -218,10 +218,10 @@
     background-position: center;
 }
 /*20161128 jia ͷ���޸� begin*/
-#header #header-brand{padding-left:15px;padding-right:15px;border-right: 1px solid #2A303C;width:180px;}
+#header #header-brand{padding-left:15px;padding-right:15px;border-right: 1px solid #2A303C;width:180px;text-align:center;height:50px;line-height:50px;}
 
 #header #header-brand:hover{background-color:#303643;}
-#header #header-brand .header_logo{height:28px;padding:0;margin-top:12px;margin-left:20px;}
+#header #header-brand .header_logo{height:28px;padding:0;}
 .data_bg{-webkit-transition:  background 300ms;-ms-transition:  background 300ms;-o-transition:  background 300ms;-moz-transition:  background 300ms;transition:  background 300ms;}
 
 .df_news{padding-left:14px;padding-right:14px;border-left:1px solid #f6a540;display:block;float:left;padding-top:18px;padding-bottom:16px;}
@@ -304,9 +304,9 @@
 .tenants-box{
     float: right;
 }
-.tenants-box:hover{
+/* .tenants-box:hover{
     background: #242A39;
-}
+} */
 .tenants-box li{
     line-height:30px;
     color: #A2B0C4 ;
@@ -319,12 +319,12 @@
     color:#fff;
 }
 .tenants-box .tenants-up .h_caret{-webkit-transform:rotate(180deg);-moz-transform:rotate(180deg);transform:rotate(180deg);}
-.tenants-box .tree-dark li.tree-expanded i.tree-branch-head{;
+.tenants-box .tree-dark li.tree-expanded i.tree-branch-head{
     background-image:url("img/tenants-tree-img.png");
     position: absolute;
     top:12px;
     left:10px;
-    background-size: contain;!important;
+    background-size: contain!important;;
     -webkit-transform:rotate(0deg);-moz-transform:rotate(0deg);transform:rotate(0deg);
     padding:6px;-webkit-transition:all 0.3s;-moz-transition:all 0.3s;transition:all 0.3s
 }
@@ -334,7 +334,7 @@
     top:9px;
     left:10px;
     background-image:url("img/tenants-tree-img.png");
-    background-size: contain;!important;
+    background-size: contain!important;
     -webkit-transform:rotate(-90deg);-moz-transform:rotate(-90deg);transform:rotate(-90deg);
     padding:6px;-webkit-transition:all 0.3s;-moz-transition:all 0.3s;transition:all 0.3s
 
