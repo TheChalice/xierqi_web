@@ -241,7 +241,9 @@
 .df_h_news{background-image: url(img/news.png);}
 .df_h_area{background-image: url(img/area.png);}
 .df_area_active{background-image: url(img/area_active.png);margin-top:14px;}
-.df_h_per{background: url(img/person.png) no-repeat;margin-left:-1px;}
+/* .df_h_per{background-image: url(img/person.png);margin-left:-1px;} */
+.df_uex{width:25px;height:25px;text-align:center;background:#A2B0C4;line-height:25px;border-radius:50%;margin-top:-2px;}
+
 .df_person_active{background-image: url(img/person_active.png);margin-top:16px;margin-left:0px;}
 .df_q_active{background-image: url(img/q_active.png);margin-top:16px;}
 .df_qed_active{background-image: url(img/qed_active.png);margin-top:16px;}
@@ -266,24 +268,17 @@
 .header_per .open .per_block .h_caret{-webkit-transform:rotate(180deg);-moz-transform:rotate(180deg);transform:rotate(180deg);}
 
 
-.area_block{padding-top:18px;padding-bottom:16px;padding-left:14px;padding-right:14px;display:block;}
-
-
-.header_per{cursor:pointer;float:left;display:block;width:200px;position:relative;}
-.per_block{padding-top:18px;padding-bottom:16px;padding-left:20px;padding-right:23px;display:block;}
-.header_per_tit{font-size:14px;color:#fff;display:block;float:left;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;
-    overflow: hidden;width:100px;}
 
 .area_block{padding-top:18px;padding-bottom:16px;padding-left:14px;padding-right:14px;display:block;}
 
 
 .header_per{cursor:pointer;float:left;display:block;width:200px;position:relative;}
-.per_block{padding-top:18px;padding-bottom:12px;padding-left:20px;padding-right:23px;display:block;}
-.header_per_tit{font-size:14px;color:#fff;display:block;float:left;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;
+.per_block{padding-top:16px;padding-bottom:14px;padding-left:20px;padding-right:23px;display:block;}
+.header_per_tit{font-size:14px;color:#A2B0C4;display:block;float:left;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;
     overflow: hidden;width:100px;}
 .h_caret{display:inline-block;width:0;height:0;vertical-align:middle;
-    border-top:6px dashed;border-right:6px solid transparent;border-left:6px solid transparent;
-    color:#fff;margin-left:4px;-webkit-transition:all 0.3s;-moz-transition:all 0.3s;transition:all 0.3s}
+    border-top:6px dashed;border-right:6px solid transparent;border-left:6px solid transparent;margin-right:10px;
+    color:#A2B0C4;margin-left:4px;-webkit-transition:all 0.3s;-moz-transition:all 0.3s;transition:all 0.3s}
 
 .df_set_name{display:inline-block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;width:130px;}
 
@@ -316,7 +311,7 @@
     color: #47B2FB;
 }
 .tenants-box span:hover{
-    color:#fff;
+    /* color:#fff; */
 }
 .tenants-box .tenants-up .h_caret{-webkit-transform:rotate(180deg);-moz-transform:rotate(180deg);transform:rotate(180deg);}
 .tenants-box .tree-dark li.tree-expanded i.tree-branch-head{
@@ -343,3 +338,4 @@
 .tenants-box .tree-label {
     margin-left:15px;
 }
+.head_drop_set:hover{background:#242A39;}
