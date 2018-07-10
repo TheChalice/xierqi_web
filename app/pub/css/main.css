@@ -191,11 +191,17 @@ a {
     color: #393f4f;
     border-top: 1px solid #CCD5E0;font-weight:normal;
 }
+.overview-table > thead > tr > th,
+.overview-table > thead > tr > td{
+    padding: 0;
+    width: 120px;
+}
 .overview-table > tbody > tr > th,
 .overview-table > tbody > tr > td{
-    padding-left: 20px;
+    /*padding-left: 20px;*/
     /*padding-top: 8px;*/
     /*padding-bottom: 7px;*/
+    width: 120px;
     height: 33px;
     color: #5a6378;font-size:12px;
     text-align:left;
