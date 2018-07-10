@@ -3090,6 +3090,11 @@ define([
                             Cookie.set('namespace', $rootScope.namespace, 10 * 365 * 24 * 3600 * 1000);
                         }
                     }
+                    if (toState.name !== 'overview') {
+                        $rootScope.isActive=true
+                    }else {
+                        $rootScope.isActive=false
+                    }
 
                     if (toState.name !== "home.index") {
                         $('html').css('overflow', 'auto');

@@ -130,6 +130,11 @@ define([
                         }],
                         pro: ['$stateParams', 'Project', 'Cookie', '$rootScope', function ($stateParams, Project, Cookie, $rootScope) {
                             return Project.get().$promise;
+                        }],
+                        dclist: ['$stateParams', 'DeploymentConfig', 'Cookie', '$rootScope', function ($stateParams, DeploymentConfig, Cookie, $rootScope) {
+                                return DeploymentConfig.get({
+                                    namespace: Cookie.get('namespace')
+                                }).$promise;
                         }]
                     }
                 })

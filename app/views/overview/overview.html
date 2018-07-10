@@ -1,3 +1,206 @@
 <div id="overview">
     <c-header></c-header>
+        <div class="overview-content-ul">
+            <div class="overview-content-li">
+                <p>
+                    <span class="df_tit overview-content-title">应用</span>
+                    <span class="overview-content-title-more" ui-sref="console.deployments({namespace:namespace})">查看更多></span>
+                </p>
+                <div style="margin-top: 20px;">
+                    <table class="table table-hover table-default overview-table">
+                        <tr style="height: 28px;">
+                            <th class="table-name">名称</th>
+                            <th class="table-name">版本</th>
+                            <th class="table-name">状态</th>
+                            <th class="table-name">创建时间
+                                <span class="sort_btn">
+                                    <i class="uex-icon-to-back"></i>
+                                </span>
+                            </th>
+                            <th class="table-name">触发器</th>
+                        </tr>
+                        <tr ng-repeat="deployments in deploymentItem">
+                            <td data-title="名称" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
+                                <span>{{deployments.metadata.name}}</span>
+                            </td>
+                            <td data-title="版本" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">
+                                <span ng-if="deployments.status.latestVersion >0">{{deployments.status.latestVersion}}</span>
+                                <span ng-if="deployments.status.latestVersion ==0">No deployments</span>
+                            </td>
+                            <td data-title="状态" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">
+                                <div row class="status" ng-if="deployments.status.latestVersion>0">
+                                    <status-icon status="deployments.rc | deploymentStatus" disable-animation></status-icon>
+                                    <span flex>
+                                {{deployments.rc | deploymentStatus}}
+                                <span ng-if="(deployments.rc | deploymentStatus) == 'Active' || (deployments.rc | deploymentStatus) == 'Running'">,
+                                    <span ng-if="deployments.rc.spec.replicas !== deployments.rc.status.replicas">{{deployments.rc.status.replicas}}/</span> {{deployments.rc.spec.replicas}} replica
+                                    <span
+                                            ng-if="deployments.rc.spec.replicas != 1">s</span>
+                            </span>
+                            </span>
+                                </div>
+                            </td>
+                            <td data-title="创建时间" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">
+                        <span ng-if="deployments.status.latestVersion>0">
+                            {{deployments.metadata.creationTimestamp | timescon}}
+                        </span>
+                            </td>
+                            <td data-title="触发器" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;">
+                                <span ng-if="!deployments.status.details.causes.length && deployments.status.latestVersion>0">未知</span>
+                                <span ng-if="deployments.status.details.causes.length && deployments.status.latestVersion>0">
+                            <span ng-repeat="cause in deployments.status.details.causes">
+                                <span ng-switch="cause.type">
+                                    <span ng-switch-when="ImageChange">
+                                        <span ng-if="cause.imageTrigger.from">
+                                            <abbr title="{{cause.imageTrigger.from | imageObjectRef : null : true}}">镜像变化</abbr>
+                                        </span>
+                                    </span>
+                                    <span ng-switch-when="ConfigChange">配置变化</span>
+                                    <span ng-switch-default>{{cause.type}}</span>
+                                </span>
+                            </span>
+                        </span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="overview-content-li" style="margin-left: 26px;">
+                <p>
+                    <span class="df_tit overview-content-title">资源</span>
+                    <span class="overview-content-title-more" ui-sref="console.deployments({namespace:namespace})">查看更多></span>
+                </p>
+                <div style="margin-top: 20px;">
+                    <table class="table table-hover table-default overview-table">
+                        <tr style="height: 28px;">
+                            <th class="table-name">资源名称</th>
+                            <th class="table-name">资源类型</th>
+                            <th class="table-name">状态</th>
+                            <th class="table-name">限额</th>
+                            <th class="table-name">访问</th>
+                        </tr>
+                        <tr ng-repeat="service in serviceTenantList">
+                            <td data-title="名称" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
+                                <div>{{service.instanceName}}</div>
+                            </td>
+                            <td data-title="资源类型">
+                                <div>{{service.serviceType}}</div>
+                            </td>
+                            <td data-title="状态">
+                                <div row class="status">
+                                {{service.status}}
+                                </div>
+                            </td>
+                            <td data-title="限额">
+                                <div>
+                                    {{service.status}}
+                                </div>
+                            </td>
+                            <td data-title="访问">
+                                <div style="color: #47B2FB;cursor: pointer;" ng-click="accessInfor($index)">访问</div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="overview-content-li" style="margin-top: 32px;"><p>
+                <span class="df_tit overview-content-title">工具</span>
+                <span class="overview-content-title-more" ui-sref="console.deployments({namespace:namespace})">查看更多></span>
+            </p>
+                <div style="margin-top: 20px;">
+                        <table class="table table-hover table-default overview-table">
+                            <tr style="height: 28px;">
+                                <th class="table-name">资源名称</th>
+                                <th class="table-name">资源类型</th>
+                                <th class="table-name">状态</th>
+                                <th class="table-name">限额</th>
+                                <th class="table-name">访问</th>
+                            </tr>
+                            <tr ng-repeat="service in serviceTenantList">
+                                <td data-title="名称" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">
+                                    <div>{{service.instanceName}}</div>
+                                </td>
+                                <td data-title="资源类型">
+                                    <div>{{service.serviceType}}</div>
+                                </td>
+                                <td data-title="状态">
+                                    <div row class="status">
+                                        {{service.status}}
+                                    </div>
+                                </td>
+                                <td data-title="限额">
+                                    <div>
+                                        {{service.status}}
+                                    </div>
+                                </td>
+                                <td data-title="访问">
+                                    <div style="color: #47B2FB;cursor: pointer;" ng-click="accessInfor($index)">访问</div>
+                                </td>
+                            </tr>
+                        </table>
+                </div>
+            <!--<div class="overview-content-li" style="margin-left: 26px;margin-top: 32px"><p>-->
+                <!--<span class="df_tit overview-content-title">主机</span>-->
+                <!--<span class="overview-content-title-more" ui-sref="console.deployments({namespace:namespace})">查看更多></span>-->
+            <!--</p>-->
+                <!--<div style="margin-top: 20px;">-->
+                    <!--<table class="table table-hover table-default overview-table">-->
+                        <!--<tr style="height: 28px;">-->
+                            <!--<th class="table-name">名称</th>-->
+                            <!--<th class="table-name">版本</th>-->
+                            <!--<th class="table-name">状态</th>-->
+                            <!--<th class="table-name">创建时间-->
+                                <!--<span class="sort_btn">-->
+                                    <!--<i class="uex-icon-to-back"></i>-->
+                                <!--</span>-->
+                            <!--</th>-->
+                            <!--<th class="table-name">触发器</th>-->
+                        <!--</tr>-->
+                        <!--<tr ng-repeat="deployments in deploymentItem">-->
+                            <!--<td data-title="名称" style="white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;overflow: hidden;display:block">-->
+                                <!--<a class="href-orange">{{deployments.metadata.name}}</a>-->
+                            <!--</td>-->
+                            <!--<td data-title="版本">-->
+                                <!--<a ng-if="deployments.status.latestVersion >0" class="last_deploy">{{deployments.status.latestVersion}}</a>-->
+                                <!--<a ng-if="deployments.status.latestVersion ==0">No deployments</a>-->
+                            <!--</td>-->
+                            <!--<td data-title="状态">-->
+                                <!--<div row class="status" ng-if="deployments.status.latestVersion>0">-->
+                                    <!--<status-icon status="deployments.rc | deploymentStatus" disable-animation></status-icon>-->
+                                    <!--<span flex>-->
+                                <!--{{deployments.rc | deploymentStatus}}-->
+                                <!--<span ng-if="(deployments.rc | deploymentStatus) == 'Active' || (deployments.rc | deploymentStatus) == 'Running'">,-->
+                                    <!--<span ng-if="deployments.rc.spec.replicas !== deployments.rc.status.replicas">{{deployments.rc.status.replicas}}/</span> {{deployments.rc.spec.replicas}} replica-->
+                                    <!--<span-->
+                                            <!--ng-if="deployments.rc.spec.replicas != 1">s</span>-->
+                            <!--</span>-->
+                            <!--</span>-->
+                                <!--</div>-->
+                            <!--</td>-->
+                            <!--<td data-title="创建时间">-->
+                        <!--<span ng-if="deployments.status.latestVersion>0">-->
+                            <!--{{deployments.metadata.creationTimestamp | timescon}}-->
+                        <!--</span>-->
+                            <!--</td>-->
+                            <!--<td data-title="触发器">-->
+                                <!--<span ng-if="!deployments.status.details.causes.length && deployments.status.latestVersion>0">未知</span>-->
+                                <!--<span ng-if="deployments.status.details.causes.length && deployments.status.latestVersion>0">-->
+                            <!--<span ng-repeat="cause in deployments.status.details.causes">-->
+                                <!--<span ng-switch="cause.type">-->
+                                    <!--<span ng-switch-when="ImageChange">-->
+                                        <!--<span ng-if="cause.imageTrigger.from">-->
+                                            <!--<abbr title="{{cause.imageTrigger.from | imageObjectRef : null : true}}">镜像变化</abbr>-->
+                                        <!--</span>-->
+                                    <!--</span>-->
+                                    <!--<span ng-switch-when="ConfigChange">配置变化</span>-->
+                                    <!--<span ng-switch-default>{{cause.type}}</span>-->
+                                <!--</span>-->
+                            <!--</span>-->
+                        <!--</span>-->
+                            <!--</td>-->
+                        <!--</tr>-->
+                    <!--</table>-->
+                <!--</div></div>-->
+        </div>
+</div>
 </div>

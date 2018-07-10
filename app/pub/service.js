@@ -110,10 +110,10 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
             var ansi_up,
                 VERSION = "1.3.0",
 
-            // check for nodeJS
+                // check for nodeJS
                 hasModule = (typeof module !== 'undefined'),
 
-            // Normal and then Bright
+                // Normal and then Bright
                 ANSI_COLORS = [
                     [
                         {color: "0, 0, 0", 'class': "ansi-black"},
@@ -137,7 +137,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                     ]
                 ],
 
-            // 256 Colors Palette
+                // 256 Colors Palette
                 PALETTE_COLORS;
 
             function Ansi_Up() {
@@ -823,9 +823,9 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                     $scope.postobj.spec.images[0].from.name = $scope.postobj.spec.images[0].from.name.replace(/^\s+|\s+$/g, "");
                                     imagestreamimports.create({namespace: $rootScope.namespace}, $scope.postobj, function (images) {
                                         $scope.finding = false;
-                                        $scope.checked.postobj=$scope.postobj
-                                        $scope.checked.images=images
-                                        $scope.checked.ismy='ourtag'
+                                        $scope.checked.postobj = $scope.postobj
+                                        $scope.checked.images = images
+                                        $scope.checked.ismy = 'ourtag'
                                         //console.log('size', $scope.imagesize);
                                         if (images.status.images && images.status.images[0] && images.status.images[0].status) {
                                             if (images.status.images[0].status.code && images.status.images[0].status.code === 401) {
@@ -885,9 +885,9 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                     namespace: $rootScope.namespace,
                                     name: $scope.checked.image + '@' + tag.image
                                 }, function (tag) {
-                                    $scope.checked.mytag=tag
-                                    $scope.checked.istag=$scope.istag
-                                    $scope.checked.ismy='mytag'
+                                    $scope.checked.mytag = tag
+                                    $scope.checked.istag = $scope.istag
+                                    $scope.checked.ismy = 'mytag'
 
                                     $scope.mytag = tag
                                     var allsize = 0;
@@ -2095,6 +2095,31 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                 generateKeywords: generateKeywords
             };
         })
+        .service('AcessInformation', ['$uibModal', function ($uibModal) {
+            this.open = function (insname) {
+                // console.log('---====', i);
+                return $uibModal.open({
+                    templateUrl: 'pub/tpl/acessInfor.html',
+                    size: 'default',
+                    controller: ['$rootScope', '$scope', 'Cookie', 'AuthService', '$uibModalInstance', 'ServiceTenantInfor',
+                        function ($rootScope, $scope, Cookie, AuthService, $uibModalInstance, ServiceTenantInfor) {
+                            $scope.cancel = function () {
+                                $uibModalInstance.dismiss();
+                            };
+                            ServiceTenantInfor.get({
+                                tenantId: Cookie.get('tenantId'),
+                                instanceName: insname
+                            }, function (data) {
+                                console.log('ServiceTenantInfor', data);
+                            }, function (res) {
+                                //todo 错误处理
+                            });
+
+                        }
+                    ]
+                }).result;
+            }
+        }])
         .factory('AuthInterceptor', ['$rootScope', '$q', 'AUTH_EVENTS', 'Cookie', function ($rootScope, $q, AUTH_EVENTS, Cookie) {
             var CODE_MAPPING = {
                 401: AUTH_EVENTS.loginNeeded,
@@ -2315,4 +2340,5 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
             aceEditor.gotoLine(line);
         };
     }
+
 });
