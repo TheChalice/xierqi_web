@@ -7,12 +7,12 @@
              </div>
              <div class="col-md-10">
                  <input type="text" class="upload_input" ng-model="file.name" readonly="" ng-disabled="disabled" style="width: 272px;height: 26px;line-height: 26px;border-radius: 4px;background: #ececec;cursor: no-drop;padding: 0px 12px;">
-                 <a class="btn" style="border: 1px solid #47B2FB; color: #47B2FB;font-size: 12px;padding:3px 12px;margin-left: 5px;" ngf-select
+                 <a class="btn" style="border: 1px solid #47B2FB; color: #47B2FB;font-size: 12px;padding:3px 12px;margin-left: 5px;"
+                    ngf-select
                     ngf-reset-model-on-click="false"
                     ngf-pattern="'.tar'"
                     ngf-accept="'.tar'"
                     ng-model="file"
-                    ngf-change="changeupload($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event)"
                     ngf-model-options="{updateOn: 'change drop dropUrl paste', allowInvalid: false, debounce: 0}"
                     name="file"
                     ngf-max-total-size="10GB">选择tar文件
@@ -131,19 +131,23 @@
          <small ng-show="grid.imagenamenull" class="fa fa-info-circle err-tip">镜像名称不能为空
          </small>
          <div style="position: absolute;bottom:0px;border-top: 1px solid #E0E6ED;height: 70px;width: 100%;">
-             <a ng-show="grid.clickbtn==='canclick'" ng-click="submit(file)"
+             <a  ng-click="submit(file)"
                 class="btn" style="background: #47B2FB;padding: 0px 12px; height: 26px;line-height: 26px;font-size: 12px;margin-top:20px;">
                  <span style="color: white;">镜像上传</span>
              </a>
-             <a ng-show="grid.clickbtn==='inhand'" style="background-color: #ccc;cursor: no-drop;padding: 0px 12px; height: 26px;line-height: 26px;font-size: 12px;margin-top:20px;"
-                class="btn">
-                 <span style="color: white;">处理中...</span>
-             </a>
+             <!--<a ng-show="grid.clickbtn==='canclick'" ng-click="submit(file)"-->
+                <!--class="btn" style="background: #47B2FB;padding: 0px 12px; height: 26px;line-height: 26px;font-size: 12px;margin-top:20px;">-->
+                 <!--<span style="color: white;">镜像上传</span>-->
+             <!--</a>-->
+             <!--<a ng-show="grid.clickbtn==='inhand'" style="background-color: #ccc;cursor: no-drop;padding: 0px 12px; height: 26px;line-height: 26px;font-size: 12px;margin-top:20px;"-->
+                <!--class="btn">-->
+                 <!--<span style="color: white;">处理中...</span>-->
+             <!--</a>-->
 
-             <a ng-show="grid.clickbtn==='dontclick'" style="background-color: #ccc;cursor: no-drop;padding: 0px 12px; height: 26px;line-height: 26px;font-size: 12px;margin-top:20px;"
-                class="btn">
-                 <span style="color: white;">镜像上传</span>
-             </a>
+             <!--<a ng-show="grid.clickbtn==='dontclick'" style="background-color: #ccc;cursor: no-drop;padding: 0px 12px; height: 26px;line-height: 26px;font-size: 12px;margin-top:20px;"-->
+                <!--class="btn">-->
+                 <!--<span style="color: white;">镜像上传</span>-->
+             <!--</a>-->
          </div>
          <!--<div ng-show="grid.clickbtn">上传进度{{grid.progress}}%</div>-->
 
