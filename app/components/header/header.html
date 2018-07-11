@@ -2,12 +2,12 @@
     <div style="width: 100%; position: relative">
         <div class="menu-list" ng-mouseenter="colonyNavEnter()" ng-mouseleave="colonyNavLeave()">
             <div class="menu-list-content">
-                <div class="menu-list-column has-column-label" ng-repeat="colonylist in colonyList">
-                    <div class="menu-list-column-title" ng-if="colonylist.title">{{colonylist.title}}</div>
+                <div class="menu-list-column has-column-label" ng-repeat="colonylist in columns">
+                    <div class="menu-list-column-title" ng-click="colonyUrlGo(colonylist.url)">{{colonylist.label}}</div>
                     <div class="menu-list-item" ng-repeat="child in colonylist.children">
-                        <div class="menu-list-item-title">{{child.subtitle}}</div>
+                        <div class="menu-list-item-title" ng-click="colonyUrlGo(child.url)">{{child.label}}</div>
                         <ul>
-                            <li class="menu-list-item-child" ng-repeat="subchild in child.subChild" ng-click="colonyUrlGo(subchild.url)">{{subchild .urlName}}</li>
+                            <li class="menu-list-item-child" ng-repeat="subchild in child.children" ng-click="colonyUrlGo(subchild.url)">{{subchild .label}}</li>
                         </ul>
                     </div>
                 </div>
