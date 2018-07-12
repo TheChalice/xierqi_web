@@ -11,6 +11,235 @@ angular.module("console.header", [{
             templateUrl: 'components/header/header.html',
             controller: ['allTenants','GLOBAL', '$timeout', '$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
                 function (allTenants,GLOBAL, $timeout, $log, Project, account, regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
+                    var cmHost = 'http://sso-cm.southbase.prd.dataos.io/';
+                    var dacpHost = 'http://10.1.235.155:9089/dacp/';
+                    var aiopHost = 'http://10.1.253.98:9080/AIOP-WEB';
+                    var dfHost = 'http://sso-console.southbase.prd.dataos.io/';
+
+                    var columns = [
+                        {
+                            label: '运营管控',
+                            url: cmHost,
+                            children: [
+                                {
+                                    name: '',
+                                    label: '服务接入',
+                                    url: '',
+                                    children: [
+                                        { name: '', label: '服务管理', url: '', children: []},
+                                        { name: '', label: '服务接入', url: '', children: []},
+                                    ]
+                                },
+                                {
+                                    name: '',
+                                    label: '租户管理',
+                                    url: '',
+                                    children: [
+                                        { name: '', label: '租户列表', url: '', children: []},
+                                        { name: '', label: '服务实例', url: '', children: []},
+                                        { name: '', label: '服务资源', url: '', children: []},
+                                        { name: '', label: '工具申请', url: '', children: []},
+                                        { name: '', label: '资源监控', url: '', children: []},
+                                        { name: '', label: '成员授权 ', url: '', children: []},
+                                    ]
+                                },
+                            ]
+                        },
+                        {
+                            label: '数据资产',
+                            url: dacpHost+'/dataps/frame?menuActive=use-home',
+                            children: [
+                                {
+                                    name: '',
+                                    label: '数据开发',
+                                    url: '',
+                                    children: [
+                                        { name: '', label: '团队管理', url: '', children: []},
+                                        { name: '', label: '开发者中心', url: '', children: []},
+                                        { name: '', label: '数据开发', url: '', children: []},
+                                        { name: '', label: '脚本开发', url: '', children: []},
+                                        { name: '', label: '数据查询', url: '', children: []},
+                                    ]
+                                },
+                                {
+                                    name: '',
+                                    label: '任务调度',
+                                    url: '',
+                                    children: [
+                                        { name: '', label: '任务监控', url: '', children: []},
+                                        { name: '', label: '任务配置', url: '', children: []},
+                                        { name: '', label: '团队任务监控', url: '', children: []},
+                                        { name: '', label: '调度管理', url: '', children: []}
+                                    ]
+                                },
+                                {
+                                    name: '',
+                                    label: '数据规划',
+                                    url: '',
+                                    children: [
+                                        { name: '', label: '架构设计', url: '', children: []},
+                                        { name: '', label: '流程管理', url: '', children: []},
+                                        { name: '', label: '数据标准', url: '', children: []}
+                                    ]
+                                },
+                                {
+                                    name: '',
+                                    label: '数据治理',
+                                    url: '',
+                                    children: [
+                                        { name: '', label: '元数据管理', url: '', children: []},
+                                        { name: '', label: '生命周期', url: '', children: []},
+                                        { name: '', label: '数据质量', url: '', children: []}
+                                    ]
+                                },
+                                {
+                                    name: '',
+                                    label: '资产管理',
+                                    url: '',
+                                    children: [
+                                        { name: '', label: '数据资产地图', url: '', children: []},
+                                        { name: '', label: '数据资产目录', url: '', children: []},
+                                        { name: '', label: '数据资产盘点', url: '', children: []},
+                                        { name: '', label: '数据资产运维', url: '', children: []},
+                                        { name: '', label: '数据资产体检', url: '', children: []}
+                                    ]
+                                },
+                                {
+                                    name: '',
+                                    label: '数据安全',
+                                    url: '',
+                                    children: [
+                                        { name: '', label: '敏感数据管理', url: '', children: []},
+                                        { name: '', label: '数据安全策略', url: '', children: []},
+                                        { name: '', label: '数据安全审计', url: '', children: []}
+                                    ]
+                                },
+                                {
+                                    name: '',
+                                    label: '数据服务',
+                                    url: '',
+                                    children: [
+                                        { name: '', label: 'API管理', url: '', children: []},
+                                        { name: '', label: '服务授权', url: '', children: []},
+                                        { name: '', label: '服务调用监控', url: '', children: []},
+                                        { name: '', label: '数据开放目录', url: '', children: []}
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            label: '统一运维',
+                            url:  aiopHost+'/#g=1&p=home-zl&c=1',
+                            children: [
+                                {
+                                    name: '',
+                                    label: '平台监控',
+                                    url: '',
+                                    children: [
+                                        { name: '', label: '主机监控', url: '', children: []},
+                                        { name: '', label: '集群监控', url: '', children: []},
+                                        { name: '', label: '租户监控', url: '', children: []},
+                                        { name: '', label: '容器监控', url: '', children: []}
+                                    ]
+                                },
+                                {
+                                    name: '',
+                                    label: '服务监控',
+                                    url: '',
+                                    children: [
+                                        { name: '', label: '中间件监控', url: '', children: []},
+                                        { name: '', label: '租户服务监控', url: '', children: []},
+                                        { name: '', label: '采集服务监控', url: '', children: []}
+                                    ]
+                                },
+                                {
+                                    name: '',
+                                    label: '数据监控',
+                                    url: '',
+                                    children: [
+                                        { name: '', label: '作业调度监控', url: '', children: []},
+                                        { name: '', label: '接口调度监控', url: '', children: []},
+                                        { name: '', label: '数据资产视图', url: '', children: []}
+                                    ]
+                                },
+                                {
+                                    name: '',
+                                    label: '应用监控',
+                                    url: '',
+                                    children: [
+                                        { name: '', label: '应用报表监控', url: '', children: []},
+                                        { name: '', label: '应用系统监控', url: '', children: []}
+                                    ]
+                                },
+                                {
+                                    name: '',
+                                    label: '监控告警',
+                                    url: '',
+                                    children: [
+                                        { name: '', label: '实时告警', url: '', children: []},
+                                        { name: '', label: '告警配置', url: '', children: []}
+                                    ]
+                                },
+                                {
+                                    name: '',
+                                    label: '知识库管理',
+                                    url: '',
+                                    children: [
+                                        { name: '', label: '工单管理', url: '', children: []},
+                                        { name: '', label: '知识库', url: '', children: []}
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            label: '应用管理',
+                            url: dfHost,
+                            children: [
+                                {
+                                    name: '',
+                                    label: '应用管理',
+                                    url: '',
+                                    children: [
+                                        { name: '', label: '应用列表', url: '', children: []},
+                                        { name: '', label: '应用发布', url: '', children: []},
+                                        { name: '', label: '应用生命周期', url: '', children: []}
+                                    ]
+                                },
+                                {
+                                    name: '',
+                                    label: '代码构建',
+                                    url: '',
+                                    children: [
+                                        { name: '', label: '构建任务管理', url: '', children: []},
+                                        { name: '', label: 'VM管理', url: '', children: []},
+                                        { name: '', label: '推送镜像仓库', url: '', children: []}
+                                    ]
+                                },
+                                {
+                                    name: '',
+                                    label: '容器管理',
+                                    url: '',
+                                    children: [
+                                        { name: '', label: '容器状态', url: '', children: []},
+                                        { name: '', label: '存储卷管理', url: '', children: []},
+                                        { name: '', label: '域名管理', url: '', children: []},
+                                        { name: '', label: '镜像部署', url: '', children: []},
+                                        { name: '', label: '镜像仓库管理', url: '', children: []}
+                                    ]
+                                },
+                                {
+                                    name: '',
+                                    label: '自定义编排',
+                                    url: '',
+                                    children: [
+                                        { name: '', label: 'yaml编排', url: '', children: []},
+                                        { name: '', label: 'yaml文件管理', url: '', children: []},
+                                        { name: '', label: 'yaml执行', url: '', children: []}
+                                    ]
+                                }
+                            ]
+                        }
+                    ];
                     $scope.columns = columns;
                 /////////能力视图导航；
                 //     $scope.colonyList = [
