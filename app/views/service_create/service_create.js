@@ -477,6 +477,7 @@ angular.module('console.service.create', [
 
                     var posts = []
                     $scope.dc.spec.template.spec.containers[idx].strport = '';
+                    $scope.dc.spec.template.spec.containers[idx].firstStrPort = '';
 
                     for (var k in tag.image.dockerImageMetadata.Config.ExposedPorts) {
                         var pot = parseInt(k.split('/')[0])
@@ -502,7 +503,12 @@ angular.module('console.service.create', [
                         }
                         $scope.dc.spec.template.spec.containers[idx].strport += k.split('/')[0] + '/' + k.split('/')[1].toUpperCase() + ',';
                     }
-                    $scope.dc.spec.template.spec.containers[idx].strport = $scope.dc.spec.template.spec.containers[idx].strport.replace(/\,$/, "")
+                    $scope.dc.spec.template.spec.containers[idx].strport = $scope.dc.spec.template.spec.containers[idx].strport.replace(/\,$/, "");
+                    if($scope.dc.spec.template.spec.containers[idx].strport.split(',').length>1){
+                        $scope.dc.spec.template.spec.containers[idx].firstStrPort = $scope.dc.spec.template.spec.containers[idx].strport.split(',')[0];
+                    }else{
+                        $scope.dc.spec.template.spec.containers[idx].firstStrPort = $scope.dc.spec.template.spec.containers[idx].strport
+                    }
                     $scope.dc.spec.template.spec.containers[idx].ports = angular.copy(posts)
                 }
 
@@ -562,6 +568,7 @@ angular.module('console.service.create', [
                         var posts = []
                         //$scope.port = []
                         $scope.dc.spec.template.spec.containers[idx].strport = '';
+                        $scope.dc.spec.template.spec.containers[idx].firstStrPort = '';
 
                         for (var k in images.status.images[0].image.dockerImageMetadata.Config.ExposedPorts) {
                             var pot = parseInt(k.split('/')[0])
@@ -587,7 +594,12 @@ angular.module('console.service.create', [
                             }
                             $scope.dc.spec.template.spec.containers[idx].strport += k.split('/')[0] + '/' + k.split('/')[1].toUpperCase() + ',';
                         }
-                        $scope.dc.spec.template.spec.containers[idx].strport = $scope.dc.spec.template.spec.containers[idx].strport.replace(/\,$/, "")
+                        $scope.dc.spec.template.spec.containers[idx].strport = $scope.dc.spec.template.spec.containers[idx].strport.replace(/\,$/, "");
+                        if($scope.dc.spec.template.spec.containers[idx].strport.split(',').length>1){
+                            $scope.dc.spec.template.spec.containers[idx].firstStrPort = $scope.dc.spec.template.spec.containers[idx].strport.split(',')[0];
+                        }else{
+                            $scope.dc.spec.template.spec.containers[idx].firstStrPort = $scope.dc.spec.template.spec.containers[idx].strport
+                        }
                         $scope.dc.spec.template.spec.containers[idx].ports = angular.copy(posts)
 
                     }
