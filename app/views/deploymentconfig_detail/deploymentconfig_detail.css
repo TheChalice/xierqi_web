@@ -115,6 +115,8 @@ input::-webkit-input-placeholder{
     line-height: 34px;
     padding-left: 12px;
     overflow: hidden;
+    white-space:nowrap;/*设置不折行*/text-overflow:ellipsis;/*这就是省略号喽*/ 
+-o-text-overflow:ellipsis;/*兼容opera*/
 }
 
 .dropdown-menu-span:hover {
@@ -273,6 +275,7 @@ input::-webkit-input-placeholder{
     padding: 0px;
 }
 .build-detail .build_name{font-weight: normal;color:#000;}
+.df_my_error{color:#f00;}
 
 
 
