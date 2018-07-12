@@ -532,6 +532,7 @@ angular.module('console.service.create', [
             }
 
             $scope.ourimage = function (images, idx, postobj) {
+                console.log('images.status.images', images,postobj);
                 if (images.status.images && images.status.images[0] && images.status.images[0].status) {
                     if (images.status.images[0].status.code && images.status.images[0].status.code === 401) {
                         $scope.err.url.role = true;
