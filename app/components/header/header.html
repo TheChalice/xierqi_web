@@ -2,12 +2,12 @@
     <div style="width: 100%; position: relative">
         <div class="menu-list" ng-mouseenter="colonyNavEnter()" ng-mouseleave="colonyNavLeave()">
             <div class="menu-list-content">
-                <div class="menu-list-column has-column-label" ng-repeat="colonylist in colonyList">
-                    <div class="menu-list-column-title" ng-if="colonylist.title">{{colonylist.title}}</div>
+                <div class="menu-list-column has-column-label" ng-repeat="colonylist in columns">
+                    <div class="menu-list-column-title" ng-click="colonyUrlGo(colonylist.url)">{{colonylist.label}}</div>
                     <div class="menu-list-item" ng-repeat="child in colonylist.children">
-                        <div class="menu-list-item-title">{{child.subtitle}}</div>
+                        <div class="menu-list-item-title" ng-click="colonyUrlGo(child.url)">{{child.label}}</div>
                         <ul>
-                            <li class="menu-list-item-child" ng-repeat="subchild in child.subChild" ng-click="colonyUrlGo(subchild.url)">{{subchild .urlName}}</li>
+                            <li class="menu-list-item-child" ng-repeat="subchild in child.children" ng-click="colonyUrlGo(subchild.url)">{{subchild .label}}</li>
                         </ul>
                     </div>
                 </div>
@@ -310,14 +310,15 @@
             <div class="header_per data_bg">
                 <div uib-dropdown on-toggle="toggled(open)">
                     <a href="javascript:;" id="user-menu" class="per_block" uib-dropdown-toggle>
-                        <i class="df_h_com" ng-class="{'df_h_per':!orgimage,'df_o_per':orgimage}"></i>
+
+                        <i class="df_h_com uex-icon-user df_uex" ng-class="{'df_h_per':!orgimage,'df_o_per':orgimage}"></i>
                         <!--<img src="components/header/img/user-icon-default1.png" alt="icon" class="hidden-xs" style="width: 37px;height: 37px;padding: 3px;background-color: #e6e9f2;margin-top: -4px;margin-left:20px;border-radius: 2px;"><span>{{user.metadata.name}} | {{checked||namespace}}&nbsp;&nbsp;</span>-->
                         <span class="header_per_tit" title="{{projectname}}">{{projectname}}</span>
                         <!--<i class="fa fa-chevron-circle-down" style="color: #e6e9f2;"></i>-->
                         <b class="h_caret"></b>
                     </a>
                     <ul id="testjt" class="projectname" uib-dropdown-menu aria-labelledby="user-menu"
-                        style="max-height: 338px;border-top:0;border-right:0;overflow:auto;top:53px;right:0px;background: #f7fafc;border-radius:0;">
+                        style="max-height: 338px;border-top:0;border-right:0;overflow:auto;top:48px;right:0px;background: #f7fafc;border-radius:0;">
                         <!--personal account-->
                         <li ng-if="projects" class='personal'>
                             <a href="javascript:;" ng-click='gotomy()' ui-sref='console.user({namespace:namespace})'>
@@ -400,7 +401,7 @@
             </div>
         </div>
 
-        <div id="tenants-box" class="tenants-box" style="display: inline-block;width: 460px;height: 55px;">
+        <div id="tenants-box" class="tenants-box" style="display: inline-block;height: 55px;">
             <div class="header-name-list">
                 <a class="header-name-list-span" ui-sref="overview" ng-class="{'overSelect':!isActive}">
                     概览
@@ -410,14 +411,14 @@
                     应用控制台
                 </a>
             </div>
-            <div ng-class="{'tenants-up':tenantsBox}" style="padding:18px 0px 12px;float: right;">
+            <div ng-class="{'tenants-up':tenantsBox}" class="head_drop_set" style="padding:16px 0px 14px;width:240px;float: right;">
                 <a href="javascript:;" ng-click="tenantsIsShow()">
-                    <span class="header_per_tit" style="width: 200px; text-align: center"><span style="color:#A2B0C4 ;">当前租户：</span>{{curTenantName}}</span>
+                    <span class="header_per_tit" style="width: 180px; text-align:left;padding-left:26px;color:#fff;"><span style="color:#A2B0C4 ;">当前租户：</span>{{curTenantName}}</span>
                     <b class="h_caret"></b>
                 </a>
             </div>
 
-            <div style="background-color: #1F2D3D;" ng-show="tenantsBox">
+            <div style="background-color: #1F2D3D;width:240px;height:360px;overflow:auto;top:-5px;right:-220px;position:relative;padding-left:18px;" ng-show="tenantsBox">
                 <treecontrol class="tree-dark" tree-model="tenantsTree" on-selection="SelectedNode(node.name)">
                     {{node.name}}
                 </treecontrol>
