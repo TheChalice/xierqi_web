@@ -3,7 +3,7 @@
         <h3 class="df_tit">rc详情</h3>
     <div class="df_left_set">
     <div class="row matgin-txt">
-        <div class="col-md-2">Status:</div>
+        <div class="col-md-2 detail_w">Status:</div>
         <div class="col-md-10">
             <status-icon status="replicaSet | deploymentStatus"></status-icon>
             {{replicaSet | deploymentStatus}}
@@ -35,7 +35,7 @@
     
     </div>
     <div class="row matgin-txt">
-        <div class="col-md-2">Deployment Config:</div>
+        <div class="col-md-2 detail_w">Deployment Config:</div>
         <div class="col-md-10">
             <span class="jumpUrl"
                   ui-sref="console.deploymentconfig_detail({namespace:namespace,name:replicaSet.spec.selector.deploymentconfig})">
@@ -44,16 +44,16 @@
         </div>
     </div>
     <div class="row matgin-txt">
-        <div class="col-md-2">Status Reason:</div>
+        <div class="col-md-2 detail_w">Status Reason:</div>
         <div class="col-md-10">{{replicaSet.metadata.annotations['openshift.io/deployment.status-reason']}}</div>
     </div>
     <div class="row matgin-txt">
-        <div class="col-md-2">Selectors:</div>
+        <div class="col-md-2 detail_w">Selectors:</div>
         <div class="col-md-10"><span ng-repeat="(name , value) in replicaSet.spec.selector">{{name}}={{value}}&nbsp;&nbsp;<br/></span>
         </div>
     </div>
     <div class="row matgin-txt">
-        <div class="col-md-2">Replicas:</div>
+        <div class="col-md-2 detail_w">Replicas:</div>
         <div class="col-md-10">
             <div>
                 <span ng-show="isShow">{{replicaSet.spec.replicas}} current / {{replicaSet.status.replicas}} desired &nbsp;&nbsp;
@@ -87,46 +87,46 @@
         <!--</div>-->
         <div ng-if="volume.secret" class="df_left_set">
             <div class="row matgin-txt">
-                <div class="col-md-2">类型:</div>
+                <div class="col-md-2 detail_w">类型:</div>
                 <div class="col-md-10">secret<span class="small text-muted">(populated by a secret when the pod is created)</span>
                 </div>
             </div>
             <div class="row matgin-txt">
-                <div class="col-md-2">卷名称:</div>
+                <div class="col-md-2 detail_w">卷名称:</div>
                 <div class="col-md-10">{{volume.secret.secretName}}</div>
             </div>
             <div class="row matgin-txt" ng-repeat="item in volume.secret.items">
-                <div class="col-md-2">路径:</div>
+                <div class="col-md-2 detail_w">路径:</div>
                 <div class="col-md-10">{{item.key}}&#8201;&#8594;&#8201;{{item.path}}</div>
             </div>
         </div>
         <div ng-if="volume.configMap" class="df_left_set">
             <div class="row matgin-txt">
-                <div class="col-md-2">类型:</div>
+                <div class="col-md-2 detail_w">类型:</div>
                 <div class="col-md-10">config map<span class="small text-muted">((populated by a config map)</span>
                 </div>
             </div>
             <div class="row matgin-txt">
-                <div class="col-md-2">卷名称:</div>
+                <div class="col-md-2 detail_w">卷名称:</div>
                 <div class="col-md-10">{{volume.configMap.name}}</div>
             </div>
             <div class="row matgin-txt" ng-repeat="item in volume.configMap.items">
-                <div class="col-md-2">路径:</div>
+                <div class="col-md-2 detail_w">路径:</div>
                 <div class="col-md-10">{{item.key}}&#8201;&#8594;&#8201;{{item.path}}</div>
             </div>
         </div>
         <div ng-if="volume.persistentVolumeClaim" class="df_left_set">
             <div class="row matgin-txt">
-                <div class="col-md-2">类型:</div>
+                <div class="col-md-2 detail_w">类型:</div>
                 <div class="col-md-10">persistent volume claim<span class="small text-muted">(reference to a persistent volume claim)</span>
                 </div>
             </div>
             <div class="row matgin-txt">
-                <div class="col-md-2">卷名称:</div>
+                <div class="col-md-2 detail_w">卷名称:</div>
                 <div class="col-md-10">{{volume.persistentVolumeClaim.claimName}}</div>
             </div>
             <div class="row matgin-txt">
-                <div class="col-md-2">模式:</div>
+                <div class="col-md-2 detail_w">模式:</div>
                 <div class="col-md-10" ng-if="volume.persistentVolumeClaim.readOnly">read-only</div>
                 <div class="col-md-10" ng-if="!volume.persistentVolumeClaim.readOnly">read-write</div>
             </div>
