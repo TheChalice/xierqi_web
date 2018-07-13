@@ -273,6 +273,29 @@
                             TLS is not enabled.
                         </p>
                     </div>
+                    <div class="" style="margin-bottom: 10px;" ng-if="route.metadata.labels">
+                        <h4 class="df_tit">Labels</h4>
+                        <div class="row" style="margin:0px;padding:0px">
+                            <div class="col-sm-8" style="margin-left:12px;padding:0px">
+                                <div class="row" style="margin-bottom: 4px;">
+                                    <div class="col-sm-1 route-width-one route-font">名称</div>
+                                    <div class="col-sm-1 route-width-one route-font">值</div>
+                                </div>
+                                <div class="row" style="margin-left: 0;margin-bottom: 10px" ng-repeat="(key, val) in route.metadata.labels">
+                                    <div class="col-sm-5 route-width-one" style="width: 170px;padding-left: 0;">
+                                        <input class="form-control route-line-height"  ng-disabled="true" style="width: 170px;"
+                                               ng-model="key"></div>
+                                    <!--<div class="col-sm-1"></div>-->
+                                    <div class="col-sm-5 route-width-one">
+                                        <input class="form-control route-line-height" ng-disabled="true" style="width: 170px;margin-left: 15px"
+
+                                               ng-model="val"></div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
             <!-- /col-* -->
@@ -294,4 +317,17 @@
     #route_detail .middle-content dd{margin-left:0px;color: #475669;font-size:12px;}
     .middle-content dt{margin-bottom:4px;text-align:left;color: #475669;font-size:12px;font-weight:normal;}
     .route_block{font-size:12px;color:#333;}
+    .route-width-one {
+        width: 200px;
+        font-size: 12px;
+    }
+    .route-font {
+        font-family: MicrosoftYaHei;
+        font-size: 12px;
+        color: #475669;
+        letter-spacing: 0;
+    }
+    .route-line-height {
+        height: 26px;
+    }
 </style>

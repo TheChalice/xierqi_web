@@ -405,6 +405,7 @@
                                 <i class="fa fa-plus-circle fa-lg uex-icon-add" style="cursor:pointer;margin-top:9px;"></i>
                                 <span style="color: #47B2FB;font-size:12px;">增加配置卷</span>
                             </div>
+                            
                         </div>
                         <div>
                             <span>存储卷</span>
@@ -442,6 +443,7 @@
                                     </a>
                                 </div>
                             </div>
+                            <p class="df_my_error" ng-if="dferror">请选择卷名称并填写挂载路径</p>
                             <div class="" ng-click="addconvol(outerIndex,'persistentVolumeClaim','claimName')" style="cursor: pointer;margin-top: 3px; font-size: 14px;margin-bottom: 15px;">
                                 <i class="fa fa-plus-circle fa-lg uex-icon-add" style="cursor:pointer;margin-top:9px;"></i>
                                 <span style="color: #47B2FB;font-size:12px;">增加存储卷</span>

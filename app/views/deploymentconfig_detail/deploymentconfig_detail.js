@@ -613,14 +613,20 @@ angular.module('console.deploymentconfig_detail', [
                         }
                         $scope.dc.spec.template.spec.containers[outerIndex].env.push({ name: '', value: '' });
                     }
-
+            
                     $scope.addconvol = function (outerIndex, obj, key) {
+                        console.log(outerIndex, obj, key)
 
+                        // if($scope.dc.spec.template.spec.containers[outerIndex].volments.secret.secretName)
+
+                        // secret.secretName
+                        // console.log("jia---0",$scope.dc.spec.template.spec.containers[outerIndex].volments)
+                        // console.log("jia---1",$scope.dc.spec.template.spec.containers[outerIndex].volments[obj])
                         if ($scope.dc.spec.template.spec.containers[outerIndex].volments) {
                             var canadd = true
                             angular.forEach($scope.dc.spec.template.spec.containers[outerIndex].volments[obj], function (vol, i) {
                                 if (vol[key] && vol.mountPath) {
-
+                                   
                                 } else {
                                     canadd = false
                                 }
