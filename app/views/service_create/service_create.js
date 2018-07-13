@@ -532,7 +532,7 @@ angular.module('console.service.create', [
             }
 
             $scope.ourimage = function (images, idx, postobj) {
-                console.log('images.status.images', images,postobj);
+                //console.log('images.status.images', images,postobj);
                 if (images.status.images && images.status.images[0] && images.status.images[0].status) {
                     if (images.status.images[0].status.code && images.status.images[0].status.code === 401) {
                         $scope.err.url.role = true;
@@ -558,7 +558,7 @@ angular.module('console.service.create', [
                 $scope.tag = name.split(':').length > 1 ? name.split(':')[1] : 'latest';
                 $scope.dc.spec.template.spec.containers[idx].image = postobj.spec.images[0].from.name;
                 //$scope.dc.spec.template.spec.containers[0].ports
-
+                $scope.dc.spec.template.spec.containers[idx].annotate.ismy = false
                 if (images.status.images[0] && images.status.images[0].image.dockerImageMetadata) {
                     //imagetimemessage(images.status.images[0].image.dockerImageMetadata.Created)
                     $scope.dc.spec.template.spec.containers[idx].creattime = images.status.images[0].image.dockerImageMetadata.Created
@@ -1370,7 +1370,6 @@ angular.module('console.service.create', [
                 $scope.changePort = function (idx, port) {
                     $scope.portsArr[idx].protocol = port;
                 }
-
                 $scope.delprot = function (idx) {
                     $scope.portsArr.splice(idx, 1);
                 };
