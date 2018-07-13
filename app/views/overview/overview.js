@@ -8,8 +8,8 @@ angular.module('overview', [
         ]
     }
 ])
-    .controller('overviewCtrl', ['$scope', '$rootScope', 'Cookie', 'user', 'dclist', 'ServiceTenant', 'ToolTenant', 'AcessInformation',
-        function ($scope, $rootScope, Cookie, user, dclist, ServiceTenant, ToolTenant, AcessInformation) {
+    .controller('overviewCtrl', ['$scope', '$rootScope', 'Cookie', 'user', 'dclist', 'ServiceTenant', 'ToolTenant', 'AcessInformation','Sort',
+        function ($scope, $rootScope, Cookie, user, dclist, ServiceTenant, ToolTenant, AcessInformation,Sort) {
             if ($rootScope.user) {
                 console.log('$rootScope.user', $rootScope.user.metadata.name);
             } else {
@@ -35,6 +35,7 @@ angular.module('overview', [
             // console.log('dclist', dclist);
             $scope.deploymentItem = dclist.items;
             $scope.deploymentItem = $scope.deploymentItem.slice(0, 5);
+            $scope.deploymentItem = Sort.sort($scope.deploymentItem, -1)
             ServiceTenant.query({tenantId: Cookie.get('namespace')}, function (data) {
                 console.log('ServiceTenant', data);
             }, function (res) {

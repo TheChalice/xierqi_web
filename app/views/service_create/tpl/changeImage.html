@@ -104,7 +104,7 @@
                      <p style="margin:0px;height: 24px;line-height: 24px;font-weight: bold;margin-top:5px;">{{dc.spec.template.spec.containers[0].name}}</p>
                      <div class="row">
                          <div class="col-md-6" style="padding:0px;"><span class="service-label-color">创建时间：</span>{{dc.spec.template.spec.containers[0].creattime|timescon3}}</div>
-                         <div class="col-md-6" style="padding:0px;"><span class="service-label-color">导出端口：</span>{{dc.spec.template.spec.containers[0].strport || "-"}}</div>
+                         <div class="col-md-6" style="padding:0px;"><span class="service-label-color">导出端口：</span>{{dc.spec.template.spec.containers[0].firstStrPort || "-"}}</div>
                      </div>
                 </div>
             </div>

@@ -31,7 +31,7 @@
                         <p style="line-height: 24px;height: 24px;margin-bottom: 0px;margin-top: 7px;">{{container.name}} <span ng-click="selectImage(outerIndex)" style="float: right;color: #47B2FB;cursor:pointer;margin-right: 10px;">更改镜像</span></p>
                         <div style="padding-bottom: 8px;">
                             <span class="service-label-color">创建时间:</span>{{container.creattime|dateRelative}}
-                            <span class="service-label-color" style="margin-left:15px;">导出端口:</span>{{container.strport || "-"}}
+                            <span class="service-label-color" style="margin-left:15px;">导出端口:</span>{{container.firstStrPort || "-"}}
                         </div>
                     </div>
 
