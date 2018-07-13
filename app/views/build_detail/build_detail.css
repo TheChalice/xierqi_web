@@ -89,7 +89,7 @@
     white-space:nowrap;overflow: hidden;text-overflow: ellipsis;
 }
 #build-detail .well-log_overflow{
-    overflow: auto;
+    /* overflow: auto; */
 }
 #build-detail .sa_color{
     color: #475669;
