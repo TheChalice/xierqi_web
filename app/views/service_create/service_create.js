@@ -558,7 +558,10 @@ angular.module('console.service.create', [
                 $scope.tag = name.split(':').length > 1 ? name.split(':')[1] : 'latest';
                 $scope.dc.spec.template.spec.containers[idx].image = postobj.spec.images[0].from.name;
                 //$scope.dc.spec.template.spec.containers[0].ports
-                $scope.dc.spec.template.spec.containers[idx].annotate.ismy = false
+                if ($scope.dc.spec.template.spec.containers[idx].annotate) {
+                    $scope.dc.spec.template.spec.containers[idx].annotate.ismy = false
+                }
+
                 if (images.status.images[0] && images.status.images[0].image.dockerImageMetadata) {
                     //imagetimemessage(images.status.images[0].image.dockerImageMetadata.Created)
                     $scope.dc.spec.template.spec.containers[idx].creattime = images.status.images[0].image.dockerImageMetadata.Created
