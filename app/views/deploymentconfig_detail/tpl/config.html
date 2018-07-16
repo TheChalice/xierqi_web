@@ -65,7 +65,11 @@
                 <!-- placeholder="{{dc.spec.replicas}}" -->
                 <div class="podlist" ng-show="quota.rubustCheck">
                     <p class="tit_num">Pod最大数量</p>
-                    <input class="podnum" ng-model="horiz.spec.maxReplicas" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" value="{{dc.spec.replicas}}" type="text" placeholder="数字必须为正整数" style="">
+                    <input class="podnum" ng-model="horiz.spec.maxReplicas" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                           onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                           value="{{dc.spec.replicas}}"
+                           type="text"
+                           placeholder="数字必须为正整数" style="">
 
                 </div>
                 <div class="podlist" ng-show="quota.rubustCheck">
