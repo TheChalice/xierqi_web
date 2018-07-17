@@ -67,6 +67,7 @@ angular.module('console.service.create', [
             $scope.portsArr = [];
             $scope.goBack = function () {
                 $scope.advancedConfig = false;
+                $scope.containersImagesIsNull = false;
             }
             $scope.jump = function () {
 
@@ -447,7 +448,18 @@ angular.module('console.service.create', [
                     //dcname(n)
                 }
             })
+            $scope.$watch('dc.spec.template.spec.containers[0].image', function (n, o) {
+                if (n == o) {
+                    return
+                }
+                if (!n) {
+                    
+                   $scope.containersImagesIsNull = true
+                }else{
+                    $scope.containersImagesIsNull = false
+                }
 
+            })
             $scope.$watch('institution.display', function (n, o) {
                 if (n == o) {
                     return
@@ -762,7 +774,7 @@ angular.module('console.service.create', [
                 $scope.horiz.spec.minReplicas = dc.spec.replicas;
 
             }
-
+            $scope.containersImagesIsNull = false;
             function invrepname() {
                 var norep = true
                 var r = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
@@ -775,6 +787,7 @@ angular.module('console.service.create', [
                     return false
                 }
                 if (!$scope.dc.spec.template.spec.containers[0].image) {
+                    $scope.containersImagesIsNull = true;
                     return false
                 }
                 angular.forEach($scope.servelist.items, function (dc, i) {
