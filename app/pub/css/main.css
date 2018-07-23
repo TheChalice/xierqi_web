@@ -2211,3 +2211,5 @@ td  a:hover, a:focus{
 .blank_create_tit{float:left;display:block;margin-top:40px;}
 .blank_name{text-align:left;}
 .blank_name .blank_tit{font-size:12px;color:#475669;}
+
+.rzslider .rz-ticks.rz-ticks-values-under .rz-tick-value{top:18px!important;}
