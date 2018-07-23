@@ -10,10 +10,12 @@
 }
 #build_list .table_topMargin{
     margin-top: 20px;
-    margin-left:20px;margin-right:20px;
+    margin-left:20px;margin-right:20px;overflow:hidden!important;
 }
 #build_list .table-buju{
     table-layout:fixed;
+    overflow-x:hidden;
+    overflow-y:auto;
 }
 #build_list .table_headOperating{
     text-align:left;text-indent:8px;

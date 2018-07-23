@@ -2085,7 +2085,7 @@ td  a:hover, a:focus{
     color:#57B5F2;font-size:14px;
 }
 
-.df_search{position:absolute;z-index:999;top:50%;right:10px;font-size:12px;margin-top:-7px;color: #A2B0C4;}
+.df_search{position:absolute;z-index:999;right:10px;font-size:12px;margin-top:-7px;color: #A2B0C4;}
 .searchbar:hover .df_search{color:#47B2FB;}
 
 .sort_btn{padding-left:2px;width: 30px;font-size: 14px;display: inline-block;height: 20px;}
