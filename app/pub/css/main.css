@@ -783,8 +783,9 @@ a {
 
 /*自定义下拉框*/
 .dropdown-select {
-    display: inline-block;
-    vertical-align: bottom;
+    /* display: inline-block;
+    vertical-align: bottom; */
+    float:left;
 }
 .dropdown-select > .btn:hover{border:1px solid #47B2FB}
 
