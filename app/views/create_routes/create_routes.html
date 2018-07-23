@@ -263,12 +263,12 @@
                         </div>
                         <div ng-show="routeDetail.spec.alternateBackends.length>1"
                              ng-repeat="serveList in routeDetail.spec.alternateBackends" ng-init="outerIndex = $index">
-                            <div class="row">
-                                <div class="row" style="padding-left: 150px;margin-left:-15px!important;margin-right:-15px!important;">
+                            <div class="">
+                                <div class="" style="padding-left: 135px;margin-left:-15px!important;margin-right:-15px!important;clear:both;">
                                     <div class="col-sm-1 route-width-one route-font">指向服务</div>
                                     <div class="col-sm-1 route-width-one route-font">权重</div>
                                 </div>
-                                <div class="row" style="padding-left: 150px;margin-left:-15px!important;margin-right:-15px!important;">
+                                <div class="" style="padding-left: 135px;margin-left:-15px!important;margin-right:-15px!important;clear:both;">
                                     <div class="col-sm-5 route-width-one">
                                         <div class="dropdown dropdown-select" style="display: block;">
                                             <button class="btn dropdown-toggle" data-toggle="dropdown">
@@ -296,7 +296,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="font-size: 12px;margin:10px 0;padding-left: 135px;">
+                        <div style="font-size: 12px;margin:10px 0;padding-left: 135px;clear:both;">
                         <span href="javascript:;" ng-click="addService()" style="cursor: pointer">
                             <i class="uex-icon-add" style="color: #47B2FB"></i>
                             <span style="color: #47B2FB;">添加</span>
