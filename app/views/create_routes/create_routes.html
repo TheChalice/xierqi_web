@@ -146,7 +146,7 @@
                         <div ng-show="HostNameListName=='平台子域名'" class="route-width-five">
                             <div class="rout-hostName">
                                 <input class="form-control route-line-height rout-hostName-ipt" ng-model="routeDetail.spec.host"
-                                       ng-disabled="routeName" placeholder="www.example.com"
+                                       ng-disabled="routeName" placeholder="域名前缀"
                                        ng-keyup="checkName(routeDetail.spec.host,'host')">
                                 <div class="disabled-bg creat-bg">{{GlbUrl}}</div>
                             </div>
@@ -154,7 +154,7 @@
                         <div ng-show="HostNameListName=='自定义域名'" style="width: 318px;">
                             <div class="rout-hostName">
                                 <input style="float:right;border: none" class="form-control route-line-height form-control-ipt"
-                                       ng-model="routeDetail.spec.host" ng-disabled="routeName" placeholder="域名前缀"
+                                       ng-model="routeDetail.spec.host" ng-disabled="routeName" placeholder="www.example.com"
                                        ng-keyup="checkName(routeDetail.spec.host,'host')">
                             </div>
                         </div>
