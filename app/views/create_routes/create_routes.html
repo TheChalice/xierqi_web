@@ -170,10 +170,10 @@
                          ng-if="!routeDetail.spec.alternateBackends || routeDetail.spec.alternateBackends.length<=1">
                         <div class="col-sm-1 require" style="width: 120px;">指向服务</div>
                         <div class="col-sm-11 route-width-one">
-                            <div class="dropdown dropdown-select" style="display: block;">
-                                <button class="btn dropdown-toggle" data-toggle="dropdown">
+                            <div class="dropdown dropdown-select" style="display: block;width: 320px;">
+                                <button class="btn dropdown-toggle route-list-btn" data-toggle="dropdown">
                                     <span>{{routeDetail.spec.to.name}}</span>
-                                    <span class="uex-icon-caret-bottom"></span>
+                                    <span class="uex-icon-caret-bottom uex-btn-bottom"></span>
                                 </button>
                                 <ul class="dropdown-menu" style="max-height: 156px;margin-top: -1px;overflow-y: auto">
                                     <li ng-repeat="list in serviceList">
@@ -188,10 +188,10 @@
                         <div class="row">
                             <div class="col-sm-1" style="width: 120px;">指向服务</div>
                             <div class="col-sm-5 route-width-one">
-                                <div class="dropdown dropdown-select" style="display: block;">
-                                    <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                <div class="dropdown dropdown-select" style="display: block;width: 170px;">
+                                    <button class="btn dropdown-toggle route-list-btn" data-toggle="dropdown">
                                         <span>{{routeDetail.spec.to.name}}</span>
-                                        <span class="uex-icon-caret-bottom"></span>
+                                        <span class="uex-icon-caret-bottom uex-btn-bottom"></span>
                                     </button>
                                     <ul class="dropdown-menu" style="max-height: 156px;margin-top: -1px;overflow-y: auto">
                                         <li ng-repeat="list in serviceList">
@@ -245,10 +245,10 @@
                                 <div class="col-sm-1" style="width: 120px;"></div>
                                 <div class="col-sm-11 route-width-one">
                                     <span>指向服务</span>
-                                    <div class="dropdown dropdown-select" style="display: block;">
-                                        <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                    <div class="dropdown dropdown-select" style="display: block;width: 320px;">
+                                        <button class="btn dropdown-toggle route-list-btn" data-toggle="dropdown">
                                             <span>{{routeDetail.spec.alternateBackends[0].name}}</span>
-                                            <span class="uex-icon-caret-bottom"></span>
+                                            <span class="uex-icon-caret-bottom uex-btn-bottom"></span>
                                         </button>
                                         <ul class="dropdown-menu"
                                             style="max-height: 156px;margin-top: -1px;overflow-y: auto">
@@ -270,10 +270,10 @@
                                 </div>
                                 <div class="" style="padding-left: 135px;margin-left:-15px!important;margin-right:-15px!important;clear:both;">
                                     <div class="col-sm-5 route-width-one">
-                                        <div class="dropdown dropdown-select" style="display: block;">
-                                            <button class="btn dropdown-toggle" data-toggle="dropdown">
+                                        <div class="dropdown dropdown-select" style="display: block;width: 170px;">
+                                            <button class="btn dropdown-toggle route-list-btn" data-toggle="dropdown">
                                                 <span>{{serveList.name}}</span>
-                                                <span class="uex-icon-caret-bottom"></span>
+                                                <span class="uex-icon-caret-bottom uex-btn-bottom"></span>
                                             </button>
                                             <ul class="dropdown-menu"
                                                 style="max-height: 156px;margin-top: -1px;overflow-y: auto">
