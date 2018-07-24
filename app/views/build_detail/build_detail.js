@@ -34,6 +34,7 @@ angular.module('console.build.detail', [
                 }, function (data) {
                     //$log.info('data', data.spec.triggers[1].generic.secret);
                     //$log.info('labsecrect is',data.spec.source.sourceSecret.name);
+                    $scope.myurl = data.spec.source.git.uri
                     $scope.data = data;
                     var host = $scope.data.spec.source.git.uri;
                     if (data.metadata.annotations.user) {
@@ -58,7 +59,7 @@ angular.module('console.build.detail', [
                         //console.log(parser.href);
                         //console.log(parser.hostname);
                         //console.log(parser.pathname);
-                        //data.spec.source.git.uri = 'https://' + parser.hostname + parser.pathname
+                        $scope.myurl = 'https://' + parser.hostname + parser.pathname
                     }
 
                     if (data.spec && data.spec.completionDeadlineSeconds) {
