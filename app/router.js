@@ -151,6 +151,7 @@ define([
                         }]
                     }
                 })
+
                 .state('console.uploadimage', {
                     url: '/:namespace/uploadimage',
                     templateUrl: 'views/upload_image/upload_image.html',
