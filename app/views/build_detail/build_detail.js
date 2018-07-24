@@ -58,7 +58,7 @@ angular.module('console.build.detail', [
                         //console.log(parser.href);
                         //console.log(parser.hostname);
                         //console.log(parser.pathname);
-                        data.spec.source.git.uri = 'https://' + parser.hostname + parser.pathname
+                        //data.spec.source.git.uri = 'https://' + parser.hostname + parser.pathname
                     }
 
                     if (data.spec && data.spec.completionDeadlineSeconds) {
@@ -238,28 +238,29 @@ angular.module('console.build.detail', [
                 if ($scope.grid.pedding) {
                     return
                 }
-                BuildConfig.put({
-                    namespace: $rootScope.namespace,
-                    name: name,
-                    region: $rootScope.region
-                }, $scope.data, function (res) {
-                    $log.info("put success", res);
-                    $scope.data = res;
-                    $scope.deadlineMinutesEnable = false;
-                    $scope.grid.checkedLocal = $scope.grid.checked;
-                    if (!checked) {
-                        createWebhook();
-                    } else {
-                        deleteWebhook();
-                    }
+                if (!checked) {
+                    createWebhook();
+                } else {
+                    deleteWebhook();
+                }
+                //BuildConfig.put({
+                //    namespace: $rootScope.namespace,
+                //    name: name,
+                //    region: $rootScope.region
+                //}, $scope.data, function (res) {
+                //    $log.info("put success", res);
+                //    $scope.data = res;
+                //    $scope.deadlineMinutesEnable = false;
+                //    $scope.grid.checkedLocal = $scope.grid.checked;
+
 
                     //deleteWebhook();
                     //createWebhook();
 
-                }, function (res) {
-                    //todo 错误处理
-                    $log.info("put failed");
-                });
+                //}, function (res) {
+                //    //todo 错误处理
+                //    $log.info("put failed");
+                //});
             };
 
             $scope.save = function () {
