@@ -7,6 +7,6 @@ slider span.pointer{cursor:pointer;width:20px;height:20px;top:-8px;background-co
 slider span.pointer:after{content:'';background-color:#808080;width:8px;height:8px;position:absolute;top:6px;left:6px;-webkit-border-radius:1em/1em;border-radius:1em/1em}
 slider span.pointer:hover:after{background-color:#000}
 slider span.pointer.active:after{background-color:#f00}
-slider span.bubble{cursor:default;top:-22px;padding:1px 3px 1px 3px;font-size:.7em;font-family:sans-serif;}
+slider span.bubble{cursor:default;top:-22px;padding:1px 3px 1px 3px;font-size:.7em;}
 slider span.bubble.selection{top:15px}
 slider span.bubble.limit{color:#808080}
