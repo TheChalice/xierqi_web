@@ -494,9 +494,7 @@ angular.module('console.deploymentconfig_detail', [
                         } else {
                             $scope.dc.spec.template.spec.containers[idx].volment = true;
                             $scope.dc.spec.template.spec.containers[idx].volments = {
-                                secret: [{ secretName: '', mountPath: '' }],
-                                configMap: [{ name: '', mountPath: '' }],
-                                persistentVolumeClaim: [{ claimName: '', mountPath: '' }]
+
                             }
                         }
                     }
