@@ -35,7 +35,8 @@
     "angular-toastr": "^2.1.1",
     "ng-jsyaml": "^0.0.2",
     "js-yaml": "^3.10.0",
-    "angular-ui-ace": "^0.2.3"
+    "angular-ui-ace": "^0.2.3",
+    "angular-pageslide-directive": "^2.2.0"
   },
   "description": "angular seed",
   "main": "index.js",

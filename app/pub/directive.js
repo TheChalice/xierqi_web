@@ -515,5 +515,23 @@ define(['angular'], function (angular) {
                 }
             };
         })
-
+        .directive('monitoringSlide', function () {
+            return {
+                restrict: 'E',
+                templateUrl: 'pub/tpl/monitoringSlide.html',
+                scope: false,
+                controller: ['$scope', function ($scope) {
+                    $scope.editEvent = function () {
+                        console.log('aaa');
+                        $scope.open = true
+                    };
+                    $scope.closesider = function () {
+                        console.log('111');
+                    };
+                    $scope.closepageside = function () {
+                        $scope.open = false
+                    }
+                }]
+            };
+        })
 });

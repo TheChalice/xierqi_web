@@ -3102,7 +3102,9 @@ define([
                     { name: '流水线', img: 'icon25 icon25-repository', url: 'console.pipeline@'+namespace, stateUrl: null, children: [] },
                     { name: '容器应用', img: 'icon25 icon25-deployment', url: null, stateUrl: null, children: $rootScope.app },
                     //{ name: '后端服务', img: 'icon25 icon25-service', url: 'console.backing_service@'+namespace, stateUrl: null, children: [] },
-                    { name: '资源管理', img: 'icon25 icon25-resource', url: null, stateUrl: null, children: $rootScope.resources }
+                    { name: '资源管理', img: 'icon25 icon25-resource', url: null, stateUrl: null, children: $rootScope.resources },
+                    { name: '监视', img: 'icon25 icon25-repository', url: 'console.monitoring@'+namespace, stateUrl: null, children: [] }
+
                 ];
                 if (toState && toState.name) {
                     $rootScope.console.state = toState.name;

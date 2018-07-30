@@ -1,0 +1,83 @@
+<div id="monitoring">
+    <!--左侧边栏-->
+    <!--<pageslide ps-open='open'-->
+    <!--ps-body-class="bodyclass"-->
+    <!--ps-click-outside="false"-->
+    <!--ps-key-listener="true"-->
+    <!--ps-zindex="10"-->
+    <!--ps-size="390px"-->
+    <!--onclose="closesider">-->
+    <!--<monitoring-slide></monitoring-slide>-->
+    <!--</pageslide>-->
+    <!--内容区-->
+    <div class="monitoring-container">
+        <h1 style="font-size: 24px;border-bottom: 1px solid #ddd;padding-bottom: 10px;">
+            <span style="font-size: 24px;">Monitoring</span>
+            <span style="font-size: 14px;color: #0088ce;float: right;">
+            <span style="padding-left: 10px;cursor: pointer;" ng-click="editEvent()">Events</span>
+        </span>
+        </h1>
+        <h4 style="border-bottom: 1px solid #ddd;padding-bottom: 40px;">
+            <div class="dropdown dropdown-select" style="display: block;width: 100px;float: left">
+                <button class="dropdown-toggle list-btn" data-toggle="dropdown" style="width: 100px;font-size: 14px;">
+                    <span style="float: left;color: gray;">All</span>
+                    <span class="uex-icon-caret-bottom uex-btn-bottom"></span>
+                </button>
+                <ul class="dropdown-menu" style="max-height: 156px;width: 100px;margin-top: -1px;overflow-y: auto">
+                    <li ng-repeat="name in allList">
+                        <a href="javascript:;" style="padding-left:12px;">{{name}}</a>
+                    </li>
+                </ul>
+            </div>
+            <div style="color: #ddd;float: left;margin-left: 10px;">|</div>
+            <div style="float: left;margin-left: 10px;font-size: 14px;">
+                <input type="text" class="list-btn" placeholder="Filter by name">
+            </div>
+            <div style="float: right;font-size: 14px;">
+                <input type="checkbox">Hide older resources
+            </div>
+        </h4>
+        <div class="row">
+            <div class="col-md-12">
+                <!--<div ng-if="kindSelector.selected.kind === 'All' || kindSelector.selected.kind === 'Pods'"-->
+                <h2>Pods</h2>
+                <div class="list-view-pf">
+                    <div class="list-group-item list-group-item-expandable">
+                        <div class="list-view-pf-checkbox ">
+                            <button class="sr-only">Expand</button>
+                            <span class="uex-icon-arrow-right"></span>
+                        </div>
+                        <div class="list-view-pf-main-info">
+                            <div class="list-view-pf-body">
+                                <div class="list-view-pf-description">
+                                    <div class="list-group-item-heading">
+                                        <small>created <span am-time-ago="pod.metadata.creationTimestamp"
+                                                             title="July 27, 2018 10:02 AM">an hour ago</span>
+                                        </small>
+                                    </div>
+                                    <div class="list-group-item-text ng-binding">
+                                        Running
+                                    </div>
+                                </div>
+                                <div class="list-view-pf-additional-info">
+                                    <div class="list-view-pf-additional-info-item">
+                                        <span class="uex-icon-document"></span>
+                                        <image-names pod-template="pod" pods="[pod]" class="ng-isolate-scope">
+                                            <span class="ng-binding">demo/node-demo</span>
+                                            <span>
+                                                <span class="hash ng-binding">e4835e7</span>
+                                            </span>
+                                        </image-names>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+</div>
+
