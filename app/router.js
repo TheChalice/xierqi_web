@@ -967,6 +967,32 @@ define([
                         }]
                     }
                 })
+                //Monitoring
+                .state('console.monitoring', {
+                    url: '/:namespace/monitoring',
+                    templateUrl: 'views/monitoring/monitoring.html',
+                    controller: 'MonitoringCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/monitoring/monitoring.js')
+                        }],
+                        monitoringPods: ['Pod', 'Cookie',
+                            function (Pod, Cookie) {
+                                return Pod.get({namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ],
+                        monitoringReplicas: ['ReplicationController', 'Cookie',
+                            function (ReplicationController, Cookie) {
+                                return ReplicationController.get({namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ],
+                        monitoringReplicaSet: ['ReplicaSet', 'Cookie',
+                            function (ReplicaSet, Cookie) {
+                                return ReplicaSet.get({namespace: Cookie.get('namespace')}).$promise
+                            }
+                        ]
+                    }
+                })
                 //pods详情
 
                 //新建routes
