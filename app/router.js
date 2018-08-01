@@ -993,6 +993,16 @@ define([
                         ]
                     }
                 })
+                .state('console.events', {
+                    url: '/:namespace/events',
+                    templateUrl: 'views/events/events.html',
+                    controller: 'EventsCtrl',
+                    resolve: {
+                        dep: ['$ocLazyLoad', function ($ocLazyLoad) {
+                            return $ocLazyLoad.load('views/events/events.js')
+                        }]
+                    }
+                })
                 //pods详情
 
                 //新建routes

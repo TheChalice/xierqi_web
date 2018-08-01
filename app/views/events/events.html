@@ -1,0 +1,61 @@
+<h4>Events</h4>
+<div style="margin-bottom: 20px;">
+    <form role="form" class="search-pf">
+        <div class="form-group filter-controls has-clear">
+            <div class="search-pf-input-group">
+                <label for="events-filter" class="sr-only">Filter</label>
+                <input type="search"
+                       placeholder="Filter by keyword"
+                       class="form-control ipt"
+                       id="events-filter"
+                       ng-model="grid.text"
+                       ng-keyup=search()
+                       ng-click="search()">
+            </div>
+        </div>
+    </form>
+    <div class="vertical-divider"></div>
+    <div class="sort-group">
+        <span class="sort-label">Sort by</span>
+        <div class="dropdown dropdown-select">
+            <button class="dropdown-toggle list-btn" data-toggle="dropdown">
+                <span style="float: left;color: gray;">{{chooseTitle||'选择'}}</span>
+                <span class="uex-icon-caret-bottom uex-btn-bottom"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li ng-repeat="name in sortConfig.fields" ng-click="chooseMenu($index)">
+                    <a href="javascript:;" style="padding-left:12px;">{{name.title}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="margin:0;border: solid 1px #e6e9f2;">
+    <div class="col-md-12" style="background-color: #e6e9f2; height: 40px;padding-top: 10px;">
+        <div class="col-md-1">Time</div>
+        <div class="col-md-1">Name</div>
+        <div class="col-md-2">Kind</div>
+        <div class="col-md-2">Reason</div>
+        <div class="col-md-6">Message</div>
+    </div>
+    <!--<div class="col-md-12" ng-repeat="event in items | orderBy : 'mysort'"-->
+    <div class="col-md-12" ng-repeat="event in items"
+         style="padding-top: 10px;padding-bottom:10px;">
+        <div class="col-md-1">{{event.metadata.creationTimestamp | timescon2}}</div>
+        <div class="col-md-1">
+            <a class="href-orange"
+               ui-sref="console.constantly_persistentVolume({namespace:namespace,name: event.involvedObject.name})">
+                {{event.involvedObject.name}}
+            </a>
+        </div>
+        <div class="col-md-2">{{event.involvedObject.kind}}</div>
+        <div class="col-md-2">{{event.reason}}</div>
+        <div class="col-md-6">{{event.message}}</div>
+    </div>
+    <div class="col-md-12" style="text-align: center;background: #fff;position:relative" ng-if="items.length===0">
+        <span style="font-size:14px;color:#5a6378;margin-left:10px;vertical-align:middle;"> {{grid.noItems}}</span>
+    </div>
+</div>
+
+

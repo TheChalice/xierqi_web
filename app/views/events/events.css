@@ -1,0 +1,74 @@
+.form-group {
+    margin-bottom: 0;
+}
+
+.search-pf {
+    float: left;
+    margin-bottom: 10px;
+    width: 300px;
+}
+
+.sort-label {
+    float: left;
+    margin-right: 4px;
+    vertical-align: -1px;
+}
+
+.sort-controls {
+    display: inline-block;
+}
+
+.pficon {
+    vertical-align: middle;
+}
+
+.uex-icon-cross:before {
+    content: '\e911';
+}
+
+.vertical-divider {
+    float: left;
+    border-left: 1px solid #bbbbbb;
+    display: inline-block;
+    height: 32px;
+    margin: 0 7px;
+    vertical-align: middle;
+    width: 1px;
+}
+
+.sort-group {
+    line-height: 34px;
+    display: inline-block;
+}
+
+.sort-label {
+    margin-right: 4px;
+    vertical-align: -1px;
+}
+
+.sort-controls {
+    display: inline-block;
+}
+
+.list-btn {
+    width: 100px;
+    height: 34px;
+    /*border:1px solid #CCD5E0;*/
+    border-radius: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    position: relative;
+    background: #f1f1f1;
+}
+
+.uex-icon-caret-bottom:before {
+    content: '\e906';
+}
+
+.uex-btn-bottom {
+    height: 14px;
+    font-size: 14px;
+    position: absolute;
+    right: 5px;
+}
