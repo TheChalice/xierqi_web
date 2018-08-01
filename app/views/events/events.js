@@ -14,7 +14,7 @@ angular.module('console.events', [
                 noItems: '暂无信息'
             };
             Event.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (res) {
-                console.log('0123', res);
+                // console.log('0123', res);
                 $scope.items = res.items;
                 $scope.eventsCopy = angular.copy($scope.items);
                 watchEvents(res.metadata.resourceVersion);
