@@ -24,24 +24,19 @@ angular.module('console.events', [
             $scope.sortConfig = {
                 fields: [{
                     id: 'lastTimestamp',
-                    title: 'Time',
-                    sortType: 'alpha'
+                    title: 'Time'
                 }, {
                     id: 'name',
-                    title: 'Name',
-                    sortType: 'alpha'
+                    title: 'Name'
                 }, {
                     id: 'type',
-                    title: 'Kind',
-                    sortType: 'alpha'
+                    title: 'Kind'
                 }, {
                     id: 'reason',
-                    title: 'Reason',
-                    sortType: 'alpha'
+                    title: 'Reason'
                 }, {
                     id: 'message',
-                    title: 'Message',
-                    sortType: 'alpha'
+                    title: 'Message'
                 }]
             };
 
@@ -77,7 +72,7 @@ angular.module('console.events', [
             };
             //input search
             $scope.search = function () {
-                console.log('12121');
+                // console.log('12121');
                 if (!$scope.grid.text) {
                     $scope.items = angular.copy($scope.eventsCopy);
                     return;
