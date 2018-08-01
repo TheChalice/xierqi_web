@@ -673,16 +673,29 @@ angular.module("console.header", [{
                         //todo 错误处理
                     });
                     /////点击其他地方隐藏。。。比较落后
-                    document.addEventListener("click",function(){
-                        if($scope.tenantsBox){
-                            $scope.tenantsBox = false;
-                            $scope.$apply();
-                        }
-                    });
+                    // document.addEventListener("click",function(){
+                    //     alert(1);
+                    //     if($scope.tenantsBox){
+                    //         $scope.tenantsBox = false;
+                    //         $scope.$apply();
+                    //     }
+                    // });
                     document.getElementById("tenants-box").addEventListener("click",function(event){
                         event=event||window.event;
                         event.stopPropagation();
                     });
+                    //点击其他地方隐藏
+                    $(document.body).click(function(e){
+                        var width = $('.head_drop_set').width();
+                        var windowWidth = $(window).width();
+                        if(e.clientY>52||(e.clientY<52&&e.clientX<windowWidth-width)){
+                            $scope.tenantsBox = false;
+                            $scope.$apply();
+                        }
+                    })
+
+
+                    
                     $scope.tenantsBox = false;
                     $scope.tenantsIsShow = function(){
                         if($scope.tenantsBox){
