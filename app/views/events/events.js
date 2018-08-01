@@ -7,8 +7,8 @@ angular.module('console.events', [
         ]
     }
 ])
-    .controller('EventsCtrl', ['$rootScope', '$scope', 'Event', 'Ws',
-        function ($rootScope, $scope, Event, Ws) {
+    .controller('EventsCtrl', ['$rootScope', '$scope', 'Event', 'Ws', '$log',
+        function ($rootScope, $scope, Event, Ws, $log) {
             $scope.grid = {
                 text: '',
                 noItems: '暂无信息'
@@ -106,10 +106,10 @@ angular.module('console.events', [
                     var data = JSON.parse(res.data);
                     updateEvents(data);
                 }, function () {
-                    // $log.info("webSocket start");
+                    $log.info("webSocket start");
                 }, function () {
-                    // $log.info("webSocket stop");
-                    var key = Ws.key($rootScope.namespace, 'pods', '');
+                    $log.info("webSocket stop");
+                    var key = Ws.key($rootScope.namespace, 'events', '');
                     if (!$rootScope.watches[key] || $rootScope.watches[key].shouldClose) {
                         return;
                     }
