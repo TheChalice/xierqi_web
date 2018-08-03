@@ -6,46 +6,82 @@
 angular.module('console.monitoring', [
     {
         files: [
-            'views/monitoring/monitoring.css'
+            'views/monitoring/monitoring.css',
+            'components/public_metrics/public_metrics.js',
         ]
     }
 ])
-    .controller('MonitoringCtrl', ['$rootScope', '$scope', 'monitoringPods', 'monitoringReplicas', 'monitoringReplicaSet', 'BuildConfig', 'Build', 'Sort',
-        function ($rootScope, $scope, monitoringPods, monitoringReplicas, monitoringReplicaSet, BuildConfig, Build, Sort) {
+    .controller('MonitoringCtrl', ['$rootScope', '$scope', 'monitoringPods', 'monitoringReplicas', 'monitoringReplicaSet', 'BuildConfig', 'Build', 'Sort','monitoringStatefulSets','monitoringBuild',
+        function ($rootScope, $scope, monitoringPods, monitoringReplicas, monitoringReplicaSet, BuildConfig, Build, Sort,monitoringStatefulSets,monitoringBuild) {
             $scope.bodyclass = true;
             $scope.allList = ['All', 'Pods', 'Deployments', 'Builds', 'Stateful Sets'];
+            $scope.curListName = "All"
             $scope.podsItem = angular.copy(monitoringPods);
             $scope.replicasItem = angular.copy(monitoringReplicas);
             $scope.replicaSetItem = angular.copy(monitoringReplicaSet);
-            // console.log('111',$scope.podsItem);
-            // console.log('121',$scope.replicasItem);
-            // console.log('113',$scope.replicaSetItem);
-            var loadBuildConfigs = function() {
-                BuildConfig.get({namespace: $rootScope.namespace,region:$rootScope.region}, function(data){
-                    data.items = Sort.sort(data.items, -1); //排序
-                    $scope.data = data.items;
-                    loadBuilds($scope.data);
-                }, function(res) {
-                    //todo 错误处理
-                });
+            $scope.statefulSets =  angular.copy(monitoringStatefulSets);
+            $scope.builds= angular.copy(monitoringBuild);
+            /////////
+            $scope.checkCurListName = function(name){
+                console.log('name',name);
+                $scope.curListName = name;
+                console.log('$scope.curListName',$scope.curListName);
+            }
+            ////rc监控
+            var getOwnerReferences = function (apiObject) {
+                return _.get(apiObject, 'metadata.ownerReferences');
             };
 
-            //根据buildConfig标签获取build列表
-            var loadBuilds = function(items){
-                var labelSelector = '';
-                if (items.length > 0) {
-                    labelSelector = 'buildconfig in (';
-                    for (var i = 0; i < items.length; i++) {
-                        labelSelector += items[i].metadata.name + ','
-                    }
-                    labelSelector = labelSelector.substring(0, labelSelector.length - 1) + ')';
-                }
-                Build.get({namespace: $rootScope.namespace, labelSelector: labelSelector,region:$rootScope.region}, function (data) {
-                    // console.log('114',data);
-                    $scope.resourceVersion = data.metadata.resourceVersion;
+            var filterForController = function (apiObjects, controller) {
+                var controllerUID = _.get(controller, 'metadata.uid');
+                return _.filter(apiObjects, function (apiObject) {
+                    return _.some(getOwnerReferences(apiObject), {
+                        uid: controllerUID,
+                        controller: true
+                    });
                 });
             };
-            loadBuildConfigs();
+            ////////列表展开收缩
+            $scope.openCon = function(idx,type){
+                if(type=='pod'){
+                    if($scope.podsItem.items[idx].isLog){
+                        $scope.podsItem.items[idx].isLog = false;
+                    }else{
+                        $scope.podsItem.items[idx].isLog = true;
+                    }
+                }else if(type=='rc'){
+                    if($scope.replicasItem.items[idx].isLog){
+                        $scope.replicasItem.items[idx].isLog = false;
+                    }else{
+                        $scope.replicasItem.items[idx].isLog = true;
+                    }
+                    $scope.rcPods = filterForController($scope.podsItem.items,$scope.replicasItem.items[idx]);
+                    var poduid = [];
+                    for (var i = 0; i < $scope.rcPods.length; i++) {
+                        poduid.push($scope.rcPods[i].metadata.uid);
+                    }
+                    $scope.rcPoduid = poduid.join('|');
+                }else if(type=='stateful'){
+                    if($scope.statefulSets.items[idx].isLog){
+                        $scope.statefulSets.items[idx].isLog = false;
+                    }else{
+                        $scope.statefulSets.items[idx].isLog = true;
+                    }
+                    $scope.statefulPods = filterForController($scope.podsItem.items,$scope.statefulSets.items[idx]);
+                    var poduid = [];
+                    for (var i = 0; i < $scope.statefulPods.length; i++) {
+                        poduid.push($scope.statefulPods[i].metadata.uid);
+                    }
+                    $scope.statefulPoduid = poduid.join('|');
+                }else if(type=='bc'){
+                    if($scope.builds.items[idx].isLog){
+                        $scope.builds.items[idx].isLog = false;
+                    }else{
+                        $scope.builds.items[idx].isLog = true;
+                    }
+                }
+
+            }
             $scope.kinds = [
                 {
                     kind: "All"
