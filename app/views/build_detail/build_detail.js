@@ -743,7 +743,7 @@ angular.module('console.build.detail', [
                 if (!name) {
                     return;
                 }
-                Confirm.open(title, msg, tip, 'recycle').then(function () {
+                Confirm.open(title, msg, '', 'recycle').then(function () {
                     Build.remove({ namespace: $rootScope.namespace, name: name }, function () {
                         $log.info("deleted");
                         toastr.success('操作成功', {
