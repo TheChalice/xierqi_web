@@ -165,24 +165,23 @@
                     <!-- <span class="icon20 icon20-paper"></span>  -->
                     配置信息
                 </uib-tab-heading>
-                <form class="form-horizontal" name="frm">
+                <!-- <form class="form-horizontal" name="frm">
                     <div class="form-group" ng-show="showwebhook&&!grid.pedding">
-                        <!--<label class="col-sm-2 text-left" id="autobuild">自动构建触发条件</label>-->
+                        
                         <label class="col-sm-3 text-left">自动构建</label>
                         <div class="col-sm-2">
-                            <!--<c-checkbox checked="grid.checked"></c-checkbox>-->
-                            <!--ng-class="{'aciive': grid.checked, 'inactive': gird.uncheked}"-->
+                          
                             <span class="my-checkbox">
                                 <span class="checkbox-check" ng-class="{active: grid.checked}" ng-click="saveTrigger(grid.checked)">
                                     <span class="check-btn"></span>
                                 </span>
-                                <!--<span ng-if="text" class="checkbox-text">{{text}}</span>-->
+                              
                             </span>
                         </div>
 
                     </div>
                     <div class="form-group" ng-show="!showwebhook||grid.pedding">
-                        <!--<label class="col-sm-2 text-left" id="autobuild">自动构建触发条件</label>-->
+                        
                         <label class="col-sm-3 text-left text-left_color" style="">自动构建</label>
                         <div class="col-sm-2">
                             <span class="my-checkbox">
@@ -191,7 +190,7 @@
                                 </span>
 
                             </span>
-                            <!--ng-class="{'aciive': grid.checked, 'inactive': gird.uncheked}"-->
+                            
                         </div>
 
                     </div>
@@ -221,7 +220,92 @@
                             <small ng-if="frm.cdm.$invalid" class="fa fa-exclamation-circle fa_small" style="">&nbsp;您设置的时长超过了限制，请重新设置</small>
                         </div>
                     </div>
-                </form>
+                </form> -->
+
+                <form class="form-horizontal" name="frm">
+                        <div ng-show="!showwebhook">
+    
+                            <div>
+                                <div>
+                                    <div class="pip_block">
+                                        <p class="pit_left">Generic Webhook URL:</p>
+                                        <span class="pip_tit">
+                                           {{httpurl}}/oapi/v1/namespaces/{{buildnamespaces}}/buildconfigs/{{data.metadata.name}}/webhooks/{{data.spec.triggers[1].generic?data.spec.triggers[1].generic.secret:data.spec.triggers[0].generic.secret}}/generic
+                                        </span>
+                                        <i class="pip_btn uex-icon-copy" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
+                                    </div>
+    
+                                </div>
+    
+                                <div>
+                                    <div class="pip_block">
+                                        <p class="pit_left">GitHub Webhook URL:</p>
+                                        <span class="pip_tit">
+                                            {{httpurl}}/oapi/v1/namespaces/{{buildnamespaces}}/buildconfigs/{{data.metadata.name}}/webhooks/{{data.spec.triggers[0].github?data.spec.triggers[0].github.secret:data.spec.triggers[1].github.secret}}/github
+                                        </span>
+                                        <i class="pip_btn uex-icon-copy" uib-tooltip="复制" ng-class="{'iscopyactive':isCopy}" ng-click="gcopy($event)"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+    
+    
+                        <div class="form-group" ng-show="showwebhook">
+                            <!--<label class="col-sm-2 text-left" id="autobuild">自动构建触发条件</label>-->
+                            <label class="col-sm-2 text-left">自动构建</label>
+                            <div class="col-sm-2">
+                                <!--<c-checkbox checked="grid.checked"></c-checkbox>-->
+                                <!--ng-class="{'aciive': grid.checked, 'inactive': gird.uncheked}"-->
+                                <span class="my-checkbox">
+                                    <span class="checkbox-check" ng-class="{active: grid.checked}" ng-click="saveTrigger(grid.checked)">
+                                        <span class="check-btn"></span>
+                                    </span>
+                                    <!--<span ng-if="text" class="checkbox-text">{{text}}</span>-->
+                                </span>
+                            </div>
+    
+                        </div>
+                        <!--<div class="form-group" ng-show="!showwebhook||grid.pedding">-->
+                            <!--&lt;!&ndash;<label class="col-sm-2 text-left" id="autobuild">自动构建触发条件</label>&ndash;&gt;-->
+                            <!--<label class="col-sm-3 text-left text-left_color" style="">自动构建</label>-->
+                            <!--<div class="col-sm-2">-->
+                                <!--<span class="my-checkbox">-->
+                                    <!--<span class="checkbox-check">-->
+                                        <!--<span class="check-btn"></span>-->
+                                    <!--</span>-->
+    
+                                <!--</span>-->
+                                <!--&lt;!&ndash;ng-class="{'aciive': grid.checked, 'inactive': gird.uncheked}"&ndash;&gt;-->
+                            <!--</div>-->
+    
+                        <!--</div>-->
+    
+                        <div class="form-group form-group_padding" style="" ng-if="false">
+                            <label class="col-sm-3 text-left">是否持续集成</label>
+                            <div class="col-sm-2">
+                                <c-checkbox checked="checked"></c-checkbox>
+                            </div>
+                            <div class="col-sm-7" ng-if="checked">
+                                <small class="small_margin" style="">点击按钮，进行持续集成配置</small>
+                                <a class="btn btn-orange">持续集成配置</a>
+                            </div>
+                        </div>
+    
+                        <div class="form-group form-group_paddingTop" style="display:none;">
+                            <label class="col-sm-3 text-left">构建超时时长</label>
+                            <div class="col-sm-9">
+                                <input class="input_sty" ng-model="grid.completionDeadlineMinutes" name="cdm" min="1" max="60" ng-disabled="!deadlineMinutesEnable"
+                                    style="" type="number" class="form-control">
+                                <span class="form_group_span" style="">&nbsp;mins&nbsp;</span>
+                                <a href="javascript:;" class="form_group_a" style="" ng-click="frm.cdm.$valid && save()">
+                                    <span class="fa fa-orange" ng-class="{'fa-pencil': !deadlineMinutesEnable, 'fa-check-circle': deadlineMinutesEnable}"></span>
+                                </a>
+                                <span class="font12">&nbsp;&nbsp;构建超时时长请不要超过60Mins</span>
+                                <br>
+                                <small ng-if="frm.cdm.$invalid" class="fa fa-exclamation-circle fa_small" style="">&nbsp;您设置的时长超过了限制，请重新设置</small>
+                            </div>
+                        </div>
+                    </form>
             </uib-tab>
         </uib-tabset>
     </div>
