@@ -162,7 +162,7 @@
 }
 
 #newbuildcreat .form-group input {
-    width: 100%;
+    /* width: 100%; */
 }
 #newbuildcreat .form-group input:hover{
     border:1px solid #47B2FB;
