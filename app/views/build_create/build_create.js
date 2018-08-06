@@ -259,6 +259,7 @@ angular.module('console.build_create_new', [
                     for (var i = 0; i < $scope.buildList.length; i++) {
                         if ($scope.buildConfig.metadata.name === $scope.buildList[i].metadata.name) {
                             $scope.namerr.repeated = true;
+                            $scope.privateErr.urlerr = false;
                             return
                         }
                     }
