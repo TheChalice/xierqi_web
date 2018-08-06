@@ -142,3 +142,5 @@
     display: block;
 }
 /*new code end*/
+#build-detail .detail_tit{font-size:12px;color:#A2B0C4;}
+#build-detail .build_name{color:#000;font-weight: normal;}
