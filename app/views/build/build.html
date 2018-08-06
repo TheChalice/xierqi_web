@@ -78,7 +78,7 @@
                             <a class="icon25 icon25-image col-lg-4 col-md-4 col-sm-4"
                                ng-if="bc.spec.output && bc.spec.output.to && bc.spec.output.to.name"
                                ng-show="bc.build.status.phase !== 'Failed'"
-                               ui-sref="console.image_detail({bc: bc.metadata.name, name: bc.spec.output.to.name})"
+                               ui-sref="console.image_detail({namespace:namespace,bc: bc.metadata.name, name: bc.spec.output.to.name})"
                                uib-tooltip="查看镜像"></a>
                             <a class="icon25 icon25-start col-lg-4 col-md-4 col-sm-4" href="javascript:;"
                                ng-click="startBuild($index)" ng-show="bc.build.status.phase != 'Running'"

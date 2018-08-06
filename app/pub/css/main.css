@@ -728,7 +728,7 @@ a {
 }
 
 .timeline .icon25 {
-    margin: 0 10px;
+    margin: 0 4px;
 }
 
 .icon25-delete {
@@ -1814,3 +1814,9 @@ td  a:hover, a:focus{
 .highlight-drag-and-drop-zone p {
     color: #0099d3
 }
+
+#build-detail .uex-icon-copy:before{
+    content:'\e922';
+    color: #475669;
+}
+#build-detail .uex-icon-copy:hover:before{color:#47B2FB;}
