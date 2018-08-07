@@ -267,11 +267,11 @@
                              ng-repeat="serveList in routeDetail.spec.alternateBackends" ng-init="outerIndex = $index">
                             <div class="">
                                 <div class="" style="padding-left: 135px;margin-left:-15px!important;margin-right:-15px!important;clear:both;">
-                                    <div class="col-sm-1 route-width-one route-font">指向服务</div>
+                                    <div class="col-sm-1 route-width-one route-font" style="width:186px;">指向服务</div>
                                     <div class="col-sm-1 route-width-one route-font">权重</div>
                                 </div>
-                                <div class="" style="padding-left: 135px;margin-left:-15px!important;margin-right:-15px!important;clear:both;">
-                                    <div class="col-sm-5 route-width-one">
+                                <div class="" style="padding-left: 135px;margin-left:0px!important;margin-right:-15px!important;clear:both;">
+                                    <div class=" route-width-one">
                                         <div class="dropdown dropdown-select" style="display: block;width: 170px;">
                                             <button class="btn dropdown-toggle route-list-btn" data-toggle="dropdown">
                                                 <span>{{serveList.name}}</span>
@@ -286,7 +286,7 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <div class="col-sm-5 route-width-one">
+                                    <div class="col-sm-5 route-width-one" style="margin-top:1px;">
                                         <input class="form-control route-line-height" type="number"
                                                ng-model="serveList.weight">
                                     </div>
@@ -361,6 +361,7 @@
                                     </ul>
                                 </div>
                             </div>
+                            <div class="clear10"></div>
                             <div style="font-size: 12px;">
                                 非安全流量
                             </div>
@@ -382,6 +383,7 @@
                                     </ul>
                                 </div>
                             </div>
+                            <div class="clear10"></div>
                             <div style="font-size: 12px;">
                                 域名证书
                             </div>
