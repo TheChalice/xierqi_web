@@ -87,6 +87,7 @@ define([
             host_wss_k8s: '/ws/api/v1',
             login_uri: '/login',
             signin_uri: '/signin',
+
             //host_webhooks: 'https://lab.lo.dataos.io',
             host_webhooks: '<WEBHOOK_PREFIX>',
 
@@ -97,8 +98,8 @@ define([
             //internal_registry:'docker-registry.default.svc:5000',
             internal_registry: '<INTERNAL_REGISTRY_ADDR>',
             //service_url:'.cloud.new.dataos.io',
-            //common_url: '<REGISTRY_PUBLIC_ADDR>',
-            common_url:'registry.dataos.io',
+            common_url: '<REGISTRY_PUBLIC_ADDR>',
+            //common_url:'registry.dataos.io',
             private_url: '<REGISTRY_PRIVATE_ADDR>'
 
         })
