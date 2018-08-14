@@ -110,9 +110,9 @@
                                name="username"
                                class="form-control"
                                ng-model="volume.name"
-                               placeholder="名称只能包括小写字母"
+                               placeholder="存储卷名称"
                                style="width: 358px;height: 26px;color: #A2B0C4;">
-                        <small ng-if="namerr.nil" class="fa fa-info-circle err-tip">请输入正确构建名称
+                        <small ng-if="namerr.nil" class="fa fa-info-circle err-tip">请输入正确存储卷名称
                         </small>
                         <small ng-if="namerr.rexed" class="fa fa-info-circle err-tip">
                             请输入4~30位名称,名称只能包含小写英文、数字以及“-”(不能以数字开头)
@@ -125,7 +125,8 @@
                     <div class="col-sm-2 control-label text-left"
                            style="width: 120px;margin-top:25px;color: #475669;; font-size:12px; line-height: 14px; text-align: left; font-weight: normal;">存储卷容量</div>
                     <div class="col-sm-10">
-                        <div class="volume_modal">
+                        <div class="volume_modal" style="position:relative;">
+                        
                             <rzslider rz-slider-model="slider.value" rz-slider-options="slider.options"
                                       ng-model="volume.size"></rzslider>
                         </div>

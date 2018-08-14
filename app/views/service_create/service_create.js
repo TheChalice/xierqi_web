@@ -67,28 +67,22 @@ angular.module('console.service.create', [
             $scope.portsArr = [];
             $scope.goBack = function () {
                 $scope.advancedConfig = false;
+                $scope.containersImagesIsNull = false;
             }
             $scope.jump = function () {
-                if (!$scope.dc.metadata.name) {
-                    $scope.err.name.null = true;
-                    return
-                }
-                //console.log('$scope.dc.spec.template.spec.containers',$scope.dc.spec.template.spec.containers[0]);
-                if (!$scope.dc.spec.template.spec.containers[0].image) {
-                    return
-                }
 
-                //console.log(invrepname());
                 if (!invrepname()) {
-                    $scope.err.name.repeated = true;
+
                     return
                 }
                 $scope.advancedConfig = true
             }
 
+
             DeploymentConfig.get({namespace: $rootScope.namespace, region: $rootScope.region}, function (data) {
                 $scope.servelist = data;
             })
+
             ///////containers展开收缩
             $scope.pickdown = function (idx) {
                 if ($scope.dc.spec.template.spec.containers[idx].retract) {
@@ -203,6 +197,7 @@ angular.module('console.service.create', [
 
                 })
             }
+
             $scope.rmContainer = function (idx) {
                 $scope.dc.spec.template.spec.containers.splice(idx, 1)
             }
@@ -453,7 +448,18 @@ angular.module('console.service.create', [
                     //dcname(n)
                 }
             })
+            $scope.$watch('dc.spec.template.spec.containers[0].image', function (n, o) {
+                if (n == o) {
+                    return
+                }
+                if (!n) {
+                    
+                   $scope.containersImagesIsNull = true
+                }else{
+                    $scope.containersImagesIsNull = false
+                }
 
+            })
             $scope.$watch('institution.display', function (n, o) {
                 if (n == o) {
                     return
@@ -477,6 +483,7 @@ angular.module('console.service.create', [
 
                     var posts = []
                     $scope.dc.spec.template.spec.containers[idx].strport = '';
+                    $scope.dc.spec.template.spec.containers[idx].firstStrPort = '';
 
                     for (var k in tag.image.dockerImageMetadata.Config.ExposedPorts) {
                         var pot = parseInt(k.split('/')[0])
@@ -502,7 +509,12 @@ angular.module('console.service.create', [
                         }
                         $scope.dc.spec.template.spec.containers[idx].strport += k.split('/')[0] + '/' + k.split('/')[1].toUpperCase() + ',';
                     }
-                    $scope.dc.spec.template.spec.containers[idx].strport = $scope.dc.spec.template.spec.containers[idx].strport.replace(/\,$/, "")
+                    $scope.dc.spec.template.spec.containers[idx].strport = $scope.dc.spec.template.spec.containers[idx].strport.replace(/\,$/, "");
+                    if ($scope.dc.spec.template.spec.containers[idx].strport.split(',').length > 1) {
+                        $scope.dc.spec.template.spec.containers[idx].firstStrPort = $scope.dc.spec.template.spec.containers[idx].strport.split(',')[0];
+                    } else {
+                        $scope.dc.spec.template.spec.containers[idx].firstStrPort = $scope.dc.spec.template.spec.containers[idx].strport
+                    }
                     $scope.dc.spec.template.spec.containers[idx].ports = angular.copy(posts)
                 }
 
@@ -526,6 +538,7 @@ angular.module('console.service.create', [
             }
 
             $scope.ourimage = function (images, idx, postobj) {
+                //console.log('images.status.images', images,postobj);
                 if (images.status.images && images.status.images[0] && images.status.images[0].status) {
                     if (images.status.images[0].status.code && images.status.images[0].status.code === 401) {
                         $scope.err.url.role = true;
@@ -551,6 +564,9 @@ angular.module('console.service.create', [
                 $scope.tag = name.split(':').length > 1 ? name.split(':')[1] : 'latest';
                 $scope.dc.spec.template.spec.containers[idx].image = postobj.spec.images[0].from.name;
                 //$scope.dc.spec.template.spec.containers[0].ports
+                if ($scope.dc.spec.template.spec.containers[idx].annotate) {
+                    $scope.dc.spec.template.spec.containers[idx].annotate.ismy = false
+                }
 
                 if (images.status.images[0] && images.status.images[0].image.dockerImageMetadata) {
                     //imagetimemessage(images.status.images[0].image.dockerImageMetadata.Created)
@@ -562,6 +578,7 @@ angular.module('console.service.create', [
                         var posts = []
                         //$scope.port = []
                         $scope.dc.spec.template.spec.containers[idx].strport = '';
+                        $scope.dc.spec.template.spec.containers[idx].firstStrPort = '';
 
                         for (var k in images.status.images[0].image.dockerImageMetadata.Config.ExposedPorts) {
                             var pot = parseInt(k.split('/')[0])
@@ -587,7 +604,12 @@ angular.module('console.service.create', [
                             }
                             $scope.dc.spec.template.spec.containers[idx].strport += k.split('/')[0] + '/' + k.split('/')[1].toUpperCase() + ',';
                         }
-                        $scope.dc.spec.template.spec.containers[idx].strport = $scope.dc.spec.template.spec.containers[idx].strport.replace(/\,$/, "")
+                        $scope.dc.spec.template.spec.containers[idx].strport = $scope.dc.spec.template.spec.containers[idx].strport.replace(/\,$/, "");
+                        if ($scope.dc.spec.template.spec.containers[idx].strport.split(',').length > 1) {
+                            $scope.dc.spec.template.spec.containers[idx].firstStrPort = $scope.dc.spec.template.spec.containers[idx].strport.split(',')[0];
+                        } else {
+                            $scope.dc.spec.template.spec.containers[idx].firstStrPort = $scope.dc.spec.template.spec.containers[idx].strport
+                        }
                         $scope.dc.spec.template.spec.containers[idx].ports = angular.copy(posts)
 
                     }
@@ -752,21 +774,32 @@ angular.module('console.service.create', [
                 $scope.horiz.spec.minReplicas = dc.spec.replicas;
 
             }
-
+            $scope.containersImagesIsNull = false;
             function invrepname() {
                 var norep = true
-                angular.forEach($scope.servelist.items, function (dc, i) {
-                    //console.log(dc.metadata.name, $scope.fuwuname);
-                    if (dc.metadata.name === $scope.dc.metadata.name) {
-                        norep = false
-
-                    }
-                })
-                if (norep) {
-                    return true
-                } else {
+                var r = /^[a-z][a-z0-9-]{2,28}[a-z0-9]$/;
+                if (!$scope.dc.metadata.name) {
+                    $scope.err.name.null = true;
                     return false
                 }
+                if (!r.test($scope.dc.metadata.name)) {
+                    $scope.err.name.pattern = true;
+                    return false
+                }
+                if (!$scope.dc.spec.template.spec.containers[0].image) {
+                    $scope.containersImagesIsNull = true;
+                    return false
+                }
+                angular.forEach($scope.servelist.items, function (dc, i) {
+                    if (dc.metadata.name === $scope.dc.metadata.name) {
+                        norep = false
+                    }
+                })
+                if (!norep) {
+                    $scope.err.name.repeated = true;
+                    return false
+                }
+                return true
 
             }
 
@@ -992,7 +1025,7 @@ angular.module('console.service.create', [
                 $scope.dc.spec.template.spec.volumes = [];
                 var cancreat = true
                 angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
-                    console.log('con.open',con);
+                    console.log('con.open', con);
                     if (con.open) {
                         if (con.open.readinessProbe) {
                             if (con.open.readinesscheck === 'HTTP') {
@@ -1099,21 +1132,14 @@ angular.module('console.service.create', [
                     //console.log('con.volment', con.volment);
 
 
-
                 })
                 if (!cancreat) {
                     return
                 }
 
                 //console.log($scope.fuwuname);
-                if (!$scope.dc.metadata.name) {
-                    $scope.err.name.null = true;
-                    return
-                }
-
-                //console.log(invrepname());
                 if (!invrepname()) {
-                    $scope.err.name.repeated = true;
+
                     return
                 }
 
@@ -1236,14 +1262,14 @@ angular.module('console.service.create', [
                         }
                     }
                     var first = true;
-                    $scope.imageTopC = function(idx){
+                    $scope.imageTopC = function (idx) {
                         if (!first) {
                             $scope.dc.spec.template.spec.containers[0].image = '';
-                            if(idx == 2){
+                            if (idx == 2) {
                                 $scope.checked.image = "";
                                 $scope.checked.tag = "";
                             }
-                        }else {
+                        } else {
                             first = false;
                         }
 
@@ -1357,7 +1383,6 @@ angular.module('console.service.create', [
                 $scope.changePort = function (idx, port) {
                     $scope.portsArr[idx].protocol = port;
                 }
-
                 $scope.delprot = function (idx) {
                     $scope.portsArr.splice(idx, 1);
                 };

@@ -39,11 +39,11 @@
                 </div>
                 <div class="module_block_r">
                         <a class="btn pull-right btn-green" style="height: 26px;line-height: 26px;padding: 0px 12px; font-size: 12px;"
-                        ng-if="tags.length>0"
+                        ng-if="tags.length>0&&tags[tags.length-1].images"
                         ng-disabled=false
                         ui-sref="console.service_create({namespace:namespace,image:tags[0].images,postobj:tags[0].postobj,imagetype:'ourimage'})">部署最新版本</a>
                      <a class="btn pull-right btn-orange"
-                        ng-if="!tags.length"
+                        ng-if="!tags[tags.length-1].images || !tags.length"
                         ng-disabled=true>暂无最新版本</a>
                 </div>
             </div>
@@ -73,12 +73,12 @@
                                     <span class="dot"></span>&nbsp;&nbsp;&nbsp;&nbsp;
                                     {{item.created | dateRelative}}
                                 </label> -->
-                                <div class="container-fluid">
+                                <div class="container-fluid" ng-show="item.images">
                                     <div class="row">
 
                                             <div class="col-sm-4">
-                                                    <span class="detail_tit">更新时间：</span>
-                                                    <label class="build_name" uib-tooltip="{{item.created | dateRelative}}">
+                                                    <span class="detail_tit">创建时间：</span>
+                                                    <label class="build_name" uib-tooltip="{{item.created | timescon}}">
                                                             {{item.created | dateRelative}}
                                                     </label>
                                                 </div>

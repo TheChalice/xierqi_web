@@ -797,7 +797,14 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                                     //}
                                     $scope.strport += k.split('/')[0] + '/' + k.split('/')[1].toUpperCase() + ',';
                                 }
-                                $scope.strport = $scope.strport.replace(/\,$/, "")
+                                $scope.strport = $scope.strport.replace(/\,$/, "");
+                                $scope.firstPort = '';
+                                if($scope.strport.split(',').length>1){
+                                    $scope.firstPort = $scope.strport.split(',')[0];
+                                }else{
+                                    $scope.firstPort = $scope.strport
+                                }
+
                                 $scope.hasport = true;
                                 //$scope.dc.spec.template.spec.containers[0].ports = angular.copy($scope.port)
                             }
