@@ -1025,7 +1025,10 @@ angular.module('console.service.create', [
                 $scope.dc.spec.template.spec.volumes = [];
                 var cancreat = true
                 angular.forEach($scope.dc.spec.template.spec.containers, function (con, i) {
-                    console.log('con.open', con);
+                    console.log('con.open', con.name);
+                    if (con.name.indexOf('_')) {
+                        con.name = con.name.replace('_','-')
+                    }
                     if (con.open) {
                         if (con.open.readinessProbe) {
                             if (con.open.readinesscheck === 'HTTP') {
