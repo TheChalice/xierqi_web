@@ -426,6 +426,11 @@ angular.module('console.deploymentconfig_detail', [
 
                             }
                         )
+                        horizontalpodautoscalers.delete({
+                            namespace: $rootScope.namespace,
+                            name: $stateParams.name}, function (data) {
+
+                        })
                         $state.go('console.deployments', { namespace: $rootScope.namespace });
                     }, function () {
                         Confirm.open("删除Deployment", "删除" + val + "失败", null, null, true);
