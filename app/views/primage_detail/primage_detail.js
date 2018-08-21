@@ -24,7 +24,7 @@ angular.module('console.primage', [
                 })
                 console.log('$scope.curImgCon', $scope.curImgCon);
             })
-            console.log('$scope.project_id', $scope.project_id);
+            //console.log('$scope.project_id', $scope.project_id);
             $scope.postobj = {
                 "kind": "ImageStreamImport",
                 "apiVersion": "v1",
@@ -58,12 +58,15 @@ angular.module('console.primage', [
                     }
                 })
                 $scope.tags = Sort.sort(tags, -1);
+                //$scope.tags = tags;
                 angular.forEach($scope.tags, function (tag, i) {
-                    $scope.postobj.spec.images[0].from.name = GLOBAL.common_url+'/'+$scope.imagename+':'+tag.name;
-                    $scope.tags[i].postobj =$scope.postobj
+                    console.log('tag.name', tag.name);
+                    $scope.tags[i].postobj =angular.copy($scope.postobj)
+                    $scope.tags[i].postobj.spec.images[0].from.name = GLOBAL.common_url+'/'+$scope.imagename+':'+tag.name;
+
 
                         //console.log('$scope.postobj.spec.images[0].from.name', .spec.images[0].from.name);
-                    imagestreamimports.create({namespace: $rootScope.namespace}, $scope.postobj, function (images) {
+                    imagestreamimports.create({namespace: $rootScope.namespace}, $scope.tags[i].postobj, function (images) {
 
                         $scope.tags[i].images = images;
 
