@@ -2137,6 +2137,9 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
             };
             return {
                 request: function (config) {
+                    console.log('config', config);
+                    console.log('/^\.\/signin/.test(config.url)', /^\.\/signin/.test(config.url));
+
                     if (/^\/login/.test(config.url)) {
                         return config;
                     }
@@ -2146,7 +2149,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                     if (/^\.\/signin/.test(config.url)) {
                         return config;
                     }
-                    console.log('config.url', config.url);
+                    console.log('config.url', config);
                     //$rootScope.region=
                     var tokens = Cookie.get('df_access_token');
                     var regions = Cookie.get('region');
@@ -2178,6 +2181,11 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                         //config.headers["Sso"] = window.location.href;
                     }
 
+                    if (/^\.\/hawkular/.test(config.url)) {
+                        //console.log('config.url', config.url);
+                        config.headers["Content-Type"] = "application/json";
+                        config.headers["Hawkular-Tenant"] = $rootScope.namespace;
+                    }
                     if (/^\/hawkular/.test(config.url)) {
                         //console.log('config.url', config.url);
                         config.headers["Content-Type"] = "application/json";
