@@ -20,8 +20,8 @@ define([
                 if (window.location.protocol != "https:") {
                     wsscheme = "ws://";
                 }
-
-                if (window.location.hostname === "localhost") {
+                console.log('window.location.hostname === "localhost"', window.location.hostname === "localhost");
+                if (window.location.hostname == "localhost") {
                     host = wsscheme + location.host;
                 }else {
                     var path = window.location.pathname.split('/')[1]

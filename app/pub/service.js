@@ -1935,6 +1935,7 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                     //    localStorage.setItem('cade',0)
                     //}
                     //localStorage.setItem('codenum','0')
+                    console.log('req', req);
                     function denglu() {
 
                         $http(req).success(function (data) {
@@ -2142,6 +2143,10 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                     if (/^\/signin/.test(config.url)) {
                         return config;
                     }
+                    if (/^\.\/signin/.test(config.url)) {
+                        return config;
+                    }
+                    console.log('config.url', config.url);
                     //$rootScope.region=
                     var tokens = Cookie.get('df_access_token');
                     var regions = Cookie.get('region');
