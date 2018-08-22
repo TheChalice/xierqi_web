@@ -26,7 +26,7 @@ define([
                 }else {
 
                     var path = window.location.pathname.split('/')[1]
-                    console.log('window.location', path);
+                    //console.log('window.location', path);
                     host = wsscheme + location.host+'/'+path;
                 }
                 console.log('host', host);
