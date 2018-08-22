@@ -60,7 +60,6 @@ angular.module('console.primage', [
                 $scope.tags = Sort.sort(tags, -1);
                 //$scope.tags = tags;
                 angular.forEach($scope.tags, function (tag, i) {
-                    console.log('tag.name', tag.name);
                     $scope.tags[i].postobj =angular.copy($scope.postobj)
                     $scope.tags[i].postobj.spec.images[0].from.name = GLOBAL.common_url+'/'+$scope.imagename+':'+tag.name;
 
