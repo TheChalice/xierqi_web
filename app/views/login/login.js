@@ -16,6 +16,7 @@ angular.module('home.login', [])
             //    region:'cn-north-1'
             //};
             //$scope.curregion = '铸造一区'
+            console.log('window.location', window.location.pathname.split('/')[1]);
             $scope.loginerror = {}
             var flog = localStorage.getItem("code");
             var vm = $scope.vm = {
