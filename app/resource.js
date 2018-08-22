@@ -7,6 +7,7 @@ define([
     return angular.module('myApp.resource', ['ngResource'])
         .factory('Ws', ['$rootScope', '$ws', '$log', 'GLOBAL', 'Cookie', function ($rootScope, $ws, $log, GLOBAL, Cookie) {
             var Ws = {};
+            var host =''
             $rootScope.watches = $rootScope.watches || {};
 
             Ws.watch = function (params, onmessage, onopen, onclose) {
@@ -20,7 +21,14 @@ define([
                     wsscheme = "ws://";
                 }
 
-                var host = wsscheme + location.host;
+                if (window.location.hostname === "localhost") {
+                    host = wsscheme + location.host;
+                }else {
+                    var path = window.location.pathname.split('/')[1]
+                    console.log('window.location', path);
+                    host = wsscheme + location.host+'/'+path;
+                }
+
 
                 var regions = Cookie.get('region');
 
