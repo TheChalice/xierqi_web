@@ -1,6 +1,7 @@
 <div id="header" class="navbar-fixed-top">
     <div style="width: 100%; position: relative">
-        <div class="menu-list" ng-mouseenter="colonyNavEnter()" ng-mouseleave="colonyNavLeave()">
+       <!-- 2018/08/23 能力视图去掉 begin-->
+        <!-- <div class="menu-list" ng-mouseenter="colonyNavEnter()" ng-mouseleave="colonyNavLeave()">
             <div class="menu-list-content">
                 <div class="menu-list-column has-column-label" ng-repeat="colonylist in columns">
                     <div class="menu-list-column-title" ng-click="colonyUrlGo(colonylist.url)">{{colonylist.label}}</div>
@@ -13,7 +14,8 @@
                 </div>
                 <div class="lay"></div>
             </div>
-        </div>
+        </div> -->
+        <!-- 2018/08/23 能力视图去掉 end-->
         <a id="header-brand" ng-click="backindex()">
             <img src="components/header/img/logo_sm.png" alt="logo" class="header_logo">
         </a>
@@ -233,9 +235,9 @@
                 border-bottom: 0px;
             }
         </style>
-        <div class="colony-nav" ng-mouseenter="colonyNavEnter()" ng-mouseleave="colonyNavLeave()">
+        <!-- <div class="colony-nav" ng-mouseenter="colonyNavEnter()" ng-mouseleave="colonyNavLeave()">
             <span class="uex-icon-menu-row"></span><span style="padding-left: 3px;font-size:14px;">能力视图</span>
-        </div>
+        </div> -->
 
 
         <!--<ul id="colony-nav-wrop">-->
@@ -318,12 +320,12 @@
                         <b class="h_caret"></b>
                     </a>
                     <ul id="testjt" class="projectname" uib-dropdown-menu aria-labelledby="user-menu"
-                        style="max-height: 338px;border-top:0;border-right:0;overflow:auto;top:48px;right:0px;background: #f7fafc;border-radius:0;">
+                        style="max-height: 338px;border-top:0;border-right:0;top:48px;right:0px;background: #f7fafc;border-radius:0;border:0px;">
                         <!--personal account-->
                         <li ng-if="projects" class='personal'>
                             <a href="javascript:;" ng-click='gotomy()' ui-sref='console.user({namespace:namespace})'>
                                 <!--<label>{{user.metadata.name}}</label>-->
-                                <i class="df_h_com df_person_active"></i>
+                                <i class="uex_set uex-icon-user"></i>
                                 <span>用户中心</span>
                             </a>
                         </li>
@@ -347,7 +349,7 @@
                         <!--<li ng-repeat="project in projects | orderBy: 'metadata.name'">-->
                         <li ng-repeat="project in projects">
                             <a href="javascript:;" ng-click="setNamespace(project.metadata.name)">
-                                <i class="df_h_com df_qed_active"></i>
+                                <i class="uex_set uex-icon-group"></i>
                                 <span class="df_set_name"
                                       title="{{project.metadata.annotations['openshift.io/display-name'] || project.metadata.name}}">
                                 {{project.metadata.annotations['openshift.io/display-name'] || project.metadata.name}}
@@ -358,7 +360,7 @@
                         <!--<li role="separator" class="divider"></li>-->
                         <li ng-show="!nolohout" style="border-bottom: none;">
                             <a href="javascript:;" ng-click="logout()">
-                                <i class="df_h_com df_quit"></i>退出登录</a>
+                                <i class="uex_set uex-icon-export"></i>退出登录</a>
                         </li>
                     </ul>
                     <!--<ul ng-if="isorg" class="projectname" uib-dropdown-menu-->
@@ -402,6 +404,7 @@
         </div>
 
         <div id="tenants-box" class="tenants-box" style="display: inline-block;height: 55px;">
+                
             <div class="header-name-list">
                 <a class="header-name-list-span" ui-sref="overview" ng-class="{'overSelect':!isActive}">
                     概览
@@ -411,6 +414,21 @@
                     应用控制台
                 </a>
             </div>
+
+            <div class="y_oper">
+                    <div uib-dropdown on-toggle="toggled(open)" aria-haspopup="true" aria-expanded="false" >
+                        <a href="javascript:void(0)" uib-dropdown-toggle class="yoper_tit"><i class="uex-icon-operation-support big-uex"></i>运营管控</a>
+                        <ul uib-dropdown-menu aria-labelledby="simple-dropdown">
+                          <li><a href="javascript:void(0)"><i class="uex-icon-operation-support"></i>运营管控</a> </li>
+                          <li><a href="javascript:void(0)"><i class="uex-icon-data-chart3"></i>数据资产</a> </li>
+                          <li><a href="javascript:void(0)"><i class="uex-icon-sys-mgr"></i>运维中心</a> </li>
+                          <li><a href="javascript:void(0)"><i class="uex-icon-host-configuration"></i>应用管理</a> </li>
+                        </ul>
+                    </div>
+                  
+                </div>
+           
+
             <div ng-class="{'tenants-up':tenantsBox}" class="head_drop_set" style="padding:16px 0px 14px;width:240px;float: right;">
                 <a href="javascript:;" ng-click="tenantsIsShow()">
                     <span class="header_per_tit" style="width: 180px; text-align:left;padding-left:26px;color:#fff;"><span style="color:#A2B0C4 ;">当前租户：</span>{{curTenantName}}</span>
@@ -418,7 +436,7 @@
                 </a>
             </div>
 
-            <div style="background-color: #1F2D3D;width:240px;height:360px;overflow:auto;top:-5px;right:-220px;position:relative;padding-left:18px;" ng-show="tenantsBox">
+            <div style="background-color: #1F2D3D;width:240px;height:360px;overflow:auto;top:50px;left:50%;margin-left:330px;position:absolute;" ng-show="tenantsBox">
                 <treecontrol class="tree-dark" tree-model="tenantsTree" on-selection="SelectedNode(node.name)">
                     {{node.name}}
                 </treecontrol>

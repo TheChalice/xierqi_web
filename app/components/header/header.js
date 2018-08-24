@@ -654,16 +654,17 @@ angular.module("console.header", [{
                             window.location.href=url
                         }
                     }
-
-                    $scope.colonyNavEnter = function(){
-                        $('.menu-list').addClass('visible');
-                        $('.colony-nav').css( 'background',' #252b39');
-                    }
-                    $scope.colonyNavLeave = function(){
-                        // $('.visible').height(0);
-                        $('.menu-list').removeClass('visible');
-                        $('.colony-nav').css( 'background','#303643');
-                    }
+                    // 2018/08/23 能力视图去掉 begin
+                    // $scope.colonyNavEnter = function(){
+                    //     $('.menu-list').addClass('visible');
+                    //     $('.colony-nav').css( 'background',' #252b39');
+                    // }
+                    // $scope.colonyNavLeave = function(){
+                    //     // $('.visible').height(0);
+                    //     $('.menu-list').removeClass('visible');
+                    //     $('.colony-nav').css( 'background','#303643');
+                    // }
+                    // 2018/08/23 能力视图去掉 end
                 //////获取租户数据
                     allTenants.query({name: "admin"}, function(data){
                         createTree(data);
