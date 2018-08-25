@@ -315,7 +315,7 @@
                 </a>
             </div>
 
-            <div style="background-color: #1F2D3D;width:240px;height:360px;overflow:auto;top:50px;right:310px;margin-left:330px;position:absolute;z-index: 99" ng-if="tenantsBox">
+            <div style="background-color: #1F2D3D;width:240px;height:360px;overflow:auto;top:50px;right:266px;margin-left:330px;position:absolute;z-index: 99" ng-if="tenantsBox">
                 <treecontrol class="tree-dark" tree-model="tenantsTree" on-selection="SelectedNode(node)">
                     {{node.name}}
                 </treecontrol>
@@ -332,8 +332,8 @@
                     </ul>
                 </div>
             </div>
-            <div style="width: 88px;height: 50px;float: left;">
-                <i class="uex-icon-notice"></i>
+            <div class="notice-part">
+                <a href="#" class="uex-icon-notice notice-style"></a>
             </div>
             <div class="header_per data_bg header_per_tenant">
                 <div uib-dropdown on-toggle="toggled(open)">
