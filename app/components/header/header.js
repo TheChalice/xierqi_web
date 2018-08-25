@@ -686,30 +686,30 @@ angular.module("console.header", [{
                         event.stopPropagation();
                     });
                     //点击其他地方隐藏
-                    $(document.body).click(function(e){
-                        var width = $('.head_drop_set').width();
-                        var windowWidth = $(window).width();
-                        if(e.clientY>52||(e.clientY<52&&e.clientX<windowWidth-width)){
-                            $scope.tenantsBox = false;
-                            $scope.$apply();
-                        }
-                    })
-
-
-                    
+                    // $(document.body).click(function(e){
+                    //     var width = $('.head_drop_set').width();
+                    //     var windowWidth = $(window).width();
+                    //     if(e.clientY>52||(e.clientY<52&&e.clientX<windowWidth-width)){
+                    //         $scope.tenantsBox = false;
+                    //         $scope.$apply();
+                    //     }
+                    // });
                     $scope.tenantsBox = false;
                     $scope.tenantsIsShow = function(){
-                        if($scope.tenantsBox){
-                            $scope.tenantsBox = false;
-                        }else{
-                            $scope.tenantsBox = true;
-                        }
-                    }
+                        console.log('tenantsIsShow',$scope.tenantsBox);
+                        $scope.tenantsBox = !$scope.tenantsBox;
+                        // if($scope.tenantsBox){
+                        //     $scope.tenantsBox = false;
+                        // }else{
+                        //     $scope.tenantsBox = true;
+                        // }
+                    };
                     $scope.curTenantName = $rootScope.namespace;///////默认为单点登录账号；
                     ////////////树点击事件
                     $scope.SelectedNode = function(node){
+                        console.log('$scope.SelectedNode',node);
                         $scope.curTenantName = node;
-                    }
+                    };
                     /////////获取租户数据后组合成符合树符合的多维数组
                     function createTree(trees) {
                         $scope.tenantsTree = [];
