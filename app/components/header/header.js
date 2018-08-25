@@ -9,8 +9,8 @@ angular.module("console.header", [{
             restrict: 'EA',
             replace: true,
             templateUrl: 'components/header/header.html',
-            controller: ['allTenants','GLOBAL', '$timeout', '$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams',
-                function (allTenants,GLOBAL, $timeout, $log, Project, account, regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams) {
+            controller: ['allTenants','GLOBAL', '$timeout', '$log', 'Project', 'account', 'regions', 'Toast', 'Addmodal', '$http', '$location', 'orgList', '$rootScope', '$scope', '$window', '$state', 'Cookie', '$stateParams','ssologout',
+                function (allTenants,GLOBAL, $timeout, $log, Project, account, regions, Toast, Addmodal, $http, $location, orgList, $rootScope, $scope, $window, $state, Cookie, $stateParams,ssologout) {
                     var cmHost = 'http://sso-cm.southbase.prd.dataos.io/';
                     var dacpHost = 'http://10.1.235.155:9089/dacp/';
                     var aiopHost = 'http://10.1.253.98:9080/AIOP-WEB';
@@ -1160,15 +1160,23 @@ angular.module("console.header", [{
                     $rootScope.huancun = {}
 
                     $scope.logout = function () {
-                        Cookie.clear('df_access_token');
-                        Cookie.clear('namespace');
-                        Cookie.clear('region');
-                        $rootScope.region = '';
-                        $scope.checked = '';
-                        $rootScope.user = null;
-                        $rootScope.namespace = "";
-                        //clearInterval($scope.timer);
-                        $state.go('login');
+                        if (!$scope.sso_switch) {
+                            Cookie.clear('df_access_token');
+                            Cookie.clear('namespace');
+                            Cookie.clear('region');
+                            $rootScope.region = '';
+                            $scope.checked = '';
+                            $rootScope.user = null;
+                            $rootScope.namespace = "";
+                            //clearInterval($scope.timer);
+                            $state.go('login');
+                        }else {
+                            ssologout.get({}, function (data) {
+                                
+                            })
+                        }
+                        
+                        
 
                     };
                     $scope.change = false;
