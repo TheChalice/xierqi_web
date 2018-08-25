@@ -316,18 +316,19 @@
             </div>
 
             <div style="background-color: #1F2D3D;width:240px;height:360px;overflow:auto;top:50px;right:266px;margin-left:330px;position:absolute;z-index: 99" ng-if="tenantsBox">
-                <treecontrol class="tree-dark" tree-model="tenantsTree" on-selection="SelectedNode(node.name)">
+                <treecontrol class="tree-dark" tree-model="tenantsTree" on-selection="SelectedNode(node)">
                     {{node.name}}
                 </treecontrol>
             </div>
             <div class="y_oper">
                 <div uib-dropdown on-toggle="toggled(open)" aria-haspopup="true" aria-expanded="false" >
-                    <a href="javascript:void(0)" uib-dropdown-toggle class="yoper_tit"><i class="uex-icon-operation-support big-uex"></i>运营管控</a>
+                    <a href="javascript:void(0)" uib-dropdown-toggle class="yoper_tit">
+                        <i class="uex-icon-host-configuration big-uex"></i>应用管理</a>
                     <ul uib-dropdown-menu aria-labelledby="simple-dropdown">
-                        <!--<li><a href="javascript:void(0)"><i class="uex-icon-operation-support"></i>运营管控</a> </li>-->
-                        <li><a href="javascript:void(0)"><i class="uex-icon-data-chart3"></i>数据中台</a> </li>
-                        <li><a href="javascript:void(0)"><i class="uex-icon-sys-mgr"></i>运维中心</a> </li>
-                        <li><a href="javascript:void(0)"><i class="uex-icon-host-configuration"></i>应用管理</a> </li>
+                        <li><a href="{{urllist.operation_url}}"><i class="uex-icon-operation-support"></i>运营管控</a> </li>
+                        <li><a href="{{urllist.dataassets_url}}"><i class="uex-icon-data-chart3"></i>数据资产</a> </li>
+                        <li><a href="{{urllist.center_url}}"><i class="uex-icon-sys-mgr"></i>运维中心</a> </li>
+                        <li><a href="{{urllist.application_url}}"><i class="uex-icon-host-configuration"></i>应用管理</a> </li>
                     </ul>
                 </div>
             </div>
@@ -348,7 +349,7 @@
                         style="max-height: 338px;top:48px;left:-79px;background: #f7fafc;border-radius:0;border:0px;">
                         <!--personal account-->
                         <li ng-if="projects" class='personal'>
-                            <a href="javascript:;" ng-click='gotomy()' ui-sref='console.user({namespace:namespace})'>
+                            <a href="{{urllist.usercenter_url}}">
                                 <!--<label>{{user.metadata.name}}</label>-->
                                 <!--<i class="uex_set uex-icon-user"></i>-->
                                 <span>用户中心</span>
@@ -372,7 +373,7 @@
                         <!--</li>-->
 
                         <!--<li ng-repeat="project in projects | orderBy: 'metadata.name'">-->
-                        <li ng-repeat="project in projects">
+                        <li ng-show="!sso_switch" ng-repeat="project in projects">
                             <a href="javascript:;" ng-click="setNamespace(project.metadata.name)">
                                 <i class="uex_set uex-icon-group"></i>
                                 <span class="df_set_name"
@@ -383,7 +384,7 @@
                         </li>
 
                         <!--<li role="separator" class="divider"></li>-->
-                        <li ng-show="!nolohout" style="border-bottom: none;">
+                        <li  style="border-bottom: none;">
                             <a href="javascript:;" ng-click="logout()">
                                 <i class="uex_set uex-icon-export"></i>退出登录</a>
                         </li>
