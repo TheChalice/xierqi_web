@@ -348,7 +348,7 @@
 
 
 .y_oper{float:left;}
-.y_oper{width:150px;text-align:left;color:#fff;font-size:14px;}
+.y_oper{width:150px;height:50px;text-align:left;color:#fff;font-size:14px;border-right: 1px solid #2a303c;}
 .y_oper:hover{ background:#1f2d3d;}
 .yoper_tit{padding:16px 20px 10px;height:48px;display:block;color:#fff;}
 .yoper_tit:hover,.yoper_tit:focus{color:#fff;}
@@ -428,4 +428,5 @@
     font-size: 14px;
     color: #A2B0C4;
     line-height: 50px;
+    margin-left: 10px;
 }
