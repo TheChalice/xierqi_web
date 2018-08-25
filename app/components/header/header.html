@@ -325,10 +325,10 @@
                     <a href="javascript:void(0)" uib-dropdown-toggle class="yoper_tit">
                         <i class="uex-icon-host-configuration big-uex"></i>应用管理</a>
                     <ul uib-dropdown-menu aria-labelledby="simple-dropdown">
-                        <li><a href="http://{{urllist.operation_url}}"><i class="uex-icon-operation-support"></i>运营管控</a> </li>
-                        <li><a href="http://{{urllist.dataassets_url}}"><i class="uex-icon-data-chart3"></i>数据资产</a> </li>
-                        <li><a href="http://{{urllist.center_url}}"><i class="uex-icon-sys-mgr"></i>运维中心</a> </li>
-                        <li><a href="http://{{urllist.application_url}}"><i class="uex-icon-host-configuration"></i>应用管理</a> </li>
+                        <li><a href="{{urllist.operation_url}}"><i class="uex-icon-operation-support"></i>运营管控</a> </li>
+                        <li><a href="{{urllist.dataassets_url}}"><i class="uex-icon-data-chart3"></i>数据资产</a> </li>
+                        <li><a href="{{urllist.center_url}}"><i class="uex-icon-sys-mgr"></i>运维中心</a> </li>
+                        <li><a href="{{urllist.application_url}}"><i class="uex-icon-host-configuration"></i>应用管理</a> </li>
                     </ul>
                 </div>
             </div>
@@ -349,7 +349,7 @@
                         style="max-height: 338px;top:48px;left:-79px;background: #f7fafc;border-radius:0;border:0px;">
                         <!--personal account-->
                         <li ng-if="projects" class='personal'>
-                            <a href="http://{{urllist.usercenter_url}}">
+                            <a href="{{urllist.usercenter_url}}">
                                 <!--<label>{{user.metadata.name}}</label>-->
                                 <!--<i class="uex_set uex-icon-user"></i>-->
                                 <span>用户中心</span>
