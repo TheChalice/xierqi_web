@@ -16,22 +16,28 @@
 
 .header-name-list .header-name-list-span {
     text-align: center;
-    width: 110px;
+    width: 80px;
     float: left;
     line-height: 50px;
-    /*font-family: MicrosoftYaHei;*/
+
     font-size: 14px;
-    color: #FFFFFF;
+
+    font-family: MicrosoftYaHei;
+    color: #A2B0C4;
+    letter-spacing: 0;
 }
 .header-name-list .header-name-list-span:hover{
-    background-color:#1f2d3d;
+    background: #242A39;
+    box-shadow: inset 0 0 2px 0 #1C212E;
 }
 .header-name-list .header-name-list-span:focus {
     background-color: #1c212e;
     cursor: pointer;
 }
 .header-name-list .overSelect {
-    background-color: #1c212e;
+    background: #242A39;
+    color: #FFFFFF;
+    box-shadow: inset 0 0 2px 0 #1C212E;
 }
 #header #header-brand {
     padding-left: 27px;
@@ -119,6 +125,7 @@
     /*padding:0px 10px;*/
 }
 .projectname  > li {
+    width: 120px;
     margin-top: 0px;
     padding:0px;
     height: 37px;
@@ -127,6 +134,7 @@
 }
 
 .projectname > li:hover {
+    /*width: 120px;*/
     margin-top: 0px;
     padding:0px;
     height: 37px;
@@ -138,7 +146,7 @@
     line-height: normal;
 }
 .projectname>.personal>a>span{
-    color: #fff;
+    /*color: #fff;*/
     height: 37px;
     line-height: 37px;
     display: block;
@@ -169,13 +177,30 @@
 }
 
 .data_bg .dropdown-menu > li > a{
-    color:#fff;font-size:12px;
+    color: #758395;
+    font-size:12px;
 }
 
 .data_bg .dropdown-menu > li > a:hover{
     background: #000;
     color:#fff;
 }
+.data_bg .dropdown-menu > li > a:hover .uex-icon-host-user:before{
+    content: '\e937';
+    font-size:12px;margin-right:12px;
+    color: #ffffff;
+}
+.data_bg .dropdown-menu > li > a:hover .uex-icon-group:before{
+    content: '\e936';
+    font-size:12px;margin-right:12px;
+    color: #ffffff;
+}
+.data_bg .dropdown-menu > li > a:hover .uex-icon-export:before{
+    content: '\e93a';
+    font-size:12px;margin-right:12px;
+    color: #ffffff;
+}
+
 .dropdown-menu > li > a > label{
     color: #f8b551;
     padding-top: 7px;
@@ -288,7 +313,10 @@
     border-top:6px dashed;border-right:6px solid transparent;border-left:6px solid transparent;
     color:#A2B0C4;margin-left:4px;-webkit-transition:all 0.3s;-moz-transition:all 0.3s;transition:all 0.3s}
 
-.df_set_name{display:inline-block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;width:130px;color:#fff;}
+.df_set_name{display:inline-block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    /*width:130px;*/
+    /*color:#fff;*/
+}
 
 /*�����������ʽ*/
 .projectname::-webkit-scrollbar {
@@ -351,67 +379,109 @@
 
 
 .y_oper{float:left;}
-.y_oper{width:150px;height:50px;text-align:left;color:#fff;font-size:14px;border-right: 1px solid #2a303c;}
+.y_oper{ width: 140px;
+    font-family: MicrosoftYaHei;
+    font-size: 14px;
+    color: #FFFFFF;
+    height:50px;
+    text-align:left;
+    font-size:14px;border-right: 1px solid #2a303c;}
 .y_oper:hover{ background:#1f2d3d;}
-.yoper_tit{padding:16px 20px 10px;height:50px;display:block;color:#fff;}
+.yoper_tit{
+
+    padding:16px 20px 10px;
+    height:50px;
+    display:block;
+    color:#fff;}
 .yoper_tit:hover{color:#fff;background:#1f2d3d;}
 .yoper_tit:focus{color:#fff;background:#1c212e;}
 .big-uex{font-size:14px;}
 
 .y_oper .dropdown-menu{min-width:152px;border-radius:0px;margin:0;padding:0px;border:0px;}
-  .y_oper .dropdown-menu li{margin-top: 0px;
-    padding:0px;
+  .y_oper .dropdown-menu li{
+   width: 140px;
+   margin-top: 0px;
+      padding:0px;
     height: 37px;
     line-height:37px;
     background:#242A39;}
     .y_oper .dropdown-menu li:hover{background:#000;}
 
-    .y_oper .dropdown-menu>li>a{height:37px;line-height:37px;padding:0px;padding-left:23px;color:#fff;font-size:12px;background:#242A39;}
-    .y_oper .dropdown-menu>li>a:hover{background:#000;}
-
+    .y_oper .dropdown-menu>li>a{
+        font-family: MicrosoftYaHei;
+        font-size: 12px;
+        color: #758395;
+        height:37px;line-height:37px;padding:0px;padding-left:23px;font-size:12px;background:#242A39;}
+    .y_oper .dropdown-menu>li>a:hover{
+        background: #171B24;
+        font-family: MicrosoftYaHei;
+        font-size: 12px;
+        color: #FFFFFF;}
+.y_oper .dropdown-menu>li>a:hover .uex-icon-operation-support:before{
+    content: '\ea07';
+    font-size:12px;margin-right:12px;
+    color: #ffffff;
+}
+.y_oper .dropdown-menu>li>a:hover .uex-icon-data-chart3:before{
+    content: '\e94d';
+    font-size:12px;margin-right:12px;
+    color: #ffffff;
+}
+.y_oper .dropdown-menu>li>a:hover .uex-icon-sys-mgr:before{
+    content: '\e977';
+    font-size:12px;margin-right:12px;
+    color: #ffffff;
+}
     .big-uex.uex-icon-operation-support:before{font-size:14px;margin-right:12px;}
      /* 运营管控图标 */
     .uex-icon-operation-support:before{
       content: '\ea07';
       font-size:12px;margin-right:12px;
-      color:#fff;
+        color: #758395;
     }
      /* 数据资产图标 */
     .uex-icon-data-chart3:before{
       content:'\e94d';
       font-size:12px;margin-right:12px;
-      color:#fff;
+        color: #758395;
     }
      /* 运维中心图标 */
     .uex-icon-sys-mgr:before{
       content:'\e977';
       font-size:12px;margin-right:12px;
-      color:#fff;
+        color: #758395;
     }
      /* 应用管理图标 */
     .uex-icon-host-configuration:before{
       content:'\e9c9';
       font-size:12px;margin-right:12px;
-      color:#fff;
+        color: #ffffff;
+
+    }
+    /*用户中心*/
+    .uex-icon-host-user:before{
+      content:'\e937';
+      font-size:12px;margin-right:12px;
+        color: #758395;
     }
     /* 退出图标  */
     .uex-icon-export:before{
       content:'\e93a';
       font-size:12px;margin-right:12px;
-      color:#fff;
+        color: #758395;
     }
     .uex_set{float:left;}
     /* 用户中心 */
     .uex_set.uex-icon-user:before{
         content:"\e937";
         font-size:12px;margin-right:12px;
-        color:#fff;
+        color: #758395;
       }
       /* 用户群名称 */
     .uex_set.uex-icon-group:before{
         content:"\e936";
         font-size:12px;margin-right:12px;
-        color:#fff;
+        color: #758395;
       }
 
 .tenant-img{
