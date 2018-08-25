@@ -235,7 +235,7 @@
 .df_news{padding-left:14px;padding-right:14px;border-left:1px solid #f6a540;display:block;float:left;padding-top:18px;padding-bottom:16px;}
 .df_news:hover{background:#f6a540;}
 .header_area:hover{background:#f6a540;}
-.header_per:hover{background:#242A39;}
+.header_per:hover{background:#1f2d3d;}
 
 .data_bg {
     -webkit-transition: background 300ms;
@@ -281,7 +281,7 @@
 
 
 .header_per{cursor:pointer;float:left;display:block;width:150px;position:relative;}
-.per_block{padding-top:16px;padding-bottom:14px;padding:16px 12px 14px;display:block;}
+.per_block{margin-left:10px;padding:16px 0 14px;display:block;}
 .header_per_tit{font-size:14px;color:#fff;display:block;float:left;white-space:nowrap;text-overflow:ellipsis;-o-text-overflow:ellipsis;
     overflow: hidden;width:65px;text-align:left;}
 .h_caret{display:inline-block;width:0;height:0;vertical-align:middle;
@@ -346,14 +346,16 @@
 .tenants-box .tree-label {
     margin-left:15px;
 }
-.head_drop_set:hover{background:#242A39;}
+.head_drop_set:hover{background:#1f2d3d;}
+.head_drop_set:focus{background:#1c212e;}
 
 
 .y_oper{float:left;}
 .y_oper{width:150px;height:50px;text-align:left;color:#fff;font-size:14px;border-right: 1px solid #2a303c;}
 .y_oper:hover{ background:#1f2d3d;}
 .yoper_tit{padding:16px 20px 10px;height:50px;display:block;color:#fff;}
-.yoper_tit:hover,.yoper_tit:focus{color:#fff;background:#1f2d3d;}
+.yoper_tit:hover{color:#fff;background:#1f2d3d;}
+.yoper_tit:focus{color:#fff;background:#1c212e;}
 .big-uex{font-size:14px;}
 
 .y_oper .dropdown-menu{min-width:152px;border-radius:0px;margin:0;padding:0px;border:0px;}
@@ -384,7 +386,7 @@
     .uex-icon-sys-mgr:before{
       content:'\e977';
       font-size:12px;margin-right:12px;
-      color:#fff; 
+      color:#fff;
     }
      /* 应用管理图标 */
     .uex-icon-host-configuration:before{
@@ -422,18 +424,27 @@
     margin-right: 0;
 }
 .header_per_tenant{
-    width:73px;
+    width:67px;
     height: 50px;
+}
+.notice-part{
+    width: 50px;
+    height: 50px;
+    float: left;
+}
+.notice-part:hover{
+    background: #1f2d3d;
+    cursor: pointer;
+}
+.notice-part:focus{
+    background: #1c212e;
 }
 .uex-icon-notice:before{
     content: '\e9ec';
     font-size: 14px;
     color: #A2B0C4;
     line-height: 50px;
-    margin-left: 10px;
-}
-.notice-style:hover{
-    cursor: pointer;
+    padding:0 18px;
 }
 .header .navbar-oc .navbar-nav li.active a{
     box-shadow: none;

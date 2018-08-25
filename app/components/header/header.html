@@ -315,7 +315,7 @@
                 </a>
             </div>
 
-            <div style="background-color: #1F2D3D;width:240px;height:360px;overflow:auto;top:50px;right:310px;margin-left:330px;position:absolute;z-index: 99" ng-if="tenantsBox">
+            <div style="background-color: #1F2D3D;width:240px;height:360px;overflow:auto;top:50px;right:266px;margin-left:330px;position:absolute;z-index: 99" ng-if="tenantsBox">
                 <treecontrol class="tree-dark" tree-model="tenantsTree" on-selection="SelectedNode(node.name)">
                     {{node.name}}
                 </treecontrol>
@@ -324,14 +324,14 @@
                 <div uib-dropdown on-toggle="toggled(open)" aria-haspopup="true" aria-expanded="false" >
                     <a href="javascript:void(0)" uib-dropdown-toggle class="yoper_tit"><i class="uex-icon-operation-support big-uex"></i>运营管控</a>
                     <ul uib-dropdown-menu aria-labelledby="simple-dropdown">
-                        <li><a href="javascript:void(0)"><i class="uex-icon-operation-support"></i>运营管控</a> </li>
+                        <!--<li><a href="javascript:void(0)"><i class="uex-icon-operation-support"></i>运营管控</a> </li>-->
                         <li><a href="javascript:void(0)"><i class="uex-icon-data-chart3"></i>数据中台</a> </li>
                         <li><a href="javascript:void(0)"><i class="uex-icon-sys-mgr"></i>运维中心</a> </li>
                         <li><a href="javascript:void(0)"><i class="uex-icon-host-configuration"></i>应用管理</a> </li>
                     </ul>
                 </div>
             </div>
-            <div style="width: 88px;height: 50px;float: left;">
+            <div class="notice-part">
                 <a href="#" class="uex-icon-notice notice-style"></a>
             </div>
             <div class="header_per data_bg header_per_tenant">
