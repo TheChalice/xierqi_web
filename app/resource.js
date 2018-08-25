@@ -139,6 +139,11 @@ define([
             var sessiontoken = $resource('/sessiontoken', {}, {});
             return sessiontoken;
         }])
+        .factory('ssologout', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            //console.log('q11');
+            var ssologout = $resource('/sso/logout', {}, {});
+            return ssologout;
+        }])
         .factory('User', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
             var User = $resource(GLOBAL.host + '/users/:name', {name: '@name', region: '@region'}, {
                 create: {method: 'POST'}
