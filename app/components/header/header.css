@@ -248,7 +248,7 @@
 .df_h_area{background-image: url(img/area.png);}
 .df_area_active{background-image: url(img/area_active.png);margin-top:14px;}
 /* .df_h_per{background-image: url(img/person.png);margin-left:-1px;} */
-.df_uex{width:25px;height:25px;text-align:center;background:#A2B0C4;line-height:25px;border-radius:50%;margin-top:-2px;}
+.df_uex{width:25px;height:25px;text-align:center;background:#A2B0C4;line-height:25px;border-radius:50%;margin-top:-6px;}
 
 .df_person_active{background-image: url(img/person_active.png);margin-top:16px;margin-left:0px;}
 .df_q_active{background-image: url(img/q_active.png);margin-top:16px;}
@@ -422,4 +422,10 @@
 .header_per_tenant{
     width:73px;
     height: 50px;
+}
+.uex-icon-notice:before{
+    content: '\e9ec';
+    font-size: 14px;
+    color: #A2B0C4;
+    line-height: 50px;
 }

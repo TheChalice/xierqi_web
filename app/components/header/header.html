@@ -315,7 +315,7 @@
                 </a>
             </div>
 
-            <div style="background-color: #1F2D3D;width:240px;height:360px;overflow:auto;top:50px;right:300px;margin-left:330px;position:absolute;z-index: 99" ng-if="tenantsBox">
+            <div style="background-color: #1F2D3D;width:240px;height:360px;overflow:auto;top:50px;right:310px;margin-left:330px;position:absolute;z-index: 99" ng-if="tenantsBox">
                 <treecontrol class="tree-dark" tree-model="tenantsTree" on-selection="SelectedNode(node.name)">
                     {{node.name}}
                 </treecontrol>
@@ -331,11 +331,14 @@
                     </ul>
                 </div>
             </div>
+            <div style="width: 88px;height: 50px;float: left;">
+                <i class="uex-icon-notice"></i>
+            </div>
             <div class="header_per data_bg header_per_tenant">
                 <div uib-dropdown on-toggle="toggled(open)">
                     <a href="javascript:;" id="user-menu" class="per_block" uib-dropdown-toggle>
 
-                        <i class="df_h_com uex-icon-user df_uex tenant-img" ng-class="{'df_h_per':!orgimage,'df_o_per':orgimage}"></i>
+                        <i class="df_h_com df_uex tenant-img" ng-class="{'df_h_per':!orgimage,'df_o_per':orgimage}"></i>
                         <!--<img src="components/header/img/user-icon-default1.png" alt="icon" class="hidden-xs" style="width: 37px;height: 37px;padding: 3px;background-color: #e6e9f2;margin-top: -4px;margin-left:20px;border-radius: 2px;"><span>{{user.metadata.name}} | {{checked||namespace}}&nbsp;&nbsp;</span>-->
                         <!--<span class="header_per_tit" title="{{projectname}}">{{projectname}}</span>-->
                         <!--<i class="fa fa-chevron-circle-down" style="color: #e6e9f2;"></i>-->
@@ -347,7 +350,7 @@
                         <li ng-if="projects" class='personal'>
                             <a href="javascript:;" ng-click='gotomy()' ui-sref='console.user({namespace:namespace})'>
                                 <!--<label>{{user.metadata.name}}</label>-->
-                                <i class="uex_set uex-icon-user"></i>
+                                <!--<i class="uex_set uex-icon-user"></i>-->
                                 <span>用户中心</span>
                             </a>
                         </li>
