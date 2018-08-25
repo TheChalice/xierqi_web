@@ -410,4 +410,16 @@
         color:#fff;
       }
 
-      
+.tenant-img{
+    padding: 10px 0px 10px 14px;
+    width: 30px;
+    height: 30px;
+    background-image: url(../../pub/img/tenant.png);
+    background-repeat: no-repeat;
+    background-size: contain;
+    margin-right: 0;
+}
+.header_per_tenant{
+    width:73px;
+    height: 50px;
+}
