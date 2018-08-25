@@ -334,7 +334,7 @@
                         <li><a href="{{urllist.operation_url}}"><i class="uex-icon-operation-support"></i>运营管控</a> </li>
                         <li><a href="{{urllist.dataassets_url}}"><i class="uex-icon-data-chart3"></i>数据资产</a> </li>
                         <li><a href="{{urllist.center_url}}"><i class="uex-icon-sys-mgr"></i>运维中心</a> </li>
-                        <li><a href="{{urllist.application_url}}"><i class="uex-icon-host-configuration"></i>应用管理</a> </li>
+                        <!--<li><a href="{{urllist.application_url}}"><i class="uex-icon-host-configuration-black"></i>应用管理</a> </li>-->
                     </ul>
                 </div>
             </div>
@@ -352,12 +352,13 @@
                         <b class="h_caret"></b>
                     </a>
                     <ul id="testjt" class="projectname" uib-dropdown-menu aria-labelledby="user-menu"
-                        style="max-height: 338px;top:48px;left:-79px;background: #f7fafc;border-radius:0;border:0px;">
+                        style="width: 120px;max-height: 338px;top:48px;left:-79px;background: #f7fafc;border-radius:0;border:0px;">
                         <!--personal account-->
                         <li ng-if="projects" class='personal'>
                             <a href="{{urllist.usercenter_url}}">
                                 <!--<label>{{user.metadata.name}}</label>-->
                                 <!--<i class="uex_set uex-icon-user"></i>-->
+                                <i class="uex_set uex-icon-host-user"></i>
                                 <span>用户中心</span>
                             </a>
                         </li>
