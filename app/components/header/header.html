@@ -234,6 +234,12 @@
             .menu-list .menu-list-item:last-child {
                 border-bottom: 0px;
             }
+            .header-name-list .header-name-list-span .neirong{
+                /*font-family: MicrosoftYaHei;*/
+                /*font-size: 14px;*/
+                /*color: #FFFFFF;*/
+                /*letter-spacing: 0;*/
+            }
         </style>
         <!-- <div class="colony-nav" ng-mouseenter="colonyNavEnter()" ng-mouseleave="colonyNavLeave()">
             <span class="uex-icon-menu-row"></span><span style="padding-left: 3px;font-size:14px;">能力视图</span>
@@ -373,7 +379,7 @@
                         <!--</li>-->
 
                         <!--<li ng-repeat="project in projects | orderBy: 'metadata.name'">-->
-                        <li ng-show="!sso_switch" ng-repeat="project in projects">
+                        <li ng-repeat="project in projects">
                             <a href="javascript:;" ng-click="setNamespace(project.metadata.name)">
                                 <i class="uex_set uex-icon-group"></i>
                                 <span class="df_set_name"
@@ -433,11 +439,11 @@
 
             <div class="header-name-list">
                 <a class="header-name-list-span" ui-sref="overview" ng-class="{'overSelect':!isActive}">
-                    概览
+                   <span class="neirong">概览</span>
                 </a>
                 <a class="header-name-list-span" ui-sref="console.build({namespace:namespace})"
                    ng-class="{'overSelect':isActive}">
-                    应用控制台
+                    <span class="neirong">应用控制台</span>
                 </a>
             </div>
 
