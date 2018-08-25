@@ -91,8 +91,8 @@ define([
             //host_webhooks: 'https://lab.lo.dataos.io',
             host_webhooks: '<WEBHOOK_PREFIX>',
 
-            //sso_switch: '<SSO_SWITCH>',
-            sso_switch: 'true',
+            sso_switch: '<SSO_SWITCH>',
+            //sso_switch: 'true',
             //service_url: '.prd.dataos.io',
             operation_url: '<OPERATION_CONTROL_URL>',
 
