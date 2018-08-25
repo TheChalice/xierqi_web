@@ -708,7 +708,10 @@ angular.module("console.header", [{
                     ////////////树点击事件
                     $scope.SelectedNode = function(node){
                         console.log('$scope.SelectedNode',node);
-                        $scope.curTenantName = node;
+                        $scope.curTenantName = node.name;
+                        $rootScope.namespace = node.id;
+                        Cookie.set('namespace', node.id, 10 * 365 * 24 * 3600 * 1000);
+                        $state.go("console.build", { namespace: $rootScope.namespace });
                     };
                     /////////获取租户数据后组合成符合树符合的多维数组
                     function createTree(trees) {
