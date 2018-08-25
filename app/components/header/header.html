@@ -308,19 +308,41 @@
 
             <!--<a class="icon25 icon25-guide" href="javascript:;" uib-tooltip="指南" tooltip-placement="bottom"-->
             <!--</a>-->
+            <div ng-class="{'tenants-up':tenantsBox}" class="head_drop_set" style="padding:15px 0;width:240px;float: left;" ng-click="tenantsIsShow()">
+                <a href="javascript:;">
+                    <span class="header_per_tit" style="width: 180px; text-align:left;padding-left:13px;color:#fff;"><span style="color:#A2B0C4 ;">当前租户：</span>{{curTenantName}}</span>
+                    <b class="h_caret" style="float: right;margin-top: 7px;margin-right: 10px;"></b>
+                </a>
+            </div>
 
-            <div class="header_per data_bg">
+            <div style="background-color: #1F2D3D;width:240px;height:360px;overflow:auto;top:50px;right:300px;margin-left:330px;position:absolute;z-index: 99" ng-if="tenantsBox">
+                <treecontrol class="tree-dark" tree-model="tenantsTree" on-selection="SelectedNode(node.name)">
+                    {{node.name}}
+                </treecontrol>
+            </div>
+            <div class="y_oper">
+                <div uib-dropdown on-toggle="toggled(open)" aria-haspopup="true" aria-expanded="false" >
+                    <a href="javascript:void(0)" uib-dropdown-toggle class="yoper_tit"><i class="uex-icon-operation-support big-uex"></i>运营管控</a>
+                    <ul uib-dropdown-menu aria-labelledby="simple-dropdown">
+                        <li><a href="javascript:void(0)"><i class="uex-icon-operation-support"></i>运营管控</a> </li>
+                        <li><a href="javascript:void(0)"><i class="uex-icon-data-chart3"></i>数据资产</a> </li>
+                        <li><a href="javascript:void(0)"><i class="uex-icon-sys-mgr"></i>运维中心</a> </li>
+                        <li><a href="javascript:void(0)"><i class="uex-icon-host-configuration"></i>应用管理</a> </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="header_per data_bg header_per_tenant">
                 <div uib-dropdown on-toggle="toggled(open)">
                     <a href="javascript:;" id="user-menu" class="per_block" uib-dropdown-toggle>
 
-                        <i class="df_h_com uex-icon-user df_uex" ng-class="{'df_h_per':!orgimage,'df_o_per':orgimage}"></i>
+                        <i class="df_h_com uex-icon-user df_uex tenant-img" ng-class="{'df_h_per':!orgimage,'df_o_per':orgimage}"></i>
                         <!--<img src="components/header/img/user-icon-default1.png" alt="icon" class="hidden-xs" style="width: 37px;height: 37px;padding: 3px;background-color: #e6e9f2;margin-top: -4px;margin-left:20px;border-radius: 2px;"><span>{{user.metadata.name}} | {{checked||namespace}}&nbsp;&nbsp;</span>-->
-                        <span class="header_per_tit" title="{{projectname}}">{{projectname}}</span>
+                        <!--<span class="header_per_tit" title="{{projectname}}">{{projectname}}</span>-->
                         <!--<i class="fa fa-chevron-circle-down" style="color: #e6e9f2;"></i>-->
                         <b class="h_caret"></b>
                     </a>
                     <ul id="testjt" class="projectname" uib-dropdown-menu aria-labelledby="user-menu"
-                        style="max-height: 338px;border-top:0;border-right:0;top:48px;right:0px;background: #f7fafc;border-radius:0;border:0px;">
+                        style="max-height: 338px;top:48px;left:-79px;background: #f7fafc;border-radius:0;border:0px;">
                         <!--personal account-->
                         <li ng-if="projects" class='personal'>
                             <a href="javascript:;" ng-click='gotomy()' ui-sref='console.user({namespace:namespace})'>
@@ -404,7 +426,7 @@
         </div>
 
         <div id="tenants-box" class="tenants-box" style="display: inline-block;height: 55px;">
-                
+
             <div class="header-name-list">
                 <a class="header-name-list-span" ui-sref="overview" ng-class="{'overSelect':!isActive}">
                     概览
@@ -413,33 +435,6 @@
                    ng-class="{'overSelect':isActive}">
                     应用控制台
                 </a>
-            </div>
-
-            <div class="y_oper">
-                    <div uib-dropdown on-toggle="toggled(open)" aria-haspopup="true" aria-expanded="false" >
-                        <a href="javascript:void(0)" uib-dropdown-toggle class="yoper_tit"><i class="uex-icon-operation-support big-uex"></i>运营管控</a>
-                        <ul uib-dropdown-menu aria-labelledby="simple-dropdown">
-                          <li><a href="javascript:void(0)"><i class="uex-icon-operation-support"></i>运营管控</a> </li>
-                          <li><a href="javascript:void(0)"><i class="uex-icon-data-chart3"></i>数据资产</a> </li>
-                          <li><a href="javascript:void(0)"><i class="uex-icon-sys-mgr"></i>运维中心</a> </li>
-                          <li><a href="javascript:void(0)"><i class="uex-icon-host-configuration"></i>应用管理</a> </li>
-                        </ul>
-                    </div>
-                  
-                </div>
-           
-
-            <div ng-class="{'tenants-up':tenantsBox}" class="head_drop_set" style="padding:16px 0px 14px;width:240px;float: right;">
-                <a href="javascript:;" ng-click="tenantsIsShow()">
-                    <span class="header_per_tit" style="width: 180px; text-align:left;padding-left:26px;color:#fff;"><span style="color:#A2B0C4 ;">当前租户：</span>{{curTenantName}}</span>
-                    <b class="h_caret"></b>
-                </a>
-            </div>
-
-            <div style="background-color: #1F2D3D;width:240px;height:360px;overflow:auto;top:50px;right:150px;margin-left:330px;position:absolute;" ng-show="tenantsBox">
-                <treecontrol class="tree-dark" tree-model="tenantsTree" on-selection="SelectedNode(node.name)">
-                    {{node.name}}
-                </treecontrol>
             </div>
 
 
