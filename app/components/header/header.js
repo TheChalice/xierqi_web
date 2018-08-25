@@ -699,6 +699,7 @@ angular.module("console.header", [{
                     
                     $scope.tenantsBox = false;
                     $scope.tenantsIsShow = function(){
+                        console.log('tenantsIsShow');
                         if($scope.tenantsBox){
                             $scope.tenantsBox = false;
                         }else{
@@ -708,7 +709,10 @@ angular.module("console.header", [{
                     $scope.curTenantName = $rootScope.namespace;///////默认为单点登录账号；
                     ////////////树点击事件
                     $scope.SelectedNode = function(node){
+                        console.log('$scope.SelectedNode',node);
                         $scope.curTenantName = node;
+                        $rootScope.namespace = $scope.curTenantName;
+                        console.log('$rootScope.namespace',$rootScope.namespace);
                     }
                     /////////获取租户数据后组合成符合树符合的多维数组
                     function createTree(trees) {
