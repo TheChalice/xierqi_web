@@ -91,10 +91,22 @@ define([
             //host_webhooks: 'https://lab.lo.dataos.io',
             host_webhooks: '<WEBHOOK_PREFIX>',
 
-            sso_switch: '<SSO_SWITCH>',
-            //sso_switch: 'true',
+            //sso_switch: '<SSO_SWITCH>',
+            sso_switch: 'true',
             //service_url: '.prd.dataos.io',
+            operation_url: '<OPERATION_CONTROL_URL>',
+
+            dataassets_url: '<DATA_ASSETS_URL>',
+
+            center_url: '<OPERATION_CENTER_URL>',
+
+            application_url: '<APPLICATION_MANAGEMENT_URL>',
+
+            usercenter_url: '<USER_CENTER_URL>',
+
+            //service_url: '<ROUTER_DOMAIN_SUFFIX>',
             service_url: '<ROUTER_DOMAIN_SUFFIX>',
+
             //internal_registry:'docker-registry.default.svc:5000',
             internal_registry: '<INTERNAL_REGISTRY_ADDR>',
             //service_url:'.cloud.new.dataos.io',

@@ -5,6 +5,12 @@
 # INTERNAL_REGISTRY_ADDR internal registry, like docker-registry.default.svc:5000
 
 sed -i 's/<ROUTER_DOMAIN_SUFFIX>/'$ROUTER_DOMAIN_SUFFIX'/g'  /datafoundry/dist/app.js
+
+sed -i 's/<OPERATION_CONTROL_URL>/'$OPERATION_CONTROL_URL'/g'  /datafoundry/dist/app.js
+sed -i 's/<DATA_ASSETS_URL>/'$DATA_ASSETS_URL'/g'  /datafoundry/dist/app.js
+sed -i 's/<OPERATION_CENTER_URL>/'$OPERATION_CENTER_URL'/g'  /datafoundry/dist/app.js
+sed -i 's/<APPLICATION_MANAGEMENT_URL>/'$APPLICATION_MANAGEMENT_URL'/g'  /datafoundry/dist/app.js
+sed -i 's/<USER_CENTER_URL>/'$USER_CENTER_URL'/g'  /datafoundry/dist/app.js
 sed -i 's/<REGISTRY_PUBLIC_ADDR>/'$REGISTRY_PUBLIC_ADDR'/g'  /datafoundry/dist/app.js
 sed -i 's/<REGISTRY_PRIVATE_ADDR>/'$REGISTRY_PRIVATE_ADDR'/g'  /datafoundry/dist/app.js
 sed -i 's/<INTERNAL_REGISTRY_ADDR>/'$INTERNAL_REGISTRY_ADDR'/g'  /datafoundry/dist/app.js

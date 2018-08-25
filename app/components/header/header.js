@@ -768,9 +768,17 @@ angular.module("console.header", [{
                     //    Cookie.set('namespace', $rootScope.namespace, 10 * 365 * 24 * 3600 * 1000);
                     //    $rootScope.region = id
                     //    Cookie.set('region', id, 10 * 365 * 24 * 3600 * 1000);
-                    $scope.nolohout = false;
+                    $scope.sso_switch = false;
                     if (GLOBAL.sso_switch === 'true') {
-                        $scope.nolohout = true;
+                        $scope.sso_switch = true;
+                    }
+
+                    $scope.urllist ={
+                        operation_url:GLOBAL.operation_url,
+                        dataassets_url:GLOBAL.dataassets_url,
+                        center_url:GLOBAL.center_url,
+                        application_url:GLOBAL.application_url,
+                        usercenter_url:GLOBAL.usercenter_url,
                     }
                     //   // console.log($state.current.name);
                     //    if ($state.current.name === 'console.dashboard') {
