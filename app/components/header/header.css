@@ -22,7 +22,7 @@
 
     font-size: 14px;
 
-    font-family: MicrosoftYaHei;
+    font-family: MicrosoftYaHei!important;
     color: #A2B0C4;
     letter-spacing: 0;
 }
@@ -128,18 +128,18 @@
     width: 120px;
     margin-top: 0px;
     padding:0px;
-    height: 37px;
-    line-height:37px;
+    height: 40px;
+    line-height:40px;
     background:#242A39;
 }
 
 .projectname > li:hover {
     /*width: 120px;*/
-    margin-top: 0px;
-    padding:0px;
-    height: 37px;
-    line-height: 37px;
-    background:#000;
+    /*margin-top: 0px;*/
+    /*padding:0px;*/
+    /*height: 40px;*/
+    /*line-height: 37px;*/
+    background:#1f2d3d;
 }
 .projectname>.personal>a{
     color: #F8B551;
@@ -147,6 +147,7 @@
 }
 .projectname>.personal>a>span{
     /*color: #fff;*/
+    font-family: MicrosoftYaHei;
     height: 37px;
     line-height: 37px;
     display: block;
@@ -182,7 +183,7 @@
 }
 
 .data_bg .dropdown-menu > li > a:hover{
-    background: #000;
+    background: #1f2d3d;
     color:#fff;
 }
 .data_bg .dropdown-menu > li > a:hover .uex-icon-host-user:before{
@@ -375,7 +376,7 @@
     margin-left:15px;
 }
 .head_drop_set:hover{background:#1f2d3d;}
-.head_drop_set:focus{background:#1c212e;}
+.head_drop_set:focus{background:#1f2d3d;}
 
 
 .y_oper{float:left;}
@@ -385,8 +386,11 @@
     color: #FFFFFF;
     height:50px;
     text-align:left;
-    font-size:14px;border-right: 1px solid #2a303c;}
+    font-size:14px;
+    /*border-right: 1px solid #2a303c;*/
+}
 .y_oper:hover{ background:#1f2d3d;}
+
 .yoper_tit{
 
     padding:16px 20px 10px;
@@ -397,7 +401,7 @@
 .yoper_tit:focus{color:#fff;background:#1c212e;}
 .big-uex{font-size:14px;}
 
-.y_oper .dropdown-menu{min-width:152px;border-radius:0px;margin:0;padding:0px;border:0px;}
+.y_oper .dropdown-menu{min-width:140px;border-radius:0px;margin:0;padding:0px;border:0px;}
   .y_oper .dropdown-menu li{
    width: 140px;
    margin-top: 0px;
@@ -501,6 +505,7 @@
     width: 56px;
     height: 50px;
     float: left;
+    border-left: 1px solid #2a303c;
 }
 .notice-part:hover{
     background: #1f2d3d;
