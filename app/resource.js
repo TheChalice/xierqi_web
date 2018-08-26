@@ -22,7 +22,7 @@ define([
                 }
                 //console.log('window.location.hostname === "localhost"', window.location.hostname == "localhost");
                 //if (window.location.hostname == "localhost") {
-                //    host = wsscheme + location.host;
+                    host = wsscheme + location.host;
                 //}else {
                 //
                 //    var path = window.location.pathname.split('/')[1]
