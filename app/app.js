@@ -104,6 +104,8 @@ define([
 
             usercenter_url: '<USER_CENTER_URL>',
 
+            smallbell_url: '<SMALL_BELL_URL>',
+
             //service_url: '<ROUTER_DOMAIN_SUFFIX>',
             service_url: '<ROUTER_DOMAIN_SUFFIX>',
 
