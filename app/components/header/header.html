@@ -331,8 +331,8 @@
                     <a href="javascript:void(0)" uib-dropdown-toggle class="yoper_tit">
                         <i class="uex-icon-host-configuration big-uex"></i>应用管理</a>
                     <ul uib-dropdown-menu aria-labelledby="simple-dropdown">
+                        <li><a href="{{urllist.dataassets_url}}"><i class="uex-icon-data-chart3"></i>数据中台</a> </li>
                         <li><a href="{{urllist.operation_url}}"><i class="uex-icon-operation-support"></i>运营管控</a> </li>
-                        <li><a href="{{urllist.dataassets_url}}"><i class="uex-icon-data-chart3"></i>数据资产</a> </li>
                         <li><a href="{{urllist.center_url}}"><i class="uex-icon-sys-mgr"></i>运维中心</a> </li>
                         <!--<li><a href="{{urllist.application_url}}"><i class="uex-icon-host-configuration-black"></i>应用管理</a> </li>-->
                     </ul>
@@ -391,8 +391,13 @@
                         </li>
 
                         <!--<li role="separator" class="divider"></li>-->
-                        <li  style="border-bottom: none;">
+                        <li ng-show="!sso_switch" style="border-bottom: none;">
+
                             <a href="javascript:;" ng-click="logout()">
+                                <i class="uex_set uex-icon-export"></i>退出登录</a>
+                        </li>
+                        <li ng-show="sso_switch" style="border-bottom: none;">
+                            <a href="/sso/logout">
                                 <i class="uex_set uex-icon-export"></i>退出登录</a>
                         </li>
                     </ul>
