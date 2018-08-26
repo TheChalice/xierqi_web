@@ -22,7 +22,7 @@
 
     font-size: 14px;
 
-    font-family: MicrosoftYaHei;
+    font-family: MicrosoftYaHei!important;
     color: #A2B0C4;
     letter-spacing: 0;
 }
@@ -147,6 +147,7 @@
 }
 .projectname>.personal>a>span{
     /*color: #fff;*/
+    font-family: MicrosoftYaHei;
     height: 37px;
     line-height: 37px;
     display: block;
@@ -397,7 +398,7 @@
 .yoper_tit:focus{color:#fff;background:#1c212e;}
 .big-uex{font-size:14px;}
 
-.y_oper .dropdown-menu{min-width:152px;border-radius:0px;margin:0;padding:0px;border:0px;}
+.y_oper .dropdown-menu{min-width:140px;border-radius:0px;margin:0;padding:0px;border:0px;}
   .y_oper .dropdown-menu li{
    width: 140px;
    margin-top: 0px;
