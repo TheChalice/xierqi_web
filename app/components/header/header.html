@@ -391,8 +391,14 @@
                         </li>
 
                         <!--<li role="separator" class="divider"></li>-->
-                        <li  style="border-bottom: none;">
+                        <li ng-show="!sso_switch" style="border-bottom: none;">
+
                             <a href="javascript:;" ng-click="logout()">
+                                <i class="uex_set uex-icon-export"></i>退出登录</a>
+                        </li>
+                        <li ng-show="sso_switch" style="border-bottom: none;">
+
+                            <a href="/sso/logout">
                                 <i class="uex_set uex-icon-export"></i>退出登录</a>
                         </li>
                     </ul>
