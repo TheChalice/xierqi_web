@@ -782,6 +782,7 @@ angular.module("console.header", [{
                         center_url:GLOBAL.center_url,
                         application_url:GLOBAL.application_url,
                         usercenter_url:GLOBAL.usercenter_url,
+                        smallbell_url:GLOBAL.smallbell_url,
                     }
                     //   // console.log($state.current.name);
                     //    if ($state.current.name === 'console.dashboard') {
