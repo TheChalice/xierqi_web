@@ -1163,7 +1163,7 @@ angular.module("console.header", [{
                     $rootScope.huancun = {}
 
                     $scope.logout = function () {
-                        if (!$scope.sso_switch) {
+
                             Cookie.clear('df_access_token');
                             Cookie.clear('namespace');
                             Cookie.clear('region');
@@ -1173,11 +1173,7 @@ angular.module("console.header", [{
                             $rootScope.namespace = "";
                             //clearInterval($scope.timer);
                             $state.go('login');
-                        }else {
-                            ssologout.get({}, function (data) {
-                                
-                            })
-                        }
+
                         
                         
 
