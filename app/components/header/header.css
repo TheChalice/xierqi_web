@@ -498,7 +498,7 @@
     height: 50px;
 }
 .notice-part{
-    width: 50px;
+    width: 56px;
     height: 50px;
     float: left;
 }
@@ -514,7 +514,7 @@
     font-size: 14px;
     color: #A2B0C4;
     line-height: 50px;
-    padding:0 18px;
+    padding:0 21px;
 }
 .header .navbar-oc .navbar-nav li.active a{
     box-shadow: none;
