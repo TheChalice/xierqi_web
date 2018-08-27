@@ -412,6 +412,16 @@ define([
             });
             return Route;
         }])
+        // 铃铛上的数字显示接口http://10.1.235.157:9000/aipaas/open/ToDo/api/toDoTotalNum/｛username｝
+
+        // 铃铛上的数字显示接口        
+        .factory('userNum', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
+            var userNum = $resource('http://10.1.235.157:9000/'+ 'aipaas/open/ToDo/api/toDoTotalNum/:namespace', {namespace: '@namespace'}, {
+                'query': {method: 'GET'}
+            });
+            return userNum;
+        }])
+
         .factory('BackingServiceInstance', ['$resource', 'GLOBAL', function ($resource, GLOBAL) {
             var BackingServiceInstance = $resource(GLOBAL.broker_apigroup + '/namespaces/:namespace/backingserviceinstances/:name?region=:region', {
                 name: '@name',
