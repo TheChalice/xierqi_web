@@ -1,18 +1,30 @@
 'use strict';
 
 angular.module('console', [
-        {
-            files: [
-                'components/header/header.js',
-                'components/sidebar/sidebar.js',
-                'views/console/console.css'
-            ]
-        }
-    ])
-    .controller('ConsoleCtrl', ['creatproject','$timeout', 'sessiontoken', 'regions', 'account', '$http', '$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', 'user', 'Project', 'Cookie', '$state','GLOBAL','$stateParams','$location',
-        function (creatproject,$timeout, sessiontoken, regions, account, $http, $rootScope, $scope, $log, AUTH_EVENTS, User, user, Project, Cookie, $state,GLOBAL,$stateParams,$location) {
+    {
+        files: [
+            'components/header/header.js',
+            'components/sidebar/sidebar.js',
+            'views/console/console.css'
+        ]
+    }
+])
+    .controller('ConsoleCtrl', ['creatproject', '$timeout', 'sessiontoken', 'regions', 'account', '$http', '$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', 'user', 'Project', 'Cookie', '$state', 'GLOBAL', '$stateParams', '$location', 'userNum',
+        function (creatproject, $timeout, sessiontoken, regions, account, $http, $rootScope, $scope, $log, AUTH_EVENTS, User, user, Project, Cookie, $state, GLOBAL, $stateParams, $location, userNum) {
 
             //console.log('$state', $state);
+            // 铃铛上的数字
+            let inituserNum = function () {
+                userNum.get(
+                    { namespace: $rootScope.namespace },
+                    function (res) {
+                        $scope.numbertotal = res.total;
+                    },
+
+                );
+            }
+
+            inituserNum();
 
             console.log('$stateParams', $stateParams);
             console.log('$location', $location);
@@ -32,9 +44,11 @@ angular.module('console', [
                         console.log('$rootScope.user', $rootScope.user.metadata.name);
                     } else {
 
-                        $rootScope.user = {metadata:{
-                            name:$stateParams.namespace
-                        }};
+                        $rootScope.user = {
+                            metadata: {
+                                name: $stateParams.namespace
+                            }
+                        };
                     }
                     var namespace = Cookie.get('namespace');
                     var region = Cookie.get('region');
@@ -55,7 +69,7 @@ angular.module('console', [
                     }
                 }
 
-            }else {
+            } else {
                 if ($rootScope.user) {
                     console.log('$rootScope.user', $rootScope.user.metadata.name);
                 } else {

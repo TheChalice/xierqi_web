@@ -339,8 +339,11 @@
                     </ul>
                 </div>
             </div>
-            <div class="notice-part">
+            <div class="notice-part" style="position:relative;">
                 <a href="{{urllist.smallbell_url}}" target="_blank" class="uex-icon-notice notice-style"></a>
+                  <div class="notice_block" ng-if="numbertotal>0">
+                    <span>{{numbertotal}}</span>
+                  </div>
             </div>
             <div class="header_per data_bg header_per_tenant">
                 <div uib-dropdown on-toggle="toggled(open)">

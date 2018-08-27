@@ -523,3 +523,18 @@
 .header .navbar-oc .navbar-nav li.active a{
     box-shadow: none;
 }
+.notice_block{
+    background: #FB6362;
+    border-radius: 100px;
+    margin-bottom: 0px;
+    width: 24px;
+    height: 16px;
+    line-height:16px;
+    text-align: center;
+    margin-left: 2px;
+    position: absolute;top:10px;right:5px;
+}
+.notice_block span{
+  font-size: 12px;
+    color: #FFFFFF;
+}

@@ -69,6 +69,7 @@ define([
             uploadimage: '/uploadimage',
             host_k8s: '/api/v1',
             ocmanager: '/ocmanager/v2/api',
+            userNumapi: '/aipaas/open/ToDo/api',
             broker_apigroup: '/apis/prd.asiainfo.com/v1',
             host_newk8s: '/apis/autoscaling/v1',
             host_newk8s1: '/apis/apps/v1beta1',
