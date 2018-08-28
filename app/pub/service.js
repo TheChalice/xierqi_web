@@ -1952,6 +1952,9 @@ define(['angular', 'jsyaml'], function (angular, jsyaml) {
                             var arrstr = arr.join(',');
                             //console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&",arrstr);
                             Cookie.set('df_access_token', arrstr, 23 * 3600 * 1000);
+
+                            Cookie.set('loginuser', credentials.username, 10 * 365 * 24 * 3600 * 1000);
+                           
                             //console.log(Cookie.get('df_access_token'));
 
                             Cookie.set('region', credentials.region, 24 * 3600 * 1000);
