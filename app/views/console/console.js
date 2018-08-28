@@ -21,7 +21,7 @@ angular.module('console', [
                     { namespace: loginuser },
                     function (res) {
                         $scope.numbertotal = res.total;
-                    },
+                    }
 
                 );
             }
