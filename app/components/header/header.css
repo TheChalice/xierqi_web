@@ -521,8 +521,9 @@
     content: '\e9ec';
     font-size: 14px;
     color: #A2B0C4;
-    line-height: 50px;
+    position: absolute;
     padding:0 21px;
+    top:19px;
 }
 .header .navbar-oc .navbar-nav li.active a{
     box-shadow: none;
