@@ -178,6 +178,10 @@
 .data_bg .dropdown-menu > li > a{
     color: #758395;
     font-size:12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding:3px 20px 3px 18px;
 }
 
 .data_bg .dropdown-menu > li > a:hover{
@@ -484,7 +488,7 @@
     .uex_set.uex-icon-group:before{
         content:"\e936";
         font-size:12px;margin-right:12px;
-        color: #758395;
+        color: #758395;position:relative;top:2px;
       }
 
 .tenant-img{

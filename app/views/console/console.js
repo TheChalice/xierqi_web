@@ -13,10 +13,12 @@ angular.module('console', [
         function (creatproject, $timeout, sessiontoken, regions, account, $http, $rootScope, $scope, $log, AUTH_EVENTS, User, user, Project, Cookie, $state, GLOBAL, $stateParams, $location, userNum) {
 
             //console.log('$state', $state);
+            // 获取当前登录用户名
+            var loginuser= Cookie.get('loginuser')
             // 铃铛上的数字
             let inituserNum = function () {
                 userNum.get(
-                    { namespace: $rootScope.namespace },
+                    { namespace: loginuser },
                     function (res) {
                         $scope.numbertotal = res.total;
                     },
@@ -26,8 +28,8 @@ angular.module('console', [
 
             inituserNum();
 
-            console.log('$stateParams', $stateParams);
-            console.log('$location', $location);
+            // console.log('$stateParams', $stateParams);
+            // console.log('$location', $location);
 
             if (GLOBAL.sso_switch === 'true') {
                 if (!Cookie.get('df_access_token')) {
@@ -41,7 +43,7 @@ angular.module('console', [
 
                 if ($stateParams.namespace) {
                     if ($rootScope.user) {
-                        console.log('$rootScope.user', $rootScope.user.metadata.name);
+                        // console.log('$rootScope.user', $rootScope.user.metadata.name);
                     } else {
 
                         $rootScope.user = {
@@ -51,6 +53,7 @@ angular.module('console', [
                         };
                     }
                     var namespace = Cookie.get('namespace');
+
                     var region = Cookie.get('region');
                     if (region) {
                         $rootScope.region = region;
@@ -71,7 +74,7 @@ angular.module('console', [
 
             } else {
                 if ($rootScope.user) {
-                    console.log('$rootScope.user', $rootScope.user.metadata.name);
+                    // console.log('$rootScope.user', $rootScope.user.metadata.name);
                 } else {
 
                     $rootScope.user = user;
@@ -81,7 +84,7 @@ angular.module('console', [
                 if (region) {
                     $rootScope.region = region;
                 } else {
-                    console.log('noregion');
+                    // console.log('noregion');
                     $rootScope.region = 'cn-north-1';
                     Cookie.set('region', $rootScope.region, 10 * 365 * 24 * 3600 * 1000);
                 }
