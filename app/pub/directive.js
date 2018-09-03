@@ -326,13 +326,16 @@ define(['angular'], function (angular) {
                             $(function () {
                                 w_h_set();
                             })
-                            // console.log('wsobj', wsobj);
+
+                             //console.log('$base64.decode(res.data)', Base64.decode('Ly8gICAgICAgICAgICAgICAgIOmFkumGkuWPquWcqOe9keS4iuWdkCzphZLphonov5jmnaXnvZHkuIvnnKAuICAgICAgICAgICAgICAgICAgICAgLy8NCg=='));
                             Ws.watch(wsobj, function (res) {
+                                //console.log('res.data', res.data);
                                 if (res.data && typeof res.data == "string") {
-                                    $scope.result += $base64.decode(res.data);
+                                    $scope.result += Base64.decode(res.data);
+                                    //console.log('$scope.log ', $scope.result);
                                     var html = ansi_ups.ansi_to_html($scope.result);
                                     $scope.log = $sce.trustAsHtml(html);
-                                    //console.log('$scope.log ', html);
+
                                     $scope.$apply();
 
                                 }
