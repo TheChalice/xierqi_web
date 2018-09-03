@@ -13,6 +13,7 @@ cp -r bower_components/bootstrap $dist/vendor/
 cp -r bower_components/angularjs-slider $dist/vendor/
 cp -r bower_components/font-awesome $dist/vendor/
 cp -r bower_components/html5-boilerplate $dist/vendor/
+cp -r bower_components/js-base64 $dist/vendor/
 
 cp -r bower_components/jquery $dist/vendor/
 cp -r bower_components/uri.js $dist/vendor/
