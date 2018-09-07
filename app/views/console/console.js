@@ -14,19 +14,16 @@ angular.module('console', [
 
             //console.log('$state', $state);
             // 获取当前登录用户名
-            var loginuser= Cookie.get('loginuser')
+            var loginuser = Cookie.get('loginuser')
             // 铃铛上的数字
-            let inituserNum = function () {
-                userNum.get(
-                    { namespace: loginuser },
-                    function (res) {
-                        $scope.numbertotal = res.total;
-                    }
+            userNum.get(
+                { namespace: loginuser },
+                function (res) {
+                    $scope.numbertotal = res.total;
+                }
 
-                );
-            }
+            );
 
-            inituserNum();
 
             // console.log('$stateParams', $stateParams);
             // console.log('$location', $location);
