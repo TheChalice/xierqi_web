@@ -193,7 +193,8 @@ define(['angular'], function (angular) {
                                             case '1':
                                             case '2':
                                             case '3':
-                                                term.write(window.atob(data));
+                                                // term.write(window.atob(data));
+                                                term.write(Base64.decode(data));
                                                 break;
                                         }
                                         if (first) {
