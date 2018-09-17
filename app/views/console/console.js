@@ -1,14 +1,14 @@
 'use strict';
 
 angular.module('console', [
-    {
-        files: [
-            'components/header/header.js',
-            'components/sidebar/sidebar.js',
-            'views/console/console.css'
-        ]
-    }
-])
+        {
+            files: [
+                'components/header/header.js',
+                'components/sidebar/sidebar.js',
+                'views/console/console.css'
+            ]
+        }
+    ])
     .controller('ConsoleCtrl', ['creatproject', '$timeout', 'sessiontoken', 'regions', 'account', '$http', '$rootScope', '$scope', '$log', 'AUTH_EVENTS', 'User', 'user', 'Project', 'Cookie', '$state', 'GLOBAL', '$stateParams', '$location', 'userNum',
         function (creatproject, $timeout, sessiontoken, regions, account, $http, $rootScope, $scope, $log, AUTH_EVENTS, User, user, Project, Cookie, $state, GLOBAL, $stateParams, $location, userNum) {
 
@@ -16,14 +16,17 @@ angular.module('console', [
             // 获取当前登录用户名
             var loginuser = Cookie.get('loginuser')
             // 铃铛上的数字
+            //var inituserNum = function () {
+            //function a() {
             userNum.get(
-                { namespace: loginuser },
+                {namespace: loginuser},
                 function (res) {
                     $scope.numbertotal = res.total;
                 }
-
             );
+            //}();
 
+            //inituserNum();
 
             // console.log('$stateParams', $stateParams);
             // console.log('$location', $location);
@@ -97,7 +100,6 @@ angular.module('console', [
             }
 
             //$log.info('Console', $state.current.name);
-
 
 
             if ($state.current.name === 'console.plan' || $state.current.name === 'console.pay' || $state.current.name === 'console.noplan') {

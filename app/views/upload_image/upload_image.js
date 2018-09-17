@@ -162,10 +162,12 @@ angular.module('home.uploadimage', [{
                     }
 
                 })
+                if ($scope.myis[0]) {
+                    $scope.grid.name = $scope.myis[0].metadata.name
+                    $scope.grid.tag = $scope.myis[0].status.tags[0].tag
+                    $scope.myistag = $scope.myis[0].status.tags
+                }
 
-                $scope.grid.name = $scope.myis[0].metadata.name
-                $scope.grid.tag = $scope.myis[0].status.tags[0].tag
-                $scope.myistag = $scope.myis[0].status.tags
 
             })
             //$scope.images = res;
