@@ -188,8 +188,10 @@ angular.module('home.uploadimage', [{
                     $scope.isOK = true;
                     $scope.isselect = false;
                     if (!$scope.grid.tag) {
+                        if ($scope.myistag) {
+                            $scope.grid.tag = $scope.myistag[0].tag
+                        }
 
-                        $scope.grid.tag = $scope.myistag[0].tag
                     }
                 }
             }
