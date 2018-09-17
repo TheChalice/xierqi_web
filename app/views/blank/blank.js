@@ -13,7 +13,7 @@ angular.module('home.blank', [])
                     $log.info("find project err", res);
                 });
             };
-            //console.log('GLOBAL.sso_switch', GLOBAL.sso_switch);
+            //console.log('GLOBAL.sso_switch', GLOBAL.sso_switchCookie.get('newState'));
             if (GLOBAL.sso_switch === 'true') {
                 var oldurl = '';
 
