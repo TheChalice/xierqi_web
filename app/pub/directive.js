@@ -20,6 +20,16 @@ define(['angular'], function (angular) {
                 });
             }
         }])
+        .directive('logHeight', [function () {
+            return function (scope, element, attr) {
+                var height = document.documentElement.clientHeight - 300 + 'px';
+                element.css({
+                    'min-height': height,
+                    'position':'relative',
+                    'overflow': 'hidden'
+                });
+            }
+        }])
         .directive('addClassesTop', [function () {
             return function (scope, element, attr) {
                 if ($("#sidebar-container").hasClass("sider_zx")) {
