@@ -54,6 +54,7 @@ define(['angular'], function (angular) {
                     },
                     link: function (scope, element, attrs) {
                         /* term.js wants the parent element to build its terminal inside of */
+
                         var outer = angular.element("<div class='terminal-wrapper'>");
                         element.append(outer);
 
@@ -67,31 +68,47 @@ define(['angular'], function (angular) {
 
                         var alive = null;
                         var ws = null;
+                        var defaultCols = 80;
+                        var defaultRows = 24;
 
                         //不同屏幕处理
-                        var w_h_ter = function () {
-                            var wid_height = $(window).height();
-                            $(".pod_term .terminal-wrapper").height(wid_height - 253);
-                        }
-                        $(window).resize(function () {
-                            w_h_ter();
-                        });
-                        $(function () {
-                            w_h_ter();
-                        })
+                        //var w_h_ter = function () {
+                        //    var wid_height = $(window).width()
+                        //    console.log('wid_height', wid_height-250);
+                        //    $(".pod_term .terminal-wrapper").width(wid_height-250);
+                        //}
+                        //$(window).resize(function () {
+                        //    w_h_ter();
+                        //});
+                        //$(function () {
+                        //    w_h_ter();
+                        //})
 
                         var term = new Terminal({
-                            cols: scope.cols || 80,
-                            rows: scope.rows || 34,
+                            cols: scope.cols || defaultCols,
+                            rows: scope.rows || defaultRows,
                             screenKeys: scope.screenKeys || true
                         });
-
                         outer.empty();
                         term.open(outer[0]);
                         term.cursorHidden = true;
                         term.refresh(term.x, term.y);
+
+                        term.on('data', function (data) {
+                            if (ws && ws.readyState === 1)
+                                ws.send("0" + window.btoa(data));
+                        });
+
                         scope.copycon=angular.copy(scope.podContainer)
                         scope.conlist=[]
+                        var sizeTerminal = function() {
+                            var cols = scope.cols || defaultCols;
+                            var rows = scope.rows || defaultRows;
+                            term.resize(cols, rows);
+                            if (ws && ws.readyState === 1) {
+                                ws.send("4" + window.btoa('{"Width":' + cols + ',"Height":' + rows + '}'));
+                            }
+                        };
                         var makeconarr= function (name) {
                             scope.conlist=[]
                             angular.forEach(scope.copycon, function (con,i) {
@@ -114,10 +131,7 @@ define(['angular'], function (angular) {
                             makeconarr(name)
                             connect()
                         }
-                        term.on('data', function (data) {
-                            if (ws && ws.readyState === 1)
-                                ws.send("0" + window.btoa(data));
-                        });
+
 
                         function connect() {
                             disconnect();
@@ -185,6 +199,7 @@ define(['angular'], function (angular) {
                                         alive = window.setInterval(function () {
                                             ws.send("0");
                                         }, 30 * 1000);
+                                        sizeTerminal();
                                     };
 
                                     ws.onmessage = function (ev) {
@@ -237,7 +252,7 @@ define(['angular'], function (angular) {
                             window.clearInterval(alive);
                             alive = null;
                         }
-
+                        scope.$watchGroup(["cols", "rows"], sizeTerminal);
                         scope.$watch("prevent", function (prevent) {
                             if (!prevent)
                                 connect();
