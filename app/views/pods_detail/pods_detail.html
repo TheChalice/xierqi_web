@@ -62,7 +62,13 @@
                 <uib-tab-heading>
                     终端
                 </uib-tab-heading>
-                <kubernetes-container-terminal pod-container="pod.spec.containers" pod="pod" container="pod.spec.containers[0].name" class="pod_term">
+                <kubernetes-container-terminal
+                        pod-container="pod.spec.containers"
+                        pod="pod"
+                        container="pod.spec.containers[0].name"
+                        cols="cols"
+                        rows="rows"
+                        class="pod_term">
                 </kubernetes-container-terminal>
             </uib-tab>
             <uib-tab index="6">

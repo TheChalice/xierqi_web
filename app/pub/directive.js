@@ -22,7 +22,7 @@ define(['angular'], function (angular) {
         }])
         .directive('logHeight', [function () {
             return function (scope, element, attr) {
-                var height = document.documentElement.clientHeight - 300 + 'px';
+                var height = document.documentElement.clientHeight - 350 + 'px';
                 element.css({
                     'min-height': height,
                     'position':'relative',
