@@ -426,10 +426,10 @@ angular.module('console.build_create', [
                 }, $scope.buildConfig, function (res) {
                     $log.info("buildConfig", res);
                     // console.log("buildConfig", res);
-                    toastr.success('操作成功', {
-                        timeOut: 2000,
-                        closeButton: true
-                    });
+                    // toastr.success('操作成功', {
+                    //     timeOut: 2000,
+                    //     closeButton: true
+                    // });
                     createBuild(res.metadata.name);
                     $scope.creating = false;
                 }, function (res) {
