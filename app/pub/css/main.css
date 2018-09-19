@@ -2221,3 +2221,33 @@ td  a:hover, a:focus{
 .blank_name .blank_tit{font-size:12px;color:#475669;}
 
 .rzslider .rz-ticks.rz-ticks-values-under .rz-tick-value{top:18px!important;}
+
+.container-terminal-wrapper{position:relative}
+@media (min-width:768px){.projects-list .with-description .origin-modal-popup.position-above{margin-top:20px}
+    .projects-list-create-popup form{width:400px}
+    .container-terminal-wrapper:hover .fullscreen-toggle{display:block}
+}
+.container-terminal-wrapper .fullscreen-toggle .exit-fullscreen,.container-terminal-wrapper.disconnected .fullscreen-toggle{display:none}
+.container-terminal-wrapper .fullscreen-toggle{display:none;line-height:1;position:absolute;right:19px;top:0;z-index:10}
+.container-terminal-wrapper .fullscreen-toggle a{color:#9c9c9c;cursor:pointer;font-size:18px;padding:5px}
+.container-terminal-wrapper .fullscreen-toggle a:active,.container-terminal-wrapper .fullscreen-toggle a:focus,.container-terminal-wrapper .fullscreen-toggle a:hover{color:#fff;text-decoration:none}
+.container-terminal-wrapper .fullscreen-toggle .go-fullscreen{display:block}
+.container-terminal-wrapper:-moz-full-screen{background:#000;height:100%;width:100%}
+.container-terminal-wrapper:-moz-full-screen.disconnected .fullscreen-toggle{display:block}
+.container-terminal-wrapper:-moz-full-screen .fullscreen-toggle{right:55px}
+.container-terminal-wrapper:-moz-full-screen .fullscreen-toggle .exit-fullscreen{display:block}
+.container-terminal-wrapper:-moz-full-screen .fullscreen-toggle .go-fullscreen{display:none}
+.container-terminal-wrapper:-ms-fullscreen{background:#000;height:100%;width:100%}
+.container-terminal-wrapper:-ms-fullscreen.disconnected .fullscreen-toggle{display:block}
+.container-terminal-wrapper:-ms-fullscreen .fullscreen-toggle{right:55px}
+.container-terminal-wrapper:-ms-fullscreen .fullscreen-toggle .exit-fullscreen{display:block}
+.container-terminal-wrapper:-ms-fullscreen .fullscreen-toggle .go-fullscreen{display:none}
+.container-terminal-wrapper:-webkit-full-screen{background:#000;height:100%;width:100%}
+.container-terminal-wrapper:-webkit-full-screen.disconnected .fullscreen-toggle{display:block}
+.container-terminal-wrapper:-webkit-full-screen .fullscreen-toggle{right:55px}
+.container-terminal-wrapper:-webkit-full-screen .fullscreen-toggle .exit-fullscreen{display:block}
+.container-terminal-wrapper:-webkit-full-screen .fullscreen-toggle .go-fullscreen{display:none}
+.container-terminal-wrapper:-fullscreen .fullscreen-toggle .exit-fullscreen,.container-terminal-wrapper:-fullscreen.disconnected .fullscreen-toggle{display:block}
+.container-terminal-wrapper:-fullscreen{background:#000;height:100%;width:100%}
+.container-terminal-wrapper:-fullscreen .fullscreen-toggle{right:55px}
+.container-terminal-wrapper:-fullscreen .fullscreen-toggle .go-fullscreen{display:none}

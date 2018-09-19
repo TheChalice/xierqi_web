@@ -106,6 +106,10 @@ define(['angular'], function (angular) {
                             var rows = scope.rows || defaultRows;
                             term.resize(cols, rows);
                             if (ws && ws.readyState === 1) {
+                                //console.log('scope.cols', scope.cols);
+                                //console.log('scope.rows', scope.rows);
+                                //console.log('btoa', window.btoa('{"Width":' + cols + ',"Height":' + rows + '}'));
+
                                 ws.send("4" + window.btoa('{"Width":' + cols + ',"Height":' + rows + '}'));
                             }
                         };
@@ -189,7 +193,7 @@ define(['angular'], function (angular) {
                             }
 
                             //console.log('$location', $location);
-                            //url='ws://localhost:8080/ws'+url;
+                            url='ws://localhost:8080/ws'+url;
                             //console.log('url', url);
                             $q.when(kubernetesContainerSocket(url, "base64.channel.k8s.io"),
                                 function resolved(socket) {
@@ -200,6 +204,7 @@ define(['angular'], function (angular) {
                                             ws.send("0");
                                         }, 30 * 1000);
                                         sizeTerminal();
+                                        $('.terminal:visible').focus();
                                     };
 
                                     ws.onmessage = function (ev) {

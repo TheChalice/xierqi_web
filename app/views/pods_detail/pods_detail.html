@@ -62,14 +62,20 @@
                 <uib-tab-heading>
                     终端
                 </uib-tab-heading>
-                <kubernetes-container-terminal
-                        pod-container="pod.spec.containers"
-                        pod="pod"
-                        container="pod.spec.containers[0].name"
-                        cols="cols"
-                        rows="rows"
-                        class="pod_term">
-                </kubernetes-container-terminal>
+
+                <div id="container-terminal-wrapper"
+                     class="container-terminal-wrapper">
+                    <!--<button ng-click="changesize()">{{terminalsize.become}}</button>-->
+                    <kubernetes-container-terminal
+                            pod-container="pod.spec.containers"
+                            pod="pod"
+                            container="pod.spec.containers[0].name"
+                            cols="cols"
+                            rows="rows"
+                            class="pod_term">
+                    </kubernetes-container-terminal>
+                </div>
+
             </uib-tab>
             <uib-tab index="6">
                 <uib-tab-heading>

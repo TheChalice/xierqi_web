@@ -9,25 +9,57 @@ angular.module('console.pods_detail', [
             ]
         }
     ])
-    .controller('podsdetailCtrl', ['$timeout','$rootScope', '$scope', '$state', '$log', 'mypod','Ws','Metrics','podList','Pod','delTip','Confirm','toastr',
-        function ($timeout,$rootScope, $scope, $state, $log,mypod,Ws,Metrics,podList,Pod,delTip,Confirm,toastr) {
+    .controller('podsdetailCtrl', ['FullscreenService','$timeout','$rootScope', '$scope', '$state', '$log', 'mypod','Ws','Metrics','podList','Pod','delTip','Confirm','toastr',
+        function (FullscreenService,$timeout,$rootScope, $scope, $state, $log,mypod,Ws,Metrics,podList,Pod,delTip,Confirm,toastr) {
 
             $scope.podlist = angular.copy(podList);
             $scope.pod=angular.copy(mypod);
+            $scope.terminalsize ={
+                become:'变大'
+            }
+            var wid_width = $(window).width();
+            var wid_height = $(window).height();
+            var bigcols=Math.floor((wid_width-250)/8);
+            var bigrows=Math.floor((wid_height-300)/14);
             console.log('mypod',mypod);
             $scope.containers = $scope.pod.spec.containers;
             $scope.$on('$destroy', function () {
                 Ws.clear();
             });
-            var w_h_ter = function () {
-                var wid_width = $(window).width();
-                var wid_height = $(window).height();
 
-                $scope.cols=Math.floor((wid_width-250)/8);
-                $scope.rows=Math.floor((wid_height-300)/14);
+            //var w_h_ter = function () {
+            //
+            //
+            //}
+            //w_h_ter()
+            $scope.cols=bigcols;
+            $scope.rows=bigrows;
+            //$scope.cols=80;
+            //$scope.rows=24;
+            var focusTerminal = function() {
+                $('.terminal:visible').focus();
+            };
+            setTimeout(focusTerminal);
+            $scope.changesize = function () {
+                if ($scope.terminalsize.become === '变大') {
+                    $scope.terminalsize.become = '变小'
+                    $scope.cols=Math.floor(wid_width/8);
+                    $scope.rows=Math.floor(wid_height/14);
+                    FullscreenService.requestFullscreen('#container-terminal-wrapper');
+
+                    setTimeout(focusTerminal);
+
+                }else {
+                    $scope.terminalsize.become = '变大'
+                    $scope.cols=bigcols;
+                    $scope.rows=bigrows;
+                    FullscreenService.exitFullscreen();
+                    setTimeout(focusTerminal);
+                    //$scope.cols=80;
+                    //$scope.rows=24;
+                }
 
             }
-            w_h_ter()
             $scope.delete = function(name){
                 delTip.open("删除Pod", name, true).then(function () {
                     Pod.delete({ namespace: $scope.namespace,name:name }, function (res) {
