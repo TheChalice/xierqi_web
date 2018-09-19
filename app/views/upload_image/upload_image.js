@@ -15,8 +15,13 @@ angular.module('home.uploadimage', [{
                 host = $location.$$protocol+'://'+$location.$$host
             }
 
-
-
+            $scope.isHide = true;
+            $scope.selectManualUpload = function () {
+                $scope.isHide = false;
+            };
+            $scope.selectImageUpload = function () {
+                $scope.isHide = true;
+            };
             $scope.grid = {
                 tag: null,
                 isFile:false,
@@ -26,7 +31,7 @@ angular.module('home.uploadimage', [{
                 imagenamenull:false,
                 clickbtn: 'dontclick',
                 display: false
-            }
+            };
             $scope.$watch('grid', function (n, o) {
                 if ($scope.grid.name && $scope.grid.tag && $scope.grid.isFile) {
                     $scope.grid.clickbtn='canclick';
