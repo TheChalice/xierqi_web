@@ -5,9 +5,9 @@
                 <uib-tab index="1" ng-click="selectImageUpload()">
                     <uib-tab-heading>
                         <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
-                        镜像上传
+                        在线上传
                     </uib-tab-heading>
-                    <h3 class="df_tit" style="margin-bottom: 20px;">镜像上传</h3>
+                    <h3 class="df_tit" style="margin-bottom: 20px;">在线上传</h3>
                     <div class="row" style="margin:0;">
                         <div class="col-md-2 require" style="width: 105px;padding-right: 0px;">
                             tar文件上传
@@ -162,30 +162,22 @@
                 <uib-tab index="2" ng-click="selectManualUpload()">
                     <uib-tab-heading>
                         <!-- <i class="myimage"></i>&nbsp;&nbsp; -->
-                        手动上传
+                        命令行上传
                     </uib-tab-heading>
-                    <h3 class="df_tit" style="margin-bottom: 20px;">手动上传</h3>
+                    <h3 class="df_tit" style="margin-bottom: 20px;">命令行上传</h3>
                     <div style="padding-left: 15px;color: #475669;">
-                        <p>
-                            给docker daemon
+                        <p style="font-size: 12px;color:#A2B0C4;">
+                            给 docker daemon 添加启动参数 --insecure-registry {{handupload.addr}}并重新启动 docker 服务。
                         </p>
-                        <p>
-                            添加启动参数 --insecure-registry {{handupload.addr}}并重新启动 docker 服务
-                        </p>
-                        <p>
-                            $ sudo docker login -u {{handupload.namespace}} -p {{handupload.token}} {{handupload.addr}}
-                        </p>
-                        <p>
-                            $ sudo docker tag &lt;MYIMAGE&gt; {{handupload.addr}}/{{handupload.namespace}}/&lt;IMAGE&gt;:&lt;TAG&gt;
-                        </p>
-                        <p>
-                            $ sudo docker push {{handupload.addr}}/{{handupload.namespace}}/&lt;IMAGE&gt;:&lt;TAG&gt;
-                        </p>
+                        <pre style="max-width: 900px;padding: 0;text-align:left;font-size:12px;color:#000;padding-top: 12px;padding-left: 5px;">$ sudo docker login -u {{handupload.namespace}} -p {{handupload.token}} {{handupload.addr}}<br/>$ sudo docker tag &lt;MYIMAGE&gt; {{handupload.addr}}/{{handupload.namespace}}/&lt;IMAGE&gt;:&lt;TAG&gt;<br/>$ sudo docker push {{handupload.addr}}/{{handupload.namespace}}/&lt;IMAGE&gt;:&lt;TAG&gt;
+                        </pre>
+
                     </div>
                 </uib-tab>
             </uib-tabset>
         </div>
-        <div style="position: absolute;bottom:0px;border-top: 1px solid #E0E6ED;height: 70px;width: 100%;" ng-show="isHide">
+        <div style="position: absolute;bottom:0px;border-top: 1px solid #E0E6ED;height: 70px;width: 100%;"
+             ng-show="isHide">
             <a ng-click="submit(file)"
                class="btn"
                style="background: #47B2FB;padding: 0px 12px; height: 26px;line-height: 26px;font-size: 12px;margin-top:20px;">
