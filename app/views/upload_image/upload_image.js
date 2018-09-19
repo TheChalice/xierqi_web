@@ -7,8 +7,14 @@ angular.module('home.uploadimage', [{
     .controller('uploadimageCtrl', ['$location','progressBox','GLOBAL', 'sessiontoken', 'Cookie', '$rootScope', 'User', 'Project', '$log', '$state', 'ImageStream', '$scope', 'Upload', 'toastr','$interval','uploadimageapi',
         function ($location,progressBox,GLOBAL, sessiontoken, Cookie, $rootScope, User, Project, $log, $state, ImageStream, $scope, Upload, toastr,$interval,uploadimageapi) {
            var host = '';
+            var tokens = Cookie.get('df_access_token');
+            var tokenarr = tokens.split(',')
             console.log('host', $location);
-
+            $scope.handupload= {
+                addr :GLOBAL.common_url,
+                token:tokenarr[0],
+                namespace:Cookie.get('namespace')
+            }
             if ($location.$$port) {
                 host = $location.$$protocol+'://'+$location.$$host+":"+$location.$$port
             }else {
@@ -87,8 +93,7 @@ angular.module('home.uploadimage', [{
             // upload on file select or drop
             $scope.upload = function (file, image, tag, md5) {
                 //console.log('files', file);
-                var tokens = Cookie.get('df_access_token');
-                var tokenarr = tokens.split(',')
+
                 Upload.upload({
                     url: host+'/uploadimage/' + $rootScope.namespace + '/' + image + '/' + tag,
                     data: {file: file, 'total': file.size},

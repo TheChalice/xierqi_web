@@ -170,22 +170,22 @@
                             给docker daemon
                         </p>
                         <p>
-                            添加启动参数 --insecure-registry <span><</span><span>ADDR</span><span>></span>并重新启动 docker 服务
+                            添加启动参数 --insecure-registry {{handupload.addr}}并重新启动 docker 服务
                         </p>
                         <p>
-                            $ sudo docker login -u <span><</span><span>NAMESPACE</span><span>></span> -p <span><</span><span>TOKEN</span><span>></span> <span><</span><span>ADDR</span><span>></span>
+                            $ sudo docker login -u {{handupload.namespace}} -p {{handupload.token}} {{handupload.addr}}
                         </p>
                         <p>
-                            $ sudo docker tag MYIMAGE <span><</span><span>ADDR</span><span>></span> / <span><</span><span>NAMESPACE</span><span>></span>/IMAGE:TAG
+                            $ sudo docker tag &lt;MYIMAGE&gt; {{handupload.addr}}/{{handupload.namespace}}/&lt;IMAGE&gt;:&lt;TAG&gt;
                         </p>
                         <p>
-                            $ sudo docker push <span><</span><span>ADDR</span><span>></span> / <span><</span><span>NAMESPACE</span><span>></span>/IMAGE:TAG
+                            $ sudo docker push {{handupload.addr}}/{{handupload.namespace}}/&lt;IMAGE&gt;:&lt;TAG&gt;
                         </p>
                     </div>
                 </uib-tab>
             </uib-tabset>
         </div>
-        <div style="position: absolute;bottom:0px;border-top: 1px solid #E0E6ED;height: 70px;width: 100%;" ng-if="isHide">
+        <div style="position: absolute;bottom:0px;border-top: 1px solid #E0E6ED;height: 70px;width: 100%;" ng-show="isHide">
             <a ng-click="submit(file)"
                class="btn"
                style="background: #47B2FB;padding: 0px 12px; height: 26px;line-height: 26px;font-size: 12px;margin-top:20px;">
