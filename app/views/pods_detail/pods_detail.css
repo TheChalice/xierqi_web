@@ -53,10 +53,10 @@ color:#47B2FB;font-size:12px;}
 #detail .pod-template{padding-top:4px;}
 
 
-kubernetes-container-terminal{width:100%;}
-kubernetes-container-terminal .terminal-wrapper{width:100%;}
-kubernetes-container-terminal .terminal-wrapper .terminal{width:100%;height:100%;}
-kubernetes-container-terminal .terminal-actions {position: absolute;}
+/*kubernetes-container-terminal{width:100%;}*/
+/*kubernetes-container-terminal .terminal-wrapper{width:100%;}*/
+/*kubernetes-container-terminal .terminal-wrapper .terminal{width:100%;height:100%;}*/
+/*kubernetes-container-terminal .terminal-actions {position: absolute;}*/
 
 
 

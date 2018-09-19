@@ -9,8 +9,8 @@ angular.module('console.pods_detail', [
             ]
         }
     ])
-    .controller('podsdetailCtrl', ['$rootScope', '$scope', '$state', '$log', 'mypod','Ws','Metrics','podList','Pod','delTip','Confirm','toastr',
-        function ($rootScope, $scope, $state, $log,mypod,Ws,Metrics,podList,Pod,delTip,Confirm,toastr) {
+    .controller('podsdetailCtrl', ['$timeout','$rootScope', '$scope', '$state', '$log', 'mypod','Ws','Metrics','podList','Pod','delTip','Confirm','toastr',
+        function ($timeout,$rootScope, $scope, $state, $log,mypod,Ws,Metrics,podList,Pod,delTip,Confirm,toastr) {
 
             $scope.podlist = angular.copy(podList);
             $scope.pod=angular.copy(mypod);
@@ -19,11 +19,15 @@ angular.module('console.pods_detail', [
             $scope.$on('$destroy', function () {
                 Ws.clear();
             });
+            var w_h_ter = function () {
+                var wid_width = $(window).width();
+                var wid_height = $(window).height();
 
+                $scope.cols=Math.floor((wid_width-250)/8);
+                $scope.rows=Math.floor((wid_height-300)/14);
 
-            var getOwnerReferences = function(apiObject) {
-                return _.get(apiObject, 'metadata.ownerReferences');
-            };
+            }
+            w_h_ter()
             $scope.delete = function(name){
                 delTip.open("删除Pod", name, true).then(function () {
                     Pod.delete({ namespace: $scope.namespace,name:name }, function (res) {
