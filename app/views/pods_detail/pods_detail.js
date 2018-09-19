@@ -15,7 +15,7 @@ angular.module('console.pods_detail', [
             $scope.podlist = angular.copy(podList);
             $scope.pod=angular.copy(mypod);
             $scope.terminalsize ={
-                become:'变大'
+                become:'open'
             }
             var wid_width = $(window).width();
             var wid_height = $(window).height();
@@ -41,8 +41,8 @@ angular.module('console.pods_detail', [
             };
             setTimeout(focusTerminal);
             $scope.changesize = function () {
-                if ($scope.terminalsize.become === '变大') {
-                    $scope.terminalsize.become = '变小'
+                if ($scope.terminalsize.become === 'open') {
+                    $scope.terminalsize.become = 'close'
                     $scope.cols=Math.floor(wid_width/8);
                     $scope.rows=Math.floor(wid_height/14);
                     FullscreenService.requestFullscreen('#container-terminal-wrapper');
@@ -50,7 +50,7 @@ angular.module('console.pods_detail', [
                     setTimeout(focusTerminal);
 
                 }else {
-                    $scope.terminalsize.become = '变大'
+                    $scope.terminalsize.become = 'open'
                     $scope.cols=bigcols;
                     $scope.rows=bigrows;
                     FullscreenService.exitFullscreen();
